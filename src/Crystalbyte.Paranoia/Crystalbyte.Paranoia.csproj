@@ -69,7 +69,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ImapAccount.cs" />
+    <Compile Include="CollectionExtensions.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Contexts\ImapAccountContext.cs" />
+    <Compile Include="Contexts\MessageContext.cs" />
+    <Compile Include="NotificationObject.cs" />
+    <Compile Include="PropertySupport.cs" />
     <Compile Include="SecurityProtocol.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

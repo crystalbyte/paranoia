@@ -22,7 +22,12 @@ namespace Crystalbyte.Paranoia {
         public MainWindow() {
             InitializeComponent();
 
-            var enc = new RsaEncryption();
+            DataContext = App.AppContext;
+            Loaded += OnLoaded;
+        }
+
+        private static async void OnLoaded(object sender, RoutedEventArgs e) {
+            await App.AppContext.SyncAsync();
         }
     }
 }

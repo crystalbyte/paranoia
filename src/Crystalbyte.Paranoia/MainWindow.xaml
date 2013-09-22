@@ -1,6 +1,9 @@
 ﻿<Window x:Class="Crystalbyte.Paranoia.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:contexts="clr-namespace:Crystalbyte.Paranoia.Contexts"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="Paranoia"
         Width="1280"
         Height="768"
@@ -8,10 +11,29 @@
         Background="#333"
         BorderThickness="1"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="SingleBorderWindow">
+        WindowStyle="SingleBorderWindow"
+        d:DataContext="{d:DesignInstance contexts:AppContext}"
+        mc:Ignorable="d">
 
     <DockPanel LastChildFill="True">
-        <Grid Height="30" DockPanel.Dock="Top" />
-        <Grid />
+        <Grid Height="30"
+              Background="#222"
+              DockPanel.Dock="Top" />
+        <DockPanel LastChildFill="True">
+            <Border DockPanel.Dock="Left">
+                <ListView MinWidth="300"
+                          Background="Transparent"
+                          ItemsSource="{Binding Messages}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border d:DataContext="{d:DesignInstance contexts:MessageContext}">
+                                <TextBlock Text="{Binding Text}" />
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Border>
+            <Border />
+        </DockPanel>
     </DockPanel>
 </Window>
