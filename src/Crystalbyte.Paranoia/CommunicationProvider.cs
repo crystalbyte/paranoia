@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 namespace Crystalbyte.Paranoia {
     [Export, Shared]
     public sealed class CommunicationProvider {
-
+        
     }
 }

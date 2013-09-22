@@ -21,6 +21,7 @@ namespace Crystalbyte.Paranoia {
                     _client.Connect(Host, Port);
 
                     var capabilities = _client.ServerCapabilities.Contains("STARTTLS");
+
                 }
             });
         }

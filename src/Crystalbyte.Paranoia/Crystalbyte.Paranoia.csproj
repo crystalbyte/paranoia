@@ -69,6 +69,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ImapAccount.cs" />
+    <Compile Include="SecurityProtocol.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -77,8 +79,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CommunicationProvider.cs" />
     <Compile Include="Contexts\AppContext.cs" />
-    <Compile Include="Contexts\ImapAccountContext.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -113,6 +115,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\externals\mailsystem\projects\ActiveUp.Net.Common\ActiveUp.Net.Common.csproj">
+      <Project>{3a83ae95-c23f-48b4-9f1a-ad4b32c37b93}</Project>
+      <Name>ActiveUp.Net.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\externals\mailsystem\projects\ActiveUp.Net.Dns\ActiveUp.Net.Dns.csproj">
+      <Project>{a82ce4dd-9b08-439c-bc28-cb7b2bffa85c}</Project>
+      <Name>ActiveUp.Net.Dns</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\externals\mailsystem\projects\ActiveUp.Net.Imap4\ActiveUp.Net.Imap4.csproj">
+      <Project>{6bee77df-2dd2-41c3-ba16-60e20b1eddcc}</Project>
+      <Name>ActiveUp.Net.Imap4</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Crystalbyte.Paranoia.Cryptography\Crystalbyte.Paranoia.Cryptography.csproj">
       <Project>{fc115aed-c02e-45a6-80eb-711a1ccf14e3}</Project>
       <Name>Crystalbyte.Paranoia.Cryptography</Name>
