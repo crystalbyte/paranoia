@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia.Cryptography {
     /// <summary>
-    /// Implementation of a .NET wrapper for RSA encryption. http://www.openssl.org/docs/crypto/rsa.html#
+    /// Implementation of a .NET wrapper for RSA encryption. 
+    /// http://www.openssl.org/docs/crypto/rsa.html
     /// </summary>
     public sealed class RsaEncryption : NativeResource {
         private readonly IntPtr _handle;

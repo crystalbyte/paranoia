@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crystalbyte.Paranoia.Contexts {
-    public sealed class ImapAccountContext {
-        
+namespace Crystalbyte.Paranoia {
+    public enum SecurityProtocol {
+        None = 0,
+        Ssl3,
+        Tls
     }
 }

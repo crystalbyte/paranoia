@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crystalbyte.Paranoia.Contexts {
+namespace Crystalbyte.Paranoia {
     [Export, Shared]
-    public sealed class AppContext {
+    public sealed class CommunicationProvider {
 
     }
 }
