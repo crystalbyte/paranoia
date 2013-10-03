@@ -39,7 +39,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CharSets.cs" />
     <Compile Include="Commands.cs" />
+    <Compile Include="ContentTransferEncodings.cs" />
+    <Compile Include="Envelope.cs" />
+    <Compile Include="HeaderEncodingTypes.cs" />
+    <Compile Include="ImapSession.cs" />
+    <Compile Include="MailAddress.cs" />
+    <Compile Include="Mailbox.cs" />
+    <Compile Include="MailboxPermissions.cs" />
+    <Compile Include="QuotedPrintableConverter.cs" />
+    <Compile Include="RegexPattern.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SaslMechanics.cs" />
     <Compile Include="SaslMechanicsExtensions.cs" />
     <Compile Include="Common\Logging\DefaultLogger.cs" />
@@ -47,7 +59,6 @@
     <Compile Include="Common\Logging\FileLogger.cs" />
     <Compile Include="Common\Logging\ILog.cs" />
     <Compile Include="Common\StreamUtility.cs" />
-    <Compile Include="CramMd5Hasher.cs" />
     <Compile Include="EncryptionProtocolNegotiatedEventArgs.cs" />
     <Compile Include="ImapAuthenticator.cs" />
     <Compile Include="ImapException.cs" />
@@ -76,12 +87,13 @@
     <Compile Include="Mime\Traverse\MultipleMessagePartFinder.cs" />
     <Compile Include="Mime\Traverse\TextVersionFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegexPattern.cs" />
     <Compile Include="ResponseLine.cs" />
     <Compile Include="ImapConnection.cs" />
     <Compile Include="RemoteCertificateValidationFailedEventArgs.cs" />
     <Compile Include="SecurityPolicies.cs" />
     <Compile Include="SequenceIdentifier.cs" />
+    <Compile Include="StringExtensions.cs" />
+    <Compile Include="TransferEncoder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

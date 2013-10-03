@@ -12,8 +12,8 @@ namespace Crystalbyte.Paranoia.Contexts {
     [Export, Shared]
     public sealed class AppContext {
         public AppContext() {
-            Accounts = new ObservableCollection<ImapAccountContext> {
-                new ImapAccountContext {
+            Accounts = new ObservableCollection<AccountContext> {
+                new AccountContext {
                         Host = "imap.gmail.com",
                         Port = 993,
                         Username = "paranoia.app@gmail.com",
@@ -22,7 +22,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             };
         }
 
-        public ObservableCollection<ImapAccountContext> Accounts { get; set; }
+        public ObservableCollection<AccountContext> Accounts { get; set; }
 
         public IEnumerable<MessageContext> Messages {
             get { return Accounts.SelectMany(x => x.Messages); }

@@ -16,35 +16,35 @@ namespace Crystalbyte.Paranoia.Messaging {
         public string Text { get; private set; }
 
         public bool TerminatesCommand(string id) {
-            return !string.IsNullOrWhiteSpace(Text) && Text.StartsWith(id);
+            return !string.IsNullOrWhiteSpace(Text) && Text.StartsWith(id, StringComparison.InvariantCultureIgnoreCase);
         }
 
         public bool IsBad {
-            get { return !string.IsNullOrWhiteSpace(Text) && Text.Contains(" BAD "); }
+            get { return !string.IsNullOrWhiteSpace(Text) && Text.ContainsIgnoreCase(" BAD "); }
         }
 
         public bool IsNo {
-            get { return !string.IsNullOrWhiteSpace(Text) && Text.Contains(" NO "); }
+            get { return !string.IsNullOrWhiteSpace(Text) && Text.ContainsIgnoreCase(" NO "); }
         }
 
         public bool IsOk {
-            get { return !string.IsNullOrWhiteSpace(Text) && Text.Contains(" OK "); }
+            get { return !string.IsNullOrWhiteSpace(Text) && Text.ContainsIgnoreCase(" OK "); }
         }
 
         public bool IsUntagged {
-            get { return !string.IsNullOrWhiteSpace(Text) && Text.StartsWith("*"); }
+            get { return !string.IsNullOrWhiteSpace(Text) && Text.StartsWith("*", StringComparison.InvariantCultureIgnoreCase); }
         }
 
         public bool IsUntaggedOk {
-            get { return !string.IsNullOrWhiteSpace(Text) && Text.StartsWith("* OK"); }
+            get { return !string.IsNullOrWhiteSpace(Text) && Text.StartsWith("* OK", StringComparison.InvariantCultureIgnoreCase); }
         }
 
-        public bool IsContinuation {
-            get { return !string.IsNullOrWhiteSpace(Text) && Text.StartsWith("+"); }
+        public bool IsContinuationRequest {
+            get { return !string.IsNullOrWhiteSpace(Text) && Text.StartsWith("+", StringComparison.InvariantCultureIgnoreCase); }
         }
 
         public bool IsMultiline {
-            get { return !string.IsNullOrWhiteSpace(Text) && Text.StartsWith(" "); }
+            get { return !string.IsNullOrWhiteSpace(Text) && Text.StartsWith(" ", StringComparison.InvariantCultureIgnoreCase); }
         }
 
         #region Implementation of IEquatable<ResponseLine>

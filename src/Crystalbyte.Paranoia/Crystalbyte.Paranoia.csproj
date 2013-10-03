@@ -71,7 +71,7 @@
     </ApplicationDefinition>
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="Contexts\ImapAccountContext.cs" />
+    <Compile Include="Contexts\AccountContext.cs" />
     <Compile Include="Contexts\MessageContext.cs" />
     <Compile Include="NotificationObject.cs" />
     <Compile Include="PropertySupport.cs" />

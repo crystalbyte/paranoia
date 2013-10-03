@@ -3,17 +3,20 @@ using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Messaging;
 
 namespace Crystalbyte.Paranoia.Contexts {
-    public sealed class ImapAccountContext {
+    public sealed class AccountContext {
         private readonly ImapConnection _connection;
 
-        public ImapAccountContext() {
+        public AccountContext() {
             _connection = new ImapConnection { Security = SecurityPolicies.Implicit };
             Messages = new ObservableCollection<MessageContext>();
         }
 
         public async Task SyncAsync() {
             var authenticator = await _connection.ConnectAsync(Host, Port);
-            await authenticator.LoginAsync(Username, Password);
+            var session = await authenticator.LoginAsync(Username, Password);
+            var inbox = await session.SelectAsync("INBOX");
+            var uids = await inbox.SearchAsync("ALL");
+            var envelopes = await inbox.FetchEnvelopesAsync(uids);
         }
 
         public ObservableCollection<MessageContext> Messages { get; set; }

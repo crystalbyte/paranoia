@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia.Messaging {
     public sealed class ImapAuthenticator : IDisposable {
-        private readonly HashSet<string> _capabilities;
         private readonly ImapConnection _connection;
+        private HashSet<string> _capabilities;
 
         internal ImapAuthenticator(HashSet<string> capabilities, ImapConnection connection) {
             _capabilities = capabilities;
@@ -21,43 +19,54 @@ namespace Crystalbyte.Paranoia.Messaging {
 
         public HashSet<string> Capabilities {
             get { return _capabilities; }
+            set { _capabilities = value; }
         }
 
-        public async Task<bool> LoginAsync(string username, string password) {
+        public async Task<ImapSession> LoginAsync(string username, string password) {
             if (!_capabilities.Contains("AUTH=PLAIN")) {
                 throw new NotSupportedException("Other mechanics than PLAIN are currently not supported.");
             }
-
-            var response = await AuthPlainAsync(username, password);
-            return response.IsOk;
+            
+            await AuthPlainAsync(username, password);
+            return new ImapSession(this);
         }
 
-        private async Task<ResponseLine> AuthPlainAsync(string username, string password) {
+        private async Task AuthPlainAsync(string username, string password) {
             var seed = username + "\0" + username + "\0" + password;
 
             var bytes = Encoding.UTF8.GetBytes(seed.ToCharArray());
             var hash = Convert.ToBase64String(bytes);
 
-            string command;
+            string commandId;
+            ResponseLine line;
+
+            // Speed up authentication by using the initial client response extension.
+            // http://tools.ietf.org/html/rfc4959
             if (_capabilities.Contains("SASL-IR")) {
-                command = string.Format("AUTHENTICATE PLAIN {0}", hash);
-                await _connection.WriteCommandAsync(command);
-                return await _connection.ReadAsync();
-            }
+                var command = string.Format("AUTHENTICATE PLAIN {0}", hash);
+                commandId = await _connection.WriteCommandAsync(command);
+                line = await _connection.ReadAsync();
+            } else {
+                var command = string.Format("AUTHENTICATE PLAIN");
+                commandId = await _connection.WriteCommandAsync(command);
+                var response = await _connection.ReadAsync();
 
-            command = string.Format("AUTHENTICATE PLAIN");
-            await _connection.WriteCommandAsync(command);
-            var response = await _connection.ReadAsync();
-            if (response.IsContinuation) {
+                if (!response.IsContinuationRequest) {
+                    throw new ImapException("Unexpected server response.");
+                }
+
                 await _connection.WriteAsync(hash);
-                return await _connection.ReadAsync();
+                line = await _connection.ReadAsync();
             }
 
-            throw new ImapException("Unexpected server response.");
+            if (line.Text.ContainsIgnoreCase("CAPABILITY")) {
+                Capabilities = await _connection.ReadCapabilitiesAsync(commandId);
+            }
         }
 
-        public void Logout() {
-            
+        public async void LogoutAsync() {
+            var id = await _connection.WriteCommandAsync("LOGOUT");
+            await _connection.TerminateCommandAsync(id);
         }
 
         #region Implementation of IDisposable

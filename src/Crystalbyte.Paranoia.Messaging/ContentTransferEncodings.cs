@@ -34,31 +34,14 @@
 
 #endregion
 
-using System.Security.Cryptography;
-using System.Text;
-
-namespace Crystalbyte.Paranoia.Messaging
-{
-    public static class CramMd5Hasher
-    {
-        public static string ComputeHash(string password, string challenge)
-        {
-            var data = Encoding.UTF8.GetBytes(challenge);
-            var key = Encoding.ASCII.GetBytes(password);
-            return ComputeHmacMd5(data, key);
-        }
-
-        private static string ComputeHmacMd5(byte[] data, byte[] key)
-        {
-            var hmacmd5 = new HMACMD5(key);
-            var hmacData = hmacmd5.ComputeHash(data);
-
-            var result = new StringBuilder();
-            foreach (var b in hmacData) {
-                result.Append(b.ToString("x2"));
-            }
-
-            return result.ToString();
-        }
+namespace Crystalbyte.Paranoia.Messaging {
+    /// <summary>
+    ///   This class enlists all supported content encoding mechanisms.
+    ///   http://tools.ietf.org/html/rfc2045#section-6.1
+    /// </summary>
+    public static class ContentTransferEncodings {
+        public const string None = "none";
+        public const string QuotedPrintable = "quoted-printable";
+        public const string Base64 = "base64";
     }
 }

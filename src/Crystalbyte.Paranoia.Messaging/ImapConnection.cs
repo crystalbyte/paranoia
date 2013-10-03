@@ -73,7 +73,7 @@ namespace Crystalbyte.Paranoia.Messaging {
             get { return _secureStream != null && _secureStream.IsSigned; }
         }
 
-        #region IDisposable Members
+        #region Implementation of IDisposable
 
         public void Dispose() {
             if (IsConnected) {
@@ -85,7 +85,7 @@ namespace Crystalbyte.Paranoia.Messaging {
 
         public event EventHandler<EncryptionProtocolNegotiatedEventArgs> EncryptionProtocolNegotiated;
 
-        private void InvokeEncryptionProtocolNegotiated(SslProtocols protocol, int strength) {
+        private void OnEncryptionProtocolNegotiated(SslProtocols protocol, int strength) {
             var handler = EncryptionProtocolNegotiated;
             if (handler == null)
                 return;
@@ -96,7 +96,7 @@ namespace Crystalbyte.Paranoia.Messaging {
 
         public event EventHandler<RemoteCertificateValidationFailedEventArgs> RemoteCertificateValidationFailed;
 
-        private bool InvokeRemoteCertificateValidationFailed(X509Certificate cert, X509Chain chain, SslPolicyErrors error) {
+        private bool OnRemoteCertificateValidationFailed(X509Certificate cert, X509Chain chain, SslPolicyErrors error) {
             var handler = RemoteCertificateValidationFailed;
             if (handler != null) {
                 var e = new RemoteCertificateValidationFailedEventArgs(cert, chain, error);
@@ -121,12 +121,14 @@ namespace Crystalbyte.Paranoia.Messaging {
 
             HashSet<string> capabilities;
 
+            // Use implicit encryption (SSL).
             if (Security == SecurityPolicies.Implicit) {
                 await NegotiateEncryptionProtocolsAsync(host);
                 capabilities = await RequestCapabilitiesAsync();
                 return new ImapAuthenticator(capabilities, this);
             }
 
+            // Use explicit encryption (TLS).
             capabilities = await RequestCapabilitiesAsync();
             if (Security == SecurityPolicies.Explicit) {
                 if (capabilities.Contains(Commands.StartTls)) {
@@ -141,7 +143,8 @@ namespace Crystalbyte.Paranoia.Messaging {
                 }
             }
 
-            throw new ImapException("Unenycrypted connections are not supported by this client.");
+            // Fail if server supports no encryption.
+            throw new ImapException("Unenycrypted connections are not supported by this agent.");
         }
 
         internal async Task<string> WriteCommandAsync(string command) {
@@ -154,18 +157,21 @@ namespace Crystalbyte.Paranoia.Messaging {
         private async Task<HashSet<string>> RequestCapabilitiesAsync() {
             await ReadAsync();
             var id = await WriteCommandAsync(Commands.Capability);
+            return await ReadCapabilitiesAsync(id);
+        }
 
+        internal async Task<HashSet<string>> ReadCapabilitiesAsync(string commandId) {
             var set = new HashSet<string>();
             while (true) {
                 var line = await ReadAsync();
-                if (line.TerminatesCommand(id)) {
+                if (line.TerminatesCommand(commandId)) {
                     break;
                 }
+
                 foreach (var value in line.Text.Split(' ').Where(x => x != "*" && x != Commands.Capability)) {
                     set.Add(value);
                 }
             }
-
             return set;
         }
 
@@ -186,17 +192,28 @@ namespace Crystalbyte.Paranoia.Messaging {
 
         private async Task NegotiateEncryptionProtocolsAsync(string host) {
             var stream = _tcpClient.GetStream();
-            _secureStream = new SslStream(stream, false, (sender, cert, chain, error) => OnRemoteCertificateValidationCallback(cert, chain, error));
+            _secureStream = new SslStream(stream, false, OnRemoteCertificateValidationCallback);
             await _secureStream.AuthenticateAsClientAsync(host, Certificates, SslProtocols.Ssl3 | SslProtocols.Tls, true);
 
             _reader = new StreamReader(_secureStream, Encoding.UTF8, false);
             _writer = new StreamWriter(_secureStream) { AutoFlush = true };
 
-            InvokeEncryptionProtocolNegotiated(_secureStream.SslProtocol, _secureStream.CipherStrength);
+            OnEncryptionProtocolNegotiated(_secureStream.SslProtocol, _secureStream.CipherStrength);
         }
 
-        private bool OnRemoteCertificateValidationCallback(X509Certificate cert, X509Chain chain, SslPolicyErrors error) {
-            return error == SslPolicyErrors.None || InvokeRemoteCertificateValidationFailed(cert, chain, error);
+        private bool OnRemoteCertificateValidationCallback(object sender, X509Certificate cert, X509Chain chain, SslPolicyErrors error) {
+            return error == SslPolicyErrors.None || OnRemoteCertificateValidationFailed(cert, chain, error);
+        }
+
+        public async Task TerminateCommandAsync(string commandId) {
+            // TODO: Need watch (timeout) object. If server goes down and doesn't send termination symbol this may run for quite some time.
+            // TODO: Check if socket throws timeout exception at some point, since read operates on the socket stream.
+            while (true) {
+                var line = await ReadAsync();
+                if (line.TerminatesCommand(commandId)) {
+                    break;
+                }
+            }
         }
     }
 }
