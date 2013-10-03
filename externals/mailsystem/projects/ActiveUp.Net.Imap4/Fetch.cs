@@ -260,7 +260,9 @@ namespace ActiveUp.Net.Mail
 		{
 			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
             string response = this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " bodystructure", getFetchOptions());
-			return response.Substring(response.IndexOf("bodystructure")+13,response.LastIndexOf(" UID")-response.IndexOf("bodystructure")-13);
+		    const string bodyStructureTag = "bodystructure";
+            var index = response.IndexOf(bodyStructureTag, StringComparison.InvariantCultureIgnoreCase);
+            return response.Substring(index + bodyStructureTag.Length, response.LastIndexOf(" UID", StringComparison.InvariantCultureIgnoreCase));
 		}
 
         private delegate string DelegateBodyStructure(int messageOrdinal);

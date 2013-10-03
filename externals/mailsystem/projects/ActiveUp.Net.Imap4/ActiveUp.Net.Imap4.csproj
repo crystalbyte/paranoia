@@ -112,12 +112,6 @@
     <None Include="ActiveUp.Net.Imap4.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ActiveUp.Net.Common\ActiveUp.Net.Common.csproj">
-      <Project>{3A83AE95-C23F-48B4-9F1A-AD4B32C37B93}</Project>
-      <Name>ActiveUp.Net.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>

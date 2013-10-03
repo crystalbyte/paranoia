@@ -16,7 +16,6 @@ namespace Crystalbyte.Paranoia.Contexts {
                 new ImapAccountContext {
                         Host = "imap.gmail.com",
                         Port = 993,
-                        SecurityProtocol = SecurityProtocol.Ssl3,
                         Username = "paranoia.app@gmail.com",
                         Password = "p4r4n014"
                     }
