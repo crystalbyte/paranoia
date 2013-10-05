@@ -3,37 +3,67 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:contexts="clr-namespace:Crystalbyte.Paranoia.Contexts"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Crystalbyte.Paranoia"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="Paranoia"
         Width="1280"
         Height="768"
         AllowsTransparency="False"
-        Background="#333"
-        BorderThickness="1"
+        Background="#1E1E1E"
+        BorderThickness="0"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow"
         d:DataContext="{d:DesignInstance contexts:AppContext}"
         mc:Ignorable="d">
+    <Window.InputBindings>
+        <KeyBinding Key="N"
+                    Command="{Binding ComposeMessageCommand}"
+                    Modifiers="Control" />
+    </Window.InputBindings>
 
     <DockPanel LastChildFill="True">
-        <Grid Height="30"
-              Background="#222"
-              DockPanel.Dock="Top" />
-        <DockPanel LastChildFill="True">
-            <Border DockPanel.Dock="Left">
-                <ListView MinWidth="300"
-                          Background="Transparent"
-                          ItemsSource="{Binding Messages}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Border d:DataContext="{d:DesignInstance contexts:MessageContext}">
-                                <TextBlock Text="{Binding Text}" />
-                            </Border>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Border>
-            <Border />
-        </DockPanel>
+        <Border Background="{StaticResource WindowBackgroundBrush}"
+                DockPanel.Dock="Top"
+                Padding="3">
+            <StackPanel Orientation="Horizontal">
+                <Button Command="{Binding ComposeMessageCommand}" Style="{StaticResource ComposeMessageAppMenuButtonStyle}" />
+                <Button Command="{Binding SyncCommand}" Style="{StaticResource SyncAppMenuButtonStyle}" />
+            </StackPanel>
+        </Border>
+        <Border Background="{StaticResource AppAccentBrush}"
+                DockPanel.Dock="Bottom"
+                Padding="8,0,8,0">
+            <StackPanel Height="30" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center"
+                           Style="{StaticResource NormalTextStyle}"
+                           Text="Syncing ..."
+                           Visibility="{Binding IsSyncing,
+                                                Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <TextBlock VerticalAlignment="Center"
+                           Style="{StaticResource NormalTextStyle}"
+                           Text="Ready"
+                           Visibility="{Binding IsSyncing,
+                                                Converter={StaticResource BooleanToVisibilityConverter},
+                                                ConverterParameter=!}" />
+            </StackPanel>
+        </Border>
+        <Border DockPanel.Dock="Left">
+            <ListView MinWidth="300"
+                      Background="#CCC"
+                      BorderThickness="0"
+                      ItemsSource="{Binding Messages}"
+                      SelectionChanged="OnMessagesSelectionChanged">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="3" d:DataContext="{d:DesignInstance contexts:MessageContext}">
+                            <TextBlock Foreground="{StaticResource DarkTextBrush}" Text="{Binding Subject}" />
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Border>
+        <Border>
+            <WebBrowser local:WebBrowserExtentions.Document="{Binding MessageBody}" />
+        </Border>
     </DockPanel>
 </Window>

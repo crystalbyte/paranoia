@@ -70,7 +70,5 @@ namespace Crystalbyte.Paranoia.Messaging {
         public static readonly string QuotedPrintableTrailingWhitespacePattern = @"[\t ]+$";
         public static readonly string QuotedPrintableCroppedEncodedItemPattern = "(=|=[A-F0-9])$";
         public static readonly string QuotedPrintableEncodedItemPattern = "(=[A-F0-9\r\n]{2})+";
-
-        public static readonly string EncodedHeaderFieldPattern = @"=\?[-A-Za-z0-9]+\?[QBqb]\?[.\u0020-\u003E\u0040-\u007E]+\?=";
     }
 }

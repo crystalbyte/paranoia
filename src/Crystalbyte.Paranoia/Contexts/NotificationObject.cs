@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 #endregion
 
-namespace Crystalbyte.Paranoia {
+namespace Crystalbyte.Paranoia.Contexts {
     public abstract class NotificationObject : INotifyPropertyChanged, INotifyPropertyChanging {
         /// <summary>
         ///   Raised when a property on this object has a new value.

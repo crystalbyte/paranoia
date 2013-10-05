@@ -39,7 +39,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Crystalbyte.Equinox.Mime.Text;
 
 namespace Crystalbyte.Paranoia.Messaging {
     public static class TransferEncoder {
@@ -47,7 +46,7 @@ namespace Crystalbyte.Paranoia.Messaging {
             switch (transferEncoding) {
                 case ContentTransferEncodings.QuotedPrintable: {
                         var bytes = Encoding.UTF8.GetBytes(text);
-                        return QuotedPrintableConverter.ToQuotedPrintableString(bytes);
+                        return QpConverter.ToQuotedPrintableString(bytes);
                     }
                 case ContentTransferEncodings.None: {
                         return text;
@@ -79,7 +78,7 @@ namespace Crystalbyte.Paranoia.Messaging {
 
             switch (transferEncoding.ToLower()) {
                 case ContentTransferEncodings.QuotedPrintable: {
-                        return QuotedPrintableConverter.FromQuotedPrintable(literals, targetEncoding);
+                        return QpConverter.FromQuotedPrintable(literals, targetEncoding);
                     }
                 case ContentTransferEncodings.Base64: {
                         var bytes = Convert.FromBase64String(literals);
@@ -93,7 +92,7 @@ namespace Crystalbyte.Paranoia.Messaging {
         }
 
         public static string Decode(string text) {
-            const string pattern = "(=[A-F0-9\r\n]{2})+";
+            const string pattern = @"=\?[-A-Za-z0-9]+\?[QBqb]\?[.\u0020-\u003E\u0040-\u007E]+\?=";
             text = Regex.Replace(text, pattern, x => DecodeHeaderBlock(x.Value));
 
             // change _ to 'space'

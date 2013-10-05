@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia", "Cry
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Cryptography", "Crystalbyte.Paranoia.Cryptography\Crystalbyte.Paranoia.Cryptography.csproj", "{FC115AED-C02E-45A6-80EB-711A1CCF14E3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "externals", "externals", "{BDB2AA7A-7EF9-4AF3-BCD2-5A14BA346889}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Messaging", "Crystalbyte.Paranoia.Messaging\Crystalbyte.Paranoia.Messaging.csproj", "{0DC46336-8D08-4C35-8F65-1D1CF2FD0E11}"
 EndProject
 Global

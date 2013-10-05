@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -27,13 +28,13 @@ namespace Crystalbyte.Paranoia.Messaging {
         /// </summary>
         /// <param name = "criteria">The search criteria.</param>
         /// <returns>The uids of messages matching the given criteria.</returns>
-        public async Task<IEnumerable<int>> SearchAsync(string criteria) {
+        public async Task<IList<int>> SearchAsync(string criteria) {
             var command = String.Format("UID SEARCH {0}", criteria);
             var id = await _connection.WriteCommandAsync(command);
             return await ReadSearchResponseAsync(id);
         }
 
-        private async Task<IEnumerable<int>> ReadSearchResponseAsync(string commandId) {
+        private async Task<IList<int>> ReadSearchResponseAsync(string commandId) {
             var list = new List<int>();
             while (true) {
                 var line = await _connection.ReadAsync();
@@ -42,7 +43,7 @@ namespace Crystalbyte.Paranoia.Messaging {
                 }
 
                 // Not sure if this can ever happen.
-                if (!line.IsUntagged) 
+                if (!line.IsUntagged)
                     continue;
 
                 const string pattern = @"[0-9]+";
@@ -52,7 +53,6 @@ namespace Crystalbyte.Paranoia.Messaging {
 
             return list;
         }
-
 
         public int UidNext { get; internal set; }
         public int Recent { get; internal set; }
@@ -110,7 +110,7 @@ namespace Crystalbyte.Paranoia.Messaging {
         public async Task<IEnumerable<Envelope>> FetchEnvelopesAsync(IEnumerable<int> uids) {
             var command = string.Format("UID FETCH {0} ALL", uids
                 .Select(x => x.ToString(CultureInfo.InvariantCulture))
-                .Aggregate((c,n) => c + ',' + n));
+                .Aggregate((c, n) => c + ',' + n));
 
             var id = await _connection.WriteCommandAsync(command);
             return await ReadFetchEnvelopesResponseAsync(id);
@@ -118,6 +118,7 @@ namespace Crystalbyte.Paranoia.Messaging {
 
         private async Task<IEnumerable<Envelope>> ReadFetchEnvelopesResponseAsync(string commandId) {
             var envelopes = new List<Envelope>();
+            // We currently only support single line responses.
             while (true) {
                 var line = await _connection.ReadAsync();
                 if (line.TerminatesCommand(commandId)) {
@@ -127,6 +128,28 @@ namespace Crystalbyte.Paranoia.Messaging {
             }
 
             return envelopes;
+        }
+
+        public async Task<string> FetchMessageBodyAsync(long uid) {
+            var command = string.Format("UID FETCH {0} BODY[]", uid);
+            var id = await _connection.WriteCommandAsync(command);
+            return await ReadFetchMessageBodyAsync(id);
+        }
+
+        private async Task<string> ReadFetchMessageBodyAsync(string id) {
+            using (var writer = new StringWriter()) {
+                while (true) {
+                    var line = await _connection.ReadAsync();
+                    if (line.IsUntagged) {
+                        continue;
+                    }
+                    if (line.TerminatesCommand(id)) {
+                        break;
+                    }
+                    writer.WriteLine(line.Text);
+                }
+                return writer.ToString();
+            }
         }
     }
 }

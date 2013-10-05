@@ -69,12 +69,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\ComposeMessageCommand.cs" />
+    <Compile Include="Commands\SyncCommand.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Models\Account.cs" />
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Contexts\AccountContext.cs" />
+    <Compile Include="Contexts\Factories\AccountContextFactories.cs" />
     <Compile Include="Contexts\MessageContext.cs" />
-    <Compile Include="NotificationObject.cs" />
+    <Compile Include="Contexts\Factories\MessageContextFactory.cs" />
+    <Compile Include="Contexts\NotificationObject.cs" />
     <Compile Include="PropertySupport.cs" />
+    <Compile Include="StringExtensions.cs" />
+    <Compile Include="WebBrowserExtensions.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -83,7 +91,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CommunicationProvider.cs" />
     <Compile Include="Contexts\AppContext.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -40,11 +40,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Crystalbyte.Paranoia.Messaging;
 
-namespace Crystalbyte.Equinox.Mime.Text {
-    internal static class QuotedPrintableConverter {
-        private static readonly string _softLineBreak = Environment.NewLine;
+namespace Crystalbyte.Paranoia.Messaging {
+    internal static class QpConverter {
+        private static readonly string SoftLineBreak = Environment.NewLine;
 
         private static int GetDrift(int remainder) {
             return remainder == 0 ? 1 : 0;
@@ -114,7 +113,7 @@ namespace Crystalbyte.Equinox.Mime.Text {
                                                         var bytes = new List<byte>();
                                                         var values = match.Value.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
                                                         {
-                                                            bytes.AddRange(from value in values where value != _softLineBreak select Convert.ToInt32(value, 16) into int32 select (byte)int32);
+                                                            bytes.AddRange(from value in values where value != SoftLineBreak select Convert.ToInt32(value, 16) into int32 select (byte)int32);
                                                         }
 
                                                         return targetEncoding.GetString(bytes.ToArray());

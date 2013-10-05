@@ -40,15 +40,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharSets.cs" />
+    <Compile Include="CollectionExtensions.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="ContentTransferEncodings.cs" />
     <Compile Include="Envelope.cs" />
     <Compile Include="HeaderEncodingTypes.cs" />
     <Compile Include="ImapSession.cs" />
-    <Compile Include="MailAddress.cs" />
+    <Compile Include="MailContact.cs" />
     <Compile Include="Mailbox.cs" />
     <Compile Include="MailboxPermissions.cs" />
-    <Compile Include="QuotedPrintableConverter.cs" />
+    <Compile Include="QpConverter.cs" />
     <Compile Include="RegexPattern.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -1,4 +1,6 @@
-﻿using Crystalbyte.Paranoia.Cryptography;
+﻿using System.IO;
+using Crystalbyte.Paranoia.Contexts;
+using Crystalbyte.Paranoia.Cryptography;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +15,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Crystalbyte.Paranoia.Messaging.Mime;
 
 namespace Crystalbyte.Paranoia {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow {
+
         public MainWindow() {
             InitializeComponent();
 
@@ -28,6 +32,17 @@ namespace Crystalbyte.Paranoia {
 
         private static async void OnLoaded(object sender, RoutedEventArgs e) {
             await App.AppContext.SyncAsync();
+        }
+
+        private async void OnMessagesSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            var context = e.AddedItems.OfType<MessageContext>().FirstOrDefault();
+            if (context != null) {
+                var mime = await context.FetchMessageBodyAsync();
+                using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(mime))) {
+                    var message = Message.Load(stream);
+                    App.AppContext.MessageBody = message.FindFirstHtmlVersion().GetBodyAsText();
+                }
+            }
         }
     }
 }
