@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <ExpressionBlendVersion>5.0.40218.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -74,7 +75,6 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="CollectionExtensions.cs" />
-    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Contexts\AccountContext.cs" />
     <Compile Include="Contexts\Factories\AccountContextFactories.cs" />
     <Compile Include="Contexts\MessageContext.cs" />
@@ -134,6 +134,12 @@
       <Project>{0DC46336-8D08-4C35-8F65-1D1CF2FD0E11}</Project>
       <Name>Crystalbyte.Paranoia.Messaging</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\send.message.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

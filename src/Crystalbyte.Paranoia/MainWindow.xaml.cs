@@ -23,11 +23,13 @@ namespace Crystalbyte.Paranoia {
     /// </summary>
     public partial class MainWindow {
 
+        private bool _isMaximized;
+
         public MainWindow() {
             InitializeComponent();
 
-            DataContext = App.AppContext;
             Loaded += OnLoaded;
+            DataContext = App.AppContext;
         }
 
         private static async void OnLoaded(object sender, RoutedEventArgs e) {
@@ -36,13 +38,28 @@ namespace Crystalbyte.Paranoia {
 
         private async void OnMessagesSelectionChanged(object sender, SelectionChangedEventArgs e) {
             var context = e.AddedItems.OfType<MessageContext>().FirstOrDefault();
-            if (context != null) {
-                var mime = await context.FetchMessageBodyAsync();
-                using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(mime))) {
-                    var message = Message.Load(stream);
-                    App.AppContext.MessageBody = message.FindFirstHtmlVersion().GetBodyAsText();
-                }
+            if (context == null) 
+                return;
+
+            var mime = await context.FetchMessageBodyAsync();
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(mime))) {
+                var message = Message.Load(stream);
+                App.AppContext.MessageBody = message.FindFirstHtmlVersion().GetBodyAsText();
             }
+        }
+
+        private void OnCloseButtonClicked(object sender, RoutedEventArgs e) {
+            Close();
+        }
+
+        private void OnMaximizeButtonClicked(object sender, RoutedEventArgs e) {
+            if (_isMaximized) {
+                _isMaximized = false;
+            }
+        }
+
+        private void OnMinimizeButtonClicked(object sender, RoutedEventArgs e) {
+            WindowState = WindowState.Minimized;
         }
     }
 }

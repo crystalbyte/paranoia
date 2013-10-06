@@ -8,62 +8,63 @@
         Title="Paranoia"
         Width="1280"
         Height="768"
-        AllowsTransparency="False"
-        Background="#1E1E1E"
-        BorderThickness="0"
+        BorderBrush="{StaticResource AppAccentBrush}"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="SingleBorderWindow"
         d:DataContext="{d:DesignInstance contexts:AppContext}"
         mc:Ignorable="d">
+
     <Window.InputBindings>
         <KeyBinding Key="N"
                     Command="{Binding ComposeMessageCommand}"
                     Modifiers="Control" />
     </Window.InputBindings>
-
-    <DockPanel LastChildFill="True">
-        <Border Background="{StaticResource WindowBackgroundBrush}"
-                DockPanel.Dock="Top"
-                Padding="3">
-            <StackPanel Orientation="Horizontal">
-                <Button Command="{Binding ComposeMessageCommand}" Style="{StaticResource ComposeMessageAppMenuButtonStyle}" />
-                <Button Command="{Binding SyncCommand}" Style="{StaticResource SyncAppMenuButtonStyle}" />
-            </StackPanel>
-        </Border>
-        <Border Background="{StaticResource AppAccentBrush}"
-                DockPanel.Dock="Bottom"
-                Padding="8,0,8,0">
-            <StackPanel Height="30" Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center"
-                           Style="{StaticResource NormalTextStyle}"
-                           Text="Syncing ..."
-                           Visibility="{Binding IsSyncing,
-                                                Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <TextBlock VerticalAlignment="Center"
-                           Style="{StaticResource NormalTextStyle}"
-                           Text="Ready"
-                           Visibility="{Binding IsSyncing,
-                                                Converter={StaticResource BooleanToVisibilityConverter},
-                                                ConverterParameter=!}" />
-            </StackPanel>
-        </Border>
-        <Border DockPanel.Dock="Left">
-            <ListView MinWidth="300"
-                      Background="#CCC"
-                      BorderThickness="0"
-                      ItemsSource="{Binding Messages}"
-                      SelectionChanged="OnMessagesSelectionChanged">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Border Padding="3" d:DataContext="{d:DesignInstance contexts:MessageContext}">
-                            <TextBlock Foreground="{StaticResource DarkTextBrush}" Text="{Binding Subject}" />
-                        </Border>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Border>
-        <Border>
-            <WebBrowser local:WebBrowserExtentions.Document="{Binding MessageBody}" />
-        </Border>
-    </DockPanel>
+    <Border Background="{StaticResource WindowBackgroundBrush}">
+        <DockPanel LastChildFill="True">
+            <Border Background="{StaticResource AppControlBrush}"
+                    DockPanel.Dock="Top"
+                    Padding="3">
+                <StackPanel Orientation="Horizontal">
+                    <Button Command="{Binding ComposeMessageCommand}" Style="{StaticResource ComposeMessageButtonStyle}" />
+                    <Button Command="{Binding SyncCommand}" Style="{StaticResource SyncButtonStyle}" />
+                </StackPanel>
+            </Border>
+            <Border Background="{StaticResource AppControlBrush}"
+                    DockPanel.Dock="Bottom"
+                    Padding="8,0,8,0">
+                <Grid>
+                    <StackPanel Height="24" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
+                                   Style="{StaticResource NormalTextStyle}"
+                                   Text="Syncing ..."
+                                   Visibility="{Binding IsSyncing,
+                                                        Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBlock VerticalAlignment="Center"
+                                   Style="{StaticResource NormalTextStyle}"
+                                   Text="Ready"
+                                   Visibility="{Binding IsSyncing,
+                                                        Converter={StaticResource BooleanToVisibilityConverter},
+                                                        ConverterParameter=!}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Border DockPanel.Dock="Left">
+                <ListView MinWidth="300"
+                          Background="{StaticResource WindowBackgroundBrush}"
+                          BorderThickness="0"
+                          ItemsSource="{Binding Messages}"
+                          SelectionChanged="OnMessagesSelectionChanged">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="3" d:DataContext="{d:DesignInstance contexts:MessageContext}">
+                                <TextBlock Foreground="{StaticResource LightTextBrush}" Text="{Binding Subject}" />
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Border>
+            <Border Background="{StaticResource WindowBackgroundBrush}">
+                <WebBrowser local:WebBrowserExtentions.Document="{Binding MessageBody}" />
+            </Border>
+        </DockPanel>
+    </Border>
 </Window>
