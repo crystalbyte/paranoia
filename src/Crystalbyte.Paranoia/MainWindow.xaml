@@ -8,63 +8,125 @@
         Title="Paranoia"
         Width="1280"
         Height="768"
-        BorderBrush="{StaticResource AppAccentBrush}"
+        MinWidth="320"
+        MinHeight="200"
         WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance contexts:AppContext}"
         mc:Ignorable="d">
+    <Window.Style>
+        <Style TargetType="Window">
+            <Setter Property="WindowStyle" Value="None" />
+            <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
+            <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource AppAccentBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome CaptionHeight="30"
+                                  GlassFrameThickness="-1"
+                                  NonClientFrameEdges="None"
+                                  ResizeBorderThickness="0" />
+                </Setter.Value>
+            </Setter>
+            <!--  Windows Shell Integration http://www.seritools.de/programmierung/wpf/wpf-fensterrahmen-anpassen-mit-dem-windowchrome/post503.html  -->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Window">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="5"
+                                                  Opacity="1"
+                                                  ShadowDepth="0"
+                                                  Color="{StaticResource AppAccentColor}" />
+                            </Border.Effect>
+                            <DockPanel LastChildFill="True">
+                                <Grid Background="{StaticResource AppControlBrush}" DockPanel.Dock="Top">
+                                    <StackPanel HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                Orientation="Horizontal">
+                                        <Button Click="OnMinimizeButtonClicked" Style="{StaticResource MinimizeButtonStyle}" />
+                                        <Button Click="OnMaximizeButtonClicked" Style="{StaticResource MaximizeButtonStyle}" />
+                                        <Button Click="OnCloseButtonClicked" Style="{StaticResource CloseButtonStyle}" />
+                                    </StackPanel>
+                                    <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                                        <Border>
+                                            <TextBlock Margin="6,0,6,0"
+                                                       VerticalAlignment="Center"
+                                                       Foreground="{StaticResource AppAccentBrush}"
+                                                       Text="p4r4n014" />
+                                        </Border>
+                                        <Button Command="{Binding ComposeMessageCommand}" Style="{StaticResource ComposeMessageButtonStyle}" />
+                                        <Button Command="{Binding SyncCommand}" Style="{StaticResource SyncButtonStyle}" />
+                                    </StackPanel>
+                                </Grid>
+                                <ContentPresenter />
+                            </DockPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Style>
 
     <Window.InputBindings>
         <KeyBinding Key="N"
                     Command="{Binding ComposeMessageCommand}"
                     Modifiers="Control" />
+        <KeyBinding Key="R"
+                    Command="{Binding SyncCommand}"
+                    Modifiers="Control" />
     </Window.InputBindings>
-    <Border Background="{StaticResource WindowBackgroundBrush}">
-        <DockPanel LastChildFill="True">
-            <Border Background="{StaticResource AppControlBrush}"
-                    DockPanel.Dock="Top"
-                    Padding="3">
-                <StackPanel Orientation="Horizontal">
-                    <Button Command="{Binding ComposeMessageCommand}" Style="{StaticResource ComposeMessageButtonStyle}" />
-                    <Button Command="{Binding SyncCommand}" Style="{StaticResource SyncButtonStyle}" />
-                </StackPanel>
-            </Border>
-            <Border Background="{StaticResource AppControlBrush}"
-                    DockPanel.Dock="Bottom"
-                    Padding="8,0,8,0">
-                <Grid>
-                    <StackPanel Height="24" Orientation="Horizontal">
-                        <TextBlock VerticalAlignment="Center"
-                                   Style="{StaticResource NormalTextStyle}"
-                                   Text="Syncing ..."
-                                   Visibility="{Binding IsSyncing,
-                                                        Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        <TextBlock VerticalAlignment="Center"
-                                   Style="{StaticResource NormalTextStyle}"
-                                   Text="Ready"
-                                   Visibility="{Binding IsSyncing,
-                                                        Converter={StaticResource BooleanToVisibilityConverter},
-                                                        ConverterParameter=!}" />
-                    </StackPanel>
-                </Grid>
-            </Border>
-            <Border DockPanel.Dock="Left">
-                <ListView MinWidth="300"
-                          Background="{StaticResource WindowBackgroundBrush}"
-                          BorderThickness="0"
-                          ItemsSource="{Binding Messages}"
-                          SelectionChanged="OnMessagesSelectionChanged">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Border Padding="3" d:DataContext="{d:DesignInstance contexts:MessageContext}">
-                                <TextBlock Foreground="{StaticResource LightTextBrush}" Text="{Binding Subject}" />
-                            </Border>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Border>
-            <Border Background="{StaticResource WindowBackgroundBrush}">
-                <WebBrowser local:WebBrowserExtentions.Document="{Binding MessageBody}" />
-            </Border>
-        </DockPanel>
-    </Border>
+    <Grid>
+        <Border Background="{StaticResource WindowBackgroundBrush}">
+            <DockPanel>
+                <Border Background="{StaticResource AppControlBrush}" DockPanel.Dock="Bottom">
+                    <Grid>
+                        <StackPanel Height="24"
+                                    Margin="8,0,0,0"
+                                    Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource NormalTextStyle}"
+                                       Text="Syncing ..."
+                                       Visibility="{Binding IsSyncing,
+                                                            Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource NormalTextStyle}"
+                                       Text="Ready"
+                                       Visibility="{Binding IsSyncing,
+                                                            ConverterParameter=!,
+                                                            Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </StackPanel>
+                        <ResizeGrip HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom"
+                                    Visibility="{Binding IsNormalState,
+                                                         RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                        AncestorType=Window,
+                                                                                        AncestorLevel=1},
+                                                         Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    WindowChrome.ResizeGripDirection="BottomRight" />
+                    </Grid>
+                </Border>
+                <Border DockPanel.Dock="Left">
+                    <ListView MinWidth="300"
+                              Background="Transparent"
+                              BorderThickness="0"
+                              ItemsSource="{Binding Messages}"
+                              SelectionChanged="OnMessagesSelectionChanged">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Padding="3" d:DataContext="{d:DesignInstance {x:Type contexts:MessageContext}}">
+                                    <TextBlock Foreground="{StaticResource LightTextBrush}" Text="{Binding Subject}" />
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Border>
+                <Border BorderBrush="{StaticResource WindowBackgroundBrush}" BorderThickness="1,0,0,0">
+                    <WebBrowser local:WebBrowserExtentions.Document="{Binding MessageBody}" />
+                </Border>
+            </DockPanel>
+        </Border>
+    </Grid>
 </Window>

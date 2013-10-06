@@ -53,6 +53,7 @@
       <HintPath>..\packages\Microsoft.Composition.1.0.17\lib\portable-net45+win8\System.Composition.TypedParts.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -83,6 +84,7 @@
     <Compile Include="PropertySupport.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="WebBrowserExtensions.cs" />
+    <Compile Include="WindowExtensions.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -140,6 +142,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\send.message.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\maximize.png" />
+    <Resource Include="Assets\minimize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\compose.message.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

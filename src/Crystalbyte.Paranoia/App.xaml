@@ -37,7 +37,9 @@
                     <Setter Property="Background" Value="{StaticResource AppMenuButtonMouseOverBrush}" />
                 </MultiTrigger>
             </Style.Triggers>
+            <Setter Property="SnapsToDevicePixels" Value="True" />
             <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="BorderBrush" Value="Transparent" />
@@ -62,49 +64,23 @@
         <Style x:Key="AppMenuButtonStyle"
                BasedOn="{StaticResource AppButtonStyle}"
                TargetType="Button">
-            <Style.Triggers>
-                <MultiTrigger>
-                    <MultiTrigger.Conditions>
-                        <Condition Property="IsPressed" Value="True" />
-                        <Condition Property="IsMouseOver" Value="True" />
-                    </MultiTrigger.Conditions>
-                    <Setter Property="Background" Value="{StaticResource AppAccentBrush}" />
-                </MultiTrigger>
-                <MultiTrigger>
-                    <MultiTrigger.Conditions>
-                        <Condition Property="IsMouseOver" Value="True" />
-                        <Condition Property="IsPressed" Value="False" />
-                    </MultiTrigger.Conditions>
-                    <Setter Property="Background" Value="{StaticResource AppMenuButtonMouseOverBrush}" />
-                </MultiTrigger>
-            </Style.Triggers>
             <Setter Property="Width" Value="36" />
-            <Setter Property="Height" Value="36" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="BorderBrush" Value="White" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Ellipse Width="36"
-                                     Height="36"
-                                     HorizontalAlignment="Center"
-                                     VerticalAlignment="Center"
-                                     Fill="{TemplateBinding Background}"
-                                     Stroke="{TemplateBinding BorderBrush}"
-                                     StrokeThickness="{TemplateBinding BorderThickness}" />
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Height" Value="32" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="AppWindowButtonStyle"
+               BasedOn="{StaticResource AppButtonStyle}"
+               TargetType="Button">
+            <Setter Property="Width" Value="36" />
+            <Setter Property="Height" Value="28" />
+            <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
         <Style x:Key="ComposeMessageButtonStyle"
                BasedOn="{StaticResource AppMenuButtonStyle}"
                TargetType="Button">
             <Setter Property="Content">
                 <Setter.Value>
-                    <Image Source="/Assets/send.message.png" />
+                    <Image Source="/Assets/compose.message.png" />
                 </Setter.Value>
             </Setter>
         </Style>
@@ -114,6 +90,47 @@
             <Setter Property="Content">
                 <Setter.Value>
                     <Image Source="/Assets/refresh.png" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="CloseButtonStyle"
+               BasedOn="{StaticResource AppWindowButtonStyle}"
+               TargetType="Button">
+            <Setter Property="Content">
+                <Setter.Value>
+                    <Image Width="10"
+                           Height="10"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Source="/Assets/close.png"
+                           Stretch="Fill" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="MinimizeButtonStyle"
+               BasedOn="{StaticResource AppWindowButtonStyle}"
+               TargetType="Button">
+            <Setter Property="Content">
+                <Setter.Value>
+                    <Image Width="10"
+                           Height="10"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Source="/Assets/minimize.png" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="MaximizeButtonStyle"
+               BasedOn="{StaticResource AppWindowButtonStyle}"
+               TargetType="Button">
+            <Setter Property="Content">
+                <Setter.Value>
+                    <Image Width="10"
+                           Height="10"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Source="/Assets/maximize.png"
+                           Stretch="Fill" />
                 </Setter.Value>
             </Setter>
         </Style>

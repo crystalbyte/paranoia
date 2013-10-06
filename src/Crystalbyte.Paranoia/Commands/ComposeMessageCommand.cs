@@ -4,6 +4,7 @@ using System.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Crystalbyte.Paranoia.Commands {
@@ -17,7 +18,7 @@ namespace Crystalbyte.Paranoia.Commands {
         }
 
         public void Execute(object parameter) {
-            return;
+            MessageBox.Show("Not implemented yet.");
         }
 
         public event EventHandler CanExecuteChanged;
