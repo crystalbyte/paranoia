@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Messaging;
 
 namespace Crystalbyte.Paranoia.Contexts {
-    public sealed class MessageContext {
+    public sealed class ImapEnvelopeContext {
         private readonly Envelope _envelope;
-        private readonly AccountContext _account;
+        private readonly ImapAccountContext _account;
 
-        public MessageContext(Envelope envelope, AccountContext account) {
+        public ImapEnvelopeContext(ImapAccountContext account, Envelope envelope) {
             _account = account;
             _envelope = envelope;
         }

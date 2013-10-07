@@ -116,7 +116,7 @@
                               SelectionChanged="OnMessagesSelectionChanged">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Border Padding="3" d:DataContext="{d:DesignInstance {x:Type contexts:MessageContext}}">
+                                <Border Padding="3" d:DataContext="{d:DesignInstance {x:Type contexts:ImapEnvelopeContext}}">
                                     <TextBlock Foreground="{StaticResource LightTextBrush}" Text="{Binding Subject}" />
                                 </Border>
                             </DataTemplate>

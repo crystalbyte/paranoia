@@ -49,6 +49,9 @@
     <Compile Include="MailContact.cs" />
     <Compile Include="Mailbox.cs" />
     <Compile Include="MailboxPermissions.cs" />
+    <Compile Include="Mime\Decode\QuotedPrintable.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="QpConverter.cs" />
     <Compile Include="RegexPattern.cs">
       <SubType>Code</SubType>
@@ -66,7 +69,6 @@
     <Compile Include="Mime\Decode\Base64.cs" />
     <Compile Include="Mime\Decode\EncodedWord.cs" />
     <Compile Include="Mime\Decode\EncodingFinder.cs" />
-    <Compile Include="Mime\Decode\QuotedPrintable.cs" />
     <Compile Include="Mime\Decode\Rfc2231Decoder.cs" />
     <Compile Include="Mime\Decode\Rfc2822DateTime.cs" />
     <Compile Include="Mime\Decode\SizeParser.cs" />
@@ -93,6 +95,8 @@
     <Compile Include="RemoteCertificateValidationFailedEventArgs.cs" />
     <Compile Include="SecurityPolicies.cs" />
     <Compile Include="SequenceIdentifier.cs" />
+    <Compile Include="SmtpCredentials.cs" />
+    <Compile Include="SmtpSession.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="TransferEncoder.cs" />
   </ItemGroup>

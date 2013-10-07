@@ -1,5 +1,5 @@
 ﻿namespace Crystalbyte.Paranoia.Models {
-    public sealed class Account {
+    public sealed class ImapAccount {
         public string Host { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }

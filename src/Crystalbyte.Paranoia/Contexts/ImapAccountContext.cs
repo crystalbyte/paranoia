@@ -6,12 +6,12 @@ using Crystalbyte.Paranoia.Messaging;
 using Crystalbyte.Paranoia.Models;
 
 namespace Crystalbyte.Paranoia.Contexts {
-    public sealed class AccountContext {
-        private readonly Account _account;
+    public sealed class ImapAccountContext {
+        private readonly ImapAccount _account;
 
-        public AccountContext(Account account) {
+        public ImapAccountContext(ImapAccount account) {
             _account = account;
-            Messages = new ObservableCollection<MessageContext>();
+            Messages = new ObservableCollection<ImapEnvelopeContext>();
         }
 
         public string Host {
@@ -30,7 +30,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             get { return _account.Password; }
         }
 
-        public MessageContextFactory MessageContextFactory { get; internal set; }
+        public ImapEnvelopeContextFactory MessageContextFactory { get; internal set; }
 
         public async Task SyncAsync() {
             using (var connection = new ImapConnection { Security = SecurityPolicies.Implicit }) {
@@ -48,6 +48,6 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        public ObservableCollection<MessageContext> Messages { get; set; }
+        public ObservableCollection<ImapEnvelopeContext> Messages { get; set; }
     }
 }

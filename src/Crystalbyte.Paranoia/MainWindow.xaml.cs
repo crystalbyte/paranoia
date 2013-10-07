@@ -52,29 +52,27 @@ namespace Crystalbyte.Paranoia {
             IsNormalState = WindowState == WindowState.Normal;
         }
 
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e) {
-            base.OnMouseLeftButtonDown(e);
-            DragMove();
-        }
-
-        protected override void OnMouseDoubleClick(MouseButtonEventArgs e) {
-            base.OnMouseDoubleClick(e);
-            ToggleWindowState();
-        }
-
         private static async void OnLoaded(object sender, RoutedEventArgs e) {
             await App.AppContext.SyncAsync();
         }
 
         private async void OnMessagesSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var context = e.AddedItems.OfType<MessageContext>().FirstOrDefault();
+            var context = e.AddedItems.OfType<ImapEnvelopeContext>().FirstOrDefault();
             if (context == null)
                 return;
 
             var mime = await context.FetchMessageBodyAsync();
             using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(mime))) {
                 var message = Message.Load(stream);
-                App.AppContext.MessageBody = message.FindFirstHtmlVersion().GetBodyAsText();
+                var html = message.FindFirstHtmlVersion();
+                if (html != null) {
+                    App.AppContext.MessageBody = html.GetBodyAsText();
+                } else {
+                    var plain = message.FindFirstPlainTextVersion();
+                    if (plain != null) {
+                        App.AppContext.MessageBody = plain.GetBodyAsText();
+                    }
+                }
             }
         }
 

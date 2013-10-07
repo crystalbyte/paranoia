@@ -73,14 +73,17 @@
     </ApplicationDefinition>
     <Compile Include="Commands\ComposeMessageCommand.cs" />
     <Compile Include="Commands\SyncCommand.cs" />
+    <Compile Include="Contexts\Factories\SmtpAccountContextFactory.cs" />
+    <Compile Include="Contexts\SmtpAccountContext.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\ImapAccount.cs" />
     <Compile Include="CollectionExtensions.cs" />
-    <Compile Include="Contexts\AccountContext.cs" />
-    <Compile Include="Contexts\Factories\AccountContextFactories.cs" />
-    <Compile Include="Contexts\MessageContext.cs" />
-    <Compile Include="Contexts\Factories\MessageContextFactory.cs" />
+    <Compile Include="Contexts\ImapAccountContext.cs" />
+    <Compile Include="Contexts\Factories\ImapAccountContextFactory.cs" />
+    <Compile Include="Contexts\ImapEnvelopeContext.cs" />
+    <Compile Include="Contexts\Factories\ImapEnvelopeContextFactory.cs" />
     <Compile Include="Contexts\NotificationObject.cs" />
+    <Compile Include="Models\SmtpAccount.cs" />
     <Compile Include="PropertySupport.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="WebBrowserExtensions.cs" />

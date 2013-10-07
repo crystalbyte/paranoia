@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 namespace Crystalbyte.Paranoia.Messaging {
     public sealed class ImapAuthenticator : IDisposable {
         private readonly ImapConnection _connection;
-        private HashSet<string> _capabilities;
 
-        internal ImapAuthenticator(HashSet<string> capabilities, ImapConnection connection) {
-            _capabilities = capabilities;
+        internal ImapAuthenticator(ImapConnection connection) {
             _connection = connection;
         }
 
@@ -17,13 +15,8 @@ namespace Crystalbyte.Paranoia.Messaging {
             get { return _connection; }
         }
 
-        public HashSet<string> Capabilities {
-            get { return _capabilities; }
-            set { _capabilities = value; }
-        }
-
         public async Task<ImapSession> LoginAsync(string username, string password) {
-            if (!_capabilities.Contains("AUTH=PLAIN")) {
+            if (!_connection.Capabilities.Contains("AUTH=PLAIN")) {
                 throw new NotSupportedException("Other mechanics than PLAIN are currently not supported.");
             }
             
@@ -42,7 +35,7 @@ namespace Crystalbyte.Paranoia.Messaging {
 
             // Speed up authentication by using the initial client response extension.
             // http://tools.ietf.org/html/rfc4959
-            if (_capabilities.Contains("SASL-IR")) {
+            if (_connection.Capabilities.Contains("SASL-IR")) {
                 var command = string.Format("AUTHENTICATE PLAIN {0}", hash);
                 commandId = await _connection.WriteCommandAsync(command);
                 line = await _connection.ReadAsync();
@@ -60,7 +53,7 @@ namespace Crystalbyte.Paranoia.Messaging {
             }
 
             if (line.Text.ContainsIgnoreCase("CAPABILITY")) {
-                Capabilities = await _connection.ReadCapabilitiesAsync(commandId);
+                _connection.Capabilities = await _connection.ReadCapabilitiesAsync(commandId);
             }
         }
 

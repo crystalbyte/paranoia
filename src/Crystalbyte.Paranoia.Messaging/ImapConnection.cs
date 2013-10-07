@@ -73,6 +73,8 @@ namespace Crystalbyte.Paranoia.Messaging {
             get { return _secureStream != null && _secureStream.IsSigned; }
         }
 
+        public HashSet<string> Capabilities { get; internal set; }
+
         #region Implementation of IDisposable
 
         public void Dispose() {
@@ -119,26 +121,24 @@ namespace Crystalbyte.Paranoia.Messaging {
             _reader = new StreamReader(stream, Encoding.UTF8, false);
             _writer = new StreamWriter(stream) { AutoFlush = true };
 
-            HashSet<string> capabilities;
-
             // Use implicit encryption (SSL).
             if (Security == SecurityPolicies.Implicit) {
                 await NegotiateEncryptionProtocolsAsync(host);
-                capabilities = await RequestCapabilitiesAsync();
-                return new ImapAuthenticator(capabilities, this);
+                Capabilities = await RequestCapabilitiesAsync();
+                return new ImapAuthenticator(this);
             }
 
             // Use explicit encryption (TLS).
-            capabilities = await RequestCapabilitiesAsync();
+            Capabilities = await RequestCapabilitiesAsync();
             if (Security == SecurityPolicies.Explicit) {
-                if (capabilities.Contains(Commands.StartTls)) {
+                if (Capabilities.Contains(Commands.StartTls)) {
                     var response = await IssueTlsCommandAsync();
                     if (response.IsOk) {
                         await NegotiateEncryptionProtocolsAsync(host);
                         // It is suggested to update server capabilities after the initial tls negotiation
                         // since some servers may send different capabilities to authenticated clients.
-                        capabilities = await RequestCapabilitiesAsync();
-                        return new ImapAuthenticator(capabilities, this);
+                        Capabilities = await RequestCapabilitiesAsync();
+                        return new ImapAuthenticator(this);
                     }
                 }
             }

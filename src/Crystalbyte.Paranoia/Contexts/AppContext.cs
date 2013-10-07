@@ -19,7 +19,8 @@ namespace Crystalbyte.Paranoia.Contexts {
         private string _messageBody;
 
         public AppContext() {
-            Accounts = new ObservableCollection<AccountContext>();
+            ImapAccounts = new ObservableCollection<ImapAccountContext>();
+            SmtpAccounts = new ObservableCollection<SmtpAccountContext>();
         }
 
         public event EventHandler SyncStatusChanged;
@@ -31,7 +32,10 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         [Import]
-        public AccountContextFactory AccountContextFactory { get; set; }
+        public ImapAccountContextFactory ImapAccountContextFactory { get; set; }
+
+        [Import]
+        public SmtpAccountContextFactory SmtpAccountContextFactory { get; set; }
 
         [Import]
         public ComposeMessageCommand ComposeMessageCommand { get; set; }
@@ -39,7 +43,8 @@ namespace Crystalbyte.Paranoia.Contexts {
         [Import]
         public SyncCommand SyncCommand { get; set; }
 
-        public ObservableCollection<AccountContext> Accounts { get; set; }
+        public ObservableCollection<ImapAccountContext> ImapAccounts { get; private set; }
+        public ObservableCollection<SmtpAccountContext> SmtpAccounts { get; private set; }
 
         public string MessageBody {
             get { return _messageBody; }
@@ -70,25 +75,35 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
-            var account = new Account {
+            var imap = new ImapAccount {
                 Host = "imap.gmail.com",
                 Port = 993,
                 Username = "paranoia.app@gmail.com",
                 Password = "p4r4n014"
             };
-            Accounts.Add(AccountContextFactory.Create(account));
+
+            ImapAccounts.Add(ImapAccountContextFactory.Create(imap));
+
+            var smtp = new SmtpAccount {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                Username = "paranoia.app@gmail.com",
+                Password = "p4r4n014"
+            };
+
+            SmtpAccounts.Add(SmtpAccountContextFactory.Create(smtp));
         }
 
-        public IEnumerable<MessageContext> Messages {
-            get { return Accounts.SelectMany(x => x.Messages); }
+        public IEnumerable<ImapEnvelopeContext> Messages {
+            get { return ImapAccounts.SelectMany(x => x.Messages); }
         }
 
         public async Task SyncAsync() {
             IsSyncing = true;
 
-            Accounts.ForEach(x => x.Messages.Clear());
+            ImapAccounts.ForEach(x => x.Messages.Clear());
 
-            foreach (var account in Accounts) {
+            foreach (var account in ImapAccounts) {
                 await account.SyncAsync();
             }
 
