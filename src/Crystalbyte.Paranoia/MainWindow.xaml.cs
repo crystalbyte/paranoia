@@ -1,27 +1,20 @@
-﻿using System.IO;
-using Crystalbyte.Paranoia.Contexts;
+﻿using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.Cryptography;
+using Crystalbyte.Paranoia.Messaging.Mime;
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Crystalbyte.Paranoia.Messaging.Mime;
+using System.Windows.Interop;
 
 namespace Crystalbyte.Paranoia {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow {
+        private HwndSource _source;
 
         public MainWindow() {
             InitializeComponent();
@@ -44,16 +37,38 @@ namespace Crystalbyte.Paranoia {
         public static readonly DependencyProperty IsNormalStateProperty =
             DependencyProperty.Register("IsNormalState", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
 
-
-
         protected override void OnStateChanged(EventArgs e) {
             base.OnStateChanged(e);
             UpdateWindowPadding();
             IsNormalState = WindowState == WindowState.Normal;
         }
 
-        private static async void OnLoaded(object sender, RoutedEventArgs e) {
-            await App.AppContext.SyncAsync();
+        private async void OnLoaded(object sender, RoutedEventArgs e) {
+            try {
+                await App.AppContext.SeedAsync();
+                await App.AppContext.SyncAsync();
+                HookEntropyGenerator();
+            }
+            catch (Exception) {
+                // TODO: We are probably offline, deal with it.
+                throw;
+            }
+        }
+
+        private void HookEntropyGenerator() {
+            var helper = new WindowInteropHelper(this);
+            _source = HwndSource.FromHwnd(helper.Handle);
+            if (_source == null) {
+                throw new NullReferenceException("HwndSource must not be null.");
+            }
+            _source.AddHook(WndProc);
+        }
+
+        private static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
+            if (!RandGenerator.IsSeededSufficiently) {
+                RandGenerator.SeedWithEvents(msg, wParam, lParam);
+            }
+            return IntPtr.Zero;
         }
 
         private async void OnMessagesSelectionChanged(object sender, SelectionChangedEventArgs e) {

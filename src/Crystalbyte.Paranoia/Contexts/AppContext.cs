@@ -8,7 +8,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Commands;
 using Crystalbyte.Paranoia.Contexts.Factories;
+using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Models;
+using System.Net;
+using System.IO;
+using System.Text;
 
 #endregion
 
@@ -109,6 +113,26 @@ namespace Crystalbyte.Paranoia.Contexts {
 
             RaisePropertyChanged(() => Messages);
             IsSyncing = false;
+        }
+
+        /// <summary>
+        /// The initial seed for the PRNG is fetched via random.org (http://www.random.org/clients/http/).
+        /// </summary>
+        /// <returns>The task state object.</returns>
+        public async Task SeedAsync() {
+
+            var url =
+                string.Format(
+                    "http://www.random.org/integers/?num={0}&min=0&max=999999999&col=1&base=10&format=plain&rnd=new", 1024);
+
+            using (var client = new WebClient()) {
+                var stream = await client.OpenReadTaskAsync(url);
+                using (var reader = new StreamReader(stream)) {
+                    var text = await reader.ReadToEndAsync();
+                    var bytes = Encoding.UTF8.GetBytes(text.Replace("\n", string.Empty));
+                    RandGenerator.Seed(bytes, bytes.Length);
+                }    
+            }
         }
     }
 }
