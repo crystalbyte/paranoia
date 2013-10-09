@@ -1,9 +1,12 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Runtime.InteropServices;
 
-namespace Crystalbyte.Paranoia.Cryptography {
-    public static class RandGenerator {
+#endregion
 
+namespace Crystalbyte.Paranoia.Cryptography {
+    public static class OpenSslRandom {
         public static void Seed(byte[] bytes, int number) {
             var handle = Marshal.AllocHGlobal(bytes.Length);
             Marshal.Copy(bytes, 0, handle, bytes.Length);
@@ -18,7 +21,7 @@ namespace Crystalbyte.Paranoia.Cryptography {
             Marshal.FreeHGlobal(handle);
         }
 
-        public static bool SeedWithEvents(int iMsg, IntPtr wParam, IntPtr lParam) {
+        public static bool AddEntropyFromEvents(int iMsg, IntPtr wParam, IntPtr lParam) {
             return NativeMethods.RandEvent(iMsg, wParam, lParam) > 0;
         }
 

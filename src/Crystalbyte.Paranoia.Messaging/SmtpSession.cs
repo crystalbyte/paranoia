@@ -1,7 +1,11 @@
-﻿using System.Net;
+﻿#region Using directives
+
 using System;
+using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Messaging {
     public sealed class SmtpSession : IDisposable {
@@ -21,7 +25,7 @@ namespace Crystalbyte.Paranoia.Messaging {
 
         public async Task SendAsync(MailMessage message) {
             _client.UseDefaultCredentials = false;
-            _client.Credentials= new NetworkCredential(_credentials.Username, _credentials.Password);
+            _client.Credentials = new NetworkCredential(_credentials.Username, _credentials.Password);
             _client.EnableSsl = IsSslEnabled;
 
             _client.Host = _host;

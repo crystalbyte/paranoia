@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Messaging {
     public sealed class ImapSession : IDisposable {
@@ -17,28 +21,28 @@ namespace Crystalbyte.Paranoia.Messaging {
             get { return _authenticator; }
         }
 
-        public async Task<Mailbox> SelectAsync(string name) {
+        public async Task<ImapMailbox> SelectAsync(string name) {
             // we need to convert non ASCII names according to IMAP specs.
             // http://tools.ietf.org/html/rfc2060#section-5.1.3
-            var encodedName = Mailbox.EncodeName(name);
+            var encodedName = ImapMailbox.EncodeName(name);
 
             var command = string.Format("SELECT \"{0}\"", encodedName);
             var id = await _connection.WriteCommandAsync(command);
-            return await ReadSelectResponseAsync(id);
+            return await ReadSelectResponseAsync(name, id);
         }
 
-        public async Task<Mailbox> ExamineAsync(string name) {
+        public async Task<ImapMailbox> ExamineAsync(string name) {
             // we need to convert non ASCII names according to IMAP specs.
             // http://tools.ietf.org/html/rfc2060#section-5.1.3
-            var encodedName = Mailbox.EncodeName(name);
+            var encodedName = ImapMailbox.EncodeName(name);
 
             var command = string.Format("EXAMINE \"{0}\"", encodedName);
             var id = await _connection.WriteCommandAsync(command);
-            return await ReadSelectResponseAsync(id);
+            return await ReadSelectResponseAsync(name, id);
         }
 
-        private async Task<Mailbox> ReadSelectResponseAsync(string commandId) {
-            var mailbox = new Mailbox(this);
+        private async Task<ImapMailbox> ReadSelectResponseAsync(string name, string commandId) {
+            var mailbox = new ImapMailbox(this, name);
             while (true) {
                 var line = await _connection.ReadAsync();
                 if (line.TerminatesCommand(commandId)) {
@@ -51,15 +55,15 @@ namespace Crystalbyte.Paranoia.Messaging {
                 if (line.IsUntagged && !line.IsUntaggedOk && line.Text.ContainsIgnoreCase("FLAGS")) {
                     const string pattern = @"\\[A-za-z0-9\*]+";
                     mailbox.AddFlags(Regex.Matches(line.Text, pattern, RegexOptions.CultureInvariant)
-                        .Cast<Match>()
-                        .Select(x => x.Value));
+                                         .Cast<Match>()
+                                         .Select(x => x.Value));
                 }
 
                 if (line.IsUntaggedOk && line.Text.ContainsIgnoreCase("PERMANENTFLAGS")) {
                     const string pattern = @"\\[A-za-z0-9\*]+";
                     mailbox.AddPermanentFlags(Regex.Matches(line.Text, pattern, RegexOptions.CultureInvariant)
-                        .Cast<Match>()
-                        .Select(x => x.Value));
+                                                  .Cast<Match>()
+                                                  .Select(x => x.Value));
                     continue;
                 }
 
@@ -112,5 +116,3 @@ namespace Crystalbyte.Paranoia.Messaging {
         #endregion
     }
 }
-
-

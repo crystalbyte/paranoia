@@ -1,8 +1,9 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Messaging {
     internal static class CollectionExtensions {

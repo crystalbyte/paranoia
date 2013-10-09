@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿#region Using directives
+
+using System;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Messaging {
     internal struct ResponseLine : IEquatable<ResponseLine> {
-
         public ResponseLine(string text)
             : this() {
             Text = text;
@@ -32,19 +30,31 @@ namespace Crystalbyte.Paranoia.Messaging {
         }
 
         public bool IsUntagged {
-            get { return !string.IsNullOrWhiteSpace(Text) && Text.StartsWith("*", StringComparison.InvariantCultureIgnoreCase); }
+            get {
+                return !string.IsNullOrWhiteSpace(Text) &&
+                       Text.StartsWith("*", StringComparison.InvariantCultureIgnoreCase);
+            }
         }
 
         public bool IsUntaggedOk {
-            get { return !string.IsNullOrWhiteSpace(Text) && Text.StartsWith("* OK", StringComparison.InvariantCultureIgnoreCase); }
+            get {
+                return !string.IsNullOrWhiteSpace(Text) &&
+                       Text.StartsWith("* OK", StringComparison.InvariantCultureIgnoreCase);
+            }
         }
 
         public bool IsContinuationRequest {
-            get { return !string.IsNullOrWhiteSpace(Text) && Text.StartsWith("+", StringComparison.InvariantCultureIgnoreCase); }
+            get {
+                return !string.IsNullOrWhiteSpace(Text) &&
+                       Text.StartsWith("+", StringComparison.InvariantCultureIgnoreCase);
+            }
         }
 
         public bool IsMultiline {
-            get { return !string.IsNullOrWhiteSpace(Text) && Text.StartsWith(" ", StringComparison.InvariantCultureIgnoreCase); }
+            get {
+                return !string.IsNullOrWhiteSpace(Text) &&
+                       Text.StartsWith(" ", StringComparison.InvariantCultureIgnoreCase);
+            }
         }
 
         #region Implementation of IEquatable<ResponseLine>

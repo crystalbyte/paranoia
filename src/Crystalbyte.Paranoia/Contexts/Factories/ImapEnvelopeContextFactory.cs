@@ -1,11 +1,16 @@
-﻿using Crystalbyte.Paranoia.Messaging;
+﻿#region Using directives
+
 using System.Composition;
+using Crystalbyte.Paranoia.Messaging;
+using Crystalbyte.Paranoia.Models;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Contexts.Factories {
     [Export, Shared]
     public sealed class ImapEnvelopeContextFactory {
-        public ImapEnvelopeContext Create(Envelope envelope, ImapAccountContext account) {
-            return new ImapEnvelopeContext(account, envelope);
+        public ImapMessageContext Create(ImapAccountContext account, ImapEnvelope envelope, string mailbox) {
+            return new ImapMessageContext(account, envelope, mailbox);
         }
     }
 }

@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
+
+#endregion
 
 namespace Crystalbyte.Paranoia {
     public static class StringExtensions {

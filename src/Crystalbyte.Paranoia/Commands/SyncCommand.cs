@@ -1,12 +1,15 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Composition;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Contexts;
 
+#endregion
+
 namespace Crystalbyte.Paranoia.Commands {
     [Export, Shared]
     public sealed class SyncCommand : ICommand {
-
         [Import]
         public AppContext AppContext { get; set; }
 

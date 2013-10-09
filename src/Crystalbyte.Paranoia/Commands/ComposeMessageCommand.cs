@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Using directives
+
+using System;
 using System.Composition;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.Messaging;
 
+#endregion
+
 namespace Crystalbyte.Paranoia.Commands {
     [Export, Shared]
     public sealed class ComposeMessageCommand : ICommand {
-
         [Import]
         public AppContext AppContext { get; set; }
 
@@ -24,7 +24,8 @@ namespace Crystalbyte.Paranoia.Commands {
         }
 
         public async void Execute(object parameter) {
-            var message = new MailMessage { From = new MailAddress("paranoia.app@gmail.com", "Paranoia Development", Encoding.UTF8) };
+            var message = new MailMessage
+                              {From = new MailAddress("paranoia.app@gmail.com", "Paranoia Development", Encoding.UTF8)};
 
             message.Headers.Add("x-p4-request", "1.0");
             message.HeadersEncoding = Encoding.UTF8;
@@ -38,8 +39,9 @@ namespace Crystalbyte.Paranoia.Commands {
             message.Body = "This is a communication request.";
 
             var account = AppContext.SmtpAccounts.First();
-            using (var session = new SmtpSession(account.Host, account.Port, 
-                new SmtpCredentials { Username = account.Username, Password = account.Password })) {
+            using (var session = new SmtpSession(account.Host, account.Port,
+                                                 new SmtpCredentials
+                                                     {Username = account.Username, Password = account.Password})) {
                 session.IsSslEnabled = true;
                 await session.SendAsync(message);
             }

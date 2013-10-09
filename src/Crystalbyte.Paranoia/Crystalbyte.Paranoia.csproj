@@ -34,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -72,15 +73,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\ComposeMessageCommand.cs" />
+    <Compile Include="Commands\DeleteMessageCommand.cs" />
     <Compile Include="Commands\SyncCommand.cs" />
     <Compile Include="Contexts\Factories\SmtpAccountContextFactory.cs" />
     <Compile Include="Contexts\SmtpAccountContext.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="ImapMessageSelectionSource.cs" />
     <Compile Include="Models\ImapAccount.cs" />
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="Contexts\ImapAccountContext.cs" />
     <Compile Include="Contexts\Factories\ImapAccountContextFactory.cs" />
-    <Compile Include="Contexts\ImapEnvelopeContext.cs" />
+    <Compile Include="Contexts\ImapMessageContext.cs" />
     <Compile Include="Contexts\Factories\ImapEnvelopeContextFactory.cs" />
     <Compile Include="Contexts\NotificationObject.cs" />
     <Compile Include="Models\SmtpAccount.cs" />
@@ -155,6 +158,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\compose.message.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\delete.png" />
+    <Resource Include="Assets\delete.red.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

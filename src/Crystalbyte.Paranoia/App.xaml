@@ -4,6 +4,7 @@
              xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Converters"
              xmlns:input="System.Windows.Input"
              StartupUri="MainWindow.xaml">
+    <!--  Icons: C:\Program Files (x86)\Microsoft SDKs\Windows Phone\v8.0\Icons  -->
     <Application.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#1E1E1E" />
@@ -90,6 +91,15 @@
             <Setter Property="Content">
                 <Setter.Value>
                     <Image Source="/Assets/refresh.png" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="DeleteButtonStyle"
+               BasedOn="{StaticResource AppMenuButtonStyle}"
+               TargetType="Button">
+            <Setter Property="Content">
+                <Setter.Value>
+                    <Image Source="/Assets/delete.png" />
                 </Setter.Value>
             </Setter>
         </Style>

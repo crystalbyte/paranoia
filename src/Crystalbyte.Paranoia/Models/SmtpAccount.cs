@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Crystalbyte.Paranoia.Models {
+﻿namespace Crystalbyte.Paranoia.Models {
     public sealed class SmtpAccount {
         public string Host { get; set; }
         public string Username { get; set; }

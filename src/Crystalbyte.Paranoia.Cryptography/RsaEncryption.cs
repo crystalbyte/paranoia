@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿#region Using directives
+
+using System;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Cryptography {
     /// <summary>
-    /// Implementation of a .NET wrapper for the OpenSSL RSA encryption functions. 
-    /// http://www.openssl.org/docs/crypto/rsa.html
+    ///   Implementation of a .NET wrapper for the OpenSSL RSA encryption functions. 
+    ///   http://www.openssl.org/docs/crypto/rsa.html
     /// </summary>
     public sealed class RsaEncryption : NativeResource {
         private readonly IntPtr _handle;
@@ -25,12 +25,11 @@ namespace Crystalbyte.Paranoia.Cryptography {
             base.DisposeNative();
 
             if (_handle != IntPtr.Zero) {
-                NativeMethods.RsaFree(_handle);    
+                NativeMethods.RsaFree(_handle);
             }
         }
 
         private static class NativeMethods {
-
             [DllImport(OpenSsl.Library, EntryPoint = "RAND_seed")]
             public static extern void RandSeed(IntPtr buf, int num);
 
@@ -47,44 +46,43 @@ namespace Crystalbyte.Paranoia.Cryptography {
         [StructLayout(LayoutKind.Sequential)]
         private struct BigNum {
             /// <summary>
-            /// Pointer to an array of 'BN_BITS2' bit chunks.
+            ///   Pointer to an array of 'BN_BITS2' bit chunks.
             /// </summary>
-            public IntPtr D;
+            public readonly IntPtr D;
 
             /// <summary>
-            /// Index of last used d +1.
+            ///   Index of last used d +1.
             /// </summary>
-            public int Top;
+            public readonly int Top;
 
             /// <summary>
-            /// The next are internal book keeping for bn_expand.
+            ///   The next are internal book keeping for bn_expand.
             /// </summary>
-            public int DMax;
-            public int Neg;
-            public int Flags;
+            public readonly int DMax;
+
+            public readonly int Neg;
+            public readonly int Flags;
         }
 
         /// <summary>
-        /// Slow generatio
+        ///   Slow generatio
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         private struct BnGenCb {
             /// <summary>
-            /// To handle binary (in)compatibility.
+            ///   To handle binary (in)compatibility.
             /// </summary>
-            public uint Ver;
+            public readonly uint Ver;
 
             /// <summary>
-            /// Callback specific data;
+            ///   Callback specific data;
             /// </summary>
-            public IntPtr Arg;
+            public readonly IntPtr Arg;
 
             /// <summary>
-            /// Callback (new style).
+            ///   Callback (new style).
             /// </summary>
-            public IntPtr Cb;
+            public readonly IntPtr Cb;
         }
     }
-
-    
 }

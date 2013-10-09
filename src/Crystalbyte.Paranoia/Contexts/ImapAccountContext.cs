@@ -1,9 +1,13 @@
-﻿using System.Collections.ObjectModel;
+﻿#region Using directives
+
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Contexts.Factories;
 using Crystalbyte.Paranoia.Messaging;
 using Crystalbyte.Paranoia.Models;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Contexts {
     public sealed class ImapAccountContext {
@@ -11,7 +15,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public ImapAccountContext(ImapAccount account) {
             _account = account;
-            Messages = new ObservableCollection<ImapEnvelopeContext>();
+            Messages = new ObservableCollection<ImapMessageContext>();
         }
 
         public string Host {
@@ -36,18 +40,18 @@ namespace Crystalbyte.Paranoia.Contexts {
             using (var connection = new ImapConnection { Security = SecurityPolicies.Implicit }) {
                 using (var authenticator = await connection.ConnectAsync(Host, Port)) {
                     using (var session = await authenticator.LoginAsync(Username, Password)) {
-                        var inbox = await session.SelectAsync("INBOX");
+                        var mailbox = await session.SelectAsync("INBOX");
 
-                        var uids = await inbox.SearchAsync("ALL");
+                        var uids = await mailbox.SearchAsync("ALL");
                         if (uids.Count > 0) {
-                            var envelopes = await inbox.FetchEnvelopesAsync(uids);
-                            Messages.AddRange(envelopes.Select(x => MessageContextFactory.Create(x, this)));
+                            var envelopes = await mailbox.FetchEnvelopesAsync(uids);
+                            Messages.AddRange(envelopes.Select(x => MessageContextFactory.Create(this, x, mailbox.Name)));
                         }
                     }
                 }
             }
         }
 
-        public ObservableCollection<ImapEnvelopeContext> Messages { get; set; }
+        public ObservableCollection<ImapMessageContext> Messages { get; set; }
     }
 }

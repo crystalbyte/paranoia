@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Cryptography {
     public abstract class NativeResource : IDisposable {
@@ -29,6 +33,7 @@ namespace Crystalbyte.Paranoia.Cryptography {
         protected virtual void DisposeManaged() {
             // Override
         }
+
         protected virtual void DisposeNative() {
             // Override
         }

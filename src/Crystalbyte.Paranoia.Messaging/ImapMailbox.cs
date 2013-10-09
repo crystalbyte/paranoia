@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -7,31 +9,52 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
+#endregion
+
 namespace Crystalbyte.Paranoia.Messaging {
-    public sealed class Mailbox {
-        private readonly ImapSession _session;
+    public sealed class ImapMailbox {
+        private readonly string _name;
         private readonly ImapConnection _connection;
         private readonly List<string> _permanentFlags;
         private readonly List<string> _flags;
 
-        public Mailbox(ImapSession session) {
-            _session = session;
+        public ImapMailbox(ImapSession session, string name) {
+            _name = name;
             _connection = session.Authenticator.Connection;
             _permanentFlags = new List<string>();
             _flags = new List<string>();
         }
 
         /// <summary>
-        /// The SEARCH command searches the mailbox for messages that match
-        /// the given searching criteria.  Searching criteria consist of one
-        /// or more search keys.
+        ///   The SEARCH command searches the mailbox for messages that match
+        ///   the given searching criteria.  Searching criteria consist of one
+        ///   or more search keys.
         /// </summary>
-        /// <param name = "criteria">The search criteria.</param>
-        /// <returns>The uids of messages matching the given criteria.</returns>
+        /// <param name="criteria"> The search criteria. </param>
+        /// <returns> The uids of messages matching the given criteria. </returns>
         public async Task<IList<int>> SearchAsync(string criteria) {
             var command = String.Format("UID SEARCH {0}", criteria);
             var id = await _connection.WriteCommandAsync(command);
             return await ReadSearchResponseAsync(id);
+        }
+
+        public async Task DeleteAsync(IEnumerable<long> uids) {
+            var command = string.Format(@"UID STORE {0} +FLAGS (\Deleted)", uids.ToCommaSeparatedValues());
+            var id = await _connection.WriteCommandAsync(command);
+            await ReadStoreResponseAsync(id);
+        }
+
+        public string Name {
+            get { return _name; }
+        }
+
+        private async Task ReadStoreResponseAsync(string id) {
+            while (true) {
+                var line = await _connection.ReadAsync();
+                if (line.TerminatesCommand(id)) {
+                    break;
+                }
+            }
         }
 
         private async Task<IList<int>> ReadSearchResponseAsync(string commandId) {
@@ -107,24 +130,24 @@ namespace Crystalbyte.Paranoia.Messaging {
             return Encoding.UTF7.GetString(bytes);
         }
 
-        public async Task<IEnumerable<Envelope>> FetchEnvelopesAsync(IEnumerable<int> uids) {
+        public async Task<IEnumerable<ImapEnvelope>> FetchEnvelopesAsync(IEnumerable<int> uids) {
             var command = string.Format("UID FETCH {0} ALL", uids
-                .Select(x => x.ToString(CultureInfo.InvariantCulture))
-                .Aggregate((c, n) => c + ',' + n));
+                                                                 .Select(x => x.ToString(CultureInfo.InvariantCulture))
+                                                                 .Aggregate((c, n) => c + ',' + n));
 
             var id = await _connection.WriteCommandAsync(command);
             return await ReadFetchEnvelopesResponseAsync(id);
         }
 
-        private async Task<IEnumerable<Envelope>> ReadFetchEnvelopesResponseAsync(string commandId) {
-            var envelopes = new List<Envelope>();
+        private async Task<IEnumerable<ImapEnvelope>> ReadFetchEnvelopesResponseAsync(string commandId) {
+            var envelopes = new List<ImapEnvelope>();
             // We currently only support single line responses.
             while (true) {
                 var line = await _connection.ReadAsync();
                 if (line.TerminatesCommand(commandId)) {
                     break;
                 }
-                envelopes.Add(Envelope.Parse(line.Text));
+                envelopes.Add(ImapEnvelope.Parse(line.Text));
             }
 
             return envelopes;
@@ -153,4 +176,3 @@ namespace Crystalbyte.Paranoia.Messaging {
         }
     }
 }
-

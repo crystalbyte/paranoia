@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region Using directives
+
 using Crystalbyte.Paranoia.Models;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Contexts {
     public sealed class SmtpAccountContext {

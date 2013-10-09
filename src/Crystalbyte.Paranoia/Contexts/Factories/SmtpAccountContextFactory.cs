@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Using directives
+
 using System.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Models;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Contexts.Factories {
     [Export, Shared]
     public sealed class SmtpAccountContextFactory {
-
         public SmtpAccountContext Create(SmtpAccount account) {
             return new SmtpAccountContext(account);
         }

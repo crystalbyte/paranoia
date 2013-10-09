@@ -1,7 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Using directives
+
+using System;
 using System.Text;
 using System.Threading.Tasks;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Messaging {
     public sealed class ImapAuthenticator : IDisposable {
@@ -19,7 +22,7 @@ namespace Crystalbyte.Paranoia.Messaging {
             if (!_connection.Capabilities.Contains("AUTH=PLAIN")) {
                 throw new NotSupportedException("Other mechanics than PLAIN are currently not supported.");
             }
-            
+
             await AuthPlainAsync(username, password);
             return new ImapSession(this);
         }
@@ -39,7 +42,8 @@ namespace Crystalbyte.Paranoia.Messaging {
                 var command = string.Format("AUTHENTICATE PLAIN {0}", hash);
                 commandId = await _connection.WriteCommandAsync(command);
                 line = await _connection.ReadAsync();
-            } else {
+            }
+            else {
                 var command = string.Format("AUTHENTICATE PLAIN");
                 commandId = await _connection.WriteCommandAsync(command);
                 var response = await _connection.ReadAsync();

@@ -59,6 +59,7 @@
                                         </Border>
                                         <Button Command="{Binding ComposeMessageCommand}" Style="{StaticResource ComposeMessageButtonStyle}" />
                                         <Button Command="{Binding SyncCommand}" Style="{StaticResource SyncButtonStyle}" />
+                                        <Button Command="{Binding DeleteMessageCommand}" Style="{StaticResource DeleteButtonStyle}" />
                                     </StackPanel>
                                 </Grid>
                                 <ContentPresenter />
@@ -114,9 +115,12 @@
                               BorderThickness="0"
                               ItemsSource="{Binding Messages}"
                               SelectionChanged="OnMessagesSelectionChanged">
+                        <ListView.InputBindings>
+                            <KeyBinding Key="Delete" Command="{Binding DeleteMessageCommand}" />
+                        </ListView.InputBindings>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Border Padding="3" d:DataContext="{d:DesignInstance {x:Type contexts:ImapEnvelopeContext}}">
+                                <Border Padding="3" d:DataContext="{d:DesignInstance {x:Type contexts:ImapMessageContext}}">
                                     <TextBlock Foreground="{StaticResource LightTextBrush}" Text="{Binding Subject}" />
                                 </Border>
                             </DataTemplate>

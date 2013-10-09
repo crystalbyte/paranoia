@@ -1,4 +1,8 @@
-﻿using System.Diagnostics;
+﻿#region Using directives
+
+using System.Diagnostics;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Messaging {
     [DebuggerDisplay("Alias = {Alias}, Address = {Address}")]

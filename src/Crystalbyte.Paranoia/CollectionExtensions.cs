@@ -1,8 +1,9 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace Crystalbyte.Paranoia {
     public static class CollectionExtensions {
@@ -12,7 +13,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public static void AddRange<T>(this ICollection<T> target, IEnumerable<T> source ) {
+        public static void AddRange<T>(this ICollection<T> target, IEnumerable<T> source) {
             foreach (var item in source) {
                 target.Add(item);
             }

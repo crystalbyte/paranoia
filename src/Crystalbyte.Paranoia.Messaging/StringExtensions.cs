@@ -1,9 +1,19 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Messaging {
     internal static class StringExtensions {
+        public static string ToCommaSeparatedValues<T>(this IEnumerable<T> items) {
+            return items.Select(x => x.ToString()).Aggregate((c, n) => c + "," + n);
+        }
+
         public static bool ContainsIgnoreCase(this string text, string value) {
             return text.IndexOf(value, StringComparison.InvariantCultureIgnoreCase) > -1;
         }
@@ -13,9 +23,9 @@ namespace Crystalbyte.Paranoia.Messaging {
                 return string.Empty;
             }
 
-            return value.IndexOf("NIL", StringComparison.InvariantCultureIgnoreCase) > -1 
-                ? string.Empty 
-                : value;
+            return value.IndexOf("NIL", StringComparison.InvariantCultureIgnoreCase) > -1
+                       ? string.Empty
+                       : value;
         }
 
         public static bool IsNumeric(this string value) {
@@ -24,7 +34,7 @@ namespace Crystalbyte.Paranoia.Messaging {
         }
 
         public static string TrimQuotes(this string value) {
-            return value.Trim(new[] { '"' });
+            return value.Trim(new[] {'"'});
         }
 
         public static string RemoveComments(this string input) {
@@ -36,12 +46,12 @@ namespace Crystalbyte.Paranoia.Messaging {
         }
 
         public static string TrimAny(this string value, int count) {
-            var length = value.Length - count * 2;
+            var length = value.Length - count*2;
             return value.Substring(count, length);
         }
 
         public static string ToBlockText(this string text, int lineLength) {
-            var breaks = (text.Length / lineLength);
+            var breaks = (text.Length/lineLength);
             if (breaks == 0) {
                 return text;
             }

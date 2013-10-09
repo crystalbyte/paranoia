@@ -4,15 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Composition;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Commands;
 using Crystalbyte.Paranoia.Contexts.Factories;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Models;
-using System.Net;
-using System.IO;
-using System.Text;
 
 #endregion
 
@@ -34,6 +34,12 @@ namespace Crystalbyte.Paranoia.Contexts {
             if (handler != null)
                 handler(this, e);
         }
+
+        [Import]
+        public DeleteMessageCommand DeleteMessageCommand { get; set; }
+
+        [Import]
+        public ImapMessageSelectionSource ImapMessageSelectionSource { get; set; }
 
         [Import]
         public ImapAccountContextFactory ImapAccountContextFactory { get; set; }
@@ -79,29 +85,32 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
-            var imap = new ImapAccount {
-                Host = "imap.gmail.com",
-                Port = 993,
-                Username = "paranoia.app@gmail.com",
-                Password = "p4r4n014"
-            };
+            var imap = new ImapAccount
+                           {
+                               Host = "imap.gmail.com",
+                               Port = 993,
+                               Username = "paranoia.app@gmail.com",
+                               Password = "p4r4n014"
+                           };
 
-            ImapAccounts.Add(ImapAccountContextFactory.Create(imap));
+            var account = ImapAccountContextFactory.Create(imap);
+            ImapAccounts.Add(account);
 
-            var smtp = new SmtpAccount {
-                Host = "smtp.gmail.com",
-                Port = 587,
-                Username = "paranoia.app@gmail.com",
-                Password = "p4r4n014"
-            };
+            var smtp = new SmtpAccount
+                           {
+                               Host = "smtp.gmail.com",
+                               Port = 587,
+                               Username = "paranoia.app@gmail.com",
+                               Password = "p4r4n014"
+                           };
 
             SmtpAccounts.Add(SmtpAccountContextFactory.Create(smtp));
         }
 
-        public IEnumerable<ImapEnvelopeContext> Messages {
+        public IEnumerable<ImapMessageContext> Messages {
             get { return ImapAccounts.SelectMany(x => x.Messages); }
         }
-
+        
         public async Task SyncAsync() {
             IsSyncing = true;
 
@@ -116,22 +125,22 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         /// <summary>
-        /// The initial seed for the PRNG is fetched via random.org (http://www.random.org/clients/http/).
+        ///   The initial seed for the PRNG is fetched via random.org (http://www.random.org/clients/http/).
         /// </summary>
-        /// <returns>The task state object.</returns>
+        /// <returns> The task state object. </returns>
         public async Task SeedAsync() {
-
             var url =
                 string.Format(
-                    "http://www.random.org/integers/?num={0}&min=0&max=999999999&col=1&base=10&format=plain&rnd=new", 1024);
+                    "http://www.random.org/integers/?num={0}&min=0&max=999999999&col=1&base=10&format=plain&rnd=new",
+                    1024);
 
             using (var client = new WebClient()) {
                 var stream = await client.OpenReadTaskAsync(url);
                 using (var reader = new StreamReader(stream)) {
                     var text = await reader.ReadToEndAsync();
                     var bytes = Encoding.UTF8.GetBytes(text.Replace("\n", string.Empty));
-                    RandGenerator.Seed(bytes, bytes.Length);
-                }    
+                    OpenSslRandom.Seed(bytes, bytes.Length);
+                }
             }
         }
     }

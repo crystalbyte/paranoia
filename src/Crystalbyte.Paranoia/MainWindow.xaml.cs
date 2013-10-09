@@ -1,6 +1,5 @@
-﻿using Crystalbyte.Paranoia.Contexts;
-using Crystalbyte.Paranoia.Cryptography;
-using Crystalbyte.Paranoia.Messaging.Mime;
+﻿#region Using directives
+
 using System;
 using System.IO;
 using System.Linq;
@@ -8,10 +7,15 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using Crystalbyte.Paranoia.Contexts;
+using Crystalbyte.Paranoia.Cryptography;
+using Crystalbyte.Paranoia.Messaging.Mime;
+
+#endregion
 
 namespace Crystalbyte.Paranoia {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///   Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow {
         private HwndSource _source;
@@ -24,18 +28,22 @@ namespace Crystalbyte.Paranoia {
 
             // We need to set the height for the window to stay ontop the Taskbar
             MaxHeight = SystemParameters.WorkArea.Height
-                + SystemParameters.WindowResizeBorderThickness.Top
-                + SystemParameters.WindowResizeBorderThickness.Bottom;
+                        + SystemParameters.WindowResizeBorderThickness.Top
+                        + SystemParameters.WindowResizeBorderThickness.Bottom;
+        }
+
+        public ImapMessageSelectionSource ImapMessageSelectionSource {
+            get { return App.AppContext.ImapMessageSelectionSource; }
         }
 
         public bool IsNormalState {
-            get { return (bool)GetValue(IsNormalStateProperty); }
+            get { return (bool) GetValue(IsNormalStateProperty); }
             set { SetValue(IsNormalStateProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for IsNormalState.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsNormalStateProperty =
-            DependencyProperty.Register("IsNormalState", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
+            DependencyProperty.Register("IsNormalState", typeof (bool), typeof (MainWindow), new PropertyMetadata(true));
 
         protected override void OnStateChanged(EventArgs e) {
             base.OnStateChanged(e);
@@ -65,24 +73,33 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
-            if (!RandGenerator.IsSeededSufficiently) {
-                RandGenerator.SeedWithEvents(msg, wParam, lParam);
+            if (!OpenSslRandom.IsSeededSufficiently) {
+                OpenSslRandom.AddEntropyFromEvents(msg, wParam, lParam);
             }
             return IntPtr.Zero;
         }
 
         private async void OnMessagesSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var context = e.AddedItems.OfType<ImapEnvelopeContext>().FirstOrDefault();
-            if (context == null)
+            var list = (ListView) sender;
+            var messages = list.SelectedItems.OfType<ImapMessageContext>().ToList();
+            if (messages.Count == 0) {
+                return;
+            }
+
+            ImapMessageSelectionSource.ChangeSelection(messages);
+
+            var first = e.AddedItems.OfType<ImapMessageContext>().FirstOrDefault();
+            if (first == null)
                 return;
 
-            var mime = await context.FetchMessageBodyAsync();
+            var mime = await first.FetchMessageBodyAsync();
             using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(mime))) {
                 var message = Message.Load(stream);
                 var html = message.FindFirstHtmlVersion();
                 if (html != null) {
                     App.AppContext.MessageBody = html.GetBodyAsText();
-                } else {
+                }
+                else {
                     var plain = message.FindFirstPlainTextVersion();
                     if (plain != null) {
                         App.AppContext.MessageBody = plain.GetBodyAsText();
@@ -98,11 +115,15 @@ namespace Crystalbyte.Paranoia {
         private void UpdateWindowPadding() {
             if (WindowState == WindowState.Normal) {
                 Padding = new Thickness(0);
-            } else {
+            }
+            else {
                 Padding = new Thickness(
-                    SystemParameters.WindowResizeBorderThickness.Left + SystemParameters.WindowNonClientFrameThickness.Left,
-                    SystemParameters.WindowResizeBorderThickness.Top + SystemParameters.WindowNonClientFrameThickness.Top - SystemParameters.CaptionHeight,
-                    SystemParameters.WindowResizeBorderThickness.Right + SystemParameters.WindowNonClientFrameThickness.Right, 0);
+                    SystemParameters.WindowResizeBorderThickness.Left +
+                    SystemParameters.WindowNonClientFrameThickness.Left,
+                    SystemParameters.WindowResizeBorderThickness.Top +
+                    SystemParameters.WindowNonClientFrameThickness.Top - SystemParameters.CaptionHeight,
+                    SystemParameters.WindowResizeBorderThickness.Right +
+                    SystemParameters.WindowNonClientFrameThickness.Right, 0);
             }
         }
 
@@ -113,7 +134,8 @@ namespace Crystalbyte.Paranoia {
         private void ToggleWindowState() {
             if (WindowState == WindowState.Normal) {
                 MaximizeWindow();
-            } else {
+            }
+            else {
                 NormalizeWindow();
             }
         }

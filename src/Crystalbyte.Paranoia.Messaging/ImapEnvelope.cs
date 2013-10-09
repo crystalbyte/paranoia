@@ -1,14 +1,16 @@
+#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Messaging {
     [DebuggerDisplay("Subject = {Subject}")]
-    public sealed class Envelope {
-
+    public sealed class ImapEnvelope {
         private readonly List<string> _flags;
         private readonly List<MailContact> _sender;
         private readonly List<MailContact> _from;
@@ -17,16 +19,16 @@ namespace Crystalbyte.Paranoia.Messaging {
         private readonly List<MailContact> _bcc;
         private readonly List<MailContact> _replyTo;
 
-        const string FetchPattern = "(RFC822.SIZE [0-9]+)|((INTERNALDATE \".+?\"))|(FLAGS \\(.*?\\))|UID \\d+";
+        private const string FetchPattern = "(RFC822.SIZE [0-9]+)|((INTERNALDATE \".+?\"))|(FLAGS \\(.*?\\))|UID \\d+";
         private static readonly Regex FetchRegex = new Regex(FetchPattern, RegexOptions.IgnoreCase);
 
-        const string EnvelopePattern = "\\(\\(.+?\\)\\)|NIL|\"\"|<.+?>|\".+?\"";
+        private const string EnvelopePattern = "\\(\\(.+?\\)\\)|NIL|\"\"|<.+?>|\".+?\"";
         private static readonly Regex EnvelopeRegex = new Regex(EnvelopePattern, RegexOptions.IgnoreCase);
 
-        const string DatePattern = @"\d{2}-\w{3}-\d{4} \d{2}:\d{2}:\d{2} (\+|\-)\d{4}";
+        private const string DatePattern = @"\d{2}-\w{3}-\d{4} \d{2}:\d{2}:\d{2} (\+|\-)\d{4}";
         private static readonly Regex DateRegex = new Regex(DatePattern, RegexOptions.IgnoreCase);
 
-        public Envelope() {
+        public ImapEnvelope() {
             _flags = new List<string>();
             _from = new List<MailContact>();
             _to = new List<MailContact>();
@@ -63,8 +65,8 @@ namespace Crystalbyte.Paranoia.Messaging {
             get { return _flags; }
         }
 
-        public static Envelope Parse(string text) {
-            var envelope = new Envelope();
+        public static ImapEnvelope Parse(string text) {
+            var envelope = new ImapEnvelope();
             var matches = FetchRegex.Matches(text);
             foreach (Match match in matches) {
                 if (match.Value.StartsWith("RFC822.SIZE", StringComparison.InvariantCultureIgnoreCase)) {
@@ -108,10 +110,11 @@ namespace Crystalbyte.Paranoia.Messaging {
             var contacts = Regex.Matches(trimmed, @"\(.+?\)");
             foreach (var items in from Match contact in contacts select Regex.Matches(contact.Value, "\".+?\"|NIL")) {
                 Debug.Assert(items.Count == 4);
-                yield return new MailContact {
-                    Alias = items[0].Value,
-                    Address = string.Format("{0}@{1}", items[2].Value, items[3].Value)
-                };
+                yield return new MailContact
+                                 {
+                                     Alias = items[0].Value,
+                                     Address = string.Format("{0}@{1}", items[2].Value, items[3].Value)
+                                 };
             }
         }
 
