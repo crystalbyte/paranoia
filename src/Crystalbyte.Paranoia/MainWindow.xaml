@@ -88,12 +88,12 @@
                                     Margin="8,0,0,0"
                                     Orientation="Horizontal">
                             <TextBlock VerticalAlignment="Center"
-                                       Style="{StaticResource NormalTextStyle}"
+                                       Style="{StaticResource AppNormalTextStyle}"
                                        Text="Syncing ..."
                                        Visibility="{Binding IsSyncing,
                                                             Converter={StaticResource BooleanToVisibilityConverter}}" />
                             <TextBlock VerticalAlignment="Center"
-                                       Style="{StaticResource NormalTextStyle}"
+                                       Style="{StaticResource AppNormalTextStyle}"
                                        Text="Ready"
                                        Visibility="{Binding IsSyncing,
                                                             ConverterParameter=!,

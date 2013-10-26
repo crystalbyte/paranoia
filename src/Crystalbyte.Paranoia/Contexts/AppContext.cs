@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Commands;
 using Crystalbyte.Paranoia.Contexts.Factories;
 using Crystalbyte.Paranoia.Cryptography;
+using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Models;
 
 #endregion
@@ -49,6 +50,9 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         [Import]
         public ComposeMessageCommand ComposeMessageCommand { get; set; }
+
+        [Import]
+        public Storage Storage { get; set; }
 
         [Import]
         public SyncCommand SyncCommand { get; set; }
@@ -142,6 +146,10 @@ namespace Crystalbyte.Paranoia.Contexts {
                     OpenSslRandom.Seed(bytes, bytes.Length);
                 }
             }
+        }
+
+        public async Task RunAsync() {
+            await Storage.InitAsync();
         }
     }
 }

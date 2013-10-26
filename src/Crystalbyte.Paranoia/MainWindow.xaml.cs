@@ -87,7 +87,6 @@ namespace Crystalbyte.Paranoia {
             }
 
             ImapMessageSelectionSource.ChangeSelection(messages);
-
             var first = e.AddedItems.OfType<ImapMessageContext>().FirstOrDefault();
             if (first == null)
                 return;
@@ -98,8 +97,7 @@ namespace Crystalbyte.Paranoia {
                 var html = message.FindFirstHtmlVersion();
                 if (html != null) {
                     App.AppContext.MessageBody = html.GetBodyAsText();
-                }
-                else {
+                } else {
                     var plain = message.FindFirstPlainTextVersion();
                     if (plain != null) {
                         App.AppContext.MessageBody = plain.GetBodyAsText();

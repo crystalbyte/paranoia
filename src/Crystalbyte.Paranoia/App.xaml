@@ -1,6 +1,7 @@
 ﻿<Application x:Class="Crystalbyte.Paranoia.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Converters"
              xmlns:input="System.Windows.Input"
              StartupUri="MainWindow.xaml">
@@ -12,14 +13,24 @@
         <SolidColorBrush x:Key="LightTextBrush" Color="WhiteSmoke" />
         <SolidColorBrush x:Key="DarkTextBrush" Color="#2D2D30" />
         <SolidColorBrush x:Key="AppMenuButtonMouseOverBrush" Color="#3E3E40" />
+        <System:Double x:Key="AppLargeFontSize">20</System:Double>
+        <System:Double x:Key="AppMediumFontSize">16</System:Double>
+        <System:Double x:Key="AppNormalFontSize">12</System:Double>
+
         <Color x:Key="AppAccentColor"
                A="255"
                B="204"
                G="122"
                R="0" />
         <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccentColor}" />
-        <Style x:Key="NormalTextStyle" TargetType="TextBlock">
+        <Style x:Key="AppNormalTextStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI" />
             <Setter Property="Foreground" Value="{StaticResource LightTextBrush}" />
+        </Style>
+        <Style x:Key="AppLightTextStyle"
+               BasedOn="{StaticResource AppNormalTextStyle}"
+               TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Light" />
         </Style>
         <Style x:Key="AppButtonStyle" TargetType="ButtonBase">
             <Style.Triggers>
@@ -143,6 +154,14 @@
                            Stretch="Fill" />
                 </Setter.Value>
             </Setter>
+        </Style>
+        <Style x:Key="AccentTextBoxStyle" TargetType="TextBox">
+            <Setter Property="BorderBrush" Value="{StaticResource AppAccentBrush}" />
+            <Setter Property="Background" Value="{StaticResource AppControlBrush}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{StaticResource LightTextBrush}" />
+            <Setter Property="Padding" Value="3" />
+            <Setter Property="Margin" Value="0,3,0,3" />
         </Style>
     </Application.Resources>
 </Application>

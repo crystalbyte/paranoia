@@ -12,6 +12,7 @@ namespace Crystalbyte.Paranoia {
     ///   Interaction logic for App.xaml
     /// </summary>
     public partial class App {
+
         [Import]
         public static AppContext AppContext { get; set; }
 
@@ -19,6 +20,7 @@ namespace Crystalbyte.Paranoia {
             base.OnStartup(e);
 
             Compose();
+            AppContext.RunAsync();
         }
 
         private void Compose() {
