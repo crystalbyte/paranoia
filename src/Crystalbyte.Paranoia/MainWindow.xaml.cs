@@ -53,8 +53,6 @@ namespace Crystalbyte.Paranoia {
 
         private async void OnLoaded(object sender, RoutedEventArgs e) {
             try {
-                await App.AppContext.SeedAsync();
-                await App.AppContext.SyncAsync();
                 HookEntropyGenerator();
             }
             catch (Exception) {

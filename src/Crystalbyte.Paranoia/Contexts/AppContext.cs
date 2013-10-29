@@ -149,6 +149,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         public async Task RunAsync() {
+            await SeedAsync();
             await LocalStorage.InitAsync();
         }
     }
