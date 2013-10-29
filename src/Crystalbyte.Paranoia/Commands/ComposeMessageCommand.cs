@@ -18,7 +18,7 @@ namespace Crystalbyte.Paranoia.Commands {
         public AppContext AppContext { get; set; }
 
         #region Implementation of ICommand
-
+         
         public bool CanExecute(object parameter) {
             return true;
         }

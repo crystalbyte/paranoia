@@ -10,7 +10,7 @@ using System.Windows;
 namespace Crystalbyte.Paranoia.Data {
 
     [Export, Shared]
-    public sealed class Storage {
+    public sealed class LocalStorage {
 
         private const string AppDataDirectory = "Paranoia";
         private const string DatabaseFilename = "Storage.sdf";

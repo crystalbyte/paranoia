@@ -52,7 +52,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         public ComposeMessageCommand ComposeMessageCommand { get; set; }
 
         [Import]
-        public Storage Storage { get; set; }
+        public LocalStorage LocalStorage { get; set; }
 
         [Import]
         public SyncCommand SyncCommand { get; set; }
@@ -149,7 +149,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         public async Task RunAsync() {
-            await Storage.InitAsync();
+            await LocalStorage.InitAsync();
         }
     }
 }
