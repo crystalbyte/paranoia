@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StorageModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="StorageModelStoreContainer">
+          <EntitySet Name="Identities" EntityType="StorageModel.Store.Identities" store:Type="Tables" />
+          <EntitySet Name="ImapAccounts" EntityType="StorageModel.Store.ImapAccounts" store:Type="Tables" store:Name="ImapAccounts">
+            <DefiningQuery>SELECT 
+            [ImapAccounts].[Id] AS [Id], 
+            [ImapAccounts].[Host] AS [Host], 
+            [ImapAccounts].[Port] AS [Port], 
+            [ImapAccounts].[Username] AS [Username], 
+            [ImapAccounts].[Password] AS [Password], 
+            [ImapAccounts].[Name] AS [Name], 
+            [ImapAccounts].[Security] AS [Security]
+            FROM [ImapAccounts] AS [ImapAccounts]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SmtpAccounts" EntityType="StorageModel.Store.SmtpAccounts" store:Type="Tables" store:Name="SmtpAccounts">
+            <DefiningQuery>SELECT 
+            [SmtpAccounts].[Id] AS [Id], 
+            [SmtpAccounts].[Host] AS [Host], 
+            [SmtpAccounts].[Port] AS [Port], 
+            [SmtpAccounts].[Username] AS [Username], 
+            [SmtpAccounts].[Password] AS [Password], 
+            [SmtpAccounts].[Name] AS [Name], 
+            [SmtpAccounts].[Security] AS [Security]
+            FROM [SmtpAccounts] AS [SmtpAccounts]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+        <EntityType Name="Identities">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
+          <Property Name="PublicKey" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="PrivateKey" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="EmailAddress" Type="nvarchar" Nullable="false" MaxLength="256" />
+        </EntityType>
+        <!--Errors Found During Generation:
+            warning 6002: The table/view 'ImapAccounts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+            -->
+        <EntityType Name="ImapAccounts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Host" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Port" Type="smallint" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Security" Type="smallint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+            warning 6002: The table/view 'SmtpAccounts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+            -->
+        <EntityType Name="SmtpAccounts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Host" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Port" Type="smallint" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Security" Type="smallint" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StorageModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Identities" EntityType="StorageModel.Identity" />
+          <EntitySet Name="ImapAccounts" EntityType="StorageModel.ImapAccount" />
+          <EntitySet Name="SmtpAccounts" EntityType="StorageModel.SmtpAccount" />
+        </EntityContainer>
+        <EntityType Name="Identity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="PublicKey" Type="String" Nullable="false" MaxLength="512" Unicode="true" FixedLength="false" />
+          <Property Name="PrivateKey" Type="String" Nullable="false" MaxLength="512" Unicode="true" FixedLength="false" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="ImapAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Host" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="Port" Type="Int16" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="Security" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SmtpAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Host" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="Port" Type="Int16" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="Security" Type="Int16" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StorageModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Identities">
+            <EntityTypeMapping TypeName="StorageModel.Identity">
+              <MappingFragment StoreEntitySet="Identities">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PublicKey" ColumnName="PublicKey" />
+                <ScalarProperty Name="PrivateKey" ColumnName="PrivateKey" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImapAccounts">
+            <EntityTypeMapping TypeName="StorageModel.ImapAccount">
+              <MappingFragment StoreEntitySet="ImapAccounts">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Host" ColumnName="Host" />
+                <ScalarProperty Name="Port" ColumnName="Port" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Security" ColumnName="Security" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SmtpAccounts">
+            <EntityTypeMapping TypeName="StorageModel.SmtpAccount">
+              <MappingFragment StoreEntitySet="SmtpAccounts">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Host" ColumnName="Host" />
+                <ScalarProperty Name="Port" ColumnName="Port" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Security" ColumnName="Security" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

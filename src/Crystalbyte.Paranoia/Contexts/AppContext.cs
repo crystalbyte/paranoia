@@ -89,26 +89,26 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
-            var imap = new ImapAccount
-                           {
-                               Host = "imap.gmail.com",
-                               Port = 993,
-                               Username = "paranoia.app@gmail.com",
-                               Password = "p4r4n014"
-                           };
+            //var imap = new ImapAccount
+            //               {
+            //                   Host = "imap.gmail.com",
+            //                   Port = 993,
+            //                   Username = "paranoia.app@gmail.com",
+            //                   Password = "p4r4n014"
+            //               };
 
-            var account = ImapAccountContextFactory.Create(imap);
-            ImapAccounts.Add(account);
+            //var account = ImapAccountContextFactory.Create(imap);
+            //ImapAccounts.Add(account);
 
-            var smtp = new SmtpAccount
-                           {
-                               Host = "smtp.gmail.com",
-                               Port = 587,
-                               Username = "paranoia.app@gmail.com",
-                               Password = "p4r4n014"
-                           };
+            //var smtp = new SmtpAccount
+            //               {
+            //                   Host = "smtp.gmail.com",
+            //                   Port = 587,
+            //                   Username = "paranoia.app@gmail.com",
+            //                   Password = "p4r4n014"
+            //               };
 
-            SmtpAccounts.Add(SmtpAccountContextFactory.Create(smtp));
+            //SmtpAccounts.Add(SmtpAccountContextFactory.Create(smtp));
         }
 
         public IEnumerable<ImapMessageContext> Messages {
@@ -149,6 +149,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         public async Task RunAsync() {
+            await SeedAsync();
             await LocalStorage.InitAsync();
         }
     }

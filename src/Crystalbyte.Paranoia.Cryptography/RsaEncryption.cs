@@ -17,10 +17,6 @@ namespace Crystalbyte.Paranoia.Cryptography {
             _handle = NativeMethods.RsaNew();
         }
 
-        //public byte[] GenerateKey() {
-        //    //var rsa = Marshal.AllocHGlobal()       
-        //}
-
         protected override void DisposeNative() {
             base.DisposeNative();
 
