@@ -25,7 +25,7 @@ namespace Crystalbyte.Paranoia.Commands {
         }
 
         public async void Execute(object parameter) {
-            await AppContext.SyncAsync();
+            AppContext.SyncAsync();
         }
 
         public event EventHandler CanExecuteChanged;

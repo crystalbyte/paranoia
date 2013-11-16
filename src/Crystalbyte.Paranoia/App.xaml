@@ -13,10 +13,10 @@
         <SolidColorBrush x:Key="LightTextBrush" Color="WhiteSmoke" />
         <SolidColorBrush x:Key="DarkTextBrush" Color="#2D2D30" />
         <SolidColorBrush x:Key="AppMenuButtonMouseOverBrush" Color="#3E3E40" />
+        <System:Double x:Key="AppLargeExtraFontSize">24</System:Double>
         <System:Double x:Key="AppLargeFontSize">20</System:Double>
         <System:Double x:Key="AppMediumFontSize">16</System:Double>
         <System:Double x:Key="AppNormalFontSize">12</System:Double>
-
         <Color x:Key="AppAccentColor"
                A="255"
                B="204"
@@ -154,6 +154,11 @@
                            Stretch="Fill" />
                 </Setter.Value>
             </Setter>
+        </Style>
+        <Style x:Key="AppTitleTextStyle"
+               BasedOn="{StaticResource AppLightTextStyle}"
+               TargetType="TextBlock">
+            <Setter Property="FontSize" Value="{StaticResource AppLargeExtraFontSize}" />
         </Style>
         <Style x:Key="AccentTextBoxStyle" TargetType="TextBox">
             <Setter Property="BorderBrush" Value="{StaticResource AppAccentBrush}" />

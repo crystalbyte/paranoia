@@ -38,13 +38,13 @@ namespace Crystalbyte.Paranoia.Commands {
 
             message.Body = "This is a communication request.";
 
-            var account = AppContext.SmtpAccounts.First();
-            using (var session = new SmtpSession(account.Host, account.Port,
-                                                 new SmtpCredentials
-                                                     {Username = account.Username, Password = account.Password})) {
-                session.IsSslEnabled = true;
-                await session.SendAsync(message);
-            }
+            //var account = AppContext.SmtpAccounts.First();
+            //using (var session = new SmtpSession(account.Host, account.Port,
+            //                                     new SmtpCredentials
+            //                                         {Username = account.Username, Password = account.Password})) {
+            //    session.IsSslEnabled = true;
+            //    await session.SendAsync(message);
+            //}
         }
 
         public event EventHandler CanExecuteChanged;

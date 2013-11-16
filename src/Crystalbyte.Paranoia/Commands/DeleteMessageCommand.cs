@@ -54,7 +54,7 @@ namespace Crystalbyte.Paranoia.Commands {
                 }
             }
 
-            await AppContext.SyncAsync();
+            AppContext.SyncAsync();
         }
 
         public event EventHandler CanExecuteChanged;

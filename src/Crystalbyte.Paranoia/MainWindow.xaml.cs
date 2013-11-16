@@ -32,10 +32,6 @@ namespace Crystalbyte.Paranoia {
                         + SystemParameters.WindowResizeBorderThickness.Bottom;
         }
 
-        public ImapMessageSelectionSource ImapMessageSelectionSource {
-            get { return App.AppContext.ImapMessageSelectionSource; }
-        }
-
         public bool IsNormalState {
             get { return (bool) GetValue(IsNormalStateProperty); }
             set { SetValue(IsNormalStateProperty, value); }
@@ -84,24 +80,25 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            ImapMessageSelectionSource.ChangeSelection(messages);
+            //ImapMessageSelectionSource.ChangeSelection(messages);
             var first = e.AddedItems.OfType<ImapMessageContext>().FirstOrDefault();
             if (first == null)
                 return;
 
-            var mime = await first.FetchMessageBodyAsync();
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(mime))) {
-                var message = Message.Load(stream);
-                var html = message.FindFirstHtmlVersion();
-                if (html != null) {
-                    App.AppContext.MessageBody = html.GetBodyAsText();
-                } else {
-                    var plain = message.FindFirstPlainTextVersion();
-                    if (plain != null) {
-                        App.AppContext.MessageBody = plain.GetBodyAsText();
-                    }
-                }
-            }
+            first.ReadAsync();
+            //var mime = await first.FetchContentAsync();
+            //using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(mime))) {
+            //    var message = Message.Load(stream);
+            //    var html = message.FindFirstHtmlVersion();
+            //    if (html != null) {
+            //        App.AppContext.MessageBody = html.GetBodyAsText();
+            //    } else {
+            //        var plain = message.FindFirstPlainTextVersion();
+            //        if (plain != null) {
+            //            App.AppContext.MessageBody = plain.GetBodyAsText();
+            //        }
+            //    }
+            //}
         }
 
         private void OnCloseButtonClicked(object sender, RoutedEventArgs e) {

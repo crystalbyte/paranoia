@@ -34,32 +34,41 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="Create Identity" FontSize="{StaticResource AppLargeFontSize}" Style="{StaticResource }" />
-                <Image Grid.Row="0"
+                <TextBlock Grid.Row="0"
+                           Grid.ColumnSpan="2"
+                           Margin="0,0,0,20"
+                           Style="{StaticResource AppTitleTextStyle}">
+                    <Run>Create Identity</Run>
+                    <LineBreak />
+                    <Run FontSize="{StaticResource AppNormalFontSize}">In order to get you started, it is required to create a unique identity.</Run>
+                </TextBlock>
+                <Image Grid.Row="1"
                        Grid.RowSpan="2"
                        Grid.Column="0"
                        Width="128"
                        Height="128"
-                       Margin="3,0,6,3" />
-                <TextBlock Grid.Column="1"
+                       Margin="0,0,20,0" />
+                <TextBlock Grid.Row="1"
+                           Grid.Column="1"
                            FontSize="{StaticResource AppLargeFontSize}"
                            Style="{StaticResource AppLightTextStyle}"
                            TextWrapping="Wrap">
                     <Run>Public</Run>
                     <LineBreak /><Run FontSize="{StaticResource AppNormalFontSize}">These properties are public and will be visible to the people you communicate with.</Run>
                 </TextBlock>
-                <StackPanel Grid.Row="1" Grid.Column="1">
+                <StackPanel Grid.Row="2" Grid.Column="1">
                     <TextBox x:Name="AliasTextBox"
                              Style="{StaticResource AccentTextBoxStyle}"
                              Text="Alias" />
-                    <TextBox Grid.Row="2"
+                    <TextBox Grid.Row="3"
                              Grid.Column="1"
                              VerticalAlignment="Top"
                              Style="{StaticResource AccentTextBoxStyle}"
                              Text="MailAddress" />
                 </StackPanel>
-                <TextBlock Grid.Row="2"
+                <TextBlock Grid.Row="4"
                            Grid.Column="1"
                            FontSize="{StaticResource AppLargeFontSize}"
                            Foreground="{StaticResource AppAccentBrush}"
@@ -68,7 +77,7 @@
                     <Run>Private</Run>
                     <LineBreak /><Run FontSize="{StaticResource AppNormalFontSize}" Foreground="{StaticResource LightTextBrush}">The following properties are private and will be only visible to you.</Run>
                 </TextBlock>
-                <TextBox Grid.Row="3"
+                <TextBox Grid.Row="5"
                          Grid.Column="1"
                          Style="{StaticResource AccentTextBoxStyle}"
                          Text="Notes" />

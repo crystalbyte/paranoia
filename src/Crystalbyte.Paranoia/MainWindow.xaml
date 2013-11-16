@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:contexts="clr-namespace:Crystalbyte.Paranoia.Contexts"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:Crystalbyte.Paranoia"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
         Title="Paranoia"
         Width="1280"
         Height="768"
@@ -57,9 +57,9 @@
                                                        Foreground="{StaticResource AppAccentBrush}"
                                                        Text="p4r4n014" />
                                         </Border>
-                                        <Button Command="{Binding ComposeMessageCommand}" Style="{StaticResource ComposeMessageButtonStyle}" />
-                                        <Button Command="{Binding SyncCommand}" Style="{StaticResource SyncButtonStyle}" />
-                                        <Button Command="{Binding DeleteMessageCommand}" Style="{StaticResource DeleteButtonStyle}" />
+                                        <Button Style="{StaticResource ComposeMessageButtonStyle}" />
+                                        <Button Style="{StaticResource SyncButtonStyle}" />
+                                        <Button Style="{StaticResource DeleteButtonStyle}" />
                                     </StackPanel>
                                 </Grid>
                                 <ContentPresenter />
@@ -70,14 +70,9 @@
             </Setter>
         </Style>
     </Window.Style>
-
     <Window.InputBindings>
-        <KeyBinding Key="N"
-                    Command="{Binding ComposeMessageCommand}"
-                    Modifiers="Control" />
-        <KeyBinding Key="R"
-                    Command="{Binding SyncCommand}"
-                    Modifiers="Control" />
+        <KeyBinding Key="N" Modifiers="Control" />
+        <KeyBinding Key="R" Modifiers="Control" />
     </Window.InputBindings>
     <Grid>
         <Border Background="{StaticResource WindowBackgroundBrush}">
@@ -109,26 +104,8 @@
                                     WindowChrome.ResizeGripDirection="BottomRight" />
                     </Grid>
                 </Border>
-                <Border DockPanel.Dock="Left">
-                    <ListView MinWidth="300"
-                              Background="Transparent"
-                              BorderThickness="0"
-                              ItemsSource="{Binding Messages}"
-                              SelectionChanged="OnMessagesSelectionChanged">
-                        <ListView.InputBindings>
-                            <KeyBinding Key="Delete" Command="{Binding DeleteMessageCommand}" />
-                        </ListView.InputBindings>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Border Padding="3" d:DataContext="{d:DesignInstance {x:Type contexts:ImapMessageContext}}">
-                                    <TextBlock Foreground="{StaticResource LightTextBrush}" Text="{Binding Subject}" />
-                                </Border>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Border>
-                <Border BorderBrush="{StaticResource WindowBackgroundBrush}" BorderThickness="1,0,0,0">
-                    <WebBrowser local:WebBrowserExtentions.Document="{Binding MessageBody}" />
+                <Border>
+                    <ui:Stage ItemsSource="{Binding Elements, Mode=OneTime}" />
                 </Border>
             </DockPanel>
         </Border>

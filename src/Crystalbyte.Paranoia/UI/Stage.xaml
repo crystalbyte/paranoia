@@ -1,0 +1,44 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:behaviors="clr-namespace:Crystalbyte.Paranoia.Behaviors"
+                    xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
+
+    <Style TargetType="ui:Stage">
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ui:Stage">
+                    <Border HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                        <Border.RenderTransform>
+                            <ScaleTransform CenterX="{Binding MouseX,
+                                                              Mode=TwoWay,
+                                                              RelativeSource={RelativeSource TemplatedParent}}"
+                                            CenterY="{Binding MouseY,
+                                                              Mode=TwoWay,
+                                                              RelativeSource={RelativeSource TemplatedParent}}"
+                                            ScaleX="{Binding Zoom,
+                                                             Mode=TwoWay,
+                                                             RelativeSource={RelativeSource TemplatedParent}}"
+                                            ScaleY="{Binding Zoom,
+                                                             Mode=TwoWay,
+                                                             RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Border.RenderTransform>
+                        <ScrollViewer HorizontalScrollBarVisibility="Visible"
+                                      VerticalScrollBarVisibility="Disabled"
+                                      behaviors:ScrollByTouchBehavior.IsEnabled="True">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

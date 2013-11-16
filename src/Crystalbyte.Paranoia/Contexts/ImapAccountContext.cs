@@ -18,6 +18,10 @@ namespace Crystalbyte.Paranoia.Contexts {
             Messages = new ObservableCollection<ImapMessageContext>();
         }
 
+        public SecurityPolicies Security {
+            get { return (SecurityPolicies)_account.Security; }
+        }
+
         public string Host {
             get { return _account.Host; }
         }
