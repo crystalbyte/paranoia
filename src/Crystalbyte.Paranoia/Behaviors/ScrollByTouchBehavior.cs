@@ -15,11 +15,8 @@ namespace Crystalbyte.Paranoia.Behaviors {
     /// </summary>
     public sealed class ScrollByTouchBehavior : DependencyObject {
 
-        public static double HorizontalFriction = 3.0d;
-        public static double VerticalFriction = 3.0d;
-        public static double DeadZone = 8.0d;
-
         private static readonly Dictionary<object, MouseCapture> Captures = new Dictionary<object, MouseCapture>();
+
         private static readonly DispatcherTimer Timer = new DispatcherTimer(
             TimeSpan.FromMilliseconds(16), DispatcherPriority.Render, OnTimerElapsed, Dispatcher.CurrentDispatcher);
 
@@ -73,57 +70,14 @@ namespace Crystalbyte.Paranoia.Behaviors {
                 return;
 
             Captures[sender] = new MouseCapture {
-                IsReleased = true,
                 HorizontalOffset = target.HorizontalOffset,
                 VerticalOffset = target.VerticalOffset,
-                Velocity = new Point(),
                 Point = e.GetPosition(target),
-                LastPoint = e.GetPosition(target)
             };
         }
 
         private static void OnTimerElapsed(object sender, EventArgs e) {
             //Debug.WriteLine("Called OnTimerElapsed.");
-            ApplyFrictionToInertia();
-        }
-
-        private static void ApplyFrictionToInertia() {
-            var pairs = Captures.Where(x => x.Value.IsReleased).ToArray();
-            foreach (var pair in pairs) {
-                var target = (ScrollViewer)pair.Key;
-                var capture = pair.Value;
-
-                if (Math.Abs(capture.Velocity.X) < DeadZone) {
-                    capture.Velocity = new Point(0, capture.Velocity.Y);
-                }
-
-                if (Math.Abs(capture.Velocity.Y) < DeadZone) {
-                    capture.Velocity = new Point(capture.Velocity.X, 0);
-                }
-
-                if (Math.Abs(capture.Velocity.X) < double.Epsilon
-                    && Math.Abs(capture.Velocity.Y) < double.Epsilon) {
-                    continue;
-                }
-
-                // Apply friction.
-                capture.Velocity = new Point(
-                    capture.Velocity.X > 0
-                    ? capture.Velocity.X - HorizontalFriction
-                    : capture.Velocity.X + HorizontalFriction,
-                    capture.Velocity.Y > 0
-                    ? capture.Velocity.Y - VerticalFriction
-                    : capture.Velocity.Y + VerticalFriction);
-
-                var vx = capture.LastPoint.X + capture.Velocity.X;
-                var vy = capture.LastPoint.Y + capture.Velocity.Y;
-
-                capture.LastPoint = new Point(vx, vy);
-
-                Debug.WriteLine("Scrolling by {0} x {1}.", vx, vy);
-                target.ScrollToVerticalOffset(capture.VerticalOffset - vy);
-                target.ScrollToHorizontalOffset(capture.HorizontalOffset - vx);
-            }
         }
 
         static void OnTargetLoaded(object sender, RoutedEventArgs e) {
@@ -145,14 +99,6 @@ namespace Crystalbyte.Paranoia.Behaviors {
                 return;
 
             target.ReleaseMouseCapture();
-
-            if (!Captures.ContainsKey(sender)) {
-                return;
-            }
-
-            var capture = Captures[sender];
-            capture.IsReleased = true;
-            capture.LastPoint = Mouse.GetPosition(target);
         }
 
         static void OnTargetPreviewMouseMove(object sender, MouseEventArgs e) {
@@ -164,6 +110,7 @@ namespace Crystalbyte.Paranoia.Behaviors {
                 return;
 
             if (Mouse.LeftButton != MouseButtonState.Pressed) {
+                Captures.Remove(sender);
                 return;
             }
 
@@ -174,17 +121,10 @@ namespace Crystalbyte.Paranoia.Behaviors {
             var point = e.GetPosition(target);
 
             var capture = Captures[sender];
-            capture.Velocity = new Point(point.X - capture.LastPoint.X,
-                point.Y - capture.LastPoint.Y);
-
-            Debug.WriteLine("Velocity now @ {0}.", capture.Velocity.X);
-
-            capture.LastPoint = point;
 
             var dx = point.X - capture.Point.X;
             var dy = point.Y - capture.Point.Y;
             if (Math.Abs(dy) > 5 || Math.Abs(dx) > 10) {
-                capture.IsReleased = false;
                 target.CaptureMouse();
             }
 
@@ -194,12 +134,9 @@ namespace Crystalbyte.Paranoia.Behaviors {
         }
 
         internal class MouseCapture {
-            public bool IsReleased { get; set; }
             public double HorizontalOffset { get; set; }
             public double VerticalOffset { get; set; }
             public Point Point { get; set; }
-            public Point Velocity { get; set; }
-            public Point LastPoint { get; set; }
         }
     }
 }

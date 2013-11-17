@@ -4,6 +4,9 @@
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
     <Style TargetType="ui:Stage">
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="False" />
+        <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Standard" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="ItemsPanel">
