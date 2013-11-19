@@ -16,11 +16,10 @@ namespace Crystalbyte.Paranoia {
         [Import]
         public static AppContext AppContext { get; set; }
 
-        protected override void OnStartup(StartupEventArgs e) {
-            base.OnStartup(e);
-
+        protected async override void OnStartup(StartupEventArgs e) {
             Compose();
-            AppContext.RunAsync();
+            await AppContext.RunAsync();
+            base.OnStartup(e);
         }
 
         private void Compose() {

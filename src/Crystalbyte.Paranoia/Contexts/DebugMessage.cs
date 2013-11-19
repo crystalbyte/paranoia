@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 namespace Crystalbyte.Paranoia.Contexts {
     public sealed class DebugMessage : NotificationObject {
 
+        public DebugMessage(int threadId) {
+            ThreadId = string.Format("Thread-{0}", threadId);
+        }
+
+        public string ThreadId { get; private set; }
+
         public string Subject {
             get { return "This is a plain text subject."; }
         }

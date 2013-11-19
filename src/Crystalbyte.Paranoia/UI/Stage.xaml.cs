@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,19 +12,26 @@ using System.Windows.Input;
 namespace Crystalbyte.Paranoia.UI {
     public class Stage : ItemsControl {
         public Stage() {
-            DefaultStyleKey = typeof (Stage);
+            DefaultStyleKey = typeof(Stage);
         }
 
         protected override bool IsItemItsOwnContainerOverride(object item) {
-            return item is StageItem;
+            return item is StageGroup;
         }
 
         protected override DependencyObject GetContainerForItemOverride() {
-            return new StageItem();
+            return new StageGroup();
         }
 
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item) {
             base.PrepareContainerForItemOverride(element, item);
+
+            var collection = item as IEnumerable;
+            if (collection == null)
+                return;
+
+            var group = (StageGroup)element;
+            group.ItemsSource = collection;
         }
 
         public override void OnApplyTemplate() {
@@ -72,13 +80,13 @@ namespace Crystalbyte.Paranoia.UI {
         protected override void OnMouseWheel(MouseWheelEventArgs e) {
             if (Keyboard.IsKeyDown(Key.LeftCtrl)) {
                 CenterZoomAroundMousePosition();
-                ApplyZoomFactor(e.Delta);    
+                ApplyZoomFactor(e.Delta);
             }
             base.OnMouseWheel(e);
         }
 
         private void ApplyZoomFactor(double delta) {
-            Zoom += delta/1000;
+            Zoom += delta / 1000;
             if (Zoom < 0.1d) {
                 Zoom = 0.1d;
             }

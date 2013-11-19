@@ -21,10 +21,11 @@ namespace Crystalbyte.Paranoia {
         private HwndSource _source;
 
         public MainWindow() {
+            DataContext = App.AppContext;
+
             InitializeComponent();
 
             Loaded += OnLoaded;
-            DataContext = App.AppContext;
 
             // We need to set the height for the window to stay ontop the Taskbar
             MaxHeight = SystemParameters.WorkArea.Height

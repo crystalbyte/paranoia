@@ -2,5 +2,6 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Crystalbyte.Paranoia;component/UI/Stage.xaml" />
         <ResourceDictionary Source="/Crystalbyte.Paranoia;component/UI/StageItem.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia;component/UI/StageGroup.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

@@ -8,6 +8,7 @@
         <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Standard" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Padding" Value="5,0,5,0" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
@@ -19,22 +20,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:Stage">
-                    <Border HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
-                        <Border.RenderTransform>
-                            <ScaleTransform CenterX="{Binding MouseX,
-                                                              Mode=TwoWay,
-                                                              RelativeSource={RelativeSource TemplatedParent}}"
-                                            CenterY="{Binding MouseY,
-                                                              Mode=TwoWay,
-                                                              RelativeSource={RelativeSource TemplatedParent}}"
-                                            ScaleX="{Binding Zoom,
-                                                             Mode=TwoWay,
-                                                             RelativeSource={RelativeSource TemplatedParent}}"
-                                            ScaleY="{Binding Zoom,
-                                                             Mode=TwoWay,
-                                                             RelativeSource={RelativeSource TemplatedParent}}" />
-                        </Border.RenderTransform>
+                    <Border Margin="{TemplateBinding Margin}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}">
                         <ScrollViewer HorizontalScrollBarVisibility="Visible"
+                                      Padding="{TemplateBinding Padding}"
                                       VerticalScrollBarVisibility="Disabled"
                                       behaviors:ScrollByTouchBehavior.IsEnabled="True">
                             <ItemsPresenter />

@@ -143,6 +143,9 @@
     <Compile Include="UI\IdentityScreen.xaml.cs">
       <DependentUpon>IdentityScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\StageGroup.xaml.cs">
+      <DependentUpon>StageGroup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\StageItem.xaml.cs">
       <DependentUpon>StageItem.xaml</DependentUpon>
     </Compile>
@@ -170,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\IdentityScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\StageGroup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Composition;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,9 +51,11 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
-            for (var i = 0; i < 500; i++) {
-                _elements.Add(new DebugMessage());    
+            var elements = new List<DebugMessage>();
+            for (var i = 0; i < 5000; i++) {
+                elements.Add(new DebugMessage(i % 100));    
             }
+            _elements.AddRange(elements.GroupBy(x => x.ThreadId));
         }
 
         public IEnumerable<object> Elements {
