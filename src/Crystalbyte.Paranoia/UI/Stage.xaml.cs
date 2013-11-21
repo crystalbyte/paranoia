@@ -32,6 +32,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             var group = (StageGroup)element;
             group.ItemsSource = collection;
+            group.ItemTemplate = GroupItemTemplate;
         }
 
         public override void OnApplyTemplate() {
@@ -76,6 +77,15 @@ namespace Crystalbyte.Paranoia.UI {
         // Using a DependencyProperty as the backing store for MouseY.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MouseYProperty =
             DependencyProperty.Register("MouseY", typeof(double), typeof(Stage), new PropertyMetadata(0.0d));
+
+        public DataTemplate GroupItemTemplate {
+            get { return (DataTemplate)GetValue(GroupItemTemplateProperty); }
+            set { SetValue(GroupItemTemplateProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for GroupItemTemplate.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty GroupItemTemplateProperty =
+            DependencyProperty.Register("GroupItemTemplate", typeof(DataTemplate), typeof(Stage), new PropertyMetadata(null));
 
         protected override void OnMouseWheel(MouseWheelEventArgs e) {
             if (Keyboard.IsKeyDown(Key.LeftCtrl)) {

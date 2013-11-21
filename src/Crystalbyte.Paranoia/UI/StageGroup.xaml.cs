@@ -10,6 +10,10 @@ using System.Windows.Controls;
 namespace Crystalbyte.Paranoia.UI {
     public sealed class StageGroup : ItemsControl {
 
+        public StageGroup() {
+            DefaultStyleKey = typeof (StageGroup);
+        }
+
         protected override bool IsItemItsOwnContainerOverride(object item) {
             return item is StageItem;
         }

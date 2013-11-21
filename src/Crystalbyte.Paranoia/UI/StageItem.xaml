@@ -3,24 +3,25 @@
                     xmlns:Behaviors="clr-namespace:Crystalbyte.Paranoia.Behaviors"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
     <Style TargetType="ui:StageItem">
-        <Setter Property="Width" Value="445.5" />
-        <Setter Property="Height" Value="620" />
-        <Setter Property="BorderBrush" Value="Gray" />
-        <Setter Property="Background" Value="White" />
+        <!--
+            <Setter Property="MinWidth" Value="445.5" />
+            <Setter Property="MinHeight" Value="620" />
+            <Setter Property="BorderBrush" Value="Gray" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="White" />
+        -->
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Margin" Value="5" />
+        <Setter Property="Margin" Value="10" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:StageItem">
                     <Border Margin="{TemplateBinding Margin}"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             Padding="{TemplateBinding Padding}">
-                        <ContentPresenter Grid.Row="1"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
