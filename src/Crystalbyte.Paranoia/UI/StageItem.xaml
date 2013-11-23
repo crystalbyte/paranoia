@@ -3,16 +3,8 @@
                     xmlns:Behaviors="clr-namespace:Crystalbyte.Paranoia.Behaviors"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
     <Style TargetType="ui:StageItem">
-        <!--
-            <Setter Property="MinWidth" Value="445.5" />
-            <Setter Property="MinHeight" Value="620" />
-            <Setter Property="BorderBrush" Value="Gray" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="Background" Value="White" />
-        -->
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Margin" Value="10" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:StageItem">

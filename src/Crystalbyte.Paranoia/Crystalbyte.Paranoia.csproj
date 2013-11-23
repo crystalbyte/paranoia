@@ -102,6 +102,7 @@
     <Compile Include="Contexts\Factories\SmtpAccountContextFactory.cs" />
     <Compile Include="Contexts\SmtpAccountContext.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\RatioConverter.cs" />
     <Compile Include="Data\LocalStorage.cs" />
     <Compile Include="IHtmlSource.cs" />
     <Compile Include="ImapMessageSelectionSource.cs" />

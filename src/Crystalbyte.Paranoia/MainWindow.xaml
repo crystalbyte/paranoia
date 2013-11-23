@@ -12,6 +12,7 @@
         MinWidth="320"
         MinHeight="200"
         WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance contexts:AppContext}"
         mc:Ignorable="d">
     <Window.Style>
         <Style TargetType="Window">
@@ -103,7 +104,20 @@
                     </Grid>
                 </Border>
                 <Border>
-                    <ui:Stage ItemsSource="{Binding Elements, FallbackValue={x:Null}}" />
+                    <ui:Stage x:Name="Stage" ItemsSource="{Binding Elements, FallbackValue={x:Null}}">
+                        <ui:Stage.GroupItemTemplate>
+                            <DataTemplate>
+                                <Grid x:Name="Grid"
+                                      Width="{Binding ActualHeight,
+                                                      ElementName=Grid,
+                                                      Converter={StaticResource RatioConverter},
+                                                      ConverterParameter=1.4}"
+                                      Height="700"
+                                      Margin="10"
+                                      Background="White" />
+                            </DataTemplate>
+                        </ui:Stage.GroupItemTemplate>
+                    </ui:Stage>
                 </Border>
             </DockPanel>
         </Border>

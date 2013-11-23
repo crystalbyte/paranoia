@@ -8,6 +8,7 @@
     <!--  Icons: C:\Program Files (x86)\Microsoft SDKs\Windows Phone\v8.0\Icons  -->
     <Application.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:RatioConverter x:Key="RatioConverter" />
         <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#1E1E1E" />
         <SolidColorBrush x:Key="AppControlBrush" Color="#2D2D30" />
         <SolidColorBrush x:Key="LightTextBrush" Color="WhiteSmoke" />

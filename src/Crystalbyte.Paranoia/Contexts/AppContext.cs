@@ -15,6 +15,7 @@ using Crystalbyte.Paranoia.Data;
 #endregion
 
 namespace Crystalbyte.Paranoia.Contexts {
+
     [Export, Shared]
     public sealed class AppContext : NotificationObject {
         private bool _isSyncing;
@@ -24,6 +25,9 @@ namespace Crystalbyte.Paranoia.Contexts {
             _elements = new ObservableCollection<object>();
         }
 
+        [Import]
+        public LocalStorage LocalStorage { get; set; }
+
         public event EventHandler SyncStatusChanged;
 
         public void OnSyncStatusChanged(EventArgs e) {
@@ -31,9 +35,6 @@ namespace Crystalbyte.Paranoia.Contexts {
             if (handler != null)
                 handler(this, e);
         }
-
-        [Import]
-        public LocalStorage LocalStorage { get; set; }
 
         public bool IsSyncing {
             get { return _isSyncing; }

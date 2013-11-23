@@ -8,15 +8,6 @@
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="GroupItemTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <Grid Width="400"
-                          Height="600"
-                          Background="White" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
