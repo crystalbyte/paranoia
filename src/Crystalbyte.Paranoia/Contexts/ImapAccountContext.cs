@@ -10,6 +10,7 @@ using Crystalbyte.Paranoia.Models;
 #endregion
 
 namespace Crystalbyte.Paranoia.Contexts {
+
     public sealed class ImapAccountContext {
         private readonly ImapAccount _account;
 

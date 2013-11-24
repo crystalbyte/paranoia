@@ -17,7 +17,8 @@ using Crystalbyte.Paranoia.Data;
 namespace Crystalbyte.Paranoia.Contexts {
 
     [Export, Shared]
-    public sealed class AppContext : NotificationObject {
+    public sealed class AppContext : NotificationObject {       
+
         private bool _isSyncing;
         private readonly ObservableCollection<object> _elements;
 
