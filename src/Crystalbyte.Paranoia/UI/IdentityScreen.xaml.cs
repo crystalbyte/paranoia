@@ -17,7 +17,7 @@ namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     /// Interaction logic for IdentityScreen.xaml
     /// </summary>
-    public partial class IdentityScreen : UserControl {
+    public partial class IdentityScreen {
         public IdentityScreen() {
             InitializeComponent();
         }

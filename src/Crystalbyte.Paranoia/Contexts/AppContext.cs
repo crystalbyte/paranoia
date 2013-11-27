@@ -9,25 +9,46 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Crystalbyte.Paranoia.Commands;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
+using System.Diagnostics;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.Contexts {
 
     [Export, Shared]
-    public sealed class AppContext : NotificationObject {       
+    public sealed class AppContext : NotificationObject {
 
         private bool _isSyncing;
+        
         private readonly ObservableCollection<object> _elements;
+        private readonly ObservableCollection<object> _identities;
 
         public AppContext() {
             _elements = new ObservableCollection<object>();
+            _identities = new ObservableCollection<object>();
+            CreateIdentityCommand = new RelayCommand(OnCreateIdentityCommandExecuted);
         }
 
         [Import]
         public LocalStorage LocalStorage { get; set; }
+
+        [Import]
+        public IdentityScreenContext IdentityScreenContext { get; set; }
+
+        [OnImportsSatisfied]
+        public void OnImportsSatisfied() {
+            var elements = new List<DebugMessage>();
+            for (var i = 0; i < 5000; i++) {
+                elements.Add(new DebugMessage(i % 100));
+            }
+            _elements.AddRange(elements.GroupBy(x => x.ThreadId));
+        }
+
+        public ICommand CreateIdentityCommand { get; private set; }
 
         public event EventHandler SyncStatusChanged;
 
@@ -35,6 +56,10 @@ namespace Crystalbyte.Paranoia.Contexts {
             var handler = SyncStatusChanged;
             if (handler != null)
                 handler(this, e);
+        }
+
+        private void OnCreateIdentityCommandExecuted(object obj) {
+            IdentityScreenContext.IsActive = true;
         }
 
         public bool IsSyncing {
@@ -51,13 +76,8 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [OnImportsSatisfied]
-        public void OnImportsSatisfied() {
-            var elements = new List<DebugMessage>();
-            for (var i = 0; i < 5000; i++) {
-                elements.Add(new DebugMessage(i % 100));    
-            }
-            _elements.AddRange(elements.GroupBy(x => x.ThreadId));
+        public IEnumerable<object> Identities {
+            get { return _identities; }
         }
 
         public IEnumerable<object> Elements {
@@ -94,7 +114,13 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         public async Task RunAsync() {
-            await SeedAsync();
+            try {
+                await SeedAsync();
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(ex);
+            }
+            
             await LocalStorage.InitAsync();
         }
     }

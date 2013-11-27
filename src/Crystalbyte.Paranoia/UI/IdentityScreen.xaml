@@ -21,7 +21,7 @@
         <Border Grid.Row="1"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
-                Background="{StaticResource WindowBackgroundBrush}"
+                Background="{StaticResource AppWindowBackgroundBrush}"
                 Padding="20">
             <Grid HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
@@ -29,6 +29,7 @@
                     <ColumnDefinition Width="350" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -75,12 +76,19 @@
                            Style="{StaticResource AppLightTextStyle}"
                            TextWrapping="Wrap">
                     <Run>Private</Run>
-                    <LineBreak /><Run FontSize="{StaticResource AppNormalFontSize}" Foreground="{StaticResource LightTextBrush}">The following properties are private and will be only visible to you.</Run>
+                    <LineBreak /><Run FontSize="{StaticResource AppNormalFontSize}" Foreground="{StaticResource AppLightTextBrush}">The following properties are private and will be only visible to you.</Run>
                 </TextBlock>
                 <TextBox Grid.Row="5"
                          Grid.Column="1"
                          Style="{StaticResource AccentTextBoxStyle}"
                          Text="Notes" />
+                <DockPanel Grid.Row="7"
+                           Grid.Column="2"
+                           Margin="0,20,0,0"
+                           LastChildFill="False">
+                    <Button DockPanel.Dock="Right" Style="{StaticResource CancelButtonStyle}" Command="{Binding CancelCommand}" />
+                    <Button DockPanel.Dock="Right" Style="{StaticResource ContinueButtonStyle}" Command="{Binding ContinueCommand}" />
+                </DockPanel>
             </Grid>
         </Border>
 

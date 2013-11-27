@@ -97,9 +97,12 @@
     <Compile Include="Behaviors\ScrollByTouchBehavior.cs" />
     <Compile Include="Commands\ComposeMessageCommand.cs" />
     <Compile Include="Commands\DeleteMessageCommand.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\SyncCommand.cs" />
     <Compile Include="Contexts\DebugMessage.cs" />
     <Compile Include="Contexts\Factories\SmtpAccountContextFactory.cs" />
+    <Compile Include="Contexts\IdentityContext.cs" />
+    <Compile Include="Contexts\IdentityScreenContext.cs" />
     <Compile Include="Contexts\SmtpAccountContext.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\RatioConverter.cs" />

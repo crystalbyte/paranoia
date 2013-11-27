@@ -19,5 +19,6 @@ namespace Crystalbyte.Paranoia.Models
         public string PublicKey { get; set; }
         public string PrivateKey { get; set; }
         public string EmailAddress { get; set; }
+        public string Notes { get; set; }
     }
 }

@@ -18,7 +18,7 @@
         <Style TargetType="Window">
             <Setter Property="WindowStyle" Value="None" />
             <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
-            <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}" />
+            <Setter Property="Background" Value="{StaticResource AppWindowBackgroundBrush}" />
             <Setter Property="BorderBrush" Value="{StaticResource AppAccentBrush}" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="WindowChrome.WindowChrome">
@@ -53,14 +53,13 @@
                                     </StackPanel>
                                     <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
                                         <Border>
-                                            <TextBlock Margin="6,0,6,0"
-                                                       VerticalAlignment="Center"
+                                            <TextBlock Margin="6"
+                                                       VerticalAlignment="Top"
                                                        Foreground="{StaticResource AppAccentBrush}"
                                                        Text="p4r4n014" />
                                         </Border>
-                                        <Button Style="{StaticResource ComposeMessageButtonStyle}" />
-                                        <Button Style="{StaticResource SyncButtonStyle}" />
-                                        <Button Style="{StaticResource DeleteButtonStyle}" />
+                                        <ListView ItemsSource="{Binding Identities}" />
+                                        <Button Command="{Binding CreateIdentityCommand}" Style="{StaticResource CreateIdentityButtonStyle}" />
                                     </StackPanel>
                                 </Grid>
                                 <ContentPresenter />
@@ -76,7 +75,7 @@
         <KeyBinding Key="R" Modifiers="Control" />
     </Window.InputBindings>
     <Grid>
-        <Border Background="{StaticResource WindowBackgroundBrush}">
+        <Border Background="{StaticResource AppWindowBackgroundBrush}">
             <DockPanel>
                 <Border Background="{StaticResource AppControlBrush}" DockPanel.Dock="Bottom">
                     <Grid>
@@ -104,20 +103,9 @@
                     </Grid>
                 </Border>
                 <Border>
-                    <ui:Stage x:Name="Stage" ItemsSource="{Binding Elements, FallbackValue={x:Null}}">
-                        <ui:Stage.GroupItemTemplate>
-                            <DataTemplate>
-                                <Grid x:Name="Grid"
-                                      Width="{Binding ActualHeight,
-                                                      ElementName=Grid,
-                                                      Converter={StaticResource RatioConverter},
-                                                      ConverterParameter=1.4}"
-                                      Height="700"
-                                      Margin="10"
-                                      Background="White" />
-                            </DataTemplate>
-                        </ui:Stage.GroupItemTemplate>
-                    </ui:Stage>
+                    <Grid>
+                        <ui:IdentityScreen DataContext="{Binding IdentityScreenContext, Mode=OneTime}" Visibility="{Binding IsActive, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    </Grid>
                 </Border>
             </DockPanel>
         </Border>

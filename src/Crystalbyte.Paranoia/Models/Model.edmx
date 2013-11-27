@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="StorageModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="StorageModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="StorageModelStoreContainer">
           <EntitySet Name="Identities" EntityType="StorageModel.Store.Identities" store:Type="Tables" />
           <EntitySet Name="ImapAccounts" EntityType="StorageModel.Store.ImapAccounts" store:Type="Tables" store:Name="ImapAccounts">
@@ -39,6 +39,7 @@
           <Property Name="PublicKey" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="PrivateKey" Type="nvarchar" Nullable="false" MaxLength="512" />
           <Property Name="EmailAddress" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Notes" Type="nvarchar" MaxLength="1024" />
         </EntityType>
         <!--Errors Found During Generation:
             warning 6002: The table/view 'ImapAccounts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
@@ -46,6 +47,12 @@
         <EntityType Name="ImapAccounts">
           <Key>
             <PropertyRef Name="Id" />
+            
+            
+            
+            
+            
+            
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Host" Type="nvarchar" Nullable="false" MaxLength="256" />
@@ -61,6 +68,12 @@
         <EntityType Name="SmtpAccounts">
           <Key>
             <PropertyRef Name="Id" />
+            
+            
+            
+            
+            
+            
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Host" Type="nvarchar" Nullable="false" MaxLength="256" />
@@ -70,8 +83,7 @@
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
           <Property Name="Security" Type="smallint" Nullable="false" />
         </EntityType>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StorageModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -89,6 +101,7 @@
           <Property Name="PublicKey" Type="String" Nullable="false" MaxLength="512" Unicode="true" FixedLength="false" />
           <Property Name="PrivateKey" Type="String" Nullable="false" MaxLength="512" Unicode="true" FixedLength="false" />
           <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="Notes" MaxLength="1024" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ImapAccount">
           <Key>
@@ -123,6 +136,7 @@
           <EntitySetMapping Name="Identities">
             <EntityTypeMapping TypeName="StorageModel.Identity">
               <MappingFragment StoreEntitySet="Identities">
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="PublicKey" ColumnName="PublicKey" />

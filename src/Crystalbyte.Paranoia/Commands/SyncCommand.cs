@@ -10,6 +10,7 @@ using Crystalbyte.Paranoia.Contexts;
 namespace Crystalbyte.Paranoia.Commands {
     [Export, Shared]
     public sealed class SyncCommand : ICommand {
+
         [Import]
         public AppContext AppContext { get; set; }
 

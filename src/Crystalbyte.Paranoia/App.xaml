@@ -9,30 +9,44 @@
     <Application.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:RatioConverter x:Key="RatioConverter" />
-        <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#1E1E1E" />
-        <SolidColorBrush x:Key="AppControlBrush" Color="#2D2D30" />
-        <SolidColorBrush x:Key="LightTextBrush" Color="WhiteSmoke" />
-        <SolidColorBrush x:Key="DarkTextBrush" Color="#2D2D30" />
-        <SolidColorBrush x:Key="AppMenuButtonMouseOverBrush" Color="#3E3E40" />
-        <System:Double x:Key="AppLargeExtraFontSize">24</System:Double>
-        <System:Double x:Key="AppLargeFontSize">20</System:Double>
-        <System:Double x:Key="AppMediumFontSize">16</System:Double>
-        <System:Double x:Key="AppNormalFontSize">12</System:Double>
+
         <Color x:Key="AppAccentColor"
                A="255"
                B="204"
                G="122"
                R="0" />
+
+        <Color x:Key="AppSuccessColor"
+               A="255"
+               B="73"
+               G="104"
+               R="73" />
+
+        <SolidColorBrush x:Key="AppWindowBackgroundBrush" Color="#1E1E1E" />
+        <SolidColorBrush x:Key="AppControlBrush" Color="#2D2D30" />
+        <SolidColorBrush x:Key="AppLightControlBrush" Color="#4D4D4D" />
+        <SolidColorBrush x:Key="AppLightTextBrush" Color="WhiteSmoke" />
+        <SolidColorBrush x:Key="AppDarkTextBrush" Color="#2D2D30" />
+        <SolidColorBrush x:Key="AppMenuButtonMouseOverBrush" Color="#3E3E40" />
         <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccentColor}" />
+        <SolidColorBrush x:Key="AppSuccessColorBrush" Color="{StaticResource AppSuccessColor}" />
+
+        <System:Double x:Key="AppLargeExtraFontSize">24</System:Double>
+        <System:Double x:Key="AppLargeFontSize">20</System:Double>
+        <System:Double x:Key="AppMediumFontSize">16</System:Double>
+        <System:Double x:Key="AppNormalFontSize">12</System:Double>
+
         <Style x:Key="AppNormalTextStyle" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Segoe UI" />
-            <Setter Property="Foreground" Value="{StaticResource LightTextBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
         </Style>
+
         <Style x:Key="AppLightTextStyle"
                BasedOn="{StaticResource AppNormalTextStyle}"
                TargetType="TextBlock">
             <Setter Property="FontWeight" Value="Light" />
         </Style>
+
         <Style x:Key="AppButtonStyle" TargetType="ButtonBase">
             <Style.Triggers>
                 <MultiTrigger>
@@ -59,7 +73,7 @@
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Margin" Value="0" />
             <Setter Property="Padding" Value="0" />
-            <Setter Property="Foreground" Value="{StaticResource LightTextBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -74,13 +88,40 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
         <Style x:Key="AppMenuButtonStyle"
                BasedOn="{StaticResource AppButtonStyle}"
                TargetType="Button">
-            <Setter Property="Width" Value="36" />
-            <Setter Property="Height" Value="32" />
+            <Setter Property="Width" Value="48" />
+            <Setter Property="Height" Value="48" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
+
+        <Style x:Key="CreateIdentityButtonStyle"
+               BasedOn="{StaticResource AppMenuButtonStyle}"
+               TargetType="Button">
+            <Setter Property="Content">
+                <Setter.Value>
+                    <Canvas>
+                        <Line Fill="White"
+                              Stroke="White"
+                              StrokeThickness="4"
+                              X1="0"
+                              X2="0"
+                              Y1="-10"
+                              Y2="10" />
+                        <Line Fill="White"
+                              Stroke="White"
+                              StrokeThickness="4"
+                              X1="-10"
+                              X2="10"
+                              Y1="0"
+                              Y2="0" />
+                    </Canvas>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style x:Key="AppWindowButtonStyle"
                BasedOn="{StaticResource AppButtonStyle}"
                TargetType="Button">
@@ -88,33 +129,7 @@
             <Setter Property="Height" Value="28" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
-        <Style x:Key="ComposeMessageButtonStyle"
-               BasedOn="{StaticResource AppMenuButtonStyle}"
-               TargetType="Button">
-            <Setter Property="Content">
-                <Setter.Value>
-                    <Image Source="/Assets/compose.message.png" />
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="SyncButtonStyle"
-               BasedOn="{StaticResource AppMenuButtonStyle}"
-               TargetType="Button">
-            <Setter Property="Content">
-                <Setter.Value>
-                    <Image Source="/Assets/refresh.png" />
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="DeleteButtonStyle"
-               BasedOn="{StaticResource AppMenuButtonStyle}"
-               TargetType="Button">
-            <Setter Property="Content">
-                <Setter.Value>
-                    <Image Source="/Assets/delete.png" />
-                </Setter.Value>
-            </Setter>
-        </Style>
+
         <Style x:Key="CloseButtonStyle"
                BasedOn="{StaticResource AppWindowButtonStyle}"
                TargetType="Button">
@@ -129,6 +144,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
         <Style x:Key="MinimizeButtonStyle"
                BasedOn="{StaticResource AppWindowButtonStyle}"
                TargetType="Button">
@@ -142,6 +158,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
         <Style x:Key="MaximizeButtonStyle"
                BasedOn="{StaticResource AppWindowButtonStyle}"
                TargetType="Button">
@@ -156,18 +173,76 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
         <Style x:Key="AppTitleTextStyle"
                BasedOn="{StaticResource AppLightTextStyle}"
                TargetType="TextBlock">
             <Setter Property="FontSize" Value="{StaticResource AppLargeExtraFontSize}" />
         </Style>
+
         <Style x:Key="AccentTextBoxStyle" TargetType="TextBox">
             <Setter Property="BorderBrush" Value="{StaticResource AppAccentBrush}" />
             <Setter Property="Background" Value="{StaticResource AppControlBrush}" />
             <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Foreground" Value="{StaticResource LightTextBrush}" />
-            <Setter Property="Padding" Value="3" />
+            <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
+            <Setter Property="Padding" Value="5" />
             <Setter Property="Margin" Value="0,3,0,3" />
         </Style>
+
+        <Style x:Key="AppDialogButtonStyle" TargetType="ButtonBase">
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsPressed" Value="True" />
+                        <Condition Property="IsMouseOver" Value="True" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="{StaticResource AppAccentBrush}" />
+                </MultiTrigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True" />
+                        <Condition Property="IsPressed" Value="False" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="{StaticResource AppMenuButtonMouseOverBrush}" />
+                </MultiTrigger>
+            </Style.Triggers>
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="MinWidth" Value="100" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="WhiteSmoke" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Margin" Value="3" />
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Margin="{TemplateBinding Margin}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CancelButtonStyle"
+               BasedOn="{StaticResource AppDialogButtonStyle}"
+               TargetType="Button">
+            <Setter Property="Content" Value="Cancel" />
+        </Style>
+
+        <Style x:Key="ContinueButtonStyle"
+               BasedOn="{StaticResource AppDialogButtonStyle}"
+               TargetType="Button">
+            <Setter Property="Content" Value="Continue" />
+            <Setter Property="Background" Value="{StaticResource AppSuccessColorBrush}" />
+        </Style>
+
     </Application.Resources>
 </Application>

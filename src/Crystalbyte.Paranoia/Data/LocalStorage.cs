@@ -71,6 +71,7 @@ namespace Crystalbyte.Paranoia.Data {
                 if (info == null) {
                     throw new Exception(string.Format("Resource missing: {0}", "/Data/Storage.sdf"));
                 }
+
                 using (var reader = new BinaryReader(info.Stream)) {
                     using (var writer = new BinaryWriter(File.Create(file))) {
                         while (true) {
