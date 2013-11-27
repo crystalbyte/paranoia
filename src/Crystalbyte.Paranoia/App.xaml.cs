@@ -4,6 +4,7 @@ using System.Composition;
 using System.Composition.Hosting;
 using System.Windows;
 using Crystalbyte.Paranoia.Contexts;
+using System.Windows.Media;
 
 #endregion
 
@@ -24,7 +25,7 @@ namespace Crystalbyte.Paranoia {
 
         private void Compose() {
             var config = new ContainerConfiguration()
-                .WithAssembly(typeof (App).Assembly);
+                .WithAssembly(typeof(App).Assembly);
 
             Composition = config.CreateContainer();
             Composition.SatisfyImports(this);

@@ -117,22 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="IdentityEmailAddressWatermark" xml:space="preserve">
-    <value>type in your email address ...</value>
-    <comment>IdentityScreen -&gt; TextBlock -&gt; EmailAddressTextBlock</comment>
-  </data>
   <data name="IdentityNameWatermark" xml:space="preserve">
-    <value>type in your name ...</value>
+    <value>Name</value>
     <comment>IdentityScreen -&gt; TextBlock -&gt; NameTextBlock</comment>
-  </data>
-  <data name="IdentityNotesWatermark" xml:space="preserve">
-    <value>you can attach some notes here ...</value>
-    <comment>IdentityScreen -&gt; TextBlock -&gt; NotesTextBlock</comment>
-  </data>
-  <data name="IdentityPrivateDescription" xml:space="preserve">
-    <value>The following properties are private and will be only visible to you.</value>
-  </data>
-  <data name="IdentityPublicDescription" xml:space="preserve">
-    <value>These properties are public and will be visible to the people you communicate with.</value>
   </data>
 </root>

@@ -74,40 +74,36 @@
         <KeyBinding Key="N" Modifiers="Control" />
         <KeyBinding Key="R" Modifiers="Control" />
     </Window.InputBindings>
-    <Grid>
-        <Border Background="{StaticResource AppWindowBackgroundBrush}">
-            <DockPanel>
-                <Border Background="{StaticResource AppControlBrush}" DockPanel.Dock="Bottom">
-                    <Grid>
-                        <StackPanel Height="24"
-                                    Margin="8,0,0,0"
-                                    Orientation="Horizontal">
-                            <TextBlock VerticalAlignment="Center"
-                                       Style="{StaticResource AppNormalTextStyle}"
-                                       Text="Syncing ..."
-                                       Visibility="{Binding IsSyncing,
-                                                            Converter={StaticResource BooleanToVisibilityConverter}}" />
-                            <TextBlock VerticalAlignment="Center"
-                                       Style="{StaticResource AppNormalTextStyle}"
-                                       Text="Ready"
-                                       Visibility="{Binding IsSyncing,
-                                                            ConverterParameter=!,
-                                                            Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        </StackPanel>
-                        <ResizeGrip HorizontalAlignment="Right"
-                                    VerticalAlignment="Bottom"
-                                    Visibility="{Binding IsNormalState,
-                                                         ElementName=Window,
-                                                         Converter={StaticResource BooleanToVisibilityConverter}}"
-                                    WindowChrome.ResizeGripDirection="BottomRight" />
-                    </Grid>
-                </Border>
-                <Border>
-                    <Grid>
-                        <ui:IdentityScreen DataContext="{Binding IdentityScreenContext, Mode=OneTime}" Visibility="{Binding IsActive, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                    </Grid>
-                </Border>
-            </DockPanel>
+    <DockPanel Background="{StaticResource AppWindowBackgroundBrush}">
+        <Border Background="{StaticResource AppControlBrush}" DockPanel.Dock="Bottom">
+            <Grid>
+                <StackPanel Height="24"
+                            Margin="8,0,0,0"
+                            Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center"
+                               Style="{StaticResource AppNormalTextStyle}"
+                               Text="Syncing ..."
+                               Visibility="{Binding IsSyncing,
+                                                    Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <TextBlock VerticalAlignment="Center"
+                               Style="{StaticResource AppNormalTextStyle}"
+                               Text="Ready"
+                               Visibility="{Binding IsSyncing,
+                                                    ConverterParameter=!,
+                                                    Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </StackPanel>
+                <ResizeGrip HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Visibility="{Binding IsNormalState,
+                                                 ElementName=Window,
+                                                 Converter={StaticResource BooleanToVisibilityConverter}}"
+                            WindowChrome.ResizeGripDirection="BottomRight" />
+            </Grid>
         </Border>
-    </Grid>
+        <Border>
+            <Grid>
+                <ui:IdentityScreen DataContext="{Binding IdentityScreenContext, Mode=OneTime}" Visibility="{Binding IsActive, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </Grid>
+        </Border>
+    </DockPanel>
 </Window>

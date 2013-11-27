@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Crystalbyte.Paranoia.Contexts;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
@@ -20,6 +21,15 @@ namespace Crystalbyte.Paranoia.UI {
     public partial class IdentityScreen {
         public IdentityScreen() {
             InitializeComponent();
+            IsVisibleChanged += OnIsVisibleChanged;
+        }
+
+        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
+            if (!((bool) e.NewValue)) 
+                return;
+
+            NameTextBox.Focusable = true;
+            Keyboard.Focus(NameTextBox);
         }
     }
 }

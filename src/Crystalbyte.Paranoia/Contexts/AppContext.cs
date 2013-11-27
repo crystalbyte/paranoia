@@ -22,16 +22,23 @@ namespace Crystalbyte.Paranoia.Contexts {
     [Export, Shared]
     public sealed class AppContext : NotificationObject {
 
+        #region Private Fields
+
         private bool _isSyncing;
-        
         private readonly ObservableCollection<object> _elements;
         private readonly ObservableCollection<object> _identities;
+
+        #endregion
+
+        #region Construction
 
         public AppContext() {
             _elements = new ObservableCollection<object>();
             _identities = new ObservableCollection<object>();
             CreateIdentityCommand = new RelayCommand(OnCreateIdentityCommandExecuted);
         }
+
+        #endregion
 
         [Import]
         public LocalStorage LocalStorage { get; set; }

@@ -14,6 +14,7 @@ using Crystalbyte.Paranoia.Messaging;
 namespace Crystalbyte.Paranoia.Commands {
     [Export, Shared]
     public sealed class ComposeMessageCommand : ICommand {
+
         [Import]
         public AppContext AppContext { get; set; }
 
