@@ -16,6 +16,10 @@ namespace Crystalbyte.Paranoia.Contexts {
             _identity = identity;
         }
 
+        public Identity Model {
+            get { return _identity; }
+        }
+
         public string Name {
             get { return _identity.Name; }
             set {

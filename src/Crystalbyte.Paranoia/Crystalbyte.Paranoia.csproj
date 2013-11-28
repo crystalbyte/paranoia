@@ -94,6 +94,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\InitialFocusBehavior.cs" />
     <Compile Include="Behaviors\ScrollByTouchBehavior.cs" />
     <Compile Include="Behaviors\WatermarkAdorner.cs" />
     <Compile Include="Behaviors\WatermarkBehavior.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Contexts\IdentityContext.cs" />
     <Compile Include="Contexts\IdentityScreenContext.cs" />
     <Compile Include="Contexts\SmtpAccountContext.cs" />
+    <Compile Include="Contexts\ValidationObject.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\RatioConverter.cs" />
     <Compile Include="Data\LocalStorage.cs" />
@@ -160,8 +162,6 @@
     <Compile Include="UI\StageItem.xaml.cs">
       <DependentUpon>StageItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Validation\RequiredAttribute.cs" />
-    <Compile Include="Validation\ValidationAttribute.cs" />
     <Compile Include="WebBrowserExtensions.cs" />
     <Compile Include="WindowExtensions.cs" />
     <Page Include="MainWindow.xaml">

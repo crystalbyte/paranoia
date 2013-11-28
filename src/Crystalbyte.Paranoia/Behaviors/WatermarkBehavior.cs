@@ -3,11 +3,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
+using System.Windows.Input;
 
 #endregion
 
@@ -15,7 +17,7 @@ namespace Crystalbyte.Paranoia.Behaviors {
     /// <summary>
     ///   Class that provides the Watermark attached property
     /// </summary>
-    public static class WatermarkBehavior {
+    internal sealed class WatermarkBehavior : DependencyObject {
         /// <summary>
         ///   Watermark Attached Dependency Property
         /// </summary>
@@ -59,11 +61,16 @@ namespace Crystalbyte.Paranoia.Behaviors {
         /// <param name="e"> A <see cref="DependencyPropertyChangedEventArgs" /> that contains the event data. </param>
         private static void OnWatermarkChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var control = (Control) d;
-            control.Loaded += OnControlLoaded;
+            control.Loaded += OnControlLostKeyboardFocus;
 
             if (d is ComboBox || d is TextBox) {
                 control.GotKeyboardFocus += OnControlGotKeyboardFocus;
-                control.LostKeyboardFocus += OnControlLoaded;
+                control.LostKeyboardFocus += OnControlLostKeyboardFocus;
+            }
+
+            if (control is TextBox) {
+                var textbox = control as TextBox;
+                textbox.TextChanged += OnTextBoxTextChanged;
             }
 
             if (!(d is ItemsControl) || d is ComboBox) 
@@ -82,6 +89,15 @@ namespace Crystalbyte.Paranoia.Behaviors {
 
         #region Event Handlers
 
+        private static void OnTextBoxTextChanged(object sender, TextChangedEventArgs e) {
+            var c = (TextBox)sender;
+            if (ShouldShowWatermark(c)) {
+                ShowWatermark(c);
+            } else {
+                RemoveWatermark(c);
+            }
+        }
+
         /// <summary>
         ///   Handle the GotFocus event on the control
         /// </summary>
@@ -89,9 +105,7 @@ namespace Crystalbyte.Paranoia.Behaviors {
         /// <param name="e"> A <see cref="RoutedEventArgs" /> that contains the event data. </param>
         private static void OnControlGotKeyboardFocus(object sender, RoutedEventArgs e) {
             var c = (Control) sender;
-            if (ShouldShowWatermark(c)) {
-                RemoveWatermark(c);
-            }
+            RemoveWatermark(c);
         }
 
         /// <summary>
@@ -99,10 +113,11 @@ namespace Crystalbyte.Paranoia.Behaviors {
         /// </summary>
         /// <param name="sender"> The source of the event. </param>
         /// <param name="e"> A <see cref="RoutedEventArgs" /> that contains the event data. </param>
-        private static void OnControlLoaded(object sender, RoutedEventArgs e) {
+        private static void OnControlLostKeyboardFocus(object sender, RoutedEventArgs e) {
             var control = (Control) sender;
             if (ShouldShowWatermark(control)) {
                 ShowWatermark(control);
+                Debug.WriteLine(string.Format("+ Watermark @ {0}. Focused = {1}.", control.Name, control.IsFocused));
             }
         }
 
@@ -188,12 +203,14 @@ namespace Crystalbyte.Paranoia.Behaviors {
         /// </summary>
         /// <param name="c"> <see cref="Control" /> to test </param>
         /// <returns> true if the watermark should be shown; false otherwise </returns>
-        private static bool ShouldShowWatermark(Control c) {
+        private static bool ShouldShowWatermark(UIElement c) {
             if (c is ComboBox) {
                 return (c as ComboBox).Text == string.Empty;
             }
             if (c is TextBox) {
-                return (c as TextBox).Text == string.Empty;
+                var s = (c as TextBox).Text == string.Empty && Keyboard.FocusedElement != c as IInputElement;
+                Debug.WriteLine(string.Format("Show @ {0}? {1}", (c as TextBox).Name, s));
+                return s;
             }
             if (c is ItemsControl) {
                 return (c as ItemsControl).Items.Count == 0;

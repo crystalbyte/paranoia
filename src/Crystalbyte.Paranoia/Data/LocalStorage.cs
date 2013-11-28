@@ -19,9 +19,8 @@ namespace Crystalbyte.Paranoia.Data {
             _context = new Entities();
         }
 
-        public ImapAccount CreateImapAccount() {
-            var account = new ImapAccount();
-            return _context.Set<ImapAccount>().Attach(account);
+        public void Attach(Identity identity) {
+            _context.Set<Identity>().Attach(identity);
         }
 
         public Task<DbSet<Identity>> QueryIdentitiesAsync() {

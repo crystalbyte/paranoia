@@ -7,8 +7,6 @@
              xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:ui="clr-namespace:Crystalbyte.Paranoia.Contexts"
-             xmlns:validation="clr-namespace:Crystalbyte.Paranoia.Validation"
-             FocusManager.IsFocusScope="True"
              KeyboardNavigation.AcceptsReturn="False"
              KeyboardNavigation.TabNavigation="Cycle"
              d:DataContext="{d:DesignInstance ui:IdentityScreenContext}"
@@ -17,7 +15,7 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <system:String x:Key="GravatarDefaultImageUrl">http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y&amp;d=mm&amp;s=200</system:String>
-        <system:String x:Key="EmailRegexPattern">[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?</system:String>
+
     </UserControl.Resources>
     <UserControl.InputBindings>
         <KeyBinding Key="Return" Command="{Binding CreateCommand}" />
@@ -58,9 +56,9 @@
                            Grid.ColumnSpan="2"
                            Margin="0,0,0,20"
                            Style="{StaticResource AppTitleTextStyle}">
-                    <Run>Create Identity</Run>
+                    <Run Text="{x:Static properties:Resources.IdentityTitle}" />
                     <LineBreak />
-                    <Run FontSize="{StaticResource AppNormalFontSize}">In order to get you started, it is required to create a unique identity.</Run>
+                    <Run FontSize="{StaticResource AppNormalFontSize}" Text="{x:Static properties:Resources.IdentityHeaderText}" />
                 </TextBlock>
                 <Grid Grid.Row="1"
                       Grid.RowSpan="2"
@@ -68,7 +66,7 @@
                       Width="128"
                       Height="128"
                       Margin="0,0,20,0">
-                    <Border BorderBrush="{StaticResource AppAccentBrush}" BorderThickness="1">
+                    <Border BorderBrush="{StaticResource AppLightControlBrush}" BorderThickness="1">
                         <Image Source="{Binding GravatarUrl, IsAsync=True, TargetNullValue={StaticResource GravatarDefaultImageUrl}}" />
                     </Border>
                 </Grid>
@@ -84,12 +82,12 @@
                 <StackPanel Grid.Row="2" Grid.Column="1">
                     <AdornerDecorator>
                         <TextBox x:Name="NameTextBox"
-                                 Focusable="True"
                                  KeyboardNavigation.TabIndex="0"
                                  Style="{StaticResource AccentTextBoxStyle}"
                                  Text="{Binding Name,
                                                 Mode=TwoWay,
-                                                ValidatesOnDataErrors=True}">
+                                                ValidatesOnDataErrors=True}"
+                                 behaviors:InitialFocusBehavior.IsEnabled="True">
                             <behaviors:WatermarkBehavior.Watermark>
                                 <TextBlock VerticalAlignment="Center"
                                            Style="{StaticResource AppWatermarkTextStyle}"
@@ -151,6 +149,7 @@
                                               FallbackValue={x:Null}}"
                             Content="Create"
                             DockPanel.Dock="Right"
+                            IsEnabled="{Binding IsValid}"
                             KeyboardNavigation.TabIndex="4"
                             Style="{StaticResource AppDefaultDialogTextButtonStyle}" />
                 </DockPanel>

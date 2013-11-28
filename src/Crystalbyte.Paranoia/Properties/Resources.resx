@@ -121,6 +121,10 @@
     <value>type in your email address ...</value>
     <comment>IdentityScreen -&gt; TextBlock -&gt; EmailAddressTextBlock</comment>
   </data>
+  <data name="IdentityHeaderText" xml:space="preserve">
+    <value>In order to get you started, it is required to create a unique identity.</value>
+    <comment>IdentityScreen -&gt;Run</comment>
+  </data>
   <data name="IdentityNameWatermark" xml:space="preserve">
     <value>type in your name ...</value>
     <comment>IdentityScreen -&gt; TextBlock -&gt; NameTextBlock</comment>
@@ -135,12 +139,24 @@
   <data name="IdentityPublicDescription" xml:space="preserve">
     <value>These properties are public and will be visible to the people you communicate with.</value>
   </data>
+  <data name="IdentityTitle" xml:space="preserve">
+    <value>Create Identity</value>
+    <comment>IdentityScreen -&gt;Run</comment>
+  </data>
   <data name="InvalidEmailFormatErrorText" xml:space="preserve">
-    <value>The email address entered is invalid.</value>
-    <comment>RegexValidationRule</comment>
+    <value>The value entered is not a valid email address.</value>
+    <comment>IdentityScreenContext -&gt; EmailAddress</comment>
+  </data>
+  <data name="MaxStringLength64ErrorText" xml:space="preserve">
+    <value>The text must not exceed 64 characters.</value>
+    <comment>IdentityScreenContext -&gt; Name</comment>
+  </data>
+  <data name="NameRequiredErrorText" xml:space="preserve">
+    <value>Please enter your name.</value>
+    <comment>IdentityScreenContext -&gt; Name</comment>
   </data>
   <data name="NullOrEmptyErrorText" xml:space="preserve">
-    <value>Text must not be empty.</value>
-    <comment>NullOrEmptyValidationRule</comment>
+    <value>This field must not be empty.</value>
+    <comment>IdentityScreenContext -&gt; EmailAddress</comment>
   </data>
 </root>

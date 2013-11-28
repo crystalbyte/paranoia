@@ -23,7 +23,7 @@
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
-                    <WindowChrome CaptionHeight="30"
+                    <WindowChrome CaptionHeight="48"
                                   GlassFrameThickness="-1"
                                   NonClientFrameEdges="None"
                                   ResizeBorderThickness="0" />
@@ -36,12 +36,6 @@
                         <Border BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Padding="{TemplateBinding Padding}">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="5"
-                                                  Opacity="1"
-                                                  ShadowDepth="0"
-                                                  Color="{StaticResource AppAccentColor}" />
-                            </Border.Effect>
                             <DockPanel LastChildFill="True">
                                 <Grid Background="{StaticResource AppControlBrush}" DockPanel.Dock="Top">
                                     <StackPanel HorizontalAlignment="Right"

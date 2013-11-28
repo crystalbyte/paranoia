@@ -83,11 +83,11 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        public IEnumerable<object> Identities {
+        public IList<object> Identities {
             get { return _identities; }
         }
 
-        public IEnumerable<object> Elements {
+        public IList<object> Elements {
             get { return _elements; }
         }
 

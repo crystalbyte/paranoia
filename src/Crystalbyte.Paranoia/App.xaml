@@ -36,12 +36,20 @@
         <System:Double x:Key="AppMediumFontSize">16</System:Double>
         <System:Double x:Key="AppNormalFontSize">12</System:Double>
 
+        <Style TargetType="ToolTip">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="WhiteSmoke" />
+            <Setter Property="Background" Value="{StaticResource AppWindowBackgroundBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
+        </Style>
+
         <ControlTemplate x:Key="ValidationErrorTemplate">
             <Grid>
                 <Polygon Margin="3"
                          HorizontalAlignment="Right"
                          VerticalAlignment="Bottom"
                          Fill="Red"
+                         IsHitTestVisible="False"
                          Points="10 0 10 10 0 10" />
                 <AdornedElementPlaceholder />
             </Grid>
@@ -60,6 +68,10 @@
 
         <Style x:Key="AppButtonStyle" TargetType="ButtonBase">
             <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="{StaticResource AppDarkTextBrush}" />
+                    <Setter Property="BorderBrush" Value="{StaticResource AppDarkTextBrush}" />
+                </Trigger>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
                         <Condition Property="IsPressed" Value="True" />

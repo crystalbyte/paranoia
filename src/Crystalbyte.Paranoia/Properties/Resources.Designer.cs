@@ -70,6 +70,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to In order to get you started, it is required to create a unique identity..
+        /// </summary>
+        public static string IdentityHeaderText {
+            get {
+                return ResourceManager.GetString("IdentityHeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to type in your name ....
         /// </summary>
         public static string IdentityNameWatermark {
@@ -106,7 +115,16 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The email address entered is invalid..
+        ///   Looks up a localized string similar to Create Identity.
+        /// </summary>
+        public static string IdentityTitle {
+            get {
+                return ResourceManager.GetString("IdentityTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value entered is not a valid email address..
         /// </summary>
         public static string InvalidEmailFormatErrorText {
             get {
@@ -115,7 +133,25 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Text must not be empty..
+        ///   Looks up a localized string similar to The text must not exceed 64 characters..
+        /// </summary>
+        public static string MaxStringLength64ErrorText {
+            get {
+                return ResourceManager.GetString("MaxStringLength64ErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your name..
+        /// </summary>
+        public static string NameRequiredErrorText {
+            get {
+                return ResourceManager.GetString("NameRequiredErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This field must not be empty..
         /// </summary>
         public static string NullOrEmptyErrorText {
             get {

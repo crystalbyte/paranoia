@@ -11,11 +11,14 @@ using System.Security.Cryptography;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Crystalbyte.Paranoia.Properties;
+using Crystalbyte.Paranoia.Data;
 
 namespace Crystalbyte.Paranoia.Contexts {
 
     [Export, Shared]
-    public sealed class IdentityScreenContext : NotificationObject, IDataErrorInfo {
+    public sealed class IdentityScreenContext : ValidationObject<IdentityScreenContext> {
+
+        #region Private Fields
 
         private bool _isActive;
         private string _name;
@@ -23,15 +26,34 @@ namespace Crystalbyte.Paranoia.Contexts {
         private string _notes;
         private string _gravatarUrl;
 
+        private const string EmailRegexPattern = @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+
+        #endregion
+
+        #region Construction
+
         public IdentityScreenContext() {
             CreateCommand = new RelayCommand(OnCanCreateCommandExecuted, OnCreateCommandExecuted);
             CancelCommand = new RelayCommand(OnCancelCommandExecuted);
         }
 
+        #endregion
+
+        #region Import Declarations
+
+        [Import]
+        public LocalStorage LocalStorage { get; set; }
+
+        [Import]
+        public AppContext AppContext { get; set; }
+
+        #endregion
+
         public ICommand CreateCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
-        [Required(ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        [StringLength(64, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxStringLength64ErrorText")]
+        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequiredErrorText")]
         public string Name {
             get { return _name; }
             set {
@@ -58,6 +80,8 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
+        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        [RegularExpression(EmailRegexPattern, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "InvalidEmailFormatErrorText")]
         public string EmailAddress {
             get { return _emailAddress; }
             set {
@@ -70,10 +94,6 @@ namespace Crystalbyte.Paranoia.Contexts {
                 RaisePropertyChanged(() => EmailAddress);
                 OnEmailAddressChanged();
             }
-        }
-
-        private void OnEmailAddressChanged() {
-            CreateGravatarUrl();
         }
 
         public string Notes {
@@ -102,16 +122,30 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
+        private void OnEmailAddressChanged() {
+            CreateGravatarUrl();
+        }
+
         private void OnCancelCommandExecuted(object obj) {
+            ClearValues();
             IsActive = false;
+        }
+
+        private void ClearValues() {
+            Name = string.Empty;
+            EmailAddress = string.Empty;
+            Notes = string.Empty;
+            GravatarUrl = null;
         }
 
         private static bool OnCanCreateCommandExecuted(object parameter) {
             return true;
         }
 
-        private void OnCreateCommandExecuted(object parameter) {
-            throw new NotImplementedException();
+        private async void OnCreateCommandExecuted(object parameter) {
+            var identity = new IdentityContext {EmailAddress = EmailAddress, Notes = Notes, Name = Name};
+            LocalStorage.Attach(identity.Model);
+            AppContext.Identities.Add(identity);
         }
 
         public void CreateGravatarUrl() {
@@ -125,22 +159,5 @@ namespace Crystalbyte.Paranoia.Contexts {
                 }
             }
         }
-
-        #region Implementation of IDataErrorInfo
-
-        /// <summary>
-        /// http://weblogs.asp.net/marianor/archive/2009/04/17/wpf-validation-with-attributes-and-idataerrorinfo-interface-in-mvvm.aspx
-        /// </summary>
-        /// <param name="columnName"></param>
-        /// <returns></returns>
-        public string this[string columnName] {
-            get { return string.Empty; }
-        }
-
-        public string Error {
-            get { return string.Empty; }
-        }
-
-        #endregion
     }
 }
