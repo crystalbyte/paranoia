@@ -25,7 +25,7 @@ namespace Crystalbyte.Paranoia.Commands {
             return !AppContext.IsSyncing;
         }
 
-        public async void Execute(object parameter) {
+        public void Execute(object parameter) {
             AppContext.SyncAsync();
         }
 

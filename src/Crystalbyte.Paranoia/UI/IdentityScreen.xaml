@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:ui="clr-namespace:Crystalbyte.Paranoia.Contexts"
+             xmlns:validation="clr-namespace:Crystalbyte.Paranoia.Validation"
              FocusManager.IsFocusScope="True"
              KeyboardNavigation.AcceptsReturn="False"
              KeyboardNavigation.TabNavigation="Cycle"
@@ -13,6 +15,10 @@
              d:DesignHeight="400"
              d:DesignWidth="640"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <system:String x:Key="GravatarDefaultImageUrl">http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y&amp;d=mm&amp;s=200</system:String>
+        <system:String x:Key="EmailRegexPattern">[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?</system:String>
+    </UserControl.Resources>
     <UserControl.InputBindings>
         <KeyBinding Key="Return" Command="{Binding CreateCommand}" />
         <KeyBinding Key="Escape" Command="{Binding CancelCommand}" />
@@ -62,7 +68,9 @@
                       Width="128"
                       Height="128"
                       Margin="0,0,20,0">
-                    <Image Source="{Binding GravatarUrl}" />
+                    <Border BorderBrush="{StaticResource AppAccentBrush}" BorderThickness="1">
+                        <Image Source="{Binding GravatarUrl, IsAsync=True, TargetNullValue={StaticResource GravatarDefaultImageUrl}}" />
+                    </Border>
                 </Grid>
                 <TextBlock Grid.Row="1"
                            Grid.Column="1"
@@ -80,7 +88,8 @@
                                  KeyboardNavigation.TabIndex="0"
                                  Style="{StaticResource AccentTextBoxStyle}"
                                  Text="{Binding Name,
-                                                Mode=TwoWay}">
+                                                Mode=TwoWay,
+                                                ValidatesOnDataErrors=True}">
                             <behaviors:WatermarkBehavior.Watermark>
                                 <TextBlock VerticalAlignment="Center"
                                            Style="{StaticResource AppWatermarkTextStyle}"
@@ -93,7 +102,8 @@
                                  Style="{StaticResource AccentTextBoxStyle}"
                                  Text="{Binding EmailAddress,
                                                 Mode=TwoWay,
-                                                UpdateSourceTrigger=LostFocus}">
+                                                UpdateSourceTrigger=LostFocus,
+                                                ValidatesOnDataErrors=True}">
                             <behaviors:WatermarkBehavior.Watermark>
                                 <TextBlock VerticalAlignment="Center"
                                            Style="{StaticResource AppWatermarkTextStyle}"

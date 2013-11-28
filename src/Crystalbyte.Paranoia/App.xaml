@@ -36,6 +36,17 @@
         <System:Double x:Key="AppMediumFontSize">16</System:Double>
         <System:Double x:Key="AppNormalFontSize">12</System:Double>
 
+        <ControlTemplate x:Key="ValidationErrorTemplate">
+            <Grid>
+                <Polygon Margin="3"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Bottom"
+                         Fill="Red"
+                         Points="10 0 10 10 0 10" />
+                <AdornedElementPlaceholder />
+            </Grid>
+        </ControlTemplate>
+
         <Style x:Key="AppNormalTextStyle" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Segoe UI" />
             <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
@@ -191,6 +202,12 @@
         </Style>
 
         <Style x:Key="AccentTextBoxStyle" TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+            <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ValidationErrorTemplate}" />
             <Setter Property="BorderBrush" Value="{StaticResource AppAccentBrush}" />
             <Setter Property="Background" Value="{StaticResource AppControlBrush}" />
             <Setter Property="VerticalAlignment" Value="Center" />

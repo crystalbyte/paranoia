@@ -24,7 +24,7 @@ namespace Crystalbyte.Paranoia.Commands {
             return true;
         }
 
-        public async void Execute(object parameter) {
+        public void Execute(object parameter) {
             var message = new MailMessage
                               {From = new MailAddress("paranoia.app@gmail.com", "Paranoia Development", Encoding.UTF8)};
 

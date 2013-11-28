@@ -135,4 +135,12 @@
   <data name="IdentityPublicDescription" xml:space="preserve">
     <value>These properties are public and will be visible to the people you communicate with.</value>
   </data>
+  <data name="InvalidEmailFormatErrorText" xml:space="preserve">
+    <value>The email address entered is invalid.</value>
+    <comment>RegexValidationRule</comment>
+  </data>
+  <data name="NullOrEmptyErrorText" xml:space="preserve">
+    <value>Text must not be empty.</value>
+    <comment>NullOrEmptyValidationRule</comment>
+  </data>
 </root>

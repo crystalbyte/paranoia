@@ -8,11 +8,14 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Commands;
 using System.Security.Cryptography;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using Crystalbyte.Paranoia.Properties;
 
 namespace Crystalbyte.Paranoia.Contexts {
 
     [Export, Shared]
-    public sealed class IdentityScreenContext : NotificationObject {
+    public sealed class IdentityScreenContext : NotificationObject, IDataErrorInfo {
 
         private bool _isActive;
         private string _name;
@@ -28,6 +31,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         public ICommand CreateCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
+        [Required(ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public string Name {
             get { return _name; }
             set {
@@ -121,5 +125,22 @@ namespace Crystalbyte.Paranoia.Contexts {
                 }
             }
         }
+
+        #region Implementation of IDataErrorInfo
+
+        /// <summary>
+        /// http://weblogs.asp.net/marianor/archive/2009/04/17/wpf-validation-with-attributes-and-idataerrorinfo-interface-in-mvvm.aspx
+        /// </summary>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        public string this[string columnName] {
+            get { return string.Empty; }
+        }
+
+        public string Error {
+            get { return string.Empty; }
+        }
+
+        #endregion
     }
 }

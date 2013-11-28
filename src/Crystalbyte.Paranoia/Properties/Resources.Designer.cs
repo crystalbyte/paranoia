@@ -104,5 +104,23 @@ namespace Crystalbyte.Paranoia.Properties {
                 return ResourceManager.GetString("IdentityPublicDescription", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The email address entered is invalid..
+        /// </summary>
+        public static string InvalidEmailFormatErrorText {
+            get {
+                return ResourceManager.GetString("InvalidEmailFormatErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text must not be empty..
+        /// </summary>
+        public static string NullOrEmptyErrorText {
+            get {
+                return ResourceManager.GetString("NullOrEmptyErrorText", resourceCulture);
+            }
+        }
     }
 }

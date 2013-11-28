@@ -48,7 +48,7 @@ namespace Crystalbyte.Paranoia {
             IsNormalState = WindowState == WindowState.Normal;
         }
 
-        private async void OnLoaded(object sender, RoutedEventArgs e) {
+        private void OnLoaded(object sender, RoutedEventArgs e) {
             try {
                 HookEntropyGenerator();
             }
@@ -74,7 +74,7 @@ namespace Crystalbyte.Paranoia {
             return IntPtr.Zero;
         }
 
-        private async void OnMessagesSelectionChanged(object sender, SelectionChangedEventArgs e) {
+        private void OnMessagesSelectionChanged(object sender, SelectionChangedEventArgs e) {
             var list = (ListView)sender;
             var messages = list.SelectedItems.OfType<ImapMessageContext>().ToList();
             if (messages.Count == 0) {

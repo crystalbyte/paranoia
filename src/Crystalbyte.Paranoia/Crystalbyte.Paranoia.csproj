@@ -160,6 +160,8 @@
     <Compile Include="UI\StageItem.xaml.cs">
       <DependentUpon>StageItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Validation\RequiredAttribute.cs" />
+    <Compile Include="Validation\ValidationAttribute.cs" />
     <Compile Include="WebBrowserExtensions.cs" />
     <Compile Include="WindowExtensions.cs" />
     <Page Include="MainWindow.xaml">
@@ -310,6 +312,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(ProjectDir)\..\Crystalbyte.Paranoia.Cryptography\Resources\libeay32.dll" "$(TargetDir)"</PostBuildEvent>
