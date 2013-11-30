@@ -21,6 +21,8 @@
                G="104"
                R="73" />
 
+
+
         <SolidColorBrush x:Key="AppWindowBackgroundBrush" Color="#1E1E1E" />
         <SolidColorBrush x:Key="AppControlBrush" Color="#2D2D30" />
         <SolidColorBrush x:Key="AppLightControlBrush" Color="#4D4D4D" />
@@ -121,6 +123,16 @@
             <Setter Property="Width" Value="48" />
             <Setter Property="Height" Value="48" />
             <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="SettingsButtonStyle"
+               BasedOn="{StaticResource AppMenuButtonStyle}"
+               TargetType="Button">
+            <Setter Property="Content">
+                <Setter.Value>
+                    <Image Source="/Assets/refresh.png" />
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <Style x:Key="CreateIdentityButtonStyle"
@@ -331,11 +343,11 @@
                                 <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                 <Polygon x:Name="MouseOverIndicator"
                                          Margin="0,0,3,3"
-                                         SnapsToDevicePixels="True"
                                          HorizontalAlignment="Right"
                                          VerticalAlignment="Bottom"
                                          Fill="{StaticResource AppAccentBrush}"
-                                         Points="10 0 10 10 0 10" />
+                                         Points="10 0 10 10 0 10"
+                                         SnapsToDevicePixels="True" />
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -356,6 +368,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+
+
 
     </Application.Resources>
 </Application>

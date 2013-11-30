@@ -128,8 +128,13 @@
         </Border>
         <Border>
             <Grid>
+                <Grid HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <Button Command="{Binding OpenSettingsCommand}" Style="{StaticResource SettingsButtonStyle}" />
+                </Grid>
+                <ui:SettingsScreen DataContext="{Binding SettingsContext, Mode=OneTime}" Visibility="{Binding IsActive, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <ui:IdentityScreen DataContext="{Binding IdentityScreenContext, Mode=OneTime}" Visibility="{Binding IsActive, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </Grid>
         </Border>
+
     </DockPanel>
 </Window>

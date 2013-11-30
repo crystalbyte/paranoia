@@ -37,15 +37,21 @@ namespace Crystalbyte.Paranoia.Contexts {
             _identities = new ObservableCollection<object>();
 
             CreateIdentityCommand = new RelayCommand(OnCreateIdentityCommandExecuted);
+            OpenSettingsCommand = new RelayCommand(OnOpenSettingsCommandExecuted);
         }
 
         #endregion
+
+        #region Import Declarations
 
         [Import]
         public LocalStorage LocalStorage { get; set; }
 
         [Import]
         public IdentityScreenContext IdentityScreenContext { get; set; }
+
+        [Import]
+        public SettingsScreenContext SettingsScreenContext { get; set; }
 
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
@@ -56,7 +62,10 @@ namespace Crystalbyte.Paranoia.Contexts {
             _elements.AddRange(elements.GroupBy(x => x.ThreadId));
         }
 
+        #endregion
+
         public ICommand CreateIdentityCommand { get; private set; }
+        public ICommand OpenSettingsCommand { get; private set; }
 
         public event EventHandler SyncStatusChanged;
 
@@ -68,6 +77,10 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         private void OnCreateIdentityCommandExecuted(object obj) {
             IdentityScreenContext.IsActive = true;
+        }
+
+        private void OnOpenSettingsCommandExecuted(object obj) {
+            SettingsScreenContext.IsActive = true;
         }
 
         public bool IsSyncing {
