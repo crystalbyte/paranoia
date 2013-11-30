@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Data.EntityClient;
 using Crystalbyte.Paranoia.Models;
 using System;
 using System.Composition;
@@ -12,15 +13,18 @@ namespace Crystalbyte.Paranoia.Data {
     public sealed class LocalStorage {
 
         private readonly Entities _context;
-        private const string AppDataDirectory = "Paranoia";
+        private const string ApplicationName = "Paranoia";
         private const string DatabaseFilename = "Storage.sdf";
 
         public LocalStorage() {
             _context = new Entities();
         }
 
-        public void Attach(Identity identity) {
-            _context.Set<Identity>().Attach(identity);
+        public Task InsertAsync(Identity identity) {
+            return Task.Factory.StartNew(() => {
+                _context.Identities.Add(identity);
+                _context.SaveChanges();
+            });
         }
 
         public Task<DbSet<Identity>> QueryIdentitiesAsync() {
@@ -35,20 +39,28 @@ namespace Crystalbyte.Paranoia.Data {
             return Task.Factory.StartNew(() => _context.SmtpAccounts);
         }
 
+        private static string DataDirectory {
+            get {
+                var roaming = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                var directory = Path.Combine(roaming, ApplicationName, "Data");
+                return directory;
+            }
+        }
+
         public Task<bool> CheckIsCreatedAsync() {
             return Task<bool>.Factory.StartNew(() => {
-                var roaming = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                var directory = Path.Combine(roaming, AppDataDirectory);
-                if (!Directory.Exists(directory)) {
+
+                if (!Directory.Exists(DataDirectory)) {
                     return false;
                 }
 
-                var file = Path.Combine(directory, DatabaseFilename);
+                var file = Path.Combine(DataDirectory, DatabaseFilename);
                 return File.Exists(file);
             });
         }
 
         public async Task InitAsync() {
+            ApplyDataDirectory();
             var created = await CheckIsCreatedAsync();
             if (created) {
                 return;
@@ -56,11 +68,14 @@ namespace Crystalbyte.Paranoia.Data {
             await SetupDatabaseAsync();
         }
 
+        private static void ApplyDataDirectory() {
+            AppDomain.CurrentDomain.SetData("DataDirectory", DataDirectory);
+        }
+
         private static Task SetupDatabaseAsync() {
             return Task.Factory.StartNew(() => {
-                var roaming = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-                var directory = Path.Combine(roaming, AppDataDirectory);
+                var directory = DataDirectory;
                 if (!Directory.Exists(directory)) {
                     Directory.CreateDirectory(directory);
                 }

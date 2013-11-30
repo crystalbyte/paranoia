@@ -1,5 +1,6 @@
 ﻿#region Using directives
 
+using System;
 using System.Composition;
 using System.Composition.Hosting;
 using System.Windows;

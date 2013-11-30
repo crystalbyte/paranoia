@@ -1,15 +1,12 @@
 ﻿#region Using directives
 
 using System;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.Cryptography;
-using Crystalbyte.Paranoia.Messaging.Mime;
 
 #endregion
 
@@ -20,12 +17,16 @@ namespace Crystalbyte.Paranoia {
     public partial class MainWindow {
         private HwndSource _source;
 
+
         public MainWindow() {
             DataContext = App.AppContext;
 
+
             InitializeComponent();
 
+
             Loaded += OnLoaded;
+
 
             // We need to set the height for the window to stay ontop the Taskbar
             MaxHeight = SystemParameters.WorkArea.Height
@@ -33,20 +34,24 @@ namespace Crystalbyte.Paranoia {
                         + SystemParameters.WindowResizeBorderThickness.Bottom;
         }
 
+
         public bool IsNormalState {
             get { return (bool)GetValue(IsNormalStateProperty); }
             set { SetValue(IsNormalStateProperty, value); }
         }
 
+
         // Using a DependencyProperty as the backing store for IsNormalState.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsNormalStateProperty =
             DependencyProperty.Register("IsNormalState", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
+
 
         protected override void OnStateChanged(EventArgs e) {
             base.OnStateChanged(e);
             UpdateWindowPadding();
             IsNormalState = WindowState == WindowState.Normal;
         }
+
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
             try {
@@ -58,6 +63,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+
         private void HookEntropyGenerator() {
             var helper = new WindowInteropHelper(this);
             _source = HwndSource.FromHwnd(helper.Handle);
@@ -67,12 +73,14 @@ namespace Crystalbyte.Paranoia {
             _source.AddHook(WndProc);
         }
 
+
         private static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
             if (!OpenSslRandom.IsSeededSufficiently) {
                 OpenSslRandom.AddEntropyFromEvents(msg, wParam, lParam);
             }
             return IntPtr.Zero;
         }
+
 
         private void OnMessagesSelectionChanged(object sender, SelectionChangedEventArgs e) {
             var list = (ListView)sender;
@@ -81,10 +89,12 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
+
             //ImapMessageSelectionSource.ChangeSelection(messages);
             var first = e.AddedItems.OfType<ImapMessageContext>().FirstOrDefault();
             if (first == null)
                 return;
+
 
             first.ReadAsync();
             //var mime = await first.FetchContentAsync();
@@ -102,9 +112,11 @@ namespace Crystalbyte.Paranoia {
             //}
         }
 
+
         private void OnCloseButtonClicked(object sender, RoutedEventArgs e) {
             Close();
         }
+
 
         private void UpdateWindowPadding() {
             if (WindowState == WindowState.Normal) {
@@ -120,9 +132,11 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+
         private void OnMaximizeButtonClicked(object sender, RoutedEventArgs e) {
             ToggleWindowState();
         }
+
 
         private void ToggleWindowState() {
             if (WindowState == WindowState.Normal) {
@@ -132,16 +146,20 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+
         private void NormalizeWindow() {
             WindowState = WindowState.Normal;
         }
 
+
         private void OnMinimizeButtonClicked(object sender, RoutedEventArgs e) {
             WindowState = WindowState.Minimized;
         }
+
 
         private void MaximizeWindow() {
             WindowState = WindowState.Maximized;
         }
     }
 }
+

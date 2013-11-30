@@ -52,11 +52,40 @@
                                                        Foreground="{StaticResource AppAccentBrush}"
                                                        Text="p4r4n014" />
                                         </Border>
-                                        <ListView ItemsSource="{Binding Identities}" />
+                                        <ListView ItemsSource="{Binding Identities}">
+                                            <ListView.ItemContainerStyle>
+                                                <Style BasedOn="{StaticResource {x:Type ListViewItem}}"
+                                                       TargetType="ListViewItem"
+                                                       d:DataContext="{d:DesignInstance contexts:IdentityContext}">
+                                                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ListView.ItemsPanel>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate DataType="contexts:IdentityContext">
+                                                    <Grid Background="Transparent">
+                                                        <Image x:Name="Avatar"
+                                                               Width="48"
+                                                               Height="48"
+                                                               SnapsToDevicePixels="True"
+                                                               Source="{Binding GravatarUrl,
+                                                                                IsAsync=True}" />
+
+                                                        <Popup IsOpen="{Binding IsSelected, Mode=TwoWay}" StaysOpen="False">
+                                                            <Border Width="300" Height="100" />
+                                                        </Popup>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
                                         <Button Command="{Binding CreateIdentityCommand}" Style="{StaticResource CreateIdentityButtonStyle}" />
                                     </StackPanel>
                                 </Grid>
-                                <ContentPresenter />
+                                <ContentPresenter Margin="0,-1,0,0" />
                             </DockPanel>
                         </Border>
                     </ControlTemplate>
@@ -65,6 +94,9 @@
         </Style>
     </Window.Style>
     <Window.InputBindings>
+        <KeyBinding Key="I"
+                    Command="{Binding CreateIdentityCommand}"
+                    Modifiers="Control" />
         <KeyBinding Key="N" Modifiers="Control" />
         <KeyBinding Key="R" Modifiers="Control" />
     </Window.InputBindings>

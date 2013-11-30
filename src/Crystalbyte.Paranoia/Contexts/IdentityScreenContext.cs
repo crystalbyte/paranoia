@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Composition;
+﻿using System.Composition;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Commands;
 using System.Security.Cryptography;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.Data;
@@ -52,8 +47,8 @@ namespace Crystalbyte.Paranoia.Contexts {
         public ICommand CreateCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
-        [StringLength(64, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxStringLength64ErrorText")]
         [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequiredErrorText")]
+        [StringLength(64, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxStringLength64ErrorText")]
         public string Name {
             get { return _name; }
             set {
@@ -64,19 +59,6 @@ namespace Crystalbyte.Paranoia.Contexts {
                 RaisePropertyChanging(() => Name);
                 _name = value;
                 RaisePropertyChanged(() => Name);
-            }
-        }
-
-        public string GravatarUrl {
-            get { return _gravatarUrl; }
-            set {
-                if (_gravatarUrl == value) {
-                    return;
-                }
-
-                RaisePropertyChanging(() => GravatarUrl);
-                _gravatarUrl = value;
-                RaisePropertyChanged(() => GravatarUrl);
             }
         }
 
@@ -93,6 +75,19 @@ namespace Crystalbyte.Paranoia.Contexts {
                 _emailAddress = value;
                 RaisePropertyChanged(() => EmailAddress);
                 OnEmailAddressChanged();
+            }
+        }
+
+        public string GravatarUrl {
+            get { return _gravatarUrl; }
+            set {
+                if (_gravatarUrl == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => GravatarUrl);
+                _gravatarUrl = value;
+                RaisePropertyChanged(() => GravatarUrl);
             }
         }
 
@@ -127,6 +122,10 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private void OnCancelCommandExecuted(object obj) {
+            Close();
+        }
+
+        private void Close() {
             ClearValues();
             IsActive = false;
         }
@@ -143,9 +142,18 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private async void OnCreateCommandExecuted(object parameter) {
-            var identity = new IdentityContext {EmailAddress = EmailAddress, Notes = Notes, Name = Name};
-            LocalStorage.Attach(identity.Model);
+            var identity = new IdentityContext {
+                EmailAddress = EmailAddress,
+                Notes = Notes,
+                Name = Name,
+                PrivateKey = "muh",
+                PublicKey = "mäh"
+            };
+
+            await LocalStorage.InsertAsync(identity.Model);
             AppContext.Identities.Add(identity);
+
+            Close();
         }
 
         public void CreateGravatarUrl() {

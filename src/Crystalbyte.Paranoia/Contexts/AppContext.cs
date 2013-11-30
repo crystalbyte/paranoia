@@ -35,6 +35,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         public AppContext() {
             _elements = new ObservableCollection<object>();
             _identities = new ObservableCollection<object>();
+
             CreateIdentityCommand = new RelayCommand(OnCreateIdentityCommandExecuted);
         }
 
@@ -129,6 +130,12 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
             
             await LocalStorage.InitAsync();
+            await LoadIdentities();
+        }
+
+        private async Task LoadIdentities() {
+            var query = await LocalStorage.QueryIdentitiesAsync();
+            Identities.AddRange(query.ToArray().Select(x => new IdentityContext(x)));
         }
     }
 }
