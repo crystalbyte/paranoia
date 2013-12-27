@@ -16,11 +16,17 @@ using Crystalbyte.Paranoia.Contexts;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
-    /// Interaction logic for IdentityScreen.xaml
+    /// Interaction logic for CreateAccountScreen.xaml
     /// </summary>
-    public partial class IdentityScreen {
-        public IdentityScreen() {
+    public partial class CreateAccountScreen {
+        public CreateAccountScreen() {
             InitializeComponent();
+            ScreenContext = App.AppContext.AccountScreenContext;
+        }
+
+        public AccountScreenContext ScreenContext {
+            get { return DataContext as AccountScreenContext; }
+            set { DataContext = value; }
         }
     }
 }

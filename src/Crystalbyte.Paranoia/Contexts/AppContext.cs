@@ -14,6 +14,7 @@ using Crystalbyte.Paranoia.Commands;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using System.Diagnostics;
+using Crystalbyte.Paranoia.Models;
 
 #endregion
 
@@ -26,7 +27,8 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         private bool _isSyncing;
         private readonly ObservableCollection<object> _elements;
-        private readonly ObservableCollection<object> _identities;
+        private readonly ObservableCollection<IdentityContext> _identities;
+        private readonly ObservableCollection<object> _accounts;
 
         #endregion
 
@@ -34,8 +36,10 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public AppContext() {
             _elements = new ObservableCollection<object>();
-            _identities = new ObservableCollection<object>();
+            _identities = new ObservableCollection<IdentityContext>();
+            _accounts = new ObservableCollection<object>();
 
+            CreateAccountCommand = new RelayCommand(OnCreateAccountCommandExecuted);
             CreateIdentityCommand = new RelayCommand(OnCreateIdentityCommandExecuted);
             OpenSettingsCommand = new RelayCommand(OnOpenSettingsCommandExecuted);
         }
@@ -51,7 +55,10 @@ namespace Crystalbyte.Paranoia.Contexts {
         public IdentityScreenContext IdentityScreenContext { get; set; }
 
         [Import]
-        public SettingsScreenContext SettingsScreenContext { get; set; }
+        public AccountScreenContext AccountScreenContext { get; set; }
+
+        [Import]
+        public SettingsContext SettingsContext { get; set; }
 
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
@@ -64,6 +71,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         #endregion
 
+        public ICommand CreateAccountCommand { get; private set; }
         public ICommand CreateIdentityCommand { get; private set; }
         public ICommand OpenSettingsCommand { get; private set; }
 
@@ -75,12 +83,16 @@ namespace Crystalbyte.Paranoia.Contexts {
                 handler(this, e);
         }
 
+        private void OnCreateAccountCommandExecuted(object obj) {
+            AccountScreenContext.IsActive = true;
+        }
+
         private void OnCreateIdentityCommandExecuted(object obj) {
             IdentityScreenContext.IsActive = true;
         }
 
         private void OnOpenSettingsCommandExecuted(object obj) {
-            SettingsScreenContext.IsActive = true;
+            SettingsContext.IsActive = true;
         }
 
         public bool IsSyncing {
@@ -97,7 +109,11 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        public IList<object> Identities {
+        public IList<object> Accounts {
+            get { return _accounts; }
+        }
+
+        public IList<IdentityContext> Identities {
             get { return _identities; }
         }
 
@@ -141,7 +157,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             catch (Exception ex) {
                 Debug.WriteLine(ex);
             }
-            
+
             await LocalStorage.InitAsync();
             await LoadIdentities();
         }

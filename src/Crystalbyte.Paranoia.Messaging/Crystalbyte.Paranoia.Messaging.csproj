@@ -93,7 +93,7 @@
     <Compile Include="ResponseLine.cs" />
     <Compile Include="ImapConnection.cs" />
     <Compile Include="RemoteCertificateValidationFailedEventArgs.cs" />
-    <Compile Include="SecurityPolicies.cs" />
+    <Compile Include="SecurityPolicy.cs" />
     <Compile Include="SequenceIdentifier.cs" />
     <Compile Include="SmtpCredentials.cs" />
     <Compile Include="SmtpSession.cs" />

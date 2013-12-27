@@ -21,8 +21,6 @@ namespace Crystalbyte.Paranoia.Contexts {
         private string _notes;
         private string _gravatarUrl;
 
-        private const string EmailRegexPattern = @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
-
         #endregion
 
         #region Construction
@@ -63,7 +61,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
-        [RegularExpression(EmailRegexPattern, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "InvalidEmailFormatErrorText")]
+        [RegularExpression(RegexPatterns.Email, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "InvalidEmailFormatErrorText")]
         public string EmailAddress {
             get { return _emailAddress; }
             set {

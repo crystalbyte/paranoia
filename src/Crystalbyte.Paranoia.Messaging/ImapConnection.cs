@@ -22,12 +22,12 @@ namespace Crystalbyte.Paranoia.Messaging {
         private StreamWriter _writer;
 
         public ImapConnection() {
-            Security = SecurityPolicies.Explicit;
+            Security = SecurityPolicy.Explicit;
             Certificates = new X509Certificate2Collection();
         }
 
         public X509Certificate2Collection Certificates { get; private set; }
-        public SecurityPolicies Security { get; set; }
+        public SecurityPolicy Security { get; set; }
 
         public bool IsConnected {
             get { return _tcpClient.Connected; }
@@ -90,7 +90,7 @@ namespace Crystalbyte.Paranoia.Messaging {
             _writer = new StreamWriter(stream) {AutoFlush = true};
 
             // Use implicit encryption (SSL).
-            if (Security == SecurityPolicies.Implicit) {
+            if (Security == SecurityPolicy.Implicit) {
                 await NegotiateEncryptionProtocolsAsync(host);
                 Capabilities = await RequestCapabilitiesAsync();
                 return new ImapAuthenticator(this);
@@ -98,7 +98,7 @@ namespace Crystalbyte.Paranoia.Messaging {
 
             // Use explicit encryption (TLS).
             Capabilities = await RequestCapabilitiesAsync();
-            if (Security == SecurityPolicies.Explicit) {
+            if (Security == SecurityPolicy.Explicit) {
                 if (Capabilities.Contains(Commands.StartTls)) {
                     var response = await IssueTlsCommandAsync();
                     if (response.IsOk) {

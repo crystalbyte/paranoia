@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia.Contexts {
     [Export, Shared]
-    public sealed class SettingsScreenContext : ValidationObject<SettingsScreenContext> {
+    public sealed class SettingsContext : ValidationObject<SettingsContext> {
+
         #region Private Fields
 
         private bool _isActive;

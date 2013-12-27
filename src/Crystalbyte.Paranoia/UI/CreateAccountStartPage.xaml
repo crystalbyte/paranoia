@@ -1,0 +1,307 @@
+﻿<Page x:Class="Crystalbyte.Paranoia.UI.CreateAccountStartPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:behaviors="clr-namespace:Crystalbyte.Paranoia.Behaviors"
+      xmlns:contexts="clr-namespace:Crystalbyte.Paranoia.Contexts"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+      xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+      Title="CreateAccountStartPage"
+      HorizontalAlignment="Stretch"
+      KeyboardNavigation.IsTabStop="False"
+      d:DataContext="{d:DesignInstance contexts:AccountScreenContext}"
+      d:DesignHeight="435.8"
+      d:DesignWidth="633"
+      mc:Ignorable="d">
+    <Page.InputBindings>
+        <KeyBinding Key="B"
+                    Command="{Binding CancelCommand,
+                                      FallbackValue={StaticResource NullCommand}}"
+                    Modifiers="Alt" />
+    </Page.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0"
+                Height="2"
+                Margin="0,0,0,20">
+            <ProgressBar HorizontalAlignment="Stretch"
+                         Background="Transparent"
+                         Foreground="{StaticResource AppAccentBrush}"
+                         IsIndeterminate="True"
+                         Visibility="{Binding IsChecking,
+                                              Converter={StaticResource BooleanToVisibilityConverter}}" />
+        </Border>
+        <Border Grid.Row="1"
+                HorizontalAlignment="Center"
+                Padding="20">
+            <Grid Width="500">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Margin="0,0,0,20"
+                           Style="{StaticResource AppTitleTextStyle}"
+                           TextWrapping="Wrap">
+                    <Run Text="{x:Static properties:Resources.CreateAccountTitle}" />
+                    <LineBreak />
+                    <Run FontSize="{StaticResource NormalFontSize}" Text="{x:Static properties:Resources.CreateAccountDescriptionText}" />
+                </TextBlock>
+                <TextBlock Grid.Row="1"
+                           Grid.Column="1"
+                           Style="{StaticResource LightTextStyle}"
+                           Text="{x:Static properties:Resources.EmailAddressDescription}"
+                           TextWrapping="Wrap" />
+                <AdornerDecorator Grid.Row="2" Grid.Column="1">
+                    <TextBox x:Name="EmailAddressField"
+                             KeyboardNavigation.TabIndex="0"
+                             Text="{Binding EmailAddress,
+                                            Mode=TwoWay,
+                                            ValidatesOnDataErrors=True}"
+                             behaviors:InitialFocusBehavior.IsEnabled="True">
+                        <behaviors:WatermarkBehavior.Watermark>
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource AppWatermarkTextStyle}"
+                                       Text="{x:Static properties:Resources.EmailAddressWatermark}" />
+                        </behaviors:WatermarkBehavior.Watermark>
+                    </TextBox>
+                </AdornerDecorator>
+                <TextBlock Grid.Row="3"
+                           Grid.Column="1"
+                           Margin="0,10,0,0"
+                           Style="{StaticResource LightTextStyle}"
+                           Text="{x:Static properties:Resources.PasswordDescription}" />
+                <Grid Grid.Row="4" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <AdornerDecorator Grid.Column="0">
+                        <PasswordBox x:Name="PasswordField"
+                                     KeyboardNavigation.TabIndex="1"
+                                     ui:PasswordSupport.Password="{Binding ImapPassword,
+                                                                           Mode=TwoWay,
+                                                                           ValidatesOnDataErrors=True}">
+                            <behaviors:WatermarkBehavior.Watermark>
+                                <TextBlock VerticalAlignment="Center"
+                                           Style="{StaticResource AppWatermarkTextStyle}"
+                                           Text="{x:Static properties:Resources.PasswordWatermark}" />
+                            </behaviors:WatermarkBehavior.Watermark>
+                        </PasswordBox>
+                    </AdornerDecorator>
+                    <Button Grid.Column="1"
+                            MinWidth="0"
+                            Margin="3,3,0,3"
+                            BorderBrush="{StaticResource AppAccentBrush}"
+                            Command="{Binding ResolveCommand,
+                                              FallbackValue={StaticResource NullCommand}}"
+                            KeyboardNavigation.TabIndex="2"
+                            Padding="2"
+                            Style="{StaticResource AppDialogTextButtonStyle}">
+                        <Image Width="24"
+                               Height="24"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Source="/Assets/download.png" />
+                    </Button>
+                </Grid>
+            </Grid>
+        </Border>
+        <Border Grid.Row="2"
+                HorizontalAlignment="Center"
+                Padding="20,0,20,0">
+            <Grid Width="500">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="50" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0"
+                           Grid.ColumnSpan="3"
+                           Margin="0,10,0,0"
+                           Style="{StaticResource LightTextStyle}"
+                           Text="{x:Static properties:Resources.ImapSectionHeaderText}" />
+                <Grid Grid.Row="1"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <AdornerDecorator>
+                        <TextBox Margin="0,3,3,3"
+                                 Text="{Binding ImapUsername,
+                                                Mode=TwoWay,
+                                                ValidatesOnDataErrors=True}" />
+                    </AdornerDecorator>
+                    <AdornerDecorator Grid.Column="1">
+                        <PasswordBox Margin="3,3,0,3"
+                                     ui:PasswordSupport.Password="{Binding ImapPassword,
+                                                                           Mode=TwoWay,
+                                                                           ValidatesOnDataErrors=True}" />
+                    </AdornerDecorator>
+                </Grid>
+                <AdornerDecorator Grid.Row="2" Grid.Column="0">
+                    <TextBox Text="{Binding ImapHost, Mode=TwoWay, ValidatesOnDataErrors=True}">
+                        <behaviors:WatermarkBehavior.Watermark>
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource AppWatermarkTextStyle}"
+                                       Text="{x:Static properties:Resources.ImapHostWatermark}" />
+                        </behaviors:WatermarkBehavior.Watermark>
+                    </TextBox>
+                </AdornerDecorator>
+                <ComboBox Grid.Row="2"
+                          Grid.Column="1"
+                          Margin="10,0,0,0"
+                          ItemsSource="{Binding PolicySource}"
+                          SelectedValue="{Binding ImapSecurity}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource LightTextStyle}"
+                                       Text="{Binding Converter={StaticResource SecurityPolicyFormatter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <behaviors:WatermarkBehavior.Watermark>
+                        <TextBlock VerticalAlignment="Center"
+                                   Style="{StaticResource AppWatermarkTextStyle}"
+                                   Text="{x:Static properties:Resources.ImapSecurityWatermark}" />
+                    </behaviors:WatermarkBehavior.Watermark>
+                </ComboBox>
+                <AdornerDecorator Grid.Row="2" Grid.Column="2">
+                    <TextBox Margin="10,0,0,0"
+                             PreviewTextInput="OnPortPreviewTextInput"
+                             Text="{Binding ImapPort,
+                                            FallbackValue=993,
+                                            Mode=TwoWay,
+                                            ValidatesOnDataErrors=True}">
+                        <behaviors:WatermarkBehavior.Watermark>
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource AppWatermarkTextStyle}"
+                                       Text="{x:Static properties:Resources.ImapPortWatermark}" />
+                        </behaviors:WatermarkBehavior.Watermark>
+                    </TextBox>
+                </AdornerDecorator>
+            </Grid>
+        </Border>
+        <Border Grid.Row="3"
+                HorizontalAlignment="Center"
+                Padding="20,0,20,0">
+            <Grid Width="500">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="50" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0"
+                           Grid.ColumnSpan="3"
+                           Margin="0,10,0,0"
+                           Style="{StaticResource LightTextStyle}"
+                           Text="{x:Static properties:Resources.SmtpSectionHeaderText}" />
+                <Grid Grid.Row="1"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <AdornerDecorator>
+                        <TextBox Margin="0,3,3,3"
+                                 Text="{Binding SmtpUsername,
+                                                Mode=TwoWay,
+                                                ValidatesOnDataErrors=True}" />
+                    </AdornerDecorator>
+                    <AdornerDecorator Grid.Column="1">
+                        <PasswordBox Margin="3,3,0,3"
+                                     ui:PasswordSupport.Password="{Binding SmtpPassword,
+                                                                           Mode=TwoWay,
+                                                                           ValidatesOnDataErrors=True}" />
+                    </AdornerDecorator>
+                </Grid>
+                <AdornerDecorator Grid.Row="2" Grid.Column="0">
+                    <TextBox Text="{Binding SmtpHost, Mode=TwoWay, ValidatesOnDataErrors=True}">
+                        <behaviors:WatermarkBehavior.Watermark>
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource AppWatermarkTextStyle}"
+                                       Text="{x:Static properties:Resources.ImapHostWatermark}" />
+                        </behaviors:WatermarkBehavior.Watermark>
+                    </TextBox>
+                </AdornerDecorator>
+
+                <ComboBox Grid.Row="2"
+                          Grid.Column="1"
+                          Margin="10,0,0,0"
+                          ItemsSource="{Binding PolicySource}"
+                          SelectedValue="{Binding ImapSecurity}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource LightTextStyle}"
+                                       Text="{Binding Converter={StaticResource SecurityPolicyFormatter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <behaviors:WatermarkBehavior.Watermark>
+                        <TextBlock VerticalAlignment="Center"
+                                   Style="{StaticResource AppWatermarkTextStyle}"
+                                   Text="{x:Static properties:Resources.ImapSecurityWatermark}" />
+                    </behaviors:WatermarkBehavior.Watermark>
+                </ComboBox>
+                <AdornerDecorator Grid.Row="2" Grid.Column="2">
+                    <TextBox Margin="10,0,0,0"
+                             PreviewTextInput="OnPortPreviewTextInput"
+                             Text="{Binding SmtpPort,
+                                            Mode=TwoWay,
+                                            ValidatesOnDataErrors=True,
+                                            FallbackValue=465}">
+                        <behaviors:WatermarkBehavior.Watermark>
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource AppWatermarkTextStyle}"
+                                       Text="{x:Static properties:Resources.ImapPortWatermark}" />
+                        </behaviors:WatermarkBehavior.Watermark>
+                    </TextBox>
+                </AdornerDecorator>
+            </Grid>
+        </Border>
+        <DockPanel Grid.Row="4"
+                   Grid.Column="1"
+                   Width="500"
+                   Margin="0,20,-6,20"
+                   LastChildFill="False">
+            <Button Command="{Binding CancelCommand,
+                                      FallbackValue={StaticResource NullCommand}}"
+                    Content="Cancel"
+                    DockPanel.Dock="Right"
+                    KeyboardNavigation.TabIndex="4"
+                    Style="{StaticResource AppDialogTextButtonStyle}" />
+            <Button Command="{Binding ContinueCommand,
+                                      FallbackValue={StaticResource NullCommand}}"
+                    Content="Continue"
+                    DockPanel.Dock="Right"
+                    IsEnabled="{Binding IsValid}"
+                    KeyboardNavigation.TabIndex="5"
+                    Style="{StaticResource AppDefaultDialogTextButtonStyle}" />
+        </DockPanel>
+    </Grid>
+</Page>

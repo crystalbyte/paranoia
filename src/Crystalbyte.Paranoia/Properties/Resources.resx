@@ -117,21 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="IdentityEmailAddressWatermark" xml:space="preserve">
-    <value>type in your email address ...</value>
-    <comment>IdentityScreen -&gt; TextBlock -&gt; EmailAddressTextBlock</comment>
+  <data name="CreateAccountDescriptionText" xml:space="preserve">
+    <value>This dialog will guide you through the steps necessary to add a connection to your email server.</value>
   </data>
-  <data name="IdentityHeaderText" xml:space="preserve">
+  <data name="CreateAccountTitle" xml:space="preserve">
+    <value>Create e-mail account</value>
+  </data>
+  <data name="CreateIdentitySubTitle" xml:space="preserve">
     <value>In order to get you started, it is required to create a unique identity.</value>
     <comment>IdentityScreen -&gt;Run</comment>
   </data>
-  <data name="IdentityNameWatermark" xml:space="preserve">
-    <value>type in your name ...</value>
-    <comment>IdentityScreen -&gt; TextBlock -&gt; NameTextBlock</comment>
+  <data name="CreateIdentityTitle" xml:space="preserve">
+    <value>Create identity</value>
+    <comment>IdentityScreen -&gt;Run</comment>
   </data>
-  <data name="IdentityNotesWatermark" xml:space="preserve">
-    <value>you can attach some notes here ...</value>
-    <comment>IdentityScreen -&gt; TextBlock -&gt; NotesTextBlock</comment>
+  <data name="EmailAddressDescription" xml:space="preserve">
+    <value>Please enter the e-mail address associated with your e-mail account.</value>
+  </data>
+  <data name="EmailAddressWatermark" xml:space="preserve">
+    <value>enter your e-mail address here ...</value>
+    <comment>IdentityScreen -&gt; TextBlock -&gt; EmailAddressTextBlock</comment>
   </data>
   <data name="IdentityPrivateDescription" xml:space="preserve">
     <value>The following properties are private and will be only visible to you.</value>
@@ -139,9 +144,17 @@
   <data name="IdentityPublicDescription" xml:space="preserve">
     <value>These properties are public and will be visible to the people you communicate with.</value>
   </data>
-  <data name="IdentityTitle" xml:space="preserve">
-    <value>Create Identity</value>
-    <comment>IdentityScreen -&gt;Run</comment>
+  <data name="ImapHostWatermark" xml:space="preserve">
+    <value>enter the IMAP host address here (e.g. imap.gmail.com) ...</value>
+  </data>
+  <data name="ImapPortWatermark" xml:space="preserve">
+    <value>port (e.g. 993) ...</value>
+  </data>
+  <data name="ImapSectionHeaderText" xml:space="preserve">
+    <value>Additional configuration of the incoming server properties (IMAP) may be required.</value>
+  </data>
+  <data name="ImapSecurityWatermark" xml:space="preserve">
+    <value>security protocol (e.g. SSL)</value>
   </data>
   <data name="InvalidEmailFormatErrorText" xml:space="preserve">
     <value>The value entered is not a valid email address.</value>
@@ -152,11 +165,31 @@
     <comment>IdentityScreenContext -&gt; Name</comment>
   </data>
   <data name="NameRequiredErrorText" xml:space="preserve">
-    <value>Please enter your name.</value>
+    <value>The name field must not be empty.</value>
     <comment>IdentityScreenContext -&gt; Name</comment>
+  </data>
+  <data name="NameWatermark" xml:space="preserve">
+    <value>enter your name here ...</value>
+    <comment>IdentityScreen -&gt; TextBlock -&gt; NameTextBlock</comment>
+  </data>
+  <data name="NotesWatermark" xml:space="preserve">
+    <value>enter notes here ...</value>
+    <comment>IdentityScreen -&gt; TextBlock -&gt; NotesTextBlock</comment>
   </data>
   <data name="NullOrEmptyErrorText" xml:space="preserve">
     <value>This field must not be empty.</value>
     <comment>IdentityScreenContext -&gt; EmailAddress</comment>
+  </data>
+  <data name="PasswordDescription" xml:space="preserve">
+    <value>Please enter the password associated with your e-mail account.</value>
+  </data>
+  <data name="PasswordRequiredErrorText" xml:space="preserve">
+    <value>The password must not be empty.</value>
+  </data>
+  <data name="PasswordWatermark" xml:space="preserve">
+    <value>enter your password here ...</value>
+  </data>
+  <data name="SmtpSectionHeaderText" xml:space="preserve">
+    <value>Additional configuration of the outgoing server properties (SMTP) may be required.</value>
   </data>
 </root>

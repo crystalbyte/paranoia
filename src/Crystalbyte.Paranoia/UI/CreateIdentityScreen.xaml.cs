@@ -16,10 +16,10 @@ using Crystalbyte.Paranoia.Contexts;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
-    /// Interaction logic for IdentityScreen.xaml
+    /// Interaction logic for CreateIdentityScreen.xaml
     /// </summary>
-    public partial class SettingsScreen {
-        public SettingsScreen() {
+    public partial class CreateIdentityScreen {
+        public CreateIdentityScreen() {
             InitializeComponent();
         }
     }

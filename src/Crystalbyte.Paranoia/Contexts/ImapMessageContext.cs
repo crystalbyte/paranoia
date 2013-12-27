@@ -11,12 +11,12 @@ using Crystalbyte.Paranoia.Models;
 namespace Crystalbyte.Paranoia.Contexts {
     public sealed class ImapMessageContext : NotificationObject, IHtmlSource {
         private readonly ImapEnvelope _envelope;
-        private readonly ImapAccountContext _account;
+        private readonly AccountContext _account;
         private readonly string _mailbox;
         private string _markup;
         private bool _isBusy;
 
-        public ImapMessageContext(ImapAccountContext account, ImapEnvelope envelope, string mailbox) {
+        public ImapMessageContext(AccountContext account, ImapEnvelope envelope, string mailbox) {
             _envelope = envelope;
             _account = account;
             _mailbox = mailbox;
@@ -34,10 +34,10 @@ namespace Crystalbyte.Paranoia.Contexts {
         ///   This key identifies the message across servers, users and mailboxes.
         /// </summary>
         public string Key {
-            get { return string.Format("{0}@{1}:{2}", _account.Username, _account.Host, _mailbox); }
+            get { return string.Format("{0}@{1}:{2}", _account.ImapUsername, _account.ImapHost, _mailbox); }
         }
 
-        public ImapAccountContext Account {
+        public AccountContext Account {
             get { return _account; }
         }
 
@@ -58,9 +58,9 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private async Task<string> FetchContentAsync() {
-            using (var connection = new ImapConnection { Security = _account.Security }) {
-                using (var authenticator = await connection.ConnectAsync(_account.Host, _account.Port)) {
-                    using (var session = await authenticator.LoginAsync(_account.Username, _account.Password)) {
+            using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+                using (var authenticator = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+                    using (var session = await authenticator.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                         var mailbox = await session.SelectAsync(_mailbox);
                         return await mailbox.FetchMessageBodyAsync(_envelope.Uid);
                     }

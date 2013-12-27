@@ -9,8 +9,10 @@
         Title="Paranoia"
         Width="1280"
         Height="768"
-        MinWidth="320"
-        MinHeight="200"
+        MinWidth="800"
+        MinHeight="600"
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True"
         WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance contexts:AppContext}"
         mc:Ignorable="d">
@@ -23,7 +25,7 @@
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
-                    <WindowChrome CaptionHeight="48"
+                    <WindowChrome CaptionHeight="64"
                                   GlassFrameThickness="-1"
                                   NonClientFrameEdges="None"
                                   ResizeBorderThickness="0" />
@@ -36,57 +38,103 @@
                         <Border BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Padding="{TemplateBinding Padding}">
-                            <DockPanel LastChildFill="True">
-                                <Grid Background="{StaticResource AppControlBrush}" DockPanel.Dock="Top">
-                                    <StackPanel HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Orientation="Horizontal">
-                                        <Button Click="OnMinimizeButtonClicked" Style="{StaticResource MinimizeButtonStyle}" />
-                                        <Button Click="OnMaximizeButtonClicked" Style="{StaticResource MaximizeButtonStyle}" />
-                                        <Button Click="OnCloseButtonClicked" Style="{StaticResource CloseButtonStyle}" />
-                                    </StackPanel>
-                                    <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
-                                        <Border>
-                                            <TextBlock Margin="6"
+                            <!--  Grid to add more full window items later  -->
+                            <Grid>
+                                <DockPanel LastChildFill="True">
+                                    <Grid Background="{StaticResource AppControlBrush}" DockPanel.Dock="Top">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="300" />
+                                            <ColumnDefinition Width="300" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="3"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    Orientation="Horizontal">
+                                            <Button Click="OnMinimizeButtonClicked" Style="{StaticResource MinimizeButtonStyle}" />
+                                            <Button Click="OnMaximizeButtonClicked" Style="{StaticResource MaximizeButtonStyle}" />
+                                            <Button Click="OnCloseButtonClicked" Style="{StaticResource CloseButtonStyle}" />
+                                        </StackPanel>
+                                        <Border Grid.Column="0">
+                                            <TextBlock Margin="6,6,0,0"
                                                        VerticalAlignment="Top"
                                                        Foreground="{StaticResource AppAccentBrush}"
                                                        Text="p4r4n014" />
                                         </Border>
-                                        <ListView ItemsSource="{Binding Identities}">
-                                            <ListView.ItemContainerStyle>
-                                                <Style BasedOn="{StaticResource {x:Type ListViewItem}}"
-                                                       TargetType="ListViewItem"
-                                                       d:DataContext="{d:DesignInstance contexts:IdentityContext}">
-                                                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                                                </Style>
-                                            </ListView.ItemContainerStyle>
-                                            <ListView.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Horizontal" />
-                                                </ItemsPanelTemplate>
-                                            </ListView.ItemsPanel>
-                                            <ListView.ItemTemplate>
-                                                <DataTemplate DataType="contexts:IdentityContext">
-                                                    <Grid Background="Transparent">
-                                                        <Image x:Name="Avatar"
-                                                               Width="48"
-                                                               Height="48"
-                                                               SnapsToDevicePixels="True"
-                                                               Source="{Binding GravatarUrl,
-                                                                                IsAsync=True}" />
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                            <ListView Margin="0,0,0,24"
+                                                      ItemsSource="{Binding Identities}"
+                                                      Style="{StaticResource AvatarListViewStyle}">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style BasedOn="{StaticResource AvatarListViewItemStyle}"
+                                                           TargetType="ListViewItem"
+                                                           d:DataContext="{d:DesignInstance contexts:IdentityContext}">
+                                                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+                                                <ListView.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" />
+                                                    </ItemsPanelTemplate>
+                                                </ListView.ItemsPanel>
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate DataType="contexts:IdentityContext">
+                                                        <Grid Background="Transparent">
+                                                            <Image x:Name="Avatar"
+                                                                   Width="48"
+                                                                   Height="48"
+                                                                   SnapsToDevicePixels="True"
+                                                                   Source="{Binding GravatarUrl,
+                                                                                    TargetNullValue={StaticResource GravatarDefaultImageUrl},
+                                                                                    FallbackValue={StaticResource GravatarDefaultImageUrl},
+                                                                                    IsAsync=True}" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
+                                            <Button VerticalAlignment="Top"
+                                                    Command="{Binding CreateIdentityCommand}"
+                                                    Style="{StaticResource CreateIdentityButtonStyle}" />
+                                        </StackPanel>
 
-                                                        <Popup IsOpen="{Binding IsSelected, Mode=TwoWay}" StaysOpen="False">
-                                                            <Border Width="300" Height="100" />
-                                                        </Popup>
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                        </ListView>
-                                        <Button Command="{Binding CreateIdentityCommand}" Style="{StaticResource CreateIdentityButtonStyle}" />
-                                    </StackPanel>
-                                </Grid>
-                                <ContentPresenter Margin="0,-1,0,0" />
-                            </DockPanel>
+                                        <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                            <ListView Margin="0,0,0,24"
+                                                      ItemsSource="{Binding Accounts}"
+                                                      Style="{StaticResource AvatarListViewStyle}">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem" d:DataContext="{d:DesignInstance contexts:AccountContext}">
+                                                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+                                                <ListView.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" />
+                                                    </ItemsPanelTemplate>
+                                                </ListView.ItemsPanel>
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate DataType="contexts:IdentityContext">
+                                                        <Grid Background="Transparent">
+                                                            <Image x:Name="Avatar"
+                                                                   Width="48"
+                                                                   Height="48"
+                                                                   SnapsToDevicePixels="True"
+                                                                   Source="{Binding GravatarUrl,
+                                                                                    TargetNullValue={StaticResource GravatarDefaultImageUrl},
+                                                                                    FallbackValue={StaticResource GravatarDefaultImageUrl},
+                                                                                    IsAsync=True}" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
+                                            <Button VerticalAlignment="Top"
+                                                    Command="{Binding CreateAccountCommand}"
+                                                    Style="{StaticResource CreateIdentityButtonStyle}" />
+                                        </StackPanel>
+                                    </Grid>
+                                    <ContentPresenter Margin="0,-1,0,0" />
+                                </DockPanel>
+                            </Grid>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -96,6 +144,9 @@
     <Window.InputBindings>
         <KeyBinding Key="I"
                     Command="{Binding CreateIdentityCommand}"
+                    Modifiers="Control" />
+        <KeyBinding Key="M"
+                    Command="{Binding CreateAccountCommand}"
                     Modifiers="Control" />
         <KeyBinding Key="N" Modifiers="Control" />
         <KeyBinding Key="R" Modifiers="Control" />
@@ -128,13 +179,9 @@
         </Border>
         <Border>
             <Grid>
-                <Grid HorizontalAlignment="Right" VerticalAlignment="Top">
-                    <Button Command="{Binding OpenSettingsCommand}" Style="{StaticResource SettingsButtonStyle}" />
-                </Grid>
-                <ui:SettingsScreen DataContext="{Binding SettingsContext, Mode=OneTime}" Visibility="{Binding IsActive, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <ui:IdentityScreen DataContext="{Binding IdentityScreenContext, Mode=OneTime}" Visibility="{Binding IsActive, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <ui:CreateIdentityScreen DataContext="{Binding IdentityScreenContext, FallbackValue={x:Null}}" Visibility="{Binding IsActive, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <ui:CreateAccountScreen DataContext="{Binding AccountScreenContext, FallbackValue={x:Null}}" Visibility="{Binding IsActive, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </Grid>
         </Border>
-
     </DockPanel>
 </Window>

@@ -55,6 +55,7 @@
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Composition.AttributedModel">
@@ -100,29 +101,29 @@
     <Compile Include="Behaviors\WatermarkBehavior.cs" />
     <Compile Include="Commands\ComposeMessageCommand.cs" />
     <Compile Include="Commands\DeleteMessageCommand.cs" />
+    <Compile Include="Commands\NullCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\SyncCommand.cs" />
+    <Compile Include="Contexts\AccountScreenContext.cs" />
     <Compile Include="Contexts\DebugMessage.cs" />
-    <Compile Include="Contexts\Factories\SmtpAccountContextFactory.cs" />
     <Compile Include="Contexts\IdentityContext.cs" />
     <Compile Include="Contexts\IdentityScreenContext.cs" />
-    <Compile Include="Contexts\SettingsScreenContext.cs" />
-    <Compile Include="Contexts\SmtpAccountContext.cs" />
+    <Compile Include="Contexts\SettingsContext.cs" />
     <Compile Include="Contexts\ValidationObject.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\RatioConverter.cs" />
+    <Compile Include="Converters\SecurityPolicyFormatter.cs" />
     <Compile Include="Data\LocalStorage.cs" />
     <Compile Include="IHtmlSource.cs" />
     <Compile Include="ImapMessageSelectionSource.cs" />
     <Compile Include="CollectionExtensions.cs" />
-    <Compile Include="Contexts\ImapAccountContext.cs" />
-    <Compile Include="Contexts\Factories\ImapAccountContextFactory.cs" />
+    <Compile Include="Contexts\AccountContext.cs" />
     <Compile Include="Contexts\ImapMessageContext.cs" />
-    <Compile Include="Contexts\Factories\ImapEnvelopeContextFactory.cs" />
     <Compile Include="Contexts\NotificationObject.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClientConfig.cs" />
     <Compile Include="Models\Identity.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -153,13 +154,18 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="PropertySupport.cs" />
+    <Compile Include="RegexPatterns.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="UI\SettingsScreen.xaml.cs">
-      <DependentUpon>SettingsScreen.xaml</DependentUpon>
+    <Compile Include="UI\CreateAccountScreen.xaml.cs">
+      <DependentUpon>CreateAccountScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\IdentityScreen.xaml.cs">
-      <DependentUpon>IdentityScreen.xaml</DependentUpon>
+    <Compile Include="UI\CreateAccountStartPage.xaml.cs">
+      <DependentUpon>CreateAccountStartPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\CreateIdentityScreen.xaml.cs">
+      <DependentUpon>CreateIdentityScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\PasswordSupport.cs" />
     <Compile Include="WebBrowserExtensions.cs" />
     <Compile Include="WindowExtensions.cs" />
     <Compile Include="App.xaml.cs">
@@ -175,11 +181,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\SettingsScreen.xaml">
+    <Page Include="UI\CreateAccountScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\IdentityScreen.xaml">
+    <Page Include="UI\CreateAccountStartPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\CreateIdentityScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -272,6 +282,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\settings.png" />
+    <Resource Include="Assets\download.png" />
     <Content Include="Debug\debug.mail.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace Crystalbyte.Paranoia.Behaviors {
-    internal sealed class InitialFocusBehavior : DependencyObject {
+    internal sealed class InitialFocusBehavior {
 
         /// <summary>
         ///   IsEnabled Attached Dependency Property

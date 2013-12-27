@@ -32,9 +32,17 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         #endregion
 
+        public event EventHandler Validating;
+
+        protected virtual void OnValidating(EventArgs e) {
+            var handler = Validating;
+            if (handler != null)
+                handler(this, e);
+        }
+
         public event EventHandler Validated;
 
-        public void OnValidated(EventArgs e) {
+        protected virtual void OnValidated(EventArgs e) {
             var handler = Validated;
             if (handler != null)
                 handler(this, e);
@@ -85,6 +93,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         /// <returns></returns>
         public string this[string columnName] {
             get {
+                OnValidating(EventArgs.Empty);
                 if (PropertyAccessors.ContainsKey(columnName)) {
                     var value = PropertyAccessors[columnName](this as T);
                     var errors = Validators[columnName].Where(v => !v.IsValid(value))

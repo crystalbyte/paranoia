@@ -31,14 +31,14 @@ namespace Crystalbyte.Paranoia.Commands {
         }
 
         public async void Execute(object parameter) {
-            var messages = ImapMessageSelectionSource.SelectedMessages.GroupBy(x => x.Account.Host);
+            var messages = ImapMessageSelectionSource.SelectedMessages.GroupBy(x => x.Account.ImapHost);
             foreach (var host in messages) {
-                var users = host.GroupBy(x => x.Account.Username);
+                var users = host.GroupBy(x => x.Account.ImapUsername);
                 foreach (var user in users) {
                     var sample = user.First();
-                    using (var connection = new ImapConnection { Security = SecurityPolicies.Implicit }) {
-                        var authenticator = await connection.ConnectAsync(sample.Account.Host, sample.Account.Port);
-                        var session = await authenticator.LoginAsync(sample.Account.Username, sample.Account.Password);
+                    using (var connection = new ImapConnection { Security = SecurityPolicy.Implicit }) {
+                        var authenticator = await connection.ConnectAsync(sample.Account.ImapHost, sample.Account.ImapPort);
+                        var session = await authenticator.LoginAsync(sample.Account.ImapUsername, sample.Account.ImapPassword);
 
                         var mailboxes = user.GroupBy(x => x.Mailbox);
                         foreach (var mailbox in mailboxes) {

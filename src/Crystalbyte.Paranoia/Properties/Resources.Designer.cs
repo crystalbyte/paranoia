@@ -61,38 +61,56 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to type in your email address ....
+        ///   Looks up a localized string similar to This dialog will guide you through the steps necessary to add a connection to your email server..
         /// </summary>
-        public static string IdentityEmailAddressWatermark {
+        public static string CreateAccountDescriptionText {
             get {
-                return ResourceManager.GetString("IdentityEmailAddressWatermark", resourceCulture);
+                return ResourceManager.GetString("CreateAccountDescriptionText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create e-mail account.
+        /// </summary>
+        public static string CreateAccountTitle {
+            get {
+                return ResourceManager.GetString("CreateAccountTitle", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to In order to get you started, it is required to create a unique identity..
         /// </summary>
-        public static string IdentityHeaderText {
+        public static string CreateIdentitySubTitle {
             get {
-                return ResourceManager.GetString("IdentityHeaderText", resourceCulture);
+                return ResourceManager.GetString("CreateIdentitySubTitle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to type in your name ....
+        ///   Looks up a localized string similar to Create identity.
         /// </summary>
-        public static string IdentityNameWatermark {
+        public static string CreateIdentityTitle {
             get {
-                return ResourceManager.GetString("IdentityNameWatermark", resourceCulture);
+                return ResourceManager.GetString("CreateIdentityTitle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to you can attach some notes here ....
+        ///   Looks up a localized string similar to Please enter the e-mail address associated with your e-mail account..
         /// </summary>
-        public static string IdentityNotesWatermark {
+        public static string EmailAddressDescription {
             get {
-                return ResourceManager.GetString("IdentityNotesWatermark", resourceCulture);
+                return ResourceManager.GetString("EmailAddressDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to enter your e-mail address here ....
+        /// </summary>
+        public static string EmailAddressWatermark {
+            get {
+                return ResourceManager.GetString("EmailAddressWatermark", resourceCulture);
             }
         }
         
@@ -115,11 +133,38 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create Identity.
+        ///   Looks up a localized string similar to enter the IMAP host address here (e.g. imap.gmail.com) ....
         /// </summary>
-        public static string IdentityTitle {
+        public static string ImapHostWatermark {
             get {
-                return ResourceManager.GetString("IdentityTitle", resourceCulture);
+                return ResourceManager.GetString("ImapHostWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to port (e.g. 993) ....
+        /// </summary>
+        public static string ImapPortWatermark {
+            get {
+                return ResourceManager.GetString("ImapPortWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Additional configuration of the incoming server properties (IMAP) may be required..
+        /// </summary>
+        public static string ImapSectionHeaderText {
+            get {
+                return ResourceManager.GetString("ImapSectionHeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to security protocol (e.g. SSL).
+        /// </summary>
+        public static string ImapSecurityWatermark {
+            get {
+                return ResourceManager.GetString("ImapSecurityWatermark", resourceCulture);
             }
         }
         
@@ -142,11 +187,29 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please enter your name..
+        ///   Looks up a localized string similar to The name field must not be empty..
         /// </summary>
         public static string NameRequiredErrorText {
             get {
                 return ResourceManager.GetString("NameRequiredErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to enter your name here ....
+        /// </summary>
+        public static string NameWatermark {
+            get {
+                return ResourceManager.GetString("NameWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to enter notes here ....
+        /// </summary>
+        public static string NotesWatermark {
+            get {
+                return ResourceManager.GetString("NotesWatermark", resourceCulture);
             }
         }
         
@@ -156,6 +219,42 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string NullOrEmptyErrorText {
             get {
                 return ResourceManager.GetString("NullOrEmptyErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the password associated with your e-mail account..
+        /// </summary>
+        public static string PasswordDescription {
+            get {
+                return ResourceManager.GetString("PasswordDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password must not be empty..
+        /// </summary>
+        public static string PasswordRequiredErrorText {
+            get {
+                return ResourceManager.GetString("PasswordRequiredErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to enter your password here ....
+        /// </summary>
+        public static string PasswordWatermark {
+            get {
+                return ResourceManager.GetString("PasswordWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Additional configuration of the outgoing server properties (SMTP) may be required..
+        /// </summary>
+        public static string SmtpSectionHeaderText {
+            get {
+                return ResourceManager.GetString("SmtpSectionHeaderText", resourceCulture);
             }
         }
     }
