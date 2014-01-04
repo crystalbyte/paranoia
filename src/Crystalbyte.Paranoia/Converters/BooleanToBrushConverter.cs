@@ -1,20 +1,24 @@
-﻿#region Using directives
-
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Data;
-
-#endregion
+using System.Windows.Media;
 
 namespace Crystalbyte.Paranoia.Converters {
-    [ValueConversion(typeof (double), typeof (double))]
-    public sealed class RatioConverter : IValueConverter {
+
+    [ValueConversion(typeof(bool), typeof(Brush))]
+    public sealed class BooleanToBrushConverter : IValueConverter {
+
+        public Brush PositiveBrush { get; set; }
+        public Brush NegativeBrush { get; set; }
+
         #region Implementation of IValueConverter
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            var t = (double) value;
-            var p = double.Parse((string) parameter);
-            return t/p;
+            return (bool) value ? PositiveBrush : NegativeBrush;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

@@ -1,11 +1,9 @@
 ﻿#region Using directives
 
-using System;
 using System.Composition;
 using System.Composition.Hosting;
 using System.Windows;
 using Crystalbyte.Paranoia.Contexts;
-using System.Windows.Media;
 
 #endregion
 
@@ -14,11 +12,10 @@ namespace Crystalbyte.Paranoia {
     ///   Interaction logic for App.xaml
     /// </summary>
     public partial class App {
-
         [Import]
         public static AppContext AppContext { get; set; }
 
-        protected async override void OnStartup(StartupEventArgs e) {
+        protected override async void OnStartup(StartupEventArgs e) {
             Compose();
             await AppContext.RunAsync();
             base.OnStartup(e);
@@ -26,7 +23,7 @@ namespace Crystalbyte.Paranoia {
 
         private void Compose() {
             var config = new ContainerConfiguration()
-                .WithAssembly(typeof(App).Assembly);
+                .WithAssembly(typeof (App).Assembly);
 
             Composition = config.CreateContainer();
             Composition.SatisfyImports(this);

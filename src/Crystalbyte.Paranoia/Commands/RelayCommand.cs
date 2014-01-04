@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region Using directives
+
+using System;
 using System.Windows.Input;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Commands {
     public sealed class RelayCommand : ICommand {
-
         public RelayCommand(Func<object, bool> canExecuteCallback,
-            Action<object> executeCallback) {
+                            Action<object> executeCallback) {
             ExecuteCallback = executeCallback;
             CanExecuteCallback = canExecuteCallback;
         }
 
         public RelayCommand(Action<object> executeCallback)
-            : this(x => true, executeCallback) { }
+            : this(x => true, executeCallback) {}
 
         public Func<object, bool> CanExecuteCallback { get; private set; }
         public Action<object> ExecuteCallback { get; private set; }

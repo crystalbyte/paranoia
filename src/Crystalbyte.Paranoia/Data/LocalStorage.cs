@@ -1,17 +1,18 @@
-﻿using System.Data.Entity;
-using System.Data.EntityClient;
-using Crystalbyte.Paranoia.Models;
+﻿#region Using directives
+
 using System;
 using System.Composition;
+using System.Data.Entity;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using Crystalbyte.Paranoia.Models;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Data {
-
     [Export, Shared]
     public sealed class LocalStorage {
-
         private readonly Entities _context;
         private const string ApplicationName = "Paranoia";
         private const string DatabaseFilename = "Storage.sdf";
@@ -22,9 +23,9 @@ namespace Crystalbyte.Paranoia.Data {
 
         public Task InsertAsync(Identity identity) {
             return Task.Factory.StartNew(() => {
-                _context.Identities.Add(identity);
-                _context.SaveChanges();
-            });
+                                             _context.Identities.Add(identity);
+                                             _context.SaveChanges();
+                                         });
         }
 
         public Task<DbSet<Identity>> QueryIdentitiesAsync() {
@@ -49,14 +50,13 @@ namespace Crystalbyte.Paranoia.Data {
 
         public Task<bool> CheckIsCreatedAsync() {
             return Task<bool>.Factory.StartNew(() => {
+                                                   if (!Directory.Exists(DataDirectory)) {
+                                                       return false;
+                                                   }
 
-                if (!Directory.Exists(DataDirectory)) {
-                    return false;
-                }
-
-                var file = Path.Combine(DataDirectory, DatabaseFilename);
-                return File.Exists(file);
-            });
+                                                   var file = Path.Combine(DataDirectory, DatabaseFilename);
+                                                   return File.Exists(file);
+                                               });
         }
 
         public async Task InitAsync() {
@@ -74,30 +74,32 @@ namespace Crystalbyte.Paranoia.Data {
 
         private static Task SetupDatabaseAsync() {
             return Task.Factory.StartNew(() => {
+                                             var directory = DataDirectory;
+                                             if (!Directory.Exists(directory)) {
+                                                 Directory.CreateDirectory(directory);
+                                             }
 
-                var directory = DataDirectory;
-                if (!Directory.Exists(directory)) {
-                    Directory.CreateDirectory(directory);
-                }
+                                             var file = Path.Combine(directory, DatabaseFilename);
+                                             var info =
+                                                 Application.GetResourceStream(new Uri("Data/Storage.sdf",
+                                                                                       UriKind.RelativeOrAbsolute));
+                                             if (info == null) {
+                                                 throw new Exception(string.Format("Resource missing: {0}",
+                                                                                   "/Data/Storage.sdf"));
+                                             }
 
-                var file = Path.Combine(directory, DatabaseFilename);
-                var info = Application.GetResourceStream(new Uri("Data/Storage.sdf", UriKind.RelativeOrAbsolute));
-                if (info == null) {
-                    throw new Exception(string.Format("Resource missing: {0}", "/Data/Storage.sdf"));
-                }
-
-                using (var reader = new BinaryReader(info.Stream)) {
-                    using (var writer = new BinaryWriter(File.Create(file))) {
-                        while (true) {
-                            var bytes = reader.ReadBytes(4096);
-                            if (bytes.Length == 0) {
-                                break;
-                            }
-                            writer.Write(bytes);
-                        }
-                    }
-                }
-            });
+                                             using (var reader = new BinaryReader(info.Stream)) {
+                                                 using (var writer = new BinaryWriter(File.Create(file))) {
+                                                     while (true) {
+                                                         var bytes = reader.ReadBytes(4096);
+                                                         if (bytes.Length == 0) {
+                                                             break;
+                                                         }
+                                                         writer.Write(bytes);
+                                                     }
+                                                 }
+                                             }
+                                         });
         }
     }
 }

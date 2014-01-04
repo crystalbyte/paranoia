@@ -12,7 +12,6 @@ using Crystalbyte.Paranoia.Messaging;
 namespace Crystalbyte.Paranoia.Commands {
     [Export, Shared]
     public sealed class DeleteMessageCommand : ICommand {
-
         [Import]
         public AppContext AppContext { get; set; }
 
@@ -36,9 +35,11 @@ namespace Crystalbyte.Paranoia.Commands {
                 var users = host.GroupBy(x => x.Account.ImapUsername);
                 foreach (var user in users) {
                     var sample = user.First();
-                    using (var connection = new ImapConnection { Security = SecurityPolicy.Implicit }) {
-                        var authenticator = await connection.ConnectAsync(sample.Account.ImapHost, sample.Account.ImapPort);
-                        var session = await authenticator.LoginAsync(sample.Account.ImapUsername, sample.Account.ImapPassword);
+                    using (var connection = new ImapConnection {Security = SecurityPolicy.Implicit}) {
+                        var authenticator =
+                            await connection.ConnectAsync(sample.Account.ImapHost, sample.Account.ImapPort);
+                        var session =
+                            await authenticator.LoginAsync(sample.Account.ImapUsername, sample.Account.ImapPassword);
 
                         var mailboxes = user.GroupBy(x => x.Mailbox);
                         foreach (var mailbox in mailboxes) {

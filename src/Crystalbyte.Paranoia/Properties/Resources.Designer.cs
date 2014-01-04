@@ -61,6 +61,42 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string BackButtonText {
+            get {
+                return ResourceManager.GetString("BackButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string CancelButtonText {
+            get {
+                return ResourceManager.GetString("CancelButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Continue.
+        /// </summary>
+        public static string ContinueButtonText {
+            get {
+                return ResourceManager.GetString("ContinueButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The properties below are required to provide access to your e-mail server..
+        /// </summary>
+        public static string CreateAccountConfigPageDescription {
+            get {
+                return ResourceManager.GetString("CreateAccountConfigPageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This dialog will guide you through the steps necessary to add a connection to your email server..
         /// </summary>
         public static string CreateAccountDescriptionText {
@@ -70,11 +106,21 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create e-mail account.
+        ///   Looks up a localized string similar to Create New Account.
         /// </summary>
-        public static string CreateAccountTitle {
+        public static string CreateAccountScreenTitle {
             get {
-                return ResourceManager.GetString("CreateAccountTitle", resourceCulture);
+                return ResourceManager.GetString("CreateAccountScreenTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The current configuration is now being tested.
+        ///If any of the tests fail, you may need to navigate back and correct any mistakes..
+        /// </summary>
+        public static string CreateAccountTestingPageDescription {
+            get {
+                return ResourceManager.GetString("CreateAccountTestingPageDescription", resourceCulture);
             }
         }
         
@@ -88,7 +134,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create identity.
+        ///   Looks up a localized string similar to Create New Identity.
         /// </summary>
         public static string CreateIdentityTitle {
             get {
@@ -106,11 +152,20 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to enter your e-mail address here ....
+        ///   Looks up a localized string similar to e-mail address.
         /// </summary>
         public static string EmailAddressWatermark {
             get {
                 return ResourceManager.GetString("EmailAddressWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finish.
+        /// </summary>
+        public static string FinishButtonText {
+            get {
+                return ResourceManager.GetString("FinishButtonText", resourceCulture);
             }
         }
         
@@ -133,11 +188,20 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to enter the IMAP host address here (e.g. imap.gmail.com) ....
+        ///   Looks up a localized string similar to incoming host address (e.g. imap.gmail.com).
         /// </summary>
         public static string ImapHostWatermark {
             get {
                 return ResourceManager.GetString("ImapHostWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to incoming server password.
+        /// </summary>
+        public static string ImapPasswordWatermark {
+            get {
+                return ResourceManager.GetString("ImapPasswordWatermark", resourceCulture);
             }
         }
         
@@ -151,7 +215,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Additional configuration of the incoming server properties (IMAP) may be required..
+        ///   Looks up a localized string similar to Please enter or correct  the incoming server properties (IMAP)..
         /// </summary>
         public static string ImapSectionHeaderText {
             get {
@@ -160,11 +224,38 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to security protocol (e.g. SSL).
+        ///   Looks up a localized string similar to incoming security protocol (e.g. SSL).
         /// </summary>
         public static string ImapSecurityWatermark {
             get {
                 return ResourceManager.GetString("ImapSecurityWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to connect to server..
+        /// </summary>
+        public static string ImapTestFailureMessage {
+            get {
+                return ResourceManager.GetString("ImapTestFailureMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attempting to connect to server ....
+        /// </summary>
+        public static string ImapTestMessage {
+            get {
+                return ResourceManager.GetString("ImapTestMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connection to server successfully established..
+        /// </summary>
+        public static string ImapTestSuccessMessage {
+            get {
+                return ResourceManager.GetString("ImapTestSuccessMessage", resourceCulture);
             }
         }
         
@@ -196,7 +287,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to enter your name here ....
+        ///   Looks up a localized string similar to name.
         /// </summary>
         public static string NameWatermark {
             get {
@@ -205,7 +296,34 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to enter notes here ....
+        ///   Looks up a localized string similar to Network not available..
+        /// </summary>
+        public static string NetworkTestFailureMessage {
+            get {
+                return ResourceManager.GetString("NetworkTestFailureMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Checking network availability ....
+        /// </summary>
+        public static string NetworkTestMessage {
+            get {
+                return ResourceManager.GetString("NetworkTestMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Network available..
+        /// </summary>
+        public static string NetworkTestSuccessMessage {
+            get {
+                return ResourceManager.GetString("NetworkTestSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to notes.
         /// </summary>
         public static string NotesWatermark {
             get {
@@ -241,20 +359,65 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to enter your password here ....
+        ///   Looks up a localized string similar to outgoing host address (e.g. smtp.gmail.com).
         /// </summary>
-        public static string PasswordWatermark {
+        public static string SmtpHostWatermark {
             get {
-                return ResourceManager.GetString("PasswordWatermark", resourceCulture);
+                return ResourceManager.GetString("SmtpHostWatermark", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Additional configuration of the outgoing server properties (SMTP) may be required..
+        ///   Looks up a localized string similar to outgoing server password.
+        /// </summary>
+        public static string SmtpPasswordWatermark {
+            get {
+                return ResourceManager.GetString("SmtpPasswordWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter or correct  the outgoing server properties (SMTP)..
         /// </summary>
         public static string SmtpSectionHeaderText {
             get {
                 return ResourceManager.GetString("SmtpSectionHeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to send message ....
+        /// </summary>
+        public static string SmtpTestFailureMessage {
+            get {
+                return ResourceManager.GetString("SmtpTestFailureMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attempting to send test message ....
+        /// </summary>
+        public static string SmtpTestMessage {
+            get {
+                return ResourceManager.GetString("SmtpTestMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test message.
+        /// </summary>
+        public static string SmtpTestMessageSubject {
+            get {
+                return ResourceManager.GetString("SmtpTestMessageSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message successfully sent..
+        /// </summary>
+        public static string SmtpTestSuccessMessage {
+            get {
+                return ResourceManager.GetString("SmtpTestSuccessMessage", resourceCulture);
             }
         }
     }

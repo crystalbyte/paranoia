@@ -65,6 +65,7 @@
                                         <StackPanel Grid.Column="1" Orientation="Horizontal">
                                             <ListView Margin="0,0,0,24"
                                                       ItemsSource="{Binding Identities}"
+                                                      SelectionChanged="OnIdentitySelectionChanged"
                                                       Style="{StaticResource AvatarListViewStyle}">
                                                 <ListView.ItemContainerStyle>
                                                     <Style BasedOn="{StaticResource AvatarListViewItemStyle}"
@@ -143,10 +144,12 @@
     </Window.Style>
     <Window.InputBindings>
         <KeyBinding Key="I"
-                    Command="{Binding CreateIdentityCommand}"
+                    Command="{Binding CreateIdentityCommand,
+                                      FallbackValue={StaticResource NullCommand}}"
                     Modifiers="Control" />
         <KeyBinding Key="M"
-                    Command="{Binding CreateAccountCommand}"
+                    Command="{Binding CreateAccountCommand,
+                                      FallbackValue={StaticResource NullCommand}}"
                     Modifiers="Control" />
         <KeyBinding Key="N" Modifiers="Control" />
         <KeyBinding Key="R" Modifiers="Control" />
@@ -161,12 +164,14 @@
                                Style="{StaticResource AppNormalTextStyle}"
                                Text="Syncing ..."
                                Visibility="{Binding IsSyncing,
+                                                    FallbackValue=Collapsed,
                                                     Converter={StaticResource BooleanToVisibilityConverter}}" />
                     <TextBlock VerticalAlignment="Center"
                                Style="{StaticResource AppNormalTextStyle}"
                                Text="Ready"
                                Visibility="{Binding IsSyncing,
                                                     ConverterParameter=!,
+                                                    FallbackValue=Visible,
                                                     Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </StackPanel>
                 <ResizeGrip HorizontalAlignment="Right"
@@ -179,8 +184,8 @@
         </Border>
         <Border>
             <Grid>
-                <ui:CreateIdentityScreen DataContext="{Binding IdentityScreenContext, FallbackValue={x:Null}}" Visibility="{Binding IsActive, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <ui:CreateAccountScreen DataContext="{Binding AccountScreenContext, FallbackValue={x:Null}}" Visibility="{Binding IsActive, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <ui:CreateIdentityScreen DataContext="{Binding CreateIdentityScreenContext}" Visibility="{Binding IsActive, FallbackValue=False, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <ui:CreateAccountScreen DataContext="{Binding CreateAccountScreenContext}" Visibility="{Binding IsActive, FallbackValue=False, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </Grid>
         </Border>
     </DockPanel>

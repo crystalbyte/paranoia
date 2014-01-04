@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Composition;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -13,16 +14,12 @@ using System.Windows.Input;
 using Crystalbyte.Paranoia.Commands;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
-using System.Diagnostics;
-using Crystalbyte.Paranoia.Models;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.Contexts {
-
     [Export, Shared]
     public sealed class AppContext : NotificationObject {
-
         #region Private Fields
 
         private bool _isSyncing;
@@ -52,21 +49,20 @@ namespace Crystalbyte.Paranoia.Contexts {
         public LocalStorage LocalStorage { get; set; }
 
         [Import]
-        public IdentityScreenContext IdentityScreenContext { get; set; }
+        public CreateIdentityScreenContext CreateIdentityScreenContext { get; set; }
 
         [Import]
-        public AccountScreenContext AccountScreenContext { get; set; }
+        public CreateAccountScreenContext CreateAccountScreenContext { get; set; }
 
         [Import]
         public SettingsContext SettingsContext { get; set; }
 
+        [Import]
+        public IdentitySelectionSource IdentitySelectionSource { get; set; }
+
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
-            var elements = new List<DebugMessage>();
-            for (var i = 0; i < 5000; i++) {
-                elements.Add(new DebugMessage(i % 100));
-            }
-            _elements.AddRange(elements.GroupBy(x => x.ThreadId));
+      
         }
 
         #endregion
@@ -84,11 +80,11 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private void OnCreateAccountCommandExecuted(object obj) {
-            AccountScreenContext.IsActive = true;
+            CreateAccountScreenContext.IsActive = true;
         }
 
         private void OnCreateIdentityCommandExecuted(object obj) {
-            IdentityScreenContext.IsActive = true;
+            CreateIdentityScreenContext.IsActive = true;
         }
 
         private void OnOpenSettingsCommandExecuted(object obj) {
@@ -165,6 +161,9 @@ namespace Crystalbyte.Paranoia.Contexts {
         private async Task LoadIdentities() {
             var query = await LocalStorage.QueryIdentitiesAsync();
             Identities.AddRange(query.ToArray().Select(x => new IdentityContext(x)));
+            if (Identities.Any()) {
+                Identities.First().IsSelected = true;
+            }
         }
     }
 }

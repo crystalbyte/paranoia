@@ -1,18 +1,20 @@
-﻿using System.IO;
+﻿#region Using directives
+
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using Crystalbyte.Paranoia.Models;
 
+#endregion
+
 namespace Crystalbyte.Paranoia.Contexts {
-
     public sealed class IdentityContext : NotificationObject {
-
         private readonly Identity _identity;
         private string _gravatarImageUrl;
         private bool _isSelected;
 
         public IdentityContext()
-            : this(new Identity()) { }
+            : this(new Identity()) {}
 
         public IdentityContext(Identity identity) {
             _identity = identity;

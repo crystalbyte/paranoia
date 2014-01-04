@@ -117,26 +117,45 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BackButtonText" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="CancelButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ContinueButtonText" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="CreateAccountConfigPageDescription" xml:space="preserve">
+    <value>The properties below are required to provide access to your e-mail server.</value>
+  </data>
   <data name="CreateAccountDescriptionText" xml:space="preserve">
     <value>This dialog will guide you through the steps necessary to add a connection to your email server.</value>
   </data>
-  <data name="CreateAccountTitle" xml:space="preserve">
-    <value>Create e-mail account</value>
+  <data name="CreateAccountScreenTitle" xml:space="preserve">
+    <value>Create New Account</value>
+  </data>
+  <data name="CreateAccountTestingPageDescription" xml:space="preserve">
+    <value>The current configuration is now being tested.
+If any of the tests fail, you may need to navigate back and correct any mistakes.</value>
   </data>
   <data name="CreateIdentitySubTitle" xml:space="preserve">
     <value>In order to get you started, it is required to create a unique identity.</value>
     <comment>IdentityScreen -&gt;Run</comment>
   </data>
   <data name="CreateIdentityTitle" xml:space="preserve">
-    <value>Create identity</value>
+    <value>Create New Identity</value>
     <comment>IdentityScreen -&gt;Run</comment>
   </data>
   <data name="EmailAddressDescription" xml:space="preserve">
     <value>Please enter the e-mail address associated with your e-mail account.</value>
   </data>
   <data name="EmailAddressWatermark" xml:space="preserve">
-    <value>enter your e-mail address here ...</value>
+    <value>e-mail address</value>
     <comment>IdentityScreen -&gt; TextBlock -&gt; EmailAddressTextBlock</comment>
+  </data>
+  <data name="FinishButtonText" xml:space="preserve">
+    <value>Finish</value>
   </data>
   <data name="IdentityPrivateDescription" xml:space="preserve">
     <value>The following properties are private and will be only visible to you.</value>
@@ -145,16 +164,28 @@
     <value>These properties are public and will be visible to the people you communicate with.</value>
   </data>
   <data name="ImapHostWatermark" xml:space="preserve">
-    <value>enter the IMAP host address here (e.g. imap.gmail.com) ...</value>
+    <value>incoming host address (e.g. imap.gmail.com)</value>
+  </data>
+  <data name="ImapPasswordWatermark" xml:space="preserve">
+    <value>incoming server password</value>
   </data>
   <data name="ImapPortWatermark" xml:space="preserve">
     <value>port (e.g. 993) ...</value>
   </data>
   <data name="ImapSectionHeaderText" xml:space="preserve">
-    <value>Additional configuration of the incoming server properties (IMAP) may be required.</value>
+    <value>Please enter or correct  the incoming server properties (IMAP).</value>
   </data>
   <data name="ImapSecurityWatermark" xml:space="preserve">
-    <value>security protocol (e.g. SSL)</value>
+    <value>incoming security protocol (e.g. SSL)</value>
+  </data>
+  <data name="ImapTestFailureMessage" xml:space="preserve">
+    <value>Failed to connect to server.</value>
+  </data>
+  <data name="ImapTestMessage" xml:space="preserve">
+    <value>Attempting to connect to server ...</value>
+  </data>
+  <data name="ImapTestSuccessMessage" xml:space="preserve">
+    <value>Connection to server successfully established.</value>
   </data>
   <data name="InvalidEmailFormatErrorText" xml:space="preserve">
     <value>The value entered is not a valid email address.</value>
@@ -169,11 +200,20 @@
     <comment>IdentityScreenContext -&gt; Name</comment>
   </data>
   <data name="NameWatermark" xml:space="preserve">
-    <value>enter your name here ...</value>
+    <value>name</value>
     <comment>IdentityScreen -&gt; TextBlock -&gt; NameTextBlock</comment>
   </data>
+  <data name="NetworkTestFailureMessage" xml:space="preserve">
+    <value>Network not available.</value>
+  </data>
+  <data name="NetworkTestMessage" xml:space="preserve">
+    <value>Checking network availability ...</value>
+  </data>
+  <data name="NetworkTestSuccessMessage" xml:space="preserve">
+    <value>Network available.</value>
+  </data>
   <data name="NotesWatermark" xml:space="preserve">
-    <value>enter notes here ...</value>
+    <value>notes</value>
     <comment>IdentityScreen -&gt; TextBlock -&gt; NotesTextBlock</comment>
   </data>
   <data name="NullOrEmptyErrorText" xml:space="preserve">
@@ -186,10 +226,25 @@
   <data name="PasswordRequiredErrorText" xml:space="preserve">
     <value>The password must not be empty.</value>
   </data>
-  <data name="PasswordWatermark" xml:space="preserve">
-    <value>enter your password here ...</value>
+  <data name="SmtpHostWatermark" xml:space="preserve">
+    <value>outgoing host address (e.g. smtp.gmail.com)</value>
+  </data>
+  <data name="SmtpPasswordWatermark" xml:space="preserve">
+    <value>outgoing server password</value>
   </data>
   <data name="SmtpSectionHeaderText" xml:space="preserve">
-    <value>Additional configuration of the outgoing server properties (SMTP) may be required.</value>
+    <value>Please enter or correct  the outgoing server properties (SMTP).</value>
+  </data>
+  <data name="SmtpTestFailureMessage" xml:space="preserve">
+    <value>Failed to send message ...</value>
+  </data>
+  <data name="SmtpTestMessage" xml:space="preserve">
+    <value>Attempting to send test message ...</value>
+  </data>
+  <data name="SmtpTestMessageSubject" xml:space="preserve">
+    <value>Test message</value>
+  </data>
+  <data name="SmtpTestSuccessMessage" xml:space="preserve">
+    <value>Message successfully sent.</value>
   </data>
 </root>

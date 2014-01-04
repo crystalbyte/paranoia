@@ -1,20 +1,25 @@
-﻿using System.Windows;
+﻿#region Using directives
+
+using System.Windows;
 using System.Windows.Controls;
 
+#endregion
+
 namespace Crystalbyte.Paranoia.UI {
-    public static class PasswordSupport {
+    public static class PasswordService {
         public static readonly DependencyProperty PasswordProperty =
             DependencyProperty.RegisterAttached("Password",
-                                                typeof(string), typeof(PasswordSupport),
+                                                typeof (string), typeof (PasswordService),
                                                 new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
 
         public static readonly DependencyProperty AttachProperty =
             DependencyProperty.RegisterAttached("Attach",
-                                                typeof(bool), typeof(PasswordSupport), new PropertyMetadata(false, Attach));
+                                                typeof (bool), typeof (PasswordService),
+                                                new PropertyMetadata(false, Attach));
 
         private static readonly DependencyProperty IsUpdatingProperty =
-            DependencyProperty.RegisterAttached("IsUpdating", typeof(bool),
-                                                typeof(PasswordSupport));
+            DependencyProperty.RegisterAttached("IsUpdating", typeof (bool),
+                                                typeof (PasswordService));
 
 
         public static void SetAttach(DependencyObject dp, bool value) {
@@ -22,11 +27,11 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public static bool GetAttach(DependencyObject dp) {
-            return (bool)dp.GetValue(AttachProperty);
+            return (bool) dp.GetValue(AttachProperty);
         }
 
         public static string GetPassword(DependencyObject dp) {
-            return (string)dp.GetValue(PasswordProperty);
+            return (string) dp.GetValue(PasswordProperty);
         }
 
         public static void SetPassword(DependencyObject dp, string value) {
@@ -34,7 +39,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private static bool GetIsUpdating(DependencyObject dp) {
-            return (bool)dp.GetValue(IsUpdatingProperty);
+            return (bool) dp.GetValue(IsUpdatingProperty);
         }
 
         private static void SetIsUpdating(DependencyObject dp, bool value) {
@@ -50,7 +55,7 @@ namespace Crystalbyte.Paranoia.UI {
             passwordBox.PasswordChanged -= PasswordChanged;
 
             if (!GetIsUpdating(passwordBox)) {
-                passwordBox.Password = (string)e.NewValue;
+                passwordBox.Password = (string) e.NewValue;
             }
             passwordBox.PasswordChanged += PasswordChanged;
         }
@@ -62,11 +67,11 @@ namespace Crystalbyte.Paranoia.UI {
             if (passwordBox == null)
                 return;
 
-            if ((bool)e.OldValue) {
+            if ((bool) e.OldValue) {
                 passwordBox.PasswordChanged -= PasswordChanged;
             }
 
-            if ((bool)e.NewValue) {
+            if ((bool) e.NewValue) {
                 passwordBox.PasswordChanged += PasswordChanged;
             }
         }

@@ -13,18 +13,18 @@ using System.Windows.Input;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.Behaviors {
+namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     ///   Class that provides the Watermark attached property
     /// </summary>
-    internal sealed class WatermarkBehavior  {
+    internal sealed class WatermarkService {
         /// <summary>
         ///   Watermark Attached Dependency Property
         /// </summary>
         public static readonly DependencyProperty WatermarkProperty = DependencyProperty.RegisterAttached(
             "Watermark",
             typeof (object),
-            typeof (WatermarkBehavior),
+            typeof (WatermarkService),
             new FrameworkPropertyMetadata(null, OnWatermarkChanged));
 
         #region Private Fields
@@ -78,7 +78,7 @@ namespace Crystalbyte.Paranoia.Behaviors {
                 textbox.PasswordChanged += OnPasswordChanged;
             }
 
-            if (!(d is ItemsControl) || d is ComboBox) 
+            if (!(d is ItemsControl) || d is ComboBox)
                 return;
 
             var i = (ItemsControl) d;
@@ -95,19 +95,21 @@ namespace Crystalbyte.Paranoia.Behaviors {
         #region Event Handlers
 
         private static void OnPasswordChanged(object sender, EventArgs e) {
-            var c = (PasswordBox)sender;
+            var c = (PasswordBox) sender;
             if (ShouldShowWatermark(c)) {
                 ShowWatermark(c);
-            } else {
+            }
+            else {
                 RemoveWatermark(c);
             }
         }
 
         private static void OnTextBoxTextChanged(object sender, TextChangedEventArgs e) {
-            var c = (TextBox)sender;
+            var c = (TextBox) sender;
             if (ShouldShowWatermark(c)) {
                 ShowWatermark(c);
-            } else {
+            }
+            else {
                 RemoveWatermark(c);
             }
         }
@@ -129,7 +131,7 @@ namespace Crystalbyte.Paranoia.Behaviors {
         /// <param name="e"> A <see cref="RoutedEventArgs" /> that contains the event data. </param>
         private static void OnControlLostKeyboardFocus(object sender, RoutedEventArgs e) {
             var control = (Control) sender;
-            if (!ShouldShowWatermark(control)) 
+            if (!ShouldShowWatermark(control))
                 return;
 
             ShowWatermark(control);
@@ -227,7 +229,6 @@ namespace Crystalbyte.Paranoia.Behaviors {
             }
             if (c is TextBox) {
                 return (c as TextBox).Text == string.Empty && Keyboard.FocusedElement != c;
-                
             }
             if (c is ItemsControl) {
                 return (c as ItemsControl).Items.Count == 0;

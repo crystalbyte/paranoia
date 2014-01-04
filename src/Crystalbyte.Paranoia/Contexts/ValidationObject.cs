@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -6,28 +8,30 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Contexts {
     /// <summary>
-    /// This class handles all property validation.
-    /// Code inspired by http://weblogs.asp.net/marianor/archive/2009/04/17/wpf-validation-with-attributes-and-idataerrorinfo-interface-in-mvvm.aspx.
+    ///   This class handles all property validation.
+    ///   Code inspired by http://weblogs.asp.net/marianor/archive/2009/04/17/wpf-validation-with-attributes-and-idataerrorinfo-interface-in-mvvm.aspx.
     /// </summary>
-    /// <typeparam name="T">The inheriting type.</typeparam>
+    /// <typeparam name="T"> The inheriting type. </typeparam>
     public abstract class ValidationObject<T> : NotificationObject, IDataErrorInfo where T : ValidationObject<T> {
-
         #region Private Fields
 
         private bool _isValid;
         private readonly Dictionary<string, int> _propertyErrors = new Dictionary<string, int>();
 
         private static readonly Dictionary<string, Func<T, object>> PropertyAccessors =
-        typeof(T).GetProperties().Where(p => GetValidations(p).Length != 0).ToDictionary(p => p.Name, GetValueAccessor);
+            typeof (T).GetProperties().Where(p => GetValidations(p).Length != 0).ToDictionary(p => p.Name,
+                                                                                              GetValueAccessor);
 
         // ReSharper disable StaticFieldInGenericType
         private static readonly Dictionary<string, ValidationAttribute[]> Validators =
-            typeof(T).GetProperties().Where(p => GetValidations(p).Length != 0).ToDictionary(p => p.Name, GetValidations);
+            typeof (T).GetProperties().Where(p => GetValidations(p).Length != 0).ToDictionary(p => p.Name,
+                                                                                              GetValidations);
+
         // ReSharper restore StaticFieldInGenericType
 
         #endregion
@@ -63,16 +67,16 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private static ValidationAttribute[] GetValidations(PropertyInfo property) {
-            return (ValidationAttribute[])property.GetCustomAttributes(typeof(ValidationAttribute), true);
+            return (ValidationAttribute[]) property.GetCustomAttributes(typeof (ValidationAttribute), true);
         }
 
         private static Func<T, object> GetValueAccessor(PropertyInfo property) {
-            var instance = Expression.Parameter(typeof(T), "i");
+            var instance = Expression.Parameter(typeof (T), "i");
             var cast = Expression.TypeAs(
                 Expression.Property(instance, property),
-                typeof(object));
-            return (Func<T, object>)Expression
-                .Lambda(cast, instance).Compile();
+                typeof (object));
+            return (Func<T, object>) Expression
+                                         .Lambda(cast, instance).Compile();
         }
 
         private static string GetLocalizedErrorMessage(ValidationAttribute a) {
@@ -80,17 +84,16 @@ namespace Crystalbyte.Paranoia.Contexts {
                 return a.ErrorMessage;
             }
             return a.ErrorMessageResourceType.
-                GetProperty(a.ErrorMessageResourceName).
-                GetValue(null, BindingFlags.Static, null, null, CultureInfo.CurrentCulture) as string;
+                       GetProperty(a.ErrorMessageResourceName).
+                       GetValue(null, BindingFlags.Static, null, null, CultureInfo.CurrentCulture) as string;
         }
 
         #region Implementation of IDataErrorInfo
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="columnName"></param>
-        /// <returns></returns>
+        /// <param name="columnName"> </param>
+        /// <returns> </returns>
         public string this[string columnName] {
             get {
                 OnValidating(EventArgs.Empty);
@@ -107,7 +110,6 @@ namespace Crystalbyte.Paranoia.Contexts {
                     }
 
                     return string.Join(Environment.NewLine, errors);
-
                 }
                 IsValid = false;
                 return string.Empty;

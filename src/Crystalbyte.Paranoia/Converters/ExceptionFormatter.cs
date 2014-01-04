@@ -1,20 +1,19 @@
-﻿#region Using directives
-
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Data;
 
-#endregion
-
 namespace Crystalbyte.Paranoia.Converters {
-    [ValueConversion(typeof (double), typeof (double))]
-    public sealed class RatioConverter : IValueConverter {
+
+    [ValueConversion(typeof(Exception), typeof(string))]
+    public sealed class ExceptionFormatter : IValueConverter {
         #region Implementation of IValueConverter
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            var t = (double) value;
-            var p = double.Parse((string) parameter);
-            return t/p;
+            return value == null ? string.Empty : ((Exception)value).Message;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

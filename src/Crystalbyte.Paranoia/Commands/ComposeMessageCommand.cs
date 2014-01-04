@@ -2,24 +2,21 @@
 
 using System;
 using System.Composition;
-using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Contexts;
-using Crystalbyte.Paranoia.Messaging;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.Commands {
     [Export, Shared]
     public sealed class ComposeMessageCommand : ICommand {
-
         [Import]
         public AppContext AppContext { get; set; }
 
         #region Implementation of ICommand
-         
+
         public bool CanExecute(object parameter) {
             return true;
         }

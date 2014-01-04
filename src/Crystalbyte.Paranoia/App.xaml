@@ -12,6 +12,7 @@
         <converters:SecurityPolicyFormatter x:Key="SecurityPolicyFormatter" />
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:RatioConverter x:Key="RatioConverter" />
+        <converters:ExceptionFormatter x:Key="ExceptionFormatter" />
 
         <Color x:Key="AppAccentColor"
                A="255"
@@ -47,10 +48,17 @@
         <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccentColor}" />
         <SolidColorBrush x:Key="AppSuccessColorBrush" Color="{StaticResource AppSuccessColor}" />
 
-        <System:Double x:Key="AppLargeExtraFontSize">24</System:Double>
-        <System:Double x:Key="LargeFontSize">20</System:Double>
+        <System:Double x:Key="AppLargeExtraFontSize">28</System:Double>
+        <System:Double x:Key="AppLargeFontSize">20</System:Double>
         <System:Double x:Key="AppMediumFontSize">16</System:Double>
-        <System:Double x:Key="NormalFontSize">12</System:Double>
+        <System:Double x:Key="AppNormalFontSize">12</System:Double>
+        <System:Double x:Key="AppSmallFontSize">10</System:Double>
+
+
+        <Style TargetType="{x:Type ListViewItem}">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
 
         <Style TargetType="{x:Type ToolTip}">
             <Setter Property="BorderThickness" Value="1" />
@@ -74,6 +82,11 @@
         <Style x:Key="AppNormalTextStyle" TargetType="{x:Type TextBlock}">
             <Setter Property="FontFamily" Value="Segoe UI" />
             <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
+        </Style>
+
+        <Style x:Key="AppErrorTextStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Foreground" Value="Tomato" />
         </Style>
 
         <Style x:Key="LightTextStyle"
@@ -226,6 +239,7 @@
                BasedOn="{StaticResource AppNormalTextStyle}"
                TargetType="{x:Type TextBlock}">
             <Setter Property="Foreground" Value="{StaticResource AppMediumTextBrush}" />
+            <Setter Property="FontStyle" Value="Italic" />
             <Setter Property="Padding" Value="5,3,3,3" />
         </Style>
 

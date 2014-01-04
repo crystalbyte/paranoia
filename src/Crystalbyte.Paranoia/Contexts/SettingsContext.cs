@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Using directives
+
 using System.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Contexts {
     [Export, Shared]
     public sealed class SettingsContext : ValidationObject<SettingsContext> {
-
         #region Private Fields
 
         private bool _isActive;

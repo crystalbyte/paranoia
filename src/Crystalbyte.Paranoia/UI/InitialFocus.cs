@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Using directives
+
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace Crystalbyte.Paranoia.Behaviors {
-    internal sealed class InitialFocusBehavior {
+#endregion
 
+namespace Crystalbyte.Paranoia.UI {
+    internal sealed class InitialFocus {
         /// <summary>
         ///   IsEnabled Attached Dependency Property
         /// </summary>
         public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.RegisterAttached(
             "IsEnabled",
-            typeof(bool),
-            typeof(InitialFocusBehavior),
+            typeof (bool),
+            typeof (InitialFocus),
             new FrameworkPropertyMetadata(false, OnIsEnabledChanged));
 
         /// <summary>
@@ -52,15 +50,16 @@ namespace Crystalbyte.Paranoia.Behaviors {
             var enabled = (bool) e.NewValue;
             if (enabled) {
                 element.IsVisibleChanged += OnFrameworkElementIsVisibleChanged;
-            } else {
+            }
+            else {
                 element.IsVisibleChanged -= OnFrameworkElementIsVisibleChanged;
             }
         }
 
         private static void OnFrameworkElementIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
-            var element = (FrameworkElement)sender;
+            var element = (FrameworkElement) sender;
             if (element.IsVisible) {
-                element.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));    
+                element.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
             }
         }
     }

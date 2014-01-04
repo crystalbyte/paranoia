@@ -18,8 +18,9 @@ namespace Crystalbyte.Paranoia {
         private HwndSource _source;
 
         public MainWindow() {
-            InitializeComponent();
             DataContext = App.AppContext;
+
+            InitializeComponent();
             Loaded += OnLoaded;
             // We need to set the height for the window to stay ontop the Taskbar
             MaxHeight = SystemParameters.WorkArea.Height
@@ -28,13 +29,13 @@ namespace Crystalbyte.Paranoia {
         }
 
         public bool IsNormalState {
-            get { return (bool)GetValue(IsNormalStateProperty); }
+            get { return (bool) GetValue(IsNormalStateProperty); }
             set { SetValue(IsNormalStateProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for IsNormalState.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsNormalStateProperty =
-            DependencyProperty.Register("IsNormalState", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
+            DependencyProperty.Register("IsNormalState", typeof (bool), typeof (MainWindow), new PropertyMetadata(true));
 
         protected override void OnStateChanged(EventArgs e) {
             base.OnStateChanged(e);
@@ -69,7 +70,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnMessagesSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var list = (ListView)sender;
+            var list = (ListView) sender;
             var messages = list.SelectedItems.OfType<ImapMessageContext>().ToList();
             if (messages.Count == 0) {
                 return;
@@ -105,7 +106,8 @@ namespace Crystalbyte.Paranoia {
         private void UpdateWindowPadding() {
             if (WindowState == WindowState.Normal) {
                 Padding = new Thickness(0);
-            } else {
+            }
+            else {
                 Padding = new Thickness(
                     SystemParameters.WindowResizeBorderThickness.Left +
                     SystemParameters.WindowNonClientFrameThickness.Left,
@@ -123,7 +125,8 @@ namespace Crystalbyte.Paranoia {
         private void ToggleWindowState() {
             if (WindowState == WindowState.Normal) {
                 MaximizeWindow();
-            } else {
+            }
+            else {
                 NormalizeWindow();
             }
         }
@@ -139,6 +142,14 @@ namespace Crystalbyte.Paranoia {
         private void MaximizeWindow() {
             WindowState = WindowState.Maximized;
         }
+
+        private void OnIdentitySelectionChanged(object sender, SelectionChangedEventArgs e) {
+            var identity = e.AddedItems.OfType<IdentityContext>().FirstOrDefault();
+            if (identity == null) {
+                return;
+            }
+
+            App.AppContext.IdentitySelectionSource.Current = identity;
+        }
     }
 }
-

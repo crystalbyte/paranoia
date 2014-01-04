@@ -95,19 +95,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Behaviors\InitialFocusBehavior.cs" />
-    <Compile Include="Behaviors\ScrollByTouchBehavior.cs" />
-    <Compile Include="Behaviors\WatermarkAdorner.cs" />
-    <Compile Include="Behaviors\WatermarkBehavior.cs" />
+    <Compile Include="Contexts\AccountTestContext.cs" />
+    <Compile Include="Converters\BooleanToBrushConverter.cs" />
+    <Compile Include="Converters\ExceptionFormatter.cs" />
+    <Compile Include="IdentitySelectionSource.cs" />
+    <Compile Include="StreamExtensions.cs" />
+    <Compile Include="UI\CreateAccountTestingPage.xaml.cs">
+      <DependentUpon>CreateAccountTestingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\InitialFocus.cs" />
+    <Compile Include="UI\WatermarkAdorner.cs" />
+    <Compile Include="UI\WatermarkService.cs" />
     <Compile Include="Commands\ComposeMessageCommand.cs" />
     <Compile Include="Commands\DeleteMessageCommand.cs" />
     <Compile Include="Commands\NullCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\SyncCommand.cs" />
-    <Compile Include="Contexts\AccountScreenContext.cs" />
-    <Compile Include="Contexts\DebugMessage.cs" />
+    <Compile Include="Contexts\CreateAccountScreenContext.cs" />
     <Compile Include="Contexts\IdentityContext.cs" />
-    <Compile Include="Contexts\IdentityScreenContext.cs" />
+    <Compile Include="Contexts\CreateIdentityScreenContext.cs" />
     <Compile Include="Contexts\SettingsContext.cs" />
     <Compile Include="Contexts\ValidationObject.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
@@ -156,6 +162,9 @@
     <Compile Include="PropertySupport.cs" />
     <Compile Include="RegexPatterns.cs" />
     <Compile Include="StringExtensions.cs" />
+    <Compile Include="UI\CreateAccountConfigPage.xaml.cs">
+      <DependentUpon>CreateAccountConfigPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\CreateAccountScreen.xaml.cs">
       <DependentUpon>CreateAccountScreen.xaml</DependentUpon>
     </Compile>
@@ -165,7 +174,7 @@
     <Compile Include="UI\CreateIdentityScreen.xaml.cs">
       <DependentUpon>CreateIdentityScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\PasswordSupport.cs" />
+    <Compile Include="UI\PasswordService.cs" />
     <Compile Include="WebBrowserExtensions.cs" />
     <Compile Include="WindowExtensions.cs" />
     <Compile Include="App.xaml.cs">
@@ -181,11 +190,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\CreateAccountConfigPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\CreateAccountScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\CreateAccountStartPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\CreateAccountTestingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -284,9 +301,6 @@
   <ItemGroup>
     <Resource Include="Assets\settings.png" />
     <Resource Include="Assets\download.png" />
-    <Content Include="Debug\debug.mail.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -310,7 +324,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\smtp.message.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(ProjectDir)\..\Crystalbyte.Paranoia.Cryptography\Resources\libeay32.dll" "$(TargetDir)"</PostBuildEvent>

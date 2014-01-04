@@ -1,29 +1,28 @@
-﻿using System.Security;
-using Crystalbyte.Paranoia.Contexts;
+﻿#region Using directives
+
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Crystalbyte.Paranoia.Contexts;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
-    /// Interaction logic for CreateAccountStartPage.xaml
+    ///   Interaction logic for CreateAccountStartPage.xaml
     /// </summary>
     public partial class CreateAccountStartPage {
         public CreateAccountStartPage() {
-            InitializeComponent();
-            ScreenContext = App.AppContext.AccountScreenContext;
+            ScreenContext = App.AppContext.CreateAccountScreenContext;
             ScreenContext.Activated += OnActivated;
+            Loaded += OnPageLoaded;
+            InitializeComponent();
+        }
+
+        private void OnPageLoaded(object sender, RoutedEventArgs e) {
+            
         }
 
         private void OnActivated(object sender, EventArgs e) {
@@ -33,15 +32,23 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        public AccountScreenContext ScreenContext {
-            get { return DataContext as AccountScreenContext; }
+        public CreateAccountScreenContext ScreenContext {
+            get { return DataContext as CreateAccountScreenContext; }
             set { DataContext = value; }
         }
 
-        private void OnPortPreviewTextInput(object sender, TextCompositionEventArgs e) {
-            if (!char.IsDigit(e.Text, e.Text.Length - 1)) {
-                e.Handled = true;
+        private void OnImapPasswordChanged(object sender, RoutedEventArgs e) {
+            var box = sender as PasswordBox;
+            if (box == null) {
+                return;
             }
+
+            // The PasswordBox clears its content after being collected, however our password must persist to the next page.
+            if (string.IsNullOrWhiteSpace(box.Password)) {
+                return;
+            }
+
+            ScreenContext.ImapPassword = box.Password;
         }
     }
 }

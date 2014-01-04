@@ -8,12 +8,11 @@ using System.Windows.Media;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.Behaviors {
+namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     ///   Adorner for the watermark
     /// </summary>
     internal sealed class WatermarkAdorner : Adorner {
-
         #region Private Fields
 
         /// <summary>
@@ -34,10 +33,11 @@ namespace Crystalbyte.Paranoia.Behaviors {
             base(adornedElement) {
             IsHitTestVisible = false;
 
-            _contentPresenter = new ContentPresenter {
-                Content = watermark,
-                Opacity = 0.5
-            };
+            _contentPresenter = new ContentPresenter
+                                    {
+                                        Content = watermark,
+                                        Opacity = 0.5
+                                    };
 
             _contentPresenter.SizeChanged += OnContentPresenterSizeChanged;
 
@@ -47,7 +47,8 @@ namespace Crystalbyte.Paranoia.Behaviors {
             }
 
             // Hide the control adorner when the adorned element is hidden
-            var binding = new Binding("IsVisible") { Source = adornedElement, Converter = new BooleanToVisibilityConverter() };
+            var binding = new Binding("IsVisible")
+                              {Source = adornedElement, Converter = new BooleanToVisibilityConverter()};
             SetBinding(VisibilityProperty, binding);
         }
 
@@ -75,7 +76,7 @@ namespace Crystalbyte.Paranoia.Behaviors {
         ///   Gets the control that is being adorned
         /// </summary>
         private Control Control {
-            get { return (Control)AdornedElement; }
+            get { return (Control) AdornedElement; }
         }
 
         #endregion

@@ -1,15 +1,19 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Globalization;
 using System.Windows.Data;
 using Crystalbyte.Paranoia.Messaging;
 
+#endregion
+
 namespace Crystalbyte.Paranoia.Converters {
-    [ValueConversion(typeof(SecurityPolicy), typeof(string))]
+    [ValueConversion(typeof (SecurityPolicy), typeof (string))]
     public sealed class SecurityPolicyFormatter : IValueConverter {
         #region Implementation of IValueConverter
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            var v = (SecurityPolicy)value;
+            var v = (SecurityPolicy) value;
             switch (v) {
                 case SecurityPolicy.None:
                     return "None";
@@ -29,4 +33,3 @@ namespace Crystalbyte.Paranoia.Converters {
         #endregion
     }
 }
-

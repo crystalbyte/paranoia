@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Messaging;
-using Crystalbyte.Paranoia.Models;
 
 #endregion
 
@@ -58,7 +57,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private async Task<string> FetchContentAsync() {
-            using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+            using (var connection = new ImapConnection {Security = _account.ImapSecurity}) {
                 using (var authenticator = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                     using (var session = await authenticator.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                         var mailbox = await session.SelectAsync(_mailbox);

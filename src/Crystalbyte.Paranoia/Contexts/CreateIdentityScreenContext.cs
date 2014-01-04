@@ -1,17 +1,20 @@
-﻿using System.Composition;
+﻿#region Using directives
+
+using System.ComponentModel.DataAnnotations;
+using System.Composition;
 using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Commands;
-using System.Security.Cryptography;
-using System.ComponentModel.DataAnnotations;
-using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.Data;
+using Crystalbyte.Paranoia.Properties;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Contexts {
-
     [Export, Shared]
-    public sealed class IdentityScreenContext : ValidationObject<IdentityScreenContext> {
+    public sealed class CreateIdentityScreenContext : ValidationObject<CreateIdentityScreenContext> {
 
         #region Private Fields
 
@@ -25,7 +28,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         #region Construction
 
-        public IdentityScreenContext() {
+        public CreateIdentityScreenContext() {
             CreateCommand = new RelayCommand(OnCanCreateCommandExecuted, OnCreateCommandExecuted);
             CancelCommand = new RelayCommand(OnCancelCommandExecuted);
         }
@@ -45,8 +48,9 @@ namespace Crystalbyte.Paranoia.Contexts {
         public ICommand CreateCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequiredErrorText")]
-        [StringLength(64, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxStringLength64ErrorText")]
+        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NameRequiredErrorText")]
+        [StringLength(64, ErrorMessageResourceType = typeof (Resources),
+            ErrorMessageResourceName = "MaxStringLength64ErrorText")]
         public string Name {
             get { return _name; }
             set {
@@ -60,8 +64,9 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
-        [RegularExpression(RegexPatterns.Email, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "InvalidEmailFormatErrorText")]
+        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        [RegularExpression(RegexPatterns.Email, ErrorMessageResourceType = typeof (Resources),
+            ErrorMessageResourceName = "InvalidEmailFormatErrorText")]
         public string EmailAddress {
             get { return _emailAddress; }
             set {
@@ -140,13 +145,14 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private async void OnCreateCommandExecuted(object parameter) {
-            var identity = new IdentityContext {
-                EmailAddress = EmailAddress,
-                Notes = Notes,
-                Name = Name,
-                PrivateKey = "muh",
-                PublicKey = "mäh"
-            };
+            var identity = new IdentityContext
+                               {
+                                   EmailAddress = EmailAddress,
+                                   Notes = Notes,
+                                   Name = Name,
+                                   PrivateKey = "muh",
+                                   PublicKey = "mäh"
+                               };
 
             await LocalStorage.InsertAsync(identity.Model);
             AppContext.Identities.Add(identity);

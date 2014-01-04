@@ -1,15 +1,8 @@
 ﻿#region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Crystalbyte.Paranoia.Commands;
 using Crystalbyte.Paranoia.Messaging;
 using Crystalbyte.Paranoia.Models;
-using System.Xml.Serialization;
 using Crystalbyte.Paranoia.Properties;
 
 #endregion
@@ -47,21 +40,21 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public SecurityPolicy ImapSecurity {
-            get { return (SecurityPolicy)_imap.Security; }
+            get { return (SecurityPolicy) _imap.Security; }
             set {
-                if (_imap.Security == (short)value) {
+                if (_imap.Security == (short) value) {
                     return;
                 }
 
                 RaisePropertyChanging(() => ImapSecurity);
-                _imap.Security = (short)value;
+                _imap.Security = (short) value;
                 RaisePropertyChanged(() => ImapSecurity);
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public string ImapHost {
             get { return _imap.Host; }
             set {
@@ -75,7 +68,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public short ImapPort {
             get { return _imap.Port; }
             set {
@@ -95,7 +88,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public string ImapUsername {
             get { return _imap.Username; }
             set {
@@ -109,7 +102,8 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "PasswordRequiredErrorText")]
+        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "PasswordRequiredErrorText")
+        ]
         public string ImapPassword {
             get { return _imap.Password; }
             set {
@@ -123,7 +117,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public string SmtpPassword {
             get { return _smtp.Password; }
             set {
@@ -137,7 +131,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public string SmtpUsername {
             get { return _smtp.Username; }
             set {
@@ -151,7 +145,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public string SmtpHost {
             get { return _smtp.Host; }
             set {
@@ -165,7 +159,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public short SmtpPort {
             get { return _smtp.Port; }
             set {
@@ -185,16 +179,16 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public SecurityPolicy SmtpSecurity {
-            get { return (SecurityPolicy)_smtp.Security; }
+            get { return (SecurityPolicy) _smtp.Security; }
             set {
-                if (_smtp.Security == (short)value) {
+                if (_smtp.Security == (short) value) {
                     return;
                 }
 
                 RaisePropertyChanging(() => SmtpSecurity);
-                _smtp.Security = (short)value;
+                _smtp.Security = (short) value;
                 RaisePropertyChanged(() => SmtpSecurity);
             }
         }

@@ -1,17 +1,20 @@
-﻿#region Using directives
-
+﻿using System.Windows;
 using Crystalbyte.Paranoia.Contexts;
-
-#endregion
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
-    ///   Interaction logic for CreateAccountScreen.xaml
+    /// Interaction logic for CreateAccountTestingPage.xaml
     /// </summary>
-    public partial class CreateAccountScreen {
-        public CreateAccountScreen() {
+    public partial class CreateAccountTestingPage {
+
+        public CreateAccountTestingPage() {
             ScreenContext = App.AppContext.CreateAccountScreenContext;
+            Loaded += OnPageLoaded;
             InitializeComponent();
+        }
+
+        private async void OnPageLoaded(object sender, RoutedEventArgs e) {
+            await ScreenContext.TestConfiguration();
         }
 
         public CreateAccountScreenContext ScreenContext {
