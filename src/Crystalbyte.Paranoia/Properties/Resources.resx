@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountTestFailureMessage" xml:space="preserve">
+    <value>Errors occurred during the configuration, you can correct any mistakes and try again.</value>
+  </data>
+  <data name="AccountTestSuccessMessage" xml:space="preserve">
+    <value>Configuration finished successfully.</value>
+  </data>
+  <data name="AuthenticationFailedMessage" xml:space="preserve">
+    <value>Auhentication failed.</value>
+  </data>
   <data name="BackButtonText" xml:space="preserve">
     <value>Back</value>
   </data>
@@ -187,6 +196,9 @@ If any of the tests fail, you may need to navigate back and correct any mistakes
   <data name="ImapTestSuccessMessage" xml:space="preserve">
     <value>Connection to server successfully established.</value>
   </data>
+  <data name="ImapUsernameWatermark" xml:space="preserve">
+    <value>incoming server username</value>
+  </data>
   <data name="InvalidEmailFormatErrorText" xml:space="preserve">
     <value>The value entered is not a valid email address.</value>
     <comment>IdentityScreenContext -&gt; EmailAddress</comment>
@@ -246,5 +258,8 @@ If any of the tests fail, you may need to navigate back and correct any mistakes
   </data>
   <data name="SmtpTestSuccessMessage" xml:space="preserve">
     <value>Message successfully sent.</value>
+  </data>
+  <data name="SmtpUsernameWatermark" xml:space="preserve">
+    <value>outgoing server username</value>
   </data>
 </root>

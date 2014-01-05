@@ -95,7 +95,8 @@
                                                 </ListView.ItemTemplate>
                                             </ListView>
                                             <Button VerticalAlignment="Top"
-                                                    Command="{Binding CreateIdentityCommand}"
+                                                    Command="{Binding CreateIdentityCommand,
+                                                                      FallbackValue={StaticResource NullCommand}}"
                                                     Style="{StaticResource CreateIdentityButtonStyle}" />
                                         </StackPanel>
 
@@ -147,7 +148,7 @@
                     Command="{Binding CreateIdentityCommand,
                                       FallbackValue={StaticResource NullCommand}}"
                     Modifiers="Control" />
-        <KeyBinding Key="M"
+        <KeyBinding Key="O"
                     Command="{Binding CreateAccountCommand,
                                       FallbackValue={StaticResource NullCommand}}"
                     Modifiers="Control" />

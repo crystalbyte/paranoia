@@ -10,6 +10,7 @@
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="CreateAccountConfigPage"
       KeepAlive="True"
+      KeyboardNavigation.TabNavigation="Cycle"
       d:DataContext="{d:DesignInstance contexts:CreateAccountScreenContext}"
       d:DesignHeight="300"
       d:DesignWidth="300"
@@ -67,10 +68,22 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <AdornerDecorator>
-                        <TextBox Margin="0,3,3,3" Text="{Binding ImapUsername, Mode=TwoWay, ValidatesOnDataErrors=True}" />
+                        <TextBox Margin="0,3,3,3"
+                                 KeyboardNavigation.TabIndex="0"
+                                 Text="{Binding ImapUsername,
+                                                Mode=TwoWay,
+                                                ValidatesOnDataErrors=True}"
+                                 ui:InitialFocus.IsEnabled="True">
+                            <ui:WatermarkService.Watermark>
+                                <TextBlock VerticalAlignment="Center"
+                                           Style="{StaticResource AppWatermarkTextStyle}"
+                                           Text="{x:Static properties:Resources.ImapUsernameWatermark}" />
+                            </ui:WatermarkService.Watermark>
+                        </TextBox>
                     </AdornerDecorator>
                     <AdornerDecorator Grid.Column="1">
                         <PasswordBox Margin="3,3,0,3"
+                                     KeyboardNavigation.TabIndex="1"
                                      Loaded="OnImapPasswordBoxLoaded"
                                      PasswordChanged="OnImapPasswordChanged">
                             <ui:WatermarkService.Watermark>
@@ -82,7 +95,7 @@
                     </AdornerDecorator>
                 </Grid>
                 <AdornerDecorator Grid.Row="2" Grid.Column="0">
-                    <TextBox Text="{Binding ImapHost, Mode=TwoWay, FallbackValue={x:Static system:String.Empty}, ValidatesOnDataErrors=True}">
+                    <TextBox KeyboardNavigation.TabIndex="3" Text="{Binding ImapHost, Mode=TwoWay, FallbackValue={x:Static system:String.Empty}, ValidatesOnDataErrors=True}">
                         <ui:WatermarkService.Watermark>
                             <TextBlock VerticalAlignment="Center"
                                        Style="{StaticResource AppWatermarkTextStyle}"
@@ -94,6 +107,7 @@
                           Grid.Column="1"
                           Margin="10,0,0,0"
                           ItemsSource="{StaticResource PolicySource}"
+                          KeyboardNavigation.TabIndex="4"
                           SelectedValue="{Binding ImapSecurity,
                                                   FallbackValue={x:Static messaging:SecurityPolicy.None}}">
                     <ComboBox.ItemTemplate>
@@ -111,6 +125,7 @@
                 </ComboBox>
                 <AdornerDecorator Grid.Row="2" Grid.Column="2">
                     <TextBox Margin="10,0,0,0"
+                             KeyboardNavigation.TabIndex="5"
                              PreviewTextInput="OnPortPreviewTextInput"
                              Text="{Binding ImapPort,
                                             FallbackValue=993,
@@ -152,10 +167,21 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <AdornerDecorator>
-                        <TextBox Margin="0,3,3,3" Text="{Binding SmtpUsername, Mode=TwoWay, ValidatesOnDataErrors=True}" />
+                        <TextBox Margin="0,3,3,3"
+                                 KeyboardNavigation.TabIndex="6"
+                                 Text="{Binding SmtpUsername,
+                                                Mode=TwoWay,
+                                                ValidatesOnDataErrors=True}">
+                            <ui:WatermarkService.Watermark>
+                                <TextBlock VerticalAlignment="Center"
+                                           Style="{StaticResource AppWatermarkTextStyle}"
+                                           Text="{x:Static properties:Resources.SmtpUsernameWatermark}" />
+                            </ui:WatermarkService.Watermark>
+                        </TextBox>
                     </AdornerDecorator>
                     <AdornerDecorator Grid.Column="1">
                         <PasswordBox Margin="3,3,0,3"
+                                     KeyboardNavigation.TabIndex="7"
                                      Loaded="OnSmtpPasswordBoxLoaded"
                                      PasswordChanged="OnSmtpPasswordChanged">
                             <ui:WatermarkService.Watermark>
@@ -167,7 +193,7 @@
                     </AdornerDecorator>
                 </Grid>
                 <AdornerDecorator Grid.Row="2" Grid.Column="0">
-                    <TextBox Text="{Binding SmtpHost, Mode=TwoWay, ValidatesOnDataErrors=True}">
+                    <TextBox KeyboardNavigation.TabIndex="8" Text="{Binding SmtpHost, Mode=TwoWay, ValidatesOnDataErrors=True}">
                         <ui:WatermarkService.Watermark>
                             <TextBlock VerticalAlignment="Center"
                                        Style="{StaticResource AppWatermarkTextStyle}"
@@ -179,6 +205,7 @@
                           Grid.Column="1"
                           Margin="10,0,0,0"
                           ItemsSource="{StaticResource PolicySource}"
+                          KeyboardNavigation.TabIndex="9"
                           SelectedValue="{Binding SmtpSecurity,
                                                   FallbackValue={x:Static messaging:SecurityPolicy.None}}">
                     <ComboBox.ItemTemplate>
@@ -196,6 +223,7 @@
                 </ComboBox>
                 <AdornerDecorator Grid.Row="2" Grid.Column="2">
                     <TextBox Margin="10,0,0,0"
+                             KeyboardNavigation.TabIndex="10"
                              PreviewTextInput="OnPortPreviewTextInput"
                              Text="{Binding SmtpPort,
                                             Mode=TwoWay,
@@ -216,25 +244,25 @@
                    LastChildFill="False">
             <Button Command="{Binding CancelCommand,
                                       FallbackValue={StaticResource NullCommand}}"
-                    Content="Cancel"
+                    Content="{x:Static properties:Resources.CancelButtonText}"
                     DockPanel.Dock="Right"
-                    KeyboardNavigation.TabIndex="4"
+                    KeyboardNavigation.TabIndex="13"
                     Style="{StaticResource AppDialogTextButtonStyle}" />
             <Button Command="{Binding TestingCommand,
                                       FallbackValue={StaticResource NullCommand}}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page},
                                                                               AncestorLevel=1}}"
-                    Content="Continue"
+                    Content="{x:Static properties:Resources.ContinueButtonText}"
                     DockPanel.Dock="Right"
-                    KeyboardNavigation.TabIndex="3"
+                    KeyboardNavigation.TabIndex="12"
                     Style="{StaticResource AppDefaultDialogTextButtonStyle}" />
             <Button Command="{Binding GoBackCommand,
                                       FallbackValue={StaticResource NullCommand}}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page},
                                                                               AncestorLevel=1}}"
-                    Content="Back"
+                    Content="{x:Static properties:Resources.BackButtonText}"
                     DockPanel.Dock="Right"
-                    KeyboardNavigation.TabIndex="2"
+                    KeyboardNavigation.TabIndex="11"
                     Style="{StaticResource AppDialogTextButtonStyle}" />
         </DockPanel>
     </Grid>

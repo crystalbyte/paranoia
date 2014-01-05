@@ -96,7 +96,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Contexts\AccountTestContext.cs" />
+    <Compile Include="Converters\BooleanMultiConverter.cs" />
+    <Compile Include="Converters\BooleanNegator.cs" />
     <Compile Include="Converters\BooleanToBrushConverter.cs" />
+    <Compile Include="Converters\BooleanToStringConverter.cs" />
     <Compile Include="Converters\ExceptionFormatter.cs" />
     <Compile Include="IdentitySelectionSource.cs" />
     <Compile Include="StreamExtensions.cs" />

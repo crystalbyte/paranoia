@@ -61,6 +61,33 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Errors occurred during the configuration, you can correct any mistakes and try again..
+        /// </summary>
+        public static string AccountTestFailureMessage {
+            get {
+                return ResourceManager.GetString("AccountTestFailureMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configuration finished successfully..
+        /// </summary>
+        public static string AccountTestSuccessMessage {
+            get {
+                return ResourceManager.GetString("AccountTestSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auhentication failed..
+        /// </summary>
+        public static string AuthenticationFailedMessage {
+            get {
+                return ResourceManager.GetString("AuthenticationFailedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
         public static string BackButtonText {
@@ -260,6 +287,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to incoming server username.
+        /// </summary>
+        public static string ImapUsernameWatermark {
+            get {
+                return ResourceManager.GetString("ImapUsernameWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The value entered is not a valid email address..
         /// </summary>
         public static string InvalidEmailFormatErrorText {
@@ -418,6 +454,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string SmtpTestSuccessMessage {
             get {
                 return ResourceManager.GetString("SmtpTestSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to outgoing server username.
+        /// </summary>
+        public static string SmtpUsernameWatermark {
+            get {
+                return ResourceManager.GetString("SmtpUsernameWatermark", resourceCulture);
             }
         }
     }

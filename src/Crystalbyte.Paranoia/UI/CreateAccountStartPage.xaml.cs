@@ -27,7 +27,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnActivated(object sender, EventArgs e) {
             var identity = App.AppContext.Identities.FirstOrDefault(x => x.IsSelected);
-            if (identity != null) {
+            if (identity != null && !string.IsNullOrWhiteSpace(ScreenContext.EmailAddress)) {
                 EmailAddressField.SelectedText = identity.EmailAddress;
             }
         }

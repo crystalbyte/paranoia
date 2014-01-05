@@ -5,12 +5,10 @@
       xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:messaging="clr-namespace:Crystalbyte.Paranoia.Messaging;assembly=Crystalbyte.Paranoia.Messaging"
-      xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
-      xmlns:system="clr-namespace:System;assembly=mscorlib"
-      xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+      xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="CreateAccountTestingPage"
+      KeyboardNavigation.TabNavigation="Cycle"
       d:DataContext="{d:DesignInstance contexts:CreateAccountScreenContext}"
       d:DesignHeight="300"
       d:DesignWidth="300"
@@ -19,8 +17,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Border Grid.Row="0" Height="2">
@@ -44,6 +42,7 @@
         </Border>
         <Border Grid.Row="2"
                 HorizontalAlignment="Center"
+                VerticalAlignment="Top"
                 Padding="20,0,20,0">
             <Border.Resources>
                 <converters:BooleanToBrushConverter x:Key="BooleanToBrushConverter"
@@ -60,7 +59,7 @@
                 <Style x:Key="TestErrorTextStyle"
                        BasedOn="{StaticResource AppErrorTextStyle}"
                        TargetType="TextBlock">
-                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Margin" Value="0,0,0,3" />
                     <Setter Property="Width" Value="400" />
                 </Style>
             </Border.Resources>
@@ -74,15 +73,17 @@
                             DataContext="{Binding NetworkTest}"
                             Orientation="Horizontal"
                             d:DataContext="{d:DesignInstance contexts:AccountTestContext}">
-                    <Polygon Style="{StaticResource ActivitySymbol}" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=h}" />
+                    <Polygon Style="{StaticResource ActivitySymbol}" Visibility="{Binding IsActive, FallbackValue=Collapsed, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=h}" />
                     <StackPanel>
                         <TextBlock Foreground="{Binding IsActive,
+                                                        FallbackValue={StaticResource AppLightTextBrush},
                                                         Converter={StaticResource BooleanToBrushConverter}}"
                                    Style="{StaticResource AppNormalTextStyle}"
-                                   Text="{Binding Text}" />
-                        <TextBlock Margin="0"
-                                   Style="{StaticResource TestErrorTextStyle}"
+                                   Text="{Binding Text,
+                                                  FallbackValue={x:Static system:String.Empty}}" />
+                        <TextBlock Style="{StaticResource TestErrorTextStyle}"
                                    Text="{Binding Error,
+                                                  FallbackValue={x:Static system:String.Empty},
                                                   Converter={StaticResource ExceptionFormatter}}"
                                    Visibility="{Binding IsSuccessful,
                                                         FallbackValue=Collapsed,
@@ -97,12 +98,14 @@
                     <Polygon Style="{StaticResource ActivitySymbol}" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=h}" />
                     <StackPanel>
                         <TextBlock Foreground="{Binding IsActive,
+                                                        FallbackValue={StaticResource AppLightTextBrush},
                                                         Converter={StaticResource BooleanToBrushConverter}}"
                                    Style="{StaticResource AppNormalTextStyle}"
-                                   Text="{Binding Text}" />
-                        <TextBlock Margin="0"
-                                   Style="{StaticResource TestErrorTextStyle}"
+                                   Text="{Binding Text,
+                                                  FallbackValue={x:Static system:String.Empty}}" />
+                        <TextBlock Style="{StaticResource TestErrorTextStyle}"
                                    Text="{Binding Error,
+                                                  FallbackValue={x:Static system:String.Empty},
                                                   Converter={StaticResource ExceptionFormatter}}"
                                    TextWrapping="Wrap"
                                    Visibility="{Binding IsSuccessful,
@@ -115,15 +118,17 @@
                             DataContext="{Binding SmtpConnectionTest}"
                             Orientation="Horizontal"
                             d:DataContext="{d:DesignInstance contexts:AccountTestContext}">
-                    <Polygon Style="{StaticResource ActivitySymbol}" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=h}" />
+                    <Polygon Style="{StaticResource ActivitySymbol}" Visibility="{Binding IsActive, FallbackValue=Collapsed, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=h}" />
                     <StackPanel>
                         <TextBlock Foreground="{Binding IsActive,
+                                                        FallbackValue={StaticResource AppLightTextBrush},
                                                         Converter={StaticResource BooleanToBrushConverter}}"
                                    Style="{StaticResource AppNormalTextStyle}"
-                                   Text="{Binding Text}" />
-                        <TextBlock Margin="0"
-                                   Style="{StaticResource TestErrorTextStyle}"
+                                   Text="{Binding Text,
+                                                  FallbackValue={x:Static system:String.Empty}}" />
+                        <TextBlock Style="{StaticResource TestErrorTextStyle}"
                                    Text="{Binding Error,
+                                                  FallbackValue={x:Static system:String.Empty},
                                                   Converter={StaticResource ExceptionFormatter}}"
                                    TextWrapping="Wrap"
                                    Visibility="{Binding IsSuccessful,
@@ -134,6 +139,27 @@
                 </StackPanel>
             </Grid>
         </Border>
+        <Border Grid.Row="3"
+                Width="500"
+                Padding="0,20,0,0"
+                Visibility="{Binding IsTesting,
+                                     Converter={StaticResource BooleanToVisibilityConverter},
+                                     ConverterParameter=!}">
+            <Border.Resources>
+                <converters:BooleanToStringConverter x:Key="BooleanToStringConverter"
+                                                     NegativeText="{x:Static properties:Resources.AccountTestFailureMessage}"
+                                                     PositiveText="{x:Static properties:Resources.AccountTestSuccessMessage}" />
+            </Border.Resources>
+            <TextBlock Text="{Binding IsTestSuccessful, Converter={StaticResource BooleanToStringConverter}}" Visibility="{Binding IsTestSuccessful, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock.Foreground>
+                    <Binding Path="IsTestSuccessful">
+                        <Binding.Converter>
+                            <converters:BooleanToBrushConverter NegativeBrush="{StaticResource AppFailureColorBrush}" PositiveBrush="{StaticResource AppSuccessColorBrush}" />
+                        </Binding.Converter>
+                    </Binding>
+                </TextBlock.Foreground>
+            </TextBlock>
+        </Border>
         <DockPanel Grid.Row="4"
                    Width="500"
                    Margin="0,20,-6,20"
@@ -142,7 +168,7 @@
                                       FallbackValue={StaticResource NullCommand}}"
                     Content="{x:Static properties:Resources.CancelButtonText}"
                     DockPanel.Dock="Right"
-                    KeyboardNavigation.TabIndex="4"
+                    KeyboardNavigation.TabIndex="2"
                     Style="{StaticResource AppDialogTextButtonStyle}" />
             <Button Command="{Binding CommitCommand,
                                       FallbackValue={StaticResource NullCommand}}"
@@ -150,15 +176,16 @@
                                                                               AncestorLevel=1}}"
                     Content="{x:Static properties:Resources.FinishButtonText}"
                     DockPanel.Dock="Right"
-                    KeyboardNavigation.TabIndex="3"
+                    KeyboardNavigation.TabIndex="1"
                     Style="{StaticResource AppDefaultDialogTextButtonStyle}" />
             <Button Command="{Binding GoBackCommand,
                                       FallbackValue={StaticResource NullCommand}}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page},
                                                                               AncestorLevel=1}}"
+                    ui:InitialFocus.IsEnabled="True"
                     Content="{x:Static properties:Resources.BackButtonText}"
                     DockPanel.Dock="Right"
-                    KeyboardNavigation.TabIndex="2"
+                    KeyboardNavigation.TabIndex="0"
                     Style="{StaticResource AppDialogTextButtonStyle}" />
         </DockPanel>
     </Grid>

@@ -47,6 +47,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         private bool _isTesting;
         private short _smtpPort;
         private string _emailAddress;
+        private bool _isTestSuccessful;
         private AccountTestContext _networkTest;
         private AccountTestContext _imapConnectionTest;
         private AccountTestContext _smtpConnectionTest;
@@ -393,6 +394,19 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
+        public bool IsTestSuccessful {
+            get { return _isTestSuccessful; }
+            set {
+                if (_isTestSuccessful == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => IsTestSuccessful);
+                _isTestSuccessful = value;
+                RaisePropertyChanged(() => IsTestSuccessful);
+            }
+        }
+
         public bool IsTesting {
             get { return _isTesting; }
             set {
@@ -401,9 +415,15 @@ namespace Crystalbyte.Paranoia.Contexts {
                 }
 
                 RaisePropertyChanging(() => IsTesting);
+                RaisePropertyChanging(() => IsNotTesting);
                 _isTesting = value;
                 RaisePropertyChanged(() => IsTesting);
+                RaisePropertyChanged(() => IsNotTesting);
             }
+        }
+
+        public bool IsNotTesting {
+            get { return !IsTesting; }
         }
 
         public bool IsRequesting {
@@ -491,6 +511,11 @@ namespace Crystalbyte.Paranoia.Contexts {
             await CheckImapConfigAsync();
             await CheckSmtpConfigAsync();
 
+            CommitCommand.OnCanExecuteChanged(EventArgs.Empty);
+            IsTestSuccessful = NetworkTest.IsSuccessful 
+                && ImapConnectionTest.IsSuccessful 
+                && SmtpConnectionTest.IsSuccessful;
+
             IsTesting = false;
         }
 
@@ -500,9 +525,14 @@ namespace Crystalbyte.Paranoia.Contexts {
                 using (var connection = new ImapConnection { Security = ImapSecurity }) {
                     using (var authenticator = await connection.ConnectAsync(ImapHost, ImapPort)) {
                         await authenticator.LoginAsync(ImapUsername, ImapPassword);
-
-                        ImapConnectionTest.Text = Resources.ImapTestSuccessMessage;
-                        ImapConnectionTest.IsSuccessful = true;
+                        if (authenticator.IsAuthenticated) {
+                            ImapConnectionTest.Text = Resources.ImapTestSuccessMessage;
+                            ImapConnectionTest.IsSuccessful = true;    
+                        } else {
+                            ImapConnectionTest.Error = new InvalidOperationException(Resources.AuthenticationFailedMessage);
+                            ImapConnectionTest.Text = Resources.ImapTestFailureMessage;
+                            ImapConnectionTest.IsSuccessful = false;
+                        }
                     }
                 }
             }
@@ -552,8 +582,6 @@ namespace Crystalbyte.Paranoia.Contexts {
 
                     SmtpConnectionTest.Text = Resources.SmtpTestSuccessMessage;
                     SmtpConnectionTest.IsSuccessful = true;
-
-                    CommitCommand.OnCanExecuteChanged(EventArgs.Empty);
                 }
             }
             catch (Exception ex) {

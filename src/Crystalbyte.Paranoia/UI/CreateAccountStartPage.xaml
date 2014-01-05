@@ -19,6 +19,11 @@
                     Command="{Binding CancelCommand,
                                       FallbackValue={StaticResource NullCommand}}"
                     Modifiers="Alt" />
+        <KeyBinding Key="Return"
+                    Command="{Binding ConfigCommand,
+                                      FallbackValue={StaticResource NullCommand}}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page},
+                                                                              AncestorLevel=1}}" />
     </Page.InputBindings>
     <Grid>
         <Grid.RowDefinitions>

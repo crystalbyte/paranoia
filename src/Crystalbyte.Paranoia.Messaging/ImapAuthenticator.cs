@@ -18,6 +18,8 @@ namespace Crystalbyte.Paranoia.Messaging {
             get { return _connection; }
         }
 
+        public bool IsAuthenticated { get; private set; }
+
         public async Task<ImapSession> LoginAsync(string username, string password) {
             if (!_connection.Capabilities.Contains("AUTH=PLAIN")) {
                 throw new NotSupportedException("Other mechanics than PLAIN are currently not supported.");
@@ -55,6 +57,8 @@ namespace Crystalbyte.Paranoia.Messaging {
                 await _connection.WriteAsync(hash);
                 line = await _connection.ReadAsync();
             }
+
+            IsAuthenticated = !line.IsNo;
 
             if (line.Text.ContainsIgnoreCase("CAPABILITY")) {
                 _connection.Capabilities = await _connection.ReadCapabilitiesAsync(commandId);
