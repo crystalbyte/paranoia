@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia", "Crystalbyte.Paranoia\Crystalbyte.Paranoia.csproj", "{A0762E18-FAC3-4624-8B65-9D1AF8E4F366}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Cryptography", "Crystalbyte.Paranoia.Cryptography\Crystalbyte.Paranoia.Cryptography.csproj", "{FC115AED-C02E-45A6-80EB-711A1CCF14E3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Messaging", "Crystalbyte.Paranoia.Messaging\Crystalbyte.Paranoia.Messaging.csproj", "{0DC46336-8D08-4C35-8F65-1D1CF2FD0E11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Cryptography.Tests", "Crystalbyte.Paranoia.Cryptography.Tests\Crystalbyte.Paranoia.Cryptography.Tests.csproj", "{66E07860-ACA4-494D-9C6B-759FDEAB12DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,11 +50,18 @@ Global
 		{0DC46336-8D08-4C35-8F65-1D1CF2FD0E11}.Retail|Any CPU.Build.0 = Release|Any CPU
 		{0DC46336-8D08-4C35-8F65-1D1CF2FD0E11}.Trial|Any CPU.ActiveCfg = Release|Any CPU
 		{0DC46336-8D08-4C35-8F65-1D1CF2FD0E11}.Trial|Any CPU.Build.0 = Release|Any CPU
+		{66E07860-ACA4-494D-9C6B-759FDEAB12DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66E07860-ACA4-494D-9C6B-759FDEAB12DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66E07860-ACA4-494D-9C6B-759FDEAB12DE}.MailSystem Dev|Any CPU.ActiveCfg = Release|Any CPU
+		{66E07860-ACA4-494D-9C6B-759FDEAB12DE}.MailSystem Dev|Any CPU.Build.0 = Release|Any CPU
+		{66E07860-ACA4-494D-9C6B-759FDEAB12DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66E07860-ACA4-494D-9C6B-759FDEAB12DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66E07860-ACA4-494D-9C6B-759FDEAB12DE}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{66E07860-ACA4-494D-9C6B-759FDEAB12DE}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{66E07860-ACA4-494D-9C6B-759FDEAB12DE}.Trial|Any CPU.ActiveCfg = Release|Any CPU
+		{66E07860-ACA4-494D-9C6B-759FDEAB12DE}.Trial|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

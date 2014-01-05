@@ -1,6 +1,7 @@
 ﻿#region Using directives
 
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 #endregion
@@ -17,6 +18,29 @@ namespace Crystalbyte.Paranoia.Cryptography {
             _handle = NativeMethods.RsaNew();
         }
 
+        public void GenerateRSA()
+        {
+            var e = NativeMethods.BN_new();
+            NativeMethods.BN_set_word(e, 65537);
+            NativeMethods.RsaGenerateKeyEx(_handle, 2048, e, IntPtr.Zero);
+
+            var evpkey = NativeMethods.EVP_PKEY_new();
+            var bio = NativeMethods.BIO_new();
+            var res = NativeMethods.EVP_PKEY_assign_RSA(evpkey, _handle);
+            Debug.Assert(res == 1);
+
+            
+            //var bufSize = NativeMethods.RSA_public_encrypt(strlen(message), (unsigned char *) message, encrypted, rsa, RSA_PKCS1_PADDING);
+
+            NativeMethods.BN_free(e);
+            
+        }
+
+        public String Encrypt() {
+            return "";
+            //RSA_public_encrypt(int flen, IntPtr from, IntPtr to, IntPtr rsa, int padding);
+        }
+
         protected override void DisposeNative() {
             base.DisposeNative();
 
@@ -26,6 +50,33 @@ namespace Crystalbyte.Paranoia.Cryptography {
         }
 
         private static class NativeMethods {
+            [DllImport(OpenSsl.Library, EntryPoint = "BIO_new")]
+            public static extern IntPtr BIO_new();
+
+            [DllImport(OpenSsl.Library, EntryPoint = "BIO_Free")]
+            public static extern void BIO_Free(IntPtr bio);
+
+            [DllImport(OpenSsl.Library, EntryPoint = "EVP_aes_256_cbc")]
+            public static extern IntPtr EVP_aes_256_cbc();
+
+            [DllImport(OpenSsl.Library, EntryPoint = "PEM_write_bio_PKCS8PrivateKey")]
+            public static extern int PEM_write_bio_PKCS8PrivateKey(IntPtr bp, IntPtr x, IntPtr enc, IntPtr kstr, int klen, IntPtr cb, IntPtr u);
+
+            [DllImport(OpenSsl.Library, EntryPoint = "EVP_PKEY_assign_RSA")]
+            public static extern int EVP_PKEY_assign_RSA(IntPtr pkey, IntPtr keypair);
+
+            [DllImport(OpenSsl.Library, EntryPoint = "EVP_PKEY_new")]
+            public static extern IntPtr EVP_PKEY_new();
+
+            [DllImport(OpenSsl.Library, EntryPoint = "BN_new")]
+            public static extern IntPtr BN_new();
+
+            [DllImport(OpenSsl.Library, EntryPoint = "BN_free")]
+            public static extern void BN_free(IntPtr bignum);
+
+            [DllImport(OpenSsl.Library, EntryPoint = "BN_set_word")]
+            public static extern void BN_set_word(IntPtr bignum, ulong w);
+
             [DllImport(OpenSsl.Library, EntryPoint = "RSA_new")]
             public static extern IntPtr RsaNew();
 
