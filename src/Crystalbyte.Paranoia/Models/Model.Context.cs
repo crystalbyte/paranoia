@@ -28,5 +28,10 @@ namespace Crystalbyte.Paranoia.Models
         public DbSet<Identity> Identities { get; set; }
         public DbSet<ImapAccount> ImapAccounts { get; set; }
         public DbSet<SmtpAccount> SmtpAccounts { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Mailbox> Mailboxes { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<MailboxFlag> MailboxFlags { get; set; }
+        public DbSet<MessageFlag> MessageFlags { get; set; }
     }
 }

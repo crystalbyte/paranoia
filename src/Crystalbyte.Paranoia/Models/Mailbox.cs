@@ -12,15 +12,23 @@ namespace Crystalbyte.Paranoia.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SmtpAccount
+    public partial class Mailbox
     {
-        public int Id { get; set; }
-        public string Host { get; set; }
-        public short Port { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public short Security { get; set; }
+        public Mailbox()
+        {
+            this.Messages = new HashSet<Message>();
+            this.MailboxFlags = new HashSet<MailboxFlag>();
+        }
     
+        public int Id { get; set; }
+        public int ImapAccountId { get; set; }
+        public string Fullname { get; set; }
+        public short Delimiter { get; set; }
+        public string MessageCount { get; set; }
+        public string UnseenCount { get; set; }
+    
+        public virtual ICollection<Message> Messages { get; set; }
         public virtual ImapAccount ImapAccount { get; set; }
+        public virtual ICollection<MailboxFlag> MailboxFlags { get; set; }
     }
 }

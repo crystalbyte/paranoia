@@ -14,6 +14,11 @@ namespace Crystalbyte.Paranoia.Models
     
     public partial class ImapAccount
     {
+        public ImapAccount()
+        {
+            this.Mailboxes = new HashSet<Mailbox>();
+        }
+    
         public int Id { get; set; }
         public string Host { get; set; }
         public short Port { get; set; }
@@ -21,5 +26,8 @@ namespace Crystalbyte.Paranoia.Models
         public string Password { get; set; }
         public string Name { get; set; }
         public short Security { get; set; }
+    
+        public virtual ICollection<Mailbox> Mailboxes { get; set; }
+        public virtual SmtpAccount SmtpAccount { get; set; }
     }
 }

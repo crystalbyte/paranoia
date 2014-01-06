@@ -1,0 +1,266 @@
+
+-- --------------------------------------------------
+-- Entity Designer DDL Script for SQL Server Compact Edition
+-- --------------------------------------------------
+-- Date Created: 01/05/2014 22:39:56
+-- Generated from EDMX file: C:\Users\Alexander\Documents\GitHub\paranoia\src\Crystalbyte.Paranoia\Models\Model.edmx
+-- --------------------------------------------------
+
+
+-- --------------------------------------------------
+-- Dropping existing FOREIGN KEY constraints
+-- NOTE: if the constraint does not exist, an ignorable error will be reported.
+-- --------------------------------------------------
+
+
+-- --------------------------------------------------
+-- Dropping existing tables
+-- NOTE: if the table does not exist, an ignorable error will be reported.
+-- --------------------------------------------------
+
+    DROP TABLE [Identities];
+GO
+    DROP TABLE [ImapAccounts];
+GO
+    DROP TABLE [SmtpAccounts];
+GO
+    DROP TABLE [Contacts];
+GO
+    DROP TABLE [Mailboxes];
+GO
+    DROP TABLE [Messages];
+GO
+    DROP TABLE [MailboxFlags];
+GO
+    DROP TABLE [MessageFlags];
+GO
+
+-- --------------------------------------------------
+-- Creating all tables
+-- --------------------------------------------------
+
+-- Creating table 'Identities'
+CREATE TABLE [Identities] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(64)  NOT NULL,
+    [PublicKey] nvarchar(512)  NOT NULL,
+    [PrivateKey] nvarchar(512)  NOT NULL,
+    [EmailAddress] nvarchar(256)  NOT NULL,
+    [Notes] nvarchar(1024)  NULL
+);
+GO
+
+-- Creating table 'ImapAccounts'
+CREATE TABLE [ImapAccounts] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Host] nvarchar(256)  NOT NULL,
+    [Port] smallint  NOT NULL,
+    [Username] nvarchar(256)  NOT NULL,
+    [Password] nvarchar(32)  NOT NULL,
+    [Name] nvarchar(256)  NOT NULL,
+    [Security] smallint  NOT NULL,
+    [SmtpAccount_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'SmtpAccounts'
+CREATE TABLE [SmtpAccounts] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Host] nvarchar(256)  NOT NULL,
+    [Port] smallint  NOT NULL,
+    [Username] nvarchar(256)  NOT NULL,
+    [Password] nvarchar(256)  NOT NULL,
+    [Security] smallint  NOT NULL
+);
+GO
+
+-- Creating table 'Contacts'
+CREATE TABLE [Contacts] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(4000)  NOT NULL,
+    [PublicKey] nvarchar(4000)  NOT NULL,
+    [EmailAddress] nvarchar(4000)  NOT NULL,
+    [IdentityId] int  NOT NULL
+);
+GO
+
+-- Creating table 'Mailboxes'
+CREATE TABLE [Mailboxes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ImapAccountId] int  NOT NULL,
+    [Fullname] nvarchar(256)  NOT NULL,
+    [Delimiter] smallint  NOT NULL,
+    [MessageCount] nvarchar(4000)  NOT NULL,
+    [UnseenCount] nvarchar(4000)  NOT NULL
+);
+GO
+
+-- Creating table 'Messages'
+CREATE TABLE [Messages] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [MailboxId] int  NOT NULL,
+    [Subject] nvarchar(4000)  NOT NULL,
+    [Date] datetime  NOT NULL,
+    [Size] int  NOT NULL
+);
+GO
+
+-- Creating table 'MailboxFlags'
+CREATE TABLE [MailboxFlags] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [MailboxId] int  NOT NULL,
+    [Name] nvarchar(4000)  NOT NULL
+);
+GO
+
+-- Creating table 'MessageFlags'
+CREATE TABLE [MessageFlags] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [MessageId] int  NOT NULL,
+    [Name] nvarchar(4000)  NOT NULL
+);
+GO
+
+-- --------------------------------------------------
+-- Creating all PRIMARY KEY constraints
+-- --------------------------------------------------
+
+-- Creating primary key on [Id] in table 'Identities'
+ALTER TABLE [Identities]
+ADD CONSTRAINT [PK_Identities]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'ImapAccounts'
+ALTER TABLE [ImapAccounts]
+ADD CONSTRAINT [PK_ImapAccounts]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'SmtpAccounts'
+ALTER TABLE [SmtpAccounts]
+ADD CONSTRAINT [PK_SmtpAccounts]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'Contacts'
+ALTER TABLE [Contacts]
+ADD CONSTRAINT [PK_Contacts]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'Mailboxes'
+ALTER TABLE [Mailboxes]
+ADD CONSTRAINT [PK_Mailboxes]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'Messages'
+ALTER TABLE [Messages]
+ADD CONSTRAINT [PK_Messages]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'MailboxFlags'
+ALTER TABLE [MailboxFlags]
+ADD CONSTRAINT [PK_MailboxFlags]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'MessageFlags'
+ALTER TABLE [MessageFlags]
+ADD CONSTRAINT [PK_MessageFlags]
+    PRIMARY KEY ([Id] );
+GO
+
+-- --------------------------------------------------
+-- Creating all FOREIGN KEY constraints
+-- --------------------------------------------------
+
+-- Creating foreign key on [MailboxId] in table 'Messages'
+ALTER TABLE [Messages]
+ADD CONSTRAINT [FK_MailboxMessage]
+    FOREIGN KEY ([MailboxId])
+    REFERENCES [Mailboxes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_MailboxMessage'
+CREATE INDEX [IX_FK_MailboxMessage]
+ON [Messages]
+    ([MailboxId]);
+GO
+
+-- Creating foreign key on [ImapAccountId] in table 'Mailboxes'
+ALTER TABLE [Mailboxes]
+ADD CONSTRAINT [FK_ImapAccountMailbox]
+    FOREIGN KEY ([ImapAccountId])
+    REFERENCES [ImapAccounts]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ImapAccountMailbox'
+CREATE INDEX [IX_FK_ImapAccountMailbox]
+ON [Mailboxes]
+    ([ImapAccountId]);
+GO
+
+-- Creating foreign key on [SmtpAccount_Id] in table 'ImapAccounts'
+ALTER TABLE [ImapAccounts]
+ADD CONSTRAINT [FK_ImapAccountSmtpAccount]
+    FOREIGN KEY ([SmtpAccount_Id])
+    REFERENCES [SmtpAccounts]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ImapAccountSmtpAccount'
+CREATE INDEX [IX_FK_ImapAccountSmtpAccount]
+ON [ImapAccounts]
+    ([SmtpAccount_Id]);
+GO
+
+-- Creating foreign key on [MailboxId] in table 'MailboxFlags'
+ALTER TABLE [MailboxFlags]
+ADD CONSTRAINT [FK_MailboxMailboxFlag]
+    FOREIGN KEY ([MailboxId])
+    REFERENCES [Mailboxes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_MailboxMailboxFlag'
+CREATE INDEX [IX_FK_MailboxMailboxFlag]
+ON [MailboxFlags]
+    ([MailboxId]);
+GO
+
+-- Creating foreign key on [IdentityId] in table 'Contacts'
+ALTER TABLE [Contacts]
+ADD CONSTRAINT [FK_IdentityContact]
+    FOREIGN KEY ([IdentityId])
+    REFERENCES [Identities]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_IdentityContact'
+CREATE INDEX [IX_FK_IdentityContact]
+ON [Contacts]
+    ([IdentityId]);
+GO
+
+-- Creating foreign key on [MessageId] in table 'MessageFlags'
+ALTER TABLE [MessageFlags]
+ADD CONSTRAINT [FK_MessageMessageFlag]
+    FOREIGN KEY ([MessageId])
+    REFERENCES [Messages]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_MessageMessageFlag'
+CREATE INDEX [IX_FK_MessageMessageFlag]
+ON [MessageFlags]
+    ([MessageId]);
+GO
+
+-- --------------------------------------------------
+-- Script has ended
+-- --------------------------------------------------

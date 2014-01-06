@@ -12,20 +12,14 @@ namespace Crystalbyte.Paranoia.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Identity
+    public partial class Contact
     {
-        public Identity()
-        {
-            this.Contacts = new HashSet<Contact>();
-        }
-    
         public int Id { get; set; }
         public string Name { get; set; }
         public string PublicKey { get; set; }
-        public string PrivateKey { get; set; }
         public string EmailAddress { get; set; }
-        public string Notes { get; set; }
+        public int IdentityId { get; set; }
     
-        public virtual ICollection<Contact> Contacts { get; set; }
+        public virtual Identity Identity { get; set; }
     }
 }

@@ -48,8 +48,8 @@ namespace Crystalbyte.Paranoia.Contexts {
         public ICommand CreateCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NameRequiredErrorText")]
-        [StringLength(64, ErrorMessageResourceType = typeof (Resources),
+        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequiredErrorText")]
+        [StringLength(64, ErrorMessageResourceType = typeof(Resources),
             ErrorMessageResourceName = "MaxStringLength64ErrorText")]
         public string Name {
             get { return _name; }
@@ -64,8 +64,8 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
-        [RegularExpression(RegexPatterns.Email, ErrorMessageResourceType = typeof (Resources),
+        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        [RegularExpression(RegexPatterns.Email, ErrorMessageResourceType = typeof(Resources),
             ErrorMessageResourceName = "InvalidEmailFormatErrorText")]
         public string EmailAddress {
             get { return _emailAddress; }
@@ -145,14 +145,13 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private async void OnCreateCommandExecuted(object parameter) {
-            var identity = new IdentityContext
-                               {
-                                   EmailAddress = EmailAddress,
-                                   Notes = Notes,
-                                   Name = Name,
-                                   PrivateKey = "muh",
-                                   PublicKey = "mäh"
-                               };
+            var identity = new IdentityContext {
+                EmailAddress = EmailAddress,
+                Notes = Notes,
+                Name = Name,
+                PrivateKey = "muh",
+                PublicKey = "mäh"
+            };
 
             await LocalStorage.InsertAsync(identity.Model);
             AppContext.Identities.Add(identity);

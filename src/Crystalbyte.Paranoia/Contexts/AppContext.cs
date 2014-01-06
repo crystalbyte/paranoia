@@ -25,7 +25,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         private bool _isSyncing;
         private readonly ObservableCollection<object> _elements;
         private readonly ObservableCollection<IdentityContext> _identities;
-        private readonly ObservableCollection<object> _accounts;
+        private readonly ObservableCollection<ImapAccountContext> _imapAccounts;
 
         #endregion
 
@@ -34,7 +34,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         public AppContext() {
             _elements = new ObservableCollection<object>();
             _identities = new ObservableCollection<IdentityContext>();
-            _accounts = new ObservableCollection<object>();
+            _imapAccounts = new ObservableCollection<ImapAccountContext>();
 
             CreateAccountCommand = new RelayCommand(OnCreateAccountCommandExecuted);
             CreateIdentityCommand = new RelayCommand(OnCreateIdentityCommandExecuted);
@@ -105,12 +105,12 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        public IList<object> Accounts {
-            get { return _accounts; }
-        }
-
         public IList<IdentityContext> Identities {
             get { return _identities; }
+        }
+
+        public IList<ImapAccountContext> ImapAccounts {
+            get { return _imapAccounts; }
         }
 
         public IList<object> Elements {
@@ -155,10 +155,19 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
 
             await LocalStorage.InitAsync();
-            await LoadIdentities();
+            await LoadIdentitiesAsync();
+            await LoadImapAccountsAsync();
         }
 
-        private async Task LoadIdentities() {
+        private async Task LoadImapAccountsAsync() {
+            var query = await LocalStorage.QueryImapAccountsAsync();
+            ImapAccounts.AddRange(query.ToArray().Select(x => new ImapAccountContext(x)));
+            if (ImapAccounts.Any()) {
+                ImapAccounts.First().IsSelected = true;
+            }
+        }
+
+        private async Task LoadIdentitiesAsync() {
             var query = await LocalStorage.QueryIdentitiesAsync();
             Identities.AddRange(query.ToArray().Select(x => new IdentityContext(x)));
             if (Identities.Any()) {

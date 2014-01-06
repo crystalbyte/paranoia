@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Navigation;
 using System.Xml.Serialization;
 using Crystalbyte.Paranoia.Commands;
+using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Messaging;
 using Crystalbyte.Paranoia.Models;
 using Crystalbyte.Paranoia.Properties;
@@ -74,6 +75,9 @@ namespace Crystalbyte.Paranoia.Contexts {
         [Import]
         public IdentitySelectionSource IdentitySelectionSource { get; set; }
 
+        [Import]
+        public LocalStorage LocalStorage { get; set; }
+
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
             // Nada    
@@ -82,7 +86,32 @@ namespace Crystalbyte.Paranoia.Contexts {
         #endregion
 
         private void OnCommit(object obj) {
+            var account = new ImapAccount {
+                Host = ImapHost,
+                Name = EmailAddress,
+                Port = ImapPort,
+                Password = ImapPassword,
+                Username = ImapUsername,
+                Security = (short)ImapSecurity,
+                SmtpAccount = new SmtpAccount {
+                    Host = SmtpHost,
+                    Port = SmtpPort,
+                    Security = (short)SmtpSecurity,
+                    Username = SmtpUsername,
+                    Password = SmtpPassword
+                }
+            };
 
+            try {
+                LocalStorage.InsertAsync(account);
+                AppContext.ImapAccounts.Add(new ImapAccountContext(account));    
+            }
+            catch (Exception) {
+                // TODO: Errorlog
+                throw;
+            } finally {
+                IsActive = false;
+            }
         }
 
         private bool OnCanCommit(object arg) {
@@ -149,8 +178,6 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         #endregion
-
-
 
         #region Event Declarations
 
@@ -512,8 +539,8 @@ namespace Crystalbyte.Paranoia.Contexts {
             await CheckSmtpConfigAsync();
 
             CommitCommand.OnCanExecuteChanged(EventArgs.Empty);
-            IsTestSuccessful = NetworkTest.IsSuccessful 
-                && ImapConnectionTest.IsSuccessful 
+            IsTestSuccessful = NetworkTest.IsSuccessful
+                && ImapConnectionTest.IsSuccessful
                 && SmtpConnectionTest.IsSuccessful;
 
             IsTesting = false;
@@ -527,7 +554,7 @@ namespace Crystalbyte.Paranoia.Contexts {
                         await authenticator.LoginAsync(ImapUsername, ImapPassword);
                         if (authenticator.IsAuthenticated) {
                             ImapConnectionTest.Text = Resources.ImapTestSuccessMessage;
-                            ImapConnectionTest.IsSuccessful = true;    
+                            ImapConnectionTest.IsSuccessful = true;
                         } else {
                             ImapConnectionTest.Error = new InvalidOperationException(Resources.AuthenticationFailedMessage);
                             ImapConnectionTest.Text = Resources.ImapTestFailureMessage;

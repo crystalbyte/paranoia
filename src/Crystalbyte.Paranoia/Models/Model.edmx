@@ -5,87 +5,196 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="StorageModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0"
-              ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator"
-              xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="StorageModelStoreContainer">
-          <EntitySet Name="Identities" EntityType="StorageModel.Store.Identities" store:Type="Tables" />
-          <EntitySet Name="ImapAccounts" EntityType="StorageModel.Store.ImapAccounts" store:Type="Tables"
-                     store:Name="ImapAccounts">
-            <DefiningQuery>
-              SELECT 
-              [ImapAccounts].[Id] AS [Id], 
-              [ImapAccounts].[Host] AS [Host], 
-              [ImapAccounts].[Port] AS [Port], 
-              [ImapAccounts].[Username] AS [Username], 
-              [ImapAccounts].[Password] AS [Password], 
-              [ImapAccounts].[Name] AS [Name], 
-              [ImapAccounts].[Security] AS [Security]
-              FROM [ImapAccounts] AS [ImapAccounts]
-            </DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="SmtpAccounts" EntityType="StorageModel.Store.SmtpAccounts" store:Type="Tables"
-                     store:Name="SmtpAccounts">
-            <DefiningQuery>
-              SELECT 
-              [SmtpAccounts].[Id] AS [Id], 
-              [SmtpAccounts].[Host] AS [Host], 
-              [SmtpAccounts].[Port] AS [Port], 
-              [SmtpAccounts].[Username] AS [Username], 
-              [SmtpAccounts].[Password] AS [Password], 
-              [SmtpAccounts].[Name] AS [Name], 
-              [SmtpAccounts].[Security] AS [Security]
-              FROM [SmtpAccounts] AS [SmtpAccounts]
-            </DefiningQuery>
-          </EntitySet>
-        </EntityContainer>
-        <EntityType Name="Identities">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
-          <Property Name="PublicKey" Type="nvarchar" Nullable="false" MaxLength="512" />
-          <Property Name="PrivateKey" Type="nvarchar" Nullable="false" MaxLength="512" />
-          <Property Name="EmailAddress" Type="nvarchar" Nullable="false" MaxLength="256" />
-          <Property Name="Notes" Type="nvarchar" MaxLength="1024" />
-        </EntityType>
-        <!--Errors Found During Generation:
-            warning 6002: The table/view 'ImapAccounts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-            -->
-        <EntityType Name="ImapAccounts">
-          <Key>
-            <PropertyRef Name="Id" />
-
-
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Host" Type="nvarchar" Nullable="false" MaxLength="256" />
-          <Property Name="Port" Type="smallint" Nullable="false" />
-          <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="256" />
-          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="256" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
-          <Property Name="Security" Type="smallint" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-            warning 6002: The table/view 'SmtpAccounts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-            -->
-        <EntityType Name="SmtpAccounts">
-          <Key>
-            <PropertyRef Name="Id" />
-
-
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Host" Type="nvarchar" Nullable="false" MaxLength="256" />
-          <Property Name="Port" Type="smallint" Nullable="false" />
-          <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="256" />
-          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="256" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
-          <Property Name="Security" Type="smallint" Nullable="false" />
-        </EntityType>
-      </Schema>
-    </edmx:StorageModels>
+    <Schema Namespace="StorageModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="StorageModelStoreContainer">
+    <EntitySet Name="Identities" EntityType="StorageModel.Store.Identities" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ImapAccounts" EntityType="StorageModel.Store.ImapAccounts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SmtpAccounts" EntityType="StorageModel.Store.SmtpAccounts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Contacts" EntityType="StorageModel.Store.Contacts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Mailboxes" EntityType="StorageModel.Store.Mailboxes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Messages" EntityType="StorageModel.Store.Messages" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MailboxFlags" EntityType="StorageModel.Store.MailboxFlags" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MessageFlags" EntityType="StorageModel.Store.MessageFlags" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="MailboxMessage" Association="StorageModel.Store.MailboxMessage">
+      <End Role="Mailbox" EntitySet="Mailboxes" />
+      <End Role="Message" EntitySet="Messages" />
+    </AssociationSet>
+    <AssociationSet Name="ImapAccountMailbox" Association="StorageModel.Store.ImapAccountMailbox">
+      <End Role="ImapAccount" EntitySet="ImapAccounts" />
+      <End Role="Mailbox" EntitySet="Mailboxes" />
+    </AssociationSet>
+    <AssociationSet Name="ImapAccountSmtpAccount" Association="StorageModel.Store.ImapAccountSmtpAccount">
+      <End Role="ImapAccount" EntitySet="ImapAccounts" />
+      <End Role="SmtpAccount" EntitySet="SmtpAccounts" />
+    </AssociationSet>
+    <AssociationSet Name="MailboxMailboxFlag" Association="StorageModel.Store.MailboxMailboxFlag">
+      <End Role="Mailbox" EntitySet="Mailboxes" />
+      <End Role="MailboxFlag" EntitySet="MailboxFlags" />
+    </AssociationSet>
+    <AssociationSet Name="IdentityContact" Association="StorageModel.Store.IdentityContact">
+      <End Role="Identity" EntitySet="Identities" />
+      <End Role="Contact" EntitySet="Contacts" />
+    </AssociationSet>
+    <AssociationSet Name="MessageMessageFlag" Association="StorageModel.Store.MessageMessageFlag">
+      <End Role="Message" EntitySet="Messages" />
+      <End Role="MessageFlag" EntitySet="MessageFlags" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Identities">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="PublicKey" Type="nvarchar" Nullable="false" MaxLength="512" />
+    <Property Name="PrivateKey" Type="nvarchar" Nullable="false" MaxLength="512" />
+    <Property Name="EmailAddress" Type="nvarchar" Nullable="false" MaxLength="256" />
+    <Property Name="Notes" Type="nvarchar" Nullable="true" MaxLength="1024" />
+  </EntityType>
+  <EntityType Name="ImapAccounts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Host" Type="nvarchar" Nullable="false" MaxLength="256" />
+    <Property Name="Port" Type="smallint" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="256" />
+    <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="32" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
+    <Property Name="Security" Type="smallint" Nullable="false" />
+    <Property Name="SmtpAccount_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SmtpAccounts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Host" Type="nvarchar" Nullable="false" MaxLength="256" />
+    <Property Name="Port" Type="smallint" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="256" />
+    <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="256" />
+    <Property Name="Security" Type="smallint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Contacts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" />
+    <Property Name="PublicKey" Type="nvarchar" Nullable="false" />
+    <Property Name="EmailAddress" Type="nvarchar" Nullable="false" />
+    <Property Name="IdentityId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Mailboxes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ImapAccountId" Type="int" Nullable="false" />
+    <Property Name="Fullname" Type="nvarchar" Nullable="false" MaxLength="256" />
+    <Property Name="Delimiter" Type="smallint" Nullable="false" />
+    <Property Name="MessageCount" Type="nvarchar" Nullable="false" />
+    <Property Name="UnseenCount" Type="nvarchar" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Messages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MailboxId" Type="int" Nullable="false" />
+    <Property Name="Subject" Type="nvarchar" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Size" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MailboxFlags">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MailboxId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MessageFlags">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MessageId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" />
+  </EntityType>
+  <Association Name="MailboxMessage">
+    <End Role="Mailbox" Type="StorageModel.Store.Mailboxes" Multiplicity="1" />
+    <End Role="Message" Type="StorageModel.Store.Messages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Mailbox">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Message">
+        <PropertyRef Name="MailboxId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ImapAccountMailbox">
+    <End Role="ImapAccount" Type="StorageModel.Store.ImapAccounts" Multiplicity="1" />
+    <End Role="Mailbox" Type="StorageModel.Store.Mailboxes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ImapAccount">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Mailbox">
+        <PropertyRef Name="ImapAccountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ImapAccountSmtpAccount">
+    <End Role="ImapAccount" Type="StorageModel.Store.ImapAccounts" Multiplicity="*" />
+    <End Role="SmtpAccount" Type="StorageModel.Store.SmtpAccounts" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="SmtpAccount">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ImapAccount">
+        <PropertyRef Name="SmtpAccount_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MailboxMailboxFlag">
+    <End Role="Mailbox" Type="StorageModel.Store.Mailboxes" Multiplicity="1" />
+    <End Role="MailboxFlag" Type="StorageModel.Store.MailboxFlags" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Mailbox">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MailboxFlag">
+        <PropertyRef Name="MailboxId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IdentityContact">
+    <End Role="Identity" Type="StorageModel.Store.Identities" Multiplicity="1" />
+    <End Role="Contact" Type="StorageModel.Store.Contacts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Identity">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Contact">
+        <PropertyRef Name="IdentityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MessageMessageFlag">
+    <End Role="Message" Type="StorageModel.Store.Messages" Multiplicity="1" />
+    <End Role="MessageFlag" Type="StorageModel.Store.MessageFlags" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Message">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MessageFlag">
+        <PropertyRef Name="MessageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StorageModel" Alias="Self" p1:UseStrongSpatialTypes="false"
@@ -95,6 +204,35 @@
           <EntitySet Name="Identities" EntityType="StorageModel.Identity" />
           <EntitySet Name="ImapAccounts" EntityType="StorageModel.ImapAccount" />
           <EntitySet Name="SmtpAccounts" EntityType="StorageModel.SmtpAccount" />
+          <EntitySet Name="Contacts" EntityType="StorageModel.Contact" />
+          <EntitySet Name="Mailboxes" EntityType="StorageModel.Mailbox" />
+          <EntitySet Name="Messages" EntityType="StorageModel.Message" />
+          <AssociationSet Name="MailboxMessage" Association="StorageModel.MailboxMessage">
+            <End Role="Mailbox" EntitySet="Mailboxes" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="ImapAccountMailbox" Association="StorageModel.ImapAccountMailbox">
+            <End Role="ImapAccount" EntitySet="ImapAccounts" />
+            <End Role="Mailbox" EntitySet="Mailboxes" />
+          </AssociationSet>
+          <AssociationSet Name="ImapAccountSmtpAccount" Association="StorageModel.ImapAccountSmtpAccount">
+            <End Role="ImapAccount" EntitySet="ImapAccounts" />
+            <End Role="SmtpAccount" EntitySet="SmtpAccounts" />
+          </AssociationSet>
+          <EntitySet Name="MailboxFlags" EntityType="StorageModel.MailboxFlag" />
+          <AssociationSet Name="MailboxMailboxFlag" Association="StorageModel.MailboxMailboxFlag">
+            <End Role="Mailbox" EntitySet="Mailboxes" />
+            <End Role="MailboxFlag" EntitySet="MailboxFlags" />
+          </AssociationSet>
+          <AssociationSet Name="IdentityContact" Association="StorageModel.IdentityContact">
+            <End Role="Identity" EntitySet="Identities" />
+            <End Role="Contact" EntitySet="Contacts" />
+          </AssociationSet>
+          <EntitySet Name="MessageFlags" EntityType="StorageModel.MessageFlag" />
+          <AssociationSet Name="MessageMessageFlag" Association="StorageModel.MessageMessageFlag">
+            <End Role="Message" EntitySet="Messages" />
+            <End Role="MessageFlag" EntitySet="MessageFlags" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Identity">
           <Key>
@@ -107,6 +245,7 @@
           <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="256" Unicode="true"
                     FixedLength="false" />
           <Property Type="String" Name="Notes" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Contacts" Relationship="StorageModel.IdentityContact" FromRole="Identity" ToRole="Contact" />
         </EntityType>
         <EntityType Name="ImapAccount">
           <Key>
@@ -116,9 +255,11 @@
           <Property Name="Host" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
           <Property Name="Port" Type="Int16" Nullable="false" />
           <Property Name="Username" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
           <Property Name="Security" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Mailboxes" Relationship="StorageModel.ImapAccountMailbox" FromRole="ImapAccount" ToRole="Mailbox" />
+          <NavigationProperty Name="SmtpAccount" Relationship="StorageModel.ImapAccountSmtpAccount" FromRole="ImapAccount" ToRole="SmtpAccount" />
         </EntityType>
         <EntityType Name="SmtpAccount">
           <Key>
@@ -129,56 +270,233 @@
           <Property Name="Port" Type="Int16" Nullable="false" />
           <Property Name="Username" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
           <Property Name="Security" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="ImapAccount" Relationship="StorageModel.ImapAccountSmtpAccount" FromRole="SmtpAccount" ToRole="ImapAccount" />
         </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="PublicKey" Nullable="false" />
+          <Property Type="String" Name="EmailAddress" Nullable="false" />
+          <NavigationProperty Name="Identity" Relationship="StorageModel.IdentityContact" FromRole="Contact" ToRole="Identity" />
+          <Property Type="Int32" Name="IdentityId" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Mailbox">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Messages" Relationship="StorageModel.MailboxMessage" FromRole="Mailbox" ToRole="Message" />
+          <NavigationProperty Name="ImapAccount" Relationship="StorageModel.ImapAccountMailbox" FromRole="Mailbox" ToRole="ImapAccount" />
+          <Property Type="Int32" Name="ImapAccountId" Nullable="false" />
+          <Property Type="String" Name="Fullname" Nullable="false" MaxLength="256" />
+          <Property Type="Int16" Name="Delimiter" Nullable="false" />
+          <NavigationProperty Name="MailboxFlags" Relationship="StorageModel.MailboxMailboxFlag" FromRole="Mailbox" ToRole="MailboxFlag" />
+          <Property Type="String" Name="MessageCount" Nullable="false" />
+          <Property Type="String" Name="UnseenCount" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Mailbox" Relationship="StorageModel.MailboxMessage" FromRole="Message" ToRole="Mailbox" />
+          <Property Type="Int32" Name="MailboxId" Nullable="false" />
+          <Property Type="String" Name="Subject" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="Int32" Name="Size" Nullable="false" />
+          <NavigationProperty Name="MessageFlags" Relationship="StorageModel.MessageMessageFlag" FromRole="Message" ToRole="MessageFlag" />
+        </EntityType>
+        <Association Name="MailboxMessage">
+          <End Type="StorageModel.Mailbox" Role="Mailbox" Multiplicity="1" />
+          <End Type="StorageModel.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mailbox">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="MailboxId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ImapAccountMailbox">
+          <End Type="StorageModel.ImapAccount" Role="ImapAccount" Multiplicity="1" />
+          <End Type="StorageModel.Mailbox" Role="Mailbox" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImapAccount">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Mailbox">
+              <PropertyRef Name="ImapAccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ImapAccountSmtpAccount">
+          <End Type="StorageModel.ImapAccount" Role="ImapAccount" Multiplicity="1" />
+          <End Type="StorageModel.SmtpAccount" Role="SmtpAccount" Multiplicity="1" />
+        </Association>
+        <EntityType Name="MailboxFlag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Mailbox" Relationship="StorageModel.MailboxMailboxFlag" FromRole="MailboxFlag" ToRole="Mailbox" />
+          <Property Type="Int32" Name="MailboxId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" />
+        </EntityType>
+        <Association Name="MailboxMailboxFlag">
+          <End Type="StorageModel.Mailbox" Role="Mailbox" Multiplicity="1" />
+          <End Type="StorageModel.MailboxFlag" Role="MailboxFlag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mailbox">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MailboxFlag">
+              <PropertyRef Name="MailboxId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="IdentityContact">
+          <End Type="StorageModel.Identity" Role="Identity" Multiplicity="1" />
+          <End Type="StorageModel.Contact" Role="Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Identity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="IdentityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MessageFlag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Message" Relationship="StorageModel.MessageMessageFlag" FromRole="MessageFlag" ToRole="Message" />
+          <Property Type="Int32" Name="MessageId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" />
+        </EntityType>
+        <Association Name="MessageMessageFlag">
+          <End Type="StorageModel.Message" Role="Message" Multiplicity="1" />
+          <End Type="StorageModel.MessageFlag" Role="MessageFlag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MessageFlag">
+              <PropertyRef Name="MessageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="StorageModelStoreContainer" CdmEntityContainer="Entities">
-          <EntitySetMapping Name="Identities">
-            <EntityTypeMapping TypeName="StorageModel.Identity">
-              <MappingFragment StoreEntitySet="Identities">
-                <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="PublicKey" ColumnName="PublicKey" />
-                <ScalarProperty Name="PrivateKey" ColumnName="PrivateKey" />
-                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ImapAccounts">
-            <EntityTypeMapping TypeName="StorageModel.ImapAccount">
-              <MappingFragment StoreEntitySet="ImapAccounts">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Host" ColumnName="Host" />
-                <ScalarProperty Name="Port" ColumnName="Port" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Security" ColumnName="Security" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SmtpAccounts">
-            <EntityTypeMapping TypeName="StorageModel.SmtpAccount">
-              <MappingFragment StoreEntitySet="SmtpAccounts">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Host" ColumnName="Host" />
-                <ScalarProperty Name="Port" ColumnName="Port" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Security" ColumnName="Security" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="StorageModelStoreContainer" CdmEntityContainer="Entities">
+    <EntitySetMapping Name="Identities">
+      <EntityTypeMapping TypeName="IsTypeOf(StorageModel.Identity)">
+        <MappingFragment StoreEntitySet="Identities">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="PublicKey" ColumnName="PublicKey" />
+          <ScalarProperty Name="PrivateKey" ColumnName="PrivateKey" />
+          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ImapAccounts">
+      <EntityTypeMapping TypeName="IsTypeOf(StorageModel.ImapAccount)">
+        <MappingFragment StoreEntitySet="ImapAccounts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Host" ColumnName="Host" />
+          <ScalarProperty Name="Port" ColumnName="Port" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Security" ColumnName="Security" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SmtpAccounts">
+      <EntityTypeMapping TypeName="IsTypeOf(StorageModel.SmtpAccount)">
+        <MappingFragment StoreEntitySet="SmtpAccounts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Host" ColumnName="Host" />
+          <ScalarProperty Name="Port" ColumnName="Port" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Security" ColumnName="Security" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Contacts">
+      <EntityTypeMapping TypeName="IsTypeOf(StorageModel.Contact)">
+        <MappingFragment StoreEntitySet="Contacts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="PublicKey" ColumnName="PublicKey" />
+          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+          <ScalarProperty Name="IdentityId" ColumnName="IdentityId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Mailboxes">
+      <EntityTypeMapping TypeName="IsTypeOf(StorageModel.Mailbox)">
+        <MappingFragment StoreEntitySet="Mailboxes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ImapAccountId" ColumnName="ImapAccountId" />
+          <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+          <ScalarProperty Name="Delimiter" ColumnName="Delimiter" />
+          <ScalarProperty Name="MessageCount" ColumnName="MessageCount" />
+          <ScalarProperty Name="UnseenCount" ColumnName="UnseenCount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Messages">
+      <EntityTypeMapping TypeName="IsTypeOf(StorageModel.Message)">
+        <MappingFragment StoreEntitySet="Messages">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MailboxId" ColumnName="MailboxId" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Size" ColumnName="Size" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MailboxFlags">
+      <EntityTypeMapping TypeName="IsTypeOf(StorageModel.MailboxFlag)">
+        <MappingFragment StoreEntitySet="MailboxFlags">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MailboxId" ColumnName="MailboxId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MessageFlags">
+      <EntityTypeMapping TypeName="IsTypeOf(StorageModel.MessageFlag)">
+        <MappingFragment StoreEntitySet="MessageFlags">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ImapAccountSmtpAccount" TypeName="StorageModel.ImapAccountSmtpAccount" StoreEntitySet="ImapAccounts">
+      <EndProperty Name="SmtpAccount">
+        <ScalarProperty Name="Id" ColumnName="SmtpAccount_Id" />
+      </EndProperty>
+      <EndProperty Name="ImapAccount">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">

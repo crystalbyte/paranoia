@@ -100,8 +100,24 @@
     <Compile Include="Converters\BooleanNegator.cs" />
     <Compile Include="Converters\BooleanToBrushConverter.cs" />
     <Compile Include="Converters\BooleanToStringConverter.cs" />
+    <Compile Include="Converters\DomainToHostLogoConverter.cs" />
     <Compile Include="Converters\ExceptionFormatter.cs" />
     <Compile Include="IdentitySelectionSource.cs" />
+    <Compile Include="Models\Contact.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Mailbox.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MailboxFlag.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Message.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MessageFlag.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="UI\CreateAccountTestingPage.xaml.cs">
       <DependentUpon>CreateAccountTestingPage.xaml</DependentUpon>
@@ -126,7 +142,7 @@
     <Compile Include="IHtmlSource.cs" />
     <Compile Include="ImapMessageSelectionSource.cs" />
     <Compile Include="CollectionExtensions.cs" />
-    <Compile Include="Contexts\AccountContext.cs" />
+    <Compile Include="Contexts\ImapAccountContext.cs" />
     <Compile Include="Contexts\ImapMessageContext.cs" />
     <Compile Include="Contexts\NotificationObject.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -248,6 +264,7 @@
     <None Include="Models\Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
     </None>
+    <None Include="Models\Model.edmx.sqlce" />
     <None Include="Models\Model.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model.edmx</DependentUpon>
@@ -329,6 +346,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\smtp.message.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\googlemail.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

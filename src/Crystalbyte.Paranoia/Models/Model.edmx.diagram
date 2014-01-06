@@ -5,9 +5,20 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="282a6cb8ad0d4e4e90f4a9229b6ab814" Name="Diagram1">
-        <EntityTypeShape EntityType="StorageModel.Identity" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="StorageModel.ImapAccount" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="StorageModel.SmtpAccount" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.Identity" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.ImapAccount" Width="1.5" PointX="3.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.SmtpAccount" Width="1.5" PointX="5.625" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.Contact" Width="1.5" PointX="1.75" PointY="3.5" />
+        <EntityTypeShape EntityType="StorageModel.Mailbox" Width="1.5" PointX="5.875" PointY="0.5" />
+        <EntityTypeShape EntityType="StorageModel.Message" Width="1.5" PointX="8.25" PointY="0.5" />
+        <AssociationConnector Association="StorageModel.MailboxMessage" />
+        <AssociationConnector Association="StorageModel.ImapAccountMailbox" />
+        <AssociationConnector Association="StorageModel.ImapAccountSmtpAccount" />
+        <EntityTypeShape EntityType="StorageModel.MailboxFlag" Width="1.5" PointX="7.875" PointY="3.875" />
+        <AssociationConnector Association="StorageModel.MailboxMailboxFlag" />
+        <AssociationConnector Association="StorageModel.IdentityContact" />
+        <EntityTypeShape EntityType="StorageModel.MessageFlag" Width="1.5" PointX="10.5" PointY="1.75" />
+        <AssociationConnector Association="StorageModel.MessageMessageFlag" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

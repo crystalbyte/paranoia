@@ -7,6 +7,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+      x:Name="Page"
       HorizontalAlignment="Stretch"
       KeepAlive="True"
       KeyboardNavigation.IsTabStop="False"
@@ -22,8 +23,7 @@
         <KeyBinding Key="Return"
                     Command="{Binding ConfigCommand,
                                       FallbackValue={StaticResource NullCommand}}"
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page},
-                                                                              AncestorLevel=1}}" />
+                    CommandParameter="{Binding ElementName=Page}" />
     </Page.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -114,8 +114,7 @@
                     Style="{StaticResource AppDialogTextButtonStyle}" />
             <Button Command="{Binding ConfigCommand,
                                       FallbackValue={StaticResource NullCommand}}"
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page},
-                                                                              AncestorLevel=1}}"
+                    CommandParameter="{Binding ElementName=Page}"
                     Content="Continue"
                     DockPanel.Dock="Right"
                     KeyboardNavigation.TabIndex="2"

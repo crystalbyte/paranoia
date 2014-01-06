@@ -10,12 +10,12 @@ using Crystalbyte.Paranoia.Messaging;
 namespace Crystalbyte.Paranoia.Contexts {
     public sealed class ImapMessageContext : NotificationObject, IHtmlSource {
         private readonly ImapEnvelope _envelope;
-        private readonly AccountContext _account;
+        private readonly ImapAccountContext _account;
         private readonly string _mailbox;
         private string _markup;
         private bool _isBusy;
 
-        public ImapMessageContext(AccountContext account, ImapEnvelope envelope, string mailbox) {
+        public ImapMessageContext(ImapAccountContext account, ImapEnvelope envelope, string mailbox) {
             _envelope = envelope;
             _account = account;
             _mailbox = mailbox;
@@ -36,7 +36,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             get { return string.Format("{0}@{1}:{2}", _account.ImapUsername, _account.ImapHost, _mailbox); }
         }
 
-        public AccountContext Account {
+        public ImapAccountContext Account {
             get { return _account; }
         }
 

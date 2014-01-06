@@ -6,7 +6,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
-      xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+      xmlns:system="clr-namespace:System;assembly=mscorlib"
+      xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="CreateAccountTestingPage"
       KeyboardNavigation.TabNavigation="Cycle"
       d:DataContext="{d:DesignInstance contexts:CreateAccountScreenContext}"
@@ -43,7 +44,7 @@
         <Border Grid.Row="2"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Padding="20,0,20,0">
+                Padding="20,12,20,0">
             <Border.Resources>
                 <converters:BooleanToBrushConverter x:Key="BooleanToBrushConverter"
                                                     NegativeBrush="{StaticResource AppLightTextBrush}"
@@ -150,7 +151,7 @@
                                                      NegativeText="{x:Static properties:Resources.AccountTestFailureMessage}"
                                                      PositiveText="{x:Static properties:Resources.AccountTestSuccessMessage}" />
             </Border.Resources>
-            <TextBlock Text="{Binding IsTestSuccessful, Converter={StaticResource BooleanToStringConverter}}" Visibility="{Binding IsTestSuccessful, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TextBlock Text="{Binding IsTestSuccessful, Converter={StaticResource BooleanToStringConverter}}">
                 <TextBlock.Foreground>
                     <Binding Path="IsTestSuccessful">
                         <Binding.Converter>
@@ -182,11 +183,11 @@
                                       FallbackValue={StaticResource NullCommand}}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page},
                                                                               AncestorLevel=1}}"
-                    ui:InitialFocus.IsEnabled="True"
                     Content="{x:Static properties:Resources.BackButtonText}"
                     DockPanel.Dock="Right"
                     KeyboardNavigation.TabIndex="0"
-                    Style="{StaticResource AppDialogTextButtonStyle}" />
+                    Style="{StaticResource AppDialogTextButtonStyle}"
+                    ui:InitialFocus.IsEnabled="True" />
         </DockPanel>
     </Grid>
 </Page>

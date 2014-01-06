@@ -14,6 +14,7 @@
         <converters:RatioConverter x:Key="RatioConverter" />
         <converters:ExceptionFormatter x:Key="ExceptionFormatter" />
         <converters:BooleanNegator x:Key="BooleanNegator" />
+        <converters:DomainToHostLogoConverter x:Key="DomainToHostLogoConverter" />
 
         <Color x:Key="AppAccentColor"
                A="255"
@@ -283,7 +284,7 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
-                    <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}, FallbackValue={x:Static system:String.Empty}}" />
+                    <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -368,15 +369,37 @@
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                             <Grid>
                                 <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                <Polygon x:Name="MouseOverIndicator"
-                                         HorizontalAlignment="Center"
-                                         VerticalAlignment="Bottom"
-                                         Fill="{StaticResource AppAccentBrush}"
-                                         Points="0,48 48,47 48,48 0,48"
-                                         SnapsToDevicePixels="True" />
+                                <Grid x:Name="SelectionBorder">
+                                    <Border Background="Transparent"
+                                            BorderBrush="{StaticResource AppAccentBrush}"
+                                            BorderThickness="2,1,2,2" />
+                                    <Polygon HorizontalAlignment="Right"
+                                             Fill="{StaticResource AppAccentBrush}"
+                                             Points="0 0 16 0 16 16" />
+                                    <Polyline Margin="0,0,2,0"
+                                              HorizontalAlignment="Right"
+                                              Points="0 5 3 7 6 2"
+                                              Stroke="White"
+                                              StrokeThickness="1.5" />
+                                </Grid>
+                                <Grid x:Name="MouseOverIndicator">
+                                    <Border Background="Transparent"
+                                            BorderBrush="{StaticResource AppAccentBrush}"
+                                            BorderThickness="1,0,1,1" />
+                                    <Border Background="{StaticResource AppAccentBrush}"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="1"
+                                            Opacity=".2" />
+                                </Grid>
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="SelectionBorder" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="SelectionBorder" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="MouseOverIndicator" Property="Visibility" Value="Visible" />
                             </Trigger>

@@ -72,6 +72,7 @@
                                                            TargetType="ListViewItem"
                                                            d:DataContext="{d:DesignInstance contexts:IdentityContext}">
                                                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                                        <Setter Property="ToolTip" Value="{Binding Name}" />
                                                     </Style>
                                                 </ListView.ItemContainerStyle>
                                                 <ListView.ItemsPanel>
@@ -102,11 +103,14 @@
 
                                         <StackPanel Grid.Column="2" Orientation="Horizontal">
                                             <ListView Margin="0,0,0,24"
-                                                      ItemsSource="{Binding Accounts}"
+                                                      ItemsSource="{Binding ImapAccounts}"
                                                       Style="{StaticResource AvatarListViewStyle}">
                                                 <ListView.ItemContainerStyle>
-                                                    <Style TargetType="ListViewItem" d:DataContext="{d:DesignInstance contexts:AccountContext}">
+                                                    <Style BasedOn="{StaticResource AvatarListViewItemStyle}"
+                                                           TargetType="ListViewItem"
+                                                           d:DataContext="{d:DesignInstance contexts:ImapAccountContext}">
                                                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                                        <Setter Property="ToolTip" Value="{Binding Name}" />
                                                     </Style>
                                                 </ListView.ItemContainerStyle>
                                                 <ListView.ItemsPanel>
@@ -115,15 +119,14 @@
                                                     </ItemsPanelTemplate>
                                                 </ListView.ItemsPanel>
                                                 <ListView.ItemTemplate>
-                                                    <DataTemplate DataType="contexts:IdentityContext">
-                                                        <Grid Background="Transparent">
+                                                    <DataTemplate DataType="contexts:ImapAccountContext">
+                                                        <Grid Background="{StaticResource AppControlBrush}">
                                                             <Image x:Name="Avatar"
                                                                    Width="48"
                                                                    Height="48"
                                                                    SnapsToDevicePixels="True"
-                                                                   Source="{Binding GravatarUrl,
-                                                                                    TargetNullValue={StaticResource GravatarDefaultImageUrl},
-                                                                                    FallbackValue={StaticResource GravatarDefaultImageUrl},
+                                                                   Source="{Binding Name,
+                                                                                    Converter={StaticResource DomainToHostLogoConverter},
                                                                                     IsAsync=True}" />
                                                         </Grid>
                                                     </DataTemplate>
@@ -185,6 +188,11 @@
         </Border>
         <Border>
             <Grid>
+                <DockPanel LastChildFill="True">
+                    <Border DockPanel.Dock="Left" />
+                    <Border DockPanel.Dock="Right" />
+                    <Border />
+                </DockPanel>
                 <ui:CreateIdentityScreen DataContext="{Binding CreateIdentityScreenContext}" Visibility="{Binding IsActive, FallbackValue=False, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <ui:CreateAccountScreen DataContext="{Binding CreateAccountScreenContext}" Visibility="{Binding IsActive, FallbackValue=False, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </Grid>

@@ -8,21 +8,19 @@ using Crystalbyte.Paranoia.Properties;
 #endregion
 
 namespace Crystalbyte.Paranoia.Contexts {
-    public sealed class AccountContext : ValidationObject<AccountContext> {
+    public sealed class ImapAccountContext : NotificationObject {
 
         #region Private Fields
 
         private readonly ImapAccount _imap;
-        private readonly SmtpAccount _smtp;
         private bool _isSelected;
 
         #endregion
 
         #region Construction
 
-        public AccountContext(ImapAccount imap, SmtpAccount smtp) {
+        public ImapAccountContext(ImapAccount imap) {
             _imap = imap;
-            _smtp = smtp;
         }
 
         #endregion
@@ -40,7 +38,6 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public SecurityPolicy ImapSecurity {
             get { return (SecurityPolicy) _imap.Security; }
             set {
@@ -54,7 +51,6 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public string ImapHost {
             get { return _imap.Host; }
             set {
@@ -68,7 +64,19 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        public string Name {
+            get { return _imap.Name; }
+            set {
+                if (_imap.Name == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => Name);
+                _imap.Name = value;
+                RaisePropertyChanged(() => Name);
+            }
+        }
+
         public short ImapPort {
             get { return _imap.Port; }
             set {
@@ -88,7 +96,6 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public string ImapUsername {
             get { return _imap.Username; }
             set {
@@ -102,8 +109,6 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "PasswordRequiredErrorText")
-        ]
         public string ImapPassword {
             get { return _imap.Password; }
             set {
@@ -117,53 +122,49 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public string SmtpPassword {
-            get { return _smtp.Password; }
+            get { return _imap.SmtpAccount.Password; }
             set {
-                if (_smtp.Password == value) {
+                if (_imap.SmtpAccount.Password == value) {
                     return;
                 }
 
                 RaisePropertyChanging(() => SmtpPassword);
-                _smtp.Password = value;
+                _imap.SmtpAccount.Password = value;
                 RaisePropertyChanged(() => SmtpPassword);
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public string SmtpUsername {
-            get { return _smtp.Username; }
+            get { return _imap.SmtpAccount.Username; }
             set {
-                if (_smtp.Username == value) {
+                if (_imap.SmtpAccount.Username == value) {
                     return;
                 }
 
                 RaisePropertyChanging(() => SmtpUsername);
-                _smtp.Username = value;
+                _imap.SmtpAccount.Username = value;
                 RaisePropertyChanged(() => SmtpUsername);
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public string SmtpHost {
-            get { return _smtp.Host; }
+            get { return _imap.SmtpAccount.Host; }
             set {
-                if (_smtp.Host == value) {
+                if (_imap.SmtpAccount.Host == value) {
                     return;
                 }
 
                 RaisePropertyChanging(() => SmtpHost);
-                _smtp.Host = value;
+                _imap.SmtpAccount.Host = value;
                 RaisePropertyChanged(() => SmtpHost);
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public short SmtpPort {
-            get { return _smtp.Port; }
+            get { return _imap.SmtpAccount.Port; }
             set {
-                if (_smtp.Port == value) {
+                if (_imap.SmtpAccount.Port == value) {
                     return;
                 }
 
@@ -174,21 +175,20 @@ namespace Crystalbyte.Paranoia.Contexts {
                 if (value > short.MaxValue) {
                     value = short.MaxValue;
                 }
-                _smtp.Port = value;
+                _imap.SmtpAccount.Port = value;
                 RaisePropertyChanged(() => SmtpPort);
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof (Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         public SecurityPolicy SmtpSecurity {
-            get { return (SecurityPolicy) _smtp.Security; }
+            get { return (SecurityPolicy)_imap.SmtpAccount.Security; }
             set {
-                if (_smtp.Security == (short) value) {
+                if (_imap.SmtpAccount.Security == (short)value) {
                     return;
                 }
 
                 RaisePropertyChanging(() => SmtpSecurity);
-                _smtp.Security = (short) value;
+                _imap.SmtpAccount.Security = (short)value;
                 RaisePropertyChanged(() => SmtpSecurity);
             }
         }
