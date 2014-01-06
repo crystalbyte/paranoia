@@ -19,6 +19,7 @@ namespace Crystalbyte.Paranoia.Models
         public string PublicKey { get; set; }
         public string EmailAddress { get; set; }
         public int IdentityId { get; set; }
+        public byte RequestStatus { get; set; }
     
         public virtual Identity Identity { get; set; }
     }

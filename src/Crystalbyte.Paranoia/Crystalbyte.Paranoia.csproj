@@ -95,7 +95,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ContactRequestStatus.cs" />
     <Compile Include="Contexts\AccountTestContext.cs" />
+    <Compile Include="Contexts\AddContactScreenContext.cs" />
+    <Compile Include="Contexts\ContactContext.cs" />
     <Compile Include="Converters\BooleanMultiConverter.cs" />
     <Compile Include="Converters\BooleanNegator.cs" />
     <Compile Include="Converters\BooleanToBrushConverter.cs" />
@@ -119,6 +122,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="StreamExtensions.cs" />
+    <Compile Include="UI\AddContactScreen.xaml.cs">
+      <DependentUpon>AddContactScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\CreateAccountTestingPage.xaml.cs">
       <DependentUpon>CreateAccountTestingPage.xaml</DependentUpon>
     </Compile>
@@ -206,6 +212,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\AddContactScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

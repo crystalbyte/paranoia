@@ -34,6 +34,13 @@ namespace Crystalbyte.Paranoia.Data {
             });
         }
 
+        public Task InsertAsync(Contact contact) {
+            return Task.Factory.StartNew(() => {
+                _context.Contacts.Add(contact);
+                _context.SaveChanges();
+            });
+        }
+
         public Task InsertAsync(Identity identity) {
             return Task.Factory.StartNew(() => {
                 _context.Identities.Add(identity);

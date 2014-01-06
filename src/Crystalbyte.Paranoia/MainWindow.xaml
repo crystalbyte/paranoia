@@ -63,8 +63,12 @@
                                                        Text="p4r4n014" />
                                         </Border>
                                         <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                            <ListView Margin="0,0,0,24"
+                                            <ListView x:Name="IdentityListView"
+                                                      Margin="0,0,0,24"
                                                       ItemsSource="{Binding Identities}"
+                                                      SelectedValue="{Binding DataContext,
+                                                                              ElementName=ContactListView,
+                                                                              Mode=OneWayToSource}"
                                                       SelectionChanged="OnIdentitySelectionChanged"
                                                       Style="{StaticResource AvatarListViewStyle}">
                                                 <ListView.ItemContainerStyle>
@@ -100,7 +104,6 @@
                                                                       FallbackValue={StaticResource NullCommand}}"
                                                     Style="{StaticResource CreateIdentityButtonStyle}" />
                                         </StackPanel>
-
                                         <StackPanel Grid.Column="2" Orientation="Horizontal">
                                             <ListView Margin="0,0,0,24"
                                                       ItemsSource="{Binding ImapAccounts}"
@@ -189,7 +192,22 @@
         <Border>
             <Grid>
                 <DockPanel LastChildFill="True">
-                    <Border DockPanel.Dock="Left" />
+                    <Border DockPanel.Dock="Left">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBox Grid.Row="0"
+                                     Margin="0"
+                                     BorderBrush="Transparent"
+                                     BorderThickness="0" />
+                            <ListView x:Name="ContactListView"
+                                      Grid.Row="1"
+                                      ItemsSource="{Binding Contacts}"
+                                      SelectionMode="Single" />
+                        </Grid>
+                    </Border>
                     <Border DockPanel.Dock="Right" />
                     <Border />
                 </DockPanel>

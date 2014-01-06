@@ -23,18 +23,18 @@ namespace Crystalbyte.Paranoia.Contexts {
         #region Private Fields
 
         private bool _isSyncing;
-        private readonly ObservableCollection<object> _elements;
         private readonly ObservableCollection<IdentityContext> _identities;
         private readonly ObservableCollection<ImapAccountContext> _imapAccounts;
+        private readonly ObservableCollection<ContactContext> _contacts;
 
         #endregion
 
         #region Construction
 
         public AppContext() {
-            _elements = new ObservableCollection<object>();
             _identities = new ObservableCollection<IdentityContext>();
             _imapAccounts = new ObservableCollection<ImapAccountContext>();
+            _contacts = new ObservableCollection<ContactContext>();
 
             CreateAccountCommand = new RelayCommand(OnCreateAccountCommandExecuted);
             CreateIdentityCommand = new RelayCommand(OnCreateIdentityCommandExecuted);
@@ -62,7 +62,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
-      
+            
         }
 
         #endregion
@@ -113,8 +113,8 @@ namespace Crystalbyte.Paranoia.Contexts {
             get { return _imapAccounts; }
         }
 
-        public IList<object> Elements {
-            get { return _elements; }
+        public IList<ContactContext> Contacts {
+            get { return _contacts; }
         }
 
         public void SyncAsync() {
@@ -122,7 +122,6 @@ namespace Crystalbyte.Paranoia.Contexts {
 
             // TODO: Implement syncing
 
-            RaisePropertyChanged(() => Elements);
             IsSyncing = false;
         }
 

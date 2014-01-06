@@ -84,6 +84,7 @@
     <Property Name="PublicKey" Type="nvarchar" Nullable="false" />
     <Property Name="EmailAddress" Type="nvarchar" Nullable="false" />
     <Property Name="IdentityId" Type="int" Nullable="false" />
+    <Property Name="RequestStatus" Type="tinyint" Nullable="false" />
   </EntityType>
   <EntityType Name="Mailboxes">
     <Key>
@@ -283,6 +284,7 @@
           <Property Type="String" Name="EmailAddress" Nullable="false" />
           <NavigationProperty Name="Identity" Relationship="StorageModel.IdentityContact" FromRole="Contact" ToRole="Identity" />
           <Property Type="Int32" Name="IdentityId" Nullable="false" />
+          <Property Type="Byte" Name="RequestStatus" Nullable="false" />
         </EntityType>
         <EntityType Name="Mailbox">
           <Key>
@@ -443,6 +445,7 @@
           <ScalarProperty Name="PublicKey" ColumnName="PublicKey" />
           <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
           <ScalarProperty Name="IdentityId" ColumnName="IdentityId" />
+          <ScalarProperty Name="RequestStatus" ColumnName="RequestStatus" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

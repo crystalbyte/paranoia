@@ -372,7 +372,7 @@
                                 <Grid x:Name="SelectionBorder">
                                     <Border Background="Transparent"
                                             BorderBrush="{StaticResource AppAccentBrush}"
-                                            BorderThickness="2,1,2,2" />
+                                            BorderThickness="1,0,1,1" />
                                     <Polygon HorizontalAlignment="Right"
                                              Fill="{StaticResource AppAccentBrush}"
                                              Points="0 0 16 0 16 16" />
@@ -426,6 +426,7 @@
             <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="SelectionMode" Value="Single" />
             <Setter Property="BorderBrush" Value="#888888" />
             <Setter Property="ItemContainerStyle" Value="{StaticResource AvatarListViewItemStyle}" />
             <Setter Property="Template">
