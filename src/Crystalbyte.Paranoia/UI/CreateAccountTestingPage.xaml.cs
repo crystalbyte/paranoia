@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using Crystalbyte.Paranoia.Contexts;
 
 namespace Crystalbyte.Paranoia.UI {
@@ -8,7 +9,9 @@ namespace Crystalbyte.Paranoia.UI {
     public partial class CreateAccountTestingPage {
 
         public CreateAccountTestingPage() {
-            ScreenContext = App.AppContext.CreateAccountScreenContext;
+            if (!DesignerProperties.GetIsInDesignMode(this)) {
+                ScreenContext = App.AppContext.CreateAccountScreenContext;
+            }
             Loaded += OnPageLoaded;
             InitializeComponent();
         }

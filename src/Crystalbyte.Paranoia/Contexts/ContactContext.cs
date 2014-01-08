@@ -7,7 +7,15 @@ using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia.Contexts {
     public sealed class ContactContext : NotificationObject {
+
+        #region Private Fields
+
         private readonly Contact _contact;
+        private string _gravatarImageUrl;
+
+        #endregion
+
+        #region Construction
 
         public ContactContext()
             : this(new Contact()) { }
@@ -15,6 +23,8 @@ namespace Crystalbyte.Paranoia.Contexts {
         public ContactContext(Contact contact) {
             _contact = contact;
         }
+
+        #endregion
 
         public string Name {
             get { return _contact.Name; }
@@ -53,6 +63,28 @@ namespace Crystalbyte.Paranoia.Contexts {
                 _contact.RequestStatus = (byte)value;
                 RaisePropertyChanged(() => RequestStatus);
             }
+        }
+
+        public string GravatarUrl {
+            get {
+                if (string.IsNullOrWhiteSpace(_gravatarImageUrl)) {
+                    CreateGravatarImageUrl();
+                }
+                return _gravatarImageUrl;
+            }
+            set {
+                if (_gravatarImageUrl == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => GravatarUrl);
+                _gravatarImageUrl = value;
+                RaisePropertyChanged(() => GravatarUrl);
+            }
+        }
+
+        private void CreateGravatarImageUrl() {
+            GravatarUrl = Gravatar.CreateImageUrl(EmailAddress);
         }
     }
 }

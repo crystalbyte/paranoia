@@ -22,42 +22,8 @@ namespace Crystalbyte.Paranoia.Data {
             _context = new Entities();
         }
 
-        public Task InsertAsync(ImapAccount account) {
-            return Task.Factory.StartNew(() => {
-                try {
-                    _context.ImapAccounts.Add(account);
-                    _context.SaveChanges();
-                }
-                catch (Exception ex) {
-                    throw;
-                }
-            });
-        }
-
-        public Task InsertAsync(Contact contact) {
-            return Task.Factory.StartNew(() => {
-                _context.Contacts.Add(contact);
-                _context.SaveChanges();
-            });
-        }
-
-        public Task InsertAsync(Identity identity) {
-            return Task.Factory.StartNew(() => {
-                _context.Identities.Add(identity);
-                _context.SaveChanges();
-            });
-        }
-
-        public Task<DbSet<Identity>> QueryIdentitiesAsync() {
-            return Task.Factory.StartNew(() => _context.Identities);
-        }
-
-        public Task<DbSet<ImapAccount>> QueryImapAccountsAsync() {
-            return Task.Factory.StartNew(() => _context.ImapAccounts);
-        }
-
-        public Task<DbSet<SmtpAccount>> QuerySmtpAccountsAsync() {
-            return Task.Factory.StartNew(() => _context.SmtpAccounts);
+        public Entities Context {
+            get { return _context; }
         }
 
         private static string DataDirectory {

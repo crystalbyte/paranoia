@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Composition;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,7 @@ using System.Windows.Input;
 using Crystalbyte.Paranoia.Commands;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
+using Crystalbyte.Paranoia.Models;
 
 #endregion
 
@@ -39,6 +41,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             CreateAccountCommand = new RelayCommand(OnCreateAccountCommandExecuted);
             CreateIdentityCommand = new RelayCommand(OnCreateIdentityCommandExecuted);
             OpenSettingsCommand = new RelayCommand(OnOpenSettingsCommandExecuted);
+            AddContactCommand = new RelayCommand(OnAddContactCommandExecuted);
         }
 
         #endregion
@@ -55,6 +58,9 @@ namespace Crystalbyte.Paranoia.Contexts {
         public CreateAccountScreenContext CreateAccountScreenContext { get; set; }
 
         [Import]
+        public AddContactScreenContext AddContactScreenContext { get; set; }
+
+        [Import]
         public SettingsContext SettingsContext { get; set; }
 
         [Import]
@@ -62,7 +68,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
-            
+
         }
 
         #endregion
@@ -70,6 +76,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         public ICommand CreateAccountCommand { get; private set; }
         public ICommand CreateIdentityCommand { get; private set; }
         public ICommand OpenSettingsCommand { get; private set; }
+        public ICommand AddContactCommand { get; private set; }
 
         public event EventHandler SyncStatusChanged;
 
@@ -77,6 +84,10 @@ namespace Crystalbyte.Paranoia.Contexts {
             var handler = SyncStatusChanged;
             if (handler != null)
                 handler(this, e);
+        }
+
+        private void OnAddContactCommandExecuted(object obj) {
+            AddContactScreenContext.IsActive = true;
         }
 
         private void OnCreateAccountCommandExecuted(object obj) {
@@ -159,19 +170,27 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private async Task LoadImapAccountsAsync() {
-            var query = await LocalStorage.QueryImapAccountsAsync();
-            ImapAccounts.AddRange(query.ToArray().Select(x => new ImapAccountContext(x)));
+            var query = await SelectImapAccountsAsync();
+            ImapAccounts.AddRange(query.Select(x => new ImapAccountContext(x)));
             if (ImapAccounts.Any()) {
                 ImapAccounts.First().IsSelected = true;
             }
         }
 
+        private Task<ImapAccount[]> SelectImapAccountsAsync() {
+            return Task.Factory.StartNew(() => LocalStorage.Context.ImapAccounts.ToArray());
+        }
+
         private async Task LoadIdentitiesAsync() {
-            var query = await LocalStorage.QueryIdentitiesAsync();
+            var query = await SelectIdentitiesAsync();
             Identities.AddRange(query.ToArray().Select(x => new IdentityContext(x)));
             if (Identities.Any()) {
                 Identities.First().IsSelected = true;
             }
+        }
+
+        private Task<Identity[]> SelectIdentitiesAsync() {
+            return Task.Factory.StartNew(() => LocalStorage.Context.Identities.ToArray());
         }
     }
 }

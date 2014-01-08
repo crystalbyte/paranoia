@@ -1,6 +1,7 @@
 ﻿#region Using directives
 
 using Crystalbyte.Paranoia.Contexts;
+using System.ComponentModel;
 
 #endregion
 
@@ -10,7 +11,9 @@ namespace Crystalbyte.Paranoia.UI {
     /// </summary>
     public partial class CreateAccountScreen {
         public CreateAccountScreen() {
-            ScreenContext = App.AppContext.CreateAccountScreenContext;
+            if (!DesignerProperties.GetIsInDesignMode(this)) {
+                ScreenContext = App.AppContext.CreateAccountScreenContext;    
+            }
             InitializeComponent();
         }
 

@@ -1,6 +1,7 @@
 ﻿#region Using directives
 
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,8 +16,11 @@ namespace Crystalbyte.Paranoia.UI {
     /// </summary>
     public partial class CreateAccountStartPage {
         public CreateAccountStartPage() {
-            ScreenContext = App.AppContext.CreateAccountScreenContext;
-            ScreenContext.Activated += OnActivated;
+            if (!DesignerProperties.GetIsInDesignMode(this)) {
+                ScreenContext = App.AppContext.CreateAccountScreenContext;
+                ScreenContext.Activated += OnActivated;
+            }
+            
             Loaded += OnPageLoaded;
             InitializeComponent();
         }

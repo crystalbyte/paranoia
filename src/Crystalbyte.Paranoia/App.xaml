@@ -50,6 +50,7 @@
         <system:Double x:Key="AppMediumFontSize">16</system:Double>
         <system:Double x:Key="AppNormalFontSize">12</system:Double>
         <system:Double x:Key="AppSmallFontSize">10</system:Double>
+        <system:Double x:Key="AppExtraSmallFontSize">8</system:Double>
 
 
         <Style TargetType="{x:Type ListViewItem}">
@@ -419,7 +420,9 @@
         </Style>
 
         <Style x:Key="AvatarListViewStyle" TargetType="{x:Type ListView}">
+            <Setter Property="Height" Value="48" />
             <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="OverridesDefaultStyle" Value="true" />
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />

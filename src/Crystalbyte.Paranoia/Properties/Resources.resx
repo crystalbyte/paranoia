@@ -123,6 +123,19 @@
   <data name="AccountTestSuccessMessage" xml:space="preserve">
     <value>Configuration finished successfully.</value>
   </data>
+  <data name="AddContactEmailDescription" xml:space="preserve">
+    <value>The communication request will be sent to the users e-mail address.</value>
+  </data>
+  <data name="AddContactNameDescription" xml:space="preserve">
+    <value>Please enter the users name here.</value>
+  </data>
+  <data name="AddContactSubTitle" xml:space="preserve">
+    <value>In order to communicate securely with someone, it is necessary to send a communication request and for the other person to accept it.
+Once a mutual communication agreement has been established, messages can be safely exchanged.</value>
+  </data>
+  <data name="AddContactTitle" xml:space="preserve">
+    <value>Add Contact</value>
+  </data>
   <data name="AuthenticationFailedMessage" xml:space="preserve">
     <value>Auhentication failed.</value>
   </data>

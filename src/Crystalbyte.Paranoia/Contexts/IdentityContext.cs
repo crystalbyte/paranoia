@@ -1,39 +1,44 @@
 ﻿#region Using directives
 
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Crystalbyte.Paranoia.Models;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.Contexts {
     public sealed class IdentityContext : NotificationObject {
+
+        #region Private Fields
+
         private readonly Identity _identity;
         private string _gravatarImageUrl;
         private bool _isSelected;
+        private readonly ObservableCollection<ContactContext> _contacts;
+
+        #endregion
+
+        #region Construction
 
         public IdentityContext()
-            : this(new Identity()) {}
+            : this(new Identity()) { }
 
         public IdentityContext(Identity identity) {
             _identity = identity;
+            _contacts = new ObservableCollection<ContactContext>();
         }
 
-        public Identity Model {
-            get { return _identity; }
+        #endregion
+
+        public void AddContact(Contact contact) {
+            _identity.Contacts.Add(contact);                
+            _contacts.Add(new ContactContext(contact));
         }
 
-        private void CreateGravatarImageUrl() {
-            using (var md5 = MD5.Create()) {
-                var bytes = md5.ComputeHash(Encoding.UTF8.GetBytes(EmailAddress.Trim()));
-                using (var writer = new StringWriter()) {
-                    foreach (var b in bytes) {
-                        writer.Write(b.ToString("x2"));
-                    }
-                    GravatarUrl = string.Format("http://www.gravatar.com/avatar/{0}?s=200&d=mm", writer);
-                }
-            }
+        public ObservableCollection<ContactContext> Contacts {
+            get { return _contacts; }
         }
 
         public string Name {
@@ -59,8 +64,16 @@ namespace Crystalbyte.Paranoia.Contexts {
                 RaisePropertyChanging(() => EmailAddress);
                 _identity.EmailAddress = value;
                 RaisePropertyChanged(() => EmailAddress);
-                CreateGravatarImageUrl();
+                CreateGravatarUrl();
             }
+        }
+
+        public void InvalidateContacts() {
+            RaisePropertyChanged(() => Contacts);
+        }
+
+        private void CreateGravatarUrl() {
+            _gravatarImageUrl = Gravatar.CreateImageUrl(EmailAddress);
         }
 
         public string Notes {
@@ -112,13 +125,30 @@ namespace Crystalbyte.Paranoia.Contexts {
                 RaisePropertyChanging(() => IsSelected);
                 _isSelected = value;
                 RaisePropertyChanged(() => IsSelected);
+                OnSelected(EventArgs.Empty);
             }
+        }
+
+        public event EventHandler Selected;
+
+        private void OnSelected(EventArgs e) {
+            var handler = Selected;
+            if (handler != null) {
+                handler(this, e);
+            }
+
+            LoadContacts();
+        }
+
+        private void LoadContacts() {
+            _contacts.Clear();
+            _contacts.AddRange(_identity.Contacts.Select(x => new ContactContext(x)));
         }
 
         public string GravatarUrl {
             get {
                 if (string.IsNullOrWhiteSpace(_gravatarImageUrl)) {
-                    CreateGravatarImageUrl();
+                    CreateGravatarUrl();
                 }
                 return _gravatarImageUrl;
             }

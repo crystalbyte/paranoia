@@ -9,6 +9,7 @@ using System.Windows.Input;
 using Crystalbyte.Paranoia.Commands;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Properties;
+using Crystalbyte.Paranoia.Models;
 
 #endregion
 
@@ -144,17 +145,19 @@ namespace Crystalbyte.Paranoia.Contexts {
             return true;
         }
 
-        private async void OnCreateCommandExecuted(object parameter) {
-            var identity = new IdentityContext {
+        private void OnCreateCommandExecuted(object parameter) {
+            var identity = new Identity {
                 EmailAddress = EmailAddress,
                 Notes = Notes,
                 Name = Name,
-                PrivateKey = "muh",
-                PublicKey = "mäh"
+                PrivateKey = "private-key",
+                PublicKey = "public-key"
             };
 
-            await LocalStorage.InsertAsync(identity.Model);
-            AppContext.Identities.Add(identity);
+            AppContext.Identities.Add(new IdentityContext(identity));
+
+            LocalStorage.Context.Identities.Add(identity);
+            LocalStorage.Context.SaveChanges();
 
             Close();
         }

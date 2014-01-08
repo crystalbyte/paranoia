@@ -135,7 +135,8 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
 
             ShowWatermark(control);
-            Debug.WriteLine(string.Format("+ Watermark @ {0}. Focused = {1}.", control.Name, control.IsFocused));
+            var message = string.Format("+ Watermark @ {0}. Focused = {1}.", control.Name, control.IsFocused);
+            Debug.WriteLine(message);
         }
 
         /// <summary>

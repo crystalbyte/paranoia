@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,8 +18,8 @@ namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     /// Interaction logic for AddContactScreen.xaml
     /// </summary>
-    public partial class AddContactScreen : UserControl {
-        public AddContactScreen() {
+    public partial class AddContactScreen {
+        public AddContactScreen() {            
             InitializeComponent();
         }
     }

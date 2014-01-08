@@ -79,6 +79,43 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The communication request will be sent to the users e-mail address..
+        /// </summary>
+        public static string AddContactEmailDescription {
+            get {
+                return ResourceManager.GetString("AddContactEmailDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the users name here..
+        /// </summary>
+        public static string AddContactNameDescription {
+            get {
+                return ResourceManager.GetString("AddContactNameDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In order to communicate securely with someone, it is necessary to send a communication request and for the other person to accept it.
+        ///Once a mutual communication agreement has been established, messages can be safely exchanged..
+        /// </summary>
+        public static string AddContactSubTitle {
+            get {
+                return ResourceManager.GetString("AddContactSubTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Contact.
+        /// </summary>
+        public static string AddContactTitle {
+            get {
+                return ResourceManager.GetString("AddContactTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auhentication failed..
         /// </summary>
         public static string AuthenticationFailedMessage {

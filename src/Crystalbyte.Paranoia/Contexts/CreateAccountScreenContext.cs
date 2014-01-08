@@ -103,8 +103,10 @@ namespace Crystalbyte.Paranoia.Contexts {
             };
 
             try {
-                LocalStorage.InsertAsync(account);
                 AppContext.ImapAccounts.Add(new ImapAccountContext(account));    
+
+                LocalStorage.Context.ImapAccounts.Add(account);
+                LocalStorage.Context.SaveChanges();
             }
             catch (Exception) {
                 // TODO: Errorlog

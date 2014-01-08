@@ -105,6 +105,7 @@
     <Compile Include="Converters\BooleanToStringConverter.cs" />
     <Compile Include="Converters\DomainToHostLogoConverter.cs" />
     <Compile Include="Converters\ExceptionFormatter.cs" />
+    <Compile Include="Gravatar.cs" />
     <Compile Include="IdentitySelectionSource.cs" />
     <Compile Include="Models\Contact.cs">
       <DependentUpon>Model.tt</DependentUpon>
