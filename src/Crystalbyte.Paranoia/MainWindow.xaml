@@ -154,6 +154,10 @@
         </Style>
     </Window.Style>
     <Window.InputBindings>
+        <KeyBinding Key="N"
+                    Command="{Binding ComposeMessageCommand,
+                                      FallbackValue={StaticResource NullCommand}}"
+                    Modifiers="Control" />
         <KeyBinding Key="I"
                     Command="{Binding CreateIdentityCommand,
                                       FallbackValue={StaticResource NullCommand}}"
@@ -166,7 +170,6 @@
                     Command="{Binding AddContactCommand,
                                       FallbackValue={StaticResource NullCommand}}"
                     Modifiers="Control" />
-        <KeyBinding Key="N" Modifiers="Control" />
         <KeyBinding Key="R" Modifiers="Control" />
     </Window.InputBindings>
     <DockPanel Background="{StaticResource AppWindowBackgroundBrush}">
@@ -216,6 +219,7 @@
                     </Grid.ColumnDefinitions>
                     <Border Grid.Row="0"
                             Grid.Column="0"
+                            Margin="20,0,20,0"
                             BorderBrush="{StaticResource AppDarkTextBrush}"
                             BorderThickness="0">
                         <TextBlock Margin="12"
@@ -224,14 +228,14 @@
                     </Border>
                     <Border Grid.Row="2"
                             Grid.Column="0"
-                            BorderBrush="{StaticResource AppDarkTextBrush}"
-                            BorderThickness="0,0,1,0"
+                            Margin="20,0,20,0"
                             DataContext="{Binding IdentitySelectionSource}">
                         <ListView x:Name="ContactList"
                                   Background="{StaticResource AppWindowBackgroundBrush}"
                                   BorderThickness="0"
                                   DataContext="{Binding Current}"
                                   ItemsSource="{Binding Contacts}"
+                                  SelectionChanged="OnContactSelectionChanged"
                                   SelectionMode="Single">
                             <ListView.ItemContainerStyle>
                                 <Style BasedOn="{StaticResource BlockListViewItem}" TargetType="ListViewItem">
@@ -270,15 +274,16 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </Border>
-                    <TextBlock Grid.Row="0"
-                               Grid.Column="1"
-                               Margin="12"
-                               Style="{StaticResource AppTitleTextStyle}"
-                               Text="{x:Static properties:Resources.MessagesColumnHeaderText}" />
+                    <Border Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="20,0,20,0">
+                        <TextBlock Margin="12"
+                                   Style="{StaticResource AppTitleTextStyle}"
+                                   Text="{x:Static properties:Resources.MessagesColumnHeaderText}" />
+                    </Border>
                     <Border Grid.Row="2"
                             Grid.Column="1"
-                            BorderBrush="{StaticResource AppDarkTextBrush}"
-                            BorderThickness="0,0,1,0"
+                            Margin="20,0,20,0"
                             DataContext="{Binding ContactSelectionSource}">
                         <ListView MinWidth="240"
                                   Background="{StaticResource AppWindowBackgroundBrush}"

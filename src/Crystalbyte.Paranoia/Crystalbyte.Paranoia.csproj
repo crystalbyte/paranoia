@@ -99,6 +99,7 @@
     <Compile Include="ContactSelectionSource.cs" />
     <Compile Include="Contexts\AccountTestContext.cs" />
     <Compile Include="Contexts\AddContactScreenContext.cs" />
+    <Compile Include="Contexts\ComposeMessageScreenContext.cs" />
     <Compile Include="Contexts\ContactContext.cs" />
     <Compile Include="Converters\BooleanMultiConverter.cs" />
     <Compile Include="Converters\BooleanNegator.cs" />
@@ -126,6 +127,9 @@
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="UI\AddContactScreen.xaml.cs">
       <DependentUpon>AddContactScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ComposeMessageScreen.xaml.cs">
+      <DependentUpon>ComposeMessageScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\CreateAccountTestingPage.xaml.cs">
       <DependentUpon>CreateAccountTestingPage.xaml</DependentUpon>
@@ -218,6 +222,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\AddContactScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\ComposeMessageScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

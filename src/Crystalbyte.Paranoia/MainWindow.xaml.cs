@@ -154,5 +154,14 @@ namespace Crystalbyte.Paranoia {
 
             App.AppContext.IdentitySelectionSource.Current = identity;
         }
+
+        private void OnContactSelectionChanged(object sender, SelectionChangedEventArgs e) { 
+            var context = DataContext as AppContext;
+            if (context == null) {
+                return;
+            }
+
+            context.ContactSelectionSource.Current = e.AddedItems.OfType<ContactContext>().FirstOrDefault();
+        }
     }
 }

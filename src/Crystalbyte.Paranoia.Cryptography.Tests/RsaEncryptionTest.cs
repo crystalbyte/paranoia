@@ -11,7 +11,7 @@ namespace Crystalbyte.Paranoia.Cryptography.Tests
         {
             var rsa = new RsaEncryption();
             rsa.GenerateRSA();
-            var a = "bal";
+            //var a = "bal";
         }
     }
 }

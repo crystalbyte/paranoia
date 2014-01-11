@@ -14,7 +14,7 @@ namespace Crystalbyte.Paranoia.Commands {
         }
 
         public RelayCommand(Action<object> executeCallback)
-            : this(x => true, executeCallback) {}
+            : this(x => true, executeCallback) { }
 
         public Func<object, bool> CanExecuteCallback { get; private set; }
         public Action<object> ExecuteCallback { get; private set; }

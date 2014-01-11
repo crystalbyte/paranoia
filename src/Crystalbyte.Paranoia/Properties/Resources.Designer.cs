@@ -520,5 +520,23 @@ namespace Crystalbyte.Paranoia.Properties {
                 return ResourceManager.GetString("SmtpUsernameWatermark", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The subject field must not be empty..
+        /// </summary>
+        public static string SubjectRequiredErrorText {
+            get {
+                return ResourceManager.GetString("SubjectRequiredErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The subject must not exceed 256 characters..
+        /// </summary>
+        public static string SubjectStringLengthErrorText {
+            get {
+                return ResourceManager.GetString("SubjectStringLengthErrorText", resourceCulture);
+            }
+        }
     }
 }

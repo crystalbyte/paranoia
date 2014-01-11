@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Composition;
-using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -68,6 +67,12 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         [Import]
         public ContactSelectionSource ContactSelectionSource { get; set; }
+
+        [Import]
+        public ComposeMessageCommand ComposeMessageCommand { get; set; }
+
+        [Import]
+        public ComposeMessageScreenContext ComposeMessageScreenContext { get; set; }
 
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {

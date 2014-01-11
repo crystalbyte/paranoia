@@ -10,12 +10,14 @@ using Crystalbyte.Paranoia.Contexts;
 namespace Crystalbyte.Paranoia.Commands {
     [Export, Shared]
     public sealed class SyncCommand : ICommand {
+
         [Import]
         public AppContext AppContext { get; set; }
 
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
-            AppContext.SyncStatusChanged += (sender, e) => OnCanExecuteChanged(EventArgs.Empty);
+            AppContext.SyncStatusChanged += 
+                (sender, e) => OnCanExecuteChanged(EventArgs.Empty);
         }
 
         #region Implementation of ICommand

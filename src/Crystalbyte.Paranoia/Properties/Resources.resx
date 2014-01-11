@@ -281,4 +281,10 @@ If any of the tests fail, you may need to navigate back and correct any mistakes
   <data name="SmtpUsernameWatermark" xml:space="preserve">
     <value>outgoing server username</value>
   </data>
+  <data name="SubjectRequiredErrorText" xml:space="preserve">
+    <value>The subject field must not be empty.</value>
+  </data>
+  <data name="SubjectStringLengthErrorText" xml:space="preserve">
+    <value>The subject must not exceed 256 characters.</value>
+  </data>
 </root>
