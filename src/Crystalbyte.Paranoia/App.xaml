@@ -30,6 +30,10 @@
             R="255" />
         -->
 
+        <Style TargetType="Image">
+            <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+        </Style>
+
         <commands:NullCommand x:Key="NullCommand" />
 
         <system:String x:Key="GravatarDefaultImageUrl">http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y&amp;d=mm&amp;s=200</system:String>
@@ -412,6 +416,56 @@
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="false">
                                 <Setter Property="Foreground" Value="#888888" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="BlockListViewItem" TargetType="{x:Type ListViewItem}">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Border Margin="{TemplateBinding Margin}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                            <Grid>
+                                <Rectangle x:Name="MouseOverIndicator"
+                                           HorizontalAlignment="Stretch"
+                                           VerticalAlignment="Stretch"
+                                           Fill="Gray"
+                                           Opacity=".1"
+                                           Stroke="Gray" />
+                                <Rectangle x:Name="SelectionIndicator"
+                                           HorizontalAlignment="Stretch"
+                                           VerticalAlignment="Stretch"
+                                           Fill="{StaticResource AppAccentBrush}"
+                                           Stroke="{StaticResource AppAccentBrush}" />
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="SelectionIndicator" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="SelectionIndicator" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="MouseOverIndicator" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter TargetName="MouseOverIndicator" Property="Visibility" Value="Collapsed" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

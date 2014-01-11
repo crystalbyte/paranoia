@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.Cryptography;
+using System.ComponentModel;
 
 #endregion
 
@@ -18,7 +19,9 @@ namespace Crystalbyte.Paranoia {
         private HwndSource _source;
 
         public MainWindow() {
-            DataContext = App.AppContext;
+            if (!DesignerProperties.GetIsInDesignMode(this)) {
+                DataContext = App.AppContext;    
+            }
 
             InitializeComponent();
             Loaded += OnLoaded;

@@ -11,8 +11,8 @@ namespace Crystalbyte.Paranoia.UI {
         public CreateAccountTestingPage() {
             if (!DesignerProperties.GetIsInDesignMode(this)) {
                 ScreenContext = App.AppContext.CreateAccountScreenContext;
+                Loaded += OnPageLoaded;
             }
-            Loaded += OnPageLoaded;
             InitializeComponent();
         }
 

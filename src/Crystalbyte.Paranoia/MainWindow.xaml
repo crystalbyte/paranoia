@@ -1,10 +1,11 @@
 ﻿<Window x:Class="Crystalbyte.Paranoia.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Paranoia="clr-namespace:Crystalbyte.Paranoia"
         xmlns:contexts="clr-namespace:Crystalbyte.Paranoia.Contexts"
+        xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Converters"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
         xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
         x:Name="Window"
         Title="Paranoia"
@@ -17,6 +18,12 @@
         WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance contexts:AppContext}"
         mc:Ignorable="d">
+    <Window.Resources>
+        <Style x:Key="ScreenOverlayStyle" TargetType="UserControl">
+            <Setter Property="Margin" Value="0,-54,0,0" />
+            <Setter Property="Grid.ColumnSpan" Value="3" />
+        </Style>
+    </Window.Resources>
     <Window.Style>
         <Style TargetType="Window">
             <Setter Property="WindowStyle" Value="None" />
@@ -190,31 +197,54 @@
                             WindowChrome.ResizeGripDirection="BottomRight" />
             </Grid>
         </Border>
-        <Border>
-            <Grid>
-                <DockPanel LastChildFill="True">
-                    <Border DataContext="{Binding IdentitySelectionSource}" DockPanel.Dock="Left">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <ListView Grid.Row="1"
-                                      Background="{StaticResource AppWindowBackgroundBrush}"
-                                      BorderBrush="Black"
-                                      BorderThickness="0"
-                                      DataContext="{Binding Current}"
-                                      ItemsSource="{Binding Contacts}"
-                                      SelectionMode="Single">
-                                <ListView.ItemContainerStyle>
-                                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
-                                        <Setter Property="Margin" Value="0" />
-                                        <Setter Property="Padding" Value="0" />
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Row="0"
+                            Grid.Column="0"
+                            BorderBrush="{StaticResource AppDarkTextBrush}"
+                            BorderThickness="0">
+                        <TextBlock Margin="12"
+                                   Style="{StaticResource AppTitleTextStyle}"
+                                   Text="{x:Static properties:Resources.ContactColumnHeaderText}" />
+                    </Border>
+                    <Border Grid.Row="2"
+                            Grid.Column="0"
+                            BorderBrush="{StaticResource AppDarkTextBrush}"
+                            BorderThickness="0,0,1,0"
+                            DataContext="{Binding IdentitySelectionSource}">
+                        <ListView x:Name="ContactList"
+                                  Background="{StaticResource AppWindowBackgroundBrush}"
+                                  BorderThickness="0"
+                                  DataContext="{Binding Current}"
+                                  ItemsSource="{Binding Contacts}"
+                                  SelectionMode="Single">
+                            <ListView.ItemContainerStyle>
+                                <Style BasedOn="{StaticResource BlockListViewItem}" TargetType="ListViewItem">
+                                    <Setter Property="Margin" Value="0" />
+                                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="12,6,12,6">
                                         <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance contexts:ContactContext}">
-                                            <Image Width="40"
+                                            <Image Width="32"
+                                                   Height="32"
                                                    Margin="0,0,6,0"
                                                    Source="{Binding GravatarUrl}"
                                                    Stretch="UniformToFill" />
@@ -222,24 +252,98 @@
                                                 <TextBlock FontSize="{StaticResource AppMediumFontSize}"
                                                            Style="{StaticResource LightTextStyle}"
                                                            Text="{Binding Name}" />
-                                                <TextBlock FontSize="{StaticResource AppExtraSmallFontSize}"
-                                                           Foreground="{StaticResource AppMediumTextBrush}"
+                                                <TextBlock FontSize="{StaticResource AppSmallFontSize}"
                                                            Style="{StaticResource LightTextStyle}"
-                                                           Text="{Binding EmailAddress}" />
+                                                           Text="{Binding EmailAddress}">
+                                                    <TextBlock.Foreground>
+                                                        <Binding Mode="TwoWay" Path="IsSelected">
+                                                            <Binding.Converter>
+                                                                <converters:BooleanToBrushConverter NegativeBrush="{StaticResource AppLightControlBrush}" PositiveBrush="{StaticResource AppLightTextBrush}" />
+                                                            </Binding.Converter>
+                                                        </Binding>
+                                                    </TextBlock.Foreground>
+                                                </TextBlock>
                                             </StackPanel>
                                         </StackPanel>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </Border>
-                    <Border DockPanel.Dock="Right" />
-                    <Border />
-                </DockPanel>
-                <ui:CreateIdentityScreen DataContext="{Binding CreateIdentityScreenContext}" Visibility="{Binding IsActive, FallbackValue=False, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <ui:CreateAccountScreen DataContext="{Binding CreateAccountScreenContext}" Visibility="{Binding IsActive, FallbackValue=False, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <ui:AddContactScreen DataContext="{Binding AddContactScreenContext}" Visibility="{Binding IsActive, FallbackValue=False, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            </Grid>
-        </Border>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="1"
+                               Margin="12"
+                               Style="{StaticResource AppTitleTextStyle}"
+                               Text="{x:Static properties:Resources.MessagesColumnHeaderText}" />
+                    <Border Grid.Row="2"
+                            Grid.Column="1"
+                            BorderBrush="{StaticResource AppDarkTextBrush}"
+                            BorderThickness="0,0,1,0"
+                            DataContext="{Binding ContactSelectionSource}">
+                        <ListView MinWidth="240"
+                                  Background="{StaticResource AppWindowBackgroundBrush}"
+                                  BorderThickness="0"
+                                  DataContext="{Binding Current}"
+                                  ItemsSource="{Binding Messages}"
+                                  SelectionMode="Single">
+                            <ListView.ItemContainerStyle>
+                                <Style BasedOn="{StaticResource BlockListViewItem}" TargetType="ListViewItem">
+                                    <Setter Property="Margin" Value="0" />
+                                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="12,6,12,6">
+                                        <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance contexts:ContactContext}">
+                                            <Image Width="32"
+                                                   Height="32"
+                                                   Margin="0,0,6,0"
+                                                   Source="{Binding GravatarUrl}"
+                                                   Stretch="UniformToFill" />
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock FontSize="{StaticResource AppMediumFontSize}"
+                                                           Style="{StaticResource LightTextStyle}"
+                                                           Text="{Binding Name}" />
+                                                <TextBlock FontSize="{StaticResource AppSmallFontSize}"
+                                                           Style="{StaticResource LightTextStyle}"
+                                                           Text="{Binding EmailAddress}">
+                                                    <TextBlock.Foreground>
+                                                        <Binding Mode="TwoWay" Path="IsSelected">
+                                                            <Binding.Converter>
+                                                                <converters:BooleanToBrushConverter NegativeBrush="{StaticResource AppLightControlBrush}" PositiveBrush="{StaticResource AppLightTextBrush}" />
+                                                            </Binding.Converter>
+                                                        </Binding>
+                                                    </TextBlock.Foreground>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <ui:CreateIdentityScreen DataContext="{Binding CreateIdentityScreenContext}"
+                                     Style="{StaticResource ScreenOverlayStyle}"
+                                     Visibility="{Binding IsActive,
+                                                          FallbackValue=False,
+                                                          Mode=OneWay,
+                                                          Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <ui:CreateAccountScreen DataContext="{Binding CreateAccountScreenContext}"
+                                    Style="{StaticResource ScreenOverlayStyle}"
+                                    Visibility="{Binding IsActive,
+                                                         FallbackValue=False,
+                                                         Mode=OneWay,
+                                                         Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <ui:AddContactScreen DataContext="{Binding AddContactScreenContext}"
+                                 Style="{StaticResource ScreenOverlayStyle}"
+                                 Visibility="{Binding IsActive,
+                                                      FallbackValue=False,
+                                                      Mode=OneWay,
+                                                      Converter={StaticResource BooleanToVisibilityConverter}}" />
+        </Grid>
     </DockPanel>
 </Window>

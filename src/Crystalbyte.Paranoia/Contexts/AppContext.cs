@@ -66,6 +66,9 @@ namespace Crystalbyte.Paranoia.Contexts {
         [Import]
         public IdentitySelectionSource IdentitySelectionSource { get; set; }
 
+        [Import]
+        public ContactSelectionSource ContactSelectionSource { get; set; }
+
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
 

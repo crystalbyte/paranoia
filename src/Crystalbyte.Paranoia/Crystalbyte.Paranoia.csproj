@@ -96,6 +96,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ContactRequestStatus.cs" />
+    <Compile Include="ContactSelectionSource.cs" />
     <Compile Include="Contexts\AccountTestContext.cs" />
     <Compile Include="Contexts\AddContactScreenContext.cs" />
     <Compile Include="Contexts\ContactContext.cs" />

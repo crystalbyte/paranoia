@@ -1,4 +1,5 @@
-﻿using Crystalbyte.Paranoia.Models;
+﻿using System.Collections.ObjectModel;
+using Crystalbyte.Paranoia.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +13,40 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         private readonly Contact _contact;
         private string _gravatarImageUrl;
+        private bool _isSelected;
+        private readonly ObservableCollection<ImapMessageContext> _messages;
 
         #endregion
 
         #region Construction
 
         public ContactContext()
-            : this(new Contact()) { }
+            : this(new Contact()) {
+        }
 
         public ContactContext(Contact contact) {
             _contact = contact;
+            _messages = new ObservableCollection<ImapMessageContext>();
         }
 
         #endregion
+
+        public ObservableCollection<ImapMessageContext> Messages {
+            get { return _messages; }
+        }
+
+        public bool IsSelected {
+            get { return _isSelected; }
+            set {
+                if (_isSelected == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => IsSelected);
+                _isSelected = value;
+                RaisePropertyChanged(() => IsSelected);
+            }
+        }
 
         public string Name {
             get { return _contact.Name; }
@@ -55,7 +77,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         public ContactRequestStatus RequestStatus {
             get { return (ContactRequestStatus)_contact.RequestStatus; }
             set {
-                if (_contact.RequestStatus == (byte) value) {
+                if (_contact.RequestStatus == (byte)value) {
                     return;
                 }
 

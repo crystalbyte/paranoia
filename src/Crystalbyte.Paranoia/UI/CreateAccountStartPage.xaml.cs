@@ -20,13 +20,8 @@ namespace Crystalbyte.Paranoia.UI {
                 ScreenContext = App.AppContext.CreateAccountScreenContext;
                 ScreenContext.Activated += OnActivated;
             }
-            
-            Loaded += OnPageLoaded;
-            InitializeComponent();
-        }
 
-        private void OnPageLoaded(object sender, RoutedEventArgs e) {
-            
+            InitializeComponent();
         }
 
         private void OnActivated(object sender, EventArgs e) {

@@ -143,6 +143,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contacts.
+        /// </summary>
+        public static string ContactColumnHeaderText {
+            get {
+                return ResourceManager.GetString("ContactColumnHeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Continue.
         /// </summary>
         public static string ContinueButtonText {
@@ -347,6 +356,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string MaxStringLength64ErrorText {
             get {
                 return ResourceManager.GetString("MaxStringLength64ErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Messages.
+        /// </summary>
+        public static string MessagesColumnHeaderText {
+            get {
+                return ResourceManager.GetString("MessagesColumnHeaderText", resourceCulture);
             }
         }
         

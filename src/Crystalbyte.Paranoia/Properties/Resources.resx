@@ -145,6 +145,9 @@ Once a mutual communication agreement has been established, messages can be safe
   <data name="CancelButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="ContactColumnHeaderText" xml:space="preserve">
+    <value>Contacts</value>
+  </data>
   <data name="ContinueButtonText" xml:space="preserve">
     <value>Continue</value>
   </data>
@@ -219,6 +222,9 @@ If any of the tests fail, you may need to navigate back and correct any mistakes
   <data name="MaxStringLength64ErrorText" xml:space="preserve">
     <value>The text must not exceed 64 characters.</value>
     <comment>IdentityScreenContext -&gt; Name</comment>
+  </data>
+  <data name="MessagesColumnHeaderText" xml:space="preserve">
+    <value>Messages</value>
   </data>
   <data name="NameRequiredErrorText" xml:space="preserve">
     <value>The name field must not be empty.</value>

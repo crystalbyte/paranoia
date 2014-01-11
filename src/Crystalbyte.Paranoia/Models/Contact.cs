@@ -14,6 +14,11 @@ namespace Crystalbyte.Paranoia.Models
     
     public partial class Contact
     {
+        public Contact()
+        {
+            this.Messages = new HashSet<Message>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
         public string PublicKey { get; set; }
@@ -22,5 +27,6 @@ namespace Crystalbyte.Paranoia.Models
         public byte RequestStatus { get; set; }
     
         public virtual Identity Identity { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
     }
 }

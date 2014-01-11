@@ -12,8 +12,8 @@
       KeepAlive="True"
       KeyboardNavigation.TabNavigation="Cycle"
       d:DataContext="{d:DesignInstance contexts:CreateAccountScreenContext}"
-      d:DesignHeight="300"
-      d:DesignWidth="300"
+      d:DesignHeight="500"
+      d:DesignWidth="800"
       mc:Ignorable="d">
     <Page.Resources>
         <x:Array x:Key="PolicySource" Type="messaging:SecurityPolicy">
@@ -27,7 +27,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Border Grid.Row="0"

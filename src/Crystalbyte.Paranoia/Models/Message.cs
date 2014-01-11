@@ -24,8 +24,10 @@ namespace Crystalbyte.Paranoia.Models
         public string Subject { get; set; }
         public System.DateTime Date { get; set; }
         public int Size { get; set; }
+        public int ContactId { get; set; }
     
         public virtual Mailbox Mailbox { get; set; }
         public virtual ICollection<MessageFlag> MessageFlags { get; set; }
+        public virtual Contact Contact { get; set; }
     }
 }

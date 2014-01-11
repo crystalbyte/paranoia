@@ -39,6 +39,10 @@
       <End Role="Message" EntitySet="Messages" />
       <End Role="MessageFlag" EntitySet="MessageFlags" />
     </AssociationSet>
+    <AssociationSet Name="ContactMessage" Association="StorageModel.Store.ContactMessage">
+      <End Role="Contact" EntitySet="Contacts" />
+      <End Role="Message" EntitySet="Messages" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Identities">
     <Key>
@@ -106,6 +110,7 @@
     <Property Name="Subject" Type="nvarchar" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="Size" Type="int" Nullable="false" />
+    <Property Name="ContactId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="MailboxFlags">
     <Key>
@@ -195,6 +200,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="ContactMessage">
+    <End Role="Contact" Type="StorageModel.Store.Contacts" Multiplicity="1" />
+    <End Role="Message" Type="StorageModel.Store.Messages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contact">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Message">
+        <PropertyRef Name="ContactId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -233,6 +250,10 @@
           <AssociationSet Name="MessageMessageFlag" Association="StorageModel.MessageMessageFlag">
             <End Role="Message" EntitySet="Messages" />
             <End Role="MessageFlag" EntitySet="MessageFlags" />
+          </AssociationSet>
+          <AssociationSet Name="ContactMessage" Association="StorageModel.ContactMessage">
+            <End Role="Contact" EntitySet="Contacts" />
+            <End Role="Message" EntitySet="Messages" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Identity">
@@ -285,6 +306,7 @@
           <NavigationProperty Name="Identity" Relationship="StorageModel.IdentityContact" FromRole="Contact" ToRole="Identity" />
           <Property Type="Int32" Name="IdentityId" Nullable="false" />
           <Property Type="Byte" Name="RequestStatus" Nullable="false" />
+          <NavigationProperty Name="Messages" Relationship="StorageModel.ContactMessage" FromRole="Contact" ToRole="Message" />
         </EntityType>
         <EntityType Name="Mailbox">
           <Key>
@@ -311,6 +333,8 @@
           <Property Type="DateTime" Name="Date" Nullable="false" />
           <Property Type="Int32" Name="Size" Nullable="false" />
           <NavigationProperty Name="MessageFlags" Relationship="StorageModel.MessageMessageFlag" FromRole="Message" ToRole="MessageFlag" />
+          <NavigationProperty Name="Contact" Relationship="StorageModel.ContactMessage" FromRole="Message" ToRole="Contact" />
+          <Property Type="Int32" Name="ContactId" Nullable="false" />
         </EntityType>
         <Association Name="MailboxMessage">
           <End Type="StorageModel.Mailbox" Role="Mailbox" Multiplicity="1" />
@@ -394,6 +418,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="ContactMessage">
+          <End Type="StorageModel.Contact" Role="Contact" Multiplicity="1" />
+          <End Type="StorageModel.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="ContactId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -469,6 +505,7 @@
           <ScalarProperty Name="Subject" ColumnName="Subject" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="Size" ColumnName="Size" />
+          <ScalarProperty Name="ContactId" ColumnName="ContactId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
