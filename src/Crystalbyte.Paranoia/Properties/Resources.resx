@@ -123,6 +123,9 @@
   <data name="AccountTestSuccessMessage" xml:space="preserve">
     <value>Configuration finished successfully.</value>
   </data>
+  <data name="AddContactCommandText" xml:space="preserve">
+    <value>add</value>
+  </data>
   <data name="AddContactEmailDescription" xml:space="preserve">
     <value>The communication request will be sent to the users e-mail address.</value>
   </data>
@@ -144,6 +147,9 @@ Once a mutual communication agreement has been established, messages can be safe
   </data>
   <data name="CancelButtonText" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="ComposeMessageCommandText" xml:space="preserve">
+    <value>compose</value>
   </data>
   <data name="ContactColumnHeaderText" xml:space="preserve">
     <value>Contacts</value>

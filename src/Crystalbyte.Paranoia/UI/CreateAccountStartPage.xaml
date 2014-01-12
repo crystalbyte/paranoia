@@ -63,7 +63,7 @@
                 </TextBlock>
                 <TextBlock Grid.Row="1"
                            Grid.Column="1"
-                           Style="{StaticResource LightTextStyle}"
+                           Style="{StaticResource AppLightTextStyle}"
                            Text="{x:Static properties:Resources.EmailAddressDescription}"
                            TextWrapping="Wrap" />
                 <AdornerDecorator Grid.Row="2">
@@ -84,7 +84,7 @@
                 <TextBlock Grid.Row="3"
                            Grid.Column="1"
                            Margin="0,10,0,0"
-                           Style="{StaticResource LightTextStyle}"
+                           Style="{StaticResource AppLightTextStyle}"
                            Text="{x:Static properties:Resources.PasswordDescription}" />
                 <Grid Grid.Row="4">
                     <AdornerDecorator>

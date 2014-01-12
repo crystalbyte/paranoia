@@ -89,7 +89,12 @@ namespace Crystalbyte.Paranoia.Contexts {
                 RaisePropertyChanging(() => IsActive);
                 _isActive = value;
                 RaisePropertyChanged(() => IsActive);
+                OnIsActiveChanged();
             }
+        }
+
+        private void OnIsActiveChanged() {
+            AppContext.IsHtmlVisible = !IsActive;
         }
 
         [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequiredErrorText")]

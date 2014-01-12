@@ -6,6 +6,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
         x:Name="Window"
         Title="Paranoia"
@@ -82,7 +83,7 @@
                                                            TargetType="ListViewItem"
                                                            d:DataContext="{d:DesignInstance contexts:IdentityContext}">
                                                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                                                        <Setter Property="ToolTip" Value="{Binding Name}" />
+                                                        <Setter Property="ToolTip" Value="{Binding Name, FallbackValue={x:Static system:String.Empty}}" />
                                                     </Style>
                                                 </ListView.ItemContainerStyle>
                                                 <ListView.ItemsPanel>
@@ -117,7 +118,7 @@
                                                            TargetType="ListViewItem"
                                                            d:DataContext="{d:DesignInstance contexts:ImapAccountContext}">
                                                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                                                        <Setter Property="ToolTip" Value="{Binding Name}" />
+                                                        <Setter Property="ToolTip" Value="{Binding Name, FallbackValue={x:Static system:String.Empty}}" />
                                                     </Style>
                                                 </ListView.ItemContainerStyle>
                                                 <ListView.ItemsPanel>
@@ -201,34 +202,30 @@
             </Grid>
         </Border>
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Border>
+            <Border Padding="20">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="20" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="20" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.Row="0"
                             Grid.Column="0"
-                            Margin="20,0,20,0"
+                            Margin="12,0,12,0"
                             BorderBrush="{StaticResource AppDarkTextBrush}"
                             BorderThickness="0">
-                        <TextBlock Margin="12"
-                                   Style="{StaticResource AppTitleTextStyle}"
-                                   Text="{x:Static properties:Resources.ContactColumnHeaderText}" />
+                        <TextBlock Style="{StaticResource AppTitleTextStyle}" Text="{x:Static properties:Resources.ContactColumnHeaderText}" />
                     </Border>
-                    <Border Grid.Row="2"
+                    <Border Grid.Row="1"
                             Grid.Column="0"
-                            Margin="20,0,20,0"
+                            Margin="0,12,0,12"
                             DataContext="{Binding IdentitySelectionSource}">
                         <ListView x:Name="ContactList"
                                   Background="{StaticResource AppWindowBackgroundBrush}"
@@ -240,24 +237,26 @@
                             <ListView.ItemContainerStyle>
                                 <Style BasedOn="{StaticResource BlockListViewItem}" TargetType="ListViewItem">
                                     <Setter Property="Margin" Value="0" />
+                                    <Setter Property="Padding" Value="0" />
                                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                                 </Style>
                             </ListView.ItemContainerStyle>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Padding="12,6,12,6">
+                                    <Border Padding="12,4,12,4">
                                         <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance contexts:ContactContext}">
                                             <Image Width="32"
                                                    Height="32"
                                                    Margin="0,0,6,0"
+                                                   RenderOptions.BitmapScalingMode="HighQuality"
                                                    Source="{Binding GravatarUrl}"
                                                    Stretch="UniformToFill" />
                                             <StackPanel VerticalAlignment="Center">
                                                 <TextBlock FontSize="{StaticResource AppMediumFontSize}"
-                                                           Style="{StaticResource LightTextStyle}"
+                                                           Style="{StaticResource AppLightTextStyle}"
                                                            Text="{Binding Name}" />
                                                 <TextBlock FontSize="{StaticResource AppSmallFontSize}"
-                                                           Style="{StaticResource LightTextStyle}"
+                                                           Style="{StaticResource AppLightTextStyle}"
                                                            Text="{Binding EmailAddress}">
                                                     <TextBlock.Foreground>
                                                         <Binding Mode="TwoWay" Path="IsSelected">
@@ -274,16 +273,34 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </Border>
-                    <Border Grid.Row="0"
-                            Grid.Column="1"
-                            Margin="20,0,20,0">
-                        <TextBlock Margin="12"
-                                   Style="{StaticResource AppTitleTextStyle}"
-                                   Text="{x:Static properties:Resources.MessagesColumnHeaderText}" />
-                    </Border>
                     <Border Grid.Row="2"
-                            Grid.Column="1"
-                            Margin="20,0,20,0"
+                            Grid.Column="0"
+                            Margin="12"
+                            BorderThickness="0">
+                        <ItemsControl ItemsSource="{Binding ContactCommands}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ui:AppBarButton Command="{Binding}"
+                                                     Image="{Binding Image,
+                                                                     Mode=OneTime}"
+                                                     Text="{Binding Text,
+                                                                    Mode=OneTime}"
+                                                     ToolTip="{Binding Text,
+                                                                       Mode=OneTime}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                    <Border Grid.Row="0" Grid.Column="2">
+                        <TextBlock Style="{StaticResource AppTitleTextStyle}" Text="{x:Static properties:Resources.MessagesColumnHeaderText}" />
+                    </Border>
+                    <Border Grid.Row="1"
+                            Grid.Column="2"
                             DataContext="{Binding ContactSelectionSource}">
                         <ListView MinWidth="240"
                                   Background="{StaticResource AppWindowBackgroundBrush}"
@@ -308,10 +325,10 @@
                                                    Stretch="UniformToFill" />
                                             <StackPanel VerticalAlignment="Center">
                                                 <TextBlock FontSize="{StaticResource AppMediumFontSize}"
-                                                           Style="{StaticResource LightTextStyle}"
+                                                           Style="{StaticResource AppLightTextStyle}"
                                                            Text="{Binding Name}" />
                                                 <TextBlock FontSize="{StaticResource AppSmallFontSize}"
-                                                           Style="{StaticResource LightTextStyle}"
+                                                           Style="{StaticResource AppLightTextStyle}"
                                                            Text="{Binding EmailAddress}">
                                                     <TextBlock.Foreground>
                                                         <Binding Mode="TwoWay" Path="IsSelected">
@@ -328,6 +345,11 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </Border>
+                    <ui:HtmlRenderer Grid.Row="1"
+                                     Grid.Column="4"
+                                     Background="Red"
+                                     Visibility="{Binding IsHtmlVisible,
+                                                          Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </Grid>
             </Border>
 
@@ -350,5 +372,6 @@
                                                       Mode=OneWay,
                                                       Converter={StaticResource BooleanToVisibilityConverter}}" />
         </Grid>
+
     </DockPanel>
 </Window>

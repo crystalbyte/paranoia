@@ -17,8 +17,8 @@ namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     /// Interaction logic for ComposeMessageScreen.xaml
     /// </summary>
-    public partial class ComposeMessageScreen : UserControl {
-        public ComposeMessageScreen() {
+    public partial class ComposeMessageView {
+        public ComposeMessageView() {
             InitializeComponent();
         }
     }

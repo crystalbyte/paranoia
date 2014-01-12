@@ -79,6 +79,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to add.
+        /// </summary>
+        public static string AddContactCommandText {
+            get {
+                return ResourceManager.GetString("AddContactCommandText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The communication request will be sent to the users e-mail address..
         /// </summary>
         public static string AddContactEmailDescription {
@@ -139,6 +148,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string CancelButtonText {
             get {
                 return ResourceManager.GetString("CancelButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to compose.
+        /// </summary>
+        public static string ComposeMessageCommandText {
+            get {
+                return ResourceManager.GetString("ComposeMessageCommandText", resourceCulture);
             }
         }
         

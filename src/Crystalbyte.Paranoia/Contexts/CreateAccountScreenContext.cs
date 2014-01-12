@@ -103,15 +103,18 @@ namespace Crystalbyte.Paranoia.Contexts {
             };
 
             try {
-                AppContext.ImapAccounts.Add(new ImapAccountContext(account));    
+                AppContext.ImapAccounts.Add(new ImapAccountContext(account));
+                Task.Factory.StartNew(() => {
+                    LocalStorage.Context.ImapAccounts.Add(account);
+                    LocalStorage.Context.SaveChanges();
+                });
 
-                LocalStorage.Context.ImapAccounts.Add(account);
-                LocalStorage.Context.SaveChanges();
             }
             catch (Exception) {
                 // TODO: Errorlog
                 throw;
-            } finally {
+            }
+            finally {
                 IsActive = false;
             }
         }

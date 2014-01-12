@@ -30,14 +30,8 @@
             R="255" />
         -->
 
-        <Style TargetType="Image">
-            <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
-        </Style>
-
         <commands:NullCommand x:Key="NullCommand" />
-
         <system:String x:Key="GravatarDefaultImageUrl">http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y&amp;d=mm&amp;s=200</system:String>
-
         <SolidColorBrush x:Key="AppWindowBackgroundBrush" Color="#1E1E1E" />
         <SolidColorBrush x:Key="AppControlBrush" Color="#2D2D30" />
         <SolidColorBrush x:Key="AppLightControlBrush" Color="#4D4D4D" />
@@ -55,7 +49,6 @@
         <system:Double x:Key="AppNormalFontSize">12</system:Double>
         <system:Double x:Key="AppSmallFontSize">10</system:Double>
         <system:Double x:Key="AppExtraSmallFontSize">8</system:Double>
-
 
         <Style TargetType="{x:Type ListViewItem}">
             <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -82,6 +75,7 @@
         </ControlTemplate>
 
         <Style x:Key="AppNormalTextStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
             <Setter Property="FontFamily" Value="Segoe UI" />
             <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
         </Style>
@@ -91,7 +85,7 @@
             <Setter Property="Foreground" Value="{StaticResource AppFailureColorBrush}" />
         </Style>
 
-        <Style x:Key="LightTextStyle"
+        <Style x:Key="AppLightTextStyle"
                BasedOn="{StaticResource AppNormalTextStyle}"
                TargetType="{x:Type TextBlock}">
             <Setter Property="FontWeight" Value="Light" />
@@ -246,7 +240,7 @@
         </Style>
 
         <Style x:Key="AppTitleTextStyle"
-               BasedOn="{StaticResource LightTextStyle}"
+               BasedOn="{StaticResource AppLightTextStyle}"
                TargetType="{x:Type TextBlock}">
             <Setter Property="FontSize" Value="{StaticResource AppLargeExtraFontSize}" />
         </Style>
@@ -427,7 +421,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
             <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Background" Value="{StaticResource AppWindowBackgroundBrush}" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="Margin" Value="0" />
             <Setter Property="Template">

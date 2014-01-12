@@ -57,8 +57,7 @@
                       Grid.RowSpan="4"
                       Grid.Column="0"
                       Width="128"
-                      Height="128"
-                      Margin="1,0,21,-0.001">
+                      Height="128">
                     <Border BorderBrush="{StaticResource AppLightControlBrush}" BorderThickness="1">
                         <Image Source="{Binding GravatarUrl, IsAsync=True, FallbackValue={StaticResource GravatarDefaultImageUrl}, TargetNullValue={StaticResource GravatarDefaultImageUrl}}" />
                     </Border>
@@ -67,7 +66,7 @@
                             Grid.Column="1"
                             Margin="0">
                     <TextBlock FontSize="{StaticResource AppNormalFontSize}"
-                               Style="{StaticResource LightTextStyle}"
+                               Style="{StaticResource AppLightTextStyle}"
                                Text="{x:Static properties:Resources.AddContactNameDescription}"
                                TextWrapping="Wrap" />
                     <AdornerDecorator>
@@ -87,7 +86,7 @@
                     </AdornerDecorator>
                     <TextBlock FontSize="{StaticResource AppLargeFontSize}"
                                Foreground="{DynamicResource AppLightTextBrush}"
-                               Style="{StaticResource LightTextStyle}"
+                               Style="{StaticResource AppLightTextStyle}"
                                TextWrapping="Wrap">
                         <Run FontSize="{StaticResource AppNormalFontSize}" Text="{x:Static properties:Resources.AddContactEmailDescription}" />
                     </TextBlock>

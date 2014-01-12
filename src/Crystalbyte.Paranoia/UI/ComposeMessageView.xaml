@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Crystalbyte.Paranoia.UI.ComposeMessageScreen"
+﻿<UserControl x:Class="Crystalbyte.Paranoia.UI.ComposeMessageView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:contexts="clr-namespace:Crystalbyte.Paranoia.Contexts"
@@ -16,6 +16,10 @@
         <TextBox Grid.Row="0"
                  AcceptsReturn="False"
                  Text="{Binding Subject,
+                                Mode=TwoWay}" />
+        <TextBox Grid.Row="1"
+                 AcceptsReturn="True"
+                 Text="{Binding Content,
                                 Mode=TwoWay}" />
 
     </Grid>

@@ -6,13 +6,15 @@ using System.Net.Mail;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using Crystalbyte.Paranoia.Contexts;
+using Crystalbyte.Paranoia.Properties;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.Commands {
     [Export, Shared]
-    public sealed class ComposeMessageCommand : ICommand {
+    public sealed class ComposeMessageCommand : IAppBarCommand {
 
         #region Import Declarations
 
@@ -66,6 +68,21 @@ namespace Crystalbyte.Paranoia.Commands {
             if (handler != null)
                 handler(this, e);
         }
+
+        #endregion
+
+        #region Implementation of IAppBarCommand
+
+        public string Text {
+            get { return Resources.ComposeMessageCommandText; }
+        }
+
+        public string Category {
+            get { return AppBarCategory.Messages; }
+        }
+
+        public ImageSource Image { get; private set; }
+        public int Position { get; set; }
 
         #endregion
     }

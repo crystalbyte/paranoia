@@ -89,12 +89,15 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppBarCategory.cs" />
+    <Compile Include="Commands\AddContactCommand.cs" />
     <Compile Include="ContactRequestStatus.cs" />
     <Compile Include="ContactSelectionSource.cs" />
     <Compile Include="Contexts\AccountTestContext.cs" />
@@ -108,6 +111,7 @@
     <Compile Include="Converters\DomainToHostLogoConverter.cs" />
     <Compile Include="Converters\ExceptionFormatter.cs" />
     <Compile Include="Gravatar.cs" />
+    <Compile Include="Commands\IAppBarCommand.cs" />
     <Compile Include="IdentitySelectionSource.cs" />
     <Compile Include="Models\Contact.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -124,12 +128,15 @@
     <Compile Include="Models\MessageFlag.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Pack.cs" />
     <Compile Include="StreamExtensions.cs" />
+    <Compile Include="UI\AppBarButton.cs" />
+    <Compile Include="UI\HtmlRenderer.cs" />
     <Compile Include="UI\AddContactScreen.xaml.cs">
       <DependentUpon>AddContactScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\ComposeMessageScreen.xaml.cs">
-      <DependentUpon>ComposeMessageScreen.xaml</DependentUpon>
+    <Compile Include="UI\ComposeMessageView.xaml.cs">
+      <DependentUpon>ComposeMessageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\CreateAccountTestingPage.xaml.cs">
       <DependentUpon>CreateAccountTestingPage.xaml</DependentUpon>
@@ -217,7 +224,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\AppBarButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\HtmlRenderer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -225,7 +240,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\ComposeMessageScreen.xaml">
+    <Page Include="UI\ComposeMessageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -305,6 +320,10 @@
       <Project>{fc115aed-c02e-45a6-80eb-711a1ccf14e3}</Project>
       <Name>Crystalbyte.Paranoia.Cryptography</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Crystalbyte.Paranoia.Html\Crystalbyte.Paranoia.Html.csproj">
+      <Project>{0ea10966-3e3f-4035-b4b4-2ca87d9def5f}</Project>
+      <Name>Crystalbyte.Paranoia.Html</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Crystalbyte.Paranoia.Messaging\Crystalbyte.Paranoia.Messaging.csproj">
       <Project>{0DC46336-8D08-4C35-8F65-1D1CF2FD0E11}</Project>
       <Name>Crystalbyte.Paranoia.Messaging</Name>
@@ -322,9 +341,6 @@
   <ItemGroup>
     <Resource Include="Assets\maximize.png" />
     <Resource Include="Assets\minimize.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\compose.message.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\delete.png" />
@@ -369,6 +385,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\googlemail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\links.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\mail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\add.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

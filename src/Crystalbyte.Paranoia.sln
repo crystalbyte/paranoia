@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Messag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Cryptography.Tests", "Crystalbyte.Paranoia.Cryptography.Tests\Crystalbyte.Paranoia.Cryptography.Tests.csproj", "{66E07860-ACA4-494D-9C6B-759FDEAB12DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Html", "Crystalbyte.Paranoia.Html\Crystalbyte.Paranoia.Html.csproj", "{0EA10966-3E3F-4035-B4B4-2CA87D9DEF5F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,16 @@ Global
 		{66E07860-ACA4-494D-9C6B-759FDEAB12DE}.Retail|Any CPU.Build.0 = Release|Any CPU
 		{66E07860-ACA4-494D-9C6B-759FDEAB12DE}.Trial|Any CPU.ActiveCfg = Release|Any CPU
 		{66E07860-ACA4-494D-9C6B-759FDEAB12DE}.Trial|Any CPU.Build.0 = Release|Any CPU
+		{0EA10966-3E3F-4035-B4B4-2CA87D9DEF5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EA10966-3E3F-4035-B4B4-2CA87D9DEF5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EA10966-3E3F-4035-B4B4-2CA87D9DEF5F}.MailSystem Dev|Any CPU.ActiveCfg = Release|Any CPU
+		{0EA10966-3E3F-4035-B4B4-2CA87D9DEF5F}.MailSystem Dev|Any CPU.Build.0 = Release|Any CPU
+		{0EA10966-3E3F-4035-B4B4-2CA87D9DEF5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EA10966-3E3F-4035-B4B4-2CA87D9DEF5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EA10966-3E3F-4035-B4B4-2CA87D9DEF5F}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{0EA10966-3E3F-4035-B4B4-2CA87D9DEF5F}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{0EA10966-3E3F-4035-B4B4-2CA87D9DEF5F}.Trial|Any CPU.ActiveCfg = Release|Any CPU
+		{0EA10966-3E3F-4035-B4B4-2CA87D9DEF5F}.Trial|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

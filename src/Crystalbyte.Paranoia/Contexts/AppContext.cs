@@ -27,6 +27,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         private readonly ObservableCollection<IdentityContext> _identities;
         private readonly ObservableCollection<ImapAccountContext> _imapAccounts;
         private readonly ObservableCollection<ContactContext> _contacts;
+        private bool _isHtmlVisible;
 
         #endregion
 
@@ -51,6 +52,9 @@ namespace Crystalbyte.Paranoia.Contexts {
         public LocalStorage LocalStorage { get; set; }
 
         [Import]
+        public SettingsContext SettingsContext { get; set; }
+
+        [Import]
         public CreateIdentityScreenContext CreateIdentityScreenContext { get; set; }
 
         [Import]
@@ -58,9 +62,6 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         [Import]
         public AddContactScreenContext AddContactScreenContext { get; set; }
-
-        [Import]
-        public SettingsContext SettingsContext { get; set; }
 
         [Import]
         public IdentitySelectionSource IdentitySelectionSource { get; set; }
@@ -74,12 +75,34 @@ namespace Crystalbyte.Paranoia.Contexts {
         [Import]
         public ComposeMessageScreenContext ComposeMessageScreenContext { get; set; }
 
+        [ImportMany]
+        public IEnumerable<IAppBarCommand> AppBarCommands { get; set; }
+
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
 
         }
 
         #endregion
+
+        public IEnumerable<IAppBarCommand> ContactCommands { 
+            get { 
+                return AppBarCommands.Where(x => x.Category == AppBarCategory.Contacts).ToArray(); 
+            }
+        }
+
+        public bool IsHtmlVisible {
+            get { return _isHtmlVisible; }
+            set {
+                if (_isHtmlVisible == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => IsHtmlVisible);
+                _isHtmlVisible = value;
+                RaisePropertyChanged(() => IsHtmlVisible);
+            }
+        }
 
         public ICommand CreateAccountCommand { get; private set; }
         public ICommand CreateIdentityCommand { get; private set; }
