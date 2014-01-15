@@ -90,15 +90,6 @@ namespace Crystalbyte.Paranoia.UI {
         public static readonly DependencyProperty ImageProperty =
             DependencyProperty.Register("Image", typeof(ImageSource), typeof(AppBarButton), new PropertyMetadata(null));
 
-        public string Text {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(AppBarButton), new PropertyMetadata(string.Empty));
-
         public ICommand Command {
             get { return (ICommand)GetValue(CommandProperty); }
             set { SetValue(CommandProperty, value); }
@@ -118,9 +109,12 @@ namespace Crystalbyte.Paranoia.UI {
                 button.Decouple(e.OldValue as ICommand);    
             }
 
-            if (e.NewValue != null) {
-                button.Couple(e.NewValue as ICommand);
-            }
+            var command = e.NewValue as ICommand;
+            if (command == null) 
+                return;
+
+            button.Couple(command);
+            button.IsEnabled = command.CanExecute(null);
         }
 
         private void Couple(ICommand command) {

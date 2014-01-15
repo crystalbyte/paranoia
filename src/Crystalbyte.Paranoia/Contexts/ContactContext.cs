@@ -32,6 +32,10 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         #endregion
 
+        public Contact Model {
+            get { return _contact; }
+        }
+
         public ObservableCollection<ImapMessageContext> Messages {
             get { return _messages; }
         }

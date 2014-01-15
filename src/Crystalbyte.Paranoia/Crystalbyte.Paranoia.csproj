@@ -98,6 +98,8 @@
     </ApplicationDefinition>
     <Compile Include="AppBarCategory.cs" />
     <Compile Include="Commands\AddContactCommand.cs" />
+    <Compile Include="Commands\DeleteContactCommand.cs" />
+    <Compile Include="Commands\InviteContactCommand.cs" />
     <Compile Include="ContactRequestStatus.cs" />
     <Compile Include="ContactSelectionSource.cs" />
     <Compile Include="Contexts\AccountTestContext.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="Gravatar.cs" />
     <Compile Include="Commands\IAppBarCommand.cs" />
     <Compile Include="IdentitySelectionSource.cs" />
+    <Compile Include="ImapAccountSelectionSource.cs" />
     <Compile Include="Models\Contact.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -233,8 +236,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\HtmlRenderer.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\AddContactScreen.xaml">
       <SubType>Designer</SubType>
@@ -320,10 +323,6 @@
       <Project>{fc115aed-c02e-45a6-80eb-711a1ccf14e3}</Project>
       <Name>Crystalbyte.Paranoia.Cryptography</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Crystalbyte.Paranoia.Html\Crystalbyte.Paranoia.Html.csproj">
-      <Project>{0ea10966-3e3f-4035-b4b4-2ca87d9def5f}</Project>
-      <Name>Crystalbyte.Paranoia.Html</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Crystalbyte.Paranoia.Messaging\Crystalbyte.Paranoia.Messaging.csproj">
       <Project>{0DC46336-8D08-4C35-8F65-1D1CF2FD0E11}</Project>
       <Name>Crystalbyte.Paranoia.Messaging</Name>
@@ -344,7 +343,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\delete.png" />
-    <Resource Include="Assets\delete.red.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Data\Storage.sdf">
@@ -390,10 +388,10 @@
     <Resource Include="Resources\links.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\mail.png" />
+    <Resource Include="Assets\add.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\add.png" />
+    <Resource Include="Assets\mail.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

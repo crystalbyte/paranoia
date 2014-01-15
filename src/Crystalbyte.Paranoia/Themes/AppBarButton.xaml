@@ -13,15 +13,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <DockPanel LastChildFill="True">
-                            <TextBlock Margin="0"
-                                       HorizontalAlignment="Center"
-                                       Background="{TemplateBinding Background}"
-                                       DockPanel.Dock="Bottom"
-                                       Padding="0"
-                                       Style="{DynamicResource AppLightTextStyle}"
-                                       Text="{TemplateBinding Text}"
-                                       TextTrimming="CharacterEllipsis" />
-                            <Grid>
+                            <Grid Margin="2">
                                 <Ellipse x:Name="MouseOverIndicator"
                                          Width="24"
                                          Height="24"
@@ -37,6 +29,13 @@
                                          VerticalAlignment="Center"
                                          Fill="{DynamicResource AppAccentBrush}"
                                          Stroke="{DynamicResource AppAccentBrush}" />
+                                <Ellipse Width="24"
+                                         Height="24"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Fill="Transparent"
+                                         Stroke="White"
+                                         StrokeThickness="1" />
                                 <Image Width="24"
                                        Height="24"
                                        HorizontalAlignment="Center"

@@ -123,8 +123,8 @@
   <data name="AccountTestSuccessMessage" xml:space="preserve">
     <value>Configuration finished successfully.</value>
   </data>
-  <data name="AddContactCommandText" xml:space="preserve">
-    <value>add</value>
+  <data name="AddContactCommandTooltip" xml:space="preserve">
+    <value>add contact</value>
   </data>
   <data name="AddContactEmailDescription" xml:space="preserve">
     <value>The communication request will be sent to the users e-mail address.</value>
@@ -148,8 +148,8 @@ Once a mutual communication agreement has been established, messages can be safe
   <data name="CancelButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="ComposeMessageCommandText" xml:space="preserve">
-    <value>compose</value>
+  <data name="ComposeMessageCommandToolTip" xml:space="preserve">
+    <value>compose message</value>
   </data>
   <data name="ContactColumnHeaderText" xml:space="preserve">
     <value>Contacts</value>
@@ -177,6 +177,9 @@ If any of the tests fail, you may need to navigate back and correct any mistakes
   <data name="CreateIdentityTitle" xml:space="preserve">
     <value>Create New Identity</value>
     <comment>IdentityScreen -&gt;Run</comment>
+  </data>
+  <data name="DeleteContactCommandToolTip" xml:space="preserve">
+    <value>delete contact</value>
   </data>
   <data name="EmailAddressDescription" xml:space="preserve">
     <value>Please enter the e-mail address associated with your e-mail account.</value>

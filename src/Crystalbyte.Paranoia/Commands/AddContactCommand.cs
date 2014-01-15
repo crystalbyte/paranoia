@@ -50,8 +50,8 @@ namespace Crystalbyte.Paranoia.Commands {
 
         #region Implementation of IAppBarCommand
 
-        public string Text {
-            get { return Resources.AddContactCommandText; }
+        public string Tooltip {
+            get { return Resources.AddContactCommandTooltip; }
         }
 
         public ImageSource Image {
@@ -67,7 +67,7 @@ namespace Crystalbyte.Paranoia.Commands {
         }
 
         public int Position { 
-            get { return 0; }
+            get { return 5; }
         }
 
         public string Category {

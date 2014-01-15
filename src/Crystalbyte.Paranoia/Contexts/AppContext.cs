@@ -21,12 +21,12 @@ using Crystalbyte.Paranoia.Models;
 namespace Crystalbyte.Paranoia.Contexts {
     [Export, Shared]
     public sealed class AppContext : NotificationObject {
+
         #region Private Fields
 
         private bool _isSyncing;
         private readonly ObservableCollection<IdentityContext> _identities;
         private readonly ObservableCollection<ImapAccountContext> _imapAccounts;
-        private readonly ObservableCollection<ContactContext> _contacts;
         private bool _isHtmlVisible;
 
         #endregion
@@ -36,7 +36,6 @@ namespace Crystalbyte.Paranoia.Contexts {
         public AppContext() {
             _identities = new ObservableCollection<IdentityContext>();
             _imapAccounts = new ObservableCollection<ImapAccountContext>();
-            _contacts = new ObservableCollection<ContactContext>();
 
             CreateAccountCommand = new RelayCommand(OnCreateAccountCommandExecuted);
             CreateIdentityCommand = new RelayCommand(OnCreateIdentityCommandExecuted);
@@ -47,6 +46,12 @@ namespace Crystalbyte.Paranoia.Contexts {
         #endregion
 
         #region Import Declarations
+
+        [Import]
+        public DeleteContactCommand DeleteContactCommand { get; set; }
+
+        [Import]
+        public InviteContactCommand InviteContactCommand { get; set; }
 
         [Import]
         public LocalStorage LocalStorage { get; set; }
@@ -65,6 +70,9 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         [Import]
         public IdentitySelectionSource IdentitySelectionSource { get; set; }
+
+        [Import]
+        public ImapAccountSelectionSource ImapAccountSelectionSource { get; set; }
 
         [Import]
         public ContactSelectionSource ContactSelectionSource { get; set; }
@@ -87,7 +95,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public IEnumerable<IAppBarCommand> ContactCommands { 
             get { 
-                return AppBarCommands.Where(x => x.Category == AppBarCategory.Contacts).ToArray(); 
+                return AppBarCommands.Where(x => x.Category == AppBarCategory.Contacts).OrderBy(x => x.Position).ToArray(); 
             }
         }
 
@@ -153,10 +161,6 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public IList<ImapAccountContext> ImapAccounts {
             get { return _imapAccounts; }
-        }
-
-        public IList<ContactContext> Contacts {
-            get { return _contacts; }
         }
 
         public void SyncAsync() {

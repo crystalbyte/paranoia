@@ -95,6 +95,8 @@
     <Compile Include="RemoteCertificateValidationFailedEventArgs.cs" />
     <Compile Include="SecurityPolicy.cs" />
     <Compile Include="SequenceIdentifier.cs" />
+    <Compile Include="SmtpAuthenticator.cs" />
+    <Compile Include="SmtpConnection.cs" />
     <Compile Include="SmtpCredentials.cs" />
     <Compile Include="SmtpSession.cs" />
     <Compile Include="StringExtensions.cs" />

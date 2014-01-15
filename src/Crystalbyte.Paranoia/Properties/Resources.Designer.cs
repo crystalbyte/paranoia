@@ -79,11 +79,11 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to add.
+        ///   Looks up a localized string similar to add contact.
         /// </summary>
-        public static string AddContactCommandText {
+        public static string AddContactCommandTooltip {
             get {
-                return ResourceManager.GetString("AddContactCommandText", resourceCulture);
+                return ResourceManager.GetString("AddContactCommandTooltip", resourceCulture);
             }
         }
         
@@ -152,11 +152,11 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to compose.
+        ///   Looks up a localized string similar to compose message.
         /// </summary>
-        public static string ComposeMessageCommandText {
+        public static string ComposeMessageCommandToolTip {
             get {
-                return ResourceManager.GetString("ComposeMessageCommandText", resourceCulture);
+                return ResourceManager.GetString("ComposeMessageCommandToolTip", resourceCulture);
             }
         }
         
@@ -230,6 +230,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string CreateIdentityTitle {
             get {
                 return ResourceManager.GetString("CreateIdentityTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to delete contact.
+        /// </summary>
+        public static string DeleteContactCommandToolTip {
+            get {
+                return ResourceManager.GetString("DeleteContactCommandToolTip", resourceCulture);
             }
         }
         

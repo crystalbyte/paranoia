@@ -147,12 +147,12 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnIdentitySelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var identity = e.AddedItems.OfType<IdentityContext>().FirstOrDefault();
-            if (identity == null) {
+            var context = DataContext as AppContext;
+            if (context == null) {
                 return;
             }
 
-            App.AppContext.IdentitySelectionSource.Current = identity;
+            context.IdentitySelectionSource.Current = e.AddedItems.OfType<IdentityContext>().FirstOrDefault();
         }
 
         private void OnContactSelectionChanged(object sender, SelectionChangedEventArgs e) { 
@@ -162,6 +162,15 @@ namespace Crystalbyte.Paranoia {
             }
 
             context.ContactSelectionSource.Current = e.AddedItems.OfType<ContactContext>().FirstOrDefault();
+        }
+
+        private void OnListViewSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            var context = DataContext as AppContext;
+            if (context == null) {
+                return;
+            }
+
+            context.ImapAccountSelectionSource.Current = e.AddedItems.OfType<ImapAccountContext>().FirstOrDefault();
         }
     }
 }

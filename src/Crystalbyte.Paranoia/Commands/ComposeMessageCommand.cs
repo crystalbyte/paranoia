@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.Properties;
 
@@ -14,7 +15,14 @@ using Crystalbyte.Paranoia.Properties;
 
 namespace Crystalbyte.Paranoia.Commands {
     [Export, Shared]
+    [Export(typeof(IAppBarCommand))]
     public sealed class ComposeMessageCommand : IAppBarCommand {
+
+        #region Private Fields
+
+        private BitmapImage _image;
+
+        #endregion
 
         #region Import Declarations
 
@@ -23,7 +31,7 @@ namespace Crystalbyte.Paranoia.Commands {
 
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
-            ContactSelectionSource.SelectionChanged += 
+            ContactSelectionSource.SelectionChanged +=
                 (sender, e) => OnCanExecuteChanged(EventArgs.Empty);
         }
 
@@ -73,16 +81,29 @@ namespace Crystalbyte.Paranoia.Commands {
 
         #region Implementation of IAppBarCommand
 
-        public string Text {
-            get { return Resources.ComposeMessageCommandText; }
+        public string Tooltip {
+            get { return Resources.ComposeMessageCommandToolTip; }
         }
 
         public string Category {
-            get { return AppBarCategory.Messages; }
+            get { return AppBarCategory.Contacts; }
         }
 
-        public ImageSource Image { get; private set; }
-        public int Position { get; set; }
+        public ImageSource Image {
+            get {
+                if (_image == null) {
+                    var uri =
+                        new Uri(string.Format(Pack.Application, typeof(AddContactCommand).Assembly.FullName,
+                                              "Assets/mail.png"), UriKind.Absolute);
+                    _image = new BitmapImage(uri);
+                }
+                return _image;
+            }
+        }
+
+        public int Position {
+            get { return 0; }
+        }
 
         #endregion
     }

@@ -112,7 +112,9 @@
                                                     Style="{StaticResource CreateIdentityButtonStyle}" />
                                         </StackPanel>
                                         <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                            <ListView ItemsSource="{Binding ImapAccounts}" Style="{StaticResource AvatarListViewStyle}">
+                                            <ListView ItemsSource="{Binding ImapAccounts}"
+                                                      SelectionChanged="OnListViewSelectionChanged"
+                                                      Style="{StaticResource AvatarListViewStyle}">
                                                 <ListView.ItemContainerStyle>
                                                     <Style BasedOn="{StaticResource AvatarListViewItemStyle}"
                                                            TargetType="ListViewItem"
@@ -171,7 +173,10 @@
                     Command="{Binding AddContactCommand,
                                       FallbackValue={StaticResource NullCommand}}"
                     Modifiers="Control" />
-        <KeyBinding Key="R" Modifiers="Control" />
+        <KeyBinding Key="I"
+                    Command="{Binding InviteContactCommand}"
+                    Modifiers="Control" />
+        <KeyBinding Key="Delete" Command="{Binding DeleteContactCommand}" />
     </Window.InputBindings>
     <DockPanel Background="{StaticResource AppWindowBackgroundBrush}">
         <Border Background="{StaticResource AppControlBrush}" DockPanel.Dock="Bottom">
@@ -206,8 +211,8 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -224,6 +229,27 @@
                         <TextBlock Style="{StaticResource AppTitleTextStyle}" Text="{x:Static properties:Resources.ContactColumnHeaderText}" />
                     </Border>
                     <Border Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="12"
+                            BorderThickness="0">
+                        <ItemsControl ItemsSource="{Binding ContactCommands}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ui:AppBarButton Command="{Binding}"
+                                                     Image="{Binding Image,
+                                                                     Mode=OneTime}"
+                                                     ToolTip="{Binding Tooltip,
+                                                                       Mode=OneTime}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                    <Border Grid.Row="2"
                             Grid.Column="0"
                             Margin="0,12,0,12"
                             DataContext="{Binding IdentitySelectionSource}">
@@ -273,29 +299,7 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </Border>
-                    <Border Grid.Row="2"
-                            Grid.Column="0"
-                            Margin="12"
-                            BorderThickness="0">
-                        <ItemsControl ItemsSource="{Binding ContactCommands}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <ui:AppBarButton Command="{Binding}"
-                                                     Image="{Binding Image,
-                                                                     Mode=OneTime}"
-                                                     Text="{Binding Text,
-                                                                    Mode=OneTime}"
-                                                     ToolTip="{Binding Text,
-                                                                       Mode=OneTime}" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </Border>
+
                     <Border Grid.Row="0" Grid.Column="2">
                         <TextBlock Style="{StaticResource AppTitleTextStyle}" Text="{x:Static properties:Resources.MessagesColumnHeaderText}" />
                     </Border>

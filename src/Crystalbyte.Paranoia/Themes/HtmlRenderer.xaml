@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:html="clr-namespace:Crystalbyte.Paranoia.Html;assembly=Crystalbyte.Paranoia.Html"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
     <Style TargetType="{x:Type ui:HtmlRenderer}">
         <Setter Property="Background" Value="AliceBlue" />
@@ -9,11 +8,7 @@
                 <ControlTemplate TargetType="{x:Type ui:HtmlRenderer}">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                        <WindowsFormsHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <html:HtmlPanel Text="Hi I'm HTML" />
-                        </WindowsFormsHost>
-                    </Border>
+                            BorderThickness="{TemplateBinding BorderThickness}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
