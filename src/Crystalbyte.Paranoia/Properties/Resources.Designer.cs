@@ -378,6 +378,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} invites you to the Paranoia project..
+        /// </summary>
+        public static string InvitationSubjectTemplate {
+            get {
+                return ResourceManager.GetString("InvitationSubjectTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The text must not exceed 64 characters..
         /// </summary>
         public static string MaxStringLength64ErrorText {

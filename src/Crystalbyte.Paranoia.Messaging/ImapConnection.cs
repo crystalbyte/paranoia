@@ -76,10 +76,10 @@ namespace Crystalbyte.Paranoia.Messaging {
             return false;
         }
 
-        internal async Task<ResponseLine> ReadAsync() {
+        internal async Task<ImapResponseLine> ReadAsync() {
             var line = await _reader.ReadLineAsync();
             Debug.WriteLine(line);
-            return new ResponseLine(line);
+            return new ImapResponseLine(line);
         }
 
         public async Task<ImapAuthenticator> ConnectAsync(string host, int port) {
@@ -99,7 +99,7 @@ namespace Crystalbyte.Paranoia.Messaging {
             // Use explicit encryption (TLS).
             Capabilities = await RequestCapabilitiesAsync();
             if (Security == SecurityPolicy.Explicit) {
-                if (Capabilities.Contains(Commands.StartTls)) {
+                if (Capabilities.Contains(ImapCommands.StartTls)) {
                     var response = await IssueTlsCommandAsync();
                     if (response.IsOk) {
                         await NegotiateEncryptionProtocolsAsync(host);
@@ -124,7 +124,7 @@ namespace Crystalbyte.Paranoia.Messaging {
 
         private async Task<HashSet<string>> RequestCapabilitiesAsync() {
             await ReadAsync();
-            var id = await WriteCommandAsync(Commands.Capability);
+            var id = await WriteCommandAsync(ImapCommands.Capability);
             return await ReadCapabilitiesAsync(id);
         }
 
@@ -136,7 +136,7 @@ namespace Crystalbyte.Paranoia.Messaging {
                     break;
                 }
 
-                foreach (var value in line.Text.Split(' ').Where(x => x != "*" && x != Commands.Capability)) {
+                foreach (var value in line.Text.Split(' ').Where(x => x != "*" && x != ImapCommands.Capability)) {
                     set.Add(value);
                 }
             }
@@ -147,8 +147,8 @@ namespace Crystalbyte.Paranoia.Messaging {
             await _writer.WriteLineAsync(command);
         }
 
-        private async Task<ResponseLine> IssueTlsCommandAsync() {
-            await WriteAsync(Commands.StartTls);
+        private async Task<ImapResponseLine> IssueTlsCommandAsync() {
+            await WriteAsync(ImapCommands.StartTls);
             return await ReadAsync();
         }
 

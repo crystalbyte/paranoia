@@ -228,6 +228,9 @@ If any of the tests fail, you may need to navigate back and correct any mistakes
     <value>The value entered is not a valid email address.</value>
     <comment>IdentityScreenContext -&gt; EmailAddress</comment>
   </data>
+  <data name="InvitationSubjectTemplate" xml:space="preserve">
+    <value>{0} invites you to the Paranoia project.</value>
+  </data>
   <data name="MaxStringLength64ErrorText" xml:space="preserve">
     <value>The text must not exceed 64 characters.</value>
     <comment>IdentityScreenContext -&gt; Name</comment>

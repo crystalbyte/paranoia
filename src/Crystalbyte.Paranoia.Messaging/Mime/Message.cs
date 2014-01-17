@@ -60,7 +60,7 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
         /// </summary>
         /// <param name="rawMessageContent"> The byte array which is the message contents to parse </param>
         public Message(byte[] rawMessageContent)
-            : this(rawMessageContent, true) {}
+            : this(rawMessageContent, true) { }
 
         /// <summary>
         ///   Constructs a message from a byte array.<br />
@@ -122,23 +122,22 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
         /// <returns> A <see cref="MailMessage" /> object that contains the same information that this Message does </returns>
         public MailMessage ToMailMessage() {
             // Construct an empty MailMessage to which we will gradually build up to look like the current Message object (this)
-            var message = new MailMessage();
-
-            message.Subject = Headers.Subject;
+            var message = new MailMessage {
+                Subject = Headers.Subject,
+                SubjectEncoding = Encoding.UTF8
+            };
 
             // We here set the encoding to be UTF-8
             // We cannot determine what the encoding of the subject was at this point.
             // But since we know that strings in .NET is stored in UTF, we can
             // use UTF-8 to decode the subject into bytes
-            message.SubjectEncoding = Encoding.UTF8;
 
             // The HTML version should take precedent over the plain text if it is available
             var preferredVersion = FindFirstHtmlVersion();
             if (preferredVersion != null) {
                 // Make sure that the IsBodyHtml property is being set correctly for our content
                 message.IsBodyHtml = true;
-            }
-            else {
+            } else {
                 // otherwise use the first plain text version as the body, if it exists
                 preferredVersion = FindFirstPlainTextVersion();
             }
@@ -157,9 +156,7 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
                     continue;
 
                 var stream = new MemoryStream(textVersion.Body);
-                var alternative = new AlternateView(stream);
-                alternative.ContentId = textVersion.ContentId;
-                alternative.ContentType = textVersion.ContentType;
+                var alternative = new AlternateView(stream) { ContentId = textVersion.ContentId, ContentType = textVersion.ContentType };
                 message.AlternateViews.Add(alternative);
             }
 
@@ -167,8 +164,9 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
             IEnumerable<MessagePart> attachments = FindAllAttachments();
             foreach (var attachmentMessagePart in attachments) {
                 var stream = new MemoryStream(attachmentMessagePart.Body);
-                var attachment = new Attachment(stream, attachmentMessagePart.ContentType);
-                attachment.ContentId = attachmentMessagePart.ContentId;
+                var attachment = new Attachment(stream, attachmentMessagePart.ContentType) {
+                    ContentId = attachmentMessagePart.ContentId
+                };
                 message.Attachments.Add(attachment);
             }
 
@@ -349,6 +347,11 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
             }
         }
 
+        public static Message Load(MailMessage message) {
+            var mime = message.ToMime();
+            var bytes = Encoding.UTF8.GetBytes(mime);
+            return Load(new MemoryStream(bytes));
+        }
 
         /// <summary>
         ///   Loads a <see cref="Message" /> from a <see cref="Stream" /> containing a raw email.

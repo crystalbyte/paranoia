@@ -5,8 +5,8 @@ using System;
 #endregion
 
 namespace Crystalbyte.Paranoia.Messaging {
-    internal struct ResponseLine : IEquatable<ResponseLine> {
-        public ResponseLine(string text)
+    internal struct ImapResponseLine : IEquatable<ImapResponseLine> {
+        public ImapResponseLine(string text)
             : this() {
             Text = text;
         }
@@ -59,7 +59,7 @@ namespace Crystalbyte.Paranoia.Messaging {
 
         #region Implementation of IEquatable<ResponseLine>
 
-        public bool Equals(ResponseLine other) {
+        public bool Equals(ImapResponseLine other) {
             return Text == other.Text;
         }
 

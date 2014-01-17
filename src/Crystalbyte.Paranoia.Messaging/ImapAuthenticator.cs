@@ -36,7 +36,7 @@ namespace Crystalbyte.Paranoia.Messaging {
             var hash = Convert.ToBase64String(bytes);
 
             string commandId;
-            ResponseLine line;
+            ImapResponseLine line;
 
             // Speed up authentication by using the initial client response extension.
             // http://tools.ietf.org/html/rfc4959

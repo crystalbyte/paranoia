@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Security;
@@ -26,6 +27,7 @@ namespace Crystalbyte.Paranoia.Messaging {
         public SmtpConnection() {
             Security = SecurityPolicy.Implicit;
             Certificates = new X509Certificate2Collection();
+            Capabilities = new HashSet<string>();
         }
 
         #endregion
@@ -85,13 +87,14 @@ namespace Crystalbyte.Paranoia.Messaging {
             if (Security == SecurityPolicy.Implicit) {
                 await NegotiateEncryptionProtocolsAsync(host);
                 Capabilities = await RequestCapabilitiesAsync();
-                return new SmtpAuthenticator();
+                return new SmtpAuthenticator(this);
             }
 
             // Use explicit encryption (TLS).
             Capabilities = await RequestCapabilitiesAsync();
             if (Security == SecurityPolicy.Explicit) {
-                if (Capabilities.Contains(Commands.StartTls)) {
+                throw new NotImplementedException();
+                if (Capabilities.Contains(ImapCommands.StartTls)) {
                     var response = await IssueTlsCommandAsync();
                     //if (response.IsOk) {
                     //    await NegotiateEncryptionProtocolsAsync(host);
@@ -111,8 +114,47 @@ namespace Crystalbyte.Paranoia.Messaging {
             throw new NotImplementedException();
         }
 
-        private Task<HashSet<string>> RequestCapabilitiesAsync() {
-            throw new NotImplementedException();
+        internal async Task<SmtpResponseLine> ReadAsync() {
+            var line = await _reader.ReadLineAsync();
+            Debug.WriteLine(line);
+            return new SmtpResponseLine(line);
+        }
+
+        internal async Task WriteAsync(string command) {
+            Debug.WriteLine(command);
+            await _writer.WriteLineAsync(command);
+        }
+
+        private async Task<HashSet<string>> RequestCapabilitiesAsync() {
+            while (true) {
+                var line = await ReadAsync();
+                if (line.IsTerminated) {
+                    break;
+                }
+            }
+
+            await WriteAsync(string.Format("{0} {1}", SmtpCommands.Ehlo, Environment.MachineName));
+            var response = await ReadAsync();
+            if (response.IsError) {
+                // Fallback to HELO command, EHLO probably not supported.
+                await WriteAsync(string.Format("{0} {1}", SmtpCommands.Helo, Environment.MachineName));
+            }
+
+            return await ReadCapabilitiesAsync();
+        }
+
+        private async Task<HashSet<string>> ReadCapabilitiesAsync() {
+            var set = new HashSet<string>();
+            while (true) {
+                var line = await ReadAsync();
+                if (line.IsOk) {
+                    set.Add(line.Content);
+                }
+                if (line.IsTerminated) {
+                    break;
+                }
+            }
+            return set;
         }
 
         private async Task NegotiateEncryptionProtocolsAsync(string host) {
@@ -127,14 +169,14 @@ namespace Crystalbyte.Paranoia.Messaging {
         }
 
         private void OnEncryptionProtocolNegotiated(SslProtocols protocol, int strength) {
-            
+
         }
 
         private bool OnRemoteCertificateValidationCallback(object sender, X509Certificate cert, X509Chain chain,
                                                            SslPolicyErrors error) {
             return error == SslPolicyErrors.None || OnRemoteCertificateValidationFailed(cert, chain, error);
         }
-     
+
         public void Dispose() {
             throw new NotImplementedException();
         }
