@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server Compact Edition
 -- --------------------------------------------------
--- Date Created: 01/10/2014 17:20:12
+-- Date Created: 01/18/2014 19:23:44
 -- Generated from EDMX file: C:\Users\Alexander\Documents\GitHub\paranoia\src\Crystalbyte.Paranoia\Models\Model.edmx
 -- --------------------------------------------------
 
@@ -11,19 +11,6 @@
 -- Dropping existing FOREIGN KEY constraints
 -- NOTE: if the constraint does not exist, an ignorable error will be reported.
 -- --------------------------------------------------
-
-    ALTER TABLE [Messages] DROP CONSTRAINT [FK_MailboxMessage];
-GO
-    ALTER TABLE [Mailboxes] DROP CONSTRAINT [FK_ImapAccountMailbox];
-GO
-    ALTER TABLE [ImapAccounts] DROP CONSTRAINT [FK_ImapAccountSmtpAccount];
-GO
-    ALTER TABLE [MailboxFlags] DROP CONSTRAINT [FK_MailboxMailboxFlag];
-GO
-    ALTER TABLE [Contacts] DROP CONSTRAINT [FK_IdentityContact];
-GO
-    ALTER TABLE [MessageFlags] DROP CONSTRAINT [FK_MessageMessageFlag];
-GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -102,9 +89,9 @@ CREATE TABLE [Mailboxes] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [ImapAccountId] int  NOT NULL,
     [Fullname] nvarchar(256)  NOT NULL,
-    [Delimiter] smallint  NOT NULL,
-    [MessageCount] nvarchar(4000)  NOT NULL,
-    [UnseenCount] nvarchar(4000)  NOT NULL
+    [Delimiter] nchar(1)  NOT NULL,
+    [MessageCount] int  NOT NULL,
+    [UnseenCount] int  NOT NULL
 );
 GO
 

@@ -99,13 +99,15 @@
     <Compile Include="AppBarCategory.cs" />
     <Compile Include="Commands\AddContactCommand.cs" />
     <Compile Include="Commands\DeleteContactCommand.cs" />
-    <Compile Include="Commands\InviteContactCommand.cs" />
+    <Compile Include="Commands\KeyExchangeCommand.cs" />
     <Compile Include="ContactRequestStatus.cs" />
     <Compile Include="ContactSelectionSource.cs" />
     <Compile Include="Contexts\AccountTestContext.cs" />
     <Compile Include="Contexts\AddContactScreenContext.cs" />
     <Compile Include="Contexts\ComposeMessageScreenContext.cs" />
     <Compile Include="Contexts\ContactContext.cs" />
+    <Compile Include="Contexts\ErrorLogContext.cs" />
+    <Compile Include="Contexts\ImapMailboxContext.cs" />
     <Compile Include="Converters\BooleanMultiConverter.cs" />
     <Compile Include="Converters\BooleanNegator.cs" />
     <Compile Include="Converters\BooleanToBrushConverter.cs" />
@@ -132,6 +134,7 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Pack.cs" />
+    <Compile Include="ParanoiaHeaders.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="UI\AppBarButton.cs" />
     <Compile Include="UI\HtmlRenderer.cs" />

@@ -1,5 +1,6 @@
 ﻿#region Using directives
 
+using Crystalbyte.Paranoia.Messaging.Properties;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -23,6 +24,14 @@ namespace Crystalbyte.Paranoia.Messaging {
             _connection = session.Authenticator.Connection;
             _permanentFlags = new List<string>();
             _flags = new List<string>();
+        }
+
+        public event EventHandler MessageReceived;
+
+        public void OnMessageReceived(EventArgs e) {
+            var handler = MessageReceived;
+            if (handler != null)
+                handler(this, e);
         }
 
         /// <summary>
@@ -57,6 +66,49 @@ namespace Crystalbyte.Paranoia.Messaging {
             }
         }
 
+        /// <summary>
+        ///   This method is blocking.
+        ///   The IDLE command may be used with any IMAP4 server implementation
+        ///   that returns "IDLE" as one of the supported capabilities to the
+        ///   CAPABILITY command.  If the server does not advertise the IDLE
+        ///   capability, the client MUST NOT use the IDLE command and must poll
+        ///   for mailbox updates.
+        ///   http://tools.ietf.org/html/rfc2177
+        /// </summary>
+        public async void Idle() {
+
+            if (!_connection.Capabilities.Contains(ImapCommands.Idle)) {
+                throw new NotSupportedException(Resources.NotSupportedImapCommandMessage);
+            }
+
+            await _connection.WriteCommandAsync(ImapCommands.Idle);
+            IsIdle = true;
+
+            var response = await _connection.ReadAsync();
+            if (!response.IsContinuationRequest) {
+                throw new ImapException(response.Text);
+            }
+
+            while (true) {
+                var line = await _connection.ReadAsync();
+                if (line.IsUntagged) {
+                    HandlePushNotification(line);
+                }
+            }
+        }
+
+        private void HandlePushNotification(ImapResponseLine line) {
+            if (line.Text.Contains(ImapResponses.Exists)) {
+                OnMessageReceived(EventArgs.Empty);
+                Exists = int.Parse(Regex.Match(line.Text,"[0-9]+").Value);
+            }
+        }
+
+        public async Task StopIdleAsync() {
+            await _connection.WriteCommandAsync(ImapCommands.Done);
+            IsIdle = false;
+        }
+
         private async Task<IList<int>> ReadSearchResponseAsync(string commandId) {
             var list = new List<int>();
             while (true) {
@@ -77,6 +129,7 @@ namespace Crystalbyte.Paranoia.Messaging {
             return list;
         }
 
+        public bool IsIdle { get; private set; }
         public int UidNext { get; internal set; }
         public int Recent { get; internal set; }
         public int Exists { get; internal set; }

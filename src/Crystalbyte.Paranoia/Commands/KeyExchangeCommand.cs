@@ -14,7 +14,7 @@ using System.Text;
 
 namespace Crystalbyte.Paranoia.Commands {
     [Export, Shared]
-    public sealed class InviteContactCommand : ICommand {
+    public sealed class KeyExchangeCommand : ICommand {
 
         #region Import Declarations
 
@@ -44,7 +44,7 @@ namespace Crystalbyte.Paranoia.Commands {
         }
 
         public void Execute(object parameter) {
-            SendInviteAsync();
+            SendKeyExchangeAsync();
         }
 
         public event EventHandler CanExecuteChanged;
@@ -57,9 +57,9 @@ namespace Crystalbyte.Paranoia.Commands {
 
         #endregion
 
-        private async Task SendInviteAsync() {
+        private async void SendKeyExchangeAsync() {
             var contact = ContactSelectionSource.Current;
-
+            var identity = IdentitySelectionSource.Current;
             var account = ImapAccountSelectionSource.Current;
             var host = account.SmtpHost;
             var port = account.SmtpPort;
@@ -76,6 +76,12 @@ namespace Crystalbyte.Paranoia.Commands {
                             BodyTransferEncoding = TransferEncoding.Base64
                         };
 
+                        message.Headers.Add(ParanoiaHeaders.Version, "1.0");
+                        message.Headers.Add(ParanoiaHeaders.KeyExchange, string.Format("{0} <{1}>", identity.Name, identity.EmailAddress));
+
+                        var key = new MemoryStream(Encoding.UTF8.GetBytes(identity.PublicKey));
+                        message.Attachments.Add(new Attachment(key, "public-key", "text/plain"));
+
                         var name = contact.Model.Identity.Name;
                         message.Subject = string.Format(Resources.InvitationSubjectTemplate, name);
 
@@ -90,7 +96,7 @@ namespace Crystalbyte.Paranoia.Commands {
                         message.To.Add(new MailAddress(contact.EmailAddress, contact.Name));
                         message.From = new MailAddress(contact.Model.Identity.EmailAddress, contact.Model.Identity.Name);
 
-                        var mime = message.ToMime();
+                        await session.SendAsync(message);
                     }
                 }
             }

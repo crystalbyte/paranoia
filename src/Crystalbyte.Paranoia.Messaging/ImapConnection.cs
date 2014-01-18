@@ -24,6 +24,7 @@ namespace Crystalbyte.Paranoia.Messaging {
         public ImapConnection() {
             Security = SecurityPolicy.Explicit;
             Certificates = new X509Certificate2Collection();
+            Capabilities = new HashSet<string>();
         }
 
         public X509Certificate2Collection Certificates { get; private set; }
@@ -87,17 +88,17 @@ namespace Crystalbyte.Paranoia.Messaging {
 
             var stream = _tcpClient.GetStream();
             _reader = new StreamReader(stream, Encoding.UTF8, false);
-            _writer = new StreamWriter(stream) {AutoFlush = true};
+            _writer = new StreamWriter(stream) { AutoFlush = true };
 
             // Use implicit encryption (SSL).
             if (Security == SecurityPolicy.Implicit) {
                 await NegotiateEncryptionProtocolsAsync(host);
-                Capabilities = await RequestCapabilitiesAsync();
+                await RequestCapabilitiesAsync();
                 return new ImapAuthenticator(this);
             }
 
             // Use explicit encryption (TLS).
-            Capabilities = await RequestCapabilitiesAsync();
+            await RequestCapabilitiesAsync();
             if (Security == SecurityPolicy.Explicit) {
                 if (Capabilities.Contains(ImapCommands.StartTls)) {
                     var response = await IssueTlsCommandAsync();
@@ -105,7 +106,7 @@ namespace Crystalbyte.Paranoia.Messaging {
                         await NegotiateEncryptionProtocolsAsync(host);
                         // It is suggested to update server capabilities after the initial tls negotiation
                         // since some servers may send different capabilities to authenticated clients.
-                        Capabilities = await RequestCapabilitiesAsync();
+                        await RequestCapabilitiesAsync();
                         return new ImapAuthenticator(this);
                     }
                 }
@@ -122,10 +123,11 @@ namespace Crystalbyte.Paranoia.Messaging {
             return id;
         }
 
-        private async Task<HashSet<string>> RequestCapabilitiesAsync() {
+        private async Task RequestCapabilitiesAsync() {
             await ReadAsync();
             var id = await WriteCommandAsync(ImapCommands.Capability);
-            return await ReadCapabilitiesAsync(id);
+            Capabilities.Clear();
+            Capabilities.AddRange(await ReadCapabilitiesAsync(id));
         }
 
         internal async Task<HashSet<string>> ReadCapabilitiesAsync(string commandId) {
@@ -165,7 +167,7 @@ namespace Crystalbyte.Paranoia.Messaging {
                 _secureStream.AuthenticateAsClientAsync(host, Certificates, SslProtocols.Ssl3 | SslProtocols.Tls, true);
 
             _reader = new StreamReader(_secureStream, Encoding.UTF8, false);
-            _writer = new StreamWriter(_secureStream) {AutoFlush = true};
+            _writer = new StreamWriter(_secureStream) { AutoFlush = true };
 
             OnEncryptionProtocolNegotiated(_secureStream.SslProtocol, _secureStream.CipherStrength);
         }

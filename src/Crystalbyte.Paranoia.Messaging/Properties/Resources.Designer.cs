@@ -77,5 +77,14 @@ namespace Crystalbyte.Paranoia.Messaging.Properties {
                 return ResourceManager.GetString("FileNotFoundMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The issued command is not supported by the current server..
+        /// </summary>
+        internal static string NotSupportedImapCommandMessage {
+            get {
+                return ResourceManager.GetString("NotSupportedImapCommandMessage", resourceCulture);
+            }
+        }
     }
 }

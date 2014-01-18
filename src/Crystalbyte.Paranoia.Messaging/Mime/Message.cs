@@ -347,12 +347,6 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
             }
         }
 
-        public static Message Load(MailMessage message) {
-            var mime = message.ToMime();
-            var bytes = Encoding.UTF8.GetBytes(mime);
-            return Load(new MemoryStream(bytes));
-        }
-
         /// <summary>
         ///   Loads a <see cref="Message" /> from a <see cref="Stream" /> containing a raw email.
         /// </summary>

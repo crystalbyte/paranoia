@@ -18,5 +18,11 @@ namespace Crystalbyte.Paranoia {
                 target.Add(item);
             }
         }
+
+        public static void AddRange<T>(this IList<T> target, IEnumerable<T> source) {
+            foreach (var item in source) {
+                target.Add(item);
+            }
+        }
     }
 }

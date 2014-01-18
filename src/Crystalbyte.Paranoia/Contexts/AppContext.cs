@@ -48,10 +48,13 @@ namespace Crystalbyte.Paranoia.Contexts {
         #region Import Declarations
 
         [Import]
+        public ErrorLogContext ErrorLogContext { get; set; }
+
+        [Import]
         public DeleteContactCommand DeleteContactCommand { get; set; }
 
         [Import]
-        public InviteContactCommand InviteContactCommand { get; set; }
+        public KeyExchangeCommand InviteContactCommand { get; set; }
 
         [Import]
         public LocalStorage LocalStorage { get; set; }
@@ -202,11 +205,20 @@ namespace Crystalbyte.Paranoia.Contexts {
             await LocalStorage.InitAsync();
             await LoadIdentitiesAsync();
             await LoadImapAccountsAsync();
+
+            foreach (var account in ImapAccounts) {
+                await account.TakeOnlineAsync();
+            }
         }
 
         private async Task LoadImapAccountsAsync() {
             var query = await SelectImapAccountsAsync();
             ImapAccounts.AddRange(query.Select(x => new ImapAccountContext(x)));
+
+            foreach (var account in ImapAccounts) {
+                await account.LoadMailboxesAsync();
+            }
+
             if (ImapAccounts.Any()) {
                 ImapAccounts.First().IsSelected = true;
             }

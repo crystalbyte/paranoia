@@ -22,6 +22,10 @@ namespace Crystalbyte.Paranoia.Data {
             _context = new Entities();
         }
 
+        public static LocalStorage Current {
+            get { return App.AppContext.LocalStorage; }
+        }
+
         public Entities Context {
             get { return _context; }
         }

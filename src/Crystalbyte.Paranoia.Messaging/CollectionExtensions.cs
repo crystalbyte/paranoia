@@ -12,5 +12,11 @@ namespace Crystalbyte.Paranoia.Messaging {
                 action(item);
             }
         }
+
+        public static void AddRange<T>(this HashSet<T> target, IEnumerable<T> source) {
+            foreach (var item in source) {
+                target.Add(item);
+            }
+        }
     }
 }

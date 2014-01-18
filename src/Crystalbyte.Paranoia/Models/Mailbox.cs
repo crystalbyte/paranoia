@@ -16,6 +16,7 @@ namespace Crystalbyte.Paranoia.Models
     {
         public Mailbox()
         {
+            this.Delimiter = "/";
             this.Messages = new HashSet<Message>();
             this.MailboxFlags = new HashSet<MailboxFlag>();
         }
@@ -23,9 +24,9 @@ namespace Crystalbyte.Paranoia.Models
         public int Id { get; set; }
         public int ImapAccountId { get; set; }
         public string Fullname { get; set; }
-        public short Delimiter { get; set; }
-        public string MessageCount { get; set; }
-        public string UnseenCount { get; set; }
+        public string Delimiter { get; set; }
+        public int MessageCount { get; set; }
+        public int UnseenCount { get; set; }
     
         public virtual ICollection<Message> Messages { get; set; }
         public virtual ImapAccount ImapAccount { get; set; }

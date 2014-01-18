@@ -13,6 +13,10 @@ namespace Crystalbyte.Paranoia.Messaging {
             _connection = connection;
         }
 
+        internal SmtpConnection Connection {
+            get { return _connection; }
+        }
+
         public async Task<SmtpSession> LoginAsync(string username, string password) {
             var auth = _connection.Capabilities.FirstOrDefault(x => x.ToUpper().StartsWith("AUTH"));
 

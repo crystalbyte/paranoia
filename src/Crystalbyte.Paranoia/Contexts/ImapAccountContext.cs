@@ -1,9 +1,14 @@
 ﻿#region Using directives
 
-using System.ComponentModel.DataAnnotations;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using Crystalbyte.Paranoia.Messaging;
 using Crystalbyte.Paranoia.Models;
-using Crystalbyte.Paranoia.Properties;
+using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using Crystalbyte.Paranoia.Data;
 
 #endregion
 
@@ -13,7 +18,9 @@ namespace Crystalbyte.Paranoia.Contexts {
         #region Private Fields
 
         private readonly ImapAccount _imap;
+
         private bool _isSelected;
+        private readonly ObservableCollection<ImapMailboxContext> _mailboxes;
 
         #endregion
 
@@ -21,9 +28,14 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public ImapAccountContext(ImapAccount imap) {
             _imap = imap;
+            _mailboxes = new ObservableCollection<ImapMailboxContext>();
         }
 
         #endregion
+
+        public ObservableCollection<ImapMailboxContext> Mailboxes {
+            get { return _mailboxes; }
+        }
 
         public bool IsSelected {
             get { return _isSelected; }
@@ -39,14 +51,14 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         public SecurityPolicy ImapSecurity {
-            get { return (SecurityPolicy) _imap.Security; }
+            get { return (SecurityPolicy)_imap.Security; }
             set {
-                if (_imap.Security == (short) value) {
+                if (_imap.Security == (short)value) {
                     return;
                 }
 
                 RaisePropertyChanging(() => ImapSecurity);
-                _imap.Security = (short) value;
+                _imap.Security = (short)value;
                 RaisePropertyChanged(() => ImapSecurity);
             }
         }
@@ -191,6 +203,79 @@ namespace Crystalbyte.Paranoia.Contexts {
                 _imap.SmtpAccount.Security = (short)value;
                 RaisePropertyChanged(() => SmtpSecurity);
             }
+        }
+
+        internal async Task LoadMailboxesAsync() {
+            var mailboxes = _imap.Mailboxes.Select(x => new ImapMailboxContext(this, x));
+            Mailboxes.AddRange(mailboxes);
+
+            if (_imap.Mailboxes.Count > 0) {
+                return;
+            }
+
+            await RequestMailboxesAsync();
+            mailboxes = _imap.Mailboxes.Select(x => new ImapMailboxContext(this, x));
+            Mailboxes.AddRange(mailboxes);
+        }
+
+        private async Task RequestMailboxesAsync() {
+            using (var connection = new ImapConnection { Security = ImapSecurity }) {
+                using (var authenticator = await connection.ConnectAsync(ImapHost, ImapPort)) {
+                    using (var session = await authenticator.LoginAsync(ImapUsername, ImapPassword)) {
+                        var mailboxes = (await session.ListAsync("", "*")).ToArray();
+
+                        var inbox = mailboxes.FirstOrDefault(x => x.IsInbox);
+                        if (inbox != null) {
+                            await SaveMailboxAsync(inbox);
+                        }
+
+                        var all = mailboxes.FirstOrDefault(x => x.IsAll);
+                        if (all != null) {
+                            await SaveMailboxAsync(all);
+                        }
+
+                        var important = mailboxes.FirstOrDefault(x => x.IsImportant);
+                        if (important != null) {
+                            await SaveMailboxAsync(important);
+                        }
+
+                        var trash = mailboxes.FirstOrDefault(x => x.IsTrash);
+                        if (trash != null) {
+                            await SaveMailboxAsync(trash);
+                        }
+
+                        var sent = mailboxes.FirstOrDefault(x => x.IsSent);
+                        if (sent != null) {
+                            await SaveMailboxAsync(sent);
+                        }
+
+                        var draft = mailboxes.FirstOrDefault(x => x.IsDraft);
+                        if (draft != null) {
+                            await SaveMailboxAsync(draft);
+                        }
+                    }
+                }
+            }
+        }
+
+        private async Task SaveMailboxAsync(ImapMailboxInfo info) {
+            _imap.Mailboxes.Add(new Mailbox {
+                Fullname = info.Fullname,
+                Delimiter = info.Delimiter.ToString(CultureInfo.InvariantCulture),
+                MailboxFlags = info.Flags.Select(x => new MailboxFlag { Name = x }).ToArray()
+            });
+            await Task.Factory.StartNew(() => {
+                try {
+                    LocalStorage.Current.Context.SaveChanges();
+                }
+                catch (Exception ex) {
+                    ErrorLogContext.Current.PushError(ex);
+                }
+            });
+        }
+
+        internal async Task TakeOnlineAsync() {
+            await LoadMailboxesAsync();
         }
     }
 }

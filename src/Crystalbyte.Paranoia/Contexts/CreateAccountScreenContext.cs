@@ -85,7 +85,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         #endregion
 
-        private void OnCommit(object obj) {
+        private async void OnCommit(object obj) {
             var account = new ImapAccount {
                 Host = ImapHost,
                 Name = EmailAddress,
@@ -104,7 +104,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
             try {
                 AppContext.ImapAccounts.Add(new ImapAccountContext(account));
-                Task.Factory.StartNew(() => {
+                await Task.Factory.StartNew(() => {
                     LocalStorage.Context.ImapAccounts.Add(account);
                     LocalStorage.Context.SaveChanges();
                 });
@@ -587,33 +587,33 @@ namespace Crystalbyte.Paranoia.Contexts {
                 Debug.Assert(resource != null);
                 var body = await resource.Stream.ToUtf8StringAsync();
 
-                using (var client = new SmtpClient(SmtpHost, SmtpPort) {
-                    EnableSsl = SmtpSecurity == SecurityPolicy.Implicit || SmtpSecurity == SecurityPolicy.Explicit,
-                    UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(SmtpUsername, SmtpPassword)
-                }) {
-                    var identity = IdentitySelectionSource.Current;
+                using (var connection = new SmtpConnection { Security = SmtpSecurity }) {
+                    using (var authenticator = await connection.ConnectAsync(SmtpHost, SmtpPort)) {
+                        using (var session = await authenticator.LoginAsync(SmtpUsername, SmtpPassword)) {
+                            var identity = IdentitySelectionSource.Current;
 
-                    var subject = Resources.SmtpTestMessageSubject;
-                    var from = new MailAddress(EmailAddress, "Paranoia");
+                            var subject = Resources.SmtpTestMessageSubject;
+                            var from = new MailAddress(EmailAddress, "Paranoia");
 
-                    var name = identity == null ? string.Empty : identity.Name;
-                    var to = new MailAddress(EmailAddress, name);
+                            var name = identity == null ? string.Empty : identity.Name;
+                            var to = new MailAddress(EmailAddress, name);
 
-                    using (var message = new MailMessage(from, to) {
-                        HeadersEncoding = Encoding.UTF8,
-                        BodyTransferEncoding = TransferEncoding.Base64,
-                        SubjectEncoding = Encoding.UTF8,
-                        BodyEncoding = Encoding.UTF8,
-                        Subject = subject,
-                        Body = body,
-                        IsBodyHtml = true
-                    }) {
-                        await client.SendMailAsync(message);
+                            using (var message = new MailMessage(from, to) {
+                                HeadersEncoding = Encoding.UTF8,
+                                BodyTransferEncoding = TransferEncoding.Base64,
+                                SubjectEncoding = Encoding.UTF8,
+                                BodyEncoding = Encoding.UTF8,
+                                Subject = subject,
+                                Body = body,
+                                IsBodyHtml = true
+                            }) {
+                                await session.SendAsync(message);
+                            }
+
+                            SmtpConnectionTest.Text = Resources.SmtpTestSuccessMessage;
+                            SmtpConnectionTest.IsSuccessful = true;
+                        }
                     }
-
-                    SmtpConnectionTest.Text = Resources.SmtpTestSuccessMessage;
-                    SmtpConnectionTest.IsSuccessful = true;
                 }
             }
             catch (Exception ex) {

@@ -97,9 +97,9 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ImapAccountId" Type="int" Nullable="false" />
     <Property Name="Fullname" Type="nvarchar" Nullable="false" MaxLength="256" />
-    <Property Name="Delimiter" Type="smallint" Nullable="false" />
-    <Property Name="MessageCount" Type="nvarchar" Nullable="false" />
-    <Property Name="UnseenCount" Type="nvarchar" Nullable="false" />
+    <Property Name="Delimiter" Type="nchar" Nullable="false" DefaultValue="/" MaxLength="1" />
+    <Property Name="MessageCount" Type="int" Nullable="false" />
+    <Property Name="UnseenCount" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Messages">
     <Key>
@@ -317,10 +317,10 @@
           <NavigationProperty Name="ImapAccount" Relationship="StorageModel.ImapAccountMailbox" FromRole="Mailbox" ToRole="ImapAccount" />
           <Property Type="Int32" Name="ImapAccountId" Nullable="false" />
           <Property Type="String" Name="Fullname" Nullable="false" MaxLength="256" />
-          <Property Type="Int16" Name="Delimiter" Nullable="false" />
+          <Property Type="String" Name="Delimiter" Nullable="false" FixedLength="true" MaxLength="1" DefaultValue="/" />
           <NavigationProperty Name="MailboxFlags" Relationship="StorageModel.MailboxMailboxFlag" FromRole="Mailbox" ToRole="MailboxFlag" />
-          <Property Type="String" Name="MessageCount" Nullable="false" />
-          <Property Type="String" Name="UnseenCount" Nullable="false" />
+          <Property Type="Int32" Name="MessageCount" Nullable="false" />
+          <Property Type="Int32" Name="UnseenCount" Nullable="false" />
         </EntityType>
         <EntityType Name="Message">
           <Key>

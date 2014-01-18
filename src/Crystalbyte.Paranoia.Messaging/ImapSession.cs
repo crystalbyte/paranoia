@@ -1,6 +1,7 @@
 ﻿#region Using directives
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -19,6 +20,33 @@ namespace Crystalbyte.Paranoia.Messaging {
 
         internal ImapAuthenticator Authenticator {
             get { return _authenticator; }
+        }
+
+        /// <summary>
+        ///   The LIST command returns a subset of names from the complete set of all names available to the client.
+        ///   http://tools.ietf.org/html/rfc3501#section-6.3.8
+        /// </summary>
+        /// <param name = "referenceName">The reference name.</param>
+        /// <param name = "wildcardedMailboxName">The mailbox name with possible wildcards.</param>
+        public async Task<IEnumerable<ImapMailboxInfo>> ListAsync(string referenceName, string wildcardedMailboxName) {
+            var command = string.Format("{0} \"{1}\" \"{2}\"", ImapCommands.List, referenceName, wildcardedMailboxName);
+            var id = await _connection.WriteCommandAsync(command);
+            return await ReadListResponseAsync(id);
+        }
+
+        private async Task<IEnumerable<ImapMailboxInfo>> ReadListResponseAsync(string id) {
+            var mailboxes = new List<ImapMailboxInfo>();
+            while (true) {
+                var line = await _connection.ReadAsync();
+                if (line.IsUntagged) {
+                    mailboxes.Add(ImapMailboxInfo.Parse(line));
+                }
+
+                if (line.TerminatesCommand(id)) {
+                    break;
+                }
+            }
+            return mailboxes;
         }
 
         public async Task<ImapMailbox> SelectAsync(string name) {

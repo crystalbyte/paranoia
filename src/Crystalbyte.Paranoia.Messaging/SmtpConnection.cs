@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Security.Authentication;
@@ -86,32 +87,27 @@ namespace Crystalbyte.Paranoia.Messaging {
             // Use implicit encryption (SSL).
             if (Security == SecurityPolicy.Implicit) {
                 await NegotiateEncryptionProtocolsAsync(host);
-                Capabilities = await RequestCapabilitiesAsync();
+                await RequestCapabilitiesAsync();
                 return new SmtpAuthenticator(this);
             }
 
             // Use explicit encryption (TLS).
-            Capabilities = await RequestCapabilitiesAsync();
+            await RequestCapabilitiesAsync();
             if (Security == SecurityPolicy.Explicit) {
-                throw new NotImplementedException();
-                if (Capabilities.Contains(ImapCommands.StartTls)) {
-                    var response = await IssueTlsCommandAsync();
-                    //if (response.IsOk) {
-                    //    await NegotiateEncryptionProtocolsAsync(host);
-                    //    // It is suggested to update server capabilities after the initial tls negotiation
-                    //    // since some servers may send different capabilities to authenticated clients.
-                    //    Capabilities = await RequestCapabilitiesAsync();
-                    //    return new SmtpAuthenticator();
-                    //}
+                if (Capabilities.Contains(SmtpCommands.StartTls)) {
+                    await WriteAsync(SmtpCommands.StartTls);
+                    var response = await ReadAsync();
+                    if (response.IsOk) {
+                        await NegotiateEncryptionProtocolsAsync(host);
+                        await RequestCapabilitiesAsync();
+                        return new SmtpAuthenticator(this);
+                    }
+                    throw new SmtpException(response.Content);
                 }
             }
 
             // Fail if server supports no encryption.
-            throw new ImapException("Unenycrypted connections are not supported by this agent.");
-        }
-
-        private async Task<object> IssueTlsCommandAsync() {
-            throw new NotImplementedException();
+            throw new SmtpException("Unenycrypted connections are not supported by this agent.");
         }
 
         internal async Task<SmtpResponseLine> ReadAsync() {
@@ -125,14 +121,21 @@ namespace Crystalbyte.Paranoia.Messaging {
             await _writer.WriteLineAsync(command);
         }
 
-        private async Task<HashSet<string>> RequestCapabilitiesAsync() {
+        internal async Task<List<SmtpResponseLine>> ReadToEndAsync() {
+            var lines = new List<SmtpResponseLine>();
             while (true) {
                 var line = await ReadAsync();
+                lines.Add(line);
                 if (line.IsTerminated) {
                     break;
                 }
             }
 
+            return lines;
+        }
+
+        private async Task RequestCapabilitiesAsync() {
+            await ReadToEndAsync();
             await WriteAsync(string.Format("{0} {1}", SmtpCommands.Ehlo, Environment.MachineName));
             var response = await ReadAsync();
             if (response.IsError) {
@@ -140,7 +143,8 @@ namespace Crystalbyte.Paranoia.Messaging {
                 await WriteAsync(string.Format("{0} {1}", SmtpCommands.Helo, Environment.MachineName));
             }
 
-            return await ReadCapabilitiesAsync();
+            Capabilities.Clear();
+            Capabilities.AddRange(await ReadCapabilitiesAsync());
         }
 
         private async Task<HashSet<string>> ReadCapabilitiesAsync() {
@@ -169,7 +173,7 @@ namespace Crystalbyte.Paranoia.Messaging {
         }
 
         private void OnEncryptionProtocolNegotiated(SslProtocols protocol, int strength) {
-
+            
         }
 
         private bool OnRemoteCertificateValidationCallback(object sender, X509Certificate cert, X509Chain chain,
@@ -178,7 +182,7 @@ namespace Crystalbyte.Paranoia.Messaging {
         }
 
         public void Dispose() {
-            throw new NotImplementedException();
+            _tcpClient.Close();
         }
     }
 }

@@ -35,19 +35,18 @@ namespace Crystalbyte.Paranoia.Messaging {
             var bytes = Encoding.UTF8.GetBytes(seed.ToCharArray());
             var hash = Convert.ToBase64String(bytes);
 
-            string commandId;
             ImapResponseLine line;
 
             // Speed up authentication by using the initial client response extension.
             // http://tools.ietf.org/html/rfc4959
             if (_connection.Capabilities.Contains("SASL-IR")) {
                 var command = string.Format("AUTHENTICATE PLAIN {0}", hash);
-                commandId = await _connection.WriteCommandAsync(command);
+                await _connection.WriteCommandAsync(command);
                 line = await _connection.ReadAsync();
             }
             else {
                 var command = string.Format("AUTHENTICATE PLAIN");
-                commandId = await _connection.WriteCommandAsync(command);
+                await _connection.WriteCommandAsync(command);
                 var response = await _connection.ReadAsync();
 
                 if (!response.IsContinuationRequest) {
@@ -59,10 +58,6 @@ namespace Crystalbyte.Paranoia.Messaging {
             }
 
             IsAuthenticated = !line.IsNo;
-
-            if (line.Text.ContainsIgnoreCase("CAPABILITY")) {
-                _connection.Capabilities = await _connection.ReadCapabilitiesAsync(commandId);
-            }
         }
 
         public async void LogoutAsync() {
