@@ -11,10 +11,10 @@ using Crystalbyte.Paranoia.Contexts;
 namespace Crystalbyte.Paranoia {
     [Export, Shared]
     public sealed class ImapMessageSelectionSource {
-        private readonly ObservableCollection<ImapMessageContext> _collection;
+        private readonly ObservableCollection<MessageContext> _collection;
 
         public ImapMessageSelectionSource() {
-            _collection = new ObservableCollection<ImapMessageContext>();
+            _collection = new ObservableCollection<MessageContext>();
         }
 
         public event EventHandler CollectionChanged;
@@ -25,13 +25,13 @@ namespace Crystalbyte.Paranoia {
                 handler(this, e);
         }
 
-        public void ChangeSelection(IEnumerable<ImapMessageContext> envelopes) {
+        public void ChangeSelection(IEnumerable<MessageContext> envelopes) {
             _collection.Clear();
             _collection.AddRange(envelopes);
             OnCollectionChanged(EventArgs.Empty);
         }
 
-        public IEnumerable<ImapMessageContext> SelectedMessages {
+        public IEnumerable<MessageContext> SelectedMessages {
             get { return _collection; }
         }
     }

@@ -33,16 +33,15 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         private void OnCreateCommandExecuted(object obj) {
             var contact = new Contact {
-                EmailAddress = EmailAddress,
-                RequestStatus = (byte)ContactRequestStatus.Pending,
-                PublicKey = "public-key",
+                Address = Address,
+                ContactRequest = ContactRequest.Pending,
                 Name = Name
             };
 
-            var identity = IdentitySelectionSource.Current;
-            identity.AddContact(contact);
+            //var identity = IdentitySelectionSource.Current;
+            //identity.AddContact(contact);
 
-            LocalStorage.Context.SaveChanges();
+            //LocalStorage.Context.SaveChanges();
             Close();
         }
 
@@ -57,7 +56,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         private void ClearValues() {
             Name = string.Empty;
-            EmailAddress = string.Empty;
+            Address = string.Empty;
             GravatarUrl = null;
         }
 
@@ -69,7 +68,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         public AppContext AppContext { get; set; }
 
         [Import]
-        public LocalStorage LocalStorage { get; set; }
+        public StorageContext LocalStorage { get; set; }
 
         [Import]
         public IdentitySelectionSource IdentitySelectionSource { get; set; }
@@ -116,7 +115,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         [RegularExpression(RegexPatterns.Email, ErrorMessageResourceType = typeof(Resources),
             ErrorMessageResourceName = "InvalidEmailFormatErrorText")]
-        public string EmailAddress {
+        public string Address {
             get { return _emailAddress; }
             set {
                 if (_emailAddress == value) {
@@ -124,9 +123,9 @@ namespace Crystalbyte.Paranoia.Contexts {
 
                 }
 
-                RaisePropertyChanging(() => EmailAddress);
+                RaisePropertyChanging(() => Address);
                 _emailAddress = value;
-                RaisePropertyChanged(() => EmailAddress);
+                RaisePropertyChanged(() => Address);
                 CreateGravatarImageUrl();
             }
         }
@@ -150,7 +149,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private void CreateGravatarImageUrl() {
-            GravatarUrl = Gravatar.CreateImageUrl(EmailAddress);
+            GravatarUrl = Gravatar.CreateImageUrl(Address);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia {
-    public enum ContactRequestStatus {
+    public enum ContactRequest {
         Pending = 0,
         Accepted,
         Rejected

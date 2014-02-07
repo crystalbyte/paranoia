@@ -32,7 +32,7 @@ namespace Crystalbyte.Paranoia.Commands {
         public ContactSelectionSource ContactSelectionSource { get; set; }
 
         [Import]
-        public LocalStorage LocalStorage { get; set; }
+        public StorageContext LocalStorage { get; set; }
 
         [Import]
         public AppContext AppContext { get; set; }
@@ -55,12 +55,12 @@ namespace Crystalbyte.Paranoia.Commands {
             var contact = ContactSelectionSource.Current;
 
             await Task.Factory.StartNew(() => {
-                var context = LocalStorage.Context;
-                context.Contacts.Remove(contact.Model); 
-                context.SaveChanges();
+                //var context = LocalStorage.Context;
+                //context.Contacts.Remove(contact.Model); 
+                //context.SaveChanges();
             });
 
-            identity.Contacts.Remove(contact);
+            //identity.Contacts.Remove(contact);
         }
 
         public event EventHandler CanExecuteChanged;

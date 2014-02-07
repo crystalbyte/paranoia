@@ -39,8 +39,7 @@ namespace Crystalbyte.Paranoia.Commands {
 
         public bool CanExecute(object parameter) {
             return IdentitySelectionSource.Current != null
-                && ContactSelectionSource.Current != null
-                && ContactSelectionSource.Current.RequestStatus != ContactRequestStatus.Accepted;
+                && ContactSelectionSource.Current != null;
         }
 
         public void Execute(object parameter) {
@@ -60,14 +59,12 @@ namespace Crystalbyte.Paranoia.Commands {
         private async void SendKeyExchangeAsync() {
             var contact = ContactSelectionSource.Current;
             var identity = IdentitySelectionSource.Current;
-            var account = ImapAccountSelectionSource.Current;
-            var host = account.SmtpHost;
-            var port = account.SmtpPort;
+            var account = identity.SmtpAccount;
 
             using (var connection = new SmtpConnection()) {
-                using (var authenticator = await connection.ConnectAsync(host, port)) {
+                using (var authenticator = await connection.ConnectAsync(account.Host, account.Port)) {
 
-                    using (var session = await authenticator.LoginAsync(account.SmtpUsername, account.SmtpPassword)) {
+                    using (var session = await authenticator.LoginAsync(account.Username, account.Password)) {
 
                         var message = new MailMessage {
                             HeadersEncoding = Encoding.UTF8,
@@ -77,12 +74,12 @@ namespace Crystalbyte.Paranoia.Commands {
                         };
 
                         message.Headers.Add(ParanoiaHeaders.Version, "1.0");
-                        message.Headers.Add(ParanoiaHeaders.KeyExchange, string.Format("{0} <{1}>", identity.Name, identity.EmailAddress));
+                        message.Headers.Add(ParanoiaHeaders.KeyExchange, string.Format("{0} <{1}>", identity.Name, identity.Address));
 
-                        var key = new MemoryStream(Encoding.UTF8.GetBytes(identity.PublicKey));
+                        var key = new MemoryStream(Encoding.UTF8.GetBytes("public-key"));
                         message.Attachments.Add(new Attachment(key, "public-key", "text/plain"));
 
-                        var name = contact.Model.Identity.Name;
+                        var name = identity.Name;
                         message.Subject = string.Format(Resources.InvitationSubjectTemplate, name);
 
                         var info = Application.GetResourceStream(new Uri("Resources/invitation.html", UriKind.Relative));
@@ -93,8 +90,8 @@ namespace Crystalbyte.Paranoia.Commands {
                             message.Body = await reader.ReadToEndAsync();
                         }
 
-                        message.To.Add(new MailAddress(contact.EmailAddress, contact.Name));
-                        message.From = new MailAddress(contact.Model.Identity.EmailAddress, contact.Model.Identity.Name);
+                        message.To.Add(new MailAddress(contact.Address, contact.Name));
+                        message.From = new MailAddress(identity.Address, identity.Name);
 
                         await session.SendAsync(message);
                     }

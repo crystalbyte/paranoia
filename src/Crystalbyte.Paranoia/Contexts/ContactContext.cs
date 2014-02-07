@@ -15,7 +15,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         private readonly Contact _contact;
         private string _gravatarImageUrl;
         private bool _isSelected;
-        private readonly ObservableCollection<ImapMessageContext> _messages;
+        private readonly ObservableCollection<MessageContext> _messages;
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public ContactContext(Contact contact) {
             _contact = contact;
-            _messages = new ObservableCollection<ImapMessageContext>();
+            _messages = new ObservableCollection<MessageContext>();
         }
 
         #endregion
@@ -36,7 +36,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             get { return _contact; }
         }
 
-        public ObservableCollection<ImapMessageContext> Messages {
+        public ObservableCollection<MessageContext> Messages {
             get { return _messages; }
         }
 
@@ -66,29 +66,29 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        public string EmailAddress {
-            get { return _contact.EmailAddress; }
+        public string Address {
+            get { return _contact.Address; }
             set {
-                if (_contact.EmailAddress == value) {
+                if (_contact.Address == value) {
                     return;
                 }
 
-                RaisePropertyChanging(() => EmailAddress);
-                _contact.EmailAddress = value;
-                RaisePropertyChanged(() => EmailAddress);
+                RaisePropertyChanging(() => Address);
+                _contact.Address = value;
+                RaisePropertyChanged(() => Address);
             }
         }
 
-        public ContactRequestStatus RequestStatus {
-            get { return (ContactRequestStatus)_contact.RequestStatus; }
+        public ContactRequest ContactRequest {
+            get { return (ContactRequest)_contact.ContactRequest; }
             set {
-                if (_contact.RequestStatus == (byte)value) {
+                if (_contact.ContactRequest == value) {
                     return;
                 }
 
-                RaisePropertyChanging(() => RequestStatus);
-                _contact.RequestStatus = (byte)value;
-                RaisePropertyChanged(() => RequestStatus);
+                RaisePropertyChanging(() => ContactRequest);
+                _contact.ContactRequest = value;
+                RaisePropertyChanged(() => ContactRequest);
             }
         }
 
@@ -111,7 +111,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private void CreateGravatarImageUrl() {
-            GravatarUrl = Gravatar.CreateImageUrl(EmailAddress);
+            GravatarUrl = Gravatar.CreateImageUrl(Address);
         }
     }
 }

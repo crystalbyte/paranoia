@@ -17,8 +17,8 @@ namespace Crystalbyte.Paranoia.UI {
     public partial class CreateAccountStartPage {
         public CreateAccountStartPage() {
             if (!DesignerProperties.GetIsInDesignMode(this)) {
-                ScreenContext = App.AppContext.CreateAccountScreenContext;
-                ScreenContext.Activated += OnActivated;
+                //ScreenContext = App.AppContext.CreateAccountScreenContext;
+                //ScreenContext.Activated += OnActivated;
             }
 
             InitializeComponent();
@@ -26,15 +26,15 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnActivated(object sender, EventArgs e) {
             var identity = App.AppContext.Identities.FirstOrDefault(x => x.IsSelected);
-            if (identity != null && !string.IsNullOrWhiteSpace(ScreenContext.EmailAddress)) {
-                EmailAddressField.SelectedText = identity.EmailAddress;
-            }
+            //if (identity != null && !string.IsNullOrWhiteSpace(ScreenContext.EmailAddress)) {
+            //    EmailAddressField.SelectedText = identity.EmailAddress;
+            //}
         }
 
-        public CreateAccountScreenContext ScreenContext {
-            get { return DataContext as CreateAccountScreenContext; }
-            set { DataContext = value; }
-        }
+        //public CreateAccountScreenContext ScreenContext {
+        //    get { return DataContext as CreateAccountScreenContext; }
+        //    set { DataContext = value; }
+        //}
 
         private void OnImapPasswordChanged(object sender, RoutedEventArgs e) {
             var box = sender as PasswordBox;
@@ -47,7 +47,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            ScreenContext.ImapPassword = box.Password;
+            //ScreenContext.ImapPassword = box.Password;
         }
     }
 }

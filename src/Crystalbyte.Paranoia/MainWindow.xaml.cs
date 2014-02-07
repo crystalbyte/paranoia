@@ -19,10 +19,11 @@ namespace Crystalbyte.Paranoia {
         private HwndSource _source;
 
         public MainWindow() {
-            if (!DesignerProperties.GetIsInDesignMode(this)) {
-                DataContext = App.AppContext;    
+            if (DesignerProperties.GetIsInDesignMode(this)) {
+                return;
             }
 
+            DataContext = App.AppContext;    
             InitializeComponent();
             Loaded += OnLoaded;
             // We need to set the height for the window to stay ontop the Taskbar
@@ -74,14 +75,14 @@ namespace Crystalbyte.Paranoia {
 
         private void OnMessagesSelectionChanged(object sender, SelectionChangedEventArgs e) {
             var list = (ListView) sender;
-            var messages = list.SelectedItems.OfType<ImapMessageContext>().ToList();
+            var messages = list.SelectedItems.OfType<MessageContext>().ToList();
             if (messages.Count == 0) {
                 return;
             }
 
 
             //ImapMessageSelectionSource.ChangeSelection(messages);
-            var first = e.AddedItems.OfType<ImapMessageContext>().FirstOrDefault();
+            var first = e.AddedItems.OfType<MessageContext>().FirstOrDefault();
             if (first == null)
                 return;
 

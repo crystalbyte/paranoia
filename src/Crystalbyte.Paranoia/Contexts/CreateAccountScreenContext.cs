@@ -76,7 +76,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         public IdentitySelectionSource IdentitySelectionSource { get; set; }
 
         [Import]
-        public LocalStorage LocalStorage { get; set; }
+        public StorageContext LocalStorage { get; set; }
 
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
@@ -86,8 +86,8 @@ namespace Crystalbyte.Paranoia.Contexts {
         #endregion
 
         private async void OnCommit(object obj) {
-            var account = new ImapAccount {
-                Host = ImapHost,
+            var account = new SmtpAccount {
+                Name = ImapHost,
                 Name = EmailAddress,
                 Port = ImapPort,
                 Password = ImapPassword,

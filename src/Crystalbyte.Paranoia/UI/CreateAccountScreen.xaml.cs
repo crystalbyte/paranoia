@@ -12,14 +12,14 @@ namespace Crystalbyte.Paranoia.UI {
     public partial class CreateAccountScreen {
         public CreateAccountScreen() {
             if (!DesignerProperties.GetIsInDesignMode(this)) {
-                ScreenContext = App.AppContext.CreateAccountScreenContext;    
+                //ScreenContext = App.AppContext.CreateAccountScreenContext;    
             }
             InitializeComponent();
         }
 
-        public CreateAccountScreenContext ScreenContext {
-            get { return DataContext as CreateAccountScreenContext; }
-            set { DataContext = value; }
-        }
+        //public CreateAccountScreenContext ScreenContext {
+        //    get { return DataContext as CreateAccountScreenContext; }
+        //    set { DataContext = value; }
+        //}
     }
 }

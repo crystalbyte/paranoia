@@ -4,7 +4,6 @@
              xmlns:commands="clr-namespace:Crystalbyte.Paranoia.Commands"
              xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Converters"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
-             xmlns:themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
              StartupUri="MainWindow.xaml">
     <!--  Default styles: http://msdn.microsoft.com/en-us/library/aa970773.aspx  -->
     <!--  Icons: C:\Program Files (x86)\Microsoft SDKs\Windows Phone\v8.0\Icons  -->
@@ -674,37 +673,31 @@
                                                     RelativeSource={RelativeSource TemplatedParent}}"
                                    Placement="Bottom"
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
-                                <themes:SystemDropShadowChrome x:Name="shadow"
-                                                               MinWidth="{Binding ActualWidth,
-                                                                                  ElementName=templateRoot}"
-                                                               MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                               Color="Transparent">
-                                    <Border x:Name="DropDownBorder"
+                                <Border x:Name="DropDownBorder"
                                             Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
                                             BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}"
                                             BorderThickness="1">
-                                        <ScrollViewer x:Name="DropDownScrollViewer">
-                                            <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
-                                                <Canvas x:Name="canvas"
+                                    <ScrollViewer x:Name="DropDownScrollViewer">
+                                        <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
+                                            <Canvas x:Name="canvas"
                                                         Width="0"
                                                         Height="0"
                                                         HorizontalAlignment="Left"
                                                         VerticalAlignment="Top">
-                                                    <Rectangle x:Name="OpaqueRect"
+                                                <Rectangle x:Name="OpaqueRect"
                                                                Width="{Binding ActualWidth,
                                                                                ElementName=DropDownBorder}"
                                                                Height="{Binding ActualHeight,
                                                                                 ElementName=DropDownBorder}"
                                                                Fill="{Binding Background,
                                                                               ElementName=DropDownBorder}" />
-                                                </Canvas>
-                                                <ItemsPresenter x:Name="ItemsPresenter"
+                                            </Canvas>
+                                            <ItemsPresenter x:Name="ItemsPresenter"
                                                                 KeyboardNavigation.DirectionalNavigation="Contained"
                                                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                                            </Grid>
-                                        </ScrollViewer>
-                                    </Border>
-                                </themes:SystemDropShadowChrome>
+                                        </Grid>
+                                    </ScrollViewer>
+                                </Border>
                             </Popup>
                             <ToggleButton x:Name="toggleButton"
                                           Grid.ColumnSpan="2"
@@ -870,10 +863,6 @@
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </Grid>
                         <ControlTemplate.Triggers>
-                            <Trigger SourceName="PART_Popup" Property="HasDropShadow" Value="True">
-                                <Setter TargetName="shadow" Property="Margin" Value="0,0,5,5" />
-                                <Setter TargetName="shadow" Property="Color" Value="#71000000" />
-                            </Trigger>
                             <Trigger Property="HasItems" Value="False">
                                 <Setter TargetName="DropDownBorder" Property="Height" Value="95" />
                             </Trigger>
@@ -911,37 +900,31 @@
                                                             RelativeSource={RelativeSource TemplatedParent}}"
                                            Placement="Bottom"
                                            PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
-                                        <themes:SystemDropShadowChrome x:Name="shadow"
-                                                                       MinWidth="{Binding ActualWidth,
-                                                                                          ElementName=templateRoot}"
-                                                                       MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                                       Color="Transparent">
-                                            <Border x:Name="DropDownBorder"
+                                        <Border x:Name="DropDownBorder"
                                                     Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
                                                     BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}"
                                                     BorderThickness="1">
-                                                <ScrollViewer x:Name="DropDownScrollViewer">
-                                                    <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
-                                                        <Canvas x:Name="canvas"
+                                            <ScrollViewer x:Name="DropDownScrollViewer">
+                                                <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
+                                                    <Canvas x:Name="canvas"
                                                                 Width="0"
                                                                 Height="0"
                                                                 HorizontalAlignment="Left"
                                                                 VerticalAlignment="Top">
-                                                            <Rectangle x:Name="OpaqueRect"
+                                                        <Rectangle x:Name="OpaqueRect"
                                                                        Width="{Binding ActualWidth,
                                                                                        ElementName=DropDownBorder}"
                                                                        Height="{Binding ActualHeight,
                                                                                         ElementName=DropDownBorder}"
                                                                        Fill="{Binding Background,
                                                                                       ElementName=DropDownBorder}" />
-                                                        </Canvas>
-                                                        <ItemsPresenter x:Name="ItemsPresenter"
+                                                    </Canvas>
+                                                    <ItemsPresenter x:Name="ItemsPresenter"
                                                                         KeyboardNavigation.DirectionalNavigation="Contained"
                                                                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                                                    </Grid>
-                                                </ScrollViewer>
-                                            </Border>
-                                        </themes:SystemDropShadowChrome>
+                                                </Grid>
+                                            </ScrollViewer>
+                                        </Border>
                                     </Popup>
                                     <ToggleButton x:Name="toggleButton"
                                                   Grid.ColumnSpan="2"
@@ -1136,10 +1119,6 @@
                                     </Trigger>
                                     <Trigger Property="IsKeyboardFocusWithin" Value="True">
                                         <Setter Property="Foreground" Value="Black" />
-                                    </Trigger>
-                                    <Trigger SourceName="PART_Popup" Property="HasDropShadow" Value="True">
-                                        <Setter TargetName="shadow" Property="Margin" Value="0,0,5,5" />
-                                        <Setter TargetName="shadow" Property="Color" Value="#71000000" />
                                     </Trigger>
                                     <Trigger Property="HasItems" Value="False">
                                         <Setter TargetName="DropDownBorder" Property="Height" Value="95" />

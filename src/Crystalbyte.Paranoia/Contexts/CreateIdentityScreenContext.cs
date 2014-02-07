@@ -21,7 +21,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         private bool _isActive;
         private string _name;
-        private string _emailAddress;
+        private string _address;
         private string _notes;
         private string _gravatarUrl;
 
@@ -39,7 +39,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         #region Import Declarations
 
         [Import]
-        public LocalStorage LocalStorage { get; set; }
+        public StorageContext LocalStorage { get; set; }
 
         [Import]
         public AppContext AppContext { get; set; }
@@ -68,16 +68,16 @@ namespace Crystalbyte.Paranoia.Contexts {
         [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
         [RegularExpression(RegexPatterns.Email, ErrorMessageResourceType = typeof(Resources),
             ErrorMessageResourceName = "InvalidEmailFormatErrorText")]
-        public string EmailAddress {
-            get { return _emailAddress; }
+        public string Address {
+            get { return _address; }
             set {
-                if (_emailAddress == value) {
+                if (_address == value) {
                     return;
                 }
 
-                RaisePropertyChanging(() => EmailAddress);
-                _emailAddress = value;
-                RaisePropertyChanged(() => EmailAddress);
+                RaisePropertyChanging(() => Address);
+                _address = value;
+                RaisePropertyChanged(() => Address);
                 OnEmailAddressChanged();
             }
         }
@@ -136,7 +136,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         private void ClearValues() {
             Name = string.Empty;
-            EmailAddress = string.Empty;
+            Address = string.Empty;
             Notes = string.Empty;
             GravatarUrl = null;
         }
@@ -147,24 +147,22 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         private void OnCreateCommandExecuted(object parameter) {
             var identity = new Identity {
-                EmailAddress = EmailAddress,
+                Address = Address,
                 Notes = Notes,
-                Name = Name,
-                PrivateKey = "private-key",
-                PublicKey = "public-key"
+                Name = Name
             };
 
             AppContext.Identities.Add(new IdentityContext(identity));
 
-            LocalStorage.Context.Identities.Add(identity);
-            LocalStorage.Context.SaveChanges();
+            //LocalStorage.Context.Identities.Add(identity);
+            //LocalStorage.Context.SaveChanges();
 
             Close();
         }
 
         public void CreateGravatarUrl() {
             using (var md5 = MD5.Create()) {
-                var bytes = md5.ComputeHash(Encoding.UTF8.GetBytes(EmailAddress.Trim()));
+                var bytes = md5.ComputeHash(Encoding.UTF8.GetBytes(Address.Trim()));
                 using (var writer = new StringWriter()) {
                     foreach (var b in bytes) {
                         writer.Write(b.ToString("x2"));

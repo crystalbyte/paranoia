@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Crystalbyte.Paranoia.Models;
+using System.Threading.Tasks;
+using Crystalbyte.Paranoia.Data;
 
 #endregion
 
@@ -14,9 +16,9 @@ namespace Crystalbyte.Paranoia.Contexts {
         #region Private Fields
 
         private readonly Identity _identity;
+        private readonly ObservableCollection<ContactContext> _contacts;
         private string _gravatarImageUrl;
         private bool _isSelected;
-        private readonly ObservableCollection<ContactContext> _contacts;
 
         #endregion
 
@@ -32,14 +34,15 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         #endregion
 
-        public void AddContact(Contact contact) {
-            _identity.Contacts.Add(contact);                
-            _contacts.Add(new ContactContext(contact));
-        }
-
         public ObservableCollection<ContactContext> Contacts {
             get { return _contacts; }
         }
+
+        //public Task InvalidateAsync() {
+        //    var contacts = (from i in StorageContext.Current.Contacts select i);
+        //}
+
+        public SmtpAccountContext SmtpAccount { get; set; }
 
         public string Name {
             get { return _identity.Name; }
@@ -54,16 +57,16 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        public string EmailAddress {
-            get { return _identity.EmailAddress; }
+        public string Address {
+            get { return _identity.Address; }
             set {
-                if (_identity.EmailAddress == value) {
+                if (_identity.Address == value) {
                     return;
                 }
 
-                RaisePropertyChanging(() => EmailAddress);
-                _identity.EmailAddress = value;
-                RaisePropertyChanged(() => EmailAddress);
+                RaisePropertyChanging(() => Address);
+                _identity.Address = value;
+                RaisePropertyChanged(() => Address);
                 CreateGravatarUrl();
             }
         }
@@ -73,7 +76,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private void CreateGravatarUrl() {
-            _gravatarImageUrl = Gravatar.CreateImageUrl(EmailAddress);
+            _gravatarImageUrl = Gravatar.CreateImageUrl(Address);
         }
 
         public string Notes {
@@ -86,32 +89,6 @@ namespace Crystalbyte.Paranoia.Contexts {
                 RaisePropertyChanging(() => Notes);
                 _identity.Notes = value;
                 RaisePropertyChanged(() => Notes);
-            }
-        }
-
-        public string PublicKey {
-            get { return _identity.PublicKey; }
-            set {
-                if (_identity.PublicKey == value) {
-                    return;
-                }
-
-                RaisePropertyChanging(() => PublicKey);
-                _identity.PublicKey = value;
-                RaisePropertyChanged(() => PublicKey);
-            }
-        }
-
-        public string PrivateKey {
-            get { return _identity.PrivateKey; }
-            set {
-                if (_identity.PrivateKey == value) {
-                    return;
-                }
-
-                RaisePropertyChanging(() => PrivateKey);
-                _identity.PrivateKey = value;
-                RaisePropertyChanged(() => PrivateKey);
             }
         }
 
@@ -137,12 +114,7 @@ namespace Crystalbyte.Paranoia.Contexts {
                 handler(this, e);
             }
 
-            LoadContacts();
-        }
-
-        private void LoadContacts() {
-            _contacts.Clear();
-            _contacts.AddRange(_identity.Contacts.Select(x => new ContactContext(x)));
+            //LoadContacts();
         }
 
         public string GravatarUrl {

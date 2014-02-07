@@ -14,16 +14,13 @@ namespace Crystalbyte.Paranoia.UI {
     /// </summary>
     public partial class CreateAccountConfigPage {
         public CreateAccountConfigPage() {
-            if (!DesignerProperties.GetIsInDesignMode(this)) {
-                ScreenContext = App.AppContext.CreateAccountScreenContext;
-            }
             InitializeComponent();
         }
 
-        public CreateAccountScreenContext ScreenContext { 
-            get { return DataContext as CreateAccountScreenContext; } 
-            set { DataContext = value; } 
-        }
+        //public CreateAccountScreenContext ScreenContext { 
+        //    get { return DataContext as CreateAccountScreenContext; } 
+        //    set { DataContext = value; } 
+        //}
 
         private void OnPortPreviewTextInput(object sender, TextCompositionEventArgs e) {
             if (!char.IsDigit(e.Text, e.Text.Length - 1)) {
@@ -41,7 +38,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            ScreenContext.ImapPassword = box.Password;
+            //ScreenContext.ImapPassword = box.Password;
         }
 
         private void OnSmtpPasswordChanged(object sender, RoutedEventArgs e) {
@@ -54,7 +51,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            ScreenContext.SmtpPassword = box.Password;
+            //ScreenContext.SmtpPassword = box.Password;
         }
 
         private void OnImapPasswordBoxLoaded(object sender, RoutedEventArgs e) {
@@ -64,7 +61,7 @@ namespace Crystalbyte.Paranoia.UI {
             }
          
 
-            box.Password = ScreenContext.ImapPassword;
+            //box.Password = ScreenContext.ImapPassword;
         }
 
         private void OnSmtpPasswordBoxLoaded(object sender, RoutedEventArgs e) {
@@ -74,7 +71,7 @@ namespace Crystalbyte.Paranoia.UI {
             }
 
 
-            box.Password = ScreenContext.ImapPassword;
+            //box.Password = ScreenContext.ImapPassword;
         }
     }
 }

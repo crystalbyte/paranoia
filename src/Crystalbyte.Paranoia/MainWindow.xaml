@@ -47,7 +47,7 @@
                         <Border BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Padding="{TemplateBinding Padding}">
-                            <!--  Grid to add more full window items later  -->
+                              <!--Grid to add more full window items later-->  
                             <Grid>
                                 <DockPanel LastChildFill="True">
                                     <Grid Height="54"
@@ -107,8 +107,7 @@
                                                 </ListView.ItemTemplate>
                                             </ListView>
                                             <Button VerticalAlignment="Top"
-                                                    Command="{Binding CreateIdentityCommand,
-                                                                      FallbackValue={StaticResource NullCommand}}"
+                                                    Command="{Binding CreateIdentityCommand}"
                                                     Style="{StaticResource CreateIdentityButtonStyle}" />
                                         </StackPanel>
                                         <StackPanel Grid.Column="2" Orientation="Horizontal">
@@ -349,7 +348,7 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </Border>
-                    <ui:HtmlRenderer Grid.Row="1"
+                    <Border Grid.Row="1"
                                      Grid.Column="4"
                                      Background="Red"
                                      Visibility="{Binding IsHtmlVisible,
@@ -357,7 +356,7 @@
                 </Grid>
             </Border>
 
-            <ui:CreateIdentityScreen DataContext="{Binding CreateIdentityScreenContext}"
+            <!--<ui:CreateIdentityScreen DataContext="{Binding CreateIdentityScreenContext}"
                                      Style="{StaticResource ScreenOverlayStyle}"
                                      Visibility="{Binding IsActive,
                                                           FallbackValue=False,
@@ -375,6 +374,7 @@
                                                       FallbackValue=False,
                                                       Mode=OneWay,
                                                       Converter={StaticResource BooleanToVisibilityConverter}}" />
+            -->
         </Grid>
 
     </DockPanel>

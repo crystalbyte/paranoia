@@ -57,16 +57,13 @@ namespace Crystalbyte.Paranoia.Contexts {
         public KeyExchangeCommand InviteContactCommand { get; set; }
 
         [Import]
-        public LocalStorage LocalStorage { get; set; }
+        public StorageContext StorageContext { get; set; }
 
         [Import]
         public SettingsContext SettingsContext { get; set; }
 
         [Import]
         public CreateIdentityScreenContext CreateIdentityScreenContext { get; set; }
-
-        [Import]
-        public CreateAccountScreenContext CreateAccountScreenContext { get; set; }
 
         [Import]
         public AddContactScreenContext AddContactScreenContext { get; set; }
@@ -96,9 +93,9 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         #endregion
 
-        public IEnumerable<IAppBarCommand> ContactCommands { 
-            get { 
-                return AppBarCommands.Where(x => x.Category == AppBarCategory.Contacts).OrderBy(x => x.Position).ToArray(); 
+        public IEnumerable<IAppBarCommand> ContactCommands {
+            get {
+                return AppBarCommands.Where(x => x.Category == AppBarCategory.Contacts).OrderBy(x => x.Position).ToArray();
             }
         }
 
@@ -133,7 +130,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private void OnCreateAccountCommandExecuted(object obj) {
-            CreateAccountScreenContext.IsActive = true;
+            //CreateAccountScreenContext.IsActive = true;
         }
 
         private void OnCreateIdentityCommandExecuted(object obj) {
@@ -197,47 +194,46 @@ namespace Crystalbyte.Paranoia.Contexts {
         public async Task RunAsync() {
             try {
                 await SeedAsync();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Debug.WriteLine(ex);
             }
 
-            await LocalStorage.InitAsync();
-            await LoadIdentitiesAsync();
-            await LoadImapAccountsAsync();
+            await StorageContext.Current.InitAsync();
+            //await LoadIdentitiesAsync();
+            //await LoadImapAccountsAsync();
 
             foreach (var account in ImapAccounts) {
                 await account.TakeOnlineAsync();
             }
         }
 
-        private async Task LoadImapAccountsAsync() {
-            var query = await SelectImapAccountsAsync();
-            ImapAccounts.AddRange(query.Select(x => new ImapAccountContext(x)));
+        //private async Task LoadImapAccountsAsync() {
+        //    var query = await SelectImapAccountsAsync();
+        //    ImapAccounts.AddRange(query.Select(x => new ImapAccountContext(x)));
 
-            foreach (var account in ImapAccounts) {
-                await account.LoadMailboxesAsync();
-            }
+        //    foreach (var account in ImapAccounts) {
+        //        await account.LoadMailboxesAsync();
+        //    }
 
-            if (ImapAccounts.Any()) {
-                ImapAccounts.First().IsSelected = true;
-            }
-        }
+        //    if (ImapAccounts.Any()) {
+        //        ImapAccounts.First().IsSelected = true;
+        //    }
+        //}
 
-        private Task<ImapAccount[]> SelectImapAccountsAsync() {
-            return Task.Factory.StartNew(() => LocalStorage.Context.ImapAccounts.ToArray());
-        }
+        //private Task<ImapAccount[]> SelectImapAccountsAsync() {
+        //    //return Task.Factory.StartNew(() => LocalStorage.Context.ImapAccounts.ToArray());
+        //}
 
         private async Task LoadIdentitiesAsync() {
-            var query = await SelectIdentitiesAsync();
-            Identities.AddRange(query.ToArray().Select(x => new IdentityContext(x)));
-            if (Identities.Any()) {
-                Identities.First().IsSelected = true;
-            }
+            //var query = await SelectIdentitiesAsync();
+            //Identities.AddRange(query.ToArray().Select(x => new IdentityContext(x)));
+            //if (Identities.Any()) {
+            //    Identities.First().IsSelected = true;
+            //}
         }
 
-        private Task<Identity[]> SelectIdentitiesAsync() {
-            return Task.Factory.StartNew(() => LocalStorage.Context.Identities.ToArray());
-        }
+        //private Task<Identity[]> SelectIdentitiesAsync() {
+        //    return Task.Factory.StartNew(() => StorageContext.Context.Identities.ToArray());
+        //}
     }
 }
