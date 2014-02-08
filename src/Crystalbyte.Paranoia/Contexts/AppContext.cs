@@ -25,6 +25,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         #region Private Fields
 
         private bool _isSyncing;
+        private IdentityCreationContext _identityCreationContext;
         private readonly ObservableCollection<IdentityContext> _identities;
         private readonly ObservableCollection<ImapAccountContext> _imapAccounts;
         private bool _isHtmlVisible;
@@ -37,10 +38,12 @@ namespace Crystalbyte.Paranoia.Contexts {
             _identities = new ObservableCollection<IdentityContext>();
             _imapAccounts = new ObservableCollection<ImapAccountContext>();
 
-            CreateAccountCommand = new RelayCommand(OnCreateAccountCommandExecuted);
             CreateIdentityCommand = new RelayCommand(OnCreateIdentityCommandExecuted);
-            OpenSettingsCommand = new RelayCommand(OnOpenSettingsCommandExecuted);
             AddContactCommand = new RelayCommand(OnAddContactCommandExecuted);
+        }
+
+        private void OnAddContactCommandExecuted(object obj) {
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -54,34 +57,16 @@ namespace Crystalbyte.Paranoia.Contexts {
         public DeleteContactCommand DeleteContactCommand { get; set; }
 
         [Import]
-        public KeyExchangeCommand InviteContactCommand { get; set; }
-
-        [Import]
         public StorageContext StorageContext { get; set; }
 
         [Import]
-        public SettingsContext SettingsContext { get; set; }
-
-        [Import]
-        public CreateIdentityScreenContext CreateIdentityScreenContext { get; set; }
-
-        [Import]
-        public AddContactScreenContext AddContactScreenContext { get; set; }
-
-        [Import]
         public IdentitySelectionSource IdentitySelectionSource { get; set; }
-
-        [Import]
-        public ImapAccountSelectionSource ImapAccountSelectionSource { get; set; }
 
         [Import]
         public ContactSelectionSource ContactSelectionSource { get; set; }
 
         [Import]
         public ComposeMessageCommand ComposeMessageCommand { get; set; }
-
-        [Import]
-        public ComposeMessageScreenContext ComposeMessageScreenContext { get; set; }
 
         [ImportMany]
         public IEnumerable<IAppBarCommand> AppBarCommands { get; set; }
@@ -99,23 +84,23 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        public bool IsHtmlVisible {
-            get { return _isHtmlVisible; }
+        public ICommand CreateIdentityCommand { get; private set; }
+        public ICommand AddContactCommand { get; private set; }
+
+        public IdentityCreationContext IdentityCreationContext { 
+            get {
+                return _identityCreationContext;
+            }
             set {
-                if (_isHtmlVisible == value) {
+                if (_identityCreationContext == value) {
                     return;
                 }
 
-                RaisePropertyChanging(() => IsHtmlVisible);
-                _isHtmlVisible = value;
-                RaisePropertyChanged(() => IsHtmlVisible);
+                RaisePropertyChanging(() => IdentityCreationContext);
+                _identityCreationContext = value;
+                RaisePropertyChanged(() => IdentityCreationContext);
             }
         }
-
-        public ICommand CreateAccountCommand { get; private set; }
-        public ICommand CreateIdentityCommand { get; private set; }
-        public ICommand OpenSettingsCommand { get; private set; }
-        public ICommand AddContactCommand { get; private set; }
 
         public event EventHandler SyncStatusChanged;
 
@@ -125,20 +110,17 @@ namespace Crystalbyte.Paranoia.Contexts {
                 handler(this, e);
         }
 
-        private void OnAddContactCommandExecuted(object obj) {
-            AddContactScreenContext.IsActive = true;
-        }
+        private void OnIdentityCreationFinished(object sender, EventArgs e) {
+            if (IdentityCreationContext != null) {
+                IdentityCreationContext.Finished -= OnIdentityCreationFinished;
+            }
 
-        private void OnCreateAccountCommandExecuted(object obj) {
-            //CreateAccountScreenContext.IsActive = true;
+            IdentityCreationContext = null;
         }
 
         private void OnCreateIdentityCommandExecuted(object obj) {
-            CreateIdentityScreenContext.IsActive = true;
-        }
-
-        private void OnOpenSettingsCommandExecuted(object obj) {
-            SettingsContext.IsActive = true;
+            IdentityCreationContext = new IdentityCreationContext();
+            IdentityCreationContext.Finished += OnIdentityCreationFinished;
         }
 
         public bool IsSyncing {
@@ -157,10 +139,6 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public IList<IdentityContext> Identities {
             get { return _identities; }
-        }
-
-        public IList<ImapAccountContext> ImapAccounts {
-            get { return _imapAccounts; }
         }
 
         public void SyncAsync() {
@@ -202,9 +180,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             //await LoadIdentitiesAsync();
             //await LoadImapAccountsAsync();
 
-            foreach (var account in ImapAccounts) {
-                await account.TakeOnlineAsync();
-            }
+       
         }
 
         //private async Task LoadImapAccountsAsync() {

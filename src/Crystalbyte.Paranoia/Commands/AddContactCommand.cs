@@ -36,7 +36,6 @@ namespace Crystalbyte.Paranoia.Commands {
         }
 
         public void Execute(object parameter) {
-            AppContext.AddContactScreenContext.IsActive = true;
         }
 
         public event EventHandler CanExecuteChanged;

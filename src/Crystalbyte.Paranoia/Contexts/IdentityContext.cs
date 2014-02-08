@@ -79,19 +79,6 @@ namespace Crystalbyte.Paranoia.Contexts {
             _gravatarImageUrl = Gravatar.CreateImageUrl(Address);
         }
 
-        public string Notes {
-            get { return _identity.Notes; }
-            set {
-                if (_identity.Notes == value) {
-                    return;
-                }
-
-                RaisePropertyChanging(() => Notes);
-                _identity.Notes = value;
-                RaisePropertyChanged(() => Notes);
-            }
-        }
-
         public bool IsSelected {
             get { return _isSelected; }
             set {

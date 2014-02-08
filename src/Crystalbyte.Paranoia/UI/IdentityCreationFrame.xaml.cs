@@ -9,8 +9,8 @@ namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     ///   Interaction logic for CreateAccountScreen.xaml
     /// </summary>
-    public partial class CreateAccountScreen {
-        public CreateAccountScreen() {
+    public partial class IdentityCreationFrame {
+        public IdentityCreationFrame() {
             if (!DesignerProperties.GetIsInDesignMode(this)) {
                 //ScreenContext = App.AppContext.CreateAccountScreenContext;    
             }

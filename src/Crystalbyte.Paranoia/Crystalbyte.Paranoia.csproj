@@ -125,13 +125,13 @@
     <Compile Include="Converters\BooleanToStringConverter.cs" />
     <Compile Include="Converters\DomainToHostLogoConverter.cs" />
     <Compile Include="Converters\ExceptionFormatter.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Data\StorageContext.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Gravatar.cs" />
     <Compile Include="Commands\IAppBarCommand.cs" />
     <Compile Include="IdentitySelectionSource.cs" />
-    <Compile Include="ImapAccountSelectionSource.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Identity.cs" />
     <Compile Include="Models\ImapAccount.cs" />
@@ -143,6 +143,9 @@
     <Compile Include="ParanoiaHeaders.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="UI\AppBarButton.cs" />
+    <Compile Include="UI\IdentityCreationFrame.xaml.cs">
+      <DependentUpon>IdentityCreationFrame.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\HtmlRenderer.cs" />
     <Compile Include="UI\AddContactScreen.xaml.cs">
       <DependentUpon>AddContactScreen.xaml</DependentUpon>
@@ -162,8 +165,7 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\SyncCommand.cs" />
     <Compile Include="Contexts\IdentityContext.cs" />
-    <Compile Include="Contexts\CreateIdentityScreenContext.cs" />
-    <Compile Include="Contexts\SettingsContext.cs" />
+    <Compile Include="Contexts\IdentityCreationContext.cs" />
     <Compile Include="Contexts\ValidationObject.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\RatioConverter.cs" />
@@ -189,14 +191,8 @@
     <Compile Include="UI\CreateAccountConfigPage.xaml.cs">
       <DependentUpon>CreateAccountConfigPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\CreateAccountScreen.xaml.cs">
-      <DependentUpon>CreateAccountScreen.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\CreateAccountStartPage.xaml.cs">
-      <DependentUpon>CreateAccountStartPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\CreateIdentityScreen.xaml.cs">
-      <DependentUpon>CreateIdentityScreen.xaml</DependentUpon>
+    <Compile Include="UI\IdentityCreationPage.xaml.cs">
+      <DependentUpon>IdentityCreationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\PasswordService.cs" />
     <Compile Include="WebBrowserExtensions.cs" />
@@ -234,19 +230,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\CreateAccountScreen.xaml">
+    <Page Include="UI\IdentityCreationFrame.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\CreateAccountStartPage.xaml">
+    <Page Include="UI\IdentityCreationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\CreateAccountTestingPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\CreateIdentityScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

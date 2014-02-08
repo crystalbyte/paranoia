@@ -110,41 +110,6 @@
                                                     Command="{Binding CreateIdentityCommand}"
                                                     Style="{StaticResource CreateIdentityButtonStyle}" />
                                         </StackPanel>
-                                        <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                            <ListView ItemsSource="{Binding ImapAccounts}"
-                                                      SelectionChanged="OnListViewSelectionChanged"
-                                                      Style="{StaticResource AvatarListViewStyle}">
-                                                <ListView.ItemContainerStyle>
-                                                    <Style BasedOn="{StaticResource AvatarListViewItemStyle}"
-                                                           TargetType="ListViewItem"
-                                                           d:DataContext="{d:DesignInstance contexts:ImapAccountContext}">
-                                                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                                                        <Setter Property="ToolTip" Value="{Binding Name, FallbackValue={x:Static system:String.Empty}}" />
-                                                    </Style>
-                                                </ListView.ItemContainerStyle>
-                                                <ListView.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel Orientation="Horizontal" />
-                                                    </ItemsPanelTemplate>
-                                                </ListView.ItemsPanel>
-                                                <ListView.ItemTemplate>
-                                                    <DataTemplate DataType="contexts:ImapAccountContext">
-                                                        <Grid Background="{StaticResource AppControlBrush}">
-                                                            <Image x:Name="Avatar"
-                                                                   Width="48"
-                                                                   Height="48"
-                                                                   SnapsToDevicePixels="True"
-                                                                   Source="{Binding Name,
-                                                                                    Converter={StaticResource DomainToHostLogoConverter},
-                                                                                    IsAsync=True}" />
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </ListView.ItemTemplate>
-                                            </ListView>
-                                            <Button VerticalAlignment="Top"
-                                                    Command="{Binding CreateAccountCommand}"
-                                                    Style="{StaticResource CreateIdentityButtonStyle}" />
-                                        </StackPanel>
                                     </Grid>
                                     <ContentPresenter />
                                 </DockPanel>
@@ -157,20 +122,13 @@
     </Window.Style>
     <Window.InputBindings>
         <KeyBinding Key="N"
-                    Command="{Binding ComposeMessageCommand,
-                                      FallbackValue={StaticResource NullCommand}}"
+                    Command="{Binding ComposeMessageCommand}"
                     Modifiers="Control" />
         <KeyBinding Key="I"
-                    Command="{Binding CreateIdentityCommand,
-                                      FallbackValue={StaticResource NullCommand}}"
-                    Modifiers="Control" />
-        <KeyBinding Key="O"
-                    Command="{Binding CreateAccountCommand,
-                                      FallbackValue={StaticResource NullCommand}}"
+                    Command="{Binding CreateIdentityCommand}"
                     Modifiers="Control" />
         <KeyBinding Key="P"
-                    Command="{Binding AddContactCommand,
-                                      FallbackValue={StaticResource NullCommand}}"
+                    Command="{Binding AddContactCommand}"
                     Modifiers="Control" />
         <KeyBinding Key="I"
                     Command="{Binding InviteContactCommand}"
@@ -356,12 +314,10 @@
                 </Grid>
             </Border>
 
-            <!--<ui:CreateIdentityScreen DataContext="{Binding CreateIdentityScreenContext}"
+            <ui:IdentityCreationFrame DataContext="{Binding IdentityCreationContext}"
                                      Style="{StaticResource ScreenOverlayStyle}"
-                                     Visibility="{Binding IsActive,
-                                                          FallbackValue=False,
-                                                          Mode=OneWay,
-                                                          Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                     Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}" />
+            <!--
             <ui:CreateAccountScreen DataContext="{Binding CreateAccountScreenContext}"
                                     Style="{StaticResource ScreenOverlayStyle}"
                                     Visibility="{Binding IsActive,

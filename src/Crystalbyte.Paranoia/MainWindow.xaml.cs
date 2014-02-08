@@ -171,7 +171,7 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            context.ImapAccountSelectionSource.Current = e.AddedItems.OfType<ImapAccountContext>().FirstOrDefault();
+            //context.ImapAccountSelectionSource.Current = e.AddedItems.OfType<ImapAccountContext>().FirstOrDefault();
         }
     }
 }

@@ -24,9 +24,6 @@ namespace Crystalbyte.Paranoia.Commands {
         [Import]
         public ContactSelectionSource ContactSelectionSource { get; set; }
 
-        [Import]
-        public ImapAccountSelectionSource ImapAccountSelectionSource { get; set; }
-
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
             IdentitySelectionSource.SelectionChanged += (sender, e) => OnCanExecuteChanged(EventArgs.Empty);

@@ -14,8 +14,8 @@ namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     ///   Interaction logic for CreateAccountStartPage.xaml
     /// </summary>
-    public partial class CreateAccountStartPage {
-        public CreateAccountStartPage() {
+    public partial class IdentityCreationPage {
+        public IdentityCreationPage() {
             if (!DesignerProperties.GetIsInDesignMode(this)) {
                 //ScreenContext = App.AppContext.CreateAccountScreenContext;
                 //ScreenContext.Activated += OnActivated;

@@ -10,12 +10,12 @@ using Crystalbyte.Paranoia.Commands;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.Models;
+using System;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.Contexts {
-    [Export, Shared]
-    public sealed class CreateIdentityScreenContext : ValidationObject<CreateIdentityScreenContext> {
+    public sealed class IdentityCreationContext : ValidationObject<IdentityCreationContext> {
 
         #region Private Fields
 
@@ -29,24 +29,22 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         #region Construction
 
-        public CreateIdentityScreenContext() {
-            CreateCommand = new RelayCommand(OnCanCreateCommandExecuted, OnCreateCommandExecuted);
+        public IdentityCreationContext() {
+            ContinueCommand = new RelayCommand(OnCanContinueCommandExecuted, OnContinueCommandExecuted);
             CancelCommand = new RelayCommand(OnCancelCommandExecuted);
         }
 
         #endregion
 
-        #region Import Declarations
+        public event EventHandler Finished;
+        private void OnFinished() {
+            var handler = Finished;
+            if (handler != null) {
+                handler(this, EventArgs.Empty);
+            }
+        }
 
-        [Import]
-        public StorageContext LocalStorage { get; set; }
-
-        [Import]
-        public AppContext AppContext { get; set; }
-
-        #endregion
-
-        public ICommand CreateCommand { get; set; }
+        public ICommand ContinueCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequiredErrorText")]
@@ -95,19 +93,6 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        public string Notes {
-            get { return _notes; }
-            set {
-                if (_notes == value) {
-                    return;
-                }
-
-                RaisePropertyChanging(() => Notes);
-                _notes = value;
-                RaisePropertyChanged(() => Notes);
-            }
-        }
-
         public bool IsActive {
             get { return _isActive; }
             set {
@@ -126,38 +111,20 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private void OnCancelCommandExecuted(object obj) {
-            Close();
+            OnFinished();
         }
 
-        private void Close() {
-            ClearValues();
-            IsActive = false;
-        }
-
-        private void ClearValues() {
-            Name = string.Empty;
-            Address = string.Empty;
-            Notes = string.Empty;
-            GravatarUrl = null;
-        }
-
-        private static bool OnCanCreateCommandExecuted(object parameter) {
+        private static bool OnCanContinueCommandExecuted(object parameter) {
             return true;
         }
 
-        private void OnCreateCommandExecuted(object parameter) {
+        private void OnContinueCommandExecuted(object parameter) {
             var identity = new Identity {
                 Address = Address,
-                Notes = Notes,
                 Name = Name
             };
 
-            AppContext.Identities.Add(new IdentityContext(identity));
-
-            //LocalStorage.Context.Identities.Add(identity);
-            //LocalStorage.Context.SaveChanges();
-
-            Close();
+            
         }
 
         public void CreateGravatarUrl() {

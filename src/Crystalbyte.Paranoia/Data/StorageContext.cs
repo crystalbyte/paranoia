@@ -14,15 +14,14 @@ using System.Diagnostics;
 namespace Crystalbyte.Paranoia.Data {
     [Export, Shared]
     public sealed class StorageContext : DbContext {
-        
-        private const string ApplicationName = "Paranoia";
-        private const string DatabaseFilename = "Storage.sdf";
+        private const string Filename = "storage.sdf";
 
         public static StorageContext Current { get; set; }
 
-        public StorageContext() {
+        public StorageContext()
+            : base(Filename) {
             if (Current != null) {
-                throw new InvalidOperationException("Constructor must not be called twice.");
+                throw new InvalidOperationException("One does not simply call StorageContext twice!");
             }
             Current = this;
         }
@@ -32,7 +31,7 @@ namespace Crystalbyte.Paranoia.Data {
         private static string StorageDirectory {
             get {
                 var roaming = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                var directory = Path.Combine(roaming, ApplicationName, "Data");
+                var directory = Path.Combine(roaming, App.Name, "Data");
                 return directory;
             }
         }
@@ -43,7 +42,7 @@ namespace Crystalbyte.Paranoia.Data {
                     return false;
                 }
 
-                var file = Path.Combine(StorageDirectory, DatabaseFilename);
+                var file = Path.Combine(StorageDirectory, Filename);
                 return File.Exists(file);
             });
         }
@@ -70,26 +69,7 @@ namespace Crystalbyte.Paranoia.Data {
                     Directory.CreateDirectory(directory);
                 }
 
-                var file = Path.Combine(directory, DatabaseFilename);
-                var info =
-                    Application.GetResourceStream(new Uri("Data/Storage.sdf",
-                                                          UriKind.RelativeOrAbsolute));
-                if (info == null) {
-                    throw new Exception(string.Format("Resource missing: {0}",
-                                                      "/Data/Storage.sdf"));
-                }
-
-                using (var reader = new BinaryReader(info.Stream)) {
-                    using (var writer = new BinaryWriter(File.Create(file))) {
-                        while (true) {
-                            var bytes = reader.ReadBytes(4096);
-                            if (bytes.Length == 0) {
-                                break;
-                            }
-                            writer.Write(bytes);
-                        }
-                    }
-                }
+                Database.Create();
             });
         }
     }

@@ -8,14 +8,17 @@ using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia.Models {
     public class Mailbox {
-        [Required]
+        [Key]
         public int Id { get; set; }
-        [Required]
+        [ForeignKey("ImapAccount")]
         public int ImapAccountId { get; set; }
+        [Required]
+        [StringLength(256)]
         public string Name { get; set; }
+        [Required]
         public char Delimiter { get; set; }
 
-        [ForeignKey("ImapAccountId")]
+        public virtual ImapAccount ImapAccount { get; set; }
         public virtual List<MailboxFlag> Flags { get; set; }
     }
 }

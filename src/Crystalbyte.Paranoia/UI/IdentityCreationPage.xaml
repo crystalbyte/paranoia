@@ -1,22 +1,30 @@
-﻿<UserControl x:Class="Crystalbyte.Paranoia.UI.CreateIdentityScreen"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:System="clr-namespace:System;assembly=mscorlib"
-             xmlns:behaviors="clr-namespace:Crystalbyte.Paranoia.UI"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
-             xmlns:ui="clr-namespace:Crystalbyte.Paranoia.Contexts"
-             KeyboardNavigation.AcceptsReturn="False"
-             KeyboardNavigation.TabNavigation="Cycle"
-             d:DataContext="{d:DesignInstance ui:CreateIdentityScreenContext}"
-             d:DesignHeight="400"
-             d:DesignWidth="640"
-             mc:Ignorable="d">
-    <UserControl.InputBindings>
-        <KeyBinding Key="Return" Command="{Binding CreateCommand, FallbackValue={StaticResource NullCommand}}" />
-        <KeyBinding Key="Escape" Command="{Binding CancelCommand, FallbackValue={StaticResource NullCommand}}" />
-    </UserControl.InputBindings>
+﻿<Page x:Class="Crystalbyte.Paranoia.UI.IdentityCreationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:System="clr-namespace:System;assembly=mscorlib"
+      xmlns:contexts="clr-namespace:Crystalbyte.Paranoia.Contexts"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+      xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+      x:Name="Page"
+      HorizontalAlignment="Stretch"
+      KeepAlive="True"
+      KeyboardNavigation.IsTabStop="False"
+      d:DataContext="{d:DesignInstance contexts:IdentityContext}"
+      d:DesignHeight="435.8"
+      d:DesignWidth="633"
+      mc:Ignorable="d">
+    <Page.InputBindings>
+        <KeyBinding Key="B"
+                    Command="{Binding CancelCommand,
+                                      FallbackValue={StaticResource NullCommand}}"
+                    Modifiers="Alt" />
+        <KeyBinding Key="Return"
+                    Command="{Binding ConfigCommand,
+                                      FallbackValue={StaticResource NullCommand}}"
+                    CommandParameter="{Binding ElementName=Page}" />
+    </Page.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -46,7 +54,6 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0"
                            Grid.ColumnSpan="2"
@@ -57,7 +64,7 @@
                     <Run FontSize="{StaticResource AppNormalFontSize}" Text="{x:Static properties:Resources.CreateIdentitySubTitle}" />
                 </TextBlock>
                 <Grid Grid.Row="1"
-                      Grid.RowSpan="2"
+                      Grid.RowSpan="3"
                       Grid.Column="0"
                       Width="128"
                       Height="128"
@@ -68,12 +75,10 @@
                 </Grid>
                 <TextBlock Grid.Row="1"
                            Grid.Column="1"
-                           FontSize="{StaticResource AppLargeFontSize}"
+                           FontSize="{StaticResource AppNormalFontSize}"
                            Style="{StaticResource AppLightTextStyle}"
                            TextWrapping="Wrap">
-                    <Run>Public</Run>
-                    <LineBreak />
-                    <Run FontSize="{StaticResource AppNormalFontSize}" Text="{x:Static properties:Resources.IdentityPublicDescription}" />
+                    <Run Text="{x:Static properties:Resources.IdentityPublicDescription}" />
                 </TextBlock>
                 <StackPanel Grid.Row="2" Grid.Column="1">
                     <AdornerDecorator>
@@ -83,62 +88,68 @@
                                                 Mode=TwoWay,
                                                 FallbackValue={x:Static System:String.Empty},
                                                 ValidatesOnDataErrors=True}"
-                                 behaviors:InitialFocus.IsEnabled="True">
-                            <behaviors:WatermarkService.Watermark>
+                                 ui:InitialFocus.IsEnabled="True">
+                            <ui:WatermarkService.Watermark>
                                 <TextBlock VerticalAlignment="Center"
                                            Style="{StaticResource AppWatermarkTextStyle}"
                                            Text="{x:Static properties:Resources.NameWatermark}" />
-                            </behaviors:WatermarkService.Watermark>
+                            </ui:WatermarkService.Watermark>
                         </TextBox>
                     </AdornerDecorator>
                     <AdornerDecorator>
-                        <TextBox KeyboardNavigation.TabIndex="1" Text="{Binding EmailAddress, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}">
-                            <behaviors:WatermarkService.Watermark>
+                        <TextBox KeyboardNavigation.TabIndex="1" Text="{Binding Address, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}">
+                            <ui:WatermarkService.Watermark>
                                 <TextBlock VerticalAlignment="Center"
                                            Style="{StaticResource AppWatermarkTextStyle}"
                                            Text="{x:Static properties:Resources.EmailAddressWatermark}" />
-                            </behaviors:WatermarkService.Watermark>
+                            </ui:WatermarkService.Watermark>
                         </TextBox>
                     </AdornerDecorator>
                 </StackPanel>
-                <TextBlock Grid.Row="4"
+                <TextBlock Grid.Row="3"
+                           Margin="0,6,0,0"
                            Grid.Column="1"
-                           FontSize="{StaticResource AppLargeFontSize}"
+                           FontSize="{StaticResource AppNormalFontSize}"
                            Foreground="{StaticResource AppAccentBrush}"
                            Style="{StaticResource AppLightTextStyle}"
                            TextWrapping="Wrap">
-                    <Run>Private</Run>
-                    <LineBreak />
-                    <Run FontSize="{StaticResource AppNormalFontSize}"
-                         Foreground="{StaticResource AppLightTextBrush}"
-                         Text="{x:Static properties:Resources.IdentityPrivateDescription}" />
+                    <Run Text="{x:Static properties:Resources.IdentityPrivateDescription}" />
                 </TextBlock>
-                <AdornerDecorator Grid.Row="5" Grid.Column="1">
-                    <TextBox Margin="0,6,0,0"
-                             KeyboardNavigation.TabIndex="2"
-                             Text="{Binding Notes,
-                                            FallbackValue={x:Static System:String.Empty},
-                                            Mode=TwoWay}">
-                        <behaviors:WatermarkService.Watermark>
-                            <TextBlock VerticalAlignment="Center"
-                                       Style="{StaticResource AppWatermarkTextStyle}"
-                                       Text="{x:Static properties:Resources.NotesWatermark}" />
-                        </behaviors:WatermarkService.Watermark>
-                    </TextBox>
-                </AdornerDecorator>
-                <DockPanel Grid.Row="6"
+                <StackPanel Grid.Row="4" Grid.Column="1">
+                    <AdornerDecorator>
+                        <TextBox KeyboardNavigation.TabIndex="2" Text="{Binding Password, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}">
+                            <ui:WatermarkService.Watermark>
+                                <TextBlock VerticalAlignment="Center"
+                                           Style="{StaticResource AppWatermarkTextStyle}"
+                                           Text="{x:Static properties:Resources.EncryptionPasswordWatermark}" />
+                            </ui:WatermarkService.Watermark>
+                        </TextBox>
+                    </AdornerDecorator>
+                    <AdornerDecorator>
+                        <TextBox KeyboardNavigation.TabIndex="3" Text="{Binding PasswordConfirmation, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}">
+                            <ui:WatermarkService.Watermark>
+                                <TextBlock VerticalAlignment="Center"
+                                           Style="{StaticResource AppWatermarkTextStyle}"
+                                           Text="{x:Static properties:Resources.ConfirmEncryptionPasswordWatermark}" />
+                            </ui:WatermarkService.Watermark>
+                        </TextBox>
+                    </AdornerDecorator>
+                    <AdornerDecorator />
+                </StackPanel>
+                
+                <DockPanel Grid.Row="5"
                            Grid.Column="1"
                            Margin="0,20,-6,0"
                            LastChildFill="False">
                     <Button Command="{Binding CancelCommand,
                                               FallbackValue={StaticResource NullCommand}}"
-                            Content="Cancel"
+                            Content="{x:Static properties:Resources.CancelButtonText}"
                             DockPanel.Dock="Right"
                             KeyboardNavigation.TabIndex="5"
                             Style="{StaticResource AppDialogTextButtonStyle}" />
                     <Button Command="{Binding CreateCommand,
                                               FallbackValue={StaticResource NullCommand}}"
-                            Content="Create"
+                            Content="{x:Static properties:Resources.ContinueButtonText}"
                             DockPanel.Dock="Right"
                             IsEnabled="{Binding IsValid,
                                                 FallbackValue=False}"
@@ -148,4 +159,4 @@
             </Grid>
         </Border>
     </Grid>
-</UserControl>
+</Page>

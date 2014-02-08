@@ -12,6 +12,9 @@ namespace Crystalbyte.Paranoia {
     ///   Interaction logic for App.xaml
     /// </summary>
     public partial class App {
+
+        public static readonly string Name = "Paranoia";
+
         [Import]
         public static AppContext AppContext { get; set; }
 

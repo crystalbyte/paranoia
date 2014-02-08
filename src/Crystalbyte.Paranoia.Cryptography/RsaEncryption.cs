@@ -258,7 +258,7 @@ namespace Crystalbyte.Paranoia.Cryptography
         [StructLayout(LayoutKind.Sequential)]
         private struct BIGNUM
         {
-	        public IntPtr *d;	// Pointer to an array of 'BN_BITS2' bit chunks.
+	        public IntPtr d;	// Pointer to an array of 'BN_BITS2' bit chunks.
 	        public int top;	    // Index of last used d +1.
 	                            // The next are internal book keeping for bn_expand.
 	        public int dmax;	// Size of the d array.

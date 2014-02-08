@@ -161,6 +161,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to encryption password confirmation.
+        /// </summary>
+        public static string ConfirmEncryptionPasswordWatermark {
+            get {
+                return ResourceManager.GetString("ConfirmEncryptionPasswordWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contacts.
         /// </summary>
         public static string ContactColumnHeaderText {
@@ -225,7 +234,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create New Identity.
+        ///   Looks up a localized string similar to New Identity.
         /// </summary>
         public static string CreateIdentityTitle {
             get {
@@ -261,6 +270,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to encryption password.
+        /// </summary>
+        public static string EncryptionPasswordWatermark {
+            get {
+                return ResourceManager.GetString("EncryptionPasswordWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Finish.
         /// </summary>
         public static string FinishButtonText {
@@ -270,7 +288,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The following properties are private and will be only visible to you..
+        ///   Looks up a localized string similar to To protect your sensitive data an encryption password must be chosen, do not share it with anyone..
         /// </summary>
         public static string IdentityPrivateDescription {
             get {
@@ -279,7 +297,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to These properties are public and will be visible to the people you communicate with..
+        ///   Looks up a localized string similar to Please enter your name and your e-mail address. These properties are public and will be visible to the people you communicate with..
         /// </summary>
         public static string IdentityPublicDescription {
             get {

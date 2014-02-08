@@ -14,6 +14,7 @@
         <converters:ExceptionFormatter x:Key="ExceptionFormatter" />
         <converters:BooleanNegator x:Key="BooleanNegator" />
         <converters:DomainToHostLogoConverter x:Key="DomainToHostLogoConverter" />
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 
         <Color x:Key="AppAccentColor"
                A="255"

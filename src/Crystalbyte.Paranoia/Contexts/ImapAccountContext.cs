@@ -61,28 +61,15 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         public string Host {
-            get { return _account.Name; }
+            get { return _account.Host; }
             set {
-                if (_account.Name == value) {
+                if (_account.Host == value) {
                     return;
                 }
 
                 RaisePropertyChanging(() => Host);
-                _account.Name = value;
+                _account.Host = value;
                 RaisePropertyChanged(() => Host);
-            }
-        }
-
-        public string Name {
-            get { return _account.Name; }
-            set {
-                if (_account.Name == value) {
-                    return;
-                }
-
-                RaisePropertyChanging(() => Name);
-                _account.Name = value;
-                RaisePropertyChanged(() => Name);
             }
         }
 

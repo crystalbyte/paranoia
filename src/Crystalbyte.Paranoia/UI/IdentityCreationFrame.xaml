@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Crystalbyte.Paranoia.UI.CreateAccountScreen"
+﻿<UserControl x:Class="Crystalbyte.Paranoia.UI.IdentityCreationFrame"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:contexts="clr-namespace:Crystalbyte.Paranoia.Contexts"
@@ -6,7 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              KeyboardNavigation.AcceptsReturn="False"
              KeyboardNavigation.TabNavigation="Cycle"
-             d:DataContext="{d:DesignInstance contexts:CreateAccountScreenContext}"
+             d:DataContext="{d:DesignInstance contexts:IdentityCreationContext}"
              d:DesignHeight="400"
              d:DesignWidth="640"
              mc:Ignorable="d">
@@ -26,7 +26,7 @@
                    Background="Transparent"
                    IsTabStop="False"
                    NavigationUIVisibility="Hidden"
-                   Source="CreateAccountStartPage.xaml" />
+                   Source="IdentityCreationPage.xaml" />
         </Border>
         <Border Grid.Row="2"
                 Background="Black"
