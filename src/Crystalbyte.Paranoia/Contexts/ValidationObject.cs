@@ -88,6 +88,11 @@ namespace Crystalbyte.Paranoia.Contexts {
                        GetValue(null, BindingFlags.Static, null, null, CultureInfo.CurrentCulture) as string;
         }
 
+        public bool ValidFor<T>(Expression<Func<T>> property) {
+            var propertyName = PropertySupport.ExtractPropertyName(property);
+            return !_propertyErrors.ContainsKey(propertyName);
+        }
+
         #region Implementation of IDataErrorInfo
 
         /// <summary>
@@ -109,9 +114,11 @@ namespace Crystalbyte.Paranoia.Contexts {
                         _propertyErrors.Clear();
                     }
 
+                    OnValidated(EventArgs.Empty);
                     return string.Join(Environment.NewLine, errors);
                 }
                 IsValid = false;
+                OnValidated(EventArgs.Empty);
                 return string.Empty;
             }
         }

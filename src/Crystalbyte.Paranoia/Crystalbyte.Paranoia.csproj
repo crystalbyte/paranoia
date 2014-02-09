@@ -141,6 +141,7 @@
     <Compile Include="Models\SmtpAccount.cs" />
     <Compile Include="Pack.cs" />
     <Compile Include="ParanoiaHeaders.cs" />
+    <Compile Include="PasswordPolicyAttribute.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="UI\AppBarButton.cs" />
     <Compile Include="UI\IdentityCreationFrame.xaml.cs">

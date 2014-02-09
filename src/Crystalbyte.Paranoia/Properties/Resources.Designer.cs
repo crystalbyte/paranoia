@@ -125,6 +125,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to your e-mail address.
+        /// </summary>
+        public static string AddressWatermark {
+            get {
+                return ResourceManager.GetString("AddressWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auhentication failed..
         /// </summary>
         public static string AuthenticationFailedMessage {
@@ -148,6 +157,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string CancelButtonText {
             get {
                 return ResourceManager.GetString("CancelButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password must have at least 4 characters and must .
+        /// </summary>
+        public static string ComplexityInsufficientErrorText {
+            get {
+                return ResourceManager.GetString("ComplexityInsufficientErrorText", resourceCulture);
             }
         }
         
@@ -261,15 +279,6 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to e-mail address.
-        /// </summary>
-        public static string EmailAddressWatermark {
-            get {
-                return ResourceManager.GetString("EmailAddressWatermark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to encryption password.
         /// </summary>
         public static string EncryptionPasswordWatermark {
@@ -284,6 +293,24 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string FinishButtonText {
             get {
                 return ResourceManager.GetString("FinishButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a.
+        /// </summary>
+        public static string GravatarHyperlinkPrefix {
+            get {
+                return ResourceManager.GetString("GravatarHyperlinkPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No avatar yet?.
+        /// </summary>
+        public static string GravatarPromoText {
+            get {
+                return ResourceManager.GetString("GravatarPromoText", resourceCulture);
             }
         }
         
@@ -432,7 +459,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to name.
+        ///   Looks up a localized string similar to your name.
         /// </summary>
         public static string NameWatermark {
             get {
@@ -468,15 +495,6 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to notes.
-        /// </summary>
-        public static string NotesWatermark {
-            get {
-                return ResourceManager.GetString("NotesWatermark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to This field must not be empty..
         /// </summary>
         public static string NullOrEmptyErrorText {
@@ -486,11 +504,29 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The password must contain a number and a special character, in addition the length must not be shorter than 4..
+        /// </summary>
+        public static string PasswordComplexityInsufficientErrorText {
+            get {
+                return ResourceManager.GetString("PasswordComplexityInsufficientErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter the password associated with your e-mail account..
         /// </summary>
         public static string PasswordDescription {
             get {
                 return ResourceManager.GetString("PasswordDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The passwords do not match..
+        /// </summary>
+        public static string PasswordNotMatchingErrorText {
+            get {
+                return ResourceManager.GetString("PasswordNotMatchingErrorText", resourceCulture);
             }
         }
         

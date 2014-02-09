@@ -306,11 +306,7 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </Border>
-                    <Border Grid.Row="1"
-                                     Grid.Column="4"
-                                     Background="Red"
-                                     Visibility="{Binding IsHtmlVisible,
-                                                          Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <Border Grid.Row="1" Grid.Column="4" Background="Red" />
                 </Grid>
             </Border>
 

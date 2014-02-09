@@ -21,6 +21,7 @@
                 Opacity=".4" />
         <Border Grid.Row="1" Background="{StaticResource AppWindowBackgroundBrush}">
             <Frame MinHeight="400"
+                   x:Name="NavigationFrame"
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
                    Background="Transparent"

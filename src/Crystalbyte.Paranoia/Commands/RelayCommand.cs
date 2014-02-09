@@ -19,13 +19,16 @@ namespace Crystalbyte.Paranoia.Commands {
         public Func<object, bool> CanExecuteCallback { get; private set; }
         public Action<object> ExecuteCallback { get; private set; }
 
+        public void Refresh() {
+            OnCanExecuteChanged(EventArgs.Empty);
+        }
+
         public bool CanExecute(object parameter) {
             return CanExecuteCallback == null || CanExecuteCallback(parameter);
         }
 
         public event EventHandler CanExecuteChanged;
-
-        public void OnCanExecuteChanged(EventArgs e) {
+        private void OnCanExecuteChanged(EventArgs e) {
             var handler = CanExecuteChanged;
             if (handler != null)
                 handler(this, e);

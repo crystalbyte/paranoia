@@ -95,7 +95,7 @@
                             <ui:WatermarkService.Watermark>
                                 <TextBlock VerticalAlignment="Center"
                                            Style="{StaticResource AppWatermarkTextStyle}"
-                                           Text="{x:Static properties:Resources.EmailAddressWatermark}" />
+                                           Text="{x:Static properties:Resources.AddressWatermark}" />
                             </ui:WatermarkService.Watermark>
                         </TextBox>
                     </AdornerDecorator>

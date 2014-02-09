@@ -28,7 +28,6 @@ namespace Crystalbyte.Paranoia.Contexts {
         private IdentityCreationContext _identityCreationContext;
         private readonly ObservableCollection<IdentityContext> _identities;
         private readonly ObservableCollection<ImapAccountContext> _imapAccounts;
-        private bool _isHtmlVisible;
 
         #endregion
 

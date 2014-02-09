@@ -101,7 +101,7 @@
                             <ui:WatermarkService.Watermark>
                                 <TextBlock VerticalAlignment="Center"
                                            Style="{StaticResource AppWatermarkTextStyle}"
-                                           Text="{x:Static properties:Resources.EmailAddressWatermark}" />
+                                           Text="{x:Static properties:Resources.AddressWatermark}" />
                             </ui:WatermarkService.Watermark>
                         </TextBox>
                     </AdornerDecorator>
@@ -117,26 +117,31 @@
                 </TextBlock>
                 <StackPanel Grid.Row="4" Grid.Column="1">
                     <AdornerDecorator>
-                        <TextBox KeyboardNavigation.TabIndex="2" Text="{Binding Password, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}">
+                        <PasswordBox KeyboardNavigation.TabIndex="2" ui:PasswordService.Password="{Binding Password, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                             <ui:WatermarkService.Watermark>
                                 <TextBlock VerticalAlignment="Center"
                                            Style="{StaticResource AppWatermarkTextStyle}"
                                            Text="{x:Static properties:Resources.EncryptionPasswordWatermark}" />
                             </ui:WatermarkService.Watermark>
-                        </TextBox>
+                        </PasswordBox>
                     </AdornerDecorator>
                     <AdornerDecorator>
-                        <TextBox KeyboardNavigation.TabIndex="3" Text="{Binding PasswordConfirmation, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}">
+                        <PasswordBox KeyboardNavigation.TabIndex="3" ui:PasswordService.Password="{Binding PasswordConfirmation, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                             <ui:WatermarkService.Watermark>
                                 <TextBlock VerticalAlignment="Center"
                                            Style="{StaticResource AppWatermarkTextStyle}"
                                            Text="{x:Static properties:Resources.ConfirmEncryptionPasswordWatermark}" />
                             </ui:WatermarkService.Watermark>
-                        </TextBox>
+                        </PasswordBox>
                     </AdornerDecorator>
                     <AdornerDecorator />
                 </StackPanel>
-                
+                <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource AppLightTextStyle}" FontSize="{StaticResource AppSmallFontSize}" Foreground="{StaticResource AppLightControlBrush}">
+                    <Run Text="{x:Static properties:Resources.GravatarPromoText}" />
+                    <LineBreak />
+                    <Run Text="{x:Static properties:Resources.GravatarHyperlinkPrefix}" />
+                    <Hyperlink RequestNavigate="OnGravatarLinkRequestNavigate" NavigateUri="http://www.gravatar.com">Gravatar</Hyperlink>.
+                </TextBlock>
                 <DockPanel Grid.Row="5"
                            Grid.Column="1"
                            Margin="0,20,-6,0"
@@ -147,12 +152,10 @@
                             DockPanel.Dock="Right"
                             KeyboardNavigation.TabIndex="5"
                             Style="{StaticResource AppDialogTextButtonStyle}" />
-                    <Button Command="{Binding CreateCommand,
+                    <Button Command="{Binding ContinueCommand,
                                               FallbackValue={StaticResource NullCommand}}"
                             Content="{x:Static properties:Resources.ContinueButtonText}"
                             DockPanel.Dock="Right"
-                            IsEnabled="{Binding IsValid,
-                                                FallbackValue=False}"
                             KeyboardNavigation.TabIndex="4"
                             Style="{StaticResource AppDefaultDialogTextButtonStyle}" />
                 </DockPanel>

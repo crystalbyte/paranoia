@@ -139,6 +139,10 @@ Once a mutual communication agreement has been established, messages can be safe
   <data name="AddContactTitle" xml:space="preserve">
     <value>Add Contact</value>
   </data>
+  <data name="AddressWatermark" xml:space="preserve">
+    <value>your e-mail address</value>
+    <comment>IdentityScreen -&gt; TextBlock -&gt; EmailAddressTextBlock</comment>
+  </data>
   <data name="AuthenticationFailedMessage" xml:space="preserve">
     <value>Auhentication failed.</value>
   </data>
@@ -147,6 +151,9 @@ Once a mutual communication agreement has been established, messages can be safe
   </data>
   <data name="CancelButtonText" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="ComplexityInsufficientErrorText" xml:space="preserve">
+    <value>The password must have at least 4 characters and must </value>
   </data>
   <data name="ComposeMessageCommandToolTip" xml:space="preserve">
     <value>compose message</value>
@@ -187,15 +194,17 @@ If any of the tests fail, you may need to navigate back and correct any mistakes
   <data name="EmailAddressDescription" xml:space="preserve">
     <value>Please enter the e-mail address associated with your e-mail account.</value>
   </data>
-  <data name="EmailAddressWatermark" xml:space="preserve">
-    <value>e-mail address</value>
-    <comment>IdentityScreen -&gt; TextBlock -&gt; EmailAddressTextBlock</comment>
-  </data>
   <data name="EncryptionPasswordWatermark" xml:space="preserve">
     <value>encryption password</value>
   </data>
   <data name="FinishButtonText" xml:space="preserve">
     <value>Finish</value>
+  </data>
+  <data name="GravatarHyperlinkPrefix" xml:space="preserve">
+    <value>Create a</value>
+  </data>
+  <data name="GravatarPromoText" xml:space="preserve">
+    <value>No avatar yet?</value>
   </data>
   <data name="IdentityPrivateDescription" xml:space="preserve">
     <value>To protect your sensitive data an encryption password must be chosen, do not share it with anyone.</value>
@@ -249,7 +258,7 @@ If any of the tests fail, you may need to navigate back and correct any mistakes
     <comment>IdentityScreenContext -&gt; Name</comment>
   </data>
   <data name="NameWatermark" xml:space="preserve">
-    <value>name</value>
+    <value>your name</value>
     <comment>IdentityScreen -&gt; TextBlock -&gt; NameTextBlock</comment>
   </data>
   <data name="NetworkTestFailureMessage" xml:space="preserve">
@@ -261,16 +270,18 @@ If any of the tests fail, you may need to navigate back and correct any mistakes
   <data name="NetworkTestSuccessMessage" xml:space="preserve">
     <value>Network available.</value>
   </data>
-  <data name="NotesWatermark" xml:space="preserve">
-    <value>notes</value>
-    <comment>IdentityScreen -&gt; TextBlock -&gt; NotesTextBlock</comment>
-  </data>
   <data name="NullOrEmptyErrorText" xml:space="preserve">
     <value>This field must not be empty.</value>
     <comment>IdentityScreenContext -&gt; EmailAddress</comment>
   </data>
+  <data name="PasswordComplexityInsufficientErrorText" xml:space="preserve">
+    <value>The password must contain a number and a special character, in addition the length must not be shorter than 4.</value>
+  </data>
   <data name="PasswordDescription" xml:space="preserve">
     <value>Please enter the password associated with your e-mail account.</value>
+  </data>
+  <data name="PasswordNotMatchingErrorText" xml:space="preserve">
+    <value>The passwords do not match.</value>
   </data>
   <data name="PasswordRequiredErrorText" xml:space="preserve">
     <value>The password must not be empty.</value>

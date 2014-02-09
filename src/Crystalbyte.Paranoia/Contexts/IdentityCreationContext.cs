@@ -11,6 +11,7 @@ using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.Models;
 using System;
+using System.Security;
 
 #endregion
 
@@ -22,8 +23,9 @@ namespace Crystalbyte.Paranoia.Contexts {
         private bool _isActive;
         private string _name;
         private string _address;
-        private string _notes;
         private string _gravatarUrl;
+        private static string _password;
+        private string _passwordConfirmation;
 
         #endregion
 
@@ -36,7 +38,17 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         #endregion
 
+        private void ClearPassword() {
+            _password = string.Empty;
+            _passwordConfirmation = string.Empty;
+        }
+
+        public static string GetPassword() { 
+            return _password; 
+        }
+
         public event EventHandler Finished;
+
         private void OnFinished() {
             var handler = Finished;
             if (handler != null) {
@@ -44,7 +56,16 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        public ICommand ContinueCommand { get; set; }
+        #region Overrides for ValidationObject<T>
+
+        protected override void OnValidated(EventArgs e) {
+            base.OnValidated(e);
+            ContinueCommand.Refresh();
+        }
+
+        #endregion
+
+        public RelayCommand ContinueCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequiredErrorText")]
@@ -76,7 +97,35 @@ namespace Crystalbyte.Paranoia.Contexts {
                 RaisePropertyChanging(() => Address);
                 _address = value;
                 RaisePropertyChanged(() => Address);
-                OnEmailAddressChanged();
+                OnAddressChanged();
+            }
+        }
+
+        [PasswordPolicy(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "PasswordComplexityInsufficientErrorText")]
+        public string Password {
+            get { return _password; }
+            set {
+                if (_password == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => Password);
+                _password = value;
+                RaisePropertyChanged(() => Password);
+            }
+        }
+
+        [PasswordMatch(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "PasswordNotMatchingErrorText")]
+        public string PasswordConfirmation {
+            get { return _passwordConfirmation; }
+            set {
+                if (_passwordConfirmation == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => PasswordConfirmation);
+                _passwordConfirmation = value;
+                RaisePropertyChanged(() => PasswordConfirmation);
             }
         }
 
@@ -106,24 +155,23 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        private void OnEmailAddressChanged() {
+        private void OnAddressChanged() {
             CreateGravatarUrl();
         }
 
         private void OnCancelCommandExecuted(object obj) {
+            ClearPassword();
             OnFinished();
         }
 
-        private static bool OnCanContinueCommandExecuted(object parameter) {
-            return true;
+        private bool OnCanContinueCommandExecuted(object parameter) {
+            return ValidFor(() => Address)
+                && ValidFor(() => Name)
+                && ValidFor(() => Password)
+                && ValidFor(() => PasswordConfirmation);
         }
 
         private void OnContinueCommandExecuted(object parameter) {
-            var identity = new Identity {
-                Address = Address,
-                Name = Name
-            };
-
             
         }
 
@@ -136,6 +184,16 @@ namespace Crystalbyte.Paranoia.Contexts {
                     }
                     GravatarUrl = string.Format("http://www.gravatar.com/avatar/{0}?s=200&d=mm", writer);
                 }
+            }
+        }
+
+        private sealed class PasswordMatchAttribute : ValidationAttribute {
+            public override bool IsValid(object value) {
+                var password = value as string;
+                if (string.IsNullOrWhiteSpace(password)) {
+                    return false;
+                }
+                return password == IdentityCreationContext.GetPassword();
             }
         }
     }

@@ -38,10 +38,6 @@ namespace Crystalbyte.Paranoia.Contexts {
             get { return _contacts; }
         }
 
-        //public Task InvalidateAsync() {
-        //    var contacts = (from i in StorageContext.Current.Contacts select i);
-        //}
-
         public SmtpAccountContext SmtpAccount { get; set; }
 
         public string Name {
