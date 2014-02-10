@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia.Contexts {
     [Export, Shared]
-    public sealed class ErrorLogContext {
+    public sealed class LogContext {
 
-        public static ErrorLogContext Current {
+        public static LogContext Current {
             get { return App.AppContext.ErrorLogContext; }
         }
 

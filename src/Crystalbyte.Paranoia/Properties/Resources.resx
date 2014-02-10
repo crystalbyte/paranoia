@@ -167,19 +167,6 @@ Once a mutual communication agreement has been established, messages can be safe
   <data name="ContinueButtonText" xml:space="preserve">
     <value>Continue</value>
   </data>
-  <data name="CreateAccountConfigPageDescription" xml:space="preserve">
-    <value>The properties below are required to provide access to your e-mail server.</value>
-  </data>
-  <data name="CreateAccountDescriptionText" xml:space="preserve">
-    <value>This dialog will guide you through the steps necessary to add a connection to your email server.</value>
-  </data>
-  <data name="CreateAccountScreenTitle" xml:space="preserve">
-    <value>Create New Account</value>
-  </data>
-  <data name="CreateAccountTestingPageDescription" xml:space="preserve">
-    <value>The current configuration is now being tested.
-If any of the tests fail, you may need to navigate back and correct any mistakes.</value>
-  </data>
   <data name="CreateIdentitySubTitle" xml:space="preserve">
     <value>In order to get you started, it is required to create a unique identity.</value>
     <comment>IdentityScreen -&gt;Run</comment>
@@ -206,6 +193,9 @@ If any of the tests fail, you may need to navigate back and correct any mistakes
   <data name="GravatarPromoText" xml:space="preserve">
     <value>No avatar yet?</value>
   </data>
+  <data name="IdentityAddressDescription" xml:space="preserve">
+    <value>Your server password will obviously not be shared with anyone.</value>
+  </data>
   <data name="IdentityPrivateDescription" xml:space="preserve">
     <value>To protect your sensitive data an encryption password must be chosen, do not share it with anyone.</value>
   </data>
@@ -214,9 +204,6 @@ If any of the tests fail, you may need to navigate back and correct any mistakes
   </data>
   <data name="ImapHostWatermark" xml:space="preserve">
     <value>incoming host address (e.g. imap.gmail.com)</value>
-  </data>
-  <data name="ImapPasswordWatermark" xml:space="preserve">
-    <value>incoming server password</value>
   </data>
   <data name="ImapPortWatermark" xml:space="preserve">
     <value>port (e.g. 993) ...</value>
@@ -245,6 +232,9 @@ If any of the tests fail, you may need to navigate back and correct any mistakes
   </data>
   <data name="InvitationSubjectTemplate" xml:space="preserve">
     <value>{0} invites you to the Paranoia project.</value>
+  </data>
+  <data name="MailPasswordWatermark" xml:space="preserve">
+    <value>e-mail server password</value>
   </data>
   <data name="MaxStringLength64ErrorText" xml:space="preserve">
     <value>The text must not exceed 64 characters.</value>
@@ -285,6 +275,12 @@ If any of the tests fail, you may need to navigate back and correct any mistakes
   </data>
   <data name="PasswordRequiredErrorText" xml:space="preserve">
     <value>The password must not be empty.</value>
+  </data>
+  <data name="ServerSettingsDescription" xml:space="preserve">
+    <value>In order to send and receive e-mails an incoming and outgoing server must be specified.</value>
+  </data>
+  <data name="ServerSettingsTitle" xml:space="preserve">
+    <value>Server Settings </value>
   </data>
   <data name="SmtpHostWatermark" xml:space="preserve">
     <value>outgoing host address (e.g. smtp.gmail.com)</value>

@@ -17,7 +17,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         private bool _isSelected;
         private readonly ImapAccount _account;
-        private readonly ObservableCollection<MailboxContext> _mailboxes;
+        //private readonly ObservableCollection<MailboxContext> _mailboxes;
 
         #endregion
 
@@ -25,14 +25,14 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public ImapAccountContext(ImapAccount account) {
             _account = account;
-            _mailboxes = new ObservableCollection<MailboxContext>();
+            //_mailboxes = new ObservableCollection<MailboxContext>();
         }
 
         #endregion
 
-        public ObservableCollection<MailboxContext> Mailboxes {
-            get { return _mailboxes; }
-        }
+        //public ObservableCollection<MailboxContext> Mailboxes {
+        //    get { return _mailboxes; }
+        //}
 
         public bool IsSelected {
             get { return _isSelected; }
@@ -194,7 +194,7 @@ namespace Crystalbyte.Paranoia.Contexts {
                 try {
                                                                 
                 } catch (Exception ex) {
-                    ErrorLogContext.Current.PushError(ex);
+                    LogContext.Current.PushError(ex);
                 }
             });
         }

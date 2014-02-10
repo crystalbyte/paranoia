@@ -13,7 +13,7 @@ using Crystalbyte.Paranoia.Models;
 
 namespace Crystalbyte.Paranoia.Contexts {
     [Export, Shared]
-    public sealed class AddContactScreenContext : ValidationObject<AddContactScreenContext> {
+    public sealed class ContactInvitationContext : ValidationObject<ContactInvitationContext> {
 
         #region Private Fields
 
@@ -26,7 +26,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         #region Construction
 
-        public AddContactScreenContext() {
+        public ContactInvitationContext() {
             CreateCommand = new RelayCommand(OnCreateCommandExecuted);
             CancelCommand = new RelayCommand(OnCancelCommandExecuted);
         }

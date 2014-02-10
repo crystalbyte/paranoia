@@ -15,7 +15,6 @@ namespace Crystalbyte.Paranoia.Contexts {
         private readonly Contact _contact;
         private string _gravatarImageUrl;
         private bool _isSelected;
-        private readonly ObservableCollection<MessageContext> _messages;
 
         #endregion
 
@@ -27,17 +26,12 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public ContactContext(Contact contact) {
             _contact = contact;
-            _messages = new ObservableCollection<MessageContext>();
         }
 
         #endregion
 
         public Contact Model {
             get { return _contact; }
-        }
-
-        public ObservableCollection<MessageContext> Messages {
-            get { return _messages; }
         }
 
         public bool IsSelected {

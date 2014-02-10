@@ -19,7 +19,6 @@ namespace Crystalbyte.Paranoia.Models {
         public string Host { get; set; }
         public short Port { get; set; }
         public SecurityPolicy Security { get; set; }
-
         public virtual List<Mailbox> Mailboxes { get; set; }
         public virtual Identity Identity { get; set; }
     }

@@ -6,9 +6,9 @@ namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     /// Interaction logic for CreateAccountTestingPage.xaml
     /// </summary>
-    public partial class CreateAccountTestingPage {
+    public partial class ServerConfigPage {
 
-        public CreateAccountTestingPage() {
+        public ServerConfigPage() {
             if (!DesignerProperties.GetIsInDesignMode(this)) {
                 //ScreenContext = App.AppContext.CreateAccountScreenContext;
                 Loaded += OnPageLoaded;
@@ -18,6 +18,12 @@ namespace Crystalbyte.Paranoia.UI {
 
         private async void OnPageLoaded(object sender, RoutedEventArgs e) {
             //await ScreenContext.TestConfiguration();
+        }
+
+        private void OnPortPreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e) {
+            if (!char.IsDigit(e.Text, e.Text.Length - 1)) {
+                e.Handled = true;
+            }
         }
 
         //public CreateAccountScreenContext ScreenContext {

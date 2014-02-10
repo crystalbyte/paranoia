@@ -12,6 +12,10 @@ using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.Models;
 using System;
 using System.Security;
+using System.Windows.Navigation;
+using Crystalbyte.Paranoia.Messaging;
+using System.Windows.Controls;
+using Crystalbyte.Paranoia.UI;
 
 #endregion
 
@@ -22,9 +26,19 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         private bool _isActive;
         private string _name;
+        private short _imapPort;
+        private short _smtpPort;
         private string _address;
+        private string _imapHost;
+        private string _smtpHost;
         private string _gravatarUrl;
+        private string _imapPassword;
+        private string _smtpPassword;
+        private string _imapUsername;
+        private string _smtpUsername;
         private static string _password;
+        private SecurityPolicy _imapSecurity;
+        private SecurityPolicy _smtpSecurity;
         private string _passwordConfirmation;
 
         #endregion
@@ -32,7 +46,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         #region Construction
 
         public IdentityCreationContext() {
-            ContinueCommand = new RelayCommand(OnCanContinueCommandExecuted, OnContinueCommandExecuted);
+            ConfigCommand = new RelayCommand(OnCanConfigCommandExecuted, OnConfigCommandExecuted);
             CancelCommand = new RelayCommand(OnCancelCommandExecuted);
         }
 
@@ -43,8 +57,8 @@ namespace Crystalbyte.Paranoia.Contexts {
             _passwordConfirmation = string.Empty;
         }
 
-        public static string GetPassword() { 
-            return _password; 
+        public static string GetPassword() {
+            return _password;
         }
 
         public event EventHandler Finished;
@@ -60,12 +74,12 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         protected override void OnValidated(EventArgs e) {
             base.OnValidated(e);
-            ContinueCommand.Refresh();
+            ConfigCommand.Refresh();
         }
 
         #endregion
 
-        public RelayCommand ContinueCommand { get; set; }
+        public RelayCommand ConfigCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequiredErrorText")]
@@ -98,6 +112,144 @@ namespace Crystalbyte.Paranoia.Contexts {
                 _address = value;
                 RaisePropertyChanged(() => Address);
                 OnAddressChanged();
+            }
+        }
+
+        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        public string SmtpUsername {
+            get { return _smtpUsername; }
+            set {
+                if (_smtpUsername == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => SmtpUsername);
+                _smtpUsername = value;
+                RaisePropertyChanged(() => SmtpUsername);
+            }
+        }
+
+        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        public string ImapUsername {
+            get { return _imapUsername; }
+            set {
+                if (_imapUsername == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => ImapUsername);
+                _imapUsername = value;
+                RaisePropertyChanged(() => ImapUsername);
+            }
+        }
+
+        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        public string ImapPassword {
+            get { return _imapPassword; }
+            set {
+                if (_imapPassword == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => ImapPassword);
+                _imapPassword = value;
+                RaisePropertyChanged(() => ImapPassword);
+            }
+        }
+
+        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        public string SmtpPassword {
+            get { return _smtpPassword; }
+            set {
+                if (_smtpPassword == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => SmtpPassword);
+                _smtpPassword = value;
+                RaisePropertyChanged(() => SmtpPassword);
+            }
+        }
+
+        public SecurityPolicy ImapSecurity {
+            get { return _imapSecurity; }
+            set {
+                if (_imapSecurity == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => ImapSecurity);
+                _imapSecurity = value;
+                RaisePropertyChanged(() => ImapSecurity);
+            }
+        }
+
+        public SecurityPolicy SmtpSecurity {
+            get { return _smtpSecurity; }
+            set {
+                if (_smtpSecurity == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => SmtpSecurity);
+                _smtpSecurity = value;
+                RaisePropertyChanged(() => SmtpSecurity);
+            }
+        }
+
+        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        public short SmtpPort {
+            get { return _smtpPort; }
+            set {
+                if (_smtpPort == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => SmtpPort);
+                _smtpPort = value;
+                RaisePropertyChanged(() => SmtpPort);
+            }
+        }
+
+        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        public string ImapHost {
+            get { return _imapHost; }
+            set {
+                if (_imapHost == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => ImapHost);
+                _imapHost = value;
+                RaisePropertyChanged(() => ImapHost);
+            }
+        }
+
+        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        public string SmtpHost {
+            get { return _smtpHost; }
+            set {
+                if (_smtpHost == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => SmtpHost);
+                _smtpHost = value;
+                RaisePropertyChanged(() => SmtpHost);
+            }
+        }
+
+        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]
+        public short ImapPort {
+            get { return _imapPort; }
+            set {
+                if (_imapPort == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => ImapPort);
+                _imapPort = value;
+                RaisePropertyChanged(() => ImapPort);
             }
         }
 
@@ -164,15 +316,18 @@ namespace Crystalbyte.Paranoia.Contexts {
             OnFinished();
         }
 
-        private bool OnCanContinueCommandExecuted(object parameter) {
+        private bool OnCanConfigCommandExecuted(object parameter) {
             return ValidFor(() => Address)
                 && ValidFor(() => Name)
+                && ValidFor(() => ImapPassword)
                 && ValidFor(() => Password)
                 && ValidFor(() => PasswordConfirmation);
         }
 
-        private void OnContinueCommandExecuted(object parameter) {
-            
+        private void OnConfigCommandExecuted(object parameter) {
+            var uri = string.Format("/UI/{0}.xaml", typeof(ServerConfigPage).Name);
+            var page = (Page)parameter;
+            page.NavigationService.Navigate(new Uri(uri, UriKind.Relative));
         }
 
         public void CreateGravatarUrl() {

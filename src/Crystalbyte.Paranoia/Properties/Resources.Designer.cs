@@ -206,43 +206,6 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The properties below are required to provide access to your e-mail server..
-        /// </summary>
-        public static string CreateAccountConfigPageDescription {
-            get {
-                return ResourceManager.GetString("CreateAccountConfigPageDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This dialog will guide you through the steps necessary to add a connection to your email server..
-        /// </summary>
-        public static string CreateAccountDescriptionText {
-            get {
-                return ResourceManager.GetString("CreateAccountDescriptionText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create New Account.
-        /// </summary>
-        public static string CreateAccountScreenTitle {
-            get {
-                return ResourceManager.GetString("CreateAccountScreenTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The current configuration is now being tested.
-        ///If any of the tests fail, you may need to navigate back and correct any mistakes..
-        /// </summary>
-        public static string CreateAccountTestingPageDescription {
-            get {
-                return ResourceManager.GetString("CreateAccountTestingPageDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to In order to get you started, it is required to create a unique identity..
         /// </summary>
         public static string CreateIdentitySubTitle {
@@ -315,6 +278,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your server password will obviously not be shared with anyone..
+        /// </summary>
+        public static string IdentityAddressDescription {
+            get {
+                return ResourceManager.GetString("IdentityAddressDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To protect your sensitive data an encryption password must be chosen, do not share it with anyone..
         /// </summary>
         public static string IdentityPrivateDescription {
@@ -338,15 +310,6 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string ImapHostWatermark {
             get {
                 return ResourceManager.GetString("ImapHostWatermark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to incoming server password.
-        /// </summary>
-        public static string ImapPasswordWatermark {
-            get {
-                return ResourceManager.GetString("ImapPasswordWatermark", resourceCulture);
             }
         }
         
@@ -428,6 +391,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string InvitationSubjectTemplate {
             get {
                 return ResourceManager.GetString("InvitationSubjectTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to e-mail server password.
+        /// </summary>
+        public static string MailPasswordWatermark {
+            get {
+                return ResourceManager.GetString("MailPasswordWatermark", resourceCulture);
             }
         }
         
@@ -536,6 +508,24 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string PasswordRequiredErrorText {
             get {
                 return ResourceManager.GetString("PasswordRequiredErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In order to send and receive e-mails an incoming and outgoing server must be specified..
+        /// </summary>
+        public static string ServerSettingsDescription {
+            get {
+                return ResourceManager.GetString("ServerSettingsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server Settings .
+        /// </summary>
+        public static string ServerSettingsTitle {
+            get {
+                return ResourceManager.GetString("ServerSettingsTitle", resourceCulture);
             }
         }
         

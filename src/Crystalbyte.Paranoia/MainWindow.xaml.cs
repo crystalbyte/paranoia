@@ -74,20 +74,20 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnMessagesSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var list = (ListView) sender;
-            var messages = list.SelectedItems.OfType<MessageContext>().ToList();
-            if (messages.Count == 0) {
-                return;
-            }
+            //var list = (ListView) sender;
+            //var messages = list.SelectedItems.OfType<MessageContext>().ToList();
+            //if (messages.Count == 0) {
+            //    return;
+            //}
 
 
-            //ImapMessageSelectionSource.ChangeSelection(messages);
-            var first = e.AddedItems.OfType<MessageContext>().FirstOrDefault();
-            if (first == null)
-                return;
+            ////ImapMessageSelectionSource.ChangeSelection(messages);
+            //var first = e.AddedItems.OfType<MessageContext>().FirstOrDefault();
+            //if (first == null)
+            //    return;
 
 
-            first.ReadAsync();
+            //first.ReadAsync();
             //var mime = await first.FetchContentAsync();
             //using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(mime))) {
             //    var message = Message.Load(stream);

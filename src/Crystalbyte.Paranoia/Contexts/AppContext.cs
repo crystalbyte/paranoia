@@ -27,7 +27,6 @@ namespace Crystalbyte.Paranoia.Contexts {
         private bool _isSyncing;
         private IdentityCreationContext _identityCreationContext;
         private readonly ObservableCollection<IdentityContext> _identities;
-        private readonly ObservableCollection<ImapAccountContext> _imapAccounts;
 
         #endregion
 
@@ -35,7 +34,6 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public AppContext() {
             _identities = new ObservableCollection<IdentityContext>();
-            _imapAccounts = new ObservableCollection<ImapAccountContext>();
 
             CreateIdentityCommand = new RelayCommand(OnCreateIdentityCommandExecuted);
             AddContactCommand = new RelayCommand(OnAddContactCommandExecuted);
@@ -50,7 +48,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         #region Import Declarations
 
         [Import]
-        public ErrorLogContext ErrorLogContext { get; set; }
+        public LogContext ErrorLogContext { get; set; }
 
         [Import]
         public DeleteContactCommand DeleteContactCommand { get; set; }

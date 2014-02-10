@@ -49,9 +49,9 @@ namespace Crystalbyte.Paranoia.Contexts {
         private short _smtpPort;
         private string _emailAddress;
         private bool _isTestSuccessful;
-        private AccountTestContext _networkTest;
-        private AccountTestContext _imapConnectionTest;
-        private AccountTestContext _smtpConnectionTest;
+        private SettingsTestContext _networkTest;
+        private SettingsTestContext _imapConnectionTest;
+        private SettingsTestContext _smtpConnectionTest;
 
         #endregion
 
@@ -201,7 +201,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         public RelayCommand GoBackCommand { get; private set; }
         public RelayCommand CommitCommand { get; private set; }
 
-        public AccountTestContext NetworkTest {
+        public SettingsTestContext NetworkTest {
             get { return _networkTest; }
             set {
                 if (_networkTest == value) {
@@ -214,7 +214,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        public AccountTestContext ImapConnectionTest {
+        public SettingsTestContext ImapConnectionTest {
             get { return _imapConnectionTest; }
             set {
                 if (_imapConnectionTest == value) {
@@ -227,7 +227,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        public AccountTestContext SmtpConnectionTest {
+        public SettingsTestContext SmtpConnectionTest {
             get { return _smtpConnectionTest; }
             set {
                 if (_smtpConnectionTest == value) {
@@ -534,9 +534,9 @@ namespace Crystalbyte.Paranoia.Contexts {
         public async Task TestConfiguration() {
             IsTesting = true;
 
-            NetworkTest = new AccountTestContext { Text = Resources.NetworkTestMessage };
-            ImapConnectionTest = new AccountTestContext { Text = Resources.ImapTestMessage };
-            SmtpConnectionTest = new AccountTestContext { Text = Resources.SmtpTestMessage };
+            NetworkTest = new SettingsTestContext { Text = Resources.NetworkTestMessage };
+            ImapConnectionTest = new SettingsTestContext { Text = Resources.ImapTestMessage };
+            SmtpConnectionTest = new SettingsTestContext { Text = Resources.SmtpTestMessage };
 
             CheckConnectivity();
             await CheckImapConfigAsync();

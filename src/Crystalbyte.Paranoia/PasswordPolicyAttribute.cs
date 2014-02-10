@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Crystalbyte.Paranoia {
     public sealed class PasswordPolicyAttribute : ValidationAttribute {
 
-        private static string Symbols = "!,.-_+*#'~°!§$%&/()=?";
+        private static string Symbols = "!,.-_+*#'~°§$%&/()=?";
         public PasswordPolicyAttribute() {
             MinLength = 4;
             EnforceNumerics = true;

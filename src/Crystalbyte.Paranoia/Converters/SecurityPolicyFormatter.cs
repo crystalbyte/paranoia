@@ -13,6 +13,9 @@ namespace Crystalbyte.Paranoia.Converters {
         #region Implementation of IValueConverter
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            if (value == null) {
+                return string.Empty;
+            }
             var v = (SecurityPolicy) value;
             switch (v) {
                 case SecurityPolicy.None:

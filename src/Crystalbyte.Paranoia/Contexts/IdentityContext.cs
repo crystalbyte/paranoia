@@ -38,7 +38,9 @@ namespace Crystalbyte.Paranoia.Contexts {
             get { return _contacts; }
         }
 
-        public SmtpAccountContext SmtpAccount { get; set; }
+        public SmtpAccount SmtpAccount {
+            get { return _identity.SmtpAccount; }
+        }
 
         public string Name {
             get { return _identity.Name; }

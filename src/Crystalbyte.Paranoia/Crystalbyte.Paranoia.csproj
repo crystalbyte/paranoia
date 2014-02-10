@@ -112,12 +112,11 @@
     <Compile Include="Commands\KeyExchangeCommand.cs" />
     <Compile Include="ContactRequestStatus.cs" />
     <Compile Include="ContactSelectionSource.cs" />
-    <Compile Include="Contexts\AccountTestContext.cs" />
-    <Compile Include="Contexts\AddContactScreenContext.cs" />
-    <Compile Include="Contexts\ComposeMessageScreenContext.cs" />
+    <Compile Include="Contexts\ImapAccountContext.cs" />
+    <Compile Include="Contexts\SettingsTestContext.cs" />
+    <Compile Include="Contexts\ContactInvitationContext.cs" />
     <Compile Include="Contexts\ContactContext.cs" />
-    <Compile Include="Contexts\ErrorLogContext.cs" />
-    <Compile Include="Contexts\MailboxContext.cs" />
+    <Compile Include="Contexts\LogContext.cs" />
     <Compile Include="Contexts\SmtpAccountContext.cs" />
     <Compile Include="Converters\BooleanMultiConverter.cs" />
     <Compile Include="Converters\BooleanNegator.cs" />
@@ -154,14 +153,13 @@
     <Compile Include="UI\ComposeMessageView.xaml.cs">
       <DependentUpon>ComposeMessageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\CreateAccountTestingPage.xaml.cs">
-      <DependentUpon>CreateAccountTestingPage.xaml</DependentUpon>
+    <Compile Include="UI\ServerConfigPage.xaml.cs">
+      <DependentUpon>ServerConfigPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\InitialFocus.cs" />
     <Compile Include="UI\WatermarkAdorner.cs" />
     <Compile Include="UI\WatermarkService.cs" />
     <Compile Include="Commands\ComposeMessageCommand.cs" />
-    <Compile Include="Commands\DeleteMessageCommand.cs" />
     <Compile Include="Commands\NullCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\SyncCommand.cs" />
@@ -172,10 +170,7 @@
     <Compile Include="Converters\RatioConverter.cs" />
     <Compile Include="Converters\SecurityPolicyFormatter.cs" />
     <Compile Include="IHtmlSource.cs" />
-    <Compile Include="ImapMessageSelectionSource.cs" />
     <Compile Include="CollectionExtensions.cs" />
-    <Compile Include="Contexts\ImapAccountContext.cs" />
-    <Compile Include="Contexts\MessageContext.cs" />
     <Compile Include="Contexts\NotificationObject.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -189,9 +184,6 @@
     <Compile Include="PropertySupport.cs" />
     <Compile Include="RegexPatterns.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="UI\CreateAccountConfigPage.xaml.cs">
-      <DependentUpon>CreateAccountConfigPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\IdentityCreationPage.xaml.cs">
       <DependentUpon>IdentityCreationPage.xaml</DependentUpon>
     </Compile>
@@ -227,10 +219,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\CreateAccountConfigPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UI\IdentityCreationFrame.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -239,7 +227,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\CreateAccountTestingPage.xaml">
+    <Page Include="UI\ServerConfigPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
