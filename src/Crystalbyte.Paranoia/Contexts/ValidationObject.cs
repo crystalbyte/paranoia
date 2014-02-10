@@ -90,7 +90,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public bool ValidFor<T>(Expression<Func<T>> property) {
             var propertyName = PropertySupport.ExtractPropertyName(property);
-            return !_propertyErrors.ContainsKey(propertyName);
+            return !_propertyErrors.ContainsKey(propertyName) || _propertyErrors[propertyName] == 0;
         }
 
         #region Implementation of IDataErrorInfo

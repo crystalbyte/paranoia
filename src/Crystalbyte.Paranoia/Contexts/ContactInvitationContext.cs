@@ -93,6 +93,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private void OnIsActiveChanged() {
+
         }
 
         [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequiredErrorText")]

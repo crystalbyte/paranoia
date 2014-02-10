@@ -75,6 +75,7 @@
         </ControlTemplate>
 
         <Style x:Key="AppNormalTextStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="TextWrapping" Value="Wrap" />
             <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
             <Setter Property="FontFamily" Value="Segoe UI" />
             <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
@@ -675,27 +676,27 @@
                                    Placement="Bottom"
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
                                 <Border x:Name="DropDownBorder"
-                                            Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
-                                            BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}"
-                                            BorderThickness="1">
+                                        Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+                                        BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}"
+                                        BorderThickness="1">
                                     <ScrollViewer x:Name="DropDownScrollViewer">
                                         <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
                                             <Canvas x:Name="canvas"
-                                                        Width="0"
-                                                        Height="0"
-                                                        HorizontalAlignment="Left"
-                                                        VerticalAlignment="Top">
+                                                    Width="0"
+                                                    Height="0"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Top">
                                                 <Rectangle x:Name="OpaqueRect"
-                                                               Width="{Binding ActualWidth,
-                                                                               ElementName=DropDownBorder}"
-                                                               Height="{Binding ActualHeight,
-                                                                                ElementName=DropDownBorder}"
-                                                               Fill="{Binding Background,
-                                                                              ElementName=DropDownBorder}" />
+                                                           Width="{Binding ActualWidth,
+                                                                           ElementName=DropDownBorder}"
+                                                           Height="{Binding ActualHeight,
+                                                                            ElementName=DropDownBorder}"
+                                                           Fill="{Binding Background,
+                                                                          ElementName=DropDownBorder}" />
                                             </Canvas>
                                             <ItemsPresenter x:Name="ItemsPresenter"
-                                                                KeyboardNavigation.DirectionalNavigation="Contained"
-                                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                                            KeyboardNavigation.DirectionalNavigation="Contained"
+                                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                         </Grid>
                                     </ScrollViewer>
                                 </Border>
@@ -902,27 +903,27 @@
                                            Placement="Bottom"
                                            PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
                                         <Border x:Name="DropDownBorder"
-                                                    Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
-                                                    BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}"
-                                                    BorderThickness="1">
+                                                Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+                                                BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}"
+                                                BorderThickness="1">
                                             <ScrollViewer x:Name="DropDownScrollViewer">
                                                 <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
                                                     <Canvas x:Name="canvas"
-                                                                Width="0"
-                                                                Height="0"
-                                                                HorizontalAlignment="Left"
-                                                                VerticalAlignment="Top">
+                                                            Width="0"
+                                                            Height="0"
+                                                            HorizontalAlignment="Left"
+                                                            VerticalAlignment="Top">
                                                         <Rectangle x:Name="OpaqueRect"
-                                                                       Width="{Binding ActualWidth,
-                                                                                       ElementName=DropDownBorder}"
-                                                                       Height="{Binding ActualHeight,
-                                                                                        ElementName=DropDownBorder}"
-                                                                       Fill="{Binding Background,
-                                                                                      ElementName=DropDownBorder}" />
+                                                                   Width="{Binding ActualWidth,
+                                                                                   ElementName=DropDownBorder}"
+                                                                   Height="{Binding ActualHeight,
+                                                                                    ElementName=DropDownBorder}"
+                                                                   Fill="{Binding Background,
+                                                                                  ElementName=DropDownBorder}" />
                                                     </Canvas>
                                                     <ItemsPresenter x:Name="ItemsPresenter"
-                                                                        KeyboardNavigation.DirectionalNavigation="Contained"
-                                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                                                    KeyboardNavigation.DirectionalNavigation="Contained"
+                                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                                 </Grid>
                                             </ScrollViewer>
                                         </Border>

@@ -168,7 +168,7 @@ Once a mutual communication agreement has been established, messages can be safe
     <value>Continue</value>
   </data>
   <data name="CreateIdentitySubTitle" xml:space="preserve">
-    <value>In order to get you started, it is required to create a unique identity.</value>
+    <value>In order to get you started we need a couple of information from you.</value>
     <comment>IdentityScreen -&gt;Run</comment>
   </data>
   <data name="CreateIdentityTitle" xml:space="preserve">
@@ -194,7 +194,7 @@ Once a mutual communication agreement has been established, messages can be safe
     <value>No avatar yet?</value>
   </data>
   <data name="IdentityAddressDescription" xml:space="preserve">
-    <value>Your server password will obviously not be shared with anyone.</value>
+    <value>Please enter the IMAP server password associated with your e-mail address, your password will obviously not be shared with anyone.</value>
   </data>
   <data name="IdentityPrivateDescription" xml:space="preserve">
     <value>To protect your sensitive data an encryption password must be chosen, do not share it with anyone.</value>
@@ -275,6 +275,9 @@ Once a mutual communication agreement has been established, messages can be safe
   </data>
   <data name="PasswordRequiredErrorText" xml:space="preserve">
     <value>The password must not be empty.</value>
+  </data>
+  <data name="ResolvingConfigText" xml:space="preserve">
+    <value>Attempting to resolve server configuration ...</value>
   </data>
   <data name="ServerSettingsDescription" xml:space="preserve">
     <value>In order to send and receive e-mails an incoming and outgoing server must be specified.</value>

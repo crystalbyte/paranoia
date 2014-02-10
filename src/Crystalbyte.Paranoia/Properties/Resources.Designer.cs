@@ -206,7 +206,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to In order to get you started, it is required to create a unique identity..
+        ///   Looks up a localized string similar to In order to get you started we need a couple of information from you..
         /// </summary>
         public static string CreateIdentitySubTitle {
             get {
@@ -278,7 +278,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your server password will obviously not be shared with anyone..
+        ///   Looks up a localized string similar to Please enter the IMAP server password associated with your e-mail address, your password will obviously not be shared with anyone..
         /// </summary>
         public static string IdentityAddressDescription {
             get {
@@ -508,6 +508,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string PasswordRequiredErrorText {
             get {
                 return ResourceManager.GetString("PasswordRequiredErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attempting to resolve server configuration ....
+        /// </summary>
+        public static string ResolvingConfigText {
+            get {
+                return ResourceManager.GetString("ResolvingConfigText", resourceCulture);
             }
         }
         

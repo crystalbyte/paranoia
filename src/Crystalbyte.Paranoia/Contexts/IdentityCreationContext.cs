@@ -31,6 +31,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         private string _address;
         private string _imapHost;
         private string _smtpHost;
+        private bool _isConfiguring;
         private string _gravatarUrl;
         private string _imapPassword;
         private string _smtpPassword;
@@ -81,6 +82,19 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public RelayCommand ConfigCommand { get; set; }
         public ICommand CancelCommand { get; set; }
+
+        public bool IsConfiguring {
+            get { return _isConfiguring; }
+            set {
+                if (_isConfiguring == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => IsConfiguring);
+                _isConfiguring = value;
+                RaisePropertyChanged(() => IsConfiguring);
+            }
+        }
 
         [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequiredErrorText")]
         [StringLength(64, ErrorMessageResourceType = typeof(Resources),
@@ -319,9 +333,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         private bool OnCanConfigCommandExecuted(object parameter) {
             return ValidFor(() => Address)
                 && ValidFor(() => Name)
-                && ValidFor(() => ImapPassword)
-                && ValidFor(() => Password)
-                && ValidFor(() => PasswordConfirmation);
+                && ValidFor(() => ImapPassword);
         }
 
         private void OnConfigCommandExecuted(object parameter) {

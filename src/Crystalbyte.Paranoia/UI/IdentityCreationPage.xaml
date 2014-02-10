@@ -45,7 +45,7 @@
             <Grid HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition Width="350" />
+                    <ColumnDefinition Width="370" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -69,21 +69,29 @@
                       Margin="0,0,20,0">
                     <StackPanel>
                         <Border BorderBrush="{StaticResource AppLightControlBrush}" BorderThickness="1">
-                            <Image Source="{Binding GravatarUrl, IsAsync=True, FallbackValue={StaticResource GravatarDefaultImageUrl}, TargetNullValue={StaticResource GravatarDefaultImageUrl}}" Width="128" Height="128" />
+                            <Image Width="128"
+                                   Height="128"
+                                   Source="{Binding GravatarUrl,
+                                                    IsAsync=True,
+                                                    FallbackValue={StaticResource GravatarDefaultImageUrl},
+                                                    TargetNullValue={StaticResource GravatarDefaultImageUrl}}" />
                         </Border>
-                        <TextBlock Style="{StaticResource AppLightTextStyle}" FontSize="{StaticResource AppSmallFontSize}" Foreground="{StaticResource AppLightControlBrush}" Margin="0,6,0,0">
+                        <TextBlock Margin="0,6,0,0"
+                                   FontSize="{StaticResource AppSmallFontSize}"
+                                   Foreground="{StaticResource AppLightControlBrush}"
+                                   Style="{StaticResource AppLightTextStyle}">
                             <Run Text="{x:Static properties:Resources.GravatarPromoText}" />
                             <LineBreak />
                             <Run Text="{x:Static properties:Resources.GravatarHyperlinkPrefix}" />
-                            <Hyperlink RequestNavigate="OnGravatarLinkRequestNavigate" NavigateUri="http://www.gravatar.com">Gravatar</Hyperlink>.
+                            <Hyperlink NavigateUri="http://www.gravatar.com" RequestNavigate="OnGravatarLinkRequestNavigate">Gravatar</Hyperlink>
+                            .
                         </TextBlock>
                     </StackPanel>
                 </Grid>
                 <TextBlock Grid.Row="1"
                            Grid.Column="1"
                            FontSize="{StaticResource AppNormalFontSize}"
-                           Style="{StaticResource AppLightTextStyle}"
-                           TextWrapping="Wrap">
+                           Style="{StaticResource AppLightTextStyle}">
                     <Run Text="{x:Static properties:Resources.IdentityPublicDescription}" />
                 </TextBlock>
                 <StackPanel Grid.Row="2" Grid.Column="1">
@@ -111,9 +119,10 @@
                             </ui:WatermarkService.Watermark>
                         </TextBox>
                     </AdornerDecorator>
-                    <TextBlock Text="{x:Static properties:Resources.IdentityAddressDescription}" 
-                               FontSize="{StaticResource AppNormalFontSize}"
-                               Style="{StaticResource AppLightTextStyle}" />
+                    <TextBlock FontSize="{StaticResource AppNormalFontSize}"
+                               Foreground="{StaticResource AppAccentBrush}"
+                               Style="{StaticResource AppLightTextStyle}"
+                               Text="{x:Static properties:Resources.IdentityAddressDescription}" />
                     <AdornerDecorator>
                         <PasswordBox KeyboardNavigation.TabIndex="2" ui:PasswordService.Password="{Binding ImapPassword, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                             <ui:WatermarkService.Watermark>
@@ -125,15 +134,18 @@
                     </AdornerDecorator>
                 </StackPanel>
                 <TextBlock Grid.Row="3"
-                           Margin="0,6,0,0"
                            Grid.Column="1"
+                           Margin="0,6,0,0"
                            FontSize="{StaticResource AppNormalFontSize}"
                            Foreground="{StaticResource AppAccentBrush}"
                            Style="{StaticResource AppLightTextStyle}"
-                           TextWrapping="Wrap">
+                           TextWrapping="Wrap"
+                           Visibility="Collapsed">
                     <Run Text="{x:Static properties:Resources.IdentityPrivateDescription}" />
                 </TextBlock>
-                <StackPanel Grid.Row="4" Grid.Column="1">
+                <StackPanel Grid.Row="4"
+                            Grid.Column="1"
+                            Visibility="Collapsed">
                     <AdornerDecorator>
                         <PasswordBox KeyboardNavigation.TabIndex="3" ui:PasswordService.Password="{Binding Password, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                             <ui:WatermarkService.Watermark>
