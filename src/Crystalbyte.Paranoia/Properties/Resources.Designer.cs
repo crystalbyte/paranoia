@@ -143,6 +143,24 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Automatic configuration lookup failed, you need to manually provide the information below..
+        /// </summary>
+        public static string AutoConfigFailedText {
+            get {
+                return ResourceManager.GetString("AutoConfigFailedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatic configuration lookup succeeded..
+        /// </summary>
+        public static string AutoConfigSucceededText {
+            get {
+                return ResourceManager.GetString("AutoConfigSucceededText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
         public static string BackButtonText {
@@ -332,7 +350,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to incoming security protocol (e.g. SSL).
+        ///   Looks up a localized string similar to security.
         /// </summary>
         public static string ImapSecurityWatermark {
             get {
@@ -512,7 +530,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attempting to resolve server configuration ....
+        ///   Looks up a localized string similar to Resolving server configuration ....
         /// </summary>
         public static string ResolvingConfigText {
             get {
@@ -562,6 +580,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string SmtpSectionHeaderText {
             get {
                 return ResourceManager.GetString("SmtpSectionHeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to security.
+        /// </summary>
+        public static string SmtpSecurityWatermark {
+            get {
+                return ResourceManager.GetString("SmtpSecurityWatermark", resourceCulture);
             }
         }
         

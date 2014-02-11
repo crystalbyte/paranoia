@@ -14,7 +14,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         //private readonly ImapAccountContext _account;
 
         //public ImapMailboxContext(ImapAccountContext account, Mailbox mailbox) {
-            _account = account;
+            //_account = account;
         //    _mailbox = mailbox;
         //}
 

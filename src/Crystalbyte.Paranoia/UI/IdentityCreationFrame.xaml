@@ -20,12 +20,14 @@
                 Background="Black"
                 Opacity=".4" />
         <Border Grid.Row="1" Background="{StaticResource AppWindowBackgroundBrush}">
-            <Frame MinHeight="400"
-                   x:Name="NavigationFrame"
+            <Frame x:Name="NavigationFrame"
+                   MinHeight="400"
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
                    Background="Transparent"
+                   DataContextChanged="OnFrameDataContextChanged"
                    IsTabStop="False"
+                   Navigated="OnFrameNavigated"
                    NavigationUIVisibility="Hidden"
                    Source="IdentityCreationPage.xaml" />
         </Border>

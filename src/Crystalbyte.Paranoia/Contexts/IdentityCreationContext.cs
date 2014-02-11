@@ -5,6 +5,7 @@ using System.Composition;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Linq;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Commands;
 using Crystalbyte.Paranoia.Data;
@@ -16,6 +17,9 @@ using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Messaging;
 using System.Windows.Controls;
 using Crystalbyte.Paranoia.UI;
+using System.Threading.Tasks;
+using System.Net;
+using System.Xml.Serialization;
 
 #endregion
 
@@ -31,13 +35,13 @@ namespace Crystalbyte.Paranoia.Contexts {
         private string _address;
         private string _imapHost;
         private string _smtpHost;
-        private bool _isConfiguring;
         private string _gravatarUrl;
         private string _imapPassword;
         private string _smtpPassword;
         private string _imapUsername;
         private string _smtpUsername;
         private static string _password;
+        private ConfigState _configState;
         private SecurityPolicy _imapSecurity;
         private SecurityPolicy _smtpSecurity;
         private string _passwordConfirmation;
@@ -47,8 +51,22 @@ namespace Crystalbyte.Paranoia.Contexts {
         #region Construction
 
         public IdentityCreationContext() {
-            ConfigCommand = new RelayCommand(OnCanConfigCommandExecuted, OnConfigCommandExecuted);
-            CancelCommand = new RelayCommand(OnCancelCommandExecuted);
+            ConfigCommand = new RelayCommand(OnCanConfigure, OnConfigure);
+            CancelCommand = new RelayCommand(OnCancel);
+            GoBackCommand = new RelayCommand(OnCanGoBack, OnGoBack);
+        }
+
+        private bool OnCanGoBack(object arg) {
+            if (arg == null) {
+                return true;
+            }
+            var page = (Page)arg;
+            return page.NavigationService.CanGoBack;
+        }
+
+        private void OnGoBack(object obj) {
+            var page = (Page)obj;
+            page.NavigationService.GoBack();
         }
 
         #endregion
@@ -82,17 +100,17 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public RelayCommand ConfigCommand { get; set; }
         public ICommand CancelCommand { get; set; }
-
-        public bool IsConfiguring {
-            get { return _isConfiguring; }
+        public ICommand GoBackCommand { get; set; }
+        public ConfigState ConfigState {
+            get { return _configState; }
             set {
-                if (_isConfiguring == value) {
+                if (_configState == value) {
                     return;
                 }
 
-                RaisePropertyChanging(() => IsConfiguring);
-                _isConfiguring = value;
-                RaisePropertyChanged(() => IsConfiguring);
+                RaisePropertyChanging(() => ConfigState);
+                _configState = value;
+                RaisePropertyChanged(() => ConfigState);
             }
         }
 
@@ -325,21 +343,91 @@ namespace Crystalbyte.Paranoia.Contexts {
             CreateGravatarUrl();
         }
 
-        private void OnCancelCommandExecuted(object obj) {
+        private void OnCancel(object obj) {
             ClearPassword();
             OnFinished();
+
+            var page = obj as Page;
+            if (page != null) {
+                var service = page.NavigationService;
+                while (service.CanGoBack) {
+                    service.GoBack();
+                }
+            }
         }
 
-        private bool OnCanConfigCommandExecuted(object parameter) {
+        private bool OnCanConfigure(object parameter) {
             return ValidFor(() => Address)
                 && ValidFor(() => Name)
                 && ValidFor(() => ImapPassword);
         }
 
-        private void OnConfigCommandExecuted(object parameter) {
+        private async void OnConfigure(object parameter) {
+            var password = ImapPassword;
+
             var uri = string.Format("/UI/{0}.xaml", typeof(ServerConfigPage).Name);
             var page = (Page)parameter;
             page.NavigationService.Navigate(new Uri(uri, UriKind.Relative));
+
+            await AutoConfigAsync();
+
+            ImapPassword = password;
+            SmtpPassword = password;
+        }
+
+        private void Resolve(clientConfig config) {
+            if (!config.emailProvider.Any()) {
+                return;
+            }
+
+            var provider = config.emailProvider.First();
+            var imap = provider.incomingServer.FirstOrDefault(x => x.type.ContainsIgnoreCase("imap"));
+            if (imap != null) {
+                ImapHost = imap.hostname;
+                ImapSecurity = imap.socketType.ToSecurityPolicy();
+                ImapPort = short.Parse(imap.port);
+                ImapUsername = GetImapUsernameFromMacro(imap);
+            }
+
+            var smtp = provider.outgoingServer.FirstOrDefault(x => x.type.ContainsIgnoreCase("smtp"));
+            if (smtp == null)
+                return;
+
+            SmtpHost = smtp.hostname;
+            SmtpSecurity = smtp.socketType.ToSecurityPolicy();
+            SmtpPort = short.Parse(smtp.port);
+            SmtpUsername = GetSmtpUsernameFromMacro(smtp);
+        }
+
+        private string GetImapUsernameFromMacro(clientConfigEmailProviderIncomingServer config) {
+            return config.username == "%EMAILADDRESS%" ? Address : Address.Split('@').First();
+        }
+
+        private string GetSmtpUsernameFromMacro(clientConfigEmailProviderOutgoingServer config) {
+            return config.username == "%EMAILADDRESS%" ? Address : Address.Split('@').First();
+        }
+
+        public async Task AutoConfigAsync() {
+            var domain = Address.Split('@').Last();
+            var url = string.Format("https://live.mozillamessaging.com/autoconfig/v1.1/{0}", domain);
+            using (var client = new WebClient()) {
+                try {
+                    ConfigState = ConfigState.Active;
+                    var stream = await client.OpenReadTaskAsync(new Uri(url, UriKind.Absolute));
+                    var serializer = new XmlSerializer(typeof(clientConfig));
+                    var config = serializer.Deserialize(stream) as clientConfig;
+                    Resolve(config);
+                    ConfigState = ConfigState.Succeeded;
+                } catch (WebException) {
+                    MakeEducatedGuess(domain);
+                    ConfigState = ConfigState.Failed;
+                } 
+            }
+        }
+
+        private void MakeEducatedGuess(string domain) {
+            ImapUsername = Address;
+            SmtpUsername = Address;                                       
         }
 
         public void CreateGravatarUrl() {

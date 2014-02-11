@@ -15,10 +15,9 @@ namespace Crystalbyte.Paranoia.UI {
     public partial class IdentityCreationFrame {
         public IdentityCreationFrame() {
             InitializeComponent();
-            DataContextChanged += OnDataContextChanged;
         }
 
-        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
+        private void OnFrameDataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
             TransferDataContext();
         }
 
@@ -31,9 +30,8 @@ namespace Crystalbyte.Paranoia.UI {
             page.DataContext = DataContext;
         }
 
-        //public CreateAccountScreenContext ScreenContext {
-        //    get { return DataContext as CreateAccountScreenContext; }
-        //    set { DataContext = value; }
-        //}
+        private void OnFrameNavigated(object sender, NavigationEventArgs e) {
+            TransferDataContext();
+        }
     }
 }

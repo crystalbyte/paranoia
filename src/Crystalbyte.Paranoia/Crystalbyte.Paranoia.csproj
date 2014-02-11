@@ -110,6 +110,7 @@
     <Compile Include="Commands\AddContactCommand.cs" />
     <Compile Include="Commands\DeleteContactCommand.cs" />
     <Compile Include="Commands\KeyExchangeCommand.cs" />
+    <Compile Include="ConfigState.cs" />
     <Compile Include="ContactRequestStatus.cs" />
     <Compile Include="ContactSelectionSource.cs" />
     <Compile Include="Contexts\ImapAccountContext.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Converters\BooleanNegator.cs" />
     <Compile Include="Converters\BooleanToBrushConverter.cs" />
     <Compile Include="Converters\BooleanToStringConverter.cs" />
+    <Compile Include="Converters\ConfigStateToVisibilityConverter.cs" />
     <Compile Include="Converters\DomainToHostLogoConverter.cs" />
     <Compile Include="Converters\ExceptionFormatter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />

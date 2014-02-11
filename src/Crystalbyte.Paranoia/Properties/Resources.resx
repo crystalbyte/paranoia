@@ -146,6 +146,12 @@ Once a mutual communication agreement has been established, messages can be safe
   <data name="AuthenticationFailedMessage" xml:space="preserve">
     <value>Auhentication failed.</value>
   </data>
+  <data name="AutoConfigFailedText" xml:space="preserve">
+    <value>Automatic configuration lookup failed, you need to manually provide the information below.</value>
+  </data>
+  <data name="AutoConfigSucceededText" xml:space="preserve">
+    <value>Automatic configuration lookup succeeded.</value>
+  </data>
   <data name="BackButtonText" xml:space="preserve">
     <value>Back</value>
   </data>
@@ -212,7 +218,7 @@ Once a mutual communication agreement has been established, messages can be safe
     <value>Please enter or correct  the incoming server properties (IMAP).</value>
   </data>
   <data name="ImapSecurityWatermark" xml:space="preserve">
-    <value>incoming security protocol (e.g. SSL)</value>
+    <value>security</value>
   </data>
   <data name="ImapTestFailureMessage" xml:space="preserve">
     <value>Failed to connect to server.</value>
@@ -277,7 +283,7 @@ Once a mutual communication agreement has been established, messages can be safe
     <value>The password must not be empty.</value>
   </data>
   <data name="ResolvingConfigText" xml:space="preserve">
-    <value>Attempting to resolve server configuration ...</value>
+    <value>Resolving server configuration ...</value>
   </data>
   <data name="ServerSettingsDescription" xml:space="preserve">
     <value>In order to send and receive e-mails an incoming and outgoing server must be specified.</value>
@@ -293,6 +299,9 @@ Once a mutual communication agreement has been established, messages can be safe
   </data>
   <data name="SmtpSectionHeaderText" xml:space="preserve">
     <value>Please enter or correct  the outgoing server properties (SMTP).</value>
+  </data>
+  <data name="SmtpSecurityWatermark" xml:space="preserve">
+    <value>security</value>
   </data>
   <data name="SmtpTestFailureMessage" xml:space="preserve">
     <value>Failed to send message ...</value>
