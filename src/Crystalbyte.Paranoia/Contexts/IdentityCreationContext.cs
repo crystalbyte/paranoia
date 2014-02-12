@@ -20,6 +20,11 @@ using Crystalbyte.Paranoia.UI;
 using System.Threading.Tasks;
 using System.Net;
 using System.Xml.Serialization;
+using System.Windows;
+using System.Diagnostics;
+using System.Net.Mail;
+using System.Net.Mime;
+using System.Net.NetworkInformation;
 
 #endregion
 
@@ -53,7 +58,24 @@ namespace Crystalbyte.Paranoia.Contexts {
         public IdentityCreationContext() {
             ConfigCommand = new RelayCommand(OnCanConfigure, OnConfigure);
             CancelCommand = new RelayCommand(OnCancel);
+            TestingCommand = new RelayCommand(OnCanTest, OnTest);
             GoBackCommand = new RelayCommand(OnCanGoBack, OnGoBack);
+        }
+        private void OnTest(object obj) {
+       
+        }
+
+        private bool OnCanTest(object arg) {
+            return ValidFor(() => Name)
+                && ValidFor(() => Address)
+                && ValidFor(() => ImapPassword)
+                && ValidFor(() => SmtpPassword)
+                && ValidFor(() => ImapHost)
+                && ValidFor(() => SmtpHost)
+                && ValidFor(() => ImapPort)
+                && ValidFor(() => SmtpPort)
+                && ValidFor(() => ImapUsername)
+                && ValidFor(() => SmtpUsername);
         }
 
         private bool OnCanGoBack(object arg) {
@@ -94,13 +116,18 @@ namespace Crystalbyte.Paranoia.Contexts {
         protected override void OnValidated(EventArgs e) {
             base.OnValidated(e);
             ConfigCommand.Refresh();
+            TestingCommand.Refresh();
         }
 
         #endregion
-
-        public RelayCommand ConfigCommand { get; set; }
+        public bool IsTestSuccessful { get; set; }
         public ICommand CancelCommand { get; set; }
         public ICommand GoBackCommand { get; set; }
+        public RelayCommand ConfigCommand { get; set; }
+        public RelayCommand TestingCommand { get; set; }
+        public ConfigTestContext NetworkTest { get; set; }
+        public ConfigTestContext ImapConnectivityTest { get; set; }
+        public ConfigTestContext SmtpConnectivityTest { get; set; }
         public ConfigState ConfigState {
             get { return _configState; }
             set {
@@ -428,6 +455,101 @@ namespace Crystalbyte.Paranoia.Contexts {
         private void MakeEducatedGuess(string domain) {
             ImapUsername = Address;
             SmtpUsername = Address;                                       
+        }
+
+        public async Task TestConfigAsync() {
+            NetworkTest = new ConfigTestContext { Text = Resources.NetworkTestMessage };
+            ImapConnectivityTest = new ConfigTestContext { Text = Resources.ImapTestMessage };
+            SmtpConnectivityTest = new ConfigTestContext { Text = Resources.SmtpTestMessage };
+
+            CheckConnectivity();
+            await TestImapConfigAsync();
+            await TestSmtpConfigAsync();
+
+            TestingCommand.Refresh();
+            IsTestSuccessful = NetworkTest.IsSuccessful
+                && ImapConnectivityTest.IsSuccessful
+                && SmtpConnectivityTest.IsSuccessful;
+        }
+
+        private async Task TestImapConfigAsync() {
+            try {
+                ImapConnectivityTest.IsActive = true;
+                using (var connection = new ImapConnection { Security = ImapSecurity }) {
+                    using (var authenticator = await connection.ConnectAsync(ImapHost, ImapPort)) {
+                        await authenticator.LoginAsync(ImapUsername, ImapPassword);
+                        if (authenticator.IsAuthenticated) {
+                            ImapConnectivityTest.Text = Resources.ImapTestSuccessMessage;
+                            ImapConnectivityTest.IsSuccessful = true;
+                        } else {
+                            ImapConnectivityTest.Error = new InvalidOperationException(Resources.AuthenticationFailedMessage);
+                            ImapConnectivityTest.Text = Resources.ImapTestFailureMessage;
+                            ImapConnectivityTest.IsSuccessful = false;
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                ImapConnectivityTest.Text = Resources.ImapTestFailureMessage;
+                ImapConnectivityTest.Error = ex;
+            } finally {
+                ImapConnectivityTest.IsActive = false;
+            }
+        }
+
+        private async Task TestSmtpConfigAsync() {
+            try {
+                SmtpConnectivityTest.IsActive = true;
+
+                var resource =
+                Application.GetResourceStream(new Uri("/Resources/smtp.message.html",
+                                                      UriKind.Relative));
+                Debug.Assert(resource != null);
+                var body = await resource.Stream.ToUtf8StringAsync();
+
+                using (var connection = new SmtpConnection { Security = SmtpSecurity }) {
+                    using (var authenticator = await connection.ConnectAsync(SmtpHost, SmtpPort)) {
+                        using (var session = await authenticator.LoginAsync(SmtpUsername, SmtpPassword)) {
+
+                            var subject = Resources.SmtpTestMessageSubject;
+                            var from = new MailAddress(Address, "Paranoia");
+                            var to = new MailAddress(Address, Name);
+
+                            using (var message = new MailMessage(from, to) {
+                                HeadersEncoding = Encoding.UTF8,
+                                BodyTransferEncoding = TransferEncoding.Base64,
+                                SubjectEncoding = Encoding.UTF8,
+                                BodyEncoding = Encoding.UTF8,
+                                Subject = subject,
+                                Body = body,
+                                IsBodyHtml = true
+                            }) {
+                                await session.SendAsync(message);
+                            }
+
+                            SmtpConnectivityTest.Text = Resources.SmtpTestSuccessMessage;
+                            SmtpConnectivityTest.IsSuccessful = true;
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                SmtpConnectivityTest.Text = Resources.SmtpTestFailureMessage;
+                SmtpConnectivityTest.Error = ex;
+            } finally {
+                SmtpConnectivityTest.IsActive = false;
+            }
+        }
+
+        private void CheckConnectivity() {
+            try {
+                NetworkTest.IsActive = true;
+                NetworkTest.IsSuccessful = NetworkInterface.GetIsNetworkAvailable();
+                NetworkTest.Text = NetworkTest.IsSuccessful ? Resources.NetworkTestSuccessMessage : Resources.NetworkTestFailureMessage;
+            } catch (Exception ex) {
+                NetworkTest.Text = Resources.ImapTestFailureMessage;
+                NetworkTest.Error = ex;
+            } finally {
+                NetworkTest.IsActive = false;
+            }
         }
 
         public void CreateGravatarUrl() {

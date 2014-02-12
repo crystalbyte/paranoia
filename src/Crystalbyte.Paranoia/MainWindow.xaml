@@ -47,7 +47,7 @@
                         <Border BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Padding="{TemplateBinding Padding}">
-                              <!--Grid to add more full window items later-->  
+                            <!--  Grid to add more full window items later  -->
                             <Grid>
                                 <DockPanel LastChildFill="True">
                                     <Grid Height="54"
@@ -306,26 +306,28 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </Border>
-                    <Border Grid.Row="1" Grid.Column="4" Background="Red" />
+                    <Border Grid.Row="1"
+                            Grid.Column="4"
+                            Background="Red" />
                 </Grid>
             </Border>
 
             <ui:IdentityCreationFrame DataContext="{Binding IdentityCreationContext}"
-                                     Style="{StaticResource ScreenOverlayStyle}"
-                                     Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}" />
+                                      Style="{StaticResource ScreenOverlayStyle}"
+                                      Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}" />
             <!--
-            <ui:CreateAccountScreen DataContext="{Binding CreateAccountScreenContext}"
-                                    Style="{StaticResource ScreenOverlayStyle}"
-                                    Visibility="{Binding IsActive,
-                                                         FallbackValue=False,
-                                                         Mode=OneWay,
-                                                         Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <ui:AddContactScreen DataContext="{Binding AddContactScreenContext}"
-                                 Style="{StaticResource ScreenOverlayStyle}"
-                                 Visibility="{Binding IsActive,
-                                                      FallbackValue=False,
-                                                      Mode=OneWay,
-                                                      Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <ui:CreateAccountScreen DataContext="{Binding CreateAccountScreenContext}"
+                Style="{StaticResource ScreenOverlayStyle}"
+                Visibility="{Binding IsActive,
+                FallbackValue=False,
+                Mode=OneWay,
+                Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <ui:AddContactScreen DataContext="{Binding AddContactScreenContext}"
+                Style="{StaticResource ScreenOverlayStyle}"
+                Visibility="{Binding IsActive,
+                FallbackValue=False,
+                Mode=OneWay,
+                Converter={StaticResource BooleanToVisibilityConverter}}" />
             -->
         </Grid>
 

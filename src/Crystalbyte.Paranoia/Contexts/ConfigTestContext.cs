@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Crystalbyte.Paranoia.Contexts {
-    public sealed class SettingsTestContext : NotificationObject {
+    public sealed class ConfigTestContext : NotificationObject {
 
         #region Private Fields
 

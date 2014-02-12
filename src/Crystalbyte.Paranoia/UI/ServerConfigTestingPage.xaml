@@ -1,4 +1,4 @@
-﻿<Page x:Class="Crystalbyte.Paranoia.UI.ServerConfigPage"
+﻿<Page x:Class="Crystalbyte.Paranoia.UI.ServerConfigTestingPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:contexts="clr-namespace:Crystalbyte.Paranoia.Contexts"
@@ -61,21 +61,23 @@
                     <Run FontSize="{StaticResource AppNormalFontSize}" Text="{x:Static properties:Resources.ServerSettingsDescription}" />
                 </TextBlock>
                 <Grid Grid.Row="1">
-                    <TextBlock Margin="0,12,0,4"
-                               Foreground="{StaticResource AppAccentBrush}"
-                               Style="{StaticResource AppLightTextStyle}"
-                               Text="{x:Static properties:Resources.ResolvingConfigText}"
-                               Visibility="{Binding ConfigState,
-                                                    Converter={StaticResource ConfigStateToVisibilityConverter},
-                                                    ConverterParameter=Active}" />
-                    <TextBlock Margin="0,12,0,4"
+                    <StackPanel Visibility="{Binding ConfigState, Converter={StaticResource ConfigStateToVisibilityConverter}, ConverterParameter=Active}">
+                        <TextBlock Margin="0,12,0,4"
+                                   Foreground="{StaticResource AppAccentBrush}"
+                                   Style="{StaticResource AppLightTextStyle}"
+                                   Text="{x:Static properties:Resources.ResolvingConfigText}" />
+                        <ProgressBar Background="Transparent"
+                                     Foreground="{StaticResource AppAccentBrush}"
+                                     IsIndeterminate="True" />
+                    </StackPanel>
+                    <TextBlock Margin="0,12,0,6"
                                Foreground="{StaticResource AppSuccessColorBrush}"
                                Style="{StaticResource AppNormalTextStyle}"
                                Text="{x:Static properties:Resources.AutoConfigSucceededText}"
                                Visibility="{Binding ConfigState,
                                                     Converter={StaticResource ConfigStateToVisibilityConverter},
                                                     ConverterParameter=Succeeded}" />
-                    <TextBlock Margin="0,12,0,4"
+                    <TextBlock Margin="0,12,0,6"
                                Foreground="{StaticResource AppFailureColorBrush}"
                                Style="{StaticResource AppNormalTextStyle}"
                                Text="{x:Static properties:Resources.AutoConfigFailedText}"
@@ -309,14 +311,5 @@
                 </DockPanel>
             </Grid>
         </Border>
-        <Border Grid.Row="0" VerticalAlignment="Bottom">
-            <ProgressBar Background="Transparent"
-                         Foreground="{StaticResource AppAccentBrush}"
-                         IsIndeterminate="True"
-                         Visibility="{Binding ConfigState,
-                                              Converter={StaticResource ConfigStateToVisibilityConverter},
-                                              ConverterParameter=Active}" />
-        </Border>
-
     </Grid>
 </Page>

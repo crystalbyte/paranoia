@@ -114,7 +114,7 @@
     <Compile Include="ContactRequestStatus.cs" />
     <Compile Include="ContactSelectionSource.cs" />
     <Compile Include="Contexts\ImapAccountContext.cs" />
-    <Compile Include="Contexts\SettingsTestContext.cs" />
+    <Compile Include="Contexts\ConfigTestContext.cs" />
     <Compile Include="Contexts\ContactInvitationContext.cs" />
     <Compile Include="Contexts\ContactContext.cs" />
     <Compile Include="Contexts\LogContext.cs" />
@@ -154,6 +154,9 @@
     </Compile>
     <Compile Include="UI\ComposeMessageView.xaml.cs">
       <DependentUpon>ComposeMessageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ServerConfigTestingPage.xaml.cs">
+      <DependentUpon>ServerConfigTestingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\ServerConfigPage.xaml.cs">
       <DependentUpon>ServerConfigPage.xaml</DependentUpon>
@@ -228,6 +231,10 @@
     <Page Include="UI\IdentityCreationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\ServerConfigTestingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\ServerConfigPage.xaml">
       <SubType>Designer</SubType>
