@@ -8,8 +8,8 @@
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       x:Name="Page"
+      KeepAlive="True"  
       HorizontalAlignment="Stretch"
-      KeepAlive="True"
       KeyboardNavigation.IsTabStop="False"
       d:DataContext="{d:DesignInstance contexts:IdentityContext}"
       d:DesignHeight="435.8"
@@ -84,7 +84,7 @@
                             <LineBreak />
                             <Run Text="{x:Static properties:Resources.GravatarHyperlinkPrefix}" />
                             <Hyperlink NavigateUri="http://www.gravatar.com" RequestNavigate="OnGravatarLinkRequestNavigate">Gravatar</Hyperlink>
-                            .
+                            <Run>.</Run>
                         </TextBlock>
                     </StackPanel>
                 </Grid>

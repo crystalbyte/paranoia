@@ -153,7 +153,7 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            context.IdentitySelectionSource.Current = e.AddedItems.OfType<IdentityContext>().FirstOrDefault();
+            context.IdentitySelectionSource.Selection = e.AddedItems.OfType<IdentityContext>().FirstOrDefault();
         }
 
         private void OnContactSelectionChanged(object sender, SelectionChangedEventArgs e) { 

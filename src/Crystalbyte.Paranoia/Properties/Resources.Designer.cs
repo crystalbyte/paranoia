@@ -233,7 +233,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New Identity.
+        ///   Looks up a localized string similar to Identity.
         /// </summary>
         public static string CreateIdentityTitle {
             get {
@@ -359,7 +359,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to connect to server..
+        ///   Looks up a localized string similar to Failed to connect to incoming server ....
         /// </summary>
         public static string ImapTestFailureMessage {
             get {
@@ -548,7 +548,25 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server Settings .
+        ///   Looks up a localized string similar to Please wait while the configuration is being validated..
+        /// </summary>
+        public static string ServerSettingsTestDescription {
+            get {
+                return ResourceManager.GetString("ServerSettingsTestDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Validation.
+        /// </summary>
+        public static string ServerSettingsTestTitle {
+            get {
+                return ResourceManager.GetString("ServerSettingsTestTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings .
         /// </summary>
         public static string ServerSettingsTitle {
             get {
@@ -575,7 +593,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please enter or correct  the outgoing server properties (SMTP)..
+        ///   Looks up a localized string similar to Please enter or correct the outgoing server properties (SMTP)..
         /// </summary>
         public static string SmtpSectionHeaderText {
             get {
@@ -593,7 +611,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to send message ....
+        ///   Looks up a localized string similar to Failed to send message using the outgoing server properties ....
         /// </summary>
         public static string SmtpTestFailureMessage {
             get {
@@ -652,6 +670,24 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string SubjectStringLengthErrorText {
             get {
                 return ResourceManager.GetString("SubjectStringLengthErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Some settings seem to be incorrect, you can navigate back to correct any invalid entries or continue despite the errors..
+        /// </summary>
+        public static string TestFailedMessage {
+            get {
+                return ResourceManager.GetString("TestFailedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All server settings seem to be correct..
+        /// </summary>
+        public static string TestSucceededMessage {
+            get {
+                return ResourceManager.GetString("TestSucceededMessage", resourceCulture);
             }
         }
     }

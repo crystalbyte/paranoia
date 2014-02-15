@@ -5,39 +5,28 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         #region Private Fields
 
-        private bool _isActive;
-        private bool _isSuccessful;
+        private TestResult _result;
         private string _text;
         private Exception _error;
 
         #endregion
-
-        public bool IsActive {
-            get { return _isActive; }
+        public TestResult Result {
+            get { return _result; }
             set {
-                if (_isActive == value) {
+                if (_result == value) {
                     return;
                 }
 
-                RaisePropertyChanging(() => IsActive);
-                _isActive = value;
-                RaisePropertyChanged(() => IsActive);
-            }
-        }
-
-        public bool IsSuccessful {
-            get { return _isSuccessful; }
-            set {
-                if (_isSuccessful == value) {
-                    return;
-                }
-
+                RaisePropertyChanging(() => Result);
                 RaisePropertyChanging(() => IsSuccessful);
-                _isSuccessful = value;
+                _result = value;
+                RaisePropertyChanged(() => Result);
                 RaisePropertyChanged(() => IsSuccessful);
             }
         }
-
+        public bool IsSuccessful {
+            get { return Result == TestResult.Success; }
+        }
         public string Text {
             get { return _text; }
             set {
@@ -63,7 +52,7 @@ namespace Crystalbyte.Paranoia.Contexts {
                 RaisePropertyChanged(() => Error);
 
                 if (_error != null) {
-                    IsSuccessful = false;
+                    Result = TestResult.Failure;
                 }
             }
         }

@@ -99,5 +99,14 @@ namespace Crystalbyte.Paranoia.Messaging {
                 return Text.StartsWith("354");
             }
         }
+
+        public bool IsPasswordRequest {
+            get {
+                if (string.IsNullOrWhiteSpace(Text) || Text.Length < 3) {
+                    return false;
+                }
+                return Text.StartsWith("334");
+            }
+        }
     }
 }

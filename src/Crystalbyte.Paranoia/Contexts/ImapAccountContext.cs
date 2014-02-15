@@ -194,7 +194,7 @@ namespace Crystalbyte.Paranoia.Contexts {
                 try {
                                                                 
                 } catch (Exception ex) {
-                    LogContext.Current.PushError(ex);
+                    // TODO: log
                 }
             });
         }

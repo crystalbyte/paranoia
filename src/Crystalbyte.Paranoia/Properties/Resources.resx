@@ -178,7 +178,7 @@ Once a mutual communication agreement has been established, messages can be safe
     <comment>IdentityScreen -&gt;Run</comment>
   </data>
   <data name="CreateIdentityTitle" xml:space="preserve">
-    <value>New Identity</value>
+    <value>Identity</value>
     <comment>IdentityScreen -&gt;Run</comment>
   </data>
   <data name="DeleteContactCommandToolTip" xml:space="preserve">
@@ -221,7 +221,7 @@ Once a mutual communication agreement has been established, messages can be safe
     <value>security</value>
   </data>
   <data name="ImapTestFailureMessage" xml:space="preserve">
-    <value>Failed to connect to server.</value>
+    <value>Failed to connect to incoming server ...</value>
   </data>
   <data name="ImapTestMessage" xml:space="preserve">
     <value>Attempting to connect to server ...</value>
@@ -288,8 +288,14 @@ Once a mutual communication agreement has been established, messages can be safe
   <data name="ServerSettingsDescription" xml:space="preserve">
     <value>In order to send and receive e-mails an incoming and outgoing server must be specified.</value>
   </data>
+  <data name="ServerSettingsTestDescription" xml:space="preserve">
+    <value>Please wait while the configuration is being validated.</value>
+  </data>
+  <data name="ServerSettingsTestTitle" xml:space="preserve">
+    <value>Validation</value>
+  </data>
   <data name="ServerSettingsTitle" xml:space="preserve">
-    <value>Server Settings </value>
+    <value>Settings </value>
   </data>
   <data name="SmtpHostWatermark" xml:space="preserve">
     <value>outgoing host address (e.g. smtp.gmail.com)</value>
@@ -298,13 +304,13 @@ Once a mutual communication agreement has been established, messages can be safe
     <value>outgoing server password</value>
   </data>
   <data name="SmtpSectionHeaderText" xml:space="preserve">
-    <value>Please enter or correct  the outgoing server properties (SMTP).</value>
+    <value>Please enter or correct the outgoing server properties (SMTP).</value>
   </data>
   <data name="SmtpSecurityWatermark" xml:space="preserve">
     <value>security</value>
   </data>
   <data name="SmtpTestFailureMessage" xml:space="preserve">
-    <value>Failed to send message ...</value>
+    <value>Failed to send message using the outgoing server properties ...</value>
   </data>
   <data name="SmtpTestMessage" xml:space="preserve">
     <value>Attempting to send test message ...</value>
@@ -323,5 +329,11 @@ Once a mutual communication agreement has been established, messages can be safe
   </data>
   <data name="SubjectStringLengthErrorText" xml:space="preserve">
     <value>The subject must not exceed 256 characters.</value>
+  </data>
+  <data name="TestFailedMessage" xml:space="preserve">
+    <value>Some settings seem to be incorrect, you can navigate back to correct any invalid entries or continue despite the errors.</value>
+  </data>
+  <data name="TestSucceededMessage" xml:space="preserve">
+    <value>All server settings seem to be correct.</value>
   </data>
 </root>

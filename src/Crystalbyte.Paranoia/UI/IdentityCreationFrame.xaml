@@ -28,8 +28,7 @@
                    DataContextChanged="OnFrameDataContextChanged"
                    IsTabStop="False"
                    Navigated="OnFrameNavigated"
-                   NavigationUIVisibility="Hidden"
-                   Source="IdentityCreationPage.xaml" />
+                   NavigationUIVisibility="Hidden" />
         </Border>
         <Border Grid.Row="2"
                 Background="Black"

@@ -12,22 +12,27 @@ using System.Diagnostics;
 #endregion
 
 namespace Crystalbyte.Paranoia.Data {
-    [Export, Shared]
     public sealed class StorageContext : DbContext {
         private const string Filename = "storage.sdf";
 
-        public static StorageContext Current { get; set; }
-
         public StorageContext()
-            : base(Filename) {
-            if (Current != null) {
-                throw new InvalidOperationException("One does not simply call StorageContext twice!");
-            }
-            Current = this;
-        }
+            : base(Filename) { }
 
         public DbSet<Identity> Identities { get; set; }
-        
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder) {
+            modelBuilder.Entity<Identity>()
+                        .HasRequired(s => s.ImapAccount)
+                        .WithRequiredPrincipal(a => a.Identity)
+                        .WillCascadeOnDelete();
+
+            modelBuilder.Entity<Identity>()
+                        .HasRequired(s => s.SmtpAccount)
+                        .WithRequiredPrincipal(a => a.Identity)
+                        .WillCascadeOnDelete();
+        }
+
+
         private static string StorageDirectory {
             get {
                 var roaming = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -36,7 +41,7 @@ namespace Crystalbyte.Paranoia.Data {
             }
         }
 
-        public Task<bool> IsDatabaseCreatedAsync() {
+        public static Task<bool> IsDatabaseCreatedAsync() {
             return Task<bool>.Factory.StartNew(() => {
                 if (!Directory.Exists(StorageDirectory)) {
                     return false;

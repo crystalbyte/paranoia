@@ -32,9 +32,6 @@ namespace Crystalbyte.Paranoia.Commands {
         public ContactSelectionSource ContactSelectionSource { get; set; }
 
         [Import]
-        public StorageContext LocalStorage { get; set; }
-
-        [Import]
         public AppContext AppContext { get; set; }
 
         public void OnImportsSatisfied() {
@@ -51,7 +48,7 @@ namespace Crystalbyte.Paranoia.Commands {
         }
 
         public async void Execute(object parameter) {
-            var identity = IdentitySelectionSource.Current;
+            var identity = IdentitySelectionSource.Selection;
             var contact = ContactSelectionSource.Current;
 
             await Task.Factory.StartNew(() => {

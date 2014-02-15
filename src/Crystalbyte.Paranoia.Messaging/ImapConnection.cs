@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia.Messaging {
     public sealed class ImapConnection : IDisposable {
-        private readonly TcpClient _tcpClient = new TcpClient();
+        private readonly TcpClient _tcpClient;
         private StreamReader _reader;
         private SslStream _secureStream;
         private StreamWriter _writer;
@@ -25,6 +25,8 @@ namespace Crystalbyte.Paranoia.Messaging {
             Security = SecurityPolicy.Explicit;
             Certificates = new X509Certificate2Collection();
             Capabilities = new HashSet<string>();
+
+            _tcpClient = new TcpClient { ReceiveTimeout = 5000, SendTimeout = 2000 };
         }
 
         public X509Certificate2Collection Certificates { get; private set; }

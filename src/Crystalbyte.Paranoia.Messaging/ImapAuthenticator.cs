@@ -21,12 +21,27 @@ namespace Crystalbyte.Paranoia.Messaging {
         public bool IsAuthenticated { get; private set; }
 
         public async Task<ImapSession> LoginAsync(string username, string password) {
-            if (!_connection.Capabilities.Contains("AUTH=PLAIN")) {
-                throw new NotSupportedException("Other mechanics than PLAIN are currently not supported.");
+            if (_connection.Capabilities.Contains("AUTH=PLAIN")) {
+                await AuthPlainAsync(username, password);
+                return new ImapSession(this);
             }
 
-            await AuthPlainAsync(username, password);
+            await AuthLoginAsync(username, password);
             return new ImapSession(this);
+        }
+
+        private async Task AuthLoginAsync(string username, string password) {
+            var text = string.Format("{0} {1}", username, password);
+
+            ImapResponseLine line;
+
+            // Speed up authentication by using the initial client response extension.
+            // http://tools.ietf.org/html/rfc4959
+            var command = string.Format("LOGIN {0}", text);
+            await _connection.WriteCommandAsync(command);
+            line = await _connection.ReadAsync();
+
+            IsAuthenticated = !line.IsNo;
         }
 
         private async Task AuthPlainAsync(string username, string password) {

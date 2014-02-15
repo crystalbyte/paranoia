@@ -35,7 +35,7 @@ namespace Crystalbyte.Paranoia.Messaging {
         #endregion
 
         public Task SendAsync(MailMessage message) {
-            return SendAsync(new[] {message});
+            return SendAsync(new[] { message });
         }
 
         public async Task SendAsync(IEnumerable<MailMessage> messages) {
@@ -59,7 +59,7 @@ namespace Crystalbyte.Paranoia.Messaging {
                 response = await _connection.ReadAsync();
                 if (!response.IsOk) {
                     throw new SmtpException(response.Content);
-                }    
+                }
             }
 
             await _connection.WriteAsync(SmtpCommands.Quit);
@@ -97,7 +97,7 @@ namespace Crystalbyte.Paranoia.Messaging {
                 }
             }
 
-            await _connection.WriteAsync(string.Format("{0}.{0}", Environment.NewLine));
+            await _connection.WriteAsync(".");
         }
 
         private static string StuffPeriodIfNecessary(string line) {

@@ -15,6 +15,7 @@ using Crystalbyte.Paranoia.Commands;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Models;
+using NLog;
 
 #endregion
 
@@ -27,6 +28,12 @@ namespace Crystalbyte.Paranoia.Contexts {
         private bool _isSyncing;
         private IdentityCreationContext _identityCreationContext;
         private readonly ObservableCollection<IdentityContext> _identities;
+
+        #endregion
+
+        #region Log Declaration
+
+        private static Logger Log = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -48,13 +55,11 @@ namespace Crystalbyte.Paranoia.Contexts {
         #region Import Declarations
 
         [Import]
-        public LogContext ErrorLogContext { get; set; }
+        public DeleteIdentityCommand DeleteIdentityCommand { get; set; }
 
         [Import]
         public DeleteContactCommand DeleteContactCommand { get; set; }
 
-        [Import]
-        public StorageContext StorageContext { get; set; }
 
         [Import]
         public IdentitySelectionSource IdentitySelectionSource { get; set; }
@@ -107,12 +112,13 @@ namespace Crystalbyte.Paranoia.Contexts {
                 handler(this, e);
         }
 
-        private void OnIdentityCreationFinished(object sender, EventArgs e) {
+        private async void OnIdentityCreationFinished(object sender, EventArgs e) {
             if (IdentityCreationContext != null) {
                 IdentityCreationContext.Finished -= OnIdentityCreationFinished;
             }
 
             IdentityCreationContext = null;
+            await QueryIdentitiesAsync();
         }
 
         private void OnCreateIdentityCommandExecuted(object obj) {
@@ -170,14 +176,13 @@ namespace Crystalbyte.Paranoia.Contexts {
             try {
                 await SeedAsync();
             } catch (Exception ex) {
-                Debug.WriteLine(ex);
+                Log.Error(ex.Message);
             }
 
-            await StorageContext.Current.InitAsync();
-            //await LoadIdentitiesAsync();
-            //await LoadImapAccountsAsync();
-
-       
+            using (var context = new StorageContext()) {
+                await context.InitAsync();
+                await QueryIdentitiesAsync(context);
+            }
         }
 
         //private async Task LoadImapAccountsAsync() {
@@ -197,16 +202,19 @@ namespace Crystalbyte.Paranoia.Contexts {
         //    //return Task.Factory.StartNew(() => LocalStorage.Context.ImapAccounts.ToArray());
         //}
 
-        private async Task LoadIdentitiesAsync() {
-            //var query = await SelectIdentitiesAsync();
-            //Identities.AddRange(query.ToArray().Select(x => new IdentityContext(x)));
-            //if (Identities.Any()) {
-            //    Identities.First().IsSelected = true;
-            //}
-        }
+        internal async Task QueryIdentitiesAsync(StorageContext context = null) {
+            IEnumerable<Identity> idents = null;
+            await Task.Factory.StartNew(() => {
+                using (var c = context ?? new StorageContext()) {
+                    idents = c.Identities.ToArray();
+                }
+            });
 
-        //private Task<Identity[]> SelectIdentitiesAsync() {
-        //    return Task.Factory.StartNew(() => StorageContext.Context.Identities.ToArray());
-        //}
+            Identities.Clear();
+            Identities.AddRange(idents.Select(x => new IdentityContext(x)));
+            if (Identities.Any()) {
+                Identities.First().IsSelected = true;
+            }
+        }
     }
 }

@@ -55,6 +55,30 @@
             <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
 
+        <Style TargetType="ContextMenu">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Grid.IsSharedSizeScope" Value="true" />
+            <Setter Property="HasDropShadow" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ContextMenu">
+                        <Border Name="Border"
+                                Background="#1B1B1C"
+                                BorderBrush="#1B1B1C"
+                                BorderThickness="1">
+                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type MenuItem}">
+            <Setter Property="Background" Value="#1B1B1C" />
+            <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
+        </Style>
+
         <Style TargetType="{x:Type ToolTip}">
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="BorderBrush" Value="WhiteSmoke" />

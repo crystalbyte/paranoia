@@ -7,6 +7,8 @@ using System.Linq;
 using Crystalbyte.Paranoia.Models;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
+using NLog;
+using System.Data.Entity;
 
 #endregion
 
@@ -19,6 +21,12 @@ namespace Crystalbyte.Paranoia.Contexts {
         private readonly ObservableCollection<ContactContext> _contacts;
         private string _gravatarImageUrl;
         private bool _isSelected;
+
+        #endregion
+
+        #region Log Declaration
+
+        private static Logger Log = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -37,11 +45,9 @@ namespace Crystalbyte.Paranoia.Contexts {
         public ObservableCollection<ContactContext> Contacts {
             get { return _contacts; }
         }
-
         public SmtpAccount SmtpAccount {
             get { return _identity.SmtpAccount; }
         }
-
         public string Name {
             get { return _identity.Name; }
             set {
@@ -118,6 +124,20 @@ namespace Crystalbyte.Paranoia.Contexts {
                 _gravatarImageUrl = value;
                 RaisePropertyChanged(() => GravatarUrl);
             }
+        }
+
+        internal async Task DeleteAsync() {
+            await Task.Factory.StartNew(() => {
+                try {
+                    using (var context = new StorageContext()) {
+                        var id = context.Identities.First(x => x.Id == _identity.Id);
+                        context.Identities.Remove(id);
+                        context.SaveChanges();
+                    }
+                } catch (Exception ex) {
+                    Log.Error(ex.Message);
+                }
+            });
         }
     }
 }

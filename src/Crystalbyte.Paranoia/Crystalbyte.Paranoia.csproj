@@ -63,6 +63,9 @@
     <Reference Include="EntityFramework.SqlServerCompact">
       <HintPath>..\packages\EntityFramework.SqlServerCompact.6.0.2\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
     </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.1.0\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Composition.AttributedModel">
@@ -109,6 +112,7 @@
     <Compile Include="AppBarCategory.cs" />
     <Compile Include="Commands\AddContactCommand.cs" />
     <Compile Include="Commands\DeleteContactCommand.cs" />
+    <Compile Include="Commands\DeleteIdentityCommand.cs" />
     <Compile Include="Commands\KeyExchangeCommand.cs" />
     <Compile Include="ConfigState.cs" />
     <Compile Include="ContactRequestStatus.cs" />
@@ -117,12 +121,12 @@
     <Compile Include="Contexts\ConfigTestContext.cs" />
     <Compile Include="Contexts\ContactInvitationContext.cs" />
     <Compile Include="Contexts\ContactContext.cs" />
-    <Compile Include="Contexts\LogContext.cs" />
     <Compile Include="Contexts\SmtpAccountContext.cs" />
     <Compile Include="Converters\BooleanMultiConverter.cs" />
     <Compile Include="Converters\BooleanNegator.cs" />
     <Compile Include="Converters\BooleanToBrushConverter.cs" />
     <Compile Include="Converters\BooleanToStringConverter.cs" />
+    <Compile Include="Converters\TestResultToForegroundConverter.cs" />
     <Compile Include="Converters\ConfigStateToVisibilityConverter.cs" />
     <Compile Include="Converters\DomainToHostLogoConverter.cs" />
     <Compile Include="Converters\ExceptionFormatter.cs" />
@@ -144,6 +148,7 @@
     <Compile Include="ParanoiaHeaders.cs" />
     <Compile Include="PasswordPolicyAttribute.cs" />
     <Compile Include="StreamExtensions.cs" />
+    <Compile Include="TestResult.cs" />
     <Compile Include="UI\AppBarButton.cs" />
     <Compile Include="UI\IdentityCreationFrame.xaml.cs">
       <DependentUpon>IdentityCreationFrame.xaml</DependentUpon>
@@ -345,6 +350,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\invitation.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\menu.delete.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

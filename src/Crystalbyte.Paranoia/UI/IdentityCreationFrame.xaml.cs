@@ -1,6 +1,7 @@
 ﻿#region Using directives
 
 using Crystalbyte.Paranoia.Contexts;
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,6 +20,16 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnFrameDataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
             TransferDataContext();
+            RestartPageNavigation();
+        }
+
+        private void RestartPageNavigation() {
+            while (NavigationFrame.CanGoBack) {
+                NavigationFrame.RemoveBackEntry();
+            }
+
+            var url = string.Format("/UI/{0}.xaml", typeof(IdentityCreationPage).Name);
+            NavigationFrame.Navigate(new Uri(url, UriKind.Relative));
         }
 
         private void TransferDataContext() {

@@ -10,6 +10,7 @@
       xmlns:system="clr-namespace:System;assembly=mscorlib"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="CreateAccountTestingPage"
+      KeepAlive="True"
       KeyboardNavigation.TabNavigation="Cycle"
       d:DataContext="{d:DesignInstance contexts:IdentityCreationContext}"
       d:DesignHeight="435.8"

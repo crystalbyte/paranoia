@@ -20,16 +20,16 @@ namespace Crystalbyte.Paranoia {
 
         #endregion
 
-        public IdentityContext Current {
+        public IdentityContext Selection {
             get { return _selectedIdentity; }
             set {
                 if (_selectedIdentity == value) {
                     return;
                 }
 
-                RaisePropertyChanging(() => Current);
+                RaisePropertyChanging(() => Selection);
                 _selectedIdentity = value;
-                RaisePropertyChanged(() => Current);
+                RaisePropertyChanged(() => Selection);
               
                 OnSelectionChanged(EventArgs.Empty);
             }

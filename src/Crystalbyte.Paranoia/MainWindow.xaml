@@ -78,6 +78,15 @@
                                                       ItemsSource="{Binding Identities}"
                                                       SelectionChanged="OnIdentitySelectionChanged"
                                                       Style="{StaticResource AvatarListViewStyle}">
+                                                <ListView.ContextMenu>
+                                                    <ContextMenu>
+                                                        <MenuItem Command="{Binding DeleteIdentityCommand}" Header="Delete">
+                                                            <MenuItem.Icon>
+                                                                <Image Width="18" Source="/Assets/menu.delete.png" />
+                                                            </MenuItem.Icon>
+                                                        </MenuItem>
+                                                    </ContextMenu>
+                                                </ListView.ContextMenu>
                                                 <ListView.ItemContainerStyle>
                                                     <Style BasedOn="{StaticResource AvatarListViewItemStyle}"
                                                            TargetType="ListViewItem"

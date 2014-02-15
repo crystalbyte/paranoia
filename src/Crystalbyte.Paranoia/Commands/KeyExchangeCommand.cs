@@ -35,7 +35,7 @@ namespace Crystalbyte.Paranoia.Commands {
         #region Implementation of ICommand
 
         public bool CanExecute(object parameter) {
-            return IdentitySelectionSource.Current != null
+            return IdentitySelectionSource.Selection != null
                 && ContactSelectionSource.Current != null;
         }
 
@@ -55,7 +55,7 @@ namespace Crystalbyte.Paranoia.Commands {
 
         private async void SendKeyExchangeAsync() {
             var contact = ContactSelectionSource.Current;
-            var identity = IdentitySelectionSource.Current;
+            var identity = IdentitySelectionSource.Selection;
             var account = identity.SmtpAccount;
 
             using (var connection = new SmtpConnection()) {

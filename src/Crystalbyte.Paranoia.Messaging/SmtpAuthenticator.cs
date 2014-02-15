@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,8 +36,36 @@ namespace Crystalbyte.Paranoia.Messaging {
                 return new SmtpSession(this);
             }
 
-            throw new NotSupportedException("Other mechanics than PLAIN are currently not supported.");
+            if (mechanics.Contains("LOGIN")) {
+                await AuthLoginAsync(username, password);
+                return new SmtpSession(this);
+            }
 
+            throw new NotSupportedException("Other mechanics than PLAIN and LOGIN are currently not supported.");
+        }
+
+        private async Task AuthLoginAsync(string username, string password) {
+            var b1 = Encoding.UTF8.GetBytes(username);
+            var l1 = Convert.ToBase64String(b1);
+
+            await _connection.WriteAsync(string.Format("AUTH LOGIN {0}", l1));
+            while (true) {
+                var line = await _connection.ReadAsync();
+                if (!line.IsPasswordRequest) {
+                    throw new SmtpException(SmtpStatusCode.BadCommandSequence);
+                }
+
+                var b2 = Encoding.UTF8.GetBytes(password);
+                var l2 = Convert.ToBase64String(b2);
+                await _connection.WriteAsync(l2);
+
+                line = await _connection.ReadAsync();
+                if (!line.IsTerminated) {
+                    throw new SmtpException(SmtpStatusCode.BadCommandSequence);
+                }
+
+                return;
+            }
         }
 
 
