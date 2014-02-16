@@ -27,7 +27,7 @@ namespace Crystalbyte.Paranoia.Commands {
 
         public bool CanExecute(object parameter) {
             return parameter is IdentityContext
-                || IdentitySelectionSource.Selection != null;
+                || IdentitySelectionSource.Identity != null;
         }
 
         public event EventHandler CanExecuteChanged;
@@ -41,11 +41,11 @@ namespace Crystalbyte.Paranoia.Commands {
         public async void Execute(object parameter) {
             var id = parameter as IdentityContext;
             if (id == null) {
-                id = IdentitySelectionSource.Selection;
+                id = IdentitySelectionSource.Identity;
             }
 
             await id.DeleteAsync();
-            await AppContext.QueryIdentitiesAsync();
+            await AppContext.RestoreIdentitiesAsync();
         }
 
         #endregion

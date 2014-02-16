@@ -20,44 +20,14 @@ namespace Crystalbyte.Paranoia.Contexts {
         private bool _isActive;
         private string _emailAddress;
         private string _gravatarImageUrl;
-        private string _name;
 
         #endregion
 
         #region Construction
 
         public ContactInvitationContext() {
-            CreateCommand = new RelayCommand(OnCreateCommandExecuted);
-            CancelCommand = new RelayCommand(OnCancelCommandExecuted);
-        }
-
-        private void OnCreateCommandExecuted(object obj) {
-            var contact = new Contact {
-                Address = Address,
-                ContactRequest = ContactRequest.Pending,
-                Name = Name
-            };
-
-            //var identity = IdentitySelectionSource.Current;
-            //identity.AddContact(contact);
-
-            //LocalStorage.Context.SaveChanges();
-            Close();
-        }
-
-        private void OnCancelCommandExecuted(object obj) {
-            Close();
-        }
-
-        private void Close() {
-            ClearValues();
-            IsActive = false;
-        }
-
-        private void ClearValues() {
-            Name = string.Empty;
-            Address = string.Empty;
-            GravatarUrl = null;
+            CreateCommand = new RelayCommand(OnCreate);
+            CancelCommand = new RelayCommand(OnCancel);
         }
 
         #endregion
@@ -68,13 +38,57 @@ namespace Crystalbyte.Paranoia.Contexts {
         public AppContext AppContext { get; set; }
 
         [Import]
-        public StorageContext LocalStorage { get; set; }
+        public IdentitySelectionSource IdentitySelectionSource { get; set; }
 
         [Import]
-        public IdentitySelectionSource IdentitySelectionSource { get; set; }
+        public SendRequestCommand SendRequestCommand { get; set; }
 
         #endregion
 
+        #region Event Declarations
+
+        public event EventHandler Finished;
+        private void OnFinished() {
+            var handler = Finished;
+            if (handler != null) {
+                handler(this, EventArgs.Empty);
+            }
+        }
+
+        #endregion
+
+        private async void OnCreate(object obj) {
+            var contact = new Contact {
+                Address = Address,
+                Name = string.Empty,
+                ContactRequest = ContactRequest.Pending
+            };
+
+            var identity = IdentitySelectionSource.Identity;
+            await identity.AddContactAsync(contact);
+
+            if (SendRequestCommand.CanExecute(identity)) {
+                SendRequestCommand.Execute(identity);
+            }
+
+            Close();
+        }
+
+        private void OnCancel(object obj) {
+            Close();
+        }
+
+        private void Close() {
+            ClearValues();
+            IsActive = false;
+            OnFinished();
+        }
+
+        private void ClearValues() {
+            Address = string.Empty;
+            GravatarUrl = null;
+        }
+        
         public ICommand CreateCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
@@ -93,23 +107,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private void OnIsActiveChanged() {
-
-        }
-
-        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequiredErrorText")]
-        [StringLength(64, ErrorMessageResourceType = typeof(Resources),
-            ErrorMessageResourceName = "MaxStringLength64ErrorText")]
-        public string Name {
-            get { return _name; }
-            set {
-                if (_name == value) {
-                    return;
-                }
-
-                RaisePropertyChanging(() => Name);
-                _name = value;
-                RaisePropertyChanged(() => Name);
-            }
+            // Nada ...
         }
 
         [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NullOrEmptyErrorText")]

@@ -12,7 +12,6 @@ namespace Crystalbyte.Paranoia.Models {
         public int Id { get; set; }
         [ForeignKey("Identity")]
         public int IdentityId { get; set; }
-        [Required]
         [StringLength(128)]
         public string Name { get; set; }
         [Required]

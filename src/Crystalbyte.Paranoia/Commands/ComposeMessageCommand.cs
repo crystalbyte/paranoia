@@ -40,7 +40,7 @@ namespace Crystalbyte.Paranoia.Commands {
         #region Implementation of ICommand
 
         public bool CanExecute(object parameter) {
-            return ContactSelectionSource.Current != null;
+            return ContactSelectionSource.Contact != null;
         }
 
         public void Execute(object parameter) {
@@ -93,7 +93,7 @@ namespace Crystalbyte.Paranoia.Commands {
             get {
                 if (_image == null) {
                     var uri =
-                        new Uri(string.Format(Pack.Application, typeof(AddContactCommand).Assembly.FullName,
+                        new Uri(string.Format(Pack.Application, typeof(InviteContactCommand).Assembly.FullName,
                                               "Assets/mail.png"), UriKind.Absolute);
                     _image = new BitmapImage(uri);
                 }

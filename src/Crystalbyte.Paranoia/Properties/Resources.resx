@@ -127,17 +127,14 @@
     <value>add contact</value>
   </data>
   <data name="AddContactEmailDescription" xml:space="preserve">
-    <value>The communication request will be sent to the users e-mail address.</value>
-  </data>
-  <data name="AddContactNameDescription" xml:space="preserve">
-    <value>Please enter the users name here.</value>
+    <value>The invitation will be sent to the following e-mail address.</value>
   </data>
   <data name="AddContactSubTitle" xml:space="preserve">
-    <value>In order to communicate securely with someone, it is necessary to send a communication request and for the other person to accept it.
-Once a mutual communication agreement has been established, messages can be safely exchanged.</value>
+    <value>In order to communicate securely with another person an invitation must be sent and accepted.
+Once your contact approves, messages can be securely exchanged.</value>
   </data>
   <data name="AddContactTitle" xml:space="preserve">
-    <value>Add Contact</value>
+    <value>Invitation</value>
   </data>
   <data name="AddressWatermark" xml:space="preserve">
     <value>your e-mail address</value>
@@ -166,6 +163,9 @@ Once a mutual communication agreement has been established, messages can be safe
   </data>
   <data name="ConfirmEncryptionPasswordWatermark" xml:space="preserve">
     <value>encryption password confirmation</value>
+  </data>
+  <data name="ContactAddressWatermark" xml:space="preserve">
+    <value>your contacts e-mail address</value>
   </data>
   <data name="ContactColumnHeaderText" xml:space="preserve">
     <value>Contacts</value>
@@ -238,6 +238,9 @@ Once a mutual communication agreement has been established, messages can be safe
   </data>
   <data name="InvitationSubjectTemplate" xml:space="preserve">
     <value>{0} invites you to the Paranoia project.</value>
+  </data>
+  <data name="InviteButtonText" xml:space="preserve">
+    <value>Send</value>
   </data>
   <data name="MailPasswordWatermark" xml:space="preserve">
     <value>e-mail server password</value>

@@ -3,7 +3,9 @@
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Messaging;
 using Crystalbyte.Paranoia.Models;
+using NLog;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +19,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         private bool _isSelected;
         private readonly ImapAccount _account;
-        //private readonly ObservableCollection<MailboxContext> _mailboxes;
+        private readonly ObservableCollection<MailboxContext> _mailboxes;
 
         #endregion
 
@@ -25,26 +27,19 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public ImapAccountContext(ImapAccount account) {
             _account = account;
-            //_mailboxes = new ObservableCollection<MailboxContext>();
+            _mailboxes = new ObservableCollection<MailboxContext>();
         }
 
         #endregion
 
-        //public ObservableCollection<MailboxContext> Mailboxes {
-        //    get { return _mailboxes; }
-        //}
+        #region Log Declaration
 
-        public bool IsSelected {
-            get { return _isSelected; }
-            set {
-                if (_isSelected == value) {
-                    return;
-                }
+        private static Logger Log = LogManager.GetCurrentClassLogger();
 
-                RaisePropertyChanging(() => IsSelected);
-                _isSelected = value;
-                RaisePropertyChanged(() => IsSelected);
-            }
+        #endregion
+
+        public ObservableCollection<MailboxContext> Mailboxes {
+            get { return _mailboxes; }
         }
 
         public SecurityPolicy Security {
@@ -73,14 +68,14 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        public short ImapPort {
+        public short Port {
             get { return _account.Port; }
             set {
                 if (_account.Port == value) {
                     return;
                 }
 
-                RaisePropertyChanging(() => ImapPort);
+                RaisePropertyChanging(() => Port);
                 if (value < 0) {
                     value = 0;
                 }
@@ -88,7 +83,7 @@ namespace Crystalbyte.Paranoia.Contexts {
                     value = short.MaxValue;
                 }
                 _account.Port = value;
-                RaisePropertyChanged(() => ImapPort);
+                RaisePropertyChanged(() => Port);
             }
         }
 
@@ -131,52 +126,65 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        //internal async Task LoadMailboxesAsync() {
-        //    var mailboxes = _account.Mailboxes.Select(x => new MailboxContext(this, x));
-        //    Mailboxes.AddRange(mailboxes);
+        private async Task RestoreMailboxesAsync() {
+            MailboxContext[] mailboxes = null;
+            await Task.Factory.StartNew(() => {
+                try {
+                    using (var context = new StorageContext()) {
+                        var account = context.ImapAccounts.First(x => x.IdentityId == _account.IdentityId);
+                        mailboxes = account.Mailboxes.ToArray()
+                            .Select(x => new MailboxContext(this, x)).ToArray();
+                    }
+                } catch (Exception ex) {
+                    Log.Error(ex.Message);
+                }
+            });
 
-        //    if (_account.Mailboxes.Count > 0) {
-        //        return;
-        //    }
+            Mailboxes.Clear();
+            Mailboxes.AddRange(mailboxes);
+        }
 
-        //    await RequestMailboxesAsync();
-        //    mailboxes = _account.Mailboxes.Select(x => new MailboxContext(this, x));
-        //    Mailboxes.AddRange(mailboxes);
-        //}
+        internal async Task SyncMailboxesAsync() {
+            await RestoreMailboxesAsync();
+            await FetchMailboxesAsync();
+        }
 
-        private async Task RequestMailboxesAsync() {
+        private async Task FetchMailboxesAsync() {
             using (var connection = new ImapConnection { Security = Security }) {
-                using (var authenticator = await connection.ConnectAsync(Host, ImapPort)) {
+#if DEBUG
+                connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCancelled = false;
+#endif
+                using (var authenticator = await connection.ConnectAsync(Host, Port)) {
                     using (var session = await authenticator.LoginAsync(ImapUsername, Password)) {
                         var mailboxes = (await session.ListAsync("", "*")).ToArray();
 
                         var inbox = mailboxes.FirstOrDefault(x => x.IsInbox);
-                        if (inbox != null) {
+                        if (inbox != null && !Mailboxes.Any(x => x.Name == inbox.Name)) {
                             await SaveMailboxAsync(inbox);
                         }
 
                         var all = mailboxes.FirstOrDefault(x => x.IsAll);
-                        if (all != null) {
+                        if (all != null && !Mailboxes.Any(x => x.Name == all.Name)) {
                             await SaveMailboxAsync(all);
                         }
 
                         var important = mailboxes.FirstOrDefault(x => x.IsImportant);
-                        if (important != null) {
+                        if (important != null && !Mailboxes.Any(x => x.Name == important.Name)) {
                             await SaveMailboxAsync(important);
                         }
 
                         var trash = mailboxes.FirstOrDefault(x => x.IsTrash);
-                        if (trash != null) {
+                        if (trash != null && !Mailboxes.Any(x => x.Name == trash.Name)) {
                             await SaveMailboxAsync(trash);
                         }
 
                         var sent = mailboxes.FirstOrDefault(x => x.IsSent);
-                        if (sent != null) {
+                        if (sent != null && !Mailboxes.Any(x => x.Name == sent.Name)) {
                             await SaveMailboxAsync(sent);
                         }
 
                         var draft = mailboxes.FirstOrDefault(x => x.IsDraft);
-                        if (draft != null) {
+                        if (draft != null && !Mailboxes.Any(x => x.Name == draft.Name)) {
                             await SaveMailboxAsync(draft);
                         }
                     }
@@ -185,22 +193,22 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private async Task SaveMailboxAsync(ImapMailboxInfo info) {
-            _account.Mailboxes.Add(new Mailbox {
+            var mailbox = new Mailbox {
                 Name = info.Fullname,
                 Delimiter = info.Delimiter,
                 Flags = info.Flags.Select(x => new MailboxFlag { Name = x }).ToList()
-            });
+            };
             await Task.Factory.StartNew(() => {
                 try {
-                                                                
+                    using (var context = new StorageContext()) {
+                        var account = context.ImapAccounts.First(x => x.IdentityId == _account.IdentityId);
+                        account.Mailboxes.Add(mailbox);
+                        context.SaveChanges();
+                    }                                                   
                 } catch (Exception ex) {
-                    // TODO: log
+                    Log.Error(ex.Message);
                 }
             });
-        }
-
-        internal async Task TakeOnlineAsync() {
-            //await LoadMailboxesAsync();
         }
     }
 }

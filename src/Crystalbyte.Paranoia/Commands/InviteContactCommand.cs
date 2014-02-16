@@ -14,7 +14,7 @@ using System.Windows;
 namespace Crystalbyte.Paranoia.Commands {
     [Export, Shared]
     [Export(typeof(IAppBarCommand))]
-    public sealed class AddContactCommand : IAppBarCommand {
+    public sealed class InviteContactCommand : IAppBarCommand {
 
         #region Private Fields
 
@@ -36,6 +36,7 @@ namespace Crystalbyte.Paranoia.Commands {
         }
 
         public void Execute(object parameter) {
+            AppContext.InviteContact();            
         }
 
         public event EventHandler CanExecuteChanged;
@@ -57,7 +58,7 @@ namespace Crystalbyte.Paranoia.Commands {
             get {
                 if (_image == null) {
                     var uri =
-                        new Uri(string.Format(Pack.Application, typeof(AddContactCommand).Assembly.FullName,
+                        new Uri(string.Format(Pack.Application, typeof(InviteContactCommand).Assembly.FullName,
                                               "Assets/add.png"), UriKind.Absolute);
                     _image = new BitmapImage(uri);
                 }

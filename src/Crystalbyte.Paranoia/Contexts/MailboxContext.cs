@@ -10,54 +10,58 @@ namespace Crystalbyte.Paranoia.Contexts {
     public sealed class MailboxContext : NotificationObject {
 
         private ImapMailbox _inbox;
-        //private readonly Mailbox _mailbox;
-        //private readonly ImapAccountContext _account;
+        private readonly Mailbox _mailbox;
+        private readonly ImapAccountContext _account;
 
-        //public ImapMailboxContext(ImapAccountContext account, Mailbox mailbox) {
-            //_account = account;
-        //    _mailbox = mailbox;
+        public MailboxContext(ImapAccountContext account, Mailbox mailbox) {
+            _account = account;
+            _mailbox = mailbox;
+        }
+
+        public string Name { 
+            get { return _mailbox.Name; } 
+        }
+
+        //public async Task TakeOnlineAsync() {
+        //    await ListenAsync();
+        //    await SyncAsync();
         //}
 
-        public async Task TakeOnlineAsync() {
-            await ListenAsync();
-            await SyncAsync();
-        }
+        //public async Task TakeOfflineAsync() {
+        //    if (_inbox.IsIdle) {
+        //        await _inbox.StopIdleAsync();
+        //    }
+        //}
 
-        public async Task TakeOfflineAsync() {
-            if (_inbox.IsIdle) {
-                await _inbox.StopIdleAsync();
-            }
-        }
+        //public async Task SyncAsync() {
+        //    using (var connection = new ImapConnection { Security = _account.Security }) {
+        //        using (var authenticator = await connection.ConnectAsync(_account.Host, _account.ImapPort)) {
+        //            using (var session = await authenticator.LoginAsync(_account.ImapUsername, _account.Password)) {
+        //                var inbox = await session.SelectAsync(MailboxNames.Inbox);
+        //                //var messages = inbox.FetchEnvelopesAsync(new[] { });
 
-        public async Task SyncAsync() {
-            using (var connection = new ImapConnection { Security = _account.Security }) {
-                using (var authenticator = await connection.ConnectAsync(_account.Host, _account.ImapPort)) {
-                    using (var session = await authenticator.LoginAsync(_account.ImapUsername, _account.Password)) {
-                        var inbox = await session.SelectAsync(MailboxNames.Inbox);
-                        //var messages = inbox.FetchEnvelopesAsync(new[] { });
-
-                    }
-                }
-            }
-        }
+        //            }
+        //        }
+        //    }
+        //}
 
         private async void OnMessageReceived(object sender, EventArgs e) {
-            await SyncAsync();
+            //await SyncAsync();
         }
 
-        public async Task ListenAsync() {
-            try {
-                var connection = new ImapConnection { Security = _account.Security };
-                var authenticator = await connection.ConnectAsync(_account.Host, _account.ImapPort);
-                var session = await authenticator.LoginAsync(_account.ImapUsername, _account.Password);
+        //public async Task ListenAsync() {
+        //    try {
+        //        var connection = new ImapConnection { Security = _account.Security };
+        //        var authenticator = await connection.ConnectAsync(_account.Host, _account.ImapPort);
+        //        var session = await authenticator.LoginAsync(_account.ImapUsername, _account.Password);
 
-                _inbox = await session.SelectAsync(MailboxNames.Inbox);
-                _inbox.MessageReceived += OnMessageReceived;
-                _inbox.Idle();
-            }
-            catch (Exception ex) {
-                LogContext.Current.PushError(ex);
-            }
-        }
+        //        _inbox = await session.SelectAsync(MailboxNames.Inbox);
+        //        _inbox.MessageReceived += OnMessageReceived;
+        //        _inbox.Idle();
+        //    }
+        //    catch (Exception ex) {
+        //        LogContext.Current.PushError(ex);
+        //    }
+        //}
     }
 }

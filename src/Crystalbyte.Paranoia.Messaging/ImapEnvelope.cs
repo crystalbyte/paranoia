@@ -12,12 +12,12 @@ namespace Crystalbyte.Paranoia.Messaging {
     [DebuggerDisplay("Subject = {Subject}")]
     public sealed class ImapEnvelope {
         private readonly List<string> _flags;
-        private readonly List<Contact> _sender;
-        private readonly List<Contact> _from;
-        private readonly List<Contact> _to;
-        private readonly List<Contact> _cc;
-        private readonly List<Contact> _bcc;
-        private readonly List<Contact> _replyTo;
+        private readonly List<MailContact> _sender;
+        private readonly List<MailContact> _from;
+        private readonly List<MailContact> _to;
+        private readonly List<MailContact> _cc;
+        private readonly List<MailContact> _bcc;
+        private readonly List<MailContact> _replyTo;
 
         private const string FetchPattern = "(RFC822.SIZE [0-9]+)|((INTERNALDATE \".+?\"))|(FLAGS \\(.*?\\))|UID \\d+";
         private static readonly Regex FetchRegex = new Regex(FetchPattern, RegexOptions.IgnoreCase);
@@ -30,12 +30,12 @@ namespace Crystalbyte.Paranoia.Messaging {
 
         public ImapEnvelope() {
             _flags = new List<string>();
-            _from = new List<Contact>();
-            _to = new List<Contact>();
-            _bcc = new List<Contact>();
-            _cc = new List<Contact>();
-            _sender = new List<Contact>();
-            _replyTo = new List<Contact>();
+            _from = new List<MailContact>();
+            _to = new List<MailContact>();
+            _bcc = new List<MailContact>();
+            _cc = new List<MailContact>();
+            _sender = new List<MailContact>();
+            _replyTo = new List<MailContact>();
         }
 
         public long Uid { get; internal set; }
@@ -45,19 +45,19 @@ namespace Crystalbyte.Paranoia.Messaging {
         public string MessageId { get; internal set; }
         public string InReplyTo { get; internal set; }
 
-        public IEnumerable<Contact> From {
+        public IEnumerable<MailContact> From {
             get { return _from; }
         }
 
-        public IEnumerable<Contact> Sender {
+        public IEnumerable<MailContact> Sender {
             get { return _from; }
         }
 
-        public IEnumerable<Contact> To {
+        public IEnumerable<MailContact> To {
             get { return _from; }
         }
 
-        public IEnumerable<Contact> ReplyTo {
+        public IEnumerable<MailContact> ReplyTo {
             get { return _replyTo; }
         }
 
@@ -105,39 +105,39 @@ namespace Crystalbyte.Paranoia.Messaging {
             return envelope;
         }
 
-        private static IEnumerable<Contact> ParseContacts(string value) {
+        private static IEnumerable<MailContact> ParseContacts(string value) {
             var trimmed = value.TrimAny(1).TrimQuotes();
             var contacts = Regex.Matches(trimmed, @"\(.+?\)");
             foreach (var items in from Match contact in contacts select Regex.Matches(contact.Value, "\".+?\"|NIL")) {
                 Debug.Assert(items.Count == 4);
-                yield return new Contact {
+                yield return new MailContact {
                     Name = items[0].Value,
                     Address = string.Format("{0}@{1}", items[2].Value, items[3].Value)
                 };
             }
         }
 
-        private void AddContactsToCc(IEnumerable<Contact> contacts) {
+        private void AddContactsToCc(IEnumerable<MailContact> contacts) {
             _cc.AddRange(contacts);
         }
 
-        private void AddContactsToBcc(IEnumerable<Contact> contacts) {
+        private void AddContactsToBcc(IEnumerable<MailContact> contacts) {
             _bcc.AddRange(contacts);
         }
 
-        private void AddContactsToFrom(IEnumerable<Contact> contacts) {
+        private void AddContactsToFrom(IEnumerable<MailContact> contacts) {
             _from.AddRange(contacts);
         }
 
-        private void AddContactsToSender(IEnumerable<Contact> contacts) {
+        private void AddContactsToSender(IEnumerable<MailContact> contacts) {
             _sender.AddRange(contacts);
         }
 
-        private void AddContactsToRecipients(IEnumerable<Contact> contacts) {
+        private void AddContactsToRecipients(IEnumerable<MailContact> contacts) {
             _to.AddRange(contacts);
         }
 
-        private void AddContactsToReplyTo(IEnumerable<Contact> contacts) {
+        private void AddContactsToReplyTo(IEnumerable<MailContact> contacts) {
             _replyTo.AddRange(contacts);
         }
 

@@ -88,9 +88,7 @@
                                                     </ContextMenu>
                                                 </ListView.ContextMenu>
                                                 <ListView.ItemContainerStyle>
-                                                    <Style BasedOn="{StaticResource AvatarListViewItemStyle}"
-                                                           TargetType="ListViewItem"
-                                                           d:DataContext="{d:DesignInstance contexts:IdentityContext}">
+                                                    <Style BasedOn="{StaticResource AvatarListViewItemStyle}" TargetType="ListViewItem">
                                                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                                                         <Setter Property="ToolTip" Value="{Binding Name, FallbackValue={x:Static system:String.Empty}}" />
                                                     </Style>
@@ -134,17 +132,18 @@
                     Command="{Binding ComposeMessageCommand}"
                     Modifiers="Control" />
         <KeyBinding Key="I"
-                    Command="{Binding CreateIdentityCommand}"
-                    Modifiers="Control" />
-        <KeyBinding Key="P"
-                    Command="{Binding AddContactCommand}"
-                    Modifiers="Control" />
-        <KeyBinding Key="I"
                     Command="{Binding InviteContactCommand}"
+                    Modifiers="Control" />
+        <KeyBinding Key="C"
+                    Command="{Binding CreateIdentityCommand}"
                     Modifiers="Control" />
         <KeyBinding Key="Delete" Command="{Binding DeleteContactCommand}" />
     </Window.InputBindings>
     <DockPanel Background="{StaticResource AppWindowBackgroundBrush}">
+        <ProgressBar DockPanel.Dock="Top"
+                     IsIndeterminate="True"
+                     Visibility="{Binding IsSyncing,
+                                          Converter={StaticResource BooleanToVisibilityConverter}}" />
         <Border Background="{StaticResource AppControlBrush}" DockPanel.Dock="Bottom">
             <Grid>
                 <StackPanel Height="24"
@@ -173,17 +172,17 @@
             </Grid>
         </Border>
         <Grid>
-            <Border Padding="20">
-                <Grid>
+            <Border>
+                <Grid ShowGridLines="True">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="240" />
+                        <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="240" />
                         <ColumnDefinition Width="20" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
@@ -196,8 +195,9 @@
                     </Border>
                     <Border Grid.Row="1"
                             Grid.Column="0"
-                            Margin="12"
-                            BorderThickness="0">
+                            BorderBrush="#222"
+                            BorderThickness="0"
+                            Padding="12">
                         <ItemsControl ItemsSource="{Binding ContactCommands}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -217,12 +217,12 @@
                     </Border>
                     <Border Grid.Row="2"
                             Grid.Column="0"
-                            Margin="0,12,0,12"
                             DataContext="{Binding IdentitySelectionSource}">
                         <ListView x:Name="ContactList"
+                                  HorizontalAlignment="Stretch"
                                   Background="{StaticResource AppWindowBackgroundBrush}"
                                   BorderThickness="0"
-                                  DataContext="{Binding Current}"
+                                  DataContext="{Binding Identity}"
                                   ItemsSource="{Binding Contacts}"
                                   SelectionChanged="OnContactSelectionChanged"
                                   SelectionMode="Single">
@@ -249,7 +249,7 @@
                                                            Text="{Binding Name}" />
                                                 <TextBlock FontSize="{StaticResource AppSmallFontSize}"
                                                            Style="{StaticResource AppLightTextStyle}"
-                                                           Text="{Binding EmailAddress}">
+                                                           Text="{Binding Address}">
                                                     <TextBlock.Foreground>
                                                         <Binding Mode="TwoWay" Path="IsSelected">
                                                             <Binding.Converter>
@@ -269,14 +269,35 @@
                     <Border Grid.Row="0" Grid.Column="2">
                         <TextBlock Style="{StaticResource AppTitleTextStyle}" Text="{x:Static properties:Resources.MessagesColumnHeaderText}" />
                     </Border>
+                    <Border Grid.Row="2"
+                            Grid.Column="1"
+                            DataContext="{Binding IdentitySelectionSource}">
+                        <ListView Background="{StaticResource AppWindowBackgroundBrush}"
+                                  DataContext="{Binding Identity}"
+                                  ItemsSource="{Binding Mailboxes}">
+                            <ListView.ItemContainerStyle>
+                                <Style BasedOn="{StaticResource BlockListViewItem}" TargetType="ListViewItem">
+                                    <Setter Property="Margin" Value="0" />
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Image Width="24"
+                                           Height="24"
+                                           Source="/Assets/mail.png" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Border>
                     <Border Grid.Row="1"
                             Grid.Column="2"
                             DataContext="{Binding ContactSelectionSource}">
-                        <ListView MinWidth="240"
+                        <ListView Width="240"
                                   Background="{StaticResource AppWindowBackgroundBrush}"
                                   BorderThickness="0"
-                                  DataContext="{Binding Current}"
-                                  ItemsSource="{Binding Messages}"
+                                  DataContext="{Binding Contact}"
                                   SelectionMode="Single">
                             <ListView.ItemContainerStyle>
                                 <Style BasedOn="{StaticResource BlockListViewItem}" TargetType="ListViewItem">
@@ -323,22 +344,13 @@
 
             <ui:IdentityCreationFrame DataContext="{Binding IdentityCreationContext}"
                                       Style="{StaticResource ScreenOverlayStyle}"
-                                      Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}" />
-            <!--
-                <ui:CreateAccountScreen DataContext="{Binding CreateAccountScreenContext}"
-                Style="{StaticResource ScreenOverlayStyle}"
-                Visibility="{Binding IsActive,
-                FallbackValue=False,
-                Mode=OneWay,
-                Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <ui:AddContactScreen DataContext="{Binding AddContactScreenContext}"
-                Style="{StaticResource ScreenOverlayStyle}"
-                Visibility="{Binding IsActive,
-                FallbackValue=False,
-                Mode=OneWay,
-                Converter={StaticResource BooleanToVisibilityConverter}}" />
-            -->
-        </Grid>
+                                      Visibility="{Binding IsActive,
+                                                           Converter={StaticResource BooleanToVisibilityConverter}}" />
 
+            <ui:ContactInvitationControl DataContext="{Binding ContactInvitationContext}"
+                                         Style="{StaticResource ScreenOverlayStyle}"
+                                         Visibility="{Binding IsActive,
+                                                              Converter={StaticResource BooleanToVisibilityConverter}}" />
+        </Grid>
     </DockPanel>
 </Window>

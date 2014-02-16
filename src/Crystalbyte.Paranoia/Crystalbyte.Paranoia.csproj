@@ -110,17 +110,21 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBarCategory.cs" />
-    <Compile Include="Commands\AddContactCommand.cs" />
+    <Compile Include="Commands\CreateIdentityCommand.cs" />
+    <Compile Include="Commands\InviteContactCommand.cs" />
     <Compile Include="Commands\DeleteContactCommand.cs" />
     <Compile Include="Commands\DeleteIdentityCommand.cs" />
-    <Compile Include="Commands\KeyExchangeCommand.cs" />
+    <Compile Include="Commands\SendRequestCommand.cs" />
     <Compile Include="ConfigState.cs" />
     <Compile Include="ContactRequestStatus.cs" />
-    <Compile Include="ContactSelectionSource.cs" />
-    <Compile Include="Contexts\ImapAccountContext.cs" />
+    <Compile Include="Contexts\ContactSelectionSource.cs" />
     <Compile Include="Contexts\ConfigTestContext.cs" />
     <Compile Include="Contexts\ContactInvitationContext.cs" />
     <Compile Include="Contexts\ContactContext.cs" />
+    <Compile Include="Contexts\ImapAccountContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Contexts\MailboxContext.cs" />
     <Compile Include="Contexts\SmtpAccountContext.cs" />
     <Compile Include="Converters\BooleanMultiConverter.cs" />
     <Compile Include="Converters\BooleanNegator.cs" />
@@ -136,7 +140,8 @@
     </Compile>
     <Compile Include="Gravatar.cs" />
     <Compile Include="Commands\IAppBarCommand.cs" />
-    <Compile Include="IdentitySelectionSource.cs" />
+    <Compile Include="Contexts\IdentitySelectionSource.cs" />
+    <Compile Include="MessageTypes.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Identity.cs" />
     <Compile Include="Models\ImapAccount.cs" />
@@ -145,18 +150,18 @@
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\SmtpAccount.cs" />
     <Compile Include="Pack.cs" />
-    <Compile Include="ParanoiaHeaders.cs" />
+    <Compile Include="MessageHeaders.cs" />
     <Compile Include="PasswordPolicyAttribute.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="TestResult.cs" />
     <Compile Include="UI\AppBarButton.cs" />
+    <Compile Include="UI\ContactInvitationControl.xaml.cs">
+      <DependentUpon>ContactInvitationControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\IdentityCreationFrame.xaml.cs">
       <DependentUpon>IdentityCreationFrame.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\HtmlRenderer.cs" />
-    <Compile Include="UI\AddContactScreen.xaml.cs">
-      <DependentUpon>AddContactScreen.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\ComposeMessageView.xaml.cs">
       <DependentUpon>ComposeMessageView.xaml</DependentUpon>
     </Compile>
@@ -221,11 +226,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\AddContactScreen.xaml">
+    <Page Include="UI\ComposeMessageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\ComposeMessageView.xaml">
+    <Page Include="UI\ContactInvitationControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

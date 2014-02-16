@@ -44,12 +44,12 @@ namespace Crystalbyte.Paranoia.Commands {
         #region Implementation of ICommand
 
         public bool CanExecute(object parameter) {
-            return ContactSelectionSource.Current != null;
+            return ContactSelectionSource.Contact != null;
         }
 
         public async void Execute(object parameter) {
-            var identity = IdentitySelectionSource.Selection;
-            var contact = ContactSelectionSource.Current;
+            var identity = IdentitySelectionSource.Identity;
+            var contact = ContactSelectionSource.Contact;
 
             await Task.Factory.StartNew(() => {
                 //var context = LocalStorage.Context;
@@ -82,7 +82,7 @@ namespace Crystalbyte.Paranoia.Commands {
             get {
                 if (_image == null) {
                     var uri =
-                        new Uri(string.Format(Pack.Application, typeof(AddContactCommand).Assembly.FullName,
+                        new Uri(string.Format(Pack.Application, typeof(InviteContactCommand).Assembly.FullName,
                                               "Assets/delete.png"), UriKind.Absolute);
                     _image = new BitmapImage(uri);
                 }

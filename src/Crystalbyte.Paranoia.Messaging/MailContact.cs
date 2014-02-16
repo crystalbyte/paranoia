@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace Crystalbyte.Paranoia.Messaging {
     [DebuggerDisplay("Name = {Name}, Address = {Address}")]
-    public sealed class Contact {
+    public sealed class MailContact {
         public string Name { get; set; }
         public string Address { get; set; }
     }

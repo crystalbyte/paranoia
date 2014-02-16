@@ -31,11 +31,13 @@ using NLog;
 #endregion
 
 namespace Crystalbyte.Paranoia.Contexts {
+    [Export, Shared]
     public sealed class IdentityCreationContext : ValidationObject<IdentityCreationContext> {
 
         #region Private Fields
         
         private string _name;
+        private bool _isActive;
         private short _imapPort;
         private short _smtpPort;
         private string _address;
@@ -75,7 +77,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         private async void OnCommit(object obj) {
             await CreateIdentity();
-            Quit(obj as Page);
+            Close(obj as Page);
         }
 
         private async Task CreateIdentity() {
@@ -188,6 +190,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         #endregion
+
         public ICommand CancelCommand { get; set; }
         public ICommand GoBackCommand { get; set; }
         public RelayCommand CommitCommand { get; set; }
@@ -211,7 +214,18 @@ namespace Crystalbyte.Paranoia.Contexts {
                 RaisePropertyChanged(() => IsTestSuccessful);
             }
         }
+        public bool IsActive {
+            get { return _isActive; }
+            set {
+                if (_isActive == value) {
+                    return;
+                }
 
+                RaisePropertyChanging(() => IsActive);
+                _isActive = value;
+                RaisePropertyChanged(() => IsActive);
+            }
+        }
         public bool IsValidating { 
             get { return _isValidating; }
             set {
@@ -466,8 +480,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             CreateGravatarUrl();
         }
 
-
-        private void Quit(Page page = null) {
+        private void Close(Page page = null) {
             ClearPassword();
             OnFinished();
 
@@ -479,7 +492,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
         private void OnCancel(object obj) {
-            Quit(obj as Page);
+            Close(obj as Page);
         }
 
         private bool OnCanConfigure(object parameter) {

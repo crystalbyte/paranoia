@@ -14,7 +14,7 @@ using System.Text;
 
 namespace Crystalbyte.Paranoia.Commands {
     [Export, Shared]
-    public sealed class KeyExchangeCommand : ICommand {
+    public sealed class SendRequestCommand : ICommand {
 
         #region Import Declarations
 
@@ -35,12 +35,12 @@ namespace Crystalbyte.Paranoia.Commands {
         #region Implementation of ICommand
 
         public bool CanExecute(object parameter) {
-            return IdentitySelectionSource.Selection != null
-                && ContactSelectionSource.Current != null;
+            return IdentitySelectionSource.Identity != null
+                && ContactSelectionSource.Contact != null;
         }
 
         public void Execute(object parameter) {
-            SendKeyExchangeAsync();
+            SendRequestAsync();
         }
 
         public event EventHandler CanExecuteChanged;
@@ -53,16 +53,14 @@ namespace Crystalbyte.Paranoia.Commands {
 
         #endregion
 
-        private async void SendKeyExchangeAsync() {
-            var contact = ContactSelectionSource.Current;
-            var identity = IdentitySelectionSource.Selection;
+        private async Task SendRequestAsync() {
+            var contact = ContactSelectionSource.Contact;
+            var identity = IdentitySelectionSource.Identity;
             var account = identity.SmtpAccount;
 
             using (var connection = new SmtpConnection()) {
                 using (var authenticator = await connection.ConnectAsync(account.Host, account.Port)) {
-
                     using (var session = await authenticator.LoginAsync(account.Username, account.Password)) {
-
                         var message = new MailMessage {
                             HeadersEncoding = Encoding.UTF8,
                             SubjectEncoding = Encoding.UTF8,
@@ -70,8 +68,9 @@ namespace Crystalbyte.Paranoia.Commands {
                             BodyTransferEncoding = TransferEncoding.Base64
                         };
 
-                        message.Headers.Add(ParanoiaHeaders.Version, "1.0");
-                        message.Headers.Add(ParanoiaHeaders.KeyExchange, string.Format("{0} <{1}>", identity.Name, identity.Address));
+                        message.Headers.Add(MessageHeaders.FromName, identity.Name);
+                        message.Headers.Add(MessageHeaders.FromAddress, identity.Address);
+                        message.Headers.Add(MessageHeaders.Type, MessageTypes.Request);
 
                         var key = new MemoryStream(Encoding.UTF8.GetBytes("public-key"));
                         message.Attachments.Add(new Attachment(key, "public-key", "text/plain"));

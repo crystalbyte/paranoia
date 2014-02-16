@@ -26,7 +26,6 @@ namespace Crystalbyte.Paranoia.Contexts {
         #region Private Fields
 
         private bool _isSyncing;
-        private IdentityCreationContext _identityCreationContext;
         private readonly ObservableCollection<IdentityContext> _identities;
 
         #endregion
@@ -41,13 +40,17 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public AppContext() {
             _identities = new ObservableCollection<IdentityContext>();
-
-            CreateIdentityCommand = new RelayCommand(OnCreateIdentityCommandExecuted);
-            AddContactCommand = new RelayCommand(OnAddContactCommandExecuted);
         }
 
-        private void OnAddContactCommandExecuted(object obj) {
-            throw new NotImplementedException();
+        #endregion
+
+        #region Event Declarations
+
+        public event EventHandler SyncStatusChanged;
+        public void OnSyncStatusChanged(EventArgs e) {
+            var handler = SyncStatusChanged;
+            if (handler != null)
+                handler(this, e);
         }
 
         #endregion
@@ -60,7 +63,6 @@ namespace Crystalbyte.Paranoia.Contexts {
         [Import]
         public DeleteContactCommand DeleteContactCommand { get; set; }
 
-
         [Import]
         public IdentitySelectionSource IdentitySelectionSource { get; set; }
 
@@ -70,60 +72,46 @@ namespace Crystalbyte.Paranoia.Contexts {
         [Import]
         public ComposeMessageCommand ComposeMessageCommand { get; set; }
 
+        [Import]
+        public IdentityCreationContext IdentityCreationContext { get; set; }
+
+        [Import]
+        public ContactInvitationContext ContactInvitationContext { get; set; }
+
+        [Import]
+        public InviteContactCommand InviteContactCommand { get; set; }
+
+        [Import]
+        public CreateIdentityCommand CreateIdentityCommand { get; set; }
+
         [ImportMany]
         public IEnumerable<IAppBarCommand> AppBarCommands { get; set; }
 
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
-
+            IdentityCreationContext.Finished += OnIdentityCreationFinished;
+            ContactInvitationContext.Finished += OnContactInvitationContextFinished;
         }
 
         #endregion
 
         public IEnumerable<IAppBarCommand> ContactCommands {
             get {
-                return AppBarCommands.Where(x => x.Category == AppBarCategory.Contacts).OrderBy(x => x.Position).ToArray();
+                return AppBarCommands
+                    .Where(x => x.Category == AppBarCategory.Contacts)
+                    .OrderBy(x => x.Position).ToArray();
             }
-        }
-
-        public ICommand CreateIdentityCommand { get; private set; }
-        public ICommand AddContactCommand { get; private set; }
-
-        public IdentityCreationContext IdentityCreationContext { 
-            get {
-                return _identityCreationContext;
-            }
-            set {
-                if (_identityCreationContext == value) {
-                    return;
-                }
-
-                RaisePropertyChanging(() => IdentityCreationContext);
-                _identityCreationContext = value;
-                RaisePropertyChanged(() => IdentityCreationContext);
-            }
-        }
-
-        public event EventHandler SyncStatusChanged;
-
-        public void OnSyncStatusChanged(EventArgs e) {
-            var handler = SyncStatusChanged;
-            if (handler != null)
-                handler(this, e);
         }
 
         private async void OnIdentityCreationFinished(object sender, EventArgs e) {
-            if (IdentityCreationContext != null) {
-                IdentityCreationContext.Finished -= OnIdentityCreationFinished;
-            }
-
-            IdentityCreationContext = null;
-            await QueryIdentitiesAsync();
+            await RestoreIdentitiesAsync();
         }
 
-        private void OnCreateIdentityCommandExecuted(object obj) {
-            IdentityCreationContext = new IdentityCreationContext();
-            IdentityCreationContext.Finished += OnIdentityCreationFinished;
+        private async void OnContactInvitationContextFinished(object sender, EventArgs e) {
+            var identity = IdentitySelectionSource.Identity;
+            if (identity != null) {
+                await identity.RestoreContactsAsync();
+            }
         }
 
         public bool IsSyncing {
@@ -173,6 +161,9 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         public async Task RunAsync() {
+
+            Log.Info("Starting application ...");
+
             try {
                 await SeedAsync();
             } catch (Exception ex) {
@@ -181,40 +172,32 @@ namespace Crystalbyte.Paranoia.Contexts {
 
             using (var context = new StorageContext()) {
                 await context.InitAsync();
-                await QueryIdentitiesAsync(context);
+                await RestoreIdentitiesAsync(context);
             }
         }
 
-        //private async Task LoadImapAccountsAsync() {
-        //    var query = await SelectImapAccountsAsync();
-        //    ImapAccounts.AddRange(query.Select(x => new ImapAccountContext(x)));
-
-        //    foreach (var account in ImapAccounts) {
-        //        await account.LoadMailboxesAsync();
-        //    }
-
-        //    if (ImapAccounts.Any()) {
-        //        ImapAccounts.First().IsSelected = true;
-        //    }
-        //}
-
-        //private Task<ImapAccount[]> SelectImapAccountsAsync() {
-        //    //return Task.Factory.StartNew(() => LocalStorage.Context.ImapAccounts.ToArray());
-        //}
-
-        internal async Task QueryIdentitiesAsync(StorageContext context = null) {
-            IEnumerable<Identity> idents = null;
+        internal async Task RestoreIdentitiesAsync(StorageContext context = null) {
+            IEnumerable<IdentityContext> idents = null;
             await Task.Factory.StartNew(() => {
                 using (var c = context ?? new StorageContext()) {
-                    idents = c.Identities.ToArray();
+                    idents = c.Identities.ToArray()
+                        .Select(x => new IdentityContext(x)).ToArray();
                 }
             });
 
             Identities.Clear();
-            Identities.AddRange(idents.Select(x => new IdentityContext(x)));
+            Identities.AddRange(idents);
             if (Identities.Any()) {
                 Identities.First().IsSelected = true;
             }
+        }
+
+        internal void InviteContact() {
+            ContactInvitationContext.IsActive = true;
+        }
+
+        internal void CreateIdentity() {
+            IdentityCreationContext.IsActive = true;
         }
     }
 }

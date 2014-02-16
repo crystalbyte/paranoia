@@ -49,7 +49,7 @@
     <Compile Include="ImapMailboxInfo.cs" />
     <Compile Include="ImapResponses.cs" />
     <Compile Include="ImapSession.cs" />
-    <Compile Include="Contact.cs" />
+    <Compile Include="MailContact.cs" />
     <Compile Include="ImapMailbox.cs" />
     <Compile Include="MailboxNames.cs" />
     <Compile Include="MailboxPermissions.cs" />

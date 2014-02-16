@@ -153,7 +153,7 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            context.IdentitySelectionSource.Selection = e.AddedItems.OfType<IdentityContext>().FirstOrDefault();
+            context.IdentitySelectionSource.Identity = e.AddedItems.OfType<IdentityContext>().FirstOrDefault();
         }
 
         private void OnContactSelectionChanged(object sender, SelectionChangedEventArgs e) { 
@@ -162,7 +162,7 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            context.ContactSelectionSource.Current = e.AddedItems.OfType<ContactContext>().FirstOrDefault();
+            context.ContactSelectionSource.Contact = e.AddedItems.OfType<ContactContext>().FirstOrDefault();
         }
 
         private void OnListViewSelectionChanged(object sender, SelectionChangedEventArgs e) {

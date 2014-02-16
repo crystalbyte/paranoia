@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 using NLog;
 using System.Data.Entity;
+using Crystalbyte.Paranoia.Messaging;
 
 #endregion
 
@@ -19,6 +20,8 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         private readonly Identity _identity;
         private readonly ObservableCollection<ContactContext> _contacts;
+        private readonly SmtpAccountContext _smtpAccount;
+        private readonly ImapAccountContext _imapAccount;
         private string _gravatarImageUrl;
         private bool _isSelected;
 
@@ -38,6 +41,8 @@ namespace Crystalbyte.Paranoia.Contexts {
         public IdentityContext(Identity identity) {
             _identity = identity;
             _contacts = new ObservableCollection<ContactContext>();
+            _imapAccount = new ImapAccountContext(_identity.ImapAccount);
+            _smtpAccount = new SmtpAccountContext(_identity.SmtpAccount);
         }
 
         #endregion
@@ -45,9 +50,19 @@ namespace Crystalbyte.Paranoia.Contexts {
         public ObservableCollection<ContactContext> Contacts {
             get { return _contacts; }
         }
-        public SmtpAccount SmtpAccount {
-            get { return _identity.SmtpAccount; }
+
+        public ImapAccountContext ImapAccount { 
+            get { return _imapAccount; }
         }
+
+        public IEnumerable<MailboxContext> Mailboxes {
+            get { return _imapAccount.Mailboxes; } 
+        }
+
+        public SmtpAccountContext SmtpAccount {
+            get { return _smtpAccount; }
+        }
+
         public string Name {
             get { return _identity.Name; }
             set {
@@ -75,10 +90,6 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        public void InvalidateContacts() {
-            RaisePropertyChanged(() => Contacts);
-        }
-
         private void CreateGravatarUrl() {
             _gravatarImageUrl = Gravatar.CreateImageUrl(Address);
         }
@@ -99,13 +110,31 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public event EventHandler Selected;
 
-        private void OnSelected(EventArgs e) {
+        private async void OnSelected(EventArgs e) {
             var handler = Selected;
             if (handler != null) {
                 handler(this, e);
             }
 
-            //LoadContacts();
+            await RestoreContactsAsync();
+            await ImapAccount.SyncMailboxesAsync();   
+        }
+
+        internal async Task RestoreContactsAsync() {
+            IEnumerable<ContactContext> contacts = null;
+            await Task.Factory.StartNew(() => {
+                try {
+                    using (var context = new StorageContext()) {
+                        var id = context.Identities.First(x => x.Id == _identity.Id);
+                        contacts = id.Contacts.Select(x => new ContactContext(x)).ToArray();
+                    }
+                } catch (Exception ex) {
+                    Log.Error(ex.Message);
+                }
+            });
+
+            _contacts.Clear();
+            _contacts.AddRange(contacts);
         }
 
         public string GravatarUrl {
@@ -132,6 +161,20 @@ namespace Crystalbyte.Paranoia.Contexts {
                     using (var context = new StorageContext()) {
                         var id = context.Identities.First(x => x.Id == _identity.Id);
                         context.Identities.Remove(id);
+                        context.SaveChanges();
+                    }
+                } catch (Exception ex) {
+                    Log.Error(ex.Message);
+                }
+            });
+        }
+
+        internal async Task AddContactAsync(Contact contact) {
+            await Task.Factory.StartNew(() => {
+                try {
+                    using (var context = new StorageContext()) {
+                        var id = context.Identities.First(x => x.Id == _identity.Id);
+                        id.Contacts.Add(contact);
                         context.SaveChanges();
                     }
                 } catch (Exception ex) {
