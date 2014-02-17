@@ -18,8 +18,12 @@ namespace Crystalbyte.Paranoia.Models {
         [StringLength(256)]
         public string Host { get; set; }
         public short Port { get; set; }
+
+        [Timestamp]
+        public byte[] Version { get; set; }
+
         public SecurityPolicy Security { get; set; }
-        public Identity Identity { get; set; }
+        public virtual Identity Identity { get; set; }
     }
 }
 

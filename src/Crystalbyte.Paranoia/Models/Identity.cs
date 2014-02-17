@@ -18,6 +18,10 @@ namespace Crystalbyte.Paranoia.Models {
         public string Address { get; set; }
         public virtual SmtpAccount SmtpAccount { get; set; }
         public virtual ImapAccount ImapAccount { get; set; }
+
+        [Timestamp]
+        public byte[] Version { get; set; }
+
         public virtual List<Contact> Contacts { get; set; }
     }
 }

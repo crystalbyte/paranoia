@@ -16,6 +16,9 @@ namespace Crystalbyte.Paranoia.Models {
         [StringLength(32)]
         public string Name { get; set; }
 
-        public Mailbox Mailbox { get; set; }
+        [Timestamp]
+        public byte[] Version { get; set; }
+
+        public virtual Mailbox Mailbox { get; set; }
     }
 }

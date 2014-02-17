@@ -117,7 +117,17 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
 
             await RestoreContactsAsync();
-            await ImapAccount.SyncMailboxesAsync();   
+            await SyncMailboxesAsync();
+        }
+
+        private async Task SyncMailboxesAsync() {
+            await ImapAccount.SyncMailboxesAsync();
+            RaisePropertyChanged(() => Mailboxes);
+
+            var inbox = Mailboxes.FirstOrDefault(x => x.IsInbox);
+            if (inbox != null) {
+                inbox.IsSelected = true;
+            }
         }
 
         internal async Task RestoreContactsAsync() {

@@ -482,14 +482,17 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         private void Close(Page page = null) {
             ClearPassword();
-            OnFinished();
-
+            
             if (page != null) {
                 var service = page.NavigationService;
                 while (service.CanGoBack) {
                     service.GoBack();
                 }
             }
+
+            IsActive = false;
+            OnFinished();
+
         }
         private void OnCancel(object obj) {
             Close(obj as Page);

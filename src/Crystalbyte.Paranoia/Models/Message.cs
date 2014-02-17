@@ -12,7 +12,12 @@ namespace Crystalbyte.Paranoia.Models {
         public int Id { get; set; }
         [ForeignKey("Mailbox")]
         public int MailboxId { get; set; }
-        public virtual Mailbox Mailbox { get; set; }
         public string Subject { get; set; }
+
+        [Timestamp]
+        public byte[] Version { get; set; }
+
+        public virtual Mailbox Mailbox { get; set; }
+        
     }
 }

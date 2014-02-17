@@ -15,6 +15,7 @@
         <converters:BooleanNegator x:Key="BooleanNegator" />
         <converters:DomainToHostLogoConverter x:Key="DomainToHostLogoConverter" />
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <converters:MailboxToImageConverter x:Key="MailboxToImageConverter" />
 
         <Color x:Key="AppAccentColor"
                A="255"

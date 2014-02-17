@@ -172,8 +172,8 @@
             </Grid>
         </Border>
         <Grid>
-            <Border>
-                <Grid ShowGridLines="True">
+            <Border Padding="12">
+                <Grid ShowGridLines="False">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -265,14 +265,21 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </Border>
-
-                    <Border Grid.Row="0" Grid.Column="2">
+                    <Border Grid.Row="0"
+                            Grid.RowSpan="4"
+                            Grid.Column="1"
+                            BorderBrush="{StaticResource AppAccentBrush}"
+                            BorderThickness="0,0,1,0" />
+                    <Border Grid.Row="0"
+                            Grid.Column="2"
+                            Margin="12,0,0,0">
                         <TextBlock Style="{StaticResource AppTitleTextStyle}" Text="{x:Static properties:Resources.MessagesColumnHeaderText}" />
                     </Border>
                     <Border Grid.Row="2"
                             Grid.Column="1"
                             DataContext="{Binding IdentitySelectionSource}">
-                        <ListView Background="{StaticResource AppWindowBackgroundBrush}"
+                        <ListView Background="Transparent"
+                                  BorderThickness="0"
                                   DataContext="{Binding Identity}"
                                   ItemsSource="{Binding Mailboxes}">
                             <ListView.ItemContainerStyle>
@@ -286,7 +293,7 @@
                                 <DataTemplate>
                                     <Image Width="24"
                                            Height="24"
-                                           Source="/Assets/mail.png" />
+                                           Source="{Binding Converter={StaticResource MailboxToImageConverter}}" />
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>

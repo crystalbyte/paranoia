@@ -18,6 +18,9 @@ namespace Crystalbyte.Paranoia.Models {
         [Required]
         public char Delimiter { get; set; }
 
+        [Timestamp]
+        public byte[] Version { get; set; }
+
         public virtual ImapAccount ImapAccount { get; set; }
         public virtual List<MailboxFlag> Flags { get; set; }
     }

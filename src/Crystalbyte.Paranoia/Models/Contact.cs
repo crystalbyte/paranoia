@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia.Models {
-    public sealed class Contact {
+    public class Contact {
         [Key]
         public int Id { get; set; }
         [ForeignKey("Identity")]
@@ -20,6 +20,9 @@ namespace Crystalbyte.Paranoia.Models {
         [Required]
         public ContactRequest ContactRequest { get; set; }
 
-        public Identity Identity { get; set; }
+        [Timestamp]
+        public byte[] Version { get; set; }
+
+        public virtual Identity Identity { get; set; }
     }
 }

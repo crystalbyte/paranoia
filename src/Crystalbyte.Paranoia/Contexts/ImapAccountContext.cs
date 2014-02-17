@@ -17,7 +17,6 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         #region Private Fields
 
-        private bool _isSelected;
         private readonly ImapAccount _account;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
 
@@ -147,6 +146,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         internal async Task SyncMailboxesAsync() {
             await RestoreMailboxesAsync();
             await FetchMailboxesAsync();
+            
         }
 
         private async Task FetchMailboxesAsync() {
@@ -163,28 +163,28 @@ namespace Crystalbyte.Paranoia.Contexts {
                             await SaveMailboxAsync(inbox);
                         }
 
-                        var all = mailboxes.FirstOrDefault(x => x.IsAll);
-                        if (all != null && !Mailboxes.Any(x => x.Name == all.Name)) {
-                            await SaveMailboxAsync(all);
+                        var flagged = mailboxes.FirstOrDefault(x => x.IsFlagged);
+                        if (flagged != null && !Mailboxes.Any(x => x.IsFlagged)) {
+                            await SaveMailboxAsync(flagged);
                         }
 
                         var important = mailboxes.FirstOrDefault(x => x.IsImportant);
-                        if (important != null && !Mailboxes.Any(x => x.Name == important.Name)) {
+                        if (important != null && !Mailboxes.Any(x => x.IsImportant)) {
                             await SaveMailboxAsync(important);
                         }
 
                         var trash = mailboxes.FirstOrDefault(x => x.IsTrash);
-                        if (trash != null && !Mailboxes.Any(x => x.Name == trash.Name)) {
+                        if (trash != null && !Mailboxes.Any(x => x.IsTrash)) {
                             await SaveMailboxAsync(trash);
                         }
 
                         var sent = mailboxes.FirstOrDefault(x => x.IsSent);
-                        if (sent != null && !Mailboxes.Any(x => x.Name == sent.Name)) {
+                        if (sent != null && !Mailboxes.Any(x => x.IsSent)) {
                             await SaveMailboxAsync(sent);
                         }
 
                         var draft = mailboxes.FirstOrDefault(x => x.IsDraft);
-                        if (draft != null && !Mailboxes.Any(x => x.Name == draft.Name)) {
+                        if (draft != null && !Mailboxes.Any(x => x.IsDraft)) {
                             await SaveMailboxAsync(draft);
                         }
                     }

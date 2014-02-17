@@ -130,6 +130,7 @@
     <Compile Include="Converters\BooleanNegator.cs" />
     <Compile Include="Converters\BooleanToBrushConverter.cs" />
     <Compile Include="Converters\BooleanToStringConverter.cs" />
+    <Compile Include="Converters\MailboxToImageConverter.cs" />
     <Compile Include="Converters\TestResultToForegroundConverter.cs" />
     <Compile Include="Converters\ConfigStateToVisibilityConverter.cs" />
     <Compile Include="Converters\DomainToHostLogoConverter.cs" />
@@ -358,6 +359,24 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\menu.delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\favs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\upload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\questionmark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\important.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
