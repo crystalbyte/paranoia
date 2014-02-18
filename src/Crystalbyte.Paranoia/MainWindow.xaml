@@ -217,6 +217,7 @@
                     </Border>
                     <Border Grid.Row="2"
                             Grid.Column="0"
+                            Margin="0,0,12,0"
                             DataContext="{Binding IdentitySelectionSource}">
                         <ListView x:Name="ContactList"
                                   HorizontalAlignment="Stretch"
@@ -226,15 +227,17 @@
                                   ItemsSource="{Binding Contacts}"
                                   SelectionChanged="OnContactSelectionChanged"
                                   SelectionMode="Single">
-                            <ListView.ItemContainerStyle>
-                                <Style BasedOn="{StaticResource BlockListViewItem}" TargetType="ListViewItem">
-                                    <Setter Property="Margin" Value="0" />
-                                    <Setter Property="Padding" Value="0" />
-                                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
+                            <ListView.Resources>
+                                <DataTemplate DataType="{x:Type contexts:ContactMacroContext}">
+                                    <Border Padding="12,6,12,6">
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontSize="{StaticResource AppMediumFontSize}"
+                                                   Style="{StaticResource AppLightTextStyle}"
+                                                   Text="{Binding Text,
+                                                                  Mode=OneTime}" />
+                                    </Border>
+                                </DataTemplate>
+                                <DataTemplate DataType="{x:Type contexts:ContactContext}">
                                     <Border Padding="12,4,12,4">
                                         <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance contexts:ContactContext}">
                                             <Image Width="32"
@@ -246,7 +249,7 @@
                                             <StackPanel VerticalAlignment="Center">
                                                 <TextBlock FontSize="{StaticResource AppMediumFontSize}"
                                                            Style="{StaticResource AppLightTextStyle}"
-                                                           Text="{Binding Name}" />
+                                                           Text="{Binding Converter={StaticResource ContactToTextConverter}}" />
                                                 <TextBlock FontSize="{StaticResource AppSmallFontSize}"
                                                            Style="{StaticResource AppLightTextStyle}"
                                                            Text="{Binding Address}">
@@ -262,7 +265,14 @@
                                         </StackPanel>
                                     </Border>
                                 </DataTemplate>
-                            </ListView.ItemTemplate>
+                            </ListView.Resources>
+                            <ListView.ItemContainerStyle>
+                                <Style BasedOn="{StaticResource BlockListViewItem}" TargetType="ListViewItem">
+                                    <Setter Property="Margin" Value="0" />
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
                         </ListView>
                     </Border>
                     <Border Grid.Row="0"
@@ -348,7 +358,6 @@
                             Background="Red" />
                 </Grid>
             </Border>
-
             <ui:IdentityCreationFrame DataContext="{Binding IdentityCreationContext}"
                                       Style="{StaticResource ScreenOverlayStyle}"
                                       Visibility="{Binding IsActive,

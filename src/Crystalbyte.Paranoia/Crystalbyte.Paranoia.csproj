@@ -116,11 +116,12 @@
     <Compile Include="Commands\DeleteIdentityCommand.cs" />
     <Compile Include="Commands\SendRequestCommand.cs" />
     <Compile Include="ConfigState.cs" />
-    <Compile Include="ContactRequestStatus.cs" />
+    <Compile Include="ContactRequest.cs" />
     <Compile Include="Contexts\ContactSelectionSource.cs" />
     <Compile Include="Contexts\ConfigTestContext.cs" />
     <Compile Include="Contexts\ContactInvitationContext.cs" />
     <Compile Include="Contexts\ContactContext.cs" />
+    <Compile Include="Contexts\ContactMacroContext.cs" />
     <Compile Include="Contexts\ImapAccountContext.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -130,6 +131,8 @@
     <Compile Include="Converters\BooleanNegator.cs" />
     <Compile Include="Converters\BooleanToBrushConverter.cs" />
     <Compile Include="Converters\BooleanToStringConverter.cs" />
+    <Compile Include="Converters\ContactRequestToBrushConverter.cs" />
+    <Compile Include="Converters\ContactToTextConverter.cs" />
     <Compile Include="Converters\MailboxToImageConverter.cs" />
     <Compile Include="Converters\TestResultToForegroundConverter.cs" />
     <Compile Include="Converters\ConfigStateToVisibilityConverter.cs" />

@@ -22,6 +22,8 @@ namespace Crystalbyte.Paranoia.Data {
 
         public DbSet<ImapAccount> ImapAccounts { get; set; }
 
+        public DbSet<Mailbox> Mailboxes { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             modelBuilder.Entity<Identity>()
                         .HasRequired(s => s.ImapAccount)

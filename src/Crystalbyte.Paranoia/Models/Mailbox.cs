@@ -17,6 +17,14 @@ namespace Crystalbyte.Paranoia.Models {
         public string Name { get; set; }
         [Required]
         public char Delimiter { get; set; }
+        [Required]
+        public int UidNext { get; set; }
+        [Required]
+        public int Recent { get; set; }
+        [Required]
+        public int Exists { get; set; }
+        [Required]
+        public long UidValidity { get; set; }
 
         [Timestamp]
         public byte[] Version { get; set; }

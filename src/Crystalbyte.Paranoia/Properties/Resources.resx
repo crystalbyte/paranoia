@@ -140,6 +140,9 @@ Once your contact approves, messages can be securely exchanged.</value>
     <value>your e-mail address</value>
     <comment>IdentityScreen -&gt; TextBlock -&gt; EmailAddressTextBlock</comment>
   </data>
+  <data name="AllContactsMacroText" xml:space="preserve">
+    <value>Everyone</value>
+  </data>
   <data name="AuthenticationFailedMessage" xml:space="preserve">
     <value>Auhentication failed.</value>
   </data>
@@ -269,6 +272,9 @@ Once your contact approves, messages can be securely exchanged.</value>
   <data name="NetworkTestSuccessMessage" xml:space="preserve">
     <value>Network available.</value>
   </data>
+  <data name="NoContactsTokenText" xml:space="preserve">
+    <value>It's lonely in here ...</value>
+  </data>
   <data name="NullOrEmptyErrorText" xml:space="preserve">
     <value>This field must not be empty.</value>
     <comment>IdentityScreenContext -&gt; EmailAddress</comment>
@@ -284,6 +290,9 @@ Once your contact approves, messages can be securely exchanged.</value>
   </data>
   <data name="PasswordRequiredErrorText" xml:space="preserve">
     <value>The password must not be empty.</value>
+  </data>
+  <data name="RequestPendingMessage" xml:space="preserve">
+    <value>approval pending ...</value>
   </data>
   <data name="ResolvingConfigText" xml:space="preserve">
     <value>Resolving server configuration ...</value>

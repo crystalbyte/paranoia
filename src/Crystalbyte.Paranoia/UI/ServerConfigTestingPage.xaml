@@ -25,19 +25,7 @@
         <converters:TestResultToForegroundConverter x:Key="TestResultToForegroundConverter" />
     </Page.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Border Grid.Row="0"
-                Background="Black"
-                Opacity=".4" />
-        <Border Grid.Row="2"
-                Background="Black"
-                Opacity=".4" />
-        <Border Grid.Row="1"
-                HorizontalAlignment="Stretch"
+        <Border HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 Background="{StaticResource AppWindowBackgroundBrush}"
                 Padding="20">

@@ -183,6 +183,13 @@ namespace Crystalbyte.Paranoia.Messaging {
             return Encoding.UTF7.GetString(bytes);
         }
 
+        public async Task<IEnumerable<ImapEnvelope>> FetchEnvelopesAsync(int fromUid, int toUid) {
+            var command = string.Format("UID FETCH {0}:{1} ALL", fromUid, toUid);
+
+            var id = await _connection.WriteCommandAsync(command);
+            return await ReadFetchEnvelopesResponseAsync(id);
+        }
+
         public async Task<IEnumerable<ImapEnvelope>> FetchEnvelopesAsync(IEnumerable<int> uids) {
             var command = string.Format("UID FETCH {0} ALL", uids
                                                                  .Select(x => x.ToString(CultureInfo.InvariantCulture))

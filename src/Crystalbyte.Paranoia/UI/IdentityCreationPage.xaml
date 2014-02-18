@@ -8,12 +8,10 @@
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       x:Name="Page"
-      KeepAlive="True"  
       HorizontalAlignment="Stretch"
+      KeepAlive="True"
       KeyboardNavigation.IsTabStop="False"
       d:DataContext="{d:DesignInstance contexts:IdentityContext}"
-      d:DesignHeight="435.8"
-      d:DesignWidth="633"
       mc:Ignorable="d">
     <Page.InputBindings>
         <KeyBinding Key="B"
@@ -25,166 +23,152 @@
                                       FallbackValue={StaticResource NullCommand}}"
                     CommandParameter="{Binding ElementName=Page}" />
     </Page.InputBindings>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Border Grid.Row="0"
-                Background="Black"
-                Opacity=".4" />
-        <Border Grid.Row="2"
-                Background="Black"
-                Opacity=".4" />
-        <Border Grid.Row="1"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center"
-                Background="{StaticResource AppWindowBackgroundBrush}"
-                Padding="20">
-            <Grid HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="370" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0"
-                           Grid.ColumnSpan="2"
-                           Margin="0,0,0,20"
-                           Style="{StaticResource AppTitleTextStyle}">
-                    <Run Text="{x:Static properties:Resources.CreateIdentityTitle}" />
-                    <LineBreak />
-                    <Run FontSize="{StaticResource AppNormalFontSize}" Text="{x:Static properties:Resources.CreateIdentitySubTitle}" />
-                </TextBlock>
-                <Grid Grid.Row="1"
-                      Grid.RowSpan="3"
-                      Grid.Column="0"
-                      Margin="0,0,20,0">
-                    <StackPanel>
-                        <Border BorderBrush="{StaticResource AppLightControlBrush}" BorderThickness="1">
-                            <Image Width="128"
-                                   Height="128"
-                                   Source="{Binding GravatarUrl,
-                                                    IsAsync=True,
-                                                    FallbackValue={StaticResource GravatarDefaultImageUrl},
-                                                    TargetNullValue={StaticResource GravatarDefaultImageUrl}}" />
-                        </Border>
-                        <TextBlock Margin="0,6,0,0"
-                                   FontSize="{StaticResource AppSmallFontSize}"
-                                   Foreground="{StaticResource AppLightControlBrush}"
-                                   Style="{StaticResource AppLightTextStyle}">
-                            <Run Text="{x:Static properties:Resources.GravatarPromoText}" />
-                            <LineBreak />
-                            <Run Text="{x:Static properties:Resources.GravatarHyperlinkPrefix}" />
-                            <Hyperlink NavigateUri="http://www.gravatar.com" RequestNavigate="OnGravatarLinkRequestNavigate">Gravatar</Hyperlink>
-                            <Run>.</Run>
-                        </TextBlock>
-                    </StackPanel>
-                </Grid>
-                <TextBlock Grid.Row="1"
-                           Grid.Column="1"
-                           FontSize="{StaticResource AppNormalFontSize}"
-                           Style="{StaticResource AppLightTextStyle}">
-                    <Run Text="{x:Static properties:Resources.IdentityPublicDescription}" />
-                </TextBlock>
-                <StackPanel Grid.Row="2" Grid.Column="1">
-                    <AdornerDecorator>
-                        <TextBox x:Name="NameTextBox"
-                                 KeyboardNavigation.TabIndex="0"
-                                 Text="{Binding Name,
-                                                Mode=TwoWay,
-                                                FallbackValue={x:Static System:String.Empty},
-                                                ValidatesOnDataErrors=True}"
-                                 ui:InitialFocus.IsEnabled="True">
-                            <ui:WatermarkService.Watermark>
-                                <TextBlock VerticalAlignment="Center"
-                                           Style="{StaticResource AppWatermarkTextStyle}"
-                                           Text="{x:Static properties:Resources.NameWatermark}" />
-                            </ui:WatermarkService.Watermark>
-                        </TextBox>
-                    </AdornerDecorator>
-                    <AdornerDecorator>
-                        <TextBox KeyboardNavigation.TabIndex="1" Text="{Binding Address, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}">
-                            <ui:WatermarkService.Watermark>
-                                <TextBlock VerticalAlignment="Center"
-                                           Style="{StaticResource AppWatermarkTextStyle}"
-                                           Text="{x:Static properties:Resources.AddressWatermark}" />
-                            </ui:WatermarkService.Watermark>
-                        </TextBox>
-                    </AdornerDecorator>
+    <Border HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            Background="{StaticResource AppWindowBackgroundBrush}"
+            Padding="20">
+        <Grid HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="370" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0"
+                       Grid.ColumnSpan="2"
+                       Margin="0,0,0,20"
+                       Style="{StaticResource AppTitleTextStyle}">
+                <Run Text="{x:Static properties:Resources.CreateIdentityTitle}" />
+                <LineBreak />
+                <Run FontSize="{StaticResource AppNormalFontSize}" Text="{x:Static properties:Resources.CreateIdentitySubTitle}" />
+            </TextBlock>
+            <Grid Grid.Row="1"
+                  Grid.RowSpan="3"
+                  Grid.Column="0"
+                  Margin="0,0,20,0">
+                <StackPanel>
+                    <Border BorderBrush="{StaticResource AppLightControlBrush}" BorderThickness="1">
+                        <Image Width="128"
+                               Height="128"
+                               Source="{Binding GravatarUrl,
+                                                IsAsync=True,
+                                                FallbackValue={StaticResource GravatarDefaultImageUrl},
+                                                TargetNullValue={StaticResource GravatarDefaultImageUrl}}" />
+                    </Border>
                     <TextBlock Margin="0,6,0,0"
-                               FontSize="{StaticResource AppNormalFontSize}"
-                               Foreground="{StaticResource AppAccentBrush}"
-                               Style="{StaticResource AppLightTextStyle}"
-                               Text="{x:Static properties:Resources.IdentityAddressDescription}" />
-                    <AdornerDecorator>
-                        <PasswordBox KeyboardNavigation.TabIndex="2" ui:PasswordService.Password="{Binding ImapPassword, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
-                            <ui:WatermarkService.Watermark>
-                                <TextBlock VerticalAlignment="Center"
-                                           Style="{StaticResource AppWatermarkTextStyle}"
-                                           Text="{x:Static properties:Resources.MailPasswordWatermark}" />
-                            </ui:WatermarkService.Watermark>
-                        </PasswordBox>
-                    </AdornerDecorator>
+                               FontSize="{StaticResource AppSmallFontSize}"
+                               Foreground="{StaticResource AppLightControlBrush}"
+                               Style="{StaticResource AppLightTextStyle}">
+                        <Run Text="{x:Static properties:Resources.GravatarPromoText}" />
+                        <LineBreak />
+                        <Run Text="{x:Static properties:Resources.GravatarHyperlinkPrefix}" />
+                        <Hyperlink NavigateUri="http://www.gravatar.com" RequestNavigate="OnGravatarLinkRequestNavigate">Gravatar</Hyperlink>
+                        <Run>.</Run>
+                    </TextBlock>
                 </StackPanel>
-                <TextBlock Grid.Row="3"
-                           Grid.Column="1"
+            </Grid>
+            <TextBlock Grid.Row="1"
+                       Grid.Column="1"
+                       FontSize="{StaticResource AppNormalFontSize}"
+                       Style="{StaticResource AppLightTextStyle}">
+                <Run Text="{x:Static properties:Resources.IdentityPublicDescription}" />
+            </TextBlock>
+            <StackPanel Grid.Row="2" Grid.Column="1">
+                <AdornerDecorator>
+                    <TextBox x:Name="NameTextBox"
+                             KeyboardNavigation.TabIndex="0"
+                             Text="{Binding Name,
+                                            Mode=TwoWay,
+                                            FallbackValue={x:Static System:String.Empty},
+                                            ValidatesOnDataErrors=True}"
+                             ui:InitialFocus.IsEnabled="True">
+                        <ui:WatermarkService.Watermark>
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource AppWatermarkTextStyle}"
+                                       Text="{x:Static properties:Resources.NameWatermark}" />
+                        </ui:WatermarkService.Watermark>
+                    </TextBox>
+                </AdornerDecorator>
+                <AdornerDecorator>
+                    <TextBox KeyboardNavigation.TabIndex="1" Text="{Binding Address, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}">
+                        <ui:WatermarkService.Watermark>
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource AppWatermarkTextStyle}"
+                                       Text="{x:Static properties:Resources.AddressWatermark}" />
+                        </ui:WatermarkService.Watermark>
+                    </TextBox>
+                </AdornerDecorator>
+                <TextBlock Margin="0,6,0,0"
                            FontSize="{StaticResource AppNormalFontSize}"
                            Foreground="{StaticResource AppAccentBrush}"
                            Style="{StaticResource AppLightTextStyle}"
-                           TextWrapping="Wrap"
-                           Visibility="Collapsed">
-                    <Run Text="{x:Static properties:Resources.IdentityPrivateDescription}" />
-                </TextBlock>
-                <StackPanel Grid.Row="4"
-                            Grid.Column="1"
-                            Visibility="Collapsed">
-                    <AdornerDecorator>
-                        <PasswordBox KeyboardNavigation.TabIndex="3" ui:PasswordService.Password="{Binding Password, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
-                            <ui:WatermarkService.Watermark>
-                                <TextBlock VerticalAlignment="Center"
-                                           Style="{StaticResource AppWatermarkTextStyle}"
-                                           Text="{x:Static properties:Resources.EncryptionPasswordWatermark}" />
-                            </ui:WatermarkService.Watermark>
-                        </PasswordBox>
-                    </AdornerDecorator>
-                    <AdornerDecorator>
-                        <PasswordBox KeyboardNavigation.TabIndex="4" ui:PasswordService.Password="{Binding PasswordConfirmation, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
-                            <ui:WatermarkService.Watermark>
-                                <TextBlock VerticalAlignment="Center"
-                                           Style="{StaticResource AppWatermarkTextStyle}"
-                                           Text="{x:Static properties:Resources.ConfirmEncryptionPasswordWatermark}" />
-                            </ui:WatermarkService.Watermark>
-                        </PasswordBox>
-                    </AdornerDecorator>
-                    <AdornerDecorator />
-                </StackPanel>
-                <DockPanel Grid.Row="5"
-                           Grid.Column="1"
-                           Margin="0,20,-6,0"
-                           LastChildFill="False">
-                    <Button Command="{Binding CancelCommand,
-                                              FallbackValue={StaticResource NullCommand}}"
-                            Content="{x:Static properties:Resources.CancelButtonText}"
-                            DockPanel.Dock="Right"
-                            KeyboardNavigation.TabIndex="6"
-                            Style="{StaticResource AppDialogTextButtonStyle}" />
-                    <Button Command="{Binding ConfigCommand,
-                                              FallbackValue={StaticResource NullCommand}}"
-                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Page}}"
-                            Content="{x:Static properties:Resources.ContinueButtonText}"
-                            DockPanel.Dock="Right"
-                            KeyboardNavigation.TabIndex="5"
-                            Style="{StaticResource AppDefaultDialogTextButtonStyle}" />
-                </DockPanel>
-            </Grid>
-        </Border>
-    </Grid>
+                           Text="{x:Static properties:Resources.IdentityAddressDescription}" />
+                <AdornerDecorator>
+                    <PasswordBox KeyboardNavigation.TabIndex="2" ui:PasswordService.Password="{Binding ImapPassword, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                        <ui:WatermarkService.Watermark>
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource AppWatermarkTextStyle}"
+                                       Text="{x:Static properties:Resources.MailPasswordWatermark}" />
+                        </ui:WatermarkService.Watermark>
+                    </PasswordBox>
+                </AdornerDecorator>
+            </StackPanel>
+            <TextBlock Grid.Row="3"
+                       Grid.Column="1"
+                       FontSize="{StaticResource AppNormalFontSize}"
+                       Foreground="{StaticResource AppAccentBrush}"
+                       Style="{StaticResource AppLightTextStyle}"
+                       TextWrapping="Wrap"
+                       Visibility="Collapsed">
+                <Run Text="{x:Static properties:Resources.IdentityPrivateDescription}" />
+            </TextBlock>
+            <StackPanel Grid.Row="4"
+                        Grid.Column="1"
+                        Visibility="Collapsed">
+                <AdornerDecorator>
+                    <PasswordBox KeyboardNavigation.TabIndex="3" ui:PasswordService.Password="{Binding Password, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                        <ui:WatermarkService.Watermark>
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource AppWatermarkTextStyle}"
+                                       Text="{x:Static properties:Resources.EncryptionPasswordWatermark}" />
+                        </ui:WatermarkService.Watermark>
+                    </PasswordBox>
+                </AdornerDecorator>
+                <AdornerDecorator>
+                    <PasswordBox KeyboardNavigation.TabIndex="4" ui:PasswordService.Password="{Binding PasswordConfirmation, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                        <ui:WatermarkService.Watermark>
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource AppWatermarkTextStyle}"
+                                       Text="{x:Static properties:Resources.ConfirmEncryptionPasswordWatermark}" />
+                        </ui:WatermarkService.Watermark>
+                    </PasswordBox>
+                </AdornerDecorator>
+                <AdornerDecorator />
+            </StackPanel>
+            <DockPanel Grid.Row="5"
+                       Grid.Column="1"
+                       Margin="0,20,-6,0"
+                       LastChildFill="False">
+                <Button Command="{Binding CancelCommand,
+                                          FallbackValue={StaticResource NullCommand}}"
+                        Content="{x:Static properties:Resources.CancelButtonText}"
+                        DockPanel.Dock="Right"
+                        KeyboardNavigation.TabIndex="6"
+                        Style="{StaticResource AppDialogTextButtonStyle}" />
+                <Button Command="{Binding ConfigCommand,
+                                          FallbackValue={StaticResource NullCommand}}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Page}}"
+                        Content="{x:Static properties:Resources.ContinueButtonText}"
+                        DockPanel.Dock="Right"
+                        KeyboardNavigation.TabIndex="5"
+                        Style="{StaticResource AppDefaultDialogTextButtonStyle}" />
+            </DockPanel>
+        </Grid>
+    </Border>
 </Page>

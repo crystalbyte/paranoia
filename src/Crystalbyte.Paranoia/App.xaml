@@ -16,6 +16,7 @@
         <converters:DomainToHostLogoConverter x:Key="DomainToHostLogoConverter" />
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         <converters:MailboxToImageConverter x:Key="MailboxToImageConverter" />
+        <converters:ContactToTextConverter x:Key="ContactToTextConverter" />
 
         <Color x:Key="AppAccentColor"
                A="255"

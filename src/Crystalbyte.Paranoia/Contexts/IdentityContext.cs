@@ -10,6 +10,7 @@ using Crystalbyte.Paranoia.Data;
 using NLog;
 using System.Data.Entity;
 using Crystalbyte.Paranoia.Messaging;
+using Crystalbyte.Paranoia.Properties;
 
 #endregion
 
@@ -19,7 +20,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         #region Private Fields
 
         private readonly Identity _identity;
-        private readonly ObservableCollection<ContactContext> _contacts;
+        private readonly ObservableCollection<object> _contacts;
         private readonly SmtpAccountContext _smtpAccount;
         private readonly ImapAccountContext _imapAccount;
         private string _gravatarImageUrl;
@@ -40,14 +41,14 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public IdentityContext(Identity identity) {
             _identity = identity;
-            _contacts = new ObservableCollection<ContactContext>();
+            _contacts = new ObservableCollection<object>();
             _imapAccount = new ImapAccountContext(_identity.ImapAccount);
             _smtpAccount = new SmtpAccountContext(_identity.SmtpAccount);
         }
 
         #endregion
 
-        public ObservableCollection<ContactContext> Contacts {
+        public ObservableCollection<object> Contacts {
             get { return _contacts; }
         }
 
@@ -144,6 +145,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             });
 
             _contacts.Clear();
+            _contacts.Add(new ContactMacroContext(Resources.AllContactsMacroText));
             _contacts.AddRange(contacts);
         }
 

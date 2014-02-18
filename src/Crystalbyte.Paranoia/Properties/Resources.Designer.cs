@@ -125,6 +125,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Everyone.
+        /// </summary>
+        public static string AllContactsMacroText {
+            get {
+                return ResourceManager.GetString("AllContactsMacroText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auhentication failed..
         /// </summary>
         public static string AuthenticationFailedMessage {
@@ -494,6 +503,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to It&apos;s lonely in here ....
+        /// </summary>
+        public static string NoContactsTokenText {
+            get {
+                return ResourceManager.GetString("NoContactsTokenText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This field must not be empty..
         /// </summary>
         public static string NullOrEmptyErrorText {
@@ -535,6 +553,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string PasswordRequiredErrorText {
             get {
                 return ResourceManager.GetString("PasswordRequiredErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to approval pending ....
+        /// </summary>
+        public static string RequestPendingMessage {
+            get {
+                return ResourceManager.GetString("RequestPendingMessage", resourceCulture);
             }
         }
         

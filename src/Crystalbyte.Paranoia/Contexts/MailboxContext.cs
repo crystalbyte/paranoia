@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Messaging;
 using Crystalbyte.Paranoia.Models;
+using Crystalbyte.Paranoia.Data;
+using NLog;
 
 namespace Crystalbyte.Paranoia.Contexts {
     public sealed class MailboxContext : NotificationObject {
@@ -12,10 +14,16 @@ namespace Crystalbyte.Paranoia.Contexts {
         #region Private Fields
 
         private bool _isSelected;
+        private Mailbox _mailbox;
         private ImapMailbox _inbox;
-        private readonly Mailbox _mailbox;
         private readonly ImapAccountContext _account;
         private readonly IEnumerable<MailboxFlag> _flags;
+
+        #endregion
+
+        #region Log Declaration
+
+        private static Logger Log = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -73,7 +81,47 @@ namespace Crystalbyte.Paranoia.Contexts {
                 RaisePropertyChanging(() => IsSelected);
                 _isSelected = value;
                 RaisePropertyChanged(() => IsSelected);
+
+                if (value) {
+                    OnSelected();
+                }
             } 
+        }
+
+        private async void OnSelected() {
+            await SyncMailboxAsync();
+        }
+
+        private async Task SyncMailboxAsync() {
+            using (var connection = new ImapConnection { Security = _account.Security }) {
+                using (var authenticator = await connection.ConnectAsync(_account.Host, _account.Port)) {
+                    using (var session = await authenticator.LoginAsync(_account.Username, _account.Password)) {
+                        var mailbox = await session.SelectAsync(Name);
+                        await UpdateMailboxAsync(mailbox);
+
+                        var envelopes = await mailbox.FetchEnvelopesAsync(0, mailbox.UidNext - 1);
+                    }
+                }
+            }
+        }
+
+        private async Task UpdateMailboxAsync(ImapMailbox imapMailbox) {
+            await Task.Factory.StartNew(() => {
+                try {
+                    using (var context = new StorageContext()) {
+                        _mailbox = context.Mailboxes.First(x => x.Id == _mailbox.Id);
+                        _mailbox.UidNext = imapMailbox.UidNext;
+                        _mailbox.Recent = imapMailbox.Recent;
+                        _mailbox.UidValidity = imapMailbox.UidValidity;
+                        _mailbox.Exists = imapMailbox.Exists;
+                        context.SaveChanges();
+                    }
+                } catch (Exception ex) {
+                    Log.Error(ex);
+                }
+            });
+
+            RaisePropertyChanged(string.Empty);
         }
 
         //public async Task TakeOnlineAsync() {
