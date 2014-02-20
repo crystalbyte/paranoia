@@ -31,5 +31,6 @@ namespace Crystalbyte.Paranoia.Models {
 
         public virtual ImapAccount ImapAccount { get; set; }
         public virtual List<MailboxFlag> Flags { get; set; }
+        public virtual List<Mail> Mails { get; set; }
     }
 }

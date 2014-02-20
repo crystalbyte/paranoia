@@ -114,7 +114,7 @@
     <Compile Include="Commands\InviteContactCommand.cs" />
     <Compile Include="Commands\DeleteContactCommand.cs" />
     <Compile Include="Commands\DeleteIdentityCommand.cs" />
-    <Compile Include="Commands\SendRequestCommand.cs" />
+    <Compile Include="Commands\SendInvitationCommand.cs" />
     <Compile Include="ConfigState.cs" />
     <Compile Include="ContactRequest.cs" />
     <Compile Include="Contexts\ContactSelectionSource.cs" />
@@ -126,6 +126,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Contexts\MailboxContext.cs" />
+    <Compile Include="Contexts\MailboxSelectionSource.cs" />
+    <Compile Include="Contexts\MailContext.cs" />
+    <Compile Include="Contexts\MailSelectionSource.cs" />
     <Compile Include="Contexts\SmtpAccountContext.cs" />
     <Compile Include="Converters\BooleanMultiConverter.cs" />
     <Compile Include="Converters\BooleanNegator.cs" />
@@ -133,7 +136,10 @@
     <Compile Include="Converters\BooleanToStringConverter.cs" />
     <Compile Include="Converters\ContactRequestToBrushConverter.cs" />
     <Compile Include="Converters\ContactToTextConverter.cs" />
+    <Compile Include="Converters\DateFormatter.cs" />
+    <Compile Include="Converters\DoubleCorrector.cs" />
     <Compile Include="Converters\MailboxToImageConverter.cs" />
+    <Compile Include="Converters\SizeFormatter.cs" />
     <Compile Include="Converters\TestResultToForegroundConverter.cs" />
     <Compile Include="Converters\ConfigStateToVisibilityConverter.cs" />
     <Compile Include="Converters\DomainToHostLogoConverter.cs" />
@@ -151,7 +157,9 @@
     <Compile Include="Models\ImapAccount.cs" />
     <Compile Include="Models\Mailbox.cs" />
     <Compile Include="Models\MailboxFlag.cs" />
-    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\Mail.cs" />
+    <Compile Include="Models\MailContact.cs" />
+    <Compile Include="Models\MailContactType.cs" />
     <Compile Include="Models\SmtpAccount.cs" />
     <Compile Include="Pack.cs" />
     <Compile Include="MessageHeaders.cs" />
@@ -188,7 +196,6 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\RatioConverter.cs" />
     <Compile Include="Converters\SecurityPolicyFormatter.cs" />
-    <Compile Include="IHtmlSource.cs" />
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="Contexts\NotificationObject.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -226,9 +233,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\HtmlRenderer.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Themes\ScrollViewer.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\ComposeMessageView.xaml">
       <SubType>Designer</SubType>
@@ -380,6 +387,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\important.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\cancel.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

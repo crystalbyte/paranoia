@@ -64,6 +64,10 @@ namespace Crystalbyte.Paranoia.Contexts {
             get { return _smtpAccount; }
         }
 
+        public int Id {
+            get { return _identity.Id; }
+        }
+
         public string Name {
             get { return _identity.Name; }
             set {
@@ -181,7 +185,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             });
         }
 
-        internal async Task AddContactAsync(Contact contact) {
+        internal async Task<ContactContext> AddContactAsync(Contact contact) {
             await Task.Factory.StartNew(() => {
                 try {
                     using (var context = new StorageContext()) {
@@ -193,6 +197,8 @@ namespace Crystalbyte.Paranoia.Contexts {
                     Log.Error(ex.Message);
                 }
             });
+
+            return new ContactContext(contact);
         }
     }
 }

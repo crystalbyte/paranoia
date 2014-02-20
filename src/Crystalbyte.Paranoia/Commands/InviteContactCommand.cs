@@ -36,7 +36,7 @@ namespace Crystalbyte.Paranoia.Commands {
         }
 
         public void Execute(object parameter) {
-            AppContext.InviteContact();            
+            AppContext.ShowInvitationScreen();            
         }
 
         public event EventHandler CanExecuteChanged;

@@ -18,6 +18,8 @@ namespace Crystalbyte.Paranoia.Data {
         public StorageContext()
             : base(Filename) { }
 
+        public DbSet<Contact> Contacts { get; set; }
+
         public DbSet<Identity> Identities { get; set; }
 
         public DbSet<ImapAccount> ImapAccounts { get; set; }
@@ -35,7 +37,6 @@ namespace Crystalbyte.Paranoia.Data {
                         .WithRequiredPrincipal(a => a.Identity)
                         .WillCascadeOnDelete();
         }
-
 
         private static string StorageDirectory {
             get {

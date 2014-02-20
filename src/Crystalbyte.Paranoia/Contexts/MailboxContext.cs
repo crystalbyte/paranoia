@@ -7,6 +7,7 @@ using Crystalbyte.Paranoia.Messaging;
 using Crystalbyte.Paranoia.Models;
 using Crystalbyte.Paranoia.Data;
 using NLog;
+using System.Collections.ObjectModel;
 
 namespace Crystalbyte.Paranoia.Contexts {
     public sealed class MailboxContext : NotificationObject {
@@ -18,6 +19,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         private ImapMailbox _inbox;
         private readonly ImapAccountContext _account;
         private readonly IEnumerable<MailboxFlag> _flags;
+        private readonly ObservableCollection<MailContext> _mails;
 
         #endregion
 
@@ -30,21 +32,22 @@ namespace Crystalbyte.Paranoia.Contexts {
         public MailboxContext(ImapAccountContext account, Mailbox mailbox) {
             _account = account;
             _mailbox = mailbox;
+            _mails = new ObservableCollection<MailContext>();
 
             // Trigger lazy loading for Flags 
             _flags = _mailbox.Flags;
         }
 
-        public string Name { 
-            get { return _mailbox.Name; } 
+        public string Name {
+            get { return _mailbox.Name; }
         }
 
         public bool IsInbox {
             get { return _mailbox.Name.ToLower() == "inbox"; }
         }
 
-        public bool IsAll { 
-            get { return _mailbox.Flags.Any(x => x.Name.ToLower() == @"\all"); } 
+        public bool IsAll {
+            get { return _mailbox.Flags.Any(x => x.Name.ToLower() == @"\all"); }
         }
 
         public bool IsTrash {
@@ -71,7 +74,11 @@ namespace Crystalbyte.Paranoia.Contexts {
             get { return _mailbox.Flags.Any(x => x.Name.ToLower() == @"\drafts"); }
         }
 
-        public bool IsSelected { 
+        public ObservableCollection<MailContext> Mails {
+            get { return _mails; }
+        }
+
+        public bool IsSelected {
             get { return _isSelected; }
             set {
                 if (_isSelected == value) {
@@ -85,23 +92,111 @@ namespace Crystalbyte.Paranoia.Contexts {
                 if (value) {
                     OnSelected();
                 }
-            } 
+            }
         }
 
         private async void OnSelected() {
+            await RestoreMailsAsync();
             await SyncMailboxAsync();
         }
 
+        private async Task RestoreMailsAsync() {
+            IEnumerable<Mail> mails = null;
+            await Task.Factory.StartNew(() => {
+                try {
+                    using (var context = new StorageContext()) {
+                        var mailbox = context.Mailboxes.Find(_mailbox.Id);
+                        mails = mailbox.Mails.ToArray();
+                    }                        
+                } catch (Exception ex) {
+                    Log.Error(ex.Message);
+                }
+            });
+
+            if (mails != null) {
+                _mails.Clear();
+                _mails.AddRange(mails.Select(x => new MailContext(x)));
+            }
+        }
+
         private async Task SyncMailboxAsync() {
+            var threshold = _mailbox.UidNext;
             using (var connection = new ImapConnection { Security = _account.Security }) {
                 using (var authenticator = await connection.ConnectAsync(_account.Host, _account.Port)) {
                     using (var session = await authenticator.LoginAsync(_account.Username, _account.Password)) {
                         var mailbox = await session.SelectAsync(Name);
                         await UpdateMailboxAsync(mailbox);
 
-                        var envelopes = await mailbox.FetchEnvelopesAsync(0, mailbox.UidNext - 1);
+                        var criteria = string.Format("{0}:* HEADER \"{1}\" \"\"", threshold, MessageHeaders.Type);
+                        var uids = await mailbox.SearchAsync(criteria);
+                        if (uids.Count == 0) {
+                            return;
+                        }
+                        var envelopes = await mailbox.FetchEnvelopesAsync(uids);
+
+                        foreach (var envelope in envelopes.AsParallel()) {
+                            // IMAP server always sends last message in mailbox, whether requested or not.
+                            if (envelope.Uid == threshold - 1) {
+                                continue;
+                            }
+                            await StoreEnvelopeAsync(envelope);
+                        }
                     }
                 }
+            }
+        }
+
+        private async Task StoreEnvelopeAsync(ImapEnvelope envelope) {
+            try {
+                using (var context = new StorageContext()) {
+                    var mailbox = await context.Mailboxes.FindAsync(_mailbox.Id);
+                    if (mailbox == null) {
+                        var message = string.Format("Mailbox with id {0} missing.", mailbox.Id);
+                        throw new InvalidOperationException(message);
+                    }
+
+                    var mail = new Mail {
+                        Subject = envelope.Subject,
+                        InternalDate = envelope.InternalDate,
+                        Size = envelope.Size,
+                        Uid = envelope.Uid,
+                        MessageId = envelope.MessageId,
+                        MailContacts = new List<MailContact>()
+                    };
+
+                    mail.MailContacts.AddRange(envelope.Sender.Select(x => new MailContact {
+                        Type = MailContactType.Sender,
+                        Address = x.Address,
+                        Name = x.DisplayName,
+                    }));
+                    mail.MailContacts.AddRange(envelope.From.Select(x => new MailContact {
+                        Type = MailContactType.From,
+                        Address = x.Address,
+                        Name = x.DisplayName
+                    }));
+                    mail.MailContacts.AddRange(envelope.To.Select(x => new MailContact {
+                        Type = MailContactType.To,
+                        Address = x.Address,
+                        Name = x.DisplayName
+                    }));
+                    mail.MailContacts.AddRange(envelope.Cc.Select(x => new MailContact {
+                        Type = MailContactType.Cc,
+                        Address = x.Address,
+                        Name = x.DisplayName
+                    }));
+                    mail.MailContacts.AddRange(envelope.Bcc.Select(x => new MailContact {
+                        Type = MailContactType.Bcc,
+                        Address = x.Address,
+                        Name = x.DisplayName
+                    }));
+
+                    mailbox.Mails.Add(mail);
+                    context.SaveChanges();
+
+                    Mails.Add(new MailContext(mail));
+                }
+            } catch (Exception ex) {
+                Log.Error(ex.Message);
             }
         }
 

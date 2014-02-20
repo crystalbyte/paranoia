@@ -100,7 +100,7 @@ namespace Crystalbyte.Paranoia.Messaging {
         private void HandlePushNotification(ImapResponseLine line) {
             if (line.Text.Contains(ImapResponses.Exists)) {
                 OnMessageReceived(EventArgs.Empty);
-                Exists = int.Parse(Regex.Match(line.Text,"[0-9]+").Value);
+                Exists = int.Parse(Regex.Match(line.Text, "[0-9]+").Value);
             }
         }
 
@@ -183,13 +183,6 @@ namespace Crystalbyte.Paranoia.Messaging {
             return Encoding.UTF7.GetString(bytes);
         }
 
-        public async Task<IEnumerable<ImapEnvelope>> FetchEnvelopesAsync(int fromUid, int toUid) {
-            var command = string.Format("UID FETCH {0}:{1} ALL", fromUid, toUid);
-
-            var id = await _connection.WriteCommandAsync(command);
-            return await ReadFetchEnvelopesResponseAsync(id);
-        }
-
         public async Task<IEnumerable<ImapEnvelope>> FetchEnvelopesAsync(IEnumerable<int> uids) {
             var command = string.Format("UID FETCH {0} ALL", uids
                                                                  .Select(x => x.ToString(CultureInfo.InvariantCulture))
@@ -200,14 +193,33 @@ namespace Crystalbyte.Paranoia.Messaging {
         }
 
         private async Task<IEnumerable<ImapEnvelope>> ReadFetchEnvelopesResponseAsync(string commandId) {
-            var envelopes = new List<ImapEnvelope>();
-            // We currently only support single line responses.
+
+            var segments = new List<string>();
+            var lines = new List<ImapResponseLine>();
+            lines.Add(await _connection.ReadAsync());
+
             while (true) {
                 var line = await _connection.ReadAsync();
+                if (line.IsUntagged || line.TerminatesCommand(commandId)) {
+                    using (var writer = new StringWriter()) {
+                        foreach (var l in lines) {
+                            await writer.WriteAsync(l.Text);
+                            await writer.WriteLineAsync();
+                        }
+                        segments.Add(writer.ToString());
+                    }
+                    lines.Clear();
+                }
                 if (line.TerminatesCommand(commandId)) {
                     break;
                 }
-                envelopes.Add(ImapEnvelope.Parse(line.Text));
+
+                lines.Add(line);
+            }
+
+            var envelopes = new List<ImapEnvelope>();
+            foreach (var segment in segments) {
+                envelopes.Add(ImapEnvelope.Parse(segment));
             }
 
             return envelopes;

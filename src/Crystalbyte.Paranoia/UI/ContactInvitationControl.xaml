@@ -61,22 +61,39 @@
                 <StackPanel Grid.Row="1"
                             Grid.Column="1"
                             Margin="0"
-                            VerticalAlignment="Center">
+                            VerticalAlignment="Top">
                     <TextBlock FontSize="{StaticResource AppLargeFontSize}"
                                Foreground="{DynamicResource AppAccentBrush}"
                                Style="{StaticResource AppLightTextStyle}"
                                TextWrapping="Wrap">
                         <Run FontSize="{StaticResource AppNormalFontSize}" Text="{x:Static properties:Resources.AddContactEmailDescription}" />
                     </TextBlock>
-                    <AdornerDecorator>
-                        <TextBox KeyboardNavigation.TabIndex="1" Text="{Binding Address, FallbackValue={x:Static system:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}">
-                            <ui:WatermarkService.Watermark>
-                                <TextBlock VerticalAlignment="Center"
-                                           Style="{StaticResource AppWatermarkTextStyle}"
-                                           Text="{x:Static properties:Resources.ContactAddressWatermark}" />
-                            </ui:WatermarkService.Watermark>
-                        </TextBox>
-                    </AdornerDecorator>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <AdornerDecorator Grid.Column="0">
+                            <TextBox KeyboardNavigation.TabIndex="1" Text="{Binding Address, FallbackValue={x:Static system:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}">
+                                <ui:WatermarkService.Watermark>
+                                    <TextBlock VerticalAlignment="Center"
+                                               Style="{StaticResource AppWatermarkTextStyle}"
+                                               Text="{x:Static properties:Resources.ContactAddressWatermark}" />
+                                </ui:WatermarkService.Watermark>
+                            </TextBox>
+                        </AdornerDecorator>
+                        <Button Grid.Column="1"
+                                Width="Auto"
+                                MinWidth="0"
+                                BorderBrush="{StaticResource AppAccentBrush}"
+                                KeyboardNavigation.TabIndex="4"
+                                Style="{StaticResource AppDialogTextButtonStyle}">
+                            <Image Margin="4"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Source="/Assets/close.png" />
+                        </Button>
+                    </Grid>
                 </StackPanel>
                 <DockPanel Grid.Row="5"
                            Grid.Column="1"
@@ -86,7 +103,7 @@
                                               FallbackValue={StaticResource NullCommand}}"
                             Content="Cancel"
                             DockPanel.Dock="Right"
-                            KeyboardNavigation.TabIndex="5"
+                            KeyboardNavigation.TabIndex="6"
                             Style="{StaticResource AppDialogTextButtonStyle}" />
                     <Button Command="{Binding CreateCommand,
                                               FallbackValue={StaticResource NullCommand}}"
@@ -94,7 +111,7 @@
                             DockPanel.Dock="Right"
                             IsEnabled="{Binding IsValid,
                                                 FallbackValue=False}"
-                            KeyboardNavigation.TabIndex="4"
+                            KeyboardNavigation.TabIndex="5"
                             Style="{StaticResource AppDefaultDialogTextButtonStyle}" />
                 </DockPanel>
             </Grid>

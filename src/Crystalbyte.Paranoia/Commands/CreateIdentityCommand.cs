@@ -27,7 +27,7 @@ namespace Crystalbyte.Paranoia.Commands {
         public event EventHandler CanExecuteChanged;
 
         public void Execute(object parameter) {
-            AppContext.CreateIdentity();
+            AppContext.ShowIdentityCreationScreen();
         }
 
         #endregion

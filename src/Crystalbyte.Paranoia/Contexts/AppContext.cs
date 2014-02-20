@@ -70,6 +70,12 @@ namespace Crystalbyte.Paranoia.Contexts {
         public ContactSelectionSource ContactSelectionSource { get; set; }
 
         [Import]
+        public MailboxSelectionSource MailboxSelectionSource { get; set; }
+
+        [Import]
+        public MailSelectionSource MailSelectionSource { get; set; }
+
+        [Import]
         public ComposeMessageCommand ComposeMessageCommand { get; set; }
 
         [Import]
@@ -192,11 +198,11 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        internal void InviteContact() {
+        internal void ShowInvitationScreen() {
             ContactInvitationContext.IsActive = true;
         }
 
-        internal void CreateIdentity() {
+        internal void ShowIdentityCreationScreen() {
             IdentityCreationContext.IsActive = true;
         }
     }

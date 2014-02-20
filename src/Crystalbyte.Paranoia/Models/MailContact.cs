@@ -7,17 +7,22 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia.Models {
-    public class Message {
+    public class MailContact {
         [Key]
         public int Id { get; set; }
-        [ForeignKey("Mailbox")]
-        public int MailboxId { get; set; }
-        public string Subject { get; set; }
+        [ForeignKey("Mail")]
+        public int MailId { get; set; }
+
+        public string Name { get; set; }
+        [Required]
+        public string Address { get; set; }
+
+        [Required]
+        public MailContactType Type { get; set; }
 
         [Timestamp]
         public byte[] Version { get; set; }
 
-        public virtual Mailbox Mailbox { get; set; }
-        
+        public virtual Mail Mail { get; set; }
     }
 }

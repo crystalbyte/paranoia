@@ -1,6 +1,8 @@
 ﻿using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.Data;
+using Crystalbyte.Paranoia.Models;
 using Crystalbyte.Paranoia.Properties;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Composition;
@@ -23,6 +25,12 @@ namespace Crystalbyte.Paranoia.Commands {
 
         #endregion
 
+        #region Log Declaration
+
+        private static Logger Log = LogManager.GetCurrentClassLogger();
+
+        #endregion
+
         #region Import Declarations
 
         [Import]
@@ -34,6 +42,7 @@ namespace Crystalbyte.Paranoia.Commands {
         [Import]
         public AppContext AppContext { get; set; }
 
+        [OnImportsSatisfied]
         public void OnImportsSatisfied() {
             ContactSelectionSource.SelectionChanged +=
                 (sender, e) => OnCanExecuteChanged(EventArgs.Empty);
@@ -51,13 +60,8 @@ namespace Crystalbyte.Paranoia.Commands {
             var identity = IdentitySelectionSource.Identity;
             var contact = ContactSelectionSource.Contact;
 
-            await Task.Factory.StartNew(() => {
-                //var context = LocalStorage.Context;
-                //context.Contacts.Remove(contact.Model); 
-                //context.SaveChanges();
-            });
-
-            //identity.Contacts.Remove(contact);
+            await contact.DeleteAsync();
+            identity.Contacts.Remove(contact);
         }
 
         public event EventHandler CanExecuteChanged;

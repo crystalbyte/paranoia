@@ -73,7 +73,17 @@ namespace Crystalbyte.Paranoia {
             return IntPtr.Zero;
         }
 
-        private void OnMessagesSelectionChanged(object sender, SelectionChangedEventArgs e) {
+        private void OnMailSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            var context = DataContext as AppContext;
+            if (context == null) {
+                return;
+            }
+
+            var source = context.MailSelectionSource;
+            source.Mails.Clear();
+            source.Mails.AddRange(e.AddedItems.Cast<MailContext>());
+
+
             //var list = (ListView) sender;
             //var messages = list.SelectedItems.OfType<MessageContext>().ToList();
             //if (messages.Count == 0) {
@@ -165,13 +175,13 @@ namespace Crystalbyte.Paranoia {
             context.ContactSelectionSource.Contact = e.AddedItems.OfType<ContactContext>().FirstOrDefault();
         }
 
-        private void OnListViewSelectionChanged(object sender, SelectionChangedEventArgs e) {
+        private void OnMailboxSelectionChanged(object sender, SelectionChangedEventArgs e) {
             var context = DataContext as AppContext;
             if (context == null) {
                 return;
             }
 
-            //context.ImapAccountSelectionSource.Current = e.AddedItems.OfType<ImapAccountContext>().FirstOrDefault();
+            context.MailboxSelectionSource.Mailbox = e.AddedItems.OfType<MailboxContext>().FirstOrDefault();
         }
     }
 }

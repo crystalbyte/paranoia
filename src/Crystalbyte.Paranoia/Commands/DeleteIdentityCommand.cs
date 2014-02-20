@@ -37,7 +37,6 @@ namespace Crystalbyte.Paranoia.Commands {
                 handler(this, EventArgs.Empty);
             }
         }
-
         public async void Execute(object parameter) {
             var id = parameter as IdentityContext;
             if (id == null) {

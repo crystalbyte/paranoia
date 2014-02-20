@@ -6,6 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Crystalbyte.Paranoia.Data;
+using NLog;
+using Crystalbyte.Paranoia.Messaging;
+using System.Net.Mail;
+using System.Net.Mime;
+using System.IO;
+using Crystalbyte.Paranoia.Properties;
+using System.Windows;
+using System.Diagnostics;
 
 namespace Crystalbyte.Paranoia.Contexts {
     public sealed class ContactContext : NotificationObject {
@@ -30,9 +39,11 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         #endregion
 
-        public Contact Model {
-            get { return _contact; }
-        }
+        #region Log Declaration
+
+        private static Logger Log = LogManager.GetCurrentClassLogger();
+
+        #endregion
 
         public bool IsSelected {
             get { return _isSelected; }
@@ -47,43 +58,20 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
+        public int Id {
+            get { return _contact.Id; } 
+        }
+
         public string Name {
             get { return _contact.Name; }
-            set {
-                if (_contact.Name == value) {
-                    return;
-                }
-
-                RaisePropertyChanging(() => Name);
-                _contact.Name = value;
-                RaisePropertyChanged(() => Name);
-            }
         }
 
         public string Address {
             get { return _contact.Address; }
-            set {
-                if (_contact.Address == value) {
-                    return;
-                }
-
-                RaisePropertyChanging(() => Address);
-                _contact.Address = value;
-                RaisePropertyChanged(() => Address);
-            }
         }
 
         public ContactRequest ContactRequest {
             get { return (ContactRequest)_contact.ContactRequest; }
-            set {
-                if (_contact.ContactRequest == value) {
-                    return;
-                }
-
-                RaisePropertyChanging(() => ContactRequest);
-                _contact.ContactRequest = value;
-                RaisePropertyChanged(() => ContactRequest);
-            }
         }
 
         public string GravatarUrl {
@@ -106,6 +94,83 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         private void CreateGravatarImageUrl() {
             GravatarUrl = Gravatar.CreateImageUrl(Address);
+        }
+
+        internal async Task DeleteAsync() {
+            // http://blogs.msdn.com/b/adonet/archive/2013/08/21/ef6-release-candidate-available.aspx
+            await Task.Factory.StartNew(() => {
+                try {
+                    using (var context = new StorageContext()) {
+                        var c = context.Contacts.Find(_contact.Id);
+                        if (c != null) {
+                            context.Contacts.Remove(c);
+                            context.SaveChanges();
+                        }
+                    }
+                } catch (Exception ex) {
+                    Log.Error(ex.Message);
+                }
+            });
+        }
+
+        internal async Task SendInviteAsync() {
+            Identity identity = null;
+            SmtpAccount account = null;
+            await Task.Factory.StartNew(() => {
+                try {
+                    using (var context = new StorageContext()) {
+                        identity = context.Identities.Find(_contact.IdentityId);
+                        account = identity.SmtpAccount;
+                    }
+                } catch (Exception ex) {
+                    Log.Error(ex.Message);
+                }
+            });
+
+            if (identity == null || account == null) {
+                Log.Error("identity == null || account == null");
+                return;
+            }
+
+            using (var connection = new SmtpConnection()) {
+                using (var authenticator = await connection.ConnectAsync(account.Host, account.Port)) {
+                    using (var session = await authenticator.LoginAsync(account.Username, account.Password)) {
+                        var message = new MailMessage {
+                            HeadersEncoding = Encoding.UTF8,
+                            SubjectEncoding = Encoding.UTF8,
+                            IsBodyHtml = true,
+                            BodyTransferEncoding = TransferEncoding.Base64
+                        };
+
+                        message.Headers.Add(MessageHeaders.FromName, identity.Name);
+                        message.Headers.Add(MessageHeaders.FromAddress, identity.Address);
+                        message.Headers.Add(MessageHeaders.Type, MessageTypes.Request);
+
+                        var key = new MemoryStream(Encoding.UTF8.GetBytes("public-key"));
+                        message.Attachments.Add(new Attachment(key, "public-key", "text/plain"));
+
+                        var name = identity.Name;
+                        message.Subject = string.Format(Resources.InvitationSubjectTemplate, name);
+
+                        var info = Application.GetResourceStream(new Uri("Resources/invitation.html", UriKind.Relative));
+
+                        Debug.Assert(info != null);
+
+                        using (var reader = new StreamReader(info.Stream)) {
+                            message.Body = await reader.ReadToEndAsync();
+                        }
+
+                        message.To.Add(new MailAddress(Address, Name));
+                        message.From = new MailAddress(identity.Address, identity.Name);
+
+                        try {
+                            await session.SendAsync(message);
+                        } catch (Exception ex) {
+                            Log.Error(ex.Message);
+                        }
+                    }
+                }
+            }
         }
     }
 }

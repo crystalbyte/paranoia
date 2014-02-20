@@ -40,9 +40,6 @@ namespace Crystalbyte.Paranoia.Contexts {
         [Import]
         public IdentitySelectionSource IdentitySelectionSource { get; set; }
 
-        [Import]
-        public SendRequestCommand SendRequestCommand { get; set; }
-
         #endregion
 
         #region Event Declarations
@@ -65,13 +62,13 @@ namespace Crystalbyte.Paranoia.Contexts {
             };
 
             var identity = IdentitySelectionSource.Identity;
-            await identity.AddContactAsync(contact);
 
-            if (SendRequestCommand.CanExecute(identity)) {
-                SendRequestCommand.Execute(identity);
-            }
-
+            var context = await identity.AddContactAsync(contact);
+            context.IsSelected = true;
+            identity.Contacts.Add(context);
             Close();
+
+            await context.SendInviteAsync();
         }
 
         private void OnCancel(object obj) {
