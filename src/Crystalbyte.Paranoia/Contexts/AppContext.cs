@@ -109,6 +109,14 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
+        public IEnumerable<IAppBarCommand> MailCommands {
+            get {
+                return AppBarCommands
+                    .Where(x => x.Category == AppBarCategory.Mails)
+                    .OrderBy(x => x.Position).ToArray();
+            }
+        }
+
         private async void OnIdentityCreationFinished(object sender, EventArgs e) {
             await RestoreIdentitiesAsync();
         }

@@ -636,7 +636,7 @@ namespace Crystalbyte.Paranoia.Contexts {
                             var from = new MailAddress(Address, "Paranoia");
                             var to = new MailAddress(Address, Name);
 
-                            using (var message = new MailMessage(from, to) {
+                            using (var message = new System.Net.Mail.MailMessage(from, to) {
                                 HeadersEncoding = Encoding.UTF8,
                                 BodyTransferEncoding = TransferEncoding.Base64,
                                 SubjectEncoding = Encoding.UTF8,

@@ -79,7 +79,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to add contact.
+        ///   Looks up a localized string similar to Invite Contact.
         /// </summary>
         public static string AddContactCommandTooltip {
             get {
@@ -251,11 +251,20 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to delete contact.
+        ///   Looks up a localized string similar to Delete Contact.
         /// </summary>
         public static string DeleteContactCommandToolTip {
             get {
                 return ResourceManager.GetString("DeleteContactCommandToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Mails.
+        /// </summary>
+        public static string DeleteMailCommandToolTip {
+            get {
+                return ResourceManager.GetString("DeleteMailCommandToolTip", resourceCulture);
             }
         }
         

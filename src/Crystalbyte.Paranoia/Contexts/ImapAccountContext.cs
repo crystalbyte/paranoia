@@ -42,7 +42,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         public SecurityPolicy Security {
-            get { return (SecurityPolicy)_account.Security; }
+            get { return _account.Security; }
             set {
                 if (_account.Security == value) {
                     return;

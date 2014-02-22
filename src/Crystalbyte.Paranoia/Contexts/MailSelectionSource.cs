@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia.Contexts {
     [Export, Shared]
-    public sealed class MailSelectionSource {
+    public sealed class MailSelectionSource : NotificationObject {
+
         #region Private Fields
 
+        private MailContext _current;
         private ObservableCollection<MailContext> _mails;
 
         #endregion
@@ -27,6 +29,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public event EventHandler SelectionChanged;
         private void OnSelectionChanged() {
+            Current = _mails.FirstOrDefault();
             var handler = SelectionChanged;
             if (handler != null) {
                 handler(this, EventArgs.Empty);
@@ -34,6 +37,19 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         #endregion
+
+        public MailContext Current {
+            get { return _current; }
+            set {
+                if (_current == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => Current);
+                _current = value;
+                RaisePropertyChanged(() => Current);
+            }
+        }
 
         public ObservableCollection<MailContext> Mails {
             get { return _mails; }

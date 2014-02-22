@@ -1,39 +1,63 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Markup;
+using System.Xml;
+using Crystalbyte.Paranoia.Html;
 
 namespace Crystalbyte.Paranoia.UI {
-    /// <summary>
-    /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
-    ///
-    /// Step 1a) Using this custom control in a XAML file that exists in the current project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:Crystalbyte.Paranoia.Themes"
-    ///
-    ///
-    /// Step 1b) Using this custom control in a XAML file that exists in a different project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
-    ///
-    /// You will also need to add a project reference from the project where the XAML file lives
-    /// to this project and Rebuild to avoid compilation errors:
-    ///
-    ///     Right click on the target project in the Solution Explorer and
-    ///     "Add Reference"->"Projects"->[Browse to and select this project]
-    ///
-    ///
-    /// Step 2)
-    /// Go ahead and use your control in the XAML file.
-    ///
-    ///     <MyNamespace:HtmlRenderer/>
-    ///
-    /// </summary>
-    public class HtmlRenderer : Control {
+
+    [ContentProperty("Source")]
+    [TemplatePart(Name = XamlHostName, Type = typeof(ContentControl))]
+    public sealed class HtmlRenderer : Control {
+        public const string XamlHostName = "PART_XamlHost";
+
         static HtmlRenderer() {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(HtmlRenderer), new FrameworkPropertyMetadata(typeof(HtmlRenderer)));
+        }
+        
+        public string Source {
+            get { return (string)GetValue(SourceProperty); }
+            set { SetValue(SourceProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Source.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SourceProperty =
+            DependencyProperty.Register("Source", typeof(string), typeof(HtmlRenderer), new PropertyMetadata(string.Empty, OnSourceChanged));
+
+        private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            var renderer = (HtmlRenderer)d;
+            // Check if template is loaded.
+            if (renderer.XamlHost == null) {
+                return;
+            }
+
+            var source = renderer.Source;
+            if (string.IsNullOrWhiteSpace(source)) {
+                return;
+            }
+
+            var xaml = HtmlToXamlConverter.ConvertHtmlToXaml(source, false);
+            using (var reader = new StringReader(xaml)) {
+                using (var xml = new XmlTextReader(reader)) {
+                    var section = (Section) XamlReader.Load(xml);
+                    renderer.XamlHost.Blocks.Clear();
+                    renderer.XamlHost.Blocks.Add(section);
+                }
+            }
+        }
+
+        internal FlowDocument XamlHost { get; private set; }
+
+        public override void OnApplyTemplate() {
+            XamlHost = (FlowDocument)Template.FindName(XamlHostName, this);
+            base.OnApplyTemplate();
         }
     }
 }

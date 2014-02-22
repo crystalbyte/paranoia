@@ -79,9 +79,14 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
+            var list = sender as ListView;
+            if (list == null) {
+                return;
+            }
+
             var source = context.MailSelectionSource;
             source.Mails.Clear();
-            source.Mails.AddRange(e.AddedItems.Cast<MailContext>());
+            source.Mails.AddRange(list.SelectedItems.OfType<MailContext>());
 
 
             //var list = (ListView) sender;

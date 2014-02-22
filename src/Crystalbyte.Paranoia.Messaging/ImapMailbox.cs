@@ -47,7 +47,7 @@ namespace Crystalbyte.Paranoia.Messaging {
             return await ReadSearchResponseAsync(id);
         }
 
-        public async Task DeleteAsync(IEnumerable<long> uids) {
+        public async Task DeleteMailsAsync(IEnumerable<long> uids) {
             var command = string.Format(@"UID STORE {0} +FLAGS (\Deleted)", uids.ToCommaSeparatedValues());
             var id = await _connection.WriteCommandAsync(command);
             await ReadStoreResponseAsync(id);
@@ -228,10 +228,10 @@ namespace Crystalbyte.Paranoia.Messaging {
         public async Task<string> FetchMessageBodyAsync(long uid) {
             var command = string.Format("UID FETCH {0} BODY[]", uid);
             var id = await _connection.WriteCommandAsync(command);
-            return await ReadFetchMessageBodyAsync(id);
+            return await ReadMessageBodyResponseAsync(id);
         }
 
-        private async Task<string> ReadFetchMessageBodyAsync(string id) {
+        private async Task<string> ReadMessageBodyResponseAsync(string id) {
             using (var writer = new StringWriter()) {
                 while (true) {
                     var line = await _connection.ReadAsync();

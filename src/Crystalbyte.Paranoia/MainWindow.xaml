@@ -178,6 +178,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="240" />
@@ -199,6 +200,29 @@
                             BorderThickness="0"
                             Padding="12">
                         <ItemsControl ItemsSource="{Binding ContactCommands}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ui:AppBarButton Command="{Binding}"
+                                                     Image="{Binding Image,
+                                                                     Mode=OneTime}"
+                                                     ToolTip="{Binding Tooltip,
+                                                                       Mode=OneTime}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                    <Border Grid.Row="1"
+                            Grid.Column="2"
+                            Margin="12,0,0,0"
+                            BorderBrush="#222"
+                            BorderThickness="0"
+                            Padding="12">
+                        <ItemsControl ItemsSource="{Binding MailCommands}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Horizontal" />
@@ -270,8 +294,6 @@
                             </ListView.Resources>
                             <ListView.ItemContainerStyle>
                                 <Style BasedOn="{StaticResource BlockListViewItem}" TargetType="ListViewItem">
-                                    <Setter Property="Margin" Value="0" />
-                                    <Setter Property="Padding" Value="0" />
                                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                                 </Style>
                             </ListView.ItemContainerStyle>
@@ -307,8 +329,6 @@
                                   SelectionMode="Extended">
                             <ListView.ItemContainerStyle>
                                 <Style BasedOn="{StaticResource BlockListViewItem}" TargetType="ListViewItem">
-                                    <Setter Property="Margin" Value="0" />
-                                    <Setter Property="Padding" Value="0" />
                                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                                 </Style>
                             </ListView.ItemContainerStyle>
@@ -332,7 +352,7 @@
                                             <TextBlock Grid.Row="0"
                                                        Grid.Column="0"
                                                        Grid.ColumnSpan="2"
-                                                       MaxWidth="240"
+                                                       MaxWidth="260"
                                                        HorizontalAlignment="Left"
                                                        FontSize="{StaticResource AppMediumFontSize}"
                                                        Style="{StaticResource AppLightTextStyle}"
@@ -355,6 +375,7 @@
                                                 </TextBlock.Foreground>
                                             </TextBlock>
                                             <TextBlock Grid.Row="1"
+                                                       Grid.Column="1"
                                                        HorizontalAlignment="Right"
                                                        FontSize="{StaticResource AppSmallFontSize}"
                                                        Style="{StaticResource AppLightTextStyle}"
@@ -385,8 +406,6 @@
                                   SelectionChanged="OnMailboxSelectionChanged">
                             <ListView.ItemContainerStyle>
                                 <Style BasedOn="{StaticResource BlockListViewItem}" TargetType="ListViewItem">
-                                    <Setter Property="Margin" Value="0" />
-                                    <Setter Property="Padding" Value="0" />
                                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                                 </Style>
                             </ListView.ItemContainerStyle>
@@ -399,8 +418,53 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </Border>
+
+                    <Border Grid.Row="0"
+                            Grid.RowSpan="4"
+                            Grid.Column="4"
+                            Margin="12,0,0,0"
+                            BorderBrush="{StaticResource AppAccentBrush}"
+                            DataContext="{Binding MailSelectionSource}">
+                        <DockPanel DataContext="{Binding Current}" LastChildFill="True">
+                            <Border BorderBrush="{StaticResource AppAccentBrush}"
+                                    BorderThickness="0,0,0,1"
+                                    DockPanel.Dock="Top"
+                                    Padding="0,0,0,12">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Image Grid.Row="0"
+                                           Grid.RowSpan="2"
+                                           Width="72"
+                                           Height="72"
+                                           Margin="0,0,12,0"
+                                           VerticalAlignment="Top"
+                                           DataContext="{Binding FromFirst}"
+                                           Source="{Binding Address,
+                                                            Converter={StaticResource MailAddressToGravatarConverter},
+                                                            IsAsync=True}" />
+                                    <TextBlock Grid.Row="0"
+                                               Grid.Column="1"
+                                               Style="{StaticResource AppTitleTextStyle}"
+                                               Text="{Binding Subject}"
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="NoWrap" />
+                                </Grid>
+                            </Border>
+                            <Border Margin="0,12,0,0">
+                                <ui:HtmlRenderer Source="{Binding Text}" />
+                            </Border>
+                        </DockPanel>
+                    </Border>
                 </Grid>
             </Border>
+
             <ui:IdentityCreationFrame DataContext="{Binding IdentityCreationContext}"
                                       Style="{StaticResource ScreenOverlayStyle}"
                                       Visibility="{Binding IsActive,

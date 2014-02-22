@@ -3,14 +3,15 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Mail;
 using System.Text;
 using Crystalbyte.Paranoia.Messaging.Mime.Header;
 using Crystalbyte.Paranoia.Messaging.Mime.Traverse;
+using Crystalbyte.Paranoia.Messaging.Mime;
+using System.Net.Mail;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.Messaging.Mime {
+namespace Crystalbyte.Paranoia.Messaging {
     /// <summary>
     ///   This is the root of the email tree structure.<br />
     ///   <see cref="Mime.MessagePart" /> for a description about the structure.<br />
@@ -23,12 +24,12 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
     ///     - Message-ID</code>
     ///   which are located in the <see cref="Headers" /> property.<br />
     ///   <br />
-    ///   Use the <see cref="Message.MessagePart" /> property to find the actual content of the email message.
+    ///   Use the <see cref="MailMessage.MessagePart" /> property to find the actual content of the email message.
     /// </summary>
     /// <example>
     ///   Examples are available on the <a href="http://hpop.sourceforge.net/">project homepage</a>.
     /// </example>
-    public class Message {
+    public class MailMessage {
         #region Public properties
 
         /// <summary>
@@ -54,12 +55,12 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
         #region Constructors
 
         /// <summary>
-        ///   Convenience constructor for <see cref="Mime.Message(byte[], bool)" />.<br />
+        ///   Convenience constructor for <see cref="Mime.MailMessage(byte[], bool)" />.<br />
         ///   <br />
         ///   Creates a message from a byte array. The full message including its body is parsed.
         /// </summary>
         /// <param name="rawMessageContent"> The byte array which is the message contents to parse </param>
-        public Message(byte[] rawMessageContent)
+        public MailMessage(byte[] rawMessageContent)
             : this(rawMessageContent, true) { }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
         /// <param name="rawMessageContent"> The byte array which is the message contents to parse </param>
         /// <param name="parseBody"> <see langword="true" /> if the body should be parsed, <see langword="false" /> if only headers should be parsed out of the <paramref
         ///    name="rawMessageContent" /> byte array </param>
-        public Message(byte[] rawMessageContent, bool parseBody) {
+        public MailMessage(byte[] rawMessageContent, bool parseBody) {
             RawMessage = rawMessageContent;
 
             // Find the headers and the body parts of the byte array
@@ -91,7 +92,7 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
         #endregion
 
         /// <summary>
-        ///   This method will convert this <see cref="Message" /> into a <see cref="MailMessage" /> equivalent.<br />
+        ///   This method will convert this <see cref="MailMessage" /> into a <see cref="MailMessage" /> equivalent.<br />
         ///   The returned <see cref="MailMessage" /> can be used with <see cref="System.Net.Mail.SmtpClient" /> to forward the email.<br />
         ///   <br />
         ///   You should be aware of the following about this method:
@@ -120,82 +121,82 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
         ///   </list>
         /// </summary>
         /// <returns> A <see cref="MailMessage" /> object that contains the same information that this Message does </returns>
-        public MailMessage ToMailMessage() {
-            // Construct an empty MailMessage to which we will gradually build up to look like the current Message object (this)
-            var message = new MailMessage {
-                Subject = Headers.Subject,
-                SubjectEncoding = Encoding.UTF8
-            };
+        //public System.Net.Mail.MailMessage ToMailMessage() {
+        //    // Construct an empty MailMessage to which we will gradually build up to look like the current Message object (this)
+        //    var message = new System.Net.Mail.MailMessage {
+        //        Subject = Headers.Subject,
+        //        SubjectEncoding = Encoding.UTF8
+        //    };
 
-            // We here set the encoding to be UTF-8
-            // We cannot determine what the encoding of the subject was at this point.
-            // But since we know that strings in .NET is stored in UTF, we can
-            // use UTF-8 to decode the subject into bytes
+        //    // We here set the encoding to be UTF-8
+        //    // We cannot determine what the encoding of the subject was at this point.
+        //    // But since we know that strings in .NET is stored in UTF, we can
+        //    // use UTF-8 to decode the subject into bytes
 
-            // The HTML version should take precedent over the plain text if it is available
-            var preferredVersion = FindFirstHtmlVersion();
-            if (preferredVersion != null) {
-                // Make sure that the IsBodyHtml property is being set correctly for our content
-                message.IsBodyHtml = true;
-            } else {
-                // otherwise use the first plain text version as the body, if it exists
-                preferredVersion = FindFirstPlainTextVersion();
-            }
+        //    // The HTML version should take precedent over the plain text if it is available
+        //    var preferredVersion = FindFirstHtmlVersion();
+        //    if (preferredVersion != null) {
+        //        // Make sure that the IsBodyHtml property is being set correctly for our content
+        //        message.IsBodyHtml = true;
+        //    } else {
+        //        // otherwise use the first plain text version as the body, if it exists
+        //        preferredVersion = FindFirstPlainTextVersion();
+        //    }
 
-            if (preferredVersion != null) {
-                message.Body = preferredVersion.GetBodyAsText();
-                message.BodyEncoding = preferredVersion.BodyEncoding;
-            }
+        //    if (preferredVersion != null) {
+        //        message.Body = preferredVersion.GetBodyAsText();
+        //        message.BodyEncoding = preferredVersion.BodyEncoding;
+        //    }
 
-            // Add body and alternative views (html and such) to the message
-            IEnumerable<MessagePart> textVersions = FindAllTextVersions();
-            foreach (var textVersion in textVersions) {
-                // The textVersions also contain the preferred version, therefore
-                // we should skip that one
-                if (textVersion == preferredVersion)
-                    continue;
+        //    // Add body and alternative views (html and such) to the message
+        //    IEnumerable<MessagePart> textVersions = FindAllTextVersions();
+        //    foreach (var textVersion in textVersions) {
+        //        // The textVersions also contain the preferred version, therefore
+        //        // we should skip that one
+        //        if (textVersion == preferredVersion)
+        //            continue;
 
-                var stream = new MemoryStream(textVersion.Body);
-                var alternative = new AlternateView(stream) { ContentId = textVersion.ContentId, ContentType = textVersion.ContentType };
-                message.AlternateViews.Add(alternative);
-            }
+        //        var stream = new MemoryStream(textVersion.Body);
+        //        var alternative = new AlternateView(stream) { ContentId = textVersion.ContentId, ContentType = textVersion.ContentType };
+        //        message.AlternateViews.Add(alternative);
+        //    }
 
-            // Add attachments to the message
-            IEnumerable<MessagePart> attachments = FindAllAttachments();
-            foreach (var attachmentMessagePart in attachments) {
-                var stream = new MemoryStream(attachmentMessagePart.Body);
-                var attachment = new Attachment(stream, attachmentMessagePart.ContentType) {
-                    ContentId = attachmentMessagePart.ContentId
-                };
-                message.Attachments.Add(attachment);
-            }
+        //    // Add attachments to the message
+        //    IEnumerable<MessagePart> attachments = FindAllAttachments();
+        //    foreach (var attachmentMessagePart in attachments) {
+        //        var stream = new MemoryStream(attachmentMessagePart.Body);
+        //        var attachment = new Attachment(stream, attachmentMessagePart.ContentType) {
+        //            ContentId = attachmentMessagePart.ContentId
+        //        };
+        //        message.Attachments.Add(attachment);
+        //    }
 
-            if (Headers.From != null && Headers.From.HasValidMailAddress)
-                message.From = Headers.From.MailAddress;
+        //    if (Headers.From != null && Headers.From.HasValidMailAddress)
+        //        message.From = Headers.From.MailAddress;
 
-            if (Headers.ReplyTo != null && Headers.ReplyTo.HasValidMailAddress)
-                message.ReplyToList.Add(Headers.ReplyTo.MailAddress);
+        //    if (Headers.ReplyTo != null && Headers.ReplyTo.HasValidMailAddress)
+        //        message.ReplyToList.Add(Headers.ReplyTo.MailAddress);
 
-            if (Headers.Sender != null && Headers.Sender.HasValidMailAddress)
-                message.Sender = Headers.Sender.MailAddress;
+        //    if (Headers.Sender != null && Headers.Sender.HasValidMailAddress)
+        //        message.Sender = Headers.Sender.MailAddress;
 
-            foreach (var to in Headers.To) {
-                if (to.HasValidMailAddress)
-                    message.To.Add(to.MailAddress);
-            }
+        //    foreach (var to in Headers.To) {
+        //        if (to.HasValidMailAddress)
+        //            message.To.Add(to.MailAddress);
+        //    }
 
-            foreach (var cc in Headers.Cc) {
-                if (cc.HasValidMailAddress)
-                    message.CC.Add(cc.MailAddress);
-            }
+        //    foreach (var cc in Headers.Cc) {
+        //        if (cc.HasValidMailAddress)
+        //            message.CC.Add(cc.MailAddress);
+        //    }
 
-            foreach (var bcc in Headers.Bcc) {
-                if (bcc.HasValidMailAddress)
-                    message.Bcc.Add(bcc.MailAddress);
-            }
+        //    foreach (var bcc in Headers.Bcc) {
+        //        if (bcc.HasValidMailAddress)
+        //            message.Bcc.Add(bcc.MailAddress);
+        //    }
 
-            return message;
-        }
+        //    return message;
+        //}
 
         #region MessagePart Searching Methods
 
@@ -251,7 +252,7 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
         }
 
         /// <summary>
-        ///   Finds the first <see cref="MessagePart" /> in the <see cref="Message" /> hierarchy with the given MediaType.<br />
+        ///   Finds the first <see cref="MessagePart" /> in the <see cref="MailMessage" /> hierarchy with the given MediaType.<br />
         ///   <br />
         ///   The search in the hierarchy is a depth-first traversal.
         /// </summary>
@@ -263,12 +264,12 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
         }
 
         /// <summary>
-        ///   Finds all the <see cref="MessagePart" />s in the <see cref="Message" /> hierarchy with the given MediaType.
+        ///   Finds all the <see cref="MessagePart" />s in the <see cref="MailMessage" /> hierarchy with the given MediaType.
         /// </summary>
         /// <param name="mediaType"> The MediaType to search for. Case is ignored. </param>
         /// <returns> A List of <see cref="MessagePart" /> s with the given MediaType. <br /> The List might be empty if no such <see
         ///    cref="MessagePart" /> s were found. <br /> The order of the elements in the list is the order which they are found using a depth first traversal of the <see
-        ///    cref="Message" /> hierarchy. </returns>
+        ///    cref="MailMessage" /> hierarchy. </returns>
         public List<MessagePart> FindAllMessagePartsWithMediaType(string mediaType) {
             return new FindAllMessagePartsWithMediaType().VisitMessage(this, mediaType);
         }
@@ -278,11 +279,11 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
         #region Message Persistence
 
         /// <summary>
-        ///   Save this <see cref="Message" /> to a file.<br />
+        ///   Save this <see cref="MailMessage" /> to a file.<br />
         ///   <br />
         ///   Can be loaded at a later time using the <see cref="Load(FileInfo)" /> method.
         /// </summary>
-        /// <param name="file"> The File location to save the <see cref="Message" /> to. Existent files will be overwritten. </param>
+        /// <param name="file"> The File location to save the <see cref="MailMessage" /> to. Existent files will be overwritten. </param>
         /// <exception cref="ArgumentNullException">If
         ///   <paramref name="file" />
         ///   is
@@ -301,7 +302,7 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
         }
 
         /// <summary>
-        ///   Save this <see cref="Message" /> to a stream.<br />
+        ///   Save this <see cref="MailMessage" /> to a stream.<br />
         /// </summary>
         /// <param name="messageStream"> The stream to write to </param>
         /// <exception cref="ArgumentNullException">If
@@ -320,9 +321,9 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
         }
 
         /// <summary>
-        ///   Loads a <see cref="Message" /> from a file containing a raw email.
+        ///   Loads a <see cref="MailMessage" /> from a file containing a raw email.
         /// </summary>
-        /// <param name="file"> The File location to load the <see cref="Message" /> from. The file must exist. </param>
+        /// <param name="file"> The File location to load the <see cref="MailMessage" /> from. The file must exist. </param>
         /// <exception cref="ArgumentNullException">If
         ///   <paramref name="file" />
         ///   is
@@ -334,8 +335,8 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
         /// <exception>Other exceptions relevant to a
         ///   <see cref="FileStream" />
         ///   might be thrown as well</exception>
-        /// <returns> A <see cref="Message" /> with the content loaded from the <paramref name="file" /> </returns>
-        public static Message Load(FileInfo file) {
+        /// <returns> A <see cref="MailMessage" /> with the content loaded from the <paramref name="file" /> </returns>
+        public static MailMessage Load(FileInfo file) {
             if (file == null)
                 throw new ArgumentNullException("file");
 
@@ -348,9 +349,9 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
         }
 
         /// <summary>
-        ///   Loads a <see cref="Message" /> from a <see cref="Stream" /> containing a raw email.
+        ///   Loads a <see cref="MailMessage" /> from a <see cref="Stream" /> containing a raw email.
         /// </summary>
-        /// <param name="messageStream"> The <see cref="Stream" /> from which to load the raw <see cref="Message" /> </param>
+        /// <param name="messageStream"> The <see cref="Stream" /> from which to load the raw <see cref="MailMessage" /> </param>
         /// <exception cref="ArgumentNullException">If
         ///   <paramref name="messageStream" />
         ///   is
@@ -359,8 +360,8 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
         /// <exception>Other exceptions relevant to
         ///   <see cref="Stream.Read" />
         ///   might be thrown as well</exception>
-        /// <returns> A <see cref="Message" /> with the content loaded from the <paramref name="messageStream" /> </returns>
-        public static Message Load(Stream messageStream) {
+        /// <returns> A <see cref="MailMessage" /> with the content loaded from the <paramref name="messageStream" /> </returns>
+        public static MailMessage Load(Stream messageStream) {
             if (messageStream == null)
                 throw new ArgumentNullException("messageStream");
 
@@ -378,7 +379,7 @@ namespace Crystalbyte.Paranoia.Messaging.Mime {
 #endif
                 var content = outStream.ToArray();
 
-                return new Message(content);
+                return new MailMessage(content);
             }
         }
 

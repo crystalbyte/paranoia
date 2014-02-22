@@ -34,11 +34,11 @@ namespace Crystalbyte.Paranoia.Messaging {
 
         #endregion
 
-        public Task SendAsync(MailMessage message) {
+        public Task SendAsync(System.Net.Mail.MailMessage message) {
             return SendAsync(new[] { message });
         }
 
-        public async Task SendAsync(IEnumerable<MailMessage> messages) {
+        public async Task SendAsync(IEnumerable<System.Net.Mail.MailMessage> messages) {
             foreach (var message in messages) {
                 await _connection.WriteAsync(string.Format("{0} FROM:<{1}>", SmtpCommands.Mail, message.From.Address));
                 var response = await _connection.ReadAsync();
@@ -69,10 +69,9 @@ namespace Crystalbyte.Paranoia.Messaging {
             }
         }
 
-        private async Task SendDataAsync(MailMessage message) {
+        private async Task SendDataAsync(System.Net.Mail.MailMessage message) {
             await _connection.WriteAsync(SmtpCommands.Data);
             var response = await _connection.ReadAsync();
-
             if (!response.IsContinuationRequest) {
                 throw new SmtpException(response.Content);
             }

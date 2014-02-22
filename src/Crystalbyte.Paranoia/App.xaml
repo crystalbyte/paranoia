@@ -24,6 +24,7 @@
             <converters:DateFormatter x:Key="DateFormatter" />
             <converters:SizeFormatter x:Key="SizeFormatter" />
             <converters:DoubleCorrector x:Key="DoubleCorrector" />
+            <converters:MailAddressToGravatarConverter x:Key="MailAddressToGravatarConverter" />
 
             <Color x:Key="AppAccentColor"
                    A="255"

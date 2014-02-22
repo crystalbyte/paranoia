@@ -12,11 +12,11 @@ namespace Crystalbyte.Paranoia.Messaging.Mime.Traverse {
         /// <summary>
         ///   Finds the first <see cref="MessagePart" /> with the given MediaType
         /// </summary>
-        /// <param name="message"> The <see cref="Message" /> to start looking in </param>
+        /// <param name="message"> The <see cref="MailMessage" /> to start looking in </param>
         /// <param name="question"> The MediaType to look for. Case is ignored. </param>
         /// <returns> A <see cref="MessagePart" /> with the given MediaType or <see langword="null" /> if no such <see
         ///    cref="MessagePart" /> was found </returns>
-        public MessagePart VisitMessage(Message message, string question) {
+        public MessagePart VisitMessage(MailMessage message, string question) {
             if (message == null)
                 throw new ArgumentNullException("message");
 

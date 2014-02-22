@@ -6,11 +6,11 @@
     /// <typeparam name="TAnswer"> This is the type of the answer you want to have delivered. </typeparam>
     public interface IAnswerMessageTraverser<TAnswer> {
         /// <summary>
-        ///   Call this when you want to apply this traverser on a <see cref="Message" />.
+        ///   Call this when you want to apply this traverser on a <see cref="MailMessage" />.
         /// </summary>
-        /// <param name="message"> The <see cref="Message" /> which you want to traverse. Must not be <see langword="null" /> . </param>
+        /// <param name="message"> The <see cref="MailMessage" /> which you want to traverse. Must not be <see langword="null" /> . </param>
         /// <returns> An answer </returns>
-        TAnswer VisitMessage(Message message);
+        TAnswer VisitMessage(MailMessage message);
 
         /// <summary>
         ///   Call this when you want to apply this traverser on a <see cref="MessagePart" />.

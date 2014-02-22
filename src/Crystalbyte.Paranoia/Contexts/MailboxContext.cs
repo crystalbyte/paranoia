@@ -38,6 +38,10 @@ namespace Crystalbyte.Paranoia.Contexts {
             _flags = _mailbox.Flags;
         }
 
+        public ImapAccountContext ImapAccount {
+            get { return _account; }
+        }
+
         public string Name {
             get { return _mailbox.Name; }
         }
@@ -115,7 +119,10 @@ namespace Crystalbyte.Paranoia.Contexts {
 
             if (mails != null) {
                 _mails.Clear();
-                _mails.AddRange(mails.Select(x => new MailContext(x)));
+                _mails.AddRange(mails.Select(x => new MailContext(this, x)));
+                foreach (var mail in _mails) {
+                    await mail.RestoreContactsAsync();
+                }
             }
         }
 
@@ -151,7 +158,7 @@ namespace Crystalbyte.Paranoia.Contexts {
                 using (var context = new StorageContext()) {
                     var mailbox = await context.Mailboxes.FindAsync(_mailbox.Id);
                     if (mailbox == null) {
-                        var message = string.Format("Mailbox with id {0} missing.", mailbox.Id);
+                        var message = string.Format("Mailbox with id {0} missing.", _mailbox.Id);
                         throw new InvalidOperationException(message);
                     }
 
@@ -193,7 +200,9 @@ namespace Crystalbyte.Paranoia.Contexts {
                     mailbox.Mails.Add(mail);
                     context.SaveChanges();
 
-                    Mails.Add(new MailContext(mail));
+                    var mailContext = new MailContext(this, mail);
+                    Mails.Add(mailContext);
+                    await mailContext.RestoreContactsAsync();
                 }
             } catch (Exception ex) {
                 Log.Error(ex.Message);

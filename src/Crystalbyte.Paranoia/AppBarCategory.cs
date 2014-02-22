@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Crystalbyte.Paranoia {
     internal static class AppBarCategory {
         public const string Contacts = "contacts";
-        public const string Messages = "messages";
+        public const string Mails = "mails";
         public const string Composition = "composition";
     }
 }

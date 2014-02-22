@@ -71,7 +71,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         public ContactRequest ContactRequest {
-            get { return (ContactRequest)_contact.ContactRequest; }
+            get { return _contact.ContactRequest; }
         }
 
         public string GravatarUrl {
@@ -135,7 +135,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             using (var connection = new SmtpConnection()) {
                 using (var authenticator = await connection.ConnectAsync(account.Host, account.Port)) {
                     using (var session = await authenticator.LoginAsync(account.Username, account.Password)) {
-                        var message = new MailMessage {
+                        var message = new System.Net.Mail.MailMessage {
                             HeadersEncoding = Encoding.UTF8,
                             SubjectEncoding = Encoding.UTF8,
                             IsBodyHtml = true,

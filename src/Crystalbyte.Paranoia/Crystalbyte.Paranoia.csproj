@@ -102,7 +102,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -111,6 +110,7 @@
     </ApplicationDefinition>
     <Compile Include="AppBarCategory.cs" />
     <Compile Include="Commands\CreateIdentityCommand.cs" />
+    <Compile Include="Commands\DeleteMailsCommand.cs" />
     <Compile Include="Commands\InviteContactCommand.cs" />
     <Compile Include="Commands\DeleteContactCommand.cs" />
     <Compile Include="Commands\DeleteIdentityCommand.cs" />
@@ -127,6 +127,7 @@
     </Compile>
     <Compile Include="Contexts\MailboxContext.cs" />
     <Compile Include="Contexts\MailboxSelectionSource.cs" />
+    <Compile Include="Contexts\MailContactContext.cs" />
     <Compile Include="Contexts\MailContext.cs" />
     <Compile Include="Contexts\MailSelectionSource.cs" />
     <Compile Include="Contexts\SmtpAccountContext.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Converters\ContactToTextConverter.cs" />
     <Compile Include="Converters\DateFormatter.cs" />
     <Compile Include="Converters\DoubleCorrector.cs" />
+    <Compile Include="Converters\MailAddressToGravatarConverter.cs" />
     <Compile Include="Converters\MailboxToImageConverter.cs" />
     <Compile Include="Converters\SizeFormatter.cs" />
     <Compile Include="Converters\TestResultToForegroundConverter.cs" />
@@ -151,6 +153,13 @@
     <Compile Include="Gravatar.cs" />
     <Compile Include="Commands\IAppBarCommand.cs" />
     <Compile Include="Contexts\IdentitySelectionSource.cs" />
+    <Compile Include="Html\HtmlCssParser.cs" />
+    <Compile Include="Html\HtmlFromXamlConverter.cs" />
+    <Compile Include="Html\HtmlLexicalAnalyzer.cs" />
+    <Compile Include="Html\HtmlParser.cs" />
+    <Compile Include="Html\HtmlSchema.cs" />
+    <Compile Include="Html\HtmlTokenType.cs" />
+    <Compile Include="Html\HtmlToXamlConverter.cs" />
     <Compile Include="MessageTypes.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Identity.cs" />
@@ -170,12 +179,15 @@
     <Compile Include="UI\ContactInvitationControl.xaml.cs">
       <DependentUpon>ContactInvitationControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\HtmlRenderer.cs" />
     <Compile Include="UI\IdentityCreationFrame.xaml.cs">
       <DependentUpon>IdentityCreationFrame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\HtmlRenderer.cs" />
     <Compile Include="UI\ComposeMessageView.xaml.cs">
       <DependentUpon>ComposeMessageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MailViewerControl.xaml.cs">
+      <DependentUpon>MailViewerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\ServerConfigTestingPage.xaml.cs">
       <DependentUpon>ServerConfigTestingPage.xaml</DependentUpon>
@@ -233,6 +245,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\HtmlRenderer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ScrollViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -250,6 +266,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\IdentityCreationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MailViewerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

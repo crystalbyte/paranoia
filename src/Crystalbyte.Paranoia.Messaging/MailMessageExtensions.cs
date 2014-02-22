@@ -1,10 +1,15 @@
-﻿using System;
+﻿using Crystalbyte.Paranoia.Messaging.Mime;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Net.Mime;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia.Messaging {
@@ -14,7 +19,8 @@ namespace Crystalbyte.Paranoia.Messaging {
     /// http://metdepuntnaarvoren.nl/create-eml-file-from-system.netmail.mailmessage
     /// </summary>
     public static class MailMessageExtensions {
-        public static Task<string> ToMimeAsync(this MailMessage message) {
+
+        public static Task<string> ToMimeAsync(this System.Net.Mail.MailMessage message) {
             return Task.Factory.StartNew(() => {
                 var stream = new MemoryStream();
                 var mailWriterType = message.GetType().Assembly.GetType("System.Net.Mail.MailWriter");
