@@ -195,8 +195,7 @@ namespace Crystalbyte.Paranoia.Messaging {
         private async Task<IEnumerable<ImapEnvelope>> ReadFetchEnvelopesResponseAsync(string commandId) {
 
             var segments = new List<string>();
-            var lines = new List<ImapResponseLine>();
-            lines.Add(await _connection.ReadAsync());
+            var lines = new List<ImapResponseLine> { await _connection.ReadAsync() };
 
             while (true) {
                 var line = await _connection.ReadAsync();
@@ -217,12 +216,7 @@ namespace Crystalbyte.Paranoia.Messaging {
                 lines.Add(line);
             }
 
-            var envelopes = new List<ImapEnvelope>();
-            foreach (var segment in segments) {
-                envelopes.Add(ImapEnvelope.Parse(segment));
-            }
-
-            return envelopes;
+            return segments.Select(ImapEnvelope.Parse).ToList();
         }
 
         public async Task<string> FetchMessageBodyAsync(long uid) {

@@ -190,9 +190,9 @@ namespace Crystalbyte.Paranoia.Properties {
         /// <summary>
         ///   Looks up a localized string similar to compose message.
         /// </summary>
-        public static string ComposeMessageCommandToolTip {
+        public static string ComposeMessageCommandTooltip {
             get {
-                return ResourceManager.GetString("ComposeMessageCommandToolTip", resourceCulture);
+                return ResourceManager.GetString("ComposeMessageCommandTooltip", resourceCulture);
             }
         }
         
@@ -253,18 +253,18 @@ namespace Crystalbyte.Paranoia.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Delete Contact.
         /// </summary>
-        public static string DeleteContactCommandToolTip {
+        public static string DeleteContactCommandTooltip {
             get {
-                return ResourceManager.GetString("DeleteContactCommandToolTip", resourceCulture);
+                return ResourceManager.GetString("DeleteContactCommandTooltip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Delete Mails.
         /// </summary>
-        public static string DeleteMailCommandToolTip {
+        public static string DeleteMailCommandTooltip {
             get {
-                return ResourceManager.GetString("DeleteMailCommandToolTip", resourceCulture);
+                return ResourceManager.GetString("DeleteMailCommandTooltip", resourceCulture);
             }
         }
         
@@ -521,6 +521,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to It&apos;s lonely in here :(.
+        /// </summary>
+        public static string NoElementsSelectedText {
+            get {
+                return ResourceManager.GetString("NoElementsSelectedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This field must not be empty..
         /// </summary>
         public static string NullOrEmptyErrorText {
@@ -562,6 +571,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string PasswordRequiredErrorText {
             get {
                 return ResourceManager.GetString("PasswordRequiredErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reply.
+        /// </summary>
+        public static string ReplyCommandTooltip {
+            get {
+                return ResourceManager.GetString("ReplyCommandTooltip", resourceCulture);
             }
         }
         

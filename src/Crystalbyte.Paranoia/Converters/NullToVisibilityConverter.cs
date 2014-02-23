@@ -12,6 +12,10 @@ namespace Crystalbyte.Paranoia.Converters {
         #region Implementation of IValueConverter
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) {
+            var p = parameter as string;
+            if (p == "!") {
+                return value == null ? Visibility.Visible: Visibility.Collapsed;
+            }
             return value == null ? Visibility.Collapsed : Visibility.Visible;
         }
 

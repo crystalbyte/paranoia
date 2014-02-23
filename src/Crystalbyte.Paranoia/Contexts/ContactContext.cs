@@ -1,11 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using Crystalbyte.Paranoia.Models;
+﻿using Crystalbyte.Paranoia.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Crystalbyte.Paranoia.Data;
 using NLog;
 using Crystalbyte.Paranoia.Messaging;
@@ -142,9 +138,9 @@ namespace Crystalbyte.Paranoia.Contexts {
                             BodyTransferEncoding = TransferEncoding.Base64
                         };
 
-                        message.Headers.Add(MessageHeaders.FromName, identity.Name);
-                        message.Headers.Add(MessageHeaders.FromAddress, identity.Address);
-                        message.Headers.Add(MessageHeaders.Type, MessageTypes.Request);
+                        message.Headers.Add(MailHeaders.FromName, identity.Name);
+                        message.Headers.Add(MailHeaders.FromAddress, identity.Address);
+                        message.Headers.Add(MailHeaders.Type, MailTypes.Request);
 
                         var key = new MemoryStream(Encoding.UTF8.GetBytes("public-key"));
                         message.Attachments.Add(new Attachment(key, "public-key", "text/plain"));

@@ -52,6 +52,7 @@
             <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccentColor}" />
             <SolidColorBrush x:Key="AppSuccessColorBrush" Color="#FF06B025" />
             <SolidColorBrush x:Key="AppFailureColorBrush" Color="Tomato" />
+            <FontFamily x:Key="AppFontFamily">Segoe UI</FontFamily>
 
             <system:Double x:Key="AppLargeExtraFontSize">28</system:Double>
             <system:Double x:Key="AppLargeFontSize">20</system:Double>
@@ -111,7 +112,7 @@
             <Style x:Key="AppNormalTextStyle" TargetType="{x:Type TextBlock}">
                 <Setter Property="TextWrapping" Value="Wrap" />
                 <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
-                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontFamily" Value="{StaticResource AppFontFamily}" />
                 <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
             </Style>
 

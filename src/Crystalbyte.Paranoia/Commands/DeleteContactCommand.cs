@@ -75,7 +75,7 @@ namespace Crystalbyte.Paranoia.Commands {
         #endregion
 
         public string Tooltip {
-            get { return Resources.DeleteContactCommandToolTip; }
+            get { return Resources.DeleteContactCommandTooltip; }
         }
 
         public string Category {

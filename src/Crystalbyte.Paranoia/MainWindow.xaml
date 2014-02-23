@@ -178,13 +178,12 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
-                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="240" />
+                        <ColumnDefinition Width="220" />
                         <ColumnDefinition Width="40" />
-                        <ColumnDefinition Width="300" />
-                        <ColumnDefinition Width="12" />
+                        <ColumnDefinition Width="320" />
+                        <ColumnDefinition Width="1" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.Row="0"
@@ -241,7 +240,6 @@
                     </Border>
                     <Border Grid.Row="2"
                             Grid.Column="0"
-                            Margin="0,0,12,0"
                             DataContext="{Binding IdentitySelectionSource}">
                         <ListView x:Name="ContactList"
                                   HorizontalAlignment="Stretch"
@@ -249,6 +247,7 @@
                                   BorderThickness="0"
                                   DataContext="{Binding Identity}"
                                   ItemsSource="{Binding Contacts}"
+                                  ScrollViewer.VerticalScrollBarVisibility="Visible"
                                   SelectionChanged="OnContactSelectionChanged"
                                   SelectionMode="Single">
                             <ListView.Resources>
@@ -300,12 +299,12 @@
                         </ListView>
                     </Border>
                     <Border Grid.Row="0"
-                            Grid.RowSpan="4"
+                            Grid.RowSpan="3"
                             Grid.Column="1"
                             BorderBrush="{StaticResource AppAccentBrush}"
                             BorderThickness="0,0,1,0" />
                     <Border Grid.Row="0"
-                            Grid.RowSpan="4"
+                            Grid.RowSpan="3"
                             Grid.Column="3"
                             BorderBrush="{StaticResource AppAccentBrush}"
                             BorderThickness="0,0,1,0" />
@@ -325,6 +324,7 @@
                                   BorderThickness="0"
                                   DataContext="{Binding Mailbox}"
                                   ItemsSource="{Binding Mails}"
+                                  ScrollViewer.VerticalScrollBarVisibility="Visible"
                                   SelectionChanged="OnMailSelectionChanged"
                                   SelectionMode="Extended">
                             <ListView.ItemContainerStyle>
@@ -418,49 +418,60 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </Border>
-
                     <Border Grid.Row="0"
-                            Grid.RowSpan="4"
+                            Grid.RowSpan="3"
                             Grid.Column="4"
                             Margin="12,0,0,0"
                             BorderBrush="{StaticResource AppAccentBrush}"
                             DataContext="{Binding MailSelectionSource}">
-                        <DockPanel DataContext="{Binding Current}" LastChildFill="True">
-                            <Border BorderBrush="{StaticResource AppAccentBrush}"
-                                    BorderThickness="0,0,0,1"
-                                    DockPanel.Dock="Top"
-                                    Padding="0,0,0,12">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-                                    <Image Grid.Row="0"
-                                           Grid.RowSpan="2"
-                                           Width="72"
-                                           Height="72"
-                                           Margin="0,0,12,0"
-                                           VerticalAlignment="Top"
-                                           DataContext="{Binding FromFirst}"
-                                           Source="{Binding Address,
-                                                            Converter={StaticResource MailAddressToGravatarConverter},
-                                                            IsAsync=True}" />
-                                    <TextBlock Grid.Row="0"
-                                               Grid.Column="1"
-                                               Style="{StaticResource AppTitleTextStyle}"
-                                               Text="{Binding Subject}"
-                                               TextTrimming="CharacterEllipsis"
-                                               TextWrapping="NoWrap" />
-                                </Grid>
+                        <Grid DataContext="{Binding Current}">
+                            <DockPanel LastChildFill="True">
+                                <Border BorderBrush="{StaticResource AppAccentBrush}"
+                                        BorderThickness="0,0,0,1"
+                                        DockPanel.Dock="Top"
+                                        Padding="0,0,0,12">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Image Grid.Row="0"
+                                               Grid.RowSpan="2"
+                                               Width="72"
+                                               Height="72"
+                                               Margin="0,0,12,0"
+                                               VerticalAlignment="Top"
+                                               DataContext="{Binding FromFirst}"
+                                               Source="{Binding Address,
+                                                                Converter={StaticResource MailAddressToGravatarConverter},
+                                                                IsAsync=True}" />
+                                        <TextBlock Grid.Row="0"
+                                                   Grid.Column="1"
+                                                   Style="{StaticResource AppTitleTextStyle}"
+                                                   Text="{Binding Subject}"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   TextWrapping="NoWrap" />
+                                    </Grid>
+                                </Border>
+                                <Border Margin="0,12,0,0">
+                                    <ui:HtmlRenderer Source="{Binding Text}" />
+                                </Border>
+                            </DockPanel>
+                            <Border HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Background="{StaticResource AppWindowBackgroundBrush}"
+                                    Visibility="{Binding Converter={StaticResource NullToVisibilityConverter},
+                                                         ConverterParameter=!}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Style="{StaticResource AppNormalTextStyle}"
+                                           Text="{x:Static properties:Resources.NoElementsSelectedText}" />
                             </Border>
-                            <Border Margin="0,12,0,0">
-                                <ui:HtmlRenderer Source="{Binding Text}" />
-                            </Border>
-                        </DockPanel>
+                        </Grid>
                     </Border>
                 </Grid>
             </Border>

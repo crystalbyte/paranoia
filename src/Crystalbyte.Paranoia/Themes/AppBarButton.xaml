@@ -58,6 +58,9 @@
                         <Trigger Property="IsMouseDown" Value="True">
                             <Setter TargetName="MouseDownIndicator" Property="Visibility" Value="Visible" />
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PART_OuterBorder" Property="Opacity" Value=".3" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Messaging;
 using Crystalbyte.Paranoia.Models;
@@ -25,7 +24,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         #region Log Declaration
 
-        private static Logger Log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -134,7 +133,7 @@ namespace Crystalbyte.Paranoia.Contexts {
                         var mailbox = await session.SelectAsync(Name);
                         await UpdateMailboxAsync(mailbox);
 
-                        var criteria = string.Format("{0}:* HEADER \"{1}\" \"\"", threshold, MessageHeaders.Type);
+                        var criteria = string.Format("{0}:* HEADER \"{1}\" \"\"", threshold, MailHeaders.Type);
                         var uids = await mailbox.SearchAsync(criteria);
                         if (uids.Count == 0) {
                             return;

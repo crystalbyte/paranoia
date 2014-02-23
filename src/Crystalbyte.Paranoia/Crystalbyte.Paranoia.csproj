@@ -114,6 +114,7 @@
     <Compile Include="Commands\InviteContactCommand.cs" />
     <Compile Include="Commands\DeleteContactCommand.cs" />
     <Compile Include="Commands\DeleteIdentityCommand.cs" />
+    <Compile Include="Commands\ReplyCommand.cs" />
     <Compile Include="Commands\SendInvitationCommand.cs" />
     <Compile Include="ConfigState.cs" />
     <Compile Include="ContactRequest.cs" />
@@ -160,7 +161,7 @@
     <Compile Include="Html\HtmlSchema.cs" />
     <Compile Include="Html\HtmlTokenType.cs" />
     <Compile Include="Html\HtmlToXamlConverter.cs" />
-    <Compile Include="MessageTypes.cs" />
+    <Compile Include="MailTypes.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Identity.cs" />
     <Compile Include="Models\ImapAccount.cs" />
@@ -171,7 +172,7 @@
     <Compile Include="Models\MailContactType.cs" />
     <Compile Include="Models\SmtpAccount.cs" />
     <Compile Include="Pack.cs" />
-    <Compile Include="MessageHeaders.cs" />
+    <Compile Include="MailHeaders.cs" />
     <Compile Include="PasswordPolicyAttribute.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="TestResult.cs" />
@@ -410,6 +411,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\html-sample.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

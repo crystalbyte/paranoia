@@ -1,4 +1,5 @@
-﻿using Crystalbyte.Paranoia.Models;
+﻿using Crystalbyte.Paranoia.Messaging;
+using Crystalbyte.Paranoia.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,6 +64,10 @@ namespace Crystalbyte.Paranoia.Contexts {
                 _account.Port = value;
                 RaisePropertyChanged(() => Port);
             }
+        }
+
+        public SecurityPolicy Security {
+            get { return _account.Security; }
         }
 
     }

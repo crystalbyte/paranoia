@@ -1,12 +1,6 @@
 ﻿using Crystalbyte.Paranoia.Contexts;
-using Crystalbyte.Paranoia.Data;
-using Crystalbyte.Paranoia.Models;
 using System;
-using System.Collections.Generic;
 using System.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Crystalbyte.Paranoia.Commands {
@@ -38,10 +32,7 @@ namespace Crystalbyte.Paranoia.Commands {
             }
         }
         public async void Execute(object parameter) {
-            var id = parameter as IdentityContext;
-            if (id == null) {
-                id = IdentitySelectionSource.Identity;
-            }
+            var id = parameter as IdentityContext ?? IdentitySelectionSource.Identity;
 
             await id.DeleteAsync();
             await AppContext.RestoreIdentitiesAsync();

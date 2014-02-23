@@ -105,7 +105,7 @@ namespace Crystalbyte.Paranoia.Commands {
         #endregion
 
         public string Tooltip {
-            get { return Resources.DeleteMailCommandToolTip; }
+            get { return Resources.DeleteMailCommandTooltip; }
         }
 
         public string Category {
@@ -114,12 +114,11 @@ namespace Crystalbyte.Paranoia.Commands {
 
         public ImageSource Image {
             get {
-                if (_image == null) {
-                    var uri =
-                        new Uri(string.Format(Pack.Application, typeof(InviteContactCommand).Assembly.FullName,
-                                              "Assets/delete.png"), UriKind.Absolute);
-                    _image = new BitmapImage(uri);
-                }
+                if (_image != null) return _image;
+                var uri =
+                    new Uri(string.Format(Pack.Application, typeof(InviteContactCommand).Assembly.FullName,
+                        "Assets/delete.png"), UriKind.Absolute);
+                _image = new BitmapImage(uri);
                 return _image;
             }
         }

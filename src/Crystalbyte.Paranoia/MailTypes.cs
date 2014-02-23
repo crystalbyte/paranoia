@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia {
-    public static class MessageTypes {
+    public static class MailTypes {
         public static string Request = "request";
         public static string Response = "response";
         public static string Message = "message";

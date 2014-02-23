@@ -5,11 +5,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:HtmlRenderer">
-                    <FlowDocumentReader>
+                    <FlowDocumentScrollViewer>
                         <FlowDocument x:Name="PART_XamlHost"
+                                      FontFamily="{DynamicResource AppFontFamily}"
                                       Foreground="WhiteSmoke"
                                       PagePadding="0" />
-                    </FlowDocumentReader>
+                    </FlowDocumentScrollViewer>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

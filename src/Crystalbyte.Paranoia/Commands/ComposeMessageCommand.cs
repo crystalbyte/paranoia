@@ -2,6 +2,8 @@
 
 using System;
 using System.Composition;
+using System.Diagnostics;
+using System.IO;
 using System.Net.Mail;
 using System.Text;
 using System.Windows;
@@ -9,7 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Crystalbyte.Paranoia.Contexts;
+using Crystalbyte.Paranoia.Messaging;
 using Crystalbyte.Paranoia.Properties;
+using MailMessage = System.Net.Mail.MailMessage;
 
 #endregion
 
@@ -25,6 +29,9 @@ namespace Crystalbyte.Paranoia.Commands {
         #endregion
 
         #region Import Declarations
+
+        [Import]
+        public IdentitySelectionSource IdentitySelectionSource { get; set; }
 
         [Import]
         public ContactSelectionSource ContactSelectionSource { get; set; }
@@ -43,30 +50,42 @@ namespace Crystalbyte.Paranoia.Commands {
             return ContactSelectionSource.Contact != null;
         }
 
-        public void Execute(object parameter) {
-            MessageBox.Show("bla");
+        public async void Execute(object parameter) {
+            var identity = IdentitySelectionSource.Identity;
+            var account = identity.SmtpAccount;
+            var contact = ContactSelectionSource.Contact;
 
-            //var message = new MailMessage
-            //                  {From = new MailAddress("paranoia.app@gmail.com", "Paranoia Development", Encoding.UTF8)};
+            using (var message = new MailMessage()) {
+                message.From = new MailAddress(identity.Address, identity.Name);
 
-            //message.Headers.Add("x-p4-request", "1.0");
-            //message.HeadersEncoding = Encoding.UTF8;
+                message.Headers.Add(MailHeaders.FromName, identity.Name);
+                message.Headers.Add(MailHeaders.FromAddress, identity.Address);
+                message.Headers.Add(MailHeaders.Type, MailTypes.Message);
+                message.HeadersEncoding = Encoding.UTF8;
 
-            //message.Subject = "p4r4n014 - Request";
-            //message.SubjectEncoding = Encoding.UTF8;
+                message.Subject = "p4r4n014 - Html Sample Page";
+                message.SubjectEncoding = Encoding.UTF8;
 
-            //message.To.Add(new MailAddress("paranoia.app@gmail.com", "Paranoia Development", Encoding.UTF8));
-            //message.ReplyToList.Add(new MailAddress("paranoia.app@gmail.com", "Paranoia Development", Encoding.UTF8));
+                message.To.Add(new MailAddress(contact.Address, contact.Name, Encoding.UTF8));
+                message.ReplyToList.Add(new MailAddress(identity.Address, identity.Name));
 
-            //message.Body = "This is a communication request.";
+                message.IsBodyHtml = true;
+                var info = Application.GetResourceStream(new Uri("Resources/html-sample.html", UriKind.Relative));
 
-            //var account = AppContext.SmtpAccounts.First();
-            //using (var session = new SmtpSession(account.Host, account.Port,
-            //                                     new SmtpCredentials
-            //                                         {Username = account.Username, Password = account.Password})) {
-            //    session.IsSslEnabled = true;
-            //    await session.SendAsync(message);
-            //}
+                Debug.Assert(info != null);
+
+                using (var reader = new StreamReader(info.Stream)) {
+                    message.Body = await reader.ReadToEndAsync();
+                }
+
+                using (var connection = new SmtpConnection {Security = account.Security}) {
+                    using (var authenticator = await connection.ConnectAsync(account.Host, account.Port)) {
+                        using (var session = await authenticator.LoginAsync(account.Username, account.Password)) {
+                            await session.SendAsync(message);
+                        }    
+                    }
+                }
+            }
         }
 
         public event EventHandler CanExecuteChanged;
@@ -82,7 +101,7 @@ namespace Crystalbyte.Paranoia.Commands {
         #region Implementation of IAppBarCommand
 
         public string Tooltip {
-            get { return Resources.ComposeMessageCommandToolTip; }
+            get { return Resources.ComposeMessageCommandTooltip; }
         }
 
         public string Category {

@@ -161,7 +161,7 @@ Once your contact approves, messages can be securely exchanged.</value>
   <data name="ComplexityInsufficientErrorText" xml:space="preserve">
     <value>The password must have at least 4 characters and must </value>
   </data>
-  <data name="ComposeMessageCommandToolTip" xml:space="preserve">
+  <data name="ComposeMessageCommandTooltip" xml:space="preserve">
     <value>compose message</value>
   </data>
   <data name="ConfirmEncryptionPasswordWatermark" xml:space="preserve">
@@ -184,10 +184,10 @@ Once your contact approves, messages can be securely exchanged.</value>
     <value>Identity</value>
     <comment>IdentityScreen -&gt;Run</comment>
   </data>
-  <data name="DeleteContactCommandToolTip" xml:space="preserve">
+  <data name="DeleteContactCommandTooltip" xml:space="preserve">
     <value>Delete Contact</value>
   </data>
-  <data name="DeleteMailCommandToolTip" xml:space="preserve">
+  <data name="DeleteMailCommandTooltip" xml:space="preserve">
     <value>Delete Mails</value>
   </data>
   <data name="EmailAddressDescription" xml:space="preserve">
@@ -278,6 +278,9 @@ Once your contact approves, messages can be securely exchanged.</value>
   <data name="NoContactsTokenText" xml:space="preserve">
     <value>It's lonely in here ...</value>
   </data>
+  <data name="NoElementsSelectedText" xml:space="preserve">
+    <value>It's lonely in here :(</value>
+  </data>
   <data name="NullOrEmptyErrorText" xml:space="preserve">
     <value>This field must not be empty.</value>
     <comment>IdentityScreenContext -&gt; EmailAddress</comment>
@@ -293,6 +296,9 @@ Once your contact approves, messages can be securely exchanged.</value>
   </data>
   <data name="PasswordRequiredErrorText" xml:space="preserve">
     <value>The password must not be empty.</value>
+  </data>
+  <data name="ReplyCommandTooltip" xml:space="preserve">
+    <value>Reply</value>
   </data>
   <data name="RequestPendingMessage" xml:space="preserve">
     <value>approval pending ...</value>

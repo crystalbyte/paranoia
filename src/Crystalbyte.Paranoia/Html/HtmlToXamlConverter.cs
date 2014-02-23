@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Documents;
 using System.Xml;
@@ -1898,7 +1899,11 @@ namespace Crystalbyte.Paranoia.Html {
             var borderThicknessRight = "0";
 
             var propertyEnumerator = localProperties.GetEnumerator();
+            
             while (propertyEnumerator.MoveNext()) {
+                if (Regex.IsMatch((string)propertyEnumerator.Value, @"[\d]+em")) {
+                    continue;
+                }
                 switch ((string) propertyEnumerator.Key) {
                     case "font-family":
                         //  Convert from font-family value list into xaml FontFamily value
