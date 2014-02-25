@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia.Models {
     public class Mail {
@@ -27,5 +24,7 @@ namespace Crystalbyte.Paranoia.Models {
         public virtual Mailbox Mailbox { get; set; }
 
         public virtual List<MailContact> MailContacts { get; set; }
+
+        public virtual List<MailFlag> MailFlags { get; set; }
     }
 }

@@ -47,10 +47,69 @@ namespace Crystalbyte.Paranoia.Messaging {
             return await ReadSearchResponseAsync(id);
         }
 
-        public async Task DeleteMailsAsync(IEnumerable<long> uids) {
-            var command = string.Format(@"UID STORE {0} +FLAGS (\Deleted)", uids.ToCommaSeparatedValues());
+        public async Task DeleteMailsAsync(IEnumerable<long> uids, string trashMailbox = "") {
+            var uidString = uids.ToCommaSeparatedValues();
+            var command = string.Format(@"UID STORE {0} +FLAGS.SILENT (\Deleted)", uidString);
             var id = await _connection.WriteCommandAsync(command);
             await ReadStoreResponseAsync(id);
+
+            if (string.IsNullOrWhiteSpace(trashMailbox)) {
+                return;
+            }
+
+            var encodedName = EncodeName(trashMailbox);
+            if (_connection.CanMove) {
+                command = string.Format("UID MOVE {0} \"{1}\"", uidString, encodedName);
+                id = await _connection.WriteCommandAsync(command);
+                await ReadMoveResponseAsync(id);
+            }
+            else {
+                command = string.Format("UID COPY {0} \"{1}\"", uidString, encodedName);
+                id = await _connection.WriteCommandAsync(command);
+                await ReadCopyResponseAsync(id);
+
+                id = await _connection.WriteCommandAsync("EXPUNGE");
+                await ReadExpungeResponseAsync(id);
+            }
+        }
+
+        private async Task ReadMoveResponseAsync(string id) {
+            while (true) {
+                var line = await _connection.ReadAsync();
+                if (line.IsBad || line.IsNo) {
+                    throw new ImapException(line.Text);
+                }
+
+                if (line.TerminatesCommand(id)) {
+                    break;
+                }
+            }
+        }
+
+        private async Task ReadExpungeResponseAsync(string id) {
+            while (true) {
+                var line = await _connection.ReadAsync();
+                if (line.IsBad || line.IsNo) {
+                    throw new ImapException(line.Text);
+                }
+
+                if (line.TerminatesCommand(id)) {
+                    break;
+                }
+            }
+        }
+
+        private async Task ReadCopyResponseAsync(string id) {
+            while (true) {
+                var line = await _connection.ReadAsync();
+                if (line.IsBad || line.IsNo) {
+                    throw new ImapException(line.Text);
+                }
+
+                if (line.TerminatesCommand(id)) {
+                    break;
+                }
+            }
         }
 
         public string Name {

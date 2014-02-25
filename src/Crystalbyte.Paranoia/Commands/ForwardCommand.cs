@@ -9,16 +9,15 @@ using Crystalbyte.Paranoia.Properties;
 namespace Crystalbyte.Paranoia.Commands {
     [Export, Shared]
     [Export(typeof(IAppBarCommand))]
-    public sealed class ReplyCommand : IAppBarCommand {
+    public sealed class ForwardCommand : IAppBarCommand {
 
-        #region Implementation of IAppBarCommand
+        #region Private Fields
 
         private ImageSource _image;
 
         #endregion
 
         #region Import Declarations
-
         [Import]
         public MailSelectionSource MailSelectionSource { get; set; }
 
@@ -36,40 +35,38 @@ namespace Crystalbyte.Paranoia.Commands {
         }
 
         public void Execute(object parameter) {
-            Reply();
-        }
-
-        private void Reply() {
-            MessageBox.Show("Not yet implemented");
+            MessageBox.Show("Not yet implemented.");
         }
 
         public event EventHandler CanExecuteChanged;
 
         private void OnCanExecuteChanged() {
             var handler = CanExecuteChanged;
-            if (handler != null)
+            if (handler != null) 
                 handler(this, EventArgs.Empty);
         }
 
         public string Tooltip {
-            get { return Resources.ReplyCommandTooltip; }
+            get { return Resources.ForwardCommandTooltip; }
         }
+
         public string Category {
             get { return AppBarCategory.Mails; }
         }
+
         public ImageSource Image {
             get {
                 if (_image != null) return _image;
                 var uri =
                     new Uri(string.Format(Pack.Application, typeof(InviteContactCommand).Assembly.FullName,
-                        "Assets/back.png"), UriKind.Absolute);
+                        "Assets/next.png"), UriKind.Absolute);
                 _image = new BitmapImage(uri);
                 return _image;
             }
         }
 
         public int Position {
-            get { return 0; }
+            get { return 2; }
         }
 
         #endregion

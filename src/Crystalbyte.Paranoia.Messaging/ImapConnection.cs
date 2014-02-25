@@ -44,6 +44,10 @@ namespace Crystalbyte.Paranoia.Messaging {
             get { return _secureStream != null && _secureStream.IsSigned; }
         }
 
+        public bool CanMove {
+            get { return Capabilities.Contains("MOVE"); }
+        }
+
         public HashSet<string> Capabilities { get; internal set; }
 
         #region Implementation of IDisposable
@@ -141,7 +145,7 @@ namespace Crystalbyte.Paranoia.Messaging {
                 }
 
                 foreach (var value in line.Text.Split(' ').Where(x => x != "*" && x != ImapCommands.Capability)) {
-                    set.Add(value);
+                    set.Add(value.ToUpper());
                 }
             }
             return set;

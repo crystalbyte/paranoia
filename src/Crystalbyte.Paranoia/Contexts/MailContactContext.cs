@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Crystalbyte.Paranoia.Models;
+﻿using Crystalbyte.Paranoia.Models;
 
 namespace Crystalbyte.Paranoia.Contexts {
     public sealed class MailContactContext : NotificationObject {

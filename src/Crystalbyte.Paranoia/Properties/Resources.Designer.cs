@@ -251,7 +251,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete Contact.
+        ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string DeleteContactCommandTooltip {
             get {
@@ -260,7 +260,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete Mails.
+        ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string DeleteMailCommandTooltip {
             get {
@@ -292,6 +292,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string FinishButtonText {
             get {
                 return ResourceManager.GetString("FinishButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forward.
+        /// </summary>
+        public static string ForwardCommandTooltip {
+            get {
+                return ResourceManager.GetString("ForwardCommandTooltip", resourceCulture);
             }
         }
         
@@ -602,6 +611,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string SaveMailsCommandTooltip {
+            get {
+                return ResourceManager.GetString("SaveMailsCommandTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In order to send and receive e-mails an incoming and outgoing server must be specified..
         /// </summary>
         public static string ServerSettingsDescription {
@@ -751,6 +769,24 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string TestSucceededMessage {
             get {
                 return ResourceManager.GetString("TestSucceededMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Today.
+        /// </summary>
+        public static string TodayText {
+            get {
+                return ResourceManager.GetString("TodayText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yesterday.
+        /// </summary>
+        public static string YesterdayText {
+            get {
+                return ResourceManager.GetString("YesterdayText", resourceCulture);
             }
         }
     }

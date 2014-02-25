@@ -1,10 +1,6 @@
 ﻿using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.Properties;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace Crystalbyte.Paranoia.Converters {
@@ -19,11 +15,7 @@ namespace Crystalbyte.Paranoia.Converters {
                 return string.Empty;
             }
 
-            if (string.IsNullOrEmpty(contact.Name)) {
-                return Resources.RequestPendingMessage;
-            }
-
-            return contact.Name;
+            return string.IsNullOrEmpty(contact.Name) ? Resources.RequestPendingMessage : contact.Name;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) {

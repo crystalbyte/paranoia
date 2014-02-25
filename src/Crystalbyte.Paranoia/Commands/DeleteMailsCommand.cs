@@ -2,8 +2,8 @@
 
 using System;
 using System.Composition;
+using System.Globalization;
 using System.Linq;
-using System.Windows.Input;
 using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.Messaging;
 using Crystalbyte.Paranoia.Properties;
@@ -53,7 +53,7 @@ namespace Crystalbyte.Paranoia.Commands {
         #region Implementation of ICommand
 
         public bool CanExecute(object parameter) {
-            return MailSelectionSource.Mails.Any();
+            return MailSelectionSource.Mails.Count > 0;
         }
 
         public async void Execute(object parameter) {
@@ -82,9 +82,9 @@ namespace Crystalbyte.Paranoia.Commands {
             }
         }
 
-        private async Task DeleteCachedMailsAsync(IEnumerable<MailContext> mails) {
+        private static async Task DeleteCachedMailsAsync(IEnumerable<MailContext> mails) {
             try {
-                var ids = mails.Select(x => x.Id.ToString()).Aggregate((c,n) => c + ", " + n);
+                var ids = mails.Select(x => x.Id.ToString(CultureInfo.InvariantCulture)).Aggregate((c,n) => c + ", " + n);
                 var command = string.Format("DELETE FROM Mails WHERE Id IN ({0})",ids) ;
                 using (var context = new StorageContext()) {
                     await context.Database.ExecuteSqlCommandAsync(command);
@@ -124,7 +124,7 @@ namespace Crystalbyte.Paranoia.Commands {
         }
 
         public int Position {
-            get { return 3; }
+            get { return 10; }
         }
     }
 }

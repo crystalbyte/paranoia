@@ -159,7 +159,7 @@ namespace Crystalbyte.Paranoia.Contexts {
                         var mailboxes = (await session.ListAsync("", "*")).ToArray();
 
                         var inbox = mailboxes.FirstOrDefault(x => x.IsInbox);
-                        if (inbox != null && !Mailboxes.Any(x => x.Name == inbox.Name)) {
+                        if (inbox != null && Mailboxes.All(x => x.Name != inbox.Name)) {
                             await SaveMailboxAsync(inbox);
                         }
 

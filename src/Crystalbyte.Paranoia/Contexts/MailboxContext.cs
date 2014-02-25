@@ -110,7 +110,7 @@ namespace Crystalbyte.Paranoia.Contexts {
                     using (var context = new StorageContext()) {
                         var mailbox = context.Mailboxes.Find(_mailbox.Id);
                         mails = mailbox.Mails.ToArray();
-                    }                        
+                    }
                 } catch (Exception ex) {
                     Log.Error(ex.Message);
                 }
@@ -120,31 +120,44 @@ namespace Crystalbyte.Paranoia.Contexts {
                 _mails.Clear();
                 _mails.AddRange(mails.Select(x => new MailContext(this, x)));
                 foreach (var mail in _mails) {
-                    await mail.RestoreContactsAsync();
+                    await mail.RestoreAsync();
                 }
+            }
+
+            if (_mails.Count > 0) {
+                _mails[0].IsSelected = true;
             }
         }
 
         private async Task SyncMailboxAsync() {
-            var threshold = _mailbox.UidNext;
+            // Get highest stored uid.
+            var max = await Task.Factory.StartNew(() => {
+                try {
+                    using (var context = new StorageContext()) {
+                        var mailbox = context.Mailboxes.Find(_mailbox.Id);
+                        return mailbox.Mails.Max(x => x.Uid);
+                    }
+                } catch (Exception ex) {
+                    Log.Error(ex.Message);
+                }
+
+                return 1;
+            });
+
             using (var connection = new ImapConnection { Security = _account.Security }) {
                 using (var authenticator = await connection.ConnectAsync(_account.Host, _account.Port)) {
                     using (var session = await authenticator.LoginAsync(_account.Username, _account.Password)) {
                         var mailbox = await session.SelectAsync(Name);
                         await UpdateMailboxAsync(mailbox);
 
-                        var criteria = string.Format("{0}:* HEADER \"{1}\" \"\"", threshold, MailHeaders.Type);
+                        var criteria = string.Format("{0}:* HEADER \"{1}\" \"\"", max, MailHeaders.Type);
                         var uids = await mailbox.SearchAsync(criteria);
                         if (uids.Count == 0) {
                             return;
                         }
                         var envelopes = await mailbox.FetchEnvelopesAsync(uids);
 
-                        foreach (var envelope in envelopes.AsParallel()) {
-                            // IMAP server always sends last message in mailbox, whether requested or not.
-                            if (envelope.Uid == threshold - 1) {
-                                continue;
-                            }
+                        foreach (var envelope in envelopes.Where(envelope => envelope.Uid != max).AsParallel()) {
                             await StoreEnvelopeAsync(envelope);
                         }
                     }
@@ -167,8 +180,11 @@ namespace Crystalbyte.Paranoia.Contexts {
                         Size = envelope.Size,
                         Uid = envelope.Uid,
                         MessageId = envelope.MessageId,
-                        MailContacts = new List<MailContact>()
+                        MailContacts = new List<MailContact>(),
+                        MailFlags = new List<MailFlag>()
                     };
+
+                    mail.MailFlags.AddRange(envelope.Flags.Select(x => new MailFlag { Name = x }));
 
                     mail.MailContacts.AddRange(envelope.Sender.Select(x => new MailContact {
                         Type = MailContactType.Sender,
@@ -201,7 +217,6 @@ namespace Crystalbyte.Paranoia.Contexts {
 
                     var mailContext = new MailContext(this, mail);
                     Mails.Add(mailContext);
-                    await mailContext.RestoreContactsAsync();
                 }
             } catch (Exception ex) {
                 Log.Error(ex.Message);
@@ -249,10 +264,6 @@ namespace Crystalbyte.Paranoia.Contexts {
         //        }
         //    }
         //}
-
-        private async void OnMessageReceived(object sender, EventArgs e) {
-            //await SyncAsync();
-        }
 
         //public async Task ListenAsync() {
         //    try {

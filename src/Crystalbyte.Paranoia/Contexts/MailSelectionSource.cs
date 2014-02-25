@@ -13,14 +13,14 @@ namespace Crystalbyte.Paranoia.Contexts {
         #region Private Fields
 
         private MailContext _current;
-        private ObservableCollection<MailContext> _mails;
 
         #endregion
 
         #region Construction
+
         public MailSelectionSource() {
-            _mails = new ObservableCollection<MailContext>();
-            _mails.CollectionChanged += (sender, e) => OnSelectionChanged();
+            Mails = new ObservableCollection<MailContext>();
+            Mails.CollectionChanged += (sender, e) => OnSelectionChanged();
         }
 
         #endregion
@@ -29,7 +29,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         public event EventHandler SelectionChanged;
         private void OnSelectionChanged() {
-            Current = _mails.FirstOrDefault();
+            Current = Mails.FirstOrDefault();
             var handler = SelectionChanged;
             if (handler != null) {
                 handler(this, EventArgs.Empty);
@@ -51,8 +51,6 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        public ObservableCollection<MailContext> Mails {
-            get { return _mails; }
-        }
+        public ObservableCollection<MailContext> Mails { get; private set; }
     }
 }

@@ -1,17 +1,17 @@
 ﻿<Page x:Class="Crystalbyte.Paranoia.UI.IdentityCreationPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:System="clr-namespace:System;assembly=mscorlib"
       xmlns:contexts="clr-namespace:Crystalbyte.Paranoia.Contexts"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+      xmlns:system="clr-namespace:System;assembly=mscorlib"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       x:Name="Page"
       HorizontalAlignment="Stretch"
       KeepAlive="True"
       KeyboardNavigation.IsTabStop="False"
-      d:DataContext="{d:DesignInstance contexts:IdentityContext}"
+      d:DataContext="{d:DesignInstance contexts:IdentityCreationContext}"
       mc:Ignorable="d">
     <Page.InputBindings>
         <KeyBinding Key="B"
@@ -85,7 +85,7 @@
                              KeyboardNavigation.TabIndex="0"
                              Text="{Binding Name,
                                             Mode=TwoWay,
-                                            FallbackValue={x:Static System:String.Empty},
+                                            FallbackValue={x:Static system:String.Empty},
                                             ValidatesOnDataErrors=True}"
                              ui:InitialFocus.IsEnabled="True">
                         <ui:WatermarkService.Watermark>
@@ -96,7 +96,7 @@
                     </TextBox>
                 </AdornerDecorator>
                 <AdornerDecorator>
-                    <TextBox KeyboardNavigation.TabIndex="1" Text="{Binding Address, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}">
+                    <TextBox KeyboardNavigation.TabIndex="1" Text="{Binding Address, FallbackValue={x:Static system:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}">
                         <ui:WatermarkService.Watermark>
                             <TextBlock VerticalAlignment="Center"
                                        Style="{StaticResource AppWatermarkTextStyle}"
@@ -110,7 +110,7 @@
                            Style="{StaticResource AppLightTextStyle}"
                            Text="{x:Static properties:Resources.IdentityAddressDescription}" />
                 <AdornerDecorator>
-                    <PasswordBox KeyboardNavigation.TabIndex="2" ui:PasswordService.Password="{Binding ImapPassword, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                    <PasswordBox KeyboardNavigation.TabIndex="2" ui:PasswordService.Password="{Binding ImapPassword, FallbackValue={x:Static system:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                         <ui:WatermarkService.Watermark>
                             <TextBlock VerticalAlignment="Center"
                                        Style="{StaticResource AppWatermarkTextStyle}"
@@ -124,7 +124,6 @@
                        FontSize="{StaticResource AppNormalFontSize}"
                        Foreground="{StaticResource AppAccentBrush}"
                        Style="{StaticResource AppLightTextStyle}"
-                       TextWrapping="Wrap"
                        Visibility="Collapsed">
                 <Run Text="{x:Static properties:Resources.IdentityPrivateDescription}" />
             </TextBlock>
@@ -132,7 +131,7 @@
                         Grid.Column="1"
                         Visibility="Collapsed">
                 <AdornerDecorator>
-                    <PasswordBox KeyboardNavigation.TabIndex="3" ui:PasswordService.Password="{Binding Password, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                    <PasswordBox KeyboardNavigation.TabIndex="3" ui:PasswordService.Password="{Binding Password, FallbackValue={x:Static system:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                         <ui:WatermarkService.Watermark>
                             <TextBlock VerticalAlignment="Center"
                                        Style="{StaticResource AppWatermarkTextStyle}"
@@ -141,7 +140,7 @@
                     </PasswordBox>
                 </AdornerDecorator>
                 <AdornerDecorator>
-                    <PasswordBox KeyboardNavigation.TabIndex="4" ui:PasswordService.Password="{Binding PasswordConfirmation, FallbackValue={x:Static System:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                    <PasswordBox KeyboardNavigation.TabIndex="4" ui:PasswordService.Password="{Binding PasswordConfirmation, FallbackValue={x:Static system:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                         <ui:WatermarkService.Watermark>
                             <TextBlock VerticalAlignment="Center"
                                        Style="{StaticResource AppWatermarkTextStyle}"

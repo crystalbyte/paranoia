@@ -8,8 +8,6 @@ using Crystalbyte.Paranoia.Models;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 using NLog;
-using System.Data.Entity;
-using Crystalbyte.Paranoia.Messaging;
 using Crystalbyte.Paranoia.Properties;
 
 #endregion
@@ -30,7 +28,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         #region Log Declaration
 
-        private static Logger Log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -116,7 +114,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         public event EventHandler Selected;
 
         private async void OnSelected(EventArgs e) {
-            var handler = Selected;
+            var handler = Selected; 
             if (handler != null) {
                 handler(this, e);
             }

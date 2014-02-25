@@ -8,6 +8,7 @@ using System.Windows.Interop;
 using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.Cryptography;
 using System.ComponentModel;
+using Crystalbyte.Paranoia.Models;
 
 #endregion
 
@@ -23,7 +24,7 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            DataContext = App.AppContext;    
+            DataContext = App.AppContext;
             InitializeComponent();
             Loaded += OnLoaded;
             // We need to set the height for the window to stay ontop the Taskbar
@@ -33,13 +34,13 @@ namespace Crystalbyte.Paranoia {
         }
 
         public bool IsNormalState {
-            get { return (bool) GetValue(IsNormalStateProperty); }
+            get { return (bool)GetValue(IsNormalStateProperty); }
             set { SetValue(IsNormalStateProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for IsNormalState.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsNormalStateProperty =
-            DependencyProperty.Register("IsNormalState", typeof (bool), typeof (MainWindow), new PropertyMetadata(true));
+            DependencyProperty.Register("IsNormalState", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
 
         protected override void OnStateChanged(EventArgs e) {
             base.OnStateChanged(e);
@@ -50,8 +51,7 @@ namespace Crystalbyte.Paranoia {
         private void OnLoaded(object sender, RoutedEventArgs e) {
             try {
                 HookEntropyGenerator();
-            }
-            catch (Exception) {
+            } catch (Exception) {
                 // TODO: We are probably offline, deal with it.
                 throw;
             }
@@ -84,38 +84,8 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            var source = context.MailSelectionSource;
-            source.Mails.Clear();
-            source.Mails.AddRange(list.SelectedItems.OfType<MailContext>());
-
-
-            //var list = (ListView) sender;
-            //var messages = list.SelectedItems.OfType<MessageContext>().ToList();
-            //if (messages.Count == 0) {
-            //    return;
-            //}
-
-
-            ////ImapMessageSelectionSource.ChangeSelection(messages);
-            //var first = e.AddedItems.OfType<MessageContext>().FirstOrDefault();
-            //if (first == null)
-            //    return;
-
-
-            //first.ReadAsync();
-            //var mime = await first.FetchContentAsync();
-            //using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(mime))) {
-            //    var message = Message.Load(stream);
-            //    var html = message.FindFirstHtmlVersion();
-            //    if (html != null) {
-            //        App.AppContext.MessageBody = html.GetBodyAsText();
-            //    } else {
-            //        var plain = message.FindFirstPlainTextVersion();
-            //        if (plain != null) {
-            //            App.AppContext.MessageBody = plain.GetBodyAsText();
-            //        }
-            //    }
-            //}
+            context.MailSelectionSource.Mails.Clear();
+            context.MailSelectionSource.Mails.AddRange(list.SelectedItems.OfType<MailContext>());
         }
 
         private void OnCloseButtonClicked(object sender, RoutedEventArgs e) {
@@ -125,8 +95,7 @@ namespace Crystalbyte.Paranoia {
         private void UpdateWindowPadding() {
             if (WindowState == WindowState.Normal) {
                 Padding = new Thickness(0);
-            }
-            else {
+            } else {
                 Padding = new Thickness(
                     SystemParameters.WindowResizeBorderThickness.Left +
                     SystemParameters.WindowNonClientFrameThickness.Left,
@@ -144,8 +113,7 @@ namespace Crystalbyte.Paranoia {
         private void ToggleWindowState() {
             if (WindowState == WindowState.Normal) {
                 MaximizeWindow();
-            }
-            else {
+            } else {
                 NormalizeWindow();
             }
         }
@@ -171,7 +139,7 @@ namespace Crystalbyte.Paranoia {
             context.IdentitySelectionSource.Identity = e.AddedItems.OfType<IdentityContext>().FirstOrDefault();
         }
 
-        private void OnContactSelectionChanged(object sender, SelectionChangedEventArgs e) { 
+        private void OnContactSelectionChanged(object sender, SelectionChangedEventArgs e) {
             var context = DataContext as AppContext;
             if (context == null) {
                 return;
@@ -186,6 +154,10 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
+            var mails = context.MailSelectionSource.Mails.ToArray();
+            mails.ForEach(x => x.IsSelected = false);
+
+            context.MailSelectionSource.Mails.Clear();
             context.MailboxSelectionSource.Mailbox = e.AddedItems.OfType<MailboxContext>().FirstOrDefault();
         }
     }

@@ -24,6 +24,10 @@
             <Setter Property="Margin" Value="0,-54,0,0" />
             <Setter Property="Grid.ColumnSpan" Value="3" />
         </Style>
+        <Style x:Key="FlagImageStyle" TargetType="Image">
+            <Setter Property="Height" Value="20" />
+            <Setter Property="Stretch" Value="Uniform" />
+        </Style>
     </Window.Resources>
     <Window.Style>
         <Style TargetType="Window">
@@ -182,7 +186,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="220" />
                         <ColumnDefinition Width="40" />
-                        <ColumnDefinition Width="320" />
+                        <ColumnDefinition Width="340" />
                         <ColumnDefinition Width="1" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
@@ -351,17 +355,17 @@
                                                        StrokeThickness="0" />
                                             <TextBlock Grid.Row="0"
                                                        Grid.Column="0"
-                                                       Grid.ColumnSpan="2"
-                                                       MaxWidth="260"
+                                                       MaxWidth="230"
                                                        HorizontalAlignment="Left"
                                                        FontSize="{StaticResource AppMediumFontSize}"
                                                        Style="{StaticResource AppLightTextStyle}"
                                                        Text="{Binding Subject}"
                                                        TextTrimming="CharacterEllipsis"
                                                        TextWrapping="NoWrap" />
-                                            <TextBlock Grid.Row="1"
-                                                       Grid.Column="0"
-                                                       HorizontalAlignment="Left"
+                                            <TextBlock Grid.Row="0"
+                                                       Grid.Column="1"
+                                                       HorizontalAlignment="Right"
+                                                       VerticalAlignment="Center"
                                                        FontSize="{StaticResource AppSmallFontSize}"
                                                        Style="{StaticResource AppLightTextStyle}"
                                                        Text="{Binding Date,
@@ -374,9 +378,18 @@
                                                     </Binding>
                                                 </TextBlock.Foreground>
                                             </TextBlock>
+                                            <StackPanel Grid.Row="1"
+                                                        Grid.Column="0"
+                                                        Orientation="Horizontal">
+                                                <Image Source="/Assets/delete.png"
+                                                       Style="{StaticResource FlagImageStyle}"
+                                                       Visibility="{Binding IsDeleted,
+                                                                            Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                            </StackPanel>
                                             <TextBlock Grid.Row="1"
                                                        Grid.Column="1"
                                                        HorizontalAlignment="Right"
+                                                       VerticalAlignment="Center"
                                                        FontSize="{StaticResource AppSmallFontSize}"
                                                        Style="{StaticResource AppLightTextStyle}"
                                                        Text="{Binding Size,

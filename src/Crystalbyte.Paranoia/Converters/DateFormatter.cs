@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Crystalbyte.Paranoia.Properties;
+using System;
 using System.Windows.Data;
 
 namespace Crystalbyte.Paranoia.Converters {
+    [ValueConversion(typeof(DateTime), typeof(string))]
     public sealed class DateFormatter : IValueConverter {
         #region Implementation of IValueConverter
 
@@ -14,15 +12,19 @@ namespace Crystalbyte.Paranoia.Converters {
             var startOfWeek = today.AddDays(-1 * (int)(DateTime.Today.DayOfWeek));
             var date = (DateTime)value;
 
-            if (date.Date > startOfWeek.Date && date.Date < today) {
-                return date.DayOfWeek.ToString();
+            if (today == date.Date) {
+                return Resources.TodayText;
             }
 
-            return date.ToLocalTime();
+            if (date.Date.AddDays(1) == today) {
+                return Resources.YesterdayText;
+            }
+
+            return date.Date > startOfWeek.Date ? date.DayOfWeek.ToString() : date.ToShortDateString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) {
-            throw new NotImplementedException();
+            return Binding.DoNothing;
         }
 
         #endregion

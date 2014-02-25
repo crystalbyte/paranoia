@@ -98,10 +98,9 @@ namespace Crystalbyte.Paranoia.Contexts {
                 try {
                     using (var context = new StorageContext()) {
                         var c = context.Contacts.Find(_contact.Id);
-                        if (c != null) {
-                            context.Contacts.Remove(c);
-                            context.SaveChanges();
-                        }
+                        if (c == null) return;
+                        context.Contacts.Remove(c);
+                        context.SaveChanges();
                     }
                 } catch (Exception ex) {
                     Log.Error(ex.Message);

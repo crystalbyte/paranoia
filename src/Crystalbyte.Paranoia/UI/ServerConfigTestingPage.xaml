@@ -5,10 +5,7 @@
       xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:messaging="clr-namespace:Crystalbyte.Paranoia.Messaging;assembly=Crystalbyte.Paranoia.Messaging"
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
-      xmlns:system="clr-namespace:System;assembly=mscorlib"
-      xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="CreateAccountTestingPage"
       KeyboardNavigation.TabNavigation="Cycle"
       d:DataContext="{d:DesignInstance contexts:IdentityCreationContext}"
@@ -16,11 +13,6 @@
       d:DesignWidth="633"
       mc:Ignorable="d">
     <Page.Resources>
-        <x:Array x:Key="PolicySource" Type="messaging:SecurityPolicy">
-            <x:StaticExtension Member="messaging:SecurityPolicy.None" />
-            <x:StaticExtension Member="messaging:SecurityPolicy.Implicit" />
-            <x:StaticExtension Member="messaging:SecurityPolicy.Explicit" />
-        </x:Array>
         <converters:ConfigStateToVisibilityConverter x:Key="ConfigStateToVisibilityConverter" />
         <converters:TestResultToForegroundConverter x:Key="TestResultToForegroundConverter" />
     </Page.Resources>

@@ -185,10 +185,10 @@ Once your contact approves, messages can be securely exchanged.</value>
     <comment>IdentityScreen -&gt;Run</comment>
   </data>
   <data name="DeleteContactCommandTooltip" xml:space="preserve">
-    <value>Delete Contact</value>
+    <value>Delete</value>
   </data>
   <data name="DeleteMailCommandTooltip" xml:space="preserve">
-    <value>Delete Mails</value>
+    <value>Delete</value>
   </data>
   <data name="EmailAddressDescription" xml:space="preserve">
     <value>Please enter the e-mail address associated with your e-mail account.</value>
@@ -198,6 +198,9 @@ Once your contact approves, messages can be securely exchanged.</value>
   </data>
   <data name="FinishButtonText" xml:space="preserve">
     <value>Finish</value>
+  </data>
+  <data name="ForwardCommandTooltip" xml:space="preserve">
+    <value>Forward</value>
   </data>
   <data name="GravatarHyperlinkPrefix" xml:space="preserve">
     <value>Create a</value>
@@ -306,6 +309,9 @@ Once your contact approves, messages can be securely exchanged.</value>
   <data name="ResolvingConfigText" xml:space="preserve">
     <value>Resolving server configuration ...</value>
   </data>
+  <data name="SaveMailsCommandTooltip" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="ServerSettingsDescription" xml:space="preserve">
     <value>In order to send and receive e-mails an incoming and outgoing server must be specified.</value>
   </data>
@@ -356,5 +362,11 @@ Once your contact approves, messages can be securely exchanged.</value>
   </data>
   <data name="TestSucceededMessage" xml:space="preserve">
     <value>All server settings seem to be correct.</value>
+  </data>
+  <data name="TodayText" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="YesterdayText" xml:space="preserve">
+    <value>Yesterday</value>
   </data>
 </root>

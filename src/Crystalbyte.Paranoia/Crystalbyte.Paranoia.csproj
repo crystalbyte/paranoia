@@ -111,10 +111,12 @@
     <Compile Include="AppBarCategory.cs" />
     <Compile Include="Commands\CreateIdentityCommand.cs" />
     <Compile Include="Commands\DeleteMailsCommand.cs" />
+    <Compile Include="Commands\ForwardCommand.cs" />
     <Compile Include="Commands\InviteContactCommand.cs" />
     <Compile Include="Commands\DeleteContactCommand.cs" />
     <Compile Include="Commands\DeleteIdentityCommand.cs" />
     <Compile Include="Commands\ReplyCommand.cs" />
+    <Compile Include="Commands\SaveMailCommand.cs" />
     <Compile Include="Commands\SendInvitationCommand.cs" />
     <Compile Include="ConfigState.cs" />
     <Compile Include="ContactRequest.cs" />
@@ -130,6 +132,7 @@
     <Compile Include="Contexts\MailboxSelectionSource.cs" />
     <Compile Include="Contexts\MailContactContext.cs" />
     <Compile Include="Contexts\MailContext.cs" />
+    <Compile Include="Contexts\MailFlagContext.cs" />
     <Compile Include="Contexts\MailSelectionSource.cs" />
     <Compile Include="Contexts\SmtpAccountContext.cs" />
     <Compile Include="Converters\BooleanMultiConverter.cs" />
@@ -170,6 +173,7 @@
     <Compile Include="Models\Mail.cs" />
     <Compile Include="Models\MailContact.cs" />
     <Compile Include="Models\MailContactType.cs" />
+    <Compile Include="Models\MailFlag.cs" />
     <Compile Include="Models\SmtpAccount.cs" />
     <Compile Include="Pack.cs" />
     <Compile Include="MailHeaders.cs" />
@@ -186,9 +190,6 @@
     </Compile>
     <Compile Include="UI\ComposeMessageView.xaml.cs">
       <DependentUpon>ComposeMessageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\MailViewerControl.xaml.cs">
-      <DependentUpon>MailViewerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\ServerConfigTestingPage.xaml.cs">
       <DependentUpon>ServerConfigTestingPage.xaml</DependentUpon>
@@ -267,10 +268,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\IdentityCreationPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\MailViewerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -417,6 +414,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\html-sample.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\next.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\save.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

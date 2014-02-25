@@ -21,10 +21,10 @@
         </Grid.RowDefinitions>
         <Border Grid.Row="0"
                 Background="Black"
-                Opacity=".4" />
+                Opacity=".6" />
         <Border Grid.Row="2"
                 Background="Black"
-                Opacity=".4" />
+                Opacity=".6" />
         <Border Grid.Row="1"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
@@ -64,8 +64,7 @@
                             VerticalAlignment="Top">
                     <TextBlock FontSize="{StaticResource AppLargeFontSize}"
                                Foreground="{DynamicResource AppAccentBrush}"
-                               Style="{StaticResource AppLightTextStyle}"
-                               TextWrapping="Wrap">
+                               Style="{StaticResource AppLightTextStyle}">
                         <Run FontSize="{StaticResource AppNormalFontSize}" Text="{x:Static properties:Resources.AddContactEmailDescription}" />
                     </TextBlock>
                     <Grid>
@@ -95,7 +94,7 @@
                         </Button>
                     </Grid>
                 </StackPanel>
-                <DockPanel Grid.Row="5"
+                <DockPanel Grid.Row="3"
                            Grid.Column="1"
                            Margin="0,20,-6,0"
                            LastChildFill="False">

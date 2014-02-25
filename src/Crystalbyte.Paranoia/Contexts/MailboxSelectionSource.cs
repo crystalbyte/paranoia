@@ -1,8 +1,7 @@
-﻿using Crystalbyte.Paranoia.Contexts;
-using System;
+﻿using System;
 using System.Composition;
 
-namespace Crystalbyte.Paranoia {
+namespace Crystalbyte.Paranoia.Contexts {
 
     [Export, Shared]
     public sealed class MailboxSelectionSource : NotificationObject {

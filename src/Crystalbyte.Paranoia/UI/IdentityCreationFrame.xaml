@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
         <Border Grid.Row="0"
                 Background="Black"
-                Opacity=".4" />
+                Opacity=".6" />
         <Border Grid.Row="1" Background="{StaticResource AppWindowBackgroundBrush}">
             <Frame x:Name="NavigationFrame"
                    MinHeight="400"
@@ -32,6 +32,6 @@
         </Border>
         <Border Grid.Row="2"
                 Background="Black"
-                Opacity=".4" />
+                Opacity=".6" />
     </Grid>
 </UserControl>
