@@ -23,8 +23,8 @@ namespace Crystalbyte.Paranoia.Messaging {
 
         public ImapConnection() {
             Security = SecurityPolicy.Explicit;
-            Certificates = new X509Certificate2Collection();
             Capabilities = new HashSet<string>();
+            Certificates = new X509Certificate2Collection();
 
             _tcpClient = new TcpClient { ReceiveTimeout = 5000, SendTimeout = 2000 };
         }

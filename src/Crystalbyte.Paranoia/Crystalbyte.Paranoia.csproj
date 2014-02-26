@@ -145,6 +145,7 @@
     <Compile Include="Converters\DoubleCorrector.cs" />
     <Compile Include="Converters\MailAddressToGravatarConverter.cs" />
     <Compile Include="Converters\MailboxToImageConverter.cs" />
+    <Compile Include="Converters\MailSeenToBrushConverter.cs" />
     <Compile Include="Converters\SizeFormatter.cs" />
     <Compile Include="Converters\TestResultToForegroundConverter.cs" />
     <Compile Include="Converters\ConfigStateToVisibilityConverter.cs" />

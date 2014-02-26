@@ -26,8 +26,17 @@ namespace Crystalbyte.Paranoia.Contexts {
         #region Construction
 
         public ContactInvitationContext() {
-            CreateCommand = new RelayCommand(OnCreate);
+            CreateCommand = new RelayCommand(OnCanCreate, OnCreate);
             CancelCommand = new RelayCommand(OnCancel);
+        }
+
+        #endregion
+
+        #region ValidationObject<ContactInvitationContext> Overrides
+
+        protected override void OnValidated(EventArgs e) {
+            base.OnValidated(e);
+            CreateCommand.Refresh();
         }
 
         #endregion
@@ -53,6 +62,10 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         #endregion
+
+        private bool OnCanCreate(object arg) {
+            return IsValid;
+        }
 
         private async void OnCreate(object obj) {
             var contact = new Contact {
@@ -86,7 +99,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             GravatarUrl = null;
         }
         
-        public ICommand CreateCommand { get; set; }
+        public RelayCommand CreateCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
         public bool IsActive {

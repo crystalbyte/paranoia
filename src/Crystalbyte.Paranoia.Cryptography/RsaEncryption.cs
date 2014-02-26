@@ -21,9 +21,26 @@ namespace Crystalbyte.Paranoia.Cryptography
             _handle = NativeMethods.RsaNew();
         }
 
-        public void GenerateRSA()
-        {
-           /* 
+        public void GenerateRSA() {
+            // Allocates unmanaged memory with the size of a bio struct.
+            var handle = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(BIO)));
+
+            // Manged => Unmanaged
+            // creates managed struct of type BIO.
+            var bio = new BIO {flags = 0};
+
+            // Copies struct BIO to unmanaged memory at location handle.
+            Marshal.StructureToPtr(bio, handle, false);
+
+            // Unmanaged => Managed
+            // Copies struct BIO from unmanaged memory to local variable.
+            bio = (BIO)Marshal.PtrToStructure(handle, typeof (BIO));
+
+            // Free unmanaged memory.
+            Marshal.FreeHGlobal(handle);
+
+
+            /* 
             BN_GENCB cb;
 	        int ret=1;
 	        int non_fips_allow = 0;

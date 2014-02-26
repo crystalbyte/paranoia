@@ -108,8 +108,6 @@
                                               FallbackValue={StaticResource NullCommand}}"
                             Content="{x:Static properties:Resources.InviteButtonText}"
                             DockPanel.Dock="Right"
-                            IsEnabled="{Binding IsValid,
-                                                FallbackValue=False}"
                             KeyboardNavigation.TabIndex="5"
                             Style="{StaticResource AppDefaultDialogTextButtonStyle}" />
                 </DockPanel>

@@ -67,6 +67,10 @@ namespace Crystalbyte.Paranoia.Contexts {
             get { return _mailFlags.Any(x => x.Name.ContainsIgnoreCase(@"\Flagged")); }
         }
 
+        public bool IsImportant {
+            get { return _mailFlags.Any(x => x.Name.ContainsIgnoreCase(@"\Important")); }
+        }
+
         public string Text {
             get { return _text; }
             set {

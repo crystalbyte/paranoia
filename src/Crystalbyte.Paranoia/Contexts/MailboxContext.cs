@@ -109,7 +109,7 @@ namespace Crystalbyte.Paranoia.Contexts {
                 try {
                     using (var context = new StorageContext()) {
                         var mailbox = context.Mailboxes.Find(_mailbox.Id);
-                        mails = mailbox.Mails.ToArray();
+                        mails = mailbox.Mails.OrderByDescending(x => x.InternalDate).ToArray();
                     }
                 } catch (Exception ex) {
                     Log.Error(ex.Message);
