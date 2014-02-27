@@ -134,7 +134,8 @@ namespace Crystalbyte.Paranoia.Contexts {
                         mailboxes = account.Mailboxes.ToArray()
                             .Select(x => new MailboxContext(this, x)).ToArray();
                     }
-                } catch (Exception ex) {
+                }
+                catch (Exception ex) {
                     Log.Error(ex.Message);
                 }
             });
@@ -145,11 +146,14 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         internal async Task SyncMailboxesAsync() {
             await RestoreMailboxesAsync();
-            await FetchMailboxesAsync();
-            
+            var restore = await FetchMailboxesAsync();
+            if (restore) {
+                await RestoreMailboxesAsync();
+            }
         }
 
-        private async Task FetchMailboxesAsync() {
+        private async Task<bool> FetchMailboxesAsync() {
+            var restore = false;
             using (var connection = new ImapConnection { Security = Security }) {
 #if DEBUG
                 connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCancelled = false;
@@ -161,35 +165,43 @@ namespace Crystalbyte.Paranoia.Contexts {
                         var inbox = mailboxes.FirstOrDefault(x => x.IsInbox);
                         if (inbox != null && Mailboxes.All(x => x.Name != inbox.Name)) {
                             await SaveMailboxAsync(inbox);
+                            restore = true;
                         }
 
                         var flagged = mailboxes.FirstOrDefault(x => x.IsFlagged);
                         if (flagged != null && !Mailboxes.Any(x => x.IsFlagged)) {
                             await SaveMailboxAsync(flagged);
+                            restore = true;
                         }
 
                         var important = mailboxes.FirstOrDefault(x => x.IsImportant);
                         if (important != null && !Mailboxes.Any(x => x.IsImportant)) {
                             await SaveMailboxAsync(important);
+                            restore = true;
                         }
 
                         var trash = mailboxes.FirstOrDefault(x => x.IsTrash);
                         if (trash != null && !Mailboxes.Any(x => x.IsTrash)) {
                             await SaveMailboxAsync(trash);
+                            restore = true;
                         }
 
                         var sent = mailboxes.FirstOrDefault(x => x.IsSent);
                         if (sent != null && !Mailboxes.Any(x => x.IsSent)) {
                             await SaveMailboxAsync(sent);
+                            restore = true;
                         }
 
                         var draft = mailboxes.FirstOrDefault(x => x.IsDraft);
                         if (draft != null && !Mailboxes.Any(x => x.IsDraft)) {
                             await SaveMailboxAsync(draft);
+                            restore = true;
                         }
                     }
                 }
             }
+
+            return restore;
         }
 
         private async Task SaveMailboxAsync(ImapMailboxInfo info) {
@@ -204,8 +216,9 @@ namespace Crystalbyte.Paranoia.Contexts {
                         var account = context.ImapAccounts.First(x => x.IdentityId == _account.IdentityId);
                         account.Mailboxes.Add(mailbox);
                         context.SaveChanges();
-                    }                                                   
-                } catch (Exception ex) {
+                    }
+                }
+                catch (Exception ex) {
                     Log.Error(ex.Message);
                 }
             });

@@ -21,5 +21,10 @@ namespace Crystalbyte.Paranoia.UI {
         public ContactInvitationControl() {
             InitializeComponent();
         }
+
+        private void OnDummyRectangleGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
+            var rectangle  = (Rectangle) sender;
+            rectangle.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+        }
     }
 }

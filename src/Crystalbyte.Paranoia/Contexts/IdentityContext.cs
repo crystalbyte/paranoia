@@ -121,6 +121,7 @@ namespace Crystalbyte.Paranoia.Contexts {
 
             await RestoreContactsAsync();
             await SyncMailboxesAsync();
+
         }
 
         private async Task SyncMailboxesAsync() {

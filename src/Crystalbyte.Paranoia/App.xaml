@@ -127,7 +127,7 @@
                 <Setter Property="FontWeight" Value="Light" />
             </Style>
 
-            <Style x:Key="AppButtonStyle" TargetType="{x:Type ButtonBase}">
+            <Style x:Key="AppButtonStyle" TargetType="{x:Type Button}">
                 <Setter Property="SnapsToDevicePixels" Value="True" />
                 <Setter Property="BorderThickness" Value="0" />
                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
@@ -328,7 +328,7 @@
 
             <Style x:Key="AppDialogTextButtonStyle"
                    BasedOn="{StaticResource AppButtonStyle}"
-                   TargetType="{x:Type ButtonBase}">
+                   TargetType="{x:Type Button}">
                 <Setter Property="BorderThickness" Value="1" />
                 <Setter Property="MinWidth" Value="100" />
                 <Setter Property="BorderBrush" Value="WhiteSmoke" />
@@ -377,7 +377,7 @@
 
             <Style x:Key="AppDefaultDialogTextButtonStyle"
                    BasedOn="{StaticResource AppDialogTextButtonStyle}"
-                   TargetType="{x:Type ButtonBase}">
+                   TargetType="{x:Type Button}">
                 <Setter Property="BorderBrush" Value="{StaticResource AppAccentBrush}" />
             </Style>
 
