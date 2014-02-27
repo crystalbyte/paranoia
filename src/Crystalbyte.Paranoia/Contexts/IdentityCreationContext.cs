@@ -1,32 +1,30 @@
 ﻿#region Using directives
 
-using System.ComponentModel.DataAnnotations;
-using System.Composition;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-using System.Linq;
-using System.Windows.Input;
 using Crystalbyte.Paranoia.Commands;
 using Crystalbyte.Paranoia.Data;
-using Crystalbyte.Paranoia.Properties;
-using Crystalbyte.Paranoia.Models;
-using System;
-using System.Security;
-using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Messaging;
-using System.Windows.Controls;
+using Crystalbyte.Paranoia.Models;
+using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
-using System.Threading.Tasks;
-using System.Net;
-using System.Xml.Serialization;
-using System.Windows;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Composition;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Net.NetworkInformation;
-using System.Collections.Generic;
-using NLog;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Xml.Serialization;
 
 #endregion
 
@@ -181,7 +179,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        #region Overrides for ValidationObject<T>
+        #region Overrides for ValidationObject<IdentityCreationContext>
 
         protected override void OnValidated(EventArgs e) {
             base.OnValidated(e);
@@ -688,7 +686,7 @@ namespace Crystalbyte.Paranoia.Contexts {
                 if (string.IsNullOrWhiteSpace(password)) {
                     return false;
                 }
-                return password == IdentityCreationContext.GetPassword();
+                return password == GetPassword();
             }
         }
     }
