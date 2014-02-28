@@ -14,6 +14,8 @@
         Height="768"
         MinWidth="800"
         MinHeight="600"
+        FontFamily="{StaticResource AppFontFamily}"
+        FontSize="{StaticResource AppNormalFontSize}"
         SnapsToDevicePixels="True"
         UseLayoutRounding="True"
         WindowStartupLocation="CenterScreen"
@@ -109,7 +111,8 @@
                                                                    Width="48"
                                                                    Height="48"
                                                                    SnapsToDevicePixels="True"
-                                                                   Source="{Binding GravatarUrl,
+                                                                   Source="{Binding Address,
+                                                                                    Converter={StaticResource MailAddressToGravatarConverter},
                                                                                     TargetNullValue={StaticResource GravatarDefaultImageUrl},
                                                                                     FallbackValue={StaticResource GravatarDefaultImageUrl},
                                                                                     IsAsync=True}" />
@@ -225,22 +228,31 @@
                             BorderBrush="#222"
                             BorderThickness="0"
                             Padding="12">
-                        <ItemsControl ItemsSource="{Binding MailCommands}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <ui:AppBarButton Command="{Binding}"
-                                                     Image="{Binding Image,
-                                                                     Mode=OneTime}"
-                                                     ToolTip="{Binding Tooltip,
-                                                                       Mode=OneTime}" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ItemsControl Grid.Column="0" ItemsSource="{Binding MailCommands}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <ui:AppBarButton Command="{Binding}"
+                                                         Image="{Binding Image,
+                                                                         Mode=OneTime}"
+                                                         ToolTip="{Binding Tooltip,
+                                                                           Mode=OneTime}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <Border Grid.Column="1" DataContext="{Binding MailboxSelectionSource}">
+                                <ToggleButton DataContext="{Binding Mailbox}" IsChecked="{Binding IsSortedAscending, Mode=TwoWay}">Sort</ToggleButton>
+                            </Border>
+                        </Grid>
                     </Border>
                     <Border Grid.Row="2"
                             Grid.Column="0"
@@ -327,8 +339,7 @@
                                   Background="{StaticResource AppWindowBackgroundBrush}"
                                   BorderThickness="0"
                                   DataContext="{Binding Mailbox}"
-                                  ItemsSource="{Binding Mails}"
-                                  ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                  ItemsSource="{Binding MailsView}"
                                   SelectionChanged="OnMailSelectionChanged"
                                   SelectionMode="Extended">
                             <ListView.ItemContainerStyle>
@@ -352,17 +363,17 @@
                                                        Grid.Column="0"
                                                        MaxWidth="230"
                                                        HorizontalAlignment="Left"
-                                                       FontSize="{StaticResource AppNormalFontSize}"
+                                                       FontSize="15"
                                                        Style="{StaticResource AppLightTextStyle}"
                                                        Text="{Binding Subject}"
                                                        TextTrimming="CharacterEllipsis"
                                                        TextWrapping="NoWrap" />
                                             <TextBlock Grid.Row="0"
+                                                       Grid.RowSpan="2"
                                                        Grid.Column="1"
                                                        HorizontalAlignment="Right"
                                                        VerticalAlignment="Center"
-                                                       FontSize="{StaticResource AppSmallFontSize}"
-                                                       Style="{StaticResource AppLightTextStyle}"
+                                                       Style="{StaticResource AppNormalTextStyle}"
                                                        Text="{Binding Date,
                                                                       Converter={StaticResource DateFormatter}}">
                                                 <TextBlock.Foreground>
@@ -376,8 +387,8 @@
                                             <StackPanel Grid.Row="1"
                                                         Grid.Column="0"
                                                         Orientation="Horizontal">
-                                                <TextBlock FontSize="{StaticResource AppSmallFontSize}"
-                                                           Style="{StaticResource AppLightTextStyle}"
+                                                <TextBlock FontSize="12.5"
+                                                           Style="{StaticResource AppNormalTextStyle}"
                                                            Text="{Binding FromFirst.Name}">
                                                     <TextBlock.Foreground>
                                                         <MultiBinding>
@@ -392,23 +403,6 @@
                                                     </TextBlock.Foreground>
                                                 </TextBlock>
                                             </StackPanel>
-                                            <TextBlock Grid.Row="1"
-                                                       Grid.Column="1"
-                                                       HorizontalAlignment="Right"
-                                                       VerticalAlignment="Center"
-                                                       FontSize="{StaticResource AppSmallFontSize}"
-                                                       Style="{StaticResource AppLightTextStyle}"
-                                                       Text="{Binding Size,
-                                                                      Converter={StaticResource SizeFormatter}}">
-                                                <TextBlock.Foreground>
-                                                    <Binding Mode="TwoWay" Path="IsSelected">
-                                                        <Binding.Converter>
-                                                            <converters:BooleanToBrushConverter NegativeBrush="{StaticResource AppMediumTextBrush}" PositiveBrush="{StaticResource AppLightTextBrush}" />
-                                                        </Binding.Converter>
-                                                    </Binding>
-                                                </TextBlock.Foreground>
-                                            </TextBlock>
-
                                         </Grid>
                                     </Border>
                                 </DataTemplate>

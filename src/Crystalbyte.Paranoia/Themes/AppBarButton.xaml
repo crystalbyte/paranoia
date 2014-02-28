@@ -40,6 +40,7 @@
                                        Height="24"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
+                                       RenderOptions.BitmapScalingMode="HighQuality"
                                        Source="{TemplateBinding Image}" />
                             </Grid>
 

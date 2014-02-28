@@ -66,7 +66,7 @@
                 <Setter Property="VerticalContentAlignment" Value="Center" />
             </Style>
 
-            <Style TargetType="ContextMenu">
+            <Style TargetType="{x:Type ContextMenu}">
                 <Setter Property="SnapsToDevicePixels" Value="True" />
                 <Setter Property="OverridesDefaultStyle" Value="True" />
                 <Setter Property="Grid.IsSharedSizeScope" Value="true" />
@@ -124,7 +124,7 @@
             <Style x:Key="AppLightTextStyle"
                    BasedOn="{StaticResource AppNormalTextStyle}"
                    TargetType="{x:Type TextBlock}">
-                <Setter Property="FontWeight" Value="Light" />
+                <Setter Property="FontWeight" Value="Thin" />
             </Style>
 
             <Style x:Key="AppButtonStyle" TargetType="{x:Type Button}">
@@ -333,12 +333,12 @@
                 <Setter Property="MinWidth" Value="100" />
                 <Setter Property="BorderBrush" Value="WhiteSmoke" />
                 <Setter Property="Padding" Value="3" />
+                <Setter Property="Margin" Value="0,3,0,3" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Grid Margin="{TemplateBinding Margin}">
-                                <Border Margin="3"
-                                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                <Border HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                         Background="{TemplateBinding Background}"
                                         Padding="{TemplateBinding Padding}">

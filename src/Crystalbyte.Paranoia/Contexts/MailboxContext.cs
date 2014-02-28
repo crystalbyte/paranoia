@@ -7,6 +7,10 @@ using Crystalbyte.Paranoia.Models;
 using Crystalbyte.Paranoia.Data;
 using NLog;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using Crystalbyte.Paranoia.Commands;
+using System.Windows.Data;
+using System.ComponentModel;
 
 namespace Crystalbyte.Paranoia.Contexts {
     public sealed class MailboxContext : NotificationObject {
@@ -16,9 +20,12 @@ namespace Crystalbyte.Paranoia.Contexts {
         private bool _isSelected;
         private Mailbox _mailbox;
         private ImapMailbox _inbox;
+        private string _sortProperty;
+        private bool _isSortedAscending;
+        private IEnumerable<MailboxFlag> _flags;
         private readonly ImapAccountContext _account;
-        private readonly IEnumerable<MailboxFlag> _flags;
         private readonly ObservableCollection<MailContext> _mails;
+        private readonly CollectionViewSource _mailsViewSource;
 
         #endregion
 
@@ -31,10 +38,42 @@ namespace Crystalbyte.Paranoia.Contexts {
         public MailboxContext(ImapAccountContext account, Mailbox mailbox) {
             _account = account;
             _mailbox = mailbox;
+            _sortProperty = "Date";
             _mails = new ObservableCollection<MailContext>();
+            _mailsViewSource = new CollectionViewSource { Source = _mails };
+            _mailsViewSource.Filter += OnMailsViewSourceFilter;
+        }
 
-            // Trigger lazy loading for Flags 
-            _flags = _mailbox.Flags;
+        private void OnMailsViewSourceFilter(object sender, FilterEventArgs e) {
+            var mail = e.Item as MailContext;
+            if (mail == null) {
+                e.Accepted = false;
+            }
+
+            e.Accepted = !mail.IsInvite;
+        }
+
+        public async Task RestoreAsync(StorageContext context = null) {
+            var dispose = false;
+            if (context == null) {
+                context = new StorageContext();
+                context.Mailboxes.Attach(_mailbox);
+                dispose = true;
+            }
+
+            
+            await RestoreFlagsAsync();
+
+            if (dispose) {
+                context.Dispose();
+            }
+
+            RaisePropertyChanged(string.Empty);
+        }
+
+        private Task RestoreFlagsAsync() {
+            return Task.Factory.StartNew(() => { _flags = _mailbox.Flags; });
+            
         }
 
         public ImapAccountContext ImapAccount {
@@ -77,8 +116,26 @@ namespace Crystalbyte.Paranoia.Contexts {
             get { return _mailbox.Flags.Any(x => x.Name.ToLower() == @"\drafts"); }
         }
 
+        public bool IsSortedAscending {
+            get { return _isSortedAscending; }
+            set {
+                if (_isSortedAscending == value) {
+                    return;
+                }
+
+                RaisePropertyChanging(() => IsSortedAscending);
+                _isSortedAscending = value;
+                RaisePropertyChanged(() => IsSortedAscending);
+                Sort();
+            }
+        }
+
         public ObservableCollection<MailContext> Mails {
             get { return _mails; }
+        }
+
+        public ICollectionView MailsView { 
+            get { return _mailsViewSource.View; }
         }
 
         public bool IsSelected {
@@ -103,15 +160,40 @@ namespace Crystalbyte.Paranoia.Contexts {
             await SyncMailboxAsync();
         }
 
+        public string SortProperty {
+            get { return _sortProperty; }
+            set {
+                if (_sortProperty == value) {
+                    _sortProperty = value;
+                }
+
+                RaisePropertyChanging(() => SortProperty);
+                _sortProperty = value;
+                RaisePropertyChanging(() => SortProperty);
+                Sort();
+            }
+        }
+
+        private void Sort() {
+            _mailsViewSource.SortDescriptions.Clear();
+            if (IsSortedAscending) {
+                _mailsViewSource.SortDescriptions.Add(new SortDescription(SortProperty, ListSortDirection.Ascending));
+            }
+            else {
+                _mailsViewSource.SortDescriptions.Add(new SortDescription(SortProperty, ListSortDirection.Descending));
+            }
+        }
+
         private async Task RestoreMailsAsync() {
             IEnumerable<Mail> mails = null;
             await Task.Factory.StartNew(() => {
                 try {
                     using (var context = new StorageContext()) {
                         var mailbox = context.Mailboxes.Find(_mailbox.Id);
-                        mails = mailbox.Mails.OrderByDescending(x => x.InternalDate).ToArray();
+                        mails = mailbox.Mails.ToArray();
                     }
-                } catch (Exception ex) {
+                }
+                catch (Exception ex) {
                     Log.Error(ex.Message);
                 }
             });
@@ -137,7 +219,8 @@ namespace Crystalbyte.Paranoia.Contexts {
                         var mailbox = context.Mailboxes.Find(_mailbox.Id);
                         return mailbox.Mails.Max(x => x.Uid);
                     }
-                } catch (Exception ex) {
+                }
+                catch (Exception ex) {
                     Log.Error(ex.Message);
                 }
 
@@ -218,7 +301,8 @@ namespace Crystalbyte.Paranoia.Contexts {
                     var mailContext = new MailContext(this, mail);
                     Mails.Add(mailContext);
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Log.Error(ex.Message);
             }
         }
@@ -234,7 +318,8 @@ namespace Crystalbyte.Paranoia.Contexts {
                         _mailbox.Exists = imapMailbox.Exists;
                         context.SaveChanges();
                     }
-                } catch (Exception ex) {
+                }
+                catch (Exception ex) {
                     Log.Error(ex);
                 }
             });

@@ -13,7 +13,7 @@ namespace Crystalbyte.Paranoia.Converters {
             var date = (DateTime)value;
 
             if (today == date.Date) {
-                return Resources.TodayText;
+                return date.ToString("t");
             }
 
             if (date.Date.AddDays(1) == today) {

@@ -43,6 +43,10 @@ namespace Crystalbyte.Paranoia.Contexts {
             get { return _mail.InternalDate; }
         }
 
+        public bool IsInvite {
+            get { return false; }
+        }
+
         public long Size {
             get { return _mail.Size; }
         }

@@ -13,6 +13,7 @@ using Crystalbyte.Paranoia.Commands;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using NLog;
+using System.Windows.Input;
 
 #endregion
 

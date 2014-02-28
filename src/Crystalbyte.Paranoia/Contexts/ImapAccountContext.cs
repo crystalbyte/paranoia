@@ -126,13 +126,12 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         private async Task RestoreMailboxesAsync() {
-            MailboxContext[] mailboxes = null;
+            Mailbox[] mailboxes = null;
             await Task.Factory.StartNew(() => {
                 try {
                     using (var context = new StorageContext()) {
                         var account = context.ImapAccounts.First(x => x.IdentityId == _account.IdentityId);
-                        mailboxes = account.Mailboxes.ToArray()
-                            .Select(x => new MailboxContext(this, x)).ToArray();
+                        mailboxes = account.Mailboxes.ToArray();
                     }
                 }
                 catch (Exception ex) {
@@ -140,8 +139,13 @@ namespace Crystalbyte.Paranoia.Contexts {
                 }
             });
 
+            var contexts = mailboxes.Select(x => new MailboxContext(this, x));
+            foreach (var context in contexts) {
+                await context.RestoreAsync();
+            }
+
             Mailboxes.Clear();
-            Mailboxes.AddRange(mailboxes);
+            Mailboxes.AddRange(contexts);
         }
 
         internal async Task SyncMailboxesAsync() {
