@@ -22,22 +22,52 @@ namespace Crystalbyte.Paranoia.Cryptography
         }
 
         public void GenerateRSA() {
+
+            var cipher = new EVP_CIPHER();
+            var bignum = new BigNum();
+            var rsa = NativeMethods.RsaNew();
+            var keySize = 2048;
+
+            var chiperHandle = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(EVP_CIPHER)));
+            Marshal.StructureToPtr(cipher, chiperHandle, false);
+
+            var bignumHandle = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(BigNum)));
+            Marshal.StructureToPtr(bignum, bignumHandle, false);
+
+            NativeMethods.BN_set_word(chiperHandle,65537);
+
+	        NativeMethods.RsaGenerateKeyEx(rsa, keySize, bignumHandle, IntPtr.Zero);
+
+
+            //app_RAND_write_file(NULL, bio_err);
+
+            //PW_CB_DATA cb_data;
+            //cb_data.password = passout;
+            //cb_data.prompt_info = outfile;
+            //if (!PEM_write_bio_RSAPrivateKey(out,rsa,enc,NULL,0,
+            //    (pem_password_cb *)password_callback,&cb_data))
+            //    goto err;
+            //}
+
+
+
+
             // Allocates unmanaged memory with the size of a bio struct.
-            var handle = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(BIO)));
+            //var handle = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(BIO)));
 
             // Manged => Unmanaged
             // creates managed struct of type BIO.
-            var bio = new BIO {flags = 0};
+            //var bio = new BIO {flags = 0};
 
             // Copies struct BIO to unmanaged memory at location handle.
-            Marshal.StructureToPtr(bio, handle, false);
+            //Marshal.StructureToPtr(bio, handle, false);
 
             // Unmanaged => Managed
             // Copies struct BIO from unmanaged memory to local variable.
-            bio = (BIO)Marshal.PtrToStructure(handle, typeof (BIO));
+            //bio = (BIO)Marshal.PtrToStructure(handle, typeof (BIO));
 
             // Free unmanaged memory.
-            Marshal.FreeHGlobal(handle);
+            //Marshal.FreeHGlobal(handle);
 
 
             /* 
