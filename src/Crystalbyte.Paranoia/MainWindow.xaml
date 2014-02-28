@@ -250,7 +250,12 @@
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
                             <Border Grid.Column="1" DataContext="{Binding MailboxSelectionSource}">
-                                <ToggleButton DataContext="{Binding Mailbox}" IsChecked="{Binding IsSortedAscending, Mode=TwoWay}">Sort</ToggleButton>
+                                <ToggleButton DataContext="{Binding Mailbox}"
+                                              IsChecked="{Binding IsSortedAscending,
+                                                                  Mode=TwoWay}"
+                                              Style="{StaticResource SortToggleButtonStyle}">
+                                    Sort
+                                </ToggleButton>
                             </Border>
                         </Grid>
                     </Border>

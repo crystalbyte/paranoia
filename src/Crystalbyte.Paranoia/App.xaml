@@ -10,6 +10,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/SortToggleButtonStyle.xaml" />
                 <ResourceDictionary Source="/Themes/ScrollViewer.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:SecurityPolicyFormatter x:Key="SecurityPolicyFormatter" />
