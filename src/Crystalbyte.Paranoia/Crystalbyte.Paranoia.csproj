@@ -185,6 +185,7 @@
     <Compile Include="UI\ContactInvitationControl.xaml.cs">
       <DependentUpon>ContactInvitationControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DelayTimer.cs" />
     <Compile Include="UI\HtmlRenderer.cs" />
     <Compile Include="UI\IdentityCreationFrame.xaml.cs">
       <DependentUpon>IdentityCreationFrame.xaml</DependentUpon>

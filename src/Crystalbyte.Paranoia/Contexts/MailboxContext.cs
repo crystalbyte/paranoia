@@ -7,8 +7,6 @@ using Crystalbyte.Paranoia.Models;
 using Crystalbyte.Paranoia.Data;
 using NLog;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
-using Crystalbyte.Paranoia.Commands;
 using System.Windows.Data;
 using System.ComponentModel;
 
@@ -20,8 +18,10 @@ namespace Crystalbyte.Paranoia.Contexts {
         private bool _isSelected;
         private Mailbox _mailbox;
         private ImapMailbox _inbox;
+        private MailContext _lastSelection;
         private string _sortProperty;
         private bool _isSortedAscending;
+        private readonly DelayTimer _timer;
         private IEnumerable<MailboxFlag> _flags;
         private readonly ImapAccountContext _account;
         private readonly ObservableCollection<MailContext> _mails;
@@ -42,12 +42,28 @@ namespace Crystalbyte.Paranoia.Contexts {
             _mails = new ObservableCollection<MailContext>();
             _mailsViewSource = new CollectionViewSource { Source = _mails };
             _mailsViewSource.Filter += OnMailsViewSourceFilter;
+            _timer = new DelayTimer();
+            _timer.TimerElapsed += OnTimerElapsed;
+
+            Sort();
+        }
+
+        public void Touch(MailContext selection) {
+            _lastSelection = selection;
+            _timer.Touch();
+        }
+
+        private async void OnTimerElapsed(object sender, EventArgs e) {
+            if (_lastSelection != null) {
+                await _lastSelection.DisplayMailAsync();
+            }
         }
 
         private void OnMailsViewSourceFilter(object sender, FilterEventArgs e) {
             var mail = e.Item as MailContext;
             if (mail == null) {
                 e.Accepted = false;
+                return;
             }
 
             e.Accepted = !mail.IsInvite;
@@ -176,12 +192,9 @@ namespace Crystalbyte.Paranoia.Contexts {
 
         private void Sort() {
             _mailsViewSource.SortDescriptions.Clear();
-            if (IsSortedAscending) {
-                _mailsViewSource.SortDescriptions.Add(new SortDescription(SortProperty, ListSortDirection.Ascending));
-            }
-            else {
-                _mailsViewSource.SortDescriptions.Add(new SortDescription(SortProperty, ListSortDirection.Descending));
-            }
+            _mailsViewSource.SortDescriptions.Add(IsSortedAscending
+                ? new SortDescription(SortProperty, ListSortDirection.Ascending)
+                : new SortDescription(SortProperty, ListSortDirection.Descending));
         }
 
         private async Task RestoreMailsAsync() {

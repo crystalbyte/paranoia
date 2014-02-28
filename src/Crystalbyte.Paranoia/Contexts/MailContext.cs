@@ -15,12 +15,16 @@ using NLog;
 namespace Crystalbyte.Paranoia.Contexts {
     public sealed class MailContext : NotificationObject {
 
+        #region Private Fields
+
         private string _text;
         private readonly List<MailFlagContext> _mailFlags;
         private readonly List<MailContactContext> _mailContacts;
         private readonly MailboxContext _mailbox;
         private readonly Mail _mail;
         private bool _isSelected;
+
+        #endregion
 
         #region Log Declaration
 
@@ -105,8 +109,8 @@ namespace Crystalbyte.Paranoia.Contexts {
             }
         }
 
-        private async void OnSelected() {
-            await DisplayMailAsync();
+        private void OnSelected() {
+            _mailbox.Touch(this);
         }
 
         public MailContactContext FromFirst {
@@ -154,7 +158,7 @@ namespace Crystalbyte.Paranoia.Contexts {
                         var box = await session.SelectAsync(_mailbox.Name);
                         try {
                             await DeleteCachedMailAsync();
-                            await box.DeleteMailsAsync(new [] { Uid });
+                            await box.DeleteMailsAsync(new[] { Uid });
                         } catch (Exception ex) {
                             Log.Error(ex.Message);
                         }
@@ -172,8 +176,7 @@ namespace Crystalbyte.Paranoia.Contexts {
                         await context.SaveChangesAsync();
                     }
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Log.Error(ex.Message);
             }
         }
@@ -189,7 +192,7 @@ namespace Crystalbyte.Paranoia.Contexts {
             _mailFlags.AddRange(flags.Select(x => new MailFlagContext(this, x)));
         }
 
-        private async Task DisplayMailAsync() {
+        public async Task DisplayMailAsync() {
             var account = _mailbox.ImapAccount;
             using (var connection = new ImapConnection { Security = account.Security }) {
                 using (var authenticator = await connection.ConnectAsync(account.Host, account.Port)) {
