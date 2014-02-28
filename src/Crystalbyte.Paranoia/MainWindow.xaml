@@ -189,7 +189,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="220" />
                         <ColumnDefinition Width="40" />
-                        <ColumnDefinition Width="340" />
+                        <ColumnDefinition Width="360" />
                         <ColumnDefinition Width="1" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
@@ -253,9 +253,7 @@
                                 <ToggleButton DataContext="{Binding Mailbox}"
                                               IsChecked="{Binding IsSortedAscending,
                                                                   Mode=TwoWay}"
-                                              Style="{StaticResource SortToggleButtonStyle}">
-                                    Sort
-                                </ToggleButton>
+                                              Style="{StaticResource SortToggleButtonStyle}" />
                             </Border>
                         </Grid>
                     </Border>
@@ -290,7 +288,8 @@
                                                    Height="32"
                                                    Margin="0,0,6,0"
                                                    RenderOptions.BitmapScalingMode="HighQuality"
-                                                   Source="{Binding GravatarUrl}"
+                                                   Source="{Binding Address,
+                                                                    Converter={StaticResource MailAddressToGravatarConverter}}"
                                                    Stretch="UniformToFill" />
                                             <StackPanel VerticalAlignment="Center">
                                                 <TextBlock FontSize="{StaticResource AppMediumFontSize}"
@@ -345,6 +344,7 @@
                                   BorderThickness="0"
                                   DataContext="{Binding Mailbox}"
                                   ItemsSource="{Binding MailsView}"
+                                  ScrollViewer.VerticalScrollBarVisibility="Visible"
                                   SelectionChanged="OnMailSelectionChanged"
                                   SelectionMode="Extended">
                             <ListView.ItemContainerStyle>
