@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia {
     public sealed class PasswordPolicyAttribute : ValidationAttribute {
 
-        private static string Symbols = "!,.-_+*#'~°§$%&/()=?";
+        private const string Symbols = "!,.-_+*#'~°§$%&/()=?";
+
         public PasswordPolicyAttribute() {
             MinLength = 4;
             EnforceNumerics = true;
@@ -27,13 +24,13 @@ namespace Crystalbyte.Paranoia {
                 result &= text.Length > MinLength;
             }
             if (EnforceNumerics) {
-                result &= text.Any(x => char.IsNumber(x));
+                result &= text.Any(char.IsNumber);
             }
             if (EnforceUpperChars) {
-                result &= text.Any(x => char.IsUpper(x));
+                result &= text.Any(char.IsUpper);
             }
             if (EnforceLowerChars) {
-                result &= text.Any(x => char.IsLower(x));
+                result &= text.Any(char.IsLower);
             }
             if (EnforceSymbols) {
                 result &= text.Any(x => Symbols.Contains(x));

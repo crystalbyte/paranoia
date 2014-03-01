@@ -141,6 +141,8 @@
     <Compile Include="Converters\BooleanToStringConverter.cs" />
     <Compile Include="Converters\ContactRequestToBrushConverter.cs" />
     <Compile Include="Converters\ContactToTextConverter.cs" />
+    <Compile Include="Converters\ConversionGroup.cs" />
+    <Compile Include="Converters\CroppedBitmapConverter.cs" />
     <Compile Include="Converters\DateFormatter.cs" />
     <Compile Include="Converters\DoubleCorrector.cs" />
     <Compile Include="Converters\MailAddressToGravatarConverter.cs" />

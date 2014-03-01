@@ -429,9 +429,22 @@
                             </ListView.ItemContainerStyle>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Image Width="24"
-                                           Height="24"
-                                           Source="{Binding Converter={StaticResource MailboxToImageConverter}}" />
+                                    <Image Width="24">
+                                        <Image.Source>
+                                            <CroppedBitmap>
+                                                <CroppedBitmap.Source>
+                                                    <Binding>
+                                                        <Binding.Converter>
+                                                            <converters:ConversionGroup>
+                                                                <converters:MailboxToImageConverter />
+                                                                <converters:CroppedBitmapConverter />
+                                                            </converters:ConversionGroup>
+                                                        </Binding.Converter>
+                                                    </Binding>
+                                                </CroppedBitmap.Source>
+                                            </CroppedBitmap>
+                                        </Image.Source>
+                                    </Image>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>

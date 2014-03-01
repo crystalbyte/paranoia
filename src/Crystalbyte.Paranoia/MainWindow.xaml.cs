@@ -52,7 +52,7 @@ namespace Crystalbyte.Paranoia {
             try {
                 HookEntropyGenerator();
             } catch (Exception) {
-                // TODO: We are probably offline, deal with it.
+                // TODO: We are probably offline or hit the quota, deal with it.
                 throw;
             }
         }
