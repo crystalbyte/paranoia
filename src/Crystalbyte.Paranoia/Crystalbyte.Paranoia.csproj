@@ -429,6 +429,9 @@
   <ItemGroup>
     <Resource Include="Assets\save.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(ProjectDir)\..\Crystalbyte.Paranoia.Cryptography\Resources\libeay32.dll" "$(TargetDir)"
