@@ -18,14 +18,14 @@ namespace Crystalbyte.Paranoia.Cryptography
 
         public RsaEncryption()
         {
-            _handle = NativeMethods.RsaNew();
+            _handle = NativeMethods.RSA_new();
         }
 
         public void GenerateRSA() {
 
             var cipher = new EVP_CIPHER();
             var bignum = new BigNum();
-            var rsa = NativeMethods.RsaNew();
+            var rsaKeyPair = NativeMethods.RSA_new();
             var keySize = 2048;
 
             var chiperHandle = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(EVP_CIPHER)));
@@ -34,10 +34,24 @@ namespace Crystalbyte.Paranoia.Cryptography
             var bignumHandle = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(BigNum)));
             Marshal.StructureToPtr(bignum, bignumHandle, false);
 
-            NativeMethods.BN_set_word(chiperHandle,65537);
+            NativeMethods.BN_set_word(bignumHandle, 65537);
 
-	        NativeMethods.RsaGenerateKeyEx(rsa, keySize, bignumHandle, IntPtr.Zero);
+	        NativeMethods.RSA_generate_key_ex(rsaKeyPair, keySize, bignumHandle, IntPtr.Zero);
 
+            var mgn_rsa = (RSA)Marshal.PtrToStructure(rsaKeyPair, typeof(RSA));
+            var mgn_d = (BigNum)Marshal.PtrToStructure(mgn_rsa.d, typeof(BigNum));
+            var mgn_e = (BigNum)Marshal.PtrToStructure(mgn_rsa.e, typeof(BigNum));
+
+            var d = Marshal.ReadInt32(mgn_d.D);
+            var e = Marshal.ReadInt32(mgn_e.D);
+
+            //var bioType = NativeMethods.BIO_s_mem();
+            //var bio = NativeMethods.BioNew(bioType);
+
+            //NativeMethods.EVP_PKEY_assign_RSA();
+
+            //EVP_PKEY_assign_RSA(pkey,rsaKeyPair))
+  
 
             //app_RAND_write_file(NULL, bio_err);
 
@@ -145,7 +159,7 @@ namespace Crystalbyte.Paranoia.Cryptography
 
             if (_handle != IntPtr.Zero)
             {
-                NativeMethods.RsaFree(_handle);
+                NativeMethods.RSA_free(_handle);
             }
         }
 
@@ -200,13 +214,13 @@ namespace Crystalbyte.Paranoia.Cryptography
             // RSA
 
             [DllImport(OpenSsl.Library, EntryPoint = "RSA_new")]
-            public static extern IntPtr RsaNew();
+            public static extern IntPtr RSA_new();
 
             [DllImport(OpenSsl.Library, EntryPoint = "RSA_free")]
-            public static extern void RsaFree(IntPtr handle);
+            public static extern void RSA_free(IntPtr handle);
 
             [DllImport(OpenSsl.Library, EntryPoint = "RSA_generate_key_ex")]
-            public static extern IntPtr RsaGenerateKeyEx(IntPtr rsa, int bits, IntPtr e, IntPtr cb);
+            public static extern IntPtr RSA_generate_key_ex(IntPtr rsa, int bits, IntPtr e, IntPtr cb);
 
             [DllImport(OpenSsl.Library, EntryPoint = "RSA_public_encrypt")]
             public static extern int RSA_public_encrypt(int flen, IntPtr from, IntPtr to, IntPtr rsa, int padding);
@@ -356,44 +370,19 @@ namespace Crystalbyte.Paranoia.Cryptography
         [StructLayout(LayoutKind.Sequential)]
         private struct BigNum
         {
-            /// <summary>
-            ///   Pointer to an array of 'BN_BITS2' bit chunks.
-            /// </summary>
             public readonly IntPtr D;
-
-            /// <summary>
-            ///   Index of last used d +1.
-            /// </summary>
             public readonly int Top;
-
-            /// <summary>
-            ///   The next are internal book keeping for bn_expand.
-            /// </summary>
             public readonly int DMax;
-
             public readonly int Neg;
             public readonly int Flags;
         }
 
-        /// <summary>
-        ///   Slow generatio
-        /// </summary>
+
         [StructLayout(LayoutKind.Sequential)]
         private struct BnGenCb
         {
-            /// <summary>
-            ///   To handle binary (in)compatibility.
-            /// </summary>
             public readonly uint Ver;
-
-            /// <summary>
-            ///   Callback specific data;
-            /// </summary>
             public readonly IntPtr Arg;
-
-            /// <summary>
-            ///   Callback (new style).
-            /// </summary>
             public readonly IntPtr Cb;
         }
     }
