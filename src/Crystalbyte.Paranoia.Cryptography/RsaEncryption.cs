@@ -36,118 +36,107 @@ namespace Crystalbyte.Paranoia.Cryptography
 
             NativeMethods.BN_set_word(bignumHandle, 65537);
 
+            //check entropy
+            //free stuff
+
 	        NativeMethods.RSA_generate_key_ex(rsaKeyPair, keySize, bignumHandle, IntPtr.Zero);
+        }
 
-            var mgn_rsa = (RSA)Marshal.PtrToStructure(rsaKeyPair, typeof(RSA));
-            var mgn_d = (BigNum)Marshal.PtrToStructure(mgn_rsa.d, typeof(BigNum));
-            var mgn_e = (BigNum)Marshal.PtrToStructure(mgn_rsa.e, typeof(BigNum));
-
-            var d = Marshal.ReadInt32(mgn_d.D);
-            var e = Marshal.ReadInt32(mgn_e.D);
-
-            //var bioType = NativeMethods.BIO_s_mem();
-            //var bio = NativeMethods.BioNew(bioType);
-
-            //NativeMethods.EVP_PKEY_assign_RSA();
-
-            //EVP_PKEY_assign_RSA(pkey,rsaKeyPair))
-  
-
-            //app_RAND_write_file(NULL, bio_err);
-
-            //PW_CB_DATA cb_data;
-            //cb_data.password = passout;
-            //cb_data.prompt_info = outfile;
-            //if (!PEM_write_bio_RSAPrivateKey(out,rsa,enc,NULL,0,
-            //    (pem_password_cb *)password_callback,&cb_data))
-            //    goto err;
-            //}
+        //int pass_cb(char *buf, int size, int rwflag, void *u);
+        //   {
+        //   int len;
+        //   char *tmp;
+        //   /* We'd probably do something else if 'rwflag' is 1 */
+        //   printf("Enter pass phrase for \"%s\"\n", u);
+        //   /* get pass phrase, length 'len' into 'tmp' */
+        //   tmp = "hello";
+        //   len = strlen(tmp);
+        //   if (len <= 0) return 0;
+        //   /* if too long, truncate */
+        //   if (len > size) len = size;
+        //   memcpy(buf, tmp, len);
+        //   ret
+        //   }
 
 
+        // Allocates unmanaged memory with the size of a bio struct.
+        //var handle = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(BIO)));
+
+        // Manged => Unmanaged
+        // creates managed struct of type BIO.
+        //var bio = new BIO {flags = 0};
+
+        // Copies struct BIO to unmanaged memory at location handle.
+        //Marshal.StructureToPtr(bio, handle, false);
+
+        // Unmanaged => Managed
+        // Copies struct BIO from unmanaged memory to local variable.
+        //bio = (BIO)Marshal.PtrToStructure(handle, typeof (BIO));
+
+        // Free unmanaged memory.
+        //Marshal.FreeHGlobal(handle);
 
 
-            // Allocates unmanaged memory with the size of a bio struct.
-            //var handle = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(BIO)));
+        //password handling
 
-            // Manged => Unmanaged
-            // creates managed struct of type BIO.
-            //var bio = new BIO {flags = 0};
+        // int pass_cb(char *buf, int size, int rwflag, void *u);
+        // {
+        //   int len;
+        //   char *tmp;
+        //   printf("Enter pass phrase for \"%s\"\n", u);
+        //   /* get pass phrase, length 'len' into 'tmp' */
+        //   tmp = "hello";
+        //   len = strlen(tmp);
+        //   if (len <= 0) return 0;
+        //   /* if too long, truncate */
+        //   if (len > size) len = size;
+        //   memcpy(buf, tmp, len);
+        //   return len;
+        //}
 
-            // Copies struct BIO to unmanaged memory at location handle.
-            //Marshal.StructureToPtr(bio, handle, false);
-
-            // Unmanaged => Managed
-            // Copies struct BIO from unmanaged memory to local variable.
-            //bio = (BIO)Marshal.PtrToStructure(handle, typeof (BIO));
-
-            // Free unmanaged memory.
-            //Marshal.FreeHGlobal(handle);
-
-
-            /* 
-            BN_GENCB cb;
-	        int ret=1;
-	        int non_fips_allow = 0;
-	        int i,num=DEFBITS; // 1024
-	        long l;
-	        const EVP_CIPHER *enc=NULL;
-	        unsigned long f4=RSA_F4;
-	        char *outfile=NULL;
-	        char *passargout = NULL, *passout = NULL;
-	        char *inrand=NULL;
-	        BIO *out=NULL;
-	        BIGNUM *bn = BN_new();
-	        RSA *rsa = NULL;
-
-	        if(!bn) goto err;
-	        BN_GENCB_set(&cb, genrsa_cb, bio_err);
+        public void RsaPrivateKeyToPem(String key){
+            //init buffer or as param
+            //var bio = NativeMethods.BIO_new_mem_buf(Buffer, buffer_len);
+            //var evp = NativeMethods.EVP_aes_256_cbc();
             
-	        rsa = RSA_new();
+            //assume rsa as object variable
+            //key is the user key
 
-	        if (!rsa)
-		        goto err;
+            //NativeMethods.PEM_write_bio_RSAPrivateKey(bio, rsa, evp, key, keylen, IntPtr.Zero, IntPtr.Zero);
+        }
 
-	        if(!BN_set_word(bn, f4) || !RSA_generate_key_ex(rsa, num, bn, &cb))
-		        goto err;
+        public void RsaPublicKeyToPem()
+        {
+            //init buffer or as param
+            //var bio = NativeMethods.BIO_new_mem_buf(Buffer, buffer_len);
 
-	        app_RAND_write_file(NULL, bio_err);
+            //assume rsa as object variable
+            //key is the user key
 
-	        PW_CB_DATA cb_data;
-	        cb_data.password = passout;
-	        cb_data.prompt_info = outfile;
-	        if (!PEM_write_bio_RSAPrivateKey(out,rsa,enc,NULL,0,
-		        (pem_password_cb *)password_callback,&cb_data))
-		        goto err;
-	        }
+            //NativeMethods.PEM_write_bio_RSAPublicKey(biop, rsa);
+        }
 
-	        ret=0;
-        err:
-	        if (bn) BN_free(bn);
-	        if (rsa) RSA_free(rsa);
-	        if (out) BIO_free_all(out);
-	        if(passout) OPENSSL_free(passout);
-	        if (ret != 0)
-		        ERR_print_errors(bio_err);
-	        apps_shutdown();
-	        OPENSSL_EXIT(ret);
-	        }
-     */
+        public void PemToRsaPrivateKey()
+        {
+            //var rsa = NativeMethods.RSA_new();
+            //var bio = NativeMethods.BIO_new_mem_buf(Buffer, buffer_len);
+            //NativeMethods.PEM_read_bio_RSAPrivateKey(biop, rsa, password_callback, IntPtr.Zero);
+        }
 
-            /*
-            num=4096; //keysize
-            uint f4 = 0x10001;
-            var enc = NativeMethods.EVP_aes_256_cbc();
-            var bio_out = BIO_new(BIO_s_mem());
-	        var bn = NativeMethods.BN_new();      
-            var rsa = NativeMethods.RsaNew();
-            NativeMethods.BN_set_word(bn, f4);
-            NativeMethods.RsaGenerateKeyEx(rsa,num,bn,cb);
-            var cb_data = new PW_CB_DATA();
-            NativeMethods.PEM_write_bio_RSAPrivateKey(bio_out,rsa,enc,IntPtr.Zero,0,IntPtr.Zero,cb_data);       
-             */
+        public void PemToRsaPublicKey()
+        {
+            //var rsa = NativeMethods.RSA_new();
+            //var bio = NativeMethods.BIO_new_mem_buf(Buffer, bufferlen);
+            //NativeMethods.PEM_read_bio_RSAPublicKey(bio, rsa, pass_cb, IntPtr.Zero);
         }
 
         public String Encrypt()
+        {
+            return "";
+            //RSA_public_encrypt(int flen, IntPtr from, IntPtr to, IntPtr rsa, int padding);
+        }
+
+        public String Decrypt(String chiper)
         {
             return "";
             //RSA_public_encrypt(int flen, IntPtr from, IntPtr to, IntPtr rsa, int padding);
@@ -180,7 +169,11 @@ namespace Crystalbyte.Paranoia.Cryptography
             [DllImport(OpenSsl.Library, EntryPoint = "BIO_set_fp")]
             public static extern void BIO_set_fp(IntPtr bio,IntPtr fp, int flags);
 
+            [DllImport(OpenSsl.Library, EntryPoint = "BIO_new_mem_buf")]
+            public static extern void BIO_new_mem_buf(IntPtr buf, int len);
 
+
+            
             // EVP
 
             [DllImport(OpenSsl.Library, EntryPoint = "EVP_aes_256_cbc")]
@@ -194,11 +187,24 @@ namespace Crystalbyte.Paranoia.Cryptography
 
             // PEM
 
-            [DllImport(OpenSsl.Library, EntryPoint = "PEM_write_bio_PKCS8PrivateKey")]
-            public static extern int PEM_write_bio_PKCS8PrivateKey(IntPtr bp, IntPtr x, IntPtr enc, IntPtr kstr, int klen, IntPtr cb, IntPtr u);
+            [DllImport(OpenSsl.Library, EntryPoint = "PEM_ASN1_write_bio")]
+            public static extern int PEM_ASN1_write_bio(IntPtr i2d, IntPtr name, IntPtr biop, IntPtr x, IntPtr enc, IntPtr kstr, int klen, IntPtr pass_cb, IntPtr u);
+
+            [DllImport(OpenSsl.Library, EntryPoint = "PEM_ASN1_read_bio")]
+            public static extern void PEM_ASN1_read_bio(IntPtr d2i, IntPtr name, IntPtr biop, IntPtr x, IntPtr pass_cb, IntPtr u);
+
+            [DllImport(OpenSsl.Library, EntryPoint = "PEM_read_bio_RSAPrivateKey")]
+            public static extern IntPtr PEM_read_bio_RSAPrivateKey(IntPtr biop, IntPtr rsa, IntPtr pass_cb, IntPtr u);
 
             [DllImport(OpenSsl.Library, EntryPoint = "PEM_write_bio_RSAPrivateKey")]
-            public static extern int PEM_write_bio_RSAPrivateKey(IntPtr bio_out, IntPtr rsa, IntPtr enc, IntPtr kstr, int klen, IntPtr password_callback, IntPtr cb_data);
+            public static extern int PEM_write_bio_RSAPrivateKey(IntPtr biop, IntPtr rsa, IntPtr enc, IntPtr key, int keylen, IntPtr pass_cb, IntPtr u);
+
+            [DllImport(OpenSsl.Library, EntryPoint = "PEM_read_bio_RSAPublicKey")]
+            public static extern IntPtr PEM_read_bio_RSAPublicKey(IntPtr biop, IntPtr rsa, IntPtr pass_cb, IntPtr u);
+
+            [DllImport(OpenSsl.Library, EntryPoint = "PEM_write_bio_RSAPublicKey")]
+            public static extern IntPtr PEM_write_bio_RSAPublicKey(IntPtr biop, IntPtr rsa);
+
 
             // BN
 
