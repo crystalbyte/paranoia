@@ -134,6 +134,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        public static string AppMenuSymbolText {
+            get {
+                return ResourceManager.GetString("AppMenuSymbolText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auhentication failed..
         /// </summary>
         public static string AuthenticationFailedMessage {
@@ -229,6 +238,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string ContinueButtonText {
             get {
                 return ResourceManager.GetString("ContinueButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Identity.
+        /// </summary>
+        public static string CreateIdentityCommandText {
+            get {
+                return ResourceManager.GetString("CreateIdentityCommandText", resourceCulture);
             }
         }
         

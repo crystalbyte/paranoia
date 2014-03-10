@@ -1,0 +1,434 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Converters"
+                    xmlns:local="clr-namespace:Crystalbyte.Paranoia"
+                    xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+                    xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
+
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <converters:RibbonVisibilityToVisibilityConverter x:Key="RibbonVisibilityToVisibilityConverter" />
+
+    <Style x:Key="RibbonOptionTitleStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=LightTextBrush}}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="0,3,0,3" />
+    </Style>
+
+    <Style x:Key="RibbonOptionDescriptionStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=LightTextBrush}}" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="BackButtonStyle" TargetType="ButtonBase">
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ButtonBase">
+                    <Grid>
+                        <Ellipse Width="34"
+                                 Height="34"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center" />
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="WindowCommandButtonStyle" TargetType="ButtonBase">
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowButtonBorderBrush}}" />
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowButtonBackgroundBrush}}" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Width" Value="32" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=LightTextBrush}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ButtonBase">
+                    <Border Margin="{TemplateBinding Margin}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+                        <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=DarkTextBrush}}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=DarkTextBrush}}" />
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsPressed" Value="True" />
+                    <Condition Property="IsMouseOver" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowAccentBrush}}" />
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="IsPressed" Value="False" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowButtonHoverBrush}}" />
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="CloseButtonStyle"
+           BasedOn="{StaticResource WindowCommandButtonStyle}"
+           TargetType="ButtonBase">
+        <Setter Property="ToolTip" Value="{x:Static properties:Resources.CloseTooltip}" />
+        <Setter Property="Content">
+            <Setter.Value>
+                <Image Width="10"
+                       Height="10"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Source="/Crystalbyte.Paranoia.Ribbon;component/Assets/close.png"
+                       Stretch="Fill" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ToggleRibbonButtonStyle"
+           BasedOn="{StaticResource WindowCommandButtonStyle}"
+           TargetType="ButtonBase">
+        <Setter Property="ToolTip" Value="{x:Static properties:Resources.ShowRibbonTooltip}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="Content">
+            <Setter.Value>
+                <StackPanel HorizontalAlignment="Right">
+                    <Ellipse Width="4"
+                             Fill="WhiteSmoke"
+                             StrokeThickness="0" />
+                    <Ellipse Width="4"
+                             Fill="WhiteSmoke"
+                             StrokeThickness="0" />
+                    <Ellipse Width="4"
+                             Fill="WhiteSmoke"
+                             StrokeThickness="0" />
+                </StackPanel>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MinimizeButtonStyle"
+           BasedOn="{StaticResource WindowCommandButtonStyle}"
+           TargetType="ButtonBase">
+        <Setter Property="ToolTip" Value="{x:Static properties:Resources.MinimizeTooltip}" />
+        <Setter Property="Content">
+            <Setter.Value>
+                <Image Width="10"
+                       Height="10"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Source="/Crystalbyte.Paranoia.Ribbon;component/Assets/minimize.png" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="RestoreDownButtonStyle"
+           BasedOn="{StaticResource WindowCommandButtonStyle}"
+           TargetType="ButtonBase">
+        <Setter Property="ToolTip" Value="{x:Static properties:Resources.RestoreDownTooltip}" />
+        <Setter Property="Content">
+            <Setter.Value>
+                <Image Width="10"
+                       Height="10"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Source="/Crystalbyte.Paranoia.Ribbon;component/Assets/restore.png"
+                       Stretch="Fill" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MaximizeButtonStyle"
+           BasedOn="{StaticResource WindowCommandButtonStyle}"
+           TargetType="ButtonBase">
+        <Setter Property="ToolTip" Value="{x:Static properties:Resources.MaximizeTooltip}" />
+        <Setter Property="Content">
+            <Setter.Value>
+                <Image Width="10"
+                       Height="10"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Source="/Crystalbyte.Paranoia.Ribbon;component/Assets/maximize.png"
+                       Stretch="Fill" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="RibbonOptionsButtonStyle"
+           BasedOn="{StaticResource WindowCommandButtonStyle}"
+           TargetType="ButtonBase">
+        <Setter Property="ToolTip" Value="{x:Static properties:Resources.RibbonOptionsTooltip}" />
+        <Setter Property="Content">
+            <Setter.Value>
+                <Image Height="10"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Source="/Crystalbyte.Paranoia.Ribbon;component/Assets/ribbon.png"
+                       Stretch="Uniform" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ui:RibbonWindow">
+        <Setter Property="WindowStyle" Value="None" />
+        <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowAccentBrush}}" />
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowBackgroundBrush}}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CaptionHeight="54"
+                              GlassFrameThickness="-1"
+                              NonClientFrameEdges="None"
+                              ResizeBorderThickness="0" />
+            </Setter.Value>
+        </Setter>
+        <!--  Windows Shell Integration http://www.seritools.de/programmierung/wpf/wpf-fensterrahmen-anpassen-mit-dem-windowchrome/post503.html  -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ui:RibbonWindow">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <!--  window command bar  -->
+                                <RowDefinition Height="Auto" />
+                                <!--  ribbon bar  -->
+                                <RowDefinition Height="Auto" />
+                                <!--  window content  -->
+                                <RowDefinition Height="*" />
+                                <!--  status bar  -->
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0" HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <!--  window icon  -->
+                                    <ColumnDefinition Width="Auto" />
+                                    <!--  empty command space  -->
+                                    <ColumnDefinition Width="*" />
+                                    <!--  help button  -->
+                                    <ColumnDefinition Width="Auto" />
+                                    <!--  ribbon options button  -->
+                                    <ColumnDefinition Width="Auto" />
+                                    <!--  minimize button  -->
+                                    <ColumnDefinition Width="Auto" />
+                                    <!--  restore down button  -->
+                                    <ColumnDefinition Width="Auto" />
+                                    <!--  maximize button  -->
+                                    <ColumnDefinition Width="Auto" />
+                                    <!--  close button  -->
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0"
+                                        Grid.ColumnSpan="6"
+                                        Style="{StaticResource ToggleRibbonButtonStyle}"
+                                        Visibility="{Binding RibbonVisibility,
+                                                             RelativeSource={RelativeSource TemplatedParent},
+                                                             Converter={StaticResource RibbonVisibilityToVisibilityConverter},
+                                                             ConverterParameter=Hidden}" />
+                                <ToggleButton x:Name="RibbonOptionsButton"
+                                              Grid.Column="3"
+                                              Style="{StaticResource RibbonOptionsButtonStyle}" />
+                                <Button Grid.Column="4"
+                                        Command="local:WindowCommands.Minimize"
+                                        Style="{StaticResource MinimizeButtonStyle}"
+                                        Visibility="{Binding RibbonVisibility,
+                                                             RelativeSource={RelativeSource TemplatedParent},
+                                                             Converter={StaticResource RibbonVisibilityToVisibilityConverter},
+                                                             ConverterParameter=Tabs|TabsAndCommands}" />
+                                <Border Grid.Column="5"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Visibility="{Binding RibbonVisibility,
+                                                             RelativeSource={RelativeSource TemplatedParent},
+                                                             Converter={StaticResource RibbonVisibilityToVisibilityConverter},
+                                                             ConverterParameter=Tabs|TabsAndCommands}">
+                                    <Button Command="local:WindowCommands.Maximize"
+                                            Style="{StaticResource MaximizeButtonStyle}"
+                                            Visibility="{Binding IsNormalized,
+                                                                 RelativeSource={RelativeSource TemplatedParent},
+                                                                 Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                </Border>
+                                <Border Grid.Column="6"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Visibility="{Binding RibbonVisibility,
+                                                             RelativeSource={RelativeSource TemplatedParent},
+                                                             Converter={StaticResource RibbonVisibilityToVisibilityConverter},
+                                                             ConverterParameter=Tabs|TabsAndCommands}">
+                                    <Button Command="local:WindowCommands.RestoreDown"
+                                            Style="{StaticResource RestoreDownButtonStyle}"
+                                            Visibility="{Binding IsMaximized,
+                                                                 RelativeSource={RelativeSource TemplatedParent},
+                                                                 Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                </Border>
+                                <Button Grid.Column="7"
+                                        Command="local:WindowCommands.Close"
+                                        Style="{StaticResource CloseButtonStyle}" />
+                            </Grid>
+                            <ContentPresenter Grid.Row="1"
+                                              Grid.Column="0"
+                                              Content="{TemplateBinding Ribbon}" />
+                            <StackPanel Grid.Row="0"
+                                        HorizontalAlignment="Right"
+                                        Orientation="Horizontal" />
+                            <ContentPresenter Grid.Row="2" Grid.Column="0" />
+                            <!--
+                                <Grid Grid.Row="0"
+                                Grid.RowSpan="3"
+                                Grid.Column="0"
+                                Width="300"
+                                Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                ResourceId=WindowAccentBrush}}">
+                                <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Button Command="{x:Static local:WindowCommands.Back}" Style="{StaticResource BackButtonStyle}" />
+                                </Grid>
+                            -->
+
+                            <Popup x:Name="PART_RibbonOptionsPopup"
+                                   Grid.Row="0"
+                                   IsOpen="{Binding IsChecked,
+                                                    ElementName=RibbonOptionsButton,
+                                                    Mode=TwoWay}"
+                                   Placement="Bottom"
+                                   PlacementTarget="{Binding ElementName=RibbonOptionsButton}"
+                                   StaysOpen="False">
+                                <Border Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                           ResourceId=WindowBackgroundBrush}}"
+                                        BorderBrush="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                            ResourceId=WindowAccentBrush}}"
+                                        BorderThickness="1">
+                                    <ListView x:Name="PART_RibbonOptionsList"
+                                              Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                                 ResourceId=WindowBackgroundBrush}}"
+                                              BorderThickness="0">
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="ListViewItem">
+                                                            <Border x:Name="Border"
+                                                                    Margin="1"
+                                                                    Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                                                       ResourceId=WindowBackgroundBrush}}">
+                                                                <ContentPresenter />
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowAccentBrush}}" />
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate DataType="ui:RibbonOption">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="280" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Grid.Row="0"
+                                                            Grid.RowSpan="2"
+                                                            Grid.Column="0"
+                                                            Margin="3,3,5,3"
+                                                            VerticalAlignment="Top">
+                                                        <Grid>
+                                                            <Image Width="30"
+                                                                   Margin="3"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   Source="{Binding ImageSource,
+                                                                                    IsAsync=True,
+                                                                                    Mode=OneTime}"
+                                                                   Stretch="Uniform" />
+                                                            <Rectangle x:Name="SelectionOverlay"
+                                                                       HorizontalAlignment="Stretch"
+                                                                       VerticalAlignment="Stretch"
+                                                                       Fill="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                                                    ResourceId=WindowAccentBrush}}"
+                                                                       Opacity=".2"
+                                                                       StrokeThickness="0"
+                                                                       Visibility="{Binding IsSelected,
+                                                                                            Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                            <Rectangle x:Name="SelectionOverlayBorder"
+                                                                       HorizontalAlignment="Stretch"
+                                                                       VerticalAlignment="Stretch"
+                                                                       Fill="Transparent"
+                                                                       Stroke="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                                                      ResourceId=WindowAccentBrush}}"
+                                                                       StrokeThickness="1"
+                                                                       Visibility="{Binding IsSelected,
+                                                                                            Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                        </Grid>
+                                                    </Border>
+                                                    <TextBlock Grid.Row="0"
+                                                               Grid.Column="1"
+                                                               Style="{StaticResource RibbonOptionTitleStyle}"
+                                                               Text="{Binding Title,
+                                                                              Mode=OneTime}" />
+                                                    <TextBlock Grid.Row="1"
+                                                               Grid.Column="1"
+                                                               Style="{StaticResource RibbonOptionDescriptionStyle}"
+                                                               Text="{Binding Description,
+                                                                              Mode=OneTime}" />
+                                                </Grid>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter TargetName="SelectionOverlay" Property="Visibility" Value="Visible" />
+                                                        <Setter TargetName="SelectionOverlayBorder" Property="Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </Border>
+                            </Popup>
+
+                            <ResizeGrip Grid.Row="2"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Visibility="{Binding IsNormalized,
+                                                             RelativeSource={RelativeSource TemplatedParent},
+                                                             Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        WindowChrome.ResizeGripDirection="BottomRight" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Converters">
+    <converters:SecurityPolicyFormatter x:Key="SecurityPolicyFormatter" />
+    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <converters:RatioConverter x:Key="RatioConverter" />
+    <converters:ExceptionFormatter x:Key="ExceptionFormatter" />
+    <converters:BooleanNegator x:Key="BooleanNegator" />
+    <converters:DomainToHostLogoConverter x:Key="DomainToHostLogoConverter" />
+    <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+    <converters:MailboxToImageConverter x:Key="MailboxToImageConverter" />
+    <converters:ContactToTextConverter x:Key="ContactToTextConverter" />
+    <converters:DateFormatter x:Key="DateFormatter" />
+    <converters:SizeFormatter x:Key="SizeFormatter" />
+    <converters:DoubleCorrector x:Key="DoubleCorrector" />
+    <converters:MailAddressToGravatarConverter x:Key="MailAddressToGravatarConverter" />
+</ResourceDictionary>

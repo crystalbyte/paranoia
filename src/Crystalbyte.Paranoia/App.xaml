@@ -10,49 +10,21 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Themes/SortToggleButtonStyle.xaml" />
-                <ResourceDictionary Source="/Themes/ScrollViewer.xaml" />
+                <ResourceDictionary Source="/Resources/Brushes.xaml" />
+                <ResourceDictionary Source="/Resources/Converters.xaml" />
+                <ResourceDictionary Source="/Styles/Button.xaml" />
+                <ResourceDictionary Source="/Styles/ToolTip.xaml" />
+                <ResourceDictionary Source="/Styles/ContextMenu.xaml" />
+                <ResourceDictionary Source="/Styles/ListViewItem.xaml" />
+                <ResourceDictionary Source="/Styles/ToggleButton.xaml" />
+                <ResourceDictionary Source="/Styles/ScrollViewer.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <converters:SecurityPolicyFormatter x:Key="SecurityPolicyFormatter" />
-            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-            <converters:RatioConverter x:Key="RatioConverter" />
-            <converters:ExceptionFormatter x:Key="ExceptionFormatter" />
-            <converters:BooleanNegator x:Key="BooleanNegator" />
-            <converters:DomainToHostLogoConverter x:Key="DomainToHostLogoConverter" />
-            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-            <converters:MailboxToImageConverter x:Key="MailboxToImageConverter" />
-            <converters:ContactToTextConverter x:Key="ContactToTextConverter" />
-            <converters:DateFormatter x:Key="DateFormatter" />
-            <converters:SizeFormatter x:Key="SizeFormatter" />
-            <converters:DoubleCorrector x:Key="DoubleCorrector" />
-            <converters:MailAddressToGravatarConverter x:Key="MailAddressToGravatarConverter" />
 
-            <Color x:Key="AppAccentColor"
-                   A="255"
-                   B="204"
-                   G="122"
-                   R="0" />
 
-            <!--
-                <Color x:Key="AppAccentColor"
-                A="255"
-                B="204"
-                G="104"
-                R="255" />
-            -->
 
-            <commands:NullCommand x:Key="NullCommand" />
+
             <system:String x:Key="GravatarDefaultImageUrl">http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y&amp;d=mm&amp;s=200</system:String>
-            <SolidColorBrush x:Key="AppWindowBackgroundBrush" Color="#1E1E1E" />
-            <SolidColorBrush x:Key="AppControlBrush" Color="#2D2D30" />
-            <SolidColorBrush x:Key="AppLightControlBrush" Color="#4D4D4D" />
-            <SolidColorBrush x:Key="AppLightTextBrush" Color="WhiteSmoke" />
-            <SolidColorBrush x:Key="AppDarkTextBrush" Color="#2D2D30" />
-            <SolidColorBrush x:Key="AppMediumTextBrush" Color="#6D6D6D" />
-            <SolidColorBrush x:Key="AppMenuButtonMouseOverBrush" Color="#3E3E40" />
-            <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccentColor}" />
-            <SolidColorBrush x:Key="AppSuccessColorBrush" Color="#FF06B025" />
-            <SolidColorBrush x:Key="AppFailureColorBrush" Color="Tomato" />
+
             <FontFamily x:Key="AppFontFamily">Segoe UI</FontFamily>
 
             <system:Double x:Key="AppLargeExtraFontSize">28</system:Double>
@@ -62,41 +34,14 @@
             <system:Double x:Key="AppSmallFontSize">10</system:Double>
             <system:Double x:Key="AppExtraSmallFontSize">8</system:Double>
 
-            <Style TargetType="{x:Type ListViewItem}">
-                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                <Setter Property="VerticalContentAlignment" Value="Center" />
-            </Style>
 
-            <Style TargetType="{x:Type ContextMenu}">
-                <Setter Property="SnapsToDevicePixels" Value="True" />
-                <Setter Property="OverridesDefaultStyle" Value="True" />
-                <Setter Property="Grid.IsSharedSizeScope" Value="true" />
-                <Setter Property="HasDropShadow" Value="True" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="ContextMenu">
-                            <Border Name="Border"
-                                    Background="#1B1B1C"
-                                    BorderBrush="#1B1B1C"
-                                    BorderThickness="1">
-                                <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
 
             <Style TargetType="{x:Type MenuItem}">
                 <Setter Property="Background" Value="#1B1B1C" />
                 <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
             </Style>
 
-            <Style TargetType="{x:Type ToolTip}">
-                <Setter Property="BorderThickness" Value="1" />
-                <Setter Property="BorderBrush" Value="WhiteSmoke" />
-                <Setter Property="Background" Value="{StaticResource AppWindowBackgroundBrush}" />
-                <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
-            </Style>
+
 
             <ControlTemplate x:Key="ValidationErrorTemplate">
                 <Grid>
@@ -128,147 +73,41 @@
                 <Setter Property="FontWeight" Value="Thin" />
             </Style>
 
-            <Style x:Key="AppButtonStyle" TargetType="{x:Type Button}">
 
-                <Setter Property="BorderThickness" Value="0" />
-                <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
 
-                <Setter Property="BorderBrush" Value="Transparent" />
-                <Setter Property="Background" Value="{StaticResource AppWindowBackgroundBrush}" />
-                <Setter Property="Margin" Value="0" />
-                <Setter Property="Padding" Value="0" />
-                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                <Setter Property="VerticalContentAlignment" Value="Center" />
-                <Setter Property="SnapsToDevicePixels" Value="True" />
-                <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Border Margin="{TemplateBinding Margin}"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    Padding="{TemplateBinding Padding}">
-                                <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
-                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                </Grid>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Style.Triggers>
-                    <Trigger Property="IsEnabled" Value="False">
-                        <Setter Property="Foreground" Value="{StaticResource AppDarkTextBrush}" />
-                        <Setter Property="BorderBrush" Value="{StaticResource AppDarkTextBrush}" />
-                    </Trigger>
-                    <MultiTrigger>
-                        <MultiTrigger.Conditions>
-                            <Condition Property="IsPressed" Value="True" />
-                            <Condition Property="IsMouseOver" Value="True" />
-                        </MultiTrigger.Conditions>
-                        <Setter Property="Background" Value="{StaticResource AppAccentBrush}" />
-                    </MultiTrigger>
-                    <MultiTrigger>
-                        <MultiTrigger.Conditions>
-                            <Condition Property="IsMouseOver" Value="True" />
-                            <Condition Property="IsPressed" Value="False" />
-                        </MultiTrigger.Conditions>
-                        <Setter Property="Background" Value="{StaticResource AppMenuButtonMouseOverBrush}" />
-                    </MultiTrigger>
-                </Style.Triggers>
-            </Style>
 
-            <Style x:Key="AppMenuButtonStyle"
-                   BasedOn="{StaticResource AppButtonStyle}"
-                   TargetType="{x:Type Button}">
-                <Setter Property="Width" Value="48" />
-                <Setter Property="Height" Value="48" />
-                <Setter Property="Background" Value="Transparent" />
-                <Setter Property="VerticalAlignment" Value="Center" />
-            </Style>
 
-            <Style x:Key="CreateIdentityButtonStyle"
-                   BasedOn="{StaticResource AppMenuButtonStyle}"
-                   TargetType="{x:Type Button}">
+            <!--
+                <Style x:Key="CreateIdentityButtonStyle"
+                BasedOn="{StaticResource AppMenuButtonStyle}"
+                TargetType="{x:Type Button}">
                 <Setter Property="ContentTemplate">
-                    <Setter.Value>
-                        <DataTemplate>
-                            <Canvas Width="20" Height="20">
-                                <Canvas.RenderTransform>
-                                    <TranslateTransform Y="14" />
-                                </Canvas.RenderTransform>
-                                <Line Fill="White"
-                                      Stroke="White"
-                                      StrokeThickness="4"
-                                      X1="0"
-                                      X2="20"
-                                      Y1="10"
-                                      Y2="10" />
-                                <Line Fill="White"
-                                      Stroke="White"
-                                      StrokeThickness="4"
-                                      X1="10"
-                                      X2="10"
-                                      Y1="0"
-                                      Y2="20" />
-                            </Canvas>
-                        </DataTemplate>
-                    </Setter.Value>
+                <Setter.Value>
+                <DataTemplate>
+                <Canvas Width="20" Height="20">
+                <Canvas.RenderTransform>
+                <TranslateTransform Y="14" />
+                </Canvas.RenderTransform>
+                <Line Fill="White"
+                Stroke="White"
+                StrokeThickness="4"
+                X1="0"
+                X2="20"
+                Y1="10"
+                Y2="10" />
+                <Line Fill="White"
+                Stroke="White"
+                StrokeThickness="4"
+                X1="10"
+                X2="10"
+                Y1="0"
+                Y2="20" />
+                </Canvas>
+                </DataTemplate>
+                </Setter.Value>
                 </Setter>
-            </Style>
-
-            <Style x:Key="AppWindowButtonStyle"
-                   BasedOn="{StaticResource AppButtonStyle}"
-                   TargetType="{x:Type Button}">
-                <Setter Property="Background" Value="Transparent" />
-                <Setter Property="Width" Value="36" />
-                <Setter Property="Height" Value="28" />
-                <Setter Property="VerticalAlignment" Value="Center" />
-            </Style>
-
-            <Style x:Key="CloseButtonStyle"
-                   BasedOn="{StaticResource AppWindowButtonStyle}"
-                   TargetType="{x:Type Button}">
-                <Setter Property="Content">
-                    <Setter.Value>
-                        <Image Width="10"
-                               Height="10"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Source="/Assets/close.png"
-                               Stretch="Fill" />
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
-            <Style x:Key="MinimizeButtonStyle"
-                   BasedOn="{StaticResource AppWindowButtonStyle}"
-                   TargetType="{x:Type Button}">
-                <Setter Property="Content">
-                    <Setter.Value>
-                        <Image Width="10"
-                               Height="10"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Source="/Assets/minimize.png" />
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
-            <Style x:Key="MaximizeButtonStyle"
-                   BasedOn="{StaticResource AppWindowButtonStyle}"
-                   TargetType="{x:Type Button}">
-                <Setter Property="Content">
-                    <Setter.Value>
-                        <Image Width="10"
-                               Height="10"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Source="/Assets/maximize.png"
-                               Stretch="Fill" />
-                    </Setter.Value>
-                </Setter>
-            </Style>
+                </Style>
+            -->
 
             <Style x:Key="AppWatermarkTextStyle"
                    BasedOn="{StaticResource AppNormalTextStyle}"
@@ -284,7 +123,7 @@
                 <Setter Property="FontSize" Value="{StaticResource AppLargeExtraFontSize}" />
             </Style>
 
-            <Style x:Key="{x:Type TextBox}" TargetType="{x:Type TextBox}">
+            <Style TargetType="{x:Type TextBox}">
                 <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ValidationErrorTemplate}" />
                 <Setter Property="BorderBrush" Value="{StaticResource AppAccentBrush}" />
                 <Setter Property="Background" Value="{StaticResource AppControlBrush}" />
@@ -479,7 +318,8 @@
                 </Setter>
             </Style>
 
-            <Style x:Key="BlockListViewItem" TargetType="{x:Type ListViewItem}">
+            <!--
+                <Style x:Key="BlockListViewItem" TargetType="{x:Type ListViewItem}">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 <Setter Property="VerticalContentAlignment" Value="Stretch" />
                 <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -487,47 +327,48 @@
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="Margin" Value="0" />
                 <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ListViewItem}">
-                            <Border Margin="{TemplateBinding Margin}"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    Padding="{TemplateBinding Padding}"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                                <Grid>
-                                    <Rectangle x:Name="MouseOverIndicator"
-                                               HorizontalAlignment="Stretch"
-                                               VerticalAlignment="Stretch"
-                                               Fill="Gray"
-                                               Opacity=".1"
-                                               Stroke="Gray" />
-                                    <Rectangle x:Name="SelectionIndicator"
-                                               HorizontalAlignment="Stretch"
-                                               VerticalAlignment="Stretch"
-                                               Fill="{StaticResource AppAccentBrush}"
-                                               Stroke="{StaticResource AppAccentBrush}" />
-                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                </Grid>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter TargetName="SelectionIndicator" Property="Visibility" Value="Visible" />
-                                </Trigger>
-                                <Trigger Property="IsSelected" Value="False">
-                                    <Setter TargetName="SelectionIndicator" Property="Visibility" Value="Collapsed" />
-                                </Trigger>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="MouseOverIndicator" Property="Visibility" Value="Visible" />
-                                </Trigger>
-                                <Trigger Property="IsMouseOver" Value="False">
-                                    <Setter TargetName="MouseOverIndicator" Property="Visibility" Value="Collapsed" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
+                <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                <Border Margin="{TemplateBinding Margin}"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                Padding="{TemplateBinding Padding}"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                <Grid>
+                <Rectangle x:Name="MouseOverIndicator"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Fill="Gray"
+                Opacity=".1"
+                Stroke="Gray" />
+                <Rectangle x:Name="SelectionIndicator"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Fill="{StaticResource AppAccentBrush}"
+                Stroke="{StaticResource AppAccentBrush}" />
+                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </Grid>
+                </Border>
+                <ControlTemplate.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                <Setter TargetName="SelectionIndicator" Property="Visibility" Value="Visible" />
+                </Trigger>
+                <Trigger Property="IsSelected" Value="False">
+                <Setter TargetName="SelectionIndicator" Property="Visibility" Value="Collapsed" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="MouseOverIndicator" Property="Visibility" Value="Visible" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                <Setter TargetName="MouseOverIndicator" Property="Visibility" Value="Collapsed" />
+                </Trigger>
+                </ControlTemplate.Triggers>
+                </ControlTemplate>
+                </Setter.Value>
                 </Setter>
-            </Style>
+                </Style>
+            -->
 
             <Style x:Key="AvatarListViewStyle" TargetType="{x:Type ListView}">
                 <Setter Property="Height" Value="48" />

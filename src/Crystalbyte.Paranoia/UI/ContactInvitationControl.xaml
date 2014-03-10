@@ -10,8 +10,10 @@
              d:DesignWidth="800"
              mc:Ignorable="d">
     <UserControl.InputBindings>
-        <KeyBinding Key="Return" Command="{Binding CreateCommand, FallbackValue={StaticResource NullCommand}}" />
-        <KeyBinding Key="Escape" Command="{Binding CancelCommand, FallbackValue={StaticResource NullCommand}}" />
+        <!--
+            <KeyBinding Key="Return" Command="{Binding CreateCommand, FallbackValue={StaticResource NullCommand}}" />
+            <KeyBinding Key="Escape" Command="{Binding CancelCommand, FallbackValue={StaticResource NullCommand}}" />
+        -->
     </UserControl.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -71,18 +73,22 @@
                         <TextBox KeyboardNavigation.TabIndex="1" Text="{Binding Address, FallbackValue={x:Static system:String.Empty}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}">
                             <ui:WatermarkService.Watermark>
                                 <TextBlock VerticalAlignment="Center"
-                                               Style="{StaticResource AppWatermarkTextStyle}"
-                                               Text="{x:Static properties:Resources.ContactAddressWatermark}" />
+                                           Style="{StaticResource AppWatermarkTextStyle}"
+                                           Text="{x:Static properties:Resources.ContactAddressWatermark}" />
                             </ui:WatermarkService.Watermark>
                         </TextBox>
                     </AdornerDecorator>
                 </StackPanel>
                 <StackPanel Grid.Row="3"
-                           Grid.Column="1"
+                            Grid.Column="1"
+                            Margin="0,20,-6,0"
                             HorizontalAlignment="Right"
-                            Orientation="Horizontal"
-                           Margin="0,20,-6,0">
-                    <Rectangle Focusable="True" Fill="Transparent" KeyboardNavigation.TabIndex="5" StrokeThickness="0" GotKeyboardFocus="OnDummyRectangleGotKeyboardFocus" />
+                            Orientation="Horizontal">
+                    <Rectangle Fill="Transparent"
+                               Focusable="True"
+                               GotKeyboardFocus="OnDummyRectangleGotKeyboardFocus"
+                               KeyboardNavigation.TabIndex="5"
+                               StrokeThickness="0" />
                     <Button Command="{Binding CreateCommand}"
                             Content="{x:Static properties:Resources.InviteButtonText}"
                             KeyboardNavigation.TabIndex="6"

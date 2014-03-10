@@ -13,7 +13,6 @@ using Crystalbyte.Paranoia.Commands;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using NLog;
-using System.Windows.Input;
 
 #endregion
 
@@ -88,8 +87,8 @@ namespace Crystalbyte.Paranoia.Contexts {
         [Import]
         public CreateIdentityCommand CreateIdentityCommand { get; set; }
 
-        [ImportMany]
-        public IEnumerable<IAppBarCommand> AppBarCommands { get; set; }
+        //[ImportMany]
+        //public IEnumerable<IAppBarCommand> AppBarCommands { get; set; }
 
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
@@ -98,22 +97,6 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         #endregion
-
-        public IEnumerable<IAppBarCommand> ContactCommands {
-            get {
-                return AppBarCommands
-                    .Where(x => x.Category == AppBarCategory.Contacts)
-                    .OrderBy(x => x.Position).ToArray();
-            }
-        }
-
-        public IEnumerable<IAppBarCommand> MailCommands {
-            get {
-                return AppBarCommands
-                    .Where(x => x.Category == AppBarCategory.Mails)
-                    .OrderBy(x => x.Position).ToArray();
-            }
-        }
 
         private async void OnIdentityCreationFinished(object sender, EventArgs e) {
             await RestoreIdentitiesAsync();

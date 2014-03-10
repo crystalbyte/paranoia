@@ -369,4 +369,10 @@ Once your contact approves, messages can be securely exchanged.</value>
   <data name="YesterdayText" xml:space="preserve">
     <value>Yesterday</value>
   </data>
+  <data name="AppMenuSymbolText" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="CreateIdentityCommandText" xml:space="preserve">
+    <value>Create Identity</value>
+  </data>
 </root>

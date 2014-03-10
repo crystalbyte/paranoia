@@ -1,11 +1,13 @@
-﻿using Crystalbyte.Paranoia.Contexts;
-using System;
+﻿using System;
 using System.Composition;
-using System.Windows.Input;
+using System.Windows.Media;
+using Crystalbyte.Paranoia.Contexts;
+using Crystalbyte.Paranoia.Properties;
 
 namespace Crystalbyte.Paranoia.Commands {
     [Export, Shared]
-    public sealed class CreateIdentityCommand : ICommand {
+    
+    public sealed class CreateIdentityCommand  {
 
         #region Import Declarations
 
@@ -27,5 +29,21 @@ namespace Crystalbyte.Paranoia.Commands {
         }
 
         #endregion
+
+        public ImageSource SmallImageSource {
+            get { return null; }
+        }
+
+        public string Text {
+            get { return Resources.CreateIdentityCommandText; }
+        }
+
+        public string RibbonPath {
+            get { return "Identity/Action"; }
+        }
+
+        public ImageSource LargeImageSource {
+            get { return null; }
+        }
     }
 }

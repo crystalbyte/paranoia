@@ -181,6 +181,7 @@
     <Compile Include="Pack.cs" />
     <Compile Include="MailHeaders.cs" />
     <Compile Include="PasswordPolicyAttribute.cs" />
+    <Compile Include="UI\RibbonTabKeys.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="TestResult.cs" />
     <Compile Include="UI\AppBarButton.cs" />
@@ -225,7 +226,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="PropertySupport.cs" />
     <Compile Include="RegexPatterns.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="UI\IdentityCreationPage.xaml.cs">
@@ -243,6 +243,34 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\Brushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Button.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ListViewItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ToggleButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Tooltip.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\AppBarButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -255,11 +283,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\ScrollViewer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\SortToggleButtonStyle.xaml">
+    <Page Include="Styles\ScrollViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -329,19 +353,16 @@
       <Project>{0DC46336-8D08-4C35-8F65-1D1CF2FD0E11}</Project>
       <Name>Crystalbyte.Paranoia.Messaging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Crystalbyte.Paranoia.Ribbon\Crystalbyte.Paranoia.Ribbon.csproj">
+      <Project>{b1c3d71f-aa73-407d-b0d2-0e38f65e7ac8}</Project>
+      <Name>Crystalbyte.Paranoia.Ribbon</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\refresh.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\send.message.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\close.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\maximize.png" />
-    <Resource Include="Assets\minimize.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\delete.png" />
@@ -376,22 +397,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\smtp.message.html" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\googlemail.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\links.txt" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\add.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\mail.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\invitation.html" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\menu.delete.png" />
@@ -419,9 +431,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\back.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\html-sample.html" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\next.png" />

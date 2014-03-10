@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Ribbon;component/UI/Resources.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Ribbon;component/UI/Ribbon.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Ribbon;component/UI/RibbonTab.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Ribbon;component/UI/RibbonWindow.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

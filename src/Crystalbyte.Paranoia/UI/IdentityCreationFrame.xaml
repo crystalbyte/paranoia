@@ -19,7 +19,7 @@
         <Border Grid.Row="0"
                 Background="Black"
                 Opacity=".6" />
-        <Border Grid.Row="1" Background="{StaticResource AppWindowBackgroundBrush}">
+        <Border Grid.Row="1">
             <Frame x:Name="NavigationFrame"
                    MinHeight="400"
                    HorizontalAlignment="Stretch"

@@ -4,19 +4,18 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
-using Crystalbyte.Paranoia.UI;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.Contexts {
+namespace Crystalbyte.Paranoia.UI {
     public abstract class NotificationObject : INotifyPropertyChanged, INotifyPropertyChanging {
         /// <summary>
-        ///   Raised when a property on this object has a new value.
+        ///     Raised when a property on this object has a new value.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        ///   Raises this object's PropertyChanged event.
+        ///     Raises this object's PropertyChanged event.
         /// </summary>
         /// <param name="propertyName"> The property that has a new value. </param>
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate",
@@ -29,7 +28,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         /// <summary>
-        ///   Raises this object's PropertyChanged event for each of the properties.
+        ///     Raises this object's PropertyChanged event for each of the properties.
         /// </summary>
         /// <param name="propertyNames"> The properties that have a new value. </param>
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate",
@@ -44,7 +43,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         /// <summary>
-        ///   Raises this object's PropertyChanged event.
+        ///     Raises this object's PropertyChanged event.
         /// </summary>
         /// <typeparam name="T"> The type of the property that has a new value </typeparam>
         /// <param name="propertyExpression"> A Lambda expression representing the property that has a new value. </param>
@@ -60,7 +59,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         public event PropertyChangingEventHandler PropertyChanging;
 
         /// <summary>
-        ///   Raises this object's PropertyChanging event.
+        ///     Raises this object's PropertyChanging event.
         /// </summary>
         /// <param name="propertyName"> The property that has a new value. </param>
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate",
@@ -73,7 +72,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         /// <summary>
-        ///   Raises this object's PropertyChanging event for each of the properties.
+        ///     Raises this object's PropertyChanging event for each of the properties.
         /// </summary>
         /// <param name="propertyNames"> The properties that have a new value. </param>
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate",
@@ -88,7 +87,7 @@ namespace Crystalbyte.Paranoia.Contexts {
         }
 
         /// <summary>
-        ///   Raises this object's PropertyChanging event.
+        ///     Raises this object's PropertyChanging event.
         /// </summary>
         /// <typeparam name="T"> The type of the property that has a new value </typeparam>
         /// <param name="propertyExpression"> A Lambda expression representing the property that has a new value. </param>
