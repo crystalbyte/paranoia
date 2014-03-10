@@ -134,6 +134,7 @@
     <Compile Include="Contexts\MailContext.cs" />
     <Compile Include="Contexts\MailFlagContext.cs" />
     <Compile Include="Contexts\MailSelectionSource.cs" />
+    <Compile Include="Contexts\PropertySupport.cs" />
     <Compile Include="Contexts\SmtpAccountContext.cs" />
     <Compile Include="Converters\BooleanMultiConverter.cs" />
     <Compile Include="Converters\BooleanNegator.cs" />
