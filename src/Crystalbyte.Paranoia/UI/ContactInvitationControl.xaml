@@ -30,7 +30,6 @@
         <Border Grid.Row="1"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
-                Background="{StaticResource AppWindowBackgroundBrush}"
                 Padding="20">
             <Grid Width="500" HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>

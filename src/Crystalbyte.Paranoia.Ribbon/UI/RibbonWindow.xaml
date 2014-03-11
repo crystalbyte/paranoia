@@ -208,24 +208,13 @@
         <Setter Property="TabStyle">
             <Setter.Value>
                 <Style TargetType="ui:RibbonTab">
-                    <Setter Property="SnapsToDevicePixels" Value="True" />
                     <Setter Property="BorderThickness" Value="1,1,1,0" />
+                    <Setter Property="Background" Value="Transparent" />
                     <Setter Property="HorizontalContentAlignment" Value="Center" />
                     <Setter Property="VerticalContentAlignment" Value="Center" />
-                    <Setter Property="Margin" Value="2,0,2,0" />
+                    <Setter Property="Margin" Value="1,0,1,0" />
                     <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowBackgroundBrush}}" />
                     <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=LightTextBrush}}" />
-                    <Setter Property="ContentTemplate">
-                        <Setter.Value>
-                            <DataTemplate>
-                                <Border BorderBrush="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=RibbonSelectionBorderBrush}}" BorderThickness="0,1,0,1">
-                                    <ContentPresenter MinHeight="80"
-                                                      HorizontalAlignment="Stretch"
-                                                      Content="{Binding}" />
-                                </Border>
-                            </DataTemplate>
-                        </Setter.Value>
-                    </Setter>
                     <Setter Property="HeaderTemplate">
                         <Setter.Value>
                             <DataTemplate>
@@ -236,20 +225,37 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ui:RibbonTab">
-                                <Border Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}">
-                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                      Content="{TemplateBinding Header}"
-                                                      ContentTemplate="{TemplateBinding HeaderTemplate}" />
-                                </Border>
+                                <Grid x:Name="Root" SnapsToDevicePixels="True">
+                                    <Border x:Name="SelectionBorder"
+                                            Background="Transparent"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            Visibility="{Binding RibbonVisibility,
+                                                                 RelativeSource={RelativeSource FindAncestor,
+                                                                                                AncestorType=ui:RibbonWindow,
+                                                                                                AncestorLevel=1},
+                                                                 Converter={StaticResource RibbonVisibilityToVisibilityConverter},
+                                                                 ConverterParameter=TabsAndCommands}" />
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          Content="{TemplateBinding Header}"
+                                                          ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                                    </Border>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Panel.ZIndex" Value="1" />
+                                        <Setter TargetName="Root" Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowBackgroundBrush}}" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Margin" Value="2,0,2,-1" />
                             <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=RibbonSelectionBorderBrush}}" />
                             <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowAccentBrush}}" />
                         </Trigger>
@@ -354,9 +360,14 @@
                                         Command="local:WindowCommands.Close"
                                         Style="{StaticResource CloseButtonStyle}" />
                             </Grid>
-                            <ui:Ribbon Grid.Row="1"
+                            <ui:Ribbon x:Name="PART_Ribbon"
+                                       Grid.Row="1"
                                        ItemContainerStyle="{TemplateBinding TabStyle}"
-                                       ItemsSource="{TemplateBinding Tabs}" />
+                                       ItemsSource="{TemplateBinding Tabs}"
+                                       Visibility="{Binding RibbonVisibility,
+                                                            RelativeSource={RelativeSource TemplatedParent},
+                                                            Converter={StaticResource RibbonVisibilityToVisibilityConverter},
+                                                            ConverterParameter=Tabs|TabsAndCommands}" />
                             <ContentPresenter Grid.Row="2" Grid.Column="0" />
                             <!--
                                 <Grid Grid.Row="0"
@@ -485,7 +496,6 @@
                                     </ListView>
                                 </Border>
                             </Popup>
-
                             <ResizeGrip Grid.Row="2"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Bottom"
