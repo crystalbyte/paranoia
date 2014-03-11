@@ -117,53 +117,68 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AppMenuText" xml:space="preserve">
-    <value>FILE</value>
-  </data>
   <data name="AutoHideRibbonDescription" xml:space="preserve">
     <value>Hide ribbon. Click on the application bar at the top to display it.</value>
   </data>
   <data name="AutoHideRibbonTitle" xml:space="preserve">
     <value>Auto-hide ribbon</value>
   </data>
-  <data name="CloseCommandText" xml:space="preserve">
+  <data name="BackCommandName" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="BackCommandTooltip" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="BlendInRibbonCommandName" xml:space="preserve">
+    <value>Blend in ribbon</value>
+  </data>
+  <data name="BlendInRibbonCommandTooltip" xml:space="preserve">
+    <value>Blend in ribbon</value>
+  </data>
+  <data name="CloseCommandName" xml:space="preserve">
     <value>Close</value>
   </data>
-  <data name="CloseTooltip" xml:space="preserve">
+  <data name="CloseCommandTooltip" xml:space="preserve">
     <value>Close</value>
   </data>
   <data name="ExpressionNotProperty" xml:space="preserve">
     <value>Expression is not a property.</value>
   </data>
-  <data name="MaximizeCommandText" xml:space="preserve">
+  <data name="MaximizeCommandName" xml:space="preserve">
     <value>Maximize</value>
   </data>
-  <data name="MaximizeTooltip" xml:space="preserve">
+  <data name="MaximizeCommandTooltip" xml:space="preserve">
     <value>Maximize</value>
   </data>
-  <data name="MinimizeCommandText" xml:space="preserve">
+  <data name="MinimizeCommandName" xml:space="preserve">
     <value>Minimize</value>
   </data>
-  <data name="MinimizeTooltip" xml:space="preserve">
+  <data name="MinimizeCommandTooltip" xml:space="preserve">
     <value>Minimize</value>
   </data>
   <data name="NotMemberAccessExpression" xml:space="preserve">
     <value>Cannot access member in Expression.</value>
   </data>
-  <data name="RestoreDownCommandText" xml:space="preserve">
-    <value>Restore Down</value>
+  <data name="OpenAppMenuCommandName" xml:space="preserve">
+    <value>Open app menu</value>
   </data>
-  <data name="RestoreDownTooltip" xml:space="preserve">
-    <value>Restore Down</value>
+  <data name="OpenAppMenuCommandTooltip" xml:space="preserve">
+    <value>Open app menu</value>
   </data>
-  <data name="RibbonOptionsText" xml:space="preserve">
-    <value>Ribbon Visibility Options</value>
+  <data name="OpenAppMenuHeader" xml:space="preserve">
+    <value>FILE</value>
   </data>
-  <data name="RibbonOptionsTooltip" xml:space="preserve">
-    <value>Ribbon Visibility Options</value>
+  <data name="RestoreDownCommandName" xml:space="preserve">
+    <value>Restore down</value>
   </data>
-  <data name="ShowRibbonTooltip" xml:space="preserve">
-    <value>Show Ribbon</value>
+  <data name="RestoreDownCommandTooltip" xml:space="preserve">
+    <value>Restore down</value>
+  </data>
+  <data name="RibbonOptionsCommandName" xml:space="preserve">
+    <value>Ribbon visibility options</value>
+  </data>
+  <data name="RibbonOptionsCommandTooltip" xml:space="preserve">
+    <value>Ribbon visibility options</value>
   </data>
   <data name="ShowTabsAndCommandsDescription" xml:space="preserve">
     <value>Permanently displays the ribbons tabs and commands.</value>

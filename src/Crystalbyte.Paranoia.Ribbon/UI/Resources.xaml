@@ -28,6 +28,9 @@
 
     <Thickness x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=HeaderPadding}">12,4,12,4</Thickness>
 
-    
+    <Storyboard x:Key="PopupFlyInStoryboard">
+        <DoubleAnimation />
+    </Storyboard>
+
 
 </ResourceDictionary>

@@ -91,7 +91,8 @@
     <Style x:Key="CloseButtonStyle"
            BasedOn="{StaticResource WindowCommandButtonStyle}"
            TargetType="ButtonBase">
-        <Setter Property="ToolTip" Value="{x:Static properties:Resources.CloseTooltip}" />
+        <Setter Property="Command" Value="{x:Static local:WindowCommands.Close}" />
+        <Setter Property="ToolTip" Value="{x:Static properties:Resources.CloseCommandTooltip}" />
         <Setter Property="Content">
             <Setter.Value>
                 <Image Width="10"
@@ -104,10 +105,11 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ToggleRibbonButtonStyle"
+    <Style x:Key="BlendInRibbonButtonStyle"
            BasedOn="{StaticResource WindowCommandButtonStyle}"
            TargetType="ButtonBase">
-        <Setter Property="ToolTip" Value="{x:Static properties:Resources.ShowRibbonTooltip}" />
+        <Setter Property="Command" Value="{x:Static local:WindowCommands.BlendInRibbon}" />
+        <!--  <Setter Property="ToolTip" Value="{x:Static properties:Resources.ShowRibbonTooltip}" />  -->
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Width" Value="Auto" />
         <Setter Property="HorizontalContentAlignment" Value="Right" />
@@ -140,7 +142,8 @@
     <Style x:Key="MinimizeButtonStyle"
            BasedOn="{StaticResource WindowCommandButtonStyle}"
            TargetType="ButtonBase">
-        <Setter Property="ToolTip" Value="{x:Static properties:Resources.MinimizeTooltip}" />
+        <Setter Property="Command" Value="{x:Static local:WindowCommands.Minimize}" />
+        <Setter Property="ToolTip" Value="{x:Static properties:Resources.MinimizeCommandTooltip}" />
         <Setter Property="Content">
             <Setter.Value>
                 <Image Width="10"
@@ -155,7 +158,8 @@
     <Style x:Key="RestoreDownButtonStyle"
            BasedOn="{StaticResource WindowCommandButtonStyle}"
            TargetType="ButtonBase">
-        <Setter Property="ToolTip" Value="{x:Static properties:Resources.RestoreDownTooltip}" />
+        <Setter Property="Command" Value="{x:Static local:WindowCommands.RestoreDown}" />
+        <Setter Property="ToolTip" Value="{x:Static properties:Resources.RestoreDownCommandTooltip}" />
         <Setter Property="Content">
             <Setter.Value>
                 <Image Width="10"
@@ -171,7 +175,8 @@
     <Style x:Key="MaximizeButtonStyle"
            BasedOn="{StaticResource WindowCommandButtonStyle}"
            TargetType="ButtonBase">
-        <Setter Property="ToolTip" Value="{x:Static properties:Resources.MaximizeTooltip}" />
+        <Setter Property="Command" Value="{x:Static local:WindowCommands.Maximize}" />
+        <Setter Property="ToolTip" Value="{x:Static properties:Resources.MaximizeCommandTooltip}" />
         <Setter Property="Content">
             <Setter.Value>
                 <Image Width="10"
@@ -187,7 +192,7 @@
     <Style x:Key="RibbonOptionsButtonStyle"
            BasedOn="{StaticResource WindowCommandButtonStyle}"
            TargetType="ButtonBase">
-        <Setter Property="ToolTip" Value="{x:Static properties:Resources.RibbonOptionsTooltip}" />
+        <Setter Property="ToolTip" Value="{x:Static properties:Resources.RibbonOptionsCommandTooltip}" />
         <Setter Property="Content">
             <Setter.Value>
                 <Image Height="10"
@@ -286,8 +291,6 @@
                             <Grid.RowDefinitions>
                                 <!--  window command bar  -->
                                 <RowDefinition Height="Auto" />
-                                <!--  ribbon bar  -->
-                                <RowDefinition Height="Auto" />
                                 <!--  window content  -->
                                 <RowDefinition Height="*" />
                                 <!--  status bar  -->
@@ -317,7 +320,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Button Grid.Column="0"
                                         Grid.ColumnSpan="2"
-                                        Style="{StaticResource ToggleRibbonButtonStyle}"
+                                        Style="{StaticResource BlendInRibbonButtonStyle}"
                                         Visibility="{Binding RibbonVisibility,
                                                              RelativeSource={RelativeSource TemplatedParent},
                                                              Converter={StaticResource RibbonVisibilityToVisibilityConverter},
@@ -326,7 +329,6 @@
                                               Grid.Column="3"
                                               Style="{StaticResource RibbonOptionsButtonStyle}" />
                                 <Button Grid.Column="4"
-                                        Command="local:WindowCommands.Minimize"
                                         Style="{StaticResource MinimizeButtonStyle}"
                                         Visibility="{Binding RibbonVisibility,
                                                              RelativeSource={RelativeSource TemplatedParent},
@@ -339,11 +341,7 @@
                                                              RelativeSource={RelativeSource TemplatedParent},
                                                              Converter={StaticResource RibbonVisibilityToVisibilityConverter},
                                                              ConverterParameter=Tabs|TabsAndCommands}">
-                                    <Button Command="local:WindowCommands.Maximize"
-                                            Style="{StaticResource MaximizeButtonStyle}"
-                                            Visibility="{Binding IsNormalized,
-                                                                 RelativeSource={RelativeSource TemplatedParent},
-                                                                 Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                    <Button Style="{StaticResource MaximizeButtonStyle}" Visibility="{Binding IsNormalized, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                 </Border>
                                 <Border Grid.Column="6"
                                         Background="Transparent"
@@ -352,25 +350,11 @@
                                                              RelativeSource={RelativeSource TemplatedParent},
                                                              Converter={StaticResource RibbonVisibilityToVisibilityConverter},
                                                              ConverterParameter=Tabs|TabsAndCommands}">
-                                    <Button Command="local:WindowCommands.RestoreDown"
-                                            Style="{StaticResource RestoreDownButtonStyle}"
-                                            Visibility="{Binding IsMaximized,
-                                                                 RelativeSource={RelativeSource TemplatedParent},
-                                                                 Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                    <Button Style="{StaticResource RestoreDownButtonStyle}" Visibility="{Binding IsMaximized, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                 </Border>
-                                <Button Grid.Column="7"
-                                        Command="local:WindowCommands.Close"
-                                        Style="{StaticResource CloseButtonStyle}" />
+                                <Button Grid.Column="7" Style="{StaticResource CloseButtonStyle}" />
                             </Grid>
-                            <ui:Ribbon x:Name="PART_Ribbon"
-                                       Grid.Row="1"
-                                       ItemContainerStyle="{TemplateBinding TabStyle}"
-                                       ItemsSource="{TemplateBinding Tabs}"
-                                       Visibility="{Binding RibbonVisibility,
-                                                            RelativeSource={RelativeSource TemplatedParent},
-                                                            Converter={StaticResource RibbonVisibilityToVisibilityConverter},
-                                                            ConverterParameter=Tabs|TabsAndCommands}" />
-                            <ContentPresenter Grid.Row="2" Grid.Column="0" />
+                            <ContentPresenter Grid.Row="1" Grid.Column="0" />
                             <!--
                                 <Grid Grid.Row="0"
                                 Grid.RowSpan="3"
@@ -499,19 +483,18 @@
                                 </Border>
                             </Popup>
 
-                            <Popup x:Name="PART_RibbonCommandsPopup"
+                            <Popup x:Name="PART_RibbonPopup"
                                    Grid.Row="0"
+                                   AllowsTransparency="True"
                                    Placement="Bottom"
                                    PlacementTarget="{Binding ElementName=CommandBar}"
-                                   StaysOpen="False">
-                                <Border Width="100"
-                                        Height="100"
-                                        Background="DeepPink">
-                                    <ContentPresenter />
-                                </Border>
+                                   StaysOpen="True">
+                                <ui:Ribbon x:Name="PART_Ribbon"
+                                           ItemContainerStyle="{TemplateBinding TabStyle}"
+                                           ItemsSource="{TemplateBinding Tabs}" />
                             </Popup>
 
-                            <ResizeGrip Grid.Row="2"
+                            <ResizeGrip Grid.Row="1"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Bottom"
                                         Visibility="{Binding IsNormalized,

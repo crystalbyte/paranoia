@@ -61,15 +61,6 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FILE.
-        /// </summary>
-        public static string AppMenuText {
-            get {
-                return ResourceManager.GetString("AppMenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Hide ribbon. Click on the application bar at the top to display it..
         /// </summary>
         public static string AutoHideRibbonDescription {
@@ -88,20 +79,56 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Close.
+        ///   Looks up a localized string similar to Back.
         /// </summary>
-        public static string CloseCommandText {
+        public static string BackCommandName {
             get {
-                return ResourceManager.GetString("CloseCommandText", resourceCulture);
+                return ResourceManager.GetString("BackCommandName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string BackCommandTooltip {
+            get {
+                return ResourceManager.GetString("BackCommandTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Blend in ribbon.
+        /// </summary>
+        public static string BlendInRibbonCommandName {
+            get {
+                return ResourceManager.GetString("BlendInRibbonCommandName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Blend in ribbon.
+        /// </summary>
+        public static string BlendInRibbonCommandTooltip {
+            get {
+                return ResourceManager.GetString("BlendInRibbonCommandTooltip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
-        public static string CloseTooltip {
+        public static string CloseCommandName {
             get {
-                return ResourceManager.GetString("CloseTooltip", resourceCulture);
+                return ResourceManager.GetString("CloseCommandName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string CloseCommandTooltip {
+            get {
+                return ResourceManager.GetString("CloseCommandTooltip", resourceCulture);
             }
         }
         
@@ -117,36 +144,36 @@ namespace Crystalbyte.Paranoia.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Maximize.
         /// </summary>
-        public static string MaximizeCommandText {
+        public static string MaximizeCommandName {
             get {
-                return ResourceManager.GetString("MaximizeCommandText", resourceCulture);
+                return ResourceManager.GetString("MaximizeCommandName", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Maximize.
         /// </summary>
-        public static string MaximizeTooltip {
+        public static string MaximizeCommandTooltip {
             get {
-                return ResourceManager.GetString("MaximizeTooltip", resourceCulture);
+                return ResourceManager.GetString("MaximizeCommandTooltip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Minimize.
         /// </summary>
-        public static string MinimizeCommandText {
+        public static string MinimizeCommandName {
             get {
-                return ResourceManager.GetString("MinimizeCommandText", resourceCulture);
+                return ResourceManager.GetString("MinimizeCommandName", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Minimize.
         /// </summary>
-        public static string MinimizeTooltip {
+        public static string MinimizeCommandTooltip {
             get {
-                return ResourceManager.GetString("MinimizeTooltip", resourceCulture);
+                return ResourceManager.GetString("MinimizeCommandTooltip", resourceCulture);
             }
         }
         
@@ -160,47 +187,65 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Restore Down.
+        ///   Looks up a localized string similar to Open app menu.
         /// </summary>
-        public static string RestoreDownCommandText {
+        public static string OpenAppMenuCommandName {
             get {
-                return ResourceManager.GetString("RestoreDownCommandText", resourceCulture);
+                return ResourceManager.GetString("OpenAppMenuCommandName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Restore Down.
+        ///   Looks up a localized string similar to Open app menu.
         /// </summary>
-        public static string RestoreDownTooltip {
+        public static string OpenAppMenuCommandTooltip {
             get {
-                return ResourceManager.GetString("RestoreDownTooltip", resourceCulture);
+                return ResourceManager.GetString("OpenAppMenuCommandTooltip", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ribbon Visibility Options.
+        ///   Looks up a localized string similar to FILE.
         /// </summary>
-        public static string RibbonOptionsText {
+        public static string OpenAppMenuHeader {
             get {
-                return ResourceManager.GetString("RibbonOptionsText", resourceCulture);
+                return ResourceManager.GetString("OpenAppMenuHeader", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ribbon Visibility Options.
+        ///   Looks up a localized string similar to Restore down.
         /// </summary>
-        public static string RibbonOptionsTooltip {
+        public static string RestoreDownCommandName {
             get {
-                return ResourceManager.GetString("RibbonOptionsTooltip", resourceCulture);
+                return ResourceManager.GetString("RestoreDownCommandName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show Ribbon.
+        ///   Looks up a localized string similar to Restore down.
         /// </summary>
-        public static string ShowRibbonTooltip {
+        public static string RestoreDownCommandTooltip {
             get {
-                return ResourceManager.GetString("ShowRibbonTooltip", resourceCulture);
+                return ResourceManager.GetString("RestoreDownCommandTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ribbon visibility options.
+        /// </summary>
+        public static string RibbonOptionsCommandName {
+            get {
+                return ResourceManager.GetString("RibbonOptionsCommandName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ribbon visibility options.
+        /// </summary>
+        public static string RibbonOptionsCommandTooltip {
+            get {
+                return ResourceManager.GetString("RibbonOptionsCommandTooltip", resourceCulture);
             }
         }
         

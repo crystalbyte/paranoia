@@ -14,15 +14,15 @@ namespace Crystalbyte.Paranoia.UI {
     [TemplatePart(Name = RibbonName, Type = typeof(Ribbon))]
     [TemplatePart(Name = RibbonOptionsPopupName, Type = typeof(Popup))]
     [TemplatePart(Name = RibbonOptionsListName, Type = typeof(ListView))]
-    [TemplatePart(Name = RibbonCommandsPopupName, Type = typeof(Popup))]
+    [TemplatePart(Name = RibbonPopupName, Type = typeof(Popup))]
     public class RibbonWindow : Window {
 
         #region Private Fields
 
-        private Popup _ribbonOptionsPopup;
-        private Popup _ribbonCommandsPopup;
-        private ListView _ribbonOptionsList;
         private Ribbon _ribbon;
+        private Popup _ribbonPopup;
+        private Popup _ribbonOptionsPopup;
+        private ListView _ribbonOptionsList;
 
         #endregion
 
@@ -31,7 +31,7 @@ namespace Crystalbyte.Paranoia.UI {
         public const string RibbonName = "PART_Ribbon";
         public const string RibbonOptionsListName = "PART_RibbonOptionsList";
         public const string RibbonOptionsPopupName = "PART_RibbonOptionsPopup";
-        public const string RibbonCommandsPopupName = "PART_RibbonCommandsPopup";
+        public const string RibbonPopupName = "PART_RibbonPopup";
 
         #endregion
 
@@ -53,7 +53,8 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximized));
             CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimized));
             CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoredDown));
-            CommandBindings.Add(new CommandBinding(RibbonCommands.DisplayAppMenu, OnAppMenuInvoked));
+            CommandBindings.Add(new CommandBinding(RibbonCommands.OpenAppMenu, OnAppMenuInvoked));
+            CommandBindings.Add(new CommandBinding(WindowCommands.BlendInRibbon, OnBlendInRibbon));
 
             Tabs = new RibbonTabCollection();
         }
@@ -132,8 +133,8 @@ namespace Crystalbyte.Paranoia.UI {
         #region Event Handlers
 
         private void OnRibbonSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (_ribbonCommandsPopup != null) {
-                _ribbonCommandsPopup.IsOpen = true;
+            if (RibbonVisibility == RibbonVisibility.Tabs) {
+                OpenCommandsPopup();
             }
         }
 
@@ -154,7 +155,13 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        private void OnAppMenuInvoked(object sender, ExecutedRoutedEventArgs e) { }
+        private void OnAppMenuInvoked(object sender, ExecutedRoutedEventArgs e) {
+
+        }
+
+        private void OnBlendInRibbon(object sender, ExecutedRoutedEventArgs e) {
+            _ribbonPopup.IsOpen = true;
+        }
 
         private void OnWindowLoaded(object sender, RoutedEventArgs e) {
             UpdateWindowStates();
@@ -190,6 +197,10 @@ namespace Crystalbyte.Paranoia.UI {
             UpdateWindowStates();
         }
 
+        private void OnRibbonCommandsPopupClosed(object sender, EventArgs e) {
+
+        }
+
         public override void OnApplyTemplate() {
             base.OnApplyTemplate();
 
@@ -197,10 +208,14 @@ namespace Crystalbyte.Paranoia.UI {
                 _ribbon.SelectionChanged -= OnRibbonSelectionChanged;
             }
 
-            _ribbon = (Ribbon) Template.FindName(RibbonName, this);
+            _ribbon = (Ribbon)Template.FindName(RibbonName, this);
             _ribbon.SelectionChanged += OnRibbonSelectionChanged;
 
-            _ribbonCommandsPopup = (Popup)Template.FindName(RibbonCommandsPopupName, this);
+            if (_ribbonPopup != null) {
+                _ribbonPopup.Closed -= OnRibbonCommandsPopupClosed;
+            }
+            _ribbonPopup = (Popup)Template.FindName(RibbonPopupName, this);
+            _ribbonPopup.Closed += OnRibbonCommandsPopupClosed;
 
             if (_ribbonOptionsPopup != null) {
                 _ribbonOptionsPopup.MouseUp -= OnRibbonOptionsPopupMouseUp;
@@ -238,6 +253,15 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         #endregion
+
+        private void OpenCommandsPopup() {
+            // Detach ribbon from window.
+            //_ribbonWindowContentHost.Children.Remove(_ribbon);
+
+            // Attach ribbon to popup.
+            _ribbonPopup.Child = _ribbon;
+            _ribbonPopup.IsOpen = true;
+        }
 
         private void SyncVisibilitySelection() {
             var option = _ribbonOptionsList.Items

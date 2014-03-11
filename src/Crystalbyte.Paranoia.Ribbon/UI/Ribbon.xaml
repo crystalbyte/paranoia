@@ -51,7 +51,7 @@
         <Setter Property="Padding" Value="1" />
         <Setter Property="BorderThickness" Value="0,1,0,1" />
         <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=RibbonSelectionBorderBrush}}" />
-        <Setter Property="AppMenuText" Value="{x:Static properties:Resources.AppMenuText}" />
+        <Setter Property="AppMenuText" Value="{x:Static properties:Resources.OpenAppMenuHeader}" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -95,6 +95,7 @@
                                 KeyboardNavigation.TabIndex="2"
                                 KeyboardNavigation.TabNavigation="Local"
                                 Visibility="{Binding RibbonVisibility,
+                                                     FallbackValue=Collapsed,
                                                      RelativeSource={RelativeSource AncestorType=ui:RibbonWindow,
                                                                                     AncestorLevel=1},
                                                      Converter={StaticResource RibbonVisibilityToVisibilityConverter},

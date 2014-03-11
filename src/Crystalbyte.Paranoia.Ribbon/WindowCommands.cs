@@ -9,18 +9,21 @@ using Crystalbyte.Paranoia.UI;
 namespace Crystalbyte.Paranoia {
     public static class WindowCommands {
         public static RoutedUICommand Minimize = 
-            new RoutedUICommand(Resources.MinimizeCommandText, "Minimize", typeof(RibbonWindow));
+            new RoutedUICommand(Resources.MinimizeCommandTooltip, Resources.MinimizeCommandName, typeof(RibbonWindow));
 
         public static RoutedUICommand Maximize = 
-            new RoutedUICommand(Resources.MinimizeCommandText, "Maximize", typeof(RibbonWindow));
+            new RoutedUICommand(Resources.MaximizeCommandTooltip, Resources.MaximizeCommandName, typeof(RibbonWindow));
 
         public static RoutedUICommand Close = 
-            new RoutedUICommand(Resources.MinimizeCommandText, "Copy", typeof(RibbonWindow));
+            new RoutedUICommand(Resources.CloseCommandTooltip, Resources.CloseCommandName, typeof(RibbonWindow));
 
         public static RoutedUICommand RestoreDown = 
-            new RoutedUICommand(Resources.MinimizeCommandText, "RestoreDown", typeof(RibbonWindow));
+            new RoutedUICommand(Resources.RestoreDownCommandTooltip, Resources.RestoreDownCommandName, typeof(RibbonWindow));
 
         public static RoutedUICommand Back = 
-            new RoutedUICommand(Resources.AppMenuText, "Back", typeof(RibbonWindow));
+            new RoutedUICommand(Resources.BackCommandTooltip, Resources.BackCommandName, typeof(RibbonWindow));
+
+        public static RoutedUICommand BlendInRibbon =
+            new RoutedUICommand(Resources.BlendInRibbonCommandTooltip, Resources.BlendInRibbonCommandName, typeof(RibbonWindow));
     }
 }

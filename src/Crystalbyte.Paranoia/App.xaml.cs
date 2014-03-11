@@ -20,7 +20,7 @@ namespace Crystalbyte.Paranoia {
 
         protected override async void OnStartup(StartupEventArgs e) {
             Compose();
-            await AppContext.RunAsync();
+            //await AppContext.RunAsync();
             base.OnStartup(e);
         }
 

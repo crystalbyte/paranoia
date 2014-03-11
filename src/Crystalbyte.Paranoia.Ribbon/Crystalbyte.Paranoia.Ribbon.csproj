@@ -52,6 +52,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RibbonCommands.cs" />
+    <Compile Include="UI\PopupExtensions.cs" />
     <Compile Include="UI\RibbonOption.cs" />
     <Compile Include="UI\RibbonTabCollection.cs" />
     <Compile Include="UI\RibbonVisibility.cs" />
@@ -66,12 +67,14 @@
     <Compile Include="UI\RibbonWindow.xaml.cs">
       <DependentUpon>RibbonWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Pin.cs" />
     <Compile Include="WindowCommands.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
