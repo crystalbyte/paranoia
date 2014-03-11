@@ -15,14 +15,15 @@
                 WindowStartupLocation="CenterScreen"
                 d:DataContext="{d:DesignInstance contexts:AppContext}"
                 mc:Ignorable="d">
-    <r:RibbonWindow.Ribbon>
-        <r:Ribbon>
-            <r:RibbonTab Text="START" />
-            <r:RibbonTab Text="IDENTITY" />
-            <r:RibbonTab Text="MAILS" />
-            <r:RibbonTab Text="CONTACTS" />
-        </r:Ribbon>
-    </r:RibbonWindow.Ribbon>
+    <r:RibbonWindow.Tabs>
+        <r:RibbonTab Content="CONTENT" Header="HEADER" />
+        <r:RibbonTab Content="CONTENT" Header="HEADER" />
+        <!--
+            <r:RibbonTab Header="IDENTITY" />
+            <r:RibbonTab Header="CONTACTS" />
+            <r:RibbonTab Header="MAILS" />
+        -->
+    </r:RibbonWindow.Tabs>
 
     <!--
         <DockPanel Background="{StaticResource AppWindowBackgroundBrush}">

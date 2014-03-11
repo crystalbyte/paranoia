@@ -47,6 +47,8 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimized));
             CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoredDown));
             CommandBindings.Add(new CommandBinding(RibbonCommands.DisplayAppMenu, OnAppMenuInvoked));
+
+            Tabs = new RibbonTabCollection();
         }
 
         #endregion
@@ -100,22 +102,23 @@ namespace Crystalbyte.Paranoia.UI {
         public static readonly DependencyProperty IsMaximizedProperty =
             DependencyProperty.Register("IsMaximized", typeof(bool), typeof(RibbonWindow), new PropertyMetadata(false));
 
-        public Ribbon Ribbon {
-            get { return (Ribbon)GetValue(RibbonProperty); }
-            set { SetValue(RibbonProperty, value); }
+        public RibbonTabCollection Tabs {
+            get { return (RibbonTabCollection)GetValue(TabsProperty); }
+            set { SetValue(TabsProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Ribbon.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty RibbonProperty =
-            DependencyProperty.Register("Ribbon", typeof(Ribbon), typeof(RibbonWindow), new PropertyMetadata(null));
+        // Using a DependencyProperty as the backing store for Tabs.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TabsProperty =
+            DependencyProperty.Register("Tabs", typeof(RibbonTabCollection), typeof(RibbonWindow), new PropertyMetadata(null));
 
-        private void SyncVisibilitySelection() {
-            var option = _ribbonOptionsList.Items
-                .OfType<RibbonOption>()
-                .First(x => x.Visibility == RibbonVisibility);
-
-            option.IsSelected = true;
+        public Style TabStyle {
+            get { return (Style)GetValue(TabStyleProperty); }
+            set { SetValue(TabStyleProperty, value); }
         }
+
+        // Using a DependencyProperty as the backing store for RibbonTabStyle.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TabStyleProperty =
+            DependencyProperty.Register("TabStyle", typeof(Style), typeof(RibbonWindow), new PropertyMetadata(null));
 
         #endregion
 
@@ -127,8 +130,6 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnRibbonOptionSelectionChanged(object sender, SelectionChangedEventArgs e) {
             var option = (RibbonOption)_ribbonOptionsList.SelectedValue;
-            if (Ribbon == null)
-                return;
 
             if (RibbonVisibility == option.Visibility) {
                 return;
@@ -212,13 +213,17 @@ namespace Crystalbyte.Paranoia.UI {
                     ImageSource = new BitmapImage(new Uri("/Crystalbyte.Paranoia.Ribbon;component/Assets/show.tabs.commands.png", UriKind.Relative))
                 }
             });
-
-            if (Ribbon != null) {
-                SyncVisibilitySelection();
-            }
         }
 
         #endregion
+
+        private void SyncVisibilitySelection() {
+            var option = _ribbonOptionsList.Items
+                .OfType<RibbonOption>()
+                .First(x => x.Visibility == RibbonVisibility);
+
+            option.IsSelected = true;
+        }
 
         private void UpdateWindowStates() {
             IsNormalized = WindowState == WindowState.Normal;

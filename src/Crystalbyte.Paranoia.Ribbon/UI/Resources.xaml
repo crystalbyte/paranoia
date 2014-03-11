@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Converters"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
     <!--
         <Color x:Key="AccentColor"
@@ -16,6 +17,7 @@
            G="125"
            R="0" />
 
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=RibbonSelectionBorderBrush}" Color="#3E3E40" />
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowBackgroundBrush}" Color="#1E1E1E" />
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowAccentBrush}" Color="{StaticResource AccentColor}" />
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=LightTextBrush}" Color="WhiteSmoke" />
@@ -23,5 +25,7 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowButtonHoverBrush}" Color="#3E3E40" />
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowButtonBorderBrush}" Color="Transparent" />
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowButtonBackgroundBrush}" Color="Transparent" />
+
+    <Thickness x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=HeaderPadding}">12,4,12,4</Thickness>
 
 </ResourceDictionary>

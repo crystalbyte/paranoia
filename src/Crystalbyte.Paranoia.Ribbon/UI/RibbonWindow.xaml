@@ -110,16 +110,26 @@
         <Setter Property="ToolTip" Value="{x:Static properties:Resources.ShowRibbonTooltip}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Width" Value="Auto" />
+        <Setter Property="HorizontalContentAlignment" Value="Right" />
         <Setter Property="Content">
             <Setter.Value>
-                <StackPanel HorizontalAlignment="Right">
+                <StackPanel Margin="0,0,8,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            SnapsToDevicePixels="False">
                     <Ellipse Width="4"
+                             Height="4"
                              Fill="WhiteSmoke"
                              StrokeThickness="0" />
                     <Ellipse Width="4"
+                             Height="4"
+                             Margin="2,0,0,0"
                              Fill="WhiteSmoke"
                              StrokeThickness="0" />
                     <Ellipse Width="4"
+                             Height="4"
+                             Margin="2,0,0,0"
                              Fill="WhiteSmoke"
                              StrokeThickness="0" />
                 </StackPanel>
@@ -195,6 +205,61 @@
         <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowAccentBrush}}" />
         <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowBackgroundBrush}}" />
         <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="TabStyle">
+            <Setter.Value>
+                <Style TargetType="ui:RibbonTab">
+                    <Setter Property="SnapsToDevicePixels" Value="True" />
+                    <Setter Property="BorderThickness" Value="1,1,1,0" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="Margin" Value="2,0,2,0" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowBackgroundBrush}}" />
+                    <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=LightTextBrush}}" />
+                    <Setter Property="ContentTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <Border BorderBrush="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=RibbonSelectionBorderBrush}}" BorderThickness="0,1,0,1">
+                                    <ContentPresenter MinHeight="80"
+                                                      HorizontalAlignment="Stretch"
+                                                      Content="{Binding}" />
+                                </Border>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <TextBlock Margin="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=HeaderPadding}}" Text="{Binding}" />
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ui:RibbonTab">
+                                <Border Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                      Content="{TemplateBinding Header}"
+                                                      ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Margin" Value="2,0,2,-1" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=RibbonSelectionBorderBrush}}" />
+                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowAccentBrush}}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowAccentBrush}}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome CaptionHeight="54"
@@ -243,7 +308,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Button Grid.Column="0"
-                                        Grid.ColumnSpan="6"
+                                        Grid.ColumnSpan="2"
                                         Style="{StaticResource ToggleRibbonButtonStyle}"
                                         Visibility="{Binding RibbonVisibility,
                                                              RelativeSource={RelativeSource TemplatedParent},
@@ -289,12 +354,9 @@
                                         Command="local:WindowCommands.Close"
                                         Style="{StaticResource CloseButtonStyle}" />
                             </Grid>
-                            <ContentPresenter Grid.Row="1"
-                                              Grid.Column="0"
-                                              Content="{TemplateBinding Ribbon}" />
-                            <StackPanel Grid.Row="0"
-                                        HorizontalAlignment="Right"
-                                        Orientation="Horizontal" />
+                            <ui:Ribbon Grid.Row="1"
+                                       ItemContainerStyle="{TemplateBinding TabStyle}"
+                                       ItemsSource="{TemplateBinding Tabs}" />
                             <ContentPresenter Grid.Row="2" Grid.Column="0" />
                             <!--
                                 <Grid Grid.Row="0"
@@ -338,7 +400,13 @@
                                                                     Margin="1"
                                                                     Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
                                                                                                                        ResourceId=WindowBackgroundBrush}}">
-                                                                <ContentPresenter />
+                                                                <Grid>
+                                                                    <Rectangle Fill="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                                                            ResourceId=WindowBackgroundBrush}}"
+                                                                               Opacity=".8"
+                                                                               StrokeThickness="0" />
+                                                                    <ContentPresenter />
+                                                                </Grid>
                                                             </Border>
                                                             <ControlTemplate.Triggers>
                                                                 <Trigger Property="IsMouseOver" Value="True">

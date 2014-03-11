@@ -53,6 +53,7 @@
     </Compile>
     <Compile Include="RibbonCommands.cs" />
     <Compile Include="UI\RibbonOption.cs" />
+    <Compile Include="UI\RibbonTabCollection.cs" />
     <Compile Include="UI\RibbonVisibility.cs" />
     <Compile Include="UI\NotificationObject.cs" />
     <Compile Include="UI\PropertySupport.cs" />

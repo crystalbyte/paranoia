@@ -1,13 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
-    <Style TargetType="ui:RibbonTab">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ui:RibbonTab">
-                    <ContentPresenter Content="{TemplateBinding Text}" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+    <!--  The style is located in RibbonWindow.TabStyle  -->
+    <Style TargetType="ui:RibbonTab" />
 </ResourceDictionary>
