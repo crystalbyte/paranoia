@@ -11,20 +11,27 @@ using System.Windows.Media.Imaging;
 #endregion
 
 namespace Crystalbyte.Paranoia.UI {
+    [TemplatePart(Name = RibbonName, Type = typeof(Ribbon))]
     [TemplatePart(Name = RibbonOptionsPopupName, Type = typeof(Popup))]
     [TemplatePart(Name = RibbonOptionsListName, Type = typeof(ListView))]
+    [TemplatePart(Name = RibbonCommandsPopupName, Type = typeof(Popup))]
     public class RibbonWindow : Window {
+
         #region Private Fields
 
         private Popup _ribbonOptionsPopup;
+        private Popup _ribbonCommandsPopup;
         private ListView _ribbonOptionsList;
+        private Ribbon _ribbon;
 
         #endregion
 
         #region Xaml Support
 
-        public const string RibbonOptionsPopupName = "PART_RibbonOptionsPopup";
+        public const string RibbonName = "PART_Ribbon";
         public const string RibbonOptionsListName = "PART_RibbonOptionsList";
+        public const string RibbonOptionsPopupName = "PART_RibbonOptionsPopup";
+        public const string RibbonCommandsPopupName = "PART_RibbonCommandsPopup";
 
         #endregion
 
@@ -124,6 +131,12 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Event Handlers
 
+        private void OnRibbonSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (_ribbonCommandsPopup != null) {
+                _ribbonCommandsPopup.IsOpen = true;
+            }
+        }
+
         private void OnRibbonOptionsPopupMouseUp(object sender, MouseButtonEventArgs e) {
             _ribbonOptionsPopup.IsOpen = false;
         }
@@ -179,6 +192,15 @@ namespace Crystalbyte.Paranoia.UI {
 
         public override void OnApplyTemplate() {
             base.OnApplyTemplate();
+
+            if (_ribbon != null) {
+                _ribbon.SelectionChanged -= OnRibbonSelectionChanged;
+            }
+
+            _ribbon = (Ribbon) Template.FindName(RibbonName, this);
+            _ribbon.SelectionChanged += OnRibbonSelectionChanged;
+
+            _ribbonCommandsPopup = (Popup)Template.FindName(RibbonCommandsPopupName, this);
 
             if (_ribbonOptionsPopup != null) {
                 _ribbonOptionsPopup.MouseUp -= OnRibbonOptionsPopupMouseUp;

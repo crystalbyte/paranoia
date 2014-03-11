@@ -1,15 +1,17 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Crystalbyte.Paranoia"
+                    xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Converters"
                     xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
+
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <converters:RibbonVisibilityToVisibilityConverter x:Key="RibbonVisibilityToVisibilityConverter" />
 
     <Style x:Key="AppMenuButtonStyle" TargetType="ButtonBase">
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Margin" Value="0,0,4,0" />
+        <Setter Property="Margin" Value="0,0,2,0" />
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=LightTextBrush}}" />
         <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowAccentBrush}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowAccentBrush}}" />
@@ -21,8 +23,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
-                            <ContentPresenter Margin="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
-                                                                                             ResourceId=HeaderPadding}}"
+                            <ContentPresenter Margin="18,4,18,4"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
@@ -47,6 +48,9 @@
     </Style>
 
     <Style TargetType="ui:Ribbon">
+        <Setter Property="Padding" Value="1" />
+        <Setter Property="BorderThickness" Value="0,1,0,1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=RibbonSelectionBorderBrush}}" />
         <Setter Property="AppMenuText" Value="{x:Static properties:Resources.AppMenuText}" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
@@ -58,33 +62,50 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:Ribbon">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Button Grid.Row="0"
-                                    Grid.Column="0"
-                                    Content="{TemplateBinding AppMenuText}"
-                                    Style="{StaticResource AppMenuButtonStyle}" />
-                            <ContentPresenter Grid.Row="1"
-                                              Grid.Column="0"
-                                              Grid.ColumnSpan="2"
+                    <Grid ClipToBounds="True"
+                          KeyboardNavigation.TabNavigation="Local"
+                          SnapsToDevicePixels="True">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Row="0"
+                                Grid.Column="0"
+                                Content="{TemplateBinding AppMenuText}"
+                                Style="{StaticResource AppMenuButtonStyle}" />
+                        <StackPanel Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="0,0,0,-1"
+                                    Panel.ZIndex="1"
+                                    Background="Transparent"
+                                    IsItemsHost="True"
+                                    KeyboardNavigation.TabIndex="1"
+                                    Orientation="Horizontal"
+                                    WindowChrome.IsHitTestVisibleInChrome="True" />
+                        <Border Grid.Row="1"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                KeyboardNavigation.DirectionalNavigation="Contained"
+                                KeyboardNavigation.TabIndex="2"
+                                KeyboardNavigation.TabNavigation="Local"
+                                Visibility="{Binding RibbonVisibility,
+                                                     RelativeSource={RelativeSource AncestorType=ui:RibbonWindow,
+                                                                                    AncestorLevel=1},
+                                                     Converter={StaticResource RibbonVisibilityToVisibilityConverter},
+                                                     ConverterParameter=TabsAndCommands}">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="Stretch"
                                               Content="{TemplateBinding SelectedContent}"
-                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
-                            <ItemsPresenter Grid.Row="0"
-                                            Grid.Column="1"
-                                            WindowChrome.IsHitTestVisibleInChrome="True" />
-                        </Grid>
-                    </Border>
+                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
