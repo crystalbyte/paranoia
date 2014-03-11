@@ -496,6 +496,11 @@
                                     </ListView>
                                 </Border>
                             </Popup>
+
+                            <Popup x:Name="PART_RibbonCommandsPopup" Grid.Row="0">
+                                <ContentPresenter />
+                            </Popup>
+
                             <ResizeGrip Grid.Row="2"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Bottom"
