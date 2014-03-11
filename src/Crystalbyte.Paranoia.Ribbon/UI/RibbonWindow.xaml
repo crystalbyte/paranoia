@@ -294,7 +294,9 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <Grid Grid.Row="0" HorizontalAlignment="Stretch">
+                            <Grid x:Name="CommandBar"
+                                  Grid.Row="0"
+                                  HorizontalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
                                     <!--  window icon  -->
                                     <ColumnDefinition Width="Auto" />
@@ -497,8 +499,16 @@
                                 </Border>
                             </Popup>
 
-                            <Popup x:Name="PART_RibbonCommandsPopup" Grid.Row="0">
-                                <ContentPresenter />
+                            <Popup x:Name="PART_RibbonCommandsPopup"
+                                   Grid.Row="0"
+                                   Placement="Bottom"
+                                   PlacementTarget="{Binding ElementName=CommandBar}"
+                                   StaysOpen="False">
+                                <Border Width="100"
+                                        Height="100"
+                                        Background="DeepPink">
+                                    <ContentPresenter />
+                                </Border>
                             </Popup>
 
                             <ResizeGrip Grid.Row="2"
