@@ -1,6 +1,8 @@
 ﻿#region Using directives
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,6 +32,7 @@ namespace Crystalbyte.Paranoia {
 
         protected override void OnInitialized(EventArgs e) {
             base.OnInitialized(e);
+            StatusBarItemsSource = new ObservableCollection<string>(new[] { "Ready" });
         }
 
         #endregion

@@ -168,17 +168,17 @@
   <data name="OpenAppMenuHeader" xml:space="preserve">
     <value>FILE</value>
   </data>
+  <data name="OpenRibbonOptionsCommandName" xml:space="preserve">
+    <value>Ribbon visibility options</value>
+  </data>
+  <data name="OpenRibbonOptionsCommandTooltip" xml:space="preserve">
+    <value>Ribbon visibility options</value>
+  </data>
   <data name="RestoreDownCommandName" xml:space="preserve">
     <value>Restore down</value>
   </data>
   <data name="RestoreDownCommandTooltip" xml:space="preserve">
     <value>Restore down</value>
-  </data>
-  <data name="RibbonOptionsCommandName" xml:space="preserve">
-    <value>Ribbon visibility options</value>
-  </data>
-  <data name="RibbonOptionsCommandTooltip" xml:space="preserve">
-    <value>Ribbon visibility options</value>
   </data>
   <data name="ShowTabsAndCommandsDescription" xml:space="preserve">
     <value>Permanently displays the ribbons tabs and commands.</value>

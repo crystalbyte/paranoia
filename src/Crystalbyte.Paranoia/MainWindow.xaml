@@ -4,7 +4,9 @@
                 xmlns:contexts="clr-namespace:Crystalbyte.Paranoia.Contexts"
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                 xmlns:r="clr-namespace:Crystalbyte.Paranoia.UI;assembly=Crystalbyte.Paranoia.Ribbon"
+                xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                 Title="Paranoia"
                 Width="1280"
                 Height="768"
@@ -16,13 +18,18 @@
                 d:DataContext="{d:DesignInstance contexts:AppContext}"
                 mc:Ignorable="d">
     <r:RibbonWindow.Tabs>
-        <r:RibbonTab Content="CONTENT" Header="HEADER" />
-        <r:RibbonTab Content="CONTENT" Header="HEADER" />
-        <!--
-            <r:RibbonTab Header="IDENTITY" />
-            <r:RibbonTab Header="CONTACTS" />
-            <r:RibbonTab Header="MAILS" />
-        -->
+        <r:RibbonTab Header="{x:Static properties:Resources.HomeTabHeader}">
+            <ui:HomeRibbonPage />
+        </r:RibbonTab>
+        <r:RibbonTab Header="{x:Static properties:Resources.IdentitiesTabHeader}">
+            <ui:HomeRibbonPage />
+        </r:RibbonTab>
+        <r:RibbonTab Header="{x:Static properties:Resources.ContactsTabHeader}">
+            <ui:HomeRibbonPage />
+        </r:RibbonTab>
+        <r:RibbonTab Header="{x:Static properties:Resources.MailsTabHeader}">
+            <ui:HomeRibbonPage />
+        </r:RibbonTab>
     </r:RibbonWindow.Tabs>
 
     <!--

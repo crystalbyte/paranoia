@@ -375,4 +375,16 @@ Once your contact approves, messages can be securely exchanged.</value>
   <data name="CreateIdentityCommandText" xml:space="preserve">
     <value>Create Identity</value>
   </data>
+  <data name="ContactsTabHeader" xml:space="preserve">
+    <value>CONTACTS</value>
+  </data>
+  <data name="HomeTabHeader" xml:space="preserve">
+    <value>HOME</value>
+  </data>
+  <data name="IdentitiesTabHeader" xml:space="preserve">
+    <value>IDENTITIES</value>
+  </data>
+  <data name="MailsTabHeader" xml:space="preserve">
+    <value>MAILS</value>
+  </data>
 </root>

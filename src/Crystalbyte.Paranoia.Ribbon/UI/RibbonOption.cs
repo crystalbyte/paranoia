@@ -6,6 +6,7 @@ using System.Windows.Media;
 
 namespace Crystalbyte.Paranoia.UI {
     public sealed class RibbonOption : NotificationObject {
+
         #region Private Fields
 
         private bool _isSelected;

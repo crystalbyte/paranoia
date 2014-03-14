@@ -182,6 +182,9 @@
     <Compile Include="Pack.cs" />
     <Compile Include="MailHeaders.cs" />
     <Compile Include="PasswordPolicyAttribute.cs" />
+    <Compile Include="UI\HomeRibbonPage.xaml.cs">
+      <DependentUpon>HomeRibbonPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\RibbonTabKeys.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="TestResult.cs" />
@@ -293,6 +296,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\ContactInvitationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\HomeRibbonPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

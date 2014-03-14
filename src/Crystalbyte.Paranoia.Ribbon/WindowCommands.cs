@@ -22,8 +22,5 @@ namespace Crystalbyte.Paranoia {
 
         public static RoutedUICommand Back = 
             new RoutedUICommand(Resources.BackCommandTooltip, Resources.BackCommandName, typeof(RibbonWindow));
-
-        public static RoutedUICommand BlendInRibbon =
-            new RoutedUICommand(Resources.BlendInRibbonCommandTooltip, Resources.BlendInRibbonCommandName, typeof(RibbonWindow));
     }
 }

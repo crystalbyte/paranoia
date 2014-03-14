@@ -6,7 +6,6 @@ using Crystalbyte.Paranoia.Properties;
 
 namespace Crystalbyte.Paranoia.Commands {
     [Export, Shared]
-    
     public sealed class CreateIdentityCommand  {
 
         #region Import Declarations

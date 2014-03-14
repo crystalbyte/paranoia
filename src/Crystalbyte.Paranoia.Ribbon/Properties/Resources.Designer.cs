@@ -214,6 +214,24 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ribbon visibility options.
+        /// </summary>
+        public static string OpenRibbonOptionsCommandName {
+            get {
+                return ResourceManager.GetString("OpenRibbonOptionsCommandName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ribbon visibility options.
+        /// </summary>
+        public static string OpenRibbonOptionsCommandTooltip {
+            get {
+                return ResourceManager.GetString("OpenRibbonOptionsCommandTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Restore down.
         /// </summary>
         public static string RestoreDownCommandName {
@@ -228,24 +246,6 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string RestoreDownCommandTooltip {
             get {
                 return ResourceManager.GetString("RestoreDownCommandTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ribbon visibility options.
-        /// </summary>
-        public static string RibbonOptionsCommandName {
-            get {
-                return ResourceManager.GetString("RibbonOptionsCommandName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ribbon visibility options.
-        /// </summary>
-        public static string RibbonOptionsCommandTooltip {
-            get {
-                return ResourceManager.GetString("RibbonOptionsCommandTooltip", resourceCulture);
             }
         }
         

@@ -8,7 +8,13 @@ using Crystalbyte.Paranoia.UI;
 
 namespace Crystalbyte.Paranoia {
     public static class RibbonCommands {
-        public static RoutedCommand OpenAppMenu =
+        public static RoutedUICommand OpenAppMenu =
             new RoutedUICommand(Resources.OpenAppMenuCommandTooltip, Resources.OpenAppMenuCommandName, typeof(Ribbon));
+
+        public static RoutedUICommand BlendInRibbon =
+            new RoutedUICommand(Resources.BlendInRibbonCommandTooltip, Resources.BlendInRibbonCommandName, typeof(RibbonWindow));
+
+        public static RoutedUICommand OpenRibbonOptions =
+            new RoutedUICommand(Resources.OpenRibbonOptionsCommandTooltip, Resources.OpenRibbonOptionsCommandName, typeof(RibbonWindow));
     }
 }

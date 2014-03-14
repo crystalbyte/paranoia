@@ -1,0 +1,39 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+                    mc:Ignorable="d">
+    <Style TargetType="ui:RibbonGroup">
+        <Setter Property="Height" Value="48" />
+        <Setter Property="BorderThickness" Value="0,0,1,0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=RibbonBorderBrush}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ui:RibbonGroup">
+                    <Border Background="Transparent"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid MinWidth="100">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="{TemplateBinding Height}" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <ItemsPresenter Grid.Row="0" />
+                            <ContentPresenter Grid.Row="1"
+                                              HorizontalAlignment="Center"
+                                              Content="{TemplateBinding Header}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                            <Button Grid.Row="1"
+                                    HorizontalAlignment="Right"
+                                    Command="{TemplateBinding Command}"
+                                    CommandParameter="{TemplateBinding CommandParameters}"
+                                    Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                  ResourceId=RibbonGroupButtonStyle}}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

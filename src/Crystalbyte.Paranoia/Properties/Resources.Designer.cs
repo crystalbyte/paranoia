@@ -233,6 +233,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CONTACTS.
+        /// </summary>
+        public static string ContactsTabHeader {
+            get {
+                return ResourceManager.GetString("ContactsTabHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Continue.
         /// </summary>
         public static string ContinueButtonText {
@@ -337,6 +346,24 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string GravatarPromoText {
             get {
                 return ResourceManager.GetString("GravatarPromoText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HOME.
+        /// </summary>
+        public static string HomeTabHeader {
+            get {
+                return ResourceManager.GetString("HomeTabHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IDENTITIES.
+        /// </summary>
+        public static string IdentitiesTabHeader {
+            get {
+                return ResourceManager.GetString("IdentitiesTabHeader", resourceCulture);
             }
         }
         
@@ -472,6 +499,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string MailPasswordWatermark {
             get {
                 return ResourceManager.GetString("MailPasswordWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MAILS.
+        /// </summary>
+        public static string MailsTabHeader {
+            get {
+                return ResourceManager.GetString("MailsTabHeader", resourceCulture);
             }
         }
         
