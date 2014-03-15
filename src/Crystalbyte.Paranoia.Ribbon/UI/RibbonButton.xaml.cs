@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Crystalbyte.Paranoia.UI {
@@ -34,11 +30,11 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Implementation of IQuickAccessConform
 
-        ImageSource IQuickAccessConform.QuickAccessImageSource {
+        public ImageSource QuickAccessImageSource {
             get { return ImageSource; }
         }
 
-        System.Windows.Input.ICommand IQuickAccessConform.Command {
+        ICommand IQuickAccessConform.Command {
             get { return Command; }
         }
 
@@ -46,7 +42,7 @@ namespace Crystalbyte.Paranoia.UI {
             get { return CommandParameter; }
         }
 
-        object IQuickAccessConform.Tooltip {
+        object IQuickAccessConform.ToolTip {
             get { return ToolTip; }
         }
 

@@ -6,6 +6,8 @@
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Ribbon;component/UI/RibbonButton.xaml" />
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Ribbon;component/UI/Ribbon.xaml" />
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Ribbon;component/UI/RibbonTab.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Ribbon;component/UI/QuickAccessBarItem.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Ribbon;component/UI/QuickAccessBar.xaml" />
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Ribbon;component/UI/RibbonWindow.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

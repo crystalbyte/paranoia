@@ -61,7 +61,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add command to the quick access toolbar..
+        ///   Looks up a localized string similar to AddToQuickAccess.
         /// </summary>
         public static string AddQuickAccessCommandName {
             get {
@@ -70,7 +70,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add command to the quick access toolbar..
+        ///   Looks up a localized string similar to Add to quick access.
         /// </summary>
         public static string AddQuickAccessCommandTooltip {
             get {
@@ -115,7 +115,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Blend in ribbon.
+        ///   Looks up a localized string similar to BlendInRibbon.
         /// </summary>
         public static string BlendInRibbonCommandName {
             get {
@@ -205,7 +205,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open app menu.
+        ///   Looks up a localized string similar to OpenAppMenu.
         /// </summary>
         public static string OpenAppMenuCommandName {
             get {
@@ -250,7 +250,25 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Restore down.
+        ///   Looks up a localized string similar to RemoveFromQuickAccess.
+        /// </summary>
+        public static string RemoveQuickAccessCommandName {
+            get {
+                return ResourceManager.GetString("RemoveQuickAccessCommandName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove from quick access.
+        /// </summary>
+        public static string RemoveQuickAccessCommandTooltip {
+            get {
+                return ResourceManager.GetString("RemoveQuickAccessCommandTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RestoreDown.
         /// </summary>
         public static string RestoreDownCommandName {
             get {

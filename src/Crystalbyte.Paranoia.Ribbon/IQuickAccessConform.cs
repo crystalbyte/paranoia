@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace Crystalbyte.Paranoia {
     public interface IQuickAccessConform {
-        object Tooltip { get; }
+        object ToolTip { get; }
         ImageSource QuickAccessImageSource { get; }
         ICommand Command { get; }
         object CommandParameter { get; }

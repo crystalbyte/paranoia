@@ -56,6 +56,12 @@
     <Compile Include="QuickAccessCollection.cs" />
     <Compile Include="RibbonCommands.cs" />
     <Compile Include="IQuickAccessConform.cs" />
+    <Compile Include="UI\QuickAccessBar.xaml.cs">
+      <DependentUpon>QuickAccessBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\QuickAccessBarItem.xaml.cs">
+      <DependentUpon>QuickAccessBarItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\RibbonButton.xaml.cs">
       <DependentUpon>RibbonButton.xaml</DependentUpon>
     </Compile>
@@ -90,6 +96,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UI\QuickAccessBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\QuickAccessBarItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Resources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

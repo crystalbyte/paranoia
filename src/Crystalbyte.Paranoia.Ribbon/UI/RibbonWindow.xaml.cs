@@ -64,6 +64,7 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(RibbonCommands.BlendInRibbon, OnBlendInRibbon));
             CommandBindings.Add(new CommandBinding(RibbonCommands.OpenRibbonOptions, OnOpenRibbonOptions));
             CommandBindings.Add(new CommandBinding(RibbonCommands.AddQuickAccess, OnAddQuickAccess));
+            CommandBindings.Add(new CommandBinding(RibbonCommands.RemoveQuickAccess, OnRemoveQuickAccess));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
 
             Tabs = new RibbonTabCollection();
@@ -93,7 +94,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         // Using a DependencyProperty as the backing store for QuickAccessItems.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty QuickAccessItemsProperty =
-            DependencyProperty.Register("QuickAccessItems", typeof(QuickAccessCollection), typeof(RibbonWindow), new PropertyMetadata(null));  
+            DependencyProperty.Register("QuickAccessItems", typeof(QuickAccessCollection), typeof(RibbonWindow), new PropertyMetadata(null));
 
         public RibbonVisibility RibbonVisibility {
             get { return (RibbonVisibility)GetValue(RibbonVisibilityProperty); }
@@ -108,7 +109,7 @@ namespace Crystalbyte.Paranoia.UI {
         private static void OnRibbonVisibilityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var window = (RibbonWindow)d;
             window.OnRibbonVisibilityChanged();
-            window.SyncRibbonAppearence();
+            window.UpdateRibbonBehavior();
             window.SyncRibbonOptionsSelection();
         }
 
@@ -199,13 +200,25 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Event Handlers
 
+        private void OnRemoveQuickAccess(object sender, ExecutedRoutedEventArgs e) {
+            if (e.Parameter is IQuickAccessConform) {
+                QuickAccessItems.Remove(e.Parameter as IQuickAccessConform);
+            }
+        }
+
         private void OnAddQuickAccess(object sender, ExecutedRoutedEventArgs e) {
-            throw new NotImplementedException();
+            if (e.Parameter is IQuickAccessConform) {
+                QuickAccessItems.Add(e.Parameter as IQuickAccessConform);
+            }
         }
 
         private void OnRibbonSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (RibbonVisibility == RibbonVisibility.Tabs) {
-                _ribbon.IsCommandStripVisible = false;
+            if (RibbonVisibility != RibbonVisibility.Tabs) {
+                return;
+            }
+
+            if (e.AddedItems.Count > 0 && !_ribbon.IsCommandStripVisible) {
+                _ribbon.SlideInCommandStrip();
             }
         }
 
@@ -219,24 +232,32 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnOpenAppMenu(object sender, ExecutedRoutedEventArgs e) {
-
+            throw new NotImplementedException();
         }
 
         private void OnBlendInRibbon(object sender, ExecutedRoutedEventArgs e) {
+            _ribbon.RestoreSelection();
             _ribbon.BlendIn();
             _statusBar.BlendIn();
         }
 
         private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
             var point = e.GetPosition(sender as IInputElement);
-            if (!_ribbon.IsFloating)
+            if (RibbonVisibility == RibbonVisibility.TabsAndCommands) {
                 return;
+            }
 
             var hit = HitTestFloatingControls(point);
             if (hit) return;
 
-            _ribbon.BlendOut();
-            _statusBar.BlendOut();
+            if (RibbonVisibility == RibbonVisibility.Hidden) {
+                _ribbon.BlendOut();
+                _statusBar.BlendOut();
+                return;
+            }
+
+            _ribbon.IsCommandStripVisible = false;
+            _ribbon.ClearSelection();
         }
 
         private bool HitTestFloatingControls(Point point) {
@@ -363,18 +384,22 @@ namespace Crystalbyte.Paranoia.UI {
 
         #endregion
 
-        private void SyncRibbonAppearence() {
+        private void UpdateRibbonBehavior() {
             switch (RibbonVisibility) {
                 case RibbonVisibility.Tabs:
                     _ribbon.IsCommandStripVisible = false;
                     _ribbon.IsWindowCommandStripVisible = false;
+                    _ribbon.ClearSelection();
                     _ribbon.SnapIn();
+                    _ribbon.ExtendIntoContent();
                     _statusBar.SnapIn();
                     break;
                 case RibbonVisibility.TabsAndCommands:
                     _ribbon.IsCommandStripVisible = true;
                     _ribbon.IsWindowCommandStripVisible = false;
                     _ribbon.SnapIn();
+                    _ribbon.RetractFromContent();
+                    _ribbon.RestoreSelection();
                     _statusBar.SnapIn();
                     break;
                 case RibbonVisibility.Hidden:

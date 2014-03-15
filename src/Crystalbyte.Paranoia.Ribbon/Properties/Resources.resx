@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddQuickAccessCommandName" xml:space="preserve">
-    <value>Add command to the quick access toolbar.</value>
+    <value>AddToQuickAccess</value>
   </data>
   <data name="AddQuickAccessCommandTooltip" xml:space="preserve">
-    <value>Add command to the quick access toolbar.</value>
+    <value>Add to quick access</value>
   </data>
   <data name="AutoHideRibbonDescription" xml:space="preserve">
     <value>Hide ribbon. Click on the application bar at the top to display it.</value>
@@ -136,7 +136,7 @@
     <value>Navigate back to the last view.</value>
   </data>
   <data name="BlendInRibbonCommandName" xml:space="preserve">
-    <value>Blend in ribbon</value>
+    <value>BlendInRibbon</value>
   </data>
   <data name="BlendInRibbonCommandTooltip" xml:space="preserve">
     <value>Blend in ribbon</value>
@@ -166,7 +166,7 @@
     <value>Cannot access member in Expression.</value>
   </data>
   <data name="OpenAppMenuCommandName" xml:space="preserve">
-    <value>Open app menu</value>
+    <value>OpenAppMenu</value>
   </data>
   <data name="OpenAppMenuCommandTooltip" xml:space="preserve">
     <value>Open the application menu</value>
@@ -180,8 +180,14 @@
   <data name="OpenRibbonOptionsCommandTooltip" xml:space="preserve">
     <value>Ribbon visibility options</value>
   </data>
+  <data name="RemoveQuickAccessCommandName" xml:space="preserve">
+    <value>RemoveFromQuickAccess</value>
+  </data>
+  <data name="RemoveQuickAccessCommandTooltip" xml:space="preserve">
+    <value>Remove from quick access</value>
+  </data>
   <data name="RestoreDownCommandName" xml:space="preserve">
-    <value>Restore down</value>
+    <value>RestoreDown</value>
   </data>
   <data name="RestoreDownCommandTooltip" xml:space="preserve">
     <value>Restore down</value>

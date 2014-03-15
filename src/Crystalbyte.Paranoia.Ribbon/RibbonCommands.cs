@@ -19,5 +19,8 @@ namespace Crystalbyte.Paranoia {
 
         public static RoutedUICommand AddQuickAccess =
             new RoutedUICommand(Resources.AddQuickAccessCommandTooltip, Resources.AddQuickAccessCommandName, typeof(RibbonWindow));
+
+        public static RoutedUICommand RemoveQuickAccess =
+            new RoutedUICommand(Resources.RemoveQuickAccessCommandTooltip, Resources.RemoveQuickAccessCommandName, typeof(RibbonWindow));
     }
 }

@@ -8,7 +8,14 @@ using System.Windows.Media.Animation;
 #endregion
 
 namespace Crystalbyte.Paranoia.UI {
+    [TemplatePart(Name = RibbonCommandStripName, Type = typeof(Border))]
     public class Ribbon : TabControl {
+
+        #region Private Fields
+
+        private Border _commandStrip;
+
+        #endregion
 
         #region Construction
 
@@ -16,6 +23,12 @@ namespace Crystalbyte.Paranoia.UI {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Ribbon), 
                 new FrameworkPropertyMetadata(typeof(Ribbon)));
         }
+
+        #endregion
+
+        #region Xaml Support
+
+        public const string RibbonCommandStripName = "PART_RibbonCommandStrip";
 
         #endregion
 
@@ -27,6 +40,10 @@ namespace Crystalbyte.Paranoia.UI {
 
         protected override bool IsItemItsOwnContainerOverride(object item) {
             return item is RibbonTab;
+        }
+
+        protected override HitTestResult HitTestCore(PointHitTestParameters parameters) {
+            return new PointHitTestResult(this, parameters.HitPoint);
         }
 
         #endregion
@@ -75,19 +92,21 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Class Overrides
 
-        protected override HitTestResult HitTestCore(PointHitTestParameters parameters) {
-            return new PointHitTestResult(this, parameters.HitPoint);
+        public override void OnApplyTemplate() {
+            base.OnApplyTemplate();
+
+            _commandStrip = (Border) Template.FindName(RibbonCommandStripName, this);
         }
 
         #endregion
 
         internal void BlendIn() {
             IsFloating = true;
-            Visibility = Visibility.Visible;
             SetValue(Grid.RowProperty, 0);
             SetValue(Grid.RowSpanProperty, 2);
             SetValue(Panel.ZIndexProperty, 2);
             SetValue(VerticalAlignmentProperty, VerticalAlignment.Top);
+            Visibility = Visibility.Visible;
 
             // The sequence of calls in this method is important.
             // Don't change the layout after the animation has started.
@@ -109,12 +128,36 @@ namespace Crystalbyte.Paranoia.UI {
             SetValue(Grid.RowProperty, 1);
             SetValue(Grid.RowSpanProperty, 1);
             SetValue(Panel.ZIndexProperty, 0);
-            SetValue(VerticalAlignmentProperty, VerticalAlignment.Center);
+            SetValue(VerticalAlignmentProperty, VerticalAlignment.Top);
             Visibility = Visibility.Visible;
+        }
+
+        internal void SlideInCommandStrip() {
+            IsCommandStripVisible = true;
+            var story = (Storyboard) _commandStrip.FindResource("CommandStripSlideInStoryboard");
+            story.Begin();
         }
 
         internal void SnapOut() {
             Visibility = Visibility.Collapsed;
+        }
+
+        internal void ClearSelection() {
+            SelectedValue = null;
+        }
+
+        internal void ExtendIntoContent() {
+            SetValue(Grid.RowSpanProperty, 2);
+        }
+
+        internal void RetractFromContent() {
+            SetValue(Grid.RowSpanProperty, 1);
+        }
+
+        internal void RestoreSelection() {
+            if (HasItems && SelectedValue == null) {
+                SelectedIndex = 0;    
+            }
         }
     }
 }

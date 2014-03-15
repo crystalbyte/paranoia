@@ -6,6 +6,7 @@
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <converters:RibbonVisibilityToVisibilityConverter x:Key="RibbonVisibilityToVisibilityConverter" />
+    <converters:DoubleMultiplier x:Key="DoubleMultiplier" />
 
     <Style x:Key="AppMenuButtonStyle" TargetType="ButtonBase">
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
@@ -48,8 +49,9 @@
     </Style>
 
     <Style TargetType="ui:Ribbon">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Padding" Value="1" />
-        <Setter Property="BorderThickness" Value="0,1,0,1" />
+        <Setter Property="BorderThickness" Value="0,1,0,1.1" />
         <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowBackgroundBrush}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=RibbonBorderBrush}}" />
         <Setter Property="AppMenuText" Value="{x:Static properties:Resources.OpenAppMenuHeader}" />
@@ -88,6 +90,7 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
@@ -95,14 +98,38 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" />
-                                <ListView Grid.Column="1"
-                                          Background="Transparent"
-                                          BorderThickness="0" />
-                                <Button Grid.Column="2" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=HelpButtonStyle}}" />
-                                <Button Grid.Column="3" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=RibbonOptionsButtonStyle}}" />
-                                <Button Grid.Column="4" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=MinimizeButtonStyle}}" />
-                                <Button Grid.Column="5"
+                                <Image Grid.Column="0"
+                                       Height="20"
+                                       Margin="8"
+                                       RenderOptions.BitmapScalingMode="Fant"
+                                       Source="{Binding Icon,
+                                                        RelativeSource={RelativeSource FindAncestor,
+                                                                                       AncestorType=ui:RibbonWindow,
+                                                                                       AncestorLevel=1}}"
+                                       Stretch="Uniform" />
+                                <TextBlock Grid.Column="1"
+                                           Margin="0,-3,0,0"
+                                           VerticalAlignment="Center"
+                                           Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                         ResourceId=WindowTitleStyle}}"
+                                           Text="{Binding Title,
+                                                          RelativeSource={RelativeSource FindAncestor,
+                                                                                         AncestorType=ui:RibbonWindow,
+                                                                                         AncestorLevel=1}}" />
+
+                                <Border Grid.Column="2"
+                                        Margin="8,0,0,0"
+                                        VerticalAlignment="Center"
+                                        BorderBrush="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                            ResourceId=RibbonBorderBrush}}"
+                                        BorderThickness="1,0,0,0"
+                                        Padding="8,0,0,0">
+                                    <ui:QuickAccessBar VerticalAlignment="Center" ItemsSource="{Binding QuickAccessItems, RelativeSource={RelativeSource FindAncestor, AncestorType=ui:RibbonWindow, AncestorLevel=1}}" />
+                                </Border>
+                                <Button Grid.Column="3" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=HelpButtonStyle}}" />
+                                <Button Grid.Column="4" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=RibbonOptionsButtonStyle}}" />
+                                <Button Grid.Column="5" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=MinimizeButtonStyle}}" />
+                                <Button Grid.Column="6"
                                         Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
                                                                                       ResourceId=RestoreDownButtonStyle}}"
                                         Visibility="{Binding IsMaximized,
@@ -110,23 +137,31 @@
                                                                                             AncestorType=ui:RibbonWindow,
                                                                                             AncestorLevel=1},
                                                              Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                <Button Grid.Column="6" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=CloseButtonStyle}}" />
+                                <Button Grid.Column="7" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=CloseButtonStyle}}" />
                             </Grid>
                         </Grid>
                         <Button Grid.Row="1"
                                 Grid.Column="0"
+                                Panel.ZIndex="2"
                                 Content="{TemplateBinding AppMenuText}"
+                                SnapsToDevicePixels="True"
                                 Style="{StaticResource AppMenuButtonStyle}" />
+                        <Border Grid.Row="1"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Panel.ZIndex="1"
+                                Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                   ResourceId=WindowBackgroundBrush}}" />
                         <StackPanel Grid.Row="1"
                                     Grid.Column="1"
                                     Margin="0,0,0,-1"
-                                    Panel.ZIndex="1"
-                                    Background="Transparent"
+                                    Panel.ZIndex="2"
                                     IsItemsHost="True"
                                     KeyboardNavigation.TabIndex="1"
                                     Orientation="Horizontal"
                                     WindowChrome.IsHitTestVisibleInChrome="True" />
-                        <Border Grid.Row="2"
+                        <Border x:Name="PART_RibbonCommandStrip"
+                                Grid.Row="2"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="2"
                                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -137,11 +172,31 @@
                                 Visibility="{Binding IsCommandStripVisible,
                                                      RelativeSource={RelativeSource TemplatedParent},
                                                      Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Border.RenderTransform>
+                                <TranslateTransform x:Name="CommandStripTranslateTransform" />
+                            </Border.RenderTransform>
                             <ContentPresenter Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="Stretch"
                                               Content="{TemplateBinding SelectedContent}"
                                               ContentTemplate="{TemplateBinding SelectedContentTemplate}"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            <Border.Resources>
+                                <Storyboard x:Key="CommandStripSlideInStoryboard">
+                                    <DoubleAnimation BeginTime="0:0:0"
+                                                     Duration="0:0:0.2"
+                                                     From="{Binding ActualHeight,
+                                                                    ElementName=PART_RibbonCommandStrip,
+                                                                    Converter={StaticResource DoubleMultiplier},
+                                                                    ConverterParameter=-1}"
+                                                     Storyboard.TargetName="CommandStripTranslateTransform"
+                                                     Storyboard.TargetProperty="Y"
+                                                     To="0">
+                                        <DoubleAnimation.EasingFunction>
+                                            <CubicEase EasingMode="EaseOut" />
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </Border.Resources>
                         </Border>
                     </Grid>
                 </ControlTemplate>

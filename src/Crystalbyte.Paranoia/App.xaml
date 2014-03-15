@@ -12,12 +12,14 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/Brushes.xaml" />
                 <ResourceDictionary Source="/Resources/Converters.xaml" />
-                <ResourceDictionary Source="/Styles/Button.xaml" />
-                <ResourceDictionary Source="/Styles/ToolTip.xaml" />
-                <ResourceDictionary Source="/Styles/ContextMenu.xaml" />
-                <ResourceDictionary Source="/Styles/ListViewItem.xaml" />
-                <ResourceDictionary Source="/Styles/ToggleButton.xaml" />
-                <ResourceDictionary Source="/Styles/ScrollViewer.xaml" />
+                <!--
+                    <ResourceDictionary Source="/Styles/Button.xaml" />
+                    <ResourceDictionary Source="/Styles/ToolTip.xaml" />
+                    <ResourceDictionary Source="/Styles/ContextMenu.xaml" />
+                    <ResourceDictionary Source="/Styles/ListViewItem.xaml" />
+                    <ResourceDictionary Source="/Styles/ToggleButton.xaml" />
+                    <ResourceDictionary Source="/Styles/ScrollViewer.xaml" />
+                -->
             </ResourceDictionary.MergedDictionaries>
 
 
@@ -36,10 +38,12 @@
 
 
 
-            <Style TargetType="{x:Type MenuItem}">
+            <!--
+                <Style TargetType="{x:Type MenuItem}">
                 <Setter Property="Background" Value="#1B1B1C" />
                 <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
-            </Style>
+                </Style>
+            -->
 
 
 
