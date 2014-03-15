@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="Converters\DoubleMultiplier.cs" />
+    <Compile Include="Converters\NullToVisibleConverter.cs" />
     <Compile Include="Converters\RibbonVisibilityToVisibilityConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -52,7 +53,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="QuickAccessCollection.cs" />
     <Compile Include="RibbonCommands.cs" />
+    <Compile Include="IQuickAccessConform.cs" />
+    <Compile Include="UI\RibbonButton.xaml.cs">
+      <DependentUpon>RibbonButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\RibbonGroup.xaml.cs">
       <DependentUpon>RibbonGroup.xaml</DependentUpon>
     </Compile>
@@ -60,10 +66,10 @@
     <Compile Include="UI\RibbonPage.xaml.cs">
       <DependentUpon>RibbonPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\RibbonTabCollection.cs" />
-    <Compile Include="UI\RibbonVisibility.cs" />
-    <Compile Include="UI\NotificationObject.cs" />
-    <Compile Include="UI\PropertySupport.cs" />
+    <Compile Include="RibbonTabCollection.cs" />
+    <Compile Include="RibbonVisibility.cs" />
+    <Compile Include="NotificationObject.cs" />
+    <Compile Include="PropertySupport.cs" />
     <Compile Include="UI\Ribbon.xaml.cs">
       <DependentUpon>Ribbon.xaml</DependentUpon>
     </Compile>
@@ -94,6 +100,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UI\RibbonButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\RibbonGroup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -141,9 +151,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\help.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\ribbongroup.command.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

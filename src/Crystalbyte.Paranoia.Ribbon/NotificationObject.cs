@@ -4,10 +4,11 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+using Crystalbyte.Paranoia.UI;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.UI {
+namespace Crystalbyte.Paranoia {
     public abstract class NotificationObject : INotifyPropertyChanged, INotifyPropertyChanging {
         /// <summary>
         ///     Raised when a property on this object has a new value.

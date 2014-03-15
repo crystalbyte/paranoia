@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crystalbyte.Paranoia.UI {
-    public sealed class RibbonTabCollection : ObservableCollection<RibbonTab> { }
+namespace Crystalbyte.Paranoia {
+    public sealed class QuickAccessCollection : ObservableCollection<IQuickAccessConform> {
+    }
 }

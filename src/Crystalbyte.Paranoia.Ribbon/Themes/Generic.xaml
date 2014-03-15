@@ -2,6 +2,8 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Ribbon;component/UI/Resources.xaml" />
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Ribbon;component/UI/RibbonGroup.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Ribbon;component/UI/RibbonPage.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Ribbon;component/UI/RibbonButton.xaml" />
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Ribbon;component/UI/Ribbon.xaml" />
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Ribbon;component/UI/RibbonTab.xaml" />
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Ribbon;component/UI/RibbonWindow.xaml" />

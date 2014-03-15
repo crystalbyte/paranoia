@@ -5,7 +5,8 @@
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                     mc:Ignorable="d">
     <Style TargetType="ui:RibbonPage">
-        <Setter Property="Background" Value="DarkTurquoise" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -18,8 +19,10 @@
                 <ControlTemplate TargetType="ui:RibbonPage">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                        <ItemsPresenter />
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            d:DesignHeight="83.6"
+                            d:DesignWidth="496.55">
+                        <ItemsPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

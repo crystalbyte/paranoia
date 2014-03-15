@@ -168,6 +168,7 @@
     <Compile Include="Html\HtmlSchema.cs" />
     <Compile Include="Html\HtmlTokenType.cs" />
     <Compile Include="Html\HtmlToXamlConverter.cs" />
+    <Compile Include="IQuickAccessConform.cs" />
     <Compile Include="MailTypes.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Identity.cs" />

@@ -63,9 +63,11 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(RibbonCommands.OpenAppMenu, OnOpenAppMenu));
             CommandBindings.Add(new CommandBinding(RibbonCommands.BlendInRibbon, OnBlendInRibbon));
             CommandBindings.Add(new CommandBinding(RibbonCommands.OpenRibbonOptions, OnOpenRibbonOptions));
+            CommandBindings.Add(new CommandBinding(RibbonCommands.AddQuickAccess, OnAddQuickAccess));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
 
             Tabs = new RibbonTabCollection();
+            QuickAccessItems = new QuickAccessCollection();
         }
 
         #endregion
@@ -83,6 +85,15 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         #region Dependency Properties
+
+        public QuickAccessCollection QuickAccessItems {
+            get { return (QuickAccessCollection)GetValue(QuickAccessItemsProperty); }
+            set { SetValue(QuickAccessItemsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for QuickAccessItems.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty QuickAccessItemsProperty =
+            DependencyProperty.Register("QuickAccessItems", typeof(QuickAccessCollection), typeof(RibbonWindow), new PropertyMetadata(null));  
 
         public RibbonVisibility RibbonVisibility {
             get { return (RibbonVisibility)GetValue(RibbonVisibilityProperty); }
@@ -109,7 +120,6 @@ namespace Crystalbyte.Paranoia.UI {
         // Using a DependencyProperty as the backing store for FramePadding.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FramePaddingProperty =
             DependencyProperty.Register("FramePadding", typeof(Thickness), typeof(RibbonWindow), new PropertyMetadata(new Thickness(0)));
-
 
         public bool IsNormalized {
             get { return (bool)GetValue(IsNormalizedProperty); }
@@ -188,6 +198,10 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         #region Event Handlers
+
+        private void OnAddQuickAccess(object sender, ExecutedRoutedEventArgs e) {
+            throw new NotImplementedException();
+        }
 
         private void OnRibbonSelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (RibbonVisibility == RibbonVisibility.Tabs) {

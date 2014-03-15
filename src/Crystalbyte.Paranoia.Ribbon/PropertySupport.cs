@@ -1,14 +1,14 @@
 ﻿#region Using directives
 
-using Crystalbyte.Paranoia.Properties;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
+using Crystalbyte.Paranoia.Properties;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.UI {
+namespace Crystalbyte.Paranoia {
     /// <summary>
     ///     Provides support for extracting property information based on a property expression.
     /// </summary>

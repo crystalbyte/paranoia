@@ -1,6 +1,79 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Converters"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
-    <!--  The style is located in RibbonWindow.TabStyle  -->
-    <Style TargetType="ui:RibbonTab" />
+
+    <converters:RibbonVisibilityToVisibilityConverter x:Key="RibbonVisibilityToVisibilityConverter" />
+
+    <Style TargetType="ui:RibbonTab">
+        <Setter Property="BorderThickness" Value="1,1,1,0" />
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowBackgroundBrush}}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Margin" Value="1,0,1,0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowBackgroundBrush}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=LightTextBrush}}" />
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Margin="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                              ResourceId=HeaderPadding}}"
+                               RenderOptions.ClearTypeHint="Enabled"
+                               Text="{Binding}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ui:RibbonTab">
+                    <Grid x:Name="Root"
+                          Background="{TemplateBinding Background}"
+                          SnapsToDevicePixels="True">
+                        <Border x:Name="SelectionBorder"
+                                Background="Transparent"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Visibility="{Binding RibbonVisibility,
+                                                     RelativeSource={RelativeSource FindAncestor,
+                                                                                    AncestorType=ui:RibbonWindow,
+                                                                                    AncestorLevel=1},
+                                                     Converter={StaticResource RibbonVisibilityToVisibilityConverter},
+                                                     ConverterParameter=Hidden|TabsAndCommands}" />
+                        <Border x:Name="NoSelectionBorder"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="0,0,0,1"
+                                Visibility="{Binding RibbonVisibility,
+                                                     RelativeSource={RelativeSource FindAncestor,
+                                                                                    AncestorType=ui:RibbonWindow,
+                                                                                    AncestorLevel=1},
+                                                     Converter={StaticResource RibbonVisibilityToVisibilityConverter},
+                                                     ConverterParameter=Hidden|TabsAndCommands}" />
+                        <Border Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding Header}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter TargetName="NoSelectionBorder" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=RibbonBorderBrush}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=RibbonBorderBrush}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowAccentBrush}}" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowAccentBrush}}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

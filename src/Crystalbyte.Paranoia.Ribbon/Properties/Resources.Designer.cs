@@ -61,6 +61,24 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add command to the quick access toolbar..
+        /// </summary>
+        public static string AddQuickAccessCommandName {
+            get {
+                return ResourceManager.GetString("AddQuickAccessCommandName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add command to the quick access toolbar..
+        /// </summary>
+        public static string AddQuickAccessCommandTooltip {
+            get {
+                return ResourceManager.GetString("AddQuickAccessCommandTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hide ribbon. Click on the application bar at the top to display it..
         /// </summary>
         public static string AutoHideRibbonDescription {
@@ -88,7 +106,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Back.
+        ///   Looks up a localized string similar to Navigate back to the last view..
         /// </summary>
         public static string BackCommandTooltip {
             get {
@@ -196,7 +214,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open app menu.
+        ///   Looks up a localized string similar to Open the application menu.
         /// </summary>
         public static string OpenAppMenuCommandTooltip {
             get {
@@ -214,7 +232,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ribbon visibility options.
+        ///   Looks up a localized string similar to OpenRibbonOptions.
         /// </summary>
         public static string OpenRibbonOptionsCommandName {
             get {
