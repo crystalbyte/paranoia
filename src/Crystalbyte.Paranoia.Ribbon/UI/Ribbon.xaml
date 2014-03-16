@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Converters"
+                    xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
                     xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
@@ -9,7 +10,6 @@
     <converters:DoubleMultiplier x:Key="DoubleMultiplier" />
 
     <Style x:Key="AppMenuButtonStyle" TargetType="ButtonBase">
-        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Margin" Value="0,0,2,0" />
@@ -36,13 +36,11 @@
 
                         </Grid>
                     </Border>
-
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="HoverOverlay" Property="Visibility" Value="Visible" />
                         </Trigger>
                     </ControlTemplate.Triggers>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -143,6 +141,7 @@
                         <Button Grid.Row="1"
                                 Grid.Column="0"
                                 Panel.ZIndex="2"
+                                Command="paranoia:RibbonCommands.OpenAppMenu"
                                 Content="{TemplateBinding AppMenuText}"
                                 SnapsToDevicePixels="True"
                                 Style="{StaticResource AppMenuButtonStyle}" />

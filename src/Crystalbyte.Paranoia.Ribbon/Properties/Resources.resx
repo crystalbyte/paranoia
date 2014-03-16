@@ -141,6 +141,12 @@
   <data name="BlendInRibbonCommandTooltip" xml:space="preserve">
     <value>Blend in ribbon</value>
   </data>
+  <data name="CloseAppMenuCommandName" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="CloseAppMenuCommandTooltip" xml:space="preserve">
+    <value>CloseAppMenu</value>
+  </data>
   <data name="CloseCommandName" xml:space="preserve">
     <value>Close</value>
   </data>

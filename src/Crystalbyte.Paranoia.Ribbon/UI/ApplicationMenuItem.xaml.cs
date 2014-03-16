@@ -15,12 +15,17 @@ using System.Windows.Shapes;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
-    /// Interaction logic for QuickAccessBarItem.xaml
+    /// Interaction logic for ApplicationMenuItem.xaml
     /// </summary>
-    public class QuickAccessBarItem : ContentControl {
-        static QuickAccessBarItem() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(QuickAccessBarItem),
-             new FrameworkPropertyMetadata(typeof(QuickAccessBarItem)));
+    public class ApplicationMenuItem : TabItem {
+
+        #region Construction
+
+        static ApplicationMenuItem() {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ApplicationMenuItem),
+                new FrameworkPropertyMetadata(typeof(ApplicationMenuItem)));
         }
+
+        #endregion
     }
 }

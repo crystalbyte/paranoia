@@ -1,9 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Converters"
+                    xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
-    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <converters:RibbonVisibilityToVisibilityConverter x:Key="RibbonVisibilityToVisibilityConverter" />
     <converters:DoubleMultiplier x:Key="DoubleMultiplier" />
 
@@ -88,14 +89,9 @@
                                     <!--  status bar  -->
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
                                 <Grid x:Name="CommandBar"
                                       Grid.Row="0"
                                       Grid.Column="0"
-                                      Grid.ColumnSpan="2"
                                       HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
                                         <!--  window icon  -->
@@ -162,7 +158,12 @@
                                                                                                 AncestorLevel=1},
                                                                  Converter={StaticResource RibbonVisibilityToVisibilityConverter},
                                                                  ConverterParameter=Tabs|TabsAndCommands}">
-                                        <ui:QuickAccessBar VerticalAlignment="Center" ItemsSource="{TemplateBinding QuickAccessItems}" />
+                                        <ui:QuickAccessBar VerticalAlignment="Center"
+                                                           ItemsSource="{TemplateBinding QuickAccessItems}"
+                                                           Visibility="{Binding IsAppMenuOpened,
+                                                                                RelativeSource={RelativeSource TemplatedParent},
+                                                                                Converter={StaticResource BooleanToVisibilityConverter},
+                                                                                ConverterParameter=!}" />
                                     </Border>
                                     <Button Grid.Column="3"
                                             Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
@@ -201,21 +202,24 @@
                                     </Border>
                                     <Button Grid.Column="8" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=CloseButtonStyle}}" />
                                 </Grid>
-                                <ui:Ribbon x:Name="PART_Ribbon"
-                                           Grid.Row="1"
-                                           Grid.Column="0"
-                                           Grid.ColumnSpan="2"
-                                           VerticalAlignment="Top"
-                                           ItemsSource="{TemplateBinding Tabs}">
-                                    <ui:Ribbon.RenderTransform>
+                                <Border x:Name="PART_RibbonHost"
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        VerticalAlignment="Top"
+                                        Visibility="{Binding IsAppMenuOpened,
+                                                             RelativeSource={RelativeSource TemplatedParent},
+                                                             Converter={StaticResource BooleanToVisibilityConverter},
+                                                             ConverterParameter=!}">
+                                    <ContentPresenter Content="{TemplateBinding Ribbon}" />
+                                    <Border.RenderTransform>
                                         <TranslateTransform x:Name="RibbonTranslateTransform" />
-                                    </ui:Ribbon.RenderTransform>
-                                    <ui:Ribbon.Resources>
+                                    </Border.RenderTransform>
+                                    <Border.Resources>
                                         <Storyboard x:Key="RibbonBlendInStoryboard">
                                             <DoubleAnimation BeginTime="0:0:0"
                                                              Duration="0:0:0.2"
                                                              From="{Binding ActualHeight,
-                                                                            ElementName=PART_Ribbon,
+                                                                            ElementName=PART_RibbonHost,
                                                                             Converter={StaticResource DoubleMultiplier},
                                                                             ConverterParameter=-1}"
                                                              Storyboard.TargetName="RibbonTranslateTransform"
@@ -226,15 +230,12 @@
                                                 </DoubleAnimation.EasingFunction>
                                             </DoubleAnimation>
                                         </Storyboard>
-                                    </ui:Ribbon.Resources>
-                                </ui:Ribbon>
-                                <ContentPresenter Grid.Row="2"
-                                                  Grid.Column="0"
-                                                  Grid.ColumnSpan="2" />
+                                    </Border.Resources>
+                                </Border>
+                                <ContentPresenter Grid.Row="2" Grid.Column="0" />
                                 <Popup x:Name="PART_RibbonOptionsPopup"
                                        Grid.Row="0"
                                        Grid.Column="0"
-                                       Grid.ColumnSpan="2"
                                        Placement="Bottom"
                                        StaysOpen="False">
                                     <Border Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
@@ -346,13 +347,13 @@
                                 <StatusBar x:Name="PART_StatusBar"
                                            Grid.Row="3"
                                            Grid.Column="0"
-                                           Grid.ColumnSpan="2"
                                            Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
                                                                                               ResourceId=WindowAccentBrush}}"
                                            ItemContainerStyle="{TemplateBinding StatusBarContainerStyle}"
                                            ItemTemplate="{TemplateBinding StatusBarItemTemplate}"
                                            ItemsPanel="{TemplateBinding StatusBarItemsPanel}"
-                                           ItemsSource="{TemplateBinding StatusBarItemsSource}">
+                                           ItemsSource="{TemplateBinding StatusBarItemsSource}"
+                                           SnapsToDevicePixels="True">
                                     <StatusBar.RenderTransform>
                                         <TranslateTransform x:Name="StatusBarTranslateTransform" />
                                     </StatusBar.RenderTransform>
@@ -373,16 +374,37 @@
                                     </StatusBar.Resources>
                                 </StatusBar>
 
-                                <Border Grid.Row="0"
-                                        Grid.RowSpan="4"
-                                        Grid.Column="0"
-                                        Panel.ZIndex="4"
-                                        Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
-                                                                                           ResourceId=WindowAccentBrush}}">
-                                    <DockPanel LastChildFill="True">
+                                <Grid x:Name="PART_ApplicationMenuHost"
+                                      Grid.Row="0"
+                                      Grid.RowSpan="4"
+                                      Grid.Column="0"
+                                      Panel.ZIndex="4"
+                                      Background="{x:Null}"
+                                      Opacity="0">
+                                    <Grid.RenderTransform>
+                                        <TranslateTransform x:Name="ApplicationMenuTranslateTransform" />
+                                    </Grid.RenderTransform>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="60" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="{Binding ActualHeight, ElementName=PART_StatusBar}" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <DockPanel Grid.Row="0"
+                                               Grid.RowSpan="3"
+                                               Grid.Column="0"
+                                               Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                                  ResourceId=WindowAccentBrush}}"
+                                               IsHitTestVisible="{Binding IsAppMenuOpened,
+                                                                          RelativeSource={RelativeSource TemplatedParent}}"
+                                               LastChildFill="True">
                                         <Button Margin="18"
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Top"
+                                                Command="{x:Static paranoia:RibbonCommands.CloseAppMenu}"
                                                 DockPanel.Dock="Top">
                                             <Button.Template>
                                                 <ControlTemplate TargetType="ButtonBase">
@@ -416,18 +438,63 @@
                                         </Button>
                                         <ContentPresenter Content="{TemplateBinding ApplicationMenu}" />
                                     </DockPanel>
+                                    <Border Grid.Row="1"
+                                            Grid.Column="1"
+                                            Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                               ResourceId=WindowBackgroundBrush}}"
+                                            IsHitTestVisible="{Binding IsAppMenuOpened,
+                                                                       RelativeSource={RelativeSource TemplatedParent}}" />
+                                    <Grid.Resources>
+                                        <Storyboard x:Key="ApplicationMenuOpenStoryboard">
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Duration="0:0:0.2"
+                                                             From="0.0"
+                                                             Storyboard.TargetName="PART_ApplicationMenuHost"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="1.0" />
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Duration="0:0:0.2"
+                                                             From="-200"
+                                                             Storyboard.TargetName="ApplicationMenuTranslateTransform"
+                                                             Storyboard.TargetProperty="X"
+                                                             To="0">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                        <Storyboard x:Key="ApplicationMenuCloseStoryboard">
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Duration="0:0:0.2"
+                                                             From="1.0"
+                                                             Storyboard.TargetName="PART_ApplicationMenuHost"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="0.0" />
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Duration="0:0:0.2"
+                                                             From="0"
+                                                             Storyboard.TargetName="ApplicationMenuTranslateTransform"
+                                                             Storyboard.TargetProperty="X"
+                                                             To="-200">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </Grid.Resources>
+                                </Grid>
 
+                                <Border Grid.Row="3"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Visibility="{Binding IsAppMenuOpened,
+                                                             RelativeSource={RelativeSource TemplatedParent},
+                                                             Converter={StaticResource BooleanToVisibilityConverter},
+                                                             ConverterParameter=!}">
+                                    <ResizeGrip Visibility="{Binding IsNormalized, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" WindowChrome.ResizeGripDirection="BottomRight" />
                                 </Border>
 
-                                <ResizeGrip Grid.Row="3"
-                                            Grid.Column="0"
-                                            Grid.ColumnSpan="2"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Bottom"
-                                            Visibility="{Binding IsNormalized,
-                                                                 RelativeSource={RelativeSource TemplatedParent},
-                                                                 Converter={StaticResource BooleanToVisibilityConverter}}"
-                                            WindowChrome.ResizeGripDirection="BottomRight" />
                             </Grid>
                         </Border>
                     </Border>

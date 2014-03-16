@@ -11,6 +11,9 @@ namespace Crystalbyte.Paranoia {
         public static RoutedUICommand OpenAppMenu =
             new RoutedUICommand(Resources.OpenAppMenuCommandTooltip, Resources.OpenAppMenuCommandName, typeof(Ribbon));
 
+        public static RoutedUICommand CloseAppMenu =
+            new RoutedUICommand(Resources.CloseAppMenuCommandTooltip, Resources.CloseAppMenuCommandName, typeof(Ribbon));
+
         public static RoutedUICommand BlendInRibbon =
             new RoutedUICommand(Resources.BlendInRibbonCommandTooltip, Resources.BlendInRibbonCommandName, typeof(RibbonWindow));
 

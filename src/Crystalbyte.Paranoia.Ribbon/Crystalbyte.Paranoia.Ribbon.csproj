@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CollectionExtensions.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\DoubleMultiplier.cs" />
     <Compile Include="Converters\NullToVisibleConverter.cs" />
     <Compile Include="Converters\RibbonVisibilityToVisibilityConverter.cs" />
@@ -56,6 +57,13 @@
     <Compile Include="QuickAccessCollection.cs" />
     <Compile Include="RibbonCommands.cs" />
     <Compile Include="IQuickAccessConform.cs" />
+    <Compile Include="UI\ApplicationMenu.xaml.cs">
+      <DependentUpon>ApplicationMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ApplicationMenuItem.xaml.cs">
+      <DependentUpon>ApplicationMenuItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FrameworkElementExtensions.cs" />
     <Compile Include="UI\QuickAccessBar.xaml.cs">
       <DependentUpon>QuickAccessBar.xaml</DependentUpon>
     </Compile>
@@ -72,7 +80,6 @@
     <Compile Include="UI\RibbonPage.xaml.cs">
       <DependentUpon>RibbonPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RibbonTabCollection.cs" />
     <Compile Include="RibbonVisibility.cs" />
     <Compile Include="NotificationObject.cs" />
     <Compile Include="PropertySupport.cs" />
@@ -96,6 +103,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UI\ApplicationMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\ApplicationMenuItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\QuickAccessBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

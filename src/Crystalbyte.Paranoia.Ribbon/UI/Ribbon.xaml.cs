@@ -48,16 +48,23 @@ namespace Crystalbyte.Paranoia.UI {
 
         #endregion
 
-        #region Dependency Properties
+        #region Attached Properties
 
-        public bool IsFloating {
-            get { return (bool)GetValue(IsFloatingProperty); }
-            set { SetValue(IsFloatingProperty, value); }
+        public static bool GetIsFloating(DependencyObject d) {
+            return (bool)d.GetValue(IsFloatingProperty);
+        }
+
+        public static void SetIsFloating(DependencyObject d, object value) {
+            d.SetValue(IsFloatingProperty, value); 
         }
 
         // Using a DependencyProperty as the backing store for IsFloating.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsFloatingProperty =
-            DependencyProperty.Register("IsFloating", typeof(bool), typeof(Ribbon), new PropertyMetadata(false));
+            DependencyProperty.RegisterAttached("IsFloating", typeof(bool), typeof(Ribbon), new PropertyMetadata(false));
+
+        #endregion
+
+        #region Dependency Properties
 
         public bool IsCommandStripVisible {
             get { return (bool)GetValue(IsCommandStripVisibleProperty); }
@@ -100,58 +107,14 @@ namespace Crystalbyte.Paranoia.UI {
 
         #endregion
 
-        internal void BlendIn() {
-            IsFloating = true;
-            SetValue(Grid.RowProperty, 0);
-            SetValue(Grid.RowSpanProperty, 2);
-            SetValue(Panel.ZIndexProperty, 2);
-            SetValue(VerticalAlignmentProperty, VerticalAlignment.Top);
-            Visibility = Visibility.Visible;
-
-            // The sequence of calls in this method is important.
-            // Don't change the layout after the animation has started.
-            // The storyboard must be invoked last. 
-            var story = (Storyboard) FindResource("RibbonBlendInStoryboard");
-            story.Begin();
-        }
-
-        internal void BlendOut() {
-            if (!IsFloating) {
-                return;
-            }
-            IsFloating = false;
-            Visibility = Visibility.Collapsed;
-        }
-
-        internal void SnapIn() {
-            IsFloating = false;
-            SetValue(Grid.RowProperty, 1);
-            SetValue(Grid.RowSpanProperty, 1);
-            SetValue(Panel.ZIndexProperty, 0);
-            SetValue(VerticalAlignmentProperty, VerticalAlignment.Top);
-            Visibility = Visibility.Visible;
-        }
-
         internal void SlideInCommandStrip() {
             IsCommandStripVisible = true;
             var story = (Storyboard) _commandStrip.FindResource("CommandStripSlideInStoryboard");
             story.Begin();
         }
 
-        internal void SnapOut() {
-            Visibility = Visibility.Collapsed;
-        }
-
         internal void ClearSelection() {
             SelectedIndex = -1;
-        }
-
-        internal void ExtendIntoContent() {
-            SetValue(Grid.RowSpanProperty, 2);
-        }
-
-        internal void RetractFromContent() {
-            SetValue(Grid.RowSpanProperty, 1);
         }
 
         internal void RestoreSelection() {

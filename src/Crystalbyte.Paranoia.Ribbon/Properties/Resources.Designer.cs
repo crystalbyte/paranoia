@@ -133,6 +133,24 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string CloseAppMenuCommandName {
+            get {
+                return ResourceManager.GetString("CloseAppMenuCommandName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CloseAppMenu.
+        /// </summary>
+        public static string CloseAppMenuCommandTooltip {
+            get {
+                return ResourceManager.GetString("CloseAppMenuCommandTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string CloseCommandName {

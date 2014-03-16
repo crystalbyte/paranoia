@@ -18,24 +18,20 @@
                 WindowStartupLocation="CenterScreen"
                 d:DataContext="{d:DesignInstance contexts:AppContext}"
                 mc:Ignorable="d">
-    <r:RibbonWindow.Tabs>
-        <r:RibbonTab Header="{x:Static properties:Resources.HomeTabHeader}">
-            <ui:HomeRibbonPage />
-        </r:RibbonTab>
-        <r:RibbonTab Header="{x:Static properties:Resources.IdentitiesTabHeader}">
-            <ui:HomeRibbonPage />
-        </r:RibbonTab>
-        <r:RibbonTab Header="{x:Static properties:Resources.ContactsTabHeader}">
-            <ui:HomeRibbonPage />
-        </r:RibbonTab>
-        <r:RibbonTab Header="{x:Static properties:Resources.MailsTabHeader}">
-            <ui:HomeRibbonPage />
-        </r:RibbonTab>
-    </r:RibbonWindow.Tabs>
+    <r:RibbonWindow.Ribbon>
+        <r:Ribbon>
+            <r:RibbonTab Header="{x:Static properties:Resources.HomeTabHeader}">
+                <ui:HomeRibbonPage />
+            </r:RibbonTab>
+        </r:Ribbon>
+    </r:RibbonWindow.Ribbon>
     <r:RibbonWindow.ApplicationMenu>
-        <Menu>
-            <MenuItem Header="Informations" />
-        </Menu>
+        <r:ApplicationMenu>
+            <r:ApplicationMenuItem Header="A" />
+            <r:ApplicationMenuItem Header="B" />
+            <r:ApplicationMenuItem Header="C" />
+            <r:ApplicationMenuItem Header="D" />
+        </r:ApplicationMenu>
     </r:RibbonWindow.ApplicationMenu>
     <!--
         <DockPanel Background="{StaticResource AppWindowBackgroundBrush}">
