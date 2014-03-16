@@ -87,6 +87,15 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Dependency Properties
 
+        public Menu ApplicationMenu {
+            get { return (Menu)GetValue(ApplicationMenuProperty); }
+            set { SetValue(ApplicationMenuProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ApplicationMenu.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ApplicationMenuProperty =
+            DependencyProperty.Register("ApplicationMenu", typeof(Menu), typeof(RibbonWindow), new PropertyMetadata(null));
+
         public QuickAccessCollection QuickAccessItems {
             get { return (QuickAccessCollection)GetValue(QuickAccessItemsProperty); }
             set { SetValue(QuickAccessItemsProperty, value); }
@@ -213,11 +222,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnRibbonSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (RibbonVisibility != RibbonVisibility.Tabs) {
-                return;
-            }
-
-            if (e.AddedItems.Count > 0 && !_ribbon.IsCommandStripVisible) {
+            if (e.AddedItems.Count > 0 && !_ribbon.IsCommandStripVisible && RibbonVisibility == RibbonVisibility.Tabs) {
                 _ribbon.SlideInCommandStrip();
             }
         }

@@ -152,14 +152,11 @@
                                 Panel.ZIndex="1"
                                 Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
                                                                                    ResourceId=WindowBackgroundBrush}}" />
-                        <StackPanel Grid.Row="1"
-                                    Grid.Column="1"
-                                    Margin="0,0,0,-1"
-                                    Panel.ZIndex="2"
-                                    IsItemsHost="True"
-                                    KeyboardNavigation.TabIndex="1"
-                                    Orientation="Horizontal"
-                                    WindowChrome.IsHitTestVisibleInChrome="True" />
+                        <ItemsPresenter Grid.Row="1"
+                                        Grid.Column="1"
+                                        Margin="0,0,0,-1"
+                                        Panel.ZIndex="2"
+                                        KeyboardNavigation.TabIndex="1" />
                         <Border x:Name="PART_RibbonCommandStrip"
                                 Grid.Row="2"
                                 Grid.Column="0"

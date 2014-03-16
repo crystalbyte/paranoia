@@ -32,7 +32,11 @@
             <ui:HomeRibbonPage />
         </r:RibbonTab>
     </r:RibbonWindow.Tabs>
-
+    <r:RibbonWindow.ApplicationMenu>
+        <Menu>
+            <MenuItem Header="Informations" />
+        </Menu>
+    </r:RibbonWindow.ApplicationMenu>
     <!--
         <DockPanel Background="{StaticResource AppWindowBackgroundBrush}">
         <ProgressBar DockPanel.Dock="Top"

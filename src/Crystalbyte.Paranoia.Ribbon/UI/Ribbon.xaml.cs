@@ -143,7 +143,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         internal void ClearSelection() {
-            SelectedValue = null;
+            SelectedIndex = -1;
         }
 
         internal void ExtendIntoContent() {

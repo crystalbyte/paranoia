@@ -88,8 +88,14 @@
                                     <!--  status bar  -->
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
                                 <Grid x:Name="CommandBar"
                                       Grid.Row="0"
+                                      Grid.Column="0"
+                                      Grid.ColumnSpan="2"
                                       HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
                                         <!--  window icon  -->
@@ -197,6 +203,8 @@
                                 </Grid>
                                 <ui:Ribbon x:Name="PART_Ribbon"
                                            Grid.Row="1"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
                                            VerticalAlignment="Top"
                                            ItemsSource="{TemplateBinding Tabs}">
                                     <ui:Ribbon.RenderTransform>
@@ -220,11 +228,13 @@
                                         </Storyboard>
                                     </ui:Ribbon.Resources>
                                 </ui:Ribbon>
-
-                                <ContentPresenter Grid.Row="2" Grid.Column="0" />
-
+                                <ContentPresenter Grid.Row="2"
+                                                  Grid.Column="0"
+                                                  Grid.ColumnSpan="2" />
                                 <Popup x:Name="PART_RibbonOptionsPopup"
                                        Grid.Row="0"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
                                        Placement="Bottom"
                                        StaysOpen="False">
                                     <Border Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
@@ -335,6 +345,8 @@
 
                                 <StatusBar x:Name="PART_StatusBar"
                                            Grid.Row="3"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
                                            Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
                                                                                               ResourceId=WindowAccentBrush}}"
                                            ItemContainerStyle="{TemplateBinding StatusBarContainerStyle}"
@@ -361,7 +373,55 @@
                                     </StatusBar.Resources>
                                 </StatusBar>
 
+                                <Border Grid.Row="0"
+                                        Grid.RowSpan="4"
+                                        Grid.Column="0"
+                                        Panel.ZIndex="4"
+                                        Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                           ResourceId=WindowAccentBrush}}">
+                                    <DockPanel LastChildFill="True">
+                                        <Button Margin="18"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                DockPanel.Dock="Top">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="ButtonBase">
+                                                    <Grid>
+                                                        <Ellipse HorizontalAlignment="Stretch"
+                                                                 VerticalAlignment="Stretch"
+                                                                 Fill="Transparent"
+                                                                 Stroke="WhiteSmoke"
+                                                                 StrokeThickness="1.5" />
+                                                        <Image Height="34"
+                                                               RenderOptions.BitmapScalingMode="Fant"
+                                                               SnapsToDevicePixels="True"
+                                                               Source="/Crystalbyte.Paranoia.Ribbon;component/Assets/back.png"
+                                                               Stretch="Uniform" />
+                                                        <Rectangle x:Name="SelectionOverlay"
+                                                                   HorizontalAlignment="Stretch"
+                                                                   VerticalAlignment="Stretch"
+                                                                   Fill="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                                                ResourceId=WindowAccentBrush}}"
+                                                                   Opacity=".2"
+                                                                   StrokeThickness="0"
+                                                                   Visibility="Collapsed" />
+                                                    </Grid>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="SelectionOverlay" Property="Visibility" Value="Visible" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                        <ContentPresenter Content="{TemplateBinding ApplicationMenu}" />
+                                    </DockPanel>
+
+                                </Border>
+
                                 <ResizeGrip Grid.Row="3"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="2"
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Bottom"
                                             Visibility="{Binding IsNormalized,
