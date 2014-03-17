@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading.Tasks;
@@ -46,7 +47,7 @@ namespace Crystalbyte.Paranoia.UI {
         private Storyboard _appMenuCloseStoryboard;
 
         #endregion
-
+        
         #region Xaml Support
 
         public const string RibbonHostName = "PART_RibbonHost";
@@ -379,6 +380,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnWindowLoaded(object sender, RoutedEventArgs e) {
             UpdateWindowStates();
+            RestoreState();
         }
 
         private void OnMinimize(object sender, ExecutedRoutedEventArgs e) {
@@ -502,14 +504,43 @@ namespace Crystalbyte.Paranoia.UI {
 
         #endregion
 
+        #region Methods
+
         private void RunExchangeAnimation() {
             var story = (Storyboard)_appMenuHost.FindResource("ExchangeAppMenuContentStoryboard");
             story.Begin();
         }
 
-        private async Task StoreStateAsync() {
+        private void RestoreState() {
 
-            var keys = new ArrayList(QuickAccessItems.Select(x => x.Key).ToArray());
+            const string name = "ribbon.xml";
+            if (!File.Exists(name)) {
+                return;
+            }
+
+            try {
+                var fs = File.OpenRead(name);
+                using (var reader = new StreamReader(fs)) {
+                    var serializer = new XmlSerializer(typeof(ArrayList));
+                    var list = serializer.Deserialize(reader) as ArrayList;
+                    if (list == null)
+                        return;
+                    var names = list.OfType<string>();
+                    var items = names.Select(QuickAccessRegistry.Find).Where(x => x != null);
+                    QuickAccessItems.AddRange(items);
+                }
+            } catch (IOException ex) {
+                Debug.WriteLine(ex);
+            }
+
+        }
+
+        private async Task StoreStateAsync() {
+            var keys = new ArrayList(QuickAccessItems
+                .Where(x => x.Key != null)
+                .Select(x => x.Key)
+                .ToArray());
+
             if (keys.Count == 0) {
                 return;
             }
@@ -519,14 +550,14 @@ namespace Crystalbyte.Paranoia.UI {
                 var fs = !File.Exists(name)
                     ? File.Create(name)
                     : File.Open(name, FileMode.Truncate, FileAccess.Write);
-                
+
                 using (var writer = new StreamWriter(fs)) {
-                    var xml = new XmlSerializer(typeof(ArrayList));
-                    xml.Serialize(writer, keys);
+                    var serializer = new XmlSerializer(typeof(ArrayList));
+                    serializer.Serialize(writer, keys);
                     await writer.FlushAsync();
                 }
             } catch (IOException ex) {
-                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex);
             }
         }
 
@@ -572,6 +603,8 @@ namespace Crystalbyte.Paranoia.UI {
             IsNormalized = WindowState == WindowState.Normal;
             IsMaximized = WindowState == WindowState.Maximized;
         }
+
+        #endregion
 
         #region Native Window Support
 

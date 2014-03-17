@@ -14,7 +14,7 @@ namespace Crystalbyte.Paranoia {
             Commands.Add(command);
         }
 
-        public static IQuickAccessConform Find(object key) {
+        public static IQuickAccessConform Find(string key) {
             return Commands.FirstOrDefault(x => x.Key == key);
         }
     }

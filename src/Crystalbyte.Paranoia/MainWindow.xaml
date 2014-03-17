@@ -45,9 +45,10 @@
             <r:ApplicationMenuItem Header="Optionen">
                 <Expander Header="Color">
                     <StackPanel MaxHeight="300" Orientation="Vertical">
-                        <TextBox Text="{r:ExtendedDynamicResource DynamicResource {ComponentResourceKey TypeInTargetAssembly=r:RibbonWindow, ResourceId=WindowAccentBrush}, Converter={StaticResource ColorToString}}" />
-                        <!--  <RowDefinition Height="{my:DynamicResourceWithConverter someHeight, Converter={StaticResource gridLengthConverter}}" 
-                        <TextBox  Text="{r:ExtentetdDynamicResource DynamicResource {ComponentResourceKey TypeInTargetAssembly=r:RibbonWindow, ResourceId=WindowAccentBrush}, Converter={StaticResource ColorToString}}" />
+                        <!--  <TextBox Text="{r:ExtendedDynamicResource DynamicResource {ComponentResourceKey TypeInTargetAssembly=r:RibbonWindow, ResourceId=WindowAccentBrush}, Converter={StaticResource ColorToString}}" />  -->
+                        <!--
+                            <RowDefinition Height="{my:DynamicResourceWithConverter someHeight, Converter={StaticResource gridLengthConverter}}"
+                            <TextBox  Text="{r:ExtentetdDynamicResource DynamicResource {ComponentResourceKey TypeInTargetAssembly=r:RibbonWindow, ResourceId=WindowAccentBrush}, Converter={StaticResource ColorToString}}" />
                         -->
                         <TextBox Text="bla" />
                         <TextBox Text="bla" />

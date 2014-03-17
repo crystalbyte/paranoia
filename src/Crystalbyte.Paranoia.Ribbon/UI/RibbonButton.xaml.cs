@@ -51,7 +51,10 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public string Key {
-            get { return Command.GetType().AssemblyQualifiedName; }
+            get {
+                var routed = Command as RoutedCommand;
+                return routed != null ? routed.Name : null;
+            }
         }
 
         #endregion
