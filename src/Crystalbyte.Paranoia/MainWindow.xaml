@@ -9,8 +9,8 @@
                 xmlns:r="clr-namespace:Crystalbyte.Paranoia.UI;assembly=Crystalbyte.Paranoia.Ribbon"
                 xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                 Title="p4r4n014"
-                Width="1280"
-                Height="768"
+                Width="1080"
+                Height="668"
                 MinWidth="800"
                 MinHeight="600"
                 Icon="/Assets/icon.png"
@@ -19,6 +19,12 @@
                 WindowStartupLocation="CenterScreen"
                 d:DataContext="{d:DesignInstance contexts:AppContext}"
                 mc:Ignorable="d">
+    <!-- 
+        FULL-HD size
+        to big for HD-ready
+        Width="1280"
+        Height="768"
+    -->
     <r:RibbonWindow.Ribbon>
         <r:Ribbon>
             <r:RibbonTab Header="{x:Static properties:Resources.HomeTabHeader}">
@@ -36,6 +42,16 @@
             <r:ApplicationMenuItem Header="Informationen" />
             <r:ApplicationMenuItem Header="Speichern unter" />
             <r:ApplicationMenuSeparator />
+            <r:ApplicationMenuItem Header="Optionen">
+                <Expander Header="Color">
+                    <StackPanel Orientation="Vertical" MaxHeight="300">
+                        <TextBox  Text="bla"/>
+                        <TextBox Text="bla"/>
+                        <TextBox Text="bla"/>
+                        <Grid Height="30" Width="30" Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=r:RibbonWindow, ResourceId=WindowAccentBrush}}"/>
+                    </StackPanel>
+                </Expander>
+            </r:ApplicationMenuItem>
             <r:ApplicationMenuButton Command="Close" Content="Schließen" />
             <r:ApplicationMenuItem Header="Drucken" />
         </r:ApplicationMenu>
