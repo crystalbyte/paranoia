@@ -69,6 +69,7 @@
     <Compile Include="UI\ApplicationMenuSeparator.xaml.cs">
       <DependentUpon>ApplicationMenuSeparator.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\ExtentetdDynamicResource.cs" />
     <Compile Include="UI\FrameworkElementExtensions.cs" />
     <Compile Include="UI\QuickAccessBar.xaml.cs">
       <DependentUpon>QuickAccessBar.xaml</DependentUpon>

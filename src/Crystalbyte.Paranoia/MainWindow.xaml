@@ -8,6 +8,7 @@
                 xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                 xmlns:r="clr-namespace:Crystalbyte.Paranoia.UI;assembly=Crystalbyte.Paranoia.Ribbon"
                 xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+                xmlns:converter="clr-namespace:Crystalbyte.Paranoia.Converters"
                 Title="p4r4n014"
                 Width="1080"
                 Height="668"
@@ -19,6 +20,9 @@
                 WindowStartupLocation="CenterScreen"
                 d:DataContext="{d:DesignInstance contexts:AppContext}"
                 mc:Ignorable="d">
+    <Window.Resources>
+        <converter:ColorToStringConverter x:Key="ColorToString"/>
+    </Window.Resources>
     <!-- 
         FULL-HD size
         to big for HD-ready
@@ -45,7 +49,10 @@
             <r:ApplicationMenuItem Header="Optionen">
                 <Expander Header="Color">
                     <StackPanel Orientation="Vertical" MaxHeight="300">
-                        <TextBox  Text="bla"/>
+                        <TextBox  Text="{r:ExtentetdDynamicResource DynamicResource {ComponentResourceKey TypeInTargetAssembly=r:RibbonWindow, ResourceId=WindowAccentBrush}, Converter={StaticResource ColorToString}}" />
+                        <!-- 
+                            <RowDefinition Height="{my:DynamicResourceWithConverter someHeight, Converter={StaticResource gridLengthConverter}}"
+                        -->
                         <TextBox Text="bla"/>
                         <TextBox Text="bla"/>
                         <Grid Height="30" Width="30" Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=r:RibbonWindow, ResourceId=WindowAccentBrush}}"/>

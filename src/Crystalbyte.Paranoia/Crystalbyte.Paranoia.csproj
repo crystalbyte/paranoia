@@ -140,6 +140,7 @@
     <Compile Include="Converters\BooleanNegator.cs" />
     <Compile Include="Converters\BooleanToBrushConverter.cs" />
     <Compile Include="Converters\BooleanToStringConverter.cs" />
+    <Compile Include="Converters\ColorToStringConverter.cs" />
     <Compile Include="Converters\ContactRequestToBrushConverter.cs" />
     <Compile Include="Converters\ContactToTextConverter.cs" />
     <Compile Include="Converters\ConversionGroup.cs" />
