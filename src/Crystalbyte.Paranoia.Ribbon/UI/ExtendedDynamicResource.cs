@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Markup;
 
-namespace Crystalbyte.Paranoia {
+namespace Crystalbyte.Paranoia.UI {
     public class ExtendedDynamicResource : DynamicResourceExtension {
         public ExtendedDynamicResource() {
         }
