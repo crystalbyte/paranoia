@@ -5,6 +5,11 @@
                     xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
+
+
+
+
+    <!--  Sky Blue  -->
     <!--
         <Color x:Key="AccentColor"
         A="255"
@@ -12,13 +17,17 @@
         G="174"
         R="127" />
     -->
+
+
+    <!--  Word 2013 Blue  -->
     <!--
         <Color x:Key="AccentColor"
         A="255"
-        B="255"
-        G="125"
-        R="0" />
+        B="154"
+        G="87"
+        R="43" />
     -->
+
     <!--
         ░░░░░░░░░▄░░░░░░░░░░░░░░▄░░░░
         ░░░░░░░░▌▒█░░░░░░░░░░░▄▀▒▌░░░
@@ -44,8 +53,26 @@
     <Color x:Key="AccentColor"
            A="255"
            B="255"
-           G="66"
-           R="200" />
+           G="47"
+           R="152" />
+
+    <!--  Salmon  -->
+    <!--
+        <Color x:Key="AccentColor"
+        A="255"
+        B="86"
+        G="151"
+        R="255" />
+    -->
+
+    <!--  PalmGreen  -->
+    <!--
+        <Color x:Key="AccentColor"
+        A="255"
+        B="88"
+        G="163"
+        R="121" />
+    -->
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=RibbonBorderBrush}" Color="#3E3E40" />
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowBackgroundBrush}" Color="#1E1E1E" />
@@ -61,6 +88,7 @@
     <system:Double x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowNormalFontSize}">11</system:Double>
     <system:Double x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowMediumFontSize}">13</system:Double>
     <system:Double x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowLargeFontSize}">16</system:Double>
+    <system:Double x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowExtraExtraLargeFontSize}">34</system:Double>
 
     <Thickness x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=HeaderPadding}">12,4,12,4</Thickness>
 

@@ -10,22 +10,22 @@
               mc:Ignorable="d">
     <r:RibbonGroup Header="First">
         <r:RibbonButton Content="Short"
-                        ImageSource="/Assets/add.png"
+                        ImageSource="../Assets/add.png"
                         ToolTip="MUH" />
-        <r:RibbonButton Content="Medium length" ImageSource="/Assets/add.png" />
-        <r:RibbonButton Content="Long with lots of breaks" ImageSource="/Assets/add.png" />
-        <r:RibbonButton Content="This text is so long it doenst fit" ImageSource="/Assets/add.png" />
+        <r:RibbonButton Content="Medium length" ImageSource="../Assets/add.png" />
+        <r:RibbonButton Content="Long with lots of breaks" ImageSource="../Assets/add.png" />
+        <r:RibbonButton Content="This text is so long it doenst fit" ImageSource="../Assets/add.png" />
     </r:RibbonGroup>
     <r:RibbonGroup Header="Second">
-        <r:RibbonButton Content="Create" ImageSource="/Assets/add.png" />
-        <r:RibbonButton Content="Medium length" ImageSource="/Assets/add.png" />
-        <r:RibbonButton Content="Long with lots of breaks" ImageSource="/Assets/add.png" />
-        <r:RibbonButton Content="This text is so long it doenst fit" ImageSource="/Assets/add.png" />
+        <r:RibbonButton Content="Create" ImageSource="../Assets/add.png" />
+        <r:RibbonButton Content="Medium length" ImageSource="../Assets/add.png" />
+        <r:RibbonButton Content="Long with lots of breaks" ImageSource="../Assets/add.png" />
+        <r:RibbonButton Content="This text is so long it doenst fit" ImageSource="../Assets/add.png" />
     </r:RibbonGroup>
     <r:RibbonGroup Command="{x:Static local:WindowCommands.Close}" Header="Second">
-        <r:RibbonButton Content="Create" ImageSource="/Assets/add.png" />
-        <r:RibbonButton Content="Medium length" ImageSource="/Assets/add.png" />
-        <r:RibbonButton Content="Long with lots of breaks" ImageSource="/Assets/add.png" />
-        <r:RibbonButton Content="This text is so long it doenst fit" ImageSource="/Assets/add.png" />
+        <r:RibbonButton Content="Create" ImageSource="../Assets/add.png" />
+        <r:RibbonButton Content="Medium length" ImageSource="../Assets/add.png" />
+        <r:RibbonButton Content="Long with lots of breaks" ImageSource="../Assets/add.png" />
+        <r:RibbonButton Content="This text is so long it doenst fit" ImageSource="../Assets/add.png" />
     </r:RibbonGroup>
 </r:RibbonPage>

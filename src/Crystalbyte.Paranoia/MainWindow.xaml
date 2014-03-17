@@ -4,6 +4,7 @@
                 xmlns:contexts="clr-namespace:Crystalbyte.Paranoia.Contexts"
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia;assembly=Crystalbyte.Paranoia.Ribbon"
                 xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                 xmlns:r="clr-namespace:Crystalbyte.Paranoia.UI;assembly=Crystalbyte.Paranoia.Ribbon"
                 xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
@@ -27,10 +28,16 @@
     </r:RibbonWindow.Ribbon>
     <r:RibbonWindow.ApplicationMenu>
         <r:ApplicationMenu>
-            <r:ApplicationMenuItem Header="A" />
-            <r:ApplicationMenuItem Header="B" />
-            <r:ApplicationMenuItem Header="C" />
-            <r:ApplicationMenuItem Header="D" />
+            <r:ApplicationMenuItem Header="Neu">
+                <Grid>
+                    <TextBlock Text="aisdhasdnsldnasldasl" />
+                </Grid>
+            </r:ApplicationMenuItem>
+            <r:ApplicationMenuItem Header="Informationen" />
+            <r:ApplicationMenuItem Header="Speichern unter" />
+            <r:ApplicationMenuSeparator />
+            <r:ApplicationMenuButton Command="Close" Content="Schließen" />
+            <r:ApplicationMenuItem Header="Drucken" />
         </r:ApplicationMenu>
     </r:RibbonWindow.ApplicationMenu>
     <!--

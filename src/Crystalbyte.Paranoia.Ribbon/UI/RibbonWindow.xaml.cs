@@ -30,9 +30,10 @@ namespace Crystalbyte.Paranoia.UI {
         #region Private Fields
 
         private Ribbon _ribbon;
+        private ApplicationMenu _appMenu;
         private Border _ribbonHost;
         private StatusBar _statusBar;
-        private Grid _applicationMenuHost;
+        private Grid _appMenuHost;
         private Popup _ribbonOptionsPopup;
         private ListView _ribbonOptionsList;
         private HwndSource _hwndSource;
@@ -48,6 +49,7 @@ namespace Crystalbyte.Paranoia.UI {
         public const string ApplicationMenuHostName = "PART_ApplicationMenuHost";
         public const string RibbonOptionsListName = "PART_RibbonOptionsList";
         public const string RibbonOptionsPopupName = "PART_RibbonOptionsPopup";
+
 
         #endregion
 
@@ -101,7 +103,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         // Using a DependencyProperty as the backing store for ApplicationMenu.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ApplicationMenuProperty =
-            DependencyProperty.Register("ApplicationMenu", typeof(ApplicationMenu), typeof(RibbonWindow), new PropertyMetadata(null));
+            DependencyProperty.Register("ApplicationMenu", typeof(ApplicationMenu), typeof(RibbonWindow), new PropertyMetadata(null, OnApplicationMenuChanged));
 
         public QuickAccessCollection QuickAccessItems {
             get { return (QuickAccessCollection)GetValue(QuickAccessItemsProperty); }
@@ -209,6 +211,35 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Event Handlers
 
+        private static void OnApplicationMenuChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            var window = (RibbonWindow) d;
+
+            var old = e.OldValue as ApplicationMenu;
+            if (old != null) {
+                window.DetachAppMenu(old);
+            }
+
+            var @new = e.NewValue as ApplicationMenu;
+            if (@new != null) {
+                window.AttachAppMenu(@new);    
+            }
+        }
+
+        private void AttachAppMenu(ApplicationMenu menu) {
+            _appMenu = menu;
+            _appMenu.SelectionChanged += OnAppMenuSelectionChanged;
+        }
+
+        private void DetachAppMenu(Selector menu) {
+            if (menu != null) {
+                menu.SelectionChanged -= OnAppMenuSelectionChanged;
+            }
+        }
+
+        private void OnAppMenuSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            RunExchangeAnimation();
+        }
+
         private static void OnIsAppMenuOpenedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var window = (RibbonWindow)d;
             var value = (bool)e.NewValue;
@@ -230,7 +261,7 @@ namespace Crystalbyte.Paranoia.UI {
         private static void OnRibbonChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var window = (RibbonWindow)d;
             if (e.OldValue is Ribbon) {
-                window.DetachRibbon();
+                window.DetachRibbon(e.OldValue as Ribbon);
             }
             window.AttachRibbon(e.NewValue as Ribbon);
         }
@@ -240,9 +271,9 @@ namespace Crystalbyte.Paranoia.UI {
             _ribbon.SelectionChanged += OnRibbonSelectionChanged;
         }
 
-        private void DetachRibbon() {
-            if (_ribbon != null) {
-                _ribbon.SelectionChanged -= OnRibbonSelectionChanged;
+        private void DetachRibbon(Selector ribbon) {
+            if (ribbon != null) {
+                ribbon.SelectionChanged -= OnRibbonSelectionChanged;
             }
         }
 
@@ -429,37 +460,42 @@ namespace Crystalbyte.Paranoia.UI {
                 }
             });
 
-            _applicationMenuHost = (Grid)Template.FindName(ApplicationMenuHostName, this);
+            _appMenuHost = (Grid)Template.FindName(ApplicationMenuHostName, this);
 
             if (_appMenuOpenStoryboard != null) {
                 _appMenuOpenStoryboard.Completed -= OnAppMenuOpened;
             }
 
-            _appMenuOpenStoryboard = (Storyboard)_applicationMenuHost.FindResource("ApplicationMenuOpenStoryboard");
+            _appMenuOpenStoryboard = (Storyboard)_appMenuHost.FindResource("OpenApplicationMenuStoryboard");
             _appMenuOpenStoryboard.Completed += OnAppMenuOpened;
 
             if (_appMenuCloseStoryboard != null) {
                 _appMenuCloseStoryboard.Completed -= OnAppMenuClosed;
             }
 
-            _appMenuCloseStoryboard = (Storyboard)_applicationMenuHost.FindResource("ApplicationMenuCloseStoryboard");
+            _appMenuCloseStoryboard = (Storyboard)_appMenuHost.FindResource("CloseApplicationMenuStoryboard");
             _appMenuCloseStoryboard.Completed += OnAppMenuClosed;
 
             SyncRibbonOptionsSelection();
         }
 
         private void OnAppMenuClosed(object sender, EventArgs e) {
-            _applicationMenuHost.IsHitTestVisible = false;
+            _appMenuHost.IsHitTestVisible = false;
             if (RibbonVisibility != RibbonVisibility.Hidden) {
                 _statusBar.Visibility = Visibility.Visible;
             }
         }
 
         private void OnAppMenuOpened(object sender, EventArgs e) {
-            _applicationMenuHost.IsHitTestVisible = true;
+            _appMenuHost.IsHitTestVisible = true;
         }
 
         #endregion
+
+        private void RunExchangeAnimation() {
+            var story = (Storyboard)_appMenuHost.FindResource("ExchangeAppMenuContentStoryboard");
+            story.Begin();
+        }
 
         private void UpdateRibbonBehavior() {
             switch (RibbonVisibility) {

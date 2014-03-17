@@ -174,7 +174,13 @@
                                                                                                 AncestorLevel=1},
                                                                  Converter={StaticResource RibbonVisibilityToVisibilityConverter},
                                                                  ConverterParameter=Tabs|TabsAndCommands}" />
-                                    <Button Grid.Column="4" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=RibbonOptionsButtonStyle}}" />
+                                    <Button Grid.Column="4"
+                                            Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                          ResourceId=RibbonOptionsButtonStyle}}"
+                                            Visibility="{Binding IsAppMenuOpened,
+                                                                 RelativeSource={RelativeSource TemplatedParent},
+                                                                 Converter={StaticResource BooleanToVisibilityConverter},
+                                                                 ConverterParameter=!}" />
                                     <Button Grid.Column="5"
                                             Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
                                                                                           ResourceId=MinimizeButtonStyle}}"
@@ -393,7 +399,8 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <DockPanel Grid.Row="0"
+                                    <DockPanel x:Name="ApplicationMenuHeaderColumn"
+                                               Grid.Row="0"
                                                Grid.RowSpan="3"
                                                Grid.Column="0"
                                                Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
@@ -401,20 +408,25 @@
                                                IsHitTestVisible="{Binding IsAppMenuOpened,
                                                                           RelativeSource={RelativeSource TemplatedParent}}"
                                                LastChildFill="True">
-                                        <Button Margin="18"
+                                        <Button Margin="19,18,0,14"
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Top"
                                                 Command="{x:Static paranoia:RibbonCommands.CloseAppMenu}"
-                                                DockPanel.Dock="Top">
+                                                DockPanel.Dock="Top"
+                                                SnapsToDevicePixels="True">
                                             <Button.Template>
                                                 <ControlTemplate TargetType="ButtonBase">
                                                     <Grid>
-                                                        <Ellipse HorizontalAlignment="Stretch"
+                                                        <Ellipse Width="34"
+                                                                 Height="34"
+                                                                 HorizontalAlignment="Stretch"
                                                                  VerticalAlignment="Stretch"
                                                                  Fill="Transparent"
                                                                  Stroke="WhiteSmoke"
-                                                                 StrokeThickness="1.5" />
-                                                        <Image Height="34"
+                                                                 StrokeThickness="1.8" />
+                                                        <Image Height="32"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
                                                                RenderOptions.BitmapScalingMode="Fant"
                                                                SnapsToDevicePixels="True"
                                                                Source="/Crystalbyte.Paranoia.Ribbon;component/Assets/back.png"
@@ -443,9 +455,43 @@
                                             Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
                                                                                                ResourceId=WindowBackgroundBrush}}"
                                             IsHitTestVisible="{Binding IsAppMenuOpened,
-                                                                       RelativeSource={RelativeSource TemplatedParent}}" />
+                                                                       RelativeSource={RelativeSource TemplatedParent}}">
+                                        <Border Margin="32,0,32,0">
+                                            <DockPanel DataContext="{Binding ApplicationMenu, RelativeSource={RelativeSource TemplatedParent}}" LastChildFill="True">
+                                                <ContentPresenter x:Name="SelectedHeaderPresenter"
+                                                                  Content="{Binding SelectedHeader}"
+                                                                  DockPanel.Dock="Top">
+                                                    <ContentPresenter.ContentTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock FontSize="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                                                        ResourceId=WindowExtraExtraLargeFontSize}}"
+                                                                       FontWeight="Light"
+                                                                       Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
+                                                                                                                          ResourceId=LightTextBrush}}"
+                                                                       RenderOptions.ClearTypeHint="Enabled"
+                                                                       Text="{Binding}" />
+                                                        </DataTemplate>
+                                                    </ContentPresenter.ContentTemplate>
+                                                    <ContentPresenter.RenderTransform>
+                                                        <TranslateTransform x:Name="SelectedHeaderPresenterTransform" />
+                                                    </ContentPresenter.RenderTransform>
+                                                </ContentPresenter>
+                                                <ContentPresenter x:Name="SelectedContentPresenter"
+                                                                  Margin="0,18,0,0"
+                                                                  HorizontalAlignment="Stretch"
+                                                                  VerticalAlignment="Stretch"
+                                                                  Content="{Binding SelectedContent}"
+                                                                  ContentTemplate="{Binding SelectedContentTemplate}">
+                                                    <ContentPresenter.RenderTransform>
+                                                        <TranslateTransform x:Name="SelectedContentPresenterTransform" />
+                                                    </ContentPresenter.RenderTransform>
+                                                </ContentPresenter>
+                                            </DockPanel>
+                                        </Border>
+
+                                    </Border>
                                     <Grid.Resources>
-                                        <Storyboard x:Key="ApplicationMenuOpenStoryboard">
+                                        <Storyboard x:Key="OpenApplicationMenuStoryboard">
                                             <DoubleAnimation BeginTime="0:0:0"
                                                              Duration="0:0:0.2"
                                                              From="0.0"
@@ -454,7 +500,10 @@
                                                              To="1.0" />
                                             <DoubleAnimation BeginTime="0:0:0"
                                                              Duration="0:0:0.2"
-                                                             From="-200"
+                                                             From="{Binding ActualWidth,
+                                                                            ElementName=ApplicationMenuHeaderColumn,
+                                                                            Converter={StaticResource DoubleMultiplier},
+                                                                            ConverterParameter=-1}"
                                                              Storyboard.TargetName="ApplicationMenuTranslateTransform"
                                                              Storyboard.TargetProperty="X"
                                                              To="0">
@@ -463,7 +512,7 @@
                                                 </DoubleAnimation.EasingFunction>
                                             </DoubleAnimation>
                                         </Storyboard>
-                                        <Storyboard x:Key="ApplicationMenuCloseStoryboard">
+                                        <Storyboard x:Key="CloseApplicationMenuStoryboard">
                                             <DoubleAnimation BeginTime="0:0:0"
                                                              Duration="0:0:0.2"
                                                              From="1.0"
@@ -475,7 +524,52 @@
                                                              From="0"
                                                              Storyboard.TargetName="ApplicationMenuTranslateTransform"
                                                              Storyboard.TargetProperty="X"
-                                                             To="-200">
+                                                             To="{Binding ActualWidth,
+                                                                          ElementName=ApplicationMenuHeaderColumn,
+                                                                          Converter={StaticResource DoubleMultiplier},
+                                                                          ConverterParameter=-1}">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                        <Storyboard x:Key="ExchangeAppMenuContentStoryboard">
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Duration="0:0:0.4"
+                                                             From="10"
+                                                             Storyboard.TargetName="SelectedHeaderPresenterTransform"
+                                                             Storyboard.TargetProperty="X"
+                                                             To="0">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Duration="0:0:0.4"
+                                                             From="-10"
+                                                             Storyboard.TargetName="SelectedContentPresenterTransform"
+                                                             Storyboard.TargetProperty="X"
+                                                             To="0">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Duration="0:0:0.4"
+                                                             From="0"
+                                                             Storyboard.TargetName="SelectedHeaderPresenter"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="1.0">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Duration="0:0:0.4"
+                                                             From="0"
+                                                             Storyboard.TargetName="SelectedContentPresenter"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="1.0">
                                                 <DoubleAnimation.EasingFunction>
                                                     <CubicEase EasingMode="EaseOut" />
                                                 </DoubleAnimation.EasingFunction>
@@ -501,6 +595,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
     </Style>
 </ResourceDictionary>

@@ -60,8 +60,14 @@
     <Compile Include="UI\ApplicationMenu.xaml.cs">
       <DependentUpon>ApplicationMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\ApplicationMenuButton.xaml.cs">
+      <DependentUpon>ApplicationMenuButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\ApplicationMenuItem.xaml.cs">
       <DependentUpon>ApplicationMenuItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ApplicationMenuSeparator.xaml.cs">
+      <DependentUpon>ApplicationMenuSeparator.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\FrameworkElementExtensions.cs" />
     <Compile Include="UI\QuickAccessBar.xaml.cs">
@@ -107,7 +113,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\ApplicationMenuButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\ApplicationMenuItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\ApplicationMenuSeparator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

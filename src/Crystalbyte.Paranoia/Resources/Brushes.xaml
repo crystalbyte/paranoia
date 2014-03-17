@@ -6,7 +6,7 @@
            G="122"
            R="0" />
 
-    
+
     <SolidColorBrush x:Key="AppControlBrush" Color="#2D2D30" />
     <SolidColorBrush x:Key="AppLightControlBrush" Color="#4D4D4D" />
     <SolidColorBrush x:Key="AppLightTextBrush" Color="WhiteSmoke" />

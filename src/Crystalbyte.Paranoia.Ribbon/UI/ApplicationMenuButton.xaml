@@ -4,17 +4,17 @@
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                     mc:Ignorable="d">
-    <Style TargetType="ui:ApplicationMenuItem">
-        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
+    <Style TargetType="ui:ApplicationMenuButton">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=LightTextBrush}}" />
         <Setter Property="FontSize" Value="12" />
         <Setter Property="MinWidth" Value="100" />
         <Setter Property="Padding" Value="20.5,8.5,20.5,8.5" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ui:ApplicationMenuItem">
+                <ControlTemplate TargetType="ui:ApplicationMenuButton">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
@@ -26,8 +26,12 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HoverOverlay" Storyboard.TargetProperty="(UIElement.Visibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SelectionOverlay" Storyboard.TargetProperty="(FrameworkElement.VerticalAlignment)">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static VerticalAlignment.Top}" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PressedOverlay" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -39,19 +43,9 @@
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
-                            <VisualStateGroup x:Name="SelectionStates">
-                                <VisualState x:Name="Unselected" />
-                                <VisualState x:Name="Selected">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SelectionOverlay" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Grid>
-                            <Border x:Name="SelectionOverlay"
+                            <Border x:Name="PressedOverlay"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     Background="WhiteSmoke"
@@ -70,9 +64,7 @@
                             <ContentPresenter x:Name="ContentPresenter"
                                               Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              Content="{TemplateBinding Header}"
-                                              ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                             <Border HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     Background="Transparent" />
