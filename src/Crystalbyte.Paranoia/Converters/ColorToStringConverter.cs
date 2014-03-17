@@ -8,10 +8,10 @@ using System.Windows.Data;
 namespace Crystalbyte.Paranoia.Converters {
     public class ColorToStringConverter : IValueConverter{
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) {
-            var a = new System.Windows.Markup.ResourceReferenceExpressionConverter();
-            
-            var b = a.ConvertTo(value, targetType);
-            return Binding.DoNothing;
+            var resourceKey = value.GetType().GetProperties().First().GetValue(value);
+            var key = new System.Windows.ComponentResourceKey(typeof(Crystalbyte.Paranoia.UI.RibbonWindow), "WindowAccentBrush");
+            //var resourceValue = System.Windows.Application.Current.MainWindow.FindResource(key);
+            return resourceKey;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) {
