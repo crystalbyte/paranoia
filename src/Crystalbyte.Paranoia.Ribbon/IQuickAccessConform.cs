@@ -7,5 +7,6 @@ namespace Crystalbyte.Paranoia {
         ImageSource QuickAccessImageSource { get; }
         ICommand Command { get; }
         object CommandParameter { get; }
+        string Key { get; }
     }
 }

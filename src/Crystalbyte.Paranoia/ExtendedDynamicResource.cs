@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Markup;
 
-namespace Crystalbyte.Paranoia.UI {
-    public class ExtentetdDynamicResource : DynamicResourceExtension {
-        public ExtentetdDynamicResource() {
+namespace Crystalbyte.Paranoia {
+    public class ExtendedDynamicResource : DynamicResourceExtension {
+        public ExtendedDynamicResource() {
         }
 
-        public ExtentetdDynamicResource(object resourceKey)
+        public ExtendedDynamicResource(object resourceKey)
             : base(resourceKey) {
         }
 

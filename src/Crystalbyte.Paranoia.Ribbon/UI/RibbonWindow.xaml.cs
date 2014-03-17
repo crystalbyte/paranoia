@@ -1,10 +1,14 @@
 ﻿#region Using directives
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -13,6 +17,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Xml.Serialization;
 
 #endregion
 
@@ -212,7 +217,7 @@ namespace Crystalbyte.Paranoia.UI {
         #region Event Handlers
 
         private static void OnApplicationMenuChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var window = (RibbonWindow) d;
+            var window = (RibbonWindow)d;
 
             var old = e.OldValue as ApplicationMenu;
             if (old != null) {
@@ -221,7 +226,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             var @new = e.NewValue as ApplicationMenu;
             if (@new != null) {
-                window.AttachAppMenu(@new);    
+                window.AttachAppMenu(@new);
             }
         }
 
@@ -412,6 +417,11 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Class Overrides
 
+        protected async override void OnClosed(EventArgs e) {
+            base.OnClosed(e);
+            await StoreStateAsync();
+        }
+
         protected override void OnStateChanged(EventArgs e) {
             base.OnStateChanged(e);
             UpdateWindowStates();
@@ -495,6 +505,29 @@ namespace Crystalbyte.Paranoia.UI {
         private void RunExchangeAnimation() {
             var story = (Storyboard)_appMenuHost.FindResource("ExchangeAppMenuContentStoryboard");
             story.Begin();
+        }
+
+        private async Task StoreStateAsync() {
+
+            var keys = new ArrayList(QuickAccessItems.Select(x => x.Key).ToArray());
+            if (keys.Count == 0) {
+                return;
+            }
+
+            const string name = "ribbon.xml";
+            try {
+                var fs = !File.Exists(name)
+                    ? File.Create(name)
+                    : File.Open(name, FileMode.Truncate, FileAccess.Write);
+                
+                using (var writer = new StreamWriter(fs)) {
+                    var xml = new XmlSerializer(typeof(ArrayList));
+                    xml.Serialize(writer, keys);
+                    await writer.FlushAsync();
+                }
+            } catch (IOException ex) {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         private void UpdateRibbonBehavior() {

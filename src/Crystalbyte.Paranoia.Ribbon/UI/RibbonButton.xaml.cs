@@ -13,6 +13,10 @@ namespace Crystalbyte.Paranoia.UI {
                new FrameworkPropertyMetadata(typeof(RibbonButton)));
         }
 
+        public RibbonButton() {
+            QuickAccessRegistry.Register(this);
+        }
+
         #endregion
 
         #region Dependency Properties
@@ -44,6 +48,10 @@ namespace Crystalbyte.Paranoia.UI {
 
         object IQuickAccessConform.ToolTip {
             get { return ToolTip; }
+        }
+
+        public string Key {
+            get { return Command.GetType().AssemblyQualifiedName; }
         }
 
         #endregion

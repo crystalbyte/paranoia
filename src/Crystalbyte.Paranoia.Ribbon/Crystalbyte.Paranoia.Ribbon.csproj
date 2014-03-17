@@ -34,6 +34,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -55,6 +56,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="QuickAccessCollection.cs" />
+    <Compile Include="QuickAccessRegistry.cs" />
     <Compile Include="RibbonCommands.cs" />
     <Compile Include="IQuickAccessConform.cs" />
     <Compile Include="UI\ApplicationMenu.xaml.cs">
@@ -69,7 +71,6 @@
     <Compile Include="UI\ApplicationMenuSeparator.xaml.cs">
       <DependentUpon>ApplicationMenuSeparator.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\ExtentetdDynamicResource.cs" />
     <Compile Include="UI\FrameworkElementExtensions.cs" />
     <Compile Include="UI\QuickAccessBar.xaml.cs">
       <DependentUpon>QuickAccessBar.xaml</DependentUpon>

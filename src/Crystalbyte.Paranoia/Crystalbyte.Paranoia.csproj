@@ -159,6 +159,7 @@
     <Compile Include="Data\StorageContext.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ExtendedDynamicResource.cs" />
     <Compile Include="Gravatar.cs" />
     <Compile Include="Commands\IAppBarCommand.cs" />
     <Compile Include="Contexts\IdentitySelectionSource.cs" />
