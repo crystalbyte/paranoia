@@ -43,8 +43,26 @@
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Unfocused" />
+                                <VisualState x:Name="Focused">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FocusOverlay" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Grid>
+                            <Border x:Name="FocusOverlay"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Background="Black"
+                                    BorderThickness="0"
+                                    Opacity="0.2"
+                                    RenderOptions.EdgeMode="Aliased"
+                                    Visibility="Collapsed" />
                             <Border x:Name="PressedOverlay"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"

@@ -417,6 +417,7 @@
                                         <Button Margin="19,18,0,14"
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Top"
+                                                Focusable="False"
                                                 Command="{x:Static paranoia:RibbonCommands.CloseAppMenu}"
                                                 DockPanel.Dock="Top"
                                                 IsCancel="True"
@@ -455,7 +456,7 @@
                                                 </ControlTemplate>
                                             </Button.Template>
                                         </Button>
-                                        <ContentPresenter Content="{TemplateBinding ApplicationMenu}" />
+                                        <ContentPresenter Content="{TemplateBinding ApplicationMenu}" KeyboardNavigation.TabIndex="0" />
                                     </DockPanel>
                                     <Border Grid.Row="1"
                                             Grid.Column="1"
