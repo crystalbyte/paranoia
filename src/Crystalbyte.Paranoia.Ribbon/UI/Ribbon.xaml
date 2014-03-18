@@ -145,55 +145,52 @@
                                 Content="{TemplateBinding AppMenuText}"
                                 SnapsToDevicePixels="True"
                                 Style="{StaticResource AppMenuButtonStyle}" />
-                        <Border Grid.Row="1"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="2"
-                                Panel.ZIndex="1"
-                                Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
-                                                                                   ResourceId=WindowBackgroundBrush}}" />
                         <ItemsPresenter Grid.Row="1"
                                         Grid.Column="1"
                                         Margin="0,0,0,-1"
                                         Panel.ZIndex="2"
                                         KeyboardNavigation.TabIndex="1" />
-                        <Border x:Name="PART_RibbonCommandStrip"
-                                Grid.Row="2"
+                        <Border Grid.Row="2"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="2"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                KeyboardNavigation.DirectionalNavigation="Contained"
-                                KeyboardNavigation.TabIndex="2"
-                                KeyboardNavigation.TabNavigation="Local"
-                                Visibility="{Binding IsCommandStripVisible,
-                                                     RelativeSource={RelativeSource TemplatedParent},
-                                                     Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <Border.RenderTransform>
-                                <TranslateTransform x:Name="CommandStripTranslateTransform" />
-                            </Border.RenderTransform>
-                            <ContentPresenter Margin="{TemplateBinding Padding}"
-                                              HorizontalAlignment="Stretch"
-                                              Content="{TemplateBinding SelectedContent}"
-                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                            <Border.Resources>
-                                <Storyboard x:Key="CommandStripSlideInStoryboard">
-                                    <DoubleAnimation BeginTime="0:0:0"
-                                                     Duration="0:0:0.2"
-                                                     From="{Binding ActualHeight,
-                                                                    ElementName=PART_RibbonCommandStrip,
-                                                                    Converter={StaticResource DoubleMultiplier},
-                                                                    ConverterParameter=-1}"
-                                                     Storyboard.TargetName="CommandStripTranslateTransform"
-                                                     Storyboard.TargetProperty="Y"
-                                                     To="0">
-                                        <DoubleAnimation.EasingFunction>
-                                            <CubicEase EasingMode="EaseOut" />
-                                        </DoubleAnimation.EasingFunction>
-                                    </DoubleAnimation>
-                                </Storyboard>
-                            </Border.Resources>
+                                ClipToBounds="True">
+                            <Border x:Name="PART_RibbonCommandStrip"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    KeyboardNavigation.DirectionalNavigation="Contained"
+                                    KeyboardNavigation.TabIndex="2"
+                                    KeyboardNavigation.TabNavigation="Local"
+                                    Visibility="{Binding IsCommandStripVisible,
+                                                         RelativeSource={RelativeSource TemplatedParent},
+                                                         Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <Border.RenderTransform>
+                                    <TranslateTransform x:Name="CommandStripTranslateTransform" />
+                                </Border.RenderTransform>
+                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                  HorizontalAlignment="Stretch"
+                                                  Content="{TemplateBinding SelectedContent}"
+                                                  ContentTemplate="{TemplateBinding SelectedContentTemplate}"
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                <Border.Resources>
+                                    <Storyboard x:Key="CommandStripSlideInStoryboard">
+                                        <DoubleAnimation BeginTime="0:0:0"
+                                                         Duration="0:0:0.2"
+                                                         From="{Binding ActualHeight,
+                                                                        ElementName=PART_RibbonCommandStrip,
+                                                                        Converter={StaticResource DoubleMultiplier},
+                                                                        ConverterParameter=-1}"
+                                                         Storyboard.TargetName="CommandStripTranslateTransform"
+                                                         Storyboard.TargetProperty="Y"
+                                                         To="0">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </Border.Resources>
+                            </Border>
                         </Border>
+
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
