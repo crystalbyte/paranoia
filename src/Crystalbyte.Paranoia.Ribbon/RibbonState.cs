@@ -1,5 +1,5 @@
 ﻿namespace Crystalbyte.Paranoia {
-    public enum RibbonVisibility {
+    public enum RibbonState {
         Tabs = 0,
         TabsAndCommands,
         Hidden

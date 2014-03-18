@@ -14,7 +14,7 @@ namespace Crystalbyte.Paranoia.UI {
             bar.Visibility = Visibility.Visible;
             bar.SetValue(Grid.RowProperty, 3);
             bar.SetValue(Grid.RowSpanProperty, 1);
-            bar.SetValue(Panel.ZIndexProperty, 2);
+            bar.SetValue(Panel.ZIndexProperty, 1000);
             bar.SetValue(FrameworkElement.VerticalAlignmentProperty, VerticalAlignment.Stretch);
 
             // The sequence of calls in this method is important.
@@ -36,7 +36,7 @@ namespace Crystalbyte.Paranoia.UI {
             bar.Visibility = Visibility.Visible;
             bar.SetValue(Grid.RowProperty, 3);
             bar.SetValue(Grid.RowSpanProperty, 1);
-            bar.SetValue(Panel.ZIndexProperty, 0);
+            bar.SetValue(Panel.ZIndexProperty, 25);
             bar.SetValue(FrameworkElement.VerticalAlignmentProperty, VerticalAlignment.Stretch);
         }
     }

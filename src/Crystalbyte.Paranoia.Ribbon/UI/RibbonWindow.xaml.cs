@@ -46,7 +46,7 @@ namespace Crystalbyte.Paranoia.UI {
         private Storyboard _appMenuCloseStoryboard;
 
         #endregion
-        
+
         #region Xaml Support
 
         public const string RibbonHostName = "PART_RibbonHost";
@@ -70,16 +70,16 @@ namespace Crystalbyte.Paranoia.UI {
             MouseLeftButtonUp += OnMouseLeftButtonUp;
             SourceInitialized += OnSourceInitialized;
 
-            CommandBindings.Add(new CommandBinding(WindowCommands.Close, OnClose));
-            CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
-            CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));
-            CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoredDown));
             CommandBindings.Add(new CommandBinding(RibbonCommands.OpenAppMenu, OnOpenAppMenu));
             CommandBindings.Add(new CommandBinding(RibbonCommands.CloseAppMenu, OnCloseAppMenu));
             CommandBindings.Add(new CommandBinding(RibbonCommands.BlendInRibbon, OnBlendInRibbon));
             CommandBindings.Add(new CommandBinding(RibbonCommands.OpenRibbonOptions, OnOpenRibbonOptions));
             CommandBindings.Add(new CommandBinding(RibbonCommands.AddQuickAccess, OnAddQuickAccess));
             CommandBindings.Add(new CommandBinding(RibbonCommands.RemoveQuickAccess, OnRemoveQuickAccess));
+            CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
+            CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));
+            CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoredDown));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
 
             QuickAccessItems = new QuickAccessCollection();
@@ -89,10 +89,10 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Public Events
 
-        public event EventHandler RibbonVisibilityChanged;
+        public event EventHandler RibbonStateChanged;
 
-        protected virtual void OnRibbonVisibilityChanged() {
-            var handler = RibbonVisibilityChanged;
+        protected virtual void OnRibbonStateChanged() {
+            var handler = RibbonStateChanged;
             if (handler != null)
                 handler(this, EventArgs.Empty);
         }
@@ -119,15 +119,25 @@ namespace Crystalbyte.Paranoia.UI {
         public static readonly DependencyProperty QuickAccessItemsProperty =
             DependencyProperty.Register("QuickAccessItems", typeof(QuickAccessCollection), typeof(RibbonWindow), new PropertyMetadata(null));
 
-        public RibbonVisibility RibbonVisibility {
-            get { return (RibbonVisibility)GetValue(RibbonVisibilityProperty); }
-            set { SetValue(RibbonVisibilityProperty, value); }
+        public RibbonState DefaultState {
+            get { return (RibbonState)GetValue(DefaultStateProperty); }
+            set { SetValue(DefaultStateProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for RibbonVisibility.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty RibbonVisibilityProperty =
-            DependencyProperty.Register("RibbonVisibility", typeof(RibbonVisibility), typeof(RibbonWindow),
-                new PropertyMetadata(RibbonVisibility.Tabs, OnRibbonVisibilityChanged));
+        // Using a DependencyProperty as the backing store for DefaultState.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DefaultStateProperty =
+            DependencyProperty.Register("DefaultState", typeof(RibbonState), typeof(RibbonWindow), new PropertyMetadata(RibbonState.Tabs));
+
+
+        public RibbonState RibbonState {
+            get { return (RibbonState)GetValue(RibbonStateProperty); }
+            set { SetValue(RibbonStateProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for RibbonState.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty RibbonStateProperty =
+            DependencyProperty.Register("RibbonState", typeof(RibbonState), typeof(RibbonWindow),
+                new PropertyMetadata(RibbonState.Tabs, OnRibbonStateChanged));
 
         public Thickness FramePadding {
             get { return (Thickness)GetValue(FramePaddingProperty); }
@@ -257,6 +267,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnOpenAppMenu(object sender, ExecutedRoutedEventArgs e) {
             IsAppMenuOpened = true;
+            _ribbonHost.BlendOut();
         }
 
         private void OnCloseAppMenu(object sender, ExecutedRoutedEventArgs e) {
@@ -271,20 +282,9 @@ namespace Crystalbyte.Paranoia.UI {
             window.AttachRibbon(e.NewValue as Ribbon);
         }
 
-        private void AttachRibbon(Ribbon ribbon) {
-            _ribbon = ribbon;
-            _ribbon.SelectionChanged += OnRibbonSelectionChanged;
-        }
-
-        private void DetachRibbon(Selector ribbon) {
-            if (ribbon != null) {
-                ribbon.SelectionChanged -= OnRibbonSelectionChanged;
-            }
-        }
-
-        private static void OnRibbonVisibilityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+        private static void OnRibbonStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var window = (RibbonWindow)d;
-            window.OnRibbonVisibilityChanged();
+            window.OnRibbonStateChanged();
             window.UpdateRibbonBehavior();
             window.SyncRibbonOptionsSelection();
         }
@@ -302,7 +302,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnRibbonSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (e.AddedItems.Count > 0 && !_ribbon.IsCommandStripVisible && RibbonVisibility == RibbonVisibility.Tabs) {
+            if (e.AddedItems.Count > 0 && !_ribbon.IsCommandStripVisible && RibbonState == RibbonState.Tabs) {
                 _ribbon.SlideInCommandStrip();
             }
         }
@@ -313,7 +313,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnRibbonOptionSelectionChanged(object sender, SelectionChangedEventArgs e) {
             var option = (RibbonOption)_ribbonOptionsList.SelectedValue;
-            RibbonVisibility = option.Visibility;
+            RibbonState = option.Visibility;
         }
 
         private void OnBlendInRibbon(object sender, ExecutedRoutedEventArgs e) {
@@ -324,14 +324,14 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
             var point = e.GetPosition(sender as IInputElement);
-            if (RibbonVisibility == RibbonVisibility.TabsAndCommands) {
+            if (RibbonState == RibbonState.TabsAndCommands) {
                 return;
             }
 
             var hit = HitTestFloatingControls(point);
             if (hit) return;
 
-            if (RibbonVisibility == RibbonVisibility.Hidden) {
+            if (RibbonState == RibbonState.Hidden) {
                 _ribbonHost.BlendOut();
                 _statusBar.BlendOut();
                 return;
@@ -402,8 +402,8 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnRestoredDown(object sender, RoutedEventArgs e) {
-            if (RibbonVisibility == RibbonVisibility.Hidden) {
-                RibbonVisibility = RibbonVisibility.Tabs;
+            if (RibbonState == RibbonState.Hidden) {
+                RibbonState = DefaultState;
             }
             WindowState = WindowState.Normal;
             e.Handled = true;
@@ -425,6 +425,9 @@ namespace Crystalbyte.Paranoia.UI {
 
         protected override void OnStateChanged(EventArgs e) {
             base.OnStateChanged(e);
+            if (WindowState != WindowState.Maximized && RibbonState == RibbonState.Hidden) {
+                RibbonState = DefaultState;
+            }
             UpdateWindowStates();
             UpdateWindowBounds();
         }
@@ -454,19 +457,19 @@ namespace Crystalbyte.Paranoia.UI {
                 new RibbonOption {
                     Title = Properties.Resources.AutoHideRibbonTitle, 
                     Description = Properties.Resources.AutoHideRibbonDescription,
-                    Visibility = RibbonVisibility.Hidden,
+                    Visibility = RibbonState.Hidden,
                     ImageSource = new BitmapImage(new Uri("/Crystalbyte.Paranoia.Ribbon;component/Assets/autohide.png", UriKind.Relative))
                 },
                 new RibbonOption {
                     Title = Properties.Resources.ShowTabsTitle, 
                     Description = Properties.Resources.ShowTabsDescription,
-                    Visibility = RibbonVisibility.Tabs,
+                    Visibility = RibbonState.Tabs,
                     ImageSource = new BitmapImage(new Uri("/Crystalbyte.Paranoia.Ribbon;component/Assets/show.tabs.png", UriKind.Relative))
                 },
                 new RibbonOption {
                     Title = Properties.Resources.ShowTabsAndCommandsTitle, 
                     Description = Properties.Resources.ShowTabsAndCommandsDescription,
-                    Visibility = RibbonVisibility.TabsAndCommands,
+                    Visibility = RibbonState.TabsAndCommands,
                     ImageSource = new BitmapImage(new Uri("/Crystalbyte.Paranoia.Ribbon;component/Assets/show.tabs.commands.png", UriKind.Relative))
                 }
             });
@@ -492,8 +495,8 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnAppMenuClosed(object sender, EventArgs e) {
             _appMenuHost.IsHitTestVisible = false;
-            if (RibbonVisibility != RibbonVisibility.Hidden) {
-                _statusBar.Visibility = Visibility.Visible;
+            if (RibbonState != RibbonState.Hidden) {
+                _statusBar.BlendIn();
             }
         }
 
@@ -560,9 +563,20 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
+        private void AttachRibbon(Ribbon ribbon) {
+            _ribbon = ribbon;
+            _ribbon.SelectionChanged += OnRibbonSelectionChanged;
+        }
+
+        private void DetachRibbon(Selector ribbon) {
+            if (ribbon != null) {
+                ribbon.SelectionChanged -= OnRibbonSelectionChanged;
+            }
+        }
+
         private void UpdateRibbonBehavior() {
-            switch (RibbonVisibility) {
-                case RibbonVisibility.Tabs:
+            switch (RibbonState) {
+                case RibbonState.Tabs:
                     _ribbon.IsCommandStripVisible = false;
                     _ribbon.IsWindowCommandStripVisible = false;
                     _ribbon.ClearSelection();
@@ -570,7 +584,7 @@ namespace Crystalbyte.Paranoia.UI {
                     _ribbonHost.SnapIn();
                     _ribbonHost.ExtendIntoContent();
                     break;
-                case RibbonVisibility.TabsAndCommands:
+                case RibbonState.TabsAndCommands:
                     _ribbon.IsCommandStripVisible = true;
                     _ribbon.IsWindowCommandStripVisible = false;
                     _ribbon.RestoreSelection();
@@ -578,7 +592,7 @@ namespace Crystalbyte.Paranoia.UI {
                     _ribbonHost.SnapIn();
                     _ribbonHost.RetractFromContent();
                     break;
-                case RibbonVisibility.Hidden:
+                case RibbonState.Hidden:
                     WindowState = WindowState.Maximized;
                     _ribbon.IsCommandStripVisible = true;
                     _ribbon.IsWindowCommandStripVisible = true;
@@ -593,7 +607,7 @@ namespace Crystalbyte.Paranoia.UI {
         private void SyncRibbonOptionsSelection() {
             var option = _ribbonOptionsList.Items
                 .OfType<RibbonOption>()
-                .First(x => x.Visibility == RibbonVisibility);
+                .First(x => x.Visibility == RibbonState);
 
             option.IsSelected = true;
         }
@@ -613,6 +627,7 @@ namespace Crystalbyte.Paranoia.UI {
         // ReSharper disable MemberCanBePrivate.Local
 
         const int MONITOR_DEFAULTTONEAREST = 2;
+        const int WINDOWPOSCHANGING = 0x0046;
 
         private void UpdateWindowBounds() {
             if (WindowState == WindowState.Normal) {

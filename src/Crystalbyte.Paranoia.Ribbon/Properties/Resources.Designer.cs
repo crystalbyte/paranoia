@@ -97,24 +97,6 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Back.
-        /// </summary>
-        public static string BackCommandName {
-            get {
-                return ResourceManager.GetString("BackCommandName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Navigate back to the last view..
-        /// </summary>
-        public static string BackCommandTooltip {
-            get {
-                return ResourceManager.GetString("BackCommandTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to BlendInRibbon.
         /// </summary>
         public static string BlendInRibbonCommandName {

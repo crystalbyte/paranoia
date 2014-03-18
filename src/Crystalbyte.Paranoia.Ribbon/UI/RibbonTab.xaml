@@ -4,7 +4,7 @@
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    <converters:RibbonVisibilityToVisibilityConverter x:Key="RibbonVisibilityToVisibilityConverter" />
+    <converters:RibbonStateToVisibilityConverter x:Key="RibbonStateToVisibilityConverter" />
     <converters:NullToVisibleConverter x:Key="NullToVisibleConverter" />
 
     <Style TargetType="ui:RibbonTab">

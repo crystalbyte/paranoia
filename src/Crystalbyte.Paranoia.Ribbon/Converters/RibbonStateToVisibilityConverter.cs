@@ -9,8 +9,8 @@ using System.Windows.Data;
 using Crystalbyte.Paranoia.UI;
 
 namespace Crystalbyte.Paranoia.Converters {
-    [ValueConversion(typeof(RibbonVisibility), typeof(Visibility))]
-    public sealed class RibbonVisibilityToVisibilityConverter : IValueConverter {
+    [ValueConversion(typeof(RibbonState), typeof(Visibility))]
+    public sealed class RibbonStateToVisibilityConverter : IValueConverter {
 
         #region Implementation of IValueConverter
 
@@ -20,8 +20,8 @@ namespace Crystalbyte.Paranoia.Converters {
                 return Visibility.Collapsed;
             }
 
-            var current = (RibbonVisibility) value;
-            var enums = validValues.Split('|').Select(x => (RibbonVisibility)Enum.Parse(typeof(RibbonVisibility), x));
+            var current = (RibbonState) value;
+            var enums = validValues.Split('|').Select(x => (RibbonState)Enum.Parse(typeof(RibbonState), x));
             return enums.Any(x => x == current) ? Visibility.Visible : Visibility.Collapsed;
         }
 

@@ -32,6 +32,6 @@ namespace Crystalbyte.Paranoia.UI {
 
         public ImageSource ImageSource { get; set; }
 
-        public RibbonVisibility Visibility { get; set; }
+        public RibbonState Visibility { get; set; }
     }
 }

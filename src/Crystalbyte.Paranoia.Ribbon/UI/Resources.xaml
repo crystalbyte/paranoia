@@ -179,7 +179,7 @@
                                         ResourceId=CloseButtonStyle}"
            BasedOn="{StaticResource WindowCommandButtonStyle}"
            TargetType="ButtonBase">
-        <Setter Property="Command" Value="{x:Static paranoia:WindowCommands.Close}" />
+        <Setter Property="Command" Value="{x:Static ApplicationCommands.Close}" />
         <Setter Property="ToolTip" Value="{x:Static properties:Resources.CloseCommandTooltip}" />
         <Setter Property="ContentTemplate">
             <Setter.Value>
@@ -220,6 +220,7 @@
         <Setter Property="Command" Value="{x:Static paranoia:RibbonCommands.BlendInRibbon}" />
         <Setter Property="ToolTip" Value="{x:Static properties:Resources.BlendInRibbonCommandTooltip}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Right" />
         <Setter Property="ContentTemplate">
             <Setter.Value>

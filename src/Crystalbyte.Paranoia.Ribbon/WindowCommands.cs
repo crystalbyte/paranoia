@@ -14,13 +14,7 @@ namespace Crystalbyte.Paranoia {
         public static RoutedUICommand Maximize = 
             new RoutedUICommand(Resources.MaximizeCommandTooltip, Resources.MaximizeCommandName, typeof(RibbonWindow));
 
-        public static RoutedUICommand Close = 
-            new RoutedUICommand(Resources.CloseCommandTooltip, Resources.CloseCommandName, typeof(RibbonWindow));
-
         public static RoutedUICommand RestoreDown = 
             new RoutedUICommand(Resources.RestoreDownCommandTooltip, Resources.RestoreDownCommandName, typeof(RibbonWindow));
-
-        public static RoutedUICommand Back = 
-            new RoutedUICommand(Resources.BackCommandTooltip, Resources.BackCommandName, typeof(RibbonWindow));
     }
 }

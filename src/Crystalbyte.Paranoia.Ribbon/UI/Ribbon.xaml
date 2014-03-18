@@ -6,7 +6,7 @@
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    <converters:RibbonVisibilityToVisibilityConverter x:Key="RibbonVisibilityToVisibilityConverter" />
+    <converters:RibbonStateToVisibilityConverter x:Key="RibbonStateToVisibilityConverter" />
     <converters:DoubleMultiplier x:Key="DoubleMultiplier" />
 
     <Style x:Key="AppMenuButtonStyle" TargetType="ButtonBase">
@@ -64,7 +64,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:Ribbon">
-                    <Grid Background="{x:Null}"
+                    <Grid Background="{TemplateBinding Background}"
                           KeyboardNavigation.TabNavigation="Local"
                           SnapsToDevicePixels="True">
                         <Grid.RowDefinitions>

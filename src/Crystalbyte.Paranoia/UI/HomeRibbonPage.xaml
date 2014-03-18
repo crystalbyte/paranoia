@@ -23,7 +23,7 @@
         <r:RibbonButton Content="Long with lots of breaks" ImageSource="../Assets/add.png" />
         <r:RibbonButton Content="This text is so long it doenst fit" ImageSource="../Assets/add.png" />
     </r:RibbonGroup>
-    <r:RibbonGroup Command="{x:Static paranoia:WindowCommands.Close}" Header="Second">
+    <r:RibbonGroup Command="{x:Static ApplicationCommands.Close}" Header="Second">
         <r:RibbonButton Content="Create" ImageSource="../Assets/add.png" />
         <r:RibbonButton Content="Medium length" ImageSource="../Assets/add.png" />
         <r:RibbonButton Content="Long with lots of breaks" ImageSource="../Assets/add.png" />

@@ -8,7 +8,7 @@ namespace Crystalbyte.Paranoia.UI {
             element.SetValue(Ribbon.IsFloatingProperty, true);
             element.SetValue(Grid.RowProperty, 0);
             element.SetValue(Grid.RowSpanProperty, 2);
-            element.SetValue(Panel.ZIndexProperty, 2);
+            element.SetValue(Panel.ZIndexProperty, 1000);
             element.SetValue(FrameworkElement.VerticalAlignmentProperty, VerticalAlignment.Top);
             element.Visibility = Visibility.Visible;
 
@@ -31,7 +31,7 @@ namespace Crystalbyte.Paranoia.UI {
             element.SetValue(Ribbon.IsFloatingProperty, false);
             element.SetValue(Grid.RowProperty, 1);
             element.SetValue(Grid.RowSpanProperty, 1);
-            element.SetValue(Panel.ZIndexProperty, 0);
+            element.SetValue(Panel.ZIndexProperty, 25);
             element.SetValue(FrameworkElement.VerticalAlignmentProperty, VerticalAlignment.Top);
             element.Visibility = Visibility.Visible;
         }

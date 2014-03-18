@@ -5,7 +5,7 @@
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    <converters:RibbonVisibilityToVisibilityConverter x:Key="RibbonVisibilityToVisibilityConverter" />
+    <converters:RibbonStateToVisibilityConverter x:Key="RibbonStateToVisibilityConverter" />
     <converters:DoubleMultiplier x:Key="DoubleMultiplier" />
 
     <Style x:Key="RibbonOptionTitleStyle" TargetType="TextBlock">
@@ -93,7 +93,13 @@
                                       Grid.Row="0"
                                       Grid.Column="0"
                                       HorizontalAlignment="Stretch"
-                                      Panel.ZIndex="8">
+                                      Panel.ZIndex="50"
+                                      Visibility="{Binding IsAppMenuOpened,
+                                                           RelativeSource={RelativeSource FindAncestor,
+                                                                                          AncestorLevel=1,
+                                                                                          AncestorType=ui:RibbonWindow},
+                                                           Converter={StaticResource BooleanToVisibilityConverter},
+                                                           ConverterParameter=!}">
                                     <Grid.ColumnDefinitions>
                                         <!--  window icon  -->
                                         <ColumnDefinition Width="Auto" />
@@ -120,19 +126,19 @@
                                            RenderOptions.BitmapScalingMode="Fant"
                                            Source="{TemplateBinding Icon}"
                                            Stretch="Uniform"
-                                           Visibility="{Binding RibbonVisibility,
+                                           Visibility="{Binding RibbonState,
                                                                 RelativeSource={RelativeSource FindAncestor,
                                                                                                AncestorType=ui:RibbonWindow,
                                                                                                AncestorLevel=1},
-                                                                Converter={StaticResource RibbonVisibilityToVisibilityConverter},
+                                                                Converter={StaticResource RibbonStateToVisibilityConverter},
                                                                 ConverterParameter=Tabs|TabsAndCommands}" />
                                     <Button Grid.Column="0"
                                             Grid.ColumnSpan="3"
                                             Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
                                                                                           ResourceId=BlendInRibbonButtonStyle}}"
-                                            Visibility="{Binding RibbonVisibility,
+                                            Visibility="{Binding RibbonState,
                                                                  RelativeSource={RelativeSource TemplatedParent},
-                                                                 Converter={StaticResource RibbonVisibilityToVisibilityConverter},
+                                                                 Converter={StaticResource RibbonStateToVisibilityConverter},
                                                                  ConverterParameter=Hidden}" />
                                     <TextBlock Grid.Column="1"
                                                Margin="0,-3,0,0"
@@ -140,11 +146,11 @@
                                                Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
                                                                                              ResourceId=WindowTitleStyle}}"
                                                Text="{TemplateBinding Title}"
-                                               Visibility="{Binding RibbonVisibility,
+                                               Visibility="{Binding RibbonState,
                                                                     RelativeSource={RelativeSource FindAncestor,
                                                                                                    AncestorType=ui:RibbonWindow,
                                                                                                    AncestorLevel=1},
-                                                                    Converter={StaticResource RibbonVisibilityToVisibilityConverter},
+                                                                    Converter={StaticResource RibbonStateToVisibilityConverter},
                                                                     ConverterParameter=Tabs|TabsAndCommands}" />
                                     <Border Grid.Column="2"
                                             Margin="8,0,0,0"
@@ -153,11 +159,11 @@
                                                                                                 ResourceId=RibbonBorderBrush}}"
                                             BorderThickness="1,0,0,0"
                                             Padding="8,0,0,0"
-                                            Visibility="{Binding RibbonVisibility,
+                                            Visibility="{Binding RibbonState,
                                                                  RelativeSource={RelativeSource FindAncestor,
                                                                                                 AncestorType=ui:RibbonWindow,
                                                                                                 AncestorLevel=1},
-                                                                 Converter={StaticResource RibbonVisibilityToVisibilityConverter},
+                                                                 Converter={StaticResource RibbonStateToVisibilityConverter},
                                                                  ConverterParameter=Tabs|TabsAndCommands}">
                                         <ui:QuickAccessBar VerticalAlignment="Center"
                                                            ItemsSource="{TemplateBinding QuickAccessItems}"
@@ -169,11 +175,11 @@
                                     <Button Grid.Column="3"
                                             Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
                                                                                           ResourceId=HelpButtonStyle}}"
-                                            Visibility="{Binding RibbonVisibility,
+                                            Visibility="{Binding RibbonState,
                                                                  RelativeSource={RelativeSource FindAncestor,
                                                                                                 AncestorType=ui:RibbonWindow,
                                                                                                 AncestorLevel=1},
-                                                                 Converter={StaticResource RibbonVisibilityToVisibilityConverter},
+                                                                 Converter={StaticResource RibbonStateToVisibilityConverter},
                                                                  ConverterParameter=Tabs|TabsAndCommands}" />
                                     <Button Grid.Column="4"
                                             Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
@@ -185,25 +191,25 @@
                                     <Button Grid.Column="5"
                                             Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
                                                                                           ResourceId=MinimizeButtonStyle}}"
-                                            Visibility="{Binding RibbonVisibility,
+                                            Visibility="{Binding RibbonState,
                                                                  RelativeSource={RelativeSource TemplatedParent},
-                                                                 Converter={StaticResource RibbonVisibilityToVisibilityConverter},
+                                                                 Converter={StaticResource RibbonStateToVisibilityConverter},
                                                                  ConverterParameter=Tabs|TabsAndCommands}" />
                                     <Border Grid.Column="6"
                                             Background="Transparent"
                                             BorderThickness="0"
-                                            Visibility="{Binding RibbonVisibility,
+                                            Visibility="{Binding RibbonState,
                                                                  RelativeSource={RelativeSource TemplatedParent},
-                                                                 Converter={StaticResource RibbonVisibilityToVisibilityConverter},
+                                                                 Converter={StaticResource RibbonStateToVisibilityConverter},
                                                                  ConverterParameter=Tabs|TabsAndCommands}">
                                         <Button Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=MaximizeButtonStyle}}" Visibility="{Binding IsNormalized, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                     </Border>
                                     <Border Grid.Column="7"
                                             Background="Transparent"
                                             BorderThickness="0"
-                                            Visibility="{Binding RibbonVisibility,
+                                            Visibility="{Binding RibbonState,
                                                                  RelativeSource={RelativeSource TemplatedParent},
-                                                                 Converter={StaticResource RibbonVisibilityToVisibilityConverter},
+                                                                 Converter={StaticResource RibbonStateToVisibilityConverter},
                                                                  ConverterParameter=Tabs|TabsAndCommands}">
                                         <Button Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=RestoreDownButtonStyle}}" Visibility="{Binding IsMaximized, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                     </Border>
@@ -213,12 +219,8 @@
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         VerticalAlignment="Top"
-                                        Panel.ZIndex="6"
-                                        Visibility="{Binding IsAppMenuOpened,
-                                                             RelativeSource={RelativeSource TemplatedParent},
-                                                             Converter={StaticResource BooleanToVisibilityConverter},
-                                                             ConverterParameter=!}">
-                                    <ContentPresenter Content="{TemplateBinding Ribbon}" />
+                                        Panel.ZIndex="25">
+                                    <ContentPresenter Content="{TemplateBinding Ribbon}" Visibility="{Binding IsAppMenuOpened, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType=ui:RibbonWindow}, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}" />
                                     <Border.RenderTransform>
                                         <TranslateTransform x:Name="RibbonTranslateTransform" />
                                     </Border.RenderTransform>
@@ -355,6 +357,8 @@
                                 <StatusBar x:Name="PART_StatusBar"
                                            Grid.Row="3"
                                            Grid.Column="0"
+                                           Margin="-1,0,-1,-1"
+                                           Panel.ZIndex="25"
                                            Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
                                                                                               ResourceId=WindowAccentBrush}}"
                                            ItemContainerStyle="{TemplateBinding StatusBarContainerStyle}"
@@ -386,7 +390,7 @@
                                       Grid.Row="0"
                                       Grid.RowSpan="4"
                                       Grid.Column="0"
-                                      Panel.ZIndex="10"
+                                      Panel.ZIndex="150"
                                       Background="{x:Null}"
                                       Opacity="0">
                                     <Grid.RenderTransform>
@@ -415,6 +419,7 @@
                                                 VerticalAlignment="Top"
                                                 Command="{x:Static paranoia:RibbonCommands.CloseAppMenu}"
                                                 DockPanel.Dock="Top"
+                                                IsCancel="True"
                                                 SnapsToDevicePixels="True">
                                             <Button.Template>
                                                 <ControlTemplate TargetType="ButtonBase">
