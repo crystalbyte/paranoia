@@ -30,6 +30,18 @@
             <r:RibbonTab Header="{x:Static properties:Resources.HomeTabHeader}">
                 <ui:HomeRibbonPage />
             </r:RibbonTab>
+            <r:RibbonTab Header="{x:Static properties:Resources.HomeTabHeader}">
+                <ui:HomeRibbonPage />
+            </r:RibbonTab>
+            <r:RibbonTab ContextualBrush="#BADA55"
+                         ContextualText="Tools"
+                         Header="{x:Static properties:Resources.HomeTabHeader}"
+                         IsContextual="True">
+                <ui:HomeRibbonPage />
+            </r:RibbonTab>
+            <r:RibbonTab Header="{x:Static properties:Resources.HomeTabHeader}">
+                <ui:HomeRibbonPage />
+            </r:RibbonTab>
         </r:Ribbon>
     </r:RibbonWindow.Ribbon>
     <r:RibbonWindow.ApplicationMenu>

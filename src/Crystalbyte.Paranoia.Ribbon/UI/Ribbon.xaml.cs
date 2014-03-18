@@ -107,9 +107,11 @@ namespace Crystalbyte.Paranoia.UI {
 
         #endregion
 
+        #region Methods
+
         internal void SlideInCommandStrip() {
             IsCommandStripVisible = true;
-            var story = (Storyboard) _commandStrip.FindResource("CommandStripSlideInStoryboard");
+            var story = (Storyboard)_commandStrip.FindResource("CommandStripSlideInStoryboard");
             story.Begin();
         }
 
@@ -119,8 +121,10 @@ namespace Crystalbyte.Paranoia.UI {
 
         internal void RestoreSelection() {
             if (HasItems && SelectedValue == null) {
-                SelectedIndex = 0;    
+                SelectedIndex = 0;
             }
         }
+
+        #endregion
     }
 }

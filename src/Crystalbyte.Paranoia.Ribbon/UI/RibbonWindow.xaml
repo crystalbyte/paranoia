@@ -92,7 +92,8 @@
                                 <Grid x:Name="CommandBar"
                                       Grid.Row="0"
                                       Grid.Column="0"
-                                      HorizontalAlignment="Stretch">
+                                      HorizontalAlignment="Stretch"
+                                      Panel.ZIndex="8">
                                     <Grid.ColumnDefinitions>
                                         <!--  window icon  -->
                                         <ColumnDefinition Width="Auto" />
@@ -212,6 +213,7 @@
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         VerticalAlignment="Top"
+                                        Panel.ZIndex="6"
                                         Visibility="{Binding IsAppMenuOpened,
                                                              RelativeSource={RelativeSource TemplatedParent},
                                                              Converter={StaticResource BooleanToVisibilityConverter},
@@ -384,7 +386,7 @@
                                       Grid.Row="0"
                                       Grid.RowSpan="4"
                                       Grid.Column="0"
-                                      Panel.ZIndex="4"
+                                      Panel.ZIndex="10"
                                       Background="{x:Null}"
                                       Opacity="0">
                                     <Grid.RenderTransform>
