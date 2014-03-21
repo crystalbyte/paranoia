@@ -117,8 +117,7 @@
                                 <Border Grid.Column="2"
                                         Margin="8,0,0,0"
                                         VerticalAlignment="Center"
-                                        BorderBrush="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
-                                                                                            ResourceId=RibbonBorderBrush}}"
+                                        BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType=ui:RibbonWindow}}"
                                         BorderThickness="1,0,0,0"
                                         Padding="8,0,0,0">
                                     <ui:QuickAccessBar VerticalAlignment="Center" ItemsSource="{Binding QuickAccessItems, RelativeSource={RelativeSource FindAncestor, AncestorType=ui:RibbonWindow, AncestorLevel=1}}" />

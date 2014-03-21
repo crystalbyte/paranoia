@@ -65,6 +65,7 @@
         R="255" />
     -->
 
+
     <!--  PalmGreen  -->
     <!--
         <Color x:Key="AccentColor"
@@ -84,7 +85,7 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowButtonHoverBrush}" Color="#3E3E40" />
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowButtonBorderBrush}" Color="Transparent" />
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowButtonBackgroundBrush}" Color="Transparent" />
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=ContextMenuBorderBrush}" Color="#5F5F5F" />
+    <!--  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=ContextMenuBorderBrush}" Color="#5F5F5F" />  -->
 
     <system:Double x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowSmallFontSize}">9</system:Double>
     <system:Double x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowNormalFontSize}">11</system:Double>
