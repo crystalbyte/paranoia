@@ -9,8 +9,6 @@
 
     <Style TargetType="ui:RibbonButton">
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowButtonBorderBrush}}" />
-        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowButtonBackgroundBrush}}" />
         <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
         <Setter Property="FontSize" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowMediumFontSize}}" />
         <Setter Property="Padding" Value="4,0,4,0" />
@@ -83,7 +81,7 @@
                     <Condition Property="IsPressed" Value="True" />
                     <Condition Property="IsMouseOver" Value="True" />
                 </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowAccentBrush}}" />
+                <Setter Property="Background" Value="{Binding ThemeBrush, RelativeSource={RelativeSource FindAncestor, AncestorType=ui:RibbonWindow, AncestorLevel=1}}" />
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>

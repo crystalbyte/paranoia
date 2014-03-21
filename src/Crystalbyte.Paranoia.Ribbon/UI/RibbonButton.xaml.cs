@@ -52,10 +52,30 @@ namespace Crystalbyte.Paranoia.UI {
 
         public string Key {
             get {
+                if (!string.IsNullOrWhiteSpace(QuickAccessKeyOverride)) {
+                    return QuickAccessKeyOverride;
+                }
+
                 var routed = Command as RoutedCommand;
-                return routed != null ? routed.Name : null;
+                if (routed != null) {
+                    return routed.Name;
+                }
+                return Command == null ? null : Command.GetType().FullName;
             }
         }
+
+        #endregion
+
+        #region Dependency Properties
+
+        public string QuickAccessKeyOverride {
+            get { return (string)GetValue(QuickAccessKeyOverrideProperty); }
+            set { SetValue(QuickAccessKeyOverrideProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for QuickAccessKey.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty QuickAccessKeyOverrideProperty =
+            DependencyProperty.Register("QuickAccessKeyOverride", typeof(string), typeof(RibbonButton), new PropertyMetadata(string.Empty));
 
         #endregion
     }

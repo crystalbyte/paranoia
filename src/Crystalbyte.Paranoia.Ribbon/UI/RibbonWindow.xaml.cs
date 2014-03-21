@@ -80,7 +80,6 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));
             CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoredDown));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
-            CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
 
             QuickAccessItems = new QuickAccessCollection();
         }
@@ -222,6 +221,15 @@ namespace Crystalbyte.Paranoia.UI {
         public static readonly DependencyProperty IsAppMenuOpenedProperty =
             DependencyProperty.Register("IsAppMenuOpened", typeof(bool), typeof(RibbonWindow), new PropertyMetadata(false, OnIsAppMenuOpenedChanged));
 
+        public Brush ThemeBrush {
+            get { return (Brush)GetValue(ThemeBrushProperty); }
+            set { SetValue(ThemeBrushProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ThemeBrush.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ThemeBrushProperty =
+            DependencyProperty.Register("ThemeBrush", typeof(Brush), typeof(RibbonWindow), new PropertyMetadata(null));
+
         #endregion
 
         #region Event Handlers
@@ -268,6 +276,7 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnOpenAppMenu(object sender, ExecutedRoutedEventArgs e) {
             IsAppMenuOpened = true;
             _ribbonHost.BlendOut();
+            _appMenu.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
         }
 
         private void OnCloseAppMenu(object sender, ExecutedRoutedEventArgs e) {
@@ -387,10 +396,6 @@ namespace Crystalbyte.Paranoia.UI {
             e.Handled = true;
         }
 
-        private void OnHelp(object sender, ExecutedRoutedEventArgs e) {
-            MessageBox.Show("Help");
-        }
-
         private void OnMaximize(object sender, RoutedEventArgs e) {
             WindowState = WindowState.Maximized;
             e.Handled = true;
@@ -445,6 +450,7 @@ namespace Crystalbyte.Paranoia.UI {
             }
 
             _ribbonOptionsPopup = (Popup)Template.FindName(RibbonOptionsPopupName, this);
+            _ribbonOptionsPopup.DataContext = this;
             _ribbonOptionsPopup.MouseUp += OnRibbonOptionsPopupMouseUp;
 
             if (_ribbonOptionsList != null) {
@@ -514,7 +520,6 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void RestoreState() {
-
             const string name = "ribbon.xml";
             if (!File.Exists(name)) {
                 return;
@@ -534,7 +539,6 @@ namespace Crystalbyte.Paranoia.UI {
             } catch (IOException ex) {
                 Debug.WriteLine(ex);
             }
-
         }
 
         private async Task StoreStateAsync() {

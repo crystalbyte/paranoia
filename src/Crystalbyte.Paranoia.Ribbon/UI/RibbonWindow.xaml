@@ -39,11 +39,13 @@
     </Style>
 
     <Style TargetType="ui:RibbonWindow">
+        <Setter Property="ThemeBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowAccentBrush}}" />
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="WindowStyle" Value="None" />
         <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowAccentBrush}}" />
+        <Setter Property="BorderBrush" Value="{Binding ThemeBrush, RelativeSource={RelativeSource Self}}" />
         <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowBackgroundBrush}}" />
+        <Setter Property="Foreground" Value="WhiteSmoke" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
@@ -57,7 +59,6 @@
             <Setter.Value>
                 <Style BasedOn="{StaticResource {x:Type StatusBarItem}}" TargetType="StatusBarItem">
                     <Setter Property="Margin" Value="0,1,0,1" />
-                    <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=LightTextBrush}}" />
                 </Style>
             </Setter.Value>
         </Setter>
@@ -248,15 +249,14 @@
                                        Grid.Column="0"
                                        Placement="Bottom"
                                        StaysOpen="False">
-                                    <Border Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
-                                                                                               ResourceId=WindowBackgroundBrush}}"
-                                            BorderBrush="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
-                                                                                                ResourceId=WindowAccentBrush}}"
+                                    <Border x:Name="PopupContent"
+                                            Background="{Binding Background}"
+                                            BorderBrush="{Binding ThemeBrush}"
                                             BorderThickness="1">
                                         <ListView x:Name="PART_RibbonOptionsList"
-                                                  Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
-                                                                                                     ResourceId=WindowBackgroundBrush}}"
+                                                  Background="Transparent"
                                                   BorderThickness="0"
+                                                  Foreground="{Binding Foreground}"
                                                   SelectionMode="Single">
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="ListViewItem">
@@ -266,11 +266,11 @@
                                                             <ControlTemplate TargetType="ListViewItem">
                                                                 <Border x:Name="Border"
                                                                         Margin="1"
-                                                                        Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
-                                                                                                                           ResourceId=WindowBackgroundBrush}}">
+                                                                        Background="{Binding Background,
+                                                                                             ElementName=PopupContent}">
                                                                     <Grid>
-                                                                        <Rectangle Fill="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
-                                                                                                                                ResourceId=WindowBackgroundBrush}}"
+                                                                        <Rectangle Fill="{Binding Background,
+                                                                                                  ElementName=PopupContent}"
                                                                                    Opacity=".8"
                                                                                    StrokeThickness="0" />
                                                                         <ContentPresenter />
@@ -278,7 +278,7 @@
                                                                 </Border>
                                                                 <ControlTemplate.Triggers>
                                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowAccentBrush}}" />
+                                                                        <Setter TargetName="Border" Property="Background" Value="{Binding BorderBrush, ElementName=PopupContent}" />
                                                                     </Trigger>
                                                                 </ControlTemplate.Triggers>
                                                             </ControlTemplate>
@@ -359,8 +359,14 @@
                                            Grid.Column="0"
                                            Margin="-1,0,-1,-1"
                                            Panel.ZIndex="25"
-                                           Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
-                                                                                              ResourceId=WindowAccentBrush}}"
+                                           Background="{Binding ThemeBrush,
+                                                                RelativeSource={RelativeSource FindAncestor,
+                                                                                               AncestorType=ui:RibbonWindow,
+                                                                                               AncestorLevel=1}}"
+                                           Foreground="{Binding Foreground,
+                                                                RelativeSource={RelativeSource FindAncestor,
+                                                                                               AncestorType=ui:RibbonWindow,
+                                                                                               AncestorLevel=1}}"
                                            ItemContainerStyle="{TemplateBinding StatusBarContainerStyle}"
                                            ItemTemplate="{TemplateBinding StatusBarItemTemplate}"
                                            ItemsPanel="{TemplateBinding StatusBarItemsPanel}"
@@ -409,17 +415,20 @@
                                                Grid.Row="0"
                                                Grid.RowSpan="3"
                                                Grid.Column="0"
-                                               Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
-                                                                                                  ResourceId=WindowAccentBrush}}"
+                                               Margin="0,-1,0,-1"
+                                               Background="{Binding ThemeBrush,
+                                                                    RelativeSource={RelativeSource FindAncestor,
+                                                                                                   AncestorType=ui:RibbonWindow,
+                                                                                                   AncestorLevel=1}}"
                                                IsHitTestVisible="{Binding IsAppMenuOpened,
                                                                           RelativeSource={RelativeSource TemplatedParent}}"
                                                LastChildFill="True">
                                         <Button Margin="19,18,0,14"
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Top"
-                                                Focusable="False"
                                                 Command="{x:Static paranoia:RibbonCommands.CloseAppMenu}"
                                                 DockPanel.Dock="Top"
+                                                Focusable="False"
                                                 IsCancel="True"
                                                 SnapsToDevicePixels="True">
                                             <Button.Template>
@@ -442,8 +451,10 @@
                                                         <Rectangle x:Name="SelectionOverlay"
                                                                    HorizontalAlignment="Stretch"
                                                                    VerticalAlignment="Stretch"
-                                                                   Fill="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
-                                                                                                                ResourceId=WindowAccentBrush}}"
+                                                                   Fill="{Binding ThemeBrush,
+                                                                                  RelativeSource={RelativeSource FindAncestor,
+                                                                                                                 AncestorType=ui:RibbonWindow,
+                                                                                                                 AncestorLevel=1}}"
                                                                    Opacity=".2"
                                                                    StrokeThickness="0"
                                                                    Visibility="Collapsed" />
@@ -456,12 +467,14 @@
                                                 </ControlTemplate>
                                             </Button.Template>
                                         </Button>
-                                        <ContentPresenter Content="{TemplateBinding ApplicationMenu}" KeyboardNavigation.TabIndex="0" />
+                                        <ContentPresenter Content="{TemplateBinding ApplicationMenu}" />
                                     </DockPanel>
                                     <Border Grid.Row="1"
                                             Grid.Column="1"
-                                            Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
-                                                                                               ResourceId=WindowBackgroundBrush}}"
+                                            Background="{Binding Background,
+                                                                 RelativeSource={RelativeSource FindAncestor,
+                                                                                                AncestorLevel=1,
+                                                                                                AncestorType=ui:RibbonWindow}}"
                                             IsHitTestVisible="{Binding IsAppMenuOpened,
                                                                        RelativeSource={RelativeSource TemplatedParent}}">
                                         <Border Margin="32,0,32,0">
@@ -474,8 +487,6 @@
                                                             <TextBlock FontSize="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
                                                                                                                         ResourceId=WindowExtraExtraLargeFontSize}}"
                                                                        FontWeight="Light"
-                                                                       Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow,
-                                                                                                                          ResourceId=LightTextBrush}}"
                                                                        RenderOptions.ClearTypeHint="Enabled"
                                                                        Text="{Binding}" />
                                                         </DataTemplate>
