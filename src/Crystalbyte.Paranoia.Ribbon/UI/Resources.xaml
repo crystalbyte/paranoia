@@ -78,14 +78,12 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=RibbonBorderBrush}" Color="#3E3E40" />
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowBackgroundBrush}" Color="#1E1E1E" />
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowAccentBrush}" Color="{StaticResource AccentColor}" />
-    <!--
-        <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=LightTextBrush}" Color="WhiteSmoke" />
-        <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=DarkTextBrush}" Color="#5F5F5F" />
-    -->
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=DarkTextBrush}" Color="#5F5F5F" />
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowButtonHoverBrush}" Color="#3E3E40" />
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowButtonBorderBrush}" Color="Transparent" />
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowButtonBackgroundBrush}" Color="Transparent" />
-    <!--  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=ContextMenuBorderBrush}" Color="#5F5F5F" />  -->
 
     <system:Double x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowSmallFontSize}">9</system:Double>
     <system:Double x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowNormalFontSize}">11</system:Double>
@@ -97,7 +95,6 @@
 
     <Style x:Key="{ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=WindowTitleStyle}" TargetType="TextBlock">
         <Setter Property="FontSize" Value="14" />
-        <!--  <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=ui:RibbonWindow, ResourceId=LightTextBrush}}" />  -->
     </Style>
 
     <Style x:Key="WindowButtonStyle" TargetType="ButtonBase">
