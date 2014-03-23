@@ -56,6 +56,21 @@ namespace Crystalbyte.Paranoia {
             //_source.AddHook(WndProc);
         }
 
+
+        private void OnColorSwitchButtonClicked(object sender, RoutedEventArgs e) {
+            var color = ColorTextbox.Text;
+            var converter = new System.Windows.Media.BrushConverter();
+            try {
+                var brush = (System.Windows.Media.Brush)converter.ConvertFromString("#" + color);
+                this.ThemeBrush = brush; 
+                ColorTextbox.BorderBrush = System.Windows.Media.Brushes.White;
+            }
+            catch (Exception) {
+                ColorTextbox.BorderBrush = System.Windows.Media.Brushes.Red;
+            }
+            
+        }
+
         //private static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
         //    if (!OpenSslRandom.IsSeededSufficiently) {
         //        OpenSslRandom.AddEntropyFromEvents(msg, wParam, lParam);

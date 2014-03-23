@@ -62,12 +62,9 @@
                             <RowDefinition Height="{my:DynamicResourceWithConverter someHeight, Converter={StaticResource gridLengthConverter}}"
                             <TextBox  Text="{r:ExtentetdDynamicResource DynamicResource {ComponentResourceKey TypeInTargetAssembly=r:RibbonWindow, ResourceId=WindowAccentBrush}, Converter={StaticResource ColorToString}}" />
                         -->
-                        <TextBox Text="bla" />
-                        <TextBox Text="bla" />
-                        <Grid Width="30"
-                              Height="30"
-                              Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=r:RibbonWindow,
-                                                                                 ResourceId=WindowAccentBrush}}" />
+                        <Label Content="Bitte Farbe einbgeben" Foreground="WhiteSmoke"/>
+                        <TextBox Name="ColorTextbox" BorderBrush="White"/>
+                        <Button Content="Farbe Wechseln" Click="OnColorSwitchButtonClicked"/>
                     </StackPanel>
                 </Expander>
             </r:ApplicationMenuItem>
