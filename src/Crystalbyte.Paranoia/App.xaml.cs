@@ -16,7 +16,7 @@ namespace Crystalbyte.Paranoia {
         public static readonly string Name = "Paranoia";
 
         [Import]
-        public static AppContext AppContext { get; set; }
+        public static AppWorkspace AppContext { get; set; }
 
         protected override async void OnStartup(StartupEventArgs e) {
             Compose();

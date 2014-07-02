@@ -52,17 +52,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServerCompact">
-      <HintPath>..\packages\EntityFramework.SqlServerCompact.6.0.2\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
-    </Reference>
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.1.0\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -84,11 +73,19 @@
       <HintPath>..\packages\Microsoft.Composition.1.0.17\lib\portable-net45+win8\System.Composition.TypedParts.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.2.4\lib\net45\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.2.4\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.2.4\lib\net45\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.4\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
@@ -108,215 +105,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AppBarCategory.cs" />
-    <Compile Include="Commands\CreateIdentityCommand.cs" />
-    <Compile Include="Commands\DeleteMailsCommand.cs" />
-    <Compile Include="Commands\ForwardCommand.cs" />
-    <Compile Include="Commands\InviteContactCommand.cs" />
-    <Compile Include="Commands\DeleteContactCommand.cs" />
-    <Compile Include="Commands\DeleteIdentityCommand.cs" />
-    <Compile Include="Commands\ReplyCommand.cs" />
-    <Compile Include="Commands\SaveMailCommand.cs" />
-    <Compile Include="Commands\SendInvitationCommand.cs" />
-    <Compile Include="ConfigState.cs" />
-    <Compile Include="ContactRequest.cs" />
-    <Compile Include="Contexts\ContactSelectionSource.cs" />
-    <Compile Include="Contexts\ConfigTestContext.cs" />
-    <Compile Include="Contexts\ContactInvitationContext.cs" />
-    <Compile Include="Contexts\ContactContext.cs" />
-    <Compile Include="Contexts\ContactMacroContext.cs" />
-    <Compile Include="Contexts\ImapAccountContext.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Contexts\MailboxContext.cs" />
-    <Compile Include="Contexts\MailboxSelectionSource.cs" />
-    <Compile Include="Contexts\MailContactContext.cs" />
-    <Compile Include="Contexts\MailContext.cs" />
-    <Compile Include="Contexts\MailFlagContext.cs" />
-    <Compile Include="Contexts\MailSelectionSource.cs" />
-    <Compile Include="Contexts\PropertySupport.cs" />
-    <Compile Include="Contexts\SmtpAccountContext.cs" />
-    <Compile Include="Converters\BooleanMultiConverter.cs" />
-    <Compile Include="Converters\BooleanNegator.cs" />
-    <Compile Include="Converters\BooleanToBrushConverter.cs" />
-    <Compile Include="Converters\BooleanToStringConverter.cs" />
-    <Compile Include="Converters\ColorToStringConverter.cs" />
-    <Compile Include="Converters\ContactRequestToBrushConverter.cs" />
-    <Compile Include="Converters\ContactToTextConverter.cs" />
-    <Compile Include="Converters\ConversionGroup.cs" />
-    <Compile Include="Converters\CroppedBitmapConverter.cs" />
-    <Compile Include="Converters\DateFormatter.cs" />
-    <Compile Include="Converters\DoubleCorrector.cs" />
-    <Compile Include="Converters\MailAddressToGravatarConverter.cs" />
-    <Compile Include="Converters\MailboxToImageConverter.cs" />
-    <Compile Include="Converters\MailSeenToBrushConverter.cs" />
-    <Compile Include="Converters\SizeFormatter.cs" />
-    <Compile Include="Converters\TestResultToForegroundConverter.cs" />
-    <Compile Include="Converters\ConfigStateToVisibilityConverter.cs" />
-    <Compile Include="Converters\DomainToHostLogoConverter.cs" />
-    <Compile Include="Converters\ExceptionFormatter.cs" />
-    <Compile Include="Converters\NullToVisibilityConverter.cs" />
-    <Compile Include="Data\StorageContext.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Contexts\AppWorkspace.cs" />
     <Compile Include="Gravatar.cs" />
-    <Compile Include="Commands\IAppBarCommand.cs" />
-    <Compile Include="Contexts\IdentitySelectionSource.cs" />
-    <Compile Include="Html\HtmlCssParser.cs" />
-    <Compile Include="Html\HtmlFromXamlConverter.cs" />
-    <Compile Include="Html\HtmlLexicalAnalyzer.cs" />
-    <Compile Include="Html\HtmlParser.cs" />
-    <Compile Include="Html\HtmlSchema.cs" />
-    <Compile Include="Html\HtmlTokenType.cs" />
-    <Compile Include="Html\HtmlToXamlConverter.cs" />
-    <Compile Include="MailTypes.cs" />
-    <Compile Include="Models\Contact.cs" />
-    <Compile Include="Models\Identity.cs" />
-    <Compile Include="Models\ImapAccount.cs" />
-    <Compile Include="Models\Mailbox.cs" />
-    <Compile Include="Models\MailboxFlag.cs" />
-    <Compile Include="Models\Mail.cs" />
-    <Compile Include="Models\MailContact.cs" />
-    <Compile Include="Models\MailContactType.cs" />
-    <Compile Include="Models\MailFlag.cs" />
-    <Compile Include="Models\SmtpAccount.cs" />
     <Compile Include="Pack.cs" />
-    <Compile Include="MailHeaders.cs" />
     <Compile Include="PasswordPolicyAttribute.cs" />
-    <Compile Include="UI\HomeRibbonPage.xaml.cs">
-      <DependentUpon>HomeRibbonPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\RibbonTabKeys.cs" />
     <Compile Include="StreamExtensions.cs" />
-    <Compile Include="TestResult.cs" />
-    <Compile Include="UI\AppBarButton.cs" />
-    <Compile Include="UI\ContactInvitationControl.xaml.cs">
-      <DependentUpon>ContactInvitationControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DelayTimer.cs" />
-    <Compile Include="UI\HtmlRenderer.cs" />
-    <Compile Include="UI\IdentityCreationFrame.xaml.cs">
-      <DependentUpon>IdentityCreationFrame.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\ComposeMessageView.xaml.cs">
-      <DependentUpon>ComposeMessageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\ServerConfigTestingPage.xaml.cs">
-      <DependentUpon>ServerConfigTestingPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\ServerConfigPage.xaml.cs">
-      <DependentUpon>ServerConfigPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\InitialFocus.cs" />
-    <Compile Include="UI\WatermarkAdorner.cs" />
-    <Compile Include="UI\WatermarkService.cs" />
-    <Compile Include="Commands\ComposeMessageCommand.cs" />
-    <Compile Include="Commands\NullCommand.cs" />
-    <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="Commands\SyncCommand.cs" />
-    <Compile Include="Contexts\IdentityContext.cs" />
-    <Compile Include="Contexts\IdentityCreationContext.cs" />
-    <Compile Include="Contexts\ValidationObject.cs" />
-    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Converters\RatioConverter.cs" />
-    <Compile Include="Converters\SecurityPolicyFormatter.cs" />
     <Compile Include="CollectionExtensions.cs" />
-    <Compile Include="Contexts\NotificationObject.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\ClientConfig.cs" />
     <Compile Include="Properties\Resources.de-DE.Designer.cs">
       <DependentUpon>Resources.de-DE.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="RegexPatterns.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="UI\IdentityCreationPage.xaml.cs">
-      <DependentUpon>IdentityCreationPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\PasswordService.cs" />
-    <Compile Include="WebBrowserExtensions.cs" />
-    <Compile Include="WindowExtensions.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Contexts\AppContext.cs" />
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Brushes.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Converters.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\Button.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\ContextMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\ListViewItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\ToggleButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\Tooltip.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\AppBarButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Themes\Generic.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\HtmlRenderer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\ScrollViewer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\ComposeMessageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\ContactInvitationControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\HomeRibbonPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\IdentityCreationFrame.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\IdentityCreationPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\ServerConfigTestingPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\ServerConfigPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -361,10 +173,6 @@
     <ProjectReference Include="..\Crystalbyte.Paranoia.Messaging\Crystalbyte.Paranoia.Messaging.csproj">
       <Project>{0DC46336-8D08-4C35-8F65-1D1CF2FD0E11}</Project>
       <Name>Crystalbyte.Paranoia.Messaging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Crystalbyte.Paranoia.Ribbon\Crystalbyte.Paranoia.Ribbon.csproj">
-      <Project>{b1c3d71f-aa73-407d-b0d2-0e38f65e7ac8}</Project>
-      <Name>Crystalbyte.Paranoia.Ribbon</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -450,13 +258,21 @@
   <ItemGroup>
     <Resource Include="Assets\icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\blank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\" />
+    <Folder Include="Converters\" />
+    <Folder Include="Data\" />
+    <Folder Include="Resources\" />
+    <Folder Include="Styles\" />
+    <Folder Include="UI\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)\..\Crystalbyte.Paranoia.Cryptography\Resources\libeay32.dll" "$(TargetDir)"
-    if not exist "$(TargetDir)x86" md "$(TargetDir)x86"
-    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\x86\*.*" "$(TargetDir)x86"
-    if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
-    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,3 +1,0 @@
-﻿Managed HTML Rendering
-
-http://www.codeproject.com/Articles/32376/A-Professional-HTML-Renderer-You-Will-Use

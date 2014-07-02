@@ -75,12 +75,12 @@ namespace Crystalbyte.Paranoia.Messaging {
 
         private bool OnRemoteCertificateValidationFailed(X509Certificate cert, X509Chain chain, SslPolicyErrors error) {
             var handler = RemoteCertificateValidationFailed;
-            if (handler != null) {
-                var e = new RemoteCertificateValidationFailedEventArgs(cert, chain, error);
-                handler(this, e);
-                return !e.IsCancelled;
-            }
-            return false;
+            if (handler == null) 
+                return false;
+
+            var e = new RemoteCertificateValidationFailedEventArgs(cert, chain, error);
+            handler(this, e);
+            return !e.IsCancelled;
         }
 
         internal async Task<ImapResponseLine> ReadAsync() {

@@ -1,30 +1,12 @@
 ﻿<Application x:Class="Crystalbyte.Paranoia.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:commands="clr-namespace:Crystalbyte.Paranoia.Commands"
-             xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Converters"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              StartupUri="MainWindow.xaml">
     <!--  Default styles: http://msdn.microsoft.com/en-us/library/aa970773.aspx  -->
     <!--  Icons: C:\Program Files (x86)\Microsoft SDKs\Windows Phone\v8.0\Icons  -->
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Resources/Brushes.xaml" />
-                <ResourceDictionary Source="/Resources/Converters.xaml" />
-                <!--
-                    <ResourceDictionary Source="/Styles/Button.xaml" />
-                    <ResourceDictionary Source="/Styles/ToolTip.xaml" />
-                    <ResourceDictionary Source="/Styles/ContextMenu.xaml" />
-                    <ResourceDictionary Source="/Styles/ListViewItem.xaml" />
-                    <ResourceDictionary Source="/Styles/ToggleButton.xaml" />
-                    <ResourceDictionary Source="/Styles/ScrollViewer.xaml" />
-                -->
-            </ResourceDictionary.MergedDictionaries>
-
-
-
-
             <system:String x:Key="GravatarDefaultImageUrl">http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y&amp;d=mm&amp;s=200</system:String>
 
             <FontFamily x:Key="AppFontFamily">Segoe UI</FontFamily>
@@ -36,23 +18,20 @@
             <system:Double x:Key="AppSmallFontSize">10</system:Double>
             <system:Double x:Key="AppExtraSmallFontSize">8</system:Double>
 
-
-
-            <!--
-                <Style TargetType="{x:Type MenuItem}">
-                <Setter Property="Background" Value="#1B1B1C" />
-                <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
-                </Style>
-            -->
-
-
+            <SolidColorBrush x:Key="AppLightTextBrush" Color="WhiteSmoke" />
+            <SolidColorBrush x:Key="AppFailureColorBrush" Color="Red" />
+            <SolidColorBrush x:Key="AppMediumTextBrush" Color="Gray" />
+            <SolidColorBrush x:Key="AppControlBrush" Color="DimGray" />
+            <SolidColorBrush x:Key="AppAccentBrush" Color="BlueViolet" />
+            <SolidColorBrush x:Key="AppDarkTextBrush" Color="#333" />
+            <SolidColorBrush x:Key="AppLightControlBrush" Color="LightGray" />
 
             <ControlTemplate x:Key="ValidationErrorTemplate">
                 <Grid>
                     <Polygon Margin="3"
                              HorizontalAlignment="Right"
                              VerticalAlignment="Bottom"
-                             Fill="Red"
+                             Fill="{StaticResource AppFailureColorBrush}"
                              IsHitTestVisible="False"
                              Points="10,0 10,10 0,10" />
                     <AdornedElementPlaceholder />
@@ -76,42 +55,6 @@
                    TargetType="{x:Type TextBlock}">
                 <Setter Property="FontWeight" Value="Thin" />
             </Style>
-
-
-
-
-
-            <!--
-                <Style x:Key="CreateIdentityButtonStyle"
-                BasedOn="{StaticResource AppMenuButtonStyle}"
-                TargetType="{x:Type Button}">
-                <Setter Property="ContentTemplate">
-                <Setter.Value>
-                <DataTemplate>
-                <Canvas Width="20" Height="20">
-                <Canvas.RenderTransform>
-                <TranslateTransform Y="14" />
-                </Canvas.RenderTransform>
-                <Line Fill="White"
-                Stroke="White"
-                StrokeThickness="4"
-                X1="0"
-                X2="20"
-                Y1="10"
-                Y2="10" />
-                <Line Fill="White"
-                Stroke="White"
-                StrokeThickness="4"
-                X1="10"
-                X2="10"
-                Y1="0"
-                Y2="20" />
-                </Canvas>
-                </DataTemplate>
-                </Setter.Value>
-                </Setter>
-                </Style>
-            -->
 
             <Style x:Key="AppWatermarkTextStyle"
                    BasedOn="{StaticResource AppNormalTextStyle}"
@@ -236,7 +179,7 @@
                                         <Condition Property="IsMouseOver" Value="True" />
                                         <Condition Property="IsPressed" Value="False" />
                                     </MultiTrigger.Conditions>
-                                    <Setter Property="Background" Value="{StaticResource AppMenuButtonMouseOverBrush}" />
+                                    <Setter Property="Background" Value="{StaticResource AppAccentBrush}" />
                                 </MultiTrigger>
                             </ControlTemplate.Triggers>
 
@@ -321,58 +264,6 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
-            <!--
-                <Style x:Key="BlockListViewItem" TargetType="{x:Type ListViewItem}">
-                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                <Setter Property="OverridesDefaultStyle" Value="True" />
-                <Setter Property="Background" Value="{StaticResource AppWindowBackgroundBrush}" />
-                <Setter Property="Padding" Value="0" />
-                <Setter Property="Margin" Value="0" />
-                <Setter Property="Template">
-                <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListViewItem}">
-                <Border Margin="{TemplateBinding Margin}"
-                Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                Padding="{TemplateBinding Padding}"
-                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                <Grid>
-                <Rectangle x:Name="MouseOverIndicator"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Fill="Gray"
-                Opacity=".1"
-                Stroke="Gray" />
-                <Rectangle x:Name="SelectionIndicator"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Fill="{StaticResource AppAccentBrush}"
-                Stroke="{StaticResource AppAccentBrush}" />
-                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                </Grid>
-                </Border>
-                <ControlTemplate.Triggers>
-                <Trigger Property="IsSelected" Value="True">
-                <Setter TargetName="SelectionIndicator" Property="Visibility" Value="Visible" />
-                </Trigger>
-                <Trigger Property="IsSelected" Value="False">
-                <Setter TargetName="SelectionIndicator" Property="Visibility" Value="Collapsed" />
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="MouseOverIndicator" Property="Visibility" Value="Visible" />
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="False">
-                <Setter TargetName="MouseOverIndicator" Property="Visibility" Value="Collapsed" />
-                </Trigger>
-                </ControlTemplate.Triggers>
-                </ControlTemplate>
-                </Setter.Value>
-                </Setter>
-                </Style>
-            -->
 
             <Style x:Key="AvatarListViewStyle" TargetType="{x:Type ListView}">
                 <Setter Property="Height" Value="48" />
