@@ -16,7 +16,7 @@ namespace Crystalbyte.Paranoia {
         #region Construction
 
         public MainWindow() {
-            DataContext = App.AppContext;
+            DataContext = App.Foundation;
         }
 
         #endregion

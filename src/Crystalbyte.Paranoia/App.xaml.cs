@@ -3,7 +3,6 @@
 using System.Composition;
 using System.Composition.Hosting;
 using System.Windows;
-using Crystalbyte.Paranoia.Contexts;
 
 #endregion
 
@@ -16,11 +15,12 @@ namespace Crystalbyte.Paranoia {
         public static readonly string Name = "Paranoia";
 
         [Import]
-        public static AppWorkspace AppContext { get; set; }
+        public static Foundation Foundation { get; set; }
 
-        protected override async void OnStartup(StartupEventArgs e) {
+        internal CompositionHost Composition { get; set; }
+
+        protected override void OnStartup(StartupEventArgs e) {
             Compose();
-            //await AppContext.RunAsync();
             base.OnStartup(e);
         }
 
@@ -31,7 +31,5 @@ namespace Crystalbyte.Paranoia {
             Composition = config.CreateContainer();
             Composition.SatisfyImports(this);
         }
-
-        public CompositionHost Composition { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿#region Using directives
 
 using System;
-using Crystalbyte.Paranoia.Messaging;
+using Crystalbyte.Paranoia.Mail;
 
 #endregion
 
