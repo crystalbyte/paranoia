@@ -128,6 +128,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UI\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="UI\MetroWindow.xaml.cs">
+      <DependentUpon>MetroWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\WindowCommands.cs" />
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -135,6 +140,10 @@
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MetroWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -269,11 +278,19 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\" />
-    <Folder Include="Converters\" />
     <Folder Include="Data\" />
     <Folder Include="Resources\" />
     <Folder Include="Styles\" />
-    <Folder Include="UI\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\close.png" />
+    <Resource Include="Assets\help.png" />
+    <Resource Include="Assets\maximize.png" />
+    <Resource Include="Assets\minimize.png" />
+    <Resource Include="Assets\restore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\background.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
