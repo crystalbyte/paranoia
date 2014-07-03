@@ -88,6 +88,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Primary key is missing from type {0}..
+        /// </summary>
+        public static string MissingKeyExceptionTemplate {
+            get {
+                return ResourceManager.GetString("MissingKeyExceptionTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Restore Down.
         /// </summary>
         public static string RestoreDownCommandTooltip {

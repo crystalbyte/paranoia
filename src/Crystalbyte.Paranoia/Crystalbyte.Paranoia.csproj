@@ -53,6 +53,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.1.0\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -73,20 +79,15 @@
     <Reference Include="System.Composition.TypedParts">
       <HintPath>..\packages\Microsoft.Composition.1.0.17\lib\portable-net45+win8\System.Composition.TypedParts.dll</HintPath>
     </Reference>
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.93.0\lib\net451\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.93.0\lib\net451\System.Data.SQLite.EF6.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Reactive.Core">
-      <HintPath>..\packages\Rx-Core.2.2.4\lib\net45\System.Reactive.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Interfaces">
-      <HintPath>..\packages\Rx-Interfaces.2.2.4\lib\net45\System.Reactive.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Linq">
-      <HintPath>..\packages\Rx-Linq.2.2.4\lib\net45\System.Reactive.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>..\packages\Rx-PlatformServices.2.2.4\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
@@ -107,9 +108,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Contexts\ContactContext.cs" />
-    <Compile Include="Contexts\Foundation.cs" />
+    <Compile Include="Contexts\AppContext.cs" />
     <Compile Include="Contexts\MailContext.cs" />
     <Compile Include="Contexts\UserContext.cs" />
+    <Compile Include="Data\SQLiteConnectionStringReader.cs" />
+    <Compile Include="Data\Contact.cs" />
+    <Compile Include="Data\IStorage.cs" />
+    <Compile Include="Data\SQLiteDatabaseInitializer.cs" />
+    <Compile Include="Data\SQLiteModelAnalyzer.cs" />
+    <Compile Include="Data\Storage.cs" />
+    <Compile Include="Data\StorageContext.cs" />
+    <Compile Include="Data\User.cs" />
     <Compile Include="Gravatar.cs" />
     <Compile Include="Pack.cs" />
     <Compile Include="PasswordPolicyAttribute.cs" />
@@ -174,6 +183,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\storage.db" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -278,8 +288,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\" />
-    <Folder Include="Data\" />
-    <Folder Include="Resources\" />
     <Folder Include="Styles\" />
   </ItemGroup>
   <ItemGroup>
@@ -291,6 +299,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\background.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="x64\SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

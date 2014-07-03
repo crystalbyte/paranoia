@@ -126,6 +126,9 @@
   <data name="MinimizeCommandTooltip" xml:space="preserve">
     <value>Minimize</value>
   </data>
+  <data name="MissingKeyExceptionTemplate" xml:space="preserve">
+    <value>Primary key is missing from type {0}.</value>
+  </data>
   <data name="RestoreDownCommandTooltip" xml:space="preserve">
     <value>Restore Down</value>
   </data>
