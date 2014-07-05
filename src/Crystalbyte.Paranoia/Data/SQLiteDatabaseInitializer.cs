@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using Crystalbyte.Paranoia.Properties;
 
 namespace Crystalbyte.Paranoia.Data {
-    public sealed class StorageInitializer<T> : IDatabaseInitializer<T> where T : DbContext {
+    public sealed class SQLiteDatabaseInitializer<T> : IDatabaseInitializer<T> where T : DbContext {
         public void InitializeDatabase(T context) {
             var c = context.Database.Connection.ConnectionString;
             var reader = new SQLiteConnectionStringReader(c);
@@ -27,18 +25,23 @@ namespace Crystalbyte.Paranoia.Data {
                 .Select(x => x.PropertyType.GetGenericArguments().First())
                 .ToArray();
 
-            foreach (var model in models) {
-                var analyzer = new SQLiteModelAnalyzer(model);
-                var script = analyzer.GetTableCreateScript();
+            EnforceForeignKeys(context);
+            foreach (var script in models
+                .Select(model => new SQLiteModelAnalyzer(model))
+                .Select(analyzer => analyzer.GetTableCreateScript())) {
+                context.Database.ExecuteSqlCommand(script);
             }
+        }
 
-
+        private static void EnforceForeignKeys(T context) {
+            const string command = "PRAGMA foreign_keys = \"1\";";
+            context.Database.ExecuteSqlCommand(command);
         }
 
         private static void CreateDatabase(string path) {
             var info = Application.GetResourceStream(new Uri("Resources/storage.db", UriKind.Relative));
             if (info == null) {
-                throw new Exception("Embedded database not found.");
+                throw new Exception(Resources.DatabaseImageNotFound);
             }
 
             using (var reader = new BinaryReader(info.Stream)) {

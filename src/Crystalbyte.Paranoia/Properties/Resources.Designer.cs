@@ -70,6 +70,33 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database image not found..
+        /// </summary>
+        public static string DatabaseImageNotFound {
+            get {
+                return ResourceManager.GetString("DatabaseImageNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DeclaringType of table property must not be null..
+        /// </summary>
+        public static string DeclaringTypeNull {
+            get {
+                return ResourceManager.GetString("DeclaringTypeNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expression is not a property..
+        /// </summary>
+        public static string ExpressionNotProperty {
+            get {
+                return ResourceManager.GetString("ExpressionNotProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Maximize.
         /// </summary>
         public static string MaximizeCommandTooltip {
@@ -90,9 +117,18 @@ namespace Crystalbyte.Paranoia.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Primary key is missing from type {0}..
         /// </summary>
-        public static string MissingKeyExceptionTemplate {
+        public static string MissingKeyTemplate {
             get {
-                return ResourceManager.GetString("MissingKeyExceptionTemplate", resourceCulture);
+                return ResourceManager.GetString("MissingKeyTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expression does not access a member..
+        /// </summary>
+        public static string NotMemberAccessExpression {
+            get {
+                return ResourceManager.GetString("NotMemberAccessExpression", resourceCulture);
             }
         }
         
@@ -102,6 +138,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string RestoreDownCommandTooltip {
             get {
                 return ResourceManager.GetString("RestoreDownCommandTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The type {0} is not supported by the database..
+        /// </summary>
+        public static string TypeNotSupportedTemplate {
+            get {
+                return ResourceManager.GetString("TypeNotSupportedTemplate", resourceCulture);
             }
         }
     }

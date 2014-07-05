@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 
 namespace Crystalbyte.Paranoia {
-    public static class Gravatar {
+    internal static class Gravatar {
         public static string CreateImageUrl(string address) {
             if (string.IsNullOrWhiteSpace(address)) {
                 return address;

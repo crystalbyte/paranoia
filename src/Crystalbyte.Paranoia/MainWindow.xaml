@@ -3,6 +3,7 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
                 xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                 Title="p4r4n014"
                 Width="1080"
@@ -13,17 +14,57 @@
                 Icon="/Assets/icon.png"
                 UseLayoutRounding="True"
                 WindowStartupLocation="CenterScreen"
+                d:DataContext="{d:DesignInstance paranoia:AppContext}"
                 mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="200" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400" />
-            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="260" />
+            <ColumnDefinition Width="40" />
             <ColumnDefinition Width="400" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
+              Margin="16,0,16,0"
+              DataContext="{Binding SelectedAccount,
+                                    RelativeSource={RelativeSource FindAncestor,
+                                                                   AncestorType=ui:MetroWindow}}"
+              d:DataContext="{d:DesignInstance paranoia:MailAccountContext}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0"
+                   Grid.RowSpan="2"
+                   Grid.Column="0"
+                   Width="75"
+                   Margin="0,0,16,0"
+                   HorizontalAlignment="Left"
+                   Source="{Binding Address,
+                                    Converter={StaticResource GravatarImageConverter}}" />
+            <TextBlock Grid.Row="0"
+                       Grid.Column="1"
+                       HorizontalAlignment="Left"
+                       Style="{StaticResource AppTitleTextStyle}"
+                       Text="{Binding Name}" />
+            <TextBlock Grid.Row="1"
+                       Grid.Column="1"
+                       HorizontalAlignment="Left"
+                       Style="{StaticResource AppSubtitleTextStyle}"
+                       Text="{Binding Address}" />
+        </Grid>
+        <Grid Grid.Row="1"
+              Grid.Column="0"
+              Background="#444444" />
+
     </Grid>
 </ui:MetroWindow>

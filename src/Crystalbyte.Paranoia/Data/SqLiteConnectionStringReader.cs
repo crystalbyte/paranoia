@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia.Data {
     internal sealed class SQLiteConnectionStringReader {
@@ -25,7 +21,5 @@ namespace Crystalbyte.Paranoia.Data {
                 return Regex.Replace(value, @"\|DataDirectory\|", x => directory);
             }
         }
-
-        public string Version { get; set; }
     }
 }

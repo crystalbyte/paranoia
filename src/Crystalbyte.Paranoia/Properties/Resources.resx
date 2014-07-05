@@ -120,16 +120,31 @@
   <data name="CloseCommandTooltip" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="DatabaseImageNotFound" xml:space="preserve">
+    <value>Database image not found.</value>
+  </data>
+  <data name="DeclaringTypeNull" xml:space="preserve">
+    <value>DeclaringType of table property must not be null.</value>
+  </data>
+  <data name="ExpressionNotProperty" xml:space="preserve">
+    <value>Expression is not a property.</value>
+  </data>
   <data name="MaximizeCommandTooltip" xml:space="preserve">
     <value>Maximize</value>
   </data>
   <data name="MinimizeCommandTooltip" xml:space="preserve">
     <value>Minimize</value>
   </data>
-  <data name="MissingKeyExceptionTemplate" xml:space="preserve">
+  <data name="MissingKeyTemplate" xml:space="preserve">
     <value>Primary key is missing from type {0}.</value>
+  </data>
+  <data name="NotMemberAccessExpression" xml:space="preserve">
+    <value>Expression does not access a member.</value>
   </data>
   <data name="RestoreDownCommandTooltip" xml:space="preserve">
     <value>Restore Down</value>
+  </data>
+  <data name="TypeNotSupportedTemplate" xml:space="preserve">
+    <value>The type {0} is not supported by the database.</value>
   </data>
 </root>

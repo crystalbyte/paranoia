@@ -5,6 +5,7 @@
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <converters:GravatarImageConverter x:Key="GravatarImageConverter" />
 
     <Style TargetType="ui:MetroWindow">
         <Setter Property="HoverBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowButtonHoverBrush}}" />
@@ -78,6 +79,24 @@
                                                Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                                                              ResourceId=WindowTitleStyle}}"
                                                Text="{TemplateBinding Title}" />
+                                    <ComboBox Grid.Column="2"
+                                              ItemsSource="{TemplateBinding AccountsSource}"
+                                              SelectedValue="{Binding SelectedAccount,
+                                                                      Mode=TwoWay,
+                                                                      RelativeSource={RelativeSource TemplatedParent}}"
+                                              Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
+                                                                                            ResourceId=WindowAccountsComboBoxStyle}}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate DataType="paranoia:MailAccountContext">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Height="16" Source="{Binding Address, IsAsync=True, Converter={StaticResource GravatarImageConverter}}" />
+                                                    <TextBlock Margin="6,0,0,0"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding Name}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
                                     <Button Grid.Column="3" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=HelpButtonStyle}}" />
                                     <Button Grid.Column="4" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=MinimizeButtonStyle}}" />
                                     <Button Grid.Column="5"

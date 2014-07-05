@@ -1,6 +1,8 @@
 ﻿#region Using directives
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows;
@@ -88,6 +90,42 @@ namespace Crystalbyte.Paranoia.UI {
         // Using a DependencyProperty as the backing store for HoverBrush.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HoverBrushProperty =
             DependencyProperty.Register("HoverBrush", typeof(Brush), typeof(MetroWindow), new PropertyMetadata(null));
+
+        public object AccountsSource {
+            get { return GetValue(AccountsSourceProperty); }
+            set { SetValue(AccountsSourceProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for AccountsSource.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AccountsSourceProperty =
+            DependencyProperty.Register("AccountsSource", typeof(object), typeof(MetroWindow), new PropertyMetadata(OnAccountsSourceChanged));
+
+        private static void OnAccountsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            var accounts = e.NewValue as IList<MailAccountContext>;
+            if (accounts == null) {
+                return;
+            }
+
+            if (accounts.Count <= 0) 
+                return;
+
+            var window = (MetroWindow) d;
+            window.SelectedAccount = accounts.First();
+        }
+
+        public object SelectedAccount {
+            get { return GetValue(SelectedAccountProperty); }
+            set { SetValue(SelectedAccountProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SelectedAccount.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectedAccountProperty =
+            DependencyProperty.Register("SelectedAccount", typeof(object), typeof(MetroWindow), new PropertyMetadata(OnSelectedAccountChanged));
+
+        private static void OnSelectedAccountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            var source = App.Composition.GetExport<MailAccountSelectionSource>();
+            source.SelectedAccount = e.NewValue as MailAccountContext;
+        }
 
         #endregion
 
@@ -235,5 +273,7 @@ namespace Crystalbyte.Paranoia.UI {
         // ReSharper restore MemberCanBePrivate.Local
 
         #endregion
+
+        public DependencyProperty ItemsSourceProperty { get; set; }
     }
 }

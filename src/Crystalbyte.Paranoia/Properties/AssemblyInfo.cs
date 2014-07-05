@@ -1,4 +1,6 @@
-﻿#region Using directives
+﻿using System.Runtime.CompilerServices;
+
+#region Using directives
 
 using System.Reflection;
 using System.Resources;
@@ -57,3 +59,7 @@ using System.Windows;
 
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+
+
+[assembly: InternalsVisibleTo("Crystalbyte.Paranoia.Tests")]

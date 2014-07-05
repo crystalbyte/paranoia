@@ -17,11 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(tests)", "(tests)", "{8DEA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Cryptography.Tests", "Crystalbyte.Paranoia.Cryptography.Tests\Crystalbyte.Paranoia.Cryptography.Tests.csproj", "{66E07860-ACA4-494D-9C6B-759FDEAB12DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Tests", "Crystalbyte.Paranoia.Tests\Crystalbyte.Paranoia.Tests.csproj", "{0D24E399-ED3A-48E0-938F-E26DAD0FCCC7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Mail.Tests", "Crystalbyte.Paranoia.Mail.Tests\Crystalbyte.Paranoia.Mail.Tests.csproj", "{22E6957C-9D6C-4CF1-B4CF-E296685EE645}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Mail", "Crystalbyte.Paranoia.Mail\Crystalbyte.Paranoia.Mail.csproj", "{0DC46336-8D08-4C35-8F65-1D1CF2FD0E11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Tests", "Crystalbyte.Paranoia.Tests\Crystalbyte.Paranoia.Tests.csproj", "{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,16 +62,6 @@ Global
 		{66E07860-ACA4-494D-9C6B-759FDEAB12DE}.Retail|Any CPU.Build.0 = Release|Any CPU
 		{66E07860-ACA4-494D-9C6B-759FDEAB12DE}.Trial|Any CPU.ActiveCfg = Release|Any CPU
 		{66E07860-ACA4-494D-9C6B-759FDEAB12DE}.Trial|Any CPU.Build.0 = Release|Any CPU
-		{0D24E399-ED3A-48E0-938F-E26DAD0FCCC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D24E399-ED3A-48E0-938F-E26DAD0FCCC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D24E399-ED3A-48E0-938F-E26DAD0FCCC7}.MailSystem Dev|Any CPU.ActiveCfg = Release|Any CPU
-		{0D24E399-ED3A-48E0-938F-E26DAD0FCCC7}.MailSystem Dev|Any CPU.Build.0 = Release|Any CPU
-		{0D24E399-ED3A-48E0-938F-E26DAD0FCCC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D24E399-ED3A-48E0-938F-E26DAD0FCCC7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D24E399-ED3A-48E0-938F-E26DAD0FCCC7}.Retail|Any CPU.ActiveCfg = Release|Any CPU
-		{0D24E399-ED3A-48E0-938F-E26DAD0FCCC7}.Retail|Any CPU.Build.0 = Release|Any CPU
-		{0D24E399-ED3A-48E0-938F-E26DAD0FCCC7}.Trial|Any CPU.ActiveCfg = Release|Any CPU
-		{0D24E399-ED3A-48E0-938F-E26DAD0FCCC7}.Trial|Any CPU.Build.0 = Release|Any CPU
 		{22E6957C-9D6C-4CF1-B4CF-E296685EE645}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{22E6957C-9D6C-4CF1-B4CF-E296685EE645}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22E6957C-9D6C-4CF1-B4CF-E296685EE645}.MailSystem Dev|Any CPU.ActiveCfg = Release|Any CPU
@@ -92,14 +82,24 @@ Global
 		{0DC46336-8D08-4C35-8F65-1D1CF2FD0E11}.Retail|Any CPU.Build.0 = Release|Any CPU
 		{0DC46336-8D08-4C35-8F65-1D1CF2FD0E11}.Trial|Any CPU.ActiveCfg = Release|Any CPU
 		{0DC46336-8D08-4C35-8F65-1D1CF2FD0E11}.Trial|Any CPU.Build.0 = Release|Any CPU
+		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}.MailSystem Dev|Any CPU.ActiveCfg = Release|Any CPU
+		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}.MailSystem Dev|Any CPU.Build.0 = Release|Any CPU
+		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}.Trial|Any CPU.ActiveCfg = Release|Any CPU
+		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}.Trial|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{66E07860-ACA4-494D-9C6B-759FDEAB12DE} = {8DEACA7E-BA38-4B1E-A2A7-D5A0A3E0577F}
-		{0D24E399-ED3A-48E0-938F-E26DAD0FCCC7} = {8DEACA7E-BA38-4B1E-A2A7-D5A0A3E0577F}
 		{22E6957C-9D6C-4CF1-B4CF-E296685EE645} = {8DEACA7E-BA38-4B1E-A2A7-D5A0A3E0577F}
+		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8} = {8DEACA7E-BA38-4B1E-A2A7-D5A0A3E0577F}
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true

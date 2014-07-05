@@ -107,21 +107,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Contexts\ContactContext.cs" />
+    <Compile Include="Contexts\MailContactContext.cs" />
     <Compile Include="Contexts\AppContext.cs" />
     <Compile Include="Contexts\MailContext.cs" />
-    <Compile Include="Contexts\UserContext.cs" />
+    <Compile Include="Contexts\MailAccountContext.cs" />
+    <Compile Include="Data\TypeExtensions.cs" />
     <Compile Include="Data\SQLiteConnectionStringReader.cs" />
-    <Compile Include="Data\Contact.cs" />
-    <Compile Include="Data\IStorage.cs" />
+    <Compile Include="Data\MailContact.cs" />
+    <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\SQLiteDatabaseInitializer.cs" />
     <Compile Include="Data\SQLiteModelAnalyzer.cs" />
-    <Compile Include="Data\Storage.cs" />
-    <Compile Include="Data\StorageContext.cs" />
-    <Compile Include="Data\User.cs" />
+    <Compile Include="Data\Respository.cs" />
+    <Compile Include="Data\DatabaseContext.cs" />
+    <Compile Include="Data\MailAccount.cs" />
+    <Compile Include="Data\IsolatedObject.cs" />
     <Compile Include="Gravatar.cs" />
+    <Compile Include="MailAccountSelectionSource.cs" />
+    <Compile Include="NotificationObject.cs" />
     <Compile Include="Pack.cs" />
     <Compile Include="PasswordPolicyAttribute.cs" />
+    <Compile Include="PropertySupport.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -138,6 +143,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UI\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="UI\Converters\GravatarImageConverter.cs" />
     <Compile Include="UI\MetroWindow.xaml.cs">
       <DependentUpon>MetroWindow.xaml</DependentUpon>
     </Compile>

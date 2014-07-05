@@ -16,15 +16,19 @@ namespace Crystalbyte.Paranoia {
         #region Construction
 
         public MainWindow() {
-            DataContext = App.Foundation;
+            DataContext = App.Context;
+            InitializeComponent();
         }
 
         #endregion
 
         #region Class Overrides
 
-        protected override void OnInitialized(EventArgs e) {
+        protected async override void OnInitialized(EventArgs e) {
             base.OnInitialized(e);
+
+            await App.Context.RunAsync();
+            AccountsSource = App.Context.Accounts;
         }
 
         #endregion
