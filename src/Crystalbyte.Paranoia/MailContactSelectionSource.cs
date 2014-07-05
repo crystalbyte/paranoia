@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia {
     [Export, Shared]
-    public sealed class MailAccountSelectionSource 
-        : SelectionSource<MailAccountContext> { }
+    public sealed class MailContactSelectionSource
+        : SelectionSource<MailContactContext> { }
 }

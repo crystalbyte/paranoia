@@ -2,7 +2,9 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
 
 #endregion
@@ -45,6 +47,11 @@ namespace Crystalbyte.Paranoia {
 
         private void HookEntropyGenerator() {
             var helper = new WindowInteropHelper(this);
+        }
+
+        private void OnContactsSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            var source = App.Composition.GetExport<MailContactSelectionSource>();
+            source.Selection = e.AddedItems.OfType<MailContactContext>();
         }
     }
 }

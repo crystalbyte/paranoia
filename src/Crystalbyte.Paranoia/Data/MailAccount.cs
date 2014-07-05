@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Crystalbyte.Paranoia.Data {
     [Table("mail_account")]
     public class MailAccount {
+        private ICollection<MailContact> _contacts;
+
+        public MailAccount() {
+            _contacts = new Collection<MailContact>();
+        }
 
         [Key]
         [Column("id")]
@@ -53,6 +59,9 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("use_imap_credentials")]
         public bool UseImapCredentialsForSmtp { get; set; }
 
-        public virtual ICollection<MailContact> Contacts { get; set; }
+        public virtual ICollection<MailContact> Contacts {
+            get { return _contacts; }
+            set { _contacts = value; }
+        }
     }
 }

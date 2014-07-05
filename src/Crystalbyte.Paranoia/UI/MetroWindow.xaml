@@ -86,13 +86,16 @@
                                                                       RelativeSource={RelativeSource TemplatedParent}}"
                                               Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                                                             ResourceId=WindowAccountsComboBoxStyle}}">
+                                        <ComboBox.ItemContainerStyle>
+                                            <Style TargetType="ComboBoxItem">
+                                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                            </Style>
+                                        </ComboBox.ItemContainerStyle>
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate DataType="paranoia:MailAccountContext">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Image Height="16" Source="{Binding Address, IsAsync=True, Converter={StaticResource GravatarImageConverter}}" />
-                                                    <TextBlock Margin="6,0,0,0"
-                                                               VerticalAlignment="Center"
-                                                               Text="{Binding Name}" />
+                                                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>

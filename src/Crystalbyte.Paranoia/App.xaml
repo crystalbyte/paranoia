@@ -16,8 +16,8 @@
             <FontFamily x:Key="AppFontFamily">Segoe UI</FontFamily>
 
             <system:Double x:Key="AppExtraLargeFontSize">28</system:Double>
-            <system:Double x:Key="AppLargeFontSize">20</system:Double>
-            <system:Double x:Key="AppMediumFontSize">16</system:Double>
+            <system:Double x:Key="AppLargeFontSize">22</system:Double>
+            <system:Double x:Key="AppMediumFontSize">15</system:Double>
             <system:Double x:Key="AppNormalFontSize">12</system:Double>
             <system:Double x:Key="AppSmallFontSize">10</system:Double>
             <system:Double x:Key="AppExtraSmallFontSize">8</system:Double>

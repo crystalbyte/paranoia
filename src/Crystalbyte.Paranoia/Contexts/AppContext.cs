@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Composition;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
@@ -15,23 +16,13 @@ namespace Crystalbyte.Paranoia {
 
         public ObservableCollection<MailAccountContext> Accounts { get; set; }
 
-        #region Import Directives
-
-        [OnImportsSatisfied]
-        public async void OnImportsSatisfied() {
-           
-        }
-
-        #endregion
-
         public async Task RunAsync() {
             await LoadAccountsAsync();
         }
 
         private async Task LoadAccountsAsync() {
             using (var context = new DatabaseContext()) {
-                var repo = new Repository(context);
-                var accounts = await repo.GetAccountsAsync();
+                var accounts = await context.MailAccounts.ToArrayAsync();
                 Accounts.AddRange(accounts.Select(x => new MailAccountContext(x)));
             }
         }

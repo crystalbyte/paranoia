@@ -100,17 +100,20 @@ namespace Crystalbyte.Paranoia.UI {
         public static readonly DependencyProperty AccountsSourceProperty =
             DependencyProperty.Register("AccountsSource", typeof(object), typeof(MetroWindow), new PropertyMetadata(OnAccountsSourceChanged));
 
-        private static void OnAccountsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+        private async static void OnAccountsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var accounts = e.NewValue as IList<MailAccountContext>;
             if (accounts == null) {
                 return;
             }
 
-            if (accounts.Count <= 0) 
+            if (accounts.Count <= 0)
                 return;
 
             var window = (MetroWindow) d;
-            window.SelectedAccount = accounts.First();
+            var account  = accounts.First();
+            account.ClearContacts();
+            await account.LoadContactsAsync();
+            window.SelectedAccount = account;
         }
 
         public object SelectedAccount {
@@ -124,7 +127,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private static void OnSelectedAccountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var source = App.Composition.GetExport<MailAccountSelectionSource>();
-            source.SelectedAccount = e.NewValue as MailAccountContext;
+            source.Selection = new[] { e.NewValue as MailAccountContext };
         }
 
         #endregion

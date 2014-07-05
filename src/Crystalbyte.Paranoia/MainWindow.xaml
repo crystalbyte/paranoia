@@ -12,6 +12,7 @@
                 MinHeight="600"
                 Background="{StaticResource WindowBackgroundBrush}"
                 Icon="/Assets/icon.png"
+                RenderOptions.ClearTypeHint="Enabled"
                 UseLayoutRounding="True"
                 WindowStartupLocation="CenterScreen"
                 d:DataContext="{d:DesignInstance paranoia:AppContext}"
@@ -30,7 +31,7 @@
         <Grid Grid.Row="0"
               Grid.Column="0"
               Grid.ColumnSpan="2"
-              Margin="16,0,16,0"
+              Margin="16,10,16,0"
               DataContext="{Binding SelectedAccount,
                                     RelativeSource={RelativeSource FindAncestor,
                                                                    AncestorType=ui:MetroWindow}}"
@@ -39,32 +40,86 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
             <Image Grid.Row="0"
-                   Grid.RowSpan="2"
                    Grid.Column="0"
-                   Width="75"
-                   Margin="0,0,16,0"
+                   Width="56"
+                   Margin="0,0,16,16"
                    HorizontalAlignment="Left"
                    Source="{Binding Address,
                                     Converter={StaticResource GravatarImageConverter}}" />
-            <TextBlock Grid.Row="0"
-                       Grid.Column="1"
-                       HorizontalAlignment="Left"
-                       Style="{StaticResource AppTitleTextStyle}"
-                       Text="{Binding Name}" />
-            <TextBlock Grid.Row="1"
-                       Grid.Column="1"
-                       HorizontalAlignment="Left"
-                       Style="{StaticResource AppSubtitleTextStyle}"
-                       Text="{Binding Address}" />
+            <StackPanel Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top">
+                <TextBlock Style="{StaticResource AppTitleTextStyle}" Text="{Binding Name}" />
+                <TextBlock Style="{StaticResource AppSubtitleTextStyle}" Text="{Binding Address}" />
+            </StackPanel>
+
         </Grid>
         <Grid Grid.Row="1"
               Grid.Column="0"
-              Background="#444444" />
+              Background="#333"
+              DataContext="{Binding SelectedAccount,
+                                    RelativeSource={RelativeSource FindAncestor,
+                                                                   AncestorType=ui:MetroWindow}}"
+              d:DataContext="{d:DesignInstance paranoia:MailAccountContext}">
+            <ListView Background="{StaticResource WindowBackgroundBrush}"
+                      BorderThickness="0"
+                      ItemsSource="{Binding Contacts}"
+                      SelectionChanged="OnContactsSelectionChanged">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Row="0"
+                                   Grid.Column="0"
+                                   Width="42"
+                                   Margin="12,0,12,0"
+                                   HorizontalAlignment="Left"
+                                   Source="{Binding Address,
+                                                    Converter={StaticResource GravatarImageConverter}}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Top">
+                                <TextBlock Style="{StaticResource AppTitleTextStyle}" Text="{Binding Name}" />
+                                <TextBlock Style="{StaticResource AppSubtitleTextStyle}" Text="{Binding Address}" />
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <ListView BorderThickness="0" ItemsSource="{Binding Contacts}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Row="0"
+                                   Grid.Column="0"
+                                   Width="42"
+                                   Margin="12,0,12,0"
+                                   HorizontalAlignment="Left"
+                                   Source="{Binding Address,
+                                                    Converter={StaticResource GravatarImageConverter}}" />
+                            <StackPanel Grid.Column="1"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top">
+                                <TextBlock FontSize="16"
+                                           Style="{StaticResource AppTitleTextStyle}"
+                                           Text="{Binding Name}" />
+                                <TextBlock FontSize="{StaticResource AppSmallFontSize}"
+                                           Style="{StaticResource AppSubtitleTextStyle}"
+                                           Text="{Binding Address}" />
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
 
     </Grid>
 </ui:MetroWindow>
