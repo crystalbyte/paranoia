@@ -17,7 +17,6 @@ namespace Crystalbyte.Paranoia.Mail {
         internal ImapConnection Connection {
             get { return _connection; }
         }
-
         public bool IsAuthenticated { get; private set; }
 
         public async Task<ImapSession> LoginAsync(string username, string password) {
@@ -33,13 +32,11 @@ namespace Crystalbyte.Paranoia.Mail {
         private async Task AuthLoginAsync(string username, string password) {
             var text = string.Format("{0} {1}", username, password);
 
-            ImapResponseLine line;
-
             // Speed up authentication by using the initial client response extension.
             // http://tools.ietf.org/html/rfc4959
             var command = string.Format("LOGIN {0}", text);
             await _connection.WriteCommandAsync(command);
-            line = await _connection.ReadAsync();
+            var line = await _connection.ReadAsync();
 
             IsAuthenticated = !line.IsNo;
         }

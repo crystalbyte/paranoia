@@ -44,7 +44,7 @@ namespace Crystalbyte.Paranoia {
         public IEnumerable<MailMessageContext> Messages {
             get { return _messages; }
             set {
-                if (_messages == value) {
+                if (Equals(_messages, value)) {
                     return;
                 }
                 _messages = value;
@@ -72,7 +72,9 @@ namespace Crystalbyte.Paranoia {
         protected async override void OnSelectionChanged() {
             base.OnSelectionChanged();
 
-            await SyncAsync();
+            if (IsSelected) {
+                await SyncAsync();    
+            }
         }
 
         internal async Task SyncAsync() {
@@ -88,6 +90,7 @@ namespace Crystalbyte.Paranoia {
                 var messages = new List<MailMessageModel>();
 
                 using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
+                    connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCancelled = false;
                     using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
                         using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
                             var mailbox = await session.SelectAsync(name);

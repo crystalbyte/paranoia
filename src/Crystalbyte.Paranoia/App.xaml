@@ -13,6 +13,7 @@
         <ResourceDictionary>
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />
             <converters:MailboxLocalizer x:Key="MailboxLocalizer" />
+            <converters:IgnoreLinebreaksConverter x:Key="IgnoreLinebreaksConverter" />
 
             <FontFamily x:Key="AppFontFamily">Segoe UI</FontFamily>
 

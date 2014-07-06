@@ -26,10 +26,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250" />
             <ColumnDefinition Width="80" />
-            <ColumnDefinition Width="Auto"
-                              MinWidth="250"
-                              MaxWidth="400" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="380" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="0"
@@ -170,9 +167,10 @@
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem" d:DataContext="{d:DesignInstance paranoia:MailMessageContext}">
                         <Setter Property="Margin" Value="0" />
-                        <Setter Property="Padding" Value="2" />
+                        <Setter Property="Padding" Value="6,3,6,3" />
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                         <Setter Property="ToolTip" Value="{Binding Subject}" />
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemsPanel>
@@ -189,16 +187,20 @@
                             </Grid.ColumnDefinitions>
                             <Image Grid.Row="0"
                                    Grid.Column="0"
-                                   Width="24"
+                                   Width="42"
+                                   Margin="0,0,6,0"
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Center"
                                    Source="{Binding FromAddress,
                                                     IsAsync=True,
                                                     Converter={StaticResource GravatarImageConverter}}" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock HorizontalAlignment="Left"
+                                <TextBlock Width="280"
+                                           FontSize="17"
+                                           FontWeight="Thin"
                                            Style="{StaticResource AppNormalTextStyle}"
-                                           Text="{Binding Subject}"
+                                           Text="{Binding Subject,
+                                                          Converter={StaticResource IgnoreLinebreaksConverter}}"
                                            TextTrimming="CharacterEllipsis"
                                            TextWrapping="NoWrap">
                                     <!--
@@ -222,15 +224,9 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-        <GridSplitter Grid.Row="0"
-                      Grid.RowSpan="2"
-                      Grid.Column="3"
-                      Width="4"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Stretch" />
         <Grid Grid.Row="0"
               Grid.RowSpan="2"
-              Grid.Column="4"
+              Grid.Column="3"
               Background="White" />
 
     </Grid>

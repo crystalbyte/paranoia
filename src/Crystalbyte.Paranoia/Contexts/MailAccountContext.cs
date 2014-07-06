@@ -45,11 +45,12 @@ namespace Crystalbyte.Paranoia {
         internal async Task SyncMailboxesAsync() {
             var mailboxes = _mailboxes.ToArray();
             using (var connection = new ImapConnection { Security = ImapSecurity }) {
+                connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCancelled = false;
                 using (var auth = await connection.ConnectAsync(ImapHost, ImapPort)) {
                     using (var session = await auth.LoginAsync(ImapUsername, ImapPassword)) {
                         var remoteMailboxes = await session.ListAsync("", "%");
 
-                        foreach (var mailbox in mailboxes.AsParallel()) {
+                        foreach (var mailbox in mailboxes) {
                             if (!mailbox.IsAssigned) {
                                 await mailbox.AssignMostProbableAsync(remoteMailboxes);
                             }

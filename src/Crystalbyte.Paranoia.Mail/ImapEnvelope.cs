@@ -29,13 +29,13 @@ namespace Crystalbyte.Paranoia.Mail {
             "(RFC822.SIZE [0-9]+)|((INTERNALDATE \".+?\"))|(FLAGS \\(.*?\\))|UID \\d+";
 
         private static readonly Regex FetchMetaRegex = new Regex(FetchMetaPattern,
-            RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
         private const string EnvelopePattern = "\\(\\(.+?\\)\\)|NIL|\"\"|<.+?>|\".+?\"";
-        private static readonly Regex EnvelopeRegex = new Regex(EnvelopePattern, RegexOptions.IgnoreCase);
+        private static readonly Regex EnvelopeRegex = new Regex(EnvelopePattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private const string DatePattern = @"\d{2}-\w{3}-\d{4} \d{2}:\d{2}:\d{2} (\+|\-)\d{4}";
-        private static readonly Regex DateRegex = new Regex(DatePattern, RegexOptions.IgnoreCase);
+        private const string DatePattern = @"(\d{1}|\d{2})-\w{3}-\d{4} \d{2}:\d{2}:\d{2} (\+|\-)\d{4}";
+        private static readonly Regex DateRegex = new Regex(DatePattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public ImapEnvelope() {
             _flags = new List<string>();
@@ -92,6 +92,8 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         public static ImapEnvelope Parse(string text) {
+            // Escape nested quotes.
+            text = text.Replace("\\\"", "%%%");
             var envelope = new ImapEnvelope();
             var matches = FetchMetaRegex.Matches(text);
             foreach (Match match in matches) {
@@ -119,7 +121,9 @@ namespace Crystalbyte.Paranoia.Mail {
             }
 
             matches = EnvelopeRegex.Matches(text);
-            envelope.Subject = TransferEncoder.Decode(matches[1].Value).TrimQuotes();
+            envelope.Subject = TransferEncoder.Decode(matches[1].Value)
+                .TrimQuotes()
+                .Replace("%%%", "\"");
             envelope.AddContactsToFrom(ParseContacts(matches[2].Value));
             envelope.AddContactsToSender(ParseContacts(matches[3].Value));
             envelope.ReplyTo = ParseContacts(matches[4].Value).FirstOrDefault();
