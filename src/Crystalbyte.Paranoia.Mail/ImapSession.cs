@@ -28,13 +28,13 @@ namespace Crystalbyte.Paranoia.Mail {
         /// </summary>
         /// <param name="referenceName">The reference name.</param>
         /// <param name="wildcardedMailboxName">The mailbox name with possible wildcards.</param>
-        public async Task<IEnumerable<ImapMailboxInfo>> ListAsync(string referenceName, string wildcardedMailboxName) {
+        public async Task<List<ImapMailboxInfo>> ListAsync(string referenceName, string wildcardedMailboxName) {
             var command = string.Format("{0} \"{1}\" \"{2}\"", ImapCommands.List, referenceName, wildcardedMailboxName);
             var id = await _connection.WriteCommandAsync(command);
             return await ReadListResponseAsync(id);
         }
 
-        private async Task<IEnumerable<ImapMailboxInfo>> ReadListResponseAsync(string id) {
+        private async Task<List<ImapMailboxInfo>> ReadListResponseAsync(string id) {
             var mailboxes = new List<ImapMailboxInfo>();
             while (true) {
                 var line = await _connection.ReadAsync();

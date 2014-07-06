@@ -2,9 +2,9 @@
 
 namespace Crystalbyte.Paranoia {
     public sealed class MailContactContext : SelectionObject {
-        private readonly MailContact _contact;
+        private readonly MailContactModel _contact;
 
-        public MailContactContext(MailContact contact) {
+        internal MailContactContext(MailContactModel contact) {
             _contact = contact;
         }
 

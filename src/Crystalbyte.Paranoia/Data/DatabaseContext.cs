@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 
 namespace Crystalbyte.Paranoia.Data {
     internal sealed class DatabaseContext : DbContext {
@@ -12,8 +6,8 @@ namespace Crystalbyte.Paranoia.Data {
             Database.SetInitializer(new SQLiteDatabaseInitializer<DatabaseContext>());
         }
 
-        public DbSet<MailAccount> MailAccounts { get; set; }
-        public DbSet<MailContact> MailContacts { get; set; }
-        public DbSet<IsolatedObject> IsolatedObjects { get; set; }
+        public DbSet<MailAccountModel> MailAccounts { get; set; }
+        public DbSet<MailContactModel> MailContacts { get; set; }
+        public DbSet<MailboxModel> Mailboxes { get; set; }
     }
 }

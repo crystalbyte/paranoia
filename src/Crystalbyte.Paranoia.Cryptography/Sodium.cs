@@ -21,16 +21,17 @@ namespace Crystalbyte.Paranoia.Cryptography {
 
         public static string Version {
             get {
-                var handle = NativeMethods.SodiumVersionString();
+                var handle = SafeNativeMethods.SodiumVersionString();
                 return Marshal.PtrToStringAnsi(handle);
             }
         }
 
         private static class NativeMethods {
-
             [DllImport(Library.Kernel32)]
             public static extern IntPtr LoadLibraryEx(string lpFileName, IntPtr hFile, uint dwFlags);
+        }
 
+        private static class SafeNativeMethods {
             [DllImport(Library.Sodium, EntryPoint = "sodium_version_string")]
             public static extern IntPtr SodiumVersionString();
         }

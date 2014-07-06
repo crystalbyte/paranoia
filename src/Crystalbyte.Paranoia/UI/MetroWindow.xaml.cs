@@ -111,8 +111,9 @@ namespace Crystalbyte.Paranoia.UI {
 
             var window = (MetroWindow) d;
             var account  = accounts.First();
-            account.ClearContacts();
-            await account.LoadContactsAsync();
+            account.Clear();
+
+            await account.UpdateAsync();
             window.SelectedAccount = account;
         }
 

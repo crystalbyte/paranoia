@@ -11,6 +11,10 @@ namespace Crystalbyte.Paranoia.Data {
             const string blob = "BLOB";
             const string real = "REAL";
 
+            if (type.IsEnum) {
+                return integer;
+            }
+
             var types = new Dictionary<Type, string> {
                 {typeof (Int32), integer},
                 {typeof (Int64), integer},

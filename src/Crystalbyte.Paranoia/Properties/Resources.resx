@@ -126,8 +126,14 @@
   <data name="DeclaringTypeNull" xml:space="preserve">
     <value>DeclaringType of table property must not be null.</value>
   </data>
+  <data name="DraftMailbox" xml:space="preserve">
+    <value>Draft</value>
+  </data>
   <data name="ExpressionNotProperty" xml:space="preserve">
     <value>Expression is not a property.</value>
+  </data>
+  <data name="InboxMailbox" xml:space="preserve">
+    <value>Inbox</value>
   </data>
   <data name="MaximizeCommandTooltip" xml:space="preserve">
     <value>Maximize</value>
@@ -143,6 +149,12 @@
   </data>
   <data name="RestoreDownCommandTooltip" xml:space="preserve">
     <value>Restore Down</value>
+  </data>
+  <data name="SentMailbox" xml:space="preserve">
+    <value>Sent</value>
+  </data>
+  <data name="TrashMailbox" xml:space="preserve">
+    <value>Trash</value>
   </data>
   <data name="TypeNotSupportedTemplate" xml:space="preserve">
     <value>The type {0} is not supported by the database.</value>

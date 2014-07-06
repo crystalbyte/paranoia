@@ -6,7 +6,7 @@ using System.Windows;
 using Crystalbyte.Paranoia.Properties;
 
 namespace Crystalbyte.Paranoia.Data {
-    public sealed class SQLiteDatabaseInitializer<T> : IDatabaseInitializer<T> where T : DbContext {
+    internal sealed class SQLiteDatabaseInitializer<T> : IDatabaseInitializer<T> where T : DbContext {
         public void InitializeDatabase(T context) {
             var c = context.Database.Connection.ConnectionString;
             var reader = new SQLiteConnectionStringReader(c);

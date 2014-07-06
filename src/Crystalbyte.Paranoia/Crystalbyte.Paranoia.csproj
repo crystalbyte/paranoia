@@ -107,20 +107,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Contexts\MailboxContext.cs" />
     <Compile Include="Contexts\MailContactContext.cs" />
     <Compile Include="Contexts\AppContext.cs" />
-    <Compile Include="Contexts\MailContext.cs" />
+    <Compile Include="Contexts\MailMessageContext.cs" />
     <Compile Include="Contexts\MailAccountContext.cs" />
     <Compile Include="Contexts\SelectionObject.cs" />
+    <Compile Include="Data\MailboxModel.cs" />
     <Compile Include="Data\TypeExtensions.cs" />
     <Compile Include="Data\SQLiteConnectionStringReader.cs" />
-    <Compile Include="Data\MailContact.cs" />
+    <Compile Include="Data\MailContactModel.cs" />
     <Compile Include="Data\SQLiteDatabaseInitializer.cs" />
     <Compile Include="Data\SQLiteModelAnalyzer.cs" />
     <Compile Include="Data\DatabaseContext.cs" />
-    <Compile Include="Data\MailAccount.cs" />
-    <Compile Include="Data\IsolatedObject.cs" />
+    <Compile Include="Data\MailAccountModel.cs" />
     <Compile Include="Gravatar.cs" />
+    <Compile Include="MailboxType.cs" />
     <Compile Include="MailAccountSelectionSource.cs" />
     <Compile Include="Contexts\NotificationObject.cs" />
     <Compile Include="MailContactSelectionSource.cs" />
@@ -143,8 +145,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UI\Converters\BooleanToBrushConverter.cs" />
     <Compile Include="UI\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\GravatarImageConverter.cs" />
+    <Compile Include="UI\Converters\MailboxLocalizer.cs" />
     <Compile Include="UI\MetroWindow.xaml.cs">
       <DependentUpon>MetroWindow.xaml</DependentUpon>
     </Compile>

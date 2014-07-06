@@ -1,33 +1,73 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
+using Crystalbyte.Paranoia.Mail;
 
 namespace Crystalbyte.Paranoia {
 
     public sealed class MailAccountContext : SelectionObject {
-        private readonly MailAccount _account;
+        private readonly MailAccountModel _account;
         private readonly ObservableCollection<MailContactContext> _contacts;
+        private readonly ObservableCollection<ImapMailboxContext> _mailboxes;
+        private Exception _lastException;
 
-        public MailAccountContext(MailAccount account) {
+        internal MailAccountContext(MailAccountModel account) {
             _account = account;
             _contacts = new ObservableCollection<MailContactContext>();
+            _mailboxes = new ObservableCollection<ImapMailboxContext>();
         }
 
         protected async override void OnSelectionChanged() {
             base.OnSelectionChanged();
 
-            ClearContacts();
+            Clear();
             if (!IsSelected)
                 return;
 
-            await LoadContactsAsync();
+            await UpdateAsync();
         }
 
-        internal void ClearContacts() {
+        public async Task UpdateAsync() {
+            await LoadContactsAsync();
+            await LoadMailboxesAsync();
+            await SyncMailboxesAsync();
+        }
+
+        internal void Clear() {
+            _mailboxes.Clear();
             _contacts.Clear();
+            _mailboxes.Clear();
+        }
+
+        internal async Task SyncMailboxesAsync() {
+            var mailboxes = _mailboxes.ToArray();
+            using (var connection = new ImapConnection { Security = ImapSecurity }) {
+                using (var auth = await connection.ConnectAsync(ImapHost, ImapPort)) {
+                    using (var session = await auth.LoginAsync(ImapUsername, ImapPassword)) {
+                        var remoteMailboxes = await session.ListAsync("", "%");
+
+                        foreach (var mailbox in mailboxes.AsParallel()) {
+                            if (!mailbox.IsAssigned) {
+                                await mailbox.AssignMostProbableAsync(remoteMailboxes);
+                            }
+                            //await mailbox.SyncAsync();
+                        }
+                    }
+                }
+            }
+        }
+
+        internal async Task LoadMailboxesAsync() {
+            var mailboxes = await Task.Factory.StartNew(() => {
+                using (var context = new DatabaseContext()) {
+                    context.MailAccounts.Attach(_account);
+                    return _account.Mailboxes.ToArray();
+                }
+            });
+            _mailboxes.AddRange(mailboxes.Select(x => new ImapMailboxContext(x)));
         }
 
         internal async Task LoadContactsAsync() {
@@ -64,8 +104,84 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public string ImapHost {
+            get { return _account.ImapHost; }
+            set {
+                if (_account.ImapHost == value) {
+                    return;
+                }
+
+                _account.ImapHost = value;
+                RaisePropertyChanged(() => ImapHost);
+            }
+        }
+
+        public short ImapPort {
+            get { return _account.ImapPort; }
+            set {
+                if (_account.ImapPort == value) {
+                    return;
+                }
+
+                _account.ImapPort = value;
+                RaisePropertyChanged(() => ImapPort);
+            }
+        }
+
+        public string ImapUsername {
+            get { return _account.ImapUsername; }
+            set {
+                if (_account.ImapUsername == value) {
+                    return;
+                }
+
+                _account.ImapUsername = value;
+                RaisePropertyChanged(() => ImapUsername);
+            }
+        }
+
+        public string ImapPassword {
+            get { return _account.ImapPassword; }
+            set {
+                if (_account.ImapPassword == value) {
+                    return;
+                }
+
+                _account.ImapPassword = value;
+                RaisePropertyChanged(() => ImapPassword);
+            }
+        }
+
+        public SecurityPolicy ImapSecurity {
+            get { return _account.ImapSecurity; }
+            set {
+                if (_account.ImapSecurity == value) {
+                    return;
+                }
+
+                _account.ImapSecurity = value;
+                RaisePropertyChanged(() => ImapSecurity);
+            }
+        }
+
+        public Exception LastException {
+            get { return _lastException; }
+            set {
+                if (_lastException == value) {
+                    return;
+                }
+
+                _lastException = value;
+                RaisePropertyChanged(() => LastException);
+            }
+        }
+
         public IEnumerable<MailContactContext> Contacts {
             get { return _contacts; }
+        }
+
+        public IEnumerable<ImapMailboxContext> Mailboxes {
+            get { return _mailboxes; }
         }
     }
 }

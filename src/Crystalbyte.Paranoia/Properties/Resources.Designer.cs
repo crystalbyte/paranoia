@@ -88,11 +88,29 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Draft.
+        /// </summary>
+        public static string DraftMailbox {
+            get {
+                return ResourceManager.GetString("DraftMailbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expression is not a property..
         /// </summary>
         public static string ExpressionNotProperty {
             get {
                 return ResourceManager.GetString("ExpressionNotProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inbox.
+        /// </summary>
+        public static string InboxMailbox {
+            get {
+                return ResourceManager.GetString("InboxMailbox", resourceCulture);
             }
         }
         
@@ -138,6 +156,24 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string RestoreDownCommandTooltip {
             get {
                 return ResourceManager.GetString("RestoreDownCommandTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sent.
+        /// </summary>
+        public static string SentMailbox {
+            get {
+                return ResourceManager.GetString("SentMailbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trash.
+        /// </summary>
+        public static string TrashMailbox {
+            get {
+                return ResourceManager.GetString("TrashMailbox", resourceCulture);
             }
         }
         

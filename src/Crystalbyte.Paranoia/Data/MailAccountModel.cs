@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Crystalbyte.Paranoia.Mail;
 
 namespace Crystalbyte.Paranoia.Data {
     [Table("mail_account")]
-    public class MailAccount {
-        private ICollection<MailContact> _contacts;
+    public class MailAccountModel {
+        private ICollection<MailContactModel> _contacts;
+        private ICollection<MailboxModel> _mailboxes;
 
-        public MailAccount() {
-            _contacts = new Collection<MailContact>();
+        public MailAccountModel() {
+            _contacts = new Collection<MailContactModel>();
+            _mailboxes = new Collection<MailboxModel>();
         }
 
         [Key]
@@ -36,7 +39,7 @@ namespace Crystalbyte.Paranoia.Data {
         public string ImapPassword { get; set; }
 
         [Column("imap_security")]
-        public byte ImapSecurity { get; set; }
+        public SecurityPolicy ImapSecurity { get; set; }
 
         [Column("smtp_host")]
         public string SmtpHost { get; set; }
@@ -51,7 +54,7 @@ namespace Crystalbyte.Paranoia.Data {
         public string SmtpPassword { get; set; }
 
         [Column("smtp_security")]
-        public byte SmtpSecurity { get; set; }
+        public SecurityPolicy SmtpSecurity { get; set; }
 
         [Column("smtp_require_auth")]
         public bool SmtpRequiresAuthentication { get; set; }
@@ -59,9 +62,14 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("use_imap_credentials")]
         public bool UseImapCredentialsForSmtp { get; set; }
 
-        public virtual ICollection<MailContact> Contacts {
+        public virtual ICollection<MailContactModel> Contacts {
             get { return _contacts; }
             set { _contacts = value; }
+        }
+
+        public virtual ICollection<MailboxModel> Mailboxes {
+            get { return _mailboxes; }
+            set { _mailboxes = value; }
         }
     }
 }

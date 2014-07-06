@@ -46,27 +46,40 @@ namespace Crystalbyte.Paranoia {
                 if (accounts.Length != 0)
                     return;
 
-                var account = new MailAccount {
-                    Name = "Paranoia Dev Team",
+                var account = new MailAccountModel {
+                    Name = "Paranoia Test Account",
                     Address = "paranoia.app@gmail.com",
                     ImapUsername = "paranoia.app@gmail.com",
                     ImapPassword = "p4r4n014",
                     ImapHost = "imap.gmail.com",
                     ImapPort = 993,
-                    ImapSecurity = (byte)SecurityPolicy.Explicit,
+                    ImapSecurity = SecurityPolicy.Implicit,
                     SmtpHost = "smtp.gmail.com",
                     SmtpPort = 465,
-                    SmtpSecurity = (byte)SecurityPolicy.Explicit,
+                    SmtpSecurity = SecurityPolicy.Implicit,
                     UseImapCredentialsForSmtp = true,
                     SmtpRequiresAuthentication = true,
                 };
 
                 for (var i = 0; i < 20; i++) {
-                    account.Contacts.Add(new MailContact {
+                    account.Contacts.Add(new MailContactModel {
                         Name = string.Format("Paranoia Contact #{0}", i),
                         Address = "paranoia.app.c1@gmail.com"
                     });
                 }
+
+                account.Mailboxes.Add(new MailboxModel {
+                    Type = MailboxType.Inbox
+                });
+                account.Mailboxes.Add(new MailboxModel {
+                    Type = MailboxType.Trash
+                });
+                account.Mailboxes.Add(new MailboxModel {
+                    Type = MailboxType.Sent
+                });
+                account.Mailboxes.Add(new MailboxModel {
+                    Type = MailboxType.Draft
+                });
 
                 context.MailAccounts.Add(account);
 
@@ -85,7 +98,6 @@ namespace Crystalbyte.Paranoia {
             AppDomain.CurrentDomain.SetData("DataDirectory", directory);
 
             Sodium.InitNativeLibrary();
-            var version = Sodium.Version;
         }
 
         private void Compose() {

@@ -12,6 +12,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />
+            <converters:MailboxLocalizer x:Key="MailboxLocalizer" />
 
             <FontFamily x:Key="AppFontFamily">Segoe UI</FontFamily>
 
@@ -21,7 +22,6 @@
             <system:Double x:Key="AppNormalFontSize">12</system:Double>
             <system:Double x:Key="AppSmallFontSize">10</system:Double>
             <system:Double x:Key="AppExtraSmallFontSize">8</system:Double>
-
 
             <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}" Color="BlueViolet" />
             <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowButtonHoverBrush}" Color="#3E3E40" />
@@ -34,6 +34,7 @@
             <SolidColorBrush x:Key="AppDarkTextBrush" Color="#333" />
             <SolidColorBrush x:Key="AppLightControlBrush" Color="LightGray" />
             <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#FF141414" />
+            <SolidColorBrush x:Key="WindowLightBackgroundBrush" Color="#2A2A2C" />
             <SolidColorBrush x:Key="WindowButtonBorderBrush" Color="Transparent" />
             <SolidColorBrush x:Key="WindowButtonBackgroundBrush" Color="Transparent" />
 
