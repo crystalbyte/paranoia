@@ -53,5 +53,10 @@ namespace Crystalbyte.Paranoia {
             var source = App.Composition.GetExport<MailContactSelectionSource>();
             source.Selection = e.AddedItems.OfType<MailContactContext>();
         }
+
+        private void OnMailboxSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            var source = App.Composition.GetExport<MailboxSelectionSource>();
+            source.Selection = e.AddedItems.OfType<MailboxContext>();
+        }
     }
 }

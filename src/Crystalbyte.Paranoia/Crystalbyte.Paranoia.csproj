@@ -114,6 +114,7 @@
     <Compile Include="Contexts\MailAccountContext.cs" />
     <Compile Include="Contexts\SelectionObject.cs" />
     <Compile Include="Data\MailboxModel.cs" />
+    <Compile Include="Data\MailMessageModel.cs" />
     <Compile Include="Data\TypeExtensions.cs" />
     <Compile Include="Data\SQLiteConnectionStringReader.cs" />
     <Compile Include="Data\MailContactModel.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Data\DatabaseContext.cs" />
     <Compile Include="Data\MailAccountModel.cs" />
     <Compile Include="Gravatar.cs" />
+    <Compile Include="MailboxSelectionSource.cs" />
     <Compile Include="MailboxType.cs" />
     <Compile Include="MailAccountSelectionSource.cs" />
     <Compile Include="Contexts\NotificationObject.cs" />

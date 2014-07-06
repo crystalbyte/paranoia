@@ -11,13 +11,13 @@ namespace Crystalbyte.Paranoia {
     public sealed class MailAccountContext : SelectionObject {
         private readonly MailAccountModel _account;
         private readonly ObservableCollection<MailContactContext> _contacts;
-        private readonly ObservableCollection<ImapMailboxContext> _mailboxes;
+        private readonly ObservableCollection<MailboxContext> _mailboxes;
         private Exception _lastException;
 
         internal MailAccountContext(MailAccountModel account) {
             _account = account;
             _contacts = new ObservableCollection<MailContactContext>();
-            _mailboxes = new ObservableCollection<ImapMailboxContext>();
+            _mailboxes = new ObservableCollection<MailboxContext>();
         }
 
         protected async override void OnSelectionChanged() {
@@ -53,7 +53,7 @@ namespace Crystalbyte.Paranoia {
                             if (!mailbox.IsAssigned) {
                                 await mailbox.AssignMostProbableAsync(remoteMailboxes);
                             }
-                            //await mailbox.SyncAsync();
+                            await mailbox.SyncAsync();
                         }
                     }
                 }
@@ -67,7 +67,7 @@ namespace Crystalbyte.Paranoia {
                     return _account.Mailboxes.ToArray();
                 }
             });
-            _mailboxes.AddRange(mailboxes.Select(x => new ImapMailboxContext(x)));
+            _mailboxes.AddRange(mailboxes.Select(x => new MailboxContext(x)));
         }
 
         internal async Task LoadContactsAsync() {
@@ -180,7 +180,7 @@ namespace Crystalbyte.Paranoia {
             get { return _contacts; }
         }
 
-        public IEnumerable<ImapMailboxContext> Mailboxes {
+        public IEnumerable<MailboxContext> Mailboxes {
             get { return _mailboxes; }
         }
     }

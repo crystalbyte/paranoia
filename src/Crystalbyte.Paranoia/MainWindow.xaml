@@ -115,6 +115,7 @@
                                             RelativeSource={RelativeSource FindAncestor,
                                                                            AncestorType=ui:MetroWindow}}"
                       ItemsSource="{Binding Mailboxes}"
+                      SelectionChanged="OnMailboxSelectionChanged"
                       d:DataContext="{d:DesignInstance paranoia:MailAccountContext}">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
@@ -165,16 +166,13 @@
               Grid.Column="2">
             <ListView Background="{StaticResource WindowLightBackgroundBrush}"
                       BorderThickness="0"
-                      DataContext="{Binding SelectedAccount,
-                                            RelativeSource={RelativeSource FindAncestor,
-                                                                           AncestorType=ui:MetroWindow}}"
-                      ItemsSource="{Binding Mailboxes}"
-                      d:DataContext="{d:DesignInstance paranoia:MailAccountContext}">
+                      ItemsSource="{Binding MessagesSource}">
                 <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
+                    <Style TargetType="ListViewItem" d:DataContext="{d:DesignInstance paranoia:MailMessageContext}">
                         <Setter Property="Margin" Value="0" />
                         <Setter Property="Padding" Value="2" />
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                        <Setter Property="ToolTip" Value="{Binding Subject}" />
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemsPanel>
@@ -183,7 +181,7 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate DataType="paranoia:MailMessageContext">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -193,22 +191,32 @@
                                    Grid.Column="0"
                                    Width="24"
                                    HorizontalAlignment="Left"
-                                   Source="/Assets/folder.png"
-                                   ToolTip="{Binding Name}" />
-                            <TextBlock Grid.Column="1"
-                                       VerticalAlignment="Center"
-                                       FontSize="{StaticResource AppSmallFontSize}"
-                                       Style="{StaticResource AppNormalTextStyle}"
-                                       Text="{Binding Type,
-                                                      Converter={StaticResource MailboxLocalizer}}">
-                                <TextBlock.Foreground>
-                                    <Binding Path="IsAssigned">
+                                   VerticalAlignment="Center"
+                                   Source="{Binding FromAddress,
+                                                    IsAsync=True,
+                                                    Converter={StaticResource GravatarImageConverter}}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock HorizontalAlignment="Left"
+                                           Style="{StaticResource AppNormalTextStyle}"
+                                           Text="{Binding Subject}"
+                                           TextTrimming="CharacterEllipsis"
+                                           TextWrapping="NoWrap">
+                                    <!--
+                                        <TextBlock.Foreground>
+                                        <Binding Path="IsAssigned">
                                         <Binding.Converter>
-                                            <converters:BooleanToBrushConverter BrushForFalse="{StaticResource AppControlBrush}" BrushForTrue="{StaticResource AppLightTextBrush}" />
+                                        <converters:BooleanToBrushConverter BrushForFalse="{StaticResource AppControlBrush}" BrushForTrue="{StaticResource AppLightTextBrush}" />
                                         </Binding.Converter>
-                                    </Binding>
-                                </TextBlock.Foreground>
-                            </TextBlock>
+                                        </Binding>
+                                        </TextBlock.Foreground>
+                                    -->
+                                </TextBlock>
+                                <TextBlock HorizontalAlignment="Left"
+                                           FontSize="{StaticResource AppSmallFontSize}"
+                                           Style="{StaticResource AppSubtitleTextStyle}"
+                                           Text="{Binding FromName}" />
+                            </StackPanel>
+
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -219,8 +227,7 @@
                       Grid.Column="3"
                       Width="4"
                       HorizontalAlignment="Center"
-                      VerticalAlignment="Stretch"
-                       />
+                      VerticalAlignment="Stretch" />
         <Grid Grid.Row="0"
               Grid.RowSpan="2"
               Grid.Column="4"

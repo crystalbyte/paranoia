@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,11 +8,12 @@ using Crystalbyte.Paranoia.Mail;
 using System.Collections.Generic;
 
 namespace Crystalbyte.Paranoia {
-    public sealed class ImapMailboxContext : SelectionObject {
-        private readonly MailboxModel _mailbox;
+    public sealed class MailboxContext : SelectionObject {
         private Exception _lastException;
+        private readonly MailboxModel _mailbox;
+        private IEnumerable<MailMessageContext> _messages;
 
-        internal ImapMailboxContext(MailboxModel mailbox) {
+        internal MailboxContext(MailboxModel mailbox) {
             _mailbox = mailbox;
         }
 
@@ -39,6 +41,17 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public IEnumerable<MailMessageContext> Messages {
+            get { return _messages; }
+            set {
+                if (_messages == value) {
+                    return;
+                }
+                _messages = value;
+                RaisePropertyChanged(() => Messages);
+            }
+        }
+
         public bool IsAssigned {
             get { return !string.IsNullOrEmpty(Name); }
         }
@@ -47,8 +60,111 @@ namespace Crystalbyte.Paranoia {
             get { return _mailbox.Type; }
         }
 
-        internal Task SyncAsync() {
-            throw new NotImplementedException();
+        private Task<MailAccountModel> GetAccountAsync() {
+            return Task.Factory.StartNew(() => {
+                using (var context = new DatabaseContext()) {
+                    context.Mailboxes.Attach(_mailbox);
+                    return _mailbox.Account;
+                }
+            });
+        }
+
+        protected async override void OnSelectionChanged() {
+            base.OnSelectionChanged();
+
+            await SyncAsync();
+        }
+
+        internal async Task SyncAsync() {
+            if (!IsAssigned) {
+                return;
+            }
+
+            try {
+                var name = _mailbox.Name;
+                var maxUid = await GetMaxUidAsync();
+                var account = await GetAccountAsync();
+
+                var messages = new List<MailMessageModel>();
+
+                using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
+                    using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
+                        using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
+                            var mailbox = await session.SelectAsync(name);
+
+                            var criteria = string.Format("{0}:*", maxUid);
+                            var uids = await mailbox.SearchAsync(criteria);
+
+                            var envelopes = (await mailbox.FetchEnvelopesAsync(uids)).ToArray();
+                            if (envelopes.Length == 0) {
+                                return;
+                            }
+
+                            messages.AddRange(envelopes.Select(envelope => new MailMessageModel {
+                                EntryDate = envelope.InternalDate.HasValue
+                                    ? envelope.InternalDate.Value
+                                    : DateTime.Now,
+                                Subject = envelope.Subject,
+                                Uid = envelope.Uid,
+                                MessageId = envelope.MessageId,
+                                FromAddress = envelope.From.Any()
+                                    ? envelope.From.First().Address
+                                    : string.Empty,
+                                FromName = envelope.From.Any()
+                                    ? envelope.From.First().DisplayName
+                                    : string.Empty
+                            }));
+                        }
+                    }
+                }
+
+                await SaveMessagesToDatabaseAsync(messages);
+                await LoadMessagesFromDatabaseAsync();
+
+                if (IsSelected) {
+                    var app = App.Composition.GetExport<AppContext>();
+                    app.UpdateMessages();
+                }
+
+            } catch (Exception ex) {
+                LastException = ex;
+            }
+        }
+
+        private async Task LoadMessagesFromDatabaseAsync() {
+            try {
+                var messages = await Task.Factory.StartNew(() => {
+                    using (var context = new DatabaseContext()) {
+                        context.Mailboxes.Attach(_mailbox);
+                        return _mailbox.Messages.ToArray();
+                    }
+                });
+
+                Messages = new ObservableCollection<MailMessageContext>(
+                    messages.Select(x => new MailMessageContext(x)));
+            } catch (Exception ex) {
+                LastException = ex;
+            }
+        }
+
+        private async Task SaveMessagesToDatabaseAsync(IEnumerable<MailMessageModel> messages) {
+            using (var context = new DatabaseContext()) {
+                context.Mailboxes.Attach(_mailbox);
+                _mailbox.Messages.AddRange(messages);
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        private Task<Int64> GetMaxUidAsync() {
+            return Task.Factory.StartNew(() => {
+                using (var context = new DatabaseContext()) {
+                    context.Mailboxes.Attach(_mailbox);
+                    return !_mailbox.Messages.Any()
+                        ? 1
+                        : _mailbox.Messages.Max(x => x.Uid);
+                }
+            });
         }
 
         internal async Task AssignMostProbableAsync(List<ImapMailboxInfo> remoteMailboxes) {
@@ -94,8 +210,7 @@ namespace Crystalbyte.Paranoia {
 
                     await context.SaveChangesAsync();
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 LastException = ex;
             }
         }
