@@ -5,17 +5,10 @@ using System.Composition;
 using System.Composition.Hosting;
 using System.Configuration;
 using System.Data.Entity;
-using System.Data.SqlClient;
-using System.Data.SQLite;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Windows;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
-using Crystalbyte.Paranoia.UI;
 
 #endregion
 
@@ -96,7 +89,6 @@ namespace Crystalbyte.Paranoia {
 
             var directory = Environment.ExpandEnvironmentVariables(location);
             AppDomain.CurrentDomain.SetData("DataDirectory", directory);
-
             Sodium.InitNativeLibrary();
         }
 

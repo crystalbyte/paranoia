@@ -73,7 +73,7 @@ namespace Crystalbyte.Paranoia {
             base.OnSelectionChanged();
 
             if (IsSelected) {
-                await SyncAsync();    
+                await SyncAsync();
             }
         }
 

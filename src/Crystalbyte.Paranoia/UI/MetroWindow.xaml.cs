@@ -91,46 +91,15 @@ namespace Crystalbyte.Paranoia.UI {
         public static readonly DependencyProperty HoverBrushProperty =
             DependencyProperty.Register("HoverBrush", typeof(Brush), typeof(MetroWindow), new PropertyMetadata(null));
 
-        public object AccountsSource {
-            get { return GetValue(AccountsSourceProperty); }
-            set { SetValue(AccountsSourceProperty, value); }
+        public string SearchText {
+            get { return (string)GetValue(SearchTextProperty); }
+            set { SetValue(SearchTextProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for AccountsSource.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty AccountsSourceProperty =
-            DependencyProperty.Register("AccountsSource", typeof(object), typeof(MetroWindow), new PropertyMetadata(OnAccountsSourceChanged));
-
-        private async static void OnAccountsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var accounts = e.NewValue as IList<MailAccountContext>;
-            if (accounts == null) {
-                return;
-            }
-
-            if (accounts.Count <= 0)
-                return;
-
-            var window = (MetroWindow) d;
-            var account  = accounts.First();
-            account.Clear();
-
-            await account.UpdateAsync();
-            window.SelectedAccount = account;
-        }
-
-        public object SelectedAccount {
-            get { return GetValue(SelectedAccountProperty); }
-            set { SetValue(SelectedAccountProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for SelectedAccount.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SelectedAccountProperty =
-            DependencyProperty.Register("SelectedAccount", typeof(object), typeof(MetroWindow), new PropertyMetadata(OnSelectedAccountChanged));
-
-        private static void OnSelectedAccountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var source = App.Composition.GetExport<MailAccountSelectionSource>();
-            source.Selection = new[] { e.NewValue as MailAccountContext };
-        }
-
+        // Using a DependencyProperty as the backing store for SearchText.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SearchTextProperty =
+            DependencyProperty.Register("SearchText", typeof(string), typeof(MetroWindow), new PropertyMetadata(string.Empty));
+       
         #endregion
 
         #region Event Handlers

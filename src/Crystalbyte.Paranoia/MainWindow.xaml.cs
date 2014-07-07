@@ -1,7 +1,7 @@
 ﻿#region Using directives
 
 using System;
-using System.Collections.ObjectModel;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,9 +28,7 @@ namespace Crystalbyte.Paranoia {
 
         protected async override void OnInitialized(EventArgs e) {
             base.OnInitialized(e);
-
             await App.Context.RunAsync();
-            AccountsSource = App.Context.Accounts;
         }
 
         #endregion
@@ -47,6 +45,11 @@ namespace Crystalbyte.Paranoia {
 
         private void HookEntropyGenerator() {
             var helper = new WindowInteropHelper(this);
+        }
+
+        private void OnAccountsSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            var source = App.Composition.GetExport<MailAccountSelectionSource>();
+            source.Selection = e.AddedItems.OfType<MailAccountContext>();
         }
 
         private void OnContactsSelectionChanged(object sender, SelectionChangedEventArgs e) {

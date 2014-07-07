@@ -7,7 +7,6 @@ namespace Crystalbyte.Paranoia.UI.Converters {
 
     [ValueConversion(typeof(bool), typeof(Visibility))]
     public sealed class BooleanToVisibilityConverter : IValueConverter {
-
         #region Implementation of IValueConverter
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {

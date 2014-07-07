@@ -69,7 +69,7 @@
                                     <Image Grid.Column="0"
                                            Height="20"
                                            Margin="8"
-                                           RenderOptions.BitmapScalingMode="Fant"
+                                           RenderOptions.BitmapScalingMode="HighQuality"
                                            Source="{TemplateBinding Icon}"
                                            Stretch="Uniform" />
 
@@ -79,27 +79,12 @@
                                                Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                                                              ResourceId=WindowTitleStyle}}"
                                                Text="{TemplateBinding Title}" />
-                                    <ComboBox Grid.Column="2"
-                                              ItemsSource="{TemplateBinding AccountsSource}"
-                                              SelectedValue="{Binding SelectedAccount,
-                                                                      Mode=TwoWay,
-                                                                      RelativeSource={RelativeSource TemplatedParent}}"
-                                              Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
-                                                                                            ResourceId=WindowAccountsComboBoxStyle}}">
-                                        <ComboBox.ItemContainerStyle>
-                                            <Style TargetType="ComboBoxItem">
-                                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                                            </Style>
-                                        </ComboBox.ItemContainerStyle>
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate DataType="paranoia:MailAccountContext">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Image Height="16" Source="{Binding Address, IsAsync=True, Converter={StaticResource GravatarImageConverter}}" />
-                                                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
+                                    <TextBox Grid.Column="2"
+                                             HorizontalAlignment="Right"
+                                             Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
+                                                                                           ResourceId=WindowTextBoxStyle}}"
+                                             Text="{Binding SearchText,
+                                                            RelativeSource={RelativeSource TemplatedParent}}" />
                                     <Button Grid.Column="3" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=HelpButtonStyle}}" />
                                     <Button Grid.Column="4" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=MinimizeButtonStyle}}" />
                                     <Button Grid.Column="5"

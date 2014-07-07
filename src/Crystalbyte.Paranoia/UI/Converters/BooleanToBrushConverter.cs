@@ -8,6 +8,7 @@ namespace Crystalbyte.Paranoia.UI.Converters {
     public sealed class BooleanToBrushConverter : IValueConverter {
 
         public Brush BrushForTrue { get; set; }
+
         public Brush BrushForFalse { get; set; }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
