@@ -155,6 +155,7 @@
     <Compile Include="UI\Converters\GravatarImageConverter.cs" />
     <Compile Include="UI\Converters\IgnoreLinebreaksConverter.cs" />
     <Compile Include="UI\Converters\MailboxLocalizer.cs" />
+    <Compile Include="UI\Focus.cs" />
     <Compile Include="UI\MetroWindow.xaml.cs">
       <DependentUpon>MetroWindow.xaml</DependentUpon>
     </Compile>

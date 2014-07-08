@@ -135,7 +135,8 @@ namespace Crystalbyte.Paranoia {
         public async Task RunAsync() {
             await LoadAccountsAsync();
             if (Accounts.Count > 0) {
-                MailAccountSelectionSource.Selection = new[] { Accounts.First() };
+                Accounts.First().IsSelected = true;
+                //MailAccountSelectionSource.Selection = new[] { Accounts.First() };
             }
         }
 

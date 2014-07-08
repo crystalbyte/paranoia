@@ -247,7 +247,6 @@
                                                 Mode=TwoWay}"
                                Placement="Center"
                                PlacementTarget="{Binding ElementName=MailboxLayoutRoot}"
-                               StaysOpen="False"
                                VerticalOffset="320">
                             <StackPanel Width="300"
                                         Height="600"
@@ -255,11 +254,12 @@
                                 <StackPanel.Effect>
                                     <DropShadowEffect />
                                 </StackPanel.Effect>
-                                <Polygon Fill="{StaticResource WindowBackgroundBrush}"
+                                <Polygon Fill="{StaticResource WindowLightBackgroundBrush}"
                                          Points="150 0 140 12 160 12"
                                          Stroke="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                                                         ResourceId=AppAccentBrush}}" />
-                                <Border Background="{StaticResource WindowLightBackgroundBrush}"
+                                <Border Margin="0,-1,0,0"
+                                        Background="{StaticResource WindowLightBackgroundBrush}"
                                         BorderBrush="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                                                             ResourceId=AppAccentBrush}}"
                                         BorderThickness="1">
@@ -269,44 +269,58 @@
                                             <RowDefinition Height="*" />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
-                                        <StackPanel Margin="6,6,6,0">
+                                        <Rectangle Grid.Row="0"
+                                                   Width="18.5"
+                                                   Height="2"
+                                                   Margin="0,-1.4,0,0"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Top"
+                                                   Panel.ZIndex="500"
+                                                   Fill="{StaticResource WindowLightBackgroundBrush}"
+                                                   RenderOptions.EdgeMode="Aliased"
+                                                   StrokeThickness="0" />
+                                        <StackPanel Grid.Row="0"
+                                                    Margin="6,6,6,0"
+                                                    Panel.ZIndex="250">
                                             <TextBlock Style="{StaticResource AppTitleTextStyle}" Text="{Binding Type, Converter={StaticResource MailboxLocalizer}}" />
                                             <TextBlock FontSize="{StaticResource AppSmallFontSize}"
                                                        Style="{StaticResource AppSubtitleTextStyle}"
                                                        Text="{x:Static properties:Resources.MailboxAssignmentDescription}" />
                                         </StackPanel>
                                         <StackPanel Grid.Row="1"
-                                                    Margin="0,12,0,12"
+                                                    Margin="0,12,0,6"
                                                     Background="{StaticResource WindowBackgroundBrush}">
-                                            <TreeView x:Name="CandidatesView"
-                                                      MinHeight="200"
-                                                      Margin="6,0,6,0"
-                                                      Background="{StaticResource WindowBackgroundBrush}"
-                                                      BorderThickness="0"
-                                                      ItemsSource="{Binding MailboxCandidates}"
-                                                      SelectedValuePath="Info">
-                                                <TreeView.ItemContainerStyle>
-                                                    <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                                    <Style TargetType="TreeViewItem">
-                                                        <Setter Property="IsSelected" Value="{Binding IsSelected}" />
-                                                        <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
-                                                    </Style>
-                                                    <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
-                                                </TreeView.ItemContainerStyle>
-                                                <TreeView.ItemTemplate>
-                                                    <HierarchicalDataTemplate DataType="paranoia:MailboxCandidateContext" ItemsSource="{Binding Children}">
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Image Width="20"
-                                                                   VerticalAlignment="Center"
-                                                                   RenderOptions.BitmapScalingMode="HighQuality"
-                                                                   Source="Assets/folder.png" />
-                                                            <TextBlock VerticalAlignment="Center"
-                                                                       Style="{StaticResource AppNormalTextStyle}"
-                                                                       Text="{Binding Name}" />
-                                                        </StackPanel>
-                                                    </HierarchicalDataTemplate>
-                                                </TreeView.ItemTemplate>
-                                            </TreeView>
+                                            <Border Padding="6">
+                                                <TreeView x:Name="CandidatesView"
+                                                          MinHeight="200"
+                                                          Background="{StaticResource WindowBackgroundBrush}"
+                                                          BorderThickness="0"
+                                                          ItemsSource="{Binding MailboxCandidates}"
+                                                          SelectedValuePath="Info">
+                                                    <TreeView.ItemContainerStyle>
+                                                        <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
+                                                        <Style TargetType="TreeViewItem">
+                                                            <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                                                            <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+                                                        </Style>
+                                                        <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
+                                                    </TreeView.ItemContainerStyle>
+                                                    <TreeView.ItemTemplate>
+                                                        <HierarchicalDataTemplate DataType="paranoia:MailboxCandidateContext" ItemsSource="{Binding Children}">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Image Width="20"
+                                                                       VerticalAlignment="Center"
+                                                                       RenderOptions.BitmapScalingMode="HighQuality"
+                                                                       Source="Assets/folder.png" />
+                                                                <TextBlock VerticalAlignment="Center"
+                                                                           Style="{StaticResource AppNormalTextStyle}"
+                                                                           Text="{Binding Name}" />
+                                                            </StackPanel>
+                                                        </HierarchicalDataTemplate>
+                                                    </TreeView.ItemTemplate>
+                                                </TreeView>
+                                            </Border>
+
                                         </StackPanel>
                                         <Button Grid.Row="2"
                                                 Margin="6,0,6,6"
