@@ -15,7 +15,6 @@ namespace Crystalbyte.Paranoia {
                 .GroupBy(x => x.Index % count)
                 .Select(x => x.Select(y => y.Value).ToArray())
                 .ToArray();
-
         }
 
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action) {

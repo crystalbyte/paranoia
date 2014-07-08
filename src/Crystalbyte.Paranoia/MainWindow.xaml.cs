@@ -5,6 +5,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
 
 #endregion
@@ -53,13 +54,15 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnContactsSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            var selector = (ListView)sender;
             var source = App.Composition.GetExport<MailContactSelectionSource>();
-            source.Selection = e.AddedItems.OfType<MailContactContext>();
+            source.Selection = selector.SelectedItems.OfType<MailContactContext>().ToArray();
         }
 
         private void OnMailboxSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            var selector = (ListView)sender;
             var source = App.Composition.GetExport<MailboxSelectionSource>();
-            source.Selection = e.AddedItems.OfType<MailboxContext>();
+            source.Selection = selector.SelectedItems.OfType<MailboxContext>().ToArray();
         }
     }
 }

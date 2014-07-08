@@ -12,14 +12,15 @@ namespace Crystalbyte.Paranoia {
         private readonly MailAccountModel _account;
         private readonly ObservableCollection<MailContactContext> _contacts;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
+
         private Exception _lastException;
 
         internal MailAccountContext(MailAccountModel account) {
             _account = account;
             _contacts = new ObservableCollection<MailContactContext>();
             _mailboxes = new ObservableCollection<MailboxContext>();
+      
         }
-
         protected async override void OnSelectionChanged() {
             base.OnSelectionChanged();
 
@@ -42,22 +43,26 @@ namespace Crystalbyte.Paranoia {
             _mailboxes.Clear();
         }
 
-        internal async Task SyncMailboxesAsync() {
-            var mailboxes = _mailboxes.ToArray();
+        internal async Task<List<ImapMailboxInfo>> ListMailboxesAsync(string pattern = "") {
             using (var connection = new ImapConnection { Security = ImapSecurity }) {
                 connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCancelled = false;
                 using (var auth = await connection.ConnectAsync(ImapHost, ImapPort)) {
                     using (var session = await auth.LoginAsync(ImapUsername, ImapPassword)) {
-                        var remoteMailboxes = await session.ListAsync("", "%");
-
-                        foreach (var mailbox in mailboxes) {
-                            if (!mailbox.IsAssigned) {
-                                await mailbox.AssignMostProbableAsync(remoteMailboxes);
-                            }
-                            await mailbox.SyncAsync();
-                        }
+                        return await session.ListAsync("", string.IsNullOrEmpty(pattern) ? "%" : pattern);
                     }
                 }
+            }
+        }
+
+        internal async Task SyncMailboxesAsync() {
+            var mailboxes = _mailboxes.ToArray();
+            var remoteMailboxes = await ListMailboxesAsync();
+
+            foreach (var mailbox in mailboxes) {
+                if (!mailbox.IsAssigned) {
+                    await mailbox.AssignMostProbableAsync(remoteMailboxes);
+                }
+                await mailbox.SyncAsync();
             }
         }
 
@@ -68,7 +73,7 @@ namespace Crystalbyte.Paranoia {
                     return _account.Mailboxes.ToArray();
                 }
             });
-            _mailboxes.AddRange(mailboxes.Select(x => new MailboxContext(x)));
+            _mailboxes.AddRange(mailboxes.Select(x => new MailboxContext(this, x)));
         }
 
         internal async Task LoadContactsAsync() {
@@ -184,5 +189,9 @@ namespace Crystalbyte.Paranoia {
         public IEnumerable<MailboxContext> Mailboxes {
             get { return _mailboxes; }
         }
+
+     
+
+     
     }
 }

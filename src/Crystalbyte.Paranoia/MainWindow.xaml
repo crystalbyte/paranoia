@@ -5,6 +5,7 @@
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
+                xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                 xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                 Title="p4r4n014"
                 Width="1080"
@@ -25,7 +26,9 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="380" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="0" Grid.Column="0">
@@ -122,7 +125,12 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-        <Grid Grid.Row="1" Grid.Column="1">
+        <GridSplitter Grid.Row="0"
+                      Grid.RowSpan="2"
+                      Grid.Column="1"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Stretch" />
+        <Grid Grid.Row="1" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -171,17 +179,7 @@
                                            Text="{Binding Subject,
                                                           Converter={StaticResource IgnoreLinebreaksConverter}}"
                                            TextTrimming="CharacterEllipsis"
-                                           TextWrapping="NoWrap">
-                                    <!--
-                                        <TextBlock.Foreground>
-                                        <Binding Path="IsAssigned">
-                                        <Binding.Converter>
-                                        <converters:BooleanToBrushConverter BrushForFalse="{StaticResource AppControlBrush}" BrushForTrue="{StaticResource AppLightTextBrush}" />
-                                        </Binding.Converter>
-                                        </Binding>
-                                        </TextBlock.Foreground>
-                                    -->
-                                </TextBlock>
+                                           TextWrapping="NoWrap" />
                                 <TextBlock HorizontalAlignment="Left"
                                            FontSize="{StaticResource AppSmallFontSize}"
                                            Style="{StaticResource AppSubtitleTextStyle}"
@@ -195,7 +193,8 @@
 
         </Grid>
         <ListView Grid.Row="0"
-                  Grid.Column="1"
+                  Grid.Column="2"
+                  HorizontalContentAlignment="Stretch"
                   Background="{StaticResource WindowLightBackgroundBrush}"
                   BorderThickness="0"
                   DataContext="{Binding SelectedAccount}"
@@ -216,7 +215,7 @@
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Grid x:Name="MailboxLayoutRoot">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
@@ -241,14 +240,100 @@
                                 </Binding>
                             </TextBlock.Foreground>
                         </TextBlock>
+                        <Popup Grid.Row="0"
+                               Grid.Column="0"
+                               AllowsTransparency="True"
+                               IsOpen="{Binding IsMailboxAssignable,
+                                                Mode=TwoWay}"
+                               Placement="Center"
+                               PlacementTarget="{Binding ElementName=MailboxLayoutRoot}"
+                               StaysOpen="False"
+                               VerticalOffset="320">
+                            <StackPanel Width="300"
+                                        Height="600"
+                                        Margin="0,0,8,8">
+                                <StackPanel.Effect>
+                                    <DropShadowEffect />
+                                </StackPanel.Effect>
+                                <Polygon Fill="{StaticResource WindowBackgroundBrush}"
+                                         Points="150 0 140 12 160 12"
+                                         Stroke="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
+                                                                                        ResourceId=AppAccentBrush}}" />
+                                <Border Background="{StaticResource WindowLightBackgroundBrush}"
+                                        BorderBrush="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
+                                                                                            ResourceId=AppAccentBrush}}"
+                                        BorderThickness="1">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Margin="6,6,6,0">
+                                            <TextBlock Style="{StaticResource AppTitleTextStyle}" Text="{Binding Type, Converter={StaticResource MailboxLocalizer}}" />
+                                            <TextBlock FontSize="{StaticResource AppSmallFontSize}"
+                                                       Style="{StaticResource AppSubtitleTextStyle}"
+                                                       Text="{x:Static properties:Resources.MailboxAssignmentDescription}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1"
+                                                    Margin="0,12,0,12"
+                                                    Background="{StaticResource WindowBackgroundBrush}">
+                                            <TreeView x:Name="CandidatesView"
+                                                      MinHeight="200"
+                                                      Margin="6,0,6,0"
+                                                      Background="{StaticResource WindowBackgroundBrush}"
+                                                      BorderThickness="0"
+                                                      ItemsSource="{Binding MailboxCandidates}"
+                                                      SelectedValuePath="Info">
+                                                <TreeView.ItemContainerStyle>
+                                                    <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
+                                                    <Style TargetType="TreeViewItem">
+                                                        <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                                                        <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+                                                    </Style>
+                                                    <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
+                                                </TreeView.ItemContainerStyle>
+                                                <TreeView.ItemTemplate>
+                                                    <HierarchicalDataTemplate DataType="paranoia:MailboxCandidateContext" ItemsSource="{Binding Children}">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Image Width="20"
+                                                                   VerticalAlignment="Center"
+                                                                   RenderOptions.BitmapScalingMode="HighQuality"
+                                                                   Source="Assets/folder.png" />
+                                                            <TextBlock VerticalAlignment="Center"
+                                                                       Style="{StaticResource AppNormalTextStyle}"
+                                                                       Text="{Binding Name}" />
+                                                        </StackPanel>
+                                                    </HierarchicalDataTemplate>
+                                                </TreeView.ItemTemplate>
+                                            </TreeView>
+                                        </StackPanel>
+                                        <Button Grid.Row="2"
+                                                Margin="6,0,6,6"
+                                                HorizontalAlignment="Right"
+                                                Command="{Binding AssignMailboxCommand}"
+                                                CommandParameter="{Binding SelectedValue,
+                                                                           ElementName=CandidatesView}"
+                                                Content="Assign"
+                                                Padding="3" />
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </Popup>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <GridSplitter Grid.Row="0"
+                      Grid.RowSpan="2"
+                      Grid.Column="3"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Stretch" />
         <Grid Grid.Row="0"
               Grid.RowSpan="2"
-              Grid.Column="2"
+              Grid.Column="4"
               Background="White" />
+
 
     </Grid>
 </ui:MetroWindow>

@@ -120,6 +120,9 @@
   <data name="CloseCommandTooltip" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="CrossThreadException" xml:space="preserve">
+    <value>Method was called on an invalid thread.</value>
+  </data>
   <data name="DatabaseImageNotFound" xml:space="preserve">
     <value>Database image not found.</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="InboxMailbox" xml:space="preserve">
     <value>Inbox</value>
+  </data>
+  <data name="MailboxAssignmentDescription" xml:space="preserve">
+    <value>The current mailbox is not assigned. Please select a corresponding IMAP folder to synchronize.</value>
   </data>
   <data name="MaximizeCommandTooltip" xml:space="preserve">
     <value>Maximize</value>

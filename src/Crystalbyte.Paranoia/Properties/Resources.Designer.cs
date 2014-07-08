@@ -70,6 +70,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Method was called on an invalid thread..
+        /// </summary>
+        public static string CrossThreadException {
+            get {
+                return ResourceManager.GetString("CrossThreadException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Database image not found..
         /// </summary>
         public static string DatabaseImageNotFound {
@@ -111,6 +120,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string InboxMailbox {
             get {
                 return ResourceManager.GetString("InboxMailbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The current mailbox is not assigned. Please select a corresponding IMAP folder to synchronize..
+        /// </summary>
+        public static string MailboxAssignmentDescription {
+            get {
+                return ResourceManager.GetString("MailboxAssignmentDescription", resourceCulture);
             }
         }
         

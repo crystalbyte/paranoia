@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Composition;
 using System.Data.Entity;
@@ -11,8 +12,10 @@ namespace Crystalbyte.Paranoia {
     [Export, Shared]
     public sealed class AppContext : NotificationObject {
         private MailAccountContext _selectedAccount;
-        private MailboxContext _selectedMailbox;
+        private IEnumerable<MailboxContext> _selectedMailboxes;
         private object _messagesSource;
+        private MailboxContext _selectedMailbox;
+
 
         public AppContext() {
             Accounts = new ObservableCollection<MailAccountContext>();
@@ -30,7 +33,27 @@ namespace Crystalbyte.Paranoia {
 
         [OnImportsSatisfied]
         public void OnImportsSatisfied() {
+            MailboxSelectionSource.SelectionChanged += OnMailboxSelectionChanged;
             MailAccountSelectionSource.SelectionChanged += OnAccountSelectionChanged;
+        }
+
+        private async void OnMailboxSelectionChanged(object sender, EventArgs e) {
+            MessagesSource = null;
+            var selection = MailboxSelectionSource.Selection.ToArray();
+            SelectedMailbox = selection.Length == 1
+                ? selection[0]
+                : null;
+
+            if (SelectedMailbox != null) {
+                SelectedMailbox.IsMailboxAssignable 
+                    = SelectedMailbox != null && !SelectedMailbox.IsAssigned;
+                if (SelectedMailbox.IsMailboxAssignable) {
+                    await SelectedMailbox.PrepareManualAssignmentAsync();
+                }
+            }
+
+            SelectedMailboxes = selection;
+            await UpdateMessageViewAsync();
         }
 
         #endregion
@@ -38,10 +61,28 @@ namespace Crystalbyte.Paranoia {
             SelectedAccount = MailAccountSelectionSource.Selection.FirstOrDefault();
         }
 
-        public void UpdateMessages() {
-            MessagesSource = MailboxSelectionSource.Selection
-                .SelectMany(x => x.Messages)
+        public async Task UpdateMessageViewAsync() {
+            if (MailboxSelectionSource.Selection == null) {
+                MessagesSource = null;
+                return;
+            }
+
+            var mailboxes = MailboxSelectionSource.Selection.Where(x => x.IsAssigned).ToArray();
+            foreach (var mailbox in mailboxes.AsParallel()) {
+                await mailbox.LoadMessagesFromDatabaseAsync();
+            }
+
+            // Show cached messages
+            MessagesSource = mailboxes
+                .SelectMany(x => x.Messages.ToArray())
                 .ToArray();
+
+            // Sync with server
+
+            foreach (var mailbox in mailboxes.AsParallel()) {
+                await mailbox.SyncAsync();
+            }
+
         }
 
         public object MessagesSource {
@@ -74,8 +115,19 @@ namespace Crystalbyte.Paranoia {
                 if (_selectedMailbox == value) {
                     return;
                 }
-
                 _selectedMailbox = value;
+                RaisePropertyChanged(() => SelectedMailbox);
+            }
+        }
+
+        public IEnumerable<MailboxContext> SelectedMailboxes {
+            get { return _selectedMailboxes; }
+            set {
+                if (Equals(_selectedMailboxes, value)) {
+                    return;
+                }
+
+                _selectedMailboxes = value;
                 RaisePropertyChanged(() => SelectedAccount);
             }
         }
