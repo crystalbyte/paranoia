@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
                     xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
+                    xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -52,7 +53,7 @@
                                         <!--  window icon  -->
                                         <ColumnDefinition Width="Auto" />
                                         <!--  window title  -->
-                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="214" />
                                         <!--  empty command space  -->
                                         <ColumnDefinition Width="*" />
                                         <!--  help button  -->
@@ -80,11 +81,16 @@
                                                                                              ResourceId=WindowTitleStyle}}"
                                                Text="{TemplateBinding Title}" />
                                     <TextBox Grid.Column="2"
-                                             HorizontalAlignment="Right"
+                                             Margin="0,0,0,0"
+                                             HorizontalAlignment="Left"
+                                             Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
+                                                                                                ResourceId=WindowSearchTextBrush}}"
                                              Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                                                            ResourceId=WindowTextBoxStyle}}"
                                              Text="{Binding SearchText,
-                                                            RelativeSource={RelativeSource TemplatedParent}}" />
+                                                            RelativeSource={RelativeSource TemplatedParent}}"
+                                             ui:Watermark.IsEnabled="True"
+                                             ui:Watermark.Text="{x:Static properties:Resources.SearchBoxWatermark}" />
                                     <Button Grid.Column="3" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=HelpButtonStyle}}" />
                                     <Button Grid.Column="4" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=MinimizeButtonStyle}}" />
                                     <Button Grid.Column="5"

@@ -160,6 +160,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quick Search (Ctrl+Q).
+        /// </summary>
+        public static string SearchBoxWatermark {
+            get {
+                return ResourceManager.GetString("SearchBoxWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sent.
         /// </summary>
         public static string SentMailbox {

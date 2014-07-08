@@ -30,15 +30,16 @@
             <SolidColorBrush x:Key="AppDarkComboBoxBrush" Color="#282828" />
             <SolidColorBrush x:Key="AppLightTextBrush" Color="WhiteSmoke" />
             <SolidColorBrush x:Key="AppFailureColorBrush" Color="Red" />
-            <SolidColorBrush x:Key="AppMediumTextBrush" Color="Gray" />
+            <SolidColorBrush x:Key="AppMediumTextBrush" Color="DimGray" />
             <SolidColorBrush x:Key="AppControlBrush" Color="DimGray" />
             <SolidColorBrush x:Key="AppDarkTextBrush" Color="#333" />
             <SolidColorBrush x:Key="AppLightControlBrush" Color="LightGray" />
-            <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#FF141414" />
+            <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#222222" />
             <SolidColorBrush x:Key="WindowLightBackgroundBrush" Color="#2A2A2C" />
             <SolidColorBrush x:Key="WindowButtonBorderBrush" Color="Transparent" />
             <SolidColorBrush x:Key="WindowButtonBackgroundBrush" Color="Transparent" />
 
+            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowSearchTextBrush}" Color="DimGray" />
             <Style x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowTitleStyle}" TargetType="TextBlock">
                 <Setter Property="FontSize" Value="14" />
             </Style>
@@ -299,12 +300,11 @@
                    TargetType="TextBox">
                 <Setter Property="FontSize" Value="{StaticResource AppNormalFontSize}" />
                 <Setter Property="Padding" Value="1" />
-                <Setter Property="Margin" Value="0,1,0,0" />
-                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="Margin" Value="0" />
                 <Setter Property="Width" Value="200" />
                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
-                <Setter Property="BorderBrush" Value="{StaticResource AppControlBrush}" />
-                <Setter Property="Background" Value="{StaticResource WindowLightBackgroundBrush}" />
+                <Setter Property="BorderBrush" Value="#333333" />
+                <Setter Property="Background" Value="#222222" />
             </Style>
 
             <Style x:Key="AppDialogTextButtonStyle" TargetType="{x:Type Button}">

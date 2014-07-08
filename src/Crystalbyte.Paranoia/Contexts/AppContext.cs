@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Composition;
 using System.Data.Entity;
 using System.Linq;
@@ -24,7 +25,18 @@ namespace Crystalbyte.Paranoia {
         [Import]
         public MailboxSelectionSource MailboxSelectionSource { get; set; }
 
+        [Import]
+        public MailAccountSelectionSource MailAccountSelectionSource { get; set; }
+
+        [OnImportsSatisfied]
+        public void OnImportsSatisfied() {
+            MailAccountSelectionSource.SelectionChanged += OnAccountSelectionChanged;
+        }
+
         #endregion
+        private void OnAccountSelectionChanged(object sender, EventArgs e) {
+            SelectedAccount = MailAccountSelectionSource.Selection.FirstOrDefault();
+        }
 
         public void UpdateMessages() {
             MessagesSource = MailboxSelectionSource.Selection
@@ -70,6 +82,9 @@ namespace Crystalbyte.Paranoia {
 
         public async Task RunAsync() {
             await LoadAccountsAsync();
+            if (Accounts.Count > 0) {
+                MailAccountSelectionSource.Selection = new[] { Accounts.First() };
+            }
         }
 
         private async Task LoadAccountsAsync() {

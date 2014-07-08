@@ -150,6 +150,9 @@
   <data name="RestoreDownCommandTooltip" xml:space="preserve">
     <value>Restore Down</value>
   </data>
+  <data name="SearchBoxWatermark" xml:space="preserve">
+    <value>Quick Search (Ctrl+Q)</value>
+  </data>
   <data name="SentMailbox" xml:space="preserve">
     <value>Sent</value>
   </data>

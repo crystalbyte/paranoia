@@ -155,6 +155,9 @@
     <Compile Include="UI\MetroWindow.xaml.cs">
       <DependentUpon>MetroWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Watermark.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="UI\WindowCommands.cs" />
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
