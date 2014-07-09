@@ -45,9 +45,9 @@ namespace Crystalbyte.Paranoia {
                 : null;
 
             if (SelectedMailbox != null) {
-                SelectedMailbox.IsMailboxAssignable 
+                SelectedMailbox.IsAssignable 
                     = SelectedMailbox != null && !SelectedMailbox.IsAssigned;
-                if (SelectedMailbox.IsMailboxAssignable) {
+                if (SelectedMailbox.IsAssignable) {
                     await SelectedMailbox.PrepareManualAssignmentAsync();
                 }
             }
@@ -134,10 +134,7 @@ namespace Crystalbyte.Paranoia {
 
         public async Task RunAsync() {
             await LoadAccountsAsync();
-            if (Accounts.Count > 0) {
-                Accounts.First().IsSelected = true;
-                //MailAccountSelectionSource.Selection = new[] { Accounts.First() };
-            }
+            SelectedAccount = Accounts.FirstOrDefault();
         }
 
         private async Task LoadAccountsAsync() {

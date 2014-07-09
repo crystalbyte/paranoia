@@ -18,18 +18,30 @@ namespace Crystalbyte.Paranoia {
         private bool _isSyncing;
         private Exception _lastException;
         private bool _isListingMailboxes;
-        private bool _isMailboxAssignable;
+        private bool _isAssignable;
         private ObservableCollection<MailMessageContext> _messages;
         private readonly MailAccountContext _account;
         private readonly MailboxModel _mailbox;
         private readonly ObservableCollection<MailboxCandidateContext> _mailboxCandidates;
         private readonly AssignMailboxCommand _assignMailboxCommand;
+        private readonly DropMailboxCommand _dropMailboxCommand;
+        private MailboxCandidateContext _selectedCandidate;
+        private bool _isLoadingMessage;
 
         internal MailboxContext(MailAccountContext account, MailboxModel mailbox) {
             _account = account;
             _mailbox = mailbox;
             _assignMailboxCommand = new AssignMailboxCommand(this);
+            _dropMailboxCommand = new DropMailboxCommand(this);
             _mailboxCandidates = new ObservableCollection<MailboxCandidateContext>();
+        }
+
+        public event EventHandler AssignmentChanged;
+
+        private void OnAssignmentChanged() {
+            var handler = AssignmentChanged;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
         }
 
         public string Name {
@@ -67,6 +79,23 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        internal Task DropAsync() {
+            return Task.Factory.StartNew(() => {
+                lock (_mailbox) {
+                    using (var context = new DatabaseContext()) {
+                        context.Mailboxes.Attach(_mailbox);
+
+                        _mailbox.Name = string.Empty;
+                        _mailbox.Flags = string.Empty;
+
+                        context.SaveChanges();
+                    }
+                    IsAssignable = true;
+                    OnAssignmentChanged();
+                }
+            });
+        }
+
         public bool IsAssigned {
             get { return !string.IsNullOrEmpty(Name); }
         }
@@ -75,15 +104,39 @@ namespace Crystalbyte.Paranoia {
             get { return _assignMailboxCommand; }
         }
 
-        public bool IsMailboxAssignable {
-            get { return _isMailboxAssignable; }
+        public DropMailboxCommand DropMailboxCommand {
+            get { return _dropMailboxCommand; }
+        }
+
+        public bool IsAssignable {
+            get { return _isAssignable; }
             set {
-                if (_isMailboxAssignable == value) {
+                if (_isAssignable == value) {
                     return;
                 }
-                _isMailboxAssignable = value;
-                RaisePropertyChanged(() => IsMailboxAssignable);
+                _isAssignable = value;
+                RaisePropertyChanged(() => IsAssignable);
+                RaisePropertyChanged(() => Name);
             }
+        }
+
+        public async Task DownloadMessageAsync() {
+            try {
+                var account = await GetAccountAsync();
+                using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
+                    connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCancelled = false;
+                    using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
+                        using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
+                            //var mailbox = await session.SelectAsync(name);
+                        }
+                    }
+                }
+            }
+            catch (Exception) {
+                
+                throw;
+            }
+            
         }
 
         internal async Task PrepareManualAssignmentAsync() {
@@ -116,6 +169,17 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public MailboxCandidateContext SelectedCandidate {
+            get { return _selectedCandidate; }
+            set {
+                if (_selectedCandidate == value) {
+                    return;
+                }
+                _selectedCandidate = value;
+                RaisePropertyChanged(() => SelectedCandidate);
+            }
+        }
+
         public IEnumerable<MailboxCandidateContext> MailboxCandidates {
             get { return _mailboxCandidates; }
         }
@@ -131,15 +195,28 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public bool IsLoadingMessage {
+            get { return _isLoadingMessage; }
+            set {
+                if (_isLoadingMessage == value) {
+                    return;
+                }
+                _isLoadingMessage = value;
+                RaisePropertyChanged(() => IsLoadingMessage);
+            }
+        }
+
         public MailboxType Type {
             get { return _mailbox.Type; }
         }
 
         private Task<MailAccountModel> GetAccountAsync() {
             return Task.Factory.StartNew(() => {
-                using (var context = new DatabaseContext()) {
-                    context.Mailboxes.Attach(_mailbox);
-                    return _mailbox.Account;
+                lock (_mailbox) {
+                    using (var context = new DatabaseContext()) {
+                        context.Mailboxes.Attach(_mailbox);
+                        return _mailbox.Account;
+                    }
                 }
             });
         }
@@ -150,7 +227,7 @@ namespace Crystalbyte.Paranoia {
             if (IsSelected)
                 return;
 
-            IsMailboxAssignable = false;
+            IsAssignable = false;
             _mailboxCandidates.Clear();
         }
 
@@ -229,35 +306,47 @@ namespace Crystalbyte.Paranoia {
         internal async Task LoadMessagesFromDatabaseAsync() {
             try {
                 var messages = await Task.Factory.StartNew(() => {
-                    using (var context = new DatabaseContext()) {
-                        context.Mailboxes.Attach(_mailbox);
-                        return _mailbox.Messages.ToArray();
+                    lock (_mailbox) {
+                        using (var context = new DatabaseContext()) {
+                            context.Mailboxes.Attach(_mailbox);
+                            return _mailbox.Messages.ToArray();
+                        }
                     }
                 });
 
                 Messages = new ObservableCollection<MailMessageContext>(
                     messages.Select(x => new MailMessageContext(x)));
+
             } catch (Exception ex) {
                 LastException = ex;
             }
         }
 
-        private async Task SaveMessagesToDatabaseAsync(IEnumerable<MailMessageModel> messages) {
-            using (var context = new DatabaseContext()) {
-                context.Mailboxes.Attach(_mailbox);
-                _mailbox.Messages.AddRange(messages);
-
-                await context.SaveChangesAsync();
-            }
+        private Task SaveMessagesToDatabaseAsync(IEnumerable<MailMessageModel> messages) {
+            return Task.Factory.StartNew(() => {
+                lock (_mailbox) {
+                    try {
+                        using (var context = new DatabaseContext()) {
+                            context.Mailboxes.Attach(_mailbox);
+                            _mailbox.Messages.AddRange(messages);
+                            context.SaveChanges();
+                        }
+                    } catch (Exception ex) {
+                        LastException = ex;
+                    }
+                }
+            });
         }
 
         private Task<Int64> GetMaxUidAsync() {
             return Task.Factory.StartNew(() => {
-                using (var context = new DatabaseContext()) {
-                    context.Mailboxes.Attach(_mailbox);
-                    return !_mailbox.Messages.Any()
-                        ? 1
-                        : _mailbox.Messages.Max(x => x.Uid);
+                lock (_mailbox) {
+                    using (var context = new DatabaseContext()) {
+                        context.Mailboxes.Attach(_mailbox);
+                        return !_mailbox.Messages.Any()
+                            ? 1
+                            : _mailbox.Messages.Max(x => x.Uid);
+                    }
                 }
             });
         }
@@ -289,25 +378,34 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task AssignAsync(ImapMailboxInfo mailbox) {
-            try {
-                // If no match has been found mailbox will be null.
-                if (mailbox == null) {
-                    return;
+        internal Task AssignAsync(ImapMailboxInfo mailbox) {
+            return Task.Factory.StartNew(() => {
+                try {
+                    // If no match has been found mailbox will be null.
+                    if (mailbox == null) {
+                        return;
+                    }
+
+                    using (var context = new DatabaseContext()) {
+                        context.Mailboxes.Attach(_mailbox);
+
+                        _mailbox.Name = mailbox.Fullname;
+                        _mailbox.Delimiter = mailbox.Delimiter;
+                        _mailbox.Flags = mailbox.Flags.Aggregate((c, n) => c + ';' + n);
+
+                        context.SaveChangesAsync();
+                        IsAssignable = false;
+                        OnAssignmentChanged();
+                    }
+                } catch (Exception
+                    ex) {
+                    LastException = ex;
                 }
+            });
+        }
 
-                using (var context = new DatabaseContext()) {
-                    context.Mailboxes.Attach(_mailbox);
-
-                    _mailbox.Name = mailbox.Fullname;
-                    _mailbox.Delimiter = mailbox.Delimiter;
-                    _mailbox.Flags = mailbox.Flags.Aggregate((c, n) => c + ';' + n);
-
-                    await context.SaveChangesAsync();
-                }
-            } catch (Exception ex) {
-                LastException = ex;
-            }
+        internal void NotifyCandidateSelectionChanged() {
+            _assignMailboxCommand.OnCanExecuteChanged();
         }
     }
 }

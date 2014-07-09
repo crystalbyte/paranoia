@@ -93,7 +93,9 @@ namespace Crystalbyte.Paranoia.Mail {
 
         public static ImapEnvelope Parse(string text) {
             // Escape nested quotes.
+            // TODO: Should be included in the regex.
             text = text.Replace("\\\"", "%%%");
+
             var envelope = new ImapEnvelope();
             var matches = FetchMetaRegex.Matches(text);
             foreach (Match match in matches) {

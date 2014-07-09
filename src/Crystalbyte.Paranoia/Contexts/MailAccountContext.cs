@@ -48,7 +48,8 @@ namespace Crystalbyte.Paranoia {
                 connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCancelled = false;
                 using (var auth = await connection.ConnectAsync(ImapHost, ImapPort)) {
                     using (var session = await auth.LoginAsync(ImapUsername, ImapPassword)) {
-                        return await session.ListAsync("", string.IsNullOrEmpty(pattern) ? "%" : pattern);
+                        var wildcard = string.IsNullOrEmpty(pattern) ? "%" : pattern;
+                        return await session.ListAsync("", ImapMailbox.EncodeName(wildcard));
                     }
                 }
             }
@@ -189,9 +190,5 @@ namespace Crystalbyte.Paranoia {
         public IEnumerable<MailboxContext> Mailboxes {
             get { return _mailboxes; }
         }
-
-     
-
-     
     }
 }

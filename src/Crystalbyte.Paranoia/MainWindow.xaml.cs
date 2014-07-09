@@ -2,6 +2,7 @@
 
 using System;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -63,6 +64,14 @@ namespace Crystalbyte.Paranoia {
             var selector = (ListView)sender;
             var source = App.Composition.GetExport<MailboxSelectionSource>();
             source.Selection = selector.SelectedItems.OfType<MailboxContext>().ToArray();
+        }
+
+        private void OnCandidatesViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
+            var source = App.Composition.GetExport<MailboxSelectionSource>();
+            Debug.Assert(source.Selection.Count() == 1, "source.Selection.Count() == 1");
+            var folder = source.Selection.First();
+            folder.NotifyCandidateSelectionChanged();
+            
         }
     }
 }

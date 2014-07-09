@@ -1,32 +1,26 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Input;
-using Crystalbyte.Paranoia.Mail;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
-    public sealed class AssignMailboxCommand : ICommand {
+    public sealed class DropMailboxCommand : ICommand {
         private readonly MailboxContext _mailbox;
 
-        public AssignMailboxCommand(MailboxContext mailbox) {
+        public DropMailboxCommand(MailboxContext mailbox) {
             _mailbox = mailbox;
+            _mailbox.AssignmentChanged += (sender, e) => OnCanExecuteChanged();
         }
 
         public bool CanExecute(object parameter) {
-            if (parameter == null) {
-                return false;
-            }
-            var info = (ImapMailboxInfo)parameter;
-            return !_mailbox.IsAssigned && info.IsSelectable;
+            return _mailbox.IsAssigned;
         }
 
         public async void Execute(object parameter) {
-            var info = (ImapMailboxInfo) parameter;
-            await _mailbox.AssignAsync(info);
+            await _mailbox.DropAsync();
         }
 
         public event EventHandler CanExecuteChanged;
 
-        internal void OnCanExecuteChanged() {
+        private void OnCanExecuteChanged() {
             var handler = CanExecuteChanged;
             if (handler != null) 
                 handler(this, EventArgs.Empty);

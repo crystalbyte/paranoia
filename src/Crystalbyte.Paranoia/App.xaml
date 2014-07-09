@@ -11,12 +11,15 @@
     <!--  Icons: C:\Program Files (x86)\Microsoft SDKs\Windows Phone\v8.0\Icons  -->
     <Application.Resources>
         <ResourceDictionary>
+            <!--  Converters  -->
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />
             <converters:MailboxLocalizer x:Key="MailboxLocalizer" />
             <converters:IgnoreLinebreaksConverter x:Key="IgnoreLinebreaksConverter" />
 
+            <!--  Fonts  -->
             <FontFamily x:Key="AppFontFamily">Segoe UI</FontFamily>
 
+            <!--  Sizes  -->
             <system:Double x:Key="AppExtraLargeFontSize">28</system:Double>
             <system:Double x:Key="AppLargeFontSize">22</system:Double>
             <system:Double x:Key="AppMediumFontSize">15</system:Double>
@@ -24,31 +27,39 @@
             <system:Double x:Key="AppSmallFontSize">10</system:Double>
             <system:Double x:Key="AppExtraSmallFontSize">8</system:Double>
 
-            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}" Color="BlueViolet" />
-            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowButtonHoverBrush}" Color="#3E3E40" />
+            <!--  Brushes  -->
+            <Color x:Key="AppAccentColor">SteelBlue</Color>
+            <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccentColor}" />
+            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}" Color="{StaticResource AppAccentColor}" />
 
-            <SolidColorBrush x:Key="AppDarkComboBoxBrush" Color="#282828" />
+            <Color x:Key="AppBackgroundColor">#222222</Color>
+            <SolidColorBrush x:Key="AppBackgroundBrush" Color="{StaticResource AppBackgroundColor}" />
+
+            <SolidColorBrush x:Key="AppDisabledTextBrush" Color="DimGray" />
+
             <SolidColorBrush x:Key="AppLightTextBrush" Color="WhiteSmoke" />
             <SolidColorBrush x:Key="AppFailureColorBrush" Color="Red" />
             <SolidColorBrush x:Key="AppMediumTextBrush" Color="DimGray" />
             <SolidColorBrush x:Key="AppControlBrush" Color="DimGray" />
             <SolidColorBrush x:Key="AppDarkTextBrush" Color="#333" />
             <SolidColorBrush x:Key="AppLightControlBrush" Color="LightGray" />
-            <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#222222" />
-            <SolidColorBrush x:Key="WindowLightBackgroundBrush" Color="#2A2A2C" />
-            <SolidColorBrush x:Key="WindowButtonBorderBrush" Color="Transparent" />
-            <SolidColorBrush x:Key="WindowButtonBackgroundBrush" Color="Transparent" />
 
+            <SolidColorBrush x:Key="AppLightBackgroundBrush" Color="#2A2A2C" />
+            <SolidColorBrush x:Key="AppButtonBorderBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="AppButtonBackgroundBrush" Color="Transparent" />
+
+            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowButtonHoverBrush}" Color="#3E3E40" />
             <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowSearchTextBrush}" Color="DimGray" />
+
             <Style x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowTitleStyle}" TargetType="TextBlock">
                 <Setter Property="FontSize" Value="14" />
             </Style>
 
-            <Style x:Key="WindowButtonStyle" TargetType="ButtonBase">
+            <Style x:Key="AppWindowButtonStyle" TargetType="ButtonBase">
                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
                 <Setter Property="BorderThickness" Value="0" />
-                <Setter Property="BorderBrush" Value="{StaticResource WindowButtonBorderBrush}" />
-                <Setter Property="Background" Value="{StaticResource WindowButtonBackgroundBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource AppButtonBorderBrush}" />
+                <Setter Property="Background" Value="{StaticResource AppButtonBackgroundBrush}" />
                 <Setter Property="Margin" Value="0" />
                 <Setter Property="Width" Value="Auto" />
                 <Setter Property="Height" Value="Auto" />
@@ -94,8 +105,8 @@
                 </Style.Triggers>
             </Style>
 
-            <Style x:Key="WindowCommandButtonStyle"
-                   BasedOn="{StaticResource WindowButtonStyle}"
+            <Style x:Key="AppCommandButtonStyle"
+                   BasedOn="{StaticResource AppWindowButtonStyle}"
                    TargetType="ButtonBase">
                 <Setter Property="VerticalAlignment" Value="Top" />
                 <Setter Property="Width" Value="32" />
@@ -104,7 +115,7 @@
 
             <Style x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                 ResourceId=MinimizeButtonStyle}"
-                   BasedOn="{StaticResource WindowCommandButtonStyle}"
+                   BasedOn="{StaticResource AppCommandButtonStyle}"
                    TargetType="ButtonBase">
                 <Setter Property="Command" Value="{x:Static ui:WindowCommands.Minimize}" />
                 <Setter Property="ToolTip" Value="{x:Static properties:Resources.MinimizeCommandTooltip}" />
@@ -123,7 +134,7 @@
 
             <Style x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                 ResourceId=MaximizeButtonStyle}"
-                   BasedOn="{StaticResource WindowCommandButtonStyle}"
+                   BasedOn="{StaticResource AppCommandButtonStyle}"
                    TargetType="ButtonBase">
                 <Setter Property="Command" Value="{x:Static ui:WindowCommands.Maximize}" />
                 <Setter Property="ToolTip" Value="{x:Static properties:Resources.MaximizeCommandTooltip}" />
@@ -143,7 +154,7 @@
 
             <Style x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                 ResourceId=RestoreDownButtonStyle}"
-                   BasedOn="{StaticResource WindowCommandButtonStyle}"
+                   BasedOn="{StaticResource AppCommandButtonStyle}"
                    TargetType="ButtonBase">
                 <Setter Property="Command" Value="{x:Static ui:WindowCommands.RestoreDown}" />
                 <Setter Property="ToolTip" Value="{x:Static properties:Resources.RestoreDownCommandTooltip}" />
@@ -163,7 +174,7 @@
 
             <Style x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                 ResourceId=CloseButtonStyle}"
-                   BasedOn="{StaticResource WindowCommandButtonStyle}"
+                   BasedOn="{StaticResource AppCommandButtonStyle}"
                    TargetType="ButtonBase">
                 <Setter Property="Command" Value="{x:Static ApplicationCommands.Close}" />
                 <Setter Property="ToolTip" Value="{x:Static properties:Resources.CloseCommandTooltip}" />
@@ -183,7 +194,7 @@
 
             <Style x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                 ResourceId=HelpButtonStyle}"
-                   BasedOn="{StaticResource WindowCommandButtonStyle}"
+                   BasedOn="{StaticResource AppCommandButtonStyle}"
                    TargetType="ButtonBase">
                 <Setter Property="Command" Value="{x:Static ApplicationCommands.Help}" />
                 <Setter Property="ContentTemplate">
@@ -252,7 +263,7 @@
 
             <Style TargetType="{x:Type TextBox}">
                 <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ValidationErrorTemplate}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}}" />
+                <Setter Property="BorderBrush" Value="{StaticResource AppAccentBrush}" />
                 <Setter Property="Background" Value="{StaticResource AppControlBrush}" />
                 <Setter Property="FontFamily" Value="{StaticResource AppFontFamily}" />
                 <Setter Property="VerticalAlignment" Value="Center" />
@@ -305,6 +316,27 @@
                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
                 <Setter Property="BorderBrush" Value="#333333" />
                 <Setter Property="Background" Value="#222222" />
+            </Style>
+
+            <Style x:Key="VerticalSplitterStyle" TargetType="GridSplitter">
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
+                <Setter Property="Width" Value="7" />
+                <Setter Property="Cursor" Value="SizeWE" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="GridSplitter">
+                            <Grid>
+                                <Rectangle Width="{TemplateBinding Width}"
+                                           VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                           Fill="Transparent" />
+                                <Rectangle Width="1"
+                                           VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                           Fill="{TemplateBinding Background}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
 
             <Style x:Key="AppDialogTextButtonStyle" TargetType="{x:Type Button}">

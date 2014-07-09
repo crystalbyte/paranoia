@@ -150,6 +150,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UI\Commands\AssignMailboxCommand.cs" />
+    <Compile Include="UI\Commands\DropMailboxCommand.cs" />
     <Compile Include="UI\Converters\BooleanToBrushConverter.cs" />
     <Compile Include="UI\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\GravatarImageConverter.cs" />

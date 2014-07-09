@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Mail;
+using System.Text.RegularExpressions;
 
 namespace Crystalbyte.Paranoia {
     public sealed class MailboxCandidateContext : SelectionObject {
@@ -33,6 +34,11 @@ namespace Crystalbyte.Paranoia {
 
         public char Delimiter {
             get { return _info.Delimiter; }
+        }
+
+        public bool IsSelectable {
+            get { return _info.Flags
+                .All(x => !x.ContainsIgnoreCase(@"\noselect")); }
         }
 
         public bool IsLoading {

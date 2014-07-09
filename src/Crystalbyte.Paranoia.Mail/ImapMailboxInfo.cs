@@ -24,7 +24,11 @@ namespace Crystalbyte.Paranoia.Mail {
         public IEnumerable<string> Flags { get; set; }
 
         public bool HasNoChildren {
-            get { return Flags.Contains(@"\HasNoChildren"); }
+            get { return Flags.Any(x => x.ContainsIgnoreCase(@"\hasnochildren")); }
+        }
+
+        public bool IsSelectable {
+            get { return Flags.All(x => !x.ContainsIgnoreCase(@"\noselect")); }
         }
 
         public bool IsInbox {
@@ -61,7 +65,8 @@ namespace Crystalbyte.Paranoia.Mail {
 
         internal static ImapMailboxInfo Parse(ImapResponseLine line) {
             var parts = Regex.Matches(line.Text, "\\(.*\\)|(\".*?\")").Cast<Match>().Select(x => x.Value).ToArray();
-            var info = new ImapMailboxInfo(parts[2].TrimQuotes(), parts[1].TrimQuotes().ToCharArray().First())
+            var name = ImapMailbox.DecodeName(parts[2].TrimQuotes());
+            var info = new ImapMailboxInfo(name, parts[1].TrimQuotes().ToCharArray().First())
             {
                 Flags = Regex.Match(parts[0], @"\(.*\)").Value.Trim(new[] {'(', ')'}).Split(' ')
             };
