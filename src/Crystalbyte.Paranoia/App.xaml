@@ -15,6 +15,7 @@
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />
             <converters:MailboxLocalizer x:Key="MailboxLocalizer" />
             <converters:IgnoreLinebreaksConverter x:Key="IgnoreLinebreaksConverter" />
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
             <!--  Fonts  -->
             <FontFamily x:Key="AppFontFamily">Segoe UI</FontFamily>
@@ -322,6 +323,7 @@
                 <Setter Property="HorizontalAlignment" Value="Center" />
                 <Setter Property="VerticalAlignment" Value="Stretch" />
                 <Setter Property="Width" Value="7" />
+                <Setter Property="Background" Value="Transparent" />
                 <Setter Property="Cursor" Value="SizeWE" />
                 <Setter Property="Template">
                     <Setter.Value>

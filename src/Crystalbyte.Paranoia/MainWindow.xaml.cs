@@ -36,22 +36,7 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
-            try {
-
-                HookEntropyGenerator();
-            } catch (Exception) {
-                // TODO: We are probably offline or hit the quota, deal with it.
-                throw;
-            }
-        }
-
-        private void HookEntropyGenerator() {
-            var helper = new WindowInteropHelper(this);
-        }
-
-        private void OnAccountsSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var source = App.Composition.GetExport<MailAccountSelectionSource>();
-            source.Selection = e.AddedItems.OfType<MailAccountContext>();
+                    
         }
 
         private void OnContactsSelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -71,7 +56,6 @@ namespace Crystalbyte.Paranoia {
             Debug.Assert(source.Selection.Count() == 1, "source.Selection.Count() == 1");
             var folder = source.Selection.First();
             folder.NotifyCandidateSelectionChanged();
-            
         }
     }
 }

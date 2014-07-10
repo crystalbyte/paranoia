@@ -23,21 +23,15 @@ namespace Crystalbyte.Paranoia {
 
         public ObservableCollection<MailAccountContext> Accounts { get; set; }
 
-        #region Import Directives
+        public event EventHandler MailboxSelectionChanged;
 
-        [Import]
-        public MailboxSelectionSource MailboxSelectionSource { get; set; }
-
-        [Import]
-        public MailAccountSelectionSource MailAccountSelectionSource { get; set; }
-
-        [OnImportsSatisfied]
-        public void OnImportsSatisfied() {
-            MailboxSelectionSource.SelectionChanged += OnMailboxSelectionChanged;
-            MailAccountSelectionSource.SelectionChanged += OnAccountSelectionChanged;
+        private void OnMailboxSelectionChanged() {
+            var handler = MailboxSelectionChanged;
+            if (handler != null) 
+                handler(this, EventArgs.Empty);
         }
 
-        private async void OnMailboxSelectionChanged(object sender, EventArgs e) {
+        private async void OnMailboxSelectionChanged(EventArgs e) {
             MessagesSource = null;
             var selection = MailboxSelectionSource.Selection.ToArray();
             SelectedMailbox = selection.Length == 1
@@ -56,7 +50,6 @@ namespace Crystalbyte.Paranoia {
             await UpdateMessageViewAsync();
         }
 
-        #endregion
         private void OnAccountSelectionChanged(object sender, EventArgs e) {
             SelectedAccount = MailAccountSelectionSource.Selection.FirstOrDefault();
         }
@@ -110,14 +103,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public MailboxContext SelectedMailbox {
-            get { return _selectedMailbox; }
-            set {
-                if (_selectedMailbox == value) {
-                    return;
-                }
-                _selectedMailbox = value;
-                RaisePropertyChanged(() => SelectedMailbox);
-            }
+            get { return _selectedMailboxes.FirstOrDefault(); }
         }
 
         public IEnumerable<MailboxContext> SelectedMailboxes {
@@ -128,9 +114,13 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 _selectedMailboxes = value;
-                RaisePropertyChanged(() => SelectedAccount);
+                RaisePropertyChanged(() => SelectedMailboxes);
+                RaisePropertyChanged(() => SelectedMailbox);
+                OnMailboxSelectionChanged();
             }
         }
+
+        public IEnumerable<MailContactContext> SelectedContacts { get; set; }
 
         public async Task RunAsync() {
             await LoadAccountsAsync();

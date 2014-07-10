@@ -125,11 +125,8 @@
     <Compile Include="Data\DatabaseContext.cs" />
     <Compile Include="Data\MailAccountModel.cs" />
     <Compile Include="Gravatar.cs" />
-    <Compile Include="MailboxSelectionSource.cs" />
     <Compile Include="MailboxType.cs" />
-    <Compile Include="MailAccountSelectionSource.cs" />
     <Compile Include="Contexts\NotificationObject.cs" />
-    <Compile Include="MailContactSelectionSource.cs" />
     <Compile Include="Pack.cs" />
     <Compile Include="PasswordPolicyAttribute.cs" />
     <Compile Include="PropertySupport.cs" />

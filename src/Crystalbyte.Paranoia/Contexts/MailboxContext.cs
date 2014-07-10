@@ -397,8 +397,7 @@ namespace Crystalbyte.Paranoia {
                         IsAssignable = false;
                         OnAssignmentChanged();
                     }
-                } catch (Exception
-                    ex) {
+                } catch (Exception ex) {
                     LastException = ex;
                 }
             });

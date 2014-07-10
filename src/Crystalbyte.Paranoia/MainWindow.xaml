@@ -21,84 +21,183 @@
                 mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="240"
-                              MinWidth="220"
-                              MaxWidth="350" />
+            <ColumnDefinition Width="Auto" MinWidth="240" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="350"
-                              MinWidth="330"
-                              MaxWidth="600" />
+            <ColumnDefinition Width="Auto" MinWidth="340" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition MinWidth="200" />
+            <ColumnDefinition Width="*" MinWidth="340" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Row="0" Grid.Column="0">
-            <ComboBox x:Name="AccountsComboBox"
-                      Margin="6"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Center"
-                      Background="{StaticResource AppBackgroundBrush}"
-                      ItemsSource="{Binding Accounts}"
-                      SelectedValue="{Binding SelectedAccount,
-                                              Mode=TwoWay}"
-                      SelectionChanged="OnAccountsSelectionChanged">
-                <ComboBox.ItemContainerStyle>
-                    <Style TargetType="ComboBoxItem">
-                        <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                        <Setter Property="Padding" Value="0" />
-                        <Setter Property="Margin" Value="0" />
-                        <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
-                    </Style>
-                </ComboBox.ItemContainerStyle>
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Image Grid.Row="0"
-                                   Grid.RowSpan="2"
-                                   Grid.Column="0"
-                                   Width="24"
-                                   VerticalAlignment="Center"
-                                   Source="{Binding Address,
-                                                    IsAsync=True,
-                                                    Converter={StaticResource GravatarImageConverter}}" />
-                            <TextBlock Grid.Row="0"
-                                       Grid.Column="1"
-                                       Foreground="{StaticResource AppDarkTextBrush}"
-                                       Style="{StaticResource AppTitleTextStyle}"
-                                       Text="{Binding Name}"
-                                       TextWrapping="NoWrap" />
-                            <TextBlock Grid.Row="1"
-                                       Grid.Column="1"
-                                       Style="{StaticResource AppSubtitleTextStyle}"
-                                       Text="{Binding Address}" />
-                        </Grid>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+        <Rectangle Grid.Row="0"
+                   Grid.RowSpan="3"
+                   Grid.Column="0"
+                   Fill="{StaticResource AppLightBackgroundBrush}"
+                   RenderOptions.EdgeMode="Aliased" />
+        <DockPanel Grid.Row="0"
+                   Grid.Column="0"
+                   LastChildFill="True">
+            <Image Height="20"
+                   Margin="8"
+                   VerticalAlignment="Center"
+                   DockPanel.Dock="Left"
+                   Source="{Binding Icon,
+                                    RelativeSource={RelativeSource FindAncestor,
+                                                                   AncestorType=paranoia:MainWindow}}" />
+            <TextBlock Margin="0,-3,0,0"
+                       VerticalAlignment="Center"
+                       FontSize="17"
+                       Style="{StaticResource AppTitleTextStyle}"
+                       Text="{Binding Title,
+                                      RelativeSource={RelativeSource FindAncestor,
+                                                                     AncestorType=paranoia:MainWindow}}" />
+        </DockPanel>
+        <Grid Grid.Row="0"
+              Grid.Column="4"
+              HorizontalAlignment="Right">
+            <Grid.ColumnDefinitions>
+                <!--  help button  -->
+                <ColumnDefinition Width="Auto" />
+                <!--  minimize button  -->
+                <ColumnDefinition Width="Auto" />
+                <!--  restore down button  -->
+                <ColumnDefinition Width="Auto" />
+                <!--  maximize down button  -->
+                <ColumnDefinition Width="Auto" />
+                <!--  close button  -->
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Style="{DynamicResource {ComponentResourceKey ResourceId=HelpButtonStyle, TypeInTargetAssembly={x:Type paranoia:App}}}" />
+            <Button Grid.Column="1" Style="{DynamicResource {ComponentResourceKey ResourceId=MinimizeButtonStyle, TypeInTargetAssembly={x:Type paranoia:App}}}" />
+            <Button Grid.Column="2"
+                    Style="{DynamicResource {ComponentResourceKey ResourceId=MaximizeButtonStyle,
+                                                                  TypeInTargetAssembly={x:Type paranoia:App}}}"
+                    Visibility="{Binding IsNormalized,
+                                         Converter={StaticResource BooleanToVisibilityConverter},
+                                         RelativeSource={RelativeSource FindAncestor,
+                                                                        AncestorType=paranoia:MainWindow}}" />
+            <Button Grid.Column="3"
+                    Style="{DynamicResource {ComponentResourceKey ResourceId=RestoreDownButtonStyle,
+                                                                  TypeInTargetAssembly={x:Type paranoia:App}}}"
+                    Visibility="{Binding IsMaximized,
+                                         Converter={StaticResource BooleanToVisibilityConverter},
+                                         RelativeSource={RelativeSource FindAncestor,
+                                                                        AncestorType=paranoia:MainWindow}}" />
+            <Button Grid.Column="4" Style="{DynamicResource {ComponentResourceKey ResourceId=CloseButtonStyle, TypeInTargetAssembly={x:Type paranoia:App}}}" />
         </Grid>
         <Grid Grid.Row="1"
-              Grid.Column="0"
-              Background="#333">
-            <ListView Background="{StaticResource AppLightBackgroundBrush}"
+              Grid.RowSpan="2"
+              Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image Grid.Row="0"
+                   Grid.Column="0"
+                   Width="128"
+                   Height="128"
+                   Margin="8,32,8,8"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   DataContext="{Binding SelectedAccount}"
+                   Source="{Binding Address,
+                                    Converter={StaticResource GravatarImageConverter},
+                                    IsAsync=True}"
+                   Stretch="UniformToFill" />
+            <TextBlock Grid.Row="1"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       Margin="8,0,0,0"
+                       DataContext="{Binding SelectedAccount}"
+                       Style="{StaticResource AppTitleTextStyle}"
+                       Text="{Binding Name}"
+                       TextTrimming="CharacterEllipsis"
+                       TextWrapping="NoWrap" />
+            <TextBlock Grid.Row="2"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       Margin="8,0,0,0"
+                       DataContext="{Binding SelectedAccount}"
+                       Style="{StaticResource AppSubtitleTextStyle}"
+                       Text="{Binding Address}"
+                       TextTrimming="CharacterEllipsis" />
+            <!--
+                <ComboBox x:Name="AccountsComboBox"
+                Grid.Row="1"
+                Margin="6"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding Accounts}"
+                SelectedValue="{Binding SelectedAccount,
+                Mode=TwoWay}"
+                SelectionChanged="OnAccountsSelectionChanged">
+                <ComboBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ComboBoxItem}">
+            -->
+            <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
+            <!--
+                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Margin" Value="0" />
+            -->
+            <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
+            <!--
+                </Style>
+                </ComboBox.ItemContainerStyle>
+                <ComboBox.ItemTemplate>
+                <DataTemplate>
+                <Grid>
+                <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                Width="24"
+                VerticalAlignment="Center"
+                Source="{Binding Address,
+                Converter={StaticResource GravatarImageConverter},
+                IsAsync=True}" />
+                <TextBlock Grid.Row="0"
+                Grid.Column="1"
+                Foreground="{StaticResource AppDarkTextBrush}"
+                Style="{StaticResource AppTitleTextStyle}"
+                Text="{Binding Name}"
+                TextWrapping="NoWrap" />
+                <TextBlock Grid.Row="1"
+                Grid.Column="1"
+                Style="{StaticResource AppSubtitleTextStyle}"
+                Text="{Binding Address}" />
+                </Grid>
+                </DataTemplate>
+                </ComboBox.ItemTemplate>
+                </ComboBox>
+            -->
+            <ListView Grid.Row="3"
+                      Grid.Column="0"
+                      Margin="0"
+                      Background="Transparent"
                       BorderThickness="0"
                       DataContext="{Binding SelectedAccount}"
                       ItemsSource="{Binding Contacts}"
                       SelectionChanged="OnContactsSelectionChanged"
-                      d:DataContext="{d:DesignInstance paranoia:MailAccountContext}">
+                      d:DataContext="{d:DesignInstance {x:Type paranoia:MailAccountContext}}">
                 <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
+                    <Style TargetType="{x:Type ListViewItem}">
                         <Setter Property="Margin" Value="0" />
                         <Setter Property="Padding" Value="6,3,6,3" />
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
@@ -133,10 +232,15 @@
             </ListView>
         </Grid>
         <GridSplitter Grid.Row="0"
-                      Grid.RowSpan="2"
+                      Grid.RowSpan="3"
                       Grid.Column="1"
+                      Margin="0,0,0.2,0.4"
                       Style="{StaticResource VerticalSplitterStyle}" />
-        <Grid Grid.Row="1" Grid.Column="2">
+        <Grid Grid.Row="1"
+              Grid.RowSpan="2"
+              Grid.Column="1"
+              Grid.ColumnSpan="3"
+              Margin="7,0,6.8,0.4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -154,7 +258,7 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
                 <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
+                    <Style TargetType="{x:Type ListViewItem}">
                         <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
                         <Setter Property="Margin" Value="0" />
                         <Setter Property="Padding" Value="6,3,6,3" />
@@ -183,8 +287,8 @@
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Center"
                                    Source="{Binding FromAddress,
-                                                    IsAsync=True,
-                                                    Converter={StaticResource GravatarImageConverter}}" />
+                                                    Converter={StaticResource GravatarImageConverter},
+                                                    IsAsync=True}" />
                             <TextBlock Grid.Row="0"
                                        Grid.Column="1"
                                        FontSize="17"
@@ -207,17 +311,18 @@
             </ListView>
 
         </Grid>
-        <ListView Grid.Row="0"
+        <ListView Grid.Row="1"
                   Grid.Column="2"
+                  Margin="0"
                   HorizontalContentAlignment="Stretch"
                   Background="{StaticResource AppLightBackgroundBrush}"
                   BorderThickness="0"
                   DataContext="{Binding SelectedAccount}"
                   ItemsSource="{Binding Mailboxes}"
                   SelectionChanged="OnMailboxSelectionChanged"
-                  d:DataContext="{d:DesignInstance paranoia:MailAccountContext}">
+                  d:DataContext="{d:DesignInstance {x:Type paranoia:MailAccountContext}}">
             <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
+                <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="Margin" Value="0" />
                     <Setter Property="Padding" Value="2" />
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
@@ -275,13 +380,13 @@
                                     <DropShadowEffect />
                                 </StackPanel.Effect>
                                 <Polygon Fill="{StaticResource AppLightBackgroundBrush}"
-                                         Points="150 0 140 12 160 12"
-                                         Stroke="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
-                                                                                        ResourceId=AppAccentBrush}}" />
+                                         Points="150,0 140,12 160,12"
+                                         Stroke="{DynamicResource {ComponentResourceKey ResourceId=AppAccentBrush,
+                                                                                        TypeInTargetAssembly={x:Type paranoia:App}}}" />
                                 <Border Margin="0,-1,0,0"
                                         Background="{StaticResource AppLightBackgroundBrush}"
-                                        BorderBrush="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
-                                                                                            ResourceId=AppAccentBrush}}"
+                                        BorderBrush="{DynamicResource {ComponentResourceKey ResourceId=AppAccentBrush,
+                                                                                            TypeInTargetAssembly={x:Type paranoia:App}}}"
                                         BorderThickness="1">
                                     <Grid>
                                         <Grid.RowDefinitions>
@@ -320,7 +425,7 @@
                                                           SelectedValuePath="Info">
                                                     <TreeView.ItemContainerStyle>
                                                         <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                                        <Style TargetType="TreeViewItem">
+                                                        <Style TargetType="{x:Type TreeViewItem}">
                                                             <Setter Property="IsSelected" Value="{Binding IsSelected}" />
                                                             <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
                                                         </Style>
@@ -368,12 +473,15 @@
             </ListView.ItemTemplate>
         </ListView>
         <GridSplitter Grid.Row="0"
-                      Grid.RowSpan="2"
+                      Grid.RowSpan="3"
                       Grid.Column="3"
+                      Grid.ColumnSpan="2"
+                      Margin="0.4,0,468.6,0.4"
                       Style="{StaticResource VerticalSplitterStyle}" />
-        <Grid Grid.Row="0"
+        <Grid Grid.Row="1"
               Grid.RowSpan="2"
-              Grid.Column="4">
+              Grid.Column="4"
+              Margin="0.2,0,-0.4,0.4">
             <TextBlock Text="{Binding Html}" />
         </Grid>
     </Grid>
