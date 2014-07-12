@@ -17,6 +17,16 @@ namespace Crystalbyte.Paranoia.Cryptography {
             var directory = Environment.Is64BitProcess ? "x64" : "x86";
             var path = string.Format(@"{0}\{1}\{2}", info.Directory.FullName, directory, "libsodium.dll");
             NativeMethods.LoadLibraryEx(path, IntPtr.Zero, 0);
+            Init();
+        }
+
+        public static void Init()
+        {
+            var err = SafeNativeMethods.Init();
+            if (err == -1) {
+                throw new Exception();
+            }
+
         }
 
         public static string Version {
@@ -34,6 +44,8 @@ namespace Crystalbyte.Paranoia.Cryptography {
         private static class SafeNativeMethods {
             [DllImport(Library.Sodium, EntryPoint = "sodium_version_string")]
             public static extern IntPtr SodiumVersionString();
+            [DllImport(Library.Sodium, EntryPoint = "sodium_init")]
+            public static extern int Init();
         }
     }
 }
