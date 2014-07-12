@@ -39,12 +39,12 @@ namespace Crystalbyte.Paranoia.Cryptography.Tests {
 
             pkc1.GenerateKeyPair();
 
-            var message = "TESTTEXT";
+            var message = "test";
             var nonce = PublicKeyCrypto.GenerateNonce();
 
-            var encMessage = pkc1.PublicKeyEncrypt(message, pkc1.PublicKey, nonce);
+            var encMessage = pkc1.PublicKeyEncrypt(Encoding.ASCII.GetBytes(message), pkc1.PublicKey, nonce);
             var decryptedMessage = pkc1.PrivateKeyDecrypt(encMessage, pkc1.PublicKey, nonce);
-            Assert.Equals(message, decryptedMessage);
+            Assert.IsTrue(String.Compare(message, Encoding.ASCII.GetString(decryptedMessage)) == 0);
         }
     }
 }
