@@ -76,23 +76,24 @@ namespace Crystalbyte.Paranoia.Cryptography
             return nonceArray;
         }
 
-        public string PublicKeyEncrypt(String message, byte[] pkey, byte[] nonce)
+        public byte[] PublicKeyEncrypt(byte[] message, byte[] pkey, byte[] nonce)
         {
-            var messageSize = Encoding.UTF8.GetByteCount(message);
-
             var publicKeyPtr = Marshal.AllocHGlobal(pkey.Length);
             var noncePtr = Marshal.AllocHGlobal(nonce.Length);
 
             Marshal.Copy(pkey, 0, publicKeyPtr, pkey.Length);
             Marshal.Copy(nonce, 0, noncePtr, nonce.Length);
 
-            var cipherTextPtr = Marshal.AllocHGlobal(messageSize + macBytesSize);
-            SafeNativeMethods.SodiumMemZero(cipherTextPtr, Convert.ToUInt32(messageSize + macBytesSize));
+            var cipherTextPtr = Marshal.AllocHGlobal(message.Length + macBytesSize);
+            var chiperText = new byte[message.Length + macBytesSize];
 
-            var messagePtr = Marshal.StringToHGlobalAnsi(message);
+            //SafeNativeMethods.SodiumMemZero(cipherTextPtr, Convert.ToUInt32(messageSize + macBytesSize));
+
+            var messagePtr = Marshal.AllocHGlobal(message.Length);
+            Marshal.Copy(message, 0, messagePtr,message.Length);
 
             var err = SafeNativeMethods.CryptoBoxEasy(
-                cipherTextPtr, messagePtr, Marshal.SizeOf<Byte>()*messageSize,
+                cipherTextPtr, messagePtr, message.Length,
                 noncePtr, publicKeyPtr, _privateKeyPtr);
 
             if (err != 0)
@@ -100,32 +101,33 @@ namespace Crystalbyte.Paranoia.Cryptography
                 throw new Exception();
             }
 
-            var encryptedMessage = Marshal.PtrToStringAnsi(cipherTextPtr);
-                
+            Marshal.Copy(cipherTextPtr, chiperText, 0, message.Length + macBytesSize);
+               
             Marshal.FreeHGlobal(noncePtr);
             Marshal.FreeHGlobal(cipherTextPtr);
             Marshal.FreeHGlobal(messagePtr);
             Marshal.FreeHGlobal(publicKeyPtr);
-            return encryptedMessage;
+
+            return chiperText;
         }
 
-        public string PrivateKeyDecrypt(String encryptedMessage, byte[] pkey, byte[] nonce)
+        public byte[] PrivateKeyDecrypt(byte[] cipherText, byte[] pkey, byte[] nonce)
         {
-            var messageSize = 1024;
-
-            var encryptedMessageSize = Encoding.UTF8.GetByteCount(encryptedMessage);
-
             var publicKeyPtr = Marshal.AllocHGlobal(pkey.Length);
             var noncePtr = Marshal.AllocHGlobal(nonce.Length);
 
             Marshal.Copy(pkey, 0, publicKeyPtr, pkey.Length);
             Marshal.Copy(nonce, 0, noncePtr, nonce.Length);
 
-            var decryptedPtr = Marshal.AllocHGlobal(messageSize);
-            var encryptedMessagePtr = Marshal.StringToHGlobalAnsi(encryptedMessage);
+            var messagePtr = Marshal.AllocHGlobal(cipherText.Length - macBytesSize);
+            var message = new byte[cipherText.Length - macBytesSize];
+
+            var cipherTextPtr = Marshal.AllocHGlobal(cipherText.Length);
+            Marshal.Copy(cipherText, 0, cipherTextPtr,cipherText.Length);
+            
 
             var err = SafeNativeMethods.CryptoBoxOpenEasy(
-                decryptedPtr, encryptedMessagePtr, Marshal.SizeOf<Byte>() * encryptedMessageSize,
+                messagePtr, cipherTextPtr, cipherText.Length,
                 noncePtr, publicKeyPtr, _privateKeyPtr);
 
             if (err != 0)
@@ -134,15 +136,15 @@ namespace Crystalbyte.Paranoia.Cryptography
                 throw new Exception();
             }
 
-            var decryptedMessage = Marshal.PtrToStringAnsi(encryptedMessagePtr);
+            Marshal.Copy(messagePtr, message, 0, message.Length);
 
             Marshal.FreeHGlobal(noncePtr);
-            Marshal.FreeHGlobal(encryptedMessagePtr);
-            Marshal.FreeHGlobal(decryptedPtr);
+            Marshal.FreeHGlobal(cipherTextPtr);
+            Marshal.FreeHGlobal(messagePtr);
             Marshal.FreeHGlobal(publicKeyPtr);
-            return decryptedMessage;
+            return message;
         }
-
+       
         protected override void DisposeNative()
         {
             Marshal.FreeHGlobal(_publicKeyPtr);
