@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq;
+using System.Data.Entity;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
+using System.Diagnostics;
 
 namespace Crystalbyte.Paranoia {
     public class MailMessageContext : SelectionObject {
         private int _load;
-        private string _html;
         private long _bytesReceived;
         private Exception _lastException;
         private object _databaseMutex;
@@ -42,16 +43,24 @@ namespace Crystalbyte.Paranoia {
             get { return _message.FromAddress; }
         }
 
-        public Task<string> LoadMimeFromDatabaseAsync() {
-            return Task.Factory.StartNew(() => {
-                lock (_databaseMutex) {
-                    using (var context = new DatabaseContext()) {
-                        context.MailMessages.Attach(_message);
-                        var message =  _message.MimeMessages.FirstOrDefault();
-                        return message != null ? message.Data : string.Empty;
-                    }
+        public async Task<string> LoadMimeFromDatabaseAsync() {
+            IncrementLoad();
+            try {
+                using (var context = new DatabaseContext()) {
+                    context.MailMessages.Attach(_message);
+                    var message = await context.MimeMessages
+                        .FirstOrDefaultAsync(x => x.MessageId == _message.Id);
+                    return message != null ? message.Data : string.Empty;
                 }
-            });
+            }
+            catch (Exception ex) {
+                LastException = ex;
+            }
+            finally {
+                DecrementLoad();
+            }
+
+            return string.Empty;
         }
 
         public bool IsLoading {
@@ -59,7 +68,7 @@ namespace Crystalbyte.Paranoia {
                 return _load > 0;
             }
         }
-        
+
         private void IncrementLoad() {
             _load++;
             RaisePropertyChanged(() => IsLoading);
@@ -96,14 +105,10 @@ namespace Crystalbyte.Paranoia {
         }
 
         private Task<MailAccountModel> GetAccountAsync() {
-            return Task.Factory.StartNew(() => {
-                lock (_databaseMutex) {
-                    using (var context = new DatabaseContext()) {
-                        context.MailMessages.Attach(_message);
-                        return _message.Mailbox.Account;
-                    }
-                }
-            });
+            using (var context = new DatabaseContext()) {
+                context.MailMessages.Attach(_message);
+                return context.MailAccounts.FindAsync(_message.Mailbox.AccountId);
+            }
         }
 
         private async Task<string> FetchMimeAsync() {
@@ -130,25 +135,19 @@ namespace Crystalbyte.Paranoia {
             BytesReceived = e.ByteCount;
         }
 
-        public async Task<string> DownloadMessageAsync() {
+        internal async Task<string> DownloadMessageAsync() {
             IncrementLoad();
-
             try {
                 var mime = await FetchMimeAsync();
-                await Task.Factory.StartNew(() => {
-                    lock (_databaseMutex) {
-                        using (var context = new DatabaseContext()) {
-                            context.MailMessages.Attach(_message);
-                            var mimeMessage = new MimeMessageModel {
-                                Data = mime
-                            };
+                using (var context = new DatabaseContext()) {
+                    context.MailMessages.Attach(_message);
+                    var mimeMessage = new MimeMessageModel {
+                        Data = mime
+                    };
 
-                            _message.MimeMessages.Add(mimeMessage);
-                            context.SaveChanges();
-                        }
-                    }
-                });
-
+                    _message.MimeMessages.Add(mimeMessage);
+                    await context.SaveChangesAsync();
+                }
                 return mime;
             }
             catch (Exception ex) {
@@ -162,14 +161,9 @@ namespace Crystalbyte.Paranoia {
         }
 
         private Task<MailboxModel> GetMailboxAsync() {
-            return Task.Factory.StartNew(() => {
-                lock (_databaseMutex) {
-                    using (var context = new DatabaseContext()) {
-                        context.MailMessages.Attach(_message);
-                        return _message.Mailbox;
-                    }
-                }
-            });
+            using (var context = new DatabaseContext()) {
+                return context.Mailboxes.FindAsync(_message.MailboxId);
+            }
         }
     }
 }

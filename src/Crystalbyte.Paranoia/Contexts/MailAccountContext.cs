@@ -5,12 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
+using System.Configuration;
 
-namespace Crystalbyte.Paranoia
-{
+namespace Crystalbyte.Paranoia {
 
-    public sealed class MailAccountContext : SelectionObject
-    {
+    public sealed class MailAccountContext : SelectionObject {
         private MailboxContext _selectedMailbox;
         private readonly MailAccountModel _account;
         private readonly ObservableCollection<MailContactContext> _contacts;
@@ -19,16 +18,14 @@ namespace Crystalbyte.Paranoia
         private Exception _lastException;
         private MailContactContext _selectedContact;
 
-        internal MailAccountContext(MailAccountModel account)
-        {
+        internal MailAccountContext(MailAccountModel account) {
             _account = account;
             _contacts = new ObservableCollection<MailContactContext>();
             _contacts.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Contacts);
             _mailboxes = new ObservableCollection<MailboxContext>();
 
         }
-        protected async override void OnSelectionChanged()
-        {
+        protected async override void OnSelectionChanged() {
             base.OnSelectionChanged();
 
             Clear();
@@ -38,29 +35,23 @@ namespace Crystalbyte.Paranoia
             await UpdateAsync();
         }
 
-        public async Task UpdateAsync()
-        {
+        public async Task UpdateAsync() {
             await LoadContactsAsync();
             await LoadMailboxesAsync();
             await SyncMailboxesAsync();
         }
 
-        internal void Clear()
-        {
+        internal void Clear() {
             _mailboxes.Clear();
             _contacts.Clear();
             _mailboxes.Clear();
         }
 
-        internal async Task<List<ImapMailboxInfo>> ListMailboxesAsync(string pattern = "")
-        {
-            using (var connection = new ImapConnection { Security = ImapSecurity })
-            {
+        internal async Task<List<ImapMailboxInfo>> ListMailboxesAsync(string pattern = "") {
+            using (var connection = new ImapConnection { Security = ImapSecurity }) {
                 connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCancelled = false;
-                using (var auth = await connection.ConnectAsync(ImapHost, ImapPort))
-                {
-                    using (var session = await auth.LoginAsync(ImapUsername, ImapPassword))
-                    {
+                using (var auth = await connection.ConnectAsync(ImapHost, ImapPort)) {
+                    using (var session = await auth.LoginAsync(ImapUsername, ImapPassword)) {
                         var wildcard = string.IsNullOrEmpty(pattern) ? "%" : pattern;
                         return await session.ListAsync("", ImapMailbox.EncodeName(wildcard));
                     }
@@ -68,27 +59,28 @@ namespace Crystalbyte.Paranoia
             }
         }
 
-        internal async Task SyncMailboxesAsync()
-        {
+        internal async Task SyncMailboxesAsync() {
             var mailboxes = _mailboxes.ToArray();
             var remoteMailboxes = await ListMailboxesAsync();
+            if (IsGmail) {
+                // Fetch gmail folders and assign automagically
+                var gmail = remoteMailboxes.FirstOrDefault(x => x.Name.ContainsIgnoreCase("gmail"));
+                var pattern = string.Format("{0}{1}%", gmail.Name, gmail.Delimiter);
+                var localizedMailboxes = await ListMailboxesAsync(pattern);
+                remoteMailboxes.AddRange(localizedMailboxes);
+            }
 
-            foreach (var mailbox in mailboxes)
-            {
-                if (!mailbox.IsAssigned)
-                {
+            foreach (var mailbox in mailboxes) {
+                if (!mailbox.IsAssigned) {
                     await mailbox.AssignMostProbableAsync(remoteMailboxes);
                 }
                 await mailbox.SyncAsync();
             }
         }
 
-        internal async Task LoadMailboxesAsync()
-        {
-            var mailboxes = await Task.Factory.StartNew(() =>
-            {
-                using (var context = new DatabaseContext())
-                {
+        internal async Task LoadMailboxesAsync() {
+            var mailboxes = await Task.Factory.StartNew(() => {
+                using (var context = new DatabaseContext()) {
                     context.MailAccounts.Attach(_account);
                     return _account.Mailboxes.ToArray();
                 }
@@ -100,12 +92,9 @@ namespace Crystalbyte.Paranoia
             }
         }
 
-        internal async Task LoadContactsAsync()
-        {
-            var contacts = await Task.Factory.StartNew(() =>
-            {
-                using (var context = new DatabaseContext())
-                {
+        internal async Task LoadContactsAsync() {
+            var contacts = await Task.Factory.StartNew(() => {
+                using (var context = new DatabaseContext()) {
                     context.MailAccounts.Attach(_account);
                     return _account.Contacts.ToArray();
                 }
@@ -115,25 +104,21 @@ namespace Crystalbyte.Paranoia
 
         public event EventHandler MailboxSelectionChanged;
 
-        private async void OnMailboxSelectionChanged()
-        {
+        private async void OnMailboxSelectionChanged() {
             await HandleMailboxSelectionChangeAsync();
             var handler = MailboxSelectionChanged;
             if (handler != null)
                 handler(this, EventArgs.Empty);
         }
 
-        private async Task HandleMailboxSelectionChangeAsync()
-        {
+        private async Task HandleMailboxSelectionChangeAsync() {
             var mailbox = SelectedMailbox;
-            if (mailbox == null)
-            {
+            if (mailbox == null) {
                 return;
             }
 
             mailbox.IsAssignable = !mailbox.IsAssigned;
-            if (mailbox.IsAssignable)
-            {
+            if (mailbox.IsAssignable) {
                 await SelectedMailbox.PrepareManualAssignmentAsync();
             }
 
@@ -143,13 +128,10 @@ namespace Crystalbyte.Paranoia
             await mailbox.SyncAsync();
         }
 
-        public MailboxContext SelectedMailbox
-        {
+        public MailboxContext SelectedMailbox {
             get { return _selectedMailbox; }
-            set
-            {
-                if (_selectedMailbox == value)
-                {
+            set {
+                if (_selectedMailbox == value) {
                     return;
                 }
 
@@ -159,13 +141,10 @@ namespace Crystalbyte.Paranoia
             }
         }
 
-        public MailContactContext SelectedContact
-        {
+        public MailContactContext SelectedContact {
             get { return _selectedContact; }
-            set
-            {
-                if (_selectedContact == value)
-                {
+            set {
+                if (_selectedContact == value) {
                     return;
                 }
                 _selectedContact = value;
@@ -173,13 +152,10 @@ namespace Crystalbyte.Paranoia
             }
         }
 
-        public string Address
-        {
+        public string Address {
             get { return _account.Address; }
-            set
-            {
-                if (_account.Address == value)
-                {
+            set {
+                if (_account.Address == value) {
                     return;
                 }
 
@@ -188,13 +164,18 @@ namespace Crystalbyte.Paranoia
             }
         }
 
-        public string Name
-        {
+        public bool IsGmail {
+            get {
+                return Properties.Settings.Default.GmailDomains
+                    .OfType<string>()
+                    .Any(x => _account.ImapHost.EndsWith(x, StringComparison.InvariantCultureIgnoreCase));
+            }
+        }
+
+        public string Name {
             get { return _account.Name; }
-            set
-            {
-                if (_account.Name == value)
-                {
+            set {
+                if (_account.Name == value) {
                     return;
                 }
 
@@ -203,13 +184,10 @@ namespace Crystalbyte.Paranoia
             }
         }
 
-        public string ImapHost
-        {
+        public string ImapHost {
             get { return _account.ImapHost; }
-            set
-            {
-                if (_account.ImapHost == value)
-                {
+            set {
+                if (_account.ImapHost == value) {
                     return;
                 }
 
@@ -218,13 +196,10 @@ namespace Crystalbyte.Paranoia
             }
         }
 
-        public short ImapPort
-        {
+        public short ImapPort {
             get { return _account.ImapPort; }
-            set
-            {
-                if (_account.ImapPort == value)
-                {
+            set {
+                if (_account.ImapPort == value) {
                     return;
                 }
 
@@ -233,13 +208,10 @@ namespace Crystalbyte.Paranoia
             }
         }
 
-        public string ImapUsername
-        {
+        public string ImapUsername {
             get { return _account.ImapUsername; }
-            set
-            {
-                if (_account.ImapUsername == value)
-                {
+            set {
+                if (_account.ImapUsername == value) {
                     return;
                 }
 
@@ -248,13 +220,10 @@ namespace Crystalbyte.Paranoia
             }
         }
 
-        public string ImapPassword
-        {
+        public string ImapPassword {
             get { return _account.ImapPassword; }
-            set
-            {
-                if (_account.ImapPassword == value)
-                {
+            set {
+                if (_account.ImapPassword == value) {
                     return;
                 }
 
@@ -263,13 +232,10 @@ namespace Crystalbyte.Paranoia
             }
         }
 
-        public SecurityPolicy ImapSecurity
-        {
+        public SecurityPolicy ImapSecurity {
             get { return _account.ImapSecurity; }
-            set
-            {
-                if (_account.ImapSecurity == value)
-                {
+            set {
+                if (_account.ImapSecurity == value) {
                     return;
                 }
 
@@ -278,13 +244,10 @@ namespace Crystalbyte.Paranoia
             }
         }
 
-        public Exception LastException
-        {
+        public Exception LastException {
             get { return _lastException; }
-            set
-            {
-                if (_lastException == value)
-                {
+            set {
+                if (_lastException == value) {
                     return;
                 }
 
@@ -293,13 +256,11 @@ namespace Crystalbyte.Paranoia
             }
         }
 
-        public IEnumerable<MailContactContext> Contacts
-        {
+        public IEnumerable<MailContactContext> Contacts {
             get { return _contacts; }
         }
 
-        public IEnumerable<MailboxContext> Mailboxes
-        {
+        public IEnumerable<MailboxContext> Mailboxes {
             get { return _mailboxes; }
         }
     }

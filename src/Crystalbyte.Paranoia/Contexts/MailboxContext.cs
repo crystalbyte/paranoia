@@ -84,6 +84,7 @@ namespace Crystalbyte.Paranoia {
         internal Task DropAsync() {
             return Task.Factory.StartNew(() => {
                 lock (_mailbox) {
+                    Debug.WriteLine("enter");
                     using (var context = new DatabaseContext()) {
                         context.Mailboxes.Attach(_mailbox);
 
@@ -94,6 +95,7 @@ namespace Crystalbyte.Paranoia {
                     }
                     IsAssignable = true;
                     OnAssignmentChanged();
+                    Debug.WriteLine("enter");
                 }
             });
         }
@@ -197,8 +199,10 @@ namespace Crystalbyte.Paranoia {
         private Task<MailAccountModel> GetAccountAsync() {
             return Task.Factory.StartNew(() => {
                 lock (_mailbox) {
+                    Debug.WriteLine("enter");
                     using (var context = new DatabaseContext()) {
                         context.Mailboxes.Attach(_mailbox);
+                        Debug.WriteLine("leave");
                         return _mailbox.Account;
                     }
                 }
@@ -297,8 +301,10 @@ namespace Crystalbyte.Paranoia {
             try {
                 var messages = await Task.Factory.StartNew(() => {
                     lock (_mailbox) {
+                        Debug.WriteLine("enter");
                         using (var context = new DatabaseContext()) {
                             context.Mailboxes.Attach(_mailbox);
+                            Debug.WriteLine("leave");
                             return _mailbox.Messages.ToArray();
                         }
                     }
@@ -320,6 +326,7 @@ namespace Crystalbyte.Paranoia {
         private Task SaveMessagesToDatabaseAsync(IEnumerable<MailMessageModel> messages) {
             return Task.Factory.StartNew(() => {
                 lock (_mailbox) {
+                    Debug.WriteLine("enter");
                     try {
                         using (var context = new DatabaseContext()) {
                             context.Mailboxes.Attach(_mailbox);
@@ -330,6 +337,7 @@ namespace Crystalbyte.Paranoia {
                     catch (Exception ex) {
                         LastException = ex;
                     }
+                    Debug.WriteLine("leave");
                 }
             });
         }
@@ -337,12 +345,14 @@ namespace Crystalbyte.Paranoia {
         private Task<Int64> GetMaxUidAsync() {
             return Task.Factory.StartNew(() => {
                 lock (_mailbox) {
+                    Debug.WriteLine("enter");
                     using (var context = new DatabaseContext()) {
                         context.Mailboxes.Attach(_mailbox);
                         return !_mailbox.Messages.Any()
                             ? 1
                             : _mailbox.Messages.Max(x => x.Uid);
                     }
+                    Debug.WriteLine("leave");
                 }
             });
         }
@@ -356,17 +366,17 @@ namespace Crystalbyte.Paranoia {
                     break;
                 case MailboxType.Sent:
                     await AssignAsync(remoteMailboxes.SingleOrDefault(
-                        x => CultureInfo.CurrentCulture.CompareInfo
+                        x => x.IsGmailSent || CultureInfo.CurrentCulture.CompareInfo
                             .IndexOf(x.Name, "sent", CompareOptions.IgnoreCase) >= 0));
                     break;
                 case MailboxType.Draft:
                     await AssignAsync(remoteMailboxes.SingleOrDefault(
-                        x => CultureInfo.CurrentCulture.CompareInfo
+                        x => x.IsGmailDraft || CultureInfo.CurrentCulture.CompareInfo
                             .IndexOf(x.Name, "draft", CompareOptions.IgnoreCase) >= 0));
                     break;
                 case MailboxType.Trash:
                     await AssignAsync(remoteMailboxes.SingleOrDefault(
-                        x => CultureInfo.CurrentCulture.CompareInfo
+                        x => x.IsGmailTrash || CultureInfo.CurrentCulture.CompareInfo
                             .IndexOf(x.Name, "trash", CompareOptions.IgnoreCase) >= 0));
                     break;
                 default:
@@ -383,6 +393,7 @@ namespace Crystalbyte.Paranoia {
                     }
 
                     lock (_mailbox) {
+                        Debug.WriteLine("enter");
                         using (var context = new DatabaseContext()) {
                             context.Mailboxes.Attach(_mailbox);
 
@@ -390,10 +401,11 @@ namespace Crystalbyte.Paranoia {
                             _mailbox.Delimiter = mailbox.Delimiter;
                             _mailbox.Flags = mailbox.Flags.Aggregate((c, n) => c + ';' + n);
 
-                            context.SaveChangesAsync();
+                            context.SaveChanges();
                             IsAssignable = false;
                             OnAssignmentChanged();
                         }
+                        Debug.WriteLine("leave");
                     }
                 }
                 catch (Exception ex) {

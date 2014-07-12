@@ -415,15 +415,16 @@
                        Grid.RowSpan="2"
                        Fill="{StaticResource AppLightBackgroundBrush}"
                        Opacity="{StaticResource ShadeOpacity}" />
-            <TextBlock Grid.Row="0"
-                       Margin="6,0,0,0"
+            <Border Grid.Row="0" Margin="6,0,0,0">
+                <TextBlock 
                        VerticalAlignment="Center"
                        FontSize="{StaticResource AppExtraLargeFontSize}"
                        Style="{StaticResource AppTitleTextStyle}">
                 <Run Text="{x:Static properties:Resources.MessagesTitle}" />
                 <Run Foreground="{StaticResource AppControlBrush}" 
                      Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
-            </TextBlock>
+                </TextBlock>
+            </Border>
             <ListView HorizontalContentAlignment="Stretch"
                       Grid.Row="1"
                       Background="Transparent"
