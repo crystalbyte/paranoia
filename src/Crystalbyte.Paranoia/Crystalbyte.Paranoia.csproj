@@ -130,7 +130,6 @@
     <Compile Include="Pack.cs" />
     <Compile Include="PasswordPolicyAttribute.cs" />
     <Compile Include="PropertySupport.cs" />
-    <Compile Include="SelectionSource.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -150,6 +149,7 @@
     <Compile Include="UI\Commands\DropMailboxCommand.cs" />
     <Compile Include="UI\Converters\BooleanToBrushConverter.cs" />
     <Compile Include="UI\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="UI\Converters\CollectionCounter.cs" />
     <Compile Include="UI\Converters\GravatarImageConverter.cs" />
     <Compile Include="UI\Converters\IgnoreLinebreaksConverter.cs" />
     <Compile Include="UI\Converters\MailboxLocalizer.cs" />
@@ -160,6 +160,7 @@
     <Compile Include="UI\Watermark.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UI\FrameExtensions.cs" />
     <Compile Include="UI\WindowCommands.cs" />
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>

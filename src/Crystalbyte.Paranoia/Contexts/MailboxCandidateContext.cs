@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Mail;
-using System.Text.RegularExpressions;
 
 namespace Crystalbyte.Paranoia {
     public sealed class MailboxCandidateContext : SelectionObject {

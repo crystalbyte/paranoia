@@ -11,7 +11,7 @@
     <Style TargetType="ui:MetroWindow">
         <Setter Property="HoverBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowButtonHoverBrush}}" />
         <Setter Property="AccentBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}}" />
-        <Setter Property="AllowsTransparency" Value="True" />
+        <Setter Property="AllowsTransparency" Value="False" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="WindowStyle" Value="None" />
         <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
@@ -44,20 +44,23 @@
                                     <RowDefinition Height="Auto" />
                                     <!--  Status bar  -->
                                 </Grid.RowDefinitions>
-                                <ContentPresenter Grid.Row="0" />
+                                <ContentPresenter Grid.Row="0" Grid.RowSpan="2" />
                                 <StatusBar Grid.Row="1"
                                            Grid.Column="0"
+                                           Height="22"
                                            Margin="-1,0,-1,-1"
                                            Panel.ZIndex="25"
                                            Background="{Binding AccentBrush,
                                                                 RelativeSource={RelativeSource FindAncestor,
                                                                                                AncestorType=ui:MetroWindow,
                                                                                                AncestorLevel=1}}"
+                                           Focusable="False"
                                            Foreground="{Binding Foreground,
                                                                 RelativeSource={RelativeSource FindAncestor,
                                                                                                AncestorType=ui:MetroWindow,
                                                                                                AncestorLevel=1}}"
-                                           SnapsToDevicePixels="True" Focusable="False" Height="22" />
+                                           SnapsToDevicePixels="True"
+                                           Visibility="Collapsed" />
 
                                 <ResizeGrip Grid.Row="1"
                                             HorizontalAlignment="Right"

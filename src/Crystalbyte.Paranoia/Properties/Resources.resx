@@ -120,6 +120,9 @@
   <data name="CloseCommandTooltip" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="ContactsTitle" xml:space="preserve">
+    <value>Contacts</value>
+  </data>
   <data name="CrossThreadException" xml:space="preserve">
     <value>Method was called on an invalid thread.</value>
   </data>

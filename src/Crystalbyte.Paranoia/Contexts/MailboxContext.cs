@@ -120,36 +120,17 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public async Task DownloadMessageAsync() {
-            try {
-                var account = await GetAccountAsync();
-                using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
-                    connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCancelled = false;
-                    using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
-                        using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
-                            //var mailbox = await session.SelectAsync(name);
-                        }
-                    }
-                }
-            }
-            catch (Exception) {
-                
-                throw;
-            }
-            
-        }
-
         internal async Task PrepareManualAssignmentAsync() {
             IsListingMailboxes = true;
             try {
 
-                var source = App.Composition.GetExport<MailAccountSelectionSource>();
-                var account = source.Selection.First();
+                //var source = App.Composition.GetExport<MailAccountSelectionSource>();
+                //var account = source.Selection.First();
 
-                var mailboxes = await account.ListMailboxesAsync();
-                _mailboxCandidates.Clear();
-                _mailboxCandidates.AddRange(mailboxes
-                    .Select(x => new MailboxCandidateContext(_account, x)));
+                //var mailboxes = await account.ListMailboxesAsync();
+                //_mailboxCandidates.Clear();
+                //_mailboxCandidates.AddRange(mailboxes
+                //    .Select(x => new MailboxCandidateContext(_account, x)));
 
             } catch (Exception ex) {
                 LastException = ex;
@@ -314,6 +295,10 @@ namespace Crystalbyte.Paranoia {
                     }
                 });
 
+                // Check for active selection, since it might have changed while being async.
+                if (!IsSelected) {
+                    return;
+                }
                 Messages = new ObservableCollection<MailMessageContext>(
                     messages.Select(x => new MailMessageContext(x)));
 
@@ -386,16 +371,18 @@ namespace Crystalbyte.Paranoia {
                         return;
                     }
 
-                    using (var context = new DatabaseContext()) {
-                        context.Mailboxes.Attach(_mailbox);
+                    lock (_mailbox) {
+                        using (var context = new DatabaseContext()) {
+                            context.Mailboxes.Attach(_mailbox);
 
-                        _mailbox.Name = mailbox.Fullname;
-                        _mailbox.Delimiter = mailbox.Delimiter;
-                        _mailbox.Flags = mailbox.Flags.Aggregate((c, n) => c + ';' + n);
+                            _mailbox.Name = mailbox.Fullname;
+                            _mailbox.Delimiter = mailbox.Delimiter;
+                            _mailbox.Flags = mailbox.Flags.Aggregate((c, n) => c + ';' + n);
 
-                        context.SaveChangesAsync();
-                        IsAssignable = false;
-                        OnAssignmentChanged();
+                            context.SaveChangesAsync();
+                            IsAssignable = false;
+                            OnAssignmentChanged();
+                        }
                     }
                 } catch (Exception ex) {
                     LastException = ex;

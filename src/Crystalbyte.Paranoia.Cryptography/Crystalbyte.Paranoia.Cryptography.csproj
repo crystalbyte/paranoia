@@ -54,7 +54,6 @@
     <Compile Include="RsaEncryption.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\libeay32.dll" />
     <Content Include="x64\libsodium.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

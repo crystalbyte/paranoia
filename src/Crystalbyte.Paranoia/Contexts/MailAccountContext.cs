@@ -9,17 +9,20 @@ using Crystalbyte.Paranoia.Mail;
 namespace Crystalbyte.Paranoia {
 
     public sealed class MailAccountContext : SelectionObject {
+        private MailboxContext _selectedMailbox;
         private readonly MailAccountModel _account;
         private readonly ObservableCollection<MailContactContext> _contacts;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
 
         private Exception _lastException;
+        private MailContactContext _selectedContact;
 
         internal MailAccountContext(MailAccountModel account) {
             _account = account;
             _contacts = new ObservableCollection<MailContactContext>();
+            _contacts.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Contacts);
             _mailboxes = new ObservableCollection<MailboxContext>();
-      
+
         }
         protected async override void OnSelectionChanged() {
             base.OnSelectionChanged();
@@ -85,6 +88,56 @@ namespace Crystalbyte.Paranoia {
                 }
             });
             _contacts.AddRange(contacts.Select(x => new MailContactContext(x)));
+        }
+
+        public event EventHandler MailboxSelectionChanged;
+
+        private async void OnMailboxSelectionChanged() {
+            await HandleMailboxSelectionChangeAsync();
+            var handler = MailboxSelectionChanged;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
+
+        private async Task HandleMailboxSelectionChangeAsync() {
+            var mailbox = SelectedMailbox;
+            if (mailbox == null) {
+                return;
+            }
+
+            mailbox.IsAssignable = !mailbox.IsAssigned;
+            if (mailbox.IsAssignable) {
+                await SelectedMailbox.PrepareManualAssignmentAsync();
+            }
+
+            await mailbox.LoadMessagesFromDatabaseAsync();
+            var app = App.Composition.GetExport<AppContext>();
+            app.UpdateMessages();
+            await mailbox.SyncAsync();
+        }
+
+        public MailboxContext SelectedMailbox {
+            get { return _selectedMailbox; }
+            set {
+                if (_selectedMailbox == value) {
+                    return;
+                }
+
+                _selectedMailbox = value;
+                RaisePropertyChanged(() => SelectedMailbox);
+                OnMailboxSelectionChanged();
+            }
+        }
+
+        public MailContactContext SelectedContact {
+            get { return _selectedContact; }
+            set {
+                if (_selectedContact == value) {
+                    return;
+                }
+                _selectedContact = value;
+                RaisePropertyChanged(() => SelectedContact);
+            }
         }
 
         public string Address {

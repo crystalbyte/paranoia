@@ -11,82 +11,88 @@ namespace Crystalbyte.Paranoia {
 
     [Export, Shared]
     public sealed class AppContext : NotificationObject {
-        private MailAccountContext _selectedAccount;
-        private IEnumerable<MailboxContext> _selectedMailboxes;
-        private object _messagesSource;
-        private MailboxContext _selectedMailbox;
 
+        private MailAccountContext _selectedAccount;
+        private readonly ObservableCollection<MailAccountContext> _accounts;
+        private object _messages;
+        private string _queryString;
+        private IEnumerable<MailMessageContext> _selectedMessages;
+        private string _html;
+        private Exception _lastException;
 
         public AppContext() {
-            Accounts = new ObservableCollection<MailAccountContext>();
+            _accounts = new ObservableCollection<MailAccountContext>();
         }
 
-        public ObservableCollection<MailAccountContext> Accounts { get; set; }
+        public IEnumerable<MailAccountContext> Accounts {
+            get { return _accounts; }
+        }
 
-        public event EventHandler MailboxSelectionChanged;
+        public event EventHandler MailAccountSelectionChanged;
 
-        private void OnMailboxSelectionChanged() {
-            var handler = MailboxSelectionChanged;
-            if (handler != null) 
+        private void OnMailAccountSelectionChanged() {
+            var handler = MailAccountSelectionChanged;
+            if (handler != null)
                 handler(this, EventArgs.Empty);
         }
 
-        private async void OnMailboxSelectionChanged(EventArgs e) {
-            MessagesSource = null;
-            var selection = MailboxSelectionSource.Selection.ToArray();
-            SelectedMailbox = selection.Length == 1
-                ? selection[0]
-                : null;
-
-            if (SelectedMailbox != null) {
-                SelectedMailbox.IsAssignable 
-                    = SelectedMailbox != null && !SelectedMailbox.IsAssigned;
-                if (SelectedMailbox.IsAssignable) {
-                    await SelectedMailbox.PrepareManualAssignmentAsync();
+        public object Messages {
+            get { return _messages; }
+            set {
+                if (_messages == value) {
+                    return;
                 }
+                _messages = value;
+                RaisePropertyChanged(() => Messages);
             }
-
-            SelectedMailboxes = selection;
-            await UpdateMessageViewAsync();
         }
 
-        private void OnAccountSelectionChanged(object sender, EventArgs e) {
-            SelectedAccount = MailAccountSelectionSource.Selection.FirstOrDefault();
+        public string QueryString {
+            get { return _queryString; }
+            set {
+                if (_queryString == value) {
+                    return;
+                }
+                _queryString = value;
+                RaisePropertyChanged(() => QueryString);
+            }
         }
 
-        public async Task UpdateMessageViewAsync() {
-            if (MailboxSelectionSource.Selection == null) {
-                MessagesSource = null;
+        internal void UpdateMessages() {
+            var mailbox = SelectedAccount.SelectedMailbox;
+            Messages = mailbox.Messages;
+        }
+
+        public IEnumerable<MailMessageContext> SelectedMessages {
+            get { return _selectedMessages; }
+            set {
+                if (Equals(_selectedMessages, value)) {
+                    return;
+                }
+                _selectedMessages = value;
+                RaisePropertyChanged(() => SelectedMessages);
+                OnMessageSelectionChanged();
+            }
+        }
+
+        private async void OnMessageSelectionChanged() {
+            var message = SelectedMessages.FirstOrDefault();
+            if (message == null) {
                 return;
             }
 
-            var mailboxes = MailboxSelectionSource.Selection.Where(x => x.IsAssigned).ToArray();
-            foreach (var mailbox in mailboxes.AsParallel()) {
-                await mailbox.LoadMessagesFromDatabaseAsync();
-            }
-
-            // Show cached messages
-            MessagesSource = mailboxes
-                .SelectMany(x => x.Messages.ToArray())
-                .ToArray();
-
-            // Sync with server
-
-            foreach (var mailbox in mailboxes.AsParallel()) {
-                await mailbox.SyncAsync();
-            }
-
+            await message.DownloadMessageAsync();
+            Html = message.Html;
         }
 
-        public object MessagesSource {
-            get { return _messagesSource; }
+        public string Html {
+            get { return _html; }
             set {
-                if (_messagesSource == value) {
+                if (_html == value) {
                     return;
                 }
-
-                _messagesSource = value;
-                RaisePropertyChanged(() => MessagesSource);
+                _html = value;
+                RaisePropertyChanged(() => Html);
             }
         }
 
@@ -99,38 +105,32 @@ namespace Crystalbyte.Paranoia {
 
                 _selectedAccount = value;
                 RaisePropertyChanged(() => SelectedAccount);
+                OnMailAccountSelectionChanged();
             }
         }
 
-        public MailboxContext SelectedMailbox {
-            get { return _selectedMailboxes.FirstOrDefault(); }
-        }
-
-        public IEnumerable<MailboxContext> SelectedMailboxes {
-            get { return _selectedMailboxes; }
+        public Exception LastException {
+            get { return _lastException; }
             set {
-                if (Equals(_selectedMailboxes, value)) {
+                if (_lastException == value) {
                     return;
                 }
-
-                _selectedMailboxes = value;
-                RaisePropertyChanged(() => SelectedMailboxes);
-                RaisePropertyChanged(() => SelectedMailbox);
-                OnMailboxSelectionChanged();
+                _lastException = value;
+                RaisePropertyChanged(() => LastException);
             }
         }
-
-        public IEnumerable<MailContactContext> SelectedContacts { get; set; }
 
         public async Task RunAsync() {
             await LoadAccountsAsync();
             SelectedAccount = Accounts.FirstOrDefault();
+            if (SelectedAccount != null)
+                SelectedAccount.IsSelected = true;
         }
 
         private async Task LoadAccountsAsync() {
             using (var context = new DatabaseContext()) {
                 var accounts = await context.MailAccounts.ToArrayAsync();
-                Accounts.AddRange(accounts.Select(x => new MailAccountContext(x)));
+                _accounts.AddRange(accounts.Select(x => new MailAccountContext(x)));
             }
         }
     }

@@ -35,27 +35,10 @@ namespace Crystalbyte.Paranoia {
 
         #endregion
 
-        private void OnLoaded(object sender, RoutedEventArgs e) {
-                    
-        }
-
-        private void OnContactsSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var selector = (ListView)sender;
-            var source = App.Composition.GetExport<MailContactSelectionSource>();
-            source.Selection = selector.SelectedItems.OfType<MailContactContext>().ToArray();
-        }
-
-        private void OnMailboxSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var selector = (ListView)sender;
-            var source = App.Composition.GetExport<MailboxSelectionSource>();
-            source.Selection = selector.SelectedItems.OfType<MailboxContext>().ToArray();
-        }
-
-        private void OnCandidatesViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
-            var source = App.Composition.GetExport<MailboxSelectionSource>();
-            Debug.Assert(source.Selection.Count() == 1, "source.Selection.Count() == 1");
-            var folder = source.Selection.First();
-            folder.NotifyCandidateSelectionChanged();
+        private void OnMessageSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            var view = (ListView)sender;
+            var app = App.Composition.GetExport<AppContext>();
+            app.SelectedMessages = view.SelectedItems.OfType<MailMessageContext>();
         }
     }
 }
