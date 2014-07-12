@@ -36,14 +36,29 @@ namespace Crystalbyte.Paranoia.Cryptography.Tests {
         {
             Sodium.InitNativeLibrary();
             var pkc1 = new PublicKeyCrypto();
+            var pkc2 = new PublicKeyCrypto();
 
             pkc1.GenerateKeyPair();
+            pkc2.GenerateKeyPair();
 
             var message = "test";
             var nonce = PublicKeyCrypto.GenerateNonce();
 
-            var encMessage = pkc1.PublicKeyEncrypt(Encoding.ASCII.GetBytes(message), pkc1.PublicKey, nonce);
-            var decryptedMessage = pkc1.PrivateKeyDecrypt(encMessage, pkc1.PublicKey, nonce);
+            var encMessage = pkc1.PublicKeyEncrypt(Encoding.ASCII.GetBytes(message), pkc2.PublicKey, nonce);
+
+            var decryptedMessage = pkc2.PrivateKeyDecrypt(encMessage, pkc1.PublicKey, nonce);
+            Assert.IsTrue(String.Compare(message, Encoding.ASCII.GetString(decryptedMessage)) == 0);
+        }
+
+        [TestMethod]
+        public void TestSecretKeyEncrpytion()
+        {
+            Sodium.InitNativeLibrary();
+            var skc = new SecretKeyCrypto();
+
+            var message = "test";
+            var cipherText = skc.Encrypt(Encoding.ASCII.GetBytes(message));
+            var decryptedMessage = skc.Decrypt(cipherText,skc.Nonce,skc.Key);
             Assert.IsTrue(String.Compare(message, Encoding.ASCII.GetString(decryptedMessage)) == 0);
         }
     }

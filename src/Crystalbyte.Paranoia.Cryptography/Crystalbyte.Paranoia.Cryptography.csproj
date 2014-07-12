@@ -50,6 +50,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="PublicKeyCrypto.cs" />
+    <Compile Include="SecretKeyCrypto.cs" />
     <Compile Include="Sodium.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RsaEncryption.cs" />
