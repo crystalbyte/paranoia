@@ -17,7 +17,7 @@
         <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
         <Setter Property="BorderBrush" Value="{Binding AccentBrush, RelativeSource={RelativeSource Self}}" />
         <Setter Property="Background" Value="#333" />
-        <Setter Property="Foreground" Value="WhiteSmoke" />
+        <Setter Property="Foreground" Value="GhostWhite" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>

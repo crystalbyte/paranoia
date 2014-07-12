@@ -21,8 +21,8 @@ namespace Crystalbyte.Paranoia.UI {
             if (frame == null) return;
 
             var file = Path.GetTempFileName() + ".html";
-            File.WriteAllText(file, e.NewValue as string ?? string.Empty);
-
+            var text = e.NewValue as string;
+            File.WriteAllText(file, text ?? string.Empty);
             frame.Navigate(new Uri(string.Format("file:///{0}", file), UriKind.Absolute));
         }
 

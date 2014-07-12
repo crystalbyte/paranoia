@@ -80,7 +80,7 @@ namespace Crystalbyte.Paranoia.Mail {
 
             var e = new RemoteCertificateValidationFailedEventArgs(cert, chain, error);
             handler(this, e);
-            return !e.IsCancelled;
+            return !e.IsCanceled;
         }
 
         internal async Task<ImapResponseLine> ReadAsync() {

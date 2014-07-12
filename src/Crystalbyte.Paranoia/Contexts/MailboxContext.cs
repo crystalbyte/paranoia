@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Windows;
 using Crystalbyte.Paranoia.Data;
@@ -26,7 +27,6 @@ namespace Crystalbyte.Paranoia {
         private readonly MailboxModel _mailbox;
         private readonly ObservableCollection<MailboxCandidateContext> _mailboxCandidates;
         private readonly AssignMailboxCommand _assignMailboxCommand;
-        private readonly DropMailboxCommand _dropMailboxCommand;
         private MailboxCandidateContext _selectedCandidate;
         private bool _isLoadingMessage;
 
@@ -34,7 +34,7 @@ namespace Crystalbyte.Paranoia {
             _account = account;
             _mailbox = mailbox;
             _assignMailboxCommand = new AssignMailboxCommand(this);
-            _dropMailboxCommand = new DropMailboxCommand(this);
+            
             _mailboxCandidates = new ObservableCollection<MailboxCandidateContext>();
         }
 
@@ -81,23 +81,19 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal Task DropAsync() {
-            return Task.Factory.StartNew(() => {
-                lock (_mailbox) {
-                    Debug.WriteLine("enter");
-                    using (var context = new DatabaseContext()) {
-                        context.Mailboxes.Attach(_mailbox);
+        internal async Task DropAsync() {
+            using (var context = new DatabaseContext()) {
+                context.Mailboxes.Attach(_mailbox);
 
-                        _mailbox.Name = string.Empty;
-                        _mailbox.Flags = string.Empty;
+                _mailbox.Name = string.Empty;
+                _mailbox.Flags = string.Empty;
 
-                        context.SaveChanges();
-                    }
-                    IsAssignable = true;
-                    OnAssignmentChanged();
-                    Debug.WriteLine("enter");
-                }
-            });
+                await context.SaveChangesAsync();
+            }
+
+            IsAssignable = true;
+            RaisePropertyChanged(() => IsAssigned);
+            OnAssignmentChanged();
         }
 
         public bool IsAssigned {
@@ -106,10 +102,6 @@ namespace Crystalbyte.Paranoia {
 
         public AssignMailboxCommand AssignMailboxCommand {
             get { return _assignMailboxCommand; }
-        }
-
-        public DropMailboxCommand DropMailboxCommand {
-            get { return _dropMailboxCommand; }
         }
 
         public bool IsAssignable {
@@ -135,11 +127,9 @@ namespace Crystalbyte.Paranoia {
                 _mailboxCandidates.AddRange(mailboxes
                     .Select(x => new MailboxCandidateContext(_account, x)));
 
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 LastException = ex;
-            }
-            finally {
+            } finally {
                 IsListingMailboxes = false;
             }
         }
@@ -197,16 +187,9 @@ namespace Crystalbyte.Paranoia {
         }
 
         private Task<MailAccountModel> GetAccountAsync() {
-            return Task.Factory.StartNew(() => {
-                lock (_mailbox) {
-                    Debug.WriteLine("enter");
-                    using (var context = new DatabaseContext()) {
-                        context.Mailboxes.Attach(_mailbox);
-                        Debug.WriteLine("leave");
-                        return _mailbox.Account;
-                    }
-                }
-            });
+            using (var context = new DatabaseContext()) {
+                return context.MailAccounts.FindAsync(_mailbox.AccountId);
+            }
         }
 
         protected override void OnSelectionChanged() {
@@ -236,7 +219,7 @@ namespace Crystalbyte.Paranoia {
                 var messages = new List<MailMessageModel>();
 
                 using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
-                    connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCancelled = false;
+                    connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                     using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
                         using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
                             var mailbox = await session.SelectAsync(name);
@@ -278,11 +261,9 @@ namespace Crystalbyte.Paranoia {
 
                 await SaveMessagesToDatabaseAsync(messages);
                 AppendMessages(messages);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 LastException = ex;
-            }
-            finally {
+            } finally {
                 IsSyncing = false;
             }
         }
@@ -291,24 +272,19 @@ namespace Crystalbyte.Paranoia {
             var contexts = messages.Select(x => new MailMessageContext(x));
             if (Messages == null) {
                 Messages = new ObservableCollection<MailMessageContext>(contexts);
-            }
-            else {
+            } else {
                 Messages.AddRange(contexts);
             }
         }
 
         internal async Task LoadMessagesFromDatabaseAsync() {
             try {
-                var messages = await Task.Factory.StartNew(() => {
-                    lock (_mailbox) {
-                        Debug.WriteLine("enter");
-                        using (var context = new DatabaseContext()) {
-                            context.Mailboxes.Attach(_mailbox);
-                            Debug.WriteLine("leave");
-                            return _mailbox.Messages.ToArray();
-                        }
-                    }
-                });
+                IEnumerable<MailMessageModel> messages;
+                using (var context = new DatabaseContext()) {
+                    messages = await context.MailMessages
+                        .Where(x => x.MailboxId == _mailbox.Id)
+                        .ToArrayAsync();
+                }
 
                 // Check for active selection, since it might have changed while being async.
                 if (!IsSelected) {
@@ -316,49 +292,36 @@ namespace Crystalbyte.Paranoia {
                 }
                 Messages = new ObservableCollection<MailMessageContext>(
                     messages.Select(x => new MailMessageContext(x)));
-
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 LastException = ex;
             }
         }
 
-        private Task SaveMessagesToDatabaseAsync(IEnumerable<MailMessageModel> messages) {
-            return Task.Factory.StartNew(() => {
-                lock (_mailbox) {
-                    Debug.WriteLine("enter");
-                    try {
-                        using (var context = new DatabaseContext()) {
-                            context.Mailboxes.Attach(_mailbox);
-                            _mailbox.Messages.AddRange(messages);
-                            context.SaveChanges();
-                        }
-                    }
-                    catch (Exception ex) {
-                        LastException = ex;
-                    }
-                    Debug.WriteLine("leave");
-                }
-            });
+        private async Task SaveMessagesToDatabaseAsync(IEnumerable<MailMessageModel> messages) {
+            using (var context = new DatabaseContext()) {
+                context.Mailboxes.Attach(_mailbox);
+                _mailbox.Messages.AddRange(messages);
+                await context.SaveChangesAsync();
+            }
         }
 
         private Task<Int64> GetMaxUidAsync() {
-            return Task.Factory.StartNew(() => {
-                lock (_mailbox) {
-                    Debug.WriteLine("enter");
-                    using (var context = new DatabaseContext()) {
-                        context.Mailboxes.Attach(_mailbox);
-                        return !_mailbox.Messages.Any()
-                            ? 1
-                            : _mailbox.Messages.Max(x => x.Uid);
-                    }
-                    Debug.WriteLine("leave");
-                }
-            });
+            using (var context = new DatabaseContext()) {
+                return context.MailMessages
+                    .Where(x => x.MailboxId == _mailbox.Id)
+                    .Select(x => x.Uid)
+                    .DefaultIfEmpty(1)
+                    .MaxAsync(x => x);
+            }
         }
 
         internal async Task AssignMostProbableAsync(List<ImapMailboxInfo> remoteMailboxes) {
             switch (Type) {
+                case MailboxType.All:
+                    await AssignAsync(remoteMailboxes.SingleOrDefault(
+                        x => x.IsGmailAll || CultureInfo.CurrentCulture.CompareInfo
+                            .IndexOf(x.Name, "all", CompareOptions.IgnoreCase) >= 0));
+                    break;
                 case MailboxType.Inbox:
                     await AssignAsync(remoteMailboxes.SingleOrDefault(
                         x => CultureInfo.CurrentCulture.CompareInfo
@@ -384,34 +347,28 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal Task AssignAsync(ImapMailboxInfo mailbox) {
-            return Task.Factory.StartNew(() => {
-                try {
-                    // If no match has been found mailbox will be null.
-                    if (mailbox == null) {
-                        return;
-                    }
-
-                    lock (_mailbox) {
-                        Debug.WriteLine("enter");
-                        using (var context = new DatabaseContext()) {
-                            context.Mailboxes.Attach(_mailbox);
-
-                            _mailbox.Name = mailbox.Fullname;
-                            _mailbox.Delimiter = mailbox.Delimiter;
-                            _mailbox.Flags = mailbox.Flags.Aggregate((c, n) => c + ';' + n);
-
-                            context.SaveChanges();
-                            IsAssignable = false;
-                            OnAssignmentChanged();
-                        }
-                        Debug.WriteLine("leave");
-                    }
+        internal async Task AssignAsync(ImapMailboxInfo mailbox) {
+            try {
+                // If no match has been found mailbox will be null.
+                if (mailbox == null) {
+                    return;
                 }
-                catch (Exception ex) {
-                    LastException = ex;
+
+                using (var context = new DatabaseContext()) {
+                    context.Mailboxes.Attach(_mailbox);
+
+                    _mailbox.Name = mailbox.Fullname;
+                    _mailbox.Delimiter = mailbox.Delimiter;
+                    _mailbox.Flags = mailbox.Flags.Aggregate((c, n) => c + ';' + n);
+
+                    await context.SaveChangesAsync();
+                    IsAssignable = false;
+                    OnAssignmentChanged();
                 }
-            });
+
+            } catch (Exception ex) {
+                LastException = ex;
+            }
         }
 
         internal void NotifyCandidateSelectionChanged() {

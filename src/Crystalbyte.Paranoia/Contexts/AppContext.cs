@@ -77,8 +77,17 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
                 _selectedMessages = value;
+                RaisePropertyChanged(() => SelectedMessage);
                 RaisePropertyChanged(() => SelectedMessages);
                 OnMessageSelectionChanged();
+            }
+        }
+
+        public MailMessageContext SelectedMessage {
+            get {
+                return SelectedMessages == null 
+                    ? null 
+                    : SelectedMessages.FirstOrDefault();
             }
         }
 

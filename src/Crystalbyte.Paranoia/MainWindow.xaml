@@ -8,8 +8,8 @@
                 xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                 xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                 Title="p4r4n014"
-                Width="1680"
-                Height="1024"
+                Width="1280"
+                Height="768"
                 MinWidth="1024"
                 MinHeight="600"
                 Background="{StaticResource AppBackgroundBrush}"
@@ -30,11 +30,11 @@
                               MinWidth="280"
                               MaxWidth="500" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="0.48*"
+            <ColumnDefinition Width="0.45*"
                               MinWidth="260"
                               MaxWidth="800" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="0.55*" />
         </Grid.ColumnDefinitions>
         <Grid.Resources>
             <CollectionViewSource x:Key="MessagesSource" Source="{Binding Messages}" />
@@ -42,7 +42,7 @@
         <Rectangle Grid.Row="0"
                    Grid.RowSpan="2"
                    Grid.Column="0"
-                   Fill="{StaticResource AppLightBackgroundBrush}"
+                   Fill="{StaticResource AppShadeBrush}"
                    Opacity="{StaticResource ShadeOpacity}"
                    RenderOptions.EdgeMode="Aliased" />
         <Image Grid.Row="0"
@@ -57,13 +57,13 @@
         <Rectangle Grid.Row="1"
                    Grid.Column="0"
                    Grid.ColumnSpan="5"
-                   Fill="Black"
-                   Opacity=".5"
+                   Fill="{StaticResource AppShadeBrush}"
+                   Opacity="{StaticResource ShadeOpacity}"
                    RenderOptions.EdgeMode="Aliased" />
         <Rectangle Grid.Row="0"
                    Grid.RowSpan="2"
                    Grid.Column="0"
-                   Fill="{StaticResource AppLightBackgroundBrush}"
+                   Fill="{StaticResource AppShadeBrush}"
                    Opacity="{StaticResource ShadeOpacity}"
                    RenderOptions.EdgeMode="Aliased" />
         <DockPanel Grid.Row="0"
@@ -137,14 +137,14 @@
                        Grid.Column="0"
                        Grid.ColumnSpan="2"
                        Margin="0,0,0,8"
-                       Fill="{StaticResource AppLightBackgroundBrush}"
+                       Fill="{StaticResource AppShadeBrush}"
                        Opacity="{StaticResource ShadeOpacity}"
                        RenderOptions.EdgeMode="Aliased" />
             <Rectangle Grid.Row="3"
                        Grid.RowSpan="2"
                        Grid.Column="0"
                        Grid.ColumnSpan="2"
-                       Fill="{StaticResource AppLightBackgroundBrush}"
+                       Fill="{StaticResource AppShadeBrush}"
                        Opacity="{StaticResource ShadeOpacity}"
                        RenderOptions.EdgeMode="Aliased" />
             <Image Grid.Row="0"
@@ -176,17 +176,18 @@
                        Style="{StaticResource AppSubtitleTextStyle}"
                        Text="{Binding Address}"
                        TextTrimming="CharacterEllipsis" />
-            <TextBlock Grid.Row="3"
-                       Grid.Column="0"
-                       Grid.ColumnSpan="2"
-                       Margin="8,0,0,6"
-                       VerticalAlignment="Center"
-                       DataContext="{Binding SelectedAccount}"
-                       FontSize="{StaticResource AppExtraLargeFontSize}"
-                       Style="{StaticResource AppTitleTextStyle}">
-                <Run Text="{x:Static properties:Resources.ContactsTitle}" />
-                <Run Foreground="{StaticResource AppControlBrush}" Text="{Binding Contacts, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
-            </TextBlock>
+            <Border Grid.Row="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Margin="8,0,0,0">
+                <TextBlock VerticalAlignment="Center"
+                           DataContext="{Binding SelectedAccount}"
+                           FontSize="{StaticResource AppExtraLargeFontSize}"
+                           Style="{StaticResource AppTitleTextStyle}">
+                    <Run Text="{x:Static properties:Resources.ContactsTitle}" />
+                    <Run Foreground="{StaticResource AppControlBrush}" Text="{Binding Contacts, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
+                </TextBlock>
+            </Border>
             <ListView Grid.Row="4"
                       Grid.Column="0"
                       Grid.ColumnSpan="2"
@@ -221,7 +222,8 @@
                             <StackPanel Grid.Column="1"
                                         Margin="0,-3,0,0"
                                         VerticalAlignment="Center">
-                                <TextBlock FontSize="18"
+                                <TextBlock Margin="0"
+                                           FontSize="18"
                                            Style="{StaticResource AppTitleTextStyle}"
                                            Text="{Binding Name}" />
                                 <TextBlock FontSize="{StaticResource AppSmallFontSize}"
@@ -260,6 +262,9 @@
                       SelectedValue="{Binding SelectedMailbox,
                                               Mode=TwoWay}"
                       d:DataContext="{d:DesignInstance {x:Type paranoia:MailAccountContext}}">
+                <ListView.InputBindings>
+                    <KeyBinding Key="Delete" Command="{Binding DropMailboxCommand}" />
+                </ListView.InputBindings>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}">
                         <Setter Property="Margin" Value="0" />
@@ -275,9 +280,6 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid x:Name="MailboxLayoutRoot">
-                            <Grid.InputBindings>
-                                <KeyBinding Key="Delete" Command="{Binding DropMailboxCommand}" />
-                            </Grid.InputBindings>
                             <TextBlock Margin="3"
                                        VerticalAlignment="Center"
                                        FontSize="{StaticResource AppLargeFontSize}"
@@ -309,12 +311,12 @@
                                     <StackPanel.Effect>
                                         <DropShadowEffect />
                                     </StackPanel.Effect>
-                                    <Polygon Fill="{StaticResource AppLightBackgroundBrush}"
+                                    <Polygon Fill="{StaticResource AppShadeBrush}"
                                              Points="150,0 140,12 160,12"
                                              Stroke="{DynamicResource {ComponentResourceKey ResourceId=AppAccentBrush,
                                                                                             TypeInTargetAssembly={x:Type paranoia:App}}}" />
                                     <Border Margin="0,-1,0,0"
-                                            Background="{StaticResource AppLightBackgroundBrush}"
+                                            Background="{StaticResource AppShadeBrush}"
                                             BorderBrush="{DynamicResource {ComponentResourceKey ResourceId=AppAccentBrush,
                                                                                                 TypeInTargetAssembly={x:Type paranoia:App}}}"
                                             BorderThickness="1">
@@ -331,7 +333,7 @@
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Top"
                                                        Panel.ZIndex="500"
-                                                       Fill="{StaticResource AppLightBackgroundBrush}"
+                                                       Fill="{StaticResource AppShadeBrush}"
                                                        RenderOptions.EdgeMode="Aliased"
                                                        StrokeThickness="0" />
                                             <StackPanel Grid.Row="0"
@@ -409,24 +411,22 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Rectangle HorizontalAlignment="Stretch"
-                       VerticalAlignment="Stretch"
-                       Grid.Row="0"
+            <Rectangle Grid.Row="0"
                        Grid.RowSpan="2"
-                       Fill="{StaticResource AppLightBackgroundBrush}"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch"
+                       Fill="{StaticResource AppShadeBrush}"
                        Opacity="{StaticResource ShadeOpacity}" />
-            <Border Grid.Row="0" Margin="6,0,0,0">
-                <TextBlock 
-                       VerticalAlignment="Center"
-                       FontSize="{StaticResource AppExtraLargeFontSize}"
-                       Style="{StaticResource AppTitleTextStyle}">
-                <Run Text="{x:Static properties:Resources.MessagesTitle}" />
-                <Run Foreground="{StaticResource AppControlBrush}" 
-                     Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
+            <Border Grid.Row="0" Margin="8,0,0,0">
+                <TextBlock VerticalAlignment="Center"
+                           FontSize="{StaticResource AppExtraLargeFontSize}"
+                           Style="{StaticResource AppTitleTextStyle}">
+                    <Run Text="{x:Static properties:Resources.MessagesTitle}" />
+                    <Run Foreground="{StaticResource AppControlBrush}" Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
                 </TextBlock>
             </Border>
-            <ListView HorizontalContentAlignment="Stretch"
-                      Grid.Row="1"
+            <ListView Grid.Row="1"
+                      HorizontalContentAlignment="Stretch"
                       Background="Transparent"
                       BorderThickness="0"
                       ItemsSource="{Binding Source={StaticResource MessagesSource}}"
@@ -495,7 +495,6 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-
         <GridSplitter Grid.Row="0"
                       Grid.RowSpan="3"
                       Grid.Column="3"
@@ -504,21 +503,45 @@
               Grid.Column="4"
               Margin="0,8,0,0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" MinHeight="80" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Rectangle Grid.RowSpan="2"
                        HorizontalAlignment="Stretch"
                        VerticalAlignment="Stretch"
-                       Fill="{StaticResource AppLightBackgroundBrush}"
+                       Fill="{StaticResource AppShadeBrush}"
                        Opacity="{StaticResource ShadeOpacity}" />
-            <Grid Grid.Row="0" />
-
+            <Border Grid.Row="0" Padding="24,24,24,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Margin="0"
+                               DataContext="{Binding SelectedMessage}"
+                               Style="{StaticResource AppTitleTextStyle}"
+                               Text="{Binding Subject,
+                                              Mode=OneWay}"
+                               TextTrimming="CharacterEllipsis"
+                               TextWrapping="NoWrap" />
+                    <TextBlock Grid.Row="1"
+                               DataContext="{Binding SelectedMessage}"
+                               Style="{StaticResource AppSubtitleTextStyle}"
+                               Text="{Binding FromName}" />
+                    <TextBlock Grid.Row="2"
+                               DataContext="{Binding SelectedMessage}"
+                               FontSize="{StaticResource AppSmallFontSize}"
+                               Style="{StaticResource AppSubtitleTextStyle}"
+                               Text="{Binding EntryDate}" />
+                </Grid>
+            </Border>
             <Frame Grid.Row="1"
-                   Margin="32"
-                   NavigationUIVisibility="Hidden"
+                   Margin="24,12,24,24"
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
+                   NavigationUIVisibility="Hidden"
                    ui:FrameExtensions.BindableSource="{Binding Html,
                                                                Mode=OneWay}" />
 

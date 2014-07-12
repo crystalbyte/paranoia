@@ -52,7 +52,7 @@ namespace Crystalbyte.Paranoia.Mail {
             if (handler != null) {
                 var e = new RemoteCertificateValidationFailedEventArgs(cert, chain, error);
                 handler(this, e);
-                return !e.IsCancelled;
+                return !e.IsCanceled;
             }
             return false;
         }

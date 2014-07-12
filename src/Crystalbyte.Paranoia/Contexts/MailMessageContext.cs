@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Linq;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
-using System.Diagnostics;
 
 namespace Crystalbyte.Paranoia {
     public class MailMessageContext : SelectionObject {
         private int _load;
         private long _bytesReceived;
         private Exception _lastException;
-        private object _databaseMutex;
         private readonly MailMessageModel _message;
 
         public MailMessageContext(MailMessageModel message) {
             _message = message;
-            _databaseMutex = new object();
         }
 
         public long Uid {
@@ -104,19 +100,18 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private Task<MailAccountModel> GetAccountAsync() {
+        private static Task<MailAccountModel> GetAccountAsync(MailboxModel mailbox) {
             using (var context = new DatabaseContext()) {
-                context.MailMessages.Attach(_message);
-                return context.MailAccounts.FindAsync(_message.Mailbox.AccountId);
+                return context.MailAccounts.FindAsync(mailbox.AccountId);
             }
         }
 
         private async Task<string> FetchMimeAsync() {
-            var account = await GetAccountAsync();
             var mailbox = await GetMailboxAsync();
+            var account = await GetAccountAsync(mailbox);
 
             using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
-                connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCancelled = false;
+                connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                 using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
                     using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
                         var folder = await session.SelectAsync(mailbox.Name);

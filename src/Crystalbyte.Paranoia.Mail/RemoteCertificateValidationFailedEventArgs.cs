@@ -13,12 +13,12 @@ namespace Crystalbyte.Paranoia.Mail {
             Chain = chain;
             Certificate = certificate;
             PolicyError = error;
-            IsCancelled = true;
+            IsCanceled = true;
         }
 
         public X509Certificate Certificate { get; private set; }
         public SslPolicyErrors PolicyError { get; private set; }
         public X509Chain Chain { get; private set; }
-        public bool IsCancelled { get; set; }
+        public bool IsCanceled { get; set; }
     }
 }

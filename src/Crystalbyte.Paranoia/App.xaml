@@ -31,7 +31,7 @@
             <system:Double x:Key="ShadeOpacity">0.7</system:Double>
 
             <!--  Brushes  -->
-            <Color x:Key="AppAccentColor">GhostWhite</Color>
+            <Color x:Key="AppAccentColor">Black</Color>
             <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccentColor}" />
             <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}" Color="{StaticResource AppAccentColor}" />
 
@@ -39,20 +39,20 @@
             <SolidColorBrush x:Key="AppBackgroundBrush" Color="{StaticResource AppBackgroundColor}" />
 
             <SolidColorBrush x:Key="AppDisabledTextBrush" Color="DimGray" />
-
-            <SolidColorBrush x:Key="AppLightTextBrush" Color="WhiteSmoke" />
+            <SolidColorBrush x:Key="AppLightTextBrush" Color="GhostWhite" />
             <SolidColorBrush x:Key="AppFailureColorBrush" Color="Red" />
-            <SolidColorBrush x:Key="AppMediumTextBrush" Color="DimGray" />
-            <SolidColorBrush x:Key="AppControlBrush" Color="DimGray" />
+            <SolidColorBrush x:Key="AppMediumTextBrush" Color="Gray" />
             <SolidColorBrush x:Key="AppDarkTextBrush" Color="#333" />
+
+            <SolidColorBrush x:Key="AppControlBrush" Color="DimGray" />
             <SolidColorBrush x:Key="AppLightControlBrush" Color="LightGray" />
 
-            <!--  <SolidColorBrush x:Key="AppLightBackgroundBrush" Color="#2A2A2C" />  -->
-            <SolidColorBrush x:Key="AppLightBackgroundBrush" Color="Black" />
+            <!--  <SolidColorBrush x:Key="AppShadeBrush" Color="#2A2A2C" />  -->
+            <SolidColorBrush x:Key="AppShadeBrush" Color="Black" />
             <SolidColorBrush x:Key="AppButtonBorderBrush" Color="Transparent" />
             <SolidColorBrush x:Key="AppButtonBackgroundBrush" Color="Transparent" />
 
-            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowButtonHoverBrush}" Color="#3E3E40" />
+            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowButtonHoverBrush}" Color="LightSlateGray" />
             <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowSearchTextBrush}" Color="DimGray" />
 
             <Style x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowTitleStyle}" TargetType="TextBlock">
@@ -262,6 +262,7 @@
             <Style x:Key="AppSubtitleTextStyle"
                    BasedOn="{StaticResource AppLightTextStyle}"
                    TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="0,3,0,3" />
                 <Setter Property="Foreground" Value="{StaticResource AppMediumTextBrush}" />
                 <Setter Property="FontSize" Value="{StaticResource AppMediumFontSize}" />
             </Style>

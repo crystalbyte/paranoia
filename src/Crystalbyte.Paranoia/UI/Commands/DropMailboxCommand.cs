@@ -3,19 +3,21 @@ using System.Windows.Input;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
     public sealed class DropMailboxCommand : ICommand {
-        private readonly MailboxContext _mailbox;
+        private readonly MailAccountContext _account;
 
-        public DropMailboxCommand(MailboxContext mailbox) {
-            _mailbox = mailbox;
-            _mailbox.AssignmentChanged += (sender, e) => OnCanExecuteChanged();
+        public DropMailboxCommand(MailAccountContext account) {
+            _account = account;
+            _account.MailboxSelectionChanged += (sender, e) => OnCanExecuteChanged();
         }
 
         public bool CanExecute(object parameter) {
-            return _mailbox.IsAssigned;
+            var mailbox = _account.SelectedMailbox;
+            return mailbox != null && mailbox.IsAssigned;
         }
 
         public async void Execute(object parameter) {
-            await _mailbox.DropAsync();
+            var mailbox = _account.SelectedMailbox;
+            await mailbox.DropAsync();
         }
 
         public event EventHandler CanExecuteChanged;

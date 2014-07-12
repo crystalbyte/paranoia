@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using System.Configuration;
+using Crystalbyte.Paranoia.UI.Commands;
 
 namespace Crystalbyte.Paranoia {
 
     public sealed class MailAccountContext : SelectionObject {
         private MailboxContext _selectedMailbox;
         private readonly MailAccountModel _account;
+        private readonly DropMailboxCommand _dropMailboxCommand;
         private readonly ObservableCollection<MailContactContext> _contacts;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
 
@@ -20,11 +22,16 @@ namespace Crystalbyte.Paranoia {
 
         internal MailAccountContext(MailAccountModel account) {
             _account = account;
+            _dropMailboxCommand = new DropMailboxCommand(this);
             _contacts = new ObservableCollection<MailContactContext>();
             _contacts.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Contacts);
             _mailboxes = new ObservableCollection<MailboxContext>();
 
         }
+        public DropMailboxCommand DropMailboxCommand {
+            get { return _dropMailboxCommand; }
+        }
+
         protected async override void OnSelectionChanged() {
             base.OnSelectionChanged();
 
@@ -49,7 +56,7 @@ namespace Crystalbyte.Paranoia {
 
         internal async Task<List<ImapMailboxInfo>> ListMailboxesAsync(string pattern = "") {
             using (var connection = new ImapConnection { Security = ImapSecurity }) {
-                connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCancelled = false;
+                connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                 using (var auth = await connection.ConnectAsync(ImapHost, ImapPort)) {
                     using (var session = await auth.LoginAsync(ImapUsername, ImapPassword)) {
                         var wildcard = string.IsNullOrEmpty(pattern) ? "%" : pattern;
@@ -63,11 +70,13 @@ namespace Crystalbyte.Paranoia {
             var mailboxes = _mailboxes.ToArray();
             var remoteMailboxes = await ListMailboxesAsync();
             if (IsGmail) {
-                // Fetch gmail folders and assign automagically
+                // Fetch gmail folders and assign automagically.
                 var gmail = remoteMailboxes.FirstOrDefault(x => x.Name.ContainsIgnoreCase("gmail"));
-                var pattern = string.Format("{0}{1}%", gmail.Name, gmail.Delimiter);
-                var localizedMailboxes = await ListMailboxesAsync(pattern);
-                remoteMailboxes.AddRange(localizedMailboxes);
+                if (gmail != null) {
+                    var pattern = string.Format("{0}{1}%", gmail.Name, gmail.Delimiter);
+                    var localizedMailboxes = await ListMailboxesAsync(pattern);
+                    remoteMailboxes.AddRange(localizedMailboxes);
+                }
             }
 
             foreach (var mailbox in mailboxes) {
@@ -168,7 +177,8 @@ namespace Crystalbyte.Paranoia {
             get {
                 return Properties.Settings.Default.GmailDomains
                     .OfType<string>()
-                    .Any(x => _account.ImapHost.EndsWith(x, StringComparison.InvariantCultureIgnoreCase));
+                    .Any(x => _account.ImapHost
+                        .EndsWith(x, StringComparison.InvariantCultureIgnoreCase));
             }
         }
 

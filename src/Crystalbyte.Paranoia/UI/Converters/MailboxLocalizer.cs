@@ -17,6 +17,8 @@ namespace Crystalbyte.Paranoia.UI.Converters {
                     return Resources.DraftMailbox;
                 case MailboxType.Trash:
                     return Resources.TrashMailbox;
+                case MailboxType.All:
+                    return Resources.AllMailbox;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
