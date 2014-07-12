@@ -10,10 +10,12 @@ using System.Windows;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.UI.Commands;
+using System.Diagnostics;
 
 #endregion
 
 namespace Crystalbyte.Paranoia {
+    [DebuggerDisplay("Name = {Name}")]
     public sealed class MailboxContext : SelectionObject {
         private bool _isSyncing;
         private Exception _lastException;
@@ -123,18 +125,19 @@ namespace Crystalbyte.Paranoia {
         internal async Task PrepareManualAssignmentAsync() {
             IsListingMailboxes = true;
             try {
+                var app = App.Composition.GetExport<AppContext>();
+                var account = app.SelectedAccount;
 
-                //var source = App.Composition.GetExport<MailAccountSelectionSource>();
-                //var account = source.Selection.First();
+                var mailboxes = await account.ListMailboxesAsync();
+                _mailboxCandidates.Clear();
+                _mailboxCandidates.AddRange(mailboxes
+                    .Select(x => new MailboxCandidateContext(_account, x)));
 
-                //var mailboxes = await account.ListMailboxesAsync();
-                //_mailboxCandidates.Clear();
-                //_mailboxCandidates.AddRange(mailboxes
-                //    .Select(x => new MailboxCandidateContext(_account, x)));
-
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 LastException = ex;
-            } finally {
+            }
+            finally {
                 IsListingMailboxes = false;
             }
         }
@@ -220,6 +223,7 @@ namespace Crystalbyte.Paranoia {
             }
 
             IsSyncing = true;
+
             try {
                 var name = _mailbox.Name;
                 var maxUid = await GetMaxUidAsync();
@@ -248,29 +252,33 @@ namespace Crystalbyte.Paranoia {
                                 return;
                             }
 
-                            messages.AddRange(envelopes.Select(envelope => new MailMessageModel {
-                                EntryDate = envelope.InternalDate.HasValue
-                                    ? envelope.InternalDate.Value
-                                    : DateTime.Now,
-                                Subject = envelope.Subject,
-                                Uid = envelope.Uid,
-                                MessageId = envelope.MessageId,
-                                FromAddress = envelope.From.Any()
-                                    ? envelope.From.First().Address
-                                    : string.Empty,
-                                FromName = envelope.From.Any()
-                                    ? envelope.From.First().DisplayName
-                                    : string.Empty
-                            }));
+                            messages.AddRange(envelopes
+                                .Select(envelope => new MailMessageModel {
+                                    EntryDate = envelope.InternalDate.HasValue
+                                        ? envelope.InternalDate.Value
+                                        : DateTime.Now,
+                                    Subject = envelope.Subject,
+                                    Size = envelope.Size,
+                                    Uid = envelope.Uid,
+                                    MessageId = envelope.MessageId,
+                                    FromAddress = envelope.From.Any()
+                                        ? envelope.From.First().Address
+                                        : string.Empty,
+                                    FromName = envelope.From.Any()
+                                        ? envelope.From.First().DisplayName
+                                        : string.Empty
+                                }));
                         }
                     }
                 }
 
                 await SaveMessagesToDatabaseAsync(messages);
                 AppendMessages(messages);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 LastException = ex;
-            } finally {
+            }
+            finally {
                 IsSyncing = false;
             }
         }
@@ -279,7 +287,8 @@ namespace Crystalbyte.Paranoia {
             var contexts = messages.Select(x => new MailMessageContext(x));
             if (Messages == null) {
                 Messages = new ObservableCollection<MailMessageContext>(contexts);
-            } else {
+            }
+            else {
                 Messages.AddRange(contexts);
             }
         }
@@ -302,7 +311,8 @@ namespace Crystalbyte.Paranoia {
                 Messages = new ObservableCollection<MailMessageContext>(
                     messages.Select(x => new MailMessageContext(x)));
 
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 LastException = ex;
             }
         }
@@ -316,7 +326,8 @@ namespace Crystalbyte.Paranoia {
                             _mailbox.Messages.AddRange(messages);
                             context.SaveChanges();
                         }
-                    } catch (Exception ex) {
+                    }
+                    catch (Exception ex) {
                         LastException = ex;
                     }
                 }
@@ -384,7 +395,8 @@ namespace Crystalbyte.Paranoia {
                             OnAssignmentChanged();
                         }
                     }
-                } catch (Exception ex) {
+                }
+                catch (Exception ex) {
                     LastException = ex;
                 }
             });

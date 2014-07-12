@@ -1,11 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Crystalbyte.Paranoia.Data {
 
     [Table("mail_message")]
-    public sealed class MailMessageModel {
+    public class MailMessageModel {
+
+        private ICollection<MimeMessageModel> _mimeMessages;
+
+        public MailMessageModel() {
+            _mimeMessages = new Collection<MimeMessageModel>();
+        }
 
         [Key]
         [Column("id")]
@@ -13,6 +21,9 @@ namespace Crystalbyte.Paranoia.Data {
 
         [Column("uid")]
         public Int64 Uid { get; set; }
+
+        [Column("size")]
+        public Int64 Size { get; set; }
 
         [Column("subject")]
         public string Subject { get; set; }
@@ -37,5 +48,10 @@ namespace Crystalbyte.Paranoia.Data {
         public Int64 MailboxId { get; set; }
 
         public MailboxModel Mailbox { get; set; }
+
+        public virtual ICollection<MimeMessageModel> MimeMessages {
+            get { return _mimeMessages; }
+            set { _mimeMessages = value; }
+        }
     }
 }

@@ -59,6 +59,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.1.0\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -117,6 +120,7 @@
     <Compile Include="Contexts\SelectionObject.cs" />
     <Compile Include="Data\MailboxModel.cs" />
     <Compile Include="Data\MailMessageModel.cs" />
+    <Compile Include="Data\MimeMessageModel.cs" />
     <Compile Include="Data\TypeExtensions.cs" />
     <Compile Include="Data\SQLiteConnectionStringReader.cs" />
     <Compile Include="Data\MailContactModel.cs" />

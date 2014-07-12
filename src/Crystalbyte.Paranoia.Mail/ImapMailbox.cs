@@ -34,6 +34,15 @@ namespace Crystalbyte.Paranoia.Mail {
                 handler(this, e);
         }
 
+        public event EventHandler<ProgressChangedEventArgs> ProgressChanged;
+
+        private void OnProgressChanged(long byteCount) {
+            var handler = ProgressChanged;
+            if (handler != null) {
+                handler(this, new ProgressChangedEventArgs(byteCount));
+            }
+        }
+
         /// <summary>
         ///     The SEARCH command searches the mailbox for messages that match
         ///     the given searching criteria.  Searching criteria consist of one
@@ -252,7 +261,7 @@ namespace Crystalbyte.Paranoia.Mail {
 
         private async Task<IEnumerable<ImapEnvelope>> ReadFetchEnvelopesResponseAsync(string commandId) {
             var segments = new List<string>();
-            var lines = new List<ImapResponseLine> {await _connection.ReadAsync()};
+            var lines = new List<ImapResponseLine> { await _connection.ReadAsync() };
 
             while (true) {
                 var line = await _connection.ReadAsync();
@@ -283,9 +292,11 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         private async Task<string> ReadMessageBodyResponseAsync(string id) {
+            OnProgressChanged(0);
             using (var writer = new StringWriter()) {
                 while (true) {
                     var line = await _connection.ReadAsync();
+                    OnProgressChanged(Encoding.UTF8.GetByteCount(line.Text));
                     if (line.IsUntagged) {
                         continue;
                     }

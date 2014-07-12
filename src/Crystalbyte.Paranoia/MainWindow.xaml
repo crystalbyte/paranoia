@@ -8,9 +8,9 @@
                 xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                 xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                 Title="p4r4n014"
-                Width="1080"
-                Height="668"
-                MinWidth="800"
+                Width="1680"
+                Height="1024"
+                MinWidth="1024"
                 MinHeight="600"
                 Background="{StaticResource AppBackgroundBrush}"
                 Icon="/Assets/icon.png"
@@ -26,13 +26,13 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"
+            <ColumnDefinition Width="320"
                               MinWidth="280"
                               MaxWidth="500" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="350"
+            <ColumnDefinition Width="0.48*"
                               MinWidth="260"
-                              MaxWidth="500" />
+                              MaxWidth="800" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
@@ -43,7 +43,7 @@
                    Grid.RowSpan="2"
                    Grid.Column="0"
                    Fill="{StaticResource AppLightBackgroundBrush}"
-                   Opacity=".8"
+                   Opacity="{StaticResource ShadeOpacity}"
                    RenderOptions.EdgeMode="Aliased" />
         <Image Grid.Row="0"
                Grid.RowSpan="3"
@@ -64,7 +64,7 @@
                    Grid.RowSpan="2"
                    Grid.Column="0"
                    Fill="{StaticResource AppLightBackgroundBrush}"
-                   Opacity=".8"
+                   Opacity="{StaticResource ShadeOpacity}"
                    RenderOptions.EdgeMode="Aliased" />
         <DockPanel Grid.Row="0"
                    Grid.Column="0"
@@ -138,14 +138,14 @@
                        Grid.ColumnSpan="2"
                        Margin="0,0,0,8"
                        Fill="{StaticResource AppLightBackgroundBrush}"
-                       Opacity=".8"
+                       Opacity="{StaticResource ShadeOpacity}"
                        RenderOptions.EdgeMode="Aliased" />
             <Rectangle Grid.Row="3"
                        Grid.RowSpan="2"
                        Grid.Column="0"
                        Grid.ColumnSpan="2"
                        Fill="{StaticResource AppLightBackgroundBrush}"
-                       Opacity=".8"
+                       Opacity="{StaticResource ShadeOpacity}"
                        RenderOptions.EdgeMode="Aliased" />
             <Image Grid.Row="0"
                    Grid.Column="0"
@@ -405,11 +405,27 @@
         <Grid Grid.Row="2"
               Grid.Column="2"
               Margin="0,8,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
             <Rectangle HorizontalAlignment="Stretch"
                        VerticalAlignment="Stretch"
+                       Grid.Row="0"
+                       Grid.RowSpan="2"
                        Fill="{StaticResource AppLightBackgroundBrush}"
-                       Opacity=".8" />
+                       Opacity="{StaticResource ShadeOpacity}" />
+            <TextBlock Grid.Row="0"
+                       Margin="6,0,0,0"
+                       VerticalAlignment="Center"
+                       FontSize="{StaticResource AppExtraLargeFontSize}"
+                       Style="{StaticResource AppTitleTextStyle}">
+                <Run Text="{x:Static properties:Resources.MessagesTitle}" />
+                <Run Foreground="{StaticResource AppControlBrush}" 
+                     Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
+            </TextBlock>
             <ListView HorizontalContentAlignment="Stretch"
+                      Grid.Row="1"
                       Background="Transparent"
                       BorderThickness="0"
                       ItemsSource="{Binding Source={StaticResource MessagesSource}}"
@@ -494,10 +510,12 @@
                        HorizontalAlignment="Stretch"
                        VerticalAlignment="Stretch"
                        Fill="{StaticResource AppLightBackgroundBrush}"
-                       Opacity=".8" />
+                       Opacity="{StaticResource ShadeOpacity}" />
             <Grid Grid.Row="0" />
 
             <Frame Grid.Row="1"
+                   Margin="32"
+                   NavigationUIVisibility="Hidden"
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
                    ui:FrameExtensions.BindableSource="{Binding Html,

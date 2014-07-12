@@ -28,6 +28,7 @@
             <system:Double x:Key="AppNormalFontSize">12</system:Double>
             <system:Double x:Key="AppSmallFontSize">10</system:Double>
             <system:Double x:Key="AppExtraSmallFontSize">8</system:Double>
+            <system:Double x:Key="ShadeOpacity">0.7</system:Double>
 
             <!--  Brushes  -->
             <Color x:Key="AppAccentColor">GhostWhite</Color>
@@ -254,6 +255,7 @@
             <Style x:Key="AppTitleTextStyle"
                    BasedOn="{StaticResource AppLightTextStyle}"
                    TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="0,6,0,6" />
                 <Setter Property="FontSize" Value="{StaticResource AppLargeFontSize}" />
             </Style>
 

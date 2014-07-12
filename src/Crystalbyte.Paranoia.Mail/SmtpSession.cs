@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 
 #endregion
@@ -36,7 +37,7 @@ namespace Crystalbyte.Paranoia.Mail {
         #endregion
 
         public Task SendAsync(System.Net.Mail.MailMessage message) {
-            return SendAsync(new[] {message});
+            return SendAsync(new[] { message });
         }
 
         public async Task SendAsync(IEnumerable<System.Net.Mail.MailMessage> messages) {
@@ -79,21 +80,20 @@ namespace Crystalbyte.Paranoia.Mail {
 
             var mime = await message.ToMimeAsync();
 
-            Single current = 0;
-            Single total = mime.Length;
+            long bytes = 0;
 
             using (var reader = new StringReader(mime)) {
                 while (true) {
                     var line = StuffPeriodIfNecessary(await reader.ReadLineAsync());
+                    if (line == null) {
+                        break;
+	                }
+
                     await _connection.WriteAsync(line);
 
                     // Add two for line termination symbols \r\n.
-                    current += line.Length + 2;
-                    OnProgressChanged(new ProgressChangedEventArgs((current*100)/total));
-
-                    if (current >= total) {
-                        break;
-                    }
+                    bytes += Encoding.UTF8.GetByteCount(line) + 2;
+                    OnProgressChanged(new ProgressChangedEventArgs(bytes));
                 }
             }
 

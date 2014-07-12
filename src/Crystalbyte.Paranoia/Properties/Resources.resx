@@ -147,6 +147,9 @@
   <data name="MaximizeCommandTooltip" xml:space="preserve">
     <value>Maximize</value>
   </data>
+  <data name="MessagesTitle" xml:space="preserve">
+    <value>Messages</value>
+  </data>
   <data name="MinimizeCommandTooltip" xml:space="preserve">
     <value>Minimize</value>
   </data>

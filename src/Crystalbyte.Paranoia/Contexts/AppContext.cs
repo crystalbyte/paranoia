@@ -6,6 +6,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
+using Crystalbyte.Paranoia.Mail;
+using System.Text;
 
 namespace Crystalbyte.Paranoia {
 
@@ -13,11 +15,11 @@ namespace Crystalbyte.Paranoia {
     public sealed class AppContext : NotificationObject {
 
         private MailAccountContext _selectedAccount;
+        private IEnumerable<MailMessageContext> _selectedMessages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
+        private string _html;
         private object _messages;
         private string _queryString;
-        private IEnumerable<MailMessageContext> _selectedMessages;
-        private string _html;
         private Exception _lastException;
 
         public AppContext() {
@@ -55,7 +57,12 @@ namespace Crystalbyte.Paranoia {
                 }
                 _queryString = value;
                 RaisePropertyChanged(() => QueryString);
+                OnQueryStringChanged();
             }
+        }
+
+        private void OnQueryStringChanged() {
+
         }
 
         internal void UpdateMessages() {
@@ -81,8 +88,17 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            await message.DownloadMessageAsync();
-            Html = message.Html;
+            await DisplayMessageAsync(message);
+        }
+
+        private async Task DisplayMessageAsync(MailMessageContext message) {
+            var mime = await message.LoadMimeFromDatabaseAsync();
+            if (string.IsNullOrEmpty(mime)) {
+                mime = await message.DownloadMessageAsync();
+            }
+
+            var mail = new MailMessage(Encoding.UTF8.GetBytes(mime));
+            Html = Encoding.UTF8.GetString(mail.FindFirstHtmlVersion().Body);
         }
 
         public string Html {

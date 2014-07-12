@@ -35,15 +35,15 @@ namespace Crystalbyte.Paranoia.Mail {
             get { return Name.ToLower() == "inbox"; }
         }
 
-        public bool IsAll {
+        public bool IsGmailAll {
             get { return Flags.Contains(@"\All"); }
         }
 
-        public bool IsTrash {
+        public bool IsGmailTrash {
             get { return Flags.Contains(@"\Trash"); }
         }
 
-        public bool IsSent {
+        public bool IsGmailSent {
             get { return Flags.Contains(@"\Sent"); }
         }
 
@@ -51,15 +51,15 @@ namespace Crystalbyte.Paranoia.Mail {
             get { return Flags.Contains(@"\Flagged"); }
         }
 
-        public bool IsJunk {
+        public bool IsGmailJunk {
             get { return Flags.Contains(@"\Junk"); }
         }
 
-        public bool IsImportant {
+        public bool IsGmailImportant {
             get { return Flags.Contains(@"\Important"); }
         }
 
-        public bool IsDraft {
+        public bool IsGmailDraft {
             get { return Flags.Contains(@"\Drafts"); }
         }
 

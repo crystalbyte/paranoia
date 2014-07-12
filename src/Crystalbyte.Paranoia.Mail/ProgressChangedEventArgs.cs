@@ -6,10 +6,10 @@ using System;
 
 namespace Crystalbyte.Paranoia.Mail {
     public sealed class ProgressChangedEventArgs : EventArgs {
-        internal ProgressChangedEventArgs(Single percentage) {
-            Percentage = percentage;
+        internal ProgressChangedEventArgs(long byteCount) {
+            ByteCount = byteCount;
         }
 
-        public Single Percentage { get; private set; }
+        public long ByteCount { get; private set; }
     }
 }

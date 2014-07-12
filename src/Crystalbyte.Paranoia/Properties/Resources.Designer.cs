@@ -151,6 +151,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Messages.
+        /// </summary>
+        public static string MessagesTitle {
+            get {
+                return ResourceManager.GetString("MessagesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Minimize.
         /// </summary>
         public static string MinimizeCommandTooltip {

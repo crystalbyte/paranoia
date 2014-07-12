@@ -8,6 +8,12 @@ namespace Crystalbyte.Paranoia.UI.Converters {
     public sealed class CollectionCounter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             var collection = value as ICollection;
+            if (collection == null) {
+                var source = value as CollectionViewSource;
+                if (source != null) {
+                    collection = source.Source as ICollection;
+                }
+            }
             return collection == null ? 0 : collection.Count;
         }
 

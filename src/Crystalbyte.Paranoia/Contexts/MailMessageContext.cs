@@ -1,20 +1,29 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 
 namespace Crystalbyte.Paranoia {
     public class MailMessageContext : SelectionObject {
-        private readonly MailMessageModel _message;
-        private Exception _lastException;
+        private int _load;
         private string _html;
+        private long _bytesReceived;
+        private Exception _lastException;
+        private object _databaseMutex;
+        private readonly MailMessageModel _message;
 
         public MailMessageContext(MailMessageModel message) {
             _message = message;
+            _databaseMutex = new object();
         }
 
         public long Uid {
             get { return _message.Uid; }
+        }
+
+        public long Size {
+            get { return _message.Size; }
         }
 
         public string Subject {
@@ -33,14 +42,44 @@ namespace Crystalbyte.Paranoia {
             get { return _message.FromAddress; }
         }
 
-        public string Html {
-            get { return _html; }
+        public Task<string> LoadMimeFromDatabaseAsync() {
+            return Task.Factory.StartNew(() => {
+                lock (_databaseMutex) {
+                    using (var context = new DatabaseContext()) {
+                        context.MailMessages.Attach(_message);
+                        var message =  _message.MimeMessages.FirstOrDefault();
+                        return message != null ? message.Data : string.Empty;
+                    }
+                }
+            });
+        }
+
+        public bool IsLoading {
+            get {
+                return _load > 0;
+            }
+        }
+        
+        private void IncrementLoad() {
+            _load++;
+            RaisePropertyChanged(() => IsLoading);
+        }
+
+        private void DecrementLoad() {
+            _load--;
+            RaisePropertyChanged(() => IsLoading);
+        }
+
+        public long BytesReceived {
+            get {
+                return _bytesReceived;
+            }
             set {
-                if (_html == value) {
+                if (_bytesReceived == value) {
                     return;
                 }
-                _html = value;
-                RaisePropertyChanged(() => Html);
+                _bytesReceived = value;
+                RaisePropertyChanged(() => BytesReceived);
             }
         }
 
@@ -58,7 +97,7 @@ namespace Crystalbyte.Paranoia {
 
         private Task<MailAccountModel> GetAccountAsync() {
             return Task.Factory.StartNew(() => {
-                lock (_message) {
+                lock (_databaseMutex) {
                     using (var context = new DatabaseContext()) {
                         context.MailMessages.Attach(_message);
                         return _message.Mailbox.Account;
@@ -67,27 +106,64 @@ namespace Crystalbyte.Paranoia {
             });
         }
 
-        public async Task DownloadMessageAsync() {
-            try {
-                var account = await GetAccountAsync();
-                var mailbox = await GetMailboxAsync();
-                using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
-                    connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCancelled = false;
-                    using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
-                        using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
-                            var folder = await session.SelectAsync(mailbox.Name);
-                            Html = await folder.FetchMessageBodyAsync(Uid);
-                        }
+        private async Task<string> FetchMimeAsync() {
+            var account = await GetAccountAsync();
+            var mailbox = await GetMailboxAsync();
+
+            using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
+                connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCancelled = false;
+                using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
+                    using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
+                        var folder = await session.SelectAsync(mailbox.Name);
+
+                        folder.ProgressChanged += OnProgressChanged;
+                        var mime = await folder.FetchMessageBodyAsync(Uid);
+                        folder.ProgressChanged -= OnProgressChanged;
+
+                        return mime;
                     }
                 }
-            } catch (Exception ex) {
+            }
+        }
+
+        private void OnProgressChanged(object sender, ProgressChangedEventArgs e) {
+            BytesReceived = e.ByteCount;
+        }
+
+        public async Task<string> DownloadMessageAsync() {
+            IncrementLoad();
+
+            try {
+                var mime = await FetchMimeAsync();
+                await Task.Factory.StartNew(() => {
+                    lock (_databaseMutex) {
+                        using (var context = new DatabaseContext()) {
+                            context.MailMessages.Attach(_message);
+                            var mimeMessage = new MimeMessageModel {
+                                Data = mime
+                            };
+
+                            _message.MimeMessages.Add(mimeMessage);
+                            context.SaveChanges();
+                        }
+                    }
+                });
+
+                return mime;
+            }
+            catch (Exception ex) {
                 LastException = ex;
             }
+            finally {
+                DecrementLoad();
+            }
+
+            return string.Empty;
         }
 
         private Task<MailboxModel> GetMailboxAsync() {
             return Task.Factory.StartNew(() => {
-                lock (_message) {
+                lock (_databaseMutex) {
                     using (var context = new DatabaseContext()) {
                         context.MailMessages.Attach(_message);
                         return _message.Mailbox;
