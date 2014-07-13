@@ -1,6 +1,7 @@
 ﻿<ui:MetroWindow x:Class="Crystalbyte.Paranoia.MainWindow"
                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
                 xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,6 +14,7 @@
                 MinWidth="1024"
                 MinHeight="600"
                 Background="{StaticResource AppBackgroundBrush}"
+                BorderThickness="0"
                 Icon="/Assets/icon.png"
                 RenderOptions.ClearTypeHint="Enabled"
                 UseLayoutRounding="True"
@@ -23,7 +25,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="320"
@@ -37,7 +39,11 @@
             <ColumnDefinition Width="0.55*" />
         </Grid.ColumnDefinitions>
         <Grid.Resources>
-            <CollectionViewSource x:Key="MessagesSource" Source="{Binding Messages}" />
+            <CollectionViewSource x:Key="MessagesSource" Source="{Binding Messages}">
+                <CollectionViewSource.SortDescriptions>
+                    <componentModel:SortDescription Direction="Descending" PropertyName="EntryDate" />
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
         </Grid.Resources>
         <Rectangle Grid.Row="0"
                    Grid.RowSpan="2"
@@ -151,7 +157,7 @@
                    Grid.Column="0"
                    Width="100"
                    Height="100"
-                   Margin="8,24,8,8"
+                   Margin="16,24,8,8"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    DataContext="{Binding SelectedAccount}"
@@ -164,6 +170,7 @@
                        Grid.ColumnSpan="2"
                        Margin="8,0,0,0"
                        DataContext="{Binding SelectedAccount}"
+                       Foreground="{StaticResource AppAccentBrush}"
                        Style="{StaticResource AppTitleTextStyle}"
                        Text="{Binding Name}"
                        TextTrimming="CharacterEllipsis"
@@ -199,37 +206,57 @@
                       SelectedValue="{Binding SelectedContact,
                                               Mode=TwoWay}"
                       d:DataContext="{d:DesignInstance {x:Type paranoia:MailAccountContext}}">
+
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel x:Name="Cvsp" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
                 <ListView.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListViewItem}">
-                        <Setter Property="Margin" Value="0" />
-                        <Setter Property="Padding" Value="6,3,6,3" />
-                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Cvsp}" />
+                        <Setter Property="Padding" Value="6,2,6,2" />
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate DataType="paranoia:MailAccountContext">
                         <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="17" />
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
+                            <Rectangle Grid.Row="0"
+                                       Grid.RowSpan="2"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2" />
                             <Image Grid.Row="0"
+                                   Grid.RowSpan="2"
                                    Grid.Column="0"
-                                   Width="38"
+                                   Width="40"
                                    Margin="0,0,6,0"
                                    Source="{Binding Address,
                                                     Converter={StaticResource GravatarImageConverter}}" />
-                            <StackPanel Grid.Column="1"
-                                        Margin="0,-3,0,0"
-                                        VerticalAlignment="Center">
-                                <TextBlock Margin="0"
-                                           FontSize="18"
-                                           Style="{StaticResource AppTitleTextStyle}"
-                                           Text="{Binding Name}" />
-                                <TextBlock FontSize="{StaticResource AppSmallFontSize}"
-                                           Style="{StaticResource AppSubtitleTextStyle}"
-                                           Text="{Binding Address}" />
-                            </StackPanel>
+                            <TextBlock Grid.Row="0"
+                                       Grid.Column="1"
+                                       Margin="0"
+                                       FontSize="17"
+                                       FontWeight="Thin"
+                                       Foreground="{StaticResource AppLightTextBrush}"
+                                       Padding="0"
+                                       RenderOptions.ClearTypeHint="Enabled"
+                                       Text="{Binding Name}" />
+                            <TextBlock Grid.Row="1"
+                                       Grid.Column="1"
+                                       Margin="0,2,0,0"
+                                       FontSize="{StaticResource AppSmallFontSize}"
+                                       FontWeight="Thin"
+                                       Foreground="{StaticResource AppMediumTextBrush}"
+                                       RenderOptions.ClearTypeHint="Enabled"
+                                       Text="{Binding Address}" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -329,7 +356,7 @@
                                             <Rectangle Grid.Row="0"
                                                        Width="18.5"
                                                        Height="2"
-                                                       Margin="0,-1.4,0,0"
+                                                       Margin="0,0,0,0"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Top"
                                                        Panel.ZIndex="500"
@@ -422,7 +449,7 @@
                            FontSize="{StaticResource AppExtraLargeFontSize}"
                            Style="{StaticResource AppTitleTextStyle}">
                     <Run Text="{x:Static properties:Resources.MessagesTitle}" />
-                    <Run Foreground="{StaticResource AppControlBrush}" Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
+                    <Run Foreground="{StaticResource AppMediumTextBrush}" Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
                 </TextBlock>
             </Border>
             <ListView Grid.Row="1"
@@ -430,44 +457,53 @@
                       Background="Transparent"
                       BorderThickness="0"
                       ItemsSource="{Binding Source={StaticResource MessagesSource}}"
+                      Padding="0"
                       SelectionChanged="OnMessageSelectionChanged"
                       VirtualizingPanel.IsVirtualizing="True"
                       VirtualizingPanel.VirtualizationMode="Recycling">
+                <ListView.InputBindings>
+                    <KeyBinding Key="R"
+                                Command="{Binding ReplyCommand}"
+                                Modifiers="Control" />
+                    <KeyBinding Key="F"
+                                Command="{Binding ForwardCommand}"
+                                Modifiers="Control" />
+                    <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
+                    <KeyBinding Key="D"
+                                Command="{Binding DeleteCommand}"
+                                Modifiers="Control" />
+                </ListView.InputBindings>
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <VirtualizingStackPanel Orientation="Vertical" />
+                        <VirtualizingStackPanel x:Name="Mvsp" />
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
                 <ListView.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListViewItem}">
-                        <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                        <Setter Property="Margin" Value="0" />
-                        <Setter Property="Padding" Value="6,3,6,3" />
-                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                        <Setter Property="ToolTip" Value="{Binding Subject}" />
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Mvsp}" />
+                        <Setter Property="Padding" Value="6,2,6,2" />
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate DataType="paranoia:MailMessageContext">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="22" />
+                                <RowDefinition Height="16" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Rectangle Grid.Row="0"
                                        Grid.RowSpan="2"
                                        Grid.Column="0"
-                                       Grid.ColumnSpan="2" />
+                                       Grid.ColumnSpan="3" />
                             <Image Grid.Row="0"
                                    Grid.RowSpan="2"
                                    Grid.Column="0"
-                                   Width="42"
+                                   Height="42"
                                    Margin="0,0,6,0"
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Center"
@@ -476,19 +512,32 @@
                                                     IsAsync=True}" />
                             <TextBlock Grid.Row="0"
                                        Grid.Column="1"
-                                       FontSize="17"
+                                       Grid.ColumnSpan="2"
+                                       VerticalAlignment="Center"
+                                       FontSize="16"
                                        FontWeight="Thin"
                                        Style="{StaticResource AppNormalTextStyle}"
                                        Text="{Binding Subject,
                                                       Converter={StaticResource IgnoreLinebreaksConverter}}"
                                        TextTrimming="CharacterEllipsis"
                                        TextWrapping="NoWrap" />
+
                             <TextBlock Grid.Row="1"
                                        Grid.Column="1"
                                        HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
                                        FontSize="{StaticResource AppSmallFontSize}"
-                                       Style="{StaticResource AppSubtitleTextStyle}"
+                                       Foreground="{StaticResource AppMediumTextBrush}"
                                        Text="{Binding FromName}" />
+
+                            <TextBlock Grid.Row="1"
+                                       Grid.Column="2"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       FontSize="{StaticResource AppSmallFontSize}"
+                                       Foreground="{StaticResource AppMediumTextBrush}"
+                                       Text="{Binding EntryDate,
+                                                      Converter={StaticResource DateFormatter}}" />
 
                         </Grid>
                     </DataTemplate>
@@ -518,33 +567,84 @@
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="2"
                                Margin="0"
                                DataContext="{Binding SelectedMessage}"
                                Style="{StaticResource AppTitleTextStyle}"
                                Text="{Binding Subject,
-                                              Mode=OneWay}"
+                                              Mode=OneWay,
+                                              Converter={StaticResource IgnoreLinebreaksConverter}}"
                                TextTrimming="CharacterEllipsis"
                                TextWrapping="NoWrap" />
                     <TextBlock Grid.Row="1"
+                               Grid.Column="0"
                                DataContext="{Binding SelectedMessage}"
                                Style="{StaticResource AppSubtitleTextStyle}"
                                Text="{Binding FromName}" />
                     <TextBlock Grid.Row="2"
+                               Grid.Column="0"
                                DataContext="{Binding SelectedMessage}"
                                FontSize="{StaticResource AppSmallFontSize}"
                                Style="{StaticResource AppSubtitleTextStyle}"
                                Text="{Binding EntryDate}" />
+                    <StackPanel Grid.Row="1"
+                                Grid.RowSpan="2"
+                                Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal"
+                                Visibility="{Binding SelectedMessage,
+                                                     Converter={StaticResource NullToVisibilityConverter}}">
+                        <Button Command="{Binding ReplyCommand}" Style="{StaticResource AppMetroButtonStyle}">
+                            <Image Width="18"
+                                   Margin="-2,2,0,0"
+                                   Source="/Assets/reply.png" />
+                        </Button>
+                        <Button Command="{Binding ForwardCommand}" Style="{StaticResource AppMetroButtonStyle}">
+                            <Image Width="18"
+                                   Margin="-2,2,0,0"
+                                   Source="/Assets/forward.png" />
+                        </Button>
+                        <Button Command="{Binding DeleteCommand}" Style="{StaticResource AppMetroButtonStyle}">
+                            <Image Width="18"
+                                   Margin="0,0,0,0"
+                                   Source="/Assets/delete.png" />
+                        </Button>
+                    </StackPanel>
                 </Grid>
             </Border>
-            <Frame Grid.Row="1"
-                   Margin="24,12,24,24"
-                   HorizontalAlignment="Stretch"
-                   VerticalAlignment="Stretch"
-                   NavigationUIVisibility="Hidden"
-                   ui:FrameExtensions.BindableSource="{Binding Html,
-                                                               Mode=OneWay}" />
-
+            <Grid Grid.Row="1"
+                  Margin="24,12,24,24"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch">
+                <Frame NavigationUIVisibility="Hidden"
+                       Visibility="{Binding Html,
+                                            Converter={StaticResource NullToVisibilityConverter}}"
+                       ui:FrameExtensions.BindableSource="{Binding Html,
+                                                                   Mode=OneWay}" />
+                <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Margin="6"
+                                   HorizontalAlignment="Center"
+                                   FontSize="{StaticResource AppNormalFontSize}"
+                                   FontWeight="Thin"
+                                   Foreground="{StaticResource AppLightTextBrush}"
+                                   Text="{x:Static properties:Resources.MessageDownload}" />
+                        <ProgressBar Height="4"
+                                     Margin="12"
+                                     HorizontalAlignment="Stretch"
+                                     Maximum="{Binding Size}"
+                                     Minimum="0"
+                                     Value="{Binding BytesReceived}" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
         </Grid>
     </Grid>
 </ui:MetroWindow>

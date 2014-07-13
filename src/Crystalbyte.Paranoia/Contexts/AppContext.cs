@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using System.Text;
+using Crystalbyte.Paranoia.UI.Commands;
 
 namespace Crystalbyte.Paranoia {
 
@@ -17,23 +18,45 @@ namespace Crystalbyte.Paranoia {
         private MailAccountContext _selectedAccount;
         private IEnumerable<MailMessageContext> _selectedMessages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
-        private string _html;
-        private object _messages;
-        private string _queryString;
+        private readonly ReplyCommand _replyCommand;
+        private readonly DeleteCommand _deleteCommand;
+        private readonly ForwardCommand _forwardCommand;
         private Exception _lastException;
+        private string _queryString;
+        private object _messages;
+        private string _html;
 
         public AppContext() {
             _accounts = new ObservableCollection<MailAccountContext>();
+            _replyCommand = new ReplyCommand(this);
+            _forwardCommand = new ForwardCommand(this);
+            _deleteCommand = new DeleteCommand(this);
         }
 
         public IEnumerable<MailAccountContext> Accounts {
             get { return _accounts; }
         }
 
-        public event EventHandler MailAccountSelectionChanged;
+        public event EventHandler MessageSelectionChanged;
 
-        private void OnMailAccountSelectionChanged() {
-            var handler = MailAccountSelectionChanged;
+        private async void OnMessageSelectionChanged() {
+            ClearMessageView();
+            var message = SelectedMessages.FirstOrDefault();
+            if (message == null) {
+                return;
+            }
+
+            await DisplayMessageAsync(message);
+
+            var handler = MessageSelectionChanged;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
+
+        public event EventHandler AccountSelectionChanged;
+
+        private void OnAccountSelectionChanged() {
+            var handler = AccountSelectionChanged;
             if (handler != null)
                 handler(this, EventArgs.Empty);
         }
@@ -61,6 +84,17 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public ReplyCommand ReplyCommand {
+            get { return _replyCommand; }
+        }
+
+        public ForwardCommand ForwardCommand {
+            get { return _forwardCommand; }
+        }
+        public DeleteCommand DeleteCommand{
+            get { return _deleteCommand; }
+        }
+
         private void OnQueryStringChanged() {
 
         }
@@ -68,6 +102,11 @@ namespace Crystalbyte.Paranoia {
         internal void UpdateMessages() {
             var mailbox = SelectedAccount.SelectedMailbox;
             Messages = mailbox.Messages;
+            if (mailbox.Messages.Count > 0) {
+                mailbox.Messages
+                    .OrderByDescending(x => x.EntryDate)
+                    .First().IsSelected = true;
+            }
         }
 
         public IEnumerable<MailMessageContext> SelectedMessages {
@@ -85,19 +124,14 @@ namespace Crystalbyte.Paranoia {
 
         public MailMessageContext SelectedMessage {
             get {
-                return SelectedMessages == null 
-                    ? null 
+                return SelectedMessages == null
+                    ? null
                     : SelectedMessages.FirstOrDefault();
             }
         }
 
-        private async void OnMessageSelectionChanged() {
-            var message = SelectedMessages.FirstOrDefault();
-            if (message == null) {
-                return;
-            }
-
-            await DisplayMessageAsync(message);
+        private void ClearMessageView() {
+            Html = null;
         }
 
         private async Task DisplayMessageAsync(MailMessageContext message) {
@@ -107,7 +141,10 @@ namespace Crystalbyte.Paranoia {
             }
 
             var mail = new MailMessage(Encoding.UTF8.GetBytes(mime));
-            Html = Encoding.UTF8.GetString(mail.FindFirstHtmlVersion().Body);
+            var text = mail.FindFirstHtmlVersion();
+            if (text != null) {
+                Html = Encoding.UTF8.GetString(text.Body);
+            }
         }
 
         public string Html {
@@ -130,7 +167,7 @@ namespace Crystalbyte.Paranoia {
 
                 _selectedAccount = value;
                 RaisePropertyChanged(() => SelectedAccount);
-                OnMailAccountSelectionChanged();
+                OnAccountSelectionChanged();
             }
         }
 

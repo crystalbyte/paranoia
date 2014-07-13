@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
@@ -127,6 +128,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnProgressChanged(object sender, ProgressChangedEventArgs e) {
+            Debug.WriteLine(e.ByteCount);
             BytesReceived = e.ByteCount;
         }
 

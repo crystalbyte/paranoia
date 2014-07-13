@@ -1,8 +1,6 @@
 ﻿#region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows;
@@ -167,7 +165,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void UpdateWindowBounds() {
             if (WindowState == WindowState.Normal) {
-                BorderThickness = new Thickness(1);
+                BorderThickness = new Thickness(0);
                 FramePadding = new Thickness(0);
                 return;
             }

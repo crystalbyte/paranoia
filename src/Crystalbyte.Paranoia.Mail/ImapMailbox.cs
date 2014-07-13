@@ -292,11 +292,13 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         private async Task<string> ReadMessageBodyResponseAsync(string id) {
-            OnProgressChanged(0);
+            long bytes = 0;
+            OnProgressChanged(bytes);
             using (var writer = new StringWriter()) {
                 while (true) {
                     var line = await _connection.ReadAsync();
-                    OnProgressChanged(Encoding.UTF8.GetByteCount(line.Text));
+                    bytes += Encoding.UTF8.GetByteCount(line.Text);
+                    OnProgressChanged(bytes);
                     if (line.IsUntagged) {
                         continue;
                     }

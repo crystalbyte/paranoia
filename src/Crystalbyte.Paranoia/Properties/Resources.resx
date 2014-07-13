@@ -141,6 +141,9 @@
   <data name="ExpressionNotProperty" xml:space="preserve">
     <value>Expression is not a property.</value>
   </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Friday</value>
+  </data>
   <data name="InboxMailbox" xml:space="preserve">
     <value>Inbox</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="MaximizeCommandTooltip" xml:space="preserve">
     <value>Maximize</value>
+  </data>
+  <data name="MessageDownload" xml:space="preserve">
+    <value>Loading Message ...</value>
   </data>
   <data name="MessagesTitle" xml:space="preserve">
     <value>Messages</value>
@@ -159,11 +165,17 @@
   <data name="MissingKeyTemplate" xml:space="preserve">
     <value>Primary key is missing from type {0}.</value>
   </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Monday</value>
+  </data>
   <data name="NotMemberAccessExpression" xml:space="preserve">
     <value>Expression does not access a member.</value>
   </data>
   <data name="RestoreDownCommandTooltip" xml:space="preserve">
     <value>Restore Down</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Saturday</value>
   </data>
   <data name="SearchBoxWatermark" xml:space="preserve">
     <value>Quick Search (Ctrl+Q)</value>
@@ -171,10 +183,25 @@
   <data name="SentMailbox" xml:space="preserve">
     <value>Sent</value>
   </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
   <data name="TrashMailbox" xml:space="preserve">
     <value>Trash</value>
   </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
   <data name="TypeNotSupportedTemplate" xml:space="preserve">
     <value>The type {0} is not supported by the database.</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>Yesterday</value>
   </data>
 </root>

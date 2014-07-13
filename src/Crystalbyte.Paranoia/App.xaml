@@ -17,6 +17,8 @@
             <converters:IgnoreLinebreaksConverter x:Key="IgnoreLinebreaksConverter" />
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <converters:CollectionCounter x:Key="CollectionCounter" />
+            <converters:DateFormatter x:Key="DateFormatter" />
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 
             <!--  Fonts  -->
             <FontFamily x:Key="AppFontFamily">Segoe UI</FontFamily>
@@ -31,28 +33,34 @@
             <system:Double x:Key="ShadeOpacity">0.7</system:Double>
 
             <!--  Brushes  -->
-            <Color x:Key="AppAccentColor">Black</Color>
+            <Color x:Key="AppAccentColor">LightSteelBlue</Color>
             <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccentColor}" />
             <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}" Color="{StaticResource AppAccentColor}" />
 
             <Color x:Key="AppBackgroundColor">#222222</Color>
             <SolidColorBrush x:Key="AppBackgroundBrush" Color="{StaticResource AppBackgroundColor}" />
 
+            <Color x:Key="AppShadeColor">Black</Color>
+            <SolidColorBrush x:Key="AppShadeBrush" Color="{StaticResource AppShadeColor}" />
+
+            <Color x:Key="AppHoverColor">#333333</Color>
+            <SolidColorBrush x:Key="AppHoverBrush" Color="{StaticResource AppHoverColor}" />
+            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppHoverBrush}" Color="{StaticResource AppHoverColor}" />
+
+            <Color x:Key="AppSelectedUnfocusedColor">#FFDDDDDD</Color>
+
             <SolidColorBrush x:Key="AppDisabledTextBrush" Color="DimGray" />
             <SolidColorBrush x:Key="AppLightTextBrush" Color="GhostWhite" />
             <SolidColorBrush x:Key="AppFailureColorBrush" Color="Red" />
-            <SolidColorBrush x:Key="AppMediumTextBrush" Color="Gray" />
+            <SolidColorBrush x:Key="AppMediumTextBrush" Color="DimGray" />
             <SolidColorBrush x:Key="AppDarkTextBrush" Color="#333" />
 
             <SolidColorBrush x:Key="AppControlBrush" Color="DimGray" />
             <SolidColorBrush x:Key="AppLightControlBrush" Color="LightGray" />
 
-            <!--  <SolidColorBrush x:Key="AppShadeBrush" Color="#2A2A2C" />  -->
-            <SolidColorBrush x:Key="AppShadeBrush" Color="Black" />
             <SolidColorBrush x:Key="AppButtonBorderBrush" Color="Transparent" />
             <SolidColorBrush x:Key="AppButtonBackgroundBrush" Color="Transparent" />
 
-            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowButtonHoverBrush}" Color="LightSlateGray" />
             <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowSearchTextBrush}" Color="DimGray" />
 
             <Style x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowTitleStyle}" TargetType="TextBlock">
@@ -105,6 +113,48 @@
                             <Condition Property="IsPressed" Value="False" />
                         </MultiTrigger.Conditions>
                         <Setter Property="Background" Value="{Binding HoverBrush, RelativeSource={RelativeSource FindAncestor, AncestorType=ui:MetroWindow, AncestorLevel=1}}" />
+                    </MultiTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="AppMetroButtonStyle"
+                   BasedOn="{StaticResource AppWindowButtonStyle}"
+                   TargetType="ButtonBase">
+                <Setter Property="Margin" Value="6" />
+                <Setter Property="Width" Value="32" />
+                <Setter Property="Height" Value="32" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="{StaticResource AppLightTextBrush}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ButtonBase">
+                            <Grid>
+                                <Ellipse Width="{TemplateBinding Width}"
+                                         Height="{TemplateBinding Height}"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Fill="{TemplateBinding Background}"
+                                         Stroke="{TemplateBinding BorderBrush}" />
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                            <Condition Property="IsMouseOver" Value="True" />
+                            <Condition Property="IsPressed" Value="False" />
+                        </MultiTrigger.Conditions>
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderBrush" Value="{StaticResource AppAccentBrush}" />
+                    </MultiTrigger>
+                    <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                            <Condition Property="IsMouseOver" Value="True" />
+                            <Condition Property="IsPressed" Value="True" />
+                        </MultiTrigger.Conditions>
+                        <Setter Property="Background" Value="{StaticResource AppAccentBrush}" />
                     </MultiTrigger>
                 </Style.Triggers>
             </Style>
@@ -315,13 +365,16 @@
                    BasedOn="{StaticResource {x:Type TextBox}}"
                    TargetType="TextBox">
                 <Setter Property="FontSize" Value="{StaticResource AppNormalFontSize}" />
-                <Setter Property="Foreground" Value="{StaticResource AppControlBrush}" />
-                <Setter Property="Padding" Value="1" />
+                <Setter Property="Foreground" Value="{StaticResource AppMediumTextBrush}" />
+                <Setter Property="Padding" Value="1,2,1,2" />
                 <Setter Property="Margin" Value="0" />
                 <Setter Property="Width" Value="200" />
                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
-                <Setter Property="BorderBrush" Value="#333333" />
-                <Setter Property="Background" Value="#222222" />
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Opacity="{StaticResource ShadeOpacity}" Color="{StaticResource AppShadeColor}" />
+                    </Setter.Value>
+                </Setter>
             </Style>
 
             <Style x:Key="VerticalSplitterStyle" TargetType="GridSplitter">
@@ -420,120 +473,10 @@
                 </Setter>
             </Style>
 
-
             <Style x:Key="AppDefaultDialogTextButtonStyle"
                    BasedOn="{StaticResource AppDialogTextButtonStyle}"
                    TargetType="{x:Type Button}">
                 <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}}" />
-            </Style>
-
-            <Style x:Key="AvatarListViewItemStyle" TargetType="{x:Type ListViewItem}">
-                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                <Setter Property="SnapsToDevicePixels" Value="True" />
-                <Setter Property="OverridesDefaultStyle" Value="True" />
-                <Setter Property="Background" Value="Transparent" />
-                <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
-                <Setter Property="Padding" Value="0" />
-                <Setter Property="Margin" Value="0" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ListViewItem}">
-                            <Border x:Name="Border"
-                                    Margin="{TemplateBinding Margin}"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    Padding="{TemplateBinding Padding}"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                                <Grid>
-                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                    <Grid x:Name="SelectionBorder">
-                                        <Border Background="Transparent"
-                                                BorderBrush="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
-                                                                                                    ResourceId=AppAccentBrush}}"
-                                                BorderThickness="1,0,1,1" />
-                                        <Polygon HorizontalAlignment="Right"
-                                                 Fill="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
-                                                                                              ResourceId=AppAccentBrush}}"
-                                                 Points="0 0 16 0 16 16" />
-                                        <Polyline Margin="0,0,2,0"
-                                                  HorizontalAlignment="Right"
-                                                  Points="0 5 3 7 6 2"
-                                                  Stroke="White"
-                                                  StrokeThickness="1.5" />
-                                    </Grid>
-                                    <Grid x:Name="MouseOverIndicator">
-                                        <Border Background="Transparent"
-                                                BorderBrush="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
-                                                                                                    ResourceId=AppAccentBrush}}"
-                                                BorderThickness="1,0,1,1" />
-                                        <Border Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
-                                                                                                   ResourceId=AppAccentBrush}}"
-                                                BorderBrush="Transparent"
-                                                BorderThickness="1"
-                                                Opacity=".2" />
-                                    </Grid>
-                                </Grid>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter TargetName="SelectionBorder" Property="Visibility" Value="Visible" />
-                                </Trigger>
-                                <Trigger Property="IsSelected" Value="False">
-                                    <Setter TargetName="SelectionBorder" Property="Visibility" Value="Collapsed" />
-                                </Trigger>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="MouseOverIndicator" Property="Visibility" Value="Visible" />
-                                </Trigger>
-                                <Trigger Property="IsMouseOver" Value="False">
-                                    <Setter TargetName="MouseOverIndicator" Property="Visibility" Value="Collapsed" />
-                                </Trigger>
-                                <Trigger Property="IsSelected" Value="true">
-                                    <Setter TargetName="Border" Property="Background" Value="#DDDDDD" />
-                                </Trigger>
-                                <Trigger Property="IsEnabled" Value="false">
-                                    <Setter Property="Foreground" Value="#888888" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
-            <Style x:Key="AvatarListViewStyle" TargetType="{x:Type ListView}">
-                <Setter Property="Height" Value="48" />
-                <Setter Property="SnapsToDevicePixels" Value="true" />
-                <Setter Property="VerticalAlignment" Value="Top" />
-                <Setter Property="OverridesDefaultStyle" Value="true" />
-                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
-                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-                <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
-                <Setter Property="VerticalContentAlignment" Value="Center" />
-                <Setter Property="BorderThickness" Value="0" />
-                <Setter Property="SelectionMode" Value="Single" />
-                <Setter Property="BorderBrush" Value="#888888" />
-                <Setter Property="ItemContainerStyle" Value="{StaticResource AvatarListViewItemStyle}" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ListView}">
-                            <Border x:Name="Border"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}">
-                                <ItemsPresenter />
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsGrouping" Value="true">
-                                    <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
-                                </Trigger>
-                                <Trigger Property="IsEnabled" Value="false">
-                                    <Setter TargetName="Border" Property="Background" Value="#AAAAAA" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
             </Style>
 
             <Style TargetType="{x:Type PasswordBox}">
@@ -596,8 +539,8 @@
             </Style>
 
             <Style TargetType="{x:Type ProgressBar}">
-                <Setter Property="Foreground" Value="#FF06B025" />
-                <Setter Property="Background" Value="#FFE6E6E6" />
+                <Setter Property="Foreground" Value="{StaticResource AppAccentBrush}" />
+                <Setter Property="Background" Value="Transparent" />
                 <Setter Property="BorderBrush" Value="#FFBCBCBC" />
                 <Setter Property="Height" Value="2" />
                 <Setter Property="BorderThickness" Value="0" />
@@ -665,13 +608,52 @@
                 </Setter>
             </Style>
 
-            <Style TargetType="{x:Type ComboBox}">
-                <Setter Property="Width" Value="200" />
-                <Setter Property="HorizontalAlignment" Value="Right" />
-                <Setter Property="VerticalAlignment" Value="Top" />
-                <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
-            </Style>
+            <SolidColorBrush x:Key="ListBox.Static.Background" Color="#FFFFFFFF" />
+            <SolidColorBrush x:Key="ListBox.Static.Border" Color="#FFABADB3" />
+            <SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF" />
+            <SolidColorBrush x:Key="ListBox.Disabled.Border" Color="#FFD9D9D9" />
 
+            <Style TargetType="{x:Type ListView}">
+                <Setter Property="Background" Value="{StaticResource ListBox.Static.Background}" />
+                <Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+                <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+                <Setter Property="ScrollViewer.PanningMode" Value="Both" />
+                <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListView}">
+                            <Border x:Name="Bd"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Padding="1"
+                                    SnapsToDevicePixels="true">
+                                <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
+                                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                </ScrollViewer>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter TargetName="Bd" Property="Background" Value="{StaticResource ListBox.Disabled.Background}" />
+                                    <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource ListBox.Disabled.Border}" />
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsGrouping" Value="true" />
+                                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

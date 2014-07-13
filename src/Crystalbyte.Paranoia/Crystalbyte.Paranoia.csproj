@@ -150,13 +150,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UI\Commands\AssignMailboxCommand.cs" />
+    <Compile Include="UI\Commands\DeleteCommand.cs" />
     <Compile Include="UI\Commands\DropMailboxCommand.cs" />
+    <Compile Include="UI\Commands\ForwardCommand.cs" />
+    <Compile Include="UI\Commands\ReplyCommand.cs" />
     <Compile Include="UI\Converters\BooleanToBrushConverter.cs" />
     <Compile Include="UI\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\CollectionCounter.cs" />
+    <Compile Include="UI\Converters\DateFormatter.cs" />
     <Compile Include="UI\Converters\GravatarImageConverter.cs" />
     <Compile Include="UI\Converters\IgnoreLinebreaksConverter.cs" />
     <Compile Include="UI\Converters\MailboxLocalizer.cs" />
+    <Compile Include="UI\Converters\NullToVisibilityConverter.cs" />
     <Compile Include="UI\Focus.cs" />
     <Compile Include="UI\MetroWindow.xaml.cs">
       <DependentUpon>MetroWindow.xaml</DependentUpon>
@@ -324,6 +329,8 @@
     <Resource Include="Assets\background.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\reply.png" />
+    <Resource Include="Assets\forward.png" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

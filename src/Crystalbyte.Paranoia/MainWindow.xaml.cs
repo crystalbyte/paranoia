@@ -1,13 +1,8 @@
 ﻿#region Using directives
 
 using System;
-using System.Data.Entity.Infrastructure;
-using System.Diagnostics;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Interop;
 
 #endregion
 

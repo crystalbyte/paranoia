@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
-using System.Configuration;
 using Crystalbyte.Paranoia.UI.Commands;
 
 namespace Crystalbyte.Paranoia {
@@ -23,8 +22,11 @@ namespace Crystalbyte.Paranoia {
         internal MailAccountContext(MailAccountModel account) {
             _account = account;
             _dropMailboxCommand = new DropMailboxCommand(this);
+
             _contacts = new ObservableCollection<MailContactContext>();
-            _contacts.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Contacts);
+            _contacts.CollectionChanged += 
+                (sender, e) => RaisePropertyChanged(() => Contacts);
+
             _mailboxes = new ObservableCollection<MailboxContext>();
 
         }

@@ -34,13 +34,15 @@ namespace Crystalbyte.Paranoia {
             _account = account;
             _mailbox = mailbox;
             _assignMailboxCommand = new AssignMailboxCommand(this);
-            
+
             _mailboxCandidates = new ObservableCollection<MailboxCandidateContext>();
         }
 
         public event EventHandler AssignmentChanged;
 
         private void OnAssignmentChanged() {
+            RaisePropertyChanged(() => IsAssigned);
+            RaisePropertyChanged(() => IsAssignable);
             var handler = AssignmentChanged;
             if (handler != null)
                 handler(this, EventArgs.Empty);
