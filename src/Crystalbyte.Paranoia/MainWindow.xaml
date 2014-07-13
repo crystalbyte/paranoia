@@ -170,7 +170,6 @@
                        Grid.ColumnSpan="2"
                        Margin="8,0,0,0"
                        DataContext="{Binding SelectedAccount}"
-                       Foreground="{StaticResource AppAccentBrush}"
                        Style="{StaticResource AppTitleTextStyle}"
                        Text="{Binding Name}"
                        TextTrimming="CharacterEllipsis"
