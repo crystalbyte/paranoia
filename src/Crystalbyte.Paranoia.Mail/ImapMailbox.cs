@@ -56,6 +56,7 @@ namespace Crystalbyte.Paranoia.Mail {
             return await ReadSearchResponseAsync(id);
         }
 
+
         public async Task DeleteMailsAsync(IEnumerable<long> uids, string trashMailbox = "") {
             var uidString = uids.ToCommaSeparatedValues();
             var command = string.Format(@"UID STORE {0} +FLAGS.SILENT (\Deleted)", uidString);

@@ -5,9 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Composition;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +23,7 @@ namespace Crystalbyte.Paranoia {
         private MailAccountContext _selectedAccount;
         private IEnumerable<MailMessageContext> _selectedMessages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
+        private readonly PrintCommand _printCommand;
         private readonly ReplyCommand _replyCommand;
         private readonly DeleteCommand _deleteCommand;
         private readonly ForwardCommand _forwardCommand;
@@ -39,6 +38,7 @@ namespace Crystalbyte.Paranoia {
             _replyCommand = new ReplyCommand(this);
             _forwardCommand = new ForwardCommand(this);
             _deleteCommand = new DeleteCommand(this);
+            _printCommand = new PrintCommand(this);
 
             var queryStringObservable = Observable
                 .FromEventPattern<QueryStringEventArgs>(
@@ -56,7 +56,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void HookUpSearchBox(Control control) {
-            _focusSearchBoxCommand = new FocusSearchBoxCommand(control);
+            _focusSearchBoxCommand = new FocusSearchBoxCommand(this, control);
             RaisePropertyChanged(() => FocusSearchBoxCommand);
         }
 
@@ -142,6 +142,10 @@ namespace Crystalbyte.Paranoia {
             get { return _focusSearchBoxCommand; }
         }
 
+        public PrintCommand PrintCommand {
+            get { return _printCommand; }
+        }
+
         public ReplyCommand ReplyCommand {
             get { return _replyCommand; }
         }
@@ -156,6 +160,9 @@ namespace Crystalbyte.Paranoia {
 
         internal void DisplayMessages(ICollection<MailMessageContext> messages) {
             Messages = messages;
+            if (messages == null) {
+                return;
+            }
             if (messages.Count > 0) {
                 messages.OrderByDescending(x => x.EntryDate)
                     .First().IsSelected = true;
@@ -245,8 +252,17 @@ namespace Crystalbyte.Paranoia {
         private async Task LoadAccountsAsync() {
             using (var context = new DatabaseContext()) {
                 var accounts = await context.MailAccounts.ToArrayAsync();
-                _accounts.AddRange(accounts.Select(x => new MailAccountContext(x)));
+                _accounts.AddRange(accounts.Select(x => new MailAccountContext(x, this)));
             }
+        }
+
+        internal void ClearMessages() {
+            Messages = null;
+            ClearMessageView();
+        }
+
+        public void NotifyMessageCountChanged() {
+            RaisePropertyChanged(() => Messages);
         }
     }
 }

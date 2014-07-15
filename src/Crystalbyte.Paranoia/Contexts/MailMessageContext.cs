@@ -10,6 +10,7 @@ using Crystalbyte.Paranoia.Mail;
 #endregion
 
 namespace Crystalbyte.Paranoia {
+    [DebuggerDisplay("Subject = {Subject}, Address = {FromAddress}")]
     public class MailMessageContext : SelectionObject {
         private int _load;
         private long _bytesReceived;
@@ -18,6 +19,9 @@ namespace Crystalbyte.Paranoia {
 
         public MailMessageContext(MailMessageModel message) {
             _message = message;
+        }
+        public long Id {
+            get { return _message.Id; }
         }
 
         public long Uid {

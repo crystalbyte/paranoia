@@ -4,9 +4,11 @@ using System.Windows.Input;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
     public sealed class FocusSearchBoxCommand : ICommand {
+        private readonly AppContext _app;
         private readonly Control _control;
 
-        public FocusSearchBoxCommand(Control control) {
+        public FocusSearchBoxCommand(AppContext app, Control control) {
+            _app = app;
             _control = control;
         }
 
@@ -15,6 +17,12 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public void Execute(object parameter) {
+            var arg = parameter as string;
+            if (arg == "!") {
+                _app.QueryString = string.Empty;
+                _control.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
+                return;
+            }
             _control.Focus();
         }
 

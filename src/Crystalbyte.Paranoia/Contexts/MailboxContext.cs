@@ -26,15 +26,14 @@ namespace Crystalbyte.Paranoia {
         private readonly MailAccountContext _account;
         private readonly MailboxModel _mailbox;
         private readonly ObservableCollection<MailboxCandidateContext> _mailboxCandidates;
-        private readonly AssignMailboxCommand _assignMailboxCommand;
+        private readonly AssignCommand _assignCommand;
         private MailboxCandidateContext _selectedCandidate;
         private bool _isLoadingMessage;
 
         internal MailboxContext(MailAccountContext account, MailboxModel mailbox) {
             _account = account;
             _mailbox = mailbox;
-            _assignMailboxCommand = new AssignMailboxCommand(this);
-
+            _assignCommand = new AssignCommand(this);
             _mailboxCandidates = new ObservableCollection<MailboxCandidateContext>();
         }
 
@@ -95,6 +94,38 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        internal async Task DeleteMessagesAsync(MailMessageContext[] messages, string trashFolder) {
+            try {
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+                    using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+                        using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+                            var mailbox = await session.SelectAsync(Name);
+                            await mailbox.DeleteMailsAsync(messages.Select(x => x.Uid), trashFolder);
+                        }
+                    }
+                }
+
+                messages.ForEach(x => {
+                    try {
+                        using (var database = new DatabaseContext()) {
+                            var model = new MailMessageModel { Id = x.Id, MailboxId = Id };
+                            database.MailMessages.Attach(model);
+                            database.MailMessages.Remove(model);
+                        }
+                        Messages.Remove(x);
+                    } catch (Exception) {
+                        // TODO: log
+                        throw;
+                    }
+                });
+
+                _account.AppContext.NotifyMessageCountChanged();
+            } catch (Exception) {
+                // TODO: log
+                throw;
+            }
+        }
+
         internal async Task DropAsync() {
             using (var context = new DatabaseContext()) {
                 context.Mailboxes.Attach(_mailbox);
@@ -114,8 +145,8 @@ namespace Crystalbyte.Paranoia {
             get { return !string.IsNullOrEmpty(Name); }
         }
 
-        public AssignMailboxCommand AssignMailboxCommand {
-            get { return _assignMailboxCommand; }
+        public AssignCommand AssignCommand {
+            get { return _assignCommand; }
         }
 
         public bool IsAssignable {
@@ -140,11 +171,9 @@ namespace Crystalbyte.Paranoia {
                 _mailboxCandidates.Clear();
                 _mailboxCandidates.AddRange(mailboxes
                     .Select(x => new MailboxCandidateContext(_account, x)));
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 LastException = ex;
-            }
-            finally {
+            } finally {
                 IsListingMailboxes = false;
             }
         }
@@ -233,7 +262,7 @@ namespace Crystalbyte.Paranoia {
 
                 var messages = new List<MailMessageModel>();
 
-                using (var connection = new ImapConnection {Security = account.ImapSecurity}) {
+                using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
                     connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                     using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
                         using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
@@ -255,8 +284,7 @@ namespace Crystalbyte.Paranoia {
                             }
 
                             messages.AddRange(envelopes
-                                .Select(envelope => new MailMessageModel
-                                {
+                                .Select(envelope => new MailMessageModel {
                                     EntryDate = envelope.InternalDate.HasValue
                                         ? envelope.InternalDate.Value
                                         : DateTime.Now,
@@ -277,11 +305,9 @@ namespace Crystalbyte.Paranoia {
 
                 await SaveMessagesToDatabaseAsync(messages);
                 AppendMessages(messages);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 LastException = ex;
-            }
-            finally {
+            } finally {
                 IsSyncing = false;
             }
         }
@@ -290,18 +316,18 @@ namespace Crystalbyte.Paranoia {
             var contexts = messages.Select(x => new MailMessageContext(x));
             if (Messages == null) {
                 Messages = new ObservableCollection<MailMessageContext>(contexts);
-            }
-            else {
+            } else {
                 Messages.AddRange(contexts);
             }
         }
 
-        internal async Task LoadMessagesFromDatabaseAsync() {
+        internal async Task LoadMessagesFromDatabaseAsync(MailContactContext contact) {
             try {
                 IEnumerable<MailMessageModel> messages;
                 using (var context = new DatabaseContext()) {
                     messages = await context.MailMessages
                         .Where(x => x.MailboxId == _mailbox.Id)
+                        .Where(x => x.FromAddress == contact.Address)
                         .ToArrayAsync();
                 }
 
@@ -311,8 +337,7 @@ namespace Crystalbyte.Paranoia {
                 }
                 Messages = new ObservableCollection<MailMessageContext>(
                     messages.Select(x => new MailMessageContext(x)));
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 LastException = ex;
             }
         }
@@ -385,14 +410,23 @@ namespace Crystalbyte.Paranoia {
                     IsAssignable = false;
                     OnAssignmentChanged();
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 LastException = ex;
             }
         }
 
         internal void NotifyCandidateSelectionChanged() {
-            _assignMailboxCommand.OnCanExecuteChanged();
+            _assignCommand.OnCanExecuteChanged();
+        }
+
+        internal async Task UpdateAsync(MailContactContext contact) {
+            if (contact == null) {
+                _account.AppContext.ClearMessages();
+                return;
+            }
+
+            await LoadMessagesFromDatabaseAsync(contact);
+            _account.AppContext.DisplayMessages(Messages);
         }
     }
 }

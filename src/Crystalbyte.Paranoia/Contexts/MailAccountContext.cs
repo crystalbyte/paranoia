@@ -15,6 +15,7 @@ using Crystalbyte.Paranoia.UI.Commands;
 namespace Crystalbyte.Paranoia {
     public sealed class MailAccountContext : SelectionObject {
         private MailboxContext _selectedMailbox;
+        private readonly AppContext _appContext;
         private readonly MailAccountModel _account;
         private readonly DropMailboxCommand _dropMailboxCommand;
         private readonly ObservableCollection<MailContactContext> _contacts;
@@ -23,13 +24,13 @@ namespace Crystalbyte.Paranoia {
         private Exception _lastException;
         private MailContactContext _selectedContact;
 
-        internal MailAccountContext(MailAccountModel account) {
+        internal MailAccountContext(MailAccountModel account, AppContext appContext) {
             _account = account;
+            _appContext = appContext;
             _dropMailboxCommand = new DropMailboxCommand(this);
 
             _contacts = new ObservableCollection<MailContactContext>();
-            _contacts.CollectionChanged +=
-                (sender, e) => RaisePropertyChanged(() => Contacts);
+            _contacts.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Contacts);
 
             _mailboxes = new ObservableCollection<MailboxContext>();
         }
@@ -101,7 +102,7 @@ namespace Crystalbyte.Paranoia {
                 }
             });
             _mailboxes.AddRange(mailboxes.Select(x => new MailboxContext(this, x)));
-            var inbox = _mailboxes.FirstOrDefault(x => x.Type == MailboxType.Inbox && x.IsAssigned);
+            var inbox = _mailboxes.FirstOrDefault(x => x.Type == MailboxType.Inbox);
             if (inbox != null) {
                 inbox.IsSelected = true;
             }
@@ -115,6 +116,9 @@ namespace Crystalbyte.Paranoia {
                 }
             });
             _contacts.AddRange(contacts.Select(x => new MailContactContext(x)));
+            if (_contacts.Count > 0) {
+                _contacts.First().IsSelected = true;
+            }
         }
 
         public event EventHandler MailboxSelectionChanged;
@@ -137,9 +141,7 @@ namespace Crystalbyte.Paranoia {
                 await SelectedMailbox.PrepareManualAssignmentAsync();
             }
 
-            await mailbox.LoadMessagesFromDatabaseAsync();
-            var app = App.Composition.GetExport<AppContext>();
-            app.DisplayMessages(SelectedMailbox.Messages);
+            await mailbox.UpdateAsync(SelectedContact);
             await mailbox.SyncAsync();
         }
 
@@ -164,7 +166,21 @@ namespace Crystalbyte.Paranoia {
                 }
                 _selectedContact = value;
                 RaisePropertyChanged(() => SelectedContact);
+                OnSelectedContactChanged();
             }
+        }
+
+        private async void OnSelectedContactChanged() {
+            if (SelectedMailbox == null) {
+                SelectedMailbox = Mailboxes.FirstOrDefault(x => x.Type == MailboxType.Inbox);
+            }
+
+            if (SelectedMailbox == null) {
+                _appContext.ClearMessages();
+                return;
+            }
+
+            await SelectedMailbox.UpdateAsync(SelectedContact);
         }
 
         public string Address {
@@ -186,6 +202,10 @@ namespace Crystalbyte.Paranoia {
                     .Any(x => _account.ImapHost
                         .EndsWith(x, StringComparison.InvariantCultureIgnoreCase));
             }
+        }
+
+        public AppContext AppContext {
+            get { return _appContext; }
         }
 
         public string Name {

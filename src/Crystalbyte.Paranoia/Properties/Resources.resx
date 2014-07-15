@@ -141,6 +141,9 @@
   <data name="ExpressionNotProperty" xml:space="preserve">
     <value>Expression is not a property.</value>
   </data>
+  <data name="Forward" xml:space="preserve">
+    <value>Forward</value>
+  </data>
   <data name="Friday" xml:space="preserve">
     <value>Friday</value>
   </data>
@@ -170,6 +173,12 @@
   </data>
   <data name="NotMemberAccessExpression" xml:space="preserve">
     <value>Expression does not access a member.</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>Reply</value>
   </data>
   <data name="RestoreDownCommandTooltip" xml:space="preserve">
     <value>Restore Down</value>

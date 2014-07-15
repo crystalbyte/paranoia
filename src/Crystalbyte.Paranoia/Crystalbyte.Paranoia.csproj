@@ -164,11 +164,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\Commands\AssignMailboxCommand.cs" />
+    <Compile Include="UI\Commands\AssignCommand.cs" />
     <Compile Include="UI\Commands\DeleteCommand.cs" />
     <Compile Include="UI\Commands\DropMailboxCommand.cs" />
     <Compile Include="UI\Commands\FocusSearchBoxCommand.cs" />
     <Compile Include="UI\Commands\ForwardCommand.cs" />
+    <Compile Include="UI\Commands\MoveCommand.cs" />
+    <Compile Include="UI\Commands\PrintCommand.cs" />
     <Compile Include="UI\Commands\ReplyCommand.cs" />
     <Compile Include="UI\Converters\BooleanToBrushConverter.cs" />
     <Compile Include="UI\Converters\BooleanToVisibilityConverter.cs" />
@@ -246,20 +248,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\refresh.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\send.message.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\delete.png" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\settings.png" />
-    <Resource Include="Assets\download.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -284,52 +276,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\googlemail.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\add.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\mail.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\menu.delete.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\favs.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\edit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\upload.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\folder.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\questionmark.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\important.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\cancel.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\back.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\next.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\save.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\blank.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Styles\" />
@@ -347,6 +294,8 @@
   <ItemGroup>
     <Resource Include="Assets\reply.png" />
     <Resource Include="Assets\forward.png" />
+    <Resource Include="Assets\reply.small.png" />
+    <Resource Include="Assets\forward.small.png" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

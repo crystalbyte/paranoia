@@ -206,8 +206,11 @@
                       BorderThickness="0"
                       DataContext="{Binding SelectedAccount}"
                       ItemsSource="{Binding Contacts}"
+                      KeyboardNavigation.DirectionalNavigation="Contained"
+                      KeyboardNavigation.TabNavigation="None"
                       SelectedValue="{Binding SelectedContact,
                                               Mode=TwoWay}"
+                      TabIndex="0"
                       d:DataContext="{d:DesignInstance {x:Type paranoia:MailAccountContext}}">
 
                 <ListView.ItemsPanel>
@@ -217,6 +220,7 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                         <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Cvsp}" />
                         <Setter Property="Padding" Value="6,2,6,2" />
                     </Style>
@@ -274,12 +278,20 @@
                     Orientation="Horizontal">
             <TextBox x:Name="SearchBox"
                      Margin="1,0,0,0"
+                     KeyboardNavigation.TabNavigation="Continue"
                      Style="{StaticResource AppSearchTextBoxStyle}"
+                     TabIndex="3"
                      Text="{Binding QueryString,
                                     Mode=TwoWay,
                                     UpdateSourceTrigger=PropertyChanged}"
                      ui:Watermark.IsEnabled="True"
-                     ui:Watermark.Text="{x:Static properties:Resources.SearchBoxWatermark}" />
+                     ui:Watermark.Text="{x:Static properties:Resources.SearchBoxWatermark}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Escape"
+                                Command="{Binding FocusSearchBoxCommand}"
+                                CommandParameter="!" />
+                </TextBox.InputBindings>
+            </TextBox>
         </StackPanel>
         <Grid Grid.Row="1"
               Grid.Column="2"
@@ -290,9 +302,12 @@
                       BorderThickness="0"
                       DataContext="{Binding SelectedAccount}"
                       ItemsSource="{Binding Mailboxes}"
+                      KeyboardNavigation.DirectionalNavigation="Contained"
+                      KeyboardNavigation.TabNavigation="None"
                       Padding="0"
                       SelectedValue="{Binding SelectedMailbox,
                                               Mode=TwoWay}"
+                      TabIndex="2"
                       d:DataContext="{d:DesignInstance {x:Type paranoia:MailAccountContext}}">
                 <ListView.InputBindings>
                     <KeyBinding Key="Delete" Command="{Binding DropMailboxCommand}" />
@@ -462,8 +477,11 @@
                       Background="Transparent"
                       BorderThickness="0"
                       ItemsSource="{Binding Source={StaticResource MessagesSource}}"
+                      KeyboardNavigation.DirectionalNavigation="Contained"
+                      KeyboardNavigation.TabNavigation="None"
                       Padding="0"
                       SelectionChanged="OnMessageSelectionChanged"
+                      TabIndex="4"
                       VirtualizingPanel.IsVirtualizing="True"
                       VirtualizingPanel.VirtualizationMode="Recycling">
                 <ListView.InputBindings>
@@ -478,6 +496,25 @@
                                 Command="{Binding DeleteCommand}"
                                 Modifiers="Control" />
                 </ListView.InputBindings>
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Command="{Binding ReplyCommand}" Header="{x:Static properties:Resources.Reply}">
+                            <MenuItem.Icon>
+                                <Image Source="/Assets/reply.small.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Command="{Binding ForwardCommand}" Header="{x:Static properties:Resources.Forward}">
+                            <MenuItem.Icon>
+                                <Image Source="/Assets/forward.small.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Command="{Binding PrintCommand}" Header="{x:Static properties:Resources.Print}">
+                            <MenuItem.Icon>
+                                <Image Source="/Assets/forward.small.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </ListView.ContextMenu>
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel x:Name="Mvsp" />

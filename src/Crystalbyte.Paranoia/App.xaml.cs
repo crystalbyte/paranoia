@@ -53,13 +53,20 @@ namespace Crystalbyte.Paranoia {
                     SmtpRequiresAuthentication = true,
                 };
 
-                for (var i = 0; i < 20; i++) {
-                    account.Contacts.Add(new MailContactModel
-                    {
-                        Name = string.Format("Paranoia Contact #{0}", i),
-                        Address = "paranoia.app.c1@gmail.com"
-                    });
-                }
+                account.Contacts.Add(new MailContactModel {
+                    Name = string.Format("p4r4n014"),
+                    Address = "paranoia.app@gmail.com"
+                });
+
+                account.Contacts.Add(new MailContactModel {
+                    Name = string.Format("Alexander Wieser"),
+                    Address = "alexander.wieser@crystalbyte.de"
+                });
+
+                account.Contacts.Add(new MailContactModel {
+                    Name = string.Format("Youtube"),
+                    Address = "noreply@youtube.com"
+                });
 
                 account.Mailboxes.Add(new MailboxModel
                 {
