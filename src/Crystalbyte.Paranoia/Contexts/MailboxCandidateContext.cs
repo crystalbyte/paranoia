@@ -1,8 +1,12 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Mail;
+
+#endregion
 
 namespace Crystalbyte.Paranoia {
     public sealed class MailboxCandidateContext : SelectionObject {
@@ -33,8 +37,10 @@ namespace Crystalbyte.Paranoia {
         }
 
         public bool IsSelectable {
-            get { return _info.Flags
-                .All(x => !x.ContainsIgnoreCase(@"\noselect")); }
+            get {
+                return _info.Flags
+                    .All(x => !x.ContainsIgnoreCase(@"\noselect"));
+            }
         }
 
         public bool IsLoading {
@@ -85,7 +91,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        protected async override void OnSelectionChanged() {
+        protected override async void OnSelectionChanged() {
             base.OnSelectionChanged();
 
             if (IsSelected && !IsLoaded && !IsLoading) {
@@ -96,7 +102,6 @@ namespace Crystalbyte.Paranoia {
         private async Task LoadChildrenAsync() {
             IsLoading = true;
             try {
-
                 var pattern = string.Format("{0}{1}%", Name, Delimiter);
                 var mailboxes = await _account.ListMailboxesAsync(pattern);
 
@@ -107,9 +112,11 @@ namespace Crystalbyte.Paranoia {
 
                 IsExpanded = true;
                 IsLoaded = true;
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 LastException = ex;
-            } finally {
+            }
+            finally {
                 IsLoading = false;
             }
         }

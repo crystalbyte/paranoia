@@ -1,11 +1,14 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Crystalbyte.Paranoia.UI.Converters {
+#endregion
 
-    [ValueConversion(typeof(bool), typeof(Visibility))]
+namespace Crystalbyte.Paranoia.UI.Converters {
+    [ValueConversion(typeof (bool), typeof (Visibility))]
     public sealed class BooleanToVisibilityConverter : IValueConverter {
         #region Implementation of IValueConverter
 

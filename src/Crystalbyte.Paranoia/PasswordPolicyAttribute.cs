@@ -1,9 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿#region Using directives
+
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+
+#endregion
 
 namespace Crystalbyte.Paranoia {
     public sealed class PasswordPolicyAttribute : ValidationAttribute {
-
         private const string Symbols = "!,.-_+*#'~°§$%&/()=?";
 
         public PasswordPolicyAttribute() {
@@ -47,6 +50,5 @@ namespace Crystalbyte.Paranoia {
         public bool EnforceLowerChars { get; set; }
 
         public bool EnforceUpperChars { get; set; }
-
     }
 }

@@ -1,11 +1,14 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Collections.Generic;
 using Crystalbyte.Paranoia.Properties;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Data {
     internal static class TypeExtensions {
         public static string ToSQLiteType(this Type type) {
-
             const string text = "TEXT";
             const string integer = "INTEGER";
             const string blob = "BLOB";
@@ -15,7 +18,8 @@ namespace Crystalbyte.Paranoia.Data {
                 return integer;
             }
 
-            var types = new Dictionary<Type, string> {
+            var types = new Dictionary<Type, string>
+            {
                 {typeof (Int32), integer},
                 {typeof (Int64), integer},
                 {typeof (Int16), integer},

@@ -1,26 +1,34 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Composition;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
-using System.Text;
+using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
 
-namespace Crystalbyte.Paranoia {
+#endregion
 
+namespace Crystalbyte.Paranoia {
     [Export, Shared]
     public sealed class AppContext : NotificationObject {
-
         private MailAccountContext _selectedAccount;
         private IEnumerable<MailMessageContext> _selectedMessages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
         private readonly ReplyCommand _replyCommand;
         private readonly DeleteCommand _deleteCommand;
         private readonly ForwardCommand _forwardCommand;
+        private FocusSearchBoxCommand _focusSearchBoxCommand;
         private Exception _lastException;
         private string _queryString;
         private object _messages;
@@ -31,15 +39,57 @@ namespace Crystalbyte.Paranoia {
             _replyCommand = new ReplyCommand(this);
             _forwardCommand = new ForwardCommand(this);
             _deleteCommand = new DeleteCommand(this);
+
+            var queryStringObservable = Observable
+                .FromEventPattern<QueryStringEventArgs>(
+                    action => QueryStringChanged += action,
+                    action => QueryStringChanged -= action)
+                .Select(x => x.EventArgs);
+
+            queryStringObservable
+                .Where(x => (x.Text.Length > 2 || string.IsNullOrEmpty(x.Text))
+                            && string.Compare(x.Text, Resources.SearchBoxWatermark,
+                                StringComparison.InvariantCultureIgnoreCase) != 0)
+                .Throttle(TimeSpan.FromMilliseconds(250))
+                .Select(x => x.Text)
+                .Subscribe(OnQueryReceived);
+        }
+
+        internal void HookUpSearchBox(Control control) {
+            _focusSearchBoxCommand = new FocusSearchBoxCommand(control);
+            RaisePropertyChanged(() => FocusSearchBoxCommand);
+        }
+
+        private async void OnQueryReceived(string text) {
+            var mailbox = SelectedAccount.SelectedMailbox;
+            if (string.IsNullOrEmpty(text)) {
+                DisplayMessages(mailbox.Messages);
+                return;
+            }
+
+            using (var context = new DatabaseContext()) {
+                var messages = await context.MailMessages
+                    .Where(x => x.Subject.Contains(text) && x.MailboxId == mailbox.Id)
+                    .ToArrayAsync();
+                var contexts = messages.Select(x => new MailMessageContext(x));
+                DisplayMessages(contexts.ToArray());
+            }
         }
 
         public IEnumerable<MailAccountContext> Accounts {
             get { return _accounts; }
         }
 
-        public event EventHandler MessageSelectionChanged;
+        internal event EventHandler MessageSelectionChanged;
 
         private async void OnMessageSelectionChanged() {
+            await HandleMessageSelectionChangedAsync();
+            var handler = MessageSelectionChanged;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
+
+        private async Task HandleMessageSelectionChangedAsync() {
             ClearMessageView();
             var message = SelectedMessages.FirstOrDefault();
             if (message == null) {
@@ -47,18 +97,34 @@ namespace Crystalbyte.Paranoia {
             }
 
             await DisplayMessageAsync(message);
-
-            var handler = MessageSelectionChanged;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
         }
 
-        public event EventHandler AccountSelectionChanged;
+        internal event EventHandler AccountSelectionChanged;
 
         private void OnAccountSelectionChanged() {
             var handler = AccountSelectionChanged;
             if (handler != null)
                 handler(this, EventArgs.Empty);
+        }
+
+        internal event EventHandler<QueryStringEventArgs> QueryStringChanged;
+
+        private void OnQueryStringChanged(QueryStringEventArgs e) {
+            var handler = QueryStringChanged;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        public string QueryString {
+            get { return _queryString; }
+            set {
+                if (_queryString == value) {
+                    return;
+                }
+                _queryString = value;
+                RaisePropertyChanged(() => QueryString);
+                OnQueryStringChanged(new QueryStringEventArgs(value));
+            }
         }
 
         public object Messages {
@@ -72,16 +138,8 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public string QueryString {
-            get { return _queryString; }
-            set {
-                if (_queryString == value) {
-                    return;
-                }
-                _queryString = value;
-                RaisePropertyChanged(() => QueryString);
-                OnQueryStringChanged();
-            }
+        public FocusSearchBoxCommand FocusSearchBoxCommand {
+            get { return _focusSearchBoxCommand; }
         }
 
         public ReplyCommand ReplyCommand {
@@ -91,20 +149,15 @@ namespace Crystalbyte.Paranoia {
         public ForwardCommand ForwardCommand {
             get { return _forwardCommand; }
         }
-        public DeleteCommand DeleteCommand{
+
+        public DeleteCommand DeleteCommand {
             get { return _deleteCommand; }
         }
 
-        private void OnQueryStringChanged() {
-
-        }
-
-        internal void UpdateMessages() {
-            var mailbox = SelectedAccount.SelectedMailbox;
-            Messages = mailbox.Messages;
-            if (mailbox.Messages.Count > 0) {
-                mailbox.Messages
-                    .OrderByDescending(x => x.EntryDate)
+        internal void DisplayMessages(ICollection<MailMessageContext> messages) {
+            Messages = messages;
+            if (messages.Count > 0) {
+                messages.OrderByDescending(x => x.EntryDate)
                     .First().IsSelected = true;
             }
         }

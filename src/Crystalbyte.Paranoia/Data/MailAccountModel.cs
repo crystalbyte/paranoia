@@ -1,9 +1,13 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Crystalbyte.Paranoia.Mail;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Data {
     [Table("mail_account")]

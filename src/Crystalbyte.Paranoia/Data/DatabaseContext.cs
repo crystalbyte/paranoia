@@ -1,4 +1,8 @@
-﻿using System.Data.Entity;
+﻿#region Using directives
+
+using System.Data.Entity;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Data {
     internal sealed class DatabaseContext : DbContext {

@@ -1,13 +1,17 @@
-﻿using Crystalbyte.Paranoia.Properties;
+﻿#region Using directives
+
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using Crystalbyte.Paranoia.Properties;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.UI.Converters {
-    [ValueConversion(typeof(MailboxType), typeof(string))]
+    [ValueConversion(typeof (MailboxType), typeof (string))]
     public sealed class MailboxLocalizer : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            var type = (MailboxType)value;
+            var type = (MailboxType) value;
             switch (type) {
                 case MailboxType.Inbox:
                     return Resources.InboxMailbox;

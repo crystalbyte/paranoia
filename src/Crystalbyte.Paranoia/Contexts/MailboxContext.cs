@@ -3,15 +3,15 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Windows;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.UI.Commands;
-using System.Diagnostics;
 
 #endregion
 
@@ -57,6 +57,18 @@ namespace Crystalbyte.Paranoia {
 
                 _mailbox.Name = value;
                 RaisePropertyChanged(() => Name);
+            }
+        }
+
+        public Int64 Id {
+            get { return _mailbox.Id; }
+            set {
+                if (_mailbox.Id == value) {
+                    return;
+                }
+
+                _mailbox.Id = value;
+                RaisePropertyChanged(() => Id);
             }
         }
 
@@ -128,10 +140,11 @@ namespace Crystalbyte.Paranoia {
                 _mailboxCandidates.Clear();
                 _mailboxCandidates.AddRange(mailboxes
                     .Select(x => new MailboxCandidateContext(_account, x)));
-
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 LastException = ex;
-            } finally {
+            }
+            finally {
                 IsListingMailboxes = false;
             }
         }
@@ -220,7 +233,7 @@ namespace Crystalbyte.Paranoia {
 
                 var messages = new List<MailMessageModel>();
 
-                using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
+                using (var connection = new ImapConnection {Security = account.ImapSecurity}) {
                     connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                     using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
                         using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
@@ -242,7 +255,8 @@ namespace Crystalbyte.Paranoia {
                             }
 
                             messages.AddRange(envelopes
-                                .Select(envelope => new MailMessageModel {
+                                .Select(envelope => new MailMessageModel
+                                {
                                     EntryDate = envelope.InternalDate.HasValue
                                         ? envelope.InternalDate.Value
                                         : DateTime.Now,
@@ -263,9 +277,11 @@ namespace Crystalbyte.Paranoia {
 
                 await SaveMessagesToDatabaseAsync(messages);
                 AppendMessages(messages);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 LastException = ex;
-            } finally {
+            }
+            finally {
                 IsSyncing = false;
             }
         }
@@ -274,7 +290,8 @@ namespace Crystalbyte.Paranoia {
             var contexts = messages.Select(x => new MailMessageContext(x));
             if (Messages == null) {
                 Messages = new ObservableCollection<MailMessageContext>(contexts);
-            } else {
+            }
+            else {
                 Messages.AddRange(contexts);
             }
         }
@@ -294,7 +311,8 @@ namespace Crystalbyte.Paranoia {
                 }
                 Messages = new ObservableCollection<MailMessageContext>(
                     messages.Select(x => new MailMessageContext(x)));
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 LastException = ex;
             }
         }
@@ -367,8 +385,8 @@ namespace Crystalbyte.Paranoia {
                     IsAssignable = false;
                     OnAssignmentChanged();
                 }
-
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 LastException = ex;
             }
         }

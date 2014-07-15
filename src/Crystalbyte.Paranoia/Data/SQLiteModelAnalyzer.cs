@@ -1,10 +1,14 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using Crystalbyte.Paranoia.Properties;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Data {
     internal sealed class SQLiteModelAnalyzer {
@@ -54,12 +58,29 @@ namespace Crystalbyte.Paranoia.Data {
                 name = info.Name;
             }
 
+            CollatingSequence sequence;
             var isPrimaryKey = info.GetCustomAttribute<KeyAttribute>() != null;
+            var hasCollate = TryReadCollateAttribute(info, out sequence);
 
             using (var writer = new StringWriter()) {
                 writer.Write(name);
                 writer.Write(" ");
                 writer.Write(type);
+                if (hasCollate) {
+                    switch (sequence) {
+                        case CollatingSequence.Binary:
+                            writer.Write(" COLLATE BINARY");
+                            break;
+                        case CollatingSequence.NoCase:
+                            writer.Write(" COLLATE NOCASE");
+                            break;
+                        case CollatingSequence.RTrim:
+                            writer.Write(" COLLATE RTRIM");
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
                 if (!isPrimaryKey)
                     return writer.ToString();
 
@@ -69,8 +90,18 @@ namespace Crystalbyte.Paranoia.Data {
             }
         }
 
-        private static string CreateForeignKeyDefinition(MemberInfo info) {
+        private static bool TryReadCollateAttribute(MemberInfo info, out CollatingSequence sequence) {
+            sequence = CollatingSequence.Binary;
+            var attribute = info.GetCustomAttribute<CollateAttribute>();
+            if (attribute == null) {
+                return false;
+            }
 
+            sequence = attribute.Sequence;
+            return true;
+        }
+
+        private static string CreateForeignKeyDefinition(MemberInfo info) {
             var foreignKey = info.GetCustomAttribute<ForeignKeyAttribute>();
             var masterTypeName = foreignKey.Name;
 

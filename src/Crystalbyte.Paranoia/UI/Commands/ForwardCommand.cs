@@ -1,5 +1,9 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Windows.Input;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.UI.Commands {
     public sealed class ForwardCommand : ICommand {
@@ -26,7 +30,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         private void OnCanExecuteChanged() {
             var handler = CanExecuteChanged;
-            if (handler != null) 
+            if (handler != null)
                 handler(this, EventArgs.Empty);
         }
     }

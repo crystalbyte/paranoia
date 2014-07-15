@@ -16,11 +16,15 @@
                 Background="{StaticResource AppBackgroundBrush}"
                 BorderThickness="0"
                 Icon="/Assets/icon.png"
-                RenderOptions.ClearTypeHint="Enabled"
                 UseLayoutRounding="True"
                 WindowStartupLocation="CenterScreen"
                 d:DataContext="{d:DesignInstance paranoia:AppContext}"
                 mc:Ignorable="d">
+    <ui:MetroWindow.InputBindings>
+        <KeyBinding Key="Q"
+                    Command="{Binding FocusSearchBoxCommand}"
+                    Modifiers="Control" />
+    </ui:MetroWindow.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -268,10 +272,12 @@
         <StackPanel Grid.Row="0"
                     Grid.Column="2"
                     Orientation="Horizontal">
-            <TextBox Margin="1,0,0,0"
+            <TextBox x:Name="SearchBox"
+                     Margin="1,0,0,0"
                      Style="{StaticResource AppSearchTextBoxStyle}"
                      Text="{Binding QueryString,
-                                    Mode=TwoWay}"
+                                    Mode=TwoWay,
+                                    UpdateSourceTrigger=PropertyChanged}"
                      ui:Watermark.IsEnabled="True"
                      ui:Watermark.Text="{x:Static properties:Resources.SearchBoxWatermark}" />
         </StackPanel>

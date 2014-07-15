@@ -1,9 +1,13 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
+
+#endregion
 
 namespace Crystalbyte.Paranoia {
     public class MailMessageContext : SelectionObject {
@@ -61,9 +65,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public bool IsLoading {
-            get {
-                return _load > 0;
-            }
+            get { return _load > 0; }
         }
 
         private void IncrementLoad() {
@@ -77,9 +79,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public long BytesReceived {
-            get {
-                return _bytesReceived;
-            }
+            get { return _bytesReceived; }
             set {
                 if (_bytesReceived == value) {
                     return;
@@ -111,7 +111,7 @@ namespace Crystalbyte.Paranoia {
             var mailbox = await GetMailboxAsync();
             var account = await GetAccountAsync(mailbox);
 
-            using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
+            using (var connection = new ImapConnection {Security = account.ImapSecurity}) {
                 connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                 using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
                     using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
@@ -128,7 +128,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnProgressChanged(object sender, ProgressChangedEventArgs e) {
-            Debug.WriteLine(e.ByteCount);
+            //Debug.WriteLine(e.ByteCount);
             BytesReceived = e.ByteCount;
         }
 
@@ -138,7 +138,8 @@ namespace Crystalbyte.Paranoia {
                 var mime = await FetchMimeAsync();
                 using (var context = new DatabaseContext()) {
                     context.MailMessages.Attach(_message);
-                    var mimeMessage = new MimeMessageModel {
+                    var mimeMessage = new MimeMessageModel
+                    {
                         Data = mime
                     };
 

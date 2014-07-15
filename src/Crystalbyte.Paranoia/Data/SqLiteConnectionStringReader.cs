@@ -1,5 +1,9 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Text.RegularExpressions;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Data {
     internal sealed class SQLiteConnectionStringReader {

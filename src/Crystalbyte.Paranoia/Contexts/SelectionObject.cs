@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
+
+#endregion
 
 namespace Crystalbyte.Paranoia {
     public abstract class SelectionObject : NotificationObject {
@@ -8,7 +12,7 @@ namespace Crystalbyte.Paranoia {
 
         protected virtual void OnSelectionChanged() {
             var handler = SelectionChanged;
-            if (handler != null) 
+            if (handler != null)
                 handler(this, EventArgs.Empty);
         }
 

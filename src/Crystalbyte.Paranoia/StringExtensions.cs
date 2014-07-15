@@ -33,7 +33,8 @@ namespace Crystalbyte.Paranoia {
 
                 if (shifted > maxChar) {
                     shifted -= maxChar;
-                } else if (shifted < minChar) {
+                }
+                else if (shifted < minChar) {
                     shifted += maxChar;
                 }
 
@@ -41,7 +42,6 @@ namespace Crystalbyte.Paranoia {
             }
 
             return new string(buffer);
-
         }
     }
 }

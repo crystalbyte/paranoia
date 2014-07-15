@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Using directives
+
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+
+#endregion
 
 namespace Crystalbyte.Paranoia {
     public static class StreamExtensions {

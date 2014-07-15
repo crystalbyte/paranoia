@@ -35,7 +35,9 @@
             <!--  Brushes  -->
             <Color x:Key="AppAccentColor">LightSteelBlue</Color>
             <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccentColor}" />
-            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}" Color="{StaticResource AppAccentColor}" />
+            <SolidColorBrush
+                x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}"
+                Color="{StaticResource AppAccentColor}" />
 
             <Color x:Key="AppBackgroundColor">#222222</Color>
             <SolidColorBrush x:Key="AppBackgroundBrush" Color="{StaticResource AppBackgroundColor}" />
@@ -45,7 +47,8 @@
 
             <Color x:Key="AppHoverColor">#333333</Color>
             <SolidColorBrush x:Key="AppHoverBrush" Color="{StaticResource AppHoverColor}" />
-            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppHoverBrush}" Color="{StaticResource AppHoverColor}" />
+            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppHoverBrush}"
+                             Color="{StaticResource AppHoverColor}" />
 
             <Color x:Key="AppSelectedUnfocusedColor">#FFDDDDDD</Color>
 
@@ -61,9 +64,12 @@
             <SolidColorBrush x:Key="AppButtonBorderBrush" Color="Transparent" />
             <SolidColorBrush x:Key="AppButtonBackgroundBrush" Color="Transparent" />
 
-            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowSearchTextBrush}" Color="DimGray" />
+            <SolidColorBrush
+                x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowSearchTextBrush}"
+                Color="DimGray" />
 
-            <Style x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowTitleStyle}" TargetType="TextBlock">
+            <Style x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=WindowTitleStyle}"
+                   TargetType="TextBlock">
                 <Setter Property="FontSize" Value="14" />
             </Style>
 
@@ -79,7 +85,8 @@
                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Setter Property="SnapsToDevicePixels" Value="True" />
-                <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=ui:MetroWindow, AncestorLevel=1}}" />
+                <Setter Property="Foreground"
+                        Value="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=ui:MetroWindow, AncestorLevel=1}}" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ButtonBase">
@@ -89,7 +96,9 @@
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     Padding="{TemplateBinding Padding}">
                                 <Grid>
-                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                    <ContentPresenter
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                 </Grid>
                             </Border>
                         </ControlTemplate>
@@ -105,14 +114,16 @@
                             <Condition Property="IsPressed" Value="True" />
                             <Condition Property="IsMouseOver" Value="True" />
                         </MultiTrigger.Conditions>
-                        <Setter Property="Background" Value="{Binding AccentBrush, RelativeSource={RelativeSource FindAncestor, AncestorType=ui:MetroWindow, AncestorLevel=1}}" />
+                        <Setter Property="Background"
+                                Value="{Binding AccentBrush, RelativeSource={RelativeSource FindAncestor, AncestorType=ui:MetroWindow, AncestorLevel=1}}" />
                     </MultiTrigger>
                     <MultiTrigger>
                         <MultiTrigger.Conditions>
                             <Condition Property="IsMouseOver" Value="True" />
                             <Condition Property="IsPressed" Value="False" />
                         </MultiTrigger.Conditions>
-                        <Setter Property="Background" Value="{Binding HoverBrush, RelativeSource={RelativeSource FindAncestor, AncestorType=ui:MetroWindow, AncestorLevel=1}}" />
+                        <Setter Property="Background"
+                                Value="{Binding HoverBrush, RelativeSource={RelativeSource FindAncestor, AncestorType=ui:MetroWindow, AncestorLevel=1}}" />
                     </MultiTrigger>
                 </Style.Triggers>
             </Style>
@@ -167,10 +178,11 @@
                 <Setter Property="Height" Value="24" />
             </Style>
 
-            <Style x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App,
+            <Style
+                x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                 ResourceId=MinimizeButtonStyle}"
-                   BasedOn="{StaticResource AppCommandButtonStyle}"
-                   TargetType="ButtonBase">
+                BasedOn="{StaticResource AppCommandButtonStyle}"
+                TargetType="ButtonBase">
                 <Setter Property="Command" Value="{x:Static ui:WindowCommands.Minimize}" />
                 <Setter Property="ToolTip" Value="{x:Static properties:Resources.MinimizeCommandTooltip}" />
                 <Setter Property="ContentTemplate">
@@ -186,10 +198,11 @@
                 </Setter>
             </Style>
 
-            <Style x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App,
+            <Style
+                x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                 ResourceId=MaximizeButtonStyle}"
-                   BasedOn="{StaticResource AppCommandButtonStyle}"
-                   TargetType="ButtonBase">
+                BasedOn="{StaticResource AppCommandButtonStyle}"
+                TargetType="ButtonBase">
                 <Setter Property="Command" Value="{x:Static ui:WindowCommands.Maximize}" />
                 <Setter Property="ToolTip" Value="{x:Static properties:Resources.MaximizeCommandTooltip}" />
                 <Setter Property="ContentTemplate">
@@ -206,10 +219,11 @@
                 </Setter>
             </Style>
 
-            <Style x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App,
+            <Style
+                x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                 ResourceId=RestoreDownButtonStyle}"
-                   BasedOn="{StaticResource AppCommandButtonStyle}"
-                   TargetType="ButtonBase">
+                BasedOn="{StaticResource AppCommandButtonStyle}"
+                TargetType="ButtonBase">
                 <Setter Property="Command" Value="{x:Static ui:WindowCommands.RestoreDown}" />
                 <Setter Property="ToolTip" Value="{x:Static properties:Resources.RestoreDownCommandTooltip}" />
                 <Setter Property="ContentTemplate">
@@ -226,10 +240,11 @@
                 </Setter>
             </Style>
 
-            <Style x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App,
+            <Style
+                x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                 ResourceId=CloseButtonStyle}"
-                   BasedOn="{StaticResource AppCommandButtonStyle}"
-                   TargetType="ButtonBase">
+                BasedOn="{StaticResource AppCommandButtonStyle}"
+                TargetType="ButtonBase">
                 <Setter Property="Command" Value="{x:Static ApplicationCommands.Close}" />
                 <Setter Property="ToolTip" Value="{x:Static properties:Resources.CloseCommandTooltip}" />
                 <Setter Property="ContentTemplate">
@@ -246,10 +261,11 @@
                 </Setter>
             </Style>
 
-            <Style x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App,
+            <Style
+                x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                 ResourceId=HelpButtonStyle}"
-                   BasedOn="{StaticResource AppCommandButtonStyle}"
-                   TargetType="ButtonBase">
+                BasedOn="{StaticResource AppCommandButtonStyle}"
+                TargetType="ButtonBase">
                 <Setter Property="Command" Value="{x:Static ApplicationCommands.Help}" />
                 <Setter Property="ContentTemplate">
                     <Setter.Value>
@@ -356,7 +372,8 @@
                 </Setter>
                 <Style.Triggers>
                     <Trigger Property="Validation.HasError" Value="True">
-                        <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
+                        <Setter Property="ToolTip"
+                                Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -419,7 +436,9 @@
                                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                         Background="{TemplateBinding Background}"
                                         Padding="{TemplateBinding Padding}">
-                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                    <ContentPresenter
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                 </Border>
                                 <Rectangle x:Name="Border"
                                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
@@ -457,14 +476,16 @@
                                         <Condition Property="IsPressed" Value="True" />
                                         <Condition Property="IsMouseOver" Value="True" />
                                     </MultiTrigger.Conditions>
-                                    <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}}" />
+                                    <Setter Property="Background"
+                                            Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}}" />
                                 </MultiTrigger>
                                 <MultiTrigger>
                                     <MultiTrigger.Conditions>
                                         <Condition Property="IsMouseOver" Value="True" />
                                         <Condition Property="IsPressed" Value="False" />
                                     </MultiTrigger.Conditions>
-                                    <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}}" />
+                                    <Setter Property="Background"
+                                            Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}}" />
                                 </MultiTrigger>
                             </ControlTemplate.Triggers>
 
@@ -476,12 +497,14 @@
             <Style x:Key="AppDefaultDialogTextButtonStyle"
                    BasedOn="{StaticResource AppDialogTextButtonStyle}"
                    TargetType="{x:Type Button}">
-                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}}" />
+                <Setter Property="BorderBrush"
+                        Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}}" />
             </Style>
 
             <Style TargetType="{x:Type PasswordBox}">
                 <Setter Property="PasswordChar" Value="●" />
-                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}}" />
+                <Setter Property="BorderBrush"
+                        Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}}" />
                 <Setter Property="Background" Value="{StaticResource AppControlBrush}" />
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
@@ -521,7 +544,8 @@
                                     <Setter TargetName="border" Property="BorderBrush" Value="#FF569DE5" />
                                 </Trigger>
                                 <Trigger Property="Validation.HasError" Value="True">
-                                    <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
+                                    <Setter Property="ToolTip"
+                                            Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -533,7 +557,8 @@
                             <Condition Property="IsInactiveSelectionHighlightEnabled" Value="True" />
                             <Condition Property="IsSelectionActive" Value="False" />
                         </MultiTrigger.Conditions>
-                        <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+                        <Setter Property="SelectionBrush"
+                                Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
                     </MultiTrigger>
                 </Style.Triggers>
             </Style>
@@ -553,12 +578,14 @@
                                         <VisualState x:Name="Determinate" />
                                         <VisualState x:Name="Indeterminate">
                                             <Storyboard RepeatBehavior="Forever">
-                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Animation"
+                                                                               Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
                                                     <EasingDoubleKeyFrame KeyTime="0" Value="0.25" />
                                                     <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25" />
                                                     <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25" />
                                                 </DoubleAnimationUsingKeyFrames>
-                                                <PointAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
+                                                <PointAnimationUsingKeyFrames Storyboard.TargetName="Animation"
+                                                                              Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
                                                     <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5" />
                                                     <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5" />
                                                     <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5" />
@@ -639,13 +666,16 @@
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsEnabled" Value="false">
-                                    <Setter TargetName="Bd" Property="Background" Value="{StaticResource ListBox.Disabled.Background}" />
-                                    <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource ListBox.Disabled.Border}" />
+                                    <Setter TargetName="Bd" Property="Background"
+                                            Value="{StaticResource ListBox.Disabled.Background}" />
+                                    <Setter TargetName="Bd" Property="BorderBrush"
+                                            Value="{StaticResource ListBox.Disabled.Border}" />
                                 </Trigger>
                                 <MultiTrigger>
                                     <MultiTrigger.Conditions>
                                         <Condition Property="IsGrouping" Value="true" />
-                                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false" />
+                                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping"
+                                                   Value="false" />
                                     </MultiTrigger.Conditions>
                                     <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
                                 </MultiTrigger>

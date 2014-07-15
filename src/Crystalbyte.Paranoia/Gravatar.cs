@@ -1,6 +1,10 @@
-﻿using System.IO;
+﻿#region Using directives
+
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+
+#endregion
 
 namespace Crystalbyte.Paranoia {
     internal static class Gravatar {

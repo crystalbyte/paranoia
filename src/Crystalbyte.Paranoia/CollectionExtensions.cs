@@ -8,11 +8,10 @@ using System.Linq;
 
 namespace Crystalbyte.Paranoia {
     public static class CollectionExtensions {
-
         public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source, int count) {
             return source
-                .Select((x, i) => new { Index = i, Value = x })
-                .GroupBy(x => x.Index % count)
+                .Select((x, i) => new {Index = i, Value = x})
+                .GroupBy(x => x.Index%count)
                 .Select(x => x.Select(y => y.Value).ToArray())
                 .ToArray();
         }

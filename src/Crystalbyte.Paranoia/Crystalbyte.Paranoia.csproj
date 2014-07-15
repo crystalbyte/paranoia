@@ -91,6 +91,18 @@
       <HintPath>..\packages\System.Data.SQLite.EF6.1.0.93.0\lib\net451\System.Data.SQLite.EF6.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.2.4\lib\net45\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.2.4\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.2.4\lib\net45\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.4\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
@@ -117,10 +129,13 @@
     <Compile Include="Contexts\AppContext.cs" />
     <Compile Include="Contexts\MailMessageContext.cs" />
     <Compile Include="Contexts\MailAccountContext.cs" />
+    <Compile Include="Contexts\QueryStringEventArgs.cs" />
     <Compile Include="Contexts\SelectionObject.cs" />
+    <Compile Include="Data\CollatingSequence.cs" />
     <Compile Include="Data\MailboxModel.cs" />
     <Compile Include="Data\MailMessageModel.cs" />
     <Compile Include="Data\MimeMessageModel.cs" />
+    <Compile Include="Data\CollateAttribute.cs" />
     <Compile Include="Data\TypeExtensions.cs" />
     <Compile Include="Data\SQLiteConnectionStringReader.cs" />
     <Compile Include="Data\MailContactModel.cs" />
@@ -152,6 +167,7 @@
     <Compile Include="UI\Commands\AssignMailboxCommand.cs" />
     <Compile Include="UI\Commands\DeleteCommand.cs" />
     <Compile Include="UI\Commands\DropMailboxCommand.cs" />
+    <Compile Include="UI\Commands\FocusSearchBoxCommand.cs" />
     <Compile Include="UI\Commands\ForwardCommand.cs" />
     <Compile Include="UI\Commands\ReplyCommand.cs" />
     <Compile Include="UI\Converters\BooleanToBrushConverter.cs" />

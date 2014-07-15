@@ -1,14 +1,18 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
+using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
 
-namespace Crystalbyte.Paranoia {
+#endregion
 
+namespace Crystalbyte.Paranoia {
     public sealed class MailAccountContext : SelectionObject {
         private MailboxContext _selectedMailbox;
         private readonly MailAccountModel _account;
@@ -24,17 +28,17 @@ namespace Crystalbyte.Paranoia {
             _dropMailboxCommand = new DropMailboxCommand(this);
 
             _contacts = new ObservableCollection<MailContactContext>();
-            _contacts.CollectionChanged += 
+            _contacts.CollectionChanged +=
                 (sender, e) => RaisePropertyChanged(() => Contacts);
 
             _mailboxes = new ObservableCollection<MailboxContext>();
-
         }
+
         public DropMailboxCommand DropMailboxCommand {
             get { return _dropMailboxCommand; }
         }
 
-        protected async override void OnSelectionChanged() {
+        protected override async void OnSelectionChanged() {
             base.OnSelectionChanged();
 
             Clear();
@@ -135,7 +139,7 @@ namespace Crystalbyte.Paranoia {
 
             await mailbox.LoadMessagesFromDatabaseAsync();
             var app = App.Composition.GetExport<AppContext>();
-            app.UpdateMessages();
+            app.DisplayMessages(SelectedMailbox.Messages);
             await mailbox.SyncAsync();
         }
 
@@ -177,7 +181,7 @@ namespace Crystalbyte.Paranoia {
 
         public bool IsGmail {
             get {
-                return Properties.Settings.Default.GmailDomains
+                return Settings.Default.GmailDomains
                     .OfType<string>()
                     .Any(x => _account.ImapHost
                         .EndsWith(x, StringComparison.InvariantCultureIgnoreCase));

@@ -1,14 +1,16 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Crystalbyte.Paranoia.Data {
+#endregion
 
+namespace Crystalbyte.Paranoia.Data {
     [Table("mail_message")]
     public class MailMessageModel {
-
         private ICollection<MimeMessageModel> _mimeMessages;
 
         public MailMessageModel() {
@@ -26,6 +28,7 @@ namespace Crystalbyte.Paranoia.Data {
         public Int64 Size { get; set; }
 
         [Column("subject")]
+        [Collate(CollatingSequence.NoCase)]
         public string Subject { get; set; }
 
         [Column("entry_date")]

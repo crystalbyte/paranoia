@@ -1,4 +1,8 @@
-﻿using Crystalbyte.Paranoia.Data;
+﻿#region Using directives
+
+using Crystalbyte.Paranoia.Data;
+
+#endregion
 
 namespace Crystalbyte.Paranoia {
     public sealed class MailContactContext : SelectionObject {

@@ -8,10 +8,9 @@ using System.Windows.Controls;
 
 namespace Crystalbyte.Paranoia {
     /// <summary>
-    ///   Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow {
-
         #region Construction
 
         public MainWindow() {
@@ -23,15 +22,16 @@ namespace Crystalbyte.Paranoia {
 
         #region Class Overrides
 
-        protected async override void OnInitialized(EventArgs e) {
+        protected override async void OnInitialized(EventArgs e) {
             base.OnInitialized(e);
+            App.Context.HookUpSearchBox(SearchBox);
             await App.Context.RunAsync();
         }
 
         #endregion
 
         private void OnMessageSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var view = (ListView)sender;
+            var view = (ListView) sender;
             var app = App.Composition.GetExport<AppContext>();
             app.SelectedMessages = view.SelectedItems.OfType<MailMessageContext>();
         }

@@ -1,13 +1,15 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Crystalbyte.Paranoia.Data {
+#endregion
 
+namespace Crystalbyte.Paranoia.Data {
     [Table("mailbox")]
     public class MailboxModel {
-
         private ICollection<MailMessageModel> _messages;
 
         public MailboxModel() {

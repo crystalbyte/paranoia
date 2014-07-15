@@ -1,9 +1,13 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using Crystalbyte.Paranoia.Properties;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Data {
     internal sealed class SQLiteDatabaseInitializer<T> : IDatabaseInitializer<T> where T : DbContext {
@@ -19,9 +23,9 @@ namespace Crystalbyte.Paranoia.Data {
         }
 
         private static void CreateSchema(T context) {
-            var models = typeof(T).GetProperties()
+            var models = typeof (T).GetProperties()
                 .Where(x => x.PropertyType.IsGenericType)
-                .Where(x => x.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>))
+                .Where(x => x.PropertyType.GetGenericTypeDefinition() == typeof (DbSet<>))
                 .Select(x => x.PropertyType.GetGenericArguments().First())
                 .ToArray();
 

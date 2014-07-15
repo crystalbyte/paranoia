@@ -8,8 +8,10 @@
     <converters:GravatarImageConverter x:Key="GravatarImageConverter" />
 
     <Style TargetType="ui:MetroWindow">
-        <Setter Property="HoverBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppHoverBrush}}" />
-        <Setter Property="AccentBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}}" />
+        <Setter Property="HoverBrush"
+                Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppHoverBrush}}" />
+        <Setter Property="AccentBrush"
+                Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}}" />
         <Setter Property="AllowsTransparency" Value="False" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="WindowStyle" Value="None" />

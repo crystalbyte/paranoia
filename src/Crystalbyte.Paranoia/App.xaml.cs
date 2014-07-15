@@ -14,10 +14,9 @@ using Crystalbyte.Paranoia.Mail;
 
 namespace Crystalbyte.Paranoia {
     /// <summary>
-    ///   Interaction logic for App.xaml
+    ///     Interaction logic for App.xaml
     /// </summary>
     public partial class App {
-
         public static readonly string Name = "Paranoia";
 
         [Import]
@@ -25,7 +24,7 @@ namespace Crystalbyte.Paranoia {
 
         internal static CompositionHost Composition { get; set; }
 
-        protected async override void OnStartup(StartupEventArgs e) {
+        protected override async void OnStartup(StartupEventArgs e) {
             base.OnStartup(e);
 
             InitEnvironment();
@@ -34,12 +33,12 @@ namespace Crystalbyte.Paranoia {
 #if DEBUG
 
             using (var context = new DatabaseContext()) {
-
                 var accounts = await context.MailAccounts.ToArrayAsync();
                 if (accounts.Length != 0)
                     return;
 
-                var account = new MailAccountModel {
+                var account = new MailAccountModel
+                {
                     Name = "Paranoia Test Account",
                     Address = "paranoia.app@gmail.com",
                     ImapUsername = "paranoia.app@gmail.com",
@@ -55,25 +54,31 @@ namespace Crystalbyte.Paranoia {
                 };
 
                 for (var i = 0; i < 20; i++) {
-                    account.Contacts.Add(new MailContactModel {
+                    account.Contacts.Add(new MailContactModel
+                    {
                         Name = string.Format("Paranoia Contact #{0}", i),
                         Address = "paranoia.app.c1@gmail.com"
                     });
                 }
 
-                account.Mailboxes.Add(new MailboxModel {
+                account.Mailboxes.Add(new MailboxModel
+                {
                     Type = MailboxType.All
                 });
-                account.Mailboxes.Add(new MailboxModel {
+                account.Mailboxes.Add(new MailboxModel
+                {
                     Type = MailboxType.Inbox
                 });
-                account.Mailboxes.Add(new MailboxModel {
+                account.Mailboxes.Add(new MailboxModel
+                {
                     Type = MailboxType.Trash
                 });
-                account.Mailboxes.Add(new MailboxModel {
+                account.Mailboxes.Add(new MailboxModel
+                {
                     Type = MailboxType.Sent
                 });
-                account.Mailboxes.Add(new MailboxModel {
+                account.Mailboxes.Add(new MailboxModel
+                {
                     Type = MailboxType.Draft
                 });
 
@@ -97,7 +102,7 @@ namespace Crystalbyte.Paranoia {
 
         private void Compose() {
             var config = new ContainerConfiguration()
-                .WithAssembly(typeof(App).Assembly);
+                .WithAssembly(typeof (App).Assembly);
 
             Composition = config.CreateContainer();
             Composition.SatisfyImports(this);

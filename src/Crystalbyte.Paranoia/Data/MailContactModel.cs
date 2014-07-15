@@ -1,11 +1,14 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Data {
     [Table("mail_contact")]
     public class MailContactModel {
-
         [Key]
         [Column("id")]
         public Int64 Id { get; set; }
