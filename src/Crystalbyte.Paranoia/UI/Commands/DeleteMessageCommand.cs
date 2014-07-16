@@ -7,10 +7,10 @@ using System.Windows.Input;
 #endregion
 
 namespace Crystalbyte.Paranoia.UI.Commands {
-    public sealed class DeleteCommand : ICommand {
+    public sealed class DeleteMessageCommand : ICommand {
         private readonly AppContext _app;
 
-        public DeleteCommand(AppContext app) {
+        public DeleteMessageCommand(AppContext app) {
             _app = app;
             _app.MessageSelectionChanged += OnMessageSelectionChanged;
         }

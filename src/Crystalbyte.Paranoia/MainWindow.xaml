@@ -473,6 +473,7 @@
                 </TextBlock>
             </Border>
             <ListView Grid.Row="1"
+                      x:Name="MessagesListView"
                       HorizontalContentAlignment="Stretch"
                       Background="Transparent"
                       BorderThickness="0"
@@ -491,9 +492,9 @@
                     <KeyBinding Key="F"
                                 Command="{Binding ForwardCommand}"
                                 Modifiers="Control" />
-                    <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
+                    <KeyBinding Key="Delete" Command="{Binding DeleteMessageCommand}" />
                     <KeyBinding Key="D"
-                                Command="{Binding DeleteCommand}"
+                                Command="{Binding DeleteMessageCommand}"
                                 Modifiers="Control" />
                 </ListView.InputBindings>
                 <ListView.ContextMenu>
@@ -513,6 +514,11 @@
                                 <Image Source="/Assets/forward.small.png" />
                             </MenuItem.Icon>
                         </MenuItem>
+                        <MenuItem Command="{Binding DeleteMessageCommand}" Header="{x:Static properties:Resources.Delete}">
+                            <MenuItem.Icon>
+                                <Image Source="/Assets/forward.small.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </ContextMenu>
                 </ListView.ContextMenu>
                 <ListView.ItemsPanel>
@@ -522,6 +528,7 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                         <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Mvsp}" />
                         <Setter Property="Padding" Value="6,2,6,2" />
                     </Style>
@@ -653,7 +660,7 @@
                                    Margin="-2,2,0,0"
                                    Source="/Assets/forward.png" />
                         </Button>
-                        <Button Command="{Binding DeleteCommand}" Style="{StaticResource AppMetroButtonStyle}">
+                        <Button Command="{Binding DeleteMessageCommand}" Style="{StaticResource AppMetroButtonStyle}">
                             <Image Width="18"
                                    Margin="0,0,0,0"
                                    Source="/Assets/delete.png" />

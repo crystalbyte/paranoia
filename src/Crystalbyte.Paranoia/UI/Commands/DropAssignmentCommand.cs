@@ -6,10 +6,10 @@ using System.Windows.Input;
 #endregion
 
 namespace Crystalbyte.Paranoia.UI.Commands {
-    public sealed class DropMailboxCommand : ICommand {
+    public sealed class DropAssignmentCommand : ICommand {
         private readonly MailAccountContext _account;
 
-        public DropMailboxCommand(MailAccountContext account) {
+        public DropAssignmentCommand(MailAccountContext account) {
             _account = account;
             _account.MailboxSelectionChanged += (sender, e) => OnCanExecuteChanged();
         }
@@ -21,7 +21,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         public async void Execute(object parameter) {
             var mailbox = _account.SelectedMailbox;
-            await mailbox.DropAsync();
+            await mailbox.DropAssignmentAsync();
         }
 
         public event EventHandler CanExecuteChanged;

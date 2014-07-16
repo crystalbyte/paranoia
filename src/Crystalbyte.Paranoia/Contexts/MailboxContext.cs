@@ -26,14 +26,14 @@ namespace Crystalbyte.Paranoia {
         private readonly MailAccountContext _account;
         private readonly MailboxModel _mailbox;
         private readonly ObservableCollection<MailboxCandidateContext> _mailboxCandidates;
-        private readonly AssignCommand _assignCommand;
+        private readonly AssignmentCommand _assignmentCommand;
         private MailboxCandidateContext _selectedCandidate;
         private bool _isLoadingMessage;
 
         internal MailboxContext(MailAccountContext account, MailboxModel mailbox) {
             _account = account;
             _mailbox = mailbox;
-            _assignCommand = new AssignCommand(this);
+            _assignmentCommand = new AssignmentCommand(this);
             _mailboxCandidates = new ObservableCollection<MailboxCandidateContext>();
         }
 
@@ -95,29 +95,41 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task DeleteMessagesAsync(MailMessageContext[] messages, string trashFolder) {
+            var index = messages.Min(x => Messages.IndexOf(x));
+            messages.ForEach(x => Messages.Remove(x));
+
+            var next = Messages.ElementAtOrDefault(index - 1);
+            if (next != null) {
+                next.IsSelected = true;
+            }
+
             try {
                 using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                     using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                         using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                             var mailbox = await session.SelectAsync(Name);
-                            await mailbox.DeleteMailsAsync(messages.Select(x => x.Uid), trashFolder);
+                            if (Type == MailboxType.Trash) {
+                                await mailbox.DeleteMailsAsync(messages.Select(x => x.Uid));
+                            } else {
+                                await mailbox.MoveMailsAsync(messages.Select(x => x.Uid), trashFolder);
+                            }
                         }
                     }
                 }
 
-                messages.ForEach(x => {
-                    try {
-                        using (var database = new DatabaseContext()) {
-                            var model = new MailMessageModel { Id = x.Id, MailboxId = Id };
+                using (var database = new DatabaseContext()) {
+                    foreach (var message in messages) {
+                        try {
+                            var model = new MailMessageModel { Id = message.Id, MailboxId = Id };
                             database.MailMessages.Attach(model);
                             database.MailMessages.Remove(model);
+                        } catch (Exception) {
+                            // TODO: log
+                            throw;
                         }
-                        Messages.Remove(x);
-                    } catch (Exception) {
-                        // TODO: log
-                        throw;
                     }
-                });
+                    await database.SaveChangesAsync();
+                }
 
                 _account.AppContext.NotifyMessageCountChanged();
             } catch (Exception) {
@@ -126,7 +138,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task DropAsync() {
+        internal async Task DropAssignmentAsync() {
             using (var context = new DatabaseContext()) {
                 context.Mailboxes.Attach(_mailbox);
 
@@ -136,7 +148,6 @@ namespace Crystalbyte.Paranoia {
                 await context.SaveChangesAsync();
             }
 
-            IsAssignable = true;
             RaisePropertyChanged(() => IsAssigned);
             OnAssignmentChanged();
         }
@@ -145,8 +156,8 @@ namespace Crystalbyte.Paranoia {
             get { return !string.IsNullOrEmpty(Name); }
         }
 
-        public AssignCommand AssignCommand {
-            get { return _assignCommand; }
+        public AssignmentCommand AssignmentCommand {
+            get { return _assignmentCommand; }
         }
 
         public bool IsAssignable {
@@ -319,6 +330,7 @@ namespace Crystalbyte.Paranoia {
             } else {
                 Messages.AddRange(contexts);
             }
+            _account.AppContext.NotifyMessageCountChanged();
         }
 
         internal async Task LoadMessagesFromDatabaseAsync(MailContactContext contact) {
@@ -416,7 +428,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void NotifyCandidateSelectionChanged() {
-            _assignCommand.OnCanExecuteChanged();
+            _assignmentCommand.OnCanExecuteChanged();
         }
 
         internal async Task UpdateAsync(MailContactContext contact) {

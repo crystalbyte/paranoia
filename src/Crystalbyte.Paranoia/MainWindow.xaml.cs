@@ -34,6 +34,15 @@ namespace Crystalbyte.Paranoia {
             var view = (ListView) sender;
             var app = App.Composition.GetExport<AppContext>();
             app.SelectedMessages = view.SelectedItems.OfType<MailMessageContext>();
+
+            var message = app.SelectedMessage;
+            if (message == null) 
+                return;
+
+            var container = (Control) MessagesListView.ItemContainerGenerator.ContainerFromItem(message);
+            if (container != null) {
+                container.Focus();
+            }
         }
     }
 }

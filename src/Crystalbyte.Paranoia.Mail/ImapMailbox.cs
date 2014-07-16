@@ -57,17 +57,24 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
 
-        public async Task DeleteMailsAsync(IEnumerable<long> uids, string trashMailbox = "") {
+        public async Task DeleteMailsAsync(IEnumerable<long> uids) {
             var uidString = uids.ToCommaSeparatedValues();
             var command = string.Format(@"UID STORE {0} +FLAGS.SILENT (\Deleted)", uidString);
             var id = await _connection.WriteCommandAsync(command);
             await ReadStoreResponseAsync(id);
 
-            if (string.IsNullOrWhiteSpace(trashMailbox)) {
+            id = await _connection.WriteCommandAsync("EXPUNGE");
+            await ReadExpungeResponseAsync(id);
+        }
+
+        public async Task MoveMailsAsync(IEnumerable<long> uids, string destination) {
+            var uidString = uids.ToCommaSeparatedValues();
+            if (string.IsNullOrWhiteSpace(destination)) {
                 return;
             }
 
-            var encodedName = EncodeName(trashMailbox);
+            string command, id;
+            var encodedName = EncodeName(destination);
             if (_connection.CanMove) {
                 command = string.Format("UID MOVE {0} \"{1}\"", uidString, encodedName);
                 id = await _connection.WriteCommandAsync(command);
@@ -77,9 +84,6 @@ namespace Crystalbyte.Paranoia.Mail {
                 command = string.Format("UID COPY {0} \"{1}\"", uidString, encodedName);
                 id = await _connection.WriteCommandAsync(command);
                 await ReadCopyResponseAsync(id);
-
-                id = await _connection.WriteCommandAsync("EXPUNGE");
-                await ReadExpungeResponseAsync(id);
             }
         }
 

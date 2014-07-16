@@ -135,6 +135,9 @@
   <data name="DeclaringTypeNull" xml:space="preserve">
     <value>DeclaringType of table property must not be null.</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="DraftMailbox" xml:space="preserve">
     <value>Draft</value>
   </data>
@@ -151,7 +154,8 @@
     <value>Inbox</value>
   </data>
   <data name="MailboxAssignmentDescription" xml:space="preserve">
-    <value>The current mailbox is not assigned. Please select a corresponding IMAP folder to synchronize.</value>
+    <value>The current mailbox is not assigned. 
+Please select a corresponding IMAP folder to synchronize.</value>
   </data>
   <data name="MaximizeCommandTooltip" xml:space="preserve">
     <value>Maximize</value>

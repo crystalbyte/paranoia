@@ -17,7 +17,7 @@ namespace Crystalbyte.Paranoia {
         private MailboxContext _selectedMailbox;
         private readonly AppContext _appContext;
         private readonly MailAccountModel _account;
-        private readonly DropMailboxCommand _dropMailboxCommand;
+        private readonly DropAssignmentCommand _dropMailboxCommand;
         private readonly ObservableCollection<MailContactContext> _contacts;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
 
@@ -27,7 +27,7 @@ namespace Crystalbyte.Paranoia {
         internal MailAccountContext(MailAccountModel account, AppContext appContext) {
             _account = account;
             _appContext = appContext;
-            _dropMailboxCommand = new DropMailboxCommand(this);
+            _dropMailboxCommand = new DropAssignmentCommand(this);
 
             _contacts = new ObservableCollection<MailContactContext>();
             _contacts.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Contacts);
@@ -35,7 +35,7 @@ namespace Crystalbyte.Paranoia {
             _mailboxes = new ObservableCollection<MailboxContext>();
         }
 
-        public DropMailboxCommand DropMailboxCommand {
+        public DropAssignmentCommand DropMailboxCommand {
             get { return _dropMailboxCommand; }
         }
 

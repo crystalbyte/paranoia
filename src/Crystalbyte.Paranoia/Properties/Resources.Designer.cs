@@ -115,6 +115,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Draft.
         /// </summary>
         public static string DraftMailbox {
@@ -160,7 +169,8 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The current mailbox is not assigned. Please select a corresponding IMAP folder to synchronize..
+        ///   Looks up a localized string similar to The current mailbox is not assigned. 
+        ///Please select a corresponding IMAP folder to synchronize..
         /// </summary>
         public static string MailboxAssignmentDescription {
             get {

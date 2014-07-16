@@ -33,7 +33,7 @@
             <system:Double x:Key="ShadeOpacity">0.7</system:Double>
 
             <!--  Brushes  -->
-            <Color x:Key="AppAccentColor">BlueViolet</Color>
+            <Color x:Key="AppAccentColor">#5BA5FF</Color>
             <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccentColor}" />
             <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}" Color="{StaticResource AppAccentColor}" />
 

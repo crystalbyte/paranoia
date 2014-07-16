@@ -164,9 +164,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\Commands\AssignCommand.cs" />
-    <Compile Include="UI\Commands\DeleteCommand.cs" />
-    <Compile Include="UI\Commands\DropMailboxCommand.cs" />
+    <Compile Include="UI\Commands\AssignmentCommand.cs" />
+    <Compile Include="UI\Commands\DeleteMessageCommand.cs" />
+    <Compile Include="UI\Commands\DropAssignmentCommand.cs" />
     <Compile Include="UI\Commands\FocusSearchBoxCommand.cs" />
     <Compile Include="UI\Commands\ForwardCommand.cs" />
     <Compile Include="UI\Commands\MoveCommand.cs" />
