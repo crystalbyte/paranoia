@@ -16,6 +16,7 @@
                 Background="{StaticResource AppBackgroundBrush}"
                 BorderThickness="0"
                 Icon="/Assets/icon.png"
+                KeyboardNavigation.TabNavigation="Cycle"
                 UseLayoutRounding="True"
                 WindowStartupLocation="CenterScreen"
                 d:DataContext="{d:DesignInstance paranoia:AppContext}"
@@ -50,7 +51,7 @@
             </CollectionViewSource>
         </Grid.Resources>
         <Rectangle Grid.Row="0"
-                   Grid.RowSpan="2"
+                   Grid.RowSpan="1"
                    Grid.Column="0"
                    Fill="{StaticResource AppShadeBrush}"
                    Opacity="{StaticResource ShadeOpacity}"
@@ -64,12 +65,7 @@
                VerticalAlignment="Top"
                Source="/Assets/background.jpg"
                Stretch="UniformToFill" />
-        <Rectangle Grid.Row="1"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="5"
-                   Fill="{StaticResource AppShadeBrush}"
-                   Opacity="{StaticResource ShadeOpacity}"
-                   RenderOptions.EdgeMode="Aliased" />
+
         <Rectangle Grid.Row="0"
                    Grid.RowSpan="2"
                    Grid.Column="0"
@@ -128,7 +124,13 @@
                                                                         AncestorType=paranoia:MainWindow}}" />
             <Button Grid.Column="4" Style="{DynamicResource {ComponentResourceKey ResourceId=CloseButtonStyle, TypeInTargetAssembly={x:Type paranoia:App}}}" />
         </Grid>
-        <Grid Grid.Row="1"
+        <Rectangle Grid.Row="1"
+                   Grid.Column="1"
+                   Grid.ColumnSpan="4"
+                   Fill="{StaticResource AppShadeBrush}"
+                   Opacity="{StaticResource ShadeOpacity}"
+                   RenderOptions.EdgeMode="Aliased" />
+        <Grid Grid.Row="2"
               Grid.RowSpan="2"
               Grid.Column="0">
             <Grid.RowDefinitions>
@@ -142,6 +144,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+
             <Rectangle Grid.Row="0"
                        Grid.RowSpan="3"
                        Grid.Column="0"
@@ -150,6 +153,7 @@
                        Fill="{StaticResource AppShadeBrush}"
                        Opacity="{StaticResource ShadeOpacity}"
                        RenderOptions.EdgeMode="Aliased" />
+
             <Rectangle Grid.Row="3"
                        Grid.RowSpan="2"
                        Grid.Column="0"
@@ -157,11 +161,12 @@
                        Fill="{StaticResource AppShadeBrush}"
                        Opacity="{StaticResource ShadeOpacity}"
                        RenderOptions.EdgeMode="Aliased" />
+
             <Image Grid.Row="0"
                    Grid.Column="0"
                    Width="100"
                    Height="100"
-                   Margin="16,24,8,8"
+                   Margin="16,-24,8,8"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    DataContext="{Binding SelectedAccount}"
@@ -236,10 +241,6 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Rectangle Grid.Row="0"
-                                       Grid.RowSpan="2"
-                                       Grid.Column="0"
-                                       Grid.ColumnSpan="2" />
                             <Image Grid.Row="0"
                                    Grid.RowSpan="2"
                                    Grid.Column="0"
@@ -437,7 +438,7 @@
                                             <Button Grid.Row="2"
                                                     Margin="6,0,6,6"
                                                     HorizontalAlignment="Right"
-                                                    Command="{Binding AssignMailboxCommand}"
+                                                    Command="{Binding AssignmentCommand}"
                                                     CommandParameter="{Binding SelectedValue,
                                                                                ElementName=CandidatesView}"
                                                     Content="Assign"
@@ -472,8 +473,8 @@
                     <Run Foreground="{StaticResource AppMediumTextBrush}" Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
                 </TextBlock>
             </Border>
-            <ListView Grid.Row="1"
-                      x:Name="MessagesListView"
+            <ListView x:Name="MessagesListView"
+                      Grid.Row="1"
                       HorizontalContentAlignment="Stretch"
                       Background="Transparent"
                       BorderThickness="0"
