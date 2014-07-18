@@ -51,6 +51,7 @@
     <Compile Include="ImapResponses.cs" />
     <Compile Include="ImapSession.cs" />
     <Compile Include="ImapMailbox.cs" />
+    <Compile Include="MailboxFlags.cs" />
     <Compile Include="MailboxNames.cs" />
     <Compile Include="MailboxPermissions.cs" />
     <Compile Include="MailMessageExtensions.cs" />

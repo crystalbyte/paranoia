@@ -9,6 +9,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.UI.Commands;
@@ -156,7 +157,7 @@ namespace Crystalbyte.Paranoia {
             get { return !string.IsNullOrEmpty(Name); }
         }
 
-        public AssignmentCommand AssignmentCommand {
+        public ICommand AssignmentCommand {
             get { return _assignmentCommand; }
         }
 
@@ -300,6 +301,7 @@ namespace Crystalbyte.Paranoia {
                                         ? envelope.InternalDate.Value
                                         : DateTime.Now,
                                     Subject = envelope.Subject,
+                                    Flags = string.Join(";", envelope.Flags),
                                     Size = envelope.Size,
                                     Uid = envelope.Uid,
                                     MessageId = envelope.MessageId,
@@ -320,6 +322,28 @@ namespace Crystalbyte.Paranoia {
                 LastException = ex;
             } finally {
                 IsSyncing = false;
+            }
+        }
+
+        internal async Task MarkAsSeenAsync(MailMessageContext[] messages) {
+            try {
+                messages.ForEach(x => x.IsSeen = true);
+
+                var uids = messages.Select(x => x.Uid).ToArray();
+                var account = await GetAccountAsync();
+
+                using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
+                    connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
+                    using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
+                        using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
+                            var folder = await session.SelectAsync(Name);
+                            await folder.MarkAsSeenAsync(uids);
+                        }
+                    }
+                }
+
+            } catch (Exception) {
+                messages.ForEach(x => x.IsSeen = false);
             }
         }
 

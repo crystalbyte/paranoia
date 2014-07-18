@@ -192,9 +192,10 @@
             <Border Grid.Row="1"
                     Grid.RowSpan="2"
                     Grid.Column="1"
+                    Margin="8"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center">
-                <Button Command="{Binding WriteCommandContext}" Style="{StaticResource AppMetroButtonStyle}">
+                <Button Command="{Binding WriteMessageCommand}" Style="{StaticResource AppMetroButtonStyle}">
                     <Image Width="18" Source="/Assets/message.png" />
                 </Button>
             </Border>
@@ -491,6 +492,11 @@
                       TabIndex="4"
                       VirtualizingPanel.IsVirtualizing="True"
                       VirtualizingPanel.VirtualizationMode="Recycling">
+                <ListView.Resources>
+                    <converters:BooleanToBrushConverter x:Key="SeenConverter"
+                                                        BrushForFalse="{StaticResource AppAccentBrush}"
+                                                        BrushForTrue="{StaticResource AppMediumTextBrush}" />
+                </ListView.Resources>
                 <ListView.InputBindings>
                     <KeyBinding Key="R"
                                 Command="{Binding ReplyCommand}"
@@ -583,7 +589,8 @@
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
                                        FontSize="{StaticResource AppSmallFontSize}"
-                                       Foreground="{StaticResource AppMediumTextBrush}"
+                                       Foreground="{Binding IsSeen,
+                                                            Converter={StaticResource SeenConverter}}"
                                        Text="{Binding FromName}" />
 
                             <TextBlock Grid.Row="1"

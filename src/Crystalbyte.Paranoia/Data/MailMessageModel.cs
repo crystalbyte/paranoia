@@ -27,6 +27,9 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("size")]
         public Int64 Size { get; set; }
 
+        [Column("flags")]
+        public string Flags { get; set; }
+
         [Column("subject")]
         [Collate(CollatingSequence.NoCase)]
         public string Subject { get; set; }

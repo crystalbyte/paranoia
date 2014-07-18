@@ -238,15 +238,21 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async void OnMessageSelectionCommittedAsync(EventPattern<object> obj) {
-            Debug.WriteLine("Message selected.");
+        private void OnMessageSelectionCommittedAsync(EventPattern<object> obj) {
+            //Debug.WriteLine("Message selected.");
             ClearMessageView();
             var message = SelectedMessages.FirstOrDefault();
             if (message == null) {
                 return;
             }
 
-            await DisplayMessageAsync(message);
+            DisplayMessageAsync(message);
+            MarkMessagesAsSeenAsync();
+        }
+
+        private async void MarkMessagesAsSeenAsync() {
+            var mailbox = SelectedAccount.SelectedMailbox;
+            await mailbox.MarkAsSeenAsync(SelectedMessages.ToArray());
         }
 
         internal void DisplayMessages(ICollection<MailMessageContext> messages) {
@@ -265,7 +271,7 @@ namespace Crystalbyte.Paranoia {
             Html = null;
         }
 
-        private async Task DisplayMessageAsync(MailMessageContext message) {
+        private async void DisplayMessageAsync(MailMessageContext message) {
             var mime = await message.LoadMimeFromDatabaseAsync();
             if (string.IsNullOrEmpty(mime)) {
                 mime = await message.DownloadMessageAsync();

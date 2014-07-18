@@ -3,6 +3,7 @@
 using System;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
@@ -48,6 +49,47 @@ namespace Crystalbyte.Paranoia {
             get { return _message.FromAddress; }
         }
 
+        public bool IsSeen {
+            get { return HasFlag(MailboxFlags.Seen); }
+            set {
+                if (HasFlag(MailboxFlags.Seen) == value) {
+                    return;
+                }
+
+                if (value) {
+                    WriteFlag(MailboxFlags.Seen);
+                }
+                else {
+                    DropFlag(MailboxFlags.Seen);
+                }
+
+                RaisePropertyChanged(() => IsSeen);
+                RaisePropertyChanged(() => IsNotSeen);
+            }
+        }
+
+        public bool IsNotSeen {
+            get { return !IsSeen; }
+        }
+
+        private void DropFlag(string flag) {
+            var flags = _message.Flags.Split(';').ToList();
+            flags.Remove(flag);
+
+            _message.Flags = string.Join(";", flags);
+        }
+
+        private void WriteFlag(string flag) {
+            var flags = _message.Flags.Split(';').ToList();
+            flags.Add(flag);
+
+            _message.Flags = string.Join(";", flags);
+        }
+
+        private bool HasFlag(string flag) {
+            return _message.Flags.ContainsIgnoreCase(flag);
+        }
+
         public async Task<string> LoadMimeFromDatabaseAsync() {
             IncrementLoad();
             try {
@@ -57,11 +99,9 @@ namespace Crystalbyte.Paranoia {
                         .FirstOrDefaultAsync(x => x.MessageId == _message.Id);
                     return message != null ? message.Data : string.Empty;
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 LastException = ex;
-            }
-            finally {
+            } finally {
                 DecrementLoad();
             }
 
@@ -115,7 +155,7 @@ namespace Crystalbyte.Paranoia {
             var mailbox = await GetMailboxAsync();
             var account = await GetAccountAsync(mailbox);
 
-            using (var connection = new ImapConnection {Security = account.ImapSecurity}) {
+            using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
                 connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                 using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
                     using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
@@ -142,8 +182,7 @@ namespace Crystalbyte.Paranoia {
                 var mime = await FetchMimeAsync();
                 using (var context = new DatabaseContext()) {
                     context.MailMessages.Attach(_message);
-                    var mimeMessage = new MimeMessageModel
-                    {
+                    var mimeMessage = new MimeMessageModel {
                         Data = mime
                     };
 
@@ -151,11 +190,9 @@ namespace Crystalbyte.Paranoia {
                     await context.SaveChangesAsync();
                 }
                 return mime;
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 LastException = ex;
-            }
-            finally {
+            } finally {
                 DecrementLoad();
             }
 

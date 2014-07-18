@@ -67,6 +67,20 @@ namespace Crystalbyte.Paranoia.Mail {
             await ReadExpungeResponseAsync(id);
         }
 
+        public async Task MarkAsSeenAsync(IEnumerable<long> uids) {
+            var uidString = uids.ToCommaSeparatedValues();
+            var command = string.Format(@"UID STORE {0} +FLAGS.SILENT (\Seen)", uidString);
+            var id = await _connection.WriteCommandAsync(command);
+            await ReadStoreResponseAsync(id);
+        }
+
+        public async Task MarkAsNotSeenAsync(IEnumerable<long> uids) {
+            var uidString = uids.ToCommaSeparatedValues();
+            var command = string.Format(@"UID STORE {0} -FLAGS.SILENT (\Seen)", uidString);
+            var id = await _connection.WriteCommandAsync(command);
+            await ReadStoreResponseAsync(id);
+        }
+
         public async Task MoveMailsAsync(IEnumerable<long> uids, string destination) {
             var uidString = uids.ToCommaSeparatedValues();
             if (string.IsNullOrWhiteSpace(destination)) {
