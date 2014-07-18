@@ -30,10 +30,10 @@
             <system:Double x:Key="AppNormalFontSize">12</system:Double>
             <system:Double x:Key="AppSmallFontSize">10</system:Double>
             <system:Double x:Key="AppExtraSmallFontSize">8</system:Double>
-            <system:Double x:Key="ShadeOpacity">0.7</system:Double>
+            <system:Double x:Key="ShadeOpacity">0.6</system:Double>
 
             <!--  Brushes  -->
-            <Color x:Key="AppAccentColor">#5BA5FF</Color>
+            <Color x:Key="AppAccentColor">#CD7F32</Color>
             <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccentColor}" />
             <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppAccentBrush}" Color="{StaticResource AppAccentColor}" />
 
@@ -49,10 +49,13 @@
 
             <Color x:Key="AppSelectedUnfocusedColor">#FFDDDDDD</Color>
 
+            <Color x:Key="AppLightTextColor">GhostWhite</Color>
+            <SolidColorBrush x:Key="AppLightTextBrush" Color="{StaticResource AppLightTextColor}" />
+            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppLightTextBrush}" Color="{StaticResource AppLightTextColor}" />
+
             <SolidColorBrush x:Key="AppDisabledTextBrush" Color="DimGray" />
-            <SolidColorBrush x:Key="AppLightTextBrush" Color="GhostWhite" />
             <SolidColorBrush x:Key="AppFailureColorBrush" Color="Red" />
-            <SolidColorBrush x:Key="AppMediumTextBrush" Color="DimGray" />
+            <SolidColorBrush x:Key="AppMediumTextBrush" Color="#FFA3A3A3" />
             <SolidColorBrush x:Key="AppDarkTextBrush" Color="#333" />
 
             <SolidColorBrush x:Key="AppControlBrush" Color="DimGray" />
@@ -78,6 +81,8 @@
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="SnapsToDevicePixels" Value="True" />
                 <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=ui:MetroWindow, AncestorLevel=1}}" />
                 <Setter Property="Template">

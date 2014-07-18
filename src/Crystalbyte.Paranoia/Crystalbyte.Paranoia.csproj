@@ -172,6 +172,7 @@
     <Compile Include="UI\Commands\MoveCommand.cs" />
     <Compile Include="UI\Commands\PrintCommand.cs" />
     <Compile Include="UI\Commands\ReplyCommand.cs" />
+    <Compile Include="UI\Commands\WriteMessageCommand.cs" />
     <Compile Include="UI\Converters\BooleanToBrushConverter.cs" />
     <Compile Include="UI\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\CollectionCounter.cs" />
@@ -296,6 +297,10 @@
     <Resource Include="Assets\forward.png" />
     <Resource Include="Assets\reply.small.png" />
     <Resource Include="Assets\forward.small.png" />
+    <Resource Include="Assets\delete.small.png" />
+    <Resource Include="Assets\print.png" />
+    <Resource Include="Assets\print.small.png" />
+    <Resource Include="Assets\message.png" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

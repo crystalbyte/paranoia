@@ -12,6 +12,7 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
@@ -31,11 +32,13 @@ namespace Crystalbyte.Paranoia {
         private readonly PrintCommand _printCommand;
         private readonly ReplyCommand _replyCommand;
         private readonly DeleteMessageCommand _deleteCommand;
+        private readonly WriteMessageCommand _writeCommand;
         private readonly ForwardCommand _forwardCommand;
         private FocusSearchBoxCommand _focusSearchBoxCommand;
         private string _queryString;
         private object _messages;
         private string _html;
+        private bool _isOverlayed;
 
         #endregion
 
@@ -47,6 +50,7 @@ namespace Crystalbyte.Paranoia {
             _forwardCommand = new ForwardCommand(this);
             _deleteCommand = new DeleteMessageCommand(this);
             _printCommand = new PrintCommand(this);
+            _writeCommand = new WriteMessageCommand(this);
 
             Observable.FromEventPattern(
                     action => MessageSelectionChanged += action,
@@ -69,6 +73,14 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         #region Public Events
+
+        internal event EventHandler OverlayChanged;
+
+        private void OnOverlayChanged() {
+            var handler = OverlayChanged;
+            if (handler != null) 
+                handler(this, EventArgs.Empty);
+        }
 
         internal event EventHandler MessageSelectionChanged;
         private void OnMessageSelectionChanged() {
@@ -94,6 +106,19 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         #region Property Declarations
+
+        public bool IsOverlayed {
+            get { return _isOverlayed; }
+            set {
+                if (_isOverlayed == value) {
+                    return;
+                }
+
+                _isOverlayed = value;
+                RaisePropertyChanged(() => IsOverlayed);
+                OnOverlayChanged();
+            }
+        }
 
         public string Html {
             get { return _html; }
@@ -145,23 +170,27 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public FocusSearchBoxCommand FocusSearchBoxCommand {
+        public ICommand FocusSearchBoxCommand {
             get { return _focusSearchBoxCommand; }
         }
 
-        public PrintCommand PrintCommand {
+        public ICommand PrintCommand {
             get { return _printCommand; }
         }
 
-        public ReplyCommand ReplyCommand {
+        public ICommand WriteMessageCommand {
+            get { return _writeCommand; }
+        }
+
+        public ICommand ReplyCommand {
             get { return _replyCommand; }
         }
 
-        public ForwardCommand ForwardCommand {
+        public ICommand ForwardCommand {
             get { return _forwardCommand; }
         }
 
-        public DeleteMessageCommand DeleteMessageCommand {
+        public ICommand DeleteMessageCommand {
             get { return _deleteCommand; }
         }
 
