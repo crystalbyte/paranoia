@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
@@ -25,11 +22,11 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         #endregion
 
         public bool CanExecute(object parameter) {
-            return !_app.IsOverlayed && _app.SelectedMessage != null;
+            return !_app.IsOverlayed;
         }
 
         public void Execute(object parameter) {
-            _app.IsOverlayed = true;
+            MessageBox.Show("Not yet implemented.");
         }
 
         public event EventHandler CanExecuteChanged;

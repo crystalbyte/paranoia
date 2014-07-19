@@ -1,6 +1,7 @@
 ﻿#region Using directives
 
 using System;
+using System.Windows;
 using System.Windows.Input;
 
 #endregion
@@ -23,7 +24,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public void Execute(object parameter) {
-            throw new NotImplementedException();
+            MessageBox.Show("Not yet implemented.");
         }
 
         public event EventHandler CanExecuteChanged;

@@ -25,6 +25,12 @@
         <KeyBinding Key="Q"
                     Command="{Binding FocusSearchBoxCommand}"
                     Modifiers="Control" />
+        <KeyBinding Key="N"
+                    Command="{Binding WriteMessageCommand}"
+                    Modifiers="Control" />
+        <KeyBinding Key="P"
+                    Command="{Binding PrintCommand}"
+                    Modifiers="Control" />
     </ui:MetroWindow.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -192,10 +198,10 @@
             <Border Grid.Row="1"
                     Grid.RowSpan="2"
                     Grid.Column="1"
-                    Margin="8"
+                    Margin="8,8,8,24"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center">
-                <Button Command="{Binding WriteMessageCommand}" Style="{StaticResource AppMetroButtonStyle}">
+                <Button Command="{Binding WriteMessageCommand}" Style="{StaticResource AppCircleButtonStyle}">
                     <Image Width="18" Source="/Assets/message.png" />
                 </Button>
             </Border>
@@ -493,9 +499,12 @@
                       VirtualizingPanel.IsVirtualizing="True"
                       VirtualizingPanel.VirtualizationMode="Recycling">
                 <ListView.Resources>
-                    <converters:BooleanToBrushConverter x:Key="SeenConverter"
+                    <converters:BooleanToBrushConverter x:Key="SeenBrushConverter"
                                                         BrushForFalse="{StaticResource AppAccentBrush}"
                                                         BrushForTrue="{StaticResource AppMediumTextBrush}" />
+                    <converters:BooleanToOpacityConverter x:Key="SeenOpacityConverter"
+                                                          OpacityForFalse="1.0"
+                                                          OpacityForTrue="0.3" />
                 </ListView.Resources>
                 <ListView.InputBindings>
                     <KeyBinding Key="R"
@@ -565,13 +574,21 @@
                             <Image Grid.Row="0"
                                    Grid.RowSpan="2"
                                    Grid.Column="0"
-                                   Height="42"
-                                   Margin="0,0,6,0"
-                                   HorizontalAlignment="Left"
+                                   Height="20"
+                                   Margin="6,0,12,0"
+                                   HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   Source="{Binding FromAddress,
-                                                    Converter={StaticResource GravatarImageConverter},
-                                                    IsAsync=True}" />
+                                   Opacity="{Binding IsSeen,
+                                                     Converter={StaticResource SeenOpacityConverter}}">
+                                <Image.Source>
+                                    <Binding Path="IsSeen">
+                                        <Binding.Converter>
+                                            <converters:BooleanToStringConverter StringForFalse="/Assets/unseen.png" StringForTrue="/Assets/seen.png" />
+                                        </Binding.Converter>
+                                    </Binding>
+                                </Image.Source>
+                            </Image>
+
                             <TextBlock Grid.Row="0"
                                        Grid.Column="1"
                                        Grid.ColumnSpan="2"
@@ -590,7 +607,7 @@
                                        VerticalAlignment="Center"
                                        FontSize="{StaticResource AppSmallFontSize}"
                                        Foreground="{Binding IsSeen,
-                                                            Converter={StaticResource SeenConverter}}"
+                                                            Converter={StaticResource SeenBrushConverter}}"
                                        Text="{Binding FromName}" />
 
                             <TextBlock Grid.Row="1"
@@ -664,17 +681,17 @@
                                 Orientation="Horizontal"
                                 Visibility="{Binding SelectedMessage,
                                                      Converter={StaticResource NullToVisibilityConverter}}">
-                        <Button Command="{Binding ReplyCommand}" Style="{StaticResource AppMetroButtonStyle}">
+                        <Button Command="{Binding ReplyCommand}" Style="{StaticResource AppCircleButtonStyle}">
                             <Image Width="18"
                                    Margin="-2,2,0,0"
                                    Source="/Assets/reply.png" />
                         </Button>
-                        <Button Command="{Binding ForwardCommand}" Style="{StaticResource AppMetroButtonStyle}">
+                        <Button Command="{Binding ForwardCommand}" Style="{StaticResource AppCircleButtonStyle}">
                             <Image Width="18"
                                    Margin="-2,2,0,0"
                                    Source="/Assets/forward.png" />
                         </Button>
-                        <Button Command="{Binding DeleteMessageCommand}" Style="{StaticResource AppMetroButtonStyle}">
+                        <Button Command="{Binding DeleteMessageCommand}" Style="{StaticResource AppCircleButtonStyle}">
                             <Image Width="18"
                                    Margin="0,0,0,0"
                                    Source="/Assets/delete.png" />

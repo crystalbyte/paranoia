@@ -7,10 +7,10 @@ using Crystalbyte.Paranoia.Mail;
 #endregion
 
 namespace Crystalbyte.Paranoia.UI.Commands {
-    public sealed class AssignmentCommand : ICommand {
+    public sealed class AssignMailboxCommand : ICommand {
         private readonly MailboxContext _mailbox;
 
-        public AssignmentCommand(MailboxContext mailbox) {
+        public AssignMailboxCommand(MailboxContext mailbox) {
             _mailbox = mailbox;
         }
 

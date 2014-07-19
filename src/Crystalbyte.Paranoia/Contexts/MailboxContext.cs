@@ -27,14 +27,14 @@ namespace Crystalbyte.Paranoia {
         private readonly MailAccountContext _account;
         private readonly MailboxModel _mailbox;
         private readonly ObservableCollection<MailboxCandidateContext> _mailboxCandidates;
-        private readonly AssignmentCommand _assignmentCommand;
+        private readonly AssignMailboxCommand _assignmentCommand;
         private MailboxCandidateContext _selectedCandidate;
         private bool _isLoadingMessage;
 
         internal MailboxContext(MailAccountContext account, MailboxModel mailbox) {
             _account = account;
             _mailbox = mailbox;
-            _assignmentCommand = new AssignmentCommand(this);
+            _assignmentCommand = new AssignMailboxCommand(this);
             _mailboxCandidates = new ObservableCollection<MailboxCandidateContext>();
         }
 

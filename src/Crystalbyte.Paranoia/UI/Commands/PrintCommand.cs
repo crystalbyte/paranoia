@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
@@ -19,7 +20,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public void Execute(object parameter) {
-            throw new NotImplementedException();
+            MessageBox.Show("Not yet implemented.");
         }
 
         public event EventHandler CanExecuteChanged;
