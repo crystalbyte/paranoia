@@ -125,10 +125,15 @@
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="Contexts\MailboxCandidateContext.cs" />
     <Compile Include="Contexts\MailboxContext.cs" />
+    <Compile Include="Contexts\MailCompositionContext.cs" />
     <Compile Include="Contexts\MailContactContext.cs" />
     <Compile Include="Contexts\AppContext.cs" />
     <Compile Include="Contexts\MailMessageContext.cs" />
     <Compile Include="Contexts\MailAccountContext.cs" />
+    <Compile Include="UI\AutoCompleteBox.xaml.cs">
+      <DependentUpon>AutoCompleteBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\NavigationRequestedEventArgs.cs" />
     <Compile Include="Contexts\QueryStringEventArgs.cs" />
     <Compile Include="Contexts\SelectionObject.cs" />
     <Compile Include="Data\CollatingSequence.cs" />
@@ -165,6 +170,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UI\Commands\AssignMailboxCommand.cs" />
+    <Compile Include="UI\Commands\CloseOverlayCommand.cs" />
     <Compile Include="UI\Commands\DeleteMessageCommand.cs" />
     <Compile Include="UI\Commands\DropAssignmentCommand.cs" />
     <Compile Include="UI\Commands\FocusSearchBoxCommand.cs" />
@@ -172,7 +178,7 @@
     <Compile Include="UI\Commands\MoveCommand.cs" />
     <Compile Include="UI\Commands\PrintCommand.cs" />
     <Compile Include="UI\Commands\ReplyCommand.cs" />
-    <Compile Include="UI\Commands\WriteMessageCommand.cs" />
+    <Compile Include="UI\Commands\ComposeMessageCommand.cs" />
     <Compile Include="UI\Converters\BooleanToBrushConverter.cs" />
     <Compile Include="UI\Converters\BooleanToOpacityConverter.cs" />
     <Compile Include="UI\Converters\BooleanToStringConverter.cs" />
@@ -187,12 +193,20 @@
     <Compile Include="UI\MetroWindow.xaml.cs">
       <DependentUpon>MetroWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\TypeExtensions.cs" />
+    <Compile Include="UI\Pages\ComposeMessagePage.xaml.cs">
+      <DependentUpon>ComposeMessagePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Watermark.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UI\FrameExtensions.cs" />
     <Compile Include="UI\WindowCommands.cs" />
     <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\AutoCompleteBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -203,6 +217,10 @@
     <Page Include="UI\MetroWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Pages\ComposeMessagePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -305,6 +323,7 @@
     <Resource Include="Assets\message.png" />
     <Resource Include="Assets\seen.png" />
     <Resource Include="Assets\unseen.png" />
+    <Resource Include="Assets\back.png" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

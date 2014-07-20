@@ -79,6 +79,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Compose Message.
+        /// </summary>
+        public static string ComposeMessagePageTitle {
+            get {
+                return ResourceManager.GetString("ComposeMessagePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contacts.
         /// </summary>
         public static string ContactsTitle {

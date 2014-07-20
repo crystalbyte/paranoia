@@ -30,7 +30,9 @@
             <system:Double x:Key="AppNormalFontSize">12</system:Double>
             <system:Double x:Key="AppSmallFontSize">10</system:Double>
             <system:Double x:Key="AppExtraSmallFontSize">8</system:Double>
-            <system:Double x:Key="ShadeOpacity">0.6</system:Double>
+            <system:Double x:Key="AppShadeOpacity">0.6</system:Double>
+
+            <SolidColorBrush x:Key="AppOverlayBackroundBrush" Color="#262626" />
 
             <!--  Brushes  -->
             <Color x:Key="AppAccentColor">#CD7F32</Color>
@@ -137,10 +139,13 @@
                                 <Ellipse Width="{TemplateBinding Width}"
                                          Height="{TemplateBinding Height}"
                                          HorizontalAlignment="Center"
+                                         StrokeThickness="1.4"
+                                         RenderOptions.EdgeMode="Unspecified"
                                          VerticalAlignment="Center"
                                          Fill="{TemplateBinding Background}"
                                          Stroke="{TemplateBinding BorderBrush}" />
                                 <ContentPresenter Name="Presenter"
+                                                  RenderOptions.BitmapScalingMode="HighQuality"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Center" />
                             </Grid>
@@ -384,7 +389,7 @@
                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
                 <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Opacity="{StaticResource ShadeOpacity}" Color="{StaticResource AppShadeColor}" />
+                        <SolidColorBrush Opacity="{StaticResource AppShadeOpacity}" Color="{StaticResource AppShadeColor}" />
                     </Setter.Value>
                 </Setter>
             </Style>

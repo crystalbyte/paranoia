@@ -15,6 +15,7 @@ namespace Crystalbyte.Paranoia.UI {
     ///     This class represents a window with an integrated ribbon.
     /// </summary>
     public class MetroWindow : Window {
+
         #region Private Fields
 
         private HwndSource _hwndSource;
@@ -245,7 +246,5 @@ namespace Crystalbyte.Paranoia.UI {
         // ReSharper restore MemberCanBePrivate.Local
 
         #endregion
-
-        public DependencyProperty ItemsSourceProperty { get; set; }
     }
 }

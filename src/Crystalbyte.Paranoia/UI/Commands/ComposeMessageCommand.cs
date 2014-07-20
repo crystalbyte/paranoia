@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
-    public sealed class WriteMessageCommand : ICommand {
+    public sealed class ComposeMessageCommand : ICommand {
 
         #region Private Fields
 
@@ -13,7 +13,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         #region Construction
 
-        public WriteMessageCommand(AppContext app) {
+        public ComposeMessageCommand(AppContext app) {
             _app = app;
             _app.OverlayChanged += (sender, e) => OnCanExecuteChanged();
             _app.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
@@ -26,7 +26,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public void Execute(object parameter) {
-            MessageBox.Show("Not yet implemented.");
+            _app.ComposeMessage();
         }
 
         public event EventHandler CanExecuteChanged;

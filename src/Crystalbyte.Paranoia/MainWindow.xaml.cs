@@ -3,6 +3,7 @@
 using System;
 using System.Linq;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 
 #endregion
 
@@ -24,8 +25,23 @@ namespace Crystalbyte.Paranoia {
 
         protected override async void OnInitialized(EventArgs e) {
             base.OnInitialized(e);
+            RegisterStoryboards();
+            HookUpNavigationService();
             App.Context.HookUpSearchBox(SearchBox);
             await App.Context.RunAsync();
+        }
+
+        private void HookUpNavigationService() {
+            App.Context.NavigationRequested += OnNavigationRequested;
+        }
+
+        private void OnNavigationRequested(object sender, Contexts.NavigationRequestedEventArgs e) {
+            ContentFrame.Navigate(e.Target);
+        }
+
+        private void RegisterStoryboards() {
+            var storyboard = (Storyboard) Resources["OverlaySlideInStoryboard"];
+            App.Context.RegisterOverlaySlideInStoryboard(storyboard);
         }
 
         #endregion
