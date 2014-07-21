@@ -8,27 +8,77 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Reactive.Concurrency;
 using System.Threading;
+using System.Windows.Controls.Primitives;
 
 namespace Crystalbyte.Paranoia.UI {
-    [TemplatePart(Name = InputControlPartName, Type = typeof(TextBox))]
+    [TemplatePart(Name = SuggestionHostPartName, Type = typeof(Popup))]
     public sealed class AutoCompleteBox : TextBox {
 
         #region Xaml Support
 
-        private const string InputControlPartName = "PART_InputControl";
+        private const string SuggestionHostPartName = "PART_SuggestionHost";
 
         #endregion
 
         #region Private Fields
 
-        private TextBox _inputControl;
+        private Popup _suggestionHost;
 
         #endregion
+
+        #region Construction
 
         static AutoCompleteBox() {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(AutoCompleteBox),
                 new FrameworkPropertyMetadata(typeof(AutoCompleteBox)));
         }
+
+        #endregion
+
+        #region Public Events
+
+        public event EventHandler ItemsSourceRequested;
+
+        private void OnItemsSourceRequested() {
+            var handler = ItemsSourceRequested;
+            if (handler != null) 
+                handler(this, EventArgs.Empty);
+        }
+
+        #endregion
+
+        #region Dependency Properties
+
+        public object ItemsSource {
+            get { return GetValue(ItemsSourceProperty); }
+            set { SetValue(ItemsSourceProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ItemsSource.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemsSourceProperty =
+            DependencyProperty.Register("ItemsSource", typeof(object), typeof(AutoCompleteBox), new PropertyMetadata(null));
+
+        public DataTemplate ItemTemplate {
+            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
+            set { SetValue(ItemTemplateProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ItemTemplate.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemTemplateProperty =
+            DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(AutoCompleteBox), new PropertyMetadata(null));
+
+        public ItemsPanelTemplate ItemsPanel {
+            get { return (ItemsPanelTemplate)GetValue(ItemsPanelProperty); }
+            set { SetValue(ItemsPanelProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ItemsPanel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemsPanelProperty =
+            DependencyProperty.Register("ItemsPanel", typeof(ItemsPanelTemplate), typeof(AutoCompleteBox), new PropertyMetadata(null));
+
+        #endregion
+
+        #region Class Overrides
 
         protected override void OnInitialized(EventArgs e) {
             base.OnInitialized(e);
@@ -42,8 +92,21 @@ namespace Crystalbyte.Paranoia.UI {
             .Subscribe(OnTextChangeConfirmed);
         }
 
-        private void OnTextChangeConfirmed(string text) {
+        public override void OnApplyTemplate() {
+            base.OnApplyTemplate();
+
+            _suggestionHost = (Popup) Template.FindName(SuggestionHostPartName, this);
 
         }
+
+        #endregion
+
+        #region Methods
+
+        private void OnTextChangeConfirmed(string text) {
+            OnItemsSourceRequested();
+        }
+
+        #endregion
     }
 }

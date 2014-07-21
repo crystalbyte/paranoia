@@ -23,5 +23,9 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             DataContext = new MailCompositionContext();
             InitializeComponent();
         }
+
+        private void OnAutoCompleteBoxOnItemsSourceRequested(object sender, EventArgs e) {
+            
+        }
     }
 }

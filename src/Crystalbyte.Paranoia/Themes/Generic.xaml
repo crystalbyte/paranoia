@@ -1,7 +1,6 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../UI/MetroWindow.xaml" />
-        <ResourceDictionary Source="../UI/AutoCompleteBox.xaml" />
+        <ResourceDictionary Source="/Paranoia;component/UI/AutoCompleteBox.xaml" />
+        <ResourceDictionary Source="/Paranoia;component/UI/MetroWindow.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

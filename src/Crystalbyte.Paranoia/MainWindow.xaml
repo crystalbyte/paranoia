@@ -23,33 +23,57 @@
                 mc:Ignorable="d">
     <ui:MetroWindow.Resources>
         <Storyboard x:Key="OverlaySlideInStoryboard">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Overlay">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Overlay" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1">
-                	<EasingDoubleKeyFrame.EasingFunction>
-                		<QuinticEase EasingMode="EaseOut"/>
-                	</EasingDoubleKeyFrame.EasingFunction>
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuinticEase EasingMode="EaseOut" />
+                    </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="OverlayContent">
-                <EasingDoubleKeyFrame KeyTime="0" Value="100"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="100" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuinticEase EasingMode="EaseOut" />
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Button" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
                 	<EasingDoubleKeyFrame.EasingFunction>
-                		<QuinticEase EasingMode="EaseOut"/>
+                		<QuarticEase EasingMode="EaseOut"/>
                 	</EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="button">
-            	<EasingDoubleKeyFrame KeyTime="0" Value="40"/>
-            	<EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="TextBlock" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
+                	<EasingDoubleKeyFrame.EasingFunction>
+                		<QuarticEase EasingMode="EaseOut"/>
+                	</EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="ContentFrame">
+            	<EasingDoubleKeyFrame KeyTime="0" Value="200"/>
+            	<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
             		<EasingDoubleKeyFrame.EasingFunction>
             			<QuarticEase EasingMode="EaseOut"/>
             		</EasingDoubleKeyFrame.EasingFunction>
             	</EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="textBlock">
-            	<EasingDoubleKeyFrame KeyTime="0" Value="80"/>
-            	<EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="Button">
+            	<EasingDoubleKeyFrame KeyTime="0" Value="-40"/>
+            	<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
+            		<EasingDoubleKeyFrame.EasingFunction>
+            			<QuarticEase EasingMode="EaseOut"/>
+            		</EasingDoubleKeyFrame.EasingFunction>
+            	</EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="TextBlock">
+            	<EasingDoubleKeyFrame KeyTime="0" Value="40"/>
+            	<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
             		<EasingDoubleKeyFrame.EasingFunction>
             			<QuarticEase EasingMode="EaseOut"/>
             		</EasingDoubleKeyFrame.EasingFunction>
@@ -59,7 +83,7 @@
     </ui:MetroWindow.Resources>
     <ui:MetroWindow.Triggers>
         <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-            <BeginStoryboard Storyboard="{StaticResource OverlaySlideInStoryboard}"/>
+            <BeginStoryboard Storyboard="{StaticResource OverlaySlideInStoryboard}" />
         </EventTrigger>
     </ui:MetroWindow.Triggers>
     <ui:MetroWindow.InputBindings>
@@ -72,8 +96,7 @@
         <KeyBinding Key="P"
                     Command="{Binding PrintCommand}"
                     Modifiers="Control" />
-        <KeyBinding Key="Escape"
-                    Command="{Binding CloseOverlayCommand}" />
+        <KeyBinding Key="Escape" Command="{Binding CloseOverlayCommand}" />
     </ui:MetroWindow.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -139,8 +162,8 @@
         <Grid Grid.Row="0"
               Grid.Column="0"
               Grid.ColumnSpan="5"
-              Panel.ZIndex="2000"
-              HorizontalAlignment="Right">
+              HorizontalAlignment="Right"
+              Panel.ZIndex="2000">
             <Grid.ColumnDefinitions>
                 <!--  help button  -->
                 <ColumnDefinition Width="Auto" />
@@ -332,9 +355,9 @@
                       Grid.Column="1"
                       Style="{StaticResource VerticalSplitterStyle}" />
         <StackPanel Grid.Row="0"
-                    Grid.Column="1"
+                    Grid.Column="2"
                     Grid.ColumnSpan="2"
-                    Orientation="Horizontal">
+                    Orientation="Horizontal" VerticalAlignment="Top" Margin="0,2,0,0">
             <TextBox x:Name="SearchBox"
                      Margin="0,1,0,0"
                      KeyboardNavigation.TabNavigation="Continue"
@@ -353,9 +376,8 @@
             </TextBox>
         </StackPanel>
         <Grid Grid.Row="1"
-              Grid.Column="1"
-              Grid.ColumnSpan="4"
-              Panel.ZIndex="500">
+              Grid.Column="2"
+              Grid.ColumnSpan="4">
             <ListView HorizontalContentAlignment="Stretch"
                       Background="Transparent"
                       BorderThickness="0"
@@ -743,11 +765,11 @@
             </Border>
             <Grid Grid.Row="1"
                   Margin="24,12,24,24"
-                  Visibility="{Binding IsNotOverlayed, Converter={StaticResource BooleanToVisibilityConverter}}"
                   HorizontalAlignment="Stretch"
-                  VerticalAlignment="Stretch">
+                  VerticalAlignment="Stretch"
+                  Visibility="{Binding IsNotOverlayed,
+                                       Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Frame NavigationUIVisibility="Hidden"
-                       
                        Visibility="{Binding Html,
                                             Converter={StaticResource NullToVisibilityConverter}}"
                        ui:FrameExtensions.BindableSource="{Binding Html,
@@ -770,27 +792,41 @@
                 </Grid>
             </Grid>
         </Grid>
-        <Grid Grid.ColumnSpan="5" Panel.ZIndex="1000" Grid.RowSpan="3" x:Name="Overlay" Visibility="{Binding IsOverlayed, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" RenderTransformOrigin="0.5,0.5">
+        <Grid x:Name="Overlay"
+              Grid.Row="0"
+              Grid.RowSpan="3"
+              Grid.Column="0"
+              Grid.ColumnSpan="5"
+              Panel.ZIndex="1000"
+              RenderTransformOrigin="0.5,0.5"
+              Visibility="{Binding IsOverlayed,
+                                   Converter={StaticResource BooleanToVisibilityConverter},
+                                   Mode=OneWay}">
             <Grid.RenderTransform>
                 <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
+                    <ScaleTransform />
+                    <SkewTransform />
+                    <RotateTransform />
+                    <TranslateTransform />
                 </TransformGroup>
             </Grid.RenderTransform>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid Grid.ColumnSpan="2" Background="{StaticResource AppShadeBrush}" Opacity="{StaticResource AppShadeOpacity}" />
-            <Border Grid.Column="1" x:Name="OverlayContent" Padding="24" Background="{StaticResource AppOverlayBackroundBrush}">
+            <Grid Grid.ColumnSpan="2"
+                  Background="{StaticResource AppShadeBrush}"
+                  Opacity="{StaticResource AppShadeOpacity}" />
+            <Border x:Name="OverlayContent"
+                    Grid.Column="1"
+                    Background="{StaticResource AppOverlayBackroundBrush}"
+                    Padding="24">
                 <Border.RenderTransform>
                     <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform />
+                        <TranslateTransform />
                     </TransformGroup>
                 </Border.RenderTransform>
                 <Grid>
@@ -798,30 +834,61 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <StackPanel x:Name="stackPanel" Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,12">
-                        <Button x:Name="button" Style="{StaticResource AppCircleButtonStyle}" Command="{Binding CloseOverlayCommand}" Margin="0,0,12,0" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-                        	<Button.RenderTransform>
-                        		<TransformGroup>
-                        			<ScaleTransform/>
-                        			<SkewTransform/>
-                        			<RotateTransform/>
-                        			<TranslateTransform/>
-                        		</TransformGroup>
-                        	</Button.RenderTransform>
-                            <Image Source="/Assets/back.png" Width="18"  HorizontalAlignment="Center" />
+                    <StackPanel x:Name="StackPanel"
+                                Grid.Row="0"
+                                Margin="0,0,0,12"
+                                Orientation="Horizontal">
+                        <Button x:Name="Button"
+                                Margin="0,0,12,0"
+                                Command="{Binding CloseOverlayCommand}"
+                                RenderTransformOrigin="0.5,0.5"
+                                Style="{StaticResource AppCircleButtonStyle}">
+                            <Button.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform />
+                                    <SkewTransform />
+                                    <RotateTransform />
+                                    <TranslateTransform />
+                                </TransformGroup>
+                            </Button.RenderTransform>
+                            <Image Width="18"
+                                   HorizontalAlignment="Center"
+                                   Source="/Assets/back.png" />
                         </Button>
-                        <TextBlock x:Name="textBlock" DataContext="{Binding Content, ElementName=ContentFrame}" Text="{Binding Title}" Style="{StaticResource AppTitleTextStyle}" Margin="0" Padding="0,0,0,2" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" >
-                        	<TextBlock.RenderTransform>
-                        		<TransformGroup>
-                        			<ScaleTransform/>
-                        			<SkewTransform/>
-                        			<RotateTransform/>
-                        			<TranslateTransform/>
-                        		</TransformGroup>
-                        	</TextBlock.RenderTransform>
+                        <TextBlock x:Name="TextBlock"
+                                   Margin="0"
+                                   VerticalAlignment="Center"
+                                   DataContext="{Binding Content,
+                                                         ElementName=ContentFrame}"
+                                   Padding="0,0,0,2"
+                                   RenderTransformOrigin="0.5,0.5"
+                                   Style="{StaticResource AppTitleTextStyle}"
+                                   Text="{Binding Title}"
+                                   d:DataContext="{d:DesignInstance Page}">
+                            <TextBlock.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform />
+                                    <SkewTransform />
+                                    <RotateTransform />
+                                    <TranslateTransform />
+                                </TransformGroup>
+                            </TextBlock.RenderTransform>
                         </TextBlock>
                     </StackPanel>
-                    <Frame Grid.Row="1" x:Name="ContentFrame"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" NavigationUIVisibility="Hidden"  />
+                    <Frame x:Name="ContentFrame"
+                           Grid.Row="1"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           NavigationUIVisibility="Hidden" RenderTransformOrigin="0.5,0.5" >
+                    	<Frame.RenderTransform>
+                    		<TransformGroup>
+                    			<ScaleTransform/>
+                    			<SkewTransform/>
+                    			<RotateTransform/>
+                    			<TranslateTransform/>
+                    		</TransformGroup>
+                    	</Frame.RenderTransform>
+                    </Frame>
                 </Grid>
             </Border>
         </Grid>

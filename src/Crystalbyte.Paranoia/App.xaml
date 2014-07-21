@@ -20,9 +20,6 @@
             <converters:DateFormatter x:Key="DateFormatter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 
-            <!--  Fonts  -->
-            <FontFamily x:Key="AppFontFamily">Segoe UI</FontFamily>
-
             <!--  Sizes  -->
             <system:Double x:Key="AppExtraLargeFontSize">28</system:Double>
             <system:Double x:Key="AppLargeFontSize">22</system:Double>
@@ -49,6 +46,10 @@
             <SolidColorBrush x:Key="AppHoverBrush" Color="{StaticResource AppHoverColor}" />
             <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppHoverBrush}" Color="{StaticResource AppHoverColor}" />
 
+            <Color x:Key="AppControlColor">#222222</Color>
+            <SolidColorBrush x:Key="AppControlBrush" Color="{StaticResource AppControlColor}" />
+            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppControlBrush}" Color="{StaticResource AppControlColor}" />
+
             <Color x:Key="AppSelectedUnfocusedColor">#FFDDDDDD</Color>
 
             <Color x:Key="AppLightTextColor">GhostWhite</Color>
@@ -57,11 +58,8 @@
 
             <SolidColorBrush x:Key="AppDisabledTextBrush" Color="DimGray" />
             <SolidColorBrush x:Key="AppFailureColorBrush" Color="Red" />
-            <SolidColorBrush x:Key="AppMediumTextBrush" Color="#FFA3A3A3" />
+            <SolidColorBrush x:Key="AppMediumTextBrush" Color="#A3A3A3" />
             <SolidColorBrush x:Key="AppDarkTextBrush" Color="#333" />
-
-            <SolidColorBrush x:Key="AppControlBrush" Color="DimGray" />
-            <SolidColorBrush x:Key="AppLightControlBrush" Color="LightGray" />
 
             <SolidColorBrush x:Key="AppButtonBorderBrush" Color="Transparent" />
             <SolidColorBrush x:Key="AppButtonBackgroundBrush" Color="Transparent" />
@@ -139,15 +137,15 @@
                                 <Ellipse Width="{TemplateBinding Width}"
                                          Height="{TemplateBinding Height}"
                                          HorizontalAlignment="Center"
-                                         StrokeThickness="1.4"
-                                         RenderOptions.EdgeMode="Unspecified"
                                          VerticalAlignment="Center"
                                          Fill="{TemplateBinding Background}"
-                                         Stroke="{TemplateBinding BorderBrush}" />
+                                         RenderOptions.EdgeMode="Unspecified"
+                                         Stroke="{TemplateBinding BorderBrush}"
+                                         StrokeThickness="1.4" />
                                 <ContentPresenter Name="Presenter"
-                                                  RenderOptions.BitmapScalingMode="HighQuality"
                                                   HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center" />
+                                                  VerticalAlignment="Center"
+                                                  RenderOptions.BitmapScalingMode="HighQuality" />
                             </Grid>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsEnabled" Value="False">
@@ -296,12 +294,10 @@
             <Style x:Key="AppNormalTextStyle" TargetType="{x:Type TextBlock}">
                 <Setter Property="TextWrapping" Value="Wrap" />
                 <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
-                <Setter Property="FontFamily" Value="{StaticResource AppFontFamily}" />
                 <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
             </Style>
 
             <Style x:Key="AppErrorTextStyle" TargetType="{x:Type TextBlock}">
-                <Setter Property="FontFamily" Value="{StaticResource AppFontFamily}" />
                 <Setter Property="Foreground" Value="{StaticResource AppFailureColorBrush}" />
             </Style>
 
@@ -336,9 +332,8 @@
 
             <Style TargetType="{x:Type TextBox}">
                 <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ValidationErrorTemplate}" />
-                <Setter Property="BorderBrush" Value="#313131" />
+                <!--  <Setter Property="BorderBrush" Value="#313131" />  -->
                 <Setter Property="Background" Value="{StaticResource AppControlBrush}" />
-                <Setter Property="FontFamily" Value="{StaticResource AppFontFamily}" />
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
                 <Setter Property="Padding" Value="3" />
