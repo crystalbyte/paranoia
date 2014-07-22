@@ -15,5 +15,8 @@ namespace Crystalbyte.Paranoia.UI {
 
         public static RoutedUICommand RestoreDown =
             new RoutedUICommand(Resources.RestoreDownCommandTooltip, "RestoreDown", typeof (MetroWindow));
+
+        public static RoutedUICommand CloseOverlay =
+            new RoutedUICommand(Resources.CloseOverlayCommandTooltip, "CloseOverlay", typeof(MetroWindow));
     }
 }

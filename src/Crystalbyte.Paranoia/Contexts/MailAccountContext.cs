@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO.Packaging;
 using System.Linq;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
@@ -193,6 +194,10 @@ namespace Crystalbyte.Paranoia {
                 _account.Address = value;
                 RaisePropertyChanged(() => Address);
             }
+        }
+
+        public Int64 Id {
+            get { return _account.Id; }
         }
 
         public bool IsGmail {

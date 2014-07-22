@@ -2,8 +2,11 @@
 
 using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Animation;
+using Crystalbyte.Paranoia.UI;
 
 #endregion
 
@@ -12,11 +15,21 @@ namespace Crystalbyte.Paranoia {
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow {
+
+        private Storyboard _slideInOverlayStoryboard;
+        private Storyboard _slideOutOverlayStoryboard;
+
         #region Construction
 
         public MainWindow() {
             DataContext = App.Context;
             InitializeComponent();
+
+            CommandBindings.Add(new CommandBinding(WindowCommands.CloseOverlay, OnCloseOverlay));
+        }
+
+        private void OnCloseOverlay(object sender, ExecutedRoutedEventArgs e) {
+            _slideOutOverlayStoryboard.Begin();
         }
 
         #endregion
@@ -25,10 +38,29 @@ namespace Crystalbyte.Paranoia {
 
         protected override async void OnInitialized(EventArgs e) {
             base.OnInitialized(e);
-            RegisterStoryboards();
+
+            LoadResources();
+            HookUpControls();
             HookUpNavigationService();
-            App.Context.HookUpSearchBox(SearchBox);
+
             await App.Context.RunAsync();
+        }
+
+        private void LoadResources() {
+            _slideInOverlayStoryboard = (Storyboard)Resources["OverlaySlideInStoryboard"];
+            _slideOutOverlayStoryboard = (Storyboard)Resources["OverlaySlideOutStoryboard"];
+            _slideOutOverlayStoryboard.Completed += OnSlideOutOverlayCompleted;
+        }
+
+        private void OnSlideOutOverlayCompleted(object sender, EventArgs e) {
+            Overlay.Visibility = Visibility.Collapsed;
+            if (!string.IsNullOrEmpty(App.Context.Html)) {
+                HtmlFrame.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void HookUpControls() {
+            App.Context.HookUpSearchBox(SearchBox);
         }
 
         private void HookUpNavigationService() {
@@ -36,12 +68,11 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnNavigationRequested(object sender, Contexts.NavigationRequestedEventArgs e) {
+            Overlay.Visibility = Visibility.Visible;
+            HtmlFrame.Visibility = Visibility.Collapsed;
             ContentFrame.Navigate(e.Target);
-        }
 
-        private void RegisterStoryboards() {
-            var storyboard = (Storyboard) Resources["OverlaySlideInStoryboard"];
-            App.Context.RegisterOverlaySlideInStoryboard(storyboard);
+            _slideInOverlayStoryboard.Begin();
         }
 
         #endregion

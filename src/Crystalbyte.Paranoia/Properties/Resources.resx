@@ -123,6 +123,9 @@
   <data name="CloseCommandTooltip" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="CloseOverlayCommandTooltip" xml:space="preserve">
+    <value>Back</value>
+  </data>
   <data name="ComposeMessagePageTitle" xml:space="preserve">
     <value>Compose Message</value>
   </data>

@@ -133,6 +133,7 @@
     <Compile Include="UI\AutoCompleteBox.xaml.cs">
       <DependentUpon>AutoCompleteBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Commands\SendCommand.cs" />
     <Compile Include="UI\NavigationRequestedEventArgs.cs" />
     <Compile Include="Contexts\QueryStringEventArgs.cs" />
     <Compile Include="Contexts\SelectionObject.cs" />
@@ -170,7 +171,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UI\Commands\AssignMailboxCommand.cs" />
-    <Compile Include="UI\Commands\CloseOverlayCommand.cs" />
     <Compile Include="UI\Commands\DeleteMessageCommand.cs" />
     <Compile Include="UI\Commands\DropAssignmentCommand.cs" />
     <Compile Include="UI\Commands\FocusSearchBoxCommand.cs" />
@@ -189,7 +189,6 @@
     <Compile Include="UI\Converters\IgnoreLinebreaksConverter.cs" />
     <Compile Include="UI\Converters\MailboxLocalizer.cs" />
     <Compile Include="UI\Converters\NullToVisibilityConverter.cs" />
-    <Compile Include="UI\Focus.cs" />
     <Compile Include="UI\MetroWindow.xaml.cs">
       <DependentUpon>MetroWindow.xaml</DependentUpon>
     </Compile>

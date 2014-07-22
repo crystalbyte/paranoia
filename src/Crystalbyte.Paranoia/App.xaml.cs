@@ -37,8 +37,7 @@ namespace Crystalbyte.Paranoia {
                 if (accounts.Length != 0)
                     return;
 
-                var account = new MailAccountModel
-                {
+                var account = new MailAccountModel {
                     Name = "Paranoia Test Account",
                     Address = "paranoia.app@gmail.com",
                     ImapUsername = "paranoia.app@gmail.com",
@@ -68,24 +67,19 @@ namespace Crystalbyte.Paranoia {
                     Address = "noreply@youtube.com"
                 });
 
-                account.Mailboxes.Add(new MailboxModel
-                {
+                account.Mailboxes.Add(new MailboxModel {
                     Type = MailboxType.All
                 });
-                account.Mailboxes.Add(new MailboxModel
-                {
+                account.Mailboxes.Add(new MailboxModel {
                     Type = MailboxType.Inbox
                 });
-                account.Mailboxes.Add(new MailboxModel
-                {
+                account.Mailboxes.Add(new MailboxModel {
                     Type = MailboxType.Trash
                 });
-                account.Mailboxes.Add(new MailboxModel
-                {
+                account.Mailboxes.Add(new MailboxModel {
                     Type = MailboxType.Sent
                 });
-                account.Mailboxes.Add(new MailboxModel
-                {
+                account.Mailboxes.Add(new MailboxModel {
                     Type = MailboxType.Draft
                 });
 
@@ -109,7 +103,7 @@ namespace Crystalbyte.Paranoia {
 
         private void Compose() {
             var config = new ContainerConfiguration()
-                .WithAssembly(typeof (App).Assembly);
+                .WithAssembly(typeof(App).Assembly);
 
             Composition = config.CreateContainer();
             Composition.SatisfyImports(this);

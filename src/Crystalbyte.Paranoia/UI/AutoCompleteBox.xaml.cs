@@ -1,12 +1,8 @@
 ﻿using System;
-
+using System.Collections;
 using System.Reactive.Linq;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Reactive.Concurrency;
 using System.Threading;
 using System.Windows.Controls.Primitives;
 
@@ -96,7 +92,6 @@ namespace Crystalbyte.Paranoia.UI {
             base.OnApplyTemplate();
 
             _suggestionHost = (Popup) Template.FindName(SuggestionHostPartName, this);
-
         }
 
         #endregion
@@ -105,6 +100,14 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnTextChangeConfirmed(string text) {
             OnItemsSourceRequested();
+
+            var source = ItemsSource as ICollection;
+            if (source != null && source.Count > 0) {
+                _suggestionHost.IsOpen = true;
+            }
+            else {
+                _suggestionHost.IsOpen = false;
+            }
         }
 
         #endregion

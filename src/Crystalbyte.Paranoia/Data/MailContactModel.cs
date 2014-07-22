@@ -14,9 +14,11 @@ namespace Crystalbyte.Paranoia.Data {
         public Int64 Id { get; set; }
 
         [Column("name")]
+        [Collate(CollatingSequence.NoCase)]
         public string Name { get; set; }
 
         [Column("address")]
+        [Collate(CollatingSequence.NoCase)]
         public string Address { get; set; }
 
         [Column("public_key")]

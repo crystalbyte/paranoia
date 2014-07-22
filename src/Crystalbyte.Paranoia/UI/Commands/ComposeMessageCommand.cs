@@ -15,14 +15,13 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         public ComposeMessageCommand(AppContext app) {
             _app = app;
-            _app.OverlayChanged += (sender, e) => OnCanExecuteChanged();
             _app.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
         }
 
         #endregion
 
         public bool CanExecute(object parameter) {
-            return !_app.IsOverlayed;
+            return true;
         }
 
         public void Execute(object parameter) {

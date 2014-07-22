@@ -17,15 +17,20 @@ namespace Crystalbyte.Paranoia.UI.Pages {
     /// <summary>
     /// Interaction logic for WriteMessagePage.xaml
     /// </summary>
-    public partial class ComposeMessagePage : Page {
+    public partial class ComposeMessagePage {
 
         public ComposeMessagePage() {
             DataContext = new MailCompositionContext();
             InitializeComponent();
+            Loaded += OnLoaded;
         }
 
-        private void OnAutoCompleteBoxOnItemsSourceRequested(object sender, EventArgs e) {
-            
+        private void OnLoaded(object sender, RoutedEventArgs e) {
+            SubjectTextBox.Focus();
+        }
+
+        private async void OnAutoCompleteBoxOnItemsSourceRequested(object sender, EventArgs e) {
+            await ((MailCompositionContext) DataContext).QueryRecipientsAsync();
         }
     }
 }

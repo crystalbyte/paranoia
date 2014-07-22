@@ -6,7 +6,9 @@
     <Style TargetType="{x:Type ui:AutoCompleteBox}">
         <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppControlBrush}}" />
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppLightTextBrush}}" />
-        <Setter Property="Padding" Value="3" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppTextBorderBrush}}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="2" />
         <Setter Property="Margin" Value="0,3,0,3" />
         <Setter Property="Template">
             <Setter.Value>
@@ -22,10 +24,20 @@
                                           Focusable="False"
                                           HorizontalScrollBarVisibility="Hidden"
                                           VerticalScrollBarVisibility="Hidden" />
-                            <Popup x:Name="PART_SuggestionHost" IsOpen="False">
-                                <ListView ItemTemplate="{TemplateBinding ItemTemplate}"
-                                          ItemsPanel="{TemplateBinding ItemsPanel}"
-                                          ItemsSource="{TemplateBinding ItemsSource}" />
+                            <Popup x:Name="PART_SuggestionHost"
+                                   IsOpen="False"
+                                   SnapsToDevicePixels="True"
+                                   StaysOpen="False">
+                                <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                                    <ListView MinWidth="300"
+                                              MinHeight="150"
+                                              Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
+                                                                                                 ResourceId=AppMenuBackgroundColor}}"
+                                              BorderThickness="0"
+                                              ItemTemplate="{Binding Source={RelativeSource TemplatedParent}}"
+                                              ItemsPanel="{Binding Source={RelativeSource TemplatedParent}}"
+                                              ItemsSource="{Binding Source={RelativeSource TemplatedParent}}" />
+                                </Border>
                             </Popup>
                         </Grid>
                     </Border>

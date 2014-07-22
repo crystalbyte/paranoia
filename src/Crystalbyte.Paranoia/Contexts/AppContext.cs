@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Composition;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -18,7 +17,6 @@ using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
-using System.Windows.Media.Animation;
 using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.UI.Pages;
 
@@ -35,16 +33,13 @@ namespace Crystalbyte.Paranoia {
         private readonly ObservableCollection<MailAccountContext> _accounts;
         private readonly PrintCommand _printCommand;
         private readonly ReplyCommand _replyCommand;
-        private readonly CloseOverlayCommand _closeOverlayCommand;
         private readonly DeleteMessageCommand _deleteCommand;
         private readonly ComposeMessageCommand _writeCommand;
         private readonly ForwardCommand _forwardCommand;
-        private Storyboard _overlaySlideInStoryboard;
         private FocusSearchBoxCommand _focusSearchBoxCommand;
         private string _queryString;
         private object _messages;
         private string _html;
-        private bool _isOverlayed;
 
         #endregion
 
@@ -57,7 +52,6 @@ namespace Crystalbyte.Paranoia {
             _deleteCommand = new DeleteMessageCommand(this);
             _printCommand = new PrintCommand(this);
             _writeCommand = new ComposeMessageCommand(this);
-            _closeOverlayCommand = new CloseOverlayCommand(this);
 
             Observable.FromEventPattern(
                     action => MessageSelectionChanged += action,
@@ -90,14 +84,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal event EventHandler OverlayChanged;
-
-        private void OnOverlayChanged() {
-            var handler = OverlayChanged;
-            if (handler != null) 
-                handler(this, EventArgs.Empty);
-        }
-
         internal event EventHandler MessageSelectionChanged;
         private void OnMessageSelectionChanged() {
             var handler = MessageSelectionChanged;
@@ -122,26 +108,6 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         #region Property Declarations
-
-        public bool IsOverlayed {
-            get { return _isOverlayed; }
-            set {
-                if (_isOverlayed == value) {
-                    return;
-                }
-
-                _isOverlayed = value;
-                RaisePropertyChanged(() => IsNotOverlayed);
-                RaisePropertyChanged(() => IsOverlayed);
-                OnOverlayChanged();
-                if (value) {
-                    _overlaySlideInStoryboard.Begin();
-                }
-            }
-        }
-
-        public bool IsNotOverlayed { 
-            get { return !IsOverlayed; } }
 
         public string Html {
             get { return _html; }
@@ -193,10 +159,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public ICommand CloseOverlayCommand { 
-            get { return _closeOverlayCommand; }
-        }
-
         public ICommand FocusSearchBoxCommand {
             get { return _focusSearchBoxCommand; }
         }
@@ -224,7 +186,6 @@ namespace Crystalbyte.Paranoia {
         public void ComposeMessage() {
             var uri = typeof(ComposeMessagePage).ToPageUri();
             OnNavigationRequested(new NavigationRequestedEventArgs(uri));
-            IsOverlayed = true;
         }
 
         public IEnumerable<MailMessageContext> SelectedMessages {
@@ -281,10 +242,6 @@ namespace Crystalbyte.Paranoia {
 
             DisplayMessageAsync(message);
             MarkMessagesAsSeenAsync();
-        }
-
-        internal void RegisterOverlaySlideInStoryboard(Storyboard storyboard) {
-            _overlaySlideInStoryboard = storyboard;
         }
 
         private async void MarkMessagesAsSeenAsync() {

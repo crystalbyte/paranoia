@@ -42,6 +42,14 @@
             <Color x:Key="AppShadeColor">Black</Color>
             <SolidColorBrush x:Key="AppShadeBrush" Color="{StaticResource AppShadeColor}" />
 
+            <Color x:Key="AppMenuBackgroundColor">#515151</Color>
+            <SolidColorBrush x:Key="AppMenuBackgroundBrush" Color="{StaticResource AppMenuBackgroundColor}" />
+            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppMenuBackgroundBrush}" Color="{StaticResource AppMenuBackgroundColor}" />
+
+            <Color x:Key="AppTextBorderColor">#515151</Color>
+            <SolidColorBrush x:Key="AppTextBorderBrush" Color="{StaticResource AppTextBorderColor}" />
+            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppTextBorderBrush}" Color="{StaticResource AppTextBorderColor}" />
+
             <Color x:Key="AppHoverColor">#333333</Color>
             <SolidColorBrush x:Key="AppHoverBrush" Color="{StaticResource AppHoverColor}" />
             <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppHoverBrush}" Color="{StaticResource AppHoverColor}" />
@@ -330,13 +338,20 @@
                 <Setter Property="FontSize" Value="{StaticResource AppMediumFontSize}" />
             </Style>
 
+            <Style TargetType="{x:Type RichTextBox}">
+                <Setter Property="BorderBrush" Value="{StaticResource AppTextBorderBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
+                <Setter Property="Padding" Value="0,3,0,3" />
+                <Setter Property="Margin" Value="0,3,0,3" />
+            </Style>
+
             <Style TargetType="{x:Type TextBox}">
                 <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ValidationErrorTemplate}" />
-                <!--  <Setter Property="BorderBrush" Value="#313131" />  -->
+                <Setter Property="BorderBrush" Value="{StaticResource AppTextBorderBrush}" />
                 <Setter Property="Background" Value="{StaticResource AppControlBrush}" />
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
-                <Setter Property="Padding" Value="3" />
+                <Setter Property="Padding" Value="2" />
                 <Setter Property="Margin" Value="0,3,0,3" />
                 <Setter Property="Template">
                     <Setter.Value>

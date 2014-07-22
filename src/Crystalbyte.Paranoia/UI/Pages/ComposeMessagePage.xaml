@@ -3,9 +3,11 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="{x:Static properties:Resources.ComposeMessagePageTitle}"
+      d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}"
       d:DesignHeight="300"
       d:DesignWidth="300"
       mc:Ignorable="d">
@@ -16,26 +18,59 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBox Grid.Column="0" Grid.ColumnSpan="2" />
-        <RichTextBox Grid.Row="1"
+        <TextBox x:Name="SubjectTextBox"
+                 Grid.Row="0"
+                 Grid.Column="0"
+                 Grid.ColumnSpan="2"
+                 TabIndex="0"
+                 Text="{Binding Subject,
+                                Mode=TwoWay}" />
+        <ui:AutoCompleteBox Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            HorizontalAlignment="Stretch"
+                            ItemsSource="{Binding Suggestions}"
+                            ItemsSourceRequested="OnAutoCompleteBoxOnItemsSourceRequested"
+                            TabIndex="1"
+                            Text="{Binding Text,
+                                           Mode=TwoWay,
+                                           UpdateSourceTrigger=PropertyChanged}">
+            <ui:AutoCompleteBox.ItemTemplate>
+                <DataTemplate DataType="paranoia:MailContactContext">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="32" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0"
+                               Width="20"
+                               Source="{Binding Address,
+                                                IsAsync=True,
+                                                Converter={StaticResource GravatarImageConverter}}" />
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Foreground="{StaticResource AppLightTextBrush}" Text="{Binding Name}" />
+                            <TextBlock Foreground="{StaticResource AppMediumTextBrush}" Text="{Binding Address}" />
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ui:AutoCompleteBox.ItemTemplate>
+        </ui:AutoCompleteBox>
+        <RichTextBox Grid.Row="2"
                      Grid.Column="0"
                      Grid.ColumnSpan="2"
                      HorizontalAlignment="Stretch"
                      VerticalAlignment="Stretch"
-                     Background="{StaticResource AppControlBrush}" />
-        <ui:AutoCompleteBox Grid.Row="2"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="2"
-                            HorizontalAlignment="Stretch"
-                            ItemsSourceRequested="OnAutoCompleteBoxOnItemsSourceRequested" />
+                     Background="{StaticResource AppControlBrush}"
+                     TabIndex="2" />
         <Button Grid.Row="3"
                 Grid.Column="0"
                 HorizontalAlignment="Left"
-                Style="{StaticResource AppCircleButtonStyle}">
+                Style="{StaticResource AppCircleButtonStyle}"
+                TabIndex="3">
             <Image Width="20" Source="/Assets/send.png" />
         </Button>
     </Grid>

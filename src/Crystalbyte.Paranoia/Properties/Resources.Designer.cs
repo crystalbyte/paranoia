@@ -79,6 +79,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string CloseOverlayCommandTooltip {
+            get {
+                return ResourceManager.GetString("CloseOverlayCommandTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Compose Message.
         /// </summary>
         public static string ComposeMessagePageTitle {
