@@ -25,18 +25,22 @@
                                           HorizontalScrollBarVisibility="Hidden"
                                           VerticalScrollBarVisibility="Hidden" />
                             <Popup x:Name="PART_SuggestionHost"
+                                   HorizontalOffset="-3"
                                    IsOpen="False"
+                                   Placement="Bottom"
+                                   PlacementTarget="{Binding ElementName=PART_ContentHost}"
                                    SnapsToDevicePixels="True"
-                                   StaysOpen="False">
+                                   StaysOpen="False"
+                                   VerticalOffset="5">
                                 <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
                                     <ListView MinWidth="300"
                                               MinHeight="150"
                                               Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                                                                  ResourceId=AppMenuBackgroundColor}}"
                                               BorderThickness="0"
-                                              ItemTemplate="{Binding Source={RelativeSource TemplatedParent}}"
-                                              ItemsPanel="{Binding Source={RelativeSource TemplatedParent}}"
-                                              ItemsSource="{Binding Source={RelativeSource TemplatedParent}}" />
+                                              ItemTemplate="{TemplateBinding ItemTemplate}"
+                                              ItemsPanel="{TemplateBinding ItemsPanel}"
+                                              ItemsSource="{TemplateBinding ItemsSource}" />
                                 </Border>
                             </Popup>
                         </Grid>

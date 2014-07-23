@@ -60,6 +60,7 @@ namespace Crystalbyte.Paranoia {
         public async Task QueryRecipientsAsync() {
             var text = Text;
             var account = App.Context.SelectedAccount;
+
             using (var database = new DatabaseContext()) {
                 var candidates = await database.MailContacts
                     .Where(x => x.AccountId == account.Id)
@@ -68,7 +69,6 @@ namespace Crystalbyte.Paranoia {
 
                 _suggestions.Clear();
                 _suggestions.AddRange(candidates.Select(x => new MailContactContext(x)));
-                RaisePropertyChanged(() => Suggestions);
             }
         }
     }
