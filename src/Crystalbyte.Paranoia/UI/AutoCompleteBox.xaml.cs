@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Reactive.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Threading;
@@ -8,17 +9,20 @@ using System.Windows.Controls.Primitives;
 
 namespace Crystalbyte.Paranoia.UI {
     [TemplatePart(Name = SuggestionHostPartName, Type = typeof(Popup))]
+    [TemplatePart(Name = SuggestionListPartName, Type = typeof(ListView))]
     public sealed class AutoCompleteBox : TextBox {
 
         #region Xaml Support
 
         private const string SuggestionHostPartName = "PART_SuggestionHost";
+        private const string SuggestionListPartName = "PART_SuggestionList";
 
         #endregion
 
         #region Private Fields
 
         private Popup _suggestionHost;
+        private ListView _suggestionList;
 
         #endregion
 
@@ -92,6 +96,7 @@ namespace Crystalbyte.Paranoia.UI {
             base.OnApplyTemplate();
 
             _suggestionHost = (Popup) Template.FindName(SuggestionHostPartName, this);
+            _suggestionList = (ListView)Template.FindName(SuggestionListPartName, this);
         }
 
         #endregion

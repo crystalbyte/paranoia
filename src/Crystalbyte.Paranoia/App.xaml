@@ -42,7 +42,7 @@
             <Color x:Key="AppShadeColor">Black</Color>
             <SolidColorBrush x:Key="AppShadeBrush" Color="{StaticResource AppShadeColor}" />
 
-            <Color x:Key="AppMenuBackgroundColor">#515151</Color>
+            <Color x:Key="AppMenuBackgroundColor">#111111</Color>
             <SolidColorBrush x:Key="AppMenuBackgroundBrush" Color="{StaticResource AppMenuBackgroundColor}" />
             <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppMenuBackgroundBrush}" Color="{StaticResource AppMenuBackgroundColor}" />
 

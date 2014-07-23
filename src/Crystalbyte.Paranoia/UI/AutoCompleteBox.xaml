@@ -7,6 +7,13 @@
         <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppControlBrush}}" />
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppLightTextBrush}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppTextBorderBrush}}" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="2" />
         <Setter Property="Margin" Value="0,3,0,3" />
@@ -33,10 +40,11 @@
                                    StaysOpen="False"
                                    VerticalOffset="5">
                                 <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
-                                    <ListView MinWidth="300"
+                                    <ListView x:Name="PART_SuggestionList"
+                                              MinWidth="300"
                                               MinHeight="150"
                                               Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
-                                                                                                 ResourceId=AppMenuBackgroundColor}}"
+                                                                                                 ResourceId=AppMenuBackgroundBrush}}"
                                               BorderThickness="0"
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
                                               ItemsPanel="{TemplateBinding ItemsPanel}"

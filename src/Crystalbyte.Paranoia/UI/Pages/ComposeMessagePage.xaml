@@ -47,10 +47,12 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Image Grid.Column="0"
-                               Width="20"
+                               Margin="2"
+                               HorizontalAlignment="Stretch"
                                Source="{Binding Address,
                                                 IsAsync=True,
-                                                Converter={StaticResource GravatarImageConverter}}" />
+                                                Converter={StaticResource GravatarImageConverter}}"
+                               Stretch="UniformToFill" />
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Foreground="{StaticResource AppLightTextBrush}" Text="{Binding Name}" />
                             <TextBlock Foreground="{StaticResource AppMediumTextBrush}" Text="{Binding Address}" />
