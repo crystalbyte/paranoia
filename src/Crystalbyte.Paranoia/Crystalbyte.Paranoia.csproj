@@ -133,6 +133,7 @@
     <Compile Include="UI\AutoCompleteBox.xaml.cs">
       <DependentUpon>AutoCompleteBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\AutoCompleteBoxCommands.cs" />
     <Compile Include="UI\Commands\RelayCommand.cs" />
     <Compile Include="UI\Commands\SendCommand.cs" />
     <Compile Include="UI\ItemsSourceRequestedEventArgs.cs" />

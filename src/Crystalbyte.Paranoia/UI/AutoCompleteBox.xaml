@@ -15,7 +15,7 @@
             </Setter.Value>
         </Setter>
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Padding" Value="2" />
+        <Setter Property="Padding" Value="0,2,0,2" />
         <Setter Property="Margin" Value="0,3,0,3" />
         <Setter Property="Template">
             <Setter.Value>
@@ -31,7 +31,7 @@
                                           Focusable="False"
                                           HorizontalScrollBarVisibility="Hidden"
                                           VerticalScrollBarVisibility="Hidden" />
-                            <Popup x:Name="PART_SuggestionHost"
+                            <Popup x:Name="PART_AutoCompletePopup"
                                    HorizontalOffset="-3"
                                    IsOpen="False"
                                    Placement="Bottom"
@@ -39,7 +39,7 @@
                                    StaysOpen="False"
                                    VerticalOffset="5">
                                 <Border Background="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True">
-                                    <ListView x:Name="PART_SuggestionList"
+                                    <ListView x:Name="PART_AutoCompleteHost"
                                               MinWidth="300"
                                               MinHeight="150"
                                               Margin="1"

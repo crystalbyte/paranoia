@@ -109,6 +109,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -135,7 +136,7 @@
                    Opacity="{StaticResource AppShadeOpacity}"
                    RenderOptions.EdgeMode="Aliased" />
         <Image Grid.Row="0"
-               Grid.RowSpan="3"
+               Grid.RowSpan="4"
                Grid.Column="0"
                Grid.ColumnSpan="5"
                Margin="0"
@@ -150,15 +151,18 @@
                    Visibility="Hidden" />
         <DockPanel Grid.Row="0"
                    Grid.Column="0"
+                   Margin="6,0,0,0"
+                   VerticalAlignment="Center"
+                   Panel.ZIndex="1000"
                    LastChildFill="True">
             <Image Height="20"
-                   Margin="8"
+                   Margin="0,0,6,0"
                    VerticalAlignment="Center"
                    DockPanel.Dock="Left"
                    Source="{Binding Icon,
                                     RelativeSource={RelativeSource FindAncestor,
                                                                    AncestorType=paranoia:MainWindow}}" />
-            <TextBlock Margin="0,-3,0,0"
+            <TextBlock Margin="0,-2,0,0"
                        VerticalAlignment="Center"
                        FontSize="17"
                        Style="{StaticResource AppTitleTextStyle}"
@@ -170,6 +174,7 @@
               Grid.Column="0"
               Grid.ColumnSpan="5"
               HorizontalAlignment="Right"
+              VerticalAlignment="Top"
               Panel.ZIndex="2000">
             <Grid.ColumnDefinitions>
                 <!--  help button  -->
@@ -201,15 +206,9 @@
                                                                         AncestorType=paranoia:MainWindow}}" />
             <Button Grid.Column="4" Style="{DynamicResource {ComponentResourceKey ResourceId=CloseButtonStyle, TypeInTargetAssembly={x:Type paranoia:App}}}" />
         </Grid>
-        <Rectangle Grid.Row="1"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="5"
-                   MinHeight="43.2"
-                   Margin="0"
-                   Fill="{StaticResource AppShadeBrush}"
-                   Opacity="{StaticResource AppShadeOpacity}"
-                   RenderOptions.EdgeMode="Aliased" />
-        <Grid Grid.Row="2" Grid.Column="0">
+        <Grid Grid.Row="3"
+              Grid.Column="0"
+              Panel.ZIndex="200">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -224,7 +223,7 @@
             <Rectangle Grid.RowSpan="3"
                        Grid.Column="0"
                        Grid.ColumnSpan="2"
-                       Margin="0,0,0,8"
+                       Margin="0,0,0,4"
                        Fill="{StaticResource AppShadeBrush}"
                        Opacity="{StaticResource AppShadeOpacity}"
                        RenderOptions.EdgeMode="Aliased" />
@@ -269,7 +268,7 @@
             <Border Grid.Row="1"
                     Grid.RowSpan="2"
                     Grid.Column="1"
-                    Margin="8,8,8,24"
+                    Margin="8,8,8,8"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center">
                 <Button Command="{Binding WriteMessageCommand}" Style="{StaticResource AppCircleButtonStyle}">
@@ -285,7 +284,7 @@
                            FontSize="{StaticResource AppExtraLargeFontSize}"
                            Style="{StaticResource AppTitleTextStyle}">
                     <Run Text="{x:Static properties:Resources.ContactsTitle}" />
-                    <Run Foreground="{StaticResource AppControlBrush}" Text="{Binding Contacts, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
+                    <Run Foreground="{StaticResource AppMediumTextBrush}" Text="{Binding Contacts, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
                 </TextBlock>
             </Border>
             <ListView Grid.Row="4"
@@ -352,18 +351,18 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-        <GridSplitter Grid.Row="0"
+        <GridSplitter Grid.Row="1"
                       Grid.RowSpan="3"
                       Grid.Column="1"
                       Style="{StaticResource VerticalSplitterStyle}" />
         <StackPanel Grid.Row="0"
                     Grid.Column="2"
                     Grid.ColumnSpan="2"
-                    Margin="0,2,0,0"
-                    VerticalAlignment="Top"
+                    Margin="0"
+                    VerticalAlignment="Center"
                     Orientation="Horizontal">
             <TextBox x:Name="SearchBox"
-                     Margin="0,1,0,0"
+                     Margin="0,4,0,4"
                      Style="{StaticResource AppSearchTextBoxStyle}"
                      TabIndex="3"
                      Text="{Binding QueryString,
@@ -378,9 +377,17 @@
                 </TextBox.InputBindings>
             </TextBox>
         </StackPanel>
+        <Rectangle Grid.Row="1"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="5"
+                   Margin="0"
+                   Fill="{StaticResource AppShadeBrush}"
+                   Opacity="{StaticResource AppShadeOpacity}"
+                   RenderOptions.EdgeMode="Aliased" />
         <Grid Grid.Row="1"
               Grid.Column="2"
-              Grid.ColumnSpan="3">
+              Grid.ColumnSpan="3"
+              Margin="0">
             <ListView HorizontalContentAlignment="Stretch"
                       Background="Transparent"
                       BorderThickness="0"
@@ -399,7 +406,7 @@
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}">
                         <Setter Property="Margin" Value="0" />
-                        <Setter Property="Padding" Value="12,2,12,2" />
+                        <Setter Property="Padding" Value="8,1,8,1" />
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                     </Style>
                 </ListView.ItemContainerStyle>
@@ -413,7 +420,7 @@
                         <Grid x:Name="MailboxLayoutRoot">
                             <TextBlock Margin="3"
                                        VerticalAlignment="Center"
-                                       FontSize="{StaticResource AppLargeFontSize}"
+                                       FontSize="{StaticResource AppMediumLargeFontSize}"
                                        FontWeight="Thin"
                                        Style="{StaticResource AppNormalTextStyle}"
                                        Text="{Binding Type,
@@ -529,9 +536,9 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-        <Grid Grid.Row="2"
+        <Grid Grid.Row="3"
               Grid.Column="2"
-              Margin="0,8,0,0">
+              Margin="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -689,13 +696,13 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-        <GridSplitter Grid.Row="0"
+        <GridSplitter Grid.Row="1"
                       Grid.RowSpan="3"
                       Grid.Column="3"
                       Style="{StaticResource VerticalSplitterStyle}" />
-        <Grid Grid.Row="2"
+        <Grid Grid.Row="3"
               Grid.Column="4"
-              Margin="0,8,0,0">
+              Margin="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -794,7 +801,7 @@
         </Grid>
         <Grid x:Name="Overlay"
               Grid.Row="0"
-              Grid.RowSpan="3"
+              Grid.RowSpan="4"
               Grid.Column="0"
               Grid.ColumnSpan="5"
               Panel.ZIndex="1000"

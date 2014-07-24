@@ -12,21 +12,21 @@ using System.Windows.Input;
 using Crystalbyte.Paranoia.UI.Commands;
 
 namespace Crystalbyte.Paranoia.UI {
-    [TemplatePart(Name = SuggestionHostPartName, Type = typeof(Popup))]
-    [TemplatePart(Name = SuggestionListPartName, Type = typeof(ListView))]
+    [TemplatePart(Name = AutoCompletePopupPartName, Type = typeof(Popup))]
+    [TemplatePart(Name = AutoCompleteHostPartName, Type = typeof(ListView))]
     public sealed class AutoCompleteBox : RichTextBox {
 
         #region Xaml Support
 
-        private const string SuggestionHostPartName = "PART_SuggestionHost";
-        private const string SuggestionListPartName = "PART_SuggestionList";
+        private const string AutoCompletePopupPartName = "PART_AutoCompletePopup";
+        private const string AutoCompleteHostPartName = "PART_AutoCompleteHost";
 
         #endregion
 
         #region Private Fields
 
-        private Popup _suggestionHost;
-        private ListView _suggestionList;
+        private Popup _autoCompletePopup;
+        private ListView _autoCompleteHost;
         private readonly ICommand _selectCommand;
         private readonly List<ITokenMatcher> _tokenMatchers;
         private bool _suppressRecognition;
@@ -43,7 +43,13 @@ namespace Crystalbyte.Paranoia.UI {
         public AutoCompleteBox() {
             _tokenMatchers = new List<ITokenMatcher> { new MailAddressTokenMatcher() };
             _selectCommand = new RelayCommand(OnSelectCommandExecuted);
+
+            CommandBindings.Add(new CommandBinding(AutoCompleteBoxCommands.Delete, DeleteToken));
+            CommandBindings.Add(new CommandBinding(AutoCompleteBoxCommands.AutoComplete, AutoComplete));
+            CommandBindings.Add(new CommandBinding(AutoCompleteBoxCommands.CloseAutoComplete, CloseAutoComplete));
         }
+
+   
 
         #endregion
 
@@ -131,7 +137,7 @@ namespace Crystalbyte.Paranoia.UI {
         protected override void OnPreviewKeyUp(KeyEventArgs e) {
             base.OnPreviewKeyUp(e);
 
-            if (e.Key == Key.Down && _suggestionHost.IsOpen) {
+            if (e.Key == Key.Down && _autoCompletePopup.IsOpen) {
                 SelectFirstElement();
                 e.Handled = true;
                 return;
@@ -139,7 +145,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             var container = GetFirstItem();
             if (e.Key != Key.Up
-                || !_suggestionHost.IsOpen
+                || !_autoCompletePopup.IsOpen
                 || !container.IsSelected)
                 return;
 
@@ -203,13 +209,25 @@ namespace Crystalbyte.Paranoia.UI {
         public override void OnApplyTemplate() {
             base.OnApplyTemplate();
 
-            _suggestionHost = (Popup)Template.FindName(SuggestionHostPartName, this);
-            _suggestionList = (ListView)Template.FindName(SuggestionListPartName, this);
+            _autoCompletePopup = (Popup)Template.FindName(AutoCompletePopupPartName, this);
+            _autoCompleteHost = (ListView)Template.FindName(AutoCompleteHostPartName, this);
         }
 
         #endregion
 
         #region Methods
+
+        private void CloseAutoComplete(object sender, ExecutedRoutedEventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        private void AutoComplete(object sender, ExecutedRoutedEventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        private void DeleteToken(object sender, ExecutedRoutedEventArgs e) {
+            throw new NotImplementedException();
+        }
 
         private void FocusInputControl(ListBoxItem item) {
             item.IsSelected = false;
@@ -225,7 +243,7 @@ namespace Crystalbyte.Paranoia.UI {
             if (item == null)
                 return null;
 
-            return _suggestionList.ItemContainerGenerator
+            return _autoCompleteHost.ItemContainerGenerator
                 .ContainerFromItem(item) as ListViewItem;
         }
 
@@ -239,7 +257,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         internal void Close() {
-            _suggestionHost.IsOpen = false;
+            _autoCompletePopup.IsOpen = false;
         }
 
         private void OnSelectCommandExecuted(object obj) {
@@ -256,9 +274,9 @@ namespace Crystalbyte.Paranoia.UI {
 
             var source = ItemsSource as ICollection;
             if (source != null && source.Count > 0) {
-                _suggestionHost.IsOpen = true;
+                _autoCompletePopup.IsOpen = true;
             } else {
-                _suggestionHost.IsOpen = false;
+                _autoCompletePopup.IsOpen = false;
             }
         }
 
