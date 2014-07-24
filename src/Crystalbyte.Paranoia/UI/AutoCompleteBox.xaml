@@ -7,6 +7,7 @@
         <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppControlBrush}}" />
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppLightTextBrush}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App, ResourceId=AppTextBorderBrush}}" />
+        <Setter Property="FontSize" Value="{StaticResource AppNormalFontSize}" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -32,7 +33,6 @@
                                           HorizontalScrollBarVisibility="Hidden"
                                           VerticalScrollBarVisibility="Hidden" />
                             <Popup x:Name="PART_AutoCompletePopup"
-                                   HorizontalOffset="-3"
                                    IsOpen="False"
                                    Placement="Bottom"
                                    PlacementTarget="{Binding ElementName=PART_ContentHost}"
@@ -52,7 +52,8 @@
                                               ItemsSource="{TemplateBinding ItemsSource}"
                                               KeyboardNavigation.DirectionalNavigation="Contained">
                                         <ListView.InputBindings>
-                                            <KeyBinding Key="Tab" Command="{Binding SelectCommand}" />
+                                            <KeyBinding Key="Enter" Command="ui:AutoCompleteBoxCommands.Select" />
+                                            <KeyBinding Key="Tab" Command="ui:AutoCompleteBoxCommands.Select" />
                                         </ListView.InputBindings>
                                     </ListView>
                                 </Border>
@@ -64,10 +65,10 @@
                             <Setter TargetName="border" Property="Opacity" Value="0.56" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="#FF7EB4EA" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="LightSteelBlue" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="#FF569DE5" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource AppAccentBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

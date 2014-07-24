@@ -775,12 +775,11 @@
                   Margin="24,12,24,24"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch">
-                <Frame x:Name="HtmlFrame"
-                       NavigationUIVisibility="Hidden"
-                       Visibility="{Binding Html,
-                                            Converter={StaticResource NullToVisibilityConverter}}"
-                       ui:FrameExtensions.BindableSource="{Binding Html,
-                                                                   Mode=OneWay}" />
+                <RichTextBox Background="Transparent"
+                             BorderThickness="0"
+                             IsReadOnly="True"
+                             ui:RichTextBoxExtensions.BindableText="{Binding Html,
+                                                                             Mode=OneWay}" />
                 <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock Margin="6"

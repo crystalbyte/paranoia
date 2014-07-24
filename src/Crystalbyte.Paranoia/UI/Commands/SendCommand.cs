@@ -21,6 +21,12 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         public event EventHandler CanExecuteChanged;
 
+        public void OnCanExecuteChanged() {
+            var handler = CanExecuteChanged;
+            if (handler != null) 
+                handler(this, EventArgs.Empty);
+        }
+
         public void Execute(object parameter) {
             MessageBox.Show("Not yet implemented.");
         }

@@ -72,9 +72,6 @@ namespace Crystalbyte.Paranoia {
 
         private void OnSlideOutOverlayCompleted(object sender, EventArgs e) {
             Overlay.Visibility = Visibility.Collapsed;
-            if (!string.IsNullOrEmpty(App.Context.Html)) {
-                HtmlFrame.Visibility = Visibility.Visible;
-            }
         }
 
         private void HookUpControls() {
@@ -93,7 +90,6 @@ namespace Crystalbyte.Paranoia {
         private void ShowOverlay() {
             IsOverlayVisible = true;
             Overlay.Visibility = Visibility.Visible;
-            HtmlFrame.Visibility = Visibility.Collapsed;
             _slideInOverlayStoryboard.Begin();
         }
 

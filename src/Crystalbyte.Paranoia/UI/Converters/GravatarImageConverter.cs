@@ -10,7 +10,10 @@ namespace Crystalbyte.Paranoia.UI.Converters {
     [ValueConversion(typeof (string), typeof (string))]
     public sealed class GravatarImageConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            return Gravatar.CreateImageUrl((string) value);
+            var p = parameter as string;
+            return !string.IsNullOrEmpty(p) 
+                ? Gravatar.CreateImageUrl((string)value, int.Parse(p)) 
+                : Gravatar.CreateImageUrl((string) value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

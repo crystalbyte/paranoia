@@ -9,7 +9,6 @@ using System.Threading;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
-using Crystalbyte.Paranoia.UI.Commands;
 
 namespace Crystalbyte.Paranoia.UI {
     [TemplatePart(Name = AutoCompletePopupPartName, Type = typeof(Popup))]
@@ -27,7 +26,6 @@ namespace Crystalbyte.Paranoia.UI {
 
         private Popup _autoCompletePopup;
         private ListView _autoCompleteHost;
-        private readonly ICommand _selectCommand;
         private readonly List<ITokenMatcher> _tokenMatchers;
         private bool _suppressRecognition;
 
@@ -42,14 +40,9 @@ namespace Crystalbyte.Paranoia.UI {
 
         public AutoCompleteBox() {
             _tokenMatchers = new List<ITokenMatcher> { new MailAddressTokenMatcher() };
-            _selectCommand = new RelayCommand(OnSelectCommandExecuted);
 
-            CommandBindings.Add(new CommandBinding(AutoCompleteBoxCommands.Delete, DeleteToken));
-            CommandBindings.Add(new CommandBinding(AutoCompleteBoxCommands.AutoComplete, AutoComplete));
-            CommandBindings.Add(new CommandBinding(AutoCompleteBoxCommands.CloseAutoComplete, CloseAutoComplete));
+            CommandBindings.Add(new CommandBinding(AutoCompleteBoxCommands.Select, OnSelectContact));
         }
-
-   
 
         #endregion
 
@@ -69,10 +62,6 @@ namespace Crystalbyte.Paranoia.UI {
 
         public string Text {
             get { return CaretPosition.GetTextInRun(LogicalDirection.Backward); }
-        }
-
-        public ICommand SelectCommand {
-            get { return _selectCommand; }
         }
 
         public ICollection<ITokenMatcher> TokenMatchers {
@@ -128,8 +117,6 @@ namespace Crystalbyte.Paranoia.UI {
         public static readonly DependencyProperty StringTokenTemplateProperty =
             DependencyProperty.Register("StringTokenTemplate", typeof(DataTemplate), typeof(AutoCompleteBox), new PropertyMetadata(null));
 
-
-
         #endregion
 
         #region Class Overrides
@@ -167,40 +154,42 @@ namespace Crystalbyte.Paranoia.UI {
             TextChanged += OnTextChanged;
         }
 
-        private void OnTextChanged(object sender, TextChangedEventArgs e) {
-            if (_suppressRecognition) {
-                return;
-            }
-
-            var text = CaretPosition.GetTextInRun(LogicalDirection.Backward);
-            var success = _tokenMatchers.Any(x => x.IsMatch(text));
-            if (!success) {
-                return;
-            }
-
-            CreateToken(text);
-        }
-
-        private void CreateToken(string text) {
-            var container = CreateTokenContainerFromString(text);
-            var paragraph = CaretPosition.Paragraph;
-            if (paragraph == null) {
-                throw new Exception("?");
-            }
+        private void AppendContainer(Inline container) {
             _suppressRecognition = true;
-            paragraph.Inlines.Add(container);
+
+            CaretPosition = CaretPosition.DocumentEnd;
+            var length = CaretPosition.GetTextRunLength(LogicalDirection.Backward);
+            CaretPosition = CaretPosition.GetPositionAtOffset(-length);
+
+            if (CaretPosition != null) {
+                CaretPosition.DeleteTextInRun(length);
+
+                var paragraph = CaretPosition.Paragraph;
+                if (paragraph != null) {
+                    paragraph.Inlines.Add(container);
+                }
+
+                CaretPosition = CaretPosition.DocumentEnd;
+            }
+
             _suppressRecognition = false;
         }
 
+        private static InlineUIContainer CreateContainer(UIElement presenter) {
+            return new InlineUIContainer(presenter) {
+                BaselineAlignment = BaselineAlignment.Center
+            };
+        }
+
         private InlineUIContainer CreateTokenContainerFromString(string value) {
-            return new InlineUIContainer(new ContentPresenter {
+            return CreateContainer(new ContentPresenter {
                 Content = value,
                 ContentTemplate = StringTokenTemplate
             });
         }
 
         private InlineUIContainer CreateTokenContainerFromItem(object value) {
-            return new InlineUIContainer(new ContentPresenter {
+            return CreateContainer(new ContentPresenter {
                 Content = value,
                 ContentTemplate = TokenTemplate
             });
@@ -217,16 +206,16 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Methods
 
-        private void CloseAutoComplete(object sender, ExecutedRoutedEventArgs e) {
-            throw new NotImplementedException();
+        public void Preset(params string[] strings) {
+            foreach (var token in strings.Select(CreateTokenContainerFromString)) {
+                AppendContainer(token);
+            }
         }
 
-        private void AutoComplete(object sender, ExecutedRoutedEventArgs e) {
-            throw new NotImplementedException();
-        }
-
-        private void DeleteToken(object sender, ExecutedRoutedEventArgs e) {
-            throw new NotImplementedException();
+        public void Preset(params object[] items) {
+            foreach (var token in items.Select(CreateTokenContainerFromItem)) {
+                AppendContainer(token);
+            }
         }
 
         private void FocusInputControl(ListBoxItem item) {
@@ -260,13 +249,19 @@ namespace Crystalbyte.Paranoia.UI {
             _autoCompletePopup.IsOpen = false;
         }
 
-        private void OnSelectCommandExecuted(object obj) {
+        private void OnSelectContact(object sender, EventArgs e) {
             CommitSelection();
+            Focus();
+        }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e) {
+            RecognizeMatches();
         }
 
         private void CommitSelection() {
-            var container = GetFirstItem();
-
+            var item = _autoCompleteHost.SelectedItem;
+            var token = CreateTokenContainerFromItem(item);
+            AppendContainer(token);
         }
 
         private void OnTextChangeConfirmed(string text) {
@@ -278,6 +273,22 @@ namespace Crystalbyte.Paranoia.UI {
             } else {
                 _autoCompletePopup.IsOpen = false;
             }
+        }
+
+        private void RecognizeMatches() {
+            if (_suppressRecognition) {
+                return;
+            }
+
+            var text = CaretPosition.GetTextInRun(LogicalDirection.Backward);
+            var match = string.Empty;
+            var success = _tokenMatchers.Any(x => x.TryMatch(text, out match));
+
+            if (!success)
+                return;
+
+            var container = CreateTokenContainerFromString(match);
+            AppendContainer(container);
         }
 
         #endregion

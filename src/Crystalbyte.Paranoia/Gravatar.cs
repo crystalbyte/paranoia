@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Crystalbyte.Paranoia {
     internal static class Gravatar {
-        public static string CreateImageUrl(string address) {
+        public static string CreateImageUrl(string address, int size = 200) {
             if (string.IsNullOrWhiteSpace(address)) {
                 return address;
             }
@@ -18,7 +18,7 @@ namespace Crystalbyte.Paranoia {
                     foreach (var b in bytes) {
                         writer.Write(b.ToString("x2"));
                     }
-                    return string.Format("http://www.gravatar.com/avatar/{0}?s=200&d=mm", writer);
+                    return string.Format("http://www.gravatar.com/avatar/{0}?s={1}&d=mm", writer, size);
                 }
             }
         }

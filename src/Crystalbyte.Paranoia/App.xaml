@@ -334,7 +334,7 @@
             <Style x:Key="AppSubtitleTextStyle"
                    BasedOn="{StaticResource AppLightTextStyle}"
                    TargetType="{x:Type TextBlock}">
-                <Setter Property="Margin" Value="0,3,0,3" />
+                <Setter Property="Margin" Value="0,2,0,2" />
                 <Setter Property="Foreground" Value="{StaticResource AppMediumTextBrush}" />
                 <Setter Property="FontSize" Value="{StaticResource AppMediumFontSize}" />
             </Style>
@@ -342,19 +342,21 @@
             <Style TargetType="{x:Type RichTextBox}">
                 <Setter Property="BorderBrush" Value="{StaticResource AppTextBorderBrush}" />
                 <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
-                <Setter Property="Padding" Value="0,3,0,3" />
+                <Setter Property="Padding" Value="0,2,0,2" />
                 <Setter Property="Margin" Value="0,3,0,3" />
+                <Setter Property="FontSize" Value="{StaticResource AppNormalFontSize}" />
                 <Setter Property="FontWeight" Value="Thin" />
             </Style>
 
             <Style TargetType="{x:Type TextBox}">
                 <Setter Property="FontWeight" Value="Thin" />
+                <Setter Property="FontSize" Value="{StaticResource AppNormalFontSize}" />
                 <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ValidationErrorTemplate}" />
                 <Setter Property="BorderBrush" Value="{StaticResource AppTextBorderBrush}" />
                 <Setter Property="Background" Value="{StaticResource AppControlBrush}" />
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
-                <Setter Property="Padding" Value="2" />
+                <Setter Property="Padding" Value="1,2,1,2" />
                 <Setter Property="Margin" Value="0,3,0,3" />
                 <Setter Property="Template">
                     <Setter.Value>
@@ -394,9 +396,7 @@
             <Style x:Key="AppSearchTextBoxStyle"
                    BasedOn="{StaticResource {x:Type TextBox}}"
                    TargetType="TextBox">
-                <Setter Property="FontSize" Value="{StaticResource AppNormalFontSize}" />
                 <Setter Property="Foreground" Value="{StaticResource AppMediumTextBrush}" />
-                <Setter Property="Padding" Value="1,2,1,2" />
                 <Setter Property="Margin" Value="0" />
                 <Setter Property="Width" Value="200" />
                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />

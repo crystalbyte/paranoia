@@ -204,7 +204,7 @@
     <Compile Include="UI\Watermark.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\FrameExtensions.cs" />
+    <Compile Include="UI\RichTextBoxExtensions.cs" />
     <Compile Include="UI\WindowCommands.cs" />
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
