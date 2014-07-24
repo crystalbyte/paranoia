@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.UI;
 
 #endregion
@@ -16,8 +17,12 @@ namespace Crystalbyte.Paranoia {
     /// </summary>
     public partial class MainWindow {
 
+        #region Private Fields
+
         private Storyboard _slideInOverlayStoryboard;
         private Storyboard _slideOutOverlayStoryboard;
+
+        #endregion
 
         #region Construction
 
@@ -29,7 +34,20 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnCloseOverlay(object sender, ExecutedRoutedEventArgs e) {
-            _slideOutOverlayStoryboard.Begin();
+            HideOverlay();
+        }
+
+        #endregion
+
+        #region Public Events
+
+        public event EventHandler OverlayChanged;
+
+        private void OnOverlayChanged() {
+            var handler = OverlayChanged;
+            if (handler != null) {
+                handler(this, EventArgs.Empty);
+            }
         }
 
         #endregion
@@ -67,15 +85,38 @@ namespace Crystalbyte.Paranoia {
             App.Context.NavigationRequested += OnNavigationRequested;
         }
 
-        private void OnNavigationRequested(object sender, Contexts.NavigationRequestedEventArgs e) {
+        private void OnNavigationRequested(object sender, NavigationRequestedEventArgs e) {
+            ContentFrame.Navigate(e.Target);
+            ShowOverlay();
+        }
+
+        private void ShowOverlay() {
+            IsOverlayVisible = true;
             Overlay.Visibility = Visibility.Visible;
             HtmlFrame.Visibility = Visibility.Collapsed;
-            ContentFrame.Navigate(e.Target);
-
             _slideInOverlayStoryboard.Begin();
         }
 
+        private void HideOverlay() {
+            IsOverlayVisible = false;
+            _slideOutOverlayStoryboard.Begin();
+        }
+
         #endregion
+
+        public bool IsOverlayVisible {
+            get { return (bool)GetValue(IsOverlayVisibleProperty); }
+            set { SetValue(IsOverlayVisibleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsOverlayVisible.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsOverlayVisibleProperty =
+            DependencyProperty.Register("IsOverlayVisible", typeof(bool), typeof(MainWindow), new PropertyMetadata(false, OnIsOverlayChanged));
+
+        private static void OnIsOverlayChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            var window = (MainWindow) d;
+            window.OnOverlayChanged();
+        }
 
         private void OnMessageSelectionChanged(object sender, SelectionChangedEventArgs e) {
             var view = (ListView) sender;

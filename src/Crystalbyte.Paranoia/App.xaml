@@ -23,6 +23,7 @@
             <!--  Sizes  -->
             <system:Double x:Key="AppExtraLargeFontSize">28</system:Double>
             <system:Double x:Key="AppLargeFontSize">22</system:Double>
+            <system:Double x:Key="AppMediumLargeFontSize">16</system:Double>
             <system:Double x:Key="AppMediumFontSize">15</system:Double>
             <system:Double x:Key="AppNormalFontSize">12</system:Double>
             <system:Double x:Key="AppSmallFontSize">10</system:Double>
@@ -343,9 +344,11 @@
                 <Setter Property="Foreground" Value="{StaticResource AppLightTextBrush}" />
                 <Setter Property="Padding" Value="0,3,0,3" />
                 <Setter Property="Margin" Value="0,3,0,3" />
+                <Setter Property="FontWeight" Value="Thin" />
             </Style>
 
             <Style TargetType="{x:Type TextBox}">
+                <Setter Property="FontWeight" Value="Thin" />
                 <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ValidationErrorTemplate}" />
                 <Setter Property="BorderBrush" Value="{StaticResource AppTextBorderBrush}" />
                 <Setter Property="Background" Value="{StaticResource AppControlBrush}" />

@@ -1,17 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Crystalbyte.Paranoia.UI.Pages {
     /// <summary>
@@ -23,14 +11,28 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             DataContext = new MailCompositionContext();
             InitializeComponent();
             Loaded += OnLoaded;
+
+            var window = (MainWindow)Application.Current.MainWindow;
+            window.OverlayChanged += OnOverlayChanged;
+        }
+
+        private void OnOverlayChanged(object sender, EventArgs e) {
+            var window = (MainWindow)Application.Current.MainWindow;
+            if (!window.IsOverlayVisible) {
+                SuggestionBox.Close();
+            }
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
             SubjectTextBox.Focus();
         }
 
-        private async void OnAutoCompleteBoxOnItemsSourceRequested(object sender, EventArgs e) {
-            await ((MailCompositionContext) DataContext).QueryRecipientsAsync();
+        public MailCompositionContext Composition {
+            get { return (MailCompositionContext) DataContext; }
+        }
+
+        private async void OnAutoCompleteBoxOnItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
+            await Composition.QueryRecipientsAsync(e.Text);
         }
     }
 }

@@ -57,8 +57,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public async Task QueryRecipientsAsync() {
-            var text = Text;
+        public async Task QueryRecipientsAsync(string text) {
             var account = App.Context.SelectedAccount;
 
             using (var database = new DatabaseContext()) {

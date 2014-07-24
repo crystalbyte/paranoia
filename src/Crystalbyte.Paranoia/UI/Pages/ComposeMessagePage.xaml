@@ -5,6 +5,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+      xmlns:system="clr-namespace:System;assembly=mscorlib"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="{x:Static properties:Resources.ComposeMessagePageTitle}"
       d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}"
@@ -29,33 +30,56 @@
                  TabIndex="0"
                  Text="{Binding Subject,
                                 Mode=TwoWay}" />
-        <ui:AutoCompleteBox Grid.Row="1"
+        <ui:AutoCompleteBox x:Name="SuggestionBox"
+                            Grid.Row="1"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             HorizontalAlignment="Stretch"
                             ItemsSource="{Binding Suggestions}"
                             ItemsSourceRequested="OnAutoCompleteBoxOnItemsSourceRequested"
-                            TabIndex="1"
-                            Text="{Binding Text,
-                                           Mode=TwoWay,
-                                           UpdateSourceTrigger=PropertyChanged}">
+                            TabIndex="1">
+            <ui:AutoCompleteBox.StringTokenTemplate>
+                <DataTemplate DataType="system:String">
+                    <Border Background="{StaticResource AppBackgroundBrush}"
+                            BorderBrush="{StaticResource AppMenuBackgroundBrush}"
+                            BorderThickness="1">
+                        <TextBlock Text="{Binding}" />
+                    </Border>
+                </DataTemplate>
+            </ui:AutoCompleteBox.StringTokenTemplate>
+            <ui:AutoCompleteBox.TokenTemplate>
+                <DataTemplate DataType="paranoia:MailContactContext">
+                    <Border Background="{StaticResource AppBackgroundBrush}"
+                            BorderBrush="{StaticResource AppMenuBackgroundBrush}"
+                            BorderThickness="1">
+                        <TextBlock Text="{Binding Name}" />
+                    </Border>
+                </DataTemplate>
+            </ui:AutoCompleteBox.TokenTemplate>
             <ui:AutoCompleteBox.ItemTemplate>
                 <DataTemplate DataType="paranoia:MailContactContext">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="32" />
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Image Grid.Column="0"
-                               Margin="2"
+                               Width="40"
+                               Margin="2,2,12,2"
                                HorizontalAlignment="Stretch"
+                               RenderOptions.BitmapScalingMode="Fant"
                                Source="{Binding Address,
                                                 IsAsync=True,
                                                 Converter={StaticResource GravatarImageConverter}}"
-                               Stretch="UniformToFill" />
+                               Stretch="Uniform" />
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Foreground="{StaticResource AppLightTextBrush}" Text="{Binding Name}" />
-                            <TextBlock Foreground="{StaticResource AppMediumTextBrush}" Text="{Binding Address}" />
+                            <TextBlock FontSize="{StaticResource AppMediumLargeFontSize}"
+                                       FontWeight="Thin"
+                                       Foreground="{StaticResource AppLightTextBrush}"
+                                       Text="{Binding Name}" />
+                            <TextBlock FontWeight="Thin"
+                                       Foreground="{StaticResource AppMediumTextBrush}"
+                                       Text="{Binding Address}" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

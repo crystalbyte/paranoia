@@ -36,19 +36,25 @@
                                    IsOpen="False"
                                    Placement="Bottom"
                                    PlacementTarget="{Binding ElementName=PART_ContentHost}"
-                                   SnapsToDevicePixels="True"
                                    StaysOpen="False"
                                    VerticalOffset="5">
-                                <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                                <Border Background="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True">
                                     <ListView x:Name="PART_SuggestionList"
                                               MinWidth="300"
                                               MinHeight="150"
+                                              Margin="1"
                                               Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=paranoia:App,
                                                                                                  ResourceId=AppMenuBackgroundBrush}}"
                                               BorderThickness="0"
+                                              Focusable="False"
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
                                               ItemsPanel="{TemplateBinding ItemsPanel}"
-                                              ItemsSource="{TemplateBinding ItemsSource}" />
+                                              ItemsSource="{TemplateBinding ItemsSource}"
+                                              KeyboardNavigation.DirectionalNavigation="Contained">
+                                        <ListView.InputBindings>
+                                            <KeyBinding Key="Tab" Command="{Binding SelectCommand}" />
+                                        </ListView.InputBindings>
+                                    </ListView>
                                 </Border>
                             </Popup>
                         </Grid>

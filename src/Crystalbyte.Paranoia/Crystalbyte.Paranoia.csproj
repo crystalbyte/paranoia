@@ -133,7 +133,11 @@
     <Compile Include="UI\AutoCompleteBox.xaml.cs">
       <DependentUpon>AutoCompleteBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Commands\RelayCommand.cs" />
     <Compile Include="UI\Commands\SendCommand.cs" />
+    <Compile Include="UI\ItemsSourceRequestedEventArgs.cs" />
+    <Compile Include="UI\ITokenMatcher.cs" />
+    <Compile Include="UI\MailAddressTokenMatcher.cs" />
     <Compile Include="UI\NavigationRequestedEventArgs.cs" />
     <Compile Include="Contexts\QueryStringEventArgs.cs" />
     <Compile Include="Contexts\SelectionObject.cs" />

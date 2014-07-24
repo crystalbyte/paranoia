@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Linq;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Threading;
 using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
+using System.Windows.Input;
+using Crystalbyte.Paranoia.UI.Commands;
 
 namespace Crystalbyte.Paranoia.UI {
     [TemplatePart(Name = SuggestionHostPartName, Type = typeof(Popup))]
     [TemplatePart(Name = SuggestionListPartName, Type = typeof(ListView))]
-    public sealed class AutoCompleteBox : TextBox {
+    public sealed class AutoCompleteBox : RichTextBox {
 
         #region Xaml Support
 
@@ -23,6 +27,9 @@ namespace Crystalbyte.Paranoia.UI {
 
         private Popup _suggestionHost;
         private ListView _suggestionList;
+        private readonly ICommand _selectCommand;
+        private readonly List<ITokenMatcher> _tokenMatchers;
+        private bool _suppressRecognition;
 
         #endregion
 
@@ -33,16 +40,37 @@ namespace Crystalbyte.Paranoia.UI {
                 new FrameworkPropertyMetadata(typeof(AutoCompleteBox)));
         }
 
+        public AutoCompleteBox() {
+            _tokenMatchers = new List<ITokenMatcher> { new MailAddressTokenMatcher() };
+            _selectCommand = new RelayCommand(OnSelectCommandExecuted);
+        }
+
         #endregion
 
         #region Public Events
 
-        public event EventHandler ItemsSourceRequested;
+        public event EventHandler<ItemsSourceRequestedEventArgs> ItemsSourceRequested;
 
-        private void OnItemsSourceRequested() {
+        private void OnItemsSourceRequested(ItemsSourceRequestedEventArgs e) {
             var handler = ItemsSourceRequested;
-            if (handler != null) 
-                handler(this, EventArgs.Empty);
+            if (handler != null)
+                handler(this, e);
+        }
+
+        #endregion
+
+        #region Property Declarations
+
+        public string Text {
+            get { return CaretPosition.GetTextInRun(LogicalDirection.Backward); }
+        }
+
+        public ICommand SelectCommand {
+            get { return _selectCommand; }
+        }
+
+        public ICollection<ITokenMatcher> TokenMatchers {
+            get { return _tokenMatchers; }
         }
 
         #endregion
@@ -76,9 +104,48 @@ namespace Crystalbyte.Paranoia.UI {
         public static readonly DependencyProperty ItemsPanelProperty =
             DependencyProperty.Register("ItemsPanel", typeof(ItemsPanelTemplate), typeof(AutoCompleteBox), new PropertyMetadata(null));
 
+        public DataTemplate TokenTemplate {
+            get { return (DataTemplate)GetValue(TokenTemplateProperty); }
+            set { SetValue(TokenTemplateProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TokenTemplate.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TokenTemplateProperty =
+            DependencyProperty.Register("TokenTemplate", typeof(DataTemplate), typeof(AutoCompleteBox), new PropertyMetadata(null));
+
+        public DataTemplate StringTokenTemplate {
+            get { return (DataTemplate)GetValue(StringTokenTemplateProperty); }
+            set { SetValue(StringTokenTemplateProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for StringTokenTemplate.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty StringTokenTemplateProperty =
+            DependencyProperty.Register("StringTokenTemplate", typeof(DataTemplate), typeof(AutoCompleteBox), new PropertyMetadata(null));
+
+
+
         #endregion
 
         #region Class Overrides
+
+        protected override void OnPreviewKeyUp(KeyEventArgs e) {
+            base.OnPreviewKeyUp(e);
+
+            if (e.Key == Key.Down && _suggestionHost.IsOpen) {
+                SelectFirstElement();
+                e.Handled = true;
+                return;
+            }
+
+            var container = GetFirstItem();
+            if (e.Key != Key.Up
+                || !_suggestionHost.IsOpen
+                || !container.IsSelected)
+                return;
+
+            FocusInputControl(container);
+            e.Handled = true;
+        }
 
         protected override void OnInitialized(EventArgs e) {
             base.OnInitialized(e);
@@ -88,14 +155,55 @@ namespace Crystalbyte.Paranoia.UI {
                 action => TextChanged -= action)
             .Throttle(TimeSpan.FromMilliseconds(250))
             .ObserveOn(SynchronizationContext.Current)
-            .Select(x => ((TextBox)x.Sender).Text)
+            .Select(x => ((AutoCompleteBox)x.Sender).Text)
             .Subscribe(OnTextChangeConfirmed);
+
+            TextChanged += OnTextChanged;
+        }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e) {
+            if (_suppressRecognition) {
+                return;
+            }
+
+            var text = CaretPosition.GetTextInRun(LogicalDirection.Backward);
+            var success = _tokenMatchers.Any(x => x.IsMatch(text));
+            if (!success) {
+                return;
+            }
+
+            CreateToken(text);
+        }
+
+        private void CreateToken(string text) {
+            var container = CreateTokenContainerFromString(text);
+            var paragraph = CaretPosition.Paragraph;
+            if (paragraph == null) {
+                throw new Exception("?");
+            }
+            _suppressRecognition = true;
+            paragraph.Inlines.Add(container);
+            _suppressRecognition = false;
+        }
+
+        private InlineUIContainer CreateTokenContainerFromString(string value) {
+            return new InlineUIContainer(new ContentPresenter {
+                Content = value,
+                ContentTemplate = StringTokenTemplate
+            });
+        }
+
+        private InlineUIContainer CreateTokenContainerFromItem(object value) {
+            return new InlineUIContainer(new ContentPresenter {
+                Content = value,
+                ContentTemplate = TokenTemplate
+            });
         }
 
         public override void OnApplyTemplate() {
             base.OnApplyTemplate();
 
-            _suggestionHost = (Popup) Template.FindName(SuggestionHostPartName, this);
+            _suggestionHost = (Popup)Template.FindName(SuggestionHostPartName, this);
             _suggestionList = (ListView)Template.FindName(SuggestionListPartName, this);
         }
 
@@ -103,14 +211,53 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Methods
 
+        private void FocusInputControl(ListBoxItem item) {
+            item.IsSelected = false;
+            Focus();
+        }
+
+        private ListViewItem GetFirstItem() {
+            var source = ItemsSource as IList;
+            if (source == null || source.Count <= 0)
+                return null;
+
+            var item = source[0];
+            if (item == null)
+                return null;
+
+            return _suggestionList.ItemContainerGenerator
+                .ContainerFromItem(item) as ListViewItem;
+        }
+
+        private void SelectFirstElement() {
+            var container = GetFirstItem();
+            if (container == null)
+                return;
+
+            container.Focus();
+            container.IsSelected = true;
+        }
+
+        internal void Close() {
+            _suggestionHost.IsOpen = false;
+        }
+
+        private void OnSelectCommandExecuted(object obj) {
+            CommitSelection();
+        }
+
+        private void CommitSelection() {
+            var container = GetFirstItem();
+
+        }
+
         private void OnTextChangeConfirmed(string text) {
-            OnItemsSourceRequested();
+            OnItemsSourceRequested(new ItemsSourceRequestedEventArgs(text));
 
             var source = ItemsSource as ICollection;
             if (source != null && source.Count > 0) {
                 _suggestionHost.IsOpen = true;
-            }
-            else {
+            } else {
                 _suggestionHost.IsOpen = false;
             }
         }

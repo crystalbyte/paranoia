@@ -11,7 +11,9 @@ using System.Text.RegularExpressions;
 namespace Crystalbyte.Paranoia.Mail {
     internal static class StringExtensions {
         public static string ToCommaSeparatedValues<T>(this IEnumerable<T> items) {
-            return items.Select(x => x.ToString()).Aggregate((c, n) => c + "," + n);
+            return items.DefaultIfEmpty()
+                .Select(x => x.ToString())
+                .Aggregate((c, n) => c + "," + n);
         }
 
         public static bool ContainsIgnoreCase(this string text, string value) {
