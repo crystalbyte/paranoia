@@ -8,6 +8,7 @@
                 xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
                 xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                 xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+                x:Name="Window"
                 Title="p4r4n014"
                 Width="1280"
                 Height="768"
@@ -775,11 +776,17 @@
                   Margin="24,12,24,24"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch">
-                <RichTextBox Background="Transparent"
-                             BorderThickness="0"
-                             IsReadOnly="True"
-                             ui:RichTextBoxExtensions.BindableText="{Binding Html,
-                                                                             Mode=OneWay}" />
+                <Border BorderBrush="{StaticResource AppMenuBackgroundBrush}"
+                        BorderThickness="4"
+                        DataContext="{Binding SelectedMessage}"
+                        Visibility="{Binding IsNotLoading,
+                                             Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <ui:HtmlControl BorderThickness="0"
+                                    DataContext="{Binding DataContext,
+                                                          ElementName=Window}"
+                                    Source="{Binding Html,
+                                                     Mode=OneWay}" />
+                </Border>
                 <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock Margin="6"

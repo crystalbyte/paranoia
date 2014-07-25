@@ -11,6 +11,7 @@
     <!--  Icons: C:\Program Files (x86)\Microsoft SDKs\Windows Phone\v8.0\Icons  -->
     <Application.Resources>
         <ResourceDictionary>
+
             <!--  Converters  -->
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />
             <converters:MailboxLocalizer x:Key="MailboxLocalizer" />
@@ -69,7 +70,6 @@
             <SolidColorBrush x:Key="AppFailureColorBrush" Color="Red" />
             <SolidColorBrush x:Key="AppMediumTextBrush" Color="#A3A3A3" />
             <SolidColorBrush x:Key="AppDarkTextBrush" Color="#333" />
-
             <SolidColorBrush x:Key="AppButtonBorderBrush" Color="Transparent" />
             <SolidColorBrush x:Key="AppButtonBackgroundBrush" Color="Transparent" />
 

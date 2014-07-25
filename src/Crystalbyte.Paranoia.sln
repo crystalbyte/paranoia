@@ -10,7 +10,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8690125E-AC10-4513-9A4F-75CD92CC29F0}"
 	ProjectSection(SolutionItems) = preProject
 		Crystalbyte.Paranoia.vsmdi = Crystalbyte.Paranoia.vsmdi
-		TestSettings1.testsettings = TestSettings1.testsettings
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(tests)", "(tests)", "{8DEACA7E-BA38-4B1E-A2A7-D5A0A3E0577F}"
@@ -100,9 +99,6 @@ Global
 		{66E07860-ACA4-494D-9C6B-759FDEAB12DE} = {8DEACA7E-BA38-4B1E-A2A7-D5A0A3E0577F}
 		{22E6957C-9D6C-4CF1-B4CF-E296685EE645} = {8DEACA7E-BA38-4B1E-A2A7-D5A0A3E0577F}
 		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8} = {8DEACA7E-BA38-4B1E-A2A7-D5A0A3E0577F}
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Crystalbyte.Paranoia.vsmdi

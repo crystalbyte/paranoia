@@ -6,6 +6,7 @@ using System.Composition.Hosting;
 using System.Configuration;
 using System.Data.Entity;
 using System.Windows;
+using Awesomium.Core;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
@@ -27,6 +28,7 @@ namespace Crystalbyte.Paranoia {
         protected override async void OnStartup(StartupEventArgs e) {
             base.OnStartup(e);
 
+            InitAwesomium();
             InitEnvironment();
             Compose();
 
@@ -88,6 +90,27 @@ namespace Crystalbyte.Paranoia {
                 await context.SaveChangesAsync();
             }
 #endif
+        }
+
+        protected override void OnExit(ExitEventArgs e) {
+
+            // Make sure we shutdown the core last.
+            if (WebCore.IsInitialized)
+                WebCore.Shutdown();
+
+            base.OnExit(e);
+        }
+
+        private static void InitAwesomium() {
+            // Initialization must be performed here,
+            // before creating a WebControl.
+            if (!WebCore.IsInitialized) {
+                WebCore.Initialize(new WebConfig() {
+                    HomeURL = "http://www.awesomium.com".ToUri(),
+                    LogPath = @".\starter.log",
+                    LogLevel = LogLevel.Verbose
+                });
+            }
         }
 
         private static void InitEnvironment() {

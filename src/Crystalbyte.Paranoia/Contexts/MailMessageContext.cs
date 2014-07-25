@@ -112,14 +112,20 @@ namespace Crystalbyte.Paranoia {
             get { return _load > 0; }
         }
 
+        public bool IsNotLoading {
+            get { return _load == 0; }
+        }
+
         private void IncrementLoad() {
             _load++;
             RaisePropertyChanged(() => IsLoading);
+            RaisePropertyChanged(() => IsNotLoading);
         }
 
         private void DecrementLoad() {
             _load--;
             RaisePropertyChanged(() => IsLoading);
+            RaisePropertyChanged(() => IsNotLoading);
         }
 
         public long BytesReceived {
