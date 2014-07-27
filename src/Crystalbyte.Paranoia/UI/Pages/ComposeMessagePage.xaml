@@ -41,7 +41,7 @@
             <ui:AutoCompleteBox.StringTokenTemplate>
                 <DataTemplate DataType="system:String">
                     <Grid>
-                        <Rectangle Fill="{StaticResource AppAccentBrush}" RenderOptions.EdgeMode="Aliased" />
+                        <Rectangle Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" RenderOptions.EdgeMode="Aliased" />
                         <TextBlock Margin="2,0,2,0"
                                    Background="Transparent"
                                    FontWeight="Regular"
@@ -52,7 +52,8 @@
             <ui:AutoCompleteBox.TokenTemplate>
                 <DataTemplate DataType="paranoia:MailContactContext">
                     <Grid>
-                        <Rectangle Fill="{StaticResource AppAccentBrush}"
+                        <Rectangle Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                AppAccentBrush}}"
                                    RenderOptions.EdgeMode="Aliased"
                                    SnapsToDevicePixels="True" />
                         <StackPanel Orientation="Horizontal">
@@ -89,29 +90,37 @@
                                                 Converter={StaticResource GravatarImageConverter}}"
                                Stretch="Uniform" />
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock FontSize="{StaticResource AppMediumLargeFontSize}"
+                            <TextBlock FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                        AppMediumLargeFontSize}}"
                                        FontWeight="Thin"
-                                       Foreground="{StaticResource AppLightTextBrush}"
+                                       Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                          AppLightTextBrush}}"
                                        Text="{Binding Name}" />
                             <TextBlock FontWeight="Thin"
-                                       Foreground="{StaticResource AppMediumTextBrush}"
+                                       Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                          AppMediumTextBrush}}"
                                        Text="{Binding Address}" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
             </ui:AutoCompleteBox.ItemTemplate>
         </ui:AutoCompleteBox>
-        <RichTextBox Grid.Row="2"
-                     Grid.Column="0"
-                     Grid.ColumnSpan="2"
-                     HorizontalAlignment="Stretch"
-                     VerticalAlignment="Stretch"
-                     Background="{StaticResource AppControlBrush}"
-                     TabIndex="2" />
+        <ui:HtmlControl Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                           AppControlBackgroundBrush}}"
+                        IsTransparent="True"
+                        Source="{Binding Text,
+                                         Mode=TwoWay}"
+                        TabIndex="2" />
         <Button Grid.Row="3"
                 Grid.Column="0"
                 HorizontalAlignment="Left"
-                Style="{StaticResource AppCircleButtonStyle}"
+                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                              AppCircleButtonStyle}}"
                 TabIndex="3">
             <Image Width="20" Source="/Assets/send.png" />
         </Button>

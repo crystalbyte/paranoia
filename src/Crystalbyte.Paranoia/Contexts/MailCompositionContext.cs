@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.UI.Commands;
@@ -68,6 +71,18 @@ namespace Crystalbyte.Paranoia {
 
                 _suggestions.Clear();
                 _suggestions.AddRange(candidates.Select(x => new MailContactContext(x)));
+            }
+        }
+
+        public async Task ResetAsync() {
+            _recipients.Clear();
+            Subject = string.Empty;
+
+            var info = Application.GetResourceStream(new Uri("Resources/composition.template.html", UriKind.Relative));
+            if (info != null) {
+                using (var reader = new StreamReader(info.Stream)) {
+                    Text = await reader.ReadToEndAsync();
+                }
             }
         }
     }

@@ -14,7 +14,7 @@
                 Height="768"
                 MinWidth="1024"
                 MinHeight="600"
-                Background="{StaticResource AppBackgroundBrush}"
+                Background="{StaticResource AppWindowBackgroundBrush}"
                 BorderThickness="0"
                 Icon="/Assets/icon.png"
                 KeyboardNavigation.TabNavigation="Local"
@@ -133,8 +133,10 @@
         </Grid.Resources>
         <Rectangle Grid.Row="0"
                    Grid.Column="0"
-                   Fill="{StaticResource AppShadeBrush}"
-                   Opacity="{StaticResource AppShadeOpacity}"
+                   Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                AppShadeBrush}}"
+                   Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                   AppShadeOpacity}}"
                    RenderOptions.EdgeMode="Aliased" />
         <Image Grid.Row="0"
                Grid.RowSpan="4"
@@ -146,8 +148,10 @@
 
         <Rectangle Grid.Row="0"
                    Grid.Column="0"
-                   Fill="{StaticResource AppShadeBrush}"
-                   Opacity="{StaticResource AppShadeOpacity}"
+                   Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                AppShadeBrush}}"
+                   Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                   AppShadeOpacity}}"
                    RenderOptions.EdgeMode="Aliased"
                    Visibility="Hidden" />
         <DockPanel Grid.Row="0"
@@ -166,7 +170,8 @@
             <TextBlock Margin="0,-2,0,0"
                        VerticalAlignment="Center"
                        FontSize="17"
-                       Style="{StaticResource AppTitleTextStyle}"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppTitleTextStyle}}"
                        Text="{Binding Title,
                                       RelativeSource={RelativeSource FindAncestor,
                                                                      AncestorType=paranoia:MainWindow}}" />
@@ -189,23 +194,23 @@
                 <!--  close button  -->
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Style="{DynamicResource {ComponentResourceKey ResourceId=HelpButtonStyle, TypeInTargetAssembly={x:Type paranoia:App}}}" />
-            <Button Grid.Column="1" Style="{DynamicResource {ComponentResourceKey ResourceId=MinimizeButtonStyle, TypeInTargetAssembly={x:Type paranoia:App}}}" />
+            <Button Grid.Column="0" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, HelpButtonStyle}}" />
+            <Button Grid.Column="1" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, MinimizeButtonStyle}}" />
             <Button Grid.Column="2"
-                    Style="{DynamicResource {ComponentResourceKey ResourceId=MaximizeButtonStyle,
-                                                                  TypeInTargetAssembly={x:Type paranoia:App}}}"
+                    Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                  MaximizeButtonStyle}}"
                     Visibility="{Binding IsNormalized,
                                          Converter={StaticResource BooleanToVisibilityConverter},
                                          RelativeSource={RelativeSource FindAncestor,
                                                                         AncestorType=paranoia:MainWindow}}" />
             <Button Grid.Column="3"
-                    Style="{DynamicResource {ComponentResourceKey ResourceId=RestoreDownButtonStyle,
-                                                                  TypeInTargetAssembly={x:Type paranoia:App}}}"
+                    Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                  RestoreDownButtonStyle}}"
                     Visibility="{Binding IsMaximized,
                                          Converter={StaticResource BooleanToVisibilityConverter},
                                          RelativeSource={RelativeSource FindAncestor,
                                                                         AncestorType=paranoia:MainWindow}}" />
-            <Button Grid.Column="4" Style="{DynamicResource {ComponentResourceKey ResourceId=CloseButtonStyle, TypeInTargetAssembly={x:Type paranoia:App}}}" />
+            <Button Grid.Column="4" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, CloseButtonStyle}}" />
         </Grid>
         <Grid Grid.Row="3"
               Grid.Column="0"
@@ -225,16 +230,20 @@
                        Grid.Column="0"
                        Grid.ColumnSpan="2"
                        Margin="0,0,0,4"
-                       Fill="{StaticResource AppShadeBrush}"
-                       Opacity="{StaticResource AppShadeOpacity}"
+                       Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                    AppShadeBrush}}"
+                       Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                       AppShadeOpacity}}"
                        RenderOptions.EdgeMode="Aliased" />
 
             <Rectangle Grid.Row="3"
                        Grid.RowSpan="2"
                        Grid.Column="0"
                        Grid.ColumnSpan="2"
-                       Fill="{StaticResource AppShadeBrush}"
-                       Opacity="{StaticResource AppShadeOpacity}"
+                       Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                    AppShadeBrush}}"
+                       Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                       AppShadeOpacity}}"
                        RenderOptions.EdgeMode="Aliased" />
 
             <Image Grid.Row="0"
@@ -254,7 +263,8 @@
                        Grid.ColumnSpan="2"
                        Margin="16,0,0,0"
                        DataContext="{Binding SelectedAccount}"
-                       Style="{StaticResource AppTitleTextStyle}"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppTitleTextStyle}}"
                        Text="{Binding Name}"
                        TextTrimming="CharacterEllipsis"
                        TextWrapping="NoWrap" />
@@ -263,7 +273,8 @@
                        Grid.ColumnSpan="2"
                        Margin="16,0,0,24"
                        DataContext="{Binding SelectedAccount}"
-                       Style="{StaticResource AppSubtitleTextStyle}"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppSubtitleTextStyle}}"
                        Text="{Binding Address}"
                        TextTrimming="CharacterEllipsis" />
             <Border Grid.Row="1"
@@ -272,7 +283,7 @@
                     Margin="8,8,8,8"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center">
-                <Button Command="{Binding WriteMessageCommand}" Style="{StaticResource AppCircleButtonStyle}">
+                <Button Command="{Binding WriteMessageCommand}" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppCircleButtonStyle}}">
                     <Image Width="18" Source="/Assets/message.png" />
                 </Button>
             </Border>
@@ -282,10 +293,12 @@
                     Margin="16,0,0,0">
                 <TextBlock VerticalAlignment="Center"
                            DataContext="{Binding SelectedAccount}"
-                           FontSize="{StaticResource AppExtraLargeFontSize}"
-                           Style="{StaticResource AppTitleTextStyle}">
+                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                            AppExtraLargeFontSize}}"
+                           Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                         AppTitleTextStyle}}">
                     <Run Text="{x:Static properties:Resources.ContactsTitle}" />
-                    <Run Foreground="{StaticResource AppMediumTextBrush}" Text="{Binding Contacts, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
+                    <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" Text="{Binding Contacts, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
                 </TextBlock>
             </Border>
             <ListView Grid.Row="4"
@@ -335,15 +348,18 @@
                                                     Converter={StaticResource GravatarImageConverter}}" />
                             <TextBlock Grid.Row="0"
                                        Grid.Column="1"
-                                       FontSize="{StaticResource AppMediumLargeFontSize}"
+                                       FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                        AppMediumLargeFontSize}}"
                                        FontWeight="Thin"
-                                       Foreground="{StaticResource AppLightTextBrush}"
+                                       Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                          AppLightTextBrush}}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Text="{Binding Name}" />
                             <TextBlock Grid.Row="1"
                                        Grid.Column="1"
                                        FontWeight="Thin"
-                                       Foreground="{StaticResource AppMediumTextBrush}"
+                                       Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                          AppMediumTextBrush}}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Text="{Binding Address}" />
 
@@ -355,7 +371,8 @@
         <GridSplitter Grid.Row="1"
                       Grid.RowSpan="3"
                       Grid.Column="1"
-                      Style="{StaticResource VerticalSplitterStyle}" />
+                      Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                    VerticalSplitterStyle}}" />
         <StackPanel Grid.Row="0"
                     Grid.Column="2"
                     Grid.ColumnSpan="2"
@@ -364,7 +381,6 @@
                     Orientation="Horizontal">
             <TextBox x:Name="SearchBox"
                      Margin="0,4,0,4"
-                     Style="{StaticResource AppSearchTextBoxStyle}"
                      TabIndex="3"
                      Text="{Binding QueryString,
                                     Mode=TwoWay,
@@ -382,8 +398,10 @@
                    Grid.Column="0"
                    Grid.ColumnSpan="5"
                    Margin="0"
-                   Fill="{StaticResource AppShadeBrush}"
-                   Opacity="{StaticResource AppShadeOpacity}"
+                   Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                AppShadeBrush}}"
+                   Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                   AppShadeOpacity}}"
                    RenderOptions.EdgeMode="Aliased" />
         <Grid Grid.Row="1"
               Grid.Column="2"
@@ -421,15 +439,17 @@
                         <Grid x:Name="MailboxLayoutRoot">
                             <TextBlock Margin="3"
                                        VerticalAlignment="Center"
-                                       FontSize="{StaticResource AppMediumLargeFontSize}"
+                                       FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                        AppMediumLargeFontSize}}"
                                        FontWeight="Thin"
-                                       Style="{StaticResource AppNormalTextStyle}"
+                                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                     AppNormalTextStyle}}"
                                        Text="{Binding Type,
                                                       Converter={StaticResource MailboxLocalizer}}">
                                 <TextBlock.Foreground>
                                     <Binding Path="IsAssigned">
                                         <Binding.Converter>
-                                            <converters:BooleanToBrushConverter BrushForFalse="{StaticResource AppDisabledTextBrush}" BrushForTrue="{StaticResource AppLightTextBrush}" />
+                                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
                                         </Binding.Converter>
                                     </Binding>
                                 </TextBlock.Foreground>
@@ -450,14 +470,16 @@
                                     <StackPanel.Effect>
                                         <DropShadowEffect />
                                     </StackPanel.Effect>
-                                    <Polygon Fill="{StaticResource AppShadeBrush}"
+                                    <Polygon Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                          AppShadeBrush}}"
                                              Points="150,0 140,12 160,12"
-                                             Stroke="{DynamicResource {ComponentResourceKey ResourceId=AppAccentBrush,
-                                                                                            TypeInTargetAssembly={x:Type paranoia:App}}}" />
+                                             Stroke="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                            AppAccentBrush}}" />
                                     <Border Margin="0,-1,0,0"
-                                            Background="{StaticResource AppShadeBrush}"
-                                            BorderBrush="{DynamicResource {ComponentResourceKey ResourceId=AppAccentBrush,
-                                                                                                TypeInTargetAssembly={x:Type paranoia:App}}}"
+                                            Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                               AppShadeBrush}}"
+                                            BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                                AppAccentBrush}}"
                                             BorderThickness="1">
                                         <Grid>
                                             <Grid.RowDefinitions>
@@ -472,28 +494,31 @@
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Top"
                                                        Panel.ZIndex="500"
-                                                       Fill="{StaticResource AppShadeBrush}"
+                                                       Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                                    AppShadeBrush}}"
                                                        RenderOptions.EdgeMode="Aliased"
                                                        StrokeThickness="0" />
                                             <StackPanel Grid.Row="0"
                                                         Margin="6,6,6,0"
                                                         Panel.ZIndex="250">
-                                                <TextBlock Style="{StaticResource AppTitleTextStyle}" Text="{Binding Type, Converter={StaticResource MailboxLocalizer}}" />
-                                                <TextBlock Style="{StaticResource AppSubtitleTextStyle}" Text="{x:Static properties:Resources.MailboxAssignmentDescription}" />
+                                                <TextBlock Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppTitleTextStyle}}" Text="{Binding Type, Converter={StaticResource MailboxLocalizer}}" />
+                                                <TextBlock Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppSubtitleTextStyle}}" Text="{x:Static properties:Resources.MailboxAssignmentDescription}" />
                                             </StackPanel>
                                             <StackPanel Grid.Row="1"
                                                         Margin="0,12,0,6"
-                                                        Background="{StaticResource AppBackgroundBrush}">
+                                                        Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                                           AppWindowBackgroundBrush}}">
                                                 <Border Padding="6">
                                                     <TreeView x:Name="CandidatesView"
                                                               MinHeight="200"
-                                                              Background="{StaticResource AppBackgroundBrush}"
+                                                              Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                                                 AppWindowBackgroundBrush}}"
                                                               BorderThickness="0"
                                                               ItemsSource="{Binding MailboxCandidates}"
                                                               SelectedValuePath="Info">
                                                         <TreeView.ItemContainerStyle>
                                                             <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                                            <Style TargetType="{x:Type TreeViewItem}">
+                                                            <Style TargetType="TreeViewItem">
                                                                 <Setter Property="IsSelected" Value="{Binding IsSelected}" />
                                                                 <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
                                                             </Style>
@@ -503,12 +528,13 @@
                                                             <HierarchicalDataTemplate DataType="paranoia:MailboxCandidateContext" ItemsSource="{Binding Children}">
                                                                 <StackPanel Orientation="Horizontal">
                                                                     <TextBlock VerticalAlignment="Center"
-                                                                               Style="{StaticResource AppNormalTextStyle}"
+                                                                               Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                                                             AppNormalTextStyle}}"
                                                                                Text="{Binding Name}">
                                                                         <TextBlock.Foreground>
                                                                             <Binding Path="IsSelectable">
                                                                                 <Binding.Converter>
-                                                                                    <converters:BooleanToBrushConverter BrushForFalse="{StaticResource AppDisabledTextBrush}" BrushForTrue="{StaticResource AppLightTextBrush}" />
+                                                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
                                                                                 </Binding.Converter>
                                                                             </Binding>
                                                                         </TextBlock.Foreground>
@@ -548,14 +574,18 @@
                        Grid.RowSpan="2"
                        HorizontalAlignment="Stretch"
                        VerticalAlignment="Stretch"
-                       Fill="{StaticResource AppShadeBrush}"
-                       Opacity="{StaticResource AppShadeOpacity}" />
+                       Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                    AppShadeBrush}}"
+                       Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                       AppShadeOpacity}}" />
             <Border Grid.Row="0" Margin="16,0,0,0">
                 <TextBlock VerticalAlignment="Center"
-                           FontSize="{StaticResource AppExtraLargeFontSize}"
-                           Style="{StaticResource AppTitleTextStyle}">
+                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                            AppExtraLargeFontSize}}"
+                           Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                         AppTitleTextStyle}}">
                     <Run Text="{x:Static properties:Resources.MessagesTitle}" />
-                    <Run Foreground="{StaticResource AppMediumTextBrush}" Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
+                    <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
                 </TextBlock>
             </Border>
             <ListView x:Name="MessagesListView"
@@ -573,8 +603,10 @@
                       VirtualizingPanel.VirtualizationMode="Recycling">
                 <ListView.Resources>
                     <converters:BooleanToBrushConverter x:Key="SeenBrushConverter"
-                                                        BrushForFalse="{StaticResource AppAccentBrush}"
-                                                        BrushForTrue="{StaticResource AppMediumTextBrush}" />
+                                                        BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                                              AppAccentBrush}}"
+                                                        BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                                             AppMediumTextBrush}}" />
                     <converters:BooleanToOpacityConverter x:Key="SeenOpacityConverter"
                                                           OpacityForFalse="1.0"
                                                           OpacityForTrue="0.3" />
@@ -666,9 +698,11 @@
                                        Grid.Column="1"
                                        Grid.ColumnSpan="2"
                                        VerticalAlignment="Center"
-                                       FontSize="{StaticResource AppMediumLargeFontSize}"
+                                       FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                        AppMediumLargeFontSize}}"
                                        FontWeight="Thin"
-                                       Style="{StaticResource AppNormalTextStyle}"
+                                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                     AppLightTextStyle}}"
                                        Text="{Binding Subject,
                                                       Converter={StaticResource IgnoreLinebreaksConverter}}"
                                        TextTrimming="CharacterEllipsis"
@@ -678,7 +712,8 @@
                                        Grid.Column="1"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
-                                       FontSize="{StaticResource AppNormalFontSize}"
+                                       FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                        AppNormalFontSize}}"
                                        Foreground="{Binding IsSeen,
                                                             Converter={StaticResource SeenBrushConverter}}"
                                        Text="{Binding FromName}" />
@@ -687,8 +722,10 @@
                                        Grid.Column="2"
                                        HorizontalAlignment="Right"
                                        VerticalAlignment="Center"
-                                       FontSize="{StaticResource AppSmallFontSize}"
-                                       Foreground="{StaticResource AppMediumTextBrush}"
+                                       FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                        AppSmallFontSize}}"
+                                       Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                          AppMediumTextBrush}}"
                                        Text="{Binding EntryDate,
                                                       Converter={StaticResource DateFormatter}}" />
 
@@ -700,7 +737,8 @@
         <GridSplitter Grid.Row="1"
                       Grid.RowSpan="3"
                       Grid.Column="3"
-                      Style="{StaticResource VerticalSplitterStyle}" />
+                      Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                    VerticalSplitterStyle}}" />
         <Grid Grid.Row="3"
               Grid.Column="4"
               Margin="0">
@@ -711,8 +749,10 @@
             <Rectangle Grid.RowSpan="2"
                        HorizontalAlignment="Stretch"
                        VerticalAlignment="Stretch"
-                       Fill="{StaticResource AppShadeBrush}"
-                       Opacity="{StaticResource AppShadeOpacity}" />
+                       Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                    AppShadeBrush}}"
+                       Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                       AppShadeOpacity}}" />
             <Border Grid.Row="0" Padding="24,24,24,0">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -729,7 +769,8 @@
                                Grid.ColumnSpan="2"
                                Margin="0"
                                DataContext="{Binding SelectedMessage}"
-                               Style="{StaticResource AppTitleTextStyle}"
+                               Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                             AppTitleTextStyle}}"
                                Text="{Binding Subject,
                                               Mode=OneWay,
                                               Converter={StaticResource IgnoreLinebreaksConverter}}"
@@ -738,13 +779,16 @@
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
                                DataContext="{Binding SelectedMessage}"
-                               Style="{StaticResource AppSubtitleTextStyle}"
+                               Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                             AppSubtitleTextStyle}}"
                                Text="{Binding FromName}" />
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
                                DataContext="{Binding SelectedMessage}"
-                               FontSize="{StaticResource AppSmallFontSize}"
-                               Style="{StaticResource AppSubtitleTextStyle}"
+                               FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                AppSmallFontSize}}"
+                               Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                             AppSubtitleTextStyle}}"
                                Text="{Binding EntryDate}" />
                     <StackPanel Grid.Row="1"
                                 Grid.RowSpan="2"
@@ -754,17 +798,17 @@
                                 Orientation="Horizontal"
                                 Visibility="{Binding SelectedMessage,
                                                      Converter={StaticResource NullToVisibilityConverter}}">
-                        <Button Command="{Binding ReplyCommand}" Style="{StaticResource AppCircleButtonStyle}">
+                        <Button Command="{Binding ReplyCommand}" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppCircleButtonStyle}}">
                             <Image Width="18"
                                    Margin="-2,2,0,0"
                                    Source="/Assets/reply.png" />
                         </Button>
-                        <Button Command="{Binding ForwardCommand}" Style="{StaticResource AppCircleButtonStyle}">
+                        <Button Command="{Binding ForwardCommand}" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppCircleButtonStyle}}">
                             <Image Width="18"
                                    Margin="-2,2,0,0"
                                    Source="/Assets/forward.png" />
                         </Button>
-                        <Button Command="{Binding DeleteMessageCommand}" Style="{StaticResource AppCircleButtonStyle}">
+                        <Button Command="{Binding DeleteMessageCommand}" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppCircleButtonStyle}}">
                             <Image Width="18"
                                    Margin="0,0,0,0"
                                    Source="/Assets/delete.png" />
@@ -776,7 +820,8 @@
                   Margin="24,12,24,24"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch">
-                <Border BorderBrush="{StaticResource AppMenuBackgroundBrush}"
+                <Border BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                            AppMenuBackgroundBrush}}"
                         BorderThickness="4"
                         DataContext="{Binding SelectedMessage}"
                         Visibility="{Binding IsNotLoading,
@@ -784,6 +829,7 @@
                     <ui:HtmlControl BorderThickness="0"
                                     DataContext="{Binding DataContext,
                                                           ElementName=Window}"
+                                    IsReadOnly="True"
                                     Source="{Binding Html,
                                                      Mode=OneWay}" />
                 </Border>
@@ -791,9 +837,11 @@
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock Margin="6"
                                    HorizontalAlignment="Center"
-                                   FontSize="{StaticResource AppNormalFontSize}"
+                                   FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                    AppNormalFontSize}}"
                                    FontWeight="Thin"
-                                   Foreground="{StaticResource AppLightTextBrush}"
+                                   Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                      AppLightTextBrush}}"
                                    Text="{x:Static properties:Resources.MessageDownload}" />
                         <ProgressBar Height="4"
                                      Margin="12"
@@ -826,11 +874,14 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid Grid.ColumnSpan="2"
-                  Background="{StaticResource AppShadeBrush}"
-                  Opacity="{StaticResource AppShadeOpacity}" />
+                  Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppShadeBrush}}"
+                  Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                  AppShadeOpacity}}" />
             <Border x:Name="OverlayContent"
                     Grid.Column="1"
-                    Background="{StaticResource AppOverlayBackroundBrush}"
+                    Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                       AppOverlayBackroundBrush}}"
                     Padding="24">
                 <Border.RenderTransform>
                     <TransformGroup>
@@ -854,7 +905,8 @@
                                 Command="ui:WindowCommands.CloseOverlay"
                                 Focusable="False"
                                 RenderTransformOrigin="0.5,0.5"
-                                Style="{StaticResource AppCircleButtonStyle}">
+                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                              AppCircleButtonStyle}}">
                             <Button.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform />
@@ -874,7 +926,8 @@
                                                          ElementName=ContentFrame}"
                                    Padding="0,0,0,2"
                                    RenderTransformOrigin="0.5,0.5"
-                                   Style="{StaticResource AppTitleTextStyle}"
+                                   Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                 AppTitleTextStyle}}"
                                    Text="{Binding Title}"
                                    d:DataContext="{d:DesignInstance Page}">
                             <TextBlock.RenderTransform>
@@ -892,6 +945,7 @@
                            HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"
                            KeyboardNavigation.TabNavigation="Cycle"
+                           Navigated="OnContentFrameOnNavigated"
                            NavigationUIVisibility="Hidden"
                            RenderTransformOrigin="0.5,0.5">
                         <Frame.RenderTransform>

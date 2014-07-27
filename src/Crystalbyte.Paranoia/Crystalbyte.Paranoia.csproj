@@ -141,6 +141,7 @@
     <Compile Include="Contexts\AppContext.cs" />
     <Compile Include="Contexts\MailMessageContext.cs" />
     <Compile Include="Contexts\MailAccountContext.cs" />
+    <Compile Include="SharedResourceDictionary.cs" />
     <Compile Include="UI\HtmlStorage.cs" />
     <Compile Include="UI\AutoCompleteBox.xaml.cs">
       <DependentUpon>AutoCompleteBox.xaml</DependentUpon>
@@ -154,6 +155,7 @@
     </Compile>
     <Compile Include="UI\HtmlDataSource.cs" />
     <Compile Include="UI\HtmlDataSourceProvider.cs" />
+    <Compile Include="UI\INavigationAware.cs" />
     <Compile Include="UI\ItemsSourceRequestedEventArgs.cs" />
     <Compile Include="UI\ITokenMatcher.cs" />
     <Compile Include="UI\MailAddressTokenMatcher.cs" />
@@ -215,6 +217,7 @@
     <Compile Include="UI\MetroWindow.xaml.cs">
       <DependentUpon>MetroWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\SafeWebFontProvider.cs" />
     <Compile Include="UI\TypeExtensions.cs" />
     <Compile Include="UI\Pages\ComposeMessagePage.xaml.cs">
       <DependentUpon>ComposeMessagePage.xaml</DependentUpon>
@@ -225,6 +228,42 @@
     <Compile Include="UI\RichTextBoxExtensions.cs" />
     <Compile Include="UI\WindowCommands.cs" />
     <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Metro.Obsidian\Metro.Obsidian.GridSplitter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Metro.Obsidian\Metro.Obsidian.ListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Metro.Obsidian\Metro.Obsidian.ProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Metro.Obsidian\Metro.Obsidian.Resources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Metro.Obsidian\Metro.Obsidian.Button.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Metro.Obsidian\Metro.Obsidian.RichTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Metro.Obsidian\Metro.Obsidian.TextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Metro.Obsidian\Metro.Obsidian.TextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Metro.Obsidian\Metro.Obsidian.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -349,6 +388,7 @@
     <Resource Include="Assets\unseen.png" />
     <Resource Include="Assets\back.png" />
     <Resource Include="Assets\send.png" />
+    <Resource Include="Resources\composition.template.html" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

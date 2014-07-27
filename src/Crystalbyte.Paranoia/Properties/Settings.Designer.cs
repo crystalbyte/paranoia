@@ -33,5 +33,29 @@ namespace Crystalbyte.Paranoia.Properties {
                 return ((global::System.Collections.Specialized.StringCollection)(this["GmailDomains"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Verdana")]
+        public string HtmlDefaultFontFamily {
+            get {
+                return ((string)(this["HtmlDefaultFontFamily"]));
+            }
+            set {
+                this["HtmlDefaultFontFamily"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int HtmlDefaultFontSize {
+            get {
+                return ((int)(this["HtmlDefaultFontSize"]));
+            }
+            set {
+                this["HtmlDefaultFontSize"] = value;
+            }
+        }
     }
 }

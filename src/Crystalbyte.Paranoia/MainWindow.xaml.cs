@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.UI;
 
@@ -126,6 +127,13 @@ namespace Crystalbyte.Paranoia {
             var container = (Control) MessagesListView.ItemContainerGenerator.ContainerFromItem(message);
             if (container != null) {
                 container.Focus();
+            }
+        }
+
+        private void OnContentFrameOnNavigated(object sender, NavigationEventArgs e) {
+            var page = ContentFrame.Content as INavigationAware;
+            if (page != null) {
+                page.OnNavigated(e);
             }
         }
     }

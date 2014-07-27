@@ -3,9 +3,12 @@
                     xmlns:awe="http://schemas.awesomium.com/winfx"
                     xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
                     xmlns:core="clr-namespace:Awesomium.Core;assembly=Awesomium.Core"
+                    xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
     <converters:HtmlRequestConverter x:Key="HtmlRequestConverter" />
+    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
     <awe:WebSessionProvider x:Key="WebSessionProvider" DataPath=".\Cache">
         <awe:WebSessionProvider.DataSources>
@@ -16,11 +19,14 @@
                              SmoothScrolling="True" />
     </awe:WebSessionProvider>
 
-    <awe:UrlConverter x:Key="UrlConverter" />
+    <ui:SafeWebFonts x:Key="SafeWebFonts" />
 
     <Style TargetType="ui:HtmlControl">
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="Local" />
+        <Setter Property="IsTransparent" Value="False" />
+        <Setter Property="Margin" Value="0,3,0,0" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBorderBrush}}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
@@ -29,16 +35,89 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <awe:WebDialogsLayer>
-                            <awe:WebControl x:Name="PART_WebControl"
-                                            Background="{TemplateBinding Background}"
-                                            Source="{TemplateBinding Source,
-                                                                     Converter={StaticResource HtmlRequestConverter}}"
-                                            ViewType="Offscreen"
-                                            WebSession="{Binding Source={StaticResource WebSessionProvider}}" />
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <ItemsControl Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                                 AppMenuBackgroundBrush}}"
+                                              IsTabStop="False"
+                                              KeyboardNavigation.TabNavigation="Local"
+                                              Visibility="{TemplateBinding IsReadOnly,
+                                                                           Converter={StaticResource BooleanToVisibilityConverter},
+                                                                           ConverterParameter=!}">
+                                    <ComboBox Width="150"
+                                              Height="22"
+                                              ItemsSource="{StaticResource SafeWebFonts}"
+                                              SelectedValue="{Binding HtmlFont,
+                                                                      RelativeSource={RelativeSource TemplatedParent},
+                                                                      Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate DataType="FontFamily">
+                                                <TextBlock VerticalAlignment="Center"
+                                                           FontFamily="{Binding}"
+                                                           Text="{Binding}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <ComboBox Width="50"
+                                              Height="22"
+                                              IsEditable="True"
+                                              SelectedValue="{Binding HtmlFontSize,
+                                                                      RelativeSource={RelativeSource TemplatedParent},
+                                                                      Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate DataType="system:Int32">
+                                                <TextBlock FontSize="{Binding}" Text="{Binding}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                        <system:Int32>10</system:Int32>
+                                        <system:Int32>11</system:Int32>
+                                        <system:Int32>12</system:Int32>
+                                        <system:Int32>14</system:Int32>
+                                        <system:Int32>16</system:Int32>
+                                        <system:Int32>24</system:Int32>
+                                        <system:Int32>32</system:Int32>
+                                    </ComboBox>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                                <Border Grid.Row="1" Padding="3">
+                                    <awe:WebControl x:Name="PART_WebControl"
+                                                    Background="{TemplateBinding Background}"
+                                                    IsTransparent="{TemplateBinding IsTransparent}"
+                                                    Source="{TemplateBinding Source,
+                                                                             Converter={StaticResource HtmlRequestConverter}}"
+                                                    TabIndex="0"
+                                                    WebSession="{Binding Source={StaticResource WebSessionProvider}}" />
+                                </Border>
+                            </Grid>
                         </awe:WebDialogsLayer>
                     </Border>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.56" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBorderBrush}}" />
+            </Trigger>
+            <Trigger Property="IsKeyboardFocused" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
+            </Trigger>
+            <Trigger Property="IsFocused" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
+            </Trigger>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

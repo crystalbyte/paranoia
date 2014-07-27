@@ -1,20 +1,26 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace Crystalbyte.Paranoia.UI.Pages {
     /// <summary>
     /// Interaction logic for WriteMessagePage.xaml
     /// </summary>
-    public partial class ComposeMessagePage {
+    public partial class ComposeMessagePage : INavigationAware {
 
         public ComposeMessagePage() {
             DataContext = new MailCompositionContext();
             InitializeComponent();
-            Loaded += OnLoaded;
 
             var window = (MainWindow)Application.Current.MainWindow;
             window.OverlayChanged += OnOverlayChanged;
+        }
+
+        private void Reset() {
+            var composition = (MailCompositionContext) DataContext;
+            composition.ResetAsync();
+
+            SubjectTextBox.Focus();
         }
 
         private void OnOverlayChanged(object sender, EventArgs e) {
@@ -24,10 +30,6 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             }
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e) {
-            SubjectTextBox.Focus();
-        }
-
         public MailCompositionContext Composition {
             get { return (MailCompositionContext) DataContext; }
         }
@@ -35,5 +37,13 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         private async void OnAutoCompleteBoxOnItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
             await Composition.QueryRecipientsAsync(e.Text);
         }
+
+        #region Implementation of INavigationAware
+
+        public void OnNavigated(NavigationEventArgs e) {
+            Reset();
+        }
+
+        #endregion
     }
 }

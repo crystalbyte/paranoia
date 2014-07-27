@@ -1,9 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Windows.Input;
+using System.Windows.Media;
 using Awesomium.Core;
 using Awesomium.Windows.Controls;
 using System.Windows;
 using System.Windows.Controls;
+using System.Configuration;
+using Crystalbyte.Paranoia.Properties;
 
 namespace Crystalbyte.Paranoia.UI {
     [TemplatePart(Name = WebControlPartName, Type = typeof(WebControl))]
@@ -30,9 +34,18 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public HtmlControl() {
+            HtmlFont = new FontFamily(Settings.Default.HtmlDefaultFontFamily);
+            HtmlFontSize = Settings.Default.HtmlDefaultFontSize;
+
+            GotKeyboardFocus += OnGotKeyboardFocus;
+
             if (!DesignerProperties.GetIsInDesignMode(this)) {
                 Source = WebCore.Configuration.HomeURL.ToString();    
             }
+        }
+
+        private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
+            
         }
 
         #endregion
@@ -46,6 +59,15 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Dependency Properties
 
+        public bool IsTransparent {
+            get { return (bool)GetValue(IsTransparentProperty); }
+            set { SetValue(IsTransparentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsTransparent.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsTransparentProperty =
+            DependencyProperty.Register("IsTransparent", typeof(bool), typeof(HtmlControl), new PropertyMetadata(false));   
+
         // This will be set to the target URL, when this window does not
         // host a created child view. The WebControl, is bound to this property.
         public string Source {
@@ -58,6 +80,37 @@ namespace Crystalbyte.Paranoia.UI {
             DependencyProperty.Register("Source",
             typeof(string), typeof(HtmlControl),
             new FrameworkPropertyMetadata(string.Empty));
+
+        public bool IsReadOnly {
+            get { return (bool)GetValue(IsReadOnlyProperty); }
+            set { SetValue(IsReadOnlyProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsReadOnly.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsReadOnlyProperty =
+            DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(HtmlControl), new PropertyMetadata(false));
+
+        public FontFamily HtmlFont {
+            get { return (FontFamily)GetValue(HtmlFontProperty); }
+            set { SetValue(HtmlFontProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SelectedFont.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty HtmlFontProperty =
+            DependencyProperty.Register("HtmlFont", typeof(FontFamily), typeof(HtmlControl), new PropertyMetadata(null));
+
+
+
+        public int HtmlFontSize {
+            get { return (int)GetValue(HtmlFontSizeProperty); }
+            set { SetValue(HtmlFontSizeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for HtmlFontSize.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty HtmlFontSizeProperty =
+            DependencyProperty.Register("HtmlFontSize", typeof(int), typeof(HtmlControl), new PropertyMetadata(0));
+
+
 
         #endregion
 

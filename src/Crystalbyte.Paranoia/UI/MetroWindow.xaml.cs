@@ -37,6 +37,7 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));
             CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoredDown));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
         }
 
         #endregion
@@ -103,6 +104,10 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         #region Event Handlers
+
+        private void OnHelp(object sender, ExecutedRoutedEventArgs e) {
+            MessageBox.Show("Not yet implemented.");
+        }
 
         private void OnWindowLoaded(object sender, RoutedEventArgs e) {
             UpdateWindowStates();

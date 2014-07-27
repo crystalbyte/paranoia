@@ -12,7 +12,7 @@ using Crystalbyte.Paranoia.Mail.Mime.Traverse;
 namespace Crystalbyte.Paranoia.Mail {
     /// <summary>
     ///     This is the root of the email tree structure.<br />
-    ///     <see cref="Crystalbyte.Paranoia.Messaging.Mime.MessageParte structure.<br />
+    ///     <see cref="Mime.MessagePart"></see><br />
     ///     <br />
     ///     A Message (this class) contains the headers of an email message such as:
     ///     <code>- To
@@ -59,7 +59,7 @@ namespace Crystalbyte.Paranoia.Mail {
         /// </summary>
         /// <param name="rawMessageContent"> The byte array which is the message contents to parse </param>
         public MailMessage(byte[] rawMessageContent)
-            : this(rawMessageContent, true) {}
+            : this(rawMessageContent, true) { }
 
         /// <summary>
         ///     Constructs a message from a byte array.<br />
