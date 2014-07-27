@@ -6,8 +6,7 @@
         <ResourceDictionary Source="Metro.Obsidian.TextBlock.xaml" />
         <ResourceDictionary Source="Metro.Obsidian.ListView.xaml" />
         <ResourceDictionary Source="Metro.Obsidian.RichTextBox.xaml" />
-        <ResourceDictionary Source="Metro.Obsidian.ProgressBar.xaml" />
+        <ResourceDictionary Source="Metro.Obsidian.PasswordBox.xaml" />
         <ResourceDictionary Source="Metro.Obsidian.GridSplitter.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    <Style TargetType="Rectangle" />
 </ResourceDictionary>

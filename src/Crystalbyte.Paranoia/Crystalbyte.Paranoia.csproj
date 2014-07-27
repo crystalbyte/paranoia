@@ -239,7 +239,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Metro.Obsidian\Metro.Obsidian.ProgressBar.xaml">
+    <Page Include="Themes\Metro.Obsidian\Metro.Obsidian.PasswordBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -9,7 +9,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/Metro.Obsidian/Metro.Obsidian.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="Rectangle" />
 
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />
             <converters:MailboxLocalizer x:Key="MailboxLocalizer" />

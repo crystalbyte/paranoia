@@ -56,7 +56,7 @@ namespace Crystalbyte.Paranoia {
             Observable.FromEventPattern(
                     action => MessageSelectionChanged += action,
                     action => MessageSelectionChanged -= action)
-                .Throttle(TimeSpan.FromMilliseconds(200))
+                .Throttle(TimeSpan.FromMilliseconds(100))
                 .Subscribe(OnMessageSelectionCommittedAsync);
 
             Observable.FromEventPattern<QueryStringEventArgs>(
@@ -66,7 +66,7 @@ namespace Crystalbyte.Paranoia {
                 .Where(x => (x.Text.Length > 2 || string.IsNullOrEmpty(x.Text))
                             && string.Compare(x.Text, Resources.SearchBoxWatermark,
                                 StringComparison.InvariantCultureIgnoreCase) != 0)
-                .Throttle(TimeSpan.FromMilliseconds(250))
+                .Throttle(TimeSpan.FromMilliseconds(200))
                 .Select(x => x.Text)
                 .Subscribe(OnQueryReceived);
         }

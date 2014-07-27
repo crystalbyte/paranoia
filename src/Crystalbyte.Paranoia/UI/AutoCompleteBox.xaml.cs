@@ -250,6 +250,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnSelectContact(object sender, EventArgs e) {
+            _autoCompletePopup.IsOpen = false;
             CommitSelection();
             Focus();
         }

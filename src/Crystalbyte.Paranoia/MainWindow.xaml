@@ -768,7 +768,8 @@
                                Grid.Column="0"
                                Grid.ColumnSpan="2"
                                Margin="0"
-                               DataContext="{Binding SelectedMessage}"
+                               DataContext="{Binding SelectedMessage,
+                                                     Delay=100}"
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                              AppTitleTextStyle}}"
                                Text="{Binding Subject,
@@ -778,13 +779,15 @@
                                TextWrapping="NoWrap" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
-                               DataContext="{Binding SelectedMessage}"
+                               DataContext="{Binding SelectedMessage,
+                                                     Delay=100}"
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                              AppSubtitleTextStyle}}"
                                Text="{Binding FromName}" />
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
-                               DataContext="{Binding SelectedMessage}"
+                               DataContext="{Binding SelectedMessage,
+                                                     Delay=100}"
                                FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                 AppSmallFontSize}}"
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -797,6 +800,7 @@
                                 VerticalAlignment="Center"
                                 Orientation="Horizontal"
                                 Visibility="{Binding SelectedMessage,
+                                                     Delay=100,
                                                      Converter={StaticResource NullToVisibilityConverter}}">
                         <Button Command="{Binding ReplyCommand}" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppCircleButtonStyle}}">
                             <Image Width="18"
@@ -821,15 +825,17 @@
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch">
                 <Border BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            AppMenuBackgroundBrush}}"
-                        BorderThickness="4"
+                                                                            AppAccentBrush}}"
+                        BorderThickness="1"
                         DataContext="{Binding SelectedMessage}"
                         Visibility="{Binding IsNotLoading,
                                              Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <ui:HtmlControl BorderThickness="0"
+                    <ui:HtmlControl Background="White"
+                                    BorderThickness="0"
                                     DataContext="{Binding DataContext,
                                                           ElementName=Window}"
                                     IsReadOnly="True"
+                                    IsTransparent="False"
                                     Source="{Binding Html,
                                                      Mode=OneWay}" />
                 </Border>
