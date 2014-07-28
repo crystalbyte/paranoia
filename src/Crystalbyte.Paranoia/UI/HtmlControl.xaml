@@ -25,16 +25,17 @@
         <Setter Property="KeyboardNavigation.TabNavigation" Value="Local" />
         <Setter Property="IsTransparent" Value="False" />
         <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Focusable" Value="False" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBorderBrush}}" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBackgroundBrush}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:HtmlControl">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <awe:WebDialogsLayer>
+                        <awe:WebDialogsLayer Focusable="False">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -42,6 +43,7 @@
                                 </Grid.RowDefinitions>
                                 <ItemsControl Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                                  AppMenuBackgroundBrush}}"
+                                              Focusable="false"
                                               IsTabStop="False"
                                               KeyboardNavigation.TabNavigation="Local"
                                               Visibility="{TemplateBinding IsReadOnly,
@@ -107,13 +109,7 @@
                 <Setter Property="Opacity" Value="0.56" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBorderBrush}}" />
-            </Trigger>
-            <Trigger Property="IsKeyboardFocused" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
-            </Trigger>
-            <Trigger Property="IsFocused" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBorderHoverBrush}}" />
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
                 <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />

@@ -142,6 +142,7 @@
     <Compile Include="Contexts\MailMessageContext.cs" />
     <Compile Include="Contexts\MailAccountContext.cs" />
     <Compile Include="SharedResourceDictionary.cs" />
+    <Compile Include="UI\DynamicContainerStyle.cs" />
     <Compile Include="UI\HtmlStorage.cs" />
     <Compile Include="UI\AutoCompleteBox.xaml.cs">
       <DependentUpon>AutoCompleteBox.xaml</DependentUpon>

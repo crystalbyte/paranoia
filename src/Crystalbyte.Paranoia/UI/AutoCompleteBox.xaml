@@ -65,7 +65,7 @@
                             <Setter TargetName="border" Property="Opacity" Value="0.56" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBorderBrush}}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBorderHoverBrush}}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />

@@ -65,7 +65,11 @@
     <SolidColorBrush x:Key="AppDisabledTextBrush" Color="{StaticResource AppDisabledTextColor}" />
     <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}" Color="{StaticResource AppDisabledTextColor}" />
 
-    <Color x:Key="AppSelectedUnfocusedColor">#FFDDDDDD</Color>
+    <Color x:Key="AppDisabledControlBorderColor">DimGray</Color>
+    <SolidColorBrush x:Key="AppDisabledControlBorderBrush" Color="{StaticResource AppDisabledControlBorderColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppDisabledControlBorderBrush}" Color="{StaticResource AppDisabledControlBorderColor}" />
+
+    <Color x:Key="AppSelectedUnfocusedColor">#515151</Color>
     <SolidColorBrush x:Key="AppSelectedUnfocusedBrush" Color="{StaticResource AppSelectedUnfocusedColor}" />
     <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppSelectedUnfocusedBrush}" Color="{StaticResource AppSelectedUnfocusedColor}" />
 
