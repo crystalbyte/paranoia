@@ -1,73 +1,87 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
-    <Style x:Key="AppWindowButtonStyle" TargetType="ButtonBase">
-        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBorderBrush}}" />
-        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBackgroundBrush}}" />
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Width" Value="Auto" />
-        <Setter Property="Height" Value="Auto" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ButtonBase">
-                    <Border Margin="{TemplateBinding Margin}"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="{TemplateBinding Padding}">
-                        <Grid>
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </Grid>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" />
-            </Trigger>
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsPressed" Value="True" />
-                    <Condition Property="IsMouseOver" Value="True" />
-                </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
-            </MultiTrigger>
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsMouseOver" Value="True" />
-                    <Condition Property="IsPressed" Value="False" />
-                </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppHoverBrush}}" />
-            </MultiTrigger>
-        </Style.Triggers>
-    </Style>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppShadeOpacity}">0.6</system:Double>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppExtraSmallFontSize}">8</system:Double>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppSmallFontSize}">10</system:Double>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppNormalFontSize}">12</system:Double>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppMediumFontSize}">15</system:Double>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppMediumLargeFontSize}">16</system:Double>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppLargeFontSize}">22</system:Double>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppExtraLargeFontSize}">28</system:Double>
 
-    <Style x:Key="AppCommandButtonStyle"
-           BasedOn="{StaticResource AppWindowButtonStyle}"
-           TargetType="ButtonBase">
+    <!--  App  -->
+    <Color x:Key="AppAccentColor">#CD7F32</Color>
+    <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccentColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}" Color="{StaticResource AppAccentColor}" />
+
+    <!--  Window  -->
+    <Color x:Key="AppWindowBackgroundColor">#222222</Color>
+    <SolidColorBrush x:Key="AppWindowBackgroundBrush" Color="{StaticResource AppWindowBackgroundColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppWindowBackgroundBrush}" Color="{StaticResource AppWindowBackgroundColor}" />
+
+    <Color x:Key="AppShadeColor">Black</Color>
+    <SolidColorBrush x:Key="AppShadeBrush" Color="{StaticResource AppShadeColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppShadeBrush}" Color="{StaticResource AppShadeColor}" />
+
+    <Color x:Key="AppOverlayBackroundColor">#262626</Color>
+    <SolidColorBrush x:Key="AppOverlayBackroundBrush" Color="{StaticResource AppOverlayBackroundColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppOverlayBackroundBrush}" Color="{StaticResource AppOverlayBackroundColor}" />
+
+    <!--  Control  -->
+    <Color x:Key="AppControlBackgroundColor">#222222</Color>
+    <SolidColorBrush x:Key="AppControlBackgroundBrush" Color="{StaticResource AppControlBackgroundColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppControlBackgroundBrush}" Color="{StaticResource AppControlBackgroundColor}" />
+
+    <Color x:Key="AppControlBorderColor">#515151</Color>
+    <SolidColorBrush x:Key="AppControlBorderBrush" Color="{StaticResource AppControlBorderColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppControlBorderBrush}" Color="{StaticResource AppControlBorderColor}" />
+
+    <Color x:Key="AppControlBorderHoverColor">#A3A3A3</Color>
+    <SolidColorBrush x:Key="AppControlBorderHoverBrush" Color="{StaticResource AppControlBorderHoverColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppControlBorderHoverBrush}" Color="{StaticResource AppControlBorderHoverColor}" />
+
+    <Color x:Key="AppHoverColor">#333333</Color>
+    <SolidColorBrush x:Key="AppHoverBrush" Color="{StaticResource AppHoverColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppHoverBrush}" Color="{StaticResource AppHoverColor}" />
+
+    <!--  Menu  -->
+    <Color x:Key="AppMenuBackgroundColor">#111111</Color>
+    <SolidColorBrush x:Key="AppMenuBackgroundBrush" Color="{StaticResource AppMenuBackgroundColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppMenuBackgroundBrush}" Color="{StaticResource AppMenuBackgroundColor}" />
+
+    <!--  Text  -->
+    <Color x:Key="AppLightTextColor">GhostWhite</Color>
+    <SolidColorBrush x:Key="AppLightTextBrush" Color="{StaticResource AppLightTextColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}" Color="{StaticResource AppLightTextColor}" />
+
+    <Color x:Key="AppMediumTextColor">#A3A3A3</Color>
+    <SolidColorBrush x:Key="AppMediumTextBrush" Color="{StaticResource AppMediumTextColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}" Color="{StaticResource AppMediumTextColor}" />
+
+    <Color x:Key="AppDisabledTextColor">DimGray</Color>
+    <SolidColorBrush x:Key="AppDisabledTextBrush" Color="{StaticResource AppDisabledTextColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}" Color="{StaticResource AppDisabledTextColor}" />
+
+    <Color x:Key="AppDisabledControlBorderColor">DimGray</Color>
+    <SolidColorBrush x:Key="AppDisabledControlBorderBrush" Color="{StaticResource AppDisabledControlBorderColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppDisabledControlBorderBrush}" Color="{StaticResource AppDisabledControlBorderColor}" />
+
+    <Color x:Key="AppSelectedUnfocusedColor">#515151</Color>
+    <SolidColorBrush x:Key="AppSelectedUnfocusedBrush" Color="{StaticResource AppSelectedUnfocusedColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppSelectedUnfocusedBrush}" Color="{StaticResource AppSelectedUnfocusedColor}" />
+
+    <Style x:Key="AppCommandButtonStyle" TargetType="ButtonBase">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="Width" Value="32" />
         <Setter Property="Height" Value="24" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
-                                        AppCircleButtonStyle}"
-           BasedOn="{StaticResource AppWindowButtonStyle}"
-           TargetType="ButtonBase">
+    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppCircleButtonStyle}" TargetType="ButtonBase">
         <Setter Property="Margin" Value="6" />
         <Setter Property="Width" Value="32" />
         <Setter Property="Height" Value="32" />
@@ -286,6 +300,25 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppLightTextStyle}" TargetType="TextBlock" />
+
+    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppWatermarkTextStyle}" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" />
+        <Setter Property="FontStyle" Value="Italic" />
+        <Setter Property="Padding" Value="5,3,3,3" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppTitleTextStyle}" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,6,0,12" />
+        <Setter Property="FontSize" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLargeFontSize}}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppSubtitleTextStyle}" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,2,0,2" />
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" />
+        <Setter Property="FontSize" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumFontSize}}" />
     </Style>
 
 </ResourceDictionary>

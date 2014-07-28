@@ -7,7 +7,14 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/Metro.Obsidian/Metro.Obsidian.xaml" />
+                <ResourceDictionary Source="Themes/Metro.Themes.Obsidian.xaml" />
+                <ResourceDictionary Source="Themes/Metro.Templates.TextBlock.xaml" />
+                <ResourceDictionary Source="Themes/Metro.Templates.TextBox.xaml" />
+                <ResourceDictionary Source="Themes/Metro.Templates.RichTextBox.xaml" />
+                <ResourceDictionary Source="Themes/Metro.Templates.GridSplitter.xaml" />
+                <ResourceDictionary Source="Themes/Metro.Templates.Button.xaml" />
+                <ResourceDictionary Source="Themes/Metro.Templates.PasswordBox.xaml" />
+                <ResourceDictionary Source="Themes/Metro.Templates.ListView.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />

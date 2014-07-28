@@ -1,5 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Paranoia;component/Themes/Metro.Themes.Obsidian.xaml" />
+        <ResourceDictionary Source="/Paranoia;component/Themes/Metro.Templates.TextBlock.xaml" />
+        <ResourceDictionary Source="/Paranoia;component/Themes/Metro.Templates.TextBox.xaml" />
+        <ResourceDictionary Source="/Paranoia;component/Themes/Metro.Templates.RichTextBox.xaml" />
+        <ResourceDictionary Source="/Paranoia;component/Themes/Metro.Templates.GridSplitter.xaml" />
+        <ResourceDictionary Source="/Paranoia;component/Themes/Metro.Templates.Button.xaml" />
+        <ResourceDictionary Source="/Paranoia;component/Themes/Metro.Templates.PasswordBox.xaml" />
+        <ResourceDictionary Source="/Paranoia;component/Themes/Metro.Templates.ListView.xaml" />
+
         <ResourceDictionary Source="/Paranoia;component/UI/HtmlControl.xaml" />
         <ResourceDictionary Source="/Paranoia;component/UI/AutoCompleteBox.xaml" />
         <ResourceDictionary Source="/Paranoia;component/UI/MetroWindow.xaml" />
