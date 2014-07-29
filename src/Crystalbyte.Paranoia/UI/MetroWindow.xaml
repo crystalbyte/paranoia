@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
-                    xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
-                    xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties">
+                    xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+                    xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <converters:GravatarImageConverter x:Key="GravatarImageConverter" />

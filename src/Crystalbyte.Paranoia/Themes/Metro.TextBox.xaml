@@ -3,7 +3,6 @@
                     xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties">
 
     <Style TargetType="TextBox">
-        <Setter Property="FontWeight" Value="Thin" />
         <Setter Property="FontSize" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppNormalFontSize}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBorderBrush}}" />
         <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBackgroundBrush}}" />

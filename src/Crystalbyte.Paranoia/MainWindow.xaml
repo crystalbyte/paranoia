@@ -14,7 +14,8 @@
                 Height="768"
                 MinWidth="1024"
                 MinHeight="600"
-                Background="{StaticResource AppWindowBackgroundBrush}"
+                Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                   AppWindowBackgroundBrush}}"
                 BorderThickness="0"
                 Icon="/Assets/icon.png"
                 KeyboardNavigation.TabNavigation="Local"
@@ -370,9 +371,7 @@
         </Grid>
         <GridSplitter Grid.Row="1"
                       Grid.RowSpan="3"
-                      Grid.Column="1"
-                      Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                    VerticalSplitterStyle}}" />
+                      Grid.Column="1" />
         <StackPanel Grid.Row="0"
                     Grid.Column="2"
                     Grid.ColumnSpan="2"
@@ -736,9 +735,7 @@
         </Grid>
         <GridSplitter Grid.Row="1"
                       Grid.RowSpan="3"
-                      Grid.Column="3"
-                      Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                    VerticalSplitterStyle}}" />
+                      Grid.Column="3" />
         <Grid Grid.Row="3"
               Grid.Column="4"
               Margin="0">

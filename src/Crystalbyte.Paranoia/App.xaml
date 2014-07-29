@@ -2,19 +2,20 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
+             xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
              StartupUri="MainWindow.xaml">
     <!--  Default styles: http://msdn.microsoft.com/en-us/library/aa970773.aspx  -->
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/Metro.Themes.Obsidian.xaml" />
-                <ResourceDictionary Source="Themes/Metro.Templates.TextBlock.xaml" />
-                <ResourceDictionary Source="Themes/Metro.Templates.TextBox.xaml" />
-                <ResourceDictionary Source="Themes/Metro.Templates.RichTextBox.xaml" />
-                <ResourceDictionary Source="Themes/Metro.Templates.GridSplitter.xaml" />
-                <ResourceDictionary Source="Themes/Metro.Templates.Button.xaml" />
-                <ResourceDictionary Source="Themes/Metro.Templates.PasswordBox.xaml" />
-                <ResourceDictionary Source="Themes/Metro.Templates.ListView.xaml" />
+                <paranoia:SharedResourceDictionary Source="/Themes/Metro.Resources.xaml" />
+                <paranoia:SharedResourceDictionary Source="/Themes/Metro.TextBlock.xaml" />
+                <paranoia:SharedResourceDictionary Source="/Themes/Metro.TextBox.xaml" />
+                <paranoia:SharedResourceDictionary Source="/Themes/Metro.RichTextBox.xaml" />
+                <paranoia:SharedResourceDictionary Source="/Themes/Metro.GridSplitter.xaml" />
+                <paranoia:SharedResourceDictionary Source="/Themes/Metro.Button.xaml" />
+                <paranoia:SharedResourceDictionary Source="/Themes/Metro.PasswordBox.xaml" />
+                <paranoia:SharedResourceDictionary Source="/Themes/Metro.ListView.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />

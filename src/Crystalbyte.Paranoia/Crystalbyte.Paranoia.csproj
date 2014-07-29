@@ -232,35 +232,35 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Metro.Templates.Button.xaml">
+    <Page Include="Themes\Metro.Button.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Metro.Templates.GridSplitter.xaml">
+    <Page Include="Themes\Metro.GridSplitter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Metro.Templates.ListView.xaml">
+    <Page Include="Themes\Metro.ListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Metro.Templates.PasswordBox.xaml">
+    <Page Include="Themes\Metro.PasswordBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Metro.Themes.Obsidian.xaml">
+    <Page Include="Themes\Metro.Resources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Metro.Templates.RichTextBox.xaml">
+    <Page Include="Themes\Metro.RichTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Metro.Templates.TextBlock.xaml">
+    <Page Include="Themes\Metro.TextBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Metro.Templates.TextBox.xaml">
+    <Page Include="Themes\Metro.TextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
