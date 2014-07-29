@@ -3,14 +3,7 @@
                     xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
                     xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties">
     <ResourceDictionary.MergedDictionaries>
-        <paranoia:SharedResourceDictionary Source="/Paranoia;component/Themes/Metro.Resources.xaml" />
-        <paranoia:SharedResourceDictionary Source="/Paranoia;component/Themes/Metro.TextBlock.xaml" />
-        <paranoia:SharedResourceDictionary Source="/Paranoia;component/Themes/Metro.TextBox.xaml" />
-        <paranoia:SharedResourceDictionary Source="/Paranoia;component/Themes/Metro.RichTextBox.xaml" />
-        <paranoia:SharedResourceDictionary Source="/Paranoia;component/Themes/Metro.GridSplitter.xaml" />
-        <paranoia:SharedResourceDictionary Source="/Paranoia;component/Themes/Metro.Button.xaml" />
-        <paranoia:SharedResourceDictionary Source="/Paranoia;component/Themes/Metro.PasswordBox.xaml" />
-        <paranoia:SharedResourceDictionary Source="/Paranoia;component/Themes/Metro.ListView.xaml" />
+        <paranoia:SharedResourceDictionary Source="Metro.Resources.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="AppListViewItemStyle" TargetType="ListViewItem">
