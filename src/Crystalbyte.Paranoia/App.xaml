@@ -8,14 +8,14 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <paranoia:SharedResourceDictionary Source="/Themes/Metro.Resources.xaml" />
-                <paranoia:SharedResourceDictionary Source="/Themes/Metro.TextBlock.xaml" />
-                <paranoia:SharedResourceDictionary Source="/Themes/Metro.TextBox.xaml" />
-                <paranoia:SharedResourceDictionary Source="/Themes/Metro.RichTextBox.xaml" />
-                <paranoia:SharedResourceDictionary Source="/Themes/Metro.GridSplitter.xaml" />
-                <paranoia:SharedResourceDictionary Source="/Themes/Metro.Button.xaml" />
-                <paranoia:SharedResourceDictionary Source="/Themes/Metro.PasswordBox.xaml" />
-                <paranoia:SharedResourceDictionary Source="/Themes/Metro.ListView.xaml" />
+                <ResourceDictionary Source="/Themes/Metro.Resources.xaml" />
+                <ResourceDictionary Source="/Themes/Metro.TextBlock.xaml" />
+                <ResourceDictionary Source="/Themes/Metro.TextBox.xaml" />
+                <ResourceDictionary Source="/Themes/Metro.RichTextBox.xaml" />
+                <ResourceDictionary Source="/Themes/Metro.GridSplitter.xaml" />
+                <ResourceDictionary Source="/Themes/Metro.Button.xaml" />
+                <ResourceDictionary Source="/Themes/Metro.PasswordBox.xaml" />
+                <ResourceDictionary Source="/Themes/Metro.ListView.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />

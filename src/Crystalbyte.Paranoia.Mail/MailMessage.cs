@@ -53,7 +53,7 @@ namespace Crystalbyte.Paranoia.Mail {
         #region Constructors
 
         /// <summary>
-        ///     Convenience constructor for <see cref="Mime.MailMessage(byte[], bool)" />.<br />
+        ///     Convenience constructor for <see cref="MailMessage" />.<br />
         ///     <br />
         ///     Creates a message from a byte array. The full message including its body is parsed.
         /// </summary>
@@ -131,29 +131,10 @@ namespace Crystalbyte.Paranoia.Mail {
             return FindFirstMessagePartWithMediaType("text/html");
         }
 
-        /// <summary>
-        ///     Finds all the <see cref="MessagePart" />'s which contains a text version.<br />
-        ///     <br />
-        ///     <see cref="Crystalbyte.Paranoia.Messaging.Mime.MessagePartich are considered to be text versions.<br />
-        ///     <br />
-        ///     Examples of MessageParts media types are:
-        ///     <list type="bullet">
-        ///         <item>text/plain</item>
-        ///         <item>text/html</item>
-        ///         <item>text/xml</item>
-        ///     </list>
-        /// </summary>
-        /// <returns> A List of MessageParts where each part is a text version </returns>
         public List<MessagePart> FindAllTextVersions() {
             return new TextVersionFinder().VisitMessage(this);
         }
 
-        /// <summary>
-        ///     Finds all the <see cref="MessagePart" />'s which are attachments to this message.<br />
-        ///     <br />
-        ///     <see cref="Crystalbyte.Paranoia.Messaging.Mime.MessagePartrts which are considered to be attachments.
-        /// </summary>
-        /// <returns> A List of MessageParts where each is considered an attachment </returns>
         public List<MessagePart> FindAllAttachments() {
             return new AttachmentFinder().VisitMessage(this);
         }

@@ -141,7 +141,6 @@
     <Compile Include="Contexts\AppContext.cs" />
     <Compile Include="Contexts\MailMessageContext.cs" />
     <Compile Include="Contexts\MailAccountContext.cs" />
-    <Compile Include="SharedResourceDictionary.cs" />
     <Compile Include="UI\DynamicContainerStyle.cs" />
     <Compile Include="UI\HtmlStorage.cs" />
     <Compile Include="UI\AutoCompleteBox.xaml.cs">
@@ -370,9 +369,6 @@
     <Resource Include="Assets\restore.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\background.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\reply.png" />
     <Resource Include="Assets\forward.png" />
     <Resource Include="Assets\reply.small.png" />
@@ -386,6 +382,7 @@
     <Resource Include="Assets\back.png" />
     <Resource Include="Assets\send.png" />
     <Resource Include="Resources\composition.template.html" />
+    <Resource Include="Assets\nsa.jpg" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

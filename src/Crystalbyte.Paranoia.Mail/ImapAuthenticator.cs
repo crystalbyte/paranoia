@@ -17,6 +17,7 @@ namespace Crystalbyte.Paranoia.Mail {
         internal ImapConnection Connection {
             get { return _connection; }
         }
+
         public bool IsAuthenticated { get; private set; }
 
         public async Task<ImapSession> LoginAsync(string username, string password) {

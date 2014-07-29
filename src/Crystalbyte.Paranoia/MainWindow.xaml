@@ -14,8 +14,6 @@
                 Height="768"
                 MinWidth="1024"
                 MinHeight="600"
-                Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                   AppWindowBackgroundBrush}}"
                 BorderThickness="0"
                 Icon="/Assets/icon.png"
                 KeyboardNavigation.TabNavigation="Local"
@@ -23,6 +21,13 @@
                 WindowStartupLocation="CenterScreen"
                 d:DataContext="{d:DesignInstance paranoia:AppContext}"
                 mc:Ignorable="d">
+    <ui:MetroWindow.Background>
+        <VisualBrush TileMode="Tile" Viewport="0,0,1,1">
+            <VisualBrush.Visual>
+                <Image Source="/Assets/nsa.jpg" />
+            </VisualBrush.Visual>
+        </VisualBrush>
+    </ui:MetroWindow.Background>
     <ui:MetroWindow.Resources>
         <!--  ReSharper disable once Xaml.RedundantResource  -->
         <Storyboard x:Key="OverlaySlideInStoryboard">
@@ -139,14 +144,6 @@
                    Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                    AppShadeOpacity}}"
                    RenderOptions.EdgeMode="Aliased" />
-        <Image Grid.Row="0"
-               Grid.RowSpan="4"
-               Grid.Column="0"
-               Grid.ColumnSpan="5"
-               Margin="0"
-               Source="/Assets/background.jpg"
-               Stretch="UniformToFill" />
-
         <Rectangle Grid.Row="0"
                    Grid.Column="0"
                    Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -322,7 +319,7 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
                 <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
+                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                         <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Cvsp}" />
                         <Setter Property="Padding" Value="6,2,6,2" />
@@ -356,7 +353,8 @@
                                                                                           AppLightTextBrush}}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Text="{Binding Name}" />
-                            <TextBlock Grid.Row="1"
+                            <TextBlock x:Name="AddressBlock"
+                                       Grid.Row="1"
                                        Grid.Column="1"
                                        FontWeight="Thin"
                                        Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -365,6 +363,11 @@
                                        Text="{Binding Address}" />
 
                         </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
@@ -422,7 +425,7 @@
                     <KeyBinding Key="Delete" Command="{Binding DropMailboxCommand}" />
                 </ListView.InputBindings>
                 <ListView.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListViewItem}">
+                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                         <Setter Property="Margin" Value="0" />
                         <Setter Property="Padding" Value="8,1,8,1" />
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
@@ -652,7 +655,7 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
                 <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
+                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                         <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                         <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Mvsp}" />

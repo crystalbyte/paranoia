@@ -3,7 +3,7 @@
                     xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppShadeOpacity}">0.6</system:Double>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppShadeOpacity}">0.8</system:Double>
     <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppExtraSmallFontSize}">8</system:Double>
     <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppSmallFontSize}">10</system:Double>
     <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppNormalFontSize}">12</system:Double>
@@ -13,7 +13,7 @@
     <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppExtraLargeFontSize}">28</system:Double>
 
     <!--  App  -->
-    <Color x:Key="AppAccentColor">#CD7F32</Color>
+    <Color x:Key="AppAccentColor">#006FC4</Color>
     <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccentColor}" />
     <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}" Color="{StaticResource AppAccentColor}" />
 
