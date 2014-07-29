@@ -24,7 +24,7 @@
     <ui:MetroWindow.Background>
         <VisualBrush TileMode="Tile" Viewport="0,0,1,1">
             <VisualBrush.Visual>
-                <Image Source="/Assets/nsa.jpg" />
+                <Image Source="/Assets/map.jpg" />
             </VisualBrush.Visual>
         </VisualBrush>
     </ui:MetroWindow.Background>
@@ -710,7 +710,8 @@
                                        TextTrimming="CharacterEllipsis"
                                        TextWrapping="NoWrap" />
 
-                            <TextBlock Grid.Row="1"
+                            <TextBlock x:Name="FromBlock"
+                                       Grid.Row="1"
                                        Grid.Column="1"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
@@ -720,7 +721,8 @@
                                                             Converter={StaticResource SeenBrushConverter}}"
                                        Text="{Binding FromName}" />
 
-                            <TextBlock Grid.Row="1"
+                            <TextBlock x:Name="DateBlock"
+                                       Grid.Row="1"
                                        Grid.Column="2"
                                        HorizontalAlignment="Right"
                                        VerticalAlignment="Center"
@@ -732,6 +734,12 @@
                                                       Converter={StaticResource DateFormatter}}" />
 
                         </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                <Setter TargetName="FromBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                                <Setter TargetName="DateBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

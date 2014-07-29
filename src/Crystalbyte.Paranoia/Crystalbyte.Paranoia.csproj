@@ -382,7 +382,7 @@
     <Resource Include="Assets\back.png" />
     <Resource Include="Assets\send.png" />
     <Resource Include="Resources\composition.template.html" />
-    <Resource Include="Assets\nsa.jpg" />
+    <Resource Include="Assets\map.jpg" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
