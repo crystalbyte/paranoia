@@ -487,8 +487,7 @@
                                    Grid.Row="0"
                                    Grid.Column="0"
                                    AllowsTransparency="True"
-                                   IsOpen="{Binding IsAssignable,
-                                                    Mode=OneWay}"
+                                   IsOpen="False"
                                    Placement="Center"
                                    PlacementTarget="{Binding ElementName=MailboxLayoutRoot}"
                                    StaysOpen="False"
