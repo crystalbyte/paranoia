@@ -8,7 +8,7 @@
     <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppSmallFontSize}">10</system:Double>
     <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppNormalFontSize}">12</system:Double>
     <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppMediumFontSize}">15</system:Double>
-    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppMediumLargeFontSize}">16</system:Double>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppMediumLargeFontSize}">16.8</system:Double>
     <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppLargeFontSize}">22</system:Double>
     <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppExtraLargeFontSize}">28</system:Double>
 

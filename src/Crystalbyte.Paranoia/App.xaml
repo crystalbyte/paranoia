@@ -25,6 +25,7 @@
             <converters:CollectionCounter x:Key="CollectionCounter" />
             <converters:DateFormatter x:Key="DateFormatter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <converters:QuantityToVisibilityConverter x:Key="QuantityToVisibilityConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

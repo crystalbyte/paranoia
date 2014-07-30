@@ -76,7 +76,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void HookUpControls() {
-            App.Context.HookUpSearchBox(SearchBox);
+            //App.Context.HookUpSearchBox(SearchBox);
         }
 
         private void HookUpNavigationService() {

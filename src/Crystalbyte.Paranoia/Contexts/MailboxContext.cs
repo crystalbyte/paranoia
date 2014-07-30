@@ -30,6 +30,7 @@ namespace Crystalbyte.Paranoia {
         private readonly AssignMailboxCommand _assignmentCommand;
         private MailboxCandidateContext _selectedCandidate;
         private bool _isLoadingMessage;
+        private int _notSeenCount;
 
         internal MailboxContext(MailAccountContext account, MailboxModel mailbox) {
             _account = account;
@@ -216,6 +217,17 @@ namespace Crystalbyte.Paranoia {
             get { return _mailboxCandidates; }
         }
 
+        public int NotSeenCount {
+            get { return _notSeenCount; }
+            set {
+                if (_notSeenCount == value) {
+                    return;
+                }
+                _notSeenCount = value;
+                RaisePropertyChanged(() => NotSeenCount);
+            }
+        }
+
         public bool IsSyncing {
             get { return _isSyncing; }
             set {
@@ -354,7 +366,17 @@ namespace Crystalbyte.Paranoia {
             } else {
                 Messages.AddRange(contexts);
             }
+
             _account.AppContext.NotifyMessageCountChanged();
+            CountNotSeen();
+        }
+
+        private void CountNotSeen() {
+            if (Messages == null) {
+                NotSeenCount = 0;
+                return;
+            }
+            NotSeenCount = Messages.Count(x => x.IsNotSeen);
         }
 
         internal async Task LoadMessagesFromDatabaseAsync(MailContactContext contact) {
@@ -463,6 +485,7 @@ namespace Crystalbyte.Paranoia {
 
             await LoadMessagesFromDatabaseAsync(contact);
             _account.AppContext.DisplayMessages(Messages);
+            CountNotSeen();
         }
     }
 }

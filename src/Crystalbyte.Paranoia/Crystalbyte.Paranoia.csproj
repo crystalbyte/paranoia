@@ -141,6 +141,7 @@
     <Compile Include="Contexts\AppContext.cs" />
     <Compile Include="Contexts\MailMessageContext.cs" />
     <Compile Include="Contexts\MailAccountContext.cs" />
+    <Compile Include="UI\Converters\QuantityToVisibilityConverter.cs" />
     <Compile Include="UI\DynamicContainerStyle.cs" />
     <Compile Include="UI\HtmlStorage.cs" />
     <Compile Include="UI\AutoCompleteBox.xaml.cs">

@@ -124,11 +124,12 @@
                               MinWidth="280"
                               MaxWidth="500" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="0.45*"
+            <ColumnDefinition Width="400"
                               MinWidth="260"
                               MaxWidth="800" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="0.55*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.Resources>
             <CollectionViewSource x:Key="MessagesSource" Source="{Binding Messages}">
@@ -157,7 +158,8 @@
                    Margin="6,0,0,0"
                    VerticalAlignment="Center"
                    Panel.ZIndex="1000"
-                   LastChildFill="True">
+                   LastChildFill="True"
+                   d:IsLocked="True">
             <Image Height="20"
                    Margin="0,0,6,0"
                    VerticalAlignment="Center"
@@ -175,8 +177,7 @@
                                                                      AncestorType=paranoia:MainWindow}}" />
         </DockPanel>
         <Grid Grid.Row="0"
-              Grid.Column="0"
-              Grid.ColumnSpan="5"
+              Grid.Column="5"
               HorizontalAlignment="Right"
               VerticalAlignment="Top"
               Panel.ZIndex="2000">
@@ -375,37 +376,41 @@
         <GridSplitter Grid.Row="1"
                       Grid.RowSpan="3"
                       Grid.Column="1" />
-        <StackPanel Grid.Row="0"
-                    Grid.Column="2"
-                    Grid.ColumnSpan="2"
-                    Margin="0"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
+        <!--
+            <StackPanel Grid.Row="0"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            Margin="0"
+            VerticalAlignment="Center"
+            Orientation="Horizontal" d:IsHidden="True" d:IsLocked="True">
             <TextBox x:Name="SearchBox"
-                     Margin="0,4,0,4"
-                     TabIndex="3"
-                     Text="{Binding QueryString,
-                                    Mode=TwoWay,
-                                    UpdateSourceTrigger=PropertyChanged}"
-                     ui:Watermark.IsEnabled="True"
-                     ui:Watermark.Text="{x:Static properties:Resources.SearchBoxWatermark}">
-                <TextBox.InputBindings>
-                    <KeyBinding Key="Escape"
-                                Command="{Binding FocusSearchBoxCommand}"
-                                CommandParameter="!" />
-                </TextBox.InputBindings>
+            Margin="0,4,0,4"
+            TabIndex="3"
+            Text="{Binding QueryString,
+            Mode=TwoWay,
+            UpdateSourceTrigger=PropertyChanged}"
+            ui:Watermark.IsEnabled="True"
+            ui:Watermark.Text="{x:Static properties:Resources.SearchBoxWatermark}">
+            <TextBox.InputBindings>
+            <KeyBinding Key="Escape"
+            Command="{Binding FocusSearchBoxCommand}"
+            CommandParameter="!" />
+            </TextBox.InputBindings>
             </TextBox>
-        </StackPanel>
-        <Rectangle Grid.Row="1"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="5"
-                   Margin="0"
-                   Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                AppShadeBrush}}"
-                   Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                   AppShadeOpacity}}"
-                   RenderOptions.EdgeMode="Aliased" />
-        <Grid Grid.Row="1"
+            </StackPanel>
+        -->
+        <!--
+            <Rectangle Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="5"
+            Margin="0"
+            Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+            AppShadeBrush}}"
+            Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+            AppShadeOpacity}}"
+            RenderOptions.EdgeMode="Aliased" />
+        -->
+        <Grid Grid.Row="0"
               Grid.Column="2"
               Grid.ColumnSpan="3"
               Margin="0">
@@ -437,25 +442,46 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate DataType="paranoia:MailboxContext">
                         <Grid x:Name="MailboxLayoutRoot">
-                            <TextBlock Margin="3"
-                                       VerticalAlignment="Center"
-                                       FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                        AppMediumLargeFontSize}}"
-                                       FontWeight="Thin"
-                                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                     AppNormalTextStyle}}"
-                                       Text="{Binding Type,
-                                                      Converter={StaticResource MailboxLocalizer}}">
-                                <TextBlock.Foreground>
-                                    <Binding Path="IsAssigned">
-                                        <Binding.Converter>
-                                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
-                                        </Binding.Converter>
-                                    </Binding>
-                                </TextBlock.Foreground>
-                            </TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="3"
+                                           VerticalAlignment="Center"
+                                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                            AppMediumLargeFontSize}}"
+                                           FontWeight="Light"
+                                           Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                         AppLightTextStyle}}"
+                                           Text="{Binding Type,
+                                                          Converter={StaticResource MailboxLocalizer}}">
+                                    <TextBlock.Foreground>
+                                        <Binding Path="IsAssigned">
+                                            <Binding.Converter>
+                                                <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                                            </Binding.Converter>
+                                        </Binding>
+                                    </TextBlock.Foreground>
+                                </TextBlock>
+                                <TextBlock x:Name="QuantityBlock"
+                                           VerticalAlignment="Center"
+                                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                            AppMediumLargeFontSize}}"
+                                           Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                         AppLightTextStyle}}"
+                                           Text="{Binding NotSeenCount,
+                                                          StringFormat={}({0})}"
+                                           Visibility="{Binding NotSeenCount,
+                                                                Converter={StaticResource QuantityToVisibilityConverter}}">
+
+                                    <TextBlock.Foreground>
+                                        <Binding Path="IsSelected">
+                                            <Binding.Converter>
+                                                <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                                            </Binding.Converter>
+                                        </Binding>
+                                    </TextBlock.Foreground>
+                                </TextBlock>
+                            </StackPanel>
                             <Popup x:Name="AssignmentPopup"
                                    Grid.Row="0"
                                    Grid.Column="0"
@@ -561,6 +587,11 @@
                                 </StackPanel>
                             </Popup>
                         </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                <Setter TargetName="QuantityBlock" Property="FontWeight" Value="Thin" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
@@ -749,6 +780,7 @@
                       Grid.Column="3" />
         <Grid Grid.Row="3"
               Grid.Column="4"
+              Grid.ColumnSpan="2"
               Margin="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -871,7 +903,7 @@
               Grid.Row="0"
               Grid.RowSpan="4"
               Grid.Column="0"
-              Grid.ColumnSpan="5"
+              Grid.ColumnSpan="6"
               Panel.ZIndex="1000"
               RenderTransformOrigin="0.5,0.5"
               Visibility="Collapsed">

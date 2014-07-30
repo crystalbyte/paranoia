@@ -6,6 +6,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="ListViewItem">
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Template">
@@ -57,6 +58,7 @@
     </Style>
 
     <Style TargetType="ListView">
+
         <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBackgroundBrush}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBorderBrush}}" />
         <Setter Property="BorderThickness" Value="1" />
