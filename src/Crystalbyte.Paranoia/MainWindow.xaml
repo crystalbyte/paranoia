@@ -450,6 +450,7 @@
                                            FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                             AppMediumLargeFontSize}}"
                                            FontWeight="Light"
+                                           RenderOptions.ClearTypeHint="Enabled"
                                            Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                          AppLightTextStyle}}"
                                            Text="{Binding Type,
@@ -734,6 +735,7 @@
                                        FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                         AppMediumLargeFontSize}}"
                                        FontWeight="Thin"
+                                       RenderOptions.ClearTypeHint="Enabled"
                                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                      AppLightTextStyle}}"
                                        Text="{Binding Subject,
