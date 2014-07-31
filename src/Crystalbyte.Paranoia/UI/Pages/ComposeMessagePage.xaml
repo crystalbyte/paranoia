@@ -8,6 +8,7 @@
       xmlns:system="clr-namespace:System;assembly=mscorlib"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="{x:Static properties:Resources.ComposeMessagePageTitle}"
+      FocusManager.FocusedElement="{Binding ElementName=SuggestionBox}"
       d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}"
       d:DesignHeight="300"
       d:DesignWidth="300"
@@ -25,7 +26,6 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
                    Grid.Column="0"
-                   Margin="0,0,12,0"
                    VerticalAlignment="Center"
                    Text="{x:Static properties:Resources.Recipients}" />
         <ui:AutoCompleteBox x:Name="SuggestionBox"
@@ -115,7 +115,7 @@
         <ui:HtmlControl Grid.Row="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Margin="0,3,0,0"
+                        Margin="0,3,0,12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -123,12 +123,14 @@
                         IsTransparent="True"
                         Source="{Binding Text,
                                          Mode=TwoWay}" />
-        <Button Grid.Row="3"
-                Grid.Column="0"
-                HorizontalAlignment="Left"
-                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                              AppCircleButtonStyle}}">
-            <Image Width="20" Source="/Assets/send.png" />
-        </Button>
+        <ui:MetroCircleButton Grid.Row="3"
+                              Grid.Column="0"
+                              HorizontalAlignment="Left"
+                              Command="{Binding SendCommand}"
+                              Text="{x:Static properties:Resources.Send}">
+            <Image Width="22"
+                   Margin="4,0,0,0"
+                   Source="/Assets/send.png" />
+        </ui:MetroCircleButton>
     </Grid>
 </Page>

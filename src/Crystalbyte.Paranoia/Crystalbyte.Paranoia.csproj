@@ -162,6 +162,13 @@
     <Compile Include="UI\ItemsSourceRequestedEventArgs.cs" />
     <Compile Include="UI\ITokenMatcher.cs" />
     <Compile Include="UI\MailAddressTokenMatcher.cs" />
+    <Page Include="UI\MetroCircleButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="UI\MetroCircleButton.xaml.cs">
+      <DependentUpon>MetroCircleButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\NavigationRequestedEventArgs.cs" />
     <Compile Include="Contexts\QueryStringEventArgs.cs" />
     <Compile Include="Contexts\SelectionObject.cs" />
@@ -231,9 +238,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Metro.MenuItem.xaml">
+    <Page Include="Themes\Metro.ToggleButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Metro.ComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Metro.ContextMenu.xaml">
       <Generator>MSBuild:Compile</Generator>

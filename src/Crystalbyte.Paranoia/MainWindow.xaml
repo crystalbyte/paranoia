@@ -264,9 +264,9 @@
                     Margin="8,8,8,8"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom">
-                <Button Command="{Binding WriteMessageCommand}" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppCircleButtonStyle}}">
+                <ui:MetroCircleButton Command="{Binding WriteMessageCommand}">
                     <Image Width="18" Source="/Assets/message.png" />
-                </Button>
+                </ui:MetroCircleButton>
             </Border>
             <Border Grid.Row="3"
                     Grid.Column="0"
@@ -860,21 +860,21 @@
                                 Visibility="{Binding SelectedMessage,
                                                      Delay=100,
                                                      Converter={StaticResource NullToVisibilityConverter}}">
-                        <Button Command="{Binding ReplyCommand}" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppCircleButtonStyle}}">
+                        <ui:MetroCircleButton Command="{Binding ReplyCommand}">
                             <Image Width="18"
                                    Margin="-2,2,0,0"
                                    Source="/Assets/reply.png" />
-                        </Button>
-                        <Button Command="{Binding ForwardCommand}" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppCircleButtonStyle}}">
+                        </ui:MetroCircleButton>
+                        <ui:MetroCircleButton Command="{Binding ForwardCommand}">
                             <Image Width="18"
                                    Margin="-2,2,0,0"
                                    Source="/Assets/forward.png" />
-                        </Button>
-                        <Button Command="{Binding DeleteMessageCommand}" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppCircleButtonStyle}}">
+                        </ui:MetroCircleButton>
+                        <ui:MetroCircleButton Command="{Binding DeleteMessageCommand}">
                             <Image Width="18"
                                    Margin="0,0,0,0"
                                    Source="/Assets/delete.png" />
-                        </Button>
+                        </ui:MetroCircleButton>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -964,13 +964,11 @@
                                 Grid.Row="0"
                                 Margin="0,0,0,12"
                                 Orientation="Horizontal">
-                        <Button x:Name="Button"
-                                Margin="0,0,12,0"
-                                Command="ui:WindowCommands.CloseOverlay"
-                                Focusable="False"
-                                RenderTransformOrigin="0.5,0.5"
-                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                              AppCircleButtonStyle}}">
+                        <ui:MetroCircleButton x:Name="Button"
+                                              Margin="0,0,12,0"
+                                              Command="ui:WindowCommands.CloseOverlay"
+                                              Focusable="False"
+                                              RenderTransformOrigin="0.5,0.5">
                             <Button.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform />
@@ -982,7 +980,7 @@
                             <Image Width="18"
                                    HorizontalAlignment="Center"
                                    Source="/Assets/back.png" />
-                        </Button>
+                        </ui:MetroCircleButton>
                         <TextBlock x:Name="TextBlock"
                                    Margin="0"
                                    VerticalAlignment="Center"
@@ -1025,6 +1023,7 @@
             </Border>
         </Grid>
         <Border Grid.Row="1"
+                Grid.Column="0"
                 Grid.ColumnSpan="6"
                 VerticalAlignment="Top"
                 BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},

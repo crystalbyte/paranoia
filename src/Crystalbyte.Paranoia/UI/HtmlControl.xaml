@@ -7,6 +7,10 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Themes/Metro.ToggleButton.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <converters:HtmlRequestConverter x:Key="HtmlRequestConverter" />
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
@@ -14,7 +18,7 @@
         <awe:WebSessionProvider.DataSources>
             <ui:HtmlDataSourceProvider x:Key="paranoia" />
         </awe:WebSessionProvider.DataSources>
-        <core:WebPreferences Javascript="False"
+        <core:WebPreferences Javascript="True"
                              ShrinkStandaloneImagesToFit="False"
                              SmoothScrolling="True" />
     </awe:WebSessionProvider>
@@ -45,7 +49,7 @@
                                                                                                  AppMenuBackgroundBrush}}"
                                               Focusable="false"
                                               IsTabStop="False"
-                                              KeyboardNavigation.TabNavigation="Local"
+                                              KeyboardNavigation.TabNavigation="None"
                                               Visibility="{TemplateBinding IsReadOnly,
                                                                            Converter={StaticResource BooleanToVisibilityConverter},
                                                                            ConverterParameter=!}">
@@ -65,6 +69,8 @@
                                     </ComboBox>
                                     <ComboBox Width="50"
                                               Height="22"
+                                              Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                                 AppLightTextBrush}}"
                                               IsEditable="True"
                                               SelectedValue="{Binding HtmlFontSize,
                                                                       RelativeSource={RelativeSource TemplatedParent},
@@ -82,6 +88,13 @@
                                         <system:Int32>24</system:Int32>
                                         <system:Int32>32</system:Int32>
                                     </ComboBox>
+                                    <Separator />
+                                    <ToggleButton Margin="3,3,0,3"
+                                                  Content="{x:Static properties:Resources.Bold}"
+                                                  FontWeight="Bold"
+                                                  Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                                AppMenuToggleButtonStyle}}" />
+                                    <Separator />
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <WrapPanel />
@@ -91,16 +104,19 @@
                                 <Border Grid.Row="1" Padding="3">
                                     <awe:WebControl x:Name="PART_WebControl"
                                                     Background="{TemplateBinding Background}"
+                                                    IsTabStop="False"
                                                     IsTransparent="{TemplateBinding IsTransparent}"
+                                                    RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                                    RenderOptions.EdgeMode="Aliased"
+                                                    SnapsToDevicePixels="True"
                                                     Source="{TemplateBinding Source,
                                                                              Converter={StaticResource HtmlRequestConverter}}"
-                                                    TabIndex="0"
-                                                    WebSession="{Binding Source={StaticResource WebSessionProvider}}" />
+                                                    WebSession="{Binding Source={StaticResource WebSessionProvider}}"
+                                                    Zoom="{TemplateBinding Zoom}" />
                                 </Border>
                             </Grid>
                         </awe:WebDialogsLayer>
                     </Border>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -116,4 +132,5 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
 </ResourceDictionary>

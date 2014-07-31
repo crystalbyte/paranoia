@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Media;
 using Awesomium.Core;
 using Awesomium.Windows.Controls;
 using System.Windows;
 using System.Windows.Controls;
-using System.Configuration;
 using Crystalbyte.Paranoia.Properties;
 
 namespace Crystalbyte.Paranoia.UI {
@@ -38,14 +38,19 @@ namespace Crystalbyte.Paranoia.UI {
             HtmlFontSize = Settings.Default.HtmlDefaultFontSize;
 
             GotKeyboardFocus += OnGotKeyboardFocus;
+            IsKeyboardFocusWithinChanged += (sender, e) => Debug.WriteLine(Keyboard.FocusedElement);
 
             if (!DesignerProperties.GetIsInDesignMode(this)) {
-                Source = WebCore.Configuration.HomeURL.ToString();    
+                Source = WebCore.Configuration.HomeURL.ToString();
             }
         }
 
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
-            
+            var presenter = e.NewFocus as WebViewPresenter;
+            if (presenter == null) 
+                return;
+
+            FocusEntryParagraph();
         }
 
         #endregion
@@ -59,6 +64,15 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Dependency Properties
 
+        public float Zoom {
+            get { return (float)GetValue(ZoomProperty); }
+            set { SetValue(ZoomProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Zoom.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ZoomProperty =
+            DependencyProperty.Register("Zoom", typeof(float), typeof(HtmlControl), new PropertyMetadata(1.45f));
+
         public bool IsTransparent {
             get { return (bool)GetValue(IsTransparentProperty); }
             set { SetValue(IsTransparentProperty, value); }
@@ -66,7 +80,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         // Using a DependencyProperty as the backing store for IsTransparent.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsTransparentProperty =
-            DependencyProperty.Register("IsTransparent", typeof(bool), typeof(HtmlControl), new PropertyMetadata(false));   
+            DependencyProperty.Register("IsTransparent", typeof(bool), typeof(HtmlControl), new PropertyMetadata(false));
 
         // This will be set to the target URL, when this window does not
         // host a created child view. The WebControl, is bound to this property.
@@ -110,8 +124,6 @@ namespace Crystalbyte.Paranoia.UI {
         public static readonly DependencyProperty HtmlFontSizeProperty =
             DependencyProperty.Register("HtmlFontSize", typeof(int), typeof(HtmlControl), new PropertyMetadata(0));
 
-
-
         #endregion
 
         #region Class Overrides
@@ -130,11 +142,22 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnWebControlWindowClose(object sender, WindowCloseEventArgs e) {
-            
+
         }
 
         private void OnWebControlShowCreatedWebView(object sender, ShowCreatedWebViewEventArgs e) {
-            
+
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void FocusEntryParagraph() {
+            if (_webControl.IsDocumentReady) {
+                const string script = "document.getElementById('entry').focus();";
+                _webControl.ExecuteJavascript(script);
+            }
         }
 
         #endregion

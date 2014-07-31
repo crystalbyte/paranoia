@@ -85,5 +85,9 @@ namespace Crystalbyte.Paranoia {
                 }
             }
         }
+
+        public void SendAsync() {
+
+        }
     }
 }

@@ -120,6 +120,9 @@
   <data name="AllMailbox" xml:space="preserve">
     <value>All</value>
   </data>
+  <data name="Bold" xml:space="preserve">
+    <value>B</value>
+  </data>
   <data name="CloseCommandTooltip" xml:space="preserve">
     <value>Close</value>
   </data>
@@ -207,6 +210,9 @@ Please select a corresponding IMAP folder to synchronize.</value>
   </data>
   <data name="SearchBoxWatermark" xml:space="preserve">
     <value>Quick Search (Ctrl+Q)</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
   </data>
   <data name="SentMailbox" xml:space="preserve">
     <value>Sent</value>

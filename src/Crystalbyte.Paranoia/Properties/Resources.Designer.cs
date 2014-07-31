@@ -70,6 +70,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to B.
+        /// </summary>
+        public static string Bold {
+            get {
+                return ResourceManager.GetString("Bold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string CloseCommandTooltip {
@@ -328,6 +337,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string SearchBoxWatermark {
             get {
                 return ResourceManager.GetString("SearchBoxWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send.
+        /// </summary>
+        public static string Send {
+            get {
+                return ResourceManager.GetString("Send", resourceCulture);
             }
         }
         

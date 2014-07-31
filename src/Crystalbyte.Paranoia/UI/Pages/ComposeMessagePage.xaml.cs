@@ -21,7 +21,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             var composition = (MailCompositionContext) DataContext;
             await composition.ResetAsync();
 
-            SuggestionBox.Focus();
+            //this.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
         }
 
         private void OnOverlayChanged(object sender, EventArgs e) {
