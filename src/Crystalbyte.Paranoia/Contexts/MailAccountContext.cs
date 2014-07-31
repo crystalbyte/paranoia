@@ -87,12 +87,18 @@ namespace Crystalbyte.Paranoia {
                 }
             }
 
-            foreach (var mailbox in mailboxes) {
-                if (!mailbox.IsAssigned) {
-                    await mailbox.AssignMostProbableAsync(remoteMailboxes);
-                }
-                await mailbox.SyncAsync();
-            }
+
+            var t1 = mailboxes
+                .Where(x => !x.IsAssigned)
+                .Select(x => x.AssignMostProbableAsync(remoteMailboxes));
+
+            await Task.WhenAll(t1);
+
+            var t2 = mailboxes
+                .Where(x => x.IsAssigned)
+                .Select(x => x.SyncAsync());
+
+            await Task.WhenAll(t2);
         }
 
         internal async Task LoadMailboxesAsync() {

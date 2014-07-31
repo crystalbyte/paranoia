@@ -105,7 +105,7 @@ namespace Crystalbyte.Paranoia {
             // Initialization must be performed here,
             // before creating a WebControl.
             if (!WebCore.IsInitialized) {
-                WebCore.Initialize(new WebConfig() {
+                WebCore.Initialize(new WebConfig {
                     HomeURL = "http://www.awesomium.com".ToUri(),
                     LogPath = @".\starter.log",
                     LogLevel = LogLevel.Verbose

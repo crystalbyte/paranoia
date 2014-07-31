@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 namespace Crystalbyte.Paranoia.Mail {
     /// <summary>
     ///     Defines the envelope for a mime encoded message.
-    ///     For header information visit: https://tools.ietf.org/html/rfc4021
+    ///     For header information visit: http://tools.ietf.org/html/rfc3501#section-7.4.2
     /// </summary>
     [DebuggerDisplay("Subject = {Subject}")]
     public sealed class ImapEnvelope {
@@ -126,6 +126,7 @@ namespace Crystalbyte.Paranoia.Mail {
             envelope.Subject = TransferEncoder.Decode(matches[1].Value)
                 .TrimQuotes()
                 .Replace("%%%", "\"");
+
             envelope.AddContactsToFrom(ParseContacts(matches[2].Value));
             envelope.AddContactsToSender(ParseContacts(matches[3].Value));
             envelope.ReplyTo = ParseContacts(matches[4].Value).FirstOrDefault();

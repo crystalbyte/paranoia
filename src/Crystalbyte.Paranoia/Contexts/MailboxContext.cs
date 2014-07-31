@@ -20,7 +20,6 @@ namespace Crystalbyte.Paranoia {
     [DebuggerDisplay("Name = {Name}")]
     public sealed class MailboxContext : SelectionObject {
         private bool _isSyncing;
-        private Exception _lastException;
         private bool _isListingMailboxes;
         private bool _isAssignable;
         private ObservableCollection<MailMessageContext> _messages;
@@ -70,18 +69,6 @@ namespace Crystalbyte.Paranoia {
 
                 _mailbox.Id = value;
                 RaisePropertyChanged(() => Id);
-            }
-        }
-
-        public Exception LastException {
-            get { return _lastException; }
-            set {
-                if (_lastException == value) {
-                    return;
-                }
-
-                _lastException = value;
-                RaisePropertyChanged(() => LastException);
             }
         }
 
@@ -185,7 +172,7 @@ namespace Crystalbyte.Paranoia {
                 _mailboxCandidates.AddRange(mailboxes
                     .Select(x => new MailboxCandidateContext(_account, x)));
             } catch (Exception ex) {
-                LastException = ex;
+                throw;
             } finally {
                 IsListingMailboxes = false;
             }
@@ -331,7 +318,7 @@ namespace Crystalbyte.Paranoia {
                 await SaveMessagesToDatabaseAsync(messages);
                 AppendMessages(messages);
             } catch (Exception ex) {
-                LastException = ex;
+                throw;
             } finally {
                 IsSyncing = false;
             }
@@ -340,27 +327,27 @@ namespace Crystalbyte.Paranoia {
         internal async Task MarkAsSeenAsync(MailMessageContext[] messages) {
             try {
                 messages.ForEach(x => x.IsSeen = true);
-
                 var uids = messages.Select(x => x.Uid).ToArray();
-                var account = await GetAccountAsync();
 
-                using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                     connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
-                    using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
-                        using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
+                    using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+                        using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                             var folder = await session.SelectAsync(Name);
                             await folder.MarkAsSeenAsync(uids);
                         }
                     }
                 }
 
+                CountNotSeen();
             } catch (Exception) {
                 messages.ForEach(x => x.IsSeen = false);
+                throw;
             }
         }
 
         private void AppendMessages(IEnumerable<MailMessageModel> messages) {
-            var contexts = messages.Select(x => new MailMessageContext(x));
+            var contexts = messages.Select(x => new MailMessageContext(this, x));
             if (Messages == null) {
                 Messages = new ObservableCollection<MailMessageContext>(contexts);
             } else {
@@ -371,7 +358,7 @@ namespace Crystalbyte.Paranoia {
             CountNotSeen();
         }
 
-        private void CountNotSeen() {
+        internal void CountNotSeen() {
             if (Messages == null) {
                 NotSeenCount = 0;
                 return;
@@ -394,9 +381,9 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
                 Messages = new ObservableCollection<MailMessageContext>(
-                    messages.Select(x => new MailMessageContext(x)));
+                    messages.Select(x => new MailMessageContext(this, x)));
             } catch (Exception ex) {
-                LastException = ex;
+                throw;
             }
         }
 
@@ -469,7 +456,17 @@ namespace Crystalbyte.Paranoia {
                     OnAssignmentChanged();
                 }
             } catch (Exception ex) {
-                LastException = ex;
+                throw;
+            }
+        }
+
+        internal async Task<MailMessageContext[]> QueryAsync(string text) {
+            using (var context = new DatabaseContext()) {
+                var messages = await context.MailMessages
+                    .Where(x => x.Subject.Contains(text) && x.MailboxId == Id)
+                    .ToArrayAsync();
+
+                return messages.Select(x => new MailMessageContext(this, x)).ToArray();
             }
         }
 

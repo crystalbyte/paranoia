@@ -57,7 +57,7 @@ namespace Crystalbyte.Paranoia {
                     action => MessageSelectionChanged += action,
                     action => MessageSelectionChanged -= action)
                 .Throttle(TimeSpan.FromMilliseconds(100))
-                .Subscribe(OnMessageSelectionCommittedAsync);
+                .Subscribe(OnMessageSelectionCommitted);
 
             Observable.FromEventPattern<QueryStringEventArgs>(
                     action => QueryStringChanged += action,
@@ -223,16 +223,11 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            using (var context = new DatabaseContext()) {
-                var messages = await context.MailMessages
-                    .Where(x => x.Subject.Contains(text) && x.MailboxId == mailbox.Id)
-                    .ToArrayAsync();
-                var contexts = messages.Select(x => new MailMessageContext(x));
-                DisplayMessages(contexts.ToArray());
-            }
+            var messages = await mailbox.QueryAsync(text);
+            DisplayMessages(messages);
         }
 
-        private void OnMessageSelectionCommittedAsync(EventPattern<object> obj) {
+        private void OnMessageSelectionCommitted(EventPattern<object> obj) {
             //Debug.WriteLine("Message selected.");
             ClearMessageView();
             var message = SelectedMessages.FirstOrDefault();
@@ -244,9 +239,13 @@ namespace Crystalbyte.Paranoia {
             MarkMessagesAsSeenAsync();
         }
 
-        private async void MarkMessagesAsSeenAsync() {
-            var mailbox = SelectedAccount.SelectedMailbox;
-            await mailbox.MarkAsSeenAsync(SelectedMessages.ToArray());
+        internal async void MarkMessagesAsSeenAsync() {
+            var tasks = SelectedMessages
+                .Where(x => x.IsNotSeen)
+                .GroupBy(x => x.Mailbox)
+                .Select(x => x.Key.MarkAsSeenAsync(x.ToArray()));
+
+            await Task.WhenAll(tasks);
         }
 
         internal void DisplayMessages(ICollection<MailMessageContext> messages) {

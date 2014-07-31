@@ -4,6 +4,7 @@ using System;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
@@ -15,12 +16,14 @@ namespace Crystalbyte.Paranoia {
     public class MailMessageContext : SelectionObject {
         private int _load;
         private long _bytesReceived;
-        private Exception _lastException;
+        private readonly MailboxContext _mailbox;
         private readonly MailMessageModel _message;
 
-        public MailMessageContext(MailMessageModel message) {
+        public MailMessageContext(MailboxContext mailbox, MailMessageModel message) {
+            _mailbox = mailbox;
             _message = message;
         }
+
         public long Id {
             get { return _message.Id; }
         }
@@ -49,6 +52,10 @@ namespace Crystalbyte.Paranoia {
             get { return _message.FromAddress; }
         }
 
+        public MailboxContext Mailbox {
+            get { return _mailbox; }
+        }
+
         public bool IsSeen {
             get { return HasFlag(MailboxFlags.Seen); }
             set {
@@ -58,13 +65,29 @@ namespace Crystalbyte.Paranoia {
 
                 if (value) {
                     WriteFlag(MailboxFlags.Seen);
-                }
-                else {
+                } else {
                     DropFlag(MailboxFlags.Seen);
                 }
 
                 RaisePropertyChanged(() => IsSeen);
                 RaisePropertyChanged(() => IsNotSeen);
+                OnSeenStatusChanged();
+            }
+        }
+
+        private async void OnSeenStatusChanged() {
+            await SaveFlagsToDatabaseAsync();
+        }
+
+        private async Task SaveFlagsToDatabaseAsync() {
+            try {
+                using (var context = new DatabaseContext()) {
+                    context.MailMessages.Attach(_message);
+                    context.Entry(_message).State = EntityState.Modified;
+                    await context.SaveChangesAsync();
+                }
+            } catch (Exception ex) {
+                throw;
             }
         }
 
@@ -100,7 +123,7 @@ namespace Crystalbyte.Paranoia {
                     return message != null ? message.Data : string.Empty;
                 }
             } catch (Exception ex) {
-                LastException = ex;
+                throw;
             } finally {
                 DecrementLoad();
             }
@@ -136,18 +159,6 @@ namespace Crystalbyte.Paranoia {
                 }
                 _bytesReceived = value;
                 RaisePropertyChanged(() => BytesReceived);
-            }
-        }
-
-        public Exception LastException {
-            get { return _lastException; }
-            set {
-                if (_lastException == value) {
-                    return;
-                }
-
-                _lastException = value;
-                RaisePropertyChanged(() => LastException);
             }
         }
 
@@ -197,7 +208,7 @@ namespace Crystalbyte.Paranoia {
                 }
                 return mime;
             } catch (Exception ex) {
-                LastException = ex;
+                throw;
             } finally {
                 DecrementLoad();
             }
