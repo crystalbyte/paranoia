@@ -39,4 +39,10 @@
         <Setter Property="FontSize" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumFontSize}}" />
     </Style>
 
+    <Style x:Key="AppMenuItemHeaderStyle" TargetType="TextBlock">
+        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
+        <Setter Property="Margin" Value="6,2,0,0" />
+        <Setter Property="FontWeight" Value="Normal" />
+    </Style>
+
 </ResourceDictionary>

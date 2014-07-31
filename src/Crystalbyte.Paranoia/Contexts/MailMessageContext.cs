@@ -97,7 +97,7 @@ namespace Crystalbyte.Paranoia {
 
         private void DropFlag(string flag) {
             var flags = _message.Flags.Split(';').ToList();
-            flags.Remove(flag);
+            flags.RemoveAll(x => x.Equals(flag, StringComparison.InvariantCultureIgnoreCase));
 
             _message.Flags = string.Join(";", flags);
         }

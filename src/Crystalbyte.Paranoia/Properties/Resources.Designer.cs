@@ -197,6 +197,24 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mark as not seen.
+        /// </summary>
+        public static string MarkAsNotSeen {
+            get {
+                return ResourceManager.GetString("MarkAsNotSeen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark as seen.
+        /// </summary>
+        public static string MarkAsSeen {
+            get {
+                return ResourceManager.GetString("MarkAsSeen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Maximize.
         /// </summary>
         public static string MaximizeCommandTooltip {

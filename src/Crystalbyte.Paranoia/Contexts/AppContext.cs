@@ -10,7 +10,6 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
@@ -31,12 +30,13 @@ namespace Crystalbyte.Paranoia {
         private MailAccountContext _selectedAccount;
         private IEnumerable<MailMessageContext> _selectedMessages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
-        private readonly PrintCommand _printCommand;
-        private readonly ReplyCommand _replyCommand;
-        private readonly DeleteMessageCommand _deleteCommand;
-        private readonly ComposeMessageCommand _writeCommand;
-        private readonly ForwardCommand _forwardCommand;
-        private FocusSearchBoxCommand _focusSearchBoxCommand;
+        private readonly ICommand _printCommand;
+        private readonly ICommand _replyCommand;
+        private readonly ICommand _deleteCommand;
+        private readonly ICommand _writeCommand;
+        private readonly ICommand _forwardCommand;
+        private readonly ICommand _markAsSeenCommand;
+        private readonly ICommand _markAsNotSeenCommand;
         private string _queryString;
         private object _messages;
         private string _html;
@@ -47,11 +47,13 @@ namespace Crystalbyte.Paranoia {
 
         public AppContext() {
             _accounts = new ObservableCollection<MailAccountContext>();
+            _printCommand = new PrintCommand(this);
             _replyCommand = new ReplyCommand(this);
             _forwardCommand = new ForwardCommand(this);
             _deleteCommand = new DeleteMessageCommand(this);
-            _printCommand = new PrintCommand(this);
             _writeCommand = new ComposeMessageCommand(this);
+            _markAsSeenCommand = new MarkAsSeenCommand(this);
+            _markAsNotSeenCommand = new MarkAsNotSeenCommand(this);
 
             Observable.FromEventPattern(
                     action => MessageSelectionChanged += action,
@@ -159,10 +161,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public ICommand FocusSearchBoxCommand {
-            get { return _focusSearchBoxCommand; }
-        }
-
         public ICommand PrintCommand {
             get { return _printCommand; }
         }
@@ -181,6 +179,14 @@ namespace Crystalbyte.Paranoia {
 
         public ICommand DeleteMessageCommand {
             get { return _deleteCommand; }
+        }
+
+        public ICommand MarkAsSeenCommand {
+            get { return _markAsSeenCommand; }
+        }
+
+        public ICommand MarkAsNotSeenCommand {
+            get { return _markAsNotSeenCommand; }
         }
 
         public void ComposeMessage() {
@@ -211,11 +217,6 @@ namespace Crystalbyte.Paranoia {
 
         #endregion
 
-        internal void HookUpSearchBox(Control control) {
-            _focusSearchBoxCommand = new FocusSearchBoxCommand(this, control);
-            RaisePropertyChanged(() => FocusSearchBoxCommand);
-        }
-
         private async void OnQueryReceived(string text) {
             var mailbox = SelectedAccount.SelectedMailbox;
             if (string.IsNullOrEmpty(text)) {
@@ -227,8 +228,7 @@ namespace Crystalbyte.Paranoia {
             DisplayMessages(messages);
         }
 
-        private void OnMessageSelectionCommitted(EventPattern<object> obj) {
-            //Debug.WriteLine("Message selected.");
+        private async void OnMessageSelectionCommitted(EventPattern<object> obj) {
             ClearMessageView();
             var message = SelectedMessages.FirstOrDefault();
             if (message == null) {
@@ -236,14 +236,23 @@ namespace Crystalbyte.Paranoia {
             }
 
             DisplayMessageAsync(message);
-            MarkMessagesAsSeenAsync();
+            await MarkSelectionAsSeenAsync();
         }
 
-        internal async void MarkMessagesAsSeenAsync() {
+        internal async Task MarkSelectionAsSeenAsync() {
             var tasks = SelectedMessages
                 .Where(x => x.IsNotSeen)
                 .GroupBy(x => x.Mailbox)
                 .Select(x => x.Key.MarkAsSeenAsync(x.ToArray()));
+
+            await Task.WhenAll(tasks);
+        }
+
+        internal async Task MarkSelectionAsNotSeenAsync() {
+            var tasks = SelectedMessages
+                .Where(x => x.IsSeen)
+                .GroupBy(x => x.Mailbox)
+                .Select(x => x.Key.MarkAsNotSeenAsync(x.ToArray()));
 
             await Task.WhenAll(tasks);
         }

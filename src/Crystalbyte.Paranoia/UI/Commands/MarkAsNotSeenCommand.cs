@@ -3,21 +3,21 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
-    public sealed class MarkAsSeenCommand : ICommand {
+    public sealed class MarkAsNotSeenCommand : ICommand {
         private readonly AppContext _context;
 
-        public MarkAsSeenCommand(AppContext context) {
+        public MarkAsNotSeenCommand(AppContext context) {
             _context = context;
             _context.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
         }
 
         public bool CanExecute(object parameter) {
             return _context.SelectedMessages != null
-                   && _context.SelectedMessages.Any(x => x.IsNotSeen);
+                   && _context.SelectedMessages.Any(x => x.IsSeen);
         }
 
         public async void Execute(object parameter) {
-            await _context.MarkSelectionAsSeenAsync();
+            await _context.MarkSelectionAsNotSeenAsync();
             OnCanExecuteChanged();
         }
 

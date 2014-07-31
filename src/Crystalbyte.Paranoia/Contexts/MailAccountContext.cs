@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO.Packaging;
 using System.Linq;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
@@ -21,8 +20,6 @@ namespace Crystalbyte.Paranoia {
         private readonly DropAssignmentCommand _dropMailboxCommand;
         private readonly ObservableCollection<MailContactContext> _contacts;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
-
-        private Exception _lastException;
         private MailContactContext _selectedContact;
 
         internal MailAccountContext(MailAccountModel account, AppContext appContext) {
@@ -288,18 +285,6 @@ namespace Crystalbyte.Paranoia {
 
                 _account.ImapSecurity = value;
                 RaisePropertyChanged(() => ImapSecurity);
-            }
-        }
-
-        public Exception LastException {
-            get { return _lastException; }
-            set {
-                if (_lastException == value) {
-                    return;
-                }
-
-                _lastException = value;
-                RaisePropertyChanged(() => LastException);
             }
         }
 

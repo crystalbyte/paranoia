@@ -101,9 +101,6 @@
         </Storyboard>
     </ui:MetroWindow.Resources>
     <ui:MetroWindow.InputBindings>
-        <KeyBinding Key="Q"
-                    Command="{Binding FocusSearchBoxCommand}"
-                    Modifiers="Control" />
         <KeyBinding Key="N"
                     Command="{Binding WriteMessageCommand}"
                     Modifiers="Control" />
@@ -138,21 +135,6 @@
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
         </Grid.Resources>
-        <Rectangle Grid.Row="0"
-                   Grid.Column="0"
-                   Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                AppShadeBrush}}"
-                   Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                   AppShadeOpacity}}"
-                   RenderOptions.EdgeMode="Aliased" />
-        <Rectangle Grid.Row="0"
-                   Grid.Column="0"
-                   Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                AppShadeBrush}}"
-                   Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                   AppShadeOpacity}}"
-                   RenderOptions.EdgeMode="Aliased"
-                   Visibility="Hidden" />
         <DockPanel Grid.Row="0"
                    Grid.Column="0"
                    Margin="6,0,0,0"
@@ -249,7 +231,7 @@
                    Grid.Column="0"
                    Width="100"
                    Height="100"
-                   Margin="16,-32,8,8"
+                   Margin="16,8,8,8"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    DataContext="{Binding SelectedAccount}"
@@ -281,7 +263,7 @@
                     Grid.Column="1"
                     Margin="8,8,8,8"
                     HorizontalAlignment="Right"
-                    VerticalAlignment="Center">
+                    VerticalAlignment="Bottom">
                 <Button Command="{Binding WriteMessageCommand}" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppCircleButtonStyle}}">
                     <Image Width="18" Source="/Assets/message.png" />
                 </Button>
@@ -587,11 +569,6 @@
                                 </StackPanel>
                             </Popup>
                         </Grid>
-                        <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                <Setter TargetName="QuantityBlock" Property="FontWeight" Value="Thin" />
-                            </DataTrigger>
-                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
@@ -658,25 +635,65 @@
                 </ListView.InputBindings>
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Command="{Binding ReplyCommand}" Header="{x:Static properties:Resources.Reply}">
-                            <MenuItem.Icon>
-                                <Image Source="/Assets/reply.small.png" />
-                            </MenuItem.Icon>
+                        <MenuItem Command="{Binding ReplyCommand}" InputGestureText="Ctrl + R">
+                            <MenuItem.Header>
+                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Reply}" />
+                            </MenuItem.Header>
+                            <!--
+                                <MenuItem.Icon>
+                                <Image Source="/Assets/reply.small.png" Style="{StaticResource AppIconImageStyle}" />
+                                </MenuItem.Icon>
+                            -->
                         </MenuItem>
-                        <MenuItem Command="{Binding ForwardCommand}" Header="{x:Static properties:Resources.Forward}">
-                            <MenuItem.Icon>
-                                <Image Source="/Assets/forward.small.png" />
-                            </MenuItem.Icon>
+                        <MenuItem Command="{Binding ForwardCommand}" InputGestureText="Ctrl + F">
+                            <MenuItem.Header>
+                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Forward}" />
+                            </MenuItem.Header>
+                            <!--
+                                <MenuItem.Icon>
+                                <Image Source="/Assets/forward.small.png" Style="{StaticResource AppIconImageStyle}" />
+                                </MenuItem.Icon>
+                            -->
                         </MenuItem>
-                        <MenuItem Command="{Binding PrintCommand}" Header="{x:Static properties:Resources.Print}">
-                            <MenuItem.Icon>
-                                <Image Source="/Assets/print.small.png" />
-                            </MenuItem.Icon>
+                        <MenuItem Command="{Binding PrintCommand}" InputGestureText="Ctrl + P">
+                            <MenuItem.Header>
+                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Print}" />
+                            </MenuItem.Header>
+                            <!--
+                                <MenuItem.Icon>
+                                <Image Source="/Assets/print.small.png" Style="{StaticResource AppIconImageStyle}" />
+                                </MenuItem.Icon>
+                            -->
                         </MenuItem>
-                        <MenuItem Command="{Binding DeleteMessageCommand}" Header="{x:Static properties:Resources.Delete}">
-                            <MenuItem.Icon>
-                                <Image Source="/Assets/delete.small.png" />
-                            </MenuItem.Icon>
+                        <MenuItem Command="{Binding DeleteMessageCommand}" InputGestureText="Entf">
+                            <MenuItem.Header>
+                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Delete}" />
+                            </MenuItem.Header>
+                            <!--
+                                <MenuItem.Icon>
+                                <Image Source="/Assets/delete.small.png" Style="{StaticResource AppIconImageStyle}" />
+                                </MenuItem.Icon>
+                            -->
+                        </MenuItem>
+                        <MenuItem Command="{Binding MarkAsSeenCommand}">
+                            <MenuItem.Header>
+                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.MarkAsSeen}" />
+                            </MenuItem.Header>
+                            <!--
+                                <MenuItem.Icon>
+                                <Image Source="/Assets/delete.small.png" Style="{StaticResource AppIconImageStyle}" />
+                                </MenuItem.Icon>
+                            -->
+                        </MenuItem>
+                        <MenuItem Command="{Binding MarkAsNotSeenCommand}">
+                            <MenuItem.Header>
+                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.MarkAsNotSeen}" />
+                            </MenuItem.Header>
+                            <!--
+                                <MenuItem.Icon>
+                                <Image Source="/Assets/delete.small.png" Style="{StaticResource AppIconImageStyle}" />
+                                </MenuItem.Icon>
+                            -->
                         </MenuItem>
                     </ContextMenu>
                 </ListView.ContextMenu>
@@ -1007,5 +1024,11 @@
                 </Grid>
             </Border>
         </Grid>
+        <Border Grid.Row="1"
+                Grid.ColumnSpan="6"
+                VerticalAlignment="Top"
+                BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                    AppAccentBrush}}"
+                BorderThickness="0,1,0,0" />
     </Grid>
 </ui:MetroWindow>

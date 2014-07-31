@@ -324,6 +324,28 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        internal async Task MarkAsNotSeenAsync(MailMessageContext[] messages) {
+            try {
+                messages.ForEach(x => x.IsSeen = false);
+                var uids = messages.Select(x => x.Uid).ToArray();
+
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+                    connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
+                    using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+                        using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+                            var folder = await session.SelectAsync(Name);
+                            await folder.MarkAsNotSeenAsync(uids);
+                        }
+                    }
+                }
+
+                CountNotSeen();
+            } catch (Exception) {
+                messages.ForEach(x => x.IsSeen = true);
+                throw;
+            }
+        }
+
         internal async Task MarkAsSeenAsync(MailMessageContext[] messages) {
             try {
                 messages.ForEach(x => x.IsSeen = true);

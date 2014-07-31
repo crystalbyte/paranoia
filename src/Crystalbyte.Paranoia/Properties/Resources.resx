@@ -163,6 +163,12 @@
     <value>The current mailbox is not assigned. 
 Please select a corresponding IMAP folder to synchronize.</value>
   </data>
+  <data name="MarkAsNotSeen" xml:space="preserve">
+    <value>Mark as not seen</value>
+  </data>
+  <data name="MarkAsSeen" xml:space="preserve">
+    <value>Mark as seen</value>
+  </data>
   <data name="MaximizeCommandTooltip" xml:space="preserve">
     <value>Maximize</value>
   </data>

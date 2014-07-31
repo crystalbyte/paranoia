@@ -9,6 +9,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Themes/Metro.Resources.xaml" />
+                <ResourceDictionary Source="/Themes/Metro.MenuItem.xaml" />
+                <ResourceDictionary Source="/Themes/Metro.ContextMenu.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.TextBlock.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.TextBox.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.RichTextBox.xaml" />
@@ -26,6 +28,15 @@
             <converters:DateFormatter x:Key="DateFormatter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:QuantityToVisibilityConverter x:Key="QuantityToVisibilityConverter" />
+
+            <Style x:Key="AppIconImageStyle" TargetType="Image">
+                <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />
+                <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+                <Setter Property="Width" Value="15.8" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="SnapsToDevicePixels" Value="True" />
+                <Setter Property="Stretch" Value="Uniform" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -48,7 +48,7 @@
     <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppHoverBrush}" Color="{StaticResource AppHoverColor}" />
 
     <!--  Menu  -->
-    <Color x:Key="AppMenuBackgroundColor">#111111</Color>
+    <Color x:Key="AppMenuBackgroundColor">#141414</Color>
     <SolidColorBrush x:Key="AppMenuBackgroundBrush" Color="{StaticResource AppMenuBackgroundColor}" />
     <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppMenuBackgroundBrush}" Color="{StaticResource AppMenuBackgroundColor}" />
 
