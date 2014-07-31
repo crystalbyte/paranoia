@@ -14,8 +14,8 @@
       mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -23,21 +23,17 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBox x:Name="SubjectTextBox"
-                 Grid.Row="0"
-                 Grid.Column="0"
-                 Grid.ColumnSpan="2"
-                 TabIndex="0"
-                 Text="{Binding Subject,
-                                Mode=TwoWay}" />
+        <TextBlock Grid.Row="0"
+                   Grid.Column="0"
+                   Margin="0,0,12,0"
+                   VerticalAlignment="Center"
+                   Text="{x:Static properties:Resources.Recipients}" />
         <ui:AutoCompleteBox x:Name="SuggestionBox"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="2"
+                            Grid.Row="0"
+                            Grid.Column="1"
                             HorizontalAlignment="Stretch"
                             ItemsSource="{Binding Suggestions}"
-                            ItemsSourceRequested="OnAutoCompleteBoxOnItemsSourceRequested"
-                            TabIndex="1">
+                            ItemsSourceRequested="OnAutoCompleteBoxOnItemsSourceRequested">
             <ui:AutoCompleteBox.StringTokenTemplate>
                 <DataTemplate DataType="system:String">
                     <Grid>
@@ -105,6 +101,17 @@
                 </DataTemplate>
             </ui:AutoCompleteBox.ItemTemplate>
         </ui:AutoCompleteBox>
+        <TextBlock Grid.Row="1"
+                   Grid.Column="0"
+                   Margin="0,0,12,0"
+                   VerticalAlignment="Center"
+                   Text="{x:Static properties:Resources.Subject}" />
+        <TextBox x:Name="SubjectTextBox"
+                 Grid.Row="1"
+                 Grid.Column="1"
+                 Text="{Binding Subject,
+                                Mode=TwoWay}" />
+
         <ui:HtmlControl Grid.Row="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
@@ -115,14 +122,12 @@
                                                                            AppControlBackgroundBrush}}"
                         IsTransparent="True"
                         Source="{Binding Text,
-                                         Mode=TwoWay}"
-                        TabIndex="2" />
+                                         Mode=TwoWay}" />
         <Button Grid.Row="3"
                 Grid.Column="0"
                 HorizontalAlignment="Left"
                 Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                              AppCircleButtonStyle}}"
-                TabIndex="3">
+                                                              AppCircleButtonStyle}}">
             <Image Width="20" Source="/Assets/send.png" />
         </Button>
     </Grid>

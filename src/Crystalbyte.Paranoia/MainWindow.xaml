@@ -111,7 +111,7 @@
     </ui:MetroWindow.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" MinHeight="32" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="4" />
             <RowDefinition Height="*" />

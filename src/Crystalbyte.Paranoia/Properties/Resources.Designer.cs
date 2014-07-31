@@ -287,6 +287,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To.
+        /// </summary>
+        public static string Recipients {
+            get {
+                return ResourceManager.GetString("Recipients", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reply.
         /// </summary>
         public static string Reply {
@@ -328,6 +337,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string SentMailbox {
             get {
                 return ResourceManager.GetString("SentMailbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subject.
+        /// </summary>
+        public static string Subject {
+            get {
+                return ResourceManager.GetString("Subject", resourceCulture);
             }
         }
         

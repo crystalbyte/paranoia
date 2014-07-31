@@ -4,6 +4,8 @@
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
     <Style TargetType="ui:AutoCompleteBox">
+        <Setter Property="SelectionBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
+        <Setter Property="SelectionOpacity" Value="0.4" />
         <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBackgroundBrush}}" />
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBorderBrush}}" />

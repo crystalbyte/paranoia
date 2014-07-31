@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Navigation;
 
 namespace Crystalbyte.Paranoia.UI.Pages {
@@ -16,11 +17,11 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             window.OverlayChanged += OnOverlayChanged;
         }
 
-        private void Reset() {
+        private async void Reset() {
             var composition = (MailCompositionContext) DataContext;
-            composition.ResetAsync();
+            await composition.ResetAsync();
 
-            SubjectTextBox.Focus();
+            SuggestionBox.Focus();
         }
 
         private void OnOverlayChanged(object sender, EventArgs e) {

@@ -225,9 +225,6 @@
     <Compile Include="UI\Pages\ComposeMessagePage.xaml.cs">
       <DependentUpon>ComposeMessagePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Watermark.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="UI\RichTextBoxExtensions.cs" />
     <Compile Include="UI\WindowCommands.cs" />
     <Page Include="MainWindow.xaml">
