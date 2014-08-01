@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Navigation;
@@ -18,7 +19,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private async void Reset() {
-            var composition = (MailCompositionContext) DataContext;
+            var composition = (MailCompositionContext)DataContext;
             await composition.ResetAsync();
 
             //this.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
@@ -27,15 +28,15 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         private void OnOverlayChanged(object sender, EventArgs e) {
             var window = (MainWindow)Application.Current.MainWindow;
             if (!window.IsOverlayVisible) {
-                SuggestionBox.Close();
+                RecipientsBox.Close();
             }
         }
 
         public MailCompositionContext Composition {
-            get { return (MailCompositionContext) DataContext; }
+            get { return (MailCompositionContext)DataContext; }
         }
 
-        private async void OnAutoCompleteBoxOnItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
+        private async void OnRecipientsBoxItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
             await Composition.QueryRecipientsAsync(e.Text);
         }
 
@@ -46,5 +47,17 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         #endregion
+
+        private void OnRecipientsBoxSelectionChanged(object sender, EventArgs e) {
+            var addresses = RecipientsBox
+                .SelectedValues
+                .Select(x => x is MailContactContext
+                    ? ((MailContactContext)x).Address
+                    : x as string);
+
+            var context = (MailCompositionContext) DataContext;
+            context.Recipients.Clear();
+            context.Recipients.AddRange(addresses);
+        }
     }
 }

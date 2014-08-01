@@ -28,12 +28,13 @@
                    Grid.Column="0"
                    VerticalAlignment="Center"
                    Text="{x:Static properties:Resources.Recipients}" />
-        <ui:AutoCompleteBox x:Name="SuggestionBox"
+        <ui:AutoCompleteBox x:Name="RecipientsBox"
                             Grid.Row="0"
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
                             ItemsSource="{Binding Suggestions}"
-                            ItemsSourceRequested="OnAutoCompleteBoxOnItemsSourceRequested">
+                            ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
+                            SelectedValuesChanged="OnRecipientsBoxSelectionChanged">
             <ui:AutoCompleteBox.StringTokenTemplate>
                 <DataTemplate DataType="system:String">
                     <Grid>
@@ -111,7 +112,6 @@
                  Grid.Column="1"
                  Text="{Binding Subject,
                                 Mode=TwoWay}" />
-
         <ui:HtmlControl Grid.Row="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"

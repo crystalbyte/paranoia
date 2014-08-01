@@ -15,12 +15,12 @@ namespace Crystalbyte.Paranoia {
 
         private string _text;
         private string _subject;
-        private readonly ObservableCollection<MailContactContext> _recipients;
+        private readonly ObservableCollection<string> _recipients;
         private readonly ObservableCollection<MailContactContext> _suggestions;
         private readonly ICommand _sendCommand;
 
         public MailCompositionContext() {
-            _recipients = new ObservableCollection<MailContactContext>();
+            _recipients = new ObservableCollection<string>();
             _suggestions = new ObservableCollection<MailContactContext>();
             _sendCommand = new SendCommand(this);
         }
@@ -29,7 +29,7 @@ namespace Crystalbyte.Paranoia {
             get { return _sendCommand; }
         }
 
-        public IEnumerable<MailContactContext> Recipients {
+        public ICollection<string> Recipients {
             get { return _recipients; }
         }
 

@@ -18,6 +18,11 @@ namespace Crystalbyte.Paranoia.Data {
             if (File.Exists(path))
                 return;
 
+            var info = new FileInfo(path);
+            if (info.Directory != null && !info.Directory.Exists) {
+                info.Directory.Create();
+            }
+
             CreateDatabase(path);
             CreateSchema(context);
         }

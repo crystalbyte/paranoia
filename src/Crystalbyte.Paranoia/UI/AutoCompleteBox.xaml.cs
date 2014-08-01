@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Windows;
@@ -24,10 +25,11 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Private Fields
 
+        private bool _suppressRecognition;
         private Popup _autoCompletePopup;
         private ListView _autoCompleteHost;
         private readonly List<ITokenMatcher> _tokenMatchers;
-        private bool _suppressRecognition;
+        private readonly ObservableCollection<object> _selectedValues;
 
         #endregion
 
@@ -39,14 +41,25 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public AutoCompleteBox() {
+            _selectedValues = new ObservableCollection<object>();
             _tokenMatchers = new List<ITokenMatcher> { new MailAddressTokenMatcher() };
 
             CommandBindings.Add(new CommandBinding(AutoCompleteBoxCommands.Select, OnSelectContact));
+            SelectedValues = _selectedValues;
+            
         }
 
         #endregion
 
         #region Public Events
+
+        public new event EventHandler SelectedValuesChanged;
+
+        private void OnSelectedValuesChanged() {
+            var handler = SelectedValuesChanged;
+            if (handler != null) 
+                handler(this, EventArgs.Empty);
+        }
 
         public event EventHandler<ItemsSourceRequestedEventArgs> ItemsSourceRequested;
 
@@ -71,6 +84,16 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         #region Dependency Properties
+
+        public IEnumerable<object> SelectedValues {
+            get { return (IEnumerable<object>)GetValue(SelectedValuesProperty); }
+            set { SetValue(SelectedValuesProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SelectedValues.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectedValuesProperty =
+            DependencyProperty.Register("SelectedValues", typeof(IEnumerable<object>), typeof(AutoCompleteBox), new PropertyMetadata(null));
+
 
         public object ItemsSource {
             get { return GetValue(ItemsSourceProperty); }
@@ -184,6 +207,7 @@ namespace Crystalbyte.Paranoia.UI {
         private InlineUIContainer CreateTokenContainerFromString(string value) {
             return CreateContainer(new ContentPresenter {
                 Content = value,
+                DataContext = value,
                 ContentTemplate = StringTokenTemplate
             });
         }
@@ -191,6 +215,7 @@ namespace Crystalbyte.Paranoia.UI {
         private InlineUIContainer CreateTokenContainerFromItem(object value) {
             return CreateContainer(new ContentPresenter {
                 Content = value,
+                DataContext = value,
                 ContentTemplate = TokenTemplate
             });
         }
@@ -257,6 +282,23 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnTextChanged(object sender, TextChangedEventArgs e) {
             RecognizeMatches();
+            UpdateSelectedValues();
+        }
+
+        private void UpdateSelectedValues() {
+            var paragraph = CaretPosition.Paragraph;
+            if (paragraph == null) {
+                return;
+            }
+
+            var objects = paragraph.Inlines
+                .OfType<InlineUIContainer>()
+                .Select(x => ((ContentPresenter)x.Child).Content);
+
+            _selectedValues.Clear();
+            _selectedValues.AddRange(objects);
+
+            OnSelectedValuesChanged();
         }
 
         private void CommitSelection() {
