@@ -8,7 +8,7 @@
       xmlns:system="clr-namespace:System;assembly=mscorlib"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="{x:Static properties:Resources.ComposeMessagePageTitle}"
-      FocusManager.FocusedElement="{Binding ElementName=SuggestionBox}"
+      FocusManager.FocusedElement="{Binding ElementName=RecipientsBox}"
       d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}"
       d:DesignHeight="300"
       d:DesignWidth="300"

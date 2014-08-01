@@ -11,13 +11,13 @@
                 <ResourceDictionary Source="/Themes/Metro.ComboBox.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.ContextMenu.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.TextBlock.xaml" />
-                <ResourceDictionary Source="/Themes/Metro.ToggleButton.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.TextBox.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.RichTextBox.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.GridSplitter.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.Button.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.PasswordBox.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.ListView.xaml" />
+                <ResourceDictionary Source="/Themes/Metro.ToggleButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />
