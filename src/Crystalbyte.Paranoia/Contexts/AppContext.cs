@@ -310,7 +310,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal Task NotifyOutboxNotEmpty() {
-            
+            throw new Exception();
         }
     }
 }
