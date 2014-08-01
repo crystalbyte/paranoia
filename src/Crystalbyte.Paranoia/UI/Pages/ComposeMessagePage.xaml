@@ -112,8 +112,8 @@
                  Grid.Column="1"
                  Text="{Binding Subject,
                                 Mode=TwoWay}" />
-        <ui:HtmlControl Grid.Row="2"
-                        x:Name="HtmlControl"
+        <ui:HtmlControl x:Name="HtmlControl"
+                        Grid.Row="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
                         Margin="0,3,0,12"

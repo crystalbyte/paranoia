@@ -29,6 +29,9 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("flags")]
         public string Flags { get; set; }
 
+        [Column("not_seen_count")]
+        public int NotSeenCount { get; set; }
+
         [Column("type")]
         public MailboxType Type { get; set; }
 
