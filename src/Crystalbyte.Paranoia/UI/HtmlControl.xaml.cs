@@ -113,8 +113,6 @@ namespace Crystalbyte.Paranoia.UI {
         public static readonly DependencyProperty HtmlFontProperty =
             DependencyProperty.Register("HtmlFont", typeof(FontFamily), typeof(HtmlControl), new PropertyMetadata(null));
 
-
-
         public int HtmlFontSize {
             get { return (int)GetValue(HtmlFontSizeProperty); }
             set { SetValue(HtmlFontSizeProperty, value); }
@@ -153,11 +151,16 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Methods
 
+        public string GetDocument() {
+            return _webControl.HTML;
+        }
+
         private void FocusEntryParagraph() {
-            if (_webControl.IsDocumentReady) {
-                const string script = "document.getElementById('entry').focus();";
-                _webControl.ExecuteJavascript(script);
-            }
+            if (!_webControl.IsDocumentReady) 
+                return;
+
+            const string script = "document.getElementById('entry').focus();";
+            _webControl.ExecuteJavascript(script);
         }
 
         #endregion

@@ -134,6 +134,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationExtensions.cs" />
+    <Compile Include="DocumentTextRequestedEventArgs.cs" />
     <Compile Include="Contexts\MailboxCandidateContext.cs" />
     <Compile Include="Contexts\MailboxContext.cs" />
     <Compile Include="Contexts\MailCompositionContext.cs" />

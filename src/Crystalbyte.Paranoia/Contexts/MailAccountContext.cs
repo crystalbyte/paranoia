@@ -9,6 +9,7 @@ using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
+using MailMessage = System.Net.Mail.MailMessage;
 
 #endregion
 
@@ -294,6 +295,21 @@ namespace Crystalbyte.Paranoia {
 
         public IEnumerable<MailboxContext> Mailboxes {
             get { return _mailboxes; }
+        }
+
+        public async Task SaveOutgoingMessagesAsync(IEnumerable<MailMessage> messages) {
+            using (var database = new DatabaseContext()) {
+                database.MailAccounts.Attach(_account);
+
+                foreach (var message in messages) {
+                    var request = new SmtpRequestModel {
+                        Recipient = message.To.First().Address,
+                        Mime = await message.ToMimeAsync()
+                    };
+                    _account.SmtpRequests.Add(request);
+                    await database.SaveChangesAsync();
+                }
+            }
         }
     }
 }

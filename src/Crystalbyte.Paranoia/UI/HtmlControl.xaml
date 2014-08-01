@@ -7,10 +7,6 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Themes/Metro.ToggleButton.xaml" />
-    </ResourceDictionary.MergedDictionaries>
-
     <converters:HtmlRequestConverter x:Key="HtmlRequestConverter" />
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
@@ -85,6 +81,7 @@
                                         <system:Int32>12</system:Int32>
                                         <system:Int32>14</system:Int32>
                                         <system:Int32>16</system:Int32>
+                                        <system:Int32>18</system:Int32>
                                         <system:Int32>24</system:Int32>
                                         <system:Int32>32</system:Int32>
                                     </ComboBox>
@@ -103,6 +100,7 @@
                                 </ItemsControl>
                                 <Border Grid.Row="1" Padding="3">
                                     <awe:WebControl x:Name="PART_WebControl"
+                                                    AdjustToDpi="True"
                                                     Background="{TemplateBinding Background}"
                                                     IsTabStop="False"
                                                     IsTransparent="{TemplateBinding IsTransparent}"

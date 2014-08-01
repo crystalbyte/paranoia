@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Navigation;
 
 namespace Crystalbyte.Paranoia.UI.Pages {
@@ -11,18 +10,22 @@ namespace Crystalbyte.Paranoia.UI.Pages {
     public partial class ComposeMessagePage : INavigationAware {
 
         public ComposeMessagePage() {
-            DataContext = new MailCompositionContext();
+            var context = new MailCompositionContext();
+            context.DocumentTextRequested += OnDocumentTextRequested;
+            DataContext = context;
             InitializeComponent();
 
             var window = (MainWindow)Application.Current.MainWindow;
             window.OverlayChanged += OnOverlayChanged;
         }
 
+        private void OnDocumentTextRequested(object sender, DocumentTextRequestedEventArgs e) {
+            e.Document = HtmlControl.GetDocument();
+        }
+
         private async void Reset() {
             var composition = (MailCompositionContext)DataContext;
             await composition.ResetAsync();
-
-            //this.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
         }
 
         private void OnOverlayChanged(object sender, EventArgs e) {
@@ -55,9 +58,9 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                     ? ((MailContactContext)x).Address
                     : x as string);
 
-            var context = (MailCompositionContext) DataContext;
+            var context = (MailCompositionContext)DataContext;
             context.Recipients.Clear();
             context.Recipients.AddRange(addresses);
-        }
+        } 
     }
 }

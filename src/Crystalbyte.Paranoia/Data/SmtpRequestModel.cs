@@ -23,6 +23,9 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("mime")]
         public string Mime { get; set; }
 
+        [Column("recipient")]
+        public string Recipient { get; set; }
+
         public MailAccountModel Account { get; set; }
     }
 }

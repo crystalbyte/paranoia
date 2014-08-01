@@ -308,5 +308,9 @@ namespace Crystalbyte.Paranoia {
         public void NotifyMessageCountChanged() {
             RaisePropertyChanged(() => Messages);
         }
+
+        internal Task NotifyOutboxNotEmpty() {
+            
+        }
     }
 }
