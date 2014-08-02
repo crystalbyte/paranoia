@@ -75,9 +75,7 @@ namespace Crystalbyte.Paranoia {
                 .Select(x => x.Text)
                 .Subscribe(OnQueryReceived);
 
-            _outboxTimer = new DispatcherTimer {
-                Interval = TimeSpan.FromSeconds(5)
-            };
+            _outboxTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
             _outboxTimer.Tick += OnOutboxTimerTick;
         }
 

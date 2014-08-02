@@ -98,6 +98,9 @@
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+        <converters:BooleanToBrushConverter x:Key="SubjectBrushConverter"
+                                            BrushForFalse="{StaticResource AppLightTextBrush}"
+                                            BrushForTrue="{StaticResource AppMediumTextBrush}" />
     </ui:MetroWindow.Resources>
     <ui:MetroWindow.InputBindings>
         <KeyBinding Key="N"
@@ -114,6 +117,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="4" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="320"
@@ -750,6 +754,8 @@
                                        FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                         AppMediumLargeFontSize}}"
                                        FontWeight="Thin"
+                                       Foreground="{Binding IsSubjectNilOrEmpty,
+                                                            Converter={StaticResource SubjectBrushConverter}}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                      AppLightTextStyle}}"
@@ -1028,5 +1034,10 @@
                 BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                     AppAccentBrush}}"
                 BorderThickness="0,1,0,0" />
+        <StatusBar Grid.Row="4"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="6"
+                   Height="22"
+                   Background="{StaticResource AppAccentBrush}" />
     </Grid>
 </ui:MetroWindow>

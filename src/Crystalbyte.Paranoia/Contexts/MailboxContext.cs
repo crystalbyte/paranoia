@@ -109,7 +109,12 @@ namespace Crystalbyte.Paranoia {
                 using (var database = new DatabaseContext()) {
                     foreach (var message in messages) {
                         try {
-                            var model = new MailMessageModel { Id = message.Id, MailboxId = Id };
+
+                            var model = new MailMessageModel {
+                                Id = message.Id,
+                                MailboxId = Id
+                            };
+
                             database.MailMessages.Attach(model);
                             database.MailMessages.Remove(model);
                         } catch (Exception) {
@@ -316,7 +321,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 await SaveMessagesToDatabaseAsync(messages);
-                AppendMessages(messages);
+                AppendMessagesAsync(messages);
             } catch (Exception ex) {
                 throw;
             } finally {
@@ -339,7 +344,7 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-                CountNotSeen();
+                await CountNotSeenAsync();
             } catch (Exception) {
                 messages.ForEach(x => x.IsSeen = true);
                 throw;
@@ -361,14 +366,14 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-                CountNotSeen();
+                await CountNotSeenAsync();
             } catch (Exception) {
                 messages.ForEach(x => x.IsSeen = false);
                 throw;
             }
         }
 
-        private void AppendMessages(IEnumerable<MailMessageModel> messages) {
+        private async void AppendMessagesAsync(IEnumerable<MailMessageModel> messages) {
             var contexts = messages.Select(x => new MailMessageContext(this, x));
             if (Messages == null) {
                 Messages = new ObservableCollection<MailMessageContext>(contexts);
@@ -377,15 +382,19 @@ namespace Crystalbyte.Paranoia {
             }
 
             _account.AppContext.NotifyMessageCountChanged();
-            CountNotSeen();
+            await CountNotSeenAsync();
         }
 
-        internal void CountNotSeen() {
-            if (Messages == null) {
-                NotSeenCount = 0;
-                return;
+        internal async Task CountNotSeenAsync() {
+            var contact = _account.SelectedContact;
+
+            using (var context = new DatabaseContext()) {
+                NotSeenCount = await context.MailMessages
+                    .Where(x => x.MailboxId == _mailbox.Id)
+                    .Where(x => x.FromAddress == contact.Address)
+                    .Where(x => !x.Flags.Contains(MailboxFlags.Seen))
+                    .CountAsync();
             }
-            NotSeenCount = Messages.Count(x => x.IsNotSeen);
         }
 
         internal async Task LoadMessagesFromDatabaseAsync(MailContactContext contact) {
@@ -502,9 +511,9 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
+            await CountNotSeenAsync();
             await LoadMessagesFromDatabaseAsync(contact);
             _account.AppContext.DisplayMessages(Messages);
-            CountNotSeen();
         }
     }
 }

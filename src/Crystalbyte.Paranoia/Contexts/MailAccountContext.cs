@@ -92,7 +92,6 @@ namespace Crystalbyte.Paranoia {
                 }
             }
 
-
             var t1 = mailboxes
                 .Where(x => !x.IsAssigned)
                 .Select(x => x.AssignMostProbableAsync(remoteMailboxes));
@@ -118,6 +117,7 @@ namespace Crystalbyte.Paranoia {
             if (inbox != null) {
                 inbox.IsSelected = true;
             }
+            _mailboxes.ForEach(x => x.CountNotSeenAsync());
         }
 
         internal async Task LoadContactsAsync() {
@@ -192,7 +192,11 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            await SelectedMailbox.UpdateAsync(SelectedContact);
+            var selection = SelectedMailbox;
+            await selection.UpdateAsync(SelectedContact);
+            foreach (var mailbox in _mailboxes.AsParallel()) {
+                await mailbox.CountNotSeenAsync();
+            }
         }
 
         public string Address {
@@ -378,7 +382,6 @@ namespace Crystalbyte.Paranoia {
             foreach (var request in requests) {
                 try {
                     // TODO: zip mime before encrypting for optimal compression (request.Mime)
-
                     // TODO: Fetch public keys, abort if no connection, cant send anyways.
                     // TODO: foreach public key => do {
                     // TODO: encrypt compressed mime

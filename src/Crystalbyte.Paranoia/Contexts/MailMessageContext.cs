@@ -56,6 +56,10 @@ namespace Crystalbyte.Paranoia {
             get { return _mailbox; }
         }
 
+        public bool IsSubjectNilOrEmpty {
+            get { return Subject == "NIL" || string.IsNullOrEmpty(Subject); }
+        }
+
         public bool IsSeen {
             get { return HasFlag(MailboxFlags.Seen); }
             set {
