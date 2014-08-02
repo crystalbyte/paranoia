@@ -145,7 +145,7 @@
     <Compile Include="Data\SmtpRequestModel.cs" />
     <Compile Include="UI\Commands\MarkAsNotSeenCommand.cs" />
     <Compile Include="UI\Commands\MarkAsSeenCommand.cs" />
-    <Compile Include="UI\Converters\SubjectFormater.cs" />
+    <Compile Include="UI\Converters\SubjectFormatter.cs" />
     <Compile Include="UI\Converters\QuantityToVisibilityConverter.cs" />
     <Compile Include="UI\DynamicContainerStyle.cs" />
     <Compile Include="UI\HtmlStorage.cs" />

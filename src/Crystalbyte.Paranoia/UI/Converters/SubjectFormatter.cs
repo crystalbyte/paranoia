@@ -9,20 +9,16 @@ using System.Windows.Data;
 
 namespace Crystalbyte.Paranoia.UI.Converters {
     [ValueConversion(typeof (string), typeof (string))]
-    public sealed class SubjectFormater : IValueConverter {
+    public sealed class SubjectFormatter : IValueConverter {
         private const string Sub = " \u200B";
         private const string Pattern = "\n|\r";
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             var s = (string) value;
 
-            if (string.IsNullOrEmpty(s))
+            if (s.Equals("NIL") || string.IsNullOrEmpty(s))
             {
-                return s;
-            }
-            if (s.Equals("NIL"))
-            {
-                return s = Properties.Resources.NoSubject;
+                return Properties.Resources.NoSubject;
             }
            else
             {
