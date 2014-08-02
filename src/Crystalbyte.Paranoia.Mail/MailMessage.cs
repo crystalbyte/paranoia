@@ -280,19 +280,8 @@ namespace Crystalbyte.Paranoia.Mail {
                 throw new ArgumentNullException("messageStream");
 
             using (var outStream = new MemoryStream()) {
-#if DOTNET4
-    // TODO: Enable using native v4 framework methods when support is formally added.
-				messageStream.CopyTo(outStream);
-#else
-                int bytesRead;
-                var buffer = new byte[4096];
-
-                while ((bytesRead = messageStream.Read(buffer, 0, 4096)) > 0) {
-                    outStream.Write(buffer, 0, bytesRead);
-                }
-#endif
+                messageStream.CopyTo(outStream);
                 var content = outStream.ToArray();
-
                 return new MailMessage(content);
             }
         }

@@ -122,6 +122,7 @@
                         Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                            AppControlBackgroundBrush}}"
                         IsTransparent="True"
+                        Padding="3"
                         Source="{Binding Text,
                                          Mode=TwoWay}" />
         <ui:MetroCircleButton Grid.Row="3"

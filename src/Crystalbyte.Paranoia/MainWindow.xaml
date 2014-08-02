@@ -15,7 +15,6 @@
                 MinWidth="1024"
                 MinHeight="600"
                 BorderThickness="0"
-                Icon="/Assets/icon.png"
                 KeyboardNavigation.TabNavigation="Local"
                 UseLayoutRounding="True"
                 WindowStartupLocation="CenterScreen"
@@ -884,11 +883,11 @@
                   VerticalAlignment="Stretch">
                 <Border BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                             AppAccentBrush}}"
-                        BorderThickness="1"
+                        BorderThickness="0"
                         DataContext="{Binding SelectedMessage}"
                         Visibility="{Binding IsNotLoading,
                                              Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <ui:HtmlControl Background="White"
+                    <ui:HtmlControl Background="Transparent"
                                     BorderThickness="0"
                                     DataContext="{Binding DataContext,
                                                           ElementName=Window}"

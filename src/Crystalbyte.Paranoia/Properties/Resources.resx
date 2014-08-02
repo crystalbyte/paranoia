@@ -202,6 +202,9 @@ Please select a corresponding IMAP folder to synchronize.</value>
   <data name="Reply" xml:space="preserve">
     <value>Reply</value>
   </data>
+  <data name="ResourceNotFoundException" xml:space="preserve">
+    <value>The resource '{0}' was not found in assembly '{1}'.</value>
+  </data>
   <data name="RestoreDownCommandTooltip" xml:space="preserve">
     <value>Restore Down</value>
   </data>
@@ -219,6 +222,10 @@ Please select a corresponding IMAP folder to synchronize.</value>
   </data>
   <data name="Subject" xml:space="preserve">
     <value>Subject</value>
+  </data>
+  <data name="SubjectTemplate" xml:space="preserve">
+    <value>Encrypted Message from {0}</value>
+    <comment>Used for the subject of the wrapping mime part as fallback for regular agents.</comment>
   </data>
   <data name="Sunday" xml:space="preserve">
     <value>Sunday</value>

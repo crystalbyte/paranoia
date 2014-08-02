@@ -98,7 +98,7 @@
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
-                                <Border Grid.Row="1" Padding="3">
+                                <Border Grid.Row="1" Padding="{TemplateBinding Padding}">
                                     <awe:WebControl x:Name="PART_WebControl"
                                                     AdjustToDpi="True"
                                                     Background="{TemplateBinding Background}"

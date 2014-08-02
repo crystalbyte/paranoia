@@ -49,6 +49,8 @@ namespace Crystalbyte.Paranoia {
                     ImapSecurity = SecurityPolicy.Implicit,
                     SmtpHost = "smtp.gmail.com",
                     SmtpPort = 465,
+                    SmtpUsername = "paranoia.app@gmail.com",
+                    SmtpPassword = "p4r4n014",
                     SmtpSecurity = SecurityPolicy.Implicit,
                     UseImapCredentialsForSmtp = true,
                     SmtpRequiresAuthentication = true,

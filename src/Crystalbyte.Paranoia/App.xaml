@@ -18,6 +18,7 @@
                 <ResourceDictionary Source="/Themes/Metro.PasswordBox.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.ToggleButton.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.ListView.xaml" />
+                <ResourceDictionary Source="/Themes/Metro.ProgressBar.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />

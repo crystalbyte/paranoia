@@ -5,14 +5,17 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
-using Awesomium.Core;
+using System.Windows;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
 using MailMessage = System.Net.Mail.MailMessage;
+using System.IO;
 
 #endregion
 
@@ -25,7 +28,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ObservableCollection<MailContactContext> _contacts;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
         private MailContactContext _selectedContact;
-        private string _smtpHost;
+        private bool _sendingMessages;
 
         internal MailAccountContext(MailAccountModel account, AppContext appContext) {
             _account = account;
@@ -363,24 +366,86 @@ namespace Crystalbyte.Paranoia {
 
         internal async Task ProcessOutgoingMessagesAsync() {
             var requests = await GetPendingSmtpRequestsAsync();
+            if (!requests.Any() || _sendingMessages) {
+                return;
+            }
+
+            _sendingMessages = true;
+
+            var sheet = await GetHtmlCoverSheetAsync();
+            sheet = sheet.Replace("%FROM%", _account.Name);
+
             foreach (var request in requests) {
                 try {
-                    var bytes = Encoding.UTF8.GetBytes(request.Mime);
+                    // TODO: zip mime before encrypting for optimal compression (request.Mime)
+
+                    // TODO: Fetch public keys, abort if no connection, cant send anyways.
+                    // TODO: foreach public key => do {
+                    // TODO: encrypt compressed mime
 
                     using (var connection = new SmtpConnection { Security = SmtpSecurity }) {
                         using (var auth = await connection.ConnectAsync(SmtpHost, SmtpPort)) {
                             using (var session = await auth.LoginAsync(SmtpUsername, SmtpPassword)) {
-                                // TODO: send message
+
+                                var wrapper = new MailMessage(
+                                    new MailAddress(_account.Address, _account.Name),
+                                    new MailAddress(request.ToAddress)) {
+                                        Subject = string.Format(Resources.SubjectTemplate, _account.Name),
+                                        Body = sheet,
+                                        IsBodyHtml = true,
+                                        BodyEncoding = Encoding.UTF8,
+                                        HeadersEncoding = Encoding.UTF8,
+                                        SubjectEncoding = Encoding.UTF8,
+                                        BodyTransferEncoding = TransferEncoding.Base64,
+                                    };
+
+                                var guid = Guid.NewGuid();
+                                using (var writer = new StreamWriter(new MemoryStream()) { AutoFlush = true }) {
+                                    await writer.WriteAsync(request.Mime);
+                                    wrapper.Attachments.Add(new Attachment(writer.BaseStream, guid.ToString()) {
+                                        TransferEncoding = TransferEncoding.Base64,
+                                        NameEncoding = Encoding.UTF8
+                                    });
+                                    await session.SendAsync(wrapper);
+                                }
                             }
                         }
                     }
+
+                    // TODO: foreach public key => end }
+
+                    await DropRequestFromDatabaseAsync(request);
+
                 } catch (Exception) {
                     throw;
+                } finally {
+                    _sendingMessages = false;
                 }
             }
         }
 
-        private Task<SmtpRequestModel[]> GetPendingSmtpRequestsAsync() {
+        private static Task DropRequestFromDatabaseAsync(SmtpRequestModel request) {
+            using (var database = new DatabaseContext()) {
+                database.SmtpRequests.Attach(request);
+                database.SmtpRequests.Remove(request);
+                return database.SaveChangesAsync();
+            }
+        }
+
+        private static Task<string> GetHtmlCoverSheetAsync() {
+            const string name = "/Resources/cover.sheet.template.html";
+            var info = Application.GetResourceStream(new Uri(name, UriKind.Relative));
+            if (info == null) {
+                var message = string.Format(Resources.ResourceNotFoundException, name, typeof(App).Name);
+                throw new Exception(message);
+            }
+
+            using (var reader = new StreamReader(info.Stream)) {
+                return reader.ReadToEndAsync();
+            }
+        }
+
+        private static Task<SmtpRequestModel[]> GetPendingSmtpRequestsAsync() {
             using (var database = new DatabaseContext()) {
                 return database.SmtpRequests.ToArrayAsync();
             }
@@ -392,7 +457,7 @@ namespace Crystalbyte.Paranoia {
 
                 foreach (var message in messages) {
                     var request = new SmtpRequestModel {
-                        Recipient = message.To.First().Address,
+                        ToAddress = message.To.First().Address,
                         Mime = await message.ToMimeAsync()
                     };
                     _account.SmtpRequests.Add(request);

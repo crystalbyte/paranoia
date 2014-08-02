@@ -1,8 +1,6 @@
 ﻿#region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -23,8 +21,8 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("mime")]
         public string Mime { get; set; }
 
-        [Column("recipient")]
-        public string Recipient { get; set; }
+        [Column("to_address")]
+        public string ToAddress { get; set; }
 
         public MailAccountModel Account { get; set; }
     }

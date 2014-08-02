@@ -79,21 +79,28 @@ namespace Crystalbyte.Paranoia.Mail {
             }
 
             var mime = await message.ToMimeAsync();
-
+            var total = Encoding.UTF8.GetByteCount(mime);
             long bytes = 0;
 
             using (var reader = new StringReader(mime)) {
                 while (true) {
                     var line = StuffPeriodIfNecessary(await reader.ReadLineAsync());
-                    if (line == null) {
-                        break;
-	                }
+
+                    if (string.IsNullOrEmpty(line)) {
+                        bytes += 2;
+                        await _connection.WriteAsync(string.Empty);
+                        continue;
+                    }
 
                     await _connection.WriteAsync(line);
 
                     // Add two for line termination symbols \r\n.
                     bytes += Encoding.UTF8.GetByteCount(line) + 2;
                     OnProgressChanged(new ProgressChangedEventArgs(bytes));
+
+                    if (total == bytes) {
+                        break;
+                    }
                 }
             }
 
@@ -101,6 +108,10 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         private static string StuffPeriodIfNecessary(string line) {
+            if (string.IsNullOrEmpty(line)) {
+                return null;
+            }
+
             if (line.StartsWith(".")) {
                 line = line.Insert(0, ".");
             }

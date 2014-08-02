@@ -314,6 +314,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The resource &apos;{0}&apos; was not found in assembly &apos;{1}&apos;..
+        /// </summary>
+        public static string ResourceNotFoundException {
+            get {
+                return ResourceManager.GetString("ResourceNotFoundException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Restore Down.
         /// </summary>
         public static string RestoreDownCommandTooltip {
@@ -364,6 +373,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Subject {
             get {
                 return ResourceManager.GetString("Subject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Encrypted Message from {0}.
+        /// </summary>
+        public static string SubjectTemplate {
+            get {
+                return ResourceManager.GetString("SubjectTemplate", resourceCulture);
             }
         }
         
