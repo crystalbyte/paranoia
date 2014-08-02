@@ -402,6 +402,7 @@ namespace Crystalbyte.Paranoia {
                                 var guid = Guid.NewGuid();
                                 using (var writer = new StreamWriter(new MemoryStream()) { AutoFlush = true }) {
                                     await writer.WriteAsync(request.Mime);
+                                    writer.BaseStream.Seek(0, SeekOrigin.Begin);
                                     wrapper.Attachments.Add(new Attachment(writer.BaseStream, guid.ToString()) {
                                         TransferEncoding = TransferEncoding.Base64,
                                         NameEncoding = Encoding.UTF8
