@@ -10,11 +10,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Data;
-using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.UI.Commands;
 using System.Net.Mail;
 using MailMessage = System.Net.Mail.MailMessage;
-using Crystalbyte.Paranoia.Contexts;
 
 namespace Crystalbyte.Paranoia {
     public sealed class MailCompositionContext : NotificationObject {

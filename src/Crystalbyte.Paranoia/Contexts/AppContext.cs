@@ -6,11 +6,13 @@ using System.Collections.ObjectModel;
 using System.Composition;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
@@ -27,6 +29,7 @@ namespace Crystalbyte.Paranoia {
 
         #region Private Fields
 
+        private DispatcherTimer _outboxTimer;
         private MailAccountContext _selectedAccount;
         private IEnumerable<MailMessageContext> _selectedMessages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
@@ -71,6 +74,11 @@ namespace Crystalbyte.Paranoia {
                 .Throttle(TimeSpan.FromMilliseconds(200))
                 .Select(x => x.Text)
                 .Subscribe(OnQueryReceived);
+
+            _outboxTimer = new DispatcherTimer {
+                Interval = TimeSpan.FromSeconds(5)
+            };
+            _outboxTimer.Tick += OnOutboxTimerTick;
         }
 
         #endregion
@@ -291,6 +299,8 @@ namespace Crystalbyte.Paranoia {
             SelectedAccount = Accounts.FirstOrDefault();
             if (SelectedAccount != null)
                 SelectedAccount.IsSelected = true;
+
+            _outboxTimer.Start();
         }
 
         private async Task LoadAccountsAsync() {
@@ -309,8 +319,21 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => Messages);
         }
 
-        internal Task NotifyOutboxNotEmpty() {
-            throw new Exception();
+        private async void OnOutboxTimerTick(object sender, EventArgs e) {
+            if (!NetworkInterface.GetIsNetworkAvailable()) {
+                return;
+            }
+
+            await ProcessOutgoingMessagesAsync();
+        }
+
+        private Task ProcessOutgoingMessagesAsync() {
+            var tasks = Accounts.Select(x => x.ProcessOutgoingMessagesAsync());
+            return Task.WhenAll(tasks);
+        }
+
+        internal async Task NotifyOutboxNotEmpty() {
+            await ProcessOutgoingMessagesAsync();
         }
     }
 }

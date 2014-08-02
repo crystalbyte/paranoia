@@ -3,8 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Awesomium.Core;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
@@ -22,6 +25,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ObservableCollection<MailContactContext> _contacts;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
         private MailContactContext _selectedContact;
+        private string _smtpHost;
 
         internal MailAccountContext(MailAccountModel account, AppContext appContext) {
             _account = account;
@@ -289,6 +293,66 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public string SmtpHost {
+            get { return _account.SmtpHost; }
+            set {
+                if (_account.SmtpHost == value) {
+                    return;
+                }
+
+                _account.SmtpHost = value;
+                RaisePropertyChanged(() => SmtpHost);
+            }
+        }
+
+        public short SmtpPort {
+            get { return _account.SmtpPort; }
+            set {
+                if (_account.SmtpPort == value) {
+                    return;
+                }
+
+                _account.SmtpPort = value;
+                RaisePropertyChanged(() => SmtpPort);
+            }
+        }
+
+        public string SmtpUsername {
+            get { return _account.SmtpUsername; }
+            set {
+                if (_account.SmtpUsername == value) {
+                    return;
+                }
+
+                _account.SmtpUsername = value;
+                RaisePropertyChanged(() => SmtpUsername);
+            }
+        }
+
+        public string SmtpPassword {
+            get { return _account.SmtpPassword; }
+            set {
+                if (_account.SmtpPassword == value) {
+                    return;
+                }
+
+                _account.SmtpPassword = value;
+                RaisePropertyChanged(() => SmtpPassword);
+            }
+        }
+
+        public SecurityPolicy SmtpSecurity {
+            get { return _account.SmtpSecurity; }
+            set {
+                if (_account.SmtpSecurity == value) {
+                    return;
+                }
+
+                _account.SmtpSecurity = value;
+                RaisePropertyChanged(() => SmtpSecurity);
+            }
+        }
+
         public IEnumerable<MailContactContext> Contacts {
             get { return _contacts; }
         }
@@ -297,7 +361,32 @@ namespace Crystalbyte.Paranoia {
             get { return _mailboxes; }
         }
 
-        public async Task SaveOutgoingMessagesAsync(IEnumerable<MailMessage> messages) {
+        internal async Task ProcessOutgoingMessagesAsync() {
+            var requests = await GetPendingSmtpRequestsAsync();
+            foreach (var request in requests) {
+                try {
+                    var bytes = Encoding.UTF8.GetBytes(request.Mime);
+
+                    using (var connection = new SmtpConnection { Security = SmtpSecurity }) {
+                        using (var auth = await connection.ConnectAsync(SmtpHost, SmtpPort)) {
+                            using (var session = await auth.LoginAsync(SmtpUsername, SmtpPassword)) {
+                                // TODO: send message
+                            }
+                        }
+                    }
+                } catch (Exception) {
+                    throw;
+                }
+            }
+        }
+
+        private Task<SmtpRequestModel[]> GetPendingSmtpRequestsAsync() {
+            using (var database = new DatabaseContext()) {
+                return database.SmtpRequests.ToArrayAsync();
+            }
+        }
+
+        internal async Task SaveOutgoingMessagesAsync(IEnumerable<MailMessage> messages) {
             using (var database = new DatabaseContext()) {
                 database.MailAccounts.Attach(_account);
 
