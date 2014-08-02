@@ -754,7 +754,7 @@
                                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                      AppLightTextStyle}}"
                                        Text="{Binding Subject,
-                                                      Converter={StaticResource IgnoreLinebreaksConverter}}"
+                                                      Converter={StaticResource SubjectFormater}}"
                                        TextTrimming="CharacterEllipsis"
                                        TextWrapping="NoWrap" />
 
@@ -831,7 +831,7 @@
                                                                              AppTitleTextStyle}}"
                                Text="{Binding Subject,
                                               Mode=OneWay,
-                                              Converter={StaticResource IgnoreLinebreaksConverter}}"
+                                              Converter={StaticResource SubjectFormater}}"
                                TextTrimming="CharacterEllipsis"
                                TextWrapping="NoWrap" />
                     <TextBlock Grid.Row="1"
