@@ -23,8 +23,6 @@ namespace Crystalbyte.Paranoia.Mail {
         private readonly List<MailAddress> _cc;
         private readonly List<MailAddress> _bcc;
 
-        private const string FetchHeadersPattern = "RFC822\\.HEADER[\\s]*{[0-9]+}.+\\n\\n";
-
         private const string FetchMetaPattern =
             "(RFC822.SIZE [0-9]+)|((INTERNALDATE \".+?\"))|(FLAGS \\(.*?\\))|UID \\d+";
 

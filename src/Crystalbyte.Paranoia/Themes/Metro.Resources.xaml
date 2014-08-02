@@ -13,8 +13,8 @@
     <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppExtraLargeFontSize}">28</system:Double>
 
     <!--  App  -->
-    <!--  <Color x:Key="AppAccentColor">#006FC4</Color>  -->
-    <Color x:Key="AppAccentColor">BlueViolet</Color>
+    <Color x:Key="AppAccentColor">#006FC4</Color>
+    <!--  <Color x:Key="AppAccentColor">BlueViolet</Color>  -->
     <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccentColor}" />
     <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}" Color="{StaticResource AppAccentColor}" />
 
