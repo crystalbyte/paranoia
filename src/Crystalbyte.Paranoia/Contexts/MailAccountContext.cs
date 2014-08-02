@@ -452,18 +452,20 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task SaveOutgoingMessagesAsync(IEnumerable<MailMessage> messages) {
+        internal async Task SaveSmtpRequestsAsync(IEnumerable<MailMessage> messages) {
             using (var database = new DatabaseContext()) {
-                database.MailAccounts.Attach(_account);
+                var account = await database.MailAccounts.FindAsync(_account.Id);
 
                 foreach (var message in messages) {
                     var request = new SmtpRequestModel {
                         ToAddress = message.To.First().Address,
                         Mime = await message.ToMimeAsync()
                     };
-                    _account.SmtpRequests.Add(request);
-                    await database.SaveChangesAsync();
+
+                    account.SmtpRequests.Add(request);
                 }
+
+                await database.SaveChangesAsync();
             }
         }
     }

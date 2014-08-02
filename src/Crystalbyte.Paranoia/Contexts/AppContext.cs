@@ -29,7 +29,7 @@ namespace Crystalbyte.Paranoia {
 
         #region Private Fields
 
-        private DispatcherTimer _outboxTimer;
+        private readonly DispatcherTimer _outboxTimer;
         private MailAccountContext _selectedAccount;
         private IEnumerable<MailMessageContext> _selectedMessages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
@@ -197,8 +197,13 @@ namespace Crystalbyte.Paranoia {
             get { return _markAsNotSeenCommand; }
         }
 
-        public void ComposeMessage() {
+        internal void ComposeMessage() {
             var uri = typeof(ComposeMessagePage).ToPageUri();
+            OnNavigationRequested(new NavigationRequestedEventArgs(uri));
+        }
+
+        internal void CloseOverlay() {
+            var uri = typeof(BlankPage).ToPageUri();
             OnNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 

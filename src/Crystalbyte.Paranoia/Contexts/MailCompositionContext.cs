@@ -39,6 +39,14 @@ namespace Crystalbyte.Paranoia {
 
         #region Event Declarations
 
+        public event EventHandler ShutdownRequested;
+
+        private void OnShutdownRequested() {
+            var handler = ShutdownRequested;
+            if (handler != null) 
+                handler(this, EventArgs.Empty);
+        }
+
         public event EventHandler<DocumentTextRequestedEventArgs> DocumentTextRequested;
 
         private void OnDocumentTextRequested(DocumentTextRequestedEventArgs e) {
@@ -118,13 +126,14 @@ namespace Crystalbyte.Paranoia {
             try {
                 var account = App.Context.SelectedAccount;
                 var messages = CreateSmtpMessages(account);
-                await account.SaveOutgoingMessagesAsync(messages);
+                await account.SaveSmtpRequestsAsync(messages);
                 await App.Context.NotifyOutboxNotEmpty();
-
-
-            } catch (Exception) {
-
+            }
+            catch (Exception) {
                 throw;
+            }
+            finally {
+                OnShutdownRequested();
             }
         }
 

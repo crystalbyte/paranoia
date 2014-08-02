@@ -11,12 +11,17 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
         public ComposeMessagePage() {
             var context = new MailCompositionContext();
+            context.ShutdownRequested += OnShutdownRequested;
             context.DocumentTextRequested += OnDocumentTextRequested;
             DataContext = context;
             InitializeComponent();
 
             var window = (MainWindow)Application.Current.MainWindow;
             window.OverlayChanged += OnOverlayChanged;
+        }
+
+        private static void OnShutdownRequested(object sender, EventArgs e) {
+            App.Context.CloseOverlay();
         }
 
         private void OnDocumentTextRequested(object sender, DocumentTextRequestedEventArgs e) {

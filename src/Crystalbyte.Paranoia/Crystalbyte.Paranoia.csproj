@@ -233,6 +233,9 @@
     <Compile Include="UI\MetroWindow.xaml.cs">
       <DependentUpon>MetroWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Pages\BlankPage.xaml.cs">
+      <DependentUpon>BlankPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\SafeWebFontProvider.cs" />
     <Compile Include="UI\TypeExtensions.cs" />
     <Compile Include="UI\Pages\ComposeMessagePage.xaml.cs">
@@ -303,6 +306,10 @@
     <Page Include="UI\MetroWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Pages\BlankPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Pages\ComposeMessagePage.xaml">
       <SubType>Designer</SubType>

@@ -15,7 +15,7 @@
             <ui:HtmlDataSourceProvider x:Key="paranoia" />
         </awe:WebSessionProvider.DataSources>
         <core:WebPreferences Javascript="True"
-                             ShrinkStandaloneImagesToFit="False"
+                             ShrinkStandaloneImagesToFit="True"
                              SmoothScrolling="True" />
     </awe:WebSessionProvider>
 

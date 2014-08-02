@@ -9,6 +9,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.UI;
+using Crystalbyte.Paranoia.UI.Pages;
 
 #endregion
 
@@ -85,7 +86,11 @@ namespace Crystalbyte.Paranoia {
 
         private void OnNavigationRequested(object sender, NavigationRequestedEventArgs e) {
             ContentFrame.Navigate(e.Target);
-            ShowOverlay();
+            if (e.Target == typeof(BlankPage).ToPageUri()) {
+                HideOverlay();
+            } else {
+                ShowOverlay();
+            }
         }
 
         private void ShowOverlay() {
@@ -96,6 +101,10 @@ namespace Crystalbyte.Paranoia {
 
         private void HideOverlay() {
             IsOverlayVisible = false;
+            while (ContentFrame.CanGoBack) {
+                ContentFrame.NavigationService.RemoveBackEntry();    
+            }
+            
             _slideOutOverlayStoryboard.Begin();
         }
 
@@ -111,20 +120,20 @@ namespace Crystalbyte.Paranoia {
             DependencyProperty.Register("IsOverlayVisible", typeof(bool), typeof(MainWindow), new PropertyMetadata(false, OnIsOverlayChanged));
 
         private static void OnIsOverlayChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var window = (MainWindow) d;
+            var window = (MainWindow)d;
             window.OnOverlayChanged();
         }
 
         private void OnMessageSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var view = (ListView) sender;
+            var view = (ListView)sender;
             var app = App.Composition.GetExport<AppContext>();
             app.SelectedMessages = view.SelectedItems.OfType<MailMessageContext>();
 
             var message = app.SelectedMessage;
-            if (message == null) 
+            if (message == null)
                 return;
 
-            var container = (Control) MessagesListView.ItemContainerGenerator.ContainerFromItem(message);
+            var container = (Control)MessagesListView.ItemContainerGenerator.ContainerFromItem(message);
             if (container != null) {
                 container.Focus();
             }

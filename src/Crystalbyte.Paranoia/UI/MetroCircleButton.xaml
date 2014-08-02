@@ -42,7 +42,6 @@
                                    VerticalAlignment="Center"
                                    FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                     AppMediumFontSize}}"
-                                   FontWeight="Normal"
                                    Foreground="{TemplateBinding Foreground}"
                                    Text="{TemplateBinding Text}"
                                    Visibility="{Binding Text,
