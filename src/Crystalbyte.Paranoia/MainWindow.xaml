@@ -1030,6 +1030,7 @@
         <Border Grid.Row="1"
                 Grid.Column="0"
                 Grid.ColumnSpan="6"
+                Margin="0,-1,0,0"
                 VerticalAlignment="Top"
                 BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                     AppAccentBrush}}"

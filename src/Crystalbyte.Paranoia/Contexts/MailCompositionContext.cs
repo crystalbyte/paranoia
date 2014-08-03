@@ -39,10 +39,10 @@ namespace Crystalbyte.Paranoia {
 
         #region Event Declarations
 
-        public event EventHandler ShutdownRequested;
+        public event EventHandler Finished;
 
-        private void OnShutdownRequested() {
-            var handler = ShutdownRequested;
+        private void OnFinished() {
+            var handler = Finished;
             if (handler != null) 
                 handler(this, EventArgs.Empty);
         }
@@ -122,6 +122,10 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        internal void Finish() {
+            OnFinished();
+        }
+
         public async Task PushToOutboxAsync() {
             try {
                 var account = App.Context.SelectedAccount;
@@ -131,9 +135,6 @@ namespace Crystalbyte.Paranoia {
             }
             catch (Exception) {
                 throw;
-            }
-            finally {
-                OnShutdownRequested();
             }
         }
 

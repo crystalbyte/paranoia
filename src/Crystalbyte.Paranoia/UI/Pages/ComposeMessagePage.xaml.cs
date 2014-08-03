@@ -11,7 +11,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
         public ComposeMessagePage() {
             var context = new MailCompositionContext();
-            context.ShutdownRequested += OnShutdownRequested;
+            context.Finished += OnShutdownRequested;
             context.DocumentTextRequested += OnDocumentTextRequested;
             DataContext = context;
             InitializeComponent();

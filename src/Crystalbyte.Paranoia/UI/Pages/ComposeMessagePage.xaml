@@ -13,6 +13,11 @@
       d:DesignHeight="300"
       d:DesignWidth="300"
       mc:Ignorable="d">
+    <Page.InputBindings>
+        <KeyBinding Key="Enter"
+                    Command="{Binding SendCommand}"
+                    Modifiers="Control" />
+    </Page.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
