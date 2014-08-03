@@ -900,7 +900,7 @@
                                     IsReadOnly="True"
                                     IsTransparent="False"
                                     Source="{Binding Html,
-                                                     Mode=OneWay}" />
+                                                     Mode=OneWay}" d:IsHidden="True" />
                 </Border>
                 <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <StackPanel VerticalAlignment="Center">
