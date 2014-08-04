@@ -48,6 +48,9 @@ namespace Crystalbyte.Paranoia {
                 handler(this, EventArgs.Empty);
         }
 
+        public MailAccountContext Account {
+            get { return _account; }
+        }
         public string Name {
             get { return _mailbox.Name; }
             set {

@@ -7,9 +7,9 @@ using Awesomium.Core.Data;
 using Awesomium.Windows.Data;
 
 namespace Crystalbyte.Paranoia.UI {
-    public sealed class HtmlDataSourceProvider : DataSourceProvider {
+    public sealed class ParanoiaDataSourceProvider : DataSourceProvider {
         protected override DataSource GetDataSource() {
-            return new HtmlDataSource();
+            return new ParanoiaDataSource();
         }
     }
 }
