@@ -41,6 +41,7 @@ namespace Crystalbyte.Paranoia {
         private string _queryString;
         private object _messages;
         private string _source;
+        private string _statusText;
 
         #endregion
 
@@ -141,6 +142,18 @@ namespace Crystalbyte.Paranoia {
 
         public IEnumerable<MailAccountContext> Accounts {
             get { return _accounts; }
+        }
+
+        public string StatusText {
+            get { return _statusText; }
+            set {
+                if (_statusText == value) {
+                    return;
+                }
+
+                _statusText = value;
+                RaisePropertyChanged(() => StatusText);
+            }
         }
 
         public string QueryString {
@@ -336,6 +349,10 @@ namespace Crystalbyte.Paranoia {
 
         internal async Task NotifyOutboxNotEmpty() {
             await ProcessOutgoingMessagesAsync();
+        }
+
+        public void ResetStatusText() {
+            StatusText = Resources.ReadyStatus;
         }
     }
 }

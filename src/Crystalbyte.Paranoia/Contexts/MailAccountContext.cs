@@ -80,6 +80,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task SyncMailboxesAsync() {
+            App.Context.StatusText = Resources.SyncMailboxesStatus;
+
             var mailboxes = _mailboxes.ToArray();
             var remoteMailboxes = await ListMailboxesAsync();
             if (IsGmail) {
@@ -103,6 +105,8 @@ namespace Crystalbyte.Paranoia {
                 .Select(x => x.SyncAsync());
 
             await Task.WhenAll(t2);
+
+            App.Context.ResetStatusText();
         }
 
         internal async Task LoadMailboxesAsync() {

@@ -146,6 +146,7 @@
     <Compile Include="UI\Commands\MarkAsNotSeenCommand.cs" />
     <Compile Include="UI\Commands\MarkAsSeenCommand.cs" />
     <Compile Include="UI\Converters\FromSenderFormatter.cs" />
+    <Compile Include="UI\Converters\PercentageFormatter.cs" />
     <Compile Include="UI\Converters\SubjectFormatter.cs" />
     <Compile Include="UI\Converters\QuantityToVisibilityConverter.cs" />
     <Compile Include="UI\AutoCompleteBox.xaml.cs">

@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Awesomium.Core.Data;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
-using Crystalbyte.Paranoia.Mail.Mime;
 
 namespace Crystalbyte.Paranoia.UI {
     internal sealed class ParanoiaDataSource : DataSource {
@@ -28,7 +27,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             var mimeBytes = Encoding.UTF8.GetBytes(mime);
             var message = new MailMessage(mimeBytes);
-
+            
             var content = message.FindFirstHtmlVersion() ?? message.FindFirstPlainTextVersion();
             if (content == null) {
                 SendResponse(request, DataSourceResponse.Empty);

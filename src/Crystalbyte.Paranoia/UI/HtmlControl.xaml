@@ -111,7 +111,9 @@
                                                                      RelativeSource={RelativeSource TemplatedParent},
                                                                      Converter={StaticResource UrlConverter}}"
                                                     WebSession="{Binding Source={StaticResource WebSessionProvider}}"
-                                                    Zoom="{TemplateBinding Zoom}" />
+                                                    Zoom="{Binding Zoom,
+                                                                   RelativeSource={RelativeSource TemplatedParent},
+                                                                   Mode=TwoWay}" />
                                 </Border>
                             </Grid>
                         </awe:WebDialogsLayer>

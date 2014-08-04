@@ -31,6 +31,7 @@
             <converters:DateFormatter x:Key="DateFormatter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:QuantityToVisibilityConverter x:Key="QuantityToVisibilityConverter" />
+            <converters:PercentageFormatter x:Key="PercentageFormatter" />
 
             <Style x:Key="AppIconImageStyle" TargetType="Image">
                 <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />

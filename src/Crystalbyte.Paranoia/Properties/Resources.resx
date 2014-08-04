@@ -202,6 +202,9 @@ Please select a corresponding IMAP folder to synchronize.</value>
   <data name="Print" xml:space="preserve">
     <value>Print</value>
   </data>
+  <data name="ReadyStatus" xml:space="preserve">
+    <value>Ready</value>
+  </data>
   <data name="Recipients" xml:space="preserve">
     <value>To</value>
   </data>
@@ -235,6 +238,9 @@ Please select a corresponding IMAP folder to synchronize.</value>
   </data>
   <data name="Sunday" xml:space="preserve">
     <value>Sunday</value>
+  </data>
+  <data name="SyncMailboxesStatus" xml:space="preserve">
+    <value>Synchronizing mailboxes ....</value>
   </data>
   <data name="Thursday" xml:space="preserve">
     <value>Thursday</value>

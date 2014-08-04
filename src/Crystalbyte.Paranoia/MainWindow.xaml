@@ -842,15 +842,13 @@
                                TextWrapping="NoWrap" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
-                               DataContext="{Binding SelectedMessage,
-                                                     Delay=100}"
+                               DataContext="{Binding SelectedMessage}"
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                              AppSubtitleTextStyle}}"
                                Text="{Binding FromName}" />
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
-                               DataContext="{Binding SelectedMessage,
-                                                     Delay=100}"
+                               DataContext="{Binding SelectedMessage}"
                                FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                 AppSmallFontSize}}"
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -893,7 +891,8 @@
                         DataContext="{Binding SelectedMessage}"
                         Visibility="{Binding IsNotLoading,
                                              Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <ui:HtmlControl Background="Transparent"
+                    <ui:HtmlControl x:Name="HtmlControl"
+                                    Background="Transparent"
                                     BorderThickness="0"
                                     DataContext="{Binding DataContext,
                                                           ElementName=Window}"
@@ -1039,7 +1038,45 @@
         <StatusBar Grid.Row="4"
                    Grid.Column="0"
                    Grid.ColumnSpan="6"
-                   Height="22"
-                   Background="{StaticResource AppAccentBrush}" />
+                   Margin="0"
+                   Background="{StaticResource AppAccentBrush}"
+                   Padding="0">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="20" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="0">
+                <TextBlock Text="{Binding StatusText, Mode=OneWay}" />
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="2">
+                <Slider Width="150"
+                        LargeChange="25.0"
+                        Maximum="200.0"
+                        Minimum="1.0"
+                        SmallChange="5.0"
+                        Value="{Binding Zoom,
+                                        ElementName=HtmlControl,
+                                        Mode=TwoWay}" />
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="3">
+                <Button Width="50"
+                        Content="{Binding Zoom,
+                                          ElementName=HtmlControl,
+                                          Mode=OneWay,
+                                          Converter={StaticResource PercentageFormatter}}"
+                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                      StatusBarButtonStyle}}" />
+            </StatusBarItem>
+        </StatusBar>
+
     </Grid>
 </ui:MetroWindow>
