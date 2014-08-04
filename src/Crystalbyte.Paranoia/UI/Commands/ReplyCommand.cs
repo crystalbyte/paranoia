@@ -24,7 +24,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public void Execute(object parameter) {
-            MessageBox.Show("Not yet implemented.");
+            _app.ComposeReplyMessage();
         }
 
         public event EventHandler CanExecuteChanged;

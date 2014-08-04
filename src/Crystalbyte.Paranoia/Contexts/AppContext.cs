@@ -200,6 +200,16 @@ namespace Crystalbyte.Paranoia {
             OnNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
+        internal void ComposeReplyMessage()
+        {
+            if (SelectedMessage == null)
+            {
+                return;
+            }
+            var uri = typeof(ComposeMessagePage).ToPageUriReply(SelectedMessage);
+            OnNavigationRequested(new NavigationRequestedEventArgs(uri));
+        }
+
         internal void CloseOverlay() {
             var uri = typeof(BlankPage).ToPageUri();
             OnNavigationRequested(new NavigationRequestedEventArgs(uri));

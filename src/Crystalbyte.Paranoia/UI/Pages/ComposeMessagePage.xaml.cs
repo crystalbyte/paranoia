@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -52,6 +53,18 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
         public void OnNavigated(NavigationEventArgs e) {
             Reset();
+
+            if (!String.IsNullOrEmpty(e.Uri.OriginalString))
+            {
+                 Regex ItemRegex = new Regex(@"[0-9]+", RegexOptions.Compiled);
+                foreach (Match ItemMatch in ItemRegex.Matches(e.Uri.OriginalString))
+                {
+                    Console.WriteLine(ItemMatch);
+                }
+            }
+           
+
+           
         }
 
         #endregion
