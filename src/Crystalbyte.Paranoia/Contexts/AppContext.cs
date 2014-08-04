@@ -9,12 +9,10 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Crystalbyte.Paranoia.Data;
-using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
@@ -42,7 +40,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _markAsNotSeenCommand;
         private string _queryString;
         private object _messages;
-        private string _html;
+        private string _source;
 
         #endregion
 
@@ -117,14 +115,14 @@ namespace Crystalbyte.Paranoia {
 
         #region Property Declarations
 
-        public string Html {
-            get { return _html; }
+        public string Source {
+            get { return _source; }
             set {
-                if (_html == value) {
+                if (_source == value) {
                     return;
                 }
-                _html = value;
-                RaisePropertyChanged(() => Html);
+                _source = value;
+                RaisePropertyChanged(() => Source);
             }
         }
 
@@ -291,20 +289,11 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void ClearMessageView() {
-            Html = null;
+            Source = null;
         }
 
-        private async void DisplayMessageAsync(MailMessageContext message) {
-            var mime = await message.LoadMimeFromDatabaseAsync();
-            if (string.IsNullOrEmpty(mime)) {
-                mime = await message.DownloadMessageAsync();
-            }
-
-            var mail = new MailMessage(Encoding.UTF8.GetBytes(mime));
-            var text = mail.FindFirstHtmlVersion();
-            if (text != null) {
-                Html = Encoding.UTF8.GetString(text.Body);
-            }
+        private void DisplayMessageAsync(MailMessageContext message) {
+            Source = string.Format("asset://paranoia/message/{0}", message.Id);
         }
 
         public async Task RunAsync() {

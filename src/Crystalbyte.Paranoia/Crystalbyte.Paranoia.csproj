@@ -148,19 +148,17 @@
     <Compile Include="UI\Converters\FromSenderFormatter.cs" />
     <Compile Include="UI\Converters\SubjectFormatter.cs" />
     <Compile Include="UI\Converters\QuantityToVisibilityConverter.cs" />
-    <Compile Include="UI\HtmlStorage.cs" />
     <Compile Include="UI\AutoCompleteBox.xaml.cs">
       <DependentUpon>AutoCompleteBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\AutoCompleteBoxCommands.cs" />
     <Compile Include="UI\Commands\RelayCommand.cs" />
     <Compile Include="UI\Commands\SendCommand.cs" />
-    <Compile Include="UI\Converters\HtmlRequestConverter.cs" />
     <Compile Include="UI\HtmlControl.xaml.cs">
       <DependentUpon>HtmlControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\HtmlDataSource.cs" />
-    <Compile Include="UI\HtmlDataSourceProvider.cs" />
+    <Compile Include="UI\ParanoiaDataSource.cs" />
+    <Compile Include="UI\ParanoiaDataSourceProvider.cs" />
     <Compile Include="UI\INavigationAware.cs" />
     <Compile Include="UI\ItemsSourceRequestedEventArgs.cs" />
     <Compile Include="UI\ITokenMatcher.cs" />
@@ -348,6 +346,8 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="x86\awesomium_process" />
+    <None Include="x86\inspector.pak" />
     <Resource Include="Resources\storage.db" />
   </ItemGroup>
   <ItemGroup>
@@ -402,6 +402,21 @@
     <Resource Include="Assets\restore.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="x86\avcodec-53.dll" />
+    <Content Include="x86\avformat-53.dll" />
+    <Content Include="x86\avutil-51.dll" />
+    <Content Include="x86\Awesomium.Core.dll" />
+    <Resource Include="x86\Awesomium.Core.XML" />
+    <Content Include="x86\awesomium.dll" />
+    <Content Include="x86\Awesomium.Windows.Controls.dll" />
+    <Resource Include="x86\Awesomium.Windows.Controls.XML" />
+    <Content Include="x86\Design\Awesomium.Windows.Controls.Design.dll" />
+    <Content Include="x86\Design\Awesomium.Windows.Forms.Design.dll" />
+    <Resource Include="x86\Design\README.txt" />
+    <Content Include="x86\icudt.dll" />
+    <Content Include="x86\libEGL.dll" />
+    <Content Include="x86\libGLESv2.dll" />
+    <Content Include="x86\xinput9_1_0.dll" />
     <Resource Include="Assets\reply.png" />
     <Resource Include="Assets\forward.png" />
     <Resource Include="Assets\reply.small.png" />
