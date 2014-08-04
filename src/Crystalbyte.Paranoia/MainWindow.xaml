@@ -20,6 +20,7 @@
                 WindowStartupLocation="CenterScreen"
                 d:DataContext="{d:DesignInstance paranoia:AppContext}"
                 mc:Ignorable="d">
+
     <ui:MetroWindow.Background>
         <VisualBrush TileMode="Tile" Viewport="0,0,1,1">
             <VisualBrush.Visual>
@@ -28,6 +29,7 @@
         </VisualBrush>
     </ui:MetroWindow.Background>
     <ui:MetroWindow.Resources>
+
         <!--  ReSharper disable once Xaml.RedundantResource  -->
         <Storyboard x:Key="OverlaySlideInStoryboard">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Overlay" Storyboard.TargetProperty="(UIElement.Opacity)">
@@ -308,11 +310,11 @@
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                         <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Cvsp}" />
-                        <Setter Property="Padding" Value="6,2,6,2" />
+                        <Setter Property="Padding" Value="6,2,6,1" />
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
-                    <DataTemplate DataType="paranoia:MailAccountContext">
+                    <DataTemplate DataType="paranoia:MailContactContext">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -321,12 +323,15 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Image Grid.Row="0"
                                    Grid.RowSpan="2"
                                    Grid.Column="0"
                                    Width="40"
                                    Margin="0,0,6,0"
+                                   VerticalAlignment="Center"
                                    RenderOptions.BitmapScalingMode="Fant"
                                    Source="{Binding Address,
                                                     Converter={StaticResource GravatarImageConverter}}" />
@@ -347,7 +352,24 @@
                                                                                           AppMediumTextBrush}}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Text="{Binding Address}" />
-
+                            <Image Grid.Row="0"
+                                   Grid.RowSpan="2"
+                                   Grid.Column="2"
+                                   Source="/Assets/security.checked.png"
+                                   Style="{StaticResource AppSecurityImageStyle}" />
+                            <Image Grid.Row="0"
+                                   Grid.RowSpan="2"
+                                   Grid.Column="3"
+                                   Source="/Assets/user.checked.png"
+                                   Style="{StaticResource AppSecurityImageStyle}">
+                                <Image.Opacity>
+                                    <Binding Mode="OneWay" Path="IsValidated">
+                                        <Binding.Converter>
+                                            <converters:BooleanToOpacityConverter OpacityForFalse=".1" OpacityForTrue="1" />
+                                        </Binding.Converter>
+                                    </Binding>
+                                </Image.Opacity>
+                            </Image>
                         </Grid>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding IsSelected}" Value="True">
@@ -900,6 +922,8 @@
                                     IsTransparent="False"
                                     Source="{Binding Source,
                                                      Mode=OneWay}"
+                                    Zoom="{Binding Zoom,
+                                                   Mode=TwoWay}"
                                     d:IsHidden="True" />
                 </Border>
                 <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
@@ -1049,7 +1073,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="24" />
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </ItemsPanelTemplate>
@@ -1059,20 +1083,22 @@
             </StatusBarItem>
             <StatusBarItem Grid.Column="2">
                 <Slider Width="150"
+                        IsTabStop="False"
                         LargeChange="25.0"
                         Maximum="200.0"
                         Minimum="1.0"
                         SmallChange="5.0"
+                        TickPlacement="None"
                         Value="{Binding Zoom,
-                                        ElementName=HtmlControl,
                                         Mode=TwoWay}" />
             </StatusBarItem>
-            <StatusBarItem Grid.Column="3">
+            <StatusBarItem Grid.Column="3" Padding="0">
                 <Button Width="50"
+                        Command="{Binding ResetZoomCommand}"
                         Content="{Binding Zoom,
-                                          ElementName=HtmlControl,
                                           Mode=OneWay,
                                           Converter={StaticResource PercentageFormatter}}"
+                        IsTabStop="False"
                         Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                       StatusBarButtonStyle}}" />
             </StatusBarItem>

@@ -164,6 +164,14 @@
     <Compile Include="UI\ItemsSourceRequestedEventArgs.cs" />
     <Compile Include="UI\ITokenMatcher.cs" />
     <Compile Include="UI\MailAddressTokenMatcher.cs" />
+    <Page Include="Themes\Metro.Slider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Metro.StatusBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Metro.ProgressBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -403,6 +411,8 @@
     <Resource Include="Assets\restore.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\security.checked.png" />
+    <Resource Include="Assets\user.checked.png" />
     <Content Include="x86\avcodec-53.dll" />
     <Content Include="x86\avformat-53.dll" />
     <Content Include="x86\avutil-51.dll" />

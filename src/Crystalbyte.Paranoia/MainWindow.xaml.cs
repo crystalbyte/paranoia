@@ -1,6 +1,7 @@
 ﻿#region Using directives
 
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,6 +34,10 @@ namespace Crystalbyte.Paranoia {
             InitializeComponent();
 
             CommandBindings.Add(new CommandBinding(WindowCommands.CloseOverlay, OnCloseOverlay));
+
+            if (DesignerProperties.GetIsInDesignMode(this)) {
+                HtmlControl.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void OnCloseOverlay(object sender, ExecutedRoutedEventArgs e) {

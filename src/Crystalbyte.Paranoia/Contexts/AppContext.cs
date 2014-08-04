@@ -32,6 +32,7 @@ namespace Crystalbyte.Paranoia {
         private IEnumerable<MailMessageContext> _selectedMessages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
         private readonly ICommand _printCommand;
+        private readonly ICommand _resetZoomCommand;
         private readonly ICommand _replyCommand;
         private readonly ICommand _deleteCommand;
         private readonly ICommand _writeCommand;
@@ -42,6 +43,7 @@ namespace Crystalbyte.Paranoia {
         private object _messages;
         private string _source;
         private string _statusText;
+        private float _zoom;
 
         #endregion
 
@@ -56,6 +58,7 @@ namespace Crystalbyte.Paranoia {
             _writeCommand = new ComposeMessageCommand(this);
             _markAsSeenCommand = new MarkAsSeenCommand(this);
             _markAsNotSeenCommand = new MarkAsNotSeenCommand(this);
+            _resetZoomCommand = new RelayCommand(p => Zoom = 100.0f);
 
             Observable.FromEventPattern(
                     action => MessageSelectionChanged += action,
@@ -178,6 +181,21 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public float Zoom {
+            get { return _zoom; }
+            set {
+                if (Math.Abs(_zoom - value) < float.Epsilon) {
+                    return;
+                }
+                _zoom = value;
+                RaisePropertyChanged(() => Zoom);
+            }
+        }
+
+        public ICommand ResetZoomCommand {
+            get { return _resetZoomCommand; }
+        }
+
         public ICommand PrintCommand {
             get { return _printCommand; }
         }
@@ -211,10 +229,8 @@ namespace Crystalbyte.Paranoia {
             OnNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
-        internal void ComposeReplyMessage()
-        {
-            if (SelectedMessage == null)
-            {
+        internal void ComposeReplyMessage() {
+            if (SelectedMessage == null) {
                 return;
             }
             var uri = typeof(ComposeMessagePage).ToPageUriReply(SelectedMessage);

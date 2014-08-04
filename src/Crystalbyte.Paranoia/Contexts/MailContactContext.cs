@@ -7,9 +7,21 @@ using Crystalbyte.Paranoia.Data;
 namespace Crystalbyte.Paranoia {
     public sealed class MailContactContext : SelectionObject {
         private readonly MailContactModel _contact;
+        private bool _isValidated;
 
         internal MailContactContext(MailContactModel contact) {
             _contact = contact;
+        }
+
+        public bool IsValidated {
+            get { return _isValidated; }
+            set {
+                if (_isValidated == value) {
+                    return;
+                }
+                _isValidated = value;
+                RaisePropertyChanged(() => IsValidated);
+            }
         }
 
         public string Address {
