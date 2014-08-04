@@ -190,6 +190,9 @@ Please select a corresponding IMAP folder to synchronize.</value>
   <data name="Monday" xml:space="preserve">
     <value>Monday</value>
   </data>
+  <data name="NoSender" xml:space="preserve">
+    <value>&lt;No Name&gt;</value>
+  </data>
   <data name="NoSubject" xml:space="preserve">
     <value>&lt;no subject&gt;</value>
   </data>
