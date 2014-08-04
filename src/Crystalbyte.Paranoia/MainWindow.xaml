@@ -773,7 +773,7 @@
                                                                                         AppNormalFontSize}}"
                                        Foreground="{Binding IsSeen,
                                                             Converter={StaticResource SeenBrushConverter}}"
-                                       Text="{Binding FromName}" />
+                                       Text="{Binding Converter={StaticResource FromSenderFormatter}}" />
 
                             <TextBlock x:Name="DateBlock"
                                        Grid.Row="1"
