@@ -102,7 +102,8 @@ namespace Crystalbyte.Paranoia {
             using (var database = new DatabaseContext()) {
                 var candidates = await database.MailContacts
                     .Where(x => x.AccountId == account.Id)
-                    .Where(x => x.Address.StartsWith(text) || x.Name.StartsWith(text))
+                    .Where(x => x.Address.StartsWith(text) 
+                        || x.Name.StartsWith(text))
                     .ToArrayAsync();
 
                 _suggestions.Clear();
