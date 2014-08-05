@@ -204,7 +204,10 @@ namespace Crystalbyte.Paranoia {
             var selection = SelectedMailbox;
             await selection.UpdateAsync(contact);
 
-            await contact.CountNotSeenAsync();
+            if (contact != null) {
+                await contact.CountNotSeenAsync();    
+            }
+            
             foreach (var mailbox in _mailboxes.AsParallel()) {
                 await mailbox.CountNotSeenAsync();
             }

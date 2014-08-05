@@ -158,6 +158,12 @@
     <Compile Include="UI\HtmlControl.xaml.cs">
       <DependentUpon>HtmlControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Pages\AccountDetailsPage.xaml.cs">
+      <DependentUpon>AccountDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\GenerateKeyPage.xaml.cs">
+      <DependentUpon>GenerateKeyPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\ParanoiaDataSource.cs" />
     <Compile Include="UI\ParanoiaDataSourceProvider.cs" />
     <Compile Include="UI\INavigationAware.cs" />
@@ -318,11 +324,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\Pages\AccountDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Pages\BlankPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Pages\ComposeMessagePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\GenerateKeyPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -413,6 +427,9 @@
   <ItemGroup>
     <Resource Include="Assets\security.checked.png" />
     <Resource Include="Assets\user.checked.png" />
+    <Resource Include="Assets\settings.png" />
+    <Resource Include="Assets\add.png" />
+    <Resource Include="Assets\select.user.png" />
     <Content Include="x86\avcodec-53.dll" />
     <Content Include="x86\avformat-53.dll" />
     <Content Include="x86\avutil-51.dll" />

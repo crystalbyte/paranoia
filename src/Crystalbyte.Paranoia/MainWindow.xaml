@@ -205,48 +205,77 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="4" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
             <Rectangle Grid.RowSpan="3"
-                       Grid.Column="0"
-                       Grid.ColumnSpan="2"
-                       Margin="0,0,0,4"
+                       Margin="0"
                        Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                     AppShadeBrush}}"
                        Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                        AppShadeOpacity}}"
                        RenderOptions.EdgeMode="Aliased" />
 
-            <Rectangle Grid.Row="3"
+            <Rectangle Grid.Row="4"
                        Grid.RowSpan="2"
-                       Grid.Column="0"
-                       Grid.ColumnSpan="2"
                        Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                     AppShadeBrush}}"
                        Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                        AppShadeOpacity}}"
                        RenderOptions.EdgeMode="Aliased" />
+            <DockPanel Grid.Row="0"
+                       Grid.Column="0"
+                       Margin="16,8,8,8"
+                       VerticalAlignment="Stretch">
+                <Image Width="100"
+                       Height="100"
+                       Margin="0,0,8,0"
+                       DataContext="{Binding SelectedAccount}"
+                       Source="{Binding Address,
+                                        Converter={StaticResource GravatarImageConverter},
+                                        IsAsync=True}"
+                       Stretch="Fill" />
+                <Grid VerticalAlignment="Bottom">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
 
-            <Image Grid.Row="0"
-                   Grid.Column="0"
-                   Width="100"
-                   Height="100"
-                   Margin="16,8,8,8"
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Top"
-                   DataContext="{Binding SelectedAccount}"
-                   Source="{Binding Address,
-                                    Converter={StaticResource GravatarImageConverter},
-                                    IsAsync=True}"
-                   Stretch="UniformToFill" />
+                    </Grid.ColumnDefinitions>
+                    <ui:MetroCircleButton Grid.Row="0"
+                                          Grid.Column="1"
+                                          Margin="6"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Command="{Binding CreateAccountCommand}">
+                        <Image Width="18" Source="/Assets/add.png" />
+                    </ui:MetroCircleButton>
+                    <ui:MetroCircleButton Grid.Row="0"
+                                          Grid.Column="2"
+                                          Margin="6"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Command="{Binding ConfigAccountCommand}">
+                        <Image Width="18" Source="/Assets/settings.png" />
+                    </ui:MetroCircleButton>
+                    <ui:MetroCircleButton Grid.Row="0"
+                                          Grid.Column="3"
+                                          Margin="6"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Command="{Binding WriteMessageCommand}">
+                        <Image Width="18" Source="/Assets/select.user.png" />
+                    </ui:MetroCircleButton>
+                </Grid>
+            </DockPanel>
             <TextBlock Grid.Row="1"
                        Grid.Column="0"
-                       Grid.ColumnSpan="2"
                        Margin="16,0,0,0"
                        DataContext="{Binding SelectedAccount}"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -256,40 +285,40 @@
                        TextWrapping="NoWrap" />
             <TextBlock Grid.Row="2"
                        Grid.Column="0"
-                       Grid.ColumnSpan="2"
-                       Margin="16,0,0,24"
+                       Margin="16,0,0,16"
                        DataContext="{Binding SelectedAccount}"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                      AppSubtitleTextStyle}}"
                        Text="{Binding Address}"
                        TextTrimming="CharacterEllipsis" />
-            <Border Grid.Row="1"
-                    Grid.RowSpan="2"
-                    Grid.Column="1"
-                    Margin="8,8,8,8"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom">
-                <ui:MetroCircleButton Command="{Binding WriteMessageCommand}">
-                    <Image Width="18" Source="/Assets/message.png" />
-                </ui:MetroCircleButton>
-            </Border>
-            <Border Grid.Row="3"
+
+            <Border Grid.Row="4"
                     Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Margin="16,0,0,0">
-                <TextBlock VerticalAlignment="Center"
-                           DataContext="{Binding SelectedAccount}"
-                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            AppExtraLargeFontSize}}"
-                           Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                         AppTitleTextStyle}}">
-                    <Run Text="{x:Static properties:Resources.ContactsTitle}" />
-                    <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" Text="{Binding Contacts, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
-                </TextBlock>
+                    Margin="16,0,8,0"
+                    Padding="0">
+                <DockPanel LastChildFill="False">
+                    <ui:MetroCircleButton Margin="6"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Command="{Binding WriteMessageCommand}"
+                                          DockPanel.Dock="Right">
+                        <Image Width="18" Source="Assets/message.png" />
+                    </ui:MetroCircleButton>
+                    <TextBlock VerticalAlignment="Center"
+                               DataContext="{Binding SelectedAccount}"
+                               DockPanel.Dock="Left"
+                               FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                AppExtraLargeFontSize}}"
+                               Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                             AppTitleTextStyle}}">
+                        <Run Text="{x:Static properties:Resources.ContactsTitle}" />
+                        <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" Text="{Binding Contacts, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
+                    </TextBlock>
+                </DockPanel>
+
             </Border>
-            <ListView Grid.Row="4"
+            <ListView Grid.Row="5"
                       Grid.Column="0"
-                      Grid.ColumnSpan="2"
                       Margin="0"
                       Background="Transparent"
                       BorderThickness="0"
@@ -1107,7 +1136,7 @@
                 <Slider Width="150"
                         IsTabStop="False"
                         LargeChange="25.0"
-                        Maximum="200.0"
+                        Maximum="400.0"
                         Minimum="1.0"
                         SmallChange="5.0"
                         TickPlacement="None"

@@ -47,7 +47,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
             var presenter = e.NewFocus as WebViewPresenter;
-            if (presenter == null) 
+            if (presenter == null)
                 return;
 
             FocusEntryParagraph();
@@ -134,7 +134,7 @@ namespace Crystalbyte.Paranoia.UI {
                 _webControl.WindowClose -= OnWebControlWindowClose;
             }
 
-            _webControl = (WebControl) Template.FindName(WebControlPartName, this);
+            _webControl = (WebControl)Template.FindName(WebControlPartName, this);
             _webControl.ShowCreatedWebView += OnWebControlShowCreatedWebView;
             _webControl.WindowClose += OnWebControlWindowClose;
         }
@@ -156,7 +156,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void FocusEntryParagraph() {
-            if (!_webControl.IsDocumentReady) 
+            if (!_webControl.IsDocumentReady)
                 return;
 
             const string script = "document.getElementById('entry').focus();";

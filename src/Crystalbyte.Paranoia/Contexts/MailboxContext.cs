@@ -403,6 +403,10 @@ namespace Crystalbyte.Paranoia {
 
         internal async Task CountNotSeenAsync() {
             var contact = _account.SelectedContact;
+            if (contact == null) {
+                NotSeenCount = 0;
+                return;
+            }
 
             using (var context = new DatabaseContext()) {
                 NotSeenCount = await context.MailMessages
