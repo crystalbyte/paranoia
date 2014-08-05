@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Navigation;
 using System.Data.Entity;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Crystalbyte.Paranoia.UI.Pages
 {
@@ -66,7 +67,8 @@ namespace Crystalbyte.Paranoia.UI.Pages
         public void OnNavigated(NavigationEventArgs e)
         {
             Reset();
-            if (!String.IsNullOrEmpty(e.Uri.OriginalString))
+            Dictionary<String, String> arguments = GetArguments(e.Uri.OriginalString);
+            if (arguments.ContainsValue("reply"))
             {
                 PrepareAsReply(e.Uri.OriginalString);
             }
@@ -100,6 +102,21 @@ namespace Crystalbyte.Paranoia.UI.Pages
                 .Where(x => x.MessageId == temp)
                 .ToArrayAsync();
             }
+        }
+
+        private static Dictionary<String, String> GetArguments(String s)
+        {
+            Dictionary<String, String> dic = new Dictionary<string, string>();
+            String pattern = "[A-Za-z0-9]+=[A-Za-z0-9]+";
+            var matches = Regex.Matches(s, pattern,
+            RegexOptions.IgnoreCase);
+
+            foreach (Match match in matches)
+            {
+                var temp = match.Value.ToString().Split('=');
+                dic.Add(temp[0], temp[1]);
+            }
+            return dic;
         }
     }
 }
