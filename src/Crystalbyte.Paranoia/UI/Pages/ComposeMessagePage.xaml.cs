@@ -6,6 +6,8 @@ using System.Windows.Navigation;
 using System.Data.Entity;
 using System.Linq;
 using System.Collections.Generic;
+using Crystalbyte.Paranoia.Mail;
+using System.Text;
 
 namespace Crystalbyte.Paranoia.UI.Pages
 {
@@ -67,7 +69,7 @@ namespace Crystalbyte.Paranoia.UI.Pages
         public void OnNavigated(NavigationEventArgs e)
         {
             Reset();
-            Dictionary<String, String> arguments = GetArguments(e.Uri.OriginalString);
+            var arguments = GetArguments(e.Uri.OriginalString);
             if (arguments.ContainsValue("reply"))
             {
                 PrepareAsReply(e.Uri.OriginalString);
@@ -90,10 +92,11 @@ namespace Crystalbyte.Paranoia.UI.Pages
         }
 
 
-        private static async void PrepareAsReply(string s)
+        private async void PrepareAsReply(string s)
         {
             Data.MimeMessageModel[] message;
-            Regex ItemRegex = new Regex(@"[0-9]+", RegexOptions.Compiled);
+            var ItemRegex = new Regex(@"[0-9]+", RegexOptions.Compiled);
+            MailMessage replyMessage;
 
             using (var database = new Crystalbyte.Paranoia.Data.DatabaseContext())
             {
@@ -101,13 +104,16 @@ namespace Crystalbyte.Paranoia.UI.Pages
                 message = await database.MimeMessages
                 .Where(x => x.MessageId == temp)
                 .ToArrayAsync();
+                replyMessage = new MailMessage(Encoding.UTF8.GetBytes(message[0].Data));
             }
+            var context = (MailCompositionContext)DataContext;
+            context.Subject = "RE: "+replyMessage.Headers.Subject;
         }
 
         private static Dictionary<String, String> GetArguments(String s)
         {
             Dictionary<String, String> dic = new Dictionary<string, string>();
-            String pattern = "[A-Za-z0-9]+=[A-Za-z0-9]+";
+            var pattern = "[A-Za-z0-9]+=[A-Za-z0-9]+";
             var matches = Regex.Matches(s, pattern,
             RegexOptions.IgnoreCase);
 
