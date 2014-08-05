@@ -174,8 +174,8 @@
   <data name="GeneralSettingsTitle" xml:space="preserve">
     <value>General Settings</value>
   </data>
-  <data name="ImapServer" xml:space="preserve">
-    <value>Server</value>
+  <data name="ImapHost" xml:space="preserve">
+    <value>Host</value>
   </data>
   <data name="ImapSettingsDescription" xml:space="preserve">
     <value>&lt;not yet implemented&gt;</value>
@@ -262,8 +262,8 @@ Please select a corresponding IMAP folder to synchronize.</value>
   <data name="SentMailbox" xml:space="preserve">
     <value>Sent</value>
   </data>
-  <data name="SmtpServer" xml:space="preserve">
-    <value>Server</value>
+  <data name="SmtpHost" xml:space="preserve">
+    <value>Host</value>
   </data>
   <data name="Subject" xml:space="preserve">
     <value>Subject</value>

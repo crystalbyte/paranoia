@@ -232,11 +232,11 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server.
+        ///   Looks up a localized string similar to Host.
         /// </summary>
-        public static string ImapServer {
+        public static string ImapHost {
             get {
-                return ResourceManager.GetString("ImapServer", resourceCulture);
+                return ResourceManager.GetString("ImapHost", resourceCulture);
             }
         }
         
@@ -494,11 +494,11 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server.
+        ///   Looks up a localized string similar to Host.
         /// </summary>
-        public static string SmtpServer {
+        public static string SmtpHost {
             get {
-                return ResourceManager.GetString("SmtpServer", resourceCulture);
+                return ResourceManager.GetString("SmtpHost", resourceCulture);
             }
         }
         
