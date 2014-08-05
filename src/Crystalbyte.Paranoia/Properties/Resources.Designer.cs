@@ -61,6 +61,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string AccountName {
+            get {
+                return ResourceManager.GetString("AccountName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string AllMailbox {
@@ -169,6 +178,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Protocol.
+        /// </summary>
+        public static string EncryptionProtocol {
+            get {
+                return ResourceManager.GetString("EncryptionProtocol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expression is not a property..
         /// </summary>
         public static string ExpressionNotProperty {
@@ -196,11 +214,65 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The following values are public and will be shared with the people you communicate with..
+        /// </summary>
+        public static string GeneralSettingsDescription {
+            get {
+                return ResourceManager.GetString("GeneralSettingsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General Settings.
+        /// </summary>
+        public static string GeneralSettingsTitle {
+            get {
+                return ResourceManager.GetString("GeneralSettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server.
+        /// </summary>
+        public static string ImapServer {
+            get {
+                return ResourceManager.GetString("ImapServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;not yet implemented&gt;.
+        /// </summary>
+        public static string ImapSettingsDescription {
+            get {
+                return ResourceManager.GetString("ImapSettingsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IMAP Settings.
+        /// </summary>
+        public static string ImapSettingsTitle {
+            get {
+                return ResourceManager.GetString("ImapSettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inbox.
         /// </summary>
         public static string InboxMailbox {
             get {
                 return ResourceManager.GetString("InboxMailbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email Address.
+        /// </summary>
+        public static string MailAddress {
+            get {
+                return ResourceManager.GetString("MailAddress", resourceCulture);
             }
         }
         
@@ -287,7 +359,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;No Name&gt;.
+        ///   Looks up a localized string similar to &lt;no name&gt;.
         /// </summary>
         public static string NoSender {
             get {
@@ -310,6 +382,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string NotMemberAccessExpression {
             get {
                 return ResourceManager.GetString("NotMemberAccessExpression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Port.
+        /// </summary>
+        public static string Port {
+            get {
+                return ResourceManager.GetString("Port", resourceCulture);
             }
         }
         
@@ -409,6 +490,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string SentMailbox {
             get {
                 return ResourceManager.GetString("SentMailbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server.
+        /// </summary>
+        public static string SmtpServer {
+            get {
+                return ResourceManager.GetString("SmtpServer", resourceCulture);
             }
         }
         

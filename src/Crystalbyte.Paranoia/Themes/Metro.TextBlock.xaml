@@ -10,7 +10,10 @@
         <Setter Property="FontWeight" Value="Thin" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppLightTextStyle}" TargetType="TextBlock" />
+    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
+                                        AppLightTextStyle}"
+           BasedOn="{StaticResource {x:Type TextBlock}}"
+           TargetType="TextBlock" />
 
     <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
                                         AppWatermarkTextStyle}"
@@ -25,7 +28,7 @@
                                         AppTitleTextStyle}"
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
-        <Setter Property="Margin" Value="0,6,0,12" />
+        <Setter Property="Margin" Value="0,6,0,6" />
         <Setter Property="FontSize" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLargeFontSize}}" />
     </Style>
 
@@ -37,6 +40,24 @@
         <Setter Property="Margin" Value="0,2,0,2" />
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" />
         <Setter Property="FontSize" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumFontSize}}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
+                                        AppLabelStyle}"
+           BasedOn="{StaticResource {x:Type TextBlock}}"
+           TargetType="TextBlock">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Margin" Value="24,3,12,3" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
+                                        AppDescriptionStyle}"
+           BasedOn="{StaticResource {x:Type TextBlock}}"
+           TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
+        <Setter Property="Margin" Value="0,4,0,8" />
+        <Setter Property="FontWeight" Value="Normal" />
     </Style>
 
     <Style x:Key="AppMenuItemHeaderStyle" TargetType="TextBlock">

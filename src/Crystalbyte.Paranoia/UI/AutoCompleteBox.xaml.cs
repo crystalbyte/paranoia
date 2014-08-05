@@ -46,7 +46,6 @@ namespace Crystalbyte.Paranoia.UI {
 
             CommandBindings.Add(new CommandBinding(AutoCompleteBoxCommands.Select, OnSelectContact));
             SelectedValues = _selectedValues;
-            
         }
 
         #endregion

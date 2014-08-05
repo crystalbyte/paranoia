@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountName" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="AllMailbox" xml:space="preserve">
     <value>All</value>
   </data>
@@ -153,6 +156,9 @@
   <data name="DraftMailbox" xml:space="preserve">
     <value>Draft</value>
   </data>
+  <data name="EncryptionProtocol" xml:space="preserve">
+    <value>Protocol</value>
+  </data>
   <data name="ExpressionNotProperty" xml:space="preserve">
     <value>Expression is not a property.</value>
   </data>
@@ -162,8 +168,26 @@
   <data name="Friday" xml:space="preserve">
     <value>Friday</value>
   </data>
+  <data name="GeneralSettingsDescription" xml:space="preserve">
+    <value>The following values are public and will be shared with the people you communicate with.</value>
+  </data>
+  <data name="GeneralSettingsTitle" xml:space="preserve">
+    <value>General Settings</value>
+  </data>
+  <data name="ImapServer" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="ImapSettingsDescription" xml:space="preserve">
+    <value>&lt;not yet implemented&gt;</value>
+  </data>
+  <data name="ImapSettingsTitle" xml:space="preserve">
+    <value>IMAP Settings</value>
+  </data>
   <data name="InboxMailbox" xml:space="preserve">
     <value>Inbox</value>
+  </data>
+  <data name="MailAddress" xml:space="preserve">
+    <value>Email Address</value>
   </data>
   <data name="MailboxAssignmentDescription" xml:space="preserve">
     <value>The current mailbox is not assigned. 
@@ -194,13 +218,16 @@ Please select a corresponding IMAP folder to synchronize.</value>
     <value>Monday</value>
   </data>
   <data name="NoSender" xml:space="preserve">
-    <value>&lt;No Name&gt;</value>
+    <value>&lt;no name&gt;</value>
   </data>
   <data name="NoSubject" xml:space="preserve">
     <value>&lt;no subject&gt;</value>
   </data>
   <data name="NotMemberAccessExpression" xml:space="preserve">
     <value>Expression does not access a member.</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Port</value>
   </data>
   <data name="Print" xml:space="preserve">
     <value>Print</value>
@@ -234,6 +261,9 @@ Please select a corresponding IMAP folder to synchronize.</value>
   </data>
   <data name="SentMailbox" xml:space="preserve">
     <value>Sent</value>
+  </data>
+  <data name="SmtpServer" xml:space="preserve">
+    <value>Server</value>
   </data>
   <data name="Subject" xml:space="preserve">
     <value>Subject</value>

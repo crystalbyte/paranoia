@@ -13,7 +13,6 @@ using System.Windows.Input;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.UI.Commands;
-using Crystalbyte.Paranoia.Properties;
 
 #endregion
 
@@ -321,6 +320,7 @@ namespace Crystalbyte.Paranoia {
                                         ? envelope.From.First().DisplayName
                                         : string.Empty
                                 }));
+
                         }
                     }
                 }

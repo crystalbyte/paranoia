@@ -19,6 +19,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
     /// </summary>
     public partial class AccountDetailsPage {
         public AccountDetailsPage() {
+            DataContext = App.Context.SelectedAccount;
             InitializeComponent();
         }
     }
