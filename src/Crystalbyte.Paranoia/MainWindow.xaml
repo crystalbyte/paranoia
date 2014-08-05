@@ -246,7 +246,6 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
-
                     </Grid.ColumnDefinitions>
                     <ui:MetroCircleButton Grid.Row="0"
                                           Grid.Column="1"
@@ -264,14 +263,54 @@
                                           Command="{Binding ConfigAccountCommand}">
                         <Image Width="18" Source="/Assets/settings.png" />
                     </ui:MetroCircleButton>
-                    <ui:MetroCircleButton Grid.Row="0"
+                    <ui:MetroCircleButton x:Name="SelectAccountButton"
+                                          Grid.Row="0"
                                           Grid.Column="3"
                                           Margin="6"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
-                                          Command="{Binding WriteMessageCommand}">
+                                          Command="{Binding SelectAccountCommand}"
+                                          IsEnabled="{Binding CanSwitchAccounts}"
+                                          ToolTip="{x:Static properties:Resources.SelectAccountTooltip}">
                         <Image Width="18" Source="/Assets/select.user.png" />
                     </ui:MetroCircleButton>
+                    <Popup Grid.Row="0"
+                           Grid.Column="0"
+                           AllowsTransparency="False"
+                           IsOpen="{Binding IsAccountSelectionRequested}"
+                           Placement="Center"
+                           PlacementTarget="{Binding ElementName=SelectAccountButton}"
+                           PopupAnimation="None"
+                           StaysOpen="False"
+                           VerticalOffset="40">
+                        <ListView BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                      AppAccentBrush}}"
+                                  BorderThickness="1"
+                                  ItemsSource="{Binding Accounts}"
+                                  SelectedValue="{Binding SelectedAccount,
+                                                          Mode=TwoWay}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate DataType="paranoia:MailAccountContext">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="32"
+                                               Height="32"
+                                               RenderOptions.BitmapScalingMode="HighQuality"
+                                               Source="{Binding Address,
+                                                                IsAsync=True,
+                                                                Converter={StaticResource GravatarImageConverter},
+                                                                ConverterParameter=32}"
+                                               Stretch="None" />
+                                        <TextBlock Margin="8,0,8,0"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                                    AppMediumFontSize}}"
+                                                   FontWeight="Normal"
+                                                   Text="{Binding Name}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Popup>
                 </Grid>
             </DockPanel>
             <TextBlock Grid.Row="1"

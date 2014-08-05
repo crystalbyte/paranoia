@@ -106,6 +106,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Configure Account.
+        /// </summary>
+        public static string ConfigureAccount {
+            get {
+                return ResourceManager.GetString("ConfigureAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contacts.
         /// </summary>
         public static string ContactsTitle {
@@ -373,6 +382,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string SearchBoxWatermark {
             get {
                 return ResourceManager.GetString("SearchBoxWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Switch Accounts.
+        /// </summary>
+        public static string SelectAccountTooltip {
+            get {
+                return ResourceManager.GetString("SelectAccountTooltip", resourceCulture);
             }
         }
         

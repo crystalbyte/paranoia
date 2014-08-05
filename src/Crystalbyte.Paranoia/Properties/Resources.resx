@@ -132,6 +132,9 @@
   <data name="ComposeMessagePageTitle" xml:space="preserve">
     <value>Compose Message</value>
   </data>
+  <data name="ConfigureAccount" xml:space="preserve">
+    <value>Configure Account</value>
+  </data>
   <data name="ContactsTitle" xml:space="preserve">
     <value>Contacts</value>
   </data>
@@ -222,6 +225,9 @@ Please select a corresponding IMAP folder to synchronize.</value>
   </data>
   <data name="SearchBoxWatermark" xml:space="preserve">
     <value>Quick Search (Ctrl+Q)</value>
+  </data>
+  <data name="SelectAccountTooltip" xml:space="preserve">
+    <value>Switch Accounts</value>
   </data>
   <data name="Send" xml:space="preserve">
     <value>Send</value>

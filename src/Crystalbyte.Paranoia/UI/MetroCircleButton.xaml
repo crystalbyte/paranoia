@@ -23,7 +23,8 @@
                                    Grid.Column="0"
                                    Grid.ColumnSpan="2"
                                    Fill="Transparent" />
-                        <Ellipse Grid.Column="0"
+                        <Ellipse x:Name="Ellipse"
+                                 Grid.Column="0"
                                  Width="32"
                                  Height="32"
                                  HorizontalAlignment="Center"
@@ -51,6 +52,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Presenter" Property="Opacity" Value=".2" />
+                            <Setter TargetName="Ellipse" Property="Opacity" Value=".2" />
                             <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>

@@ -17,7 +17,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
     /// <summary>
     /// Interaction logic for AccountDetailsPage.xaml
     /// </summary>
-    public partial class AccountDetailsPage : Page {
+    public partial class AccountDetailsPage {
         public AccountDetailsPage() {
             InitializeComponent();
         }

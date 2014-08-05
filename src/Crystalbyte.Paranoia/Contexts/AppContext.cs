@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Composition;
 using System.Data.Entity;
 using System.Linq;
@@ -39,11 +40,14 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _forwardCommand;
         private readonly ICommand _markAsSeenCommand;
         private readonly ICommand _markAsNotSeenCommand;
+        private readonly ICommand _configAccountCommand;
+        private readonly ICommand _selectAccountCommand;
         private string _queryString;
         private object _messages;
         private string _source;
         private string _statusText;
         private float _zoom;
+        private bool _isAccountSelectionRequested;
 
         #endregion
 
@@ -51,6 +55,7 @@ namespace Crystalbyte.Paranoia {
 
         public AppContext() {
             _accounts = new ObservableCollection<MailAccountContext>();
+            _accounts.CollectionChanged += OnAccountsCollectionChanged;
             _printCommand = new PrintCommand(this);
             _replyCommand = new ReplyCommand(this);
             _forwardCommand = new ForwardCommand(this);
@@ -59,6 +64,8 @@ namespace Crystalbyte.Paranoia {
             _markAsSeenCommand = new MarkAsSeenCommand(this);
             _markAsNotSeenCommand = new MarkAsNotSeenCommand(this);
             _resetZoomCommand = new RelayCommand(p => Zoom = 100.0f);
+            _configAccountCommand = new RelayCommand(ConfigureAccount);
+            _selectAccountCommand = new RelayCommand(p => IsAccountSelectionRequested = true);
 
             Observable.FromEventPattern(
                     action => MessageSelectionChanged += action,
@@ -192,6 +199,18 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public bool CanSwitchAccounts {
+            get { return _accounts != null && _accounts.Count > 1; }
+        }
+
+        public ICommand ConfigAccountCommand {
+            get { return _configAccountCommand; }
+        }
+
+        public ICommand SelectAccountCommand {
+            get { return _selectAccountCommand; }
+        }
+
         public ICommand ResetZoomCommand {
             get { return _resetZoomCommand; }
         }
@@ -224,24 +243,6 @@ namespace Crystalbyte.Paranoia {
             get { return _markAsNotSeenCommand; }
         }
 
-        internal void ComposeMessage() {
-            var uri = typeof(ComposeMessagePage).ToPageUri();
-            OnNavigationRequested(new NavigationRequestedEventArgs(uri));
-        }
-
-        internal void ComposeReplyMessage() {
-            if (SelectedMessage == null) {
-                return;
-            }
-            var uri = typeof(ComposeMessagePage).ToPageUriReply(SelectedMessage);
-            OnNavigationRequested(new NavigationRequestedEventArgs(uri));
-        }
-
-        internal void CloseOverlay() {
-            var uri = typeof(BlankPage).ToPageUri();
-            OnNavigationRequested(new NavigationRequestedEventArgs(uri));
-        }
-
         public IEnumerable<MailMessageContext> SelectedMessages {
             get { return _selectedMessages; }
             set {
@@ -263,6 +264,18 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public bool IsAccountSelectionRequested {
+            get { return _isAccountSelectionRequested; }
+            set {
+                if (_isAccountSelectionRequested == value) {
+                    return;
+                }
+
+                _isAccountSelectionRequested = value;
+                RaisePropertyChanged(() => IsAccountSelectionRequested);
+            }
+        }
+
         #endregion
 
         private async void OnQueryReceived(string text) {
@@ -274,6 +287,10 @@ namespace Crystalbyte.Paranoia {
 
             var messages = await mailbox.QueryAsync(text);
             DisplayMessages(messages);
+        }
+
+        private void OnAccountsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+            RaisePropertyChanged(() => CanSwitchAccounts);
         }
 
         private async void OnMessageSelectionCommitted(EventPattern<object> obj) {
@@ -339,6 +356,29 @@ namespace Crystalbyte.Paranoia {
                 var accounts = await context.MailAccounts.ToArrayAsync();
                 _accounts.AddRange(accounts.Select(x => new MailAccountContext(x, this)));
             }
+        }
+
+        internal void ComposeMessage() {
+            var uri = typeof(ComposeMessagePage).ToPageUri();
+            OnNavigationRequested(new NavigationRequestedEventArgs(uri));
+        }
+
+        internal void ComposeReplyMessage() {
+            if (SelectedMessage == null) {
+                return;
+            }
+            var uri = typeof(ComposeMessagePage).ToPageUriReply(SelectedMessage);
+            OnNavigationRequested(new NavigationRequestedEventArgs(uri));
+        }
+
+        internal void CloseOverlay() {
+            var uri = typeof(BlankPage).ToPageUri();
+            OnNavigationRequested(new NavigationRequestedEventArgs(uri));
+        }
+
+        private void ConfigureAccount(object obj) {
+            var uri = typeof(AccountDetailsPage).ToPageUri();
+            OnNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
         internal void ClearMessages() {
