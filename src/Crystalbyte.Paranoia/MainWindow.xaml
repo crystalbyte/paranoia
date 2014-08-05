@@ -325,6 +325,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Image Grid.Row="0"
                                    Grid.RowSpan="2"
@@ -348,18 +349,39 @@
                                        Grid.Row="1"
                                        Grid.Column="1"
                                        FontWeight="Thin"
-                                       Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                          AppMediumTextBrush}}"
                                        RenderOptions.ClearTypeHint="Enabled"
-                                       Text="{Binding Address}" />
+                                       Text="{Binding Address}">
+
+                                <TextBlock.Foreground>
+                                    <Binding Mode="OneWay" Path="HasUnseenMessages">
+                                        <Binding.Converter>
+                                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
+                                        </Binding.Converter>
+                                    </Binding>
+                                </TextBlock.Foreground>
+
+                            </TextBlock>
+                            <StackPanel Grid.Row="0"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="2"
+                                        Margin="6,0,6,0"
+                                        VerticalAlignment="Center"
+                                        Visibility="{Binding NotSeenCount,
+                                                             Converter={StaticResource QuantityToVisibilityConverter}}">
+                                <TextBlock FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                            AppMediumLargeFontSize}}"
+                                           Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                              AppAccentBrush}}"
+                                           Text="{Binding NotSeenCount}" />
+                            </StackPanel>
                             <Image Grid.Row="0"
                                    Grid.RowSpan="2"
-                                   Grid.Column="2"
+                                   Grid.Column="3"
                                    Source="/Assets/security.checked.png"
                                    Style="{StaticResource AppSecurityImageStyle}" />
                             <Image Grid.Row="0"
                                    Grid.RowSpan="2"
-                                   Grid.Column="3"
+                                   Grid.Column="4"
                                    Source="/Assets/user.checked.png"
                                    Style="{StaticResource AppSecurityImageStyle}">
                                 <Image.Opacity>

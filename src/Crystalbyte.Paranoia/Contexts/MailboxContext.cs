@@ -350,6 +350,12 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 await CountNotSeenAsync();
+
+                var contact = _account.SelectedContact;
+                if (contact != null) {
+                    await contact.CountNotSeenAsync();
+                }
+
             } catch (Exception) {
                 messages.ForEach(x => x.IsSeen = true);
                 throw;
@@ -372,6 +378,11 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 await CountNotSeenAsync();
+
+                var contact = _account.SelectedContact;
+                if (contact != null) {
+                    await contact.CountNotSeenAsync();
+                }
             } catch (Exception) {
                 messages.ForEach(x => x.IsSeen = false);
                 throw;

@@ -132,6 +132,10 @@ namespace Crystalbyte.Paranoia {
                 }
             });
             _contacts.AddRange(contacts.Select(x => new MailContactContext(x)));
+            var tasks = _contacts.Select(x => x.CountNotSeenAsync());
+
+            await Task.WhenAll(tasks);
+
             if (_contacts.Count > 0) {
                 _contacts.First().IsSelected = true;
             }
@@ -196,8 +200,11 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
+            var contact = SelectedContact;
             var selection = SelectedMailbox;
-            await selection.UpdateAsync(SelectedContact);
+            await selection.UpdateAsync(contact);
+
+            await contact.CountNotSeenAsync();
             foreach (var mailbox in _mailboxes.AsParallel()) {
                 await mailbox.CountNotSeenAsync();
             }

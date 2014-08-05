@@ -4,6 +4,7 @@
         All,
         Sent,
         Draft,
-        Trash
+        Trash,
+        Outbox
     }
 }
