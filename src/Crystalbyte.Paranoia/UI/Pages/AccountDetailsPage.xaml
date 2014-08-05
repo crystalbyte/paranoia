@@ -77,9 +77,9 @@
             <Run Text="{x:Static properties:Resources.ImapServer}" />
             <Run>:</Run>
         </TextBlock>
-        <TextBox Grid.Row="3"
+        <TextBox Grid.Row="6"
                  Grid.Column="1"
-                 Text="{Binding Address,
+                 Text="{Binding ImapHost,
                                 Mode=TwoWay}" />
     </Grid>
 </Page>

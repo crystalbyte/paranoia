@@ -219,6 +219,12 @@ namespace Crystalbyte.Paranoia {
             return string.Empty;
         }
 
+        internal Task<bool> GetIsMimeLoadedAsync() {
+            using (var database = new DatabaseContext()) {
+                return database.MimeMessages.Where(x => x.MessageId == Id).AnyAsync();
+            }
+        }
+
         private Task<MailboxModel> GetMailboxAsync() {
             using (var context = new DatabaseContext()) {
                 return context.Mailboxes.FindAsync(_message.MailboxId);

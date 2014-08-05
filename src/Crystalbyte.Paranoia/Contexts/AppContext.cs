@@ -300,8 +300,12 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            DisplayMessageAsync(message);
             await MarkSelectionAsSeenAsync();
+            if (!await message.GetIsMimeLoadedAsync()) {
+                await message.DownloadMessageAsync();
+            }
+            
+            DisplayMessage(message);
         }
 
         internal async Task MarkSelectionAsSeenAsync() {
@@ -338,7 +342,7 @@ namespace Crystalbyte.Paranoia {
             Source = null;
         }
 
-        private void DisplayMessageAsync(MailMessageContext message) {
+        private void DisplayMessage(MailMessageContext message) {
             Source = string.Format("asset://paranoia/message/{0}", message.Id);
         }
 
