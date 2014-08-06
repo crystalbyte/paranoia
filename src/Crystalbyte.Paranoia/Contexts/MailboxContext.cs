@@ -322,7 +322,7 @@ namespace Crystalbyte.Paranoia {
                                 }));
                             //Here Be ToastMessage with Subject and Sender
                             var notification = new NotificationWindow();
-                            notification.Activate();
+                            notification.Show();
                         }
                     }
                 }

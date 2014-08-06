@@ -27,12 +27,7 @@ namespace Crystalbyte.Paranoia
             Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
             {
                 var workingArea = System.Windows.SystemParameters.WorkArea;
-                //var transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
-                //var corner = transform.Transform(new Point(workingArea.Right, workingArea.Bottom));
-
-                //this.Left = corner.X - this.ActualWidth - 100;
-                //this.Top = corner.Y - this.ActualHeight;
-                this.Left = workingArea.Right - this.ActualWidth - 100;
+                this.Left = workingArea.Right - this.ActualWidth;
                 this.Top = workingArea.Bottom - this.ActualHeight;
             }));
         }
