@@ -143,6 +143,9 @@
     <Compile Include="Contexts\MailMessageContext.cs" />
     <Compile Include="Contexts\MailAccountContext.cs" />
     <Compile Include="Data\SmtpRequestModel.cs" />
+    <Compile Include="NotificationWindow.xaml.cs">
+      <DependentUpon>NotificationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Commands\MarkAsNotSeenCommand.cs" />
     <Compile Include="UI\Commands\MarkAsSeenCommand.cs" />
     <Compile Include="UI\Converters\FromSenderFormatter.cs" />
@@ -170,6 +173,10 @@
     <Compile Include="UI\ItemsSourceRequestedEventArgs.cs" />
     <Compile Include="UI\ITokenMatcher.cs" />
     <Compile Include="UI\MailAddressTokenMatcher.cs" />
+    <Page Include="NotificationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Metro.Slider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
