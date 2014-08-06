@@ -181,7 +181,7 @@
     <value>&lt;not yet implemented&gt;</value>
   </data>
   <data name="ImapSettingsTitle" xml:space="preserve">
-    <value>IMAP Settings</value>
+    <value>Inbound Server Settings (IMAP)</value>
   </data>
   <data name="InboxMailbox" xml:space="preserve">
     <value>Inbox</value>

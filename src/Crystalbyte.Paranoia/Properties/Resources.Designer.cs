@@ -250,7 +250,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IMAP Settings.
+        ///   Looks up a localized string similar to Inbound Server Settings (IMAP).
         /// </summary>
         public static string ImapSettingsTitle {
             get {
