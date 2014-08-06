@@ -3,7 +3,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   Title="Notification Popup" Width="300" SizeToContent="Height"
   WindowStyle="None" AllowsTransparency="True" Background="Transparent">
-
+    <Window.Resources>
+        <Storyboard x:Key="NotificationStoryboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)">
+                <SplineDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)">
+                <SplineDoubleKeyFrame KeyTime="0:0:2" Value="1"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:4" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
     <Grid RenderTransformOrigin="0,1" >
 
         <!-- Notification area -->
@@ -21,18 +32,7 @@
         <!-- Animation -->
         <Grid.Triggers>
             <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                <BeginStoryboard>
-                    <Storyboard>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)">
-                            <SplineDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
-                            <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
-                        </DoubleAnimationUsingKeyFrames>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)">
-                            <SplineDoubleKeyFrame KeyTime="0:0:2" Value="1"/>
-                            <SplineDoubleKeyFrame KeyTime="0:0:4" Value="0"/>
-                        </DoubleAnimationUsingKeyFrames>
-                    </Storyboard>
-                </BeginStoryboard>
+                <BeginStoryboard Storyboard="{StaticResource NotificationStoryboard}"/>
             </EventTrigger>
         </Grid.Triggers>
 
