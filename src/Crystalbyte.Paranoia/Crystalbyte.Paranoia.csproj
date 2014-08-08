@@ -150,6 +150,7 @@
     <Compile Include="UI\Commands\MarkAsSeenCommand.cs" />
     <Compile Include="UI\Converters\FromSenderFormatter.cs" />
     <Compile Include="UI\Converters\PercentageFormatter.cs" />
+    <Compile Include="UI\Converters\SecurityProtocolFormatter.cs" />
     <Compile Include="UI\Converters\SubjectFormatter.cs" />
     <Compile Include="UI\Converters\QuantityToVisibilityConverter.cs" />
     <Compile Include="UI\AutoCompleteBox.xaml.cs">
@@ -161,6 +162,7 @@
     <Compile Include="UI\HtmlControl.xaml.cs">
       <DependentUpon>HtmlControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\PageCommands.cs" />
     <Compile Include="UI\Pages\AccountDetailsPage.xaml.cs">
       <DependentUpon>AccountDetailsPage.xaml</DependentUpon>
     </Compile>
@@ -180,6 +182,10 @@
     <Page Include="Themes\Metro.Slider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Metro.RadioButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Metro.StatusBar.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -437,6 +443,8 @@
     <Resource Include="Assets\settings.png" />
     <Resource Include="Assets\add.png" />
     <Resource Include="Assets\select.user.png" />
+    <Resource Include="Assets\ok.png" />
+    <Resource Include="Assets\cancel.png" />
     <Content Include="x86\avcodec-53.dll" />
     <Content Include="x86\avformat-53.dll" />
     <Content Include="x86\avutil-51.dll" />

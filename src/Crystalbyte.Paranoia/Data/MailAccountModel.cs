@@ -45,7 +45,7 @@ namespace Crystalbyte.Paranoia.Data {
         public string ImapPassword { get; set; }
 
         [Column("imap_security")]
-        public SecurityPolicy ImapSecurity { get; set; }
+        public SecurityProtocol ImapSecurity { get; set; }
 
         [Column("smtp_host")]
         public string SmtpHost { get; set; }
@@ -60,7 +60,7 @@ namespace Crystalbyte.Paranoia.Data {
         public string SmtpPassword { get; set; }
 
         [Column("smtp_security")]
-        public SecurityPolicy SmtpSecurity { get; set; }
+        public SecurityProtocol SmtpSecurity { get; set; }
 
         [Column("smtp_require_auth")]
         public bool SmtpRequiresAuthentication { get; set; }

@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="/Themes/Metro.GridSplitter.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.Button.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.PasswordBox.xaml" />
+                <ResourceDictionary Source="/Themes/Metro.RadioButton.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.ToggleButton.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.ListView.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.ProgressBar.xaml" />
@@ -34,6 +35,7 @@
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:QuantityToVisibilityConverter x:Key="QuantityToVisibilityConverter" />
             <converters:PercentageFormatter x:Key="PercentageFormatter" />
+            <converters:SecurityProtocolFormatter x:Key="SecurityProtocolFormatter" />
 
             <Style x:Key="AppIconImageStyle" TargetType="Image">
                 <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />

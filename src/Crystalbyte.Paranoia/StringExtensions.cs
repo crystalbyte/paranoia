@@ -11,11 +11,11 @@ namespace Crystalbyte.Paranoia {
             return text.IndexOf(value, StringComparison.InvariantCultureIgnoreCase) > -1;
         }
 
-        public static SecurityPolicy ToSecurityPolicy(this string text) {
+        public static SecurityProtocol ToSecurityPolicy(this string text) {
             if (text.ContainsIgnoreCase("ssl")) {
-                return SecurityPolicy.Implicit;
+                return SecurityProtocol.Implicit;
             }
-            return text.ContainsIgnoreCase("tls") ? SecurityPolicy.Explicit : SecurityPolicy.None;
+            return text.ContainsIgnoreCase("tls") ? SecurityProtocol.Explicit : SecurityProtocol.None;
         }
 
         public static string Caesar(this string value, int shift) {

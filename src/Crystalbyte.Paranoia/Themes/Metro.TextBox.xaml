@@ -10,7 +10,7 @@
         <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBackgroundBrush}}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
-        <Setter Property="Padding" Value="1,2,1,2" />
+        <Setter Property="Padding" Value="3" />
         <Setter Property="Margin" Value="0,3,0,3" />
         <Setter Property="Template">
             <Setter.Value>
@@ -21,7 +21,6 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
                         <ScrollViewer x:Name="PART_ContentHost"
-                                      Margin="{TemplateBinding Padding}"
                                       Focusable="False"
                                       HorizontalScrollBarVisibility="Hidden"
                                       VerticalScrollBarVisibility="Hidden" />

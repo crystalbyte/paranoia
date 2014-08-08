@@ -1,5 +1,5 @@
 ﻿namespace Crystalbyte.Paranoia.Mail {
-    public enum SecurityPolicy : byte {
+    public enum SecurityProtocol : byte {
         /// <summary>
         ///     No security encryption, we strictly discourage you from using this.
         /// </summary>

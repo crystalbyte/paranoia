@@ -88,6 +88,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string CloseCommandTooltip {
@@ -187,6 +196,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Explicit (TLS).
+        /// </summary>
+        public static string Explicit {
+            get {
+                return ResourceManager.GetString("Explicit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expression is not a property..
         /// </summary>
         public static string ExpressionNotProperty {
@@ -241,7 +259,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;not yet implemented&gt;.
+        ///   Looks up a localized string similar to The IMAP server settings are required to establish a connection to the incoming mail server..
         /// </summary>
         public static string ImapSettingsDescription {
             get {
@@ -255,6 +273,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string ImapSettingsTitle {
             get {
                 return ResourceManager.GetString("ImapSettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Implicit (SSL).
+        /// </summary>
+        public static string Implicit {
+            get {
+                return ResourceManager.GetString("Implicit", resourceCulture);
             }
         }
         
@@ -386,6 +413,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Port.
         /// </summary>
         public static string Port {
@@ -503,6 +539,33 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use different credentials for outgoing mails..
+        /// </summary>
+        public static string SmtpRequiresOwnCredentials {
+            get {
+                return ResourceManager.GetString("SmtpRequiresOwnCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The SMTP server settings are required to establish a connection to the outgoing mail server..
+        /// </summary>
+        public static string SmtpSettingsDescription {
+            get {
+                return ResourceManager.GetString("SmtpSettingsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outbound Server Settings (SMTP).
+        /// </summary>
+        public static string SmtpSettingsTitle {
+            get {
+                return ResourceManager.GetString("SmtpSettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Subject.
         /// </summary>
         public static string Subject {
@@ -571,6 +634,33 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string TypeNotSupportedTemplate {
             get {
                 return ResourceManager.GetString("TypeNotSupportedTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string Update {
+            get {
+                return ResourceManager.GetString("Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Authenticate using IMAP credentials..
+        /// </summary>
+        public static string UseImapCredentials {
+            get {
+                return ResourceManager.GetString("UseImapCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        public static string Username {
+            get {
+                return ResourceManager.GetString("Username", resourceCulture);
             }
         }
         

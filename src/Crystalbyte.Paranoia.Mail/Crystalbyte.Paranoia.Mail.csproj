@@ -105,7 +105,7 @@
     <Compile Include="ImapResponseLine.cs" />
     <Compile Include="ImapConnection.cs" />
     <Compile Include="RemoteCertificateValidationFailedEventArgs.cs" />
-    <Compile Include="SecurityPolicy.cs" />
+    <Compile Include="SecurityProtocol.cs" />
     <Compile Include="SequenceIdentifier.cs" />
     <Compile Include="SmtpAuthenticator.cs" />
     <Compile Include="SmtpCommands.cs" />

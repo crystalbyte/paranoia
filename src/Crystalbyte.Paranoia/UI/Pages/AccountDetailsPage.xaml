@@ -2,122 +2,324 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mail="clr-namespace:Crystalbyte.Paranoia.Mail;assembly=Crystalbyte.Paranoia.Mail"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+      xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="{x:Static properties:Resources.ConfigureAccount}"
       d:DataContext="{d:DesignInstance paranoia:MailAccountContext}"
       d:DesignHeight="600"
       d:DesignWidth="800"
       mc:Ignorable="d">
+    <Page.Resources>
+        <x:Array x:Key="SecurityProtocols" Type="mail:SecurityProtocol">
+            <x:Static Member="mail:SecurityProtocol.Implicit" />
+            <x:Static Member="mail:SecurityProtocol.Explicit" />
+        </x:Array>
+    </Page.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="24" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.ColumnSpan="4"
-                   Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                 AppTitleTextStyle}}"
-                   Text="{x:Static properties:Resources.GeneralSettingsTitle}" />
-        <TextBlock Grid.Row="1"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="4"
-                   Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                 AppDescriptionStyle}}"
-                   Text="{x:Static properties:Resources.GeneralSettingsDescription}"
-                   TextTrimming="None"
-                   TextWrapping="Wrap" />
-        <TextBlock Grid.Row="2"
-                   Grid.Column="0"
-                   Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                 AppLabelStyle}}">
-            <Run Text="{x:Static properties:Resources.AccountName}" />
-            <Run>:</Run>
-        </TextBlock>
-        <TextBox Grid.Row="2"
-                 Grid.Column="1"
-                 Grid.ColumnSpan="3"
-                 Text="{Binding Name,
-                                Mode=TwoWay}" />
-        <TextBlock Grid.Row="3"
-                   Grid.Column="0"
-                   Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                 AppLabelStyle}}">
-            <Run Text="{x:Static properties:Resources.MailAddress}" />
-            <Run>:</Run>
-        </TextBlock>
-        <TextBox Grid.Row="3"
-                 Grid.Column="1"
-                 Grid.ColumnSpan="3"
-                 Text="{Binding Address,
-                                Mode=TwoWay}" />
-        <TextBlock Grid.Row="4"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="4"
-                   Margin="0,24,0,6"
-                   Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                 AppTitleTextStyle}}"
-                   Text="{x:Static properties:Resources.ImapSettingsTitle}" />
-        <TextBlock Grid.Row="5"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="4"
-                   Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                 AppDescriptionStyle}}"
-                   Text="{x:Static properties:Resources.ImapSettingsDescription}" />
-        <TextBlock Grid.Row="6"
-                   Grid.Column="0"
-                   Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                 AppLabelStyle}}">
-            <Run Text="{x:Static properties:Resources.ImapHost}" />
-            <Run>:</Run>
-        </TextBlock>
-        <TextBox Grid.Row="6"
-                 Grid.Column="1"
-                 Grid.ColumnSpan="3"
-                 Text="{Binding ImapHost,
-                                Mode=TwoWay}" />
-        <TextBlock Grid.Row="7"
-                   Grid.Column="0"
-                   Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                 AppLabelStyle}}">
-            <Run Text="{x:Static properties:Resources.EncryptionProtocol}" />
-            <Run>:</Run>
-        </TextBlock>
-        <ComboBox Grid.Row="7"
-                  Grid.Column="1"
-                  Margin="0,3,0,3"
-                  Text="{Binding ImapSecurity,
-                                 Mode=TwoWay}">
-            a
-            b
-            c
-        </ComboBox>
-        <TextBlock Grid.Row="7"
-                   Grid.Column="2"
-                   Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                 AppLabelStyle}}">
-            <Run Text="{x:Static properties:Resources.Port}" />
-            <Run>:</Run>
-        </TextBlock>
-        <TextBox Grid.Row="7"
-                 Grid.Column="3"
-                 Text="{Binding ImapPort,
-                                Mode=TwoWay}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.ColumnSpan="2"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppTitleTextStyle}}"
+                       Text="{x:Static properties:Resources.GeneralSettingsTitle}" />
+            <TextBlock Grid.Row="1"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="4"
+                       Margin="0,0,0,12"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppDescriptionStyle}}"
+                       Text="{x:Static properties:Resources.GeneralSettingsDescription}"
+                       TextWrapping="Wrap" />
+            <TextBlock Grid.Row="2"
+                       Grid.Column="0"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppLabelStyle}}">
+                <Run Text="{x:Static properties:Resources.AccountName}" />
+                <Run>:</Run>
+            </TextBlock>
+            <TextBox Grid.Row="2"
+                     Grid.Column="1"
+                     Grid.ColumnSpan="3"
+                     Text="{Binding Name,
+                                    Mode=TwoWay}" />
+            <TextBlock Grid.Row="3"
+                       Grid.Column="0"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppLabelStyle}}">
+                <Run Text="{x:Static properties:Resources.MailAddress}" />
+                <Run>:</Run>
+            </TextBlock>
+            <TextBox Grid.Row="3"
+                     Grid.Column="1"
+                     Grid.ColumnSpan="3"
+                     Text="{Binding Address,
+                                    Mode=TwoWay}" />
+            <TextBlock Grid.Row="4"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="4"
+                       Margin="0,24,0,6"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppTitleTextStyle}}"
+                       Text="{x:Static properties:Resources.ImapSettingsTitle}" />
+            <TextBlock Grid.Row="5"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="4"
+                       Margin="0,0,0,12"
+                       Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                          AppLightTextBrush}}"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppDescriptionStyle}}"
+                       Text="{x:Static properties:Resources.ImapSettingsDescription}"
+                       TextTrimming="None"
+                       TextWrapping="Wrap" />
+            <TextBlock Grid.Row="6"
+                       Grid.Column="0"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppLabelStyle}}">
+                <Run Text="{x:Static properties:Resources.Username}" />
+                <Run>:</Run>
+            </TextBlock>
+            <TextBox Grid.Row="6"
+                     Grid.Column="1"
+                     Grid.ColumnSpan="3"
+                     Text="{Binding ImapUsername,
+                                    Mode=TwoWay}" />
+            <TextBlock Grid.Row="7"
+                       Grid.Column="0"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppLabelStyle}}">
+                <Run Text="{x:Static properties:Resources.Password}" />
+                <Run>:</Run>
+            </TextBlock>
+            <PasswordBox x:Name="ImapPasswordBox"
+                         Grid.Row="7"
+                         Grid.Column="1"
+                         Grid.ColumnSpan="3"
+                         PasswordChanged="OnImapPasswordChanged" />
+            <TextBlock Grid.Row="8"
+                       Grid.Column="0"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppLabelStyle}}">
+                <Run Text="{x:Static properties:Resources.ImapHost}" />
+                <Run>:</Run>
+            </TextBlock>
+            <TextBox Grid.Row="8"
+                     Grid.Column="1"
+                     Grid.ColumnSpan="3"
+                     Text="{Binding ImapHost,
+                                    Mode=TwoWay}" />
+            <TextBlock Grid.Row="9"
+                       Grid.Column="0"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppLabelStyle}}">
+                <Run Text="{x:Static properties:Resources.EncryptionProtocol}" />
+                <Run>:</Run>
+            </TextBlock>
+            <ComboBox Grid.Row="9"
+                      Grid.Column="1"
+                      Margin="0,3,0,3"
+                      ItemsSource="{StaticResource SecurityProtocols}"
+                      SelectedValue="{Binding ImapSecurity,
+                                              Mode=TwoWay}"
+                      SelectionChanged="OnImapSecurityProtocolSelectionChanged"
+                      Text="{Binding ImapSecurity,
+                                     Mode=OneWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock VerticalAlignment="Center"
+                                   FontWeight="Normal"
+                                   Padding="3,0,0,0"
+                                   Text="{Binding Converter={StaticResource SecurityProtocolFormatter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Grid.Row="9"
+                       Grid.Column="2"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppLabelStyle}}">
+                <Run Text="{x:Static properties:Resources.Port}" />
+                <Run>:</Run>
+            </TextBlock>
+            <TextBox Grid.Row="9"
+                     Grid.Column="3"
+                     Width="50"
+                     Text="{Binding ImapPort,
+                                    Mode=TwoWay}" />
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="4"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppTitleTextStyle}}"
+                       Text="{x:Static properties:Resources.SmtpSettingsTitle}" />
+            <TextBlock Grid.Row="1"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="4"
+                       Margin="0,0,0,12"
+                       Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                          AppLightTextBrush}}"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppDescriptionStyle}}"
+                       Text="{x:Static properties:Resources.SmtpSettingsDescription}" />
+            <RadioButton Grid.Row="4"
+                         Grid.Column="0"
+                         Grid.ColumnSpan="4"
+                         Margin="0,18,0,0"
+                         GroupName="Mirror"
+                         IsChecked="{Binding UseImapCredentialsForSmtp,
+                                             Mode=TwoWay}">
+                <TextBlock FontWeight="Normal" Text="{x:Static properties:Resources.UseImapCredentials}" />
+            </RadioButton>
+            <RadioButton x:Name="SmtpCredentialsRadioButton"
+                         Grid.Row="5"
+                         Grid.Column="0"
+                         Grid.ColumnSpan="4"
+                         Margin="0,6,0,6"
+                         GroupName="Mirror">
+                <TextBlock FontWeight="Normal" Text="{x:Static properties:Resources.SmtpRequiresOwnCredentials}" />
+            </RadioButton>
+            <TextBlock Grid.Row="6"
+                       Grid.Column="0"
+                       IsEnabled="{Binding IsChecked,
+                                           ElementName=SmtpCredentialsRadioButton}"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppLabelStyle}}">
+                <Run Text="{x:Static properties:Resources.Username}" />
+                <Run>:</Run>
+            </TextBlock>
+            <TextBox Grid.Row="6"
+                     Grid.Column="1"
+                     Grid.ColumnSpan="3"
+                     IsEnabled="{Binding IsChecked,
+                                         ElementName=SmtpCredentialsRadioButton}"
+                     Text="{Binding ImapUsername,
+                                    Mode=TwoWay}" />
+            <TextBlock Grid.Row="7"
+                       Grid.Column="0"
+                       IsEnabled="{Binding IsChecked,
+                                           ElementName=SmtpCredentialsRadioButton}"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppLabelStyle}}">
+                <Run Text="{x:Static properties:Resources.Password}" />
+                <Run>:</Run>
+            </TextBlock>
+            <PasswordBox x:Name="SmtpPasswordBox"
+                         Grid.Row="7"
+                         Grid.Column="1"
+                         Grid.ColumnSpan="3"
+                         IsEnabled="{Binding IsChecked,
+                                             ElementName=SmtpCredentialsRadioButton}"
+                         PasswordChanged="OnImapPasswordChanged" />
+            <TextBlock Grid.Row="2"
+                       Grid.Column="0"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppLabelStyle}}">
+                <Run Text="{x:Static properties:Resources.ImapHost}" />
+                <Run>:</Run>
+            </TextBlock>
+            <TextBox Grid.Row="2"
+                     Grid.Column="1"
+                     Grid.ColumnSpan="3"
+                     Text="{Binding SmtpHost,
+                                    Mode=TwoWay}" />
+            <TextBlock Grid.Row="3"
+                       Grid.Column="0"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppLabelStyle}}">
+                <Run Text="{x:Static properties:Resources.EncryptionProtocol}" />
+                <Run>:</Run>
+            </TextBlock>
+            <ComboBox Grid.Row="3"
+                      Grid.Column="1"
+                      Margin="0,3,0,3"
+                      ItemsSource="{StaticResource SecurityProtocols}"
+                      SelectedValue="{Binding SmtpSecurity,
+                                              Mode=TwoWay}"
+                      SelectionChanged="OnImapSecurityProtocolSelectionChanged"
+                      Text="{Binding SmtpSecurity,
+                                     Mode=OneWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock VerticalAlignment="Center"
+                                   FontWeight="Normal"
+                                   Padding="3,0,0,0"
+                                   Text="{Binding Converter={StaticResource SecurityProtocolFormatter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Grid.Row="3"
+                       Grid.Column="2"
+                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                     AppLabelStyle}}">
+                <Run Text="{x:Static properties:Resources.Port}" />
+                <Run>:</Run>
+            </TextBlock>
+            <TextBox Grid.Row="3"
+                     Grid.Column="3"
+                     Width="50"
+                     Text="{Binding SmtpPort,
+                                    Mode=TwoWay}" />
+        </Grid>
+        <StackPanel Grid.Row="1"
+                    Grid.Column="0"
+                    Orientation="Horizontal">
+            <ui:MetroCircleButton Command="ui:PageCommands.Commit" Text="{x:Static properties:Resources.Update}">
+                <Image Width="18" Source="/Assets/ok.png" />
+            </ui:MetroCircleButton>
+            <ui:MetroCircleButton Command="ui:PageCommands.Cancel" Text="{x:Static properties:Resources.Cancel}">
+                <Image Width="18" Source="/Assets/cancel.png" />
+            </ui:MetroCircleButton>
+        </StackPanel>
     </Grid>
+
 </Page>

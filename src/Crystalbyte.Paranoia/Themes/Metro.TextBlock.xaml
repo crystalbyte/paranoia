@@ -8,6 +8,11 @@
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
         <Setter Property="FontSize" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppNormalFontSize}}" />
         <Setter Property="FontWeight" Value="Thin" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
@@ -47,8 +52,9 @@
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="Margin" Value="24,3,12,3" />
+        <Setter Property="Margin" Value="24,3,6,3" />
     </Style>
 
     <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},

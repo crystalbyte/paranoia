@@ -28,7 +28,7 @@ namespace Crystalbyte.Paranoia.Mail {
         #region Construction
 
         public SmtpConnection() {
-            Security = SecurityPolicy.Implicit;
+            Security = SecurityProtocol.Implicit;
             Certificates = new X509Certificate2Collection();
             Capabilities = new HashSet<string>();
         }
@@ -63,7 +63,7 @@ namespace Crystalbyte.Paranoia.Mail {
 
         public HashSet<string> Capabilities { get; internal set; }
         public X509Certificate2Collection Certificates { get; private set; }
-        public SecurityPolicy Security { get; set; }
+        public SecurityProtocol Security { get; set; }
 
         #endregion
 
@@ -87,7 +87,7 @@ namespace Crystalbyte.Paranoia.Mail {
             _writer = new StreamWriter(stream) {AutoFlush = true};
 
             // Use implicit encryption (SSL).
-            if (Security == SecurityPolicy.Implicit) {
+            if (Security == SecurityProtocol.Implicit) {
                 await NegotiateEncryptionProtocolsAsync(host);
                 await RequestCapabilitiesAsync();
                 return new SmtpAuthenticator(this);
@@ -95,7 +95,7 @@ namespace Crystalbyte.Paranoia.Mail {
 
             // Use explicit encryption (TLS).
             await RequestCapabilitiesAsync();
-            if (Security == SecurityPolicy.Explicit) {
+            if (Security == SecurityProtocol.Explicit) {
                 if (Capabilities.Contains(SmtpCommands.StartTls)) {
                     await WriteAsync(SmtpCommands.StartTls);
                     var response = await ReadAsync();

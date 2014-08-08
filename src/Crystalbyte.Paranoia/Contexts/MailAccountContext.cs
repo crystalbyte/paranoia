@@ -302,7 +302,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public SecurityPolicy ImapSecurity {
+        public SecurityProtocol ImapSecurity {
             get { return _account.ImapSecurity; }
             set {
                 if (_account.ImapSecurity == value) {
@@ -362,7 +362,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public SecurityPolicy SmtpSecurity {
+        public SecurityProtocol SmtpSecurity {
             get { return _account.SmtpSecurity; }
             set {
                 if (_account.SmtpSecurity == value) {
@@ -371,6 +371,18 @@ namespace Crystalbyte.Paranoia {
 
                 _account.SmtpSecurity = value;
                 RaisePropertyChanged(() => SmtpSecurity);
+            }
+        }
+
+        public bool UseImapCredentialsForSmtp {
+            get { return _account.UseImapCredentialsForSmtp; }
+            set {
+                if (_account.UseImapCredentialsForSmtp == value) {
+                    return;
+                }
+
+                _account.UseImapCredentialsForSmtp = value;
+                RaisePropertyChanged(() => UseImapCredentialsForSmtp);
             }
         }
 

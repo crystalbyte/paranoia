@@ -126,6 +126,9 @@
   <data name="Bold" xml:space="preserve">
     <value>B</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="CloseCommandTooltip" xml:space="preserve">
     <value>Close</value>
   </data>
@@ -159,6 +162,9 @@
   <data name="EncryptionProtocol" xml:space="preserve">
     <value>Protocol</value>
   </data>
+  <data name="Explicit" xml:space="preserve">
+    <value>Explicit (TLS)</value>
+  </data>
   <data name="ExpressionNotProperty" xml:space="preserve">
     <value>Expression is not a property.</value>
   </data>
@@ -178,10 +184,13 @@
     <value>Host</value>
   </data>
   <data name="ImapSettingsDescription" xml:space="preserve">
-    <value>&lt;not yet implemented&gt;</value>
+    <value>The IMAP server settings are required to establish a connection to the incoming mail server.</value>
   </data>
   <data name="ImapSettingsTitle" xml:space="preserve">
     <value>Inbound Server Settings (IMAP)</value>
+  </data>
+  <data name="Implicit" xml:space="preserve">
+    <value>Implicit (SSL)</value>
   </data>
   <data name="InboxMailbox" xml:space="preserve">
     <value>Inbox</value>
@@ -226,6 +235,9 @@ Please select a corresponding IMAP folder to synchronize.</value>
   <data name="NotMemberAccessExpression" xml:space="preserve">
     <value>Expression does not access a member.</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
   <data name="Port" xml:space="preserve">
     <value>Port</value>
   </data>
@@ -265,6 +277,15 @@ Please select a corresponding IMAP folder to synchronize.</value>
   <data name="SmtpHost" xml:space="preserve">
     <value>Host</value>
   </data>
+  <data name="SmtpRequiresOwnCredentials" xml:space="preserve">
+    <value>Use different credentials for outgoing mails.</value>
+  </data>
+  <data name="SmtpSettingsDescription" xml:space="preserve">
+    <value>The SMTP server settings are required to establish a connection to the outgoing mail server.</value>
+  </data>
+  <data name="SmtpSettingsTitle" xml:space="preserve">
+    <value>Outbound Server Settings (SMTP)</value>
+  </data>
   <data name="Subject" xml:space="preserve">
     <value>Subject</value>
   </data>
@@ -289,6 +310,15 @@ Please select a corresponding IMAP folder to synchronize.</value>
   </data>
   <data name="TypeNotSupportedTemplate" xml:space="preserve">
     <value>The type {0} is not supported by the database.</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="UseImapCredentials" xml:space="preserve">
+    <value>Authenticate using IMAP credentials.</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
   </data>
   <data name="Wednesday" xml:space="preserve">
     <value>Wednesday</value>
