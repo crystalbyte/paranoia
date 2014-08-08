@@ -109,6 +109,14 @@ namespace Crystalbyte.Paranoia {
             App.Context.ResetStatusText();
         }
 
+        internal async Task SyncToDatabaseAsync() {
+            using (var database = new DatabaseContext()) {
+                database.MailAccounts.Attach(_account);
+                database.Entry(_account).State = EntityState.Modified;
+                await database.SaveChangesAsync();
+            }            
+        }
+
         internal async Task LoadMailboxesAsync() {
             var mailboxes = await Task.Factory.StartNew(() => {
                 using (var context = new DatabaseContext()) {

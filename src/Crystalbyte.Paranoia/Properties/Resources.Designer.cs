@@ -61,6 +61,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Accept.
+        /// </summary>
+        public static string Accept {
+            get {
+                return ResourceManager.GetString("Accept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string AccountName {
@@ -481,6 +490,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string RestoreDownCommandTooltip {
             get {
                 return ResourceManager.GetString("RestoreDownCommandTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Revert.
+        /// </summary>
+        public static string Revert {
+            get {
+                return ResourceManager.GetString("Revert", resourceCulture);
             }
         }
         

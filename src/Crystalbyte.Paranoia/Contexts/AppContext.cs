@@ -92,6 +92,14 @@ namespace Crystalbyte.Paranoia {
 
         #region Public Events
 
+        internal event EventHandler OverlayClosed;
+
+        internal void OnOverlayClosed() {
+            var handler = OverlayClosed;
+            if (handler != null) 
+                handler(this, EventArgs.Empty);
+        }
+
         internal event EventHandler<NavigationRequestedEventArgs> NavigationRequested;
 
         private void OnNavigationRequested(NavigationRequestedEventArgs e) {
@@ -378,6 +386,7 @@ namespace Crystalbyte.Paranoia {
         internal void CloseOverlay() {
             var uri = typeof(BlankPage).ToPageUri();
             OnNavigationRequested(new NavigationRequestedEventArgs(uri));
+            OnOverlayClosed();
         }
 
         private void ConfigureAccount(object obj) {

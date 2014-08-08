@@ -40,8 +40,8 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void OnCloseOverlay(object sender, ExecutedRoutedEventArgs e) {
-            HideOverlay();
+        private static void OnCloseOverlay(object sender, ExecutedRoutedEventArgs e) {
+            App.Context.CloseOverlay();
         }
 
         #endregion

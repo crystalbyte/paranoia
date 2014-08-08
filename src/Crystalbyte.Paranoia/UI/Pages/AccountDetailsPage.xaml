@@ -71,7 +71,8 @@
                      Grid.Column="1"
                      Grid.ColumnSpan="3"
                      Text="{Binding Name,
-                                    Mode=TwoWay}" />
+                                    Mode=TwoWay,
+                                    UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Grid.Row="3"
                        Grid.Column="0"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -83,7 +84,8 @@
                      Grid.Column="1"
                      Grid.ColumnSpan="3"
                      Text="{Binding Address,
-                                    Mode=TwoWay}" />
+                                    Mode=TwoWay,
+                                    UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Grid.Row="4"
                        Grid.Column="0"
                        Grid.ColumnSpan="4"
@@ -113,7 +115,8 @@
                      Grid.Column="1"
                      Grid.ColumnSpan="3"
                      Text="{Binding ImapUsername,
-                                    Mode=TwoWay}" />
+                                    Mode=TwoWay,
+                                    UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Grid.Row="7"
                        Grid.Column="0"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -124,8 +127,7 @@
             <PasswordBox x:Name="ImapPasswordBox"
                          Grid.Row="7"
                          Grid.Column="1"
-                         Grid.ColumnSpan="3"
-                         PasswordChanged="OnImapPasswordChanged" />
+                         Grid.ColumnSpan="3" />
             <TextBlock Grid.Row="8"
                        Grid.Column="0"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -137,7 +139,8 @@
                      Grid.Column="1"
                      Grid.ColumnSpan="3"
                      Text="{Binding ImapHost,
-                                    Mode=TwoWay}" />
+                                    Mode=TwoWay,
+                                    UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Grid.Row="9"
                        Grid.Column="0"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -174,7 +177,8 @@
                      Grid.Column="3"
                      Width="50"
                      Text="{Binding ImapPort,
-                                    Mode=TwoWay}" />
+                                    Mode=TwoWay,
+                                    UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
         <Grid Grid.Row="0" Grid.Column="2">
             <Grid.RowDefinitions>
@@ -211,27 +215,28 @@
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                      AppDescriptionStyle}}"
                        Text="{x:Static properties:Resources.SmtpSettingsDescription}" />
-            <RadioButton Grid.Row="4"
+            <RadioButton x:Name="UseImapCredentialsRadioButton"
+                         Grid.Row="4"
                          Grid.Column="0"
                          Grid.ColumnSpan="4"
                          Margin="0,18,0,0"
-                         GroupName="Mirror"
-                         IsChecked="{Binding UseImapCredentialsForSmtp,
-                                             Mode=TwoWay}">
+                         Checked="OnUseImapCredentialsChecked"
+                         GroupName="Mirror">
                 <TextBlock FontWeight="Normal" Text="{x:Static properties:Resources.UseImapCredentials}" />
             </RadioButton>
-            <RadioButton x:Name="SmtpCredentialsRadioButton"
+            <RadioButton x:Name="UseSmtpCredentialsRadioButton"
                          Grid.Row="5"
                          Grid.Column="0"
                          Grid.ColumnSpan="4"
                          Margin="0,6,0,6"
+                         Checked="OnUseSmtpCredentialsChecked"
                          GroupName="Mirror">
                 <TextBlock FontWeight="Normal" Text="{x:Static properties:Resources.SmtpRequiresOwnCredentials}" />
             </RadioButton>
             <TextBlock Grid.Row="6"
                        Grid.Column="0"
                        IsEnabled="{Binding IsChecked,
-                                           ElementName=SmtpCredentialsRadioButton}"
+                                           ElementName=UseSmtpCredentialsRadioButton}"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                      AppLabelStyle}}">
                 <Run Text="{x:Static properties:Resources.Username}" />
@@ -241,13 +246,14 @@
                      Grid.Column="1"
                      Grid.ColumnSpan="3"
                      IsEnabled="{Binding IsChecked,
-                                         ElementName=SmtpCredentialsRadioButton}"
-                     Text="{Binding ImapUsername,
-                                    Mode=TwoWay}" />
+                                         ElementName=UseSmtpCredentialsRadioButton}"
+                     Text="{Binding SmtpUsername,
+                                    Mode=TwoWay,
+                                    UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Grid.Row="7"
                        Grid.Column="0"
                        IsEnabled="{Binding IsChecked,
-                                           ElementName=SmtpCredentialsRadioButton}"
+                                           ElementName=UseSmtpCredentialsRadioButton}"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                      AppLabelStyle}}">
                 <Run Text="{x:Static properties:Resources.Password}" />
@@ -258,8 +264,7 @@
                          Grid.Column="1"
                          Grid.ColumnSpan="3"
                          IsEnabled="{Binding IsChecked,
-                                             ElementName=SmtpCredentialsRadioButton}"
-                         PasswordChanged="OnImapPasswordChanged" />
+                                             ElementName=UseSmtpCredentialsRadioButton}" />
             <TextBlock Grid.Row="2"
                        Grid.Column="0"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -271,7 +276,8 @@
                      Grid.Column="1"
                      Grid.ColumnSpan="3"
                      Text="{Binding SmtpHost,
-                                    Mode=TwoWay}" />
+                                    Mode=TwoWay,
+                                    UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Grid.Row="3"
                        Grid.Column="0"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -284,7 +290,8 @@
                       Margin="0,3,0,3"
                       ItemsSource="{StaticResource SecurityProtocols}"
                       SelectedValue="{Binding SmtpSecurity,
-                                              Mode=TwoWay}"
+                                              Mode=TwoWay,
+                                              UpdateSourceTrigger=PropertyChanged}"
                       SelectionChanged="OnImapSecurityProtocolSelectionChanged"
                       Text="{Binding SmtpSecurity,
                                      Mode=OneWay}">
@@ -313,10 +320,10 @@
         <StackPanel Grid.Row="1"
                     Grid.Column="0"
                     Orientation="Horizontal">
-            <ui:MetroCircleButton Command="ui:PageCommands.Commit" Text="{x:Static properties:Resources.Update}">
+            <ui:MetroCircleButton Command="ui:PageCommands.Commit" Text="{x:Static properties:Resources.Accept}">
                 <Image Width="18" Source="/Assets/ok.png" />
             </ui:MetroCircleButton>
-            <ui:MetroCircleButton Command="ui:PageCommands.Cancel" Text="{x:Static properties:Resources.Cancel}">
+            <ui:MetroCircleButton Command="ui:PageCommands.Cancel" Text="{x:Static properties:Resources.Revert}">
                 <Image Width="18" Source="/Assets/cancel.png" />
             </ui:MetroCircleButton>
         </StackPanel>

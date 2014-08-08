@@ -55,5 +55,25 @@ namespace Crystalbyte.Paranoia {
 
             return memberExpression.Member.Name;
         }
+
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters"),
+   SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
+        public static string ExtractPropertyName<T, TReturn>(Expression<Func<T, TReturn>> propertyExpression) {
+            if (propertyExpression == null) {
+                throw new ArgumentNullException("propertyExpression");
+            }
+
+            var memberExpression = propertyExpression.Body as MemberExpression;
+            if (memberExpression == null) {
+                throw new ArgumentException(Resources.NotMemberAccessExpression, "propertyExpression");
+            }
+
+            var property = memberExpression.Member as PropertyInfo;
+            if (property == null) {
+                throw new ArgumentException(Resources.ExpressionNotProperty, "propertyExpression");
+            }
+
+            return memberExpression.Member.Name;
+        }
     }
 }

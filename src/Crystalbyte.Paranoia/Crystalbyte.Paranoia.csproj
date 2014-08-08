@@ -146,6 +146,7 @@
     <Compile Include="NotificationWindow.xaml.cs">
       <DependentUpon>NotificationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RevisionTracker.cs" />
     <Compile Include="UI\Commands\MarkAsNotSeenCommand.cs" />
     <Compile Include="UI\Commands\MarkAsSeenCommand.cs" />
     <Compile Include="UI\Converters\FromSenderFormatter.cs" />
