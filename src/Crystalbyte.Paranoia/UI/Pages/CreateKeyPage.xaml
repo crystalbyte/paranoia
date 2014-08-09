@@ -27,6 +27,8 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <TextBlock Grid.ColumnSpan="2"
@@ -80,6 +82,22 @@
                          IsEnabled="{Binding IsChecked,
                                              ElementName=RiskCheckBox}"
                          PasswordChanged="OnConfirmPasswordChanged" />
+            <TextBlock Grid.Row="5"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       Margin="0,24,0,0"
+                       FontStyle="Italic"
+                       Text="{Binding BenFranklinQuote,
+                                      Mode=OneTime}" />
+            <TextBlock Grid.Row="6"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       Margin="1,0,0,0"
+                       FontStyle="Italic"
+                       Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                          AppMediumTextBrush}}"
+                       Text="{Binding BenFranklin,
+                                      Mode=OneTime}" />
         </Grid>
         <StackPanel Grid.Row="1"
                     Margin="0,36,0,0"
