@@ -88,6 +88,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Authentification failed..
+        /// </summary>
+        public static string AuthentificationFailed {
+            get {
+                return ResourceManager.GetString("AuthentificationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to B.
         /// </summary>
         public static string Bold {
@@ -117,9 +126,9 @@ namespace Crystalbyte.Paranoia.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
-        public static string CloseOverlayCommandTooltip {
+        public static string CloseFlyOutCommandTooltip {
             get {
-                return ResourceManager.GetString("CloseOverlayCommandTooltip", resourceCulture);
+                return ResourceManager.GetString("CloseFlyOutCommandTooltip", resourceCulture);
             }
         }
         
@@ -142,11 +151,49 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm Password.
+        /// </summary>
+        public static string ConfirmPassword {
+            get {
+                return ResourceManager.GetString("ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contacts.
         /// </summary>
         public static string ContactsTitle {
             get {
                 return ResourceManager.GetString("ContactsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a secure password. 
+        ///This password will then be used to encrypt all security critical data used by the application..
+        /// </summary>
+        public static string CreateKeyPageDescription {
+            get {
+                return ResourceManager.GetString("CreateKeyPageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please choose your password wisely because we will not be able to recover any lost passwords due to the simple fact that we do not store them anywhere. Furthermore, changing the password is not possible.
+        ///Once your password is lost you&apos;re screwed..
+        /// </summary>
+        public static string CreateKeyPageWarning {
+            get {
+                return ResourceManager.GetString("CreateKeyPageWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to One password to rule them all.
+        /// </summary>
+        public static string CreateKeyTitle {
+            get {
+                return ResourceManager.GetString("CreateKeyTitle", resourceCulture);
             }
         }
         
@@ -201,6 +248,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string EncryptionProtocol {
             get {
                 return ResourceManager.GetString("EncryptionProtocol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        public static string Exit {
+            get {
+                return ResourceManager.GetString("Exit", resourceCulture);
             }
         }
         
@@ -395,6 +451,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No connectivity, please check your internet connection..
+        /// </summary>
+        public static string NoConnectivity {
+            get {
+                return ResourceManager.GetString("NoConnectivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;no name&gt;.
         /// </summary>
         public static string NoSender {
@@ -499,6 +564,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Revert {
             get {
                 return ResourceManager.GetString("Revert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I understand the risk, let me continue..
+        /// </summary>
+        public static string RiskStatement {
+            get {
+                return ResourceManager.GetString("RiskStatement", resourceCulture);
             }
         }
         
@@ -616,6 +690,51 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string SyncMailboxesStatus {
             get {
                 return ResourceManager.GetString("SyncMailboxesStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Testing connectivity ....
+        /// </summary>
+        public static string TestingConnectivityStatus {
+            get {
+                return ResourceManager.GetString("TestingConnectivityStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Testing IMAP settings ....
+        /// </summary>
+        public static string TestingImapStatus {
+            get {
+                return ResourceManager.GetString("TestingImapStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Testing SMTP settings ....
+        /// </summary>
+        public static string TestingSmtpStatus {
+            get {
+                return ResourceManager.GetString("TestingSmtpStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All tests completed successfully..
+        /// </summary>
+        public static string TestsCompletedSuccessfully {
+            get {
+                return ResourceManager.GetString("TestsCompletedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test Settings.
+        /// </summary>
+        public static string TestSettings {
+            get {
+                return ResourceManager.GetString("TestSettings", resourceCulture);
             }
         }
         

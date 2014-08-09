@@ -7,9 +7,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net.Mail;
 using System.Net.Mime;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
@@ -24,16 +26,20 @@ namespace Crystalbyte.Paranoia {
         private MailboxContext _selectedMailbox;
         private readonly AppContext _appContext;
         private readonly MailAccountModel _account;
-        private readonly DropAssignmentCommand _dropMailboxCommand;
+        private readonly ICommand _dropMailboxCommand;
+        private readonly ICommand _testSettingsCommand;
         private readonly ObservableCollection<MailContactContext> _contacts;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
         private MailContactContext _selectedContact;
+        private TestingContext _testing;
         private bool _sendingMessages;
+        private bool _isTesting;
 
         internal MailAccountContext(MailAccountModel account, AppContext appContext) {
             _account = account;
             _appContext = appContext;
             _dropMailboxCommand = new DropAssignmentCommand(this);
+            _testSettingsCommand = new RelayCommand(OnTestSettings);
 
             _contacts = new ObservableCollection<MailContactContext>();
             _contacts.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Contacts);
@@ -41,8 +47,16 @@ namespace Crystalbyte.Paranoia {
             _mailboxes = new ObservableCollection<MailboxContext>();
         }
 
-        public DropAssignmentCommand DropMailboxCommand {
+        private async void OnTestSettings(object obj) {
+            await TestSettingsAsync();
+        }
+
+        public ICommand DropMailboxCommand {
             get { return _dropMailboxCommand; }
+        }
+
+        public ICommand TestSettingsCommand {
+            get { return _testSettingsCommand; }
         }
 
         protected override async void OnSelectionChanged() {
@@ -114,7 +128,7 @@ namespace Crystalbyte.Paranoia {
                 database.MailAccounts.Attach(_account);
                 database.Entry(_account).State = EntityState.Modified;
                 await database.SaveChangesAsync();
-            }            
+            }
         }
 
         internal async Task LoadMailboxesAsync() {
@@ -213,9 +227,9 @@ namespace Crystalbyte.Paranoia {
             await selection.UpdateAsync(contact);
 
             if (contact != null) {
-                await contact.CountNotSeenAsync();    
+                await contact.CountNotSeenAsync();
             }
-            
+
             foreach (var mailbox in _mailboxes.AsParallel()) {
                 await mailbox.CountNotSeenAsync();
             }
@@ -334,6 +348,17 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public TestingContext Testing {
+            get { return _testing; }
+            set {
+                if (_testing == value) {
+                    return;
+                }
+                _testing = value;
+                RaisePropertyChanged(() => Testing);
+            }
+        }
+
         public short SmtpPort {
             get { return _account.SmtpPort; }
             set {
@@ -394,12 +419,109 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public bool IsTesting {
+            get { return _isTesting; }
+            set {
+                if (_isTesting == value) {
+                    return;
+                }
+                _isTesting = value;
+                RaisePropertyChanged(() => IsTesting);
+            }
+        }
+
         public IEnumerable<MailContactContext> Contacts {
             get { return _contacts; }
         }
 
         public IEnumerable<MailboxContext> Mailboxes {
             get { return _mailboxes; }
+        }
+
+        internal async Task TestSettingsAsync() {
+            IsTesting = true;
+
+            await TestConnectivityAsync();
+            if (Testing != null && Testing.IsFaulted) {
+                IsTesting = false;
+                return;
+            }
+
+            await TestImapSettingsAsync();
+            if (Testing != null && Testing.IsFaulted) {
+                IsTesting = false;
+                return;
+            }
+
+            await TestSmtpSettingsAsync();
+            if (Testing != null && Testing.IsFaulted) {
+                IsTesting = false;
+                return;
+            }
+
+            Testing = new TestingContext {
+                Message = Resources.TestsCompletedSuccessfully
+            };
+
+            IsTesting = false;
+        }
+
+        private async Task TestSmtpSettingsAsync() {
+            Testing = new TestingContext {
+                Message = Resources.TestingSmtpStatus
+            };
+
+            try {
+                using (var connection = new SmtpConnection { Security = SmtpSecurity }) {
+                    using (var auth = await connection.ConnectAsync(SmtpHost, SmtpPort)) {
+                        var username = UseImapCredentialsForSmtp ? ImapUsername : SmtpUsername;
+                        var password = UseImapCredentialsForSmtp ? ImapPassword : SmtpPassword;
+                        await auth.LoginAsync(username, password);
+                    }
+                }
+            } catch (Exception ex) {
+                Testing = new TestingContext {
+                    IsFaulted = true,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        private async Task TestImapSettingsAsync() {
+            Testing = new TestingContext {
+                Message = Resources.TestingImapStatus
+            };
+
+            try {
+                using (var connection = new ImapConnection { Security = ImapSecurity }) {
+                    using (var auth = await connection.ConnectAsync(ImapHost, ImapPort)) {
+                        await auth.LoginAsync(ImapUsername, ImapPassword);
+                    }
+                }
+            } catch (Exception ex) {
+                Testing = new TestingContext {
+                    IsFaulted = true,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        private async Task TestConnectivityAsync() {
+            Testing = new TestingContext {
+                Message = Resources.TestingConnectivityStatus
+            };
+
+            var available = false;
+            await Task.Factory.StartNew(() => {
+                available = NetworkInterface.GetIsNetworkAvailable();
+            });
+
+            if (!available) {
+                Testing = new TestingContext {
+                    Message = Resources.TestingConnectivityStatus,
+                    IsFaulted = true
+                };
+            }
         }
 
         internal async Task ProcessOutgoingMessagesAsync() {

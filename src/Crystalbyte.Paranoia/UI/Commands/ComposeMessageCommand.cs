@@ -24,7 +24,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public void Execute(object parameter) {
-            _app.ComposeMessage();
+            _app.OpenMessageCompositionDialog();
         }
 
         public event EventHandler CanExecuteChanged;

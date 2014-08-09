@@ -52,6 +52,13 @@
         </Style.Triggers>
     </Style>
 
+    <Style BasedOn="{StaticResource {x:Type ButtonBase}}" TargetType="Button">
+        <Setter Property="Padding" Value="6,4,6,4" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+    </Style>
+
     <Style x:Key="AppCommandButtonStyle"
            BasedOn="{StaticResource {x:Type ButtonBase}}"
            TargetType="ButtonBase">
@@ -69,10 +76,6 @@
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent" />
         <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" />
-            </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="IsPressed" Value="True" />
@@ -224,7 +227,6 @@
                                                                                   AppAccentBrush}}"
                                    StrokeThickness="{TemplateBinding BorderThickness}" />
                     </Grid>
-
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsFocused" Value="True">
                             <Setter TargetName="FocusIndicator" Property="Visibility" Value="Visible" />

@@ -134,6 +134,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationExtensions.cs" />
+    <Compile Include="Contexts\CreateKeyPairContext.cs" />
+    <Compile Include="Contexts\TestingContext.cs" />
     <Compile Include="DocumentTextRequestedEventArgs.cs" />
     <Compile Include="Contexts\MailboxCandidateContext.cs" />
     <Compile Include="Contexts\MailboxContext.cs" />
@@ -167,8 +169,8 @@
     <Compile Include="UI\Pages\AccountDetailsPage.xaml.cs">
       <DependentUpon>AccountDetailsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pages\GenerateKeyPage.xaml.cs">
-      <DependentUpon>GenerateKeyPage.xaml</DependentUpon>
+    <Compile Include="UI\Pages\CreateKeyPage.xaml.cs">
+      <DependentUpon>CreateKeyPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\ParanoiaDataSource.cs" />
     <Compile Include="UI\ParanoiaDataSourceProvider.cs" />
@@ -179,6 +181,10 @@
     <Page Include="NotificationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Metro.CheckBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Metro.Slider.xaml">
       <SubType>Designer</SubType>
@@ -350,7 +356,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\GenerateKeyPage.xaml">
+    <Page Include="UI\Pages\CreateKeyPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -472,7 +478,6 @@
     <Resource Include="Assets\seen.png" />
     <Resource Include="Assets\unseen.png" />
     <Resource Include="Assets\back.png" />
-    <Resource Include="Assets\send.png" />
     <Resource Include="Resources\composition.template.html" />
     <Resource Include="Assets\map.jpg" />
     <Resource Include="Resources\cover.sheet.template.html" />

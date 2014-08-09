@@ -19,6 +19,14 @@
     <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccentColor}" />
     <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}" Color="{StaticResource AppAccentColor}" />
 
+    <Color x:Key="Metro.FailureColor">Tomato</Color>
+    <SolidColorBrush x:Key="Metro.FailureBrush" Color="{StaticResource Metro.FailureColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.FailureBrush}" Color="{StaticResource Metro.FailureColor}" />
+
+    <Color x:Key="Metro.SuccessColor">ForestGreen</Color>
+    <SolidColorBrush x:Key="Metro.SuccessBrush" Color="{StaticResource Metro.SuccessColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.SuccessBrush}" Color="{StaticResource Metro.SuccessColor}" />
+
     <!--  Window  -->
     <Color x:Key="AppWindowBackgroundColor">#222222</Color>
     <SolidColorBrush x:Key="AppWindowBackgroundBrush" Color="{StaticResource AppWindowBackgroundColor}" />

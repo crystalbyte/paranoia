@@ -79,6 +79,15 @@ namespace Crystalbyte.Paranoia.Mail.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unenycrypted connections are not supported by this agent..
+        /// </summary>
+        internal static string NoEncryptionNotSupported {
+            get {
+                return ResourceManager.GetString("NoEncryptionNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The issued command is not supported by the current server..
         /// </summary>
         internal static string NotSupportedImapCommandMessage {

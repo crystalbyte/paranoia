@@ -126,6 +126,9 @@
   <data name="AllMailbox" xml:space="preserve">
     <value>All</value>
   </data>
+  <data name="AuthentificationFailed" xml:space="preserve">
+    <value>Authentification failed.</value>
+  </data>
   <data name="Bold" xml:space="preserve">
     <value>B</value>
   </data>
@@ -135,7 +138,7 @@
   <data name="CloseCommandTooltip" xml:space="preserve">
     <value>Close</value>
   </data>
-  <data name="CloseOverlayCommandTooltip" xml:space="preserve">
+  <data name="CloseFlyOutCommandTooltip" xml:space="preserve">
     <value>Back</value>
   </data>
   <data name="ComposeMessagePageTitle" xml:space="preserve">
@@ -229,6 +232,9 @@ Please select a corresponding IMAP folder to synchronize.</value>
   <data name="Monday" xml:space="preserve">
     <value>Monday</value>
   </data>
+  <data name="NoConnectivity" xml:space="preserve">
+    <value>No connectivity, please check your internet connection.</value>
+  </data>
   <data name="NoSender" xml:space="preserve">
     <value>&lt;no name&gt;</value>
   </data>
@@ -305,6 +311,21 @@ Please select a corresponding IMAP folder to synchronize.</value>
   <data name="SyncMailboxesStatus" xml:space="preserve">
     <value>Synchronizing mailboxes ....</value>
   </data>
+  <data name="TestingConnectivityStatus" xml:space="preserve">
+    <value>Testing connectivity ...</value>
+  </data>
+  <data name="TestingImapStatus" xml:space="preserve">
+    <value>Testing IMAP settings ...</value>
+  </data>
+  <data name="TestingSmtpStatus" xml:space="preserve">
+    <value>Testing SMTP settings ...</value>
+  </data>
+  <data name="TestsCompletedSuccessfully" xml:space="preserve">
+    <value>All tests completed successfully.</value>
+  </data>
+  <data name="TestSettings" xml:space="preserve">
+    <value>Test Settings</value>
+  </data>
   <data name="Thursday" xml:space="preserve">
     <value>Thursday</value>
   </data>
@@ -331,5 +352,25 @@ Please select a corresponding IMAP folder to synchronize.</value>
   </data>
   <data name="Yesterday" xml:space="preserve">
     <value>Yesterday</value>
+  </data>
+  <data name="CreateKeyTitle" xml:space="preserve">
+    <value>One password to rule them all</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="CreateKeyPageDescription" xml:space="preserve">
+    <value>Please enter a secure password. 
+This password will then be used to encrypt all security critical data used by the application.</value>
+  </data>
+  <data name="CreateKeyPageWarning" xml:space="preserve">
+    <value>Please choose your password wisely because we will not be able to recover any lost passwords due to the simple fact that we do not store them anywhere. Furthermore, changing the password is not possible.
+Once your password is lost you're screwed.</value>
+  </data>
+  <data name="RiskStatement" xml:space="preserve">
+    <value>I understand the risk, let me continue.</value>
   </data>
 </root>

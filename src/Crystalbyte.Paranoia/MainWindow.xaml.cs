@@ -2,7 +2,11 @@
 
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
+using System.Security.Principal;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -33,25 +37,66 @@ namespace Crystalbyte.Paranoia {
             DataContext = App.Context;
             InitializeComponent();
 
-            CommandBindings.Add(new CommandBinding(WindowCommands.CloseOverlay, OnCloseOverlay));
+            CommandBindings.Add(new CommandBinding(WindowCommands.CloseFlyOut, OnCloseFlyOut));
 
             if (DesignerProperties.GetIsInDesignMode(this)) {
                 HtmlControl.Visibility = Visibility.Collapsed;
             }
+
+            Loaded += OnLoaded;
         }
 
-        private static void OnCloseOverlay(object sender, ExecutedRoutedEventArgs e) {
-            App.Context.CloseOverlay();
+        private static async void OnLoaded(object sender, RoutedEventArgs e) {
+            await EnsureKeyExistenceAsync();
+        }
+
+        private static async Task EnsureKeyExistenceAsync() {
+            var dataDir = (string)AppDomain.CurrentDomain.GetData("DataDirectory");
+            var keyDir = new DirectoryInfo(Path.Combine(dataDir, "keys"));
+            if (!keyDir.Exists) {
+                await CreateKeyDirectoryAsync(keyDir);
+            }
+
+            var publicKey = keyDir.GetFiles("paranoia_ecc.pub").FirstOrDefault();
+            var privateKey = keyDir.GetFiles("paranoia_ecc").FirstOrDefault();
+            if (publicKey == null || privateKey == null) {
+                App.Context.OpenCreateKeyPairDialog();
+            }
+            else {
+                App.Context.OpenDecryptKeyPairDialog();
+            }
+        }
+
+        private static Task CreateKeyDirectoryAsync(DirectoryInfo keyDir) {
+            return Task.Factory.StartNew(() => {
+                var identity = new NTAccount(Environment.UserDomainName,
+                    Environment.UserName);
+                var security = new DirectorySecurity();
+                security.PurgeAccessRules(identity);
+
+                security.AddAccessRule(new FileSystemAccessRule(identity,
+                    FileSystemRights.Read, AccessControlType.Allow));
+                security.AddAccessRule(new FileSystemAccessRule(identity,
+                    FileSystemRights.Write, AccessControlType.Allow));
+                security.AddAccessRule(new FileSystemAccessRule(identity,
+                    FileSystemRights.Modify, AccessControlType.Allow));
+
+                keyDir.Create(security);
+            });
+        }
+
+        private static void OnCloseFlyOut(object sender, ExecutedRoutedEventArgs e) {
+            App.Context.CloseFlyOut();
         }
 
         #endregion
 
         #region Public Events
 
-        public event EventHandler OverlayChanged;
+        public event EventHandler FlyOutVisibilityChanged;
 
-        private void OnOverlayChanged() {
-            var handler = OverlayChanged;
+        private void OnFlyOutVisibilityChanged() {
+            var handler = FlyOutVisibilityChanged;
             if (handler != null) {
                 handler(this, EventArgs.Empty);
             }
@@ -61,14 +106,12 @@ namespace Crystalbyte.Paranoia {
 
         #region Class Overrides
 
-        protected override async void OnInitialized(EventArgs e) {
+        protected override void OnInitialized(EventArgs e) {
             base.OnInitialized(e);
 
             LoadResources();
             HookUpControls();
-            HookUpNavigationService();
-
-            await App.Context.RunAsync();
+            HookUpNavigationRequests();
         }
 
         private void LoadResources() {
@@ -85,12 +128,17 @@ namespace Crystalbyte.Paranoia {
             //App.Context.HookUpSearchBox(SearchBox);
         }
 
-        private void HookUpNavigationService() {
-            App.Context.NavigationRequested += OnNavigationRequested;
+        private void HookUpNavigationRequests() {
+            App.Context.PopupNavigationRequested += OnPopupNavigationRequested;
+            App.Context.FlyOutNavigationRequested += OnFlyOutNavigationRequested;
         }
 
-        private void OnNavigationRequested(object sender, NavigationRequestedEventArgs e) {
-            ContentFrame.Navigate(e.Target);
+        private void OnPopupNavigationRequested(object sender, NavigationRequestedEventArgs e) {
+            PopupFrame.Navigate(e.Target);
+        }
+
+        private void OnFlyOutNavigationRequested(object sender, NavigationRequestedEventArgs e) {
+            FlyOutFrame.Navigate(e.Target);
             if (e.Target == typeof(BlankPage).ToPageUri()) {
                 HideOverlay();
             } else {
@@ -99,34 +147,34 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void ShowOverlay() {
-            IsOverlayVisible = true;
+            IsFlyOutVisible = true;
             Overlay.Visibility = Visibility.Visible;
             _slideInOverlayStoryboard.Begin();
         }
 
         private void HideOverlay() {
-            IsOverlayVisible = false;
-            while (ContentFrame.CanGoBack) {
-                ContentFrame.NavigationService.RemoveBackEntry();    
+            IsFlyOutVisible = false;
+            while (FlyOutFrame.CanGoBack) {
+                FlyOutFrame.NavigationService.RemoveBackEntry();
             }
-            
+
             _slideOutOverlayStoryboard.Begin();
         }
 
         #endregion
 
-        public bool IsOverlayVisible {
-            get { return (bool)GetValue(IsOverlayVisibleProperty); }
-            set { SetValue(IsOverlayVisibleProperty, value); }
+        public bool IsFlyOutVisible {
+            get { return (bool)GetValue(IsFlyOutVisibleProperty); }
+            set { SetValue(IsFlyOutVisibleProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for IsOverlayVisible.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsOverlayVisibleProperty =
-            DependencyProperty.Register("IsOverlayVisible", typeof(bool), typeof(MainWindow), new PropertyMetadata(false, OnIsOverlayChanged));
+        public static readonly DependencyProperty IsFlyOutVisibleProperty =
+            DependencyProperty.Register("IsFlyOutVisible", typeof(bool), typeof(MainWindow), new PropertyMetadata(false, OnIsOverlayChanged));
 
         private static void OnIsOverlayChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var window = (MainWindow)d;
-            window.OnOverlayChanged();
+            window.OnFlyOutVisibilityChanged();
         }
 
         private void OnMessageSelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -144,8 +192,8 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void OnContentFrameOnNavigated(object sender, NavigationEventArgs e) {
-            var page = ContentFrame.Content as INavigationAware;
+        private void OnFlyOutFrameNavigated(object sender, NavigationEventArgs e) {
+            var page = FlyOutFrame.Content as INavigationAware;
             if (page != null) {
                 page.OnNavigated(e);
             }

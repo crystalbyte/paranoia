@@ -26,12 +26,12 @@ namespace Crystalbyte.Paranoia.UI.Pages
             InitializeComponent();
 
             var window = (MainWindow)Application.Current.MainWindow;
-            window.OverlayChanged += OnOverlayChanged;
+            window.FlyOutVisibilityChanged += OnFlyOutVisibilityChanged;
         }
 
         private static void OnShutdownRequested(object sender, EventArgs e)
         {
-            App.Context.CloseOverlay();
+            App.Context.CloseFlyOut();
         }
 
         private void OnDocumentTextRequested(object sender, DocumentTextRequestedEventArgs e)
@@ -45,11 +45,10 @@ namespace Crystalbyte.Paranoia.UI.Pages
             await composition.ResetAsync();
         }
 
-        private void OnOverlayChanged(object sender, EventArgs e)
+        private void OnFlyOutVisibilityChanged(object sender, EventArgs e)
         {
             var window = (MainWindow)Application.Current.MainWindow;
-            if (!window.IsOverlayVisible)
-            {
+            if (!window.IsFlyOutVisible) {
                 RecipientsBox.Close();
             }
         }

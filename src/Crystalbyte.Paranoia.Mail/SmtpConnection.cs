@@ -11,6 +11,7 @@ using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Crystalbyte.Paranoia.Mail.Properties;
 
 #endregion
 
@@ -84,7 +85,7 @@ namespace Crystalbyte.Paranoia.Mail {
 
             var stream = _tcpClient.GetStream();
             _reader = new StreamReader(stream, Encoding.UTF8, false);
-            _writer = new StreamWriter(stream) {AutoFlush = true};
+            _writer = new StreamWriter(stream) { AutoFlush = true };
 
             // Use implicit encryption (SSL).
             if (Security == SecurityProtocol.Implicit) {
@@ -109,7 +110,7 @@ namespace Crystalbyte.Paranoia.Mail {
             }
 
             // Fail if server supports no encryption.
-            throw new SmtpException("Unenycrypted connections are not supported by this agent.");
+            throw new SmtpException(Resources.NoEncryptionNotSupported);
         }
 
         internal async Task<SmtpResponseLine> ReadAsync() {
@@ -170,12 +171,12 @@ namespace Crystalbyte.Paranoia.Mail {
                 _secureStream.AuthenticateAsClientAsync(host, Certificates, SslProtocols.Ssl3 | SslProtocols.Tls, true);
 
             _reader = new StreamReader(_secureStream, Encoding.UTF8, false);
-            _writer = new StreamWriter(_secureStream) {AutoFlush = true};
+            _writer = new StreamWriter(_secureStream) { AutoFlush = true };
 
             OnEncryptionProtocolNegotiated(_secureStream.SslProtocol, _secureStream.CipherStrength);
         }
 
-        private void OnEncryptionProtocolNegotiated(SslProtocols protocol, int strength) {}
+        private void OnEncryptionProtocolNegotiated(SslProtocols protocol, int strength) { }
 
         private bool OnRemoteCertificateValidationCallback(object sender, X509Certificate cert, X509Chain chain,
             SslPolicyErrors error) {

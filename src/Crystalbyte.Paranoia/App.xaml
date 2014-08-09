@@ -23,6 +23,7 @@
                 <ResourceDictionary Source="/Themes/Metro.ScrollViewer.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.StatusBar.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.Slider.xaml" />
+                <ResourceDictionary Source="/Themes/Metro.CheckBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />

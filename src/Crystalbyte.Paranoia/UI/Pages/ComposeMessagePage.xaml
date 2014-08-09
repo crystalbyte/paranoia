@@ -135,9 +135,9 @@
                               HorizontalAlignment="Left"
                               Command="{Binding SendCommand}"
                               Text="{x:Static properties:Resources.Send}">
-            <Image Width="22"
-                   Margin="4,0,0,0"
-                   Source="/Assets/send.png" />
+            <Image Width="18"
+                   Margin="0,0,0,0"
+                   Source="/Assets/message.png" />
         </ui:MetroCircleButton>
     </Grid>
 </Page>

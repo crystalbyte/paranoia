@@ -13,14 +13,13 @@
                 Width="1280"
                 Height="768"
                 MinWidth="1024"
-                MinHeight="600"
+                MinHeight="620"
                 BorderThickness="0"
                 KeyboardNavigation.TabNavigation="Local"
                 UseLayoutRounding="True"
                 WindowStartupLocation="CenterScreen"
                 d:DataContext="{d:DesignInstance paranoia:AppContext}"
                 mc:Ignorable="d">
-
     <ui:MetroWindow.Background>
         <VisualBrush TileMode="Tile" Viewport="0,0,1,1">
             <VisualBrush.Visual>
@@ -29,7 +28,6 @@
         </VisualBrush>
     </ui:MetroWindow.Background>
     <ui:MetroWindow.Resources>
-
         <!--  ReSharper disable once Xaml.RedundantResource  -->
         <Storyboard x:Key="OverlaySlideInStoryboard">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Overlay" Storyboard.TargetProperty="(UIElement.Opacity)">
@@ -111,7 +109,7 @@
         <KeyBinding Key="P"
                     Command="{Binding PrintCommand}"
                     Modifiers="Control" />
-        <KeyBinding Key="Escape" Command="ui:WindowCommands.CloseOverlay" />
+        <KeyBinding Key="Escape" Command="ui:WindowCommands.CloseFlyOut" />
     </ui:MetroWindow.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -236,7 +234,7 @@
                                         Converter={StaticResource GravatarImageConverter},
                                         IsAsync=True}"
                        Stretch="Fill" />
-                <Grid VerticalAlignment="Bottom">
+                <Grid VerticalAlignment="Bottom" Visibility="{Binding SelectedAccount, Converter={StaticResource NullToVisibilityConverter}}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -351,7 +349,7 @@
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                              AppTitleTextStyle}}">
                         <Run Text="{x:Static properties:Resources.ContactsTitle}" />
-                        <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" Text="{Binding Contacts, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
+                        <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" Text="{Binding Contacts, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}, FallbackValue=(0)}" />
                     </TextBlock>
                 </DockPanel>
 
@@ -943,8 +941,7 @@
                                Grid.Column="0"
                                Grid.ColumnSpan="2"
                                Margin="0"
-                               DataContext="{Binding SelectedMessage,
-                                                     Delay=100}"
+                               DataContext="{Binding SelectedMessage}"
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                              AppTitleTextStyle}}"
                                Text="{Binding Subject,
@@ -1003,18 +1000,20 @@
                         DataContext="{Binding SelectedMessage}"
                         Visibility="{Binding IsNotLoading,
                                              Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <ui:HtmlControl x:Name="HtmlControl"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    DataContext="{Binding DataContext,
-                                                          ElementName=Window}"
-                                    IsReadOnly="True"
-                                    IsTransparent="False"
-                                    Source="{Binding Source,
-                                                     Mode=OneWay}"
-                                    Zoom="{Binding Zoom,
-                                                   Mode=TwoWay}"
-                                    d:IsHidden="True" />
+                    <Border Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}">
+                        <ui:HtmlControl x:Name="HtmlControl"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        DataContext="{Binding DataContext,
+                                                              ElementName=Window}"
+                                        IsReadOnly="True"
+                                        IsTransparent="False"
+                                        Source="{Binding Source,
+                                                         Mode=OneWay}"
+                                        Zoom="{Binding Zoom,
+                                                       Mode=TwoWay}"
+                                        d:IsHidden="True" />
+                    </Border>
                 </Border>
                 <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <StackPanel VerticalAlignment="Center">
@@ -1085,7 +1084,7 @@
                                 Orientation="Horizontal">
                         <ui:MetroCircleButton x:Name="Button"
                                               Margin="0,0,12,0"
-                                              Command="ui:WindowCommands.CloseOverlay"
+                                              Command="ui:WindowCommands.CloseFlyOut"
                                               Focusable="False"
                                               RenderTransformOrigin="0.5,0.5">
                             <Button.RenderTransform>
@@ -1121,12 +1120,12 @@
                             </TextBlock.RenderTransform>
                         </TextBlock>
                     </StackPanel>
-                    <Frame x:Name="ContentFrame"
+                    <Frame x:Name="FlyOutFrame"
                            Grid.Row="1"
                            HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"
                            KeyboardNavigation.TabNavigation="Cycle"
-                           Navigated="OnContentFrameOnNavigated"
+                           Navigated="OnFlyOutFrameNavigated"
                            NavigationUIVisibility="Hidden"
                            RenderTransformOrigin="0.5,0.5">
                         <Frame.RenderTransform>
@@ -1173,6 +1172,7 @@
             </StatusBarItem>
             <StatusBarItem Grid.Column="2">
                 <Slider Width="150"
+                        IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
                         LargeChange="25.0"
                         Maximum="400.0"
@@ -1188,11 +1188,65 @@
                         Content="{Binding Zoom,
                                           Mode=OneWay,
                                           Converter={StaticResource PercentageFormatter}}"
+                        IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
                         Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                       StatusBarButtonStyle}}" />
             </StatusBarItem>
         </StatusBar>
+        <Grid Grid.Row="0"
+              Grid.RowSpan="5"
+              Grid.Column="0"
+              Grid.ColumnSpan="6"
+              Visibility="{Binding IsPopupVisible,
+                                   Converter={StaticResource BooleanToVisibilityConverter}}"
+              ZIndex="100000">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Rectangle Grid.Row="0"
+                       Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                    AppShadeBrush}}"
+                       Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                       AppShadeOpacity}}"
+                       RenderOptions.EdgeMode="Aliased" />
+            <Rectangle Grid.Row="2"
+                       Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                    AppShadeBrush}}"
+                       Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                       AppShadeOpacity}}"
+                       RenderOptions.EdgeMode="Aliased" />
+            <Border Grid.Row="1"
+                    Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                       AppOverlayBackroundBrush}}"
+                    BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                        AppAccentBrush}}"
+                    BorderThickness="0"
+                    Padding="0,24,0,24">
+                <Grid Width="600" HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Margin="0,0,0,24"
+                               VerticalAlignment="Center"
+                               DataContext="{Binding Content,
+                                                     ElementName=PopupFrame}"
+                               Padding="0,0,0,2"
+                               Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                             AppTitleTextStyle}}"
+                               Text="{Binding Title}"
+                               d:DataContext="{d:DesignInstance Page}" />
+                    <Frame x:Name="PopupFrame"
+                           Grid.Row="1"
+                           MinHeight="200"
+                           NavigationUIVisibility="Hidden" />
+                </Grid>
 
+            </Border>
+
+        </Grid>
     </Grid>
 </ui:MetroWindow>

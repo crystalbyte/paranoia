@@ -1,6 +1,7 @@
 ﻿<Page x:Class="Crystalbyte.Paranoia.UI.Pages.AccountDetailsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mail="clr-namespace:Crystalbyte.Paranoia.Mail;assembly=Crystalbyte.Paranoia.Mail"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -25,6 +26,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -179,6 +181,7 @@
                      Text="{Binding ImapPort,
                                     Mode=TwoWay,
                                     UpdateSourceTrigger=PropertyChanged}" />
+
         </Grid>
         <Grid Grid.Row="0" Grid.Column="2">
             <Grid.RowDefinitions>
@@ -319,11 +322,35 @@
         </Grid>
         <StackPanel Grid.Row="1"
                     Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="3,20,0,0">
+            <Button HorizontalAlignment="Left"
+                    Command="{Binding TestSettingsCommand}"
+                    Content="{x:Static properties:Resources.TestSettings}" />
+            <ProgressBar Height="1"
+                         Margin="0,9,0,3"
+                         IsIndeterminate="{Binding IsTesting}"
+                         Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}" />
+            <TextBlock DataContext="{Binding Testing}"
+                       FontWeight="Normal"
+                       Text="{Binding Message}"
+                       Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}">
+                <TextBlock.Foreground>
+                    <Binding Path="IsFaulted">
+                        <Binding.Converter>
+                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.FailureBrush}}" />
+                        </Binding.Converter>
+                    </Binding>
+                </TextBlock.Foreground>
+            </TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Row="2"
+                    Grid.Column="0"
                     Orientation="Horizontal">
             <ui:MetroCircleButton Command="ui:PageCommands.Commit" Text="{x:Static properties:Resources.Accept}">
                 <Image Width="18" Source="/Assets/ok.png" />
             </ui:MetroCircleButton>
-            <ui:MetroCircleButton Command="ui:PageCommands.Cancel" Text="{x:Static properties:Resources.Revert}">
+            <ui:MetroCircleButton Command="ui:PageCommands.Cancel" Text="{x:Static properties:Resources.Cancel}">
                 <Image Width="18" Source="/Assets/cancel.png" />
             </ui:MetroCircleButton>
         </StackPanel>

@@ -28,8 +28,10 @@ namespace Crystalbyte.Paranoia {
         protected override async void OnStartup(StartupEventArgs e) {
             base.OnStartup(e);
 
-            InitAwesomium();
             InitEnvironment();
+            InitSodium();
+            InitAwesomium();
+
             Compose();
 
 #if DEBUG
@@ -115,6 +117,10 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        private static void InitSodium() {
+            Sodium.InitNativeLibrary();
+        }
+
         private static void InitEnvironment() {
             var location = ConfigurationManager.AppSettings["DataDirectory"];
             if (string.IsNullOrEmpty(location)) {
@@ -123,7 +129,6 @@ namespace Crystalbyte.Paranoia {
 
             var directory = Environment.ExpandEnvironmentVariables(location);
             AppDomain.CurrentDomain.SetData("DataDirectory", directory);
-            Sodium.InitNativeLibrary();
         }
 
         private void Compose() {

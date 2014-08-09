@@ -123,6 +123,9 @@
   <data name="FileNotFoundMessage" xml:space="preserve">
     <value>File not found.</value>
   </data>
+  <data name="NoEncryptionNotSupported" xml:space="preserve">
+    <value>Unenycrypted connections are not supported by this agent.</value>
+  </data>
   <data name="NotSupportedImapCommandMessage" xml:space="preserve">
     <value>The issued command is not supported by the current server.</value>
   </data>

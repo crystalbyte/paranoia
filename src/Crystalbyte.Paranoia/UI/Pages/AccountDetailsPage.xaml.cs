@@ -1,20 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.SQLite;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.Mail;
 
 namespace Crystalbyte.Paranoia.UI.Pages {
@@ -34,17 +23,17 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private void OnOverlayClosed(object sender, EventArgs e) {
-            App.Context.OverlayClosed -= OnOverlayClosed;
-            SmtpPasswordBox.PasswordChanged -= OnSmtpPasswordChanged;
-            ImapPasswordBox.PasswordChanged -= OnImapPasswordChanged;
+            var account = (MailAccountContext) DataContext;
+            account.Testing = null;
 
+            App.Context.FlyOutClosed -= OnOverlayClosed;
             if (_discardOnClose) {
                 DiscardChanged();
             }
         }
 
         private static void OnPageCancel(object sender, ExecutedRoutedEventArgs e) {
-            App.Context.CloseOverlay();
+            App.Context.CloseFlyOut();
         }
 
         private void DiscardChanged() {
@@ -54,7 +43,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
         private async void OnPageCommit(object sender, ExecutedRoutedEventArgs e) {
             await SaveChanges();
-            App.Context.CloseOverlay();
+            App.Context.CloseFlyOut();
         }
 
         private async Task SaveChanges() {
@@ -83,7 +72,6 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         public void OnNavigated(NavigationEventArgs e) {
-            App.Context.OverlayClosed += OnOverlayClosed;
             var account = App.Context.SelectedAccount;
 
             _discardOnClose = true;
@@ -113,6 +101,14 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
             UseImapCredentialsRadioButton.IsChecked = account.UseImapCredentialsForSmtp;
             UseSmtpCredentialsRadioButton.IsChecked = !account.UseImapCredentialsForSmtp;
+
+            App.Context.FlyOutClosing += OnOverlayClosing;
+            App.Context.FlyOutClosed += OnOverlayClosed;
+        }
+
+        private void OnOverlayClosing(object sender, EventArgs e) {
+            SmtpPasswordBox.PasswordChanged -= OnSmtpPasswordChanged;
+            ImapPasswordBox.PasswordChanged -= OnImapPasswordChanged;
         }
 
         private void OnUseImapCredentialsChecked(object sender, RoutedEventArgs e) {

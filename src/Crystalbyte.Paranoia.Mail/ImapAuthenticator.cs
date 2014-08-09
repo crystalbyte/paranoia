@@ -3,6 +3,7 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using Crystalbyte.Paranoia.Mail.Properties;
 
 #endregion
 
@@ -17,8 +18,6 @@ namespace Crystalbyte.Paranoia.Mail {
         internal ImapConnection Connection {
             get { return _connection; }
         }
-
-        public bool IsAuthenticated { get; private set; }
 
         public async Task<ImapSession> LoginAsync(string username, string password) {
             if (_connection.Capabilities.Contains("AUTH=PLAIN")) {
@@ -39,7 +38,9 @@ namespace Crystalbyte.Paranoia.Mail {
             await _connection.WriteCommandAsync(command);
             var line = await _connection.ReadAsync();
 
-            IsAuthenticated = !line.IsNo;
+            if (line.IsNo) {
+                throw new AuthenticationException(Resources.AuthenticationFailedMessage);
+            }
         }
 
         private async Task AuthPlainAsync(string username, string password) {
@@ -70,10 +71,12 @@ namespace Crystalbyte.Paranoia.Mail {
                 line = await _connection.ReadAsync();
             }
 
-            IsAuthenticated = !line.IsNo;
+            if (line.IsNo) {
+                throw new AuthenticationException(Resources.AuthenticationFailedMessage);
+            }
         }
 
-        public async void LogoutAsync() {
+        public async Task LogoutAsync() {
             var id = await _connection.WriteCommandAsync("LOGOUT");
             await _connection.TerminateCommandAsync(id);
         }

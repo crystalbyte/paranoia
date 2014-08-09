@@ -7,7 +7,6 @@
         <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
         <Setter Property="FontSize" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppNormalFontSize}}" />
-        <Setter Property="FontWeight" Value="Thin" />
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" />
@@ -18,7 +17,9 @@
     <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
                                         AppLightTextStyle}"
            BasedOn="{StaticResource {x:Type TextBlock}}"
-           TargetType="TextBlock" />
+           TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="Thin" />
+    </Style>
 
     <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
                                         AppWatermarkTextStyle}"
@@ -27,6 +28,7 @@
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" />
         <Setter Property="FontStyle" Value="Italic" />
         <Setter Property="Padding" Value="5,3,3,3" />
+        <Setter Property="FontWeight" Value="Thin" />
     </Style>
 
     <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
@@ -35,6 +37,7 @@
            TargetType="TextBlock">
         <Setter Property="Margin" Value="0,6,0,6" />
         <Setter Property="FontSize" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLargeFontSize}}" />
+        <Setter Property="FontWeight" Value="Thin" />
     </Style>
 
     <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
@@ -42,6 +45,7 @@
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
 
+        <Setter Property="FontWeight" Value="Thin" />
         <Setter Property="Margin" Value="0,2,0,2" />
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" />
         <Setter Property="FontSize" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumFontSize}}" />

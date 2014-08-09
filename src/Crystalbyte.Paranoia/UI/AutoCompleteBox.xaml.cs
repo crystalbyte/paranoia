@@ -52,7 +52,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Public Events
 
-        public new event EventHandler SelectedValuesChanged;
+        public event EventHandler SelectedValuesChanged;
 
         private void OnSelectedValuesChanged() {
             var handler = SelectedValuesChanged;

@@ -42,12 +42,14 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _markAsNotSeenCommand;
         private readonly ICommand _configAccountCommand;
         private readonly ICommand _selectAccountCommand;
+
         private string _queryString;
         private object _messages;
         private string _source;
         private string _statusText;
         private float _zoom;
         private bool _isAccountSelectionRequested;
+        private bool _isPopupVisible;
 
         #endregion
 
@@ -63,8 +65,9 @@ namespace Crystalbyte.Paranoia {
             _writeCommand = new ComposeMessageCommand(this);
             _markAsSeenCommand = new MarkAsSeenCommand(this);
             _markAsNotSeenCommand = new MarkAsNotSeenCommand(this);
+
             _resetZoomCommand = new RelayCommand(p => Zoom = 100.0f);
-            _configAccountCommand = new RelayCommand(ConfigureAccount);
+            _configAccountCommand = new RelayCommand(OpenConfigAccountDialog);
             _selectAccountCommand = new RelayCommand(p => IsAccountSelectionRequested = true);
 
             Observable.FromEventPattern(
@@ -88,22 +91,40 @@ namespace Crystalbyte.Paranoia {
             _outboxTimer.Tick += OnOutboxTimerTick;
         }
 
+
+
         #endregion
 
         #region Public Events
 
-        internal event EventHandler OverlayClosed;
+        internal event EventHandler FlyOutClosing;
 
-        internal void OnOverlayClosed() {
-            var handler = OverlayClosed;
-            if (handler != null) 
+        private void OnFlyOutClosing() {
+            var handler = FlyOutClosing;
+            if (handler != null)
                 handler(this, EventArgs.Empty);
         }
 
-        internal event EventHandler<NavigationRequestedEventArgs> NavigationRequested;
+        internal event EventHandler FlyOutClosed;
 
-        private void OnNavigationRequested(NavigationRequestedEventArgs e) {
-            var handler = NavigationRequested;
+        internal void OnFlyOutClosed() {
+            var handler = FlyOutClosed;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
+
+        internal event EventHandler<NavigationRequestedEventArgs> PopupNavigationRequested;
+
+        private void OnPopupNavigationRequested(NavigationRequestedEventArgs e) {
+            var handler = PopupNavigationRequested;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        internal event EventHandler<NavigationRequestedEventArgs> FlyOutNavigationRequested;
+
+        private void OnFlyOutNavigationRequested(NavigationRequestedEventArgs e) {
+            var handler = FlyOutNavigationRequested;
             if (handler != null) {
                 handler(this, e);
             }
@@ -134,6 +155,17 @@ namespace Crystalbyte.Paranoia {
 
         #region Property Declarations
 
+        public bool IsPopupVisible {
+            get { return _isPopupVisible; }
+            set {
+                if (_isPopupVisible == value) {
+                    return;
+                }
+                _isPopupVisible = value;
+                RaisePropertyChanged(() => IsPopupVisible);
+            }
+        }
+
         public string Source {
             get { return _source; }
             set {
@@ -160,6 +192,10 @@ namespace Crystalbyte.Paranoia {
 
         public IEnumerable<MailAccountContext> Accounts {
             get { return _accounts; }
+        }
+
+        public bool IsMessageSelected {
+            get { return SelectedMessage != null; }
         }
 
         public string StatusText {
@@ -260,6 +296,7 @@ namespace Crystalbyte.Paranoia {
                 _selectedMessages = value;
                 RaisePropertyChanged(() => SelectedMessage);
                 RaisePropertyChanged(() => SelectedMessages);
+                RaisePropertyChanged(() => IsMessageSelected);
                 OnMessageSelectionChanged();
             }
         }
@@ -312,7 +349,7 @@ namespace Crystalbyte.Paranoia {
             if (!await message.GetIsMimeLoadedAsync()) {
                 await message.DownloadMessageAsync();
             }
-            
+
             DisplayMessage(message);
         }
 
@@ -332,6 +369,12 @@ namespace Crystalbyte.Paranoia {
                 .Select(x => x.Key.MarkAsNotSeenAsync(x.ToArray()));
 
             await Task.WhenAll(tasks);
+        }
+
+        internal void ClosePopup() {
+            var uri = typeof(BlankPage).ToPageUri();
+            OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
+            IsPopupVisible = false;
         }
 
         internal void DisplayMessages(ICollection<MailMessageContext> messages) {
@@ -370,28 +413,39 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal void ComposeMessage() {
-            var uri = typeof(ComposeMessagePage).ToPageUri();
-            OnNavigationRequested(new NavigationRequestedEventArgs(uri));
+        internal void OpenCreateKeyPairDialog() {
+            var uri = typeof(CreateKeyPage).ToPageUri();
+            OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
+            IsPopupVisible = true;
         }
 
-        internal void ComposeReplyMessage() {
+        internal void OpenMessageCompositionDialog() {
+            var uri = typeof(ComposeMessagePage).ToPageUri();
+            OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
+        }
+
+        internal void OpenReplyMessageDialog() {
             if (SelectedMessage == null) {
                 return;
             }
             var uri = typeof(ComposeMessagePage).ToPageUriReply(SelectedMessage);
-            OnNavigationRequested(new NavigationRequestedEventArgs(uri));
+            OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
-        internal void CloseOverlay() {
-            var uri = typeof(BlankPage).ToPageUri();
-            OnNavigationRequested(new NavigationRequestedEventArgs(uri));
-            OnOverlayClosed();
+        internal void OpenDecryptKeyPairDialog() {
+            throw new NotImplementedException();
         }
 
-        private void ConfigureAccount(object obj) {
+        private void OpenConfigAccountDialog(object obj) {
             var uri = typeof(AccountDetailsPage).ToPageUri();
-            OnNavigationRequested(new NavigationRequestedEventArgs(uri));
+            OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
+        }
+
+        internal void CloseFlyOut() {
+            var uri = typeof(BlankPage).ToPageUri();
+            OnFlyOutClosing();
+            OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
+            OnFlyOutClosed();
         }
 
         internal void ClearMessages() {
@@ -423,5 +477,7 @@ namespace Crystalbyte.Paranoia {
         public void ResetStatusText() {
             StatusText = Resources.ReadyStatus;
         }
+
+
     }
 }
