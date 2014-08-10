@@ -354,7 +354,7 @@ Please select a corresponding IMAP folder to synchronize.</value>
     <value>Yesterday</value>
   </data>
   <data name="CreateKeyTitle" xml:space="preserve">
-    <value>One password to rule them all</value>
+    <value>The First Step</value>
   </data>
   <data name="Exit" xml:space="preserve">
     <value>Exit</value>
@@ -364,13 +364,22 @@ Please select a corresponding IMAP folder to synchronize.</value>
   </data>
   <data name="CreateKeyPageDescription" xml:space="preserve">
     <value>Please enter a secure password. 
-This password will then be used to encrypt all security critical data used by the application.</value>
+This password will then be used to encrypt all security critical data used by this application, without it you will lose all access to your encrypted data.</value>
   </data>
   <data name="CreateKeyPageWarning" xml:space="preserve">
     <value>Please choose your password wisely because we will not be able to recover any lost passwords due to the simple fact that we do not store them anywhere. Furthermore, changing the password is not possible.
 Once your password is lost you're screwed.</value>
   </data>
   <data name="RiskStatement" xml:space="preserve">
-    <value>I understand the risk, let me continue.</value>
+    <value>I understand and promise not to lose my password, ever!</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="CreateAccountDescription" xml:space="preserve">
+    <value>Please enter your name, your e-mail address and the password to the IMAP server.</value>
+  </data>
+  <data name="CreateAccountTitle" xml:space="preserve">
+    <value>Create Account</value>
   </data>
 </root>

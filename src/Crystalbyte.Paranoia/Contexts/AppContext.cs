@@ -41,6 +41,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _markAsSeenCommand;
         private readonly ICommand _markAsNotSeenCommand;
         private readonly ICommand _configAccountCommand;
+        private readonly ICommand _createAccountCommand;
         private readonly ICommand _selectAccountCommand;
 
         private string _queryString;
@@ -65,7 +66,7 @@ namespace Crystalbyte.Paranoia {
             _writeCommand = new ComposeMessageCommand(this);
             _markAsSeenCommand = new MarkAsSeenCommand(this);
             _markAsNotSeenCommand = new MarkAsNotSeenCommand(this);
-
+            _createAccountCommand = new RelayCommand(OpenCreateAccountDialog);
             _resetZoomCommand = new RelayCommand(p => Zoom = 100.0f);
             _configAccountCommand = new RelayCommand(OpenConfigAccountDialog);
             _selectAccountCommand = new RelayCommand(p => IsAccountSelectionRequested = true);
@@ -90,8 +91,6 @@ namespace Crystalbyte.Paranoia {
             _outboxTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
             _outboxTimer.Tick += OnOutboxTimerTick;
         }
-
-
 
         #endregion
 
@@ -177,6 +176,10 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public bool IsAccountSelected {
+            get { return _selectedAccount != null; }
+        }
+
         public MailAccountContext SelectedAccount {
             get { return _selectedAccount; }
             set {
@@ -186,6 +189,7 @@ namespace Crystalbyte.Paranoia {
 
                 _selectedAccount = value;
                 RaisePropertyChanged(() => SelectedAccount);
+                RaisePropertyChanged(() => IsAccountSelected);
                 OnAccountSelectionChanged();
             }
         }
@@ -285,6 +289,10 @@ namespace Crystalbyte.Paranoia {
 
         public ICommand MarkAsNotSeenCommand {
             get { return _markAsNotSeenCommand; }
+        }
+
+        public ICommand CreateAccountCommand {
+            get { return _createAccountCommand; }
         }
 
         public IEnumerable<MailMessageContext> SelectedMessages {
@@ -421,6 +429,11 @@ namespace Crystalbyte.Paranoia {
 
         internal void OpenMessageCompositionDialog() {
             var uri = typeof(ComposeMessagePage).ToPageUri();
+            OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
+        }
+
+        private void OpenCreateAccountDialog(object obj) {
+            var uri = typeof(CreateAccountPage).ToPageUri();
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 

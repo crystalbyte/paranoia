@@ -8,8 +8,14 @@ namespace Crystalbyte.Paranoia.UI.Pages {
     public partial class CreateKeyPage {
 
         public CreateKeyPage() {
-            DataContext = new CreateKeyPairContext();
             InitializeComponent();
+            DataContext = new CreateKeyPairContext();
+
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e) {
+            RiskCheckBox.Focus();
         }
 
         protected override void OnInitialized(EventArgs e) {

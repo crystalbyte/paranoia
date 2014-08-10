@@ -7,6 +7,7 @@
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="{x:Static properties:Resources.CreateKeyTitle}"
+      KeyboardNavigation.TabNavigation="Cycle"
       d:DataContext="{d:DesignInstance paranoia:CreateKeyPairContext}"
       d:DesignHeight="330"
       d:DesignWidth="400"
@@ -86,18 +87,21 @@
                        Grid.Column="0"
                        Grid.ColumnSpan="2"
                        Margin="0,24,0,0"
-                       FontStyle="Italic"
-                       Text="{Binding BenFranklinQuote,
-                                      Mode=OneTime}" />
+                       FontSize="13"
+                       FontStyle="Italic">
+                <Run Text="{Binding BenFranklinQuote, Mode=OneTime}" />
+            </TextBlock>
             <TextBlock Grid.Row="6"
                        Grid.Column="0"
                        Grid.ColumnSpan="2"
-                       Margin="1,0,0,0"
+                       Margin="24,0,0,0"
                        FontStyle="Italic"
                        Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                          AppMediumTextBrush}}"
-                       Text="{Binding BenFranklin,
-                                      Mode=OneTime}" />
+                                                                          AppMediumTextBrush}}">
+                <Run Text="-" />
+                <Run Text="{Binding BenFranklin, Mode=OneTime}" />
+
+            </TextBlock>
         </Grid>
         <StackPanel Grid.Row="1"
                     Margin="0,36,0,0"

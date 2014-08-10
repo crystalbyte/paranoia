@@ -169,8 +169,35 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue.
+        /// </summary>
+        public static string Continue {
+            get {
+                return ResourceManager.GetString("Continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your name, your e-mail address and the password to the IMAP server..
+        /// </summary>
+        public static string CreateAccountDescription {
+            get {
+                return ResourceManager.GetString("CreateAccountDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Account.
+        /// </summary>
+        public static string CreateAccountTitle {
+            get {
+                return ResourceManager.GetString("CreateAccountTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter a secure password. 
-        ///This password will then be used to encrypt all security critical data used by the application..
+        ///This password will then be used to encrypt all security critical data used by this application, without it you will lose all access to your encrypted data..
         /// </summary>
         public static string CreateKeyPageDescription {
             get {
@@ -189,7 +216,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to One password to rule them all.
+        ///   Looks up a localized string similar to The First Step.
         /// </summary>
         public static string CreateKeyTitle {
             get {
@@ -568,7 +595,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I understand the risk, let me continue..
+        ///   Looks up a localized string similar to I understand and promise not to lose my password, ever!.
         /// </summary>
         public static string RiskStatement {
             get {
