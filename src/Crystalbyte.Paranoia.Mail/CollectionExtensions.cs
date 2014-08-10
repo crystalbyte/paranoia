@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 #endregion
 
@@ -16,6 +17,13 @@ namespace Crystalbyte.Paranoia.Mail {
         public static void AddRange<T>(this HashSet<T> target, IEnumerable<T> source) {
             foreach (var item in source) {
                 target.Add(item);
+            }
+        }
+
+        public static IEnumerable<IEnumerable<T>> Bundle<T>(this IEnumerable<T> source, int size) {
+            while (source.Any()) {
+                yield return source.Take(size);
+                source = source.Skip(size);
             }
         }
     }

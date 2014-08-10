@@ -138,13 +138,19 @@ namespace Crystalbyte.Paranoia.Mail {
 
         private static IEnumerable<MailAddress> ParseContacts(string value) {
             var trimmed = value.TrimAny(1).TrimQuotes();
-            var contacts = Regex.Matches(trimmed, @"\(.+?\)");
-            foreach (var items in from Match contact in contacts select Regex.Matches(contact.Value, "\".+?\"|NIL")) {
-                Debug.Assert(items.Count == 4);
-                var name = items[0].Value.TrimQuotes();
-                var address = string.Format("{0}@{1}", items[2].Value.TrimQuotes(), items[3].Value.TrimQuotes());
-                yield return new MailAddress(address, name);
-            }
+            var entries = Regex.Matches(trimmed, "\\\".+?\\\"|NIL");
+            var contacts = entries
+                .OfType<Match>()
+                .Select(x => x.Value.Trim(new[] { '"', '\\' }))
+                .Bundle(4).ToArray()
+                .ToArray();
+
+            return from contact in contacts 
+                   select contact.ToArray() 
+                   into items 
+                   let name = items[0] 
+                   let address = string.Format("{0}@{1}", items[2], items[3]) 
+                   select new MailAddress(address, name);
         }
 
         private void AddContactsToCc(IEnumerable<MailAddress> contacts) {
