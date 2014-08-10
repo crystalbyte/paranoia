@@ -537,5 +537,35 @@ namespace Crystalbyte.Paranoia {
             await LoadMessagesFromDatabaseAsync(contact);
             _account.AppContext.DisplayMessages(Messages);
         }
+
+        internal async Task DeleteAsync() {
+            try {
+                using (var database = new DatabaseContext()) {
+                    var messageModels = await database.MailMessages
+                        .Where(x => x.MailboxId == Id)
+                        .ToArrayAsync();
+
+                    foreach (var message in messageModels) {
+                        var m = message;
+                        var mimeModels = await database.MimeMessages
+                            .Where(x => x.MessageId == m.Id)
+                            .ToArrayAsync();
+
+                        foreach (var mime in mimeModels) {
+                            database.MimeMessages.Remove(mime);
+                        }
+                    }
+
+                    database.MailMessages.RemoveRange(messageModels);
+                    database.Mailboxes.Attach(_mailbox);
+                    database.Mailboxes.Remove(_mailbox);
+
+                    await database.SaveChangesAsync();
+                }
+            }
+            catch (Exception) {
+                throw;
+            }
+        }
     }
 }

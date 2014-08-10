@@ -152,12 +152,14 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task LoadContactsFromDatabaseAsync() {
-            var contacts = await Task.Factory.StartNew(() => {
-                using (var context = new DatabaseContext()) {
-                    context.MailAccounts.Attach(_account);
-                    return _account.Contacts.ToArray();
-                }
-            });
+            IEnumerable<MailContactModel> contacts;
+            using (var database = new DatabaseContext()) {
+                database.MailAccounts.Attach(_account);
+                contacts = await database.MailContacts
+                    .Where(x => x.AccountId == Id)
+                    .ToArrayAsync();
+            }
+
             _contacts.AddRange(contacts.Select(x => new MailContactContext(x)));
             var tasks = _contacts.Select(x => x.CountNotSeenAsync());
 
@@ -217,10 +219,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal void Refresh() {
-            OnSelectedContactChanged();
-        }
-
         private async void OnSelectedContactChanged() {
             if (SelectedMailbox == null) {
                 SelectedMailbox = Mailboxes.FirstOrDefault(x => x.Type == MailboxType.Inbox);
@@ -270,7 +268,6 @@ namespace Crystalbyte.Paranoia {
                 RaisePropertyChanged(() => IsDetectingSettings);
             }
         }
-
 
         public bool IsGmail {
             get {
@@ -662,14 +659,32 @@ namespace Crystalbyte.Paranoia {
 
         public async Task SaveToDatabaseAsync() {
             try {
+                AddSystemMailboxes();
                 using (var database = new DatabaseContext()) {
                     database.MailAccounts.Add(_account);
                     await database.SaveChangesAsync();
                 }
-            }
-            catch (Exception) {
+            } catch (Exception) {
                 throw;
             }
+        }
+
+        private void AddSystemMailboxes() {
+            _account.Mailboxes.Add(new MailboxModel {
+                Type = MailboxType.All
+            });
+            _account.Mailboxes.Add(new MailboxModel {
+                Type = MailboxType.Inbox
+            });
+            _account.Mailboxes.Add(new MailboxModel {
+                Type = MailboxType.Trash
+            });
+            _account.Mailboxes.Add(new MailboxModel {
+                Type = MailboxType.Sent
+            });
+            _account.Mailboxes.Add(new MailboxModel {
+                Type = MailboxType.Draft
+            });
         }
 
         public async Task DetectSettingsAsync() {
@@ -709,7 +724,7 @@ namespace Crystalbyte.Paranoia {
             }
 
             var smtp = provider.outgoingServer.FirstOrDefault(x => x.type.ContainsIgnoreCase("smtp"));
-            if (smtp == null) 
+            if (smtp == null)
                 return;
 
             UseImapCredentialsForSmtp = false;
@@ -727,11 +742,26 @@ namespace Crystalbyte.Paranoia {
             return config.username == "%EMAILADDRESS%" ? Address : Address.Split('@').First();
         }
 
-        public Task DeleteAsync() {
-            using (var database = new DatabaseContext()) {
-                database.MailAccounts.Attach(_account);
-                database.MailAccounts.Remove(_account);
-                return database.SaveChangesAsync();
+        public async Task DeleteAsync() {
+            try {
+                foreach (var mailbox in Mailboxes) {
+                    await mailbox.DeleteAsync();
+                }
+
+                using (var database = new DatabaseContext()) {
+                    var contactModels = await database.MailContacts
+                            .Where(x => x.AccountId == Id)
+                            .ToArrayAsync();
+
+                    database.MailContacts.RemoveRange(contactModels);
+                    database.MailAccounts.Attach(_account);
+                    database.MailAccounts.Remove(_account);
+
+                    await database.SaveChangesAsync();
+                }
+            } catch (Exception) {
+
+                throw;
             }
         }
     }

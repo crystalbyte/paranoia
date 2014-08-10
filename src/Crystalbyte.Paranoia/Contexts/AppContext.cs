@@ -162,9 +162,6 @@ namespace Crystalbyte.Paranoia {
 
         internal event EventHandler AccountSelectionChanged;
         private void OnAccountSelectionChanged() {
-            if (SelectedAccount != null) {
-                SelectedAccount.Refresh();
-            }
             var handler = AccountSelectionChanged;
             if (handler != null)
                 handler(this, EventArgs.Empty);
