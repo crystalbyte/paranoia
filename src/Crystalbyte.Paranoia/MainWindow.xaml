@@ -234,13 +234,14 @@
                                         Converter={StaticResource GravatarImageConverter},
                                         IsAsync=True}"
                        Stretch="Fill" />
-                <Grid VerticalAlignment="Bottom" Visibility="{Binding SelectedAccount, Converter={StaticResource NullToVisibilityConverter}}">
+                <Grid VerticalAlignment="Bottom">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
@@ -259,7 +260,9 @@
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
                                           Command="{Binding ConfigAccountCommand}"
-                                          IsEnabled="{Binding IsAccountSelected}">
+                                          IsEnabled="{Binding IsAccountSelected}"
+                                          Visibility="{Binding SelectedAccount,
+                                                               Converter={StaticResource NullToVisibilityConverter}}">
                         <Image Width="18" Source="/Assets/settings.png" />
                     </ui:MetroCircleButton>
                     <ui:MetroCircleButton x:Name="SelectAccountButton"
@@ -270,45 +273,69 @@
                                           VerticalAlignment="Center"
                                           Command="{Binding SelectAccountCommand}"
                                           IsEnabled="{Binding CanSwitchAccounts}"
-                                          ToolTip="{x:Static properties:Resources.SelectAccountTooltip}">
+                                          ToolTip="{x:Static properties:Resources.SelectAccountTooltip}"
+                                          Visibility="{Binding SelectedAccount,
+                                                               Converter={StaticResource NullToVisibilityConverter}}">
                         <Image Width="18" Source="/Assets/select.user.png" />
                     </ui:MetroCircleButton>
-                    <Popup Grid.Row="0"
+                    <ui:MetroCircleButton Grid.Row="0"
+                                          Grid.Column="4"
+                                          Margin="6"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Command="{Binding DeleteAccountCommand}"
+                                          Visibility="{Binding SelectedAccount,
+                                                               Converter={StaticResource NullToVisibilityConverter}}">
+                        <Image Width="18" Source="/Assets/delete.png" />
+                    </ui:MetroCircleButton>
+                    <Popup x:Name="AccountSelectionPopup"
+                           Grid.Row="0"
                            Grid.Column="0"
-                           AllowsTransparency="False"
+                           AllowsTransparency="True"
                            IsOpen="{Binding IsAccountSelectionRequested}"
-                           Placement="Center"
+                           Placement="Bottom"
                            PlacementTarget="{Binding ElementName=SelectAccountButton}"
                            PopupAnimation="None"
                            StaysOpen="False"
-                           VerticalOffset="40">
-                        <ListView BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                      AppAccentBrush}}"
-                                  BorderThickness="1"
-                                  ItemsSource="{Binding Accounts}"
-                                  SelectedValue="{Binding SelectedAccount,
-                                                          Mode=TwoWay}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate DataType="paranoia:MailAccountContext">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Width="32"
-                                               Height="32"
-                                               RenderOptions.BitmapScalingMode="HighQuality"
-                                               Source="{Binding Address,
-                                                                IsAsync=True,
-                                                                Converter={StaticResource GravatarImageConverter},
-                                                                ConverterParameter=32}"
-                                               Stretch="None" />
-                                        <TextBlock Margin="8,0,8,0"
-                                                   VerticalAlignment="Center"
-                                                   FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                    AppMediumFontSize}}"
-                                                   FontWeight="Normal"
-                                                   Text="{Binding Name}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                           VerticalOffset="10">
+                        <Border Height="200"
+                                Margin="8"
+                                Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                   AppMenuBackgroundBrush}}"
+                                BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                    AppAccentBrush}}"
+                                BorderThickness="1">
+                            <Border.Effect>
+                                <DropShadowEffect />
+                            </Border.Effect>
+                            <ListView Margin="1"
+                                      BorderThickness="0"
+                                      ItemsSource="{Binding Accounts}"
+                                      SelectedValue="{Binding SelectedAccount,
+                                                              Mode=TwoWay}"
+                                      SelectionChanged="OnSelectedAccountChanged">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate DataType="paranoia:MailAccountContext">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="32"
+                                                   Height="32"
+                                                   RenderOptions.BitmapScalingMode="HighQuality"
+                                                   Source="{Binding Address,
+                                                                    IsAsync=True,
+                                                                    Converter={StaticResource GravatarImageConverter},
+                                                                    ConverterParameter=32}"
+                                                   Stretch="None" />
+                                            <TextBlock Margin="8,0,8,0"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                                        AppMediumFontSize}}"
+                                                       FontWeight="Normal"
+                                                       Text="{Binding Name}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Border>
                     </Popup>
                 </Grid>
             </DockPanel>

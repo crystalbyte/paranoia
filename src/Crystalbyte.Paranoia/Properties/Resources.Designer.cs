@@ -178,15 +178,6 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please enter your name, your e-mail address and the password to the IMAP server..
-        /// </summary>
-        public static string CreateAccountDescription {
-            get {
-                return ResourceManager.GetString("CreateAccountDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Create Account.
         /// </summary>
         public static string CreateAccountTitle {
@@ -261,6 +252,24 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Detect my settings automagically..
+        /// </summary>
+        public static string DetectAutomagically {
+            get {
+                return ResourceManager.GetString("DetectAutomagically", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Detecting server settings ....
+        /// </summary>
+        public static string DetectSettings {
+            get {
+                return ResourceManager.GetString("DetectSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Draft.
         /// </summary>
         public static string DraftMailbox {
@@ -275,6 +284,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string EncryptionProtocol {
             get {
                 return ResourceManager.GetString("EncryptionProtocol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Don&apos;t bother, I will enter my settings manually..
+        /// </summary>
+        public static string EnterManually {
+            get {
+                return ResourceManager.GetString("EnterManually", resourceCulture);
             }
         }
         

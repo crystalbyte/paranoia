@@ -14,19 +14,31 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
         private bool _discardOnClose;
         private RevisionTracker<MailAccountContext> _tracker;
+        private bool _isAccountInTransit;
 
         public AccountDetailsPage() {
             InitializeComponent();
 
-            CommandBindings.Add(new CommandBinding(PageCommands.Commit, OnPageCommit));
+            CommandBindings.Add(new CommandBinding(PageCommands.Continue, OnPageContinue));
             CommandBindings.Add(new CommandBinding(PageCommands.Cancel, OnPageCancel));
+
+            Loaded += OnLoaded;
         }
 
-        private void OnOverlayClosed(object sender, EventArgs e) {
-            var account = (MailAccountContext) DataContext;
+        private void OnLoaded(object sender, RoutedEventArgs e) {
+            var context = (MailAccountContext)DataContext;
+            if (!string.IsNullOrEmpty(context.ImapHost)) {
+                ImapPasswordBox.Focus();
+            } else {
+                NameTextBox.Focus();
+            }
+        }
+
+        private void OnFlyOutClosed(object sender, EventArgs e) {
+            var account = (MailAccountContext)DataContext;
             account.Testing = null;
 
-            App.Context.FlyOutClosed -= OnOverlayClosed;
+            App.Context.FlyOutClosed -= OnFlyOutClosed;
             if (_discardOnClose) {
                 DiscardChanged();
             }
@@ -41,17 +53,22 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             _tracker.Revert();
         }
 
-        private async void OnPageCommit(object sender, ExecutedRoutedEventArgs e) {
-            await SaveChanges();
+        private async void OnPageContinue(object sender, ExecutedRoutedEventArgs e) {
+            await SaveChangesAsync();
             App.Context.CloseFlyOut();
         }
 
-        private async Task SaveChanges() {
+        private async Task SaveChangesAsync() {
             _discardOnClose = false;
             _tracker.Stop();
 
             var account = (MailAccountContext)DataContext;
-            await account.SyncToDatabaseAsync();
+            if (_isAccountInTransit) {
+                await account.SaveToDatabaseAsync();
+                App.Context.NotifyAccountCreated(account);
+            } else {
+                await account.SyncWithDatabaseAsync();
+            }
         }
 
         private void OnImapSecurityProtocolSelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -72,7 +89,14 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         public void OnNavigated(NavigationEventArgs e) {
-            var account = App.Context.SelectedAccount;
+            var arguments = e.Uri.OriginalString.ToPageArguments();
+            MailAccountContext account;
+            if (arguments.ContainsKey("mode") && arguments["mode"] == "new") {
+                _isAccountInTransit = true;
+                account = App.Context.TransitAccount;
+            } else {
+                account = App.Context.SelectedAccount;
+            }
 
             _discardOnClose = true;
             _tracker = new RevisionTracker<MailAccountContext>(account)
@@ -102,20 +126,20 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             UseImapCredentialsRadioButton.IsChecked = account.UseImapCredentialsForSmtp;
             UseSmtpCredentialsRadioButton.IsChecked = !account.UseImapCredentialsForSmtp;
 
-            App.Context.FlyOutClosing += OnOverlayClosing;
-            App.Context.FlyOutClosed += OnOverlayClosed;
+            App.Context.FlyOutClosing += OnFlyOutClosing;
+            App.Context.FlyOutClosed += OnFlyOutClosed;
         }
 
-        private void OnOverlayClosing(object sender, EventArgs e) {
+        private void OnFlyOutClosing(object sender, EventArgs e) {
             SmtpPasswordBox.PasswordChanged -= OnSmtpPasswordChanged;
             ImapPasswordBox.PasswordChanged -= OnImapPasswordChanged;
         }
 
         private void OnUseImapCredentialsChecked(object sender, RoutedEventArgs e) {
             var account = (MailAccountContext)DataContext;
-            var button = ((RadioButton) sender);
+            var button = ((RadioButton)sender);
             if (button.IsChecked != null) {
-                account.UseImapCredentialsForSmtp = button.IsChecked.Value;    
+                account.UseImapCredentialsForSmtp = button.IsChecked.Value;
             }
         }
 

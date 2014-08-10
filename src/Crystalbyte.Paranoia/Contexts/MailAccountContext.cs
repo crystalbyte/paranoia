@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Net.NetworkInformation;
@@ -12,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Xml.Serialization;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
@@ -34,12 +36,15 @@ namespace Crystalbyte.Paranoia {
         private TestingContext _testing;
         private bool _sendingMessages;
         private bool _isTesting;
+        private bool _isAutoDetectPreferred;
+        private bool _isDetectingSettings;
 
         internal MailAccountContext(MailAccountModel account, AppContext appContext) {
             _account = account;
             _appContext = appContext;
             _dropMailboxCommand = new DropAssignmentCommand(this);
             _testSettingsCommand = new RelayCommand(OnTestSettings);
+            _isAutoDetectPreferred = true;
 
             _contacts = new ObservableCollection<MailContactContext>();
             _contacts.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Contacts);
@@ -70,8 +75,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         public async Task UpdateAsync() {
-            await LoadContactsAsync();
-            await LoadMailboxesAsync();
+            await LoadContactsFromDatabaseAsync();
+            await LoadMailboxesFromDatabaseAsync();
             await SyncMailboxesAsync();
         }
 
@@ -123,7 +128,7 @@ namespace Crystalbyte.Paranoia {
             App.Context.ResetStatusText();
         }
 
-        internal async Task SyncToDatabaseAsync() {
+        internal async Task SyncWithDatabaseAsync() {
             using (var database = new DatabaseContext()) {
                 database.MailAccounts.Attach(_account);
                 database.Entry(_account).State = EntityState.Modified;
@@ -131,7 +136,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task LoadMailboxesAsync() {
+        internal async Task LoadMailboxesFromDatabaseAsync() {
             var mailboxes = await Task.Factory.StartNew(() => {
                 using (var context = new DatabaseContext()) {
                     context.MailAccounts.Attach(_account);
@@ -146,7 +151,7 @@ namespace Crystalbyte.Paranoia {
             _mailboxes.ForEach(x => x.CountNotSeenAsync());
         }
 
-        internal async Task LoadContactsAsync() {
+        internal async Task LoadContactsFromDatabaseAsync() {
             var contacts = await Task.Factory.StartNew(() => {
                 using (var context = new DatabaseContext()) {
                     context.MailAccounts.Attach(_account);
@@ -212,6 +217,10 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        internal void Refresh() {
+            OnSelectedContactChanged();
+        }
+
         private async void OnSelectedContactChanged() {
             if (SelectedMailbox == null) {
                 SelectedMailbox = Mailboxes.FirstOrDefault(x => x.Type == MailboxType.Inbox);
@@ -250,6 +259,18 @@ namespace Crystalbyte.Paranoia {
         public Int64 Id {
             get { return _account.Id; }
         }
+
+        public bool IsDetectingSettings {
+            get { return _isDetectingSettings; }
+            set {
+                if (_isDetectingSettings == value) {
+                    return;
+                }
+                _isDetectingSettings = value;
+                RaisePropertyChanged(() => IsDetectingSettings);
+            }
+        }
+
 
         public bool IsGmail {
             get {
@@ -416,6 +437,17 @@ namespace Crystalbyte.Paranoia {
 
                 _account.UseImapCredentialsForSmtp = value;
                 RaisePropertyChanged(() => UseImapCredentialsForSmtp);
+            }
+        }
+
+        public bool IsAutoDetectPreferred {
+            get { return _isAutoDetectPreferred; }
+            set {
+                if (_isAutoDetectPreferred == value) {
+                    return;
+                }
+                _isAutoDetectPreferred = value;
+                RaisePropertyChanged(() => IsAutoDetectPreferred);
             }
         }
 
@@ -625,6 +657,81 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 await database.SaveChangesAsync();
+            }
+        }
+
+        public async Task SaveToDatabaseAsync() {
+            try {
+                using (var database = new DatabaseContext()) {
+                    database.MailAccounts.Add(_account);
+                    await database.SaveChangesAsync();
+                }
+            }
+            catch (Exception) {
+                throw;
+            }
+        }
+
+        public async Task DetectSettingsAsync() {
+            var domain = Address.Split('@').Last();
+            var url = string.Format("https://live.mozillamessaging.com/autoconfig/v1.1/{0}", domain);
+            using (var client = new WebClient()) {
+                try {
+                    IsDetectingSettings = true;
+                    var stream = await client.OpenReadTaskAsync(new Uri(url, UriKind.Absolute));
+                    var serializer = new XmlSerializer(typeof(clientConfig));
+                    var config = serializer.Deserialize(stream) as clientConfig;
+                    Configure(config);
+                } catch (WebException) {
+                    MakeEducatedGuess();
+                } finally {
+                    IsDetectingSettings = false;
+                }
+            }
+        }
+
+        private void MakeEducatedGuess() {
+            // TODO: Yeah, guess bitch ...
+        }
+
+        private void Configure(clientConfig config) {
+            if (!config.emailProvider.Any()) {
+                return;
+            }
+
+            var provider = config.emailProvider.First();
+            var imap = provider.incomingServer.FirstOrDefault(x => x.type.ContainsIgnoreCase("imap"));
+            if (imap != null) {
+                ImapHost = imap.hostname;
+                ImapSecurity = imap.socketType.ToSecurityPolicy();
+                ImapPort = short.Parse(imap.port);
+                ImapUsername = GetImapUsernameFromMacro(imap);
+            }
+
+            var smtp = provider.outgoingServer.FirstOrDefault(x => x.type.ContainsIgnoreCase("smtp"));
+            if (smtp == null) 
+                return;
+
+            UseImapCredentialsForSmtp = false;
+            SmtpHost = smtp.hostname;
+            SmtpSecurity = smtp.socketType.ToSecurityPolicy();
+            SmtpPort = short.Parse(smtp.port);
+            SmtpUsername = GetSmtpUsernameFromMacro(smtp);
+        }
+
+        private string GetImapUsernameFromMacro(clientConfigEmailProviderIncomingServer config) {
+            return config.username == "%EMAILADDRESS%" ? Address : Address.Split('@').First();
+        }
+
+        private string GetSmtpUsernameFromMacro(clientConfigEmailProviderOutgoingServer config) {
+            return config.username == "%EMAILADDRESS%" ? Address : Address.Split('@').First();
+        }
+
+        public Task DeleteAsync() {
+            using (var database = new DatabaseContext()) {
+                database.MailAccounts.Attach(_account);
+                database.MailAccounts.Remove(_account);
+                return database.SaveChangesAsync();
             }
         }
     }

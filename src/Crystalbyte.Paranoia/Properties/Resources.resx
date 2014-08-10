@@ -376,10 +376,17 @@ Once your password is lost you're screwed.</value>
   <data name="Continue" xml:space="preserve">
     <value>Continue</value>
   </data>
-  <data name="CreateAccountDescription" xml:space="preserve">
-    <value>Please enter your name, your e-mail address and the password to the IMAP server.</value>
-  </data>
   <data name="CreateAccountTitle" xml:space="preserve">
     <value>Create Account</value>
+  </data>
+  <data name="DetectAutomagically" xml:space="preserve">
+    <value>Detect my settings automagically.</value>
+    <comment>Account creation dialog radiobutton #1</comment>
+  </data>
+  <data name="EnterManually" xml:space="preserve">
+    <value>Don't bother, I will enter my settings manually.</value>
+  </data>
+  <data name="DetectSettings" xml:space="preserve">
+    <value>Detecting server settings ...</value>
   </data>
 </root>

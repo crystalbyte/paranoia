@@ -19,6 +19,7 @@ using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
 using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.UI.Pages;
+using System.Windows;
 
 #endregion
 
@@ -43,6 +44,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _configAccountCommand;
         private readonly ICommand _createAccountCommand;
         private readonly ICommand _selectAccountCommand;
+        private readonly ICommand _deleteAccountCommand;
 
         private string _queryString;
         private object _messages;
@@ -51,6 +53,8 @@ namespace Crystalbyte.Paranoia {
         private float _zoom;
         private bool _isAccountSelectionRequested;
         private bool _isPopupVisible;
+        private MailAccountContext _transitAccount;
+        
 
         #endregion
 
@@ -66,9 +70,10 @@ namespace Crystalbyte.Paranoia {
             _writeCommand = new ComposeMessageCommand(this);
             _markAsSeenCommand = new MarkAsSeenCommand(this);
             _markAsNotSeenCommand = new MarkAsNotSeenCommand(this);
-            _createAccountCommand = new RelayCommand(OpenCreateAccountDialog);
+            _deleteAccountCommand = new RelayCommand(OnDeleteAccount);
+            _createAccountCommand = new RelayCommand(OnCreateAccount);
+            _configAccountCommand = new RelayCommand(OnConfigAccount);
             _resetZoomCommand = new RelayCommand(p => Zoom = 100.0f);
-            _configAccountCommand = new RelayCommand(OpenConfigAccountDialog);
             _selectAccountCommand = new RelayCommand(p => IsAccountSelectionRequested = true);
 
             Observable.FromEventPattern(
@@ -90,6 +95,25 @@ namespace Crystalbyte.Paranoia {
 
             _outboxTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
             _outboxTimer.Tick += OnOutboxTimerTick;
+        }
+
+        private async void OnDeleteAccount(object obj) {
+            try {
+                if (MessageBox.Show(Application.Current.MainWindow,"Are you sure you want to delete this account?", "Delete Account", MessageBoxButton.YesNo) == MessageBoxResult.No) {
+                    return;
+                }
+
+                var account = SelectedAccount;
+                await account.DeleteAsync();
+                _accounts.Remove(account);
+
+                if (_accounts.Count > 0) {
+                    SelectedAccount = Accounts.First();
+                }
+            }
+            catch (Exception) {
+                throw;
+            }
         }
 
         #endregion
@@ -138,6 +162,9 @@ namespace Crystalbyte.Paranoia {
 
         internal event EventHandler AccountSelectionChanged;
         private void OnAccountSelectionChanged() {
+            if (SelectedAccount != null) {
+                SelectedAccount.Refresh();
+            }
             var handler = AccountSelectionChanged;
             if (handler != null)
                 handler(this, EventArgs.Empty);
@@ -192,6 +219,22 @@ namespace Crystalbyte.Paranoia {
                 RaisePropertyChanged(() => IsAccountSelected);
                 OnAccountSelectionChanged();
             }
+        }
+
+        public MailAccountContext TransitAccount {
+            get { return _transitAccount; }
+            set {
+                if (_transitAccount == value) {
+                    return;
+                }
+
+                _transitAccount = value;
+                RaisePropertyChanged(() => TransitAccount);
+            }
+        }
+
+        internal void NotifyAccountCreated(MailAccountContext account) {
+            _accounts.Add(account);
         }
 
         public IEnumerable<MailAccountContext> Accounts {
@@ -253,6 +296,10 @@ namespace Crystalbyte.Paranoia {
 
         public ICommand ConfigAccountCommand {
             get { return _configAccountCommand; }
+        }
+
+        public ICommand DeleteAccountCommand {
+            get { return _deleteAccountCommand; }
         }
 
         public ICommand SelectAccountCommand {
@@ -421,27 +468,27 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal void OpenCreateKeyPairDialog() {
+        internal void OnCreateKeyPair() {
             var uri = typeof(CreateKeyPage).ToPageUri();
             OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
             IsPopupVisible = true;
         }
 
-        internal void OpenMessageCompositionDialog() {
+        internal void OnComposeMessage() {
             var uri = typeof(ComposeMessagePage).ToPageUri();
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
-        private void OpenCreateAccountDialog(object obj) {
+        private void OnCreateAccount(object obj) {
             var uri = typeof(CreateAccountPage).ToPageUri();
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
-        internal void OpenReplyMessageDialog() {
+        internal void OnReplyToMessage() {
             if (SelectedMessage == null) {
                 return;
             }
-            var uri = typeof(ComposeMessagePage).ToPageUriReply(SelectedMessage);
+            var uri = typeof(ComposeMessagePage).ToPageUriAsReply(SelectedMessage);
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
@@ -449,7 +496,7 @@ namespace Crystalbyte.Paranoia {
             throw new NotImplementedException();
         }
 
-        private void OpenConfigAccountDialog(object obj) {
+        private void OnConfigAccount(object obj) {
             var uri = typeof(AccountDetailsPage).ToPageUri();
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
@@ -490,7 +537,5 @@ namespace Crystalbyte.Paranoia {
         public void ResetStatusText() {
             StatusText = Resources.ReadyStatus;
         }
-
-
     }
 }

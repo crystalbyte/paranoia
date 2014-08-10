@@ -69,7 +69,8 @@
                 <Run Text="{x:Static properties:Resources.AccountName}" />
                 <Run>:</Run>
             </TextBlock>
-            <TextBox Grid.Row="2"
+            <TextBox x:Name="NameTextBox"
+                     Grid.Row="2"
                      Grid.Column="1"
                      Grid.ColumnSpan="3"
                      Text="{Binding Name,
@@ -347,7 +348,7 @@
         <StackPanel Grid.Row="2"
                     Grid.Column="0"
                     Orientation="Horizontal">
-            <ui:MetroCircleButton Command="ui:PageCommands.Commit" Text="{x:Static properties:Resources.Accept}">
+            <ui:MetroCircleButton Command="ui:PageCommands.Continue" Text="{x:Static properties:Resources.Accept}">
                 <Image Width="18" Source="/Assets/ok.png" />
             </ui:MetroCircleButton>
             <ui:MetroCircleButton Command="ui:PageCommands.Cancel" Text="{x:Static properties:Resources.Cancel}">

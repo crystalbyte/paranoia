@@ -60,7 +60,7 @@ namespace Crystalbyte.Paranoia {
             var publicKey = keyDir.GetFiles("paranoia_ecc.pub").FirstOrDefault();
             var privateKey = keyDir.GetFiles("paranoia_ecc").FirstOrDefault();
             if (publicKey == null || privateKey == null) {
-                App.Context.OpenCreateKeyPairDialog();
+                App.Context.OnCreateKeyPair();
             }
             else {
                 App.Context.OpenDecryptKeyPairDialog();
@@ -197,6 +197,10 @@ namespace Crystalbyte.Paranoia {
             if (page != null) {
                 page.OnNavigated(e);
             }
+        }
+
+        private void OnSelectedAccountChanged(object sender, SelectionChangedEventArgs e) {
+            AccountSelectionPopup.IsOpen = false;
         }
     }
 }

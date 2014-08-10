@@ -1,84 +1,60 @@
 ﻿using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Navigation;
 using System.Data.Entity;
-using System.Linq;
 using System.Collections.Generic;
+using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using System.Text;
 
-namespace Crystalbyte.Paranoia.UI.Pages
-{
+namespace Crystalbyte.Paranoia.UI.Pages {
     /// <summary>
     /// Interaction logic for WriteMessagePage.xaml
     /// </summary>
-    public partial class ComposeMessagePage : INavigationAware
-    {
+    public partial class ComposeMessagePage : INavigationAware {
 
-        public ComposeMessagePage()
-        {
+        public ComposeMessagePage() {
+            InitializeComponent();
+
             var context = new MailCompositionContext();
             context.Finished += OnShutdownRequested;
             context.DocumentTextRequested += OnDocumentTextRequested;
             DataContext = context;
-            InitializeComponent();
 
             var window = (MainWindow)Application.Current.MainWindow;
             window.FlyOutVisibilityChanged += OnFlyOutVisibilityChanged;
         }
 
-        private static void OnShutdownRequested(object sender, EventArgs e)
-        {
+        private static void OnShutdownRequested(object sender, EventArgs e) {
             App.Context.CloseFlyOut();
         }
 
-        private void OnDocumentTextRequested(object sender, DocumentTextRequestedEventArgs e)
-        {
+        private void OnDocumentTextRequested(object sender, DocumentTextRequestedEventArgs e) {
             e.Document = HtmlControl.GetDocument();
         }
 
-        private async void Reset()
-        {
+        private async void Reset() {
             var composition = (MailCompositionContext)DataContext;
             await composition.ResetAsync();
         }
 
-        private void OnFlyOutVisibilityChanged(object sender, EventArgs e)
-        {
+        private void OnFlyOutVisibilityChanged(object sender, EventArgs e) {
             var window = (MainWindow)Application.Current.MainWindow;
             if (!window.IsFlyOutVisible) {
                 RecipientsBox.Close();
             }
         }
 
-        public MailCompositionContext Composition
-        {
+        public MailCompositionContext Composition {
             get { return (MailCompositionContext)DataContext; }
         }
 
-        private async void OnRecipientsBoxItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e)
-        {
+        private async void OnRecipientsBoxItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
             await Composition.QueryRecipientsAsync(e.Text);
         }
 
-        #region Implementation of INavigationAware
-
-        public void OnNavigated(NavigationEventArgs e)
-        {
-            Reset();
-            var arguments = GetArguments(e.Uri.OriginalString);
-            if (arguments.ContainsValue("reply"))
-            {
-                PrepareAsReply(e.Uri.OriginalString);
-            }
-        }
-
-        #endregion
-
-        private void OnRecipientsBoxSelectionChanged(object sender, EventArgs e)
-        {
+        private void OnRecipientsBoxSelectionChanged(object sender, EventArgs e) {
             var addresses = RecipientsBox
                 .SelectedValues
                 .Select(x => x is MailContactContext
@@ -91,37 +67,31 @@ namespace Crystalbyte.Paranoia.UI.Pages
         }
 
 
-        private async void PrepareAsReply(string s)
-        {
-            Data.MimeMessageModel[] message;
-            var ItemRegex = new Regex(@"[0-9]+", RegexOptions.Compiled);
+        private async void PrepareAsReply(IDictionary<string, string> arguments) {
             MailMessage replyMessage;
+            using (var database = new DatabaseContext()) {
+                var temp = Int64.Parse(arguments["id"]);
+                var message = await database.MimeMessages
+                    .Where(x => x.MessageId == temp)
+                    .ToArrayAsync();
 
-            using (var database = new Crystalbyte.Paranoia.Data.DatabaseContext())
-            {
-                Int64 temp = Int64.Parse(ItemRegex.Match(s).Value);
-                message = await database.MimeMessages
-                .Where(x => x.MessageId == temp)
-                .ToArrayAsync();
                 replyMessage = new MailMessage(Encoding.UTF8.GetBytes(message[0].Data));
             }
             var context = (MailCompositionContext)DataContext;
-            context.Subject = "RE: "+replyMessage.Headers.Subject;
+            context.Subject = "RE: " + replyMessage.Headers.Subject;
         }
 
-        private static Dictionary<String, String> GetArguments(String s)
-        {
-            Dictionary<String, String> dic = new Dictionary<string, string>();
-            var pattern = "[A-Za-z0-9]+=[A-Za-z0-9]+";
-            var matches = Regex.Matches(s, pattern,
-            RegexOptions.IgnoreCase);
+        #region Implementation of INavigationAware
 
-            foreach (Match match in matches)
-            {
-                var temp = match.Value.ToString().Split('=');
-                dic.Add(temp[0], temp[1]);
+        public void OnNavigated(NavigationEventArgs e) {
+            Reset();
+
+            var arguments = e.Uri.OriginalString.ToPageArguments();
+            if (arguments.ContainsKey("action") && arguments["action"] == "reply") {
+                PrepareAsReply(arguments);
             }
-            return dic;
         }
+
+        #endregion
     }
 }

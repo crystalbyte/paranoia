@@ -18,6 +18,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -25,26 +26,41 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2"
-                   Margin="0,0,0,12"
-                   Text="{x:Static properties:Resources.CreateAccountDescription}" />
+        <RadioButton x:Name="AutoMagicButton"
+                     Grid.Row="0"
+                     Grid.Column="0"
+                     Grid.ColumnSpan="2"
+                     Margin="0,12,0,12"
+                     Checked="OnAutoMagicButtonCheckedChanged"
+                     Content="{x:Static properties:Resources.DetectAutomagically}"
+                     GroupName="method"
+                     IsChecked="{Binding IsAutoDetectPreferred,
+                                         Mode=TwoWay}"
+                     Unchecked="OnAutoMagicButtonCheckedChanged" />
         <TextBlock Grid.Row="1"
                    Grid.Column="0"
+                   IsEnabled="{Binding IsChecked,
+                                       ElementName=AutoMagicButton}"
                    Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                  AppLabelStyle}}">
             <Run Text="{x:Static properties:Resources.AccountName}" />
             <Run>:</Run>
         </TextBlock>
-        <TextBox Grid.Row="1"
+        <TextBox x:Name="NameTextBox"
+                 Grid.Row="1"
                  Grid.Column="1"
                  Width="400"
                  HorizontalAlignment="Left"
+                 IsEnabled="{Binding IsChecked,
+                                     ElementName=AutoMagicButton}"
                  Text="{Binding Name,
-                                Mode=TwoWay}" />
+                                Mode=TwoWay,
+                                UpdateSourceTrigger=PropertyChanged}"
+                 TextChanged="OnNameTextChanged" />
         <TextBlock Grid.Row="2"
                    Grid.Column="0"
+                   IsEnabled="{Binding IsChecked,
+                                       ElementName=AutoMagicButton}"
                    Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                  AppLabelStyle}}">
             <Run Text="{x:Static properties:Resources.MailAddress}" />
@@ -54,27 +70,53 @@
                  Grid.Column="1"
                  Width="400"
                  HorizontalAlignment="Left"
+                 IsEnabled="{Binding IsChecked,
+                                     ElementName=AutoMagicButton}"
                  Text="{Binding Address,
-                                Mode=TwoWay}" />
+                                Mode=TwoWay,
+                                UpdateSourceTrigger=PropertyChanged}"
+                 TextChanged="OnAddressTextChanged" />
         <TextBlock Grid.Row="3"
                    Grid.Column="0"
+                   IsEnabled="{Binding IsChecked,
+                                       ElementName=AutoMagicButton}"
                    Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                  AppLabelStyle}}">
             <Run Text="{x:Static properties:Resources.Password}" />
             <Run>:</Run>
         </TextBlock>
-        <PasswordBox Grid.Row="3"
+        <PasswordBox x:Name="PasswordBox"
+                     Grid.Row="3"
                      Grid.Column="1"
                      Width="400"
-                     HorizontalAlignment="Left" />
+                     HorizontalAlignment="Left"
+                     IsEnabled="{Binding IsChecked,
+                                         ElementName=AutoMagicButton}" />
+        <RadioButton Grid.Row="4"
+                     Grid.Column="0"
+                     Grid.ColumnSpan="2"
+                     Margin="0,12,0,12"
+                     Content="{x:Static properties:Resources.EnterManually}"
+                     GroupName="method" />
         <StackPanel Grid.Row="5"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
+                    Margin="0,12,0,0"
+                    Visibility="{Binding IsDetectingSettings,
+                                         Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ProgressBar Height="1" IsIndeterminate="True" />
+            <TextBlock Margin="0,6,0,0" Text="{x:Static properties:Resources.DetectSettings}" />
+        </StackPanel>
+        <StackPanel Grid.Row="6"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
                     Orientation="Horizontal">
-            <ui:MetroCircleButton Text="{x:Static properties:Resources.Continue}">
+            <ui:MetroCircleButton x:Name="ContinueButton"
+                                  Command="ui:PageCommands.Continue"
+                                  Text="{x:Static properties:Resources.Continue}">
                 <Image Width="18" Source="/Assets/ok.png" />
             </ui:MetroCircleButton>
-            <ui:MetroCircleButton Text="{x:Static properties:Resources.Cancel}">
+            <ui:MetroCircleButton Command="ui:PageCommands.Cancel" Text="{x:Static properties:Resources.Cancel}">
                 <Image Width="18" Source="/Assets/cancel.png" />
             </ui:MetroCircleButton>
         </StackPanel>
