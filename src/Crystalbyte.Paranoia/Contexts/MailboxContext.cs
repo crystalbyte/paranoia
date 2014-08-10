@@ -272,7 +272,7 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            
+
             IsSyncing = true;
 
             try {
@@ -461,8 +461,9 @@ namespace Crystalbyte.Paranoia {
         internal async Task AssignMostProbableAsync(List<ImapMailboxInfo> remoteMailboxes) {
             switch (Type) {
                 case MailboxType.All:
-                    await AssignAsync(remoteMailboxes.SingleOrDefault(
-                        x => x.IsGmailAll || CultureInfo.CurrentCulture.CompareInfo
+                    await AssignAsync(_account.IsGmail
+                        ? remoteMailboxes.SingleOrDefault(x => x.IsGmailAll)
+                        : remoteMailboxes.SingleOrDefault(x => CultureInfo.CurrentCulture.CompareInfo
                             .IndexOf(x.Name, "all", CompareOptions.IgnoreCase) >= 0));
                     break;
                 case MailboxType.Inbox:
@@ -471,18 +472,21 @@ namespace Crystalbyte.Paranoia {
                             .IndexOf(x.Name, "inbox", CompareOptions.IgnoreCase) >= 0));
                     break;
                 case MailboxType.Sent:
-                    await AssignAsync(remoteMailboxes.SingleOrDefault(
-                        x => x.IsGmailSent || CultureInfo.CurrentCulture.CompareInfo
+                    await AssignAsync(_account.IsGmail
+                        ? remoteMailboxes.SingleOrDefault(x => x.IsGmailSent)
+                        : remoteMailboxes.SingleOrDefault(x => CultureInfo.CurrentCulture.CompareInfo
                             .IndexOf(x.Name, "sent", CompareOptions.IgnoreCase) >= 0));
                     break;
                 case MailboxType.Draft:
-                    await AssignAsync(remoteMailboxes.SingleOrDefault(
-                        x => x.IsGmailDraft || CultureInfo.CurrentCulture.CompareInfo
+                    await AssignAsync(_account.IsGmail
+                        ? remoteMailboxes.SingleOrDefault(x => x.IsGmailDraft)
+                        : remoteMailboxes.SingleOrDefault(x => CultureInfo.CurrentCulture.CompareInfo
                             .IndexOf(x.Name, "draft", CompareOptions.IgnoreCase) >= 0));
                     break;
                 case MailboxType.Trash:
-                    await AssignAsync(remoteMailboxes.SingleOrDefault(
-                        x => x.IsGmailTrash || CultureInfo.CurrentCulture.CompareInfo
+                    await AssignAsync(_account.IsGmail
+                        ? remoteMailboxes.SingleOrDefault(x => x.IsGmailTrash)
+                        : remoteMailboxes.SingleOrDefault(x => CultureInfo.CurrentCulture.CompareInfo
                             .IndexOf(x.Name, "trash", CompareOptions.IgnoreCase) >= 0));
                     break;
                 default:
@@ -562,8 +566,7 @@ namespace Crystalbyte.Paranoia {
 
                     await database.SaveChangesAsync();
                 }
-            }
-            catch (Exception) {
+            } catch (Exception) {
                 throw;
             }
         }

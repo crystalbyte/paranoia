@@ -105,7 +105,7 @@ namespace Crystalbyte.Paranoia {
             var remoteMailboxes = await ListMailboxesAsync();
             if (IsGmail) {
                 // Fetch gmail folders and assign automagically.
-                var gmail = remoteMailboxes.FirstOrDefault(x => x.Name.ContainsIgnoreCase("gmail"));
+                var gmail = remoteMailboxes.FirstOrDefault(x => x.Name.ContainsIgnoreCase("gmail") || x.Name.ContainsIgnoreCase("google mail"));
                 if (gmail != null) {
                     var pattern = string.Format("{0}{1}%", gmail.Name, gmail.Delimiter);
                     var localizedMailboxes = await ListMailboxesAsync(pattern);
