@@ -45,6 +45,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _createAccountCommand;
         private readonly ICommand _selectAccountCommand;
         private readonly ICommand _deleteAccountCommand;
+        private readonly ICommand _openAccountMenuCommand;
 
         private string _queryString;
         private object _messages;
@@ -54,7 +55,7 @@ namespace Crystalbyte.Paranoia {
         private bool _isAccountSelectionRequested;
         private bool _isPopupVisible;
         private MailAccountContext _transitAccount;
-        
+        private bool _isAccountMenuOpen;
 
         #endregion
 
@@ -73,6 +74,7 @@ namespace Crystalbyte.Paranoia {
             _deleteAccountCommand = new RelayCommand(OnDeleteAccount);
             _createAccountCommand = new RelayCommand(OnCreateAccount);
             _configAccountCommand = new RelayCommand(OnConfigAccount);
+            _openAccountMenuCommand = new RelayCommand(OnOpenAccountMenu);
             _resetZoomCommand = new RelayCommand(p => Zoom = 100.0f);
             _selectAccountCommand = new RelayCommand(p => IsAccountSelectionRequested = true);
 
@@ -97,9 +99,14 @@ namespace Crystalbyte.Paranoia {
             _outboxTimer.Tick += OnOutboxTimerTick;
         }
 
+        private void OnOpenAccountMenu(object obj) {
+            IsAccountMenuOpen = true;
+        }
+
         private async void OnDeleteAccount(object obj) {
             try {
-                if (MessageBox.Show(Application.Current.MainWindow,"Are you sure you want to delete this account?", "Delete Account", MessageBoxButton.YesNo) == MessageBoxResult.No) {
+                // TODO: Change into popup overlay.
+                if (MessageBox.Show(Application.Current.MainWindow, "Are you sure you want to delete this account?", "Delete Account", MessageBoxButton.YesNo) == MessageBoxResult.No) {
                     return;
                 }
 
@@ -265,6 +272,18 @@ namespace Crystalbyte.Paranoia {
                 OnQueryStringChanged(new QueryStringEventArgs(value));
             }
         }
+
+        public bool IsAccountMenuOpen {
+            get { return _isAccountMenuOpen; }
+            set {
+                if (_isAccountMenuOpen == value) {
+                    return;
+                }
+                _isAccountMenuOpen = value;
+                RaisePropertyChanged(() => IsAccountMenuOpen);
+            }
+        }
+
         public object Messages {
             get { return _messages; }
             set {
@@ -321,6 +340,10 @@ namespace Crystalbyte.Paranoia {
 
         public ICommand ForwardCommand {
             get { return _forwardCommand; }
+        }
+
+        public ICommand OpenAccountMenuCommand {
+            get { return _openAccountMenuCommand; }
         }
 
         public ICommand DeleteMessageCommand {

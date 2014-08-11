@@ -156,7 +156,6 @@ namespace Crystalbyte.Paranoia {
             using (var database = new DatabaseContext()) {
                 database.MailAccounts.Attach(_account);
                 contacts = await database.MailContacts
-                    .Where(x => x.AccountId == Id)
                     .ToArrayAsync();
             }
 

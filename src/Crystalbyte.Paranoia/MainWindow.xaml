@@ -121,7 +121,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="320"
-                              MinWidth="280"
+                              MinWidth="320"
                               MaxWidth="500" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="400"
@@ -234,7 +234,7 @@
                                         Converter={StaticResource GravatarImageConverter},
                                         IsAsync=True}"
                        Stretch="Fill" />
-                <Grid VerticalAlignment="Bottom">
+                <Grid VerticalAlignment="Top">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -247,7 +247,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <ui:MetroCircleButton Grid.Row="0"
-                                          Grid.Column="1"
+                                          Grid.Column="2"
                                           Margin="6"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
@@ -255,7 +255,7 @@
                         <Image Width="18" Source="/Assets/add.png" />
                     </ui:MetroCircleButton>
                     <ui:MetroCircleButton Grid.Row="0"
-                                          Grid.Column="2"
+                                          Grid.Column="3"
                                           Margin="6"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
@@ -265,9 +265,39 @@
                                                                Converter={StaticResource NullToVisibilityConverter}}">
                         <Image Width="18" Source="/Assets/settings.png" />
                     </ui:MetroCircleButton>
-                    <ui:MetroCircleButton x:Name="SelectAccountButton"
+                    <!--
+                        <ui:MetroCircleButton Grid.Row="0"
+                        Grid.Column="3"
+                        Margin="6"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{Binding DeleteAccountCommand}"
+                        Visibility="{Binding SelectedAccount,
+                        Converter={StaticResource NullToVisibilityConverter}}">
+                        <Image Width="18" Source="/Assets/delete.png" />
+                        </ui:MetroCircleButton>
+                    -->
+                    <ui:MetroCircleButton x:Name="AccountMenuButton"
                                           Grid.Row="0"
-                                          Grid.Column="3"
+                                          Grid.Column="4"
+                                          Margin="6"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Command="{Binding OpenAccountMenuCommand}"
+                                          IsEnabled="{Binding CanSwitchAccounts}"
+                                          ToolTip="{x:Static properties:Resources.SelectAccountTooltip}"
+                                          Visibility="{Binding SelectedAccount,
+                                                               Converter={StaticResource NullToVisibilityConverter}}">
+                        <ui:MetroCircleButton.ContextMenu>
+                            <ContextMenu IsOpen="{Binding IsAccountMenuOpen}" StaysOpen="False">
+                                <MenuItem Command="{Binding DeleteAccountCommand}" Header="{x:Static properties:Resources.Delete}" />
+                            </ContextMenu>
+                        </ui:MetroCircleButton.ContextMenu>
+                        <TextBlock FontSize="20">...</TextBlock>
+                    </ui:MetroCircleButton>
+                    <ui:MetroCircleButton x:Name="SelectAccountButton"
+                                          Grid.Row="1"
+                                          Grid.Column="4"
                                           Margin="6"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
@@ -277,16 +307,6 @@
                                           Visibility="{Binding SelectedAccount,
                                                                Converter={StaticResource NullToVisibilityConverter}}">
                         <Image Width="18" Source="/Assets/select.user.png" />
-                    </ui:MetroCircleButton>
-                    <ui:MetroCircleButton Grid.Row="0"
-                                          Grid.Column="4"
-                                          Margin="6"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          Command="{Binding DeleteAccountCommand}"
-                                          Visibility="{Binding SelectedAccount,
-                                                               Converter={StaticResource NullToVisibilityConverter}}">
-                        <Image Width="18" Source="/Assets/delete.png" />
                     </ui:MetroCircleButton>
                     <Popup x:Name="AccountSelectionPopup"
                            Grid.Row="0"
@@ -368,6 +388,13 @@
                     Margin="16,0,8,0"
                     Padding="0">
                 <DockPanel LastChildFill="False">
+                    <ui:MetroCircleButton Margin="6"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Command="{Binding AddContactCommand}"
+                                          DockPanel.Dock="Right">
+                        <Image Width="18" Source="/Assets/add.png" />
+                    </ui:MetroCircleButton>
                     <ui:MetroCircleButton Margin="6"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"

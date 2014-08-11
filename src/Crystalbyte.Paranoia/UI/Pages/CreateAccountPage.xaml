@@ -104,7 +104,7 @@
                     Margin="0,12,0,0"
                     Visibility="{Binding IsDetectingSettings,
                                          Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ProgressBar Height="1" IsIndeterminate="True" />
+            <ProgressBar Height="2" IsIndeterminate="True" />
             <TextBlock Margin="0,6,0,0" Text="{x:Static properties:Resources.DetectSettings}" />
         </StackPanel>
         <StackPanel Grid.Row="6"

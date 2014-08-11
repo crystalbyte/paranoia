@@ -328,7 +328,7 @@
             <Button HorizontalAlignment="Left"
                     Command="{Binding TestSettingsCommand}"
                     Content="{x:Static properties:Resources.TestSettings}" />
-            <ProgressBar Height="1"
+            <ProgressBar Height="2"
                          Margin="0,9,0,3"
                          IsIndeterminate="{Binding IsTesting}"
                          Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}" />
