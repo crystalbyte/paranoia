@@ -32,7 +32,7 @@
                             Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                AppMenuBackgroundBrush}}"
                             BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                AppControlBorderColor}}"
+                                                                                AppControlBorderBrush}}"
                             BorderThickness="1"
                             SnapsToDevicePixels="True">
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
@@ -101,7 +101,7 @@
                         Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                            AppLightTextBrush}}"
                         BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            AppControlBorderColor}}"
+                                                                            AppControlBorderBrush}}"
                         BorderThickness="1"
                         Visibility="Collapsed">
                     <Path Name="CheckMark"

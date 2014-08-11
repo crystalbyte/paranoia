@@ -38,12 +38,17 @@ namespace Crystalbyte.Paranoia {
             InitializeComponent();
 
             CommandBindings.Add(new CommandBinding(WindowCommands.CloseFlyOut, OnCloseFlyOut));
+            CommandBindings.Add(new CommandBinding(WindowCommands.OpenAccountMenu, OnOpenAccountMenu));
 
             if (DesignerProperties.GetIsInDesignMode(this)) {
                 HtmlControl.Visibility = Visibility.Collapsed;
             }
 
             Loaded += OnLoaded;
+        }
+
+        private void OnOpenAccountMenu(object sender, ExecutedRoutedEventArgs e) {
+            AccountMenu.IsOpen = true;
         }
 
         private static async void OnLoaded(object sender, RoutedEventArgs e) {

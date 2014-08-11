@@ -252,6 +252,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this account?.
+        /// </summary>
+        public static string DeleteAccountQuestion {
+            get {
+                return ResourceManager.GetString("DeleteAccountQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Detect my settings automagically..
         /// </summary>
         public static string DetectAutomagically {

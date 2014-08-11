@@ -389,4 +389,7 @@ Once your password is lost you're screwed.</value>
   <data name="DetectSettings" xml:space="preserve">
     <value>Detecting server settings ...</value>
   </data>
+  <data name="DeleteAccountQuestion" xml:space="preserve">
+    <value>Are you sure you want to delete this account?</value>
+  </data>
 </root>

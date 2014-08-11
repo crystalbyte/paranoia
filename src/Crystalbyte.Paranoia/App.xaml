@@ -24,6 +24,7 @@
                 <ResourceDictionary Source="/Themes/Metro.StatusBar.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.Slider.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.CheckBox.xaml" />
+                <ResourceDictionary Source="/Themes/Metro.ToolTip.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />

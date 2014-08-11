@@ -29,6 +29,14 @@ namespace Crystalbyte.Paranoia {
 
         #region Private Fields
 
+        private float _zoom;
+        private string _queryString;
+        private object _messages;
+        private string _source;
+        private string _statusText;
+        private bool _isPopupVisible;
+        private bool _isAccountSelectionRequested;
+        private MailAccountContext _transitAccount;
         private readonly DispatcherTimer _outboxTimer;
         private MailAccountContext _selectedAccount;
         private IEnumerable<MailMessageContext> _selectedMessages;
@@ -47,16 +55,6 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _deleteAccountCommand;
         private readonly ICommand _openAccountMenuCommand;
 
-        private string _queryString;
-        private object _messages;
-        private string _source;
-        private string _statusText;
-        private float _zoom;
-        private bool _isAccountSelectionRequested;
-        private bool _isPopupVisible;
-        private MailAccountContext _transitAccount;
-        private bool _isAccountMenuOpen;
-
         #endregion
 
         #region Construction
@@ -74,7 +72,6 @@ namespace Crystalbyte.Paranoia {
             _deleteAccountCommand = new RelayCommand(OnDeleteAccount);
             _createAccountCommand = new RelayCommand(OnCreateAccount);
             _configAccountCommand = new RelayCommand(OnConfigAccount);
-            _openAccountMenuCommand = new RelayCommand(OnOpenAccountMenu);
             _resetZoomCommand = new RelayCommand(p => Zoom = 100.0f);
             _selectAccountCommand = new RelayCommand(p => IsAccountSelectionRequested = true);
 
@@ -99,14 +96,11 @@ namespace Crystalbyte.Paranoia {
             _outboxTimer.Tick += OnOutboxTimerTick;
         }
 
-        private void OnOpenAccountMenu(object obj) {
-            IsAccountMenuOpen = true;
-        }
-
         private async void OnDeleteAccount(object obj) {
             try {
                 // TODO: Change into popup overlay.
-                if (MessageBox.Show(Application.Current.MainWindow, "Are you sure you want to delete this account?", "Delete Account", MessageBoxButton.YesNo) == MessageBoxResult.No) {
+                if (MessageBox.Show(Application.Current.MainWindow, Resources.DeleteAccountQuestion, 
+                    "Delete Account", MessageBoxButton.YesNo) == MessageBoxResult.No) {
                     return;
                 }
 
@@ -270,17 +264,6 @@ namespace Crystalbyte.Paranoia {
                 _queryString = value;
                 RaisePropertyChanged(() => QueryString);
                 OnQueryStringChanged(new QueryStringEventArgs(value));
-            }
-        }
-
-        public bool IsAccountMenuOpen {
-            get { return _isAccountMenuOpen; }
-            set {
-                if (_isAccountMenuOpen == value) {
-                    return;
-                }
-                _isAccountMenuOpen = value;
-                RaisePropertyChanged(() => IsAccountMenuOpen);
             }
         }
 

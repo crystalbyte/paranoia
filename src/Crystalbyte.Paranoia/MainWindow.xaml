@@ -103,6 +103,10 @@
                                             BrushForTrue="{StaticResource AppMediumTextBrush}" />
     </ui:MetroWindow.Resources>
     <ui:MetroWindow.InputBindings>
+        <KeyBinding Key="D"
+                    x:Name="DeleteAccountKeys"
+                    Command="{Binding DeleteAccountCommand}"
+                    Modifiers="Control+Shift" />
         <KeyBinding Key="N"
                     Command="{Binding WriteMessageCommand}"
                     Modifiers="Control" />
@@ -265,32 +269,24 @@
                                                                Converter={StaticResource NullToVisibilityConverter}}">
                         <Image Width="18" Source="/Assets/settings.png" />
                     </ui:MetroCircleButton>
-                    <!--
-                        <ui:MetroCircleButton Grid.Row="0"
-                        Grid.Column="3"
-                        Margin="6"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Command="{Binding DeleteAccountCommand}"
-                        Visibility="{Binding SelectedAccount,
-                        Converter={StaticResource NullToVisibilityConverter}}">
-                        <Image Width="18" Source="/Assets/delete.png" />
-                        </ui:MetroCircleButton>
-                    -->
                     <ui:MetroCircleButton x:Name="AccountMenuButton"
                                           Grid.Row="0"
                                           Grid.Column="4"
                                           Margin="6"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
-                                          Command="{Binding OpenAccountMenuCommand}"
+                                          Command="ui:WindowCommands.OpenAccountMenu"
                                           IsEnabled="{Binding CanSwitchAccounts}"
                                           ToolTip="{x:Static properties:Resources.SelectAccountTooltip}"
                                           Visibility="{Binding SelectedAccount,
                                                                Converter={StaticResource NullToVisibilityConverter}}">
                         <ui:MetroCircleButton.ContextMenu>
-                            <ContextMenu IsOpen="{Binding IsAccountMenuOpen}" StaysOpen="False">
-                                <MenuItem Command="{Binding DeleteAccountCommand}" Header="{x:Static properties:Resources.Delete}" />
+                            <ContextMenu x:Name="AccountMenu" StaysOpen="False">
+                                <MenuItem Command="{Binding DeleteAccountCommand}" InputGestureText="Ctrl+Shift+D">
+                                    <MenuItem.Header>
+                                        <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Delete}" />
+                                    </MenuItem.Header>
+                                </MenuItem>
                             </ContextMenu>
                         </ui:MetroCircleButton.ContextMenu>
                         <TextBlock FontSize="20">...</TextBlock>
@@ -311,24 +307,18 @@
                     <Popup x:Name="AccountSelectionPopup"
                            Grid.Row="0"
                            Grid.Column="0"
-                           AllowsTransparency="True"
                            IsOpen="{Binding IsAccountSelectionRequested}"
-                           Placement="Bottom"
-                           PlacementTarget="{Binding ElementName=SelectAccountButton}"
+                           Placement="MousePoint"
                            PopupAnimation="None"
-                           StaysOpen="False"
-                           VerticalOffset="10">
-                        <Border Height="200"
-                                Margin="8"
-                                Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                           StaysOpen="False">
+                        <Border Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                    AppMenuBackgroundBrush}}"
                                 BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                    AppAccentBrush}}"
+                                                                                    AppControlBorderBrush}}"
                                 BorderThickness="1">
-                            <Border.Effect>
-                                <DropShadowEffect />
-                            </Border.Effect>
-                            <ListView Margin="1"
+                            <ListView Margin="1.5"
+                                      Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                         AppMenuBackgroundBrush}}"
                                       BorderThickness="0"
                                       ItemsSource="{Binding Accounts}"
                                       SelectedValue="{Binding SelectedAccount,
@@ -337,18 +327,19 @@
                                 <ListView.ItemTemplate>
                                     <DataTemplate DataType="paranoia:MailAccountContext">
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Width="32"
-                                                   Height="32"
+                                            <Image Width="24"
+                                                   Height="24"
+                                                   VerticalAlignment="Center"
                                                    RenderOptions.BitmapScalingMode="HighQuality"
                                                    Source="{Binding Address,
                                                                     IsAsync=True,
                                                                     Converter={StaticResource GravatarImageConverter},
-                                                                    ConverterParameter=32}"
-                                                   Stretch="None" />
-                                            <TextBlock Margin="8,0,8,0"
+                                                                    ConverterParameter=24}"
+                                                   Stretch="Uniform" />
+                                            <TextBlock Margin="12,0,8,0"
                                                        VerticalAlignment="Center"
                                                        FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                        AppMediumFontSize}}"
+                                                                                                        AppNormalFontSize}}"
                                                        FontWeight="Normal"
                                                        Text="{Binding Name}" />
                                         </StackPanel>
