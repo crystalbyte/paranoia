@@ -103,8 +103,10 @@
                                             BrushForTrue="{StaticResource AppMediumTextBrush}" />
     </ui:MetroWindow.Resources>
     <ui:MetroWindow.InputBindings>
+        <KeyBinding Key="C"
+                    Command="{Binding ConfigAccountCommand}"
+                    Modifiers="Control+Shift" />
         <KeyBinding Key="D"
-                    x:Name="DeleteAccountKeys"
                     Command="{Binding DeleteAccountCommand}"
                     Modifiers="Control+Shift" />
         <KeyBinding Key="N"
@@ -258,30 +260,23 @@
                                           Command="{Binding CreateAccountCommand}">
                         <Image Width="18" Source="/Assets/add.png" />
                     </ui:MetroCircleButton>
-                    <ui:MetroCircleButton Grid.Row="0"
+                    <ui:MetroCircleButton x:Name="AccountMenuButton"
+                                          Grid.Row="0"
                                           Grid.Column="3"
                                           Margin="6"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
-                                          Command="{Binding ConfigAccountCommand}"
-                                          IsEnabled="{Binding IsAccountSelected}"
-                                          Visibility="{Binding SelectedAccount,
-                                                               Converter={StaticResource NullToVisibilityConverter}}">
-                        <Image Width="18" Source="/Assets/settings.png" />
-                    </ui:MetroCircleButton>
-                    <ui:MetroCircleButton x:Name="AccountMenuButton"
-                                          Grid.Row="0"
-                                          Grid.Column="4"
-                                          Margin="6"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
                                           Command="ui:WindowCommands.OpenAccountMenu"
-                                          IsEnabled="{Binding CanSwitchAccounts}"
                                           ToolTip="{x:Static properties:Resources.SelectAccountTooltip}"
                                           Visibility="{Binding SelectedAccount,
                                                                Converter={StaticResource NullToVisibilityConverter}}">
                         <ui:MetroCircleButton.ContextMenu>
                             <ContextMenu x:Name="AccountMenu" StaysOpen="False">
+                                <MenuItem Command="{Binding ConfigAccountCommand}" InputGestureText="Ctrl+Shift+C">
+                                    <MenuItem.Header>
+                                        <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Edit}" />
+                                    </MenuItem.Header>
+                                </MenuItem>
                                 <MenuItem Command="{Binding DeleteAccountCommand}" InputGestureText="Ctrl+Shift+D">
                                     <MenuItem.Header>
                                         <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Delete}" />
@@ -292,7 +287,7 @@
                         <TextBlock FontSize="20">...</TextBlock>
                     </ui:MetroCircleButton>
                     <ui:MetroCircleButton x:Name="SelectAccountButton"
-                                          Grid.Row="1"
+                                          Grid.Row="0"
                                           Grid.Column="4"
                                           Margin="6"
                                           HorizontalAlignment="Center"
@@ -379,22 +374,23 @@
                     Margin="16,0,8,0"
                     Padding="0">
                 <DockPanel LastChildFill="False">
+                    <!--
+                        <ui:MetroCircleButton Margin="6"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{Binding WriteMessageCommand}"
+                        DockPanel.Dock="Right">
+                        <Image Width="18" Source="Assets/message.png" />
+                        </ui:MetroCircleButton>
+                    -->
                     <ui:MetroCircleButton Margin="6"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
-                                          Command="{Binding AddContactCommand}"
+                                          Command="{Binding CreateContactCommand}"
                                           DockPanel.Dock="Right">
                         <Image Width="18" Source="/Assets/add.png" />
                     </ui:MetroCircleButton>
-                    <ui:MetroCircleButton Margin="6"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          Command="{Binding WriteMessageCommand}"
-                                          DockPanel.Dock="Right">
-                        <Image Width="18" Source="Assets/message.png" />
-                    </ui:MetroCircleButton>
                     <TextBlock VerticalAlignment="Center"
-                               DataContext="{Binding SelectedAccount}"
                                DockPanel.Dock="Left"
                                FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                 AppExtraLargeFontSize}}"
@@ -411,14 +407,22 @@
                       Margin="0"
                       Background="Transparent"
                       BorderThickness="0"
-                      DataContext="{Binding SelectedAccount}"
-                      ItemsSource="{Binding Contacts}"
                       KeyboardNavigation.DirectionalNavigation="Contained"
                       KeyboardNavigation.TabNavigation="None"
                       SelectedValue="{Binding SelectedContact,
                                               Mode=TwoWay}"
                       TabIndex="0"
-                      d:DataContext="{d:DesignInstance {x:Type paranoia:MailAccountContext}}">
+                      d:DataContext="{d:DesignInstance {x:Type paranoia:AppContext}}">
+                <ListView.ItemsSource>
+                    <CompositeCollection>
+                        <CollectionContainer Collection="{Binding Contacts}" />
+                    </CompositeCollection>
+                </ListView.ItemsSource>
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Command="{Binding DeleteContactCommand}" Header="{x:Static properties:Resources.Delete}" />
+                    </ContextMenu>
+                </ListView.ContextMenu>
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel x:Name="Cvsp" />
@@ -426,6 +430,7 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemContainerStyle>
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
+                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                         <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Cvsp}" />
                         <Setter Property="Padding" Value="6,2,6,1" />
@@ -804,61 +809,31 @@
                             <MenuItem.Header>
                                 <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Reply}" />
                             </MenuItem.Header>
-                            <!--
-                                <MenuItem.Icon>
-                                <Image Source="/Assets/reply.small.png" Style="{StaticResource AppIconImageStyle}" />
-                                </MenuItem.Icon>
-                            -->
                         </MenuItem>
                         <MenuItem Command="{Binding ForwardCommand}" InputGestureText="Ctrl + F">
                             <MenuItem.Header>
                                 <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Forward}" />
                             </MenuItem.Header>
-                            <!--
-                                <MenuItem.Icon>
-                                <Image Source="/Assets/forward.small.png" Style="{StaticResource AppIconImageStyle}" />
-                                </MenuItem.Icon>
-                            -->
                         </MenuItem>
                         <MenuItem Command="{Binding PrintCommand}" InputGestureText="Ctrl + P">
                             <MenuItem.Header>
                                 <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Print}" />
                             </MenuItem.Header>
-                            <!--
-                                <MenuItem.Icon>
-                                <Image Source="/Assets/print.small.png" Style="{StaticResource AppIconImageStyle}" />
-                                </MenuItem.Icon>
-                            -->
                         </MenuItem>
                         <MenuItem Command="{Binding DeleteMessageCommand}" InputGestureText="Entf">
                             <MenuItem.Header>
                                 <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Delete}" />
                             </MenuItem.Header>
-                            <!--
-                                <MenuItem.Icon>
-                                <Image Source="/Assets/delete.small.png" Style="{StaticResource AppIconImageStyle}" />
-                                </MenuItem.Icon>
-                            -->
                         </MenuItem>
                         <MenuItem Command="{Binding MarkAsSeenCommand}">
                             <MenuItem.Header>
                                 <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.MarkAsSeen}" />
                             </MenuItem.Header>
-                            <!--
-                                <MenuItem.Icon>
-                                <Image Source="/Assets/delete.small.png" Style="{StaticResource AppIconImageStyle}" />
-                                </MenuItem.Icon>
-                            -->
                         </MenuItem>
                         <MenuItem Command="{Binding MarkAsNotSeenCommand}">
                             <MenuItem.Header>
                                 <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.MarkAsNotSeen}" />
                             </MenuItem.Header>
-                            <!--
-                                <MenuItem.Icon>
-                                <Image Source="/Assets/delete.small.png" Style="{StaticResource AppIconImageStyle}" />
-                                </MenuItem.Icon>
-                            -->
                         </MenuItem>
                     </ContextMenu>
                 </ListView.ContextMenu>

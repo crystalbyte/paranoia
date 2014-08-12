@@ -353,7 +353,7 @@ namespace Crystalbyte.Paranoia {
 
                 await CountNotSeenAsync();
 
-                var contact = _account.SelectedContact;
+                var contact = App.Context.SelectedContact;
                 if (contact != null) {
                     await contact.CountNotSeenAsync();
                 }
@@ -381,7 +381,7 @@ namespace Crystalbyte.Paranoia {
 
                 await CountNotSeenAsync();
 
-                var contact = _account.SelectedContact;
+                var contact = App.Context.SelectedContact;
                 if (contact != null) {
                     await contact.CountNotSeenAsync();
                 }
@@ -404,7 +404,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task CountNotSeenAsync() {
-            var contact = _account.SelectedContact;
+            var contact = App.Context.SelectedContact;
             if (contact == null) {
                 NotSeenCount = 0;
                 return;

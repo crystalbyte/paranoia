@@ -8,7 +8,7 @@
       xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
-      Title="{x:Static properties:Resources.ConfigureAccount}"
+      Title="{x:Static properties:Resources.AccountSettingsTitle}"
       d:DataContext="{d:DesignInstance paranoia:MailAccountContext}"
       d:DesignHeight="600"
       d:DesignWidth="800"

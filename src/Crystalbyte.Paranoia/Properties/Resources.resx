@@ -144,8 +144,8 @@
   <data name="ComposeMessagePageTitle" xml:space="preserve">
     <value>Compose Message</value>
   </data>
-  <data name="ConfigureAccount" xml:space="preserve">
-    <value>Configure Account</value>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
   </data>
   <data name="ContactsTitle" xml:space="preserve">
     <value>Contacts</value>
@@ -391,5 +391,14 @@ Once your password is lost you're screwed.</value>
   </data>
   <data name="DeleteAccountQuestion" xml:space="preserve">
     <value>Are you sure you want to delete this account?</value>
+  </data>
+  <data name="CreateContactTitle" xml:space="preserve">
+    <value>Add Contact</value>
+  </data>
+  <data name="AccountSettingsTitle" xml:space="preserve">
+    <value>Account Settings</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
   </data>
 </root>

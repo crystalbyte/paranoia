@@ -79,6 +79,24 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account Settings.
+        /// </summary>
+        public static string AccountSettingsTitle {
+            get {
+                return ResourceManager.GetString("AccountSettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All.
+        /// </summary>
+        public static string All {
+            get {
+                return ResourceManager.GetString("All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string AllMailbox {
@@ -142,15 +160,6 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure Account.
-        /// </summary>
-        public static string ConfigureAccount {
-            get {
-                return ResourceManager.GetString("ConfigureAccount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Confirm Password.
         /// </summary>
         public static string ConfirmPassword {
@@ -183,6 +192,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string CreateAccountTitle {
             get {
                 return ResourceManager.GetString("CreateAccountTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Contact.
+        /// </summary>
+        public static string CreateContactTitle {
+            get {
+                return ResourceManager.GetString("CreateContactTitle", resourceCulture);
             }
         }
         
@@ -284,6 +302,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string DraftMailbox {
             get {
                 return ResourceManager.GetString("DraftMailbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
             }
         }
         

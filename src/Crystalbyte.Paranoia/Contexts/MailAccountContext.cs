@@ -30,9 +30,9 @@ namespace Crystalbyte.Paranoia {
         private readonly MailAccountModel _account;
         private readonly ICommand _dropMailboxCommand;
         private readonly ICommand _testSettingsCommand;
-        private readonly ObservableCollection<MailContactContext> _contacts;
+
         private readonly ObservableCollection<MailboxContext> _mailboxes;
-        private MailContactContext _selectedContact;
+
         private TestingContext _testing;
         private bool _sendingMessages;
         private bool _isTesting;
@@ -45,10 +45,6 @@ namespace Crystalbyte.Paranoia {
             _dropMailboxCommand = new DropAssignmentCommand(this);
             _testSettingsCommand = new RelayCommand(OnTestSettings);
             _isAutoDetectPreferred = true;
-
-            _contacts = new ObservableCollection<MailContactContext>();
-            _contacts.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Contacts);
-
             _mailboxes = new ObservableCollection<MailboxContext>();
         }
 
@@ -75,14 +71,12 @@ namespace Crystalbyte.Paranoia {
         }
 
         public async Task UpdateAsync() {
-            await LoadContactsFromDatabaseAsync();
             await LoadMailboxesFromDatabaseAsync();
             await SyncMailboxesAsync();
         }
 
         internal void Clear() {
             _mailboxes.Clear();
-            _contacts.Clear();
             _mailboxes.Clear();
         }
 
@@ -148,26 +142,12 @@ namespace Crystalbyte.Paranoia {
             if (inbox != null) {
                 inbox.IsSelected = true;
             }
-            _mailboxes.ForEach(x => x.CountNotSeenAsync());
-        }
 
-        internal async Task LoadContactsFromDatabaseAsync() {
-            IEnumerable<MailContactModel> contacts;
-            using (var database = new DatabaseContext()) {
-                database.MailAccounts.Attach(_account);
-                contacts = await database.MailContacts
-                    .ToArrayAsync();
-            }
-
-            _contacts.AddRange(contacts.Select(x => new MailContactContext(x)));
-            var tasks = _contacts.Select(x => x.CountNotSeenAsync());
-
+            var tasks = _mailboxes.Select(x => x.CountNotSeenAsync());
             await Task.WhenAll(tasks);
-
-            if (_contacts.Count > 0) {
-                _contacts.First().IsSelected = true;
-            }
         }
+
+     
 
         public event EventHandler MailboxSelectionChanged;
 
@@ -189,7 +169,8 @@ namespace Crystalbyte.Paranoia {
                 await SelectedMailbox.PrepareManualAssignmentAsync();
             }
 
-            await mailbox.UpdateAsync(SelectedContact);
+            var contact = App.Context.SelectedContact;
+            await mailbox.UpdateAsync(contact);
             await mailbox.SyncAsync();
         }
 
@@ -203,41 +184,6 @@ namespace Crystalbyte.Paranoia {
                 _selectedMailbox = value;
                 RaisePropertyChanged(() => SelectedMailbox);
                 OnMailboxSelectionChanged();
-            }
-        }
-
-        public MailContactContext SelectedContact {
-            get { return _selectedContact; }
-            set {
-                if (_selectedContact == value) {
-                    return;
-                }
-                _selectedContact = value;
-                RaisePropertyChanged(() => SelectedContact);
-                OnSelectedContactChanged();
-            }
-        }
-
-        private async void OnSelectedContactChanged() {
-            if (SelectedMailbox == null) {
-                SelectedMailbox = Mailboxes.FirstOrDefault(x => x.Type == MailboxType.Inbox);
-            }
-
-            if (SelectedMailbox == null) {
-                _appContext.ClearMessages();
-                return;
-            }
-
-            var contact = SelectedContact;
-            var selection = SelectedMailbox;
-            await selection.UpdateAsync(contact);
-
-            if (contact != null) {
-                await contact.CountNotSeenAsync();
-            }
-
-            foreach (var mailbox in _mailboxes.AsParallel()) {
-                await mailbox.CountNotSeenAsync();
             }
         }
 
@@ -456,10 +402,6 @@ namespace Crystalbyte.Paranoia {
                 _isTesting = value;
                 RaisePropertyChanged(() => IsTesting);
             }
-        }
-
-        public IEnumerable<MailContactContext> Contacts {
-            get { return _contacts; }
         }
 
         public IEnumerable<MailboxContext> Mailboxes {
@@ -749,7 +691,6 @@ namespace Crystalbyte.Paranoia {
 
                 using (var database = new DatabaseContext()) {
                     var contactModels = await database.MailContacts
-                            .Where(x => x.AccountId == Id)
                             .ToArrayAsync();
 
                     database.MailContacts.RemoveRange(contactModels);

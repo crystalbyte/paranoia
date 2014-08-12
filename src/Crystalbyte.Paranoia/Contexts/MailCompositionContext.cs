@@ -97,11 +97,8 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         public async Task QueryRecipientsAsync(string text) {
-            var account = App.Context.SelectedAccount;
-
             using (var database = new DatabaseContext()) {
                 var candidates = await database.MailContacts
-                    .Where(x => x.AccountId == account.Id)
                     .Where(x => x.Address.StartsWith(text) 
                         || x.Name.StartsWith(text))
                     .ToArrayAsync();

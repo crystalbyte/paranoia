@@ -12,12 +12,10 @@ using Crystalbyte.Paranoia.Mail;
 namespace Crystalbyte.Paranoia.Data {
     [Table("mail_account")]
     public class MailAccountModel {
-        private ICollection<MailContactModel> _contacts;
         private ICollection<MailboxModel> _mailboxes;
         private ICollection<SmtpRequestModel> _smtpRequests;
 
         public MailAccountModel() {
-            _contacts = new Collection<MailContactModel>();
             _mailboxes = new Collection<MailboxModel>();
             _smtpRequests = new Collection<SmtpRequestModel>();
         }
@@ -67,11 +65,6 @@ namespace Crystalbyte.Paranoia.Data {
 
         [Column("use_imap_credentials")]
         public bool UseImapCredentialsForSmtp { get; set; }
-
-        public virtual ICollection<MailContactModel> Contacts {
-            get { return _contacts; }
-            set { _contacts = value; }
-        }
 
         public virtual ICollection<MailboxModel> Mailboxes {
             get { return _mailboxes; }

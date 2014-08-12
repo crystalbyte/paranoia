@@ -36,8 +36,8 @@ namespace Crystalbyte.Paranoia {
 
 #if DEBUG
 
-            using (var context = new DatabaseContext()) {
-                var accounts = await context.MailAccounts.ToArrayAsync();
+            using (var database = new DatabaseContext()) {
+                var accounts = await database.MailAccounts.ToArrayAsync();
                 if (accounts.Length != 0)
                     return;
 
@@ -58,21 +58,6 @@ namespace Crystalbyte.Paranoia {
                     SmtpRequiresAuthentication = true,
                 };
 
-                account.Contacts.Add(new MailContactModel {
-                    Name = string.Format("p4r4n014"),
-                    Address = "paranoia.app@gmail.com"
-                });
-
-                account.Contacts.Add(new MailContactModel {
-                    Name = string.Format("Alexander Wieser"),
-                    Address = "alexander.wieser@crystalbyte.de"
-                });
-
-                account.Contacts.Add(new MailContactModel {
-                    Name = string.Format("Youtube"),
-                    Address = "noreply@youtube.com"
-                });
-
                 account.Mailboxes.Add(new MailboxModel {
                     Type = MailboxType.All
                 });
@@ -89,9 +74,9 @@ namespace Crystalbyte.Paranoia {
                     Type = MailboxType.Draft
                 });
 
-                context.MailAccounts.Add(account);
+                database.MailAccounts.Add(account);
 
-                await context.SaveChangesAsync();
+                await database.SaveChangesAsync();
             }
 #endif
         }

@@ -130,8 +130,6 @@ namespace Crystalbyte.Paranoia {
             } finally {
                 DecrementLoad();
             }
-
-            return string.Empty;
         }
 
         public bool IsLoading {
@@ -192,7 +190,6 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnProgressChanged(object sender, ProgressChangedEventArgs e) {
-            //Debug.WriteLine(e.ByteCount);
             BytesReceived = e.ByteCount;
         }
 
@@ -215,8 +212,6 @@ namespace Crystalbyte.Paranoia {
             } finally {
                 DecrementLoad();
             }
-
-            return string.Empty;
         }
 
         internal Task<bool> GetIsMimeLoadedAsync() {

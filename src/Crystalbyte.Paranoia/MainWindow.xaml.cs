@@ -48,6 +48,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnOpenAccountMenu(object sender, ExecutedRoutedEventArgs e) {
+            AccountMenu.DataContext = App.Context;
             AccountMenu.IsOpen = true;
         }
 

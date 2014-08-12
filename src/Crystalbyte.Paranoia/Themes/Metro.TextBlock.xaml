@@ -73,7 +73,7 @@
     <Style x:Key="AppMenuItemHeaderStyle" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
         <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
-        <Setter Property="Margin" Value="6,2,0,0" />
+        <Setter Property="Margin" Value="6,2,6,0" />
         <Setter Property="MinWidth" Value="70" />
         <Setter Property="FontWeight" Value="Normal" />
     </Style>
