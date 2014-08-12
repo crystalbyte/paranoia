@@ -20,9 +20,7 @@
         <!-- Notification area -->
         <Border BorderThickness="1" Background="Black" BorderBrush="Black" CornerRadius="10">
             <StackPanel Margin="20">
-                <TextBlock TextWrapping="Wrap" Margin="5">
-          <Bold>Notification data</Bold><LineBreak /><LineBreak />
-          Something just happened and you are being notified of it.
+                <TextBlock DataContext="{Binding NotificationWindowContext}" Text="{Binding FromAddress}" TextWrapping="Wrap" Margin="5">
                 </TextBlock>
                 <CheckBox Content="Checkable" Margin="5 5 0 5" />
                 <Button Content="Clickable" HorizontalAlignment="Center" />

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Crystalbyte.Paranoia.Contexts;
+using Crystalbyte.Paranoia.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,8 +23,9 @@ namespace Crystalbyte.Paranoia
     /// </summary>
     public partial class NotificationWindow
     {
-        public NotificationWindow()
+        public NotificationWindow(List<MailMessageModel> mails)
         {
+            DataContext = new NotificationWindowContext(mails);
             InitializeComponent();
             var sb = (Storyboard)Resources["NotificationStoryboard"];
 

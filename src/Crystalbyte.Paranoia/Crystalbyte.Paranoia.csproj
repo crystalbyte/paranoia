@@ -135,6 +135,7 @@
     </ApplicationDefinition>
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="Contexts\CreateKeyPairContext.cs" />
+    <Compile Include="Contexts\NotificationWindowContext.cs" />
     <Compile Include="Contexts\TestingContext.cs" />
     <Compile Include="DocumentTextRequestedEventArgs.cs" />
     <Compile Include="Contexts\MailboxCandidateContext.cs" />
