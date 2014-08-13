@@ -625,5 +625,9 @@ namespace Crystalbyte.Paranoia {
         public void ResetStatusText() {
             StatusText = Resources.ReadyStatus;
         }
+
+        internal void NotifyContactsAdded(IEnumerable<MailContactContext> contacts) {
+            _contacts.AddRange(contacts);
+        }
     }
 }

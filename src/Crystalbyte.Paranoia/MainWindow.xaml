@@ -101,6 +101,11 @@
         <converters:BooleanToBrushConverter x:Key="SubjectBrushConverter"
                                             BrushForFalse="{StaticResource AppLightTextBrush}"
                                             BrushForTrue="{StaticResource AppMediumTextBrush}" />
+        <CollectionViewSource x:Key="ContactsSource" Source="{Binding Contacts}">
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription Direction="Descending" PropertyName="NotSeenCount" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
     </ui:MetroWindow.Resources>
     <ui:MetroWindow.InputBindings>
         <KeyBinding Key="C"
@@ -383,13 +388,15 @@
                         <Image Width="18" Source="Assets/message.png" />
                         </ui:MetroCircleButton>
                     -->
-                    <ui:MetroCircleButton Margin="6"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          Command="{Binding CreateContactCommand}"
-                                          DockPanel.Dock="Right">
+                    <!--
+                        <ui:MetroCircleButton Margin="6"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{Binding CreateContactCommand}"
+                        DockPanel.Dock="Right">
                         <Image Width="18" Source="/Assets/add.png" />
-                    </ui:MetroCircleButton>
+                        </ui:MetroCircleButton>
+                    -->
                     <TextBlock VerticalAlignment="Center"
                                DockPanel.Dock="Left"
                                FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -407,17 +414,13 @@
                       Margin="0"
                       Background="Transparent"
                       BorderThickness="0"
+                      ItemsSource="{Binding Source={StaticResource ContactsSource}}"
                       KeyboardNavigation.DirectionalNavigation="Contained"
                       KeyboardNavigation.TabNavigation="None"
                       SelectedValue="{Binding SelectedContact,
                                               Mode=TwoWay}"
                       TabIndex="0"
                       d:DataContext="{d:DesignInstance {x:Type paranoia:AppContext}}">
-                <ListView.ItemsSource>
-                    <CompositeCollection>
-                        <CollectionContainer Collection="{Binding Contacts}" />
-                    </CompositeCollection>
-                </ListView.ItemsSource>
                 <ListView.ContextMenu>
                     <ContextMenu>
                         <MenuItem Command="{Binding DeleteContactCommand}" Header="{x:Static properties:Resources.Delete}" />
@@ -467,13 +470,19 @@
                                        Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                           AppLightTextBrush}}"
                                        RenderOptions.ClearTypeHint="Enabled"
-                                       Text="{Binding Name}" />
+                                       Text="{Binding Name,
+                                                      Converter={StaticResource SubjectFormatter}}"
+                                       TextTrimming="CharacterEllipsis"
+                                       TextWrapping="NoWrap" />
                             <TextBlock x:Name="AddressBlock"
                                        Grid.Row="1"
                                        Grid.Column="1"
                                        FontWeight="Thin"
                                        RenderOptions.ClearTypeHint="Enabled"
-                                       Text="{Binding Address}">
+                                       Text="{Binding Address,
+                                                      Converter={StaticResource SubjectFormatter}}"
+                                       TextTrimming="CharacterEllipsis"
+                                       TextWrapping="NoWrap">
 
                                 <TextBlock.Foreground>
                                     <Binding Mode="OneWay" Path="HasUnseenMessages">

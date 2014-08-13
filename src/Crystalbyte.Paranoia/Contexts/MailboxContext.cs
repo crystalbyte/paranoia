@@ -328,12 +328,45 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 await SaveMessagesToDatabaseAsync(messages);
+                await SaveContactsToDatabaseAsync(messages);
                 AppendMessagesAsync(messages);
             } catch (Exception ex) {
                 throw;
             } finally {
                 IsSyncing = false;
             }
+        }
+
+        private static async Task SaveContactsToDatabaseAsync(IEnumerable<MailMessageModel> messages) {
+            try {
+                var contacts = new List<MailContactModel>();
+                using (var database = new DatabaseContext()) {
+                    foreach (var message in messages) {
+                        var m = message;
+                        var contact = await database.MailContacts
+                            .Where(x => x.Address == m.FromAddress)
+                            .FirstOrDefaultAsync();
+
+                        if (contact != null) 
+                            continue;
+
+                        var model = new MailContactModel {
+                            Address = m.FromAddress,
+                            Name = m.FromName
+                        };
+                        
+                        database.MailContacts.Add(model);
+                        await database.SaveChangesAsync();
+                        contacts.Add(model);
+                    }
+                    
+                    App.Context.NotifyContactsAdded(contacts.Select(x => new MailContactContext(x)));
+                }
+            } catch (Exception) {
+
+                throw;
+            }
+
         }
 
         internal async Task MarkAsNotSeenAsync(MailMessageContext[] messages) {
