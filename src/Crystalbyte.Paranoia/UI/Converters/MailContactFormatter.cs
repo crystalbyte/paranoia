@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace Crystalbyte.Paranoia.UI.Converters {
     [ValueConversion(typeof(string), typeof(string))]
-    public sealed class FromSenderFormatter : IValueConverter {
+    public sealed class MailContactFormatter : IValueConverter {
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             var s = (MailMessageContext)value;

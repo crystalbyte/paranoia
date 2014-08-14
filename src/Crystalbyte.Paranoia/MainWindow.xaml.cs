@@ -34,8 +34,8 @@ namespace Crystalbyte.Paranoia {
         #region Construction
 
         public MainWindow() {
-            DataContext = App.Context;
             InitializeComponent();
+            DataContext = App.Context;
 
             CommandBindings.Add(new CommandBinding(WindowCommands.CloseFlyOut, OnCloseFlyOut));
             CommandBindings.Add(new CommandBinding(WindowCommands.OpenAccountMenu, OnOpenAccountMenu));
@@ -116,7 +116,6 @@ namespace Crystalbyte.Paranoia {
             base.OnInitialized(e);
 
             LoadResources();
-            HookUpControls();
             HookUpNavigationRequests();
         }
 
@@ -128,10 +127,6 @@ namespace Crystalbyte.Paranoia {
 
         private void OnSlideOutOverlayCompleted(object sender, EventArgs e) {
             Overlay.Visibility = Visibility.Collapsed;
-        }
-
-        private void HookUpControls() {
-            //App.Context.HookUpSearchBox(SearchBox);
         }
 
         private void HookUpNavigationRequests() {

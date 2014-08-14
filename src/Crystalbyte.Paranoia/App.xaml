@@ -29,8 +29,8 @@
 
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />
             <converters:MailboxLocalizer x:Key="MailboxLocalizer" />
-            <converters:SubjectFormatter x:Key="SubjectFormatter" />
-            <converters:FromSenderFormatter x:Key="FromSenderFormatter" />
+            <converters:NullOrEmptyFormatter x:Key="NullOrEmptyFormatter" />
+            <converters:MailContactFormatter x:Key="MailContactFormatter" />
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <converters:CollectionCounter x:Key="CollectionCounter" />
             <converters:DateFormatter x:Key="DateFormatter" />

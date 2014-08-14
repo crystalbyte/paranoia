@@ -1,12 +1,12 @@
 ﻿<ui:MetroWindow x:Class="Crystalbyte.Paranoia.MainWindow"
                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
                 xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
                 xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+                xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
                 xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                 x:Name="Window"
                 Title="p4r4n014"
@@ -101,9 +101,13 @@
         <converters:BooleanToBrushConverter x:Key="SubjectBrushConverter"
                                             BrushForFalse="{StaticResource AppLightTextBrush}"
                                             BrushForTrue="{StaticResource AppMediumTextBrush}" />
-        <CollectionViewSource x:Key="ContactsSource" Source="{Binding Contacts}">
+        <CollectionViewSource x:Key="ContactsSource"
+                              IsLiveSortingRequested="True"
+                              Source="{Binding Contacts}">
             <CollectionViewSource.SortDescriptions>
-                <componentModel:SortDescription Direction="Descending" PropertyName="NotSeenCount" />
+                <scm:SortDescription Direction="Descending" PropertyName="HasUnseenMessages" />
+                <scm:SortDescription Direction="Descending" PropertyName="MessageCount" />
+                <scm:SortDescription Direction="Ascending" PropertyName="Name" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </ui:MetroWindow.Resources>
@@ -145,7 +149,7 @@
         <Grid.Resources>
             <CollectionViewSource x:Key="MessagesSource" Source="{Binding Messages}">
                 <CollectionViewSource.SortDescriptions>
-                    <componentModel:SortDescription Direction="Descending" PropertyName="EntryDate" />
+                    <scm:SortDescription Direction="Descending" PropertyName="EntryDate" />
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
         </Grid.Resources>
@@ -471,7 +475,7 @@
                                                                                           AppLightTextBrush}}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Text="{Binding Name,
-                                                      Converter={StaticResource SubjectFormatter}}"
+                                                      Converter={StaticResource NullOrEmptyFormatter}}"
                                        TextTrimming="CharacterEllipsis"
                                        TextWrapping="NoWrap" />
                             <TextBlock x:Name="AddressBlock"
@@ -480,7 +484,7 @@
                                        FontWeight="Thin"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Text="{Binding Address,
-                                                      Converter={StaticResource SubjectFormatter}}"
+                                                      Converter={StaticResource NullOrEmptyFormatter}}"
                                        TextTrimming="CharacterEllipsis"
                                        TextWrapping="NoWrap">
 
@@ -498,32 +502,24 @@
                                         Grid.Column="2"
                                         Margin="6,0,6,0"
                                         VerticalAlignment="Center"
-                                        Visibility="{Binding NotSeenCount,
-                                                             Converter={StaticResource QuantityToVisibilityConverter}}">
-                                <TextBlock FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                            AppMediumLargeFontSize}}"
+                                        Orientation="Horizontal">
+                                <TextBlock Margin="0,0,6,0"
+                                           VerticalAlignment="Center"
+                                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                            AppLargeFontSize}}"
                                            Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                               AppAccentBrush}}"
-                                           Text="{Binding NotSeenCount}" />
+                                           Visibility="{Binding NotSeenCount,
+                                                                Converter={StaticResource QuantityToVisibilityConverter}}">
+                                    <Run Text="{Binding NotSeenCount}" />
+                                </TextBlock>
+                                <TextBlock VerticalAlignment="Center"
+                                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                            AppNormalFontSize}}"
+                                           Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                              AppMediumTextBrush}}"
+                                           Text="{Binding MessageCount}" />
                             </StackPanel>
-                            <Image Grid.Row="0"
-                                   Grid.RowSpan="2"
-                                   Grid.Column="3"
-                                   Source="/Assets/security.checked.png"
-                                   Style="{StaticResource AppSecurityImageStyle}" />
-                            <Image Grid.Row="0"
-                                   Grid.RowSpan="2"
-                                   Grid.Column="4"
-                                   Source="/Assets/user.checked.png"
-                                   Style="{StaticResource AppSecurityImageStyle}">
-                                <Image.Opacity>
-                                    <Binding Mode="OneWay" Path="IsValidated">
-                                        <Binding.Converter>
-                                            <converters:BooleanToOpacityConverter OpacityForFalse=".1" OpacityForTrue="1" />
-                                        </Binding.Converter>
-                                    </Binding>
-                                </Image.Opacity>
-                            </Image>
                         </Grid>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding IsSelected}" Value="True">
@@ -906,7 +902,7 @@
                                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                      AppLightTextStyle}}"
                                        Text="{Binding Subject,
-                                                      Converter={StaticResource SubjectFormatter}}"
+                                                      Converter={StaticResource NullOrEmptyFormatter}}"
                                        TextTrimming="CharacterEllipsis"
                                        TextWrapping="NoWrap" />
 
@@ -919,7 +915,7 @@
                                                                                         AppNormalFontSize}}"
                                        Foreground="{Binding IsSeen,
                                                             Converter={StaticResource SeenBrushConverter}}"
-                                       Text="{Binding Converter={StaticResource FromSenderFormatter}}" />
+                                       Text="{Binding Converter={StaticResource MailContactFormatter}}" />
 
                             <TextBlock x:Name="DateBlock"
                                        Grid.Row="1"
@@ -982,7 +978,7 @@
                                                                              AppTitleTextStyle}}"
                                Text="{Binding Subject,
                                               Mode=OneWay,
-                                              Converter={StaticResource SubjectFormatter}}"
+                                              Converter={StaticResource NullOrEmptyFormatter}}"
                                TextTrimming="CharacterEllipsis"
                                TextWrapping="NoWrap" />
                     <TextBlock Grid.Row="1"

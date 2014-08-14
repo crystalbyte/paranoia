@@ -4,13 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Composition;
 using System.Data.Entity;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Crystalbyte.Paranoia.Data;
@@ -105,7 +108,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnDeleteContact(object obj) {
-            
+
         }
 
         internal async Task LoadContactsFromDatabaseAsync() {
@@ -115,19 +118,12 @@ namespace Crystalbyte.Paranoia {
             }
 
             _contacts.AddRange(contacts.Select(x => new MailContactContext(x)));
-            var tasks = _contacts.Select(x => x.CountNotSeenAsync());
-
-            await Task.WhenAll(tasks);
-
-            if (_contacts.Count > 0) {
-                _contacts.First().IsSelected = true;
-            }
         }
 
         private async void OnDeleteAccount(object obj) {
             try {
                 // TODO: Change into popup overlay.
-                if (MessageBox.Show(Application.Current.MainWindow, Resources.DeleteAccountQuestion, 
+                if (MessageBox.Show(Application.Current.MainWindow, Resources.DeleteAccountQuestion,
                     "Delete Account", MessageBoxButton.YesNo) == MessageBoxResult.No) {
                     return;
                 }
@@ -139,8 +135,7 @@ namespace Crystalbyte.Paranoia {
                 if (_accounts.Count > 0) {
                     SelectedAccount = Accounts.First();
                 }
-            }
-            catch (Exception) {
+            } catch (Exception) {
                 throw;
             }
         }
@@ -190,10 +185,17 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal event EventHandler AccountSelectionChanged;
-        private void OnAccountSelectionChanged() {
+        private async void OnAccountSelectionChanged() {
             var handler = AccountSelectionChanged;
             if (handler != null)
                 handler(this, EventArgs.Empty);
+
+            var tasks = _contacts.Select(x => x.CountNotSeenAsync());
+            await Task.WhenAll(tasks);
+
+            var tasks2 = _contacts.Select(x => x.CountMessagesAsync());
+            await Task.WhenAll(tasks2);
+
         }
 
         internal event EventHandler<QueryStringEventArgs> QueryStringChanged;
@@ -399,7 +401,7 @@ namespace Crystalbyte.Paranoia {
             get { return _replyCommand; }
         }
 
-        public ICommand DeleteContactCommand{
+        public ICommand DeleteContactCommand {
             get { return _deleteContactCommand; }
         }
 

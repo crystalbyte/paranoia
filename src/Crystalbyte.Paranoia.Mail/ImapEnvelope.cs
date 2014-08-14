@@ -148,7 +148,7 @@ namespace Crystalbyte.Paranoia.Mail {
             return from contact in contacts 
                    select contact.ToArray() 
                    into items 
-                   let name = items[0] 
+                   let name = TransferEncoder.Decode(items[0]) 
                    let address = string.Format("{0}@{1}", items[2], items[3]) 
                    select new MailAddress(address, name);
         }
