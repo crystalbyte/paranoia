@@ -487,7 +487,6 @@
                                                       Converter={StaticResource NullOrEmptyFormatter}}"
                                        TextTrimming="CharacterEllipsis"
                                        TextWrapping="NoWrap">
-
                                 <TextBlock.Foreground>
                                     <Binding Mode="OneWay" Path="HasUnseenMessages">
                                         <Binding.Converter>
@@ -495,7 +494,6 @@
                                         </Binding.Converter>
                                     </Binding>
                                 </TextBlock.Foreground>
-
                             </TextBlock>
                             <StackPanel Grid.Row="0"
                                         Grid.RowSpan="2"
@@ -507,18 +505,29 @@
                                            VerticalAlignment="Center"
                                            FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                             AppLargeFontSize}}"
+                                           FontWeight="Thin"
                                            Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                               AppAccentBrush}}"
                                            Visibility="{Binding NotSeenCount,
                                                                 Converter={StaticResource QuantityToVisibilityConverter}}">
                                     <Run Text="{Binding NotSeenCount}" />
                                 </TextBlock>
+                                <Image Width="12"
+                                       Margin="0,0,6,0"
+                                       VerticalAlignment="Center"
+                                       Opacity=".4"
+                                       Source="/Assets/seen.png"
+                                       Visibility="{Binding MessageCount,
+                                                            Converter={StaticResource QuantityToVisibilityConverter},
+                                                            ConverterParameter=!}" />
                                 <TextBlock VerticalAlignment="Center"
                                            FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                             AppNormalFontSize}}"
                                            Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                               AppMediumTextBrush}}"
-                                           Text="{Binding MessageCount}" />
+                                           Text="{Binding MessageCount}"
+                                           Visibility="{Binding MessageCount,
+                                                                Converter={StaticResource QuantityToVisibilityConverter}}" />
                             </StackPanel>
                         </Grid>
                         <DataTemplate.Triggers>

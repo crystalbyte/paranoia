@@ -53,7 +53,11 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static async void OnLoaded(object sender, RoutedEventArgs e) {
+#if DEBUG
+            await App.Context.RunAsync();
+#else 
             await EnsureKeyExistenceAsync();
+#endif
         }
 
         private static async Task EnsureKeyExistenceAsync() {
