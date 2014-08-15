@@ -110,6 +110,7 @@
                 <scm:SortDescription Direction="Ascending" PropertyName="Name" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+
     </ui:MetroWindow.Resources>
     <ui:MetroWindow.InputBindings>
         <KeyBinding Key="C"
@@ -584,8 +585,9 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0">
-                <ToggleButton DataContext="{Binding SelectedAccount}"
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <ToggleButton x:Name="OutboxToggleButton"
+                              DataContext="{Binding SelectedAccount}"
                               IsChecked="{Binding IsOutboxSelected,
                                                   Mode=TwoWay}"
                               Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -597,7 +599,13 @@
                                                                              AppLightTextStyle}}"
                                Text="{x:Static properties:Resources.Outbox}" />
                 </ToggleButton>
-            </Border>
+                <Border Width="1"
+                        Margin="3,3,2,3"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Stretch"
+                        Background="#343434"
+                        BorderThickness="0" />
+            </StackPanel>
             <ListView Grid.Column="1"
                       HorizontalContentAlignment="Stretch"
                       Background="Transparent"
@@ -791,14 +799,41 @@
                                                                     AppShadeBrush}}"
                        Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                        AppShadeOpacity}}" />
-            <Border Grid.Row="0" Margin="16,0,0,0">
+            <Border Grid.Row="0"
+                    Margin="16,0,0,0"
+                    Visibility="{Binding IsChecked,
+                                         ElementName=OutboxToggleButton,
+                                         ConverterParameter=!,
+                                         Converter={StaticResource BooleanToVisibilityConverter}}">
+
                 <TextBlock VerticalAlignment="Center"
+                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                            AppExtraLargeFontSize}}"
+                           Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                         AppTitleTextStyle}}"
+                           Visibility="{Binding IsChecked,
+                                                ElementName=OutboxToggleButton,
+                                                ConverterParameter=!,
+                                                Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Run Text="{x:Static properties:Resources.MessagesTitle}" />
+                    <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
+                </TextBlock>
+            </Border>
+            <Border Grid.Row="0"
+                    Margin="16,0,0,0"
+                    DataContext="{Binding SelectedAccount}"
+                    Visibility="{Binding IsChecked,
+                                         ElementName=OutboxToggleButton,
+                                         Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                <TextBlock VerticalAlignment="Center"
+                           DataContext="{Binding Outbox}"
                            FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                             AppExtraLargeFontSize}}"
                            Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                          AppTitleTextStyle}}">
                     <Run Text="{x:Static properties:Resources.MessagesTitle}" />
-                    <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
+                    <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" Text="{Binding SmtpRequests, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
                 </TextBlock>
             </Border>
             <ListView x:Name="MessagesListView"
@@ -813,7 +848,11 @@
                       SelectionChanged="OnMessageSelectionChanged"
                       TabIndex="4"
                       VirtualizingPanel.IsVirtualizing="True"
-                      VirtualizingPanel.VirtualizationMode="Recycling">
+                      VirtualizingPanel.VirtualizationMode="Recycling"
+                      Visibility="{Binding IsChecked,
+                                           ElementName=OutboxToggleButton,
+                                           ConverterParameter=!,
+                                           Converter={StaticResource BooleanToVisibilityConverter}}">
                 <ListView.Resources>
                     <converters:BooleanToBrushConverter x:Key="SeenBrushConverter"
                                                         BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -962,6 +1001,84 @@
                             <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                 <Setter TargetName="FromBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
                                 <Setter TargetName="DateBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ListView x:Name="SmtpRequestsListView"
+                      Grid.Row="1"
+                      HorizontalContentAlignment="Stretch"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      DataContext="{Binding SelectedAccount.Outbox}"
+                      ItemsSource="{Binding SmtpRequests}"
+                      KeyboardNavigation.DirectionalNavigation="Contained"
+                      KeyboardNavigation.TabNavigation="None"
+                      Padding="0"
+                      SelectionChanged="OnMessageSelectionChanged"
+                      TabIndex="4"
+                      VirtualizingPanel.IsVirtualizing="True"
+                      VirtualizingPanel.VirtualizationMode="Recycling"
+                      Visibility="{Binding IsChecked,
+                                           ElementName=OutboxToggleButton,
+                                           Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel x:Name="Mvsp2" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
+                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                        <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Mvsp2}" />
+                        <Setter Property="Padding" Value="6,2,6,2" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate DataType="paranoia:SmtpRequestContext">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Grid.Row="0"
+                                       Grid.RowSpan="2"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="3" />
+                            <TextBlock Grid.Row="0"
+                                       Grid.Column="1"
+                                       Grid.ColumnSpan="2"
+                                       VerticalAlignment="Center"
+                                       FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                        AppMediumLargeFontSize}}"
+                                       FontWeight="Thin"
+                                       RenderOptions.ClearTypeHint="Enabled"
+                                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                     AppLightTextStyle}}"
+                                       Text="{Binding Subject,
+                                                      Converter={StaticResource NullOrEmptyFormatter}}"
+                                       TextTrimming="CharacterEllipsis"
+                                       TextWrapping="NoWrap" />
+
+                            <TextBlock x:Name="FromBlock"
+                                       Grid.Row="1"
+                                       Grid.Column="1"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                        AppNormalFontSize}}"
+                                       Text="{Binding Converter={StaticResource MailContactFormatter}}" />
+                        </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                <Setter TargetName="FromBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>

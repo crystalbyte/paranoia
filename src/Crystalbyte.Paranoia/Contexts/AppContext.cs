@@ -617,7 +617,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private Task ProcessOutgoingMessagesAsync() {
-            var tasks = Accounts.Select(x => x.ProcessOutgoingMessagesAsync());
+            var tasks = Accounts.Select(x => x.Outbox.ProcessOutgoingMessagesAsync());
             return Task.WhenAll(tasks);
         }
 
