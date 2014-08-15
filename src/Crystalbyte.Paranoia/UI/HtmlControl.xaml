@@ -86,12 +86,6 @@
                                         <system:Int32>32</system:Int32>
                                     </ComboBox>
                                     <Separator />
-                                    <ToggleButton Margin="3,3,0,3"
-                                                  Content="{x:Static properties:Resources.Bold}"
-                                                  FontWeight="Bold"
-                                                  Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                AppMenuToggleButtonStyle}}" />
-                                    <Separator />
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <WrapPanel />

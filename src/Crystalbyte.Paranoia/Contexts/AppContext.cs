@@ -68,6 +68,7 @@ namespace Crystalbyte.Paranoia {
         public AppContext() {
             _accounts = new ObservableCollection<MailAccountContext>();
             _accounts.CollectionChanged += OnAccountsCollectionChanged;
+
             _printCommand = new PrintCommand(this);
             _replyCommand = new ReplyCommand(this);
             _forwardCommand = new ForwardCommand(this);

@@ -568,6 +568,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Outbox.
+        /// </summary>
+        public static string Outbox {
+            get {
+                return ResourceManager.GetString("Outbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {

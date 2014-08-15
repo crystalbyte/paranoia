@@ -366,6 +366,7 @@ namespace Crystalbyte.Paranoia {
 
                 throw;
             }
+
         }
 
         internal async Task MarkAsNotSeenAsync(MailMessageContext[] messages) {

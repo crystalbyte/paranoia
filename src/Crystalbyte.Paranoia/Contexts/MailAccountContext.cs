@@ -30,6 +30,7 @@ namespace Crystalbyte.Paranoia {
         private readonly MailAccountModel _account;
         private readonly ICommand _dropMailboxCommand;
         private readonly ICommand _testSettingsCommand;
+        private readonly OutboxContext _outbox;
 
         private readonly ObservableCollection<MailboxContext> _mailboxes;
 
@@ -38,10 +39,12 @@ namespace Crystalbyte.Paranoia {
         private bool _isTesting;
         private bool _isAutoDetectPreferred;
         private bool _isDetectingSettings;
+        private bool _isOutboxSelected;
 
         internal MailAccountContext(MailAccountModel account, AppContext appContext) {
             _account = account;
             _appContext = appContext;
+            _outbox = new OutboxContext(this);
             _dropMailboxCommand = new DropAssignmentCommand(this);
             _testSettingsCommand = new RelayCommand(OnTestSettings);
             _isAutoDetectPreferred = true;
@@ -164,6 +167,8 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
+            IsOutboxSelected = false;
+
             mailbox.IsAssignable = !mailbox.IsAssigned;
             if (mailbox.IsAssignable) {
                 await SelectedMailbox.PrepareManualAssignmentAsync();
@@ -220,6 +225,21 @@ namespace Crystalbyte.Paranoia {
                     .OfType<string>()
                     .Any(x => _account.ImapHost
                         .EndsWith(x, StringComparison.InvariantCultureIgnoreCase));
+            }
+        }
+
+        public OutboxContext Outbox {
+            get { return _outbox; }
+        }
+
+        public bool IsOutboxSelected {
+            get { return _isOutboxSelected; }
+            set {
+                if (_isOutboxSelected == value) {
+                    return;
+                }
+                _isOutboxSelected = value;
+                RaisePropertyChanged(() => IsOutboxSelected);
             }
         }
 
@@ -581,7 +601,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task SaveSmtpRequestsAsync(IEnumerable<MailMessage> messages) {
+        internal async Task SaveSmtpRequestsToDatabaseAsync(IEnumerable<MailMessage> messages) {
             using (var database = new DatabaseContext()) {
                 var account = await database.MailAccounts.FindAsync(_account.Id);
 

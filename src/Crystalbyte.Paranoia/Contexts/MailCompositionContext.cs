@@ -128,7 +128,7 @@ namespace Crystalbyte.Paranoia {
             try {
                 var account = App.Context.SelectedAccount;
                 var messages = CreateSmtpMessages(account);
-                await account.SaveSmtpRequestsAsync(messages);
+                await account.SaveSmtpRequestsToDatabaseAsync(messages);
                 await App.Context.NotifyOutboxNotEmpty();
             }
             catch (Exception) {

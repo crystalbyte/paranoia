@@ -580,7 +580,26 @@
               Grid.Column="2"
               Grid.ColumnSpan="3"
               Margin="0">
-            <ListView HorizontalContentAlignment="Stretch"
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0">
+                <ToggleButton DataContext="{Binding SelectedAccount}"
+                              IsChecked="{Binding IsOutboxSelected,
+                                                  Mode=TwoWay}"
+                              Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                            MailboxToggleButtonStyle}}">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                AppMediumLargeFontSize}}"
+                               Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                             AppLightTextStyle}}"
+                               Text="{x:Static properties:Resources.Outbox}" />
+                </ToggleButton>
+            </Border>
+            <ListView Grid.Column="1"
+                      HorizontalContentAlignment="Stretch"
                       Background="Transparent"
                       BorderThickness="0"
                       DataContext="{Binding SelectedAccount}"

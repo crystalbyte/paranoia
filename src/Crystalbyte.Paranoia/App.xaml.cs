@@ -59,9 +59,6 @@ namespace Crystalbyte.Paranoia {
                 };
 
                 account.Mailboxes.Add(new MailboxModel {
-                    Type = MailboxType.All
-                });
-                account.Mailboxes.Add(new MailboxModel {
                     Type = MailboxType.Inbox
                 });
                 account.Mailboxes.Add(new MailboxModel {

@@ -401,4 +401,7 @@ Once your password is lost you're screwed.</value>
   <data name="All" xml:space="preserve">
     <value>All</value>
   </data>
+  <data name="Outbox" xml:space="preserve">
+    <value>Outbox</value>
+  </data>
 </root>
