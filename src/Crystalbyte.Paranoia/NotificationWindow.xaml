@@ -1,36 +1,45 @@
 ﻿<Window x:Class="Crystalbyte.Paranoia.NotificationWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  Title="Notification Popup" Width="300" SizeToContent="Height"
-  WindowStyle="None" AllowsTransparency="True" Background="Transparent">
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Notification Popup"
+        Width="300"
+        AllowsTransparency="True"
+        Background="Transparent"
+        SizeToContent="Height"
+        WindowStyle="None">
     <Window.Resources>
         <Storyboard x:Key="NotificationStoryboard">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)">
-                <SplineDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+                <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="1" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)">
-                <SplineDoubleKeyFrame KeyTime="0:0:2" Value="1"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:4" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:2" Value="1" />
+                <SplineDoubleKeyFrame KeyTime="0:0:4" Value="0" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
-    <Grid RenderTransformOrigin="0,1" >
+    <Grid RenderTransformOrigin="0,1">
 
-        <!-- Notification area -->
-        <Border BorderThickness="1" Background="Black" BorderBrush="Black" CornerRadius="10">
+        <!--  Notification area  -->
+        <Border Background="Black"
+                BorderBrush="Black"
+                BorderThickness="1"
+                CornerRadius="10">
             <StackPanel Margin="20">
-                <TextBlock DataContext="{Binding NotificationWindowContext}" Text="{Binding FromAddress}" TextWrapping="Wrap" Margin="5">
-                </TextBlock>
-                <CheckBox Content="Checkable" Margin="5 5 0 5" />
-                <Button Content="Clickable" HorizontalAlignment="Center" />
+                <TextBlock Margin="5"
+                           DataContext="{Binding NotificationWindowContext}"
+                           Text="{Binding FromAddress}"
+                           TextWrapping="Wrap" />
+                <CheckBox Margin="5 5 0 5" Content="Checkable" />
+                <Button HorizontalAlignment="Center" Content="Clickable" />
             </StackPanel>
         </Border>
 
-        <!-- Animation -->
+        <!--  Animation  -->
         <Grid.Triggers>
             <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                <BeginStoryboard Storyboard="{StaticResource NotificationStoryboard}"/>
+                <BeginStoryboard Storyboard="{StaticResource NotificationStoryboard}" />
             </EventTrigger>
         </Grid.Triggers>
 
