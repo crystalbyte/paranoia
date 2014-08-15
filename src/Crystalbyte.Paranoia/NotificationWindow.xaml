@@ -28,7 +28,6 @@
                 CornerRadius="10">
             <StackPanel Margin="20">
                 <TextBlock Margin="5"
-                           DataContext="{Binding NotificationWindowContext}"
                            Text="{Binding FromAddress}"
                            TextWrapping="Wrap" />
                 <CheckBox Margin="5 5 0 5" Content="Checkable" />
