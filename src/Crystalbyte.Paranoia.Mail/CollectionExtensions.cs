@@ -26,5 +26,11 @@ namespace Crystalbyte.Paranoia.Mail {
                 source = source.Skip(size);
             }
         }
+
+        public static void AddRange<T, S>(this IList<KeyValuePair<T, S>> target, IList<KeyValuePair<T, S>> source) {
+            foreach (var item in source) {
+                target.Add(new KeyValuePair<T, S>(item.Key, item.Value));
+            }
+        }
     }
 }

@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Crystalbyte.Paranoia.Contexts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,9 +20,21 @@ namespace Crystalbyte.Paranoia.UI.Pages {
     /// <summary>
     /// Interaction logic for CreateContactPage.xaml
     /// </summary>
-    public partial class CreateContactPage : Page {
+    public partial class CreateContactPage  {
         public CreateContactPage() {
             InitializeComponent();
+            DataContext = new CreateContactContext();
+
+            CommandBindings.Add(new CommandBinding(PageCommands.Cancel, OnCancel));
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e) {
+            NameTextBox.Focus();
+        }
+
+        private void OnCancel(object sender, ExecutedRoutedEventArgs e) {
+            App.Context.ClosePopup();
         }
     }
 }

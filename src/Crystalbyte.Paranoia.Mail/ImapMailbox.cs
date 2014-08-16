@@ -19,6 +19,12 @@ namespace Crystalbyte.Paranoia.Mail {
         private readonly List<string> _permanentFlags;
         private readonly List<string> _flags;
 
+        private const string UidPattern = @"UID \d+";
+        private static readonly Regex UidRegex = new Regex(UidPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        private const string HeaderPattern = @"BODY\[HEADER\]\s+\{\d+\}(.|(\r\n.+))+\r\n\r\n";
+        private static readonly Regex HeaderRegex = new Regex(HeaderPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
         public ImapMailbox(ImapSession session, string name) {
             _name = name;
             _connection = session.Authenticator.Connection;
@@ -214,6 +220,40 @@ namespace Crystalbyte.Paranoia.Mail {
             return list;
         }
 
+        internal static HeaderCollection ParseHeaders(string text) {
+            var key = string.Empty;
+            var value = string.Empty;
+
+            var headers = new HeaderCollection();
+            var reader = new StringReader(text);
+
+
+            while (true) {
+                var line = reader.ReadLine();
+                if (line == null) {
+                    break;
+                }
+                if (line.StartsWith(" ")) {
+                    value += line;
+                    continue;
+                }
+
+                if (!string.IsNullOrEmpty(key)) {
+                    headers.Add(new KeyValuePair<string, string>(key, value));
+                    key = string.Empty;
+                    value = string.Empty;
+                }
+
+                var items = line.Split(':');
+                if (items.Length > 1) {
+                    key = items[0];
+                    value = items[1];
+                }
+            }
+
+            return headers;
+        }
+
         public bool IsIdle { get; private set; }
         public int UidNext { get; internal set; }
         public int Recent { get; internal set; }
@@ -266,6 +306,49 @@ namespace Crystalbyte.Paranoia.Mail {
             text = text.Replace(',', '/');
             var bytes = Encoding.UTF8.GetBytes(text);
             return Encoding.UTF7.GetString(bytes);
+        }
+
+        public async Task<IDictionary<long, HeaderCollection>> FetchHeadersAsync(IEnumerable<long> uids) {
+            var command = string.Format("UID FETCH {0} BODY[HEADER]", uids
+                .Select(x => x.ToString(CultureInfo.InvariantCulture))
+                .Aggregate((c, n) => c + ',' + n));
+
+            var id = await _connection.WriteCommandAsync(command);
+            return await ReadFetchHeaderResponseAsync(id);
+        }
+
+        private async Task<IDictionary<long, HeaderCollection>> ReadFetchHeaderResponseAsync(string commandId) {
+            var segments = new List<string>();
+            var lines = new List<ImapResponseLine> { await _connection.ReadAsync() };
+
+            while (true) {
+                var line = await _connection.ReadAsync();
+                if (line.IsUntagged || line.TerminatesCommand(commandId)) {
+                    using (var writer = new StringWriter()) {
+                        foreach (var l in lines) {
+                            await writer.WriteAsync(l.Text);
+                            await writer.WriteLineAsync();
+                        }
+                        segments.Add(writer.ToString());
+                    }
+                    lines.Clear();
+                }
+                if (line.TerminatesCommand(commandId)) {
+                    break;
+                }
+
+                lines.Add(line);
+            }
+
+            var headers = new Dictionary<long, HeaderCollection>();
+
+            foreach (var segment in segments) {
+                var key = long.Parse(UidRegex.Match(segment).Value.Split(' ')[1]);
+                var value = ParseHeaders(segment);
+                headers.Add(key, value);
+            }
+
+            return headers;
         }
 
         public async Task<IEnumerable<ImapEnvelope>> FetchEnvelopesAsync(IEnumerable<int> uids) {

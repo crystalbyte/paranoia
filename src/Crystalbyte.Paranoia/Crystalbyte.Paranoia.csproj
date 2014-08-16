@@ -73,6 +73,10 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.1.0\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -134,11 +138,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationExtensions.cs" />
+    <Compile Include="Contexts\CreateContactContext.cs" />
     <Compile Include="Contexts\CreateKeyPairContext.cs" />
     <Compile Include="Contexts\NotificationWindowContext.cs" />
     <Compile Include="Contexts\OutboxContext.cs" />
     <Compile Include="Contexts\SmtpRequestContext.cs" />
     <Compile Include="Contexts\TestingContext.cs" />
+    <Compile Include="Data\PublicKeyModel.cs" />
     <Compile Include="DocumentTextRequestedEventArgs.cs" />
     <Compile Include="Contexts\MailboxCandidateContext.cs" />
     <Compile Include="Contexts\MailboxContext.cs" />
@@ -148,11 +154,17 @@
     <Compile Include="Contexts\MailMessageContext.cs" />
     <Compile Include="Contexts\MailAccountContext.cs" />
     <Compile Include="Data\SmtpRequestModel.cs" />
+    <Compile Include="Net\AddressKeyPair.cs" />
+    <Compile Include="Net\ChallengeResponse.cs" />
+    <Compile Include="Net\KeyCollection.cs" />
     <Compile Include="NotificationWindow.xaml.cs">
       <DependentUpon>NotificationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ClientConfig.cs" />
+    <Compile Include="ParanoiaFilenames.cs" />
+    <Compile Include="ParanoiaHeaders.cs" />
     <Compile Include="RevisionTracker.cs" />
+    <Compile Include="SecurityMeasure.cs" />
     <Compile Include="UI\Commands\MarkAsNotSeenCommand.cs" />
     <Compile Include="UI\Commands\MarkAsSeenCommand.cs" />
     <Compile Include="UI\Converters\MailContactFormatter.cs" />
@@ -474,6 +486,7 @@
     <Resource Include="Assets\select.user.png" />
     <Resource Include="Assets\ok.png" />
     <Resource Include="Assets\cancel.png" />
+    <Resource Include="Assets\refresh.png" />
     <Content Include="x86\avcodec-53.dll" />
     <Content Include="x86\avformat-53.dll" />
     <Content Include="x86\avutil-51.dll" />

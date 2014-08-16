@@ -309,6 +309,15 @@
                                                                Converter={StaticResource NullToVisibilityConverter}}">
                         <Image Width="18" Source="/Assets/select.user.png" />
                     </ui:MetroCircleButton>
+                    <ui:MetroCircleButton Grid.Row="1"
+                                          Grid.Column="4"
+                                          Margin="6"
+                                          DataContext="{Binding SelectedAccount}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Command="{Binding RegisterCommand}">
+                        R
+                    </ui:MetroCircleButton>
                     <Popup x:Name="AccountSelectionPopup"
                            Grid.Row="0"
                            Grid.Column="0"
@@ -384,24 +393,20 @@
                     Margin="16,0,8,0"
                     Padding="0">
                 <DockPanel LastChildFill="False">
-                    <!--
-                        <ui:MetroCircleButton Margin="6"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Command="{Binding WriteMessageCommand}"
-                        DockPanel.Dock="Right">
-                        <Image Width="18" Source="Assets/message.png" />
-                        </ui:MetroCircleButton>
-                    -->
-                    <!--
-                        <ui:MetroCircleButton Margin="6"
+                    <ui:MetroCircleButton Margin="6"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Command="{Binding CreateContactCommand}"
                         DockPanel.Dock="Right">
                         <Image Width="18" Source="/Assets/add.png" />
-                        </ui:MetroCircleButton>
-                    -->
+                    </ui:MetroCircleButton>
+                    <ui:MetroCircleButton Margin="6"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{Binding RefreshKeysCommand}"
+                        DockPanel.Dock="Right">
+                        <Image Width="18" Source="/Assets/refresh.png" />
+                    </ui:MetroCircleButton>
                     <TextBlock VerticalAlignment="Center"
                                DockPanel.Dock="Left"
                                FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},

@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Mail;
+using System.Linq.Expressions;
 
 namespace Crystalbyte.Paranoia.UI.Pages {
     /// <summary>
@@ -54,15 +55,19 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private async void OnPageContinue(object sender, ExecutedRoutedEventArgs e) {
-            await SaveChangesAsync();
+            var account = (MailAccountContext)DataContext;
+            await SaveChangesAsync(account);
+
+            if (_isAccountInTransit) {
+                await account.RegisterKeyWithServerAsync();
+            }
             App.Context.CloseFlyOut();
         }
 
-        private async Task SaveChangesAsync() {
+        private async Task SaveChangesAsync(MailAccountContext account) {
             _discardOnClose = false;
             _tracker.Stop();
 
-            var account = (MailAccountContext)DataContext;
             if (_isAccountInTransit) {
                 await account.SaveToDatabaseAsync();
                 App.Context.NotifyAccountCreated(account);

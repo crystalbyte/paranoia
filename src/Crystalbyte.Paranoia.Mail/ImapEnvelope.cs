@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
@@ -22,6 +23,7 @@ namespace Crystalbyte.Paranoia.Mail {
         private readonly List<MailAddress> _to;
         private readonly List<MailAddress> _cc;
         private readonly List<MailAddress> _bcc;
+        private readonly List<KeyValuePair<string, string>> _headers;
 
         private const string FetchMetaPattern =
             "(RFC822.SIZE [0-9]+)|((INTERNALDATE \".+?\"))|(FLAGS \\(.*?\\))|UID \\d+";
@@ -42,6 +44,7 @@ namespace Crystalbyte.Paranoia.Mail {
             _bcc = new List<MailAddress>();
             _cc = new List<MailAddress>();
             _sender = new List<MailAddress>();
+            _headers = new List<KeyValuePair<string, string>>();
         }
 
         public long Uid { get; internal set; }
@@ -50,6 +53,10 @@ namespace Crystalbyte.Paranoia.Mail {
         public long Size { get; internal set; }
         public string MessageId { get; internal set; }
         public string InReplyTo { get; internal set; }
+
+        public IList<KeyValuePair<string, string>> Headers {
+            get { return _headers; }
+        }
 
         /// <summary>
         ///     Mailbox for replies to message.
@@ -133,8 +140,11 @@ namespace Crystalbyte.Paranoia.Mail {
             envelope.AddContactsToBcc(ParseContacts(matches[7].Value));
             envelope.InReplyTo = matches[8].Value.TrimQuotes().TrimNil();
             envelope.MessageId = matches[9].Value.TrimQuotes().TrimNil();
+
             return envelope;
         }
+
+      
 
         private static IEnumerable<MailAddress> ParseContacts(string value) {
             var trimmed = value.TrimAny(1).TrimQuotes();
@@ -145,12 +155,12 @@ namespace Crystalbyte.Paranoia.Mail {
                 .Bundle(4).ToArray()
                 .ToArray();
 
-            return from contact in contacts 
-                   select contact.ToArray() 
-                   into items 
-                   let name = TransferEncoder.Decode(items[0]) 
-                   let address = string.Format("{0}@{1}", items[2], items[3]) 
-                   select new MailAddress(address, name);
+            return from contact in contacts
+                   select contact.ToArray()
+                       into items
+                       let name = TransferEncoder.Decode(items[0])
+                       let address = string.Format("{0}@{1}", items[2], items[3])
+                       select new MailAddress(address, name);
         }
 
         private void AddContactsToCc(IEnumerable<MailAddress> contacts) {

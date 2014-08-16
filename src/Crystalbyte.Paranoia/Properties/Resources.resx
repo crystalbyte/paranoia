@@ -404,4 +404,10 @@ Once your password is lost you're screwed.</value>
   <data name="Outbox" xml:space="preserve">
     <value>Outbox</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="RegisterKeyTitle" xml:space="preserve">
+    <value>Registering Keys</value>
+  </data>
 </root>

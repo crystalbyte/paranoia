@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Pages;
+using Crystalbyte.Paranoia.Properties;
 
 #endregion
 
@@ -53,22 +54,18 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static async void OnLoaded(object sender, RoutedEventArgs e) {
-#if DEBUG
-            await App.Context.RunAsync();
-#else 
             await EnsureKeyExistenceAsync();
-#endif
         }
 
         private static async Task EnsureKeyExistenceAsync() {
-            var dataDir = (string)AppDomain.CurrentDomain.GetData("DataDirectory");
-            var keyDir = new DirectoryInfo(Path.Combine(dataDir, "keys"));
+            var keyDir = AppContext.GetKeyDirectory();
             if (!keyDir.Exists) {
                 await CreateKeyDirectoryAsync(keyDir);
             }
 
-            var publicKey = keyDir.GetFiles("paranoia_ecc.pub").FirstOrDefault();
-            var privateKey = keyDir.GetFiles("paranoia_ecc").FirstOrDefault();
+            var publicKey = keyDir.GetFiles(Settings.Default.PublicKeyFile).FirstOrDefault();
+            var privateKey = keyDir.GetFiles(Settings.Default.PrivateKeyFile).FirstOrDefault();
+
             if (publicKey == null || privateKey == null) {
                 App.Context.OnCreateKeyPair();
             }

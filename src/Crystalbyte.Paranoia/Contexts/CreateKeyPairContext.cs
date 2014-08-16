@@ -1,5 +1,9 @@
 ﻿using System.Windows.Input;
 using Crystalbyte.Paranoia.UI.Commands;
+using Crystalbyte.Paranoia.Cryptography;
+using System.IO;
+using Crystalbyte.Paranoia.Properties;
+using System;
 
 namespace Crystalbyte.Paranoia {
     public sealed class CreateKeyPairContext : NotificationObject {
@@ -19,8 +23,29 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static async void CreateKeyPair(object obj) {
-            App.Context.ClosePopup();
-            await App.Context.RunAsync();
+
+            try {
+                using (var crypto = new PublicKeyCrypto()) {
+                    crypto.Init();
+                    var dir = AppContext.GetKeyDirectory().FullName;
+
+                    var publicKey = Path.Combine(dir, Settings.Default.PublicKeyFile);
+                    await crypto.SavePublicKeyAsync(publicKey);
+
+                    var privateKey = Path.Combine(dir, Settings.Default.PrivateKeyFile);
+                    await crypto.SavePrivateKeyAsync(privateKey);
+
+                    App.Context.OpenDecryptKeyPairDialog();
+                    await App.Context.RunAsync();
+                }
+            }
+            catch (Exception) {
+                
+                throw;
+            }
+            finally {
+                App.Context.ClosePopup();
+            }
         }
 
         public string BenFranklinQuote {

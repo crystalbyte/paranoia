@@ -3,10 +3,52 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+      xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
+      d:DataContext="{d:DesignInstance paranoia:CreateContactContext}"
+      KeyboardNavigation.TabNavigation="Cycle"
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
       Title="{x:Static properties:Resources.CreateContactTitle}"
       d:DesignHeight="300"
       d:DesignWidth="300"
       mc:Ignorable="d">
-    <Grid />
+    <Page.InputBindings>
+        <KeyBinding Key="Escape" Command="ui:PageCommands.Cancel" />
+    </Page.InputBindings>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.ColumnSpan="3"
+                       Margin="0,0,0,12"
+                       Text="{x:Static properties:Resources.CreateKeyPageDescription}" />
+        <Image  Grid.RowSpan="3" Source="{Binding Address, Delay=500,  IsAsync=True, Converter={StaticResource GravatarImageConverter}, ConverterParameter=64}" VerticalAlignment="Top" Grid.Row="1" Grid.Column="0" Width="64" Height="64"></Image>
+        <TextBlock Grid.Column="1" Grid.Row="1" Text="{x:Static properties:Resources.Name}" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLabelStyle}}" />
+        <TextBox x:Name="NameTextBox" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="2" Margin="0,4,0,2" />
+        <TextBlock Grid.Column="1" Grid.Row="2" Text="{x:Static properties:Resources.MailAddress}" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLabelStyle}}" />
+        <TextBox Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="2" />
+
+        <StackPanel Grid.Row="4"
+                    Grid.ColumnSpan="3"
+                    Margin="0,36,0,0"
+                    Orientation="Horizontal">
+            <ui:MetroCircleButton x:Name="AcceptButton"
+                                  Command="{Binding CreateContactCommand}"
+                                  Text="{x:Static properties:Resources.Accept}">
+                <Image Width="18" Source="/Assets/ok.png" />
+            </ui:MetroCircleButton>
+            <ui:MetroCircleButton Command="ui:PageCommands.Cancel" Text="{x:Static properties:Resources.Cancel}">
+                <Image Width="18" Source="/Assets/cancel.png" />
+            </ui:MetroCircleButton>
+        </StackPanel>
+    </Grid>
 </Page>

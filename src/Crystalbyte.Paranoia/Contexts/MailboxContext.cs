@@ -13,6 +13,13 @@ using System.Windows.Input;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.UI.Commands;
+using System.Text;
+using Crystalbyte.Paranoia.Cryptography;
+using System.Net;
+using Crystalbyte.Paranoia.Properties;
+using System.IO;
+using Newtonsoft.Json;
+using Crystalbyte.Paranoia.Net;
 
 #endregion
 
@@ -102,7 +109,8 @@ namespace Crystalbyte.Paranoia {
                             var mailbox = await session.SelectAsync(Name);
                             if (Type == MailboxType.Trash) {
                                 await mailbox.DeleteMailsAsync(messages.Select(x => x.Uid));
-                            } else {
+                            }
+                            else {
                                 await mailbox.MoveMailsAsync(messages.Select(x => x.Uid), trashFolder);
                             }
                         }
@@ -120,7 +128,8 @@ namespace Crystalbyte.Paranoia {
 
                             database.MailMessages.Attach(model);
                             database.MailMessages.Remove(model);
-                        } catch (Exception) {
+                        }
+                        catch (Exception) {
                             // TODO: log
                             throw;
                         }
@@ -129,7 +138,8 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 _account.AppContext.NotifyMessageCountChanged();
-            } catch (Exception) {
+            }
+            catch (Exception) {
                 // TODO: log
                 throw;
             }
@@ -179,9 +189,11 @@ namespace Crystalbyte.Paranoia {
                 _mailboxCandidates.Clear();
                 _mailboxCandidates.AddRange(mailboxes
                     .Select(x => new MailboxCandidateContext(_account, x)));
-            } catch (Exception ex) {
-                throw;
-            } finally {
+            }
+            catch (Exception ex) {
+
+            }
+            finally {
                 IsListingMailboxes = false;
             }
         }
@@ -265,7 +277,7 @@ namespace Crystalbyte.Paranoia {
             _mailboxCandidates.Clear();
         }
 
-        internal async Task SyncAsync() {
+        internal async Task SyncMessagesAsync() {
             Application.Current.AssertUIThread();
 
             if (!IsAssigned || IsSyncing) {
@@ -303,8 +315,26 @@ namespace Crystalbyte.Paranoia {
                                 return;
                             }
 
-                            messages.AddRange(envelopes
-                                .Select(envelope => new MailMessageModel {
+                            foreach (var envelope in envelopes) {
+
+                                var responses = await mailbox.FetchHeadersAsync(new[] { envelope.Uid });
+                                if (responses.ContainsKey(envelope.Uid)) {
+                                    var headers = responses[envelope.Uid];
+                                    var isChallenge = headers.ContainsKey(ParanoiaHeaderKeys.Challenge);
+                                    if (isChallenge) {
+                                        var value = headers[ParanoiaHeaderKeys.Challenge];
+                                        try {
+                                            await ProcessChallengeAsync(envelope, headers, mailbox);
+                                        }
+                                        catch (Exception ex) {
+                                            Debug.WriteLine(ex.Message);
+                                        }
+                                        
+                                        continue;
+                                    }
+                                }
+
+                                var message = new MailMessageModel {
                                     EntryDate = envelope.InternalDate.HasValue
                                         ? envelope.InternalDate.Value
                                         : DateTime.Now,
@@ -319,10 +349,17 @@ namespace Crystalbyte.Paranoia {
                                     FromName = envelope.From.Any()
                                         ? envelope.From.First().DisplayName
                                         : string.Empty
-                                }));
-                            //Here Be ToastMessage with Subject and Sender
-                            var notification = new NotificationWindow(messages);
-                            notification.Show();
+                                };
+
+                                messages.Add(message);
+                            }
+
+
+                            if (messages.Count > 0) {
+                                // TODO: Here Be ToastMessage with Subject and Sender
+                                var notification = new NotificationWindow(messages);
+                                notification.Show();
+                            }
                         }
                     }
                 }
@@ -330,10 +367,55 @@ namespace Crystalbyte.Paranoia {
                 await SaveMessagesToDatabaseAsync(messages);
                 await SaveContactsToDatabaseAsync(messages);
                 AppendMessagesAsync(messages);
-            } catch (Exception ex) {
-                throw;
-            } finally {
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
+            }
+            finally {
                 IsSyncing = false;
+            }
+        }
+
+        private async Task ProcessChallengeAsync(ImapEnvelope envelope, HeaderCollection header, ImapMailbox mailbox) {
+            var body = await mailbox.FetchMessageBodyAsync(envelope.Uid);
+            var bytes = Encoding.UTF8.GetBytes(body);
+            var message = new MailMessage(bytes);
+            var attachments = message.FindAllAttachments();
+
+            var token = attachments.FirstOrDefault(x => string.Compare(x.FileName, ParanoiaFilenames.Token, StringComparison.InvariantCultureIgnoreCase) == 0);
+            if (token == null) {
+                throw new Exception("OMFG BROKEN");
+	        }
+
+            var nonce = attachments.FirstOrDefault(x => string.Compare(x.FileName, ParanoiaFilenames.Nonce, StringComparison.InvariantCultureIgnoreCase) == 0);
+            if (nonce == null) {
+                throw new Exception("OMFG BROKEN");
+	        }
+
+            var publicKey = attachments.FirstOrDefault(x => string.Compare(x.FileName, ParanoiaFilenames.PublicKey, StringComparison.InvariantCultureIgnoreCase) == 0);
+            if (publicKey == null) {
+                throw new Exception("OMFG BROKEN");
+	        }
+
+            var data = App.Context.KeyContainer.DecryptWithPrivateKey(token.Body, publicKey.Body, nonce.Body);
+            await RespondToChallengeAsync(Encoding.UTF8.GetString(data));
+        }
+
+        private async Task RespondToChallengeAsync(string challenge) {
+
+            var response = JsonConvert.SerializeObject(new ChallengeResponse {
+                Token = challenge
+            });
+
+            using (var client = new WebClient()) {
+                client.Headers.Add(HttpRequestHeader.UserAgent, Settings.Default.UserAgent);
+
+                var address = string.Format("{0}/verify", Settings.Default.KeyServer);
+                var stream = await client.OpenWriteTaskAsync(new Uri(address, UriKind.Absolute));
+
+                using (var writer = new StreamWriter(stream)) {
+                    await writer.WriteAsync(response);
+                }
             }
         }
 
@@ -347,22 +429,23 @@ namespace Crystalbyte.Paranoia {
                             .Where(x => x.Address == m.FromAddress)
                             .FirstOrDefaultAsync();
 
-                        if (contact != null) 
+                        if (contact != null)
                             continue;
 
                         var model = new MailContactModel {
                             Address = m.FromAddress,
                             Name = m.FromName
                         };
-                        
+
                         database.MailContacts.Add(model);
                         await database.SaveChangesAsync();
                         contacts.Add(model);
                     }
-                    
+
                     App.Context.NotifyContactsAdded(contacts.Select(x => new MailContactContext(x)));
                 }
-            } catch (Exception) {
+            }
+            catch (Exception) {
 
                 throw;
             }
@@ -391,7 +474,8 @@ namespace Crystalbyte.Paranoia {
                     await contact.CountNotSeenAsync();
                 }
 
-            } catch (Exception) {
+            }
+            catch (Exception) {
                 messages.ForEach(x => x.IsSeen = true);
                 throw;
             }
@@ -418,7 +502,8 @@ namespace Crystalbyte.Paranoia {
                 if (contact != null) {
                     await contact.CountNotSeenAsync();
                 }
-            } catch (Exception) {
+            }
+            catch (Exception) {
                 messages.ForEach(x => x.IsSeen = false);
                 throw;
             }
@@ -428,7 +513,8 @@ namespace Crystalbyte.Paranoia {
             var contexts = messages.Select(x => new MailMessageContext(this, x));
             if (Messages == null) {
                 Messages = new ObservableCollection<MailMessageContext>(contexts);
-            } else {
+            }
+            else {
                 Messages.AddRange(contexts);
             }
 
@@ -468,7 +554,8 @@ namespace Crystalbyte.Paranoia {
                 }
                 Messages = new ObservableCollection<MailMessageContext>(
                     messages.Select(x => new MailMessageContext(this, x)));
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 throw;
             }
         }
@@ -545,7 +632,8 @@ namespace Crystalbyte.Paranoia {
                     IsAssignable = false;
                     OnAssignmentChanged();
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 throw;
             }
         }
@@ -599,7 +687,8 @@ namespace Crystalbyte.Paranoia {
 
                     await database.SaveChangesAsync();
                 }
-            } catch (Exception) {
+            }
+            catch (Exception) {
                 throw;
             }
         }

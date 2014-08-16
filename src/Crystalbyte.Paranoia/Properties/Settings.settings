@@ -15,5 +15,17 @@
     <Setting Name="HtmlDefaultFontSize" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
+    <Setting Name="KeyServer" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://88.198.19.85:15123</Value>
+    </Setting>
+    <Setting Name="PublicKeyFile" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">paranoia_ecc.pub</Value>
+    </Setting>
+    <Setting Name="PrivateKeyFile" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">paranoia_ecc</Value>
+    </Setting>
+    <Setting Name="UserAgent" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Paranoia/1.0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

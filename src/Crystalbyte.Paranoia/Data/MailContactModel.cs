@@ -1,6 +1,8 @@
 ﻿#region Using directives
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,6 +11,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Crystalbyte.Paranoia.Data {
     [Table("mail_contact")]
     public class MailContactModel {
+
+        private ICollection<PublicKeyModel> _keys;
+
+        public MailContactModel() {
+            _keys = new Collection<PublicKeyModel>();
+        }
+
         [Key]
         [Column("id")]
         public Int64 Id { get; set; }
@@ -20,5 +29,13 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("address")]
         [Collate(CollatingSequence.NoCase)]
         public string Address { get; set; }
+
+        [Column("security_measure")]
+        public SecurityMeasure SecurityMeasure { get; set; }
+
+        public virtual ICollection<PublicKeyModel> Keys {
+            get { return _keys; }
+            set { _keys = value; }
+        }
     }
 }

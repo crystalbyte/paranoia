@@ -208,7 +208,7 @@ namespace Crystalbyte.Paranoia.UI {
                        + SystemParameters.ResizeFrameVerticalBorderWidth + origin.X;
             var top = SystemParameters.WindowNonClientFrameThickness.Top
                       + SystemParameters.ResizeFrameHorizontalBorderHeight
-                      - SystemParameters.CaptionHeight + origin.Y - 1;
+                      - SystemParameters.CaptionHeight + origin.Y;
 
             FramePadding = new Thickness(left, top, 0, 0);
             MaxWidth = bounds.X + SystemParameters.ResizeFrameVerticalBorderWidth +

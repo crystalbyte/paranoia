@@ -23,6 +23,14 @@ using Crystalbyte.Paranoia.UI.Commands;
 using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.UI.Pages;
 using System.Windows;
+using System.Reactive.Concurrency;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json;
+using Crystalbyte.Paranoia.Net;
+using System.Security.Principal;
+using System.Security.AccessControl;
+using Crystalbyte.Paranoia.Cryptography;
 
 #endregion
 
@@ -60,6 +68,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _deleteAccountCommand;
         private readonly ICommand _createContactCommand;
         private readonly ICommand _deleteContactCommand;
+        private readonly ICommand _refreshKeysCommand;
 
         #endregion
 
@@ -81,8 +90,12 @@ namespace Crystalbyte.Paranoia {
             _createAccountCommand = new RelayCommand(OnCreateAccount);
             _configAccountCommand = new RelayCommand(OnConfigAccount);
             _createContactCommand = new RelayCommand(OnCreateContact);
+            _refreshKeysCommand = new RelayCommand(OnRefreshKeys);
             _resetZoomCommand = new RelayCommand(p => Zoom = 100.0f);
             _selectAccountCommand = new RelayCommand(p => IsAccountSelectionRequested = true);
+
+            Observable.Timer(TimeSpan.FromHours(24))
+                .Subscribe(OnRefreshContactKeys);
 
             Observable.FromEventPattern(
                     action => MessageSelectionChanged += action,
@@ -108,6 +121,74 @@ namespace Crystalbyte.Paranoia {
             _contacts.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Contacts);
         }
 
+        private async void OnRefreshKeys(object obj) {
+            await RefreshKeysForAllContactsAsync();   
+        }
+
+        private async void OnRefreshContactKeys(long obj) {
+            await RefreshKeysForAllContactsAsync();
+        }
+
+        private async Task RefreshKeysForAllContactsAsync() {
+            try {
+                IEnumerable<MailContactModel> contacts;
+                using (var database = new DatabaseContext()) {
+                    contacts = await database.MailContacts.ToArrayAsync();
+                }
+
+                using (var client = new WebClient()) {
+                    
+                    
+                    foreach (var contact in contacts) {
+                        var entry = await DownloadKeysForContactAsync(contact, client);
+                        if (entry == null || entry.Keys == null) {
+                            continue;
+                        }
+                        await UpdateKeysInDatabaseForContactAsync(contact, entry);
+                    }
+                }
+
+            }
+            catch (Exception) {
+                
+                throw;
+            }
+        }
+
+        private async Task UpdateKeysInDatabaseForContactAsync(MailContactModel contact, KeyCollection collection) {
+            try {
+                using (var database = new DatabaseContext()) {
+                    var keys = await database.PublicKeys.Where(x => x.ContactId == contact.Id).ToArrayAsync();
+                    var keysToBeAdded = collection.Keys.Except(keys.Select(x => x.Data));
+                    foreach (var key in keysToBeAdded) {
+                        database.PublicKeys.Add(new PublicKeyModel {
+                            ContactId = contact.Id,
+                            Data = key
+                        });
+                    }
+
+                    await database.SaveChangesAsync();
+                }
+            }
+            catch (Exception) {
+                throw;
+            }
+        }
+
+        private async Task<KeyCollection> DownloadKeysForContactAsync(MailContactModel contact, WebClient client) {
+            var server = Settings.Default.KeyServer;
+            var address = string.Format("{0}/keys?email={1}", server, contact.Address);
+
+            var uri = new Uri(address, UriKind.Absolute);
+            client.Headers.Add(HttpRequestHeader.UserAgent, Settings.Default.UserAgent);
+            var response = await client.OpenReadTaskAsync(uri);
+
+            using (var reader = new StreamReader(response)) {
+                var json = await reader.ReadToEndAsync();
+                return JsonConvert.DeserializeObject<KeyCollection>(json);
+            }
+        }
+        
         private void OnDeleteContact(object obj) {
 
         }
@@ -136,7 +217,8 @@ namespace Crystalbyte.Paranoia {
                 if (_accounts.Count > 0) {
                     SelectedAccount = Accounts.First();
                 }
-            } catch (Exception) {
+            }
+            catch (Exception) {
                 throw;
             }
         }
@@ -390,6 +472,10 @@ namespace Crystalbyte.Paranoia {
             get { return _printCommand; }
         }
 
+        public ICommand RefreshKeysCommand {
+            get { return _refreshKeysCommand; }
+        }
+
         public ICommand CreateContactCommand {
             get { return _createContactCommand; }
         }
@@ -425,6 +511,8 @@ namespace Crystalbyte.Paranoia {
         public ICommand CreateAccountCommand {
             get { return _createAccountCommand; }
         }
+
+        public PublicKeyCrypto KeyContainer { get; private set; }
 
         public IEnumerable<MailMessageContext> SelectedMessages {
             get { return _selectedMessages; }
@@ -536,9 +624,15 @@ namespace Crystalbyte.Paranoia {
             Source = string.Format("asset://paranoia/message/{0}", message.Id);
         }
 
+        internal static DirectoryInfo GetKeyDirectory() {
+            var dataDir = (string)AppDomain.CurrentDomain.GetData("DataDirectory");
+            return new DirectoryInfo(Path.Combine(dataDir, "keys"));
+        }
+
+
         public async Task RunAsync() {
-            await LoadContactsFromDatabaseAsync();
             await LoadAccountsFromDatabaseAsync();
+            await LoadContactsFromDatabaseAsync();
             SelectedAccount = Accounts.FirstOrDefault();
             if (SelectedAccount != null)
                 SelectedAccount.IsSelected = true;
@@ -549,7 +643,7 @@ namespace Crystalbyte.Paranoia {
         private async Task LoadAccountsFromDatabaseAsync() {
             using (var context = new DatabaseContext()) {
                 var accounts = await context.MailAccounts.ToArrayAsync();
-                _accounts.AddRange(accounts.Select(x => new MailAccountContext(x, this)));
+                _accounts.AddRange(accounts.Select(x => new MailAccountContext(x)));
             }
         }
 
@@ -583,8 +677,14 @@ namespace Crystalbyte.Paranoia {
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
-        internal void OpenDecryptKeyPairDialog() {
-            throw new NotImplementedException();
+        internal async void OpenDecryptKeyPairDialog() {
+            var info = AppContext.GetKeyDirectory();
+            var publicKey = Path.Combine(info.FullName, Settings.Default.PublicKeyFile);
+            var privateKey = Path.Combine(info.FullName, Settings.Default.PrivateKeyFile);
+
+            KeyContainer = new PublicKeyCrypto();
+            await KeyContainer.InitFromFileAsync(publicKey, privateKey);
+            await App.Context.RunAsync();
         }
 
         private void OnConfigAccount(object obj) {

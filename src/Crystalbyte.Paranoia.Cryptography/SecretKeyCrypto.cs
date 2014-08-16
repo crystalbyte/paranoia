@@ -102,16 +102,16 @@ namespace Crystalbyte.Paranoia.Cryptography
         
         private static class SafeNativeMethods
         {
-            [DllImport(Library.Sodium, EntryPoint = "randombytes_buf")]
+            [DllImport(Library.Sodium, EntryPoint = "randombytes_buf", CallingConvention = CallingConvention.Cdecl)]
             public static extern void RandomBytesBuf(IntPtr buf, uint size);
 
-            [DllImport(Library.Sodium, EntryPoint = "sodium_memzero")]
+            [DllImport(Library.Sodium, EntryPoint = "sodium_memzero", CallingConvention = CallingConvention.Cdecl)]
             public static extern void SodiumMemZero(IntPtr buf, uint size);
 
-            [DllImport(Library.Sodium, EntryPoint = "crypto_secretbox_easy")]
+            [DllImport(Library.Sodium, EntryPoint = "crypto_secretbox_easy", CallingConvention = CallingConvention.Cdecl)]
             public static extern int CryptoSecretboxEasy(IntPtr c, IntPtr m, long mlen, IntPtr n, IntPtr k);
 
-            [DllImport(Library.Sodium, EntryPoint = "crypto_secretbox_open_easy")]
+            [DllImport(Library.Sodium, EntryPoint = "crypto_secretbox_open_easy", CallingConvention = CallingConvention.Cdecl)]
             public static extern int CryptoSecretboxOpenEasy(IntPtr m, IntPtr c, long clen, IntPtr n, IntPtr k);
         }
     }

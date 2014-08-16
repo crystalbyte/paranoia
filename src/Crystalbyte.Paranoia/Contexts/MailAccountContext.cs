@@ -15,6 +15,10 @@ using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
 using MailMessage = System.Net.Mail.MailMessage;
+using Crystalbyte.Paranoia.Net;
+using System.IO;
+using Newtonsoft.Json;
+using System.Text;
 
 #endregion
 
@@ -25,6 +29,7 @@ namespace Crystalbyte.Paranoia {
         private readonly MailAccountModel _account;
         private readonly ICommand _dropMailboxCommand;
         private readonly ICommand _testSettingsCommand;
+        private readonly ICommand _registerAccount;
         private readonly OutboxContext _outbox;
 
         private readonly ObservableCollection<MailboxContext> _mailboxes;
@@ -35,18 +40,27 @@ namespace Crystalbyte.Paranoia {
         private bool _isOutboxSelected;
         private TestingContext _testing;
 
-        internal MailAccountContext(MailAccountModel account, AppContext appContext) {
+        internal MailAccountContext(MailAccountModel account) {
             _account = account;
-            _appContext = appContext;
+            _appContext = App.Context;
             _outbox = new OutboxContext(this);
+            _registerAccount = new RelayCommand(OnRegister);
             _dropMailboxCommand = new DropAssignmentCommand(this);
             _testSettingsCommand = new RelayCommand(OnTestSettings);
             _isAutoDetectPreferred = true;
             _mailboxes = new ObservableCollection<MailboxContext>();
         }
 
+        private async void OnRegister(object obj) {
+            await RegisterKeyWithServerAsync();
+        }
+
         private async void OnTestSettings(object obj) {
             await TestSettingsAsync();
+        }
+
+        public ICommand RegisterCommand {
+            get { return _registerAccount; }
         }
 
         public ICommand DropMailboxCommand {
@@ -112,7 +126,7 @@ namespace Crystalbyte.Paranoia {
 
             var t2 = mailboxes
                 .Where(x => x.IsAssigned)
-                .Select(x => x.SyncAsync());
+                .Select(x => x.SyncMessagesAsync());
 
             await Task.WhenAll(t2);
 
@@ -144,7 +158,7 @@ namespace Crystalbyte.Paranoia {
             await Task.WhenAll(tasks);
         }
 
-     
+
 
         public event EventHandler MailboxSelectionChanged;
 
@@ -170,7 +184,7 @@ namespace Crystalbyte.Paranoia {
 
             var contact = App.Context.SelectedContact;
             await mailbox.UpdateAsync(contact);
-            await mailbox.SyncAsync();
+            await mailbox.SyncMessagesAsync();
         }
 
         public MailboxContext SelectedMailbox {
@@ -474,7 +488,8 @@ namespace Crystalbyte.Paranoia {
                         await auth.LoginAsync(username, password);
                     }
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Testing = new TestingContext {
                     IsFaulted = true,
                     Message = ex.Message
@@ -493,7 +508,8 @@ namespace Crystalbyte.Paranoia {
                         await auth.LoginAsync(ImapUsername, ImapPassword);
                     }
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Testing = new TestingContext {
                     IsFaulted = true,
                     Message = ex.Message
@@ -519,11 +535,11 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-     
 
-    
 
-   
+
+
+
 
         internal async Task SaveSmtpRequestsToDatabaseAsync(IEnumerable<MailMessage> messages) {
             using (var database = new DatabaseContext()) {
@@ -551,7 +567,8 @@ namespace Crystalbyte.Paranoia {
                     database.MailAccounts.Add(_account);
                     await database.SaveChangesAsync();
                 }
-            } catch (Exception) {
+            }
+            catch (Exception) {
                 throw;
             }
         }
@@ -581,9 +598,11 @@ namespace Crystalbyte.Paranoia {
                     var serializer = new XmlSerializer(typeof(clientConfig));
                     var config = serializer.Deserialize(stream) as clientConfig;
                     Configure(config);
-                } catch (WebException) {
+                }
+                catch (WebException) {
                     MakeEducatedGuess();
-                } finally {
+                }
+                finally {
                     IsDetectingSettings = false;
                 }
             }
@@ -642,7 +661,35 @@ namespace Crystalbyte.Paranoia {
 
                     await database.SaveChangesAsync();
                 }
-            } catch (Exception) {
+            }
+            catch (Exception) {
+
+                throw;
+            }
+        }
+
+        internal async Task RegisterKeyWithServerAsync() {
+            try {
+
+                var info = AppContext.GetKeyDirectory();
+                var key = File.ReadAllText(Path.Combine(info.FullName, Settings.Default.PublicKeyFile));
+                
+                var pair = new AddressKeyPair{
+                    Address = Address,
+                    Key = key
+                };
+
+                var json = JsonConvert.SerializeObject(pair);
+                var bytes = Encoding.UTF8.GetBytes(json);
+
+                using (var client = new WebClient()) {
+                    client.Headers.Add(HttpRequestHeader.UserAgent, Settings.Default.UserAgent);
+                    var address = string.Format("{0}/keys", Settings.Default.KeyServer);
+                    var uri = new Uri(address, UriKind.Absolute);
+                    await client.UploadDataTaskAsync(uri, bytes);
+                }
+            }
+            catch (Exception) {
 
                 throw;
             }

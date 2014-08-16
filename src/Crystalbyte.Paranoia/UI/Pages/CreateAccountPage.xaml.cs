@@ -12,7 +12,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
     public partial class CreateAccountPage {
         public CreateAccountPage() {
             InitializeComponent();
-            DataContext = new MailAccountContext(new MailAccountModel(), App.Context);
+            DataContext = new MailAccountContext(new MailAccountModel());
 
             CommandBindings.Add(new CommandBinding(PageCommands.Cancel, OnCancel));
             CommandBindings.Add(new CommandBinding(PageCommands.Continue, OnContinue));

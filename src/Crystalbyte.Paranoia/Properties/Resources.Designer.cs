@@ -532,6 +532,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No connectivity, please check your internet connection..
         /// </summary>
         public static string NoConnectivity {
@@ -618,6 +627,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Recipients {
             get {
                 return ResourceManager.GetString("Recipients", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registering Keys.
+        /// </summary>
+        public static string RegisterKeyTitle {
+            get {
+                return ResourceManager.GetString("RegisterKeyTitle", resourceCulture);
             }
         }
         

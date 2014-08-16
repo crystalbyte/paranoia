@@ -10,6 +10,7 @@ using Awesomium.Core;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
+using System.Net;
 
 #endregion
 
@@ -27,6 +28,9 @@ namespace Crystalbyte.Paranoia {
 
         protected override async void OnStartup(StartupEventArgs e) {
             base.OnStartup(e);
+
+            // TODO: remove on valid certificate usage ...
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
             InitEnvironment();
             InitSodium();
