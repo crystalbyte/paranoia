@@ -26,13 +26,13 @@
                 BorderBrush="Black"
                 BorderThickness="1"
                 CornerRadius="10">
-            <StackPanel Margin="20">
-                <TextBlock Margin="5"
-                           Text="{Binding FromAddress}"
-                           TextWrapping="Wrap" />
-                <CheckBox Margin="5 5 0 5" Content="Checkable" />
-                <Button HorizontalAlignment="Center" Content="Clickable" />
-            </StackPanel>
+            <Grid Margin="0,19,21,21" HorizontalAlignment="Right" Width="258">
+                <TextBlock Margin="98,0,5,37"
+                           Text="{Binding FromName}"
+                           TextWrapping="Wrap" FontWeight="Bold" />
+                <Image Source="{Binding FromAddress, Converter={StaticResource GravatarImageConverter}}" Height="68" HorizontalAlignment="Left" Width="93"/>
+                <TextBlock Text="{Binding Subject}" Margin="98,36,0,0"/>
+            </Grid>
         </Border>
 
         <!--  Animation  -->
