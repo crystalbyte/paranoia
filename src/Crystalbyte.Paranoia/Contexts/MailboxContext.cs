@@ -41,6 +41,7 @@ namespace Crystalbyte.Paranoia {
         internal MailboxContext(MailAccountContext account, MailboxModel mailbox) {
             _account = account;
             _mailbox = mailbox;
+            _messages = new ObservableCollection<MailMessageContext>();
             _assignmentCommand = new AssignMailboxCommand(this);
             _mailboxCandidates = new ObservableCollection<MailboxCandidateContext>();
         }
@@ -315,18 +316,19 @@ namespace Crystalbyte.Paranoia {
                             }
 
                             foreach (var envelope in envelopes) {
-
                                 var responses = await mailbox.FetchHeadersAsync(new[] { envelope.Uid });
                                 if (responses.ContainsKey(envelope.Uid)) {
                                     var headers = responses[envelope.Uid];
                                     var isChallenge = headers.ContainsKey(ParanoiaHeaderKeys.Challenge);
-                                    if (isChallenge) {
+                                    var isRelevant = envelope.InternalDate.HasValue
+                                        && (DateTime.Now - envelope.InternalDate.Value) < TimeSpan.FromHours(1);
+
+                                    if (isChallenge && isRelevant) {
                                         try {
                                             await ProcessChallengeAsync(envelope, headers, mailbox);
                                         } catch (Exception ex) {
                                             Debug.WriteLine(ex.Message);
                                         }
-
                                         continue;
                                     }
                                 }
@@ -363,7 +365,6 @@ namespace Crystalbyte.Paranoia {
 
                 await SaveMessagesToDatabaseAsync(messages);
                 await SaveContactsToDatabaseAsync(messages);
-                AppendMessagesAsync(messages);
             } catch (Exception ex) {
                 Debug.WriteLine(ex.Message);
             } finally {
@@ -437,7 +438,9 @@ namespace Crystalbyte.Paranoia {
                         contacts.Add(model);
                     }
 
-                    App.Context.NotifyContactsAdded(contacts.Select(x => new MailContactContext(x)));
+                    App.Context.NotifyContactsAdded(contacts
+                        .Select(x => new MailContactContext(x))
+                        .ToList());
                 }
             } catch (Exception) {
 
@@ -501,18 +504,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async void AppendMessagesAsync(IEnumerable<MailMessageModel> messages) {
-            var contexts = messages.Select(x => new MailMessageContext(this, x));
-            if (Messages == null) {
-                Messages = new ObservableCollection<MailMessageContext>(contexts);
-            } else {
-                Messages.AddRange(contexts);
-            }
-
-            _account.AppContext.NotifyMessageCountChanged();
-            await CountNotSeenAsync();
-        }
-
         internal async Task CountNotSeenAsync() {
             var contact = App.Context.SelectedContact;
             if (contact == null) {
@@ -543,19 +534,23 @@ namespace Crystalbyte.Paranoia {
                 if (!IsSelected) {
                     return;
                 }
-                Messages = new ObservableCollection<MailMessageContext>(
-                    messages.Select(x => new MailMessageContext(this, x)));
+
+                _messages.Clear();
+                _messages.AddRange(messages.Select(x => new MailMessageContext(this, x)));
             } catch (Exception ex) {
                 throw;
             }
         }
 
-        private async Task SaveMessagesToDatabaseAsync(IEnumerable<MailMessageModel> messages) {
+        private async Task SaveMessagesToDatabaseAsync(ICollection<MailMessageModel> messages) {
             using (var context = new DatabaseContext()) {
                 context.Mailboxes.Attach(_mailbox);
                 _mailbox.Messages.AddRange(messages);
                 await context.SaveChangesAsync();
             }
+
+            App.Context.NotifyMessagesAdded(messages
+                .Select(x => new MailMessageContext(this, x)));
         }
 
         private Task<Int64> GetMaxUidAsync() {
@@ -641,7 +636,7 @@ namespace Crystalbyte.Paranoia {
             _assignmentCommand.OnCanExecuteChanged();
         }
 
-        internal async Task UpdateAsync(MailContactContext contact) {
+        internal async Task DisplayMessagesForContactAsync(MailContactContext contact) {
             if (contact == null) {
                 _account.AppContext.ClearMessages();
                 return;

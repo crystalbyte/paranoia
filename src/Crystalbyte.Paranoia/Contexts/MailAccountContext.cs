@@ -183,7 +183,7 @@ namespace Crystalbyte.Paranoia {
             }
 
             var contact = App.Context.SelectedContact;
-            await mailbox.UpdateAsync(contact);
+            await mailbox.DisplayMessagesForContactAsync(contact);
             await mailbox.SyncMessagesAsync();
         }
 

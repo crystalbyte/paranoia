@@ -410,4 +410,7 @@ Once your password is lost you're screwed.</value>
   <data name="RegisterKeyTitle" xml:space="preserve">
     <value>Registering Keys</value>
   </data>
+  <data name="RefreshingPublicKeysStatus" xml:space="preserve">
+    <value>Refreshing public keys for contacts ...</value>
+  </data>
 </root>

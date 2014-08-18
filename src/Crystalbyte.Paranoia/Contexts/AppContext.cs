@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Composition;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reactive;
@@ -42,7 +43,6 @@ namespace Crystalbyte.Paranoia {
 
         private float _zoom;
         private string _queryString;
-        private object _messages;
         private string _source;
         private string _statusText;
         private bool _isPopupVisible;
@@ -51,6 +51,7 @@ namespace Crystalbyte.Paranoia {
         private readonly DispatcherTimer _outboxTimer;
         private MailAccountContext _selectedAccount;
         private IEnumerable<MailMessageContext> _selectedMessages;
+        private readonly ObservableCollection<MailMessageContext> _messages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
         private readonly ObservableCollection<MailContactContext> _contacts;
         private MailContactContext _selectedContact;
@@ -77,6 +78,8 @@ namespace Crystalbyte.Paranoia {
         public AppContext() {
             _accounts = new ObservableCollection<MailAccountContext>();
             _accounts.CollectionChanged += OnAccountsCollectionChanged;
+
+            _messages = new ObservableCollection<MailMessageContext>();
 
             _printCommand = new PrintCommand(this);
             _replyCommand = new ReplyCommand(this);
@@ -122,7 +125,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnRefreshKeys(object obj) {
-            await RefreshKeysForAllContactsAsync();   
+            await RefreshKeysForAllContactsAsync();
         }
 
         private async void OnRefreshContactKeys(long obj) {
@@ -131,14 +134,14 @@ namespace Crystalbyte.Paranoia {
 
         private async Task RefreshKeysForAllContactsAsync() {
             try {
+                StatusText = Resources.RefreshingPublicKeysStatus;
+
                 IEnumerable<MailContactModel> contacts;
                 using (var database = new DatabaseContext()) {
                     contacts = await database.MailContacts.ToArrayAsync();
                 }
 
                 using (var client = new WebClient()) {
-                    
-                    
                     foreach (var contact in contacts) {
                         var entry = await DownloadKeysForContactAsync(contact, client);
                         if (entry == null || entry.Keys == null) {
@@ -148,10 +151,10 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-            }
-            catch (Exception) {
-                
-                throw;
+            } catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
+            } finally {
+                StatusText = Resources.ReadyStatus;
             }
         }
 
@@ -169,8 +172,7 @@ namespace Crystalbyte.Paranoia {
 
                     await database.SaveChangesAsync();
                 }
-            }
-            catch (Exception) {
+            } catch (Exception) {
                 throw;
             }
         }
@@ -188,7 +190,7 @@ namespace Crystalbyte.Paranoia {
                 return JsonConvert.DeserializeObject<KeyCollection>(json);
             }
         }
-        
+
         private void OnDeleteContact(object obj) {
 
         }
@@ -217,8 +219,7 @@ namespace Crystalbyte.Paranoia {
                 if (_accounts.Count > 0) {
                     SelectedAccount = Accounts.First();
                 }
-            }
-            catch (Exception) {
+            } catch (Exception) {
                 throw;
             }
         }
@@ -273,12 +274,15 @@ namespace Crystalbyte.Paranoia {
             if (handler != null)
                 handler(this, EventArgs.Empty);
 
-            var tasks = _contacts.Select(x => x.CountNotSeenAsync());
+            await RefreshContactStatisticsAsync();
+        }
+
+        private async Task RefreshContactStatisticsAsync(IEnumerable<MailContactContext> contacts = null) {
+            var tasks = (contacts ?? _contacts).Select(x => x.CountNotSeenAsync());
             await Task.WhenAll(tasks);
 
-            var tasks2 = _contacts.Select(x => x.CountMessagesAsync());
+            var tasks2 = (contacts ?? _contacts).Select(x => x.CountMessagesAsync());
             await Task.WhenAll(tasks2);
-
         }
 
         internal event EventHandler<QueryStringEventArgs> QueryStringChanged;
@@ -330,7 +334,7 @@ namespace Crystalbyte.Paranoia {
                 }
                 _selectedContact = value;
                 RaisePropertyChanged(() => SelectedContact);
-                OnSelectedContactChanged();
+                OnContactSelectionChanged();
             }
         }
 
@@ -360,7 +364,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async void OnSelectedContactChanged() {
+        private async void OnContactSelectionChanged() {
             var account = SelectedAccount;
             if (account == null) {
                 return;
@@ -372,14 +376,15 @@ namespace Crystalbyte.Paranoia {
                 account.SelectedMailbox = mailbox;
             }
 
+            ClearMessages();
+
             // Clear all if still null;
             if (mailbox == null) {
-                ClearMessages();
                 return;
             }
 
             var contact = SelectedContact;
-            await mailbox.UpdateAsync(contact);
+            await mailbox.DisplayMessagesForContactAsync(contact);
 
             if (contact != null) {
                 await contact.CountNotSeenAsync();
@@ -426,15 +431,8 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public object Messages {
+        public IEnumerable<MailMessageContext> Messages {
             get { return _messages; }
-            set {
-                if (_messages == value) {
-                    return;
-                }
-                _messages = value;
-                RaisePropertyChanged(() => Messages);
-            }
         }
 
         public float Zoom {
@@ -605,10 +603,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void DisplayMessages(ICollection<MailMessageContext> messages) {
-            Messages = messages;
-            if (messages == null) {
-                return;
-            }
+            _messages.Clear();
+            _messages.AddRange(messages);
 
             if (messages.Count > 0) {
                 messages.OrderByDescending(x => x.EntryDate)
@@ -678,7 +674,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async void OpenDecryptKeyPairDialog() {
-            var info = AppContext.GetKeyDirectory();
+            var info = GetKeyDirectory();
             var publicKey = Path.Combine(info.FullName, Settings.Default.PublicKeyFile);
             var privateKey = Path.Combine(info.FullName, Settings.Default.PrivateKeyFile);
 
@@ -700,7 +696,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void ClearMessages() {
-            Messages = null;
+            _messages.Clear();
             ClearMessageView();
         }
 
@@ -729,8 +725,14 @@ namespace Crystalbyte.Paranoia {
             StatusText = Resources.ReadyStatus;
         }
 
-        internal void NotifyContactsAdded(IEnumerable<MailContactContext> contacts) {
+        internal async void NotifyContactsAdded(ICollection<MailContactContext> contacts) {
             _contacts.AddRange(contacts);
+            await RefreshContactStatisticsAsync(contacts);
+        }
+
+        internal async void NotifyMessagesAdded(IEnumerable<MailMessageContext> messages) {
+            _messages.AddRange(messages);
+            await RefreshContactStatisticsAsync();
         }
     }
 }

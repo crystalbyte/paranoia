@@ -631,6 +631,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refreshing public keys for contacts ....
+        /// </summary>
+        public static string RefreshingPublicKeysStatus {
+            get {
+                return ResourceManager.GetString("RefreshingPublicKeysStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registering Keys.
         /// </summary>
         public static string RegisterKeyTitle {
