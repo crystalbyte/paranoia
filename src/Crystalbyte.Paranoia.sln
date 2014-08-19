@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia", "Crystalbyte.Paranoia\Crystalbyte.Paranoia.csproj", "{A0762E18-FAC3-4624-8B65-9D1AF8E4F366}"
 EndProject
@@ -21,6 +21,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Mail", "Crystalbyte.Paranoia.Mail\Crystalbyte.Paranoia.Mail.csproj", "{0DC46336-8D08-4C35-8F65-1D1CF2FD0E11}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Tests", "Crystalbyte.Paranoia.Tests\Crystalbyte.Paranoia.Tests.csproj", "{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CKEditorDotNet", "CKEditorDotNet\CKEditorDotNet.csproj", "{4F577E4D-6892-4B0B-BF59-87B43F60708B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,16 @@ Global
 		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}.Retail|Any CPU.Build.0 = Release|Any CPU
 		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}.Trial|Any CPU.ActiveCfg = Release|Any CPU
 		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}.Trial|Any CPU.Build.0 = Release|Any CPU
+		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.MailSystem Dev|Any CPU.ActiveCfg = Release|Any CPU
+		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.MailSystem Dev|Any CPU.Build.0 = Release|Any CPU
+		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.Trial|Any CPU.ActiveCfg = Release|Any CPU
+		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.Trial|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
