@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
@@ -58,7 +49,7 @@ namespace Crystalbyte.Paranoia.UI {
             Caster.HorizontalAlignment = HorizontalAlignment.Right;
             Caster.VerticalAlignment = VerticalAlignment.Stretch;
             Width = 10;
-            Left = window.Left - Width;
+            Left = window.Left - Transform(Width);
             Top = window.Top;
             Height = window.Height;
             DropShadowEffect.Direction = 180;
@@ -81,7 +72,7 @@ namespace Crystalbyte.Paranoia.UI {
             Caster.VerticalAlignment = VerticalAlignment.Bottom;
             Height = 10;
             Left = window.Left;
-            Top = window.Top - Height;
+            Top = window.Top - Transform(Height);
             Width = window.Width;
             DropShadowEffect.Direction = 90;
         }
@@ -113,7 +104,7 @@ namespace Crystalbyte.Paranoia.UI {
                 throw new NullReferenceException("target");
             }
 
-            _matrix = target.TransformFromDevice;
+            _matrix = target.TransformToDevice;
 
             SetExtendedToolWindowStyle();
         }
@@ -149,7 +140,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public static IntPtr SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong) {
-            var error = 0;
+            int error;
             IntPtr result;
             // Win32 SetWindowLong doesn't clear error on success
             NativeMethods.SetLastError(0);
@@ -185,15 +176,8 @@ namespace Crystalbyte.Paranoia.UI {
 
             [DllImport("kernel32.dll", EntryPoint = "SetLastError")]
             public static extern void SetLastError(int dwErrorCode);
-
-
-
         }
 
-
-
-
         #endregion
-
     }
 }

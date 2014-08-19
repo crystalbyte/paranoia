@@ -3,8 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Security;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -33,8 +31,8 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public MetroWindow() {
-            Loaded += OnWindowLoaded;
             SourceInitialized += OnSourceInitialized;
+            Loaded += OnLoaded;
 
             CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
             CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));
@@ -43,6 +41,10 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
 
             _shadowCasters = new List<ShadowCaster>();
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e) {
+            Left += 1;
         }
 
         #endregion
@@ -114,10 +116,6 @@ namespace Crystalbyte.Paranoia.UI {
             MessageBox.Show("Not yet implemented.");
         }
 
-        private void OnWindowLoaded(object sender, RoutedEventArgs e) {
-            UpdateWindowStates();
-        }
-
         private void OnMinimize(object sender, ExecutedRoutedEventArgs e) {
             WindowState = WindowState.Minimized;
             e.Handled = true;
@@ -145,10 +143,10 @@ namespace Crystalbyte.Paranoia.UI {
                 _hwndSource.AddHook(WindowProc);
 
             _shadowCasters.AddRange(new[] {
-                new ShadowCaster { DockPosition = Dock.Left, Owner = this},
-                new ShadowCaster { DockPosition = Dock.Top, Owner = this},
-                new ShadowCaster { DockPosition = Dock.Right, Owner = this},
-                new ShadowCaster { DockPosition = Dock.Bottom, Owner = this}
+                new ShadowCaster { DockPosition = Dock.Left, Owner = this },
+                new ShadowCaster { DockPosition = Dock.Top, Owner = this },
+                new ShadowCaster { DockPosition = Dock.Right, Owner = this },
+                new ShadowCaster { DockPosition = Dock.Bottom, Owner = this }
             });
 
             UpdateShadowCasters();
@@ -166,6 +164,11 @@ namespace Crystalbyte.Paranoia.UI {
 
         protected override void OnLocationChanged(EventArgs e) {
             base.OnLocationChanged(e);
+            UpdateShadowCasters();
+        }
+
+        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo) {
+            base.OnRenderSizeChanged(sizeInfo);
             UpdateShadowCasters();
         }
 
@@ -234,7 +237,6 @@ namespace Crystalbyte.Paranoia.UI {
             }
 
             Marshal.StructureToPtr(mmi, lParam, true);
-
         }
 
         private static class NativeMethods {
