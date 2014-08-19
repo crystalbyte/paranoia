@@ -24,8 +24,7 @@ namespace Crystalbyte.Paranoia {
                                                                                           SystemParameters.WorkArea;
                                                                                       Left = workingArea.Right -
                                                                                              ActualWidth;
-                                                                                      Top = workingArea.Bottom -
-                                                                                            ActualHeight;
+                                                                                      Top = workingArea.Top;
                                                                                   }));
             sb.Completed += OnStoryboardCompleted;
         }

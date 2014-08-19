@@ -25,15 +25,13 @@
         <!--  Notification area  -->
         <Border Background="Black"
                 BorderBrush="Black"
-                BorderThickness="1"
-                CornerRadius="10">
-            <Grid Margin="0,19,21,21" HorizontalAlignment="Right" Width="258">
-                <TextBlock Margin="98,0,5,37"
+                BorderThickness="1">
+            <Grid Margin="-1" HorizontalAlignment="Right" Width="300">
+                <TextBlock Margin="98,0,5,52"
                            Text="{Binding FromName}"
                            TextWrapping="Wrap" FontWeight="Bold" />
-                <Image Source="{Binding FromAddress, Converter={StaticResource GravatarImageConverter}}" Height="68"
-                       HorizontalAlignment="Left" Width="93" />
-                <TextBlock Text="{Binding Subject}" Margin="98,36,0,0" />
+                <Image Source="{Binding FromAddress, Converter={StaticResource GravatarImageConverter}}" Height="68" Margin="0,0,207,0" />
+                <TextBlock Text="{Binding Subject}" Margin="98,21,0,31" />
             </Grid>
         </Border>
 
