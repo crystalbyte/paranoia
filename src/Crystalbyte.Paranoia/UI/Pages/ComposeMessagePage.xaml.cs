@@ -34,7 +34,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private void OnDocumentTextRequested(object sender, DocumentTextRequestedEventArgs e) {
-            e.Document = HtmlControl.GetDocument();
+            //todo fix this e.Document = HtmlControl.GetDocument();
         }
 
         private async void Reset() {

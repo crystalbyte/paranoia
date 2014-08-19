@@ -440,6 +440,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CKEditorDotNet\CKEditorDotNet.csproj">
+      <Project>{4f577e4d-6892-4b0b-bf59-87b43f60708b}</Project>
+      <Name>CKEditorDotNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Crystalbyte.Paranoia.Cryptography\Crystalbyte.Paranoia.Cryptography.csproj">
       <Project>{fc115aed-c02e-45a6-80eb-711a1ccf14e3}</Project>
       <Name>Crystalbyte.Paranoia.Cryptography</Name>

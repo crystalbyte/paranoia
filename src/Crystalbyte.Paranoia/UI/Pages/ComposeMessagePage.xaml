@@ -7,6 +7,7 @@
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
       xmlns:system="clr-namespace:System;assembly=mscorlib"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+      xmlns:CKE="clr-namespace:CKEditorDotNet;assembly=CKEditorDotNet"
       Title="{x:Static properties:Resources.ComposeMessagePageTitle}"
       FocusManager.FocusedElement="{Binding ElementName=RecipientsBox}"
       d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}"
@@ -121,7 +122,16 @@
                  Grid.Column="1"
                  Text="{Binding Subject,
                                 Mode=TwoWay}" />
-        <ui:HtmlControl x:Name="HtmlControl"
+        <CKE:CKEditor Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="0,3,0,12"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                           AppControlBackgroundBrush}}"
+                        Padding="3"/>
+        <!--<ui:HtmlControl x:Name="HtmlControl"
                         Grid.Row="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
@@ -133,7 +143,7 @@
                         IsTransparent="True"
                         Padding="3"
                         Source="{Binding Text,
-                                         Mode=TwoWay}" />
+                                         Mode=TwoWay}" />-->
         <ui:MetroCircleButton Grid.Row="3"
                               Grid.Column="0"
                               HorizontalAlignment="Left"
