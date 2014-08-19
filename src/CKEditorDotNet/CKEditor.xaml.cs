@@ -90,10 +90,7 @@ namespace CKEditorDotNet
             if (!File.Exists(editorFile))
                 throw new IOException("editorfile not found\n" + editorFile);
 
-            //ie security hack
-            var uri = new Uri("file://127.0.0.1/"
-                + editorFile.Replace(':', '$'), UriKind.Absolute);
-
+            var uri = new Uri(editorFile, UriKind.Absolute);
             EditorBrowser.Source = uri;
             Test();
         }
