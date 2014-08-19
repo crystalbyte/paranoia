@@ -15,7 +15,7 @@ namespace Crystalbyte.Paranoia.Data {
             var c = context.Database.Connection.ConnectionString;
             var reader = new SQLiteConnectionStringReader(c);
             var path = reader.DataSource;
-            if (File.Exists(path)) { 
+            if (File.Exists(path)) {
                 return;
             }
 

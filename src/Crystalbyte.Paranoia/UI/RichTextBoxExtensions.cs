@@ -8,11 +8,11 @@ using System.Windows.Controls;
 namespace Crystalbyte.Paranoia.UI {
     public static class RichTextBoxExtensions {
         public static readonly DependencyProperty BindableTextProperty =
-            DependencyProperty.RegisterAttached("BindableText", typeof(string), typeof(RichTextBoxExtensions),
+            DependencyProperty.RegisterAttached("BindableText", typeof (string), typeof (RichTextBoxExtensions),
                 new UIPropertyMetadata(null, BindableTextPropertyChanged));
 
         public static string GetBindableText(DependencyObject obj) {
-            return (string)obj.GetValue(BindableTextProperty);
+            return (string) obj.GetValue(BindableTextProperty);
         }
 
         public static void SetBindableText(DependencyObject obj, string value) {
@@ -41,7 +41,7 @@ namespace Crystalbyte.Paranoia.UI {
                 textbox.CaretPosition.Paragraph.Inlines.Add(text);
             }
             finally {
-                textbox.EndChange();    
+                textbox.EndChange();
             }
         }
     }

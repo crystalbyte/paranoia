@@ -5,12 +5,12 @@ using System.Composition;
 using System.Composition.Hosting;
 using System.Configuration;
 using System.Data.Entity;
+using System.Net;
 using System.Windows;
 using Awesomium.Core;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
-using System.Net;
 
 #endregion
 
@@ -45,7 +45,8 @@ namespace Crystalbyte.Paranoia {
                 if (accounts.Length != 0)
                     return;
 
-                var account = new MailAccountModel {
+                var account = new MailAccountModel
+                {
                     Name = "Paranoia Test Account",
                     Address = "paranoia.app@gmail.com",
                     ImapUsername = "paranoia.app@gmail.com",
@@ -62,16 +63,20 @@ namespace Crystalbyte.Paranoia {
                     SmtpRequiresAuthentication = true,
                 };
 
-                account.Mailboxes.Add(new MailboxModel {
+                account.Mailboxes.Add(new MailboxModel
+                {
                     Type = MailboxType.Inbox
                 });
-                account.Mailboxes.Add(new MailboxModel {
+                account.Mailboxes.Add(new MailboxModel
+                {
                     Type = MailboxType.Trash
                 });
-                account.Mailboxes.Add(new MailboxModel {
+                account.Mailboxes.Add(new MailboxModel
+                {
                     Type = MailboxType.Sent
                 });
-                account.Mailboxes.Add(new MailboxModel {
+                account.Mailboxes.Add(new MailboxModel
+                {
                     Type = MailboxType.Draft
                 });
 
@@ -83,7 +88,6 @@ namespace Crystalbyte.Paranoia {
         }
 
         protected override void OnExit(ExitEventArgs e) {
-
             // Make sure we shutdown the core last.
             if (WebCore.IsInitialized)
                 WebCore.Shutdown();
@@ -95,7 +99,8 @@ namespace Crystalbyte.Paranoia {
             // Initialization must be performed here,
             // before creating a WebControl.
             if (!WebCore.IsInitialized) {
-                WebCore.Initialize(new WebConfig {
+                WebCore.Initialize(new WebConfig
+                {
                     HomeURL = "http://www.awesomium.com".ToUri(),
                     LogPath = @".\starter.log",
                     LogLevel = LogLevel.Verbose
@@ -119,7 +124,7 @@ namespace Crystalbyte.Paranoia {
 
         private void Compose() {
             var config = new ContainerConfiguration()
-                .WithAssembly(typeof(App).Assembly);
+                .WithAssembly(typeof (App).Assembly);
 
             Composition = config.CreateContainer();
             Composition.SatisfyImports(this);

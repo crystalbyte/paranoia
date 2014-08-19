@@ -34,7 +34,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public static void AddRange<T, S>(this Dictionary<T,S> target, IDictionary<T,S> source) {
+        public static void AddRange<T, S>(this Dictionary<T, S> target, IDictionary<T, S> source) {
             foreach (var item in source) {
                 target.Add(item.Key, item.Value);
             }

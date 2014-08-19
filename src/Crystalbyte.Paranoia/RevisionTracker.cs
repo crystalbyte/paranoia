@@ -1,12 +1,15 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 
+#endregion
+
 namespace Crystalbyte.Paranoia {
     internal sealed class RevisionTracker<T> where T : INotifyPropertyChanged {
-
         private readonly T _trackedObject;
         private readonly Dictionary<string, Stack<object>> _revisions;
 
@@ -24,7 +27,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void TakeSnapshot(string propertyName) {
-            var value = typeof(T).GetProperty(propertyName).GetValue(_trackedObject);
+            var value = typeof (T).GetProperty(propertyName).GetValue(_trackedObject);
             var stack = _revisions[propertyName];
             stack.Push(value);
         }
@@ -46,7 +49,7 @@ namespace Crystalbyte.Paranoia {
             foreach (var revision in _revisions) {
                 var stack = revision.Value;
                 var initialValue = stack.Last();
-                typeof(T).GetProperty(revision.Key).SetValue(_trackedObject, initialValue);
+                typeof (T).GetProperty(revision.Key).SetValue(_trackedObject, initialValue);
             }
         }
 

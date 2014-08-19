@@ -1,9 +1,12 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Windows.Input;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.UI.Commands {
     public sealed class RelayCommand : ICommand {
-
         #region Private Fields
 
         private readonly Action<object> _onExecute;

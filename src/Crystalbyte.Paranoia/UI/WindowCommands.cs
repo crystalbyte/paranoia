@@ -17,9 +17,9 @@ namespace Crystalbyte.Paranoia.UI {
             new RoutedUICommand(Resources.RestoreDownCommandTooltip, "RestoreDown", typeof (MetroWindow));
 
         public static RoutedUICommand CloseFlyOut =
-            new RoutedUICommand(Resources.CloseFlyOutCommandTooltip, "CloseFlyOut", typeof(MetroWindow));
+            new RoutedUICommand(Resources.CloseFlyOutCommandTooltip, "CloseFlyOut", typeof (MetroWindow));
 
         public static RoutedCommand OpenAccountMenu =
-            new RoutedCommand("OpenAccountMenu", typeof(MetroWindow));
+            new RoutedCommand("OpenAccountMenu", typeof (MetroWindow));
     }
 }

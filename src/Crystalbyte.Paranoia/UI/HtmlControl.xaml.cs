@@ -1,18 +1,21 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Awesomium.Core;
 using Awesomium.Windows.Controls;
-using System.Windows;
-using System.Windows.Controls;
 using Crystalbyte.Paranoia.Properties;
 
-namespace Crystalbyte.Paranoia.UI {
-    [TemplatePart(Name = WebControlPartName, Type = typeof(WebControl))]
-    public class HtmlControl : Control {
+#endregion
 
+namespace Crystalbyte.Paranoia.UI {
+    [TemplatePart(Name = WebControlPartName, Type = typeof (WebControl))]
+    public class HtmlControl : Control {
         #region Xaml Support
 
         private const string WebControlPartName = "PART_WebControl";
@@ -29,8 +32,8 @@ namespace Crystalbyte.Paranoia.UI {
         #region Construction
 
         static HtmlControl() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(HtmlControl),
-                new FrameworkPropertyMetadata(typeof(HtmlControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (HtmlControl),
+                new FrameworkPropertyMetadata(typeof (HtmlControl)));
         }
 
         public HtmlControl() {
@@ -56,6 +59,7 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         #region Destruction
+
         ~HtmlControl() {
             Dispose(false);
         }
@@ -65,62 +69,64 @@ namespace Crystalbyte.Paranoia.UI {
         #region Dependency Properties
 
         public float Zoom {
-            get { return (float)GetValue(ZoomProperty); }
+            get { return (float) GetValue(ZoomProperty); }
             set { SetValue(ZoomProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Zoom.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ZoomProperty =
-            DependencyProperty.Register("Zoom", typeof(float), typeof(HtmlControl), new PropertyMetadata(1.45f));
+            DependencyProperty.Register("Zoom", typeof (float), typeof (HtmlControl), new PropertyMetadata(1.45f));
 
         public bool IsTransparent {
-            get { return (bool)GetValue(IsTransparentProperty); }
+            get { return (bool) GetValue(IsTransparentProperty); }
             set { SetValue(IsTransparentProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for IsTransparent.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsTransparentProperty =
-            DependencyProperty.Register("IsTransparent", typeof(bool), typeof(HtmlControl), new PropertyMetadata(false));
+            DependencyProperty.Register("IsTransparent", typeof (bool), typeof (HtmlControl),
+                new PropertyMetadata(false));
 
         // This will be set to the target URL, when this window does not
         // host a created child view. The WebControl, is bound to this property.
         public string Source {
-            get { return (string)GetValue(SourceProperty); }
+            get { return (string) GetValue(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
 
         // Identifies the <see cref="Source"/> dependency property.
         public static readonly DependencyProperty SourceProperty =
             DependencyProperty.Register("Source",
-            typeof(string), typeof(HtmlControl),
-            new FrameworkPropertyMetadata(string.Empty));
+                typeof (string), typeof (HtmlControl),
+                new FrameworkPropertyMetadata(string.Empty));
 
         public bool IsReadOnly {
-            get { return (bool)GetValue(IsReadOnlyProperty); }
+            get { return (bool) GetValue(IsReadOnlyProperty); }
             set { SetValue(IsReadOnlyProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for IsReadOnly.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsReadOnlyProperty =
-            DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(HtmlControl), new PropertyMetadata(false));
+            DependencyProperty.Register("IsReadOnly", typeof (bool), typeof (HtmlControl), new PropertyMetadata(false));
 
         public FontFamily HtmlFont {
-            get { return (FontFamily)GetValue(HtmlFontProperty); }
+            get { return (FontFamily) GetValue(HtmlFontProperty); }
             set { SetValue(HtmlFontProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for SelectedFont.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HtmlFontProperty =
-            DependencyProperty.Register("HtmlFont", typeof(FontFamily), typeof(HtmlControl), new PropertyMetadata(null));
+            DependencyProperty.Register("HtmlFont", typeof (FontFamily), typeof (HtmlControl),
+                new PropertyMetadata(null));
 
         public int HtmlFontSize {
-            get { return (int)GetValue(HtmlFontSizeProperty); }
+            get { return (int) GetValue(HtmlFontSizeProperty); }
             set { SetValue(HtmlFontSizeProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for HtmlFontSize.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HtmlFontSizeProperty =
-            DependencyProperty.Register("HtmlFontSize", typeof(int), typeof(HtmlControl), new PropertyMetadata(0));
+            DependencyProperty.Register("HtmlFontSize", typeof (int), typeof (HtmlControl), new PropertyMetadata(0));
 
         #endregion
 
@@ -134,18 +140,14 @@ namespace Crystalbyte.Paranoia.UI {
                 _webControl.WindowClose -= OnWebControlWindowClose;
             }
 
-            _webControl = (WebControl)Template.FindName(WebControlPartName, this);
+            _webControl = (WebControl) Template.FindName(WebControlPartName, this);
             _webControl.ShowCreatedWebView += OnWebControlShowCreatedWebView;
             _webControl.WindowClose += OnWebControlWindowClose;
         }
 
-        private void OnWebControlWindowClose(object sender, WindowCloseEventArgs e) {
+        private void OnWebControlWindowClose(object sender, WindowCloseEventArgs e) {}
 
-        }
-
-        private void OnWebControlShowCreatedWebView(object sender, ShowCreatedWebViewEventArgs e) {
-
-        }
+        private void OnWebControlShowCreatedWebView(object sender, ShowCreatedWebViewEventArgs e) {}
 
         #endregion
 

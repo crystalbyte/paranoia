@@ -1,11 +1,14 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Crystalbyte.Paranoia.UI.Converters {
-    [ValueConversion(typeof(bool), typeof(double))]
-    public sealed class BooleanToOpacityConverter : IValueConverter {
+#endregion
 
+namespace Crystalbyte.Paranoia.UI.Converters {
+    [ValueConversion(typeof (bool), typeof (double))]
+    public sealed class BooleanToOpacityConverter : IValueConverter {
         public double OpacityForTrue { get; set; }
         public double OpacityForFalse { get; set; }
 

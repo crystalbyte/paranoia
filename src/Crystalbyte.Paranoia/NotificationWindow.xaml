@@ -9,7 +9,8 @@
         WindowStyle="None">
     <Window.Resources>
         <Storyboard x:Key="NotificationStoryboard">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)">
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)">
                 <SplineDoubleKeyFrame KeyTime="0:0:0" Value="0" />
                 <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="1" />
             </DoubleAnimationUsingKeyFrames>
@@ -30,8 +31,9 @@
                 <TextBlock Margin="98,0,5,37"
                            Text="{Binding FromName}"
                            TextWrapping="Wrap" FontWeight="Bold" />
-                <Image Source="{Binding FromAddress, Converter={StaticResource GravatarImageConverter}}" Height="68" HorizontalAlignment="Left" Width="93"/>
-                <TextBlock Text="{Binding Subject}" Margin="98,36,0,0"/>
+                <Image Source="{Binding FromAddress, Converter={StaticResource GravatarImageConverter}}" Height="68"
+                       HorizontalAlignment="Left" Width="93" />
+                <TextBlock Text="{Binding Subject}" Margin="98,36,0,0" />
             </Grid>
         </Border>
 

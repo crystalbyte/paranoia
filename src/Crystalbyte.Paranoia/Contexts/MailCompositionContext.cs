@@ -1,9 +1,12 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,12 +14,11 @@ using System.Windows;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.UI.Commands;
-using System.Net.Mail;
-using MailMessage = System.Net.Mail.MailMessage;
+
+#endregion
 
 namespace Crystalbyte.Paranoia {
     public sealed class MailCompositionContext : NotificationObject {
-
         #region Private Fields
 
         private string _text;
@@ -43,7 +45,7 @@ namespace Crystalbyte.Paranoia {
 
         private void OnFinished() {
             var handler = Finished;
-            if (handler != null) 
+            if (handler != null)
                 handler(this, EventArgs.Empty);
         }
 
@@ -99,8 +101,8 @@ namespace Crystalbyte.Paranoia {
         public async Task QueryRecipientsAsync(string text) {
             using (var database = new DatabaseContext()) {
                 var candidates = await database.MailContacts
-                    .Where(x => x.Address.StartsWith(text) 
-                        || x.Name.StartsWith(text))
+                    .Where(x => x.Address.StartsWith(text)
+                                || x.Name.StartsWith(text))
                     .ToArrayAsync();
 
                 _suggestions.Clear();
@@ -141,15 +143,16 @@ namespace Crystalbyte.Paranoia {
             OnDocumentTextRequested(e);
 
             return (from recipient in Recipients
-                    select new MailMessage(
-                        new MailAddress(account.Address, account.Name),
-                        new MailAddress(recipient)) {
-                            IsBodyHtml = true,
-                            Subject = Subject,
-                            Body = string.Format("<html>{0}</html>", e.Document),
-                            BodyEncoding = Encoding.UTF8,
-                            BodyTransferEncoding = TransferEncoding.Base64
-                        }).ToList();
+                select new MailMessage(
+                    new MailAddress(account.Address, account.Name),
+                    new MailAddress(recipient))
+                {
+                    IsBodyHtml = true,
+                    Subject = Subject,
+                    Body = string.Format("<html>{0}</html>", e.Document),
+                    BodyEncoding = Encoding.UTF8,
+                    BodyTransferEncoding = TransferEncoding.Base64
+                }).ToList();
         }
     }
 }

@@ -11,8 +11,8 @@ namespace Crystalbyte.Paranoia.UI.Converters {
     public sealed class GravatarImageConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             var p = parameter as string;
-            return !string.IsNullOrEmpty(p) 
-                ? Gravatar.CreateImageUrl((string)value, int.Parse(p)) 
+            return !string.IsNullOrEmpty(p)
+                ? Gravatar.CreateImageUrl((string) value, int.Parse(p))
                 : Gravatar.CreateImageUrl((string) value);
         }
 

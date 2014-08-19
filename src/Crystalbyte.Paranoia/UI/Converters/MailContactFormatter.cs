@@ -7,11 +7,10 @@ using System.Windows.Data;
 #endregion
 
 namespace Crystalbyte.Paranoia.UI.Converters {
-    [ValueConversion(typeof(string), typeof(string))]
+    [ValueConversion(typeof (string), typeof (string))]
     public sealed class MailContactFormatter : IValueConverter {
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            var s = (MailMessageContext)value;
+            var s = (MailMessageContext) value;
 
             if (s.FromName.Equals("NIL") || string.IsNullOrEmpty(s.FromName)) {
                 return s.FromAddress;

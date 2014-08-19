@@ -11,7 +11,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Crystalbyte.Paranoia.Data {
     [Table("mail_contact")]
     public class MailContactModel {
-
         private ICollection<PublicKeyModel> _keys;
 
         public MailContactModel() {

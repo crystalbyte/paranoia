@@ -8,7 +8,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Separator">
-                    <Border BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBorderColor}}" BorderThickness="1" />
+                    <Border
+                        BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBorderColor}}"
+                        BorderThickness="1" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -45,14 +47,16 @@
                 <Setter TargetName="Popup" Property="PopupAnimation" Value="None" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                <Setter TargetName="Border" Property="Background"
+                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
             </Trigger>
             <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,0,0,3" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -69,11 +73,13 @@
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                <Setter TargetName="Border" Property="Background"
+                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -137,10 +143,12 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppHoverBrush}}" />
+                <Setter TargetName="Border" Property="Background"
+                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppHoverBrush}}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" />
                 <Setter TargetName="Icon" Property="Opacity" Value=".3" />
             </Trigger>
         </ControlTemplate.Triggers>
@@ -202,14 +210,16 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppHoverBrush}}" />
+                <Setter TargetName="Border" Property="Background"
+                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppHoverBrush}}" />
             </Trigger>
             <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="4" />
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" />
                 <Setter TargetName="Icon" Property="Opacity" Value=".3" />
             </Trigger>
         </ControlTemplate.Triggers>
@@ -264,7 +274,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
 
 
 </ResourceDictionary>

@@ -9,7 +9,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Crystalbyte.Paranoia.Data {
     [Table("smtp_request")]
     public class SmtpRequestModel {
-
         [Key]
         [Column("id")]
         public Int64 Id { get; set; }

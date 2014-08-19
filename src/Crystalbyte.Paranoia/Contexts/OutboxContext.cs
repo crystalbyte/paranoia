@@ -1,8 +1,9 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
@@ -14,6 +15,8 @@ using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using MailMessage = System.Net.Mail.MailMessage;
+
+#endregion
 
 namespace Crystalbyte.Paranoia {
     public sealed class OutboxContext : SelectionObject {
@@ -73,7 +76,7 @@ namespace Crystalbyte.Paranoia {
             const string name = "/Resources/cover.sheet.template.html";
             var info = Application.GetResourceStream(new Uri(name, UriKind.Relative));
             if (info == null) {
-                var message = string.Format(Resources.ResourceNotFoundException, name, typeof(App).Name);
+                var message = string.Format(Resources.ResourceNotFoundException, name, typeof (App).Name);
                 throw new Exception(message);
             }
 
@@ -106,27 +109,28 @@ namespace Crystalbyte.Paranoia {
                     // TODO: foreach public key => do {
                     // TODO: encrypt compressed mime
 
-                    using (var connection = new SmtpConnection { Security = _account.SmtpSecurity }) {
+                    using (var connection = new SmtpConnection {Security = _account.SmtpSecurity}) {
                         using (var auth = await connection.ConnectAsync(_account.SmtpHost, _account.SmtpPort)) {
                             using (var session = await auth.LoginAsync(_account.SmtpUsername, _account.SmtpPassword)) {
-
                                 var wrapper = new MailMessage(
                                     new MailAddress(_account.Address, _account.Name),
-                                    new MailAddress(request.ToAddress)) {
-                                        Subject = string.Format(Resources.SubjectTemplate, _account.Name),
-                                        Body = sheet,
-                                        IsBodyHtml = true,
-                                        BodyEncoding = Encoding.UTF8,
-                                        HeadersEncoding = Encoding.UTF8,
-                                        SubjectEncoding = Encoding.UTF8,
-                                        BodyTransferEncoding = TransferEncoding.Base64,
-                                    };
+                                    new MailAddress(request.ToAddress))
+                                {
+                                    Subject = string.Format(Resources.SubjectTemplate, _account.Name),
+                                    Body = sheet,
+                                    IsBodyHtml = true,
+                                    BodyEncoding = Encoding.UTF8,
+                                    HeadersEncoding = Encoding.UTF8,
+                                    SubjectEncoding = Encoding.UTF8,
+                                    BodyTransferEncoding = TransferEncoding.Base64,
+                                };
 
                                 var guid = Guid.NewGuid();
-                                using (var writer = new StreamWriter(new MemoryStream()) { AutoFlush = true }) {
+                                using (var writer = new StreamWriter(new MemoryStream()) {AutoFlush = true}) {
                                     await writer.WriteAsync(request.Mime);
                                     writer.BaseStream.Seek(0, SeekOrigin.Begin);
-                                    wrapper.Attachments.Add(new Attachment(writer.BaseStream, guid.ToString()) {
+                                    wrapper.Attachments.Add(new Attachment(writer.BaseStream, guid.ToString())
+                                    {
                                         TransferEncoding = TransferEncoding.Base64,
                                         NameEncoding = Encoding.UTF8
                                     });
@@ -139,10 +143,11 @@ namespace Crystalbyte.Paranoia {
                     // TODO: foreach public key => end }
 
                     await DropRequestFromDatabaseAsync(request);
-
-                } catch (Exception) {
+                }
+                catch (Exception) {
                     throw;
-                } finally {
+                }
+                finally {
                     _sendingMessages = false;
                 }
             }

@@ -4,41 +4,33 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Composition;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Data;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
+using Crystalbyte.Paranoia.Net;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
-using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.UI.Pages;
-using System.Windows;
-using System.Reactive.Concurrency;
-using System.Net;
-using System.IO;
 using Newtonsoft.Json;
-using Crystalbyte.Paranoia.Net;
-using System.Security.Principal;
-using System.Security.AccessControl;
-using Crystalbyte.Paranoia.Cryptography;
 
 #endregion
 
 namespace Crystalbyte.Paranoia {
     [Export, Shared]
     public sealed class AppContext : NotificationObject {
-
         #region Private Fields
 
         private float _zoom;
@@ -101,14 +93,14 @@ namespace Crystalbyte.Paranoia {
                 .Subscribe(OnRefreshContactKeys);
 
             Observable.FromEventPattern(
-                    action => MessageSelectionChanged += action,
-                    action => MessageSelectionChanged -= action)
+                action => MessageSelectionChanged += action,
+                action => MessageSelectionChanged -= action)
                 .Throttle(TimeSpan.FromMilliseconds(100))
                 .Subscribe(OnMessageSelectionCommitted);
 
             Observable.FromEventPattern<QueryStringEventArgs>(
-                    action => QueryStringChanged += action,
-                    action => QueryStringChanged -= action)
+                action => QueryStringChanged += action,
+                action => QueryStringChanged -= action)
                 .Select(x => x.EventArgs)
                 .Where(x => (x.Text.Length > 2 || string.IsNullOrEmpty(x.Text))
                             && string.Compare(x.Text, Resources.SearchBoxWatermark,
@@ -117,7 +109,7 @@ namespace Crystalbyte.Paranoia {
                 .Select(x => x.Text)
                 .Subscribe(OnQueryReceived);
 
-            _outboxTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
+            _outboxTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(5)};
             _outboxTimer.Tick += OnOutboxTimerTick;
 
             _contacts = new ObservableCollection<MailContactContext>();
@@ -150,10 +142,11 @@ namespace Crystalbyte.Paranoia {
                         await UpdateKeysInDatabaseForContactAsync(contact, entry);
                     }
                 }
-
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Debug.WriteLine(ex.Message);
-            } finally {
+            }
+            finally {
                 StatusText = Resources.ReadyStatus;
             }
         }
@@ -164,7 +157,8 @@ namespace Crystalbyte.Paranoia {
                     var keys = await database.PublicKeys.Where(x => x.ContactId == contact.Id).ToArrayAsync();
                     var keysToBeAdded = collection.Keys.Except(keys.Select(x => x.Data));
                     foreach (var key in keysToBeAdded) {
-                        database.PublicKeys.Add(new PublicKeyModel {
+                        database.PublicKeys.Add(new PublicKeyModel
+                        {
                             ContactId = contact.Id,
                             Data = key
                         });
@@ -172,8 +166,9 @@ namespace Crystalbyte.Paranoia {
 
                     await database.SaveChangesAsync();
                 }
-            } catch (Exception) {
-                throw;
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
             }
         }
 
@@ -191,9 +186,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void OnDeleteContact(object obj) {
-
-        }
+        private void OnDeleteContact(object obj) {}
 
         internal async Task LoadContactsFromDatabaseAsync() {
             IEnumerable<MailContactModel> contacts;
@@ -219,8 +212,9 @@ namespace Crystalbyte.Paranoia {
                 if (_accounts.Count > 0) {
                     SelectedAccount = Accounts.First();
                 }
-            } catch (Exception) {
-                throw;
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
             }
         }
 
@@ -262,6 +256,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal event EventHandler MessageSelectionChanged;
+
         private void OnMessageSelectionChanged() {
             var handler = MessageSelectionChanged;
             if (handler != null)
@@ -269,6 +264,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal event EventHandler AccountSelectionChanged;
+
         private async void OnAccountSelectionChanged() {
             var handler = AccountSelectionChanged;
             if (handler != null)
@@ -286,6 +282,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal event EventHandler<QueryStringEventArgs> QueryStringChanged;
+
         private void OnQueryStringChanged(QueryStringEventArgs e) {
             var handler = QueryStringChanged;
             if (handler != null)
@@ -597,7 +594,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void ClosePopup() {
-            var uri = typeof(BlankPage).ToPageUri();
+            var uri = typeof (BlankPage).ToPageUri();
             OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
             IsPopupVisible = false;
         }
@@ -621,7 +618,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal static DirectoryInfo GetKeyDirectory() {
-            var dataDir = (string)AppDomain.CurrentDomain.GetData("DataDirectory");
+            var dataDir = (string) AppDomain.CurrentDomain.GetData("DataDirectory");
             return new DirectoryInfo(Path.Combine(dataDir, "keys"));
         }
 
@@ -644,24 +641,24 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void OnCreateContact(object obj) {
-            var uri = typeof(CreateContactPage).ToPageUri();
+            var uri = typeof (CreateContactPage).ToPageUri();
             OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
             IsPopupVisible = true;
         }
 
         internal void OnCreateKeyPair() {
-            var uri = typeof(CreateKeyPage).ToPageUri();
+            var uri = typeof (CreateKeyPage).ToPageUri();
             OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
             IsPopupVisible = true;
         }
 
         internal void OnComposeMessage() {
-            var uri = typeof(ComposeMessagePage).ToPageUri();
+            var uri = typeof (ComposeMessagePage).ToPageUri();
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
         private void OnCreateAccount(object obj) {
-            var uri = typeof(CreateAccountPage).ToPageUri();
+            var uri = typeof (CreateAccountPage).ToPageUri();
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
@@ -669,7 +666,7 @@ namespace Crystalbyte.Paranoia {
             if (SelectedMessage == null) {
                 return;
             }
-            var uri = typeof(ComposeMessagePage).ToPageUriAsReply(SelectedMessage);
+            var uri = typeof (ComposeMessagePage).ToPageUriAsReply(SelectedMessage);
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
@@ -684,12 +681,12 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnConfigAccount(object obj) {
-            var uri = typeof(AccountDetailsPage).ToPageUri();
+            var uri = typeof (AccountDetailsPage).ToPageUri();
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
         internal void CloseFlyOut() {
-            var uri = typeof(BlankPage).ToPageUri();
+            var uri = typeof (BlankPage).ToPageUri();
             OnFlyOutClosing();
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
             OnFlyOutClosed();

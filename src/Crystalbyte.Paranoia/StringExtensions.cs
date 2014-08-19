@@ -36,7 +36,8 @@ namespace Crystalbyte.Paranoia {
 
                 if (shifted > maxChar) {
                     shifted -= maxChar;
-                } else if (shifted < minChar) {
+                }
+                else if (shifted < minChar) {
                     shifted += maxChar;
                 }
 
@@ -51,8 +52,8 @@ namespace Crystalbyte.Paranoia {
             var matches = Regex.Matches(s, pattern, RegexOptions.IgnoreCase);
 
             return (from Match match in matches
-                    select match.Value.Split('='))
-                    .ToDictionary(x => x[0], temp => temp[1]);
+                select match.Value.Split('='))
+                .ToDictionary(x => x[0], temp => temp[1]);
         }
     }
 }

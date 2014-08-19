@@ -1,19 +1,22 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Navigation;
-using System.Data.Entity;
-using System.Collections.Generic;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
-using System.Text;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.UI.Pages {
     /// <summary>
-    /// Interaction logic for WriteMessagePage.xaml
+    ///     Interaction logic for WriteMessagePage.xaml
     /// </summary>
     public partial class ComposeMessagePage : INavigationAware {
-
         public ComposeMessagePage() {
             InitializeComponent();
 
@@ -22,7 +25,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             context.DocumentTextRequested += OnDocumentTextRequested;
             DataContext = context;
 
-            var window = (MainWindow)Application.Current.MainWindow;
+            var window = (MainWindow) Application.Current.MainWindow;
             window.FlyOutVisibilityChanged += OnFlyOutVisibilityChanged;
         }
 
@@ -35,19 +38,19 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private async void Reset() {
-            var composition = (MailCompositionContext)DataContext;
+            var composition = (MailCompositionContext) DataContext;
             await composition.ResetAsync();
         }
 
         private void OnFlyOutVisibilityChanged(object sender, EventArgs e) {
-            var window = (MainWindow)Application.Current.MainWindow;
+            var window = (MainWindow) Application.Current.MainWindow;
             if (!window.IsFlyOutVisible) {
                 RecipientsBox.Close();
             }
         }
 
         public MailCompositionContext Composition {
-            get { return (MailCompositionContext)DataContext; }
+            get { return (MailCompositionContext) DataContext; }
         }
 
         private async void OnRecipientsBoxItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
@@ -58,10 +61,10 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             var addresses = RecipientsBox
                 .SelectedValues
                 .Select(x => x is MailContactContext
-                    ? ((MailContactContext)x).Address
+                    ? ((MailContactContext) x).Address
                     : x as string);
 
-            var context = (MailCompositionContext)DataContext;
+            var context = (MailCompositionContext) DataContext;
             context.Recipients.Clear();
             context.Recipients.AddRange(addresses);
         }
@@ -77,7 +80,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
                 replyMessage = new MailMessage(Encoding.UTF8.GetBytes(message[0].Data));
             }
-            var context = (MailCompositionContext)DataContext;
+            var context = (MailCompositionContext) DataContext;
             context.Subject = "RE: " + replyMessage.Headers.Subject;
         }
 

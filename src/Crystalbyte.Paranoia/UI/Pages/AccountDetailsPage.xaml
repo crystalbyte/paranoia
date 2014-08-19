@@ -339,7 +339,9 @@
                 <TextBlock.Foreground>
                     <Binding Path="IsFaulted">
                         <Binding.Converter>
-                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.FailureBrush}}" />
+                            <converters:BooleanToBrushConverter
+                                BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}"
+                                BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.FailureBrush}}" />
                         </Binding.Converter>
                     </Binding>
                 </TextBlock.Foreground>

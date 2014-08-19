@@ -1,14 +1,15 @@
-﻿using Crystalbyte.Paranoia.Data;
-using System;
+﻿#region Using directives
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Crystalbyte.Paranoia.Data;
 
-namespace Crystalbyte.Paranoia.Contexts {
+#endregion
+
+namespace Crystalbyte.Paranoia {
     public sealed class NotificationWindowContext : NotificationObject {
         private IList<MailMessageModel> _messages;
-        private MailMessageModel _message;
+        private readonly MailMessageModel _message;
 
         public NotificationWindowContext(IList<MailMessageModel> messages) {
             _messages = messages;
@@ -19,12 +20,15 @@ namespace Crystalbyte.Paranoia.Contexts {
 
 
         public MimeMessageModel Message { get; set; }
+
         public string FromAddress {
             get { return _message.FromAddress; }
         }
+
         public string FromName {
             get { return _message.FromName; }
         }
+
         public string Subject {
             get { return _message.Subject; }
         }

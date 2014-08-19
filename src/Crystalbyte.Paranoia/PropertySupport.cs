@@ -57,7 +57,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters"),
-   SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
+         SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public static string ExtractPropertyName<T, TReturn>(Expression<Func<T, TReturn>> propertyExpression) {
             if (propertyExpression == null) {
                 throw new ArgumentNullException("propertyExpression");

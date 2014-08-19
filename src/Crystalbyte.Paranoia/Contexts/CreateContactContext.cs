@@ -1,17 +1,15 @@
-﻿using Crystalbyte.Paranoia.Data;
-using Crystalbyte.Paranoia.UI.Commands;
+﻿#region Using directives
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
+using Crystalbyte.Paranoia.Data;
+using Crystalbyte.Paranoia.UI.Commands;
+
+#endregion
 
 namespace Crystalbyte.Paranoia {
     public sealed class CreateContactContext : NotificationObject {
-
         private readonly ICommand _createContactCommand;
         private string _name;
         private string _address;
@@ -23,14 +21,14 @@ namespace Crystalbyte.Paranoia {
 
         private async void OnCreateContact(object obj) {
             var contact = await SaveContactToDatabaseAsync();
-            App.Context.NotifyContactsAdded(new[] { new MailContactContext(contact) });
+            App.Context.NotifyContactsAdded(new[] {new MailContactContext(contact)});
             App.Context.ClosePopup();
         }
 
         private async Task<MailContactModel> SaveContactToDatabaseAsync() {
-
             try {
-                var contact = new MailContactModel {
+                var contact = new MailContactModel
+                {
                     Name = Name,
                     Address = Address,
                     SecurityMeasure = SecurityMeasure.None

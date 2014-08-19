@@ -1,12 +1,15 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Windows;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.UI.Pages {
     /// <summary>
-    /// Interaction logic for CreateKeyPage.xaml
+    ///     Interaction logic for CreateKeyPage.xaml
     /// </summary>
     public partial class CreateKeyPage {
-
         public CreateKeyPage() {
             InitializeComponent();
             DataContext = new CreateKeyPairContext();
@@ -41,7 +44,9 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                                      && RiskCheckBox.IsChecked.Value
                                      && !string.IsNullOrEmpty(PasswordBox.Password)
                                      && !string.IsNullOrEmpty(ConfirmPasswordBox.Password)
-                                     && String.Compare(PasswordBox.Password, ConfirmPasswordBox.Password, StringComparison.InvariantCulture) == 0;
+                                     &&
+                                     String.Compare(PasswordBox.Password, ConfirmPasswordBox.Password,
+                                         StringComparison.InvariantCulture) == 0;
         }
 
         private void OnRiskStatementUnchecked(object sender, RoutedEventArgs e) {

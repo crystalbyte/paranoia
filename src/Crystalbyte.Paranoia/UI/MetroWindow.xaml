@@ -12,8 +12,10 @@
     </Style>
 
     <Style TargetType="ui:MetroWindow">
-        <Setter Property="HoverBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppHoverBrush}}" />
-        <Setter Property="AccentBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
+        <Setter Property="HoverBrush"
+                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppHoverBrush}}" />
+        <Setter Property="AccentBrush"
+                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
         <Setter Property="AllowsTransparency" Value="False" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="WindowStyle" Value="None" />

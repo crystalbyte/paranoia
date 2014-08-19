@@ -1,9 +1,13 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Linq;
 using System.Windows.Input;
 
+#endregion
+
 namespace Crystalbyte.Paranoia.UI.Commands {
-    public sealed class SendCommand  : ICommand{
+    public sealed class SendCommand : ICommand {
         private readonly MailCompositionContext _composition;
 
         public SendCommand(MailCompositionContext composition) {
@@ -19,7 +23,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         public void OnCanExecuteChanged() {
             var handler = CanExecuteChanged;
-            if (handler != null) 
+            if (handler != null)
                 handler(this, EventArgs.Empty);
         }
 

@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
+
+#endregion
 
 namespace Crystalbyte.Paranoia {
     public sealed class DocumentTextRequestedEventArgs : EventArgs {

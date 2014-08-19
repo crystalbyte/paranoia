@@ -68,7 +68,8 @@ namespace Crystalbyte.Paranoia {
 
                 if (value) {
                     WriteFlag(MailboxFlags.Seen);
-                } else {
+                }
+                else {
                     DropFlag(MailboxFlags.Seen);
                 }
 
@@ -89,7 +90,8 @@ namespace Crystalbyte.Paranoia {
                     context.Entry(_message).State = EntityState.Modified;
                     await context.SaveChangesAsync();
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 throw;
             }
         }
@@ -125,9 +127,11 @@ namespace Crystalbyte.Paranoia {
                         .FirstOrDefaultAsync(x => x.MessageId == _message.Id);
                     return message != null ? message.Data : string.Empty;
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 throw;
-            } finally {
+            }
+            finally {
                 DecrementLoad();
             }
         }
@@ -173,7 +177,7 @@ namespace Crystalbyte.Paranoia {
             var mailbox = await GetMailboxAsync();
             var account = await GetAccountAsync(mailbox);
 
-            using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
+            using (var connection = new ImapConnection {Security = account.ImapSecurity}) {
                 connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                 using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
                     using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
@@ -199,7 +203,8 @@ namespace Crystalbyte.Paranoia {
                 var mime = await FetchMimeAsync();
                 using (var context = new DatabaseContext()) {
                     context.MailMessages.Attach(_message);
-                    var mimeMessage = new MimeMessageModel {
+                    var mimeMessage = new MimeMessageModel
+                    {
                         Data = mime
                     };
 
@@ -207,9 +212,11 @@ namespace Crystalbyte.Paranoia {
                     await context.SaveChangesAsync();
                 }
                 return mime;
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 throw;
-            } finally {
+            }
+            finally {
                 DecrementLoad();
             }
         }

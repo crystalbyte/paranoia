@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Data {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]

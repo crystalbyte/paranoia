@@ -12,10 +12,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
-using Crystalbyte.Paranoia.Contexts;
+using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Pages;
-using Crystalbyte.Paranoia.Properties;
 
 #endregion
 
@@ -24,7 +23,6 @@ namespace Crystalbyte.Paranoia {
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow {
-
         #region Private Fields
 
         private Storyboard _slideInOverlayStoryboard;
@@ -76,20 +74,20 @@ namespace Crystalbyte.Paranoia {
 
         private static Task CreateKeyDirectoryAsync(DirectoryInfo keyDir) {
             return Task.Factory.StartNew(() => {
-                var identity = new NTAccount(Environment.UserDomainName,
-                    Environment.UserName);
-                var security = new DirectorySecurity();
-                security.PurgeAccessRules(identity);
+                                             var identity = new NTAccount(Environment.UserDomainName,
+                                                 Environment.UserName);
+                                             var security = new DirectorySecurity();
+                                             security.PurgeAccessRules(identity);
 
-                security.AddAccessRule(new FileSystemAccessRule(identity,
-                    FileSystemRights.Read, AccessControlType.Allow));
-                security.AddAccessRule(new FileSystemAccessRule(identity,
-                    FileSystemRights.Write, AccessControlType.Allow));
-                security.AddAccessRule(new FileSystemAccessRule(identity,
-                    FileSystemRights.Modify, AccessControlType.Allow));
+                                             security.AddAccessRule(new FileSystemAccessRule(identity,
+                                                 FileSystemRights.Read, AccessControlType.Allow));
+                                             security.AddAccessRule(new FileSystemAccessRule(identity,
+                                                 FileSystemRights.Write, AccessControlType.Allow));
+                                             security.AddAccessRule(new FileSystemAccessRule(identity,
+                                                 FileSystemRights.Modify, AccessControlType.Allow));
 
-                keyDir.Create(security);
-            });
+                                             keyDir.Create(security);
+                                         });
         }
 
         private static void OnCloseFlyOut(object sender, ExecutedRoutedEventArgs e) {
@@ -121,8 +119,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void LoadResources() {
-            _slideInOverlayStoryboard = (Storyboard)Resources["OverlaySlideInStoryboard"];
-            _slideOutOverlayStoryboard = (Storyboard)Resources["OverlaySlideOutStoryboard"];
+            _slideInOverlayStoryboard = (Storyboard) Resources["OverlaySlideInStoryboard"];
+            _slideOutOverlayStoryboard = (Storyboard) Resources["OverlaySlideOutStoryboard"];
             _slideOutOverlayStoryboard.Completed += OnSlideOutOverlayCompleted;
         }
 
@@ -141,9 +139,10 @@ namespace Crystalbyte.Paranoia {
 
         private void OnFlyOutNavigationRequested(object sender, NavigationRequestedEventArgs e) {
             FlyOutFrame.Navigate(e.Target);
-            if (e.Target == typeof(BlankPage).ToPageUri()) {
+            if (e.Target == typeof (BlankPage).ToPageUri()) {
                 HideOverlay();
-            } else {
+            }
+            else {
                 ShowOverlay();
             }
         }
@@ -166,21 +165,22 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         public bool IsFlyOutVisible {
-            get { return (bool)GetValue(IsFlyOutVisibleProperty); }
+            get { return (bool) GetValue(IsFlyOutVisibleProperty); }
             set { SetValue(IsFlyOutVisibleProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for IsOverlayVisible.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsFlyOutVisibleProperty =
-            DependencyProperty.Register("IsFlyOutVisible", typeof(bool), typeof(MainWindow), new PropertyMetadata(false, OnIsOverlayChanged));
+            DependencyProperty.Register("IsFlyOutVisible", typeof (bool), typeof (MainWindow),
+                new PropertyMetadata(false, OnIsOverlayChanged));
 
         private static void OnIsOverlayChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var window = (MainWindow)d;
+            var window = (MainWindow) d;
             window.OnFlyOutVisibilityChanged();
         }
 
         private void OnMessageSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var view = (ListView)sender;
+            var view = (ListView) sender;
             var app = App.Composition.GetExport<AppContext>();
             app.SelectedMessages = view.SelectedItems.OfType<MailMessageContext>();
 
@@ -188,7 +188,7 @@ namespace Crystalbyte.Paranoia {
             if (message == null)
                 return;
 
-            var container = (Control)MessagesListView.ItemContainerGenerator.ContainerFromItem(message);
+            var container = (Control) MessagesListView.ItemContainerGenerator.ContainerFromItem(message);
             if (container != null) {
                 container.Focus();
             }

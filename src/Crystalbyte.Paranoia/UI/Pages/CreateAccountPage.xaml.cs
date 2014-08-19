@@ -1,13 +1,17 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Data;
 
+#endregion
+
 namespace Crystalbyte.Paranoia.UI.Pages {
     /// <summary>
-    /// Interaction logic for CreateAccountPage.xaml
+    ///     Interaction logic for CreateAccountPage.xaml
     /// </summary>
     public partial class CreateAccountPage {
         public CreateAccountPage() {
@@ -22,10 +26,10 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private void OnPasswordChanged(object sender, RoutedEventArgs e) {
-            var box = (PasswordBox)sender;
-            var context = (MailAccountContext)DataContext;
+            var box = (PasswordBox) sender;
+            var context = (MailAccountContext) DataContext;
             context.ImapPassword = box.Password;
-            context.SmtpPassword= box.Password;
+            context.SmtpPassword = box.Password;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
@@ -38,11 +42,11 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private void CheckForContinuation() {
-            var context = (MailAccountContext)DataContext;
+            var context = (MailAccountContext) DataContext;
 
-            ContinueButton.IsEnabled = 
+            ContinueButton.IsEnabled =
                 (AutoMagicButton.IsChecked != null && !AutoMagicButton.IsChecked.Value)
-                    || (!string.IsNullOrEmpty(context.Name) && !string.IsNullOrEmpty(context.Address));
+                || (!string.IsNullOrEmpty(context.Name) && !string.IsNullOrEmpty(context.Address));
         }
 
         private async void OnContinue(object sender, ExecutedRoutedEventArgs e) {
@@ -51,16 +55,15 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 throw new NullReferenceException("NavigationService");
             }
 
-            var context = (MailAccountContext)DataContext;
+            var context = (MailAccountContext) DataContext;
             if (context.IsAutoDetectPreferred) {
                 ContinueButton.IsEnabled = false;
                 await DetectSettingsAsync();
-                
             }
 
             PasswordBox.PasswordChanged -= OnPasswordChanged;
             App.Context.TransitAccount = context;
-            var uri = typeof(AccountDetailsPage).ToPageUri("?mode=new");
+            var uri = typeof (AccountDetailsPage).ToPageUri("?mode=new");
             service.Navigate(uri);
         }
 

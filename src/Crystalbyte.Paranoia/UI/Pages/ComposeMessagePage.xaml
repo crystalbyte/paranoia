@@ -43,7 +43,9 @@
             <ui:AutoCompleteBox.StringTokenTemplate>
                 <DataTemplate DataType="system:String">
                     <Grid>
-                        <Rectangle Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" RenderOptions.EdgeMode="Aliased" />
+                        <Rectangle
+                            Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}"
+                            RenderOptions.EdgeMode="Aliased" />
                         <TextBlock Margin="2,0,2,0"
                                    Background="Transparent"
                                    FontWeight="Regular"
@@ -54,10 +56,11 @@
             <ui:AutoCompleteBox.TokenTemplate>
                 <DataTemplate DataType="paranoia:MailContactContext">
                     <Grid>
-                        <Rectangle Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                        <Rectangle
+                            Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                 AppAccentBrush}}"
-                                   RenderOptions.EdgeMode="Aliased"
-                                   SnapsToDevicePixels="True" />
+                            RenderOptions.EdgeMode="Aliased"
+                            SnapsToDevicePixels="True" />
                         <StackPanel Orientation="Horizontal">
                             <Image Width="16"
                                    VerticalAlignment="Center"
@@ -92,12 +95,13 @@
                                                 Converter={StaticResource GravatarImageConverter}}"
                                Stretch="Uniform" />
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                            <TextBlock
+                                FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                         AppMediumLargeFontSize}}"
-                                       FontWeight="Thin"
-                                       Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                FontWeight="Thin"
+                                Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                           AppLightTextBrush}}"
-                                       Text="{Binding Name}" />
+                                Text="{Binding Name}" />
                             <TextBlock FontWeight="Thin"
                                        Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                           AppMediumTextBrush}}"

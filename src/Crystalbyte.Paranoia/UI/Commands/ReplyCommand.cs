@@ -1,7 +1,6 @@
-﻿#region Using Directives
+﻿#region Using directives
 
 using System;
-using System.Windows;
 using System.Windows.Input;
 
 #endregion

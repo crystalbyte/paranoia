@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿#region Using directives
 
-namespace Crystalbyte.Paranoia.Contexts {
+using System;
+
+#endregion
+
+namespace Crystalbyte.Paranoia.UI {
     internal sealed class NavigationRequestedEventArgs : EventArgs {
         public NavigationRequestedEventArgs(Uri uri) {
             Target = uri;

@@ -4,21 +4,21 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Serialization;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
+using Crystalbyte.Paranoia.Net;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
-using MailMessage = System.Net.Mail.MailMessage;
-using Crystalbyte.Paranoia.Net;
-using System.IO;
 using Newtonsoft.Json;
-using System.Text;
+using MailMessage = System.Net.Mail.MailMessage;
 
 #endregion
 
@@ -92,7 +92,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task<List<ImapMailboxInfo>> ListMailboxesAsync(string pattern = "") {
-            using (var connection = new ImapConnection { Security = ImapSecurity }) {
+            using (var connection = new ImapConnection {Security = ImapSecurity}) {
                 connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                 using (var auth = await connection.ConnectAsync(ImapHost, ImapPort)) {
                     using (var session = await auth.LoginAsync(ImapUsername, ImapPassword)) {
@@ -110,7 +110,9 @@ namespace Crystalbyte.Paranoia {
             var remoteMailboxes = await ListMailboxesAsync();
             if (IsGmail) {
                 // Fetch gmail folders and assign automagically.
-                var gmail = remoteMailboxes.FirstOrDefault(x => x.Name.ContainsIgnoreCase("gmail") || x.Name.ContainsIgnoreCase("google mail"));
+                var gmail =
+                    remoteMailboxes.FirstOrDefault(
+                        x => x.Name.ContainsIgnoreCase("gmail") || x.Name.ContainsIgnoreCase("google mail"));
                 if (gmail != null) {
                     var pattern = string.Format("{0}{1}%", gmail.Name, gmail.Delimiter);
                     var localizedMailboxes = await ListMailboxesAsync(pattern);
@@ -143,11 +145,11 @@ namespace Crystalbyte.Paranoia {
 
         internal async Task LoadMailboxesFromDatabaseAsync() {
             var mailboxes = await Task.Factory.StartNew(() => {
-                using (var context = new DatabaseContext()) {
-                    context.MailAccounts.Attach(_account);
-                    return _account.Mailboxes.ToArray();
-                }
-            });
+                                                            using (var context = new DatabaseContext()) {
+                                                                context.MailAccounts.Attach(_account);
+                                                                return _account.Mailboxes.ToArray();
+                                                            }
+                                                        });
             _mailboxes.AddRange(mailboxes.Select(x => new MailboxContext(this, x)));
             var inbox = _mailboxes.FirstOrDefault(x => x.Type == MailboxType.Inbox);
             if (inbox != null) {
@@ -157,7 +159,6 @@ namespace Crystalbyte.Paranoia {
             var tasks = _mailboxes.Select(x => x.CountNotSeenAsync());
             await Task.WhenAll(tasks);
         }
-
 
 
         public event EventHandler MailboxSelectionChanged;
@@ -468,7 +469,8 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            Testing = new TestingContext {
+            Testing = new TestingContext
+            {
                 Message = Resources.TestsCompletedSuccessfully
             };
 
@@ -476,12 +478,13 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task TestSmtpSettingsAsync() {
-            Testing = new TestingContext {
+            Testing = new TestingContext
+            {
                 Message = Resources.TestingSmtpStatus
             };
 
             try {
-                using (var connection = new SmtpConnection { Security = SmtpSecurity }) {
+                using (var connection = new SmtpConnection {Security = SmtpSecurity}) {
                     using (var auth = await connection.ConnectAsync(SmtpHost, SmtpPort)) {
                         var username = UseImapCredentialsForSmtp ? ImapUsername : SmtpUsername;
                         var password = UseImapCredentialsForSmtp ? ImapPassword : SmtpPassword;
@@ -490,7 +493,8 @@ namespace Crystalbyte.Paranoia {
                 }
             }
             catch (Exception ex) {
-                Testing = new TestingContext {
+                Testing = new TestingContext
+                {
                     IsFaulted = true,
                     Message = ex.Message
                 };
@@ -498,19 +502,21 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task TestImapSettingsAsync() {
-            Testing = new TestingContext {
+            Testing = new TestingContext
+            {
                 Message = Resources.TestingImapStatus
             };
 
             try {
-                using (var connection = new ImapConnection { Security = ImapSecurity }) {
+                using (var connection = new ImapConnection {Security = ImapSecurity}) {
                     using (var auth = await connection.ConnectAsync(ImapHost, ImapPort)) {
                         await auth.LoginAsync(ImapUsername, ImapPassword);
                     }
                 }
             }
             catch (Exception ex) {
-                Testing = new TestingContext {
+                Testing = new TestingContext
+                {
                     IsFaulted = true,
                     Message = ex.Message
                 };
@@ -518,17 +524,17 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task TestConnectivityAsync() {
-            Testing = new TestingContext {
+            Testing = new TestingContext
+            {
                 Message = Resources.TestingConnectivityStatus
             };
 
             var available = false;
-            await Task.Factory.StartNew(() => {
-                available = NetworkInterface.GetIsNetworkAvailable();
-            });
+            await Task.Factory.StartNew(() => { available = NetworkInterface.GetIsNetworkAvailable(); });
 
             if (!available) {
-                Testing = new TestingContext {
+                Testing = new TestingContext
+                {
                     Message = Resources.TestingConnectivityStatus,
                     IsFaulted = true
                 };
@@ -536,17 +542,13 @@ namespace Crystalbyte.Paranoia {
         }
 
 
-
-
-
-
-
         internal async Task SaveSmtpRequestsToDatabaseAsync(IEnumerable<MailMessage> messages) {
             using (var database = new DatabaseContext()) {
                 var account = await database.MailAccounts.FindAsync(_account.Id);
 
                 foreach (var message in messages) {
-                    var request = new SmtpRequestModel {
+                    var request = new SmtpRequestModel
+                    {
                         ToName = message.To.First().DisplayName,
                         ToAddress = message.To.First().Address,
                         Subject = message.Subject,
@@ -574,16 +576,20 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void AddSystemMailboxes() {
-            _account.Mailboxes.Add(new MailboxModel {
+            _account.Mailboxes.Add(new MailboxModel
+            {
                 Type = MailboxType.Inbox
             });
-            _account.Mailboxes.Add(new MailboxModel {
+            _account.Mailboxes.Add(new MailboxModel
+            {
                 Type = MailboxType.Trash
             });
-            _account.Mailboxes.Add(new MailboxModel {
+            _account.Mailboxes.Add(new MailboxModel
+            {
                 Type = MailboxType.Sent
             });
-            _account.Mailboxes.Add(new MailboxModel {
+            _account.Mailboxes.Add(new MailboxModel
+            {
                 Type = MailboxType.Draft
             });
         }
@@ -595,7 +601,7 @@ namespace Crystalbyte.Paranoia {
                 try {
                     IsDetectingSettings = true;
                     var stream = await client.OpenReadTaskAsync(new Uri(url, UriKind.Absolute));
-                    var serializer = new XmlSerializer(typeof(clientConfig));
+                    var serializer = new XmlSerializer(typeof (clientConfig));
                     var config = serializer.Deserialize(stream) as clientConfig;
                     Configure(config);
                 }
@@ -653,7 +659,7 @@ namespace Crystalbyte.Paranoia {
 
                 using (var database = new DatabaseContext()) {
                     var contactModels = await database.MailContacts
-                            .ToArrayAsync();
+                        .ToArrayAsync();
 
                     database.MailContacts.RemoveRange(contactModels);
                     database.MailAccounts.Attach(_account);
@@ -663,18 +669,17 @@ namespace Crystalbyte.Paranoia {
                 }
             }
             catch (Exception) {
-
                 throw;
             }
         }
 
         internal async Task RegisterKeyWithServerAsync() {
             try {
-
                 var info = AppContext.GetKeyDirectory();
                 var key = File.ReadAllText(Path.Combine(info.FullName, Settings.Default.PublicKeyFile));
-                
-                var pair = new AddressKeyPair{
+
+                var pair = new AddressKeyPair
+                {
                     Address = Address,
                     Key = key
                 };
@@ -690,7 +695,6 @@ namespace Crystalbyte.Paranoia {
                 }
             }
             catch (Exception) {
-
                 throw;
             }
         }

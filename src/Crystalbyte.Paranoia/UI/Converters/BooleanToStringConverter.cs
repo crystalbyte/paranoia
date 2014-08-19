@@ -1,10 +1,13 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Globalization;
 using System.Windows.Data;
 
+#endregion
+
 namespace Crystalbyte.Paranoia.UI.Converters {
     public sealed class BooleanToStringConverter : IValueConverter {
-
         public string StringForTrue { get; set; }
         public string StringForFalse { get; set; }
 

@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
+﻿#region Using directives
+
+using System.Collections.Generic;
 using System.Windows.Media;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.UI {
     public sealed class SafeWebFonts : List<FontFamily> {
         public SafeWebFonts() {
-            AddRange(new[] {
+            AddRange(new[]
+            {
                 new FontFamily("Georgia"),
                 new FontFamily("Palatino Linotype"),
                 new FontFamily("Times New Roman"),
