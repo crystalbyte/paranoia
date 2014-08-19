@@ -23,6 +23,7 @@ namespace Crystalbyte.Paranoia.UI {
         #region Private Fields
 
         private HwndSource _hwndSource;
+        private Matrix _matrix;
 
         #endregion
 
@@ -37,31 +38,82 @@ namespace Crystalbyte.Paranoia.UI {
                     DockLeft(window);
                     break;
                 case Dock.Right:
-                    DockLeft(window);
+                    DockRight(window);
                     break;
                 case Dock.Top:
-                    DockLeft(window);
+                    DockTop(window);
                     break;
                 case Dock.Bottom:
-                    DockLeft(window);
+                    DockBottom(window);
                     break;
             }
         }
 
+        private double Transform(double size) {
+            return _matrix.Transform(new Point(size, size)).X;
+        }
+
         private void DockLeft(Window window) {
-            Caster.Width = 1;
+            Caster.Width = 0.4;
             Caster.HorizontalAlignment = HorizontalAlignment.Right;
             Caster.VerticalAlignment = VerticalAlignment.Stretch;
-            Left = window.Left - 15;
-            Top = window.Top;
             Width = 10;
+            Left = window.Left - Width;
+            Top = window.Top;
             Height = window.Height;
             DropShadowEffect.Direction = 180;
+        }
+
+        private void DockRight(Window window) {
+            Caster.Width = 0.4;
+            Caster.HorizontalAlignment = HorizontalAlignment.Left;
+            Caster.VerticalAlignment = VerticalAlignment.Stretch;
+            Width = 10;
+            Left = window.Left + window.Width;
+            Top = window.Top;
+            Height = window.Height;
+            DropShadowEffect.Direction = 0;
+        }
+
+        private void DockTop(Window window) {
+            Caster.Height = 0.4;
+            Caster.HorizontalAlignment = HorizontalAlignment.Stretch;
+            Caster.VerticalAlignment = VerticalAlignment.Bottom;
+            Height = 10;
+            Left = window.Left;
+            Top = window.Top - Height;
+            Width = window.Width;
+            DropShadowEffect.Direction = 90;
+        }
+
+        private void DockBottom(Window window) {
+            Caster.Height = 0.4;
+            Caster.HorizontalAlignment = HorizontalAlignment.Stretch;
+            Caster.VerticalAlignment = VerticalAlignment.Top;
+            Height = 10;
+            Left = window.Left;
+            Top = window.Top + window.Height;
+            Width = window.Width;
+            DropShadowEffect.Direction = 270;
         }
 
         private void OnSourceInitialized(object sender, EventArgs e) {
             var helper = new WindowInteropHelper(this);
             _hwndSource = HwndSource.FromHwnd(helper.Handle);
+            if (_hwndSource == null) {
+                throw new NullReferenceException("_hwndSource");
+            }
+
+            // All points queried from the Win32 API are not DPI aware.
+            // Since WPF is DPI aware, one WPF pixel does not necessarily correspond to a device pixel.
+            // In order to convert device pixels (Win32 API) into screen independent pixels (WPF), 
+            // the following transformation must be applied to points queried using the Win32 API.
+            var target = _hwndSource.CompositionTarget;
+            if (target == null) {
+                throw new NullReferenceException("target");
+            }
+
+            _matrix = target.TransformFromDevice;
 
             SetExtendedToolWindowStyle();
         }
