@@ -7,6 +7,7 @@ using System.Windows.Controls;
 
 namespace Crystalbyte.Paranoia.UI {
     public sealed class MetroCircleButton : Button {
+
         #region Construction
 
         static MetroCircleButton() {
