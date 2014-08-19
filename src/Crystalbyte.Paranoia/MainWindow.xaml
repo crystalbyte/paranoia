@@ -30,8 +30,7 @@
     <ui:MetroWindow.Resources>
         <!--  ReSharper disable once Xaml.RedundantResource  -->
         <Storyboard x:Key="OverlaySlideInStoryboard">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Overlay"
-                                           Storyboard.TargetProperty="(UIElement.Opacity)">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Overlay" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1">
                     <EasingDoubleKeyFrame.EasingFunction>
@@ -39,8 +38,7 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayContent"
-                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="100" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
                     <EasingDoubleKeyFrame.EasingFunction>
@@ -48,8 +46,7 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Button"
-                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Button" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="40" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
                     <EasingDoubleKeyFrame.EasingFunction>
@@ -57,8 +54,7 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="TextBlock"
-                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="TextBlock" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="80" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
                     <EasingDoubleKeyFrame.EasingFunction>
@@ -69,8 +65,7 @@
         </Storyboard>
         <!--  ReSharper disable once Xaml.RedundantResource  -->
         <Storyboard x:Key="OverlaySlideOutStoryboard">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Overlay"
-                                           Storyboard.TargetProperty="(UIElement.Opacity)">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Overlay" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="1" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
                     <EasingDoubleKeyFrame.EasingFunction>
@@ -78,8 +73,7 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayContent"
-                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="100">
                     <EasingDoubleKeyFrame.EasingFunction>
@@ -87,8 +81,7 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Button"
-                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Button" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="40">
                     <EasingDoubleKeyFrame.EasingFunction>
@@ -96,8 +89,7 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="TextBlock"
-                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="TextBlock" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="80">
                     <EasingDoubleKeyFrame.EasingFunction>
@@ -145,14 +137,14 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="320"
-                              MinWidth="320"
+                              MinWidth="150"
                               MaxWidth="500" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="400"
-                              MinWidth="260"
+                              MinWidth="150"
                               MaxWidth="800" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="0.55*" />
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.Resources>
@@ -202,10 +194,8 @@
                 <!--  close button  -->
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0"
-                    Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, HelpButtonStyle}}" />
-            <Button Grid.Column="1"
-                    Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, MinimizeButtonStyle}}" />
+            <Button Grid.Column="0" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, HelpButtonStyle}}" />
+            <Button Grid.Column="1" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, MinimizeButtonStyle}}" />
             <Button Grid.Column="2"
                     Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                   MaximizeButtonStyle}}"
@@ -220,8 +210,7 @@
                                          Converter={StaticResource BooleanToVisibilityConverter},
                                          RelativeSource={RelativeSource FindAncestor,
                                                                         AncestorType=paranoia:MainWindow}}" />
-            <Button Grid.Column="4"
-                    Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, CloseButtonStyle}}" />
+            <Button Grid.Column="4" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, CloseButtonStyle}}" />
         </Grid>
         <Grid Grid.Row="3"
               Grid.Column="0"
@@ -295,14 +284,12 @@
                             <ContextMenu x:Name="AccountMenu" StaysOpen="False">
                                 <MenuItem Command="{Binding ConfigAccountCommand}" InputGestureText="Ctrl+Shift+C">
                                     <MenuItem.Header>
-                                        <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}"
-                                                   Text="{x:Static properties:Resources.Edit}" />
+                                        <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Edit}" />
                                     </MenuItem.Header>
                                 </MenuItem>
                                 <MenuItem Command="{Binding DeleteAccountCommand}" InputGestureText="Ctrl+Shift+D">
                                     <MenuItem.Header>
-                                        <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}"
-                                                   Text="{x:Static properties:Resources.Delete}" />
+                                        <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Delete}" />
                                     </MenuItem.Header>
                                 </MenuItem>
                             </ContextMenu>
@@ -325,10 +312,10 @@
                     <ui:MetroCircleButton Grid.Row="1"
                                           Grid.Column="4"
                                           Margin="6"
-                                          DataContext="{Binding SelectedAccount}"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
-                                          Command="{Binding RegisterCommand}">
+                                          Command="{Binding RegisterCommand}"
+                                          DataContext="{Binding SelectedAccount}">
                         R
                     </ui:MetroCircleButton>
                     <Popup x:Name="AccountSelectionPopup"
@@ -338,12 +325,11 @@
                            Placement="MousePoint"
                            PopupAnimation="None"
                            StaysOpen="False">
-                        <Border
-                            Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                        <Border Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                    AppMenuBackgroundBrush}}"
-                            BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                     AppControlBorderBrush}}"
-                            BorderThickness="1">
+                                BorderThickness="1">
                             <ListView Margin="1.5"
                                       Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                          AppMenuBackgroundBrush}}"
@@ -428,9 +414,7 @@
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                              AppTitleTextStyle}}">
                         <Run Text="{x:Static properties:Resources.ContactsTitle}" />
-                        <Run
-                            Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}"
-                            Text="{Binding Contacts, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}, FallbackValue=(0)}" />
+                        <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" Text="{Binding Contacts, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}, FallbackValue=(0)}" />
                     </TextBlock>
                 </DockPanel>
 
@@ -449,8 +433,7 @@
                       d:DataContext="{d:DesignInstance {x:Type paranoia:AppContext}}">
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Command="{Binding DeleteContactCommand}"
-                                  Header="{x:Static properties:Resources.Delete}" />
+                        <MenuItem Command="{Binding DeleteContactCommand}" Header="{x:Static properties:Resources.Delete}" />
                     </ContextMenu>
                 </ListView.ContextMenu>
                 <ListView.ItemsPanel>
@@ -513,9 +496,7 @@
                                 <TextBlock.Foreground>
                                     <Binding Mode="OneWay" Path="HasUnseenMessages">
                                         <Binding.Converter>
-                                            <converters:BooleanToBrushConverter
-                                                BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}"
-                                                BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
+                                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
                                         </Binding.Converter>
                                     </Binding>
                                 </TextBlock.Foreground>
@@ -557,8 +538,7 @@
                         </Grid>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                <Setter TargetName="AddressBlock" Property="Foreground"
-                                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                                <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
@@ -676,9 +656,7 @@
                                     <TextBlock.Foreground>
                                         <Binding Path="IsAssigned">
                                             <Binding.Converter>
-                                                <converters:BooleanToBrushConverter
-                                                    BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}"
-                                                    BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                                                <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
                                             </Binding.Converter>
                                         </Binding>
                                     </TextBlock.Foreground>
@@ -697,9 +675,7 @@
                                     <TextBlock.Foreground>
                                         <Binding Path="IsSelected">
                                             <Binding.Converter>
-                                                <converters:BooleanToBrushConverter
-                                                    BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}"
-                                                    BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                                                <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
                                             </Binding.Converter>
                                         </Binding>
                                     </TextBlock.Foreground>
@@ -720,11 +696,10 @@
                                     <StackPanel.Effect>
                                         <DropShadowEffect />
                                     </StackPanel.Effect>
-                                    <Polygon
-                                        Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                    <Polygon Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                           AppShadeBrush}}"
-                                        Points="150,0 140,12 160,12"
-                                        Stroke="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                             Points="150,0 140,12 160,12"
+                                             Stroke="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                             AppAccentBrush}}" />
                                     <Border Margin="0,-1,0,0"
                                             Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -752,12 +727,8 @@
                                             <StackPanel Grid.Row="0"
                                                         Margin="6,6,6,0"
                                                         Panel.ZIndex="250">
-                                                <TextBlock
-                                                    Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppTitleTextStyle}}"
-                                                    Text="{Binding Type, Converter={StaticResource MailboxLocalizer}}" />
-                                                <TextBlock
-                                                    Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppSubtitleTextStyle}}"
-                                                    Text="{x:Static properties:Resources.MailboxAssignmentDescription}" />
+                                                <TextBlock Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppTitleTextStyle}}" Text="{Binding Type, Converter={StaticResource MailboxLocalizer}}" />
+                                                <TextBlock Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppSubtitleTextStyle}}" Text="{x:Static properties:Resources.MailboxAssignmentDescription}" />
                                             </StackPanel>
                                             <StackPanel Grid.Row="1"
                                                         Margin="0,12,0,6"
@@ -774,17 +745,13 @@
                                                         <TreeView.ItemContainerStyle>
                                                             <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
                                                             <Style TargetType="TreeViewItem">
-                                                                <Setter Property="IsSelected"
-                                                                        Value="{Binding IsSelected}" />
-                                                                <Setter Property="IsExpanded"
-                                                                        Value="{Binding IsExpanded}" />
+                                                                <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                                                                <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
                                                             </Style>
                                                             <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                                                         </TreeView.ItemContainerStyle>
                                                         <TreeView.ItemTemplate>
-                                                            <HierarchicalDataTemplate
-                                                                DataType="paranoia:MailboxCandidateContext"
-                                                                ItemsSource="{Binding Children}">
+                                                            <HierarchicalDataTemplate DataType="paranoia:MailboxCandidateContext" ItemsSource="{Binding Children}">
                                                                 <StackPanel Orientation="Horizontal">
                                                                     <TextBlock VerticalAlignment="Center"
                                                                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -793,9 +760,7 @@
                                                                         <TextBlock.Foreground>
                                                                             <Binding Path="IsSelectable">
                                                                                 <Binding.Converter>
-                                                                                    <converters:BooleanToBrushConverter
-                                                                                        BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}"
-                                                                                        BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                                                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
                                                                                 </Binding.Converter>
                                                                             </Binding>
                                                                         </TextBlock.Foreground>
@@ -856,9 +821,7 @@
                                                 ConverterParameter=!,
                                                 Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Run Text="{x:Static properties:Resources.MessagesTitle}" />
-                    <Run
-                        Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}"
-                        Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
+                    <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
                 </TextBlock>
             </Border>
             <Border Grid.Row="0"
@@ -875,9 +838,7 @@
                            Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                          AppTitleTextStyle}}">
                     <Run Text="{x:Static properties:Resources.MessagesTitle}" />
-                    <Run
-                        Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}"
-                        Text="{Binding SmtpRequests, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
+                    <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" Text="{Binding SmtpRequests, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
                 </TextBlock>
             </Border>
             <ListView x:Name="MessagesListView"
@@ -923,38 +884,32 @@
                     <ContextMenu>
                         <MenuItem Command="{Binding ReplyCommand}" InputGestureText="Ctrl + R">
                             <MenuItem.Header>
-                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}"
-                                           Text="{x:Static properties:Resources.Reply}" />
+                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Reply}" />
                             </MenuItem.Header>
                         </MenuItem>
                         <MenuItem Command="{Binding ForwardCommand}" InputGestureText="Ctrl + F">
                             <MenuItem.Header>
-                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}"
-                                           Text="{x:Static properties:Resources.Forward}" />
+                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Forward}" />
                             </MenuItem.Header>
                         </MenuItem>
                         <MenuItem Command="{Binding PrintCommand}" InputGestureText="Ctrl + P">
                             <MenuItem.Header>
-                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}"
-                                           Text="{x:Static properties:Resources.Print}" />
+                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Print}" />
                             </MenuItem.Header>
                         </MenuItem>
                         <MenuItem Command="{Binding DeleteMessageCommand}" InputGestureText="Entf">
                             <MenuItem.Header>
-                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}"
-                                           Text="{x:Static properties:Resources.Delete}" />
+                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Delete}" />
                             </MenuItem.Header>
                         </MenuItem>
                         <MenuItem Command="{Binding MarkAsSeenCommand}">
                             <MenuItem.Header>
-                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}"
-                                           Text="{x:Static properties:Resources.MarkAsSeen}" />
+                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.MarkAsSeen}" />
                             </MenuItem.Header>
                         </MenuItem>
                         <MenuItem Command="{Binding MarkAsNotSeenCommand}">
                             <MenuItem.Header>
-                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}"
-                                           Text="{x:Static properties:Resources.MarkAsNotSeen}" />
+                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.MarkAsNotSeen}" />
                             </MenuItem.Header>
                         </MenuItem>
                     </ContextMenu>
@@ -1000,8 +955,7 @@
                                 <Image.Source>
                                     <Binding Path="IsSeen">
                                         <Binding.Converter>
-                                            <converters:BooleanToStringConverter StringForFalse="/Assets/unseen.png"
-                                                                                 StringForTrue="/Assets/seen.png" />
+                                            <converters:BooleanToStringConverter StringForFalse="/Assets/unseen.png" StringForTrue="/Assets/seen.png" />
                                         </Binding.Converter>
                                     </Binding>
                                 </Image.Source>
@@ -1050,10 +1004,8 @@
                         </Grid>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                <Setter TargetName="FromBlock" Property="Foreground"
-                                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
-                                <Setter TargetName="DateBlock" Property="Foreground"
-                                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                                <Setter TargetName="FromBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                                <Setter TargetName="DateBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
@@ -1131,8 +1083,7 @@
                         </Grid>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                <Setter TargetName="FromBlock" Property="Foreground"
-                                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                                <Setter TargetName="FromBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
@@ -1225,12 +1176,11 @@
                   Margin="24,12,24,24"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch">
-                <Border
-                    BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                <Border BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                             AppAccentBrush}}"
-                    BorderThickness="0"
-                    DataContext="{Binding SelectedMessage}"
-                    Visibility="{Binding IsNotLoading,
+                        BorderThickness="0"
+                        DataContext="{Binding SelectedMessage}"
+                        Visibility="{Binding IsNotLoading,
                                              Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Border Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}">
                         <ui:HtmlControl x:Name="HtmlControl"
@@ -1247,8 +1197,7 @@
                                         d:IsHidden="True" />
                     </Border>
                 </Border>
-                <Grid DataContext="{Binding SelectedMessage}"
-                      Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock Margin="6"
                                    HorizontalAlignment="Center"

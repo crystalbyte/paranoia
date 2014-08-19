@@ -141,6 +141,8 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnSourceInitialized(object sender, EventArgs e) {
             var helper = new WindowInteropHelper(this);
             _hwndSource = HwndSource.FromHwnd(helper.Handle);
+            if (_hwndSource != null)
+                _hwndSource.AddHook(WindowProc);
 
             _shadowCasters.AddRange(new[] {
                 new ShadowCaster { DockPosition = Dock.Left, Owner = this},
@@ -159,7 +161,6 @@ namespace Crystalbyte.Paranoia.UI {
         protected override void OnStateChanged(EventArgs e) {
             base.OnStateChanged(e);
             UpdateWindowStates();
-            UpdateWindowBounds();
             UpdateShadowCasters();
         }
 
@@ -195,57 +196,45 @@ namespace Crystalbyte.Paranoia.UI {
         // ReSharper disable FieldCanBeMadeReadOnly.Local
         // ReSharper disable MemberCanBePrivate.Local
 
-        private const int MONITOR_DEFAULTTONEAREST = 2;
+        private const int MONITOR_DEFAULTTONEAREST = 0x00000002;
         private const int WINDOWPOSCHANGING = 0x0046;
+        private const int WM_GETMINMAXINFO = 0x0024;
 
-        private void UpdateWindowBounds() {
-            if (WindowState == WindowState.Normal) {
-                BorderThickness = new Thickness(0);
-                FramePadding = new Thickness(0);
-                return;
+        private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
+            switch (msg) {
+                case WM_GETMINMAXINFO:
+                    WmGetMinMaxInfo(hwnd, lParam);
+                    handled = true;
+                    break;
             }
 
-            var monitor = NativeMethods.MonitorFromWindow(_hwndSource.Handle, MONITOR_DEFAULTTONEAREST);
-            var info = new MONITORINFOEX { cbSize = Marshal.SizeOf(typeof(MONITORINFOEX)) };
-            NativeMethods.GetMonitorInfo(new HandleRef(this, monitor), ref info);
+            return IntPtr.Zero;
 
-            if (_hwndSource.CompositionTarget == null) {
-                throw new NullReferenceException("_hwndSource.CompositionTarget == null");
+        }
+
+        private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam) {
+            var mmi = (MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(MINMAXINFO));
+
+            // Adjust the maximized size and position to fit the work area of the correct monitor
+
+            var monitor = NativeMethods.MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+
+            if (monitor != IntPtr.Zero) {
+                var monitorInfo = new MONITORINFOEX {
+                    cbSize = Marshal.SizeOf(typeof(MONITORINFOEX))
+                };
+
+                NativeMethods.GetMonitorInfo(monitor, ref monitorInfo);
+                var rcWorkArea = monitorInfo.rcWork;
+                var rcMonitorArea = monitorInfo.rcMonitor;
+                mmi.ptMaxPosition.x = Math.Abs(rcWorkArea.left - rcMonitorArea.left);
+                mmi.ptMaxPosition.y = Math.Abs(rcWorkArea.top - rcMonitorArea.top);
+                mmi.ptMaxSize.x = Math.Abs(rcWorkArea.right - rcWorkArea.left);
+                mmi.ptMaxSize.y = Math.Abs(rcWorkArea.bottom - rcWorkArea.top);
             }
 
-            // All points queried from the Win32 API are not DPI aware.
-            // Since WPF is DPI aware, one WPF pixel does not necessarily correspond to a device pixel.
-            // In order to convert device pixels (Win32 API) into screen independent pixels (WPF), 
-            // the following transformation must be applied to points queried using the Win32 API.
-            var matrix = _hwndSource.CompositionTarget.TransformFromDevice;
+            Marshal.StructureToPtr(mmi, lParam, true);
 
-            // Not DPI aware
-            var workingArea = info.rcWork;
-            var monitorRect = info.rcMonitor;
-
-            // DPI aware
-            var bounds = matrix.Transform(new Point(workingArea.right - workingArea.left,
-                workingArea.bottom - workingArea.top));
-
-            // DPI aware
-            var origin = matrix.Transform(new Point(workingArea.left, workingArea.top))
-                         - matrix.Transform(new Point(monitorRect.left, monitorRect.top));
-
-            // Calulates the offset required to adjust the anchor position for the missing client frame border.
-            // An additional -1 must be added to the top to perfectly fit the screen, reason is of yet unknown.
-            Left = SystemParameters.WindowNonClientFrameThickness.Left
-                       + SystemParameters.ResizeFrameVerticalBorderWidth + origin.X;
-            Top = SystemParameters.WindowNonClientFrameThickness.Top
-                      + SystemParameters.ResizeFrameHorizontalBorderHeight
-                      - SystemParameters.CaptionHeight + origin.Y;
-
-            //Padding = new Thickness(left, top, 0, 0);
-            MaxWidth = bounds.X + SystemParameters.ResizeFrameVerticalBorderWidth +
-                       SystemParameters.WindowNonClientFrameThickness.Right;
-            MaxHeight = bounds.Y + SystemParameters.ResizeFrameHorizontalBorderHeight +
-                        SystemParameters.WindowNonClientFrameThickness.Bottom;
-
-            UpdateShadowCasters();
         }
 
         private static class NativeMethods {
@@ -254,8 +243,27 @@ namespace Crystalbyte.Paranoia.UI {
             public static extern IntPtr MonitorFromWindow(IntPtr hwnd, int dwFlags);
 
             [DllImport("user32.dll")]
-            public static extern bool GetMonitorInfo(HandleRef hmonitor, ref MONITORINFOEX monitorInfo);
+            public static extern bool GetMonitorInfo(IntPtr hmonitor, ref MONITORINFOEX monitorInfo);
         }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POINT {
+            public int x;
+            public int y;
+            public POINT(int x, int y) {
+                this.x = x;
+                this.y = y;
+            }
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MINMAXINFO {
+            public POINT ptReserved;
+            public POINT ptMaxSize;
+            public POINT ptMaxPosition;
+            public POINT ptMinTrackSize;
+            public POINT ptMaxTrackSize;
+        };
 
         [StructLayout(LayoutKind.Sequential)]
         public struct RECT {
