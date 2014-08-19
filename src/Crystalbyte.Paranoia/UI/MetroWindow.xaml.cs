@@ -1,9 +1,12 @@
 ﻿#region Using directives
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -18,14 +21,15 @@ namespace Crystalbyte.Paranoia.UI {
         #region Private Fields
 
         private HwndSource _hwndSource;
+        private readonly List<ShadowCaster> _shadowCasters;
 
         #endregion
 
         #region Construction
 
         static MetroWindow() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (MetroWindow),
-                new FrameworkPropertyMetadata(typeof (MetroWindow)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(MetroWindow),
+                new FrameworkPropertyMetadata(typeof(MetroWindow)));
         }
 
         public MetroWindow() {
@@ -34,9 +38,11 @@ namespace Crystalbyte.Paranoia.UI {
 
             CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
             CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));
-            CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoredDown));
+            CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoreDown));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
+
+            _shadowCasters = new List<ShadowCaster>();
         }
 
         #endregion
@@ -44,60 +50,60 @@ namespace Crystalbyte.Paranoia.UI {
         #region Dependency Properties
 
         public Thickness FramePadding {
-            get { return (Thickness) GetValue(FramePaddingProperty); }
+            get { return (Thickness)GetValue(FramePaddingProperty); }
             set { SetValue(FramePaddingProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for FramePadding.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FramePaddingProperty =
-            DependencyProperty.Register("FramePadding", typeof (Thickness), typeof (MetroWindow),
+            DependencyProperty.Register("FramePadding", typeof(Thickness), typeof(MetroWindow),
                 new PropertyMetadata(new Thickness(0)));
 
         public bool IsNormalized {
-            get { return (bool) GetValue(IsNormalizedProperty); }
+            get { return (bool)GetValue(IsNormalizedProperty); }
             set { SetValue(IsNormalizedProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for QuickAccessCommands.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsNormalizedProperty =
-            DependencyProperty.Register("IsNormalized", typeof (bool), typeof (MetroWindow),
+            DependencyProperty.Register("IsNormalized", typeof(bool), typeof(MetroWindow),
                 new PropertyMetadata(false));
 
         public bool IsMaximized {
-            get { return (bool) GetValue(IsMaximizedProperty); }
+            get { return (bool)GetValue(IsMaximizedProperty); }
             set { SetValue(IsMaximizedProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for IsMaximized.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsMaximizedProperty =
-            DependencyProperty.Register("IsMaximized", typeof (bool), typeof (MetroWindow), new PropertyMetadata(false));
+            DependencyProperty.Register("IsMaximized", typeof(bool), typeof(MetroWindow), new PropertyMetadata(false));
 
         public Brush AccentBrush {
-            get { return (Brush) GetValue(AccentBrushProperty); }
+            get { return (Brush)GetValue(AccentBrushProperty); }
             set { SetValue(AccentBrushProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for AccentBrush.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AccentBrushProperty =
-            DependencyProperty.Register("AccentBrush", typeof (Brush), typeof (MetroWindow), new PropertyMetadata(null));
+            DependencyProperty.Register("AccentBrush", typeof(Brush), typeof(MetroWindow), new PropertyMetadata(null));
 
         public Brush HoverBrush {
-            get { return (Brush) GetValue(HoverBrushProperty); }
+            get { return (Brush)GetValue(HoverBrushProperty); }
             set { SetValue(HoverBrushProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for HoverBrush.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HoverBrushProperty =
-            DependencyProperty.Register("HoverBrush", typeof (Brush), typeof (MetroWindow), new PropertyMetadata(null));
+            DependencyProperty.Register("HoverBrush", typeof(Brush), typeof(MetroWindow), new PropertyMetadata(null));
 
         public string SearchText {
-            get { return (string) GetValue(SearchTextProperty); }
+            get { return (string)GetValue(SearchTextProperty); }
             set { SetValue(SearchTextProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for SearchText.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SearchTextProperty =
-            DependencyProperty.Register("SearchText", typeof (string), typeof (MetroWindow),
+            DependencyProperty.Register("SearchText", typeof(string), typeof(MetroWindow),
                 new PropertyMetadata(string.Empty));
 
         #endregion
@@ -127,7 +133,7 @@ namespace Crystalbyte.Paranoia.UI {
             e.Handled = true;
         }
 
-        private void OnRestoredDown(object sender, RoutedEventArgs e) {
+        private void OnRestoreDown(object sender, RoutedEventArgs e) {
             WindowState = WindowState.Normal;
             e.Handled = true;
         }
@@ -135,6 +141,15 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnSourceInitialized(object sender, EventArgs e) {
             var helper = new WindowInteropHelper(this);
             _hwndSource = HwndSource.FromHwnd(helper.Handle);
+
+            _shadowCasters.AddRange(new[] {
+                new ShadowCaster { DockPosition = Dock.Left, Owner = this},
+                new ShadowCaster { DockPosition = Dock.Top, Owner = this},
+                new ShadowCaster { DockPosition = Dock.Right, Owner = this},
+                new ShadowCaster { DockPosition = Dock.Bottom, Owner = this}
+            });
+
+            UpdateShadowCasters();
         }
 
         #endregion
@@ -145,6 +160,12 @@ namespace Crystalbyte.Paranoia.UI {
             base.OnStateChanged(e);
             UpdateWindowStates();
             UpdateWindowBounds();
+            UpdateShadowCasters();
+        }
+
+        protected override void OnLocationChanged(EventArgs e) {
+            base.OnLocationChanged(e);
+            UpdateShadowCasters();
         }
 
         #endregion
@@ -154,6 +175,15 @@ namespace Crystalbyte.Paranoia.UI {
         private void UpdateWindowStates() {
             IsNormalized = WindowState == WindowState.Normal;
             IsMaximized = WindowState == WindowState.Maximized;
+        }
+
+        private void UpdateShadowCasters() {
+            if (IsMaximized) {
+                _shadowCasters.ForEach(x => x.Hide());
+            } else {
+                _shadowCasters.ForEach(x => x.UpdatePosition(this));
+                _shadowCasters.ForEach(x => x.Show());
+            }
         }
 
         #endregion
@@ -175,9 +205,9 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var monitor = SafeNativeMethods.MonitorFromWindow(_hwndSource.Handle, MONITOR_DEFAULTTONEAREST);
-            var info = new MONITORINFOEX {cbSize = Marshal.SizeOf(typeof (MONITORINFOEX))};
-            SafeNativeMethods.GetMonitorInfo(new HandleRef(this, monitor), ref info);
+            var monitor = NativeMethods.MonitorFromWindow(_hwndSource.Handle, MONITOR_DEFAULTTONEAREST);
+            var info = new MONITORINFOEX { cbSize = Marshal.SizeOf(typeof(MONITORINFOEX)) };
+            NativeMethods.GetMonitorInfo(new HandleRef(this, monitor), ref info);
 
             if (_hwndSource.CompositionTarget == null) {
                 throw new NullReferenceException("_hwndSource.CompositionTarget == null");
@@ -203,22 +233,22 @@ namespace Crystalbyte.Paranoia.UI {
 
             // Calulates the offset required to adjust the anchor position for the missing client frame border.
             // An additional -1 must be added to the top to perfectly fit the screen, reason is of yet unknown.
-            var left = SystemParameters.WindowNonClientFrameThickness.Left
+            Left = SystemParameters.WindowNonClientFrameThickness.Left
                        + SystemParameters.ResizeFrameVerticalBorderWidth + origin.X;
-            var top = SystemParameters.WindowNonClientFrameThickness.Top
+            Top = SystemParameters.WindowNonClientFrameThickness.Top
                       + SystemParameters.ResizeFrameHorizontalBorderHeight
                       - SystemParameters.CaptionHeight + origin.Y;
 
-            FramePadding = new Thickness(left, top, 0, 0);
+            //Padding = new Thickness(left, top, 0, 0);
             MaxWidth = bounds.X + SystemParameters.ResizeFrameVerticalBorderWidth +
                        SystemParameters.WindowNonClientFrameThickness.Right;
             MaxHeight = bounds.Y + SystemParameters.ResizeFrameHorizontalBorderHeight +
                         SystemParameters.WindowNonClientFrameThickness.Bottom;
-            BorderThickness = new Thickness(0);
+
+            UpdateShadowCasters();
         }
 
-        [SuppressUnmanagedCodeSecurity]
-        private static class SafeNativeMethods {
+        private static class NativeMethods {
             // To get a handle to the specified monitor
             [DllImport("user32.dll")]
             public static extern IntPtr MonitorFromWindow(IntPtr hwnd, int dwFlags);
@@ -241,7 +271,8 @@ namespace Crystalbyte.Paranoia.UI {
             public RECT rcMonitor; // Total area
             public RECT rcWork; // Working area
             public int dwFlags;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x20)] public char[] szDevice;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x20)]
+            public char[] szDevice;
         }
 
         // ReSharper restore InconsistentNaming

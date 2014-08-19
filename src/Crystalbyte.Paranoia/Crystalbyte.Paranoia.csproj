@@ -300,6 +300,9 @@
       <DependentUpon>BlankPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\SafeWebFontProvider.cs" />
+    <Compile Include="UI\ShadowCaster.xaml.cs">
+      <DependentUpon>ShadowCaster.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\TypeExtensions.cs" />
     <Compile Include="UI\Pages\ComposeMessagePage.xaml.cs">
       <DependentUpon>ComposeMessagePage.xaml</DependentUpon>
@@ -391,6 +394,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Pages\CreateKeyPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\ShadowCaster.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
