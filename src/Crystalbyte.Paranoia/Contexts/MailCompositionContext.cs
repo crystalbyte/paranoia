@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
@@ -19,6 +20,7 @@ using Crystalbyte.Paranoia.UI.Commands;
 
 namespace Crystalbyte.Paranoia {
     public sealed class MailCompositionContext : NotificationObject {
+
         #region Private Fields
 
         private string _text;
@@ -133,8 +135,8 @@ namespace Crystalbyte.Paranoia {
                 await account.SaveSmtpRequestsToDatabaseAsync(messages);
                 await App.Context.NotifyOutboxNotEmpty();
             }
-            catch (Exception) {
-                throw;
+            catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
             }
         }
 
