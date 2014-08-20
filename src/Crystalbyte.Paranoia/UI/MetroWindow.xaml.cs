@@ -1,10 +1,8 @@
 ﻿#region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -16,10 +14,10 @@ namespace Crystalbyte.Paranoia.UI {
     ///     This class represents a window with an integrated ribbon.
     /// </summary>
     public class MetroWindow : Window {
+
         #region Private Fields
 
         private HwndSource _hwndSource;
-        private readonly List<ShadowCaster> _shadowCasters;
 
         #endregion
 
@@ -39,20 +37,27 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoreDown));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
-
-            _shadowCasters = new List<ShadowCaster>();
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
             UpdateWindowStates();
-
-            // The transformation matrix must be given time to be set correctly, therefor we invoke to delay.
-            Dispatcher.InvokeAsync(UpdateShadowCasters);
         }
 
         #endregion
 
         #region Dependency Properties
+
+
+
+        public Thickness ActualFramePadding {
+            get { return (Thickness)GetValue(ActualFramePaddingProperty); }
+            set { SetValue(ActualFramePaddingProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ActualFramePadding.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ActualFramePaddingProperty =
+            DependencyProperty.Register("ActualFramePadding", typeof(Thickness), typeof(MetroWindow), new PropertyMetadata(new Thickness(0)));
+
 
         public Thickness FramePadding {
             get { return (Thickness) GetValue(FramePaddingProperty); }
@@ -62,7 +67,16 @@ namespace Crystalbyte.Paranoia.UI {
         // Using a DependencyProperty as the backing store for FramePadding.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FramePaddingProperty =
             DependencyProperty.Register("FramePadding", typeof (Thickness), typeof (MetroWindow),
-                new PropertyMetadata(new Thickness(0)));
+                new PropertyMetadata(new Thickness(0), OnFramePaddingChanged));
+
+        private static void OnFramePaddingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            var window = (MetroWindow) d;
+            window.InitFramePadding((Thickness)e.NewValue);
+        }
+
+        private void InitFramePadding(Thickness thickness) {
+            ActualFramePadding = thickness;
+        }
 
         public bool IsNormalized {
             get { return (bool) GetValue(IsNormalizedProperty); }
@@ -145,15 +159,6 @@ namespace Crystalbyte.Paranoia.UI {
             if (_hwndSource != null)
                 _hwndSource.AddHook(WindowProc);
 
-            _shadowCasters.AddRange(new[]
-            {
-                new ShadowCaster {DockPosition = Dock.Left, Owner = this},
-                new ShadowCaster {DockPosition = Dock.Top, Owner = this},
-                new ShadowCaster {DockPosition = Dock.Right, Owner = this},
-                new ShadowCaster {DockPosition = Dock.Bottom, Owner = this}
-            });
-
-            UpdateShadowCasters();
         }
 
         #endregion
@@ -162,18 +167,9 @@ namespace Crystalbyte.Paranoia.UI {
 
         protected override void OnStateChanged(EventArgs e) {
             base.OnStateChanged(e);
+
             UpdateWindowStates();
-            UpdateShadowCasters();
-        }
-
-        protected override void OnLocationChanged(EventArgs e) {
-            base.OnLocationChanged(e);
-            UpdateShadowCasters();
-        }
-
-        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo) {
-            base.OnRenderSizeChanged(sizeInfo);
-            UpdateShadowCasters();
+            ActualFramePadding = IsMaximized ? new Thickness(0) : FramePadding;
         }
 
         #endregion
@@ -183,16 +179,6 @@ namespace Crystalbyte.Paranoia.UI {
         private void UpdateWindowStates() {
             IsNormalized = WindowState == WindowState.Normal;
             IsMaximized = WindowState == WindowState.Maximized;
-        }
-
-        private void UpdateShadowCasters() {
-            if (IsMaximized) {
-                _shadowCasters.ForEach(x => x.Hide());
-            }
-            else {
-                _shadowCasters.ForEach(x => x.UpdatePosition(this));
-                _shadowCasters.ForEach(x => x.Show());
-            }
         }
 
         #endregion

@@ -41,8 +41,7 @@ namespace Crystalbyte.Paranoia.UI {
             var handle = Marshal.AllocHGlobal(length);
             Marshal.Copy(content.Body, 0, handle, length);
 
-            SendResponse(request, new DataSourceResponse
-            {
+            SendResponse(request, new DataSourceResponse {
                 Buffer = handle,
                 MimeType = "text/html",
                 Size = Convert.ToUInt32(length)

@@ -12,21 +12,19 @@
     </Style>
 
     <Style TargetType="ui:MetroWindow">
-        <Setter Property="HoverBrush"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppHoverBrush}}" />
-        <Setter Property="AccentBrush"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
-        <Setter Property="AllowsTransparency" Value="False" />
+        <Setter Property="HoverBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppHoverBrush}}" />
+        <Setter Property="AccentBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
+        <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="FramePadding" Value="10" />
         <Setter Property="WindowStyle" Value="None" />
         <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
         <Setter Property="BorderBrush" Value="{Binding AccentBrush, RelativeSource={RelativeSource Self}}" />
-        <Setter Property="Background" Value="#333" />
-        <Setter Property="Foreground" Value="GhostWhite" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
-                <WindowChrome CaptionHeight="24"
+                <WindowChrome CaptionHeight="28"
                               GlassFrameThickness="-1"
                               NonClientFrameEdges="None"
                               ResizeBorderThickness="0" />
@@ -36,11 +34,14 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:MetroWindow">
-                    <Border Padding="{TemplateBinding FramePadding}">
+                    <Border Padding="{TemplateBinding ActualFramePadding}">
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Padding="{TemplateBinding Padding}">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="0" Color="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentColor}}" />
+                            </Border.Effect>
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <!--  window command bar  -->
