@@ -26,8 +26,8 @@ namespace Crystalbyte.Paranoia.UI {
         #region Construction
 
         static MetroWindow() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(MetroWindow),
-                new FrameworkPropertyMetadata(typeof(MetroWindow)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (MetroWindow),
+                new FrameworkPropertyMetadata(typeof (MetroWindow)));
         }
 
         public MetroWindow() {
@@ -44,7 +44,10 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
-            Left += 1;
+            UpdateWindowStates();
+
+            // The transformation matrix must be given time to be set correctly, therefor we invoke to delay.
+            Dispatcher.InvokeAsync(UpdateShadowCasters);
         }
 
         #endregion
@@ -52,60 +55,60 @@ namespace Crystalbyte.Paranoia.UI {
         #region Dependency Properties
 
         public Thickness FramePadding {
-            get { return (Thickness)GetValue(FramePaddingProperty); }
+            get { return (Thickness) GetValue(FramePaddingProperty); }
             set { SetValue(FramePaddingProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for FramePadding.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FramePaddingProperty =
-            DependencyProperty.Register("FramePadding", typeof(Thickness), typeof(MetroWindow),
+            DependencyProperty.Register("FramePadding", typeof (Thickness), typeof (MetroWindow),
                 new PropertyMetadata(new Thickness(0)));
 
         public bool IsNormalized {
-            get { return (bool)GetValue(IsNormalizedProperty); }
+            get { return (bool) GetValue(IsNormalizedProperty); }
             set { SetValue(IsNormalizedProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for QuickAccessCommands.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsNormalizedProperty =
-            DependencyProperty.Register("IsNormalized", typeof(bool), typeof(MetroWindow),
+            DependencyProperty.Register("IsNormalized", typeof (bool), typeof (MetroWindow),
                 new PropertyMetadata(false));
 
         public bool IsMaximized {
-            get { return (bool)GetValue(IsMaximizedProperty); }
+            get { return (bool) GetValue(IsMaximizedProperty); }
             set { SetValue(IsMaximizedProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for IsMaximized.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsMaximizedProperty =
-            DependencyProperty.Register("IsMaximized", typeof(bool), typeof(MetroWindow), new PropertyMetadata(false));
+            DependencyProperty.Register("IsMaximized", typeof (bool), typeof (MetroWindow), new PropertyMetadata(false));
 
         public Brush AccentBrush {
-            get { return (Brush)GetValue(AccentBrushProperty); }
+            get { return (Brush) GetValue(AccentBrushProperty); }
             set { SetValue(AccentBrushProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for AccentBrush.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AccentBrushProperty =
-            DependencyProperty.Register("AccentBrush", typeof(Brush), typeof(MetroWindow), new PropertyMetadata(null));
+            DependencyProperty.Register("AccentBrush", typeof (Brush), typeof (MetroWindow), new PropertyMetadata(null));
 
         public Brush HoverBrush {
-            get { return (Brush)GetValue(HoverBrushProperty); }
+            get { return (Brush) GetValue(HoverBrushProperty); }
             set { SetValue(HoverBrushProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for HoverBrush.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HoverBrushProperty =
-            DependencyProperty.Register("HoverBrush", typeof(Brush), typeof(MetroWindow), new PropertyMetadata(null));
+            DependencyProperty.Register("HoverBrush", typeof (Brush), typeof (MetroWindow), new PropertyMetadata(null));
 
         public string SearchText {
-            get { return (string)GetValue(SearchTextProperty); }
+            get { return (string) GetValue(SearchTextProperty); }
             set { SetValue(SearchTextProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for SearchText.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SearchTextProperty =
-            DependencyProperty.Register("SearchText", typeof(string), typeof(MetroWindow),
+            DependencyProperty.Register("SearchText", typeof (string), typeof (MetroWindow),
                 new PropertyMetadata(string.Empty));
 
         #endregion
@@ -142,11 +145,12 @@ namespace Crystalbyte.Paranoia.UI {
             if (_hwndSource != null)
                 _hwndSource.AddHook(WindowProc);
 
-            _shadowCasters.AddRange(new[] {
-                new ShadowCaster { DockPosition = Dock.Left, Owner = this },
-                new ShadowCaster { DockPosition = Dock.Top, Owner = this },
-                new ShadowCaster { DockPosition = Dock.Right, Owner = this },
-                new ShadowCaster { DockPosition = Dock.Bottom, Owner = this }
+            _shadowCasters.AddRange(new[]
+            {
+                new ShadowCaster {DockPosition = Dock.Left, Owner = this},
+                new ShadowCaster {DockPosition = Dock.Top, Owner = this},
+                new ShadowCaster {DockPosition = Dock.Right, Owner = this},
+                new ShadowCaster {DockPosition = Dock.Bottom, Owner = this}
             });
 
             UpdateShadowCasters();
@@ -184,7 +188,8 @@ namespace Crystalbyte.Paranoia.UI {
         private void UpdateShadowCasters() {
             if (IsMaximized) {
                 _shadowCasters.ForEach(x => x.Hide());
-            } else {
+            }
+            else {
                 _shadowCasters.ForEach(x => x.UpdatePosition(this));
                 _shadowCasters.ForEach(x => x.Show());
             }
@@ -212,19 +217,19 @@ namespace Crystalbyte.Paranoia.UI {
             }
 
             return IntPtr.Zero;
-
         }
 
         private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam) {
-            var mmi = (MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(MINMAXINFO));
+            var mmi = (MINMAXINFO) Marshal.PtrToStructure(lParam, typeof (MINMAXINFO));
 
             // Adjust the maximized size and position to fit the work area of the correct monitor
 
             var monitor = NativeMethods.MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
 
             if (monitor != IntPtr.Zero) {
-                var monitorInfo = new MONITORINFOEX {
-                    cbSize = Marshal.SizeOf(typeof(MONITORINFOEX))
+                var monitorInfo = new MONITORINFOEX
+                {
+                    cbSize = Marshal.SizeOf(typeof (MONITORINFOEX))
                 };
 
                 NativeMethods.GetMonitorInfo(monitor, ref monitorInfo);
@@ -252,6 +257,7 @@ namespace Crystalbyte.Paranoia.UI {
         public struct POINT {
             public int x;
             public int y;
+
             public POINT(int x, int y) {
                 this.x = x;
                 this.y = y;
@@ -281,8 +287,7 @@ namespace Crystalbyte.Paranoia.UI {
             public RECT rcMonitor; // Total area
             public RECT rcWork; // Working area
             public int dwFlags;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x20)]
-            public char[] szDevice;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x20)] public char[] szDevice;
         }
 
         // ReSharper restore InconsistentNaming

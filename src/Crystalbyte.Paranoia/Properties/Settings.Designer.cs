@@ -23,21 +23,6 @@ namespace Crystalbyte.Paranoia.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"
-        <?xml version=""1.0"" encoding=""utf-16""?>
-        <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-        <string>gmail.com</string>
-        <string>googlemail.com</string>
-        </ArrayOfString>
-      ")]
-        public global::System.Collections.Specialized.StringCollection GmailDomains {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["GmailDomains"]));
-            }
-        }
-        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Verdana")]
@@ -95,6 +80,21 @@ namespace Crystalbyte.Paranoia.Properties {
         public string UserAgent {
             get {
                 return ((string)(this["UserAgent"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"
+        <?xml version=""1.0"" encoding=""utf-16""?>
+        <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+        <string>gmail.com</string>
+        <string>googlemail.com</string>
+        </ArrayOfString>
+      ")]
+        public global::System.Collections.Specialized.StringCollection GmailDomains {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["GmailDomains"]));
             }
         }
     }

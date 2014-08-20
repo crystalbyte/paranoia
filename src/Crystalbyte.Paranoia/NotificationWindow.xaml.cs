@@ -2,9 +2,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media.Animation;
-using System.Windows.Threading;
 using Crystalbyte.Paranoia.Data;
 
 #endregion
@@ -14,19 +14,31 @@ namespace Crystalbyte.Paranoia {
     ///     Interaction logic for NotificationWindow.xaml
     /// </summary>
     public partial class NotificationWindow {
-        public NotificationWindow(List<MailMessageModel> mails) {
-            DataContext = new NotificationWindowContext(mails);
-            InitializeComponent();
-            var sb = (Storyboard) Resources["NotificationStoryboard"];
+        private Storyboard _storyboard;
 
-            Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => {
-                                                                                      var workingArea =
-                                                                                          SystemParameters.WorkArea;
-                                                                                      Left = workingArea.Right -
-                                                                                             ActualWidth;
-                                                                                      Top = workingArea.Top;
-                                                                                  }));
-            sb.Completed += OnStoryboardCompleted;
+        public NotificationWindow(IList<MailMessageModel> mails) {
+            InitializeComponent();
+            DataContext = new NotificationWindowContext(mails);
+            Loaded += OnLoaded;
+
+            if (!DesignerProperties.GetIsInDesignMode(this)) {
+                Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e) {
+            Visibility = Visibility.Visible;
+            _storyboard.Begin();
+        }
+
+        protected override void OnInitialized(EventArgs e) {
+            base.OnInitialized(e);
+
+            Left = SystemParameters.WorkArea.Width - Width;
+            Top = SystemParameters.WorkArea.Top;
+
+            _storyboard = (Storyboard) Resources["EntryAnimation"];
+            _storyboard.Completed += OnStoryboardCompleted;
         }
 
         private void OnStoryboardCompleted(object sender, EventArgs e) {

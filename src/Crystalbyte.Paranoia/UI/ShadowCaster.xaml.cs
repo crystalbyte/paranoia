@@ -1,16 +1,20 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 
+#endregion
+
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
-    /// Interaction logic for ShadowCaster.xaml
+    ///     Interaction logic for ShadowCaster.xaml
     /// </summary>
     public partial class ShadowCaster {
-
         #region Private Fields
 
         private HwndSource _hwndSource;
@@ -45,7 +49,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void DockLeft(Window window) {
-            Caster.Width = 0.4;
+            Caster.Width = 1;
             Caster.HorizontalAlignment = HorizontalAlignment.Right;
             Caster.VerticalAlignment = VerticalAlignment.Stretch;
             Width = 10;
@@ -56,7 +60,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void DockRight(Window window) {
-            Caster.Width = 0.4;
+            Caster.Width = 1;
             Caster.HorizontalAlignment = HorizontalAlignment.Left;
             Caster.VerticalAlignment = VerticalAlignment.Stretch;
             Width = 10;
@@ -67,7 +71,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void DockTop(Window window) {
-            Caster.Height = 0.4;
+            Caster.Height = 1;
             Caster.HorizontalAlignment = HorizontalAlignment.Stretch;
             Caster.VerticalAlignment = VerticalAlignment.Bottom;
             Height = 10;
@@ -78,7 +82,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void DockBottom(Window window) {
-            Caster.Height = 0.4;
+            Caster.Height = 1;
             Caster.HorizontalAlignment = HorizontalAlignment.Stretch;
             Caster.VerticalAlignment = VerticalAlignment.Top;
             Height = 10;
@@ -110,19 +114,20 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void SetExtendedToolWindowStyle() {
-            var exStyle = (int)NativeMethods.GetWindowLong(_hwndSource.Handle, (int)GetWindowLongFields.GwlExstyle);
-            exStyle |= (int)ExtendedWindowStyles.WsExToolwindow;
-            SetWindowLong(_hwndSource.Handle, (int)GetWindowLongFields.GwlExstyle, (IntPtr)exStyle);
+            var exStyle = (int) NativeMethods.GetWindowLong(_hwndSource.Handle, (int) GetWindowLongFields.GwlExstyle);
+            exStyle |= (int) ExtendedWindowStyles.WsExToolwindow;
+            SetWindowLong(_hwndSource.Handle, (int) GetWindowLongFields.GwlExstyle, (IntPtr) exStyle);
         }
 
         public Dock DockPosition {
-            get { return (Dock)GetValue(DockPositionProperty); }
+            get { return (Dock) GetValue(DockPositionProperty); }
             set { SetValue(DockPositionProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for DockPosition.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DockPositionProperty =
-            DependencyProperty.Register("DockPosition", typeof(Dock), typeof(ShadowCaster), new PropertyMetadata(Dock.Left));
+            DependencyProperty.Register("DockPosition", typeof (Dock), typeof (ShadowCaster),
+                new PropertyMetadata(Dock.Left));
 
         #region Native Window Support
 
@@ -136,7 +141,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private static int IntPtrToInt32(IntPtr intPtr) {
-            return unchecked((int)intPtr.ToInt64());
+            return unchecked((int) intPtr.ToInt64());
         }
 
         public static IntPtr SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong) {
@@ -150,14 +155,15 @@ namespace Crystalbyte.Paranoia.UI {
                 var tempResult = NativeMethods.IntSetWindowLong(hWnd, nIndex, IntPtrToInt32(dwNewLong));
                 error = Marshal.GetLastWin32Error();
                 result = new IntPtr(tempResult);
-            } else {
+            }
+            else {
                 // use SetWindowLongPtr
                 result = NativeMethods.IntSetWindowLongPtr(hWnd, nIndex, dwNewLong);
                 error = Marshal.GetLastWin32Error();
             }
 
             if ((result == IntPtr.Zero) && (error != 0)) {
-                throw new System.ComponentModel.Win32Exception(error);
+                throw new Win32Exception(error);
             }
 
             return result;

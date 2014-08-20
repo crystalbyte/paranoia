@@ -7,19 +7,28 @@
         Height="300"
         Margin="0"
         AllowsTransparency="True"
-        Background="Red"
+        Background="Transparent"
         BorderThickness="0"
         Padding="0"
         ShowInTaskbar="False"
         UseLayoutRounding="True"
         WindowStyle="None">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/Metro.Resources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Rectangle x:Name="Caster" Fill="Black">
             <Rectangle.Effect>
                 <DropShadowEffect x:Name="DropShadowEffect"
                                   BlurRadius="8"
-                                  ShadowDepth="2"
-                                  Color="Black" />
+                                  Opacity="1"
+                                  RenderingBias="Quality"
+                                  ShadowDepth="0"
+                                  Color="{StaticResource AppAccentColor}" />
             </Rectangle.Effect>
         </Rectangle>
 

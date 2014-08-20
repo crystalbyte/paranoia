@@ -20,7 +20,6 @@ using Crystalbyte.Paranoia.UI.Commands;
 
 namespace Crystalbyte.Paranoia {
     public sealed class MailCompositionContext : NotificationObject {
-
         #region Private Fields
 
         private string _text;
