@@ -31,7 +31,6 @@
             CKEDITOR.instances.editor1.setData(html);
         }
 
-
         function handleAfterCommandExec(event) {
             var commandName = event.data.name;
             window.external.EditorButtonClicked(commandName);
@@ -47,7 +46,6 @@
 
         function Stuff() {
             window.external.Test(CKEDITOR.instances.editor1.getSelection());
-            ;
         }
     </script>
 </head>
