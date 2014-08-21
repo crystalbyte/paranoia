@@ -168,6 +168,7 @@
     <Compile Include="SecurityMeasure.cs" />
     <Compile Include="UI\Commands\MarkAsNotSeenCommand.cs" />
     <Compile Include="UI\Commands\MarkAsSeenCommand.cs" />
+    <Compile Include="UI\Commands\RestoreMessageCommand.cs" />
     <Compile Include="UI\Converters\MailContactFormatter.cs" />
     <Compile Include="UI\Converters\PercentageFormatter.cs" />
     <Compile Include="UI\Converters\SecurityProtocolFormatter.cs" />

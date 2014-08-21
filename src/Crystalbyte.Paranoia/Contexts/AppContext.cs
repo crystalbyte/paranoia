@@ -31,6 +31,7 @@ using Newtonsoft.Json;
 namespace Crystalbyte.Paranoia {
     [Export, Shared]
     public sealed class AppContext : NotificationObject {
+
         #region Private Fields
 
         private float _zoom;
@@ -149,7 +150,7 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
             } catch (Exception ex) {
-                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.ToString());
             } finally {
                 StatusText = Resources.ReadyStatus;
             }
@@ -190,7 +191,7 @@ namespace Crystalbyte.Paranoia {
 
         private void OnDeleteContact(object obj) { }
 
-        internal async Task LoadContactsFromDatabaseAsync() {
+        internal async Task LoadContactsAsync() {
             IEnumerable<MailContactModel> contacts;
             using (var database = new DatabaseContext()) {
                 contacts = await database.MailContacts.ToArrayAsync();
@@ -641,16 +642,18 @@ namespace Crystalbyte.Paranoia {
 
 
         public async Task RunAsync() {
-            await LoadAccountsFromDatabaseAsync();
-            await LoadContactsFromDatabaseAsync();
+            await LoadAccountsAsync();
+            await LoadContactsAsync();
             SelectedAccount = Accounts.FirstOrDefault();
             if (SelectedAccount != null)
                 SelectedAccount.IsSelected = true;
 
+            IsAllContactsSelected = true;
+
             _outboxTimer.Start();
         }
 
-        private async Task LoadAccountsFromDatabaseAsync() {
+        private async Task LoadAccountsAsync() {
             using (var context = new DatabaseContext()) {
                 var accounts = await context.MailAccounts.ToArrayAsync();
                 _accounts.AddRange(accounts.Select(x => new MailAccountContext(x)));
@@ -714,10 +717,6 @@ namespace Crystalbyte.Paranoia {
             ClearMessageView();
         }
 
-        public void NotifyMessageCountChanged() {
-            RaisePropertyChanged(() => Messages);
-        }
-
         private async void OnOutboxTimerTick(object sender, EventArgs e) {
             if (!NetworkInterface.GetIsNetworkAvailable()) {
                 return;
@@ -745,13 +744,12 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async void NotifyMessagesAdded(ICollection<MailMessageContext> messages) {
-            if (messages.Any()) {
-                var first = messages.First();
-                if (first.Mailbox.IsSelected) {
-                    _messages.AddRange(messages);        
-                }
+            foreach (var message in messages.Where(message => message.Mailbox.IsSelected)) {
+                _messages.Add(message);
             }
+
             await RefreshContactStatisticsAsync();
+            RaisePropertyChanged(() => Messages);
         }
 
         internal void ShowMessage(MailMessageContext message) {
@@ -761,6 +759,13 @@ namespace Crystalbyte.Paranoia {
 
             _messages.ForEach(x => x.IsSelected = false);
             message.IsSelected = true;
+        }
+
+        internal async void NotifyMessagesRemoved(IEnumerable<MailMessageContext> messages) {
+            messages.ForEach(x => _messages.Remove(x));
+
+            await RefreshContactStatisticsAsync();
+            RaisePropertyChanged(() => Messages);
         }
     }
 }

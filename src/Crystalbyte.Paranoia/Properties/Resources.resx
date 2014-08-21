@@ -416,4 +416,7 @@ Once your password is lost you're screwed.</value>
   <data name="ShowAllMessages" xml:space="preserve">
     <value>Show All Messages</value>
   </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
 </root>

@@ -35,6 +35,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _dropMailboxCommand;
         private readonly ICommand _testSettingsCommand;
         private readonly ICommand _registerAccount;
+        private readonly ICommand _restoreMessagesCommand; 
         private readonly OutboxContext _outbox;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
 
@@ -44,6 +45,7 @@ namespace Crystalbyte.Paranoia {
             _outbox = new OutboxContext(this);
             _registerAccount = new RelayCommand(OnRegister);
             _dropMailboxCommand = new DropAssignmentCommand(this);
+            _restoreMessagesCommand  = new RestoreMessageCommand(this);
             _testSettingsCommand = new RelayCommand(OnTestSettings);
             _isAutoDetectPreferred = true;
             _mailboxes = new ObservableCollection<MailboxContext>();
@@ -63,6 +65,10 @@ namespace Crystalbyte.Paranoia {
 
         public ICommand DropMailboxCommand {
             get { return _dropMailboxCommand; }
+        }
+
+        public ICommand RestoreMessagesCommand {
+            get { return _restoreMessagesCommand; }
         }
 
         public ICommand TestSettingsCommand {
@@ -694,6 +700,47 @@ namespace Crystalbyte.Paranoia {
             await mailbox.LoadMessagesAsync();
             foreach (var box in Mailboxes.AsParallel()) {
                 await box.CountNotSeenAsync();
+            }
+        }
+
+        internal MailboxContext GetInbox() {
+            return _mailboxes.FirstOrDefault(x => x.IsInbox);
+        }
+
+        internal async Task RestoreMessagesAsync(ICollection<MailMessageContext> messages) {
+            try {
+                var inbox = GetInbox();
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+                    using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+                        using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+                            var mailbox = await session.SelectAsync(Name);
+                            await mailbox.MoveMailsAsync(messages.Select(x => x.Uid), inbox.Name);
+                        }
+                    }
+                }
+
+                using (var database = new DatabaseContext()) {
+                    foreach (var message in messages) {
+                        try {
+                            var model = new MailMessageModel {
+                                Id = message.Id,
+                                MailboxId = Id
+                            };
+
+                            database.MailMessages.Attach(model);
+                            database.MailMessages.Remove(model);
+                        } catch (Exception) {
+                            // TODO: log
+                            throw;
+                        }
+                    }
+                    await database.SaveChangesAsync();
+                }
+
+                App.Context.NotifyMessagesRemoved(messages);
+            } catch (Exception) {
+
+                throw;
             }
         }
     }

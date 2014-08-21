@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Globalization;
@@ -115,7 +114,8 @@ namespace Crystalbyte.Paranoia {
                     await database.SaveChangesAsync();
                 }
 
-                _account.AppContext.NotifyMessageCountChanged();
+                App.Context.NotifyMessagesRemoved(messages);
+
             } catch (Exception) {
                 // TODO: log
                 throw;
@@ -142,6 +142,10 @@ namespace Crystalbyte.Paranoia {
 
         public ICommand AssignmentCommand {
             get { return _assignmentCommand; }
+        }
+
+        internal bool IsTrash {
+            get { return Type == MailboxType.Trash; }
         }
 
         public bool IsAssignable {
@@ -301,7 +305,7 @@ namespace Crystalbyte.Paranoia {
                                     var headers = responses[envelope.Uid];
                                     isChallenge = headers.ContainsKey(ParanoiaHeaderKeys.Challenge);
                                     var isRelevant = envelope.InternalDate.HasValue
-                                        && (DateTime.Now - envelope.InternalDate.Value) 
+                                        && (DateTime.Now - envelope.InternalDate.Value)
                                             < TimeSpan.FromHours(1);
 
                                     if (isChallenge && isRelevant) {
@@ -690,5 +694,7 @@ namespace Crystalbyte.Paranoia {
                 throw;
             }
         }
+
+        
     }
 }

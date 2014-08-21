@@ -913,16 +913,26 @@
                                 <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Forward}" />
                             </MenuItem.Header>
                         </MenuItem>
+                        <MenuItem Command="{Binding RestoreMessagesCommand}"
+                                  DataContext="{Binding SelectedAccount}"
+                                  InputGestureText="Ctrl + Alt + R">
+                            <MenuItem.Header>
+                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Restore}" />
+                            </MenuItem.Header>
+                        </MenuItem>
+                        <Separator />
                         <MenuItem Command="{Binding PrintCommand}" InputGestureText="Ctrl + P">
                             <MenuItem.Header>
                                 <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Print}" />
                             </MenuItem.Header>
                         </MenuItem>
+                        <Separator />
                         <MenuItem Command="{Binding DeleteMessageCommand}" InputGestureText="Entf">
                             <MenuItem.Header>
                                 <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Delete}" />
                             </MenuItem.Header>
                         </MenuItem>
+                        <Separator />
                         <MenuItem Command="{Binding MarkAsSeenCommand}">
                             <MenuItem.Header>
                                 <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsSeen}" />
