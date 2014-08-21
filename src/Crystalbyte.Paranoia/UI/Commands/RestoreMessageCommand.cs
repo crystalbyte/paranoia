@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Input;
+using NLog;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
     public sealed class RestoreMessageCommand : ICommand {
         private readonly MailAccountContext _account;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public RestoreMessageCommand(MailAccountContext account) {
             _account = account;
@@ -29,8 +31,8 @@ namespace Crystalbyte.Paranoia.UI.Commands {
                 var messages = App.Context.SelectedMessages.ToArray();
                 await _account.RestoreMessagesAsync(messages);        
             }
-            catch (Exception) {
-                throw;
+            catch (Exception ex) {
+                Logger.Error(ex);
             }
         }
     }

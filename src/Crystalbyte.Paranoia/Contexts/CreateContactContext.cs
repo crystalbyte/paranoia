@@ -16,8 +16,6 @@ namespace Crystalbyte.Paranoia {
         private string _address;
         private static Logger _logger = LogManager.GetCurrentClassLogger();
 
-
-
         public CreateContactContext() {
             _createContactCommand = new RelayCommand(OnCreateContact);
         }
