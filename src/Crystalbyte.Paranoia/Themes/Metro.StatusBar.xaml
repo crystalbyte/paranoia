@@ -52,7 +52,7 @@
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground">
                                 <Setter.Value>
-                                    <SolidColorBrush Color="{StaticResource AppDisabledTextColor}" />
+                                    <SolidColorBrush Color="{StaticResource Metro.DisabledColor}" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>

@@ -5,14 +5,14 @@
 
     <Style TargetType="ui:AutoCompleteBox">
         <Setter Property="SelectionBrush"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
+                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
         <Setter Property="SelectionOpacity" Value="0.4" />
         <Setter Property="Background"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBackgroundBrush}}" />
+                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBackgroundBrush}}" />
         <Setter Property="Foreground"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
         <Setter Property="BorderBrush"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBorderBrush}}" />
+                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBorderBrush}}" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -50,7 +50,7 @@
                                               MinHeight="150"
                                               Margin="1"
                                               Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                 AppMenuBackgroundBrush}}"
+                                                                                                 Metro.MenuBackgroundBrush}}"
                                               BorderThickness="0"
                                               Focusable="False"
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
@@ -72,7 +72,7 @@
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
                             <Setter TargetName="border" Property="BorderBrush"
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
+                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

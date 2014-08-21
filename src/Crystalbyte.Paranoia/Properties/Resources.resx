@@ -413,4 +413,7 @@ Once your password is lost you're screwed.</value>
   <data name="RefreshingPublicKeysStatus" xml:space="preserve">
     <value>Refreshing public keys for contacts ...</value>
   </data>
+  <data name="ShowAllContacts" xml:space="preserve">
+    <value>Show All Contacts</value>
+  </data>
 </root>

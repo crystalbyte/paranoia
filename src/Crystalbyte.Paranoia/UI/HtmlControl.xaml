@@ -28,9 +28,9 @@
         <Setter Property="Focusable" Value="False" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="BorderBrush"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBorderBrush}}" />
+                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBorderBrush}}" />
         <Setter Property="Background"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBackgroundBrush}}" />
+                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBackgroundBrush}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:HtmlControl">
@@ -45,7 +45,7 @@
                                 </Grid.RowDefinitions>
                                 <ItemsControl
                                     Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                 AppMenuBackgroundBrush}}"
+                                                                                                 Metro.MenuBackgroundBrush}}"
                                     Focusable="false"
                                     IsTabStop="False"
                                     KeyboardNavigation.TabNavigation="None"
@@ -69,7 +69,7 @@
                                     <ComboBox Width="50"
                                               Height="22"
                                               Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                 AppLightTextBrush}}"
+                                                                                                 Metro.NormalTextBrush}}"
                                               IsEditable="True"
                                               SelectedValue="{Binding HtmlFontSize,
                                                                       RelativeSource={RelativeSource TemplatedParent},
@@ -124,7 +124,7 @@
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
                 <Setter Property="BorderBrush"
-                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
+                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
             </Trigger>
         </Style.Triggers>
     </Style>

@@ -35,7 +35,7 @@
 
         <!--  Notification area  -->
         <Border
-            Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBackgroundBrush}}"
+            Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBackgroundBrush}}"
             BorderThickness="0">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -62,13 +62,13 @@
                            VerticalAlignment="Center"
                            FontWeight="Bold"
                            Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                         AppTitleTextStyle}}"
+                                                                         Metro.TitleTextStyle}}"
                            Text="{Binding FromName}" />
                 <TextBlock Grid.Row="2"
                            Grid.Column="2"
                            VerticalAlignment="Top"
                            Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                         AppSubtitleTextStyle}}"
+                                                                         Metro.SubtitleTextStyle}}"
                            Text="{Binding Subject}" />
                 <Button Grid.Row="0"
                         Grid.Column="3"

@@ -62,6 +62,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _createContactCommand;
         private readonly ICommand _deleteContactCommand;
         private readonly ICommand _refreshKeysCommand;
+        private bool _isAllContactsSelected;
 
         #endregion
 
@@ -72,6 +73,7 @@ namespace Crystalbyte.Paranoia {
             _accounts.CollectionChanged += OnAccountsCollectionChanged;
 
             _messages = new ObservableCollection<MailMessageContext>();
+            _messages.CollectionChanged += OnMessagesCollectionChanged;
 
             _printCommand = new PrintCommand(this);
             _replyCommand = new ReplyCommand(this);
@@ -109,11 +111,15 @@ namespace Crystalbyte.Paranoia {
                 .Select(x => x.Text)
                 .Subscribe(OnQueryReceived);
 
-            _outboxTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(5)};
+            _outboxTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
             _outboxTimer.Tick += OnOutboxTimerTick;
 
             _contacts = new ObservableCollection<MailContactContext>();
             _contacts.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Contacts);
+        }
+
+        private void OnMessagesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+            RaisePropertyChanged(() => Messages);
         }
 
         private async void OnRefreshKeys(object obj) {
@@ -142,11 +148,9 @@ namespace Crystalbyte.Paranoia {
                         await UpdateKeysInDatabaseForContactAsync(contact, entry);
                     }
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Debug.WriteLine(ex.Message);
-            }
-            finally {
+            } finally {
                 StatusText = Resources.ReadyStatus;
             }
         }
@@ -157,8 +161,7 @@ namespace Crystalbyte.Paranoia {
                     var keys = await database.PublicKeys.Where(x => x.ContactId == contact.Id).ToArrayAsync();
                     var keysToBeAdded = collection.Keys.Except(keys.Select(x => x.Data));
                     foreach (var key in keysToBeAdded) {
-                        database.PublicKeys.Add(new PublicKeyModel
-                        {
+                        database.PublicKeys.Add(new PublicKeyModel {
                             ContactId = contact.Id,
                             Data = key
                         });
@@ -166,8 +169,7 @@ namespace Crystalbyte.Paranoia {
 
                     await database.SaveChangesAsync();
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Debug.WriteLine(ex.Message);
             }
         }
@@ -186,7 +188,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void OnDeleteContact(object obj) {}
+        private void OnDeleteContact(object obj) { }
 
         internal async Task LoadContactsFromDatabaseAsync() {
             IEnumerable<MailContactModel> contacts;
@@ -212,8 +214,7 @@ namespace Crystalbyte.Paranoia {
                 if (_accounts.Count > 0) {
                     SelectedAccount = Accounts.First();
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Debug.WriteLine(ex.Message);
             }
         }
@@ -319,6 +320,26 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public bool IsAllContactsSelected {
+            get { return _isAllContactsSelected; }
+            set {
+                if (_isAllContactsSelected == value) {
+                    return;
+                }
+                _isAllContactsSelected = value;
+                RaisePropertyChanged(() => IsAllContactsSelected);
+                OnIsAllContactsSelected();
+            }
+        }
+
+        private void OnIsAllContactsSelected() {
+            if (IsAllContactsSelected && SelectedContact != null) {
+                Contacts.ForEach(x => x.IsSelected = false);
+            } else {
+                OnContactSelectionChanged();
+            }
+        }
+
         public bool IsAccountSelected {
             get { return _selectedAccount != null; }
         }
@@ -367,29 +388,28 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            var mailbox = account.SelectedMailbox;
-            if (mailbox == null) {
-                mailbox = account.Mailboxes.FirstOrDefault(x => x.Type == MailboxType.Inbox);
-                account.SelectedMailbox = mailbox;
+            if (SelectedContact != null) {
+                IsAllContactsSelected = false;
             }
 
             ClearMessages();
 
-            // Clear all if still null;
-            if (mailbox == null) {
-                return;
+            if (IsAllContactsSelected) {
+                await LoadAllMessagesAsync();
+            } else {
+                await LoadMessagesForContactAsync(SelectedContact);
             }
+        }
 
-            var contact = SelectedContact;
-            await mailbox.DisplayMessagesForContactAsync(contact);
-
+        private async Task LoadMessagesForContactAsync(MailContactContext contact) {
+            await SelectedAccount.LoadMessagesForContactAsync(contact);
             if (contact != null) {
                 await contact.CountNotSeenAsync();
             }
+        }
 
-            foreach (var box in account.Mailboxes.AsParallel()) {
-                await box.CountNotSeenAsync();
-            }
+        private async Task LoadAllMessagesAsync() {
+            await SelectedAccount.LoadAllMessagesAsync();
         }
 
         internal void NotifyAccountCreated(MailAccountContext account) {
@@ -546,14 +566,7 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         private async void OnQueryReceived(string text) {
-            var mailbox = SelectedAccount.SelectedMailbox;
-            if (string.IsNullOrEmpty(text)) {
-                DisplayMessages(mailbox.Messages);
-                return;
-            }
-
-            var messages = await mailbox.QueryAsync(text);
-            DisplayMessages(messages);
+            throw new NotImplementedException();
         }
 
         private void OnAccountsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
@@ -594,7 +607,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void ClosePopup() {
-            var uri = typeof (BlankPage).ToPageUri();
+            var uri = typeof(BlankPage).ToPageUri();
             OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
             IsPopupVisible = false;
         }
@@ -618,7 +631,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal static DirectoryInfo GetKeyDirectory() {
-            var dataDir = (string) AppDomain.CurrentDomain.GetData("DataDirectory");
+            var dataDir = (string)AppDomain.CurrentDomain.GetData("DataDirectory");
             return new DirectoryInfo(Path.Combine(dataDir, "keys"));
         }
 
@@ -641,24 +654,24 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void OnCreateContact(object obj) {
-            var uri = typeof (CreateContactPage).ToPageUri();
+            var uri = typeof(CreateContactPage).ToPageUri();
             OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
             IsPopupVisible = true;
         }
 
         internal void OnCreateKeyPair() {
-            var uri = typeof (CreateKeyPage).ToPageUri();
+            var uri = typeof(CreateKeyPage).ToPageUri();
             OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
             IsPopupVisible = true;
         }
 
         internal void OnComposeMessage() {
-            var uri = typeof (ComposeMessagePage).ToPageUri();
+            var uri = typeof(ComposeMessagePage).ToPageUri();
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
         private void OnCreateAccount(object obj) {
-            var uri = typeof (CreateAccountPage).ToPageUri();
+            var uri = typeof(CreateAccountPage).ToPageUri();
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
@@ -666,7 +679,7 @@ namespace Crystalbyte.Paranoia {
             if (SelectedMessage == null) {
                 return;
             }
-            var uri = typeof (ComposeMessagePage).ToPageUriAsReply(SelectedMessage);
+            var uri = typeof(ComposeMessagePage).ToPageUriAsReply(SelectedMessage);
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
@@ -681,12 +694,12 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnConfigAccount(object obj) {
-            var uri = typeof (AccountDetailsPage).ToPageUri();
+            var uri = typeof(AccountDetailsPage).ToPageUri();
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
         internal void CloseFlyOut() {
-            var uri = typeof (BlankPage).ToPageUri();
+            var uri = typeof(BlankPage).ToPageUri();
             OnFlyOutClosing();
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
             OnFlyOutClosed();

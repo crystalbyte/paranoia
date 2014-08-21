@@ -4,11 +4,11 @@
 
     <Style TargetType="ToolTip">
         <Setter Property="Background"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMenuBackgroundBrush}}" />
+                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.MenuBackgroundBrush}}" />
         <Setter Property="BorderBrush"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBorderBrush}}" />
+                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBorderBrush}}" />
         <Setter Property="Foreground"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" />
+                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="6,3,6,3" />
     </Style>

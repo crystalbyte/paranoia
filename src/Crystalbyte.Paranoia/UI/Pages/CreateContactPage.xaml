@@ -35,11 +35,11 @@
                Source="{Binding Address, Delay=500,  IsAsync=True, Converter={StaticResource GravatarImageConverter}, ConverterParameter=64}"
                VerticalAlignment="Top" Grid.Row="1" Grid.Column="0" Width="64" Height="64" />
         <TextBlock Grid.Column="1" Grid.Row="1" Text="{x:Static properties:Resources.Name}"
-                   Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLabelStyle}}" />
+                   Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.LabelTextStyle}}" />
         <TextBox x:Name="NameTextBox" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Grid.Row="1" Grid.Column="2" Margin="0,4,0,2" />
         <TextBlock Grid.Column="1" Grid.Row="2" Text="{x:Static properties:Resources.MailAddress}"
-                   Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLabelStyle}}" />
+                   Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.LabelTextStyle}}" />
         <TextBox Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2"
                  Grid.Column="2" />
 

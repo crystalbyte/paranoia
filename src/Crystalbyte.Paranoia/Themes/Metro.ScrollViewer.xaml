@@ -102,12 +102,12 @@
                                Width="{TemplateBinding Width}"
                                Height="{TemplateBinding Height}"
                                Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            AppControlBackgroundBrush}}"
+                                                                            Metro.ControlBackgroundBrush}}"
                                SnapsToDevicePixels="True" />
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="rectangle" Property="Fill"
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppHoverBrush}}" />
+                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.HoverBrush}}" />
                         </Trigger>
                         <Trigger Property="IsDragging" Value="true">
                             <Setter TargetName="rectangle" Property="Fill"
@@ -128,12 +128,12 @@
                                Width="{TemplateBinding Width}"
                                Height="{TemplateBinding Height}"
                                Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            AppControlBackgroundBrush}}"
+                                                                            Metro.ControlBackgroundBrush}}"
                                SnapsToDevicePixels="True" />
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="rectangle" Property="Fill"
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppHoverBrush}}" />
+                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.HoverBrush}}" />
                         </Trigger>
                         <Trigger Property="IsDragging" Value="true">
                             <Setter TargetName="rectangle" Property="Fill"

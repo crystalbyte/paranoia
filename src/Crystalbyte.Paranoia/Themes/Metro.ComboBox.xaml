@@ -22,7 +22,7 @@
                         <Storyboard>
                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
                                                           Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource AppHoverColor}" />
+                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource Metro.HoverColor}" />
                             </ColorAnimationUsingKeyFrames>
                         </Storyboard>
                     </VisualState>
@@ -31,11 +31,11 @@
                         <Storyboard>
                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="Arrow"
                                                           Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
-                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource AppDisabledTextColor}" />
+                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource Metro.DisabledColor}" />
                             </ColorAnimationUsingKeyFrames>
                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
                                                           Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
-                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource AppDisabledControlBorderColor}" />
+                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource Metro.DisabledColor}" />
                             </ColorAnimationUsingKeyFrames>
                         </Storyboard>
                     </VisualState>
@@ -45,12 +45,12 @@
                         <Storyboard>
                             <!--
                                 <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource AppAccentColor}" />
+                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource Metro.AccentColor}" />
                                 </ColorAnimationUsingKeyFrames>
                             -->
                             <!--
                                 <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
-                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource AppAccentColor}" />
+                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource Metro.AccentColor}" />
                                 </ColorAnimationUsingKeyFrames>
                             -->
                         </Storyboard>
@@ -61,7 +61,7 @@
             </VisualStateManager.VisualStateGroups>
             <Border x:Name="Border"
                     Grid.ColumnSpan="2"
-                    Background="{StaticResource AppControlBackgroundBrush}"
+                    Background="{StaticResource Metro.ControlBackgroundBrush}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="1" />
 
@@ -70,7 +70,7 @@
                 Grid.Column="0"
                 Margin="1">
                 <Border.Background>
-                <SolidColorBrush Color="{DynamicResource AppControlBackgroundColor}" />
+                <SolidColorBrush Color="{DynamicResource Metro.ControlBackgroundColor}" />
                 </Border.Background>
                 </Border>
             -->
@@ -81,7 +81,7 @@
                   VerticalAlignment="Center"
                   Data="M 0 0 L 4 4 L 8 0 Z">
                 <Path.Fill>
-                    <SolidColorBrush Color="{DynamicResource AppMediumTextColor}" />
+                    <SolidColorBrush Color="{DynamicResource Metro.SecondaryTextColor}" />
                 </Path.Fill>
             </Path>
         </Grid>
@@ -110,7 +110,7 @@
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_EditableTextBox"
                                                                       Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)">
                                             <EasingColorKeyFrame KeyTime="0"
-                                                                 Value="{StaticResource AppDisabledTextColor}" />
+                                                                 Value="{StaticResource Metro.DisabledColor}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -133,7 +133,7 @@
                         </VisualStateManager.VisualStateGroups>
                         <ToggleButton x:Name="ToggleButton"
                                       Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                         AppControlBorderBrush}}"
+                                                                                         Metro.ControlBorderBrush}}"
                                       ClickMode="Press"
                                       Focusable="False"
                                       IsChecked="{Binding IsDropDownOpen,
@@ -175,10 +175,10 @@
                                   SnapsToDevicePixels="True">
                                 <Border x:Name="DropDownBorder" BorderThickness="1">
                                     <Border.BorderBrush>
-                                        <SolidColorBrush Color="{DynamicResource AppControlBorderColor}" />
+                                        <SolidColorBrush Color="{DynamicResource Metro.ControlBorderColor}" />
                                     </Border.BorderBrush>
                                     <Border.Background>
-                                        <SolidColorBrush Color="{DynamicResource AppMenuBackgroundColor}" />
+                                        <SolidColorBrush Color="{DynamicResource Metro.MenuBackgroundColor}" />
                                     </Border.Background>
                                 </Border>
                                 <ScrollViewer Margin="3" SnapsToDevicePixels="True">
@@ -190,7 +190,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsKeyboardFocusWithin" Value="true">
                             <Setter TargetName="ToggleButton" Property="BorderBrush"
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
+                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
                         </Trigger>
                         <Trigger Property="HasItems" Value="false">
                             <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />
@@ -224,7 +224,7 @@
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
                                                                       Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource AppAccentColor}" />
+                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource Metro.AccentColor}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -233,7 +233,7 @@
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
                                                                       Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
                                             <EasingColorKeyFrame KeyTime="0"
-                                                                 Value="{StaticResource AppSelectedUnfocusedColor}" />
+                                                                 Value="{StaticResource Metro.SelectedUnfocusedColor}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -243,7 +243,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource AppHoverBrush}" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Metro.HoverBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

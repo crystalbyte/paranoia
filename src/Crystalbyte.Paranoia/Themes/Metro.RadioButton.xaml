@@ -23,11 +23,11 @@
     <Style TargetType="{x:Type RadioButton}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
         <Setter Property="Background"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBackgroundBrush}}" />
+                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBackgroundBrush}}" />
         <Setter Property="BorderBrush"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppControlBorderBrush}}" />
+                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBorderBrush}}" />
         <Setter Property="Foreground"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Margin" Value="0,3,0,3" />
@@ -62,7 +62,7 @@
                                            HorizontalAlignment="Stretch"
                                            VerticalAlignment="Stretch"
                                            Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                        AppAccentBrush}}"
+                                                                                        Metro.AccentBrush}}"
                                            RenderOptions.EdgeMode="Aliased"
                                            Visibility="{Binding IsChecked,
                                                                 RelativeSource={RelativeSource TemplatedParent},
@@ -84,15 +84,15 @@
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter TargetName="radioButtonBorder" Property="BorderBrush"
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
+                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="radioButtonBorder" Property="Background"
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppHoverBrush}}" />
+                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.HoverBrush}}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="radioButtonBorder" Property="BorderBrush"
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledControlBorderBrush}}" />
+                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

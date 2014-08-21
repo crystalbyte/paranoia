@@ -12,8 +12,8 @@
     </Style>
 
     <Style TargetType="ui:MetroWindow">
-        <Setter Property="HoverBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppHoverBrush}}" />
-        <Setter Property="AccentBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
+        <Setter Property="HoverBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.HoverBrush}}" />
+        <Setter Property="AccentBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="FramePadding" Value="10" />
@@ -40,7 +40,7 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Padding="{TemplateBinding Padding}">
                             <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" Color="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentColor}}" />
+                                <DropShadowEffect ShadowDepth="0" Color="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentColor}}" />
                             </Border.Effect>
                             <Grid>
                                 <Grid.RowDefinitions>

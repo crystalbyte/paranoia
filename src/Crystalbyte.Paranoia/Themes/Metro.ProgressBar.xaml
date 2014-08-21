@@ -3,9 +3,9 @@
                     xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties">
     <Style TargetType="ProgressBar">
         <Setter Property="Background"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMenuBackgroundBrush}}" />
+                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.MenuBackgroundBrush}}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Foreground"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
+                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
     </Style>
 </ResourceDictionary>

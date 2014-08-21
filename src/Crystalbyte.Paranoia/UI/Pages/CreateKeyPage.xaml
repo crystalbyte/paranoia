@@ -40,7 +40,7 @@
                        Grid.ColumnSpan="2"
                        Margin="0,0,0,12"
                        Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                          AppAccentBrush}}"
+                                                                          Metro.AccentBrush}}"
                        Text="{x:Static properties:Resources.CreateKeyPageWarning}" />
             <CheckBox x:Name="RiskCheckBox"
                       Grid.Row="2"
@@ -58,7 +58,7 @@
                        IsEnabled="{Binding IsChecked,
                                            ElementName=RiskCheckBox}"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppLabelStyle}}">
+                                                                     Metro.LabelTextStyle}}">
                 <Run Text="{x:Static properties:Resources.Password}" />
                 <Run>:</Run>
             </TextBlock>
@@ -73,7 +73,7 @@
                        IsEnabled="{Binding IsChecked,
                                            ElementName=RiskCheckBox}"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppLabelStyle}}">
+                                                                     Metro.LabelTextStyle}}">
                 <Run Text="{x:Static properties:Resources.ConfirmPassword}" />
                 <Run>:</Run>
             </TextBlock>
@@ -97,7 +97,7 @@
                        Margin="24,0,0,0"
                        FontStyle="Italic"
                        Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                          AppMediumTextBrush}}">
+                                                                          Metro.SecondaryTextBrush}}">
                 <Run Text="-" />
                 <Run Text="{Binding BenFranklin, Mode=OneTime}" />
 

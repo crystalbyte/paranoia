@@ -52,20 +52,20 @@
             </Grid.ColumnDefinitions>
             <TextBlock Grid.ColumnSpan="2"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppTitleTextStyle}}"
+                                                                     Metro.TitleTextStyle}}"
                        Text="{x:Static properties:Resources.GeneralSettingsTitle}" />
             <TextBlock Grid.Row="1"
                        Grid.Column="0"
                        Grid.ColumnSpan="4"
                        Margin="0,0,0,12"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppDescriptionStyle}}"
+                                                                     Metro.DescriptionTextStyle}}"
                        Text="{x:Static properties:Resources.GeneralSettingsDescription}"
                        TextWrapping="Wrap" />
             <TextBlock Grid.Row="2"
                        Grid.Column="0"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppLabelStyle}}">
+                                                                     Metro.LabelTextStyle}}">
                 <Run Text="{x:Static properties:Resources.AccountName}" />
                 <Run>:</Run>
             </TextBlock>
@@ -79,7 +79,7 @@
             <TextBlock Grid.Row="3"
                        Grid.Column="0"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppLabelStyle}}">
+                                                                     Metro.LabelTextStyle}}">
                 <Run Text="{x:Static properties:Resources.MailAddress}" />
                 <Run>:</Run>
             </TextBlock>
@@ -94,23 +94,23 @@
                        Grid.ColumnSpan="4"
                        Margin="0,24,0,6"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppTitleTextStyle}}"
+                                                                     Metro.TitleTextStyle}}"
                        Text="{x:Static properties:Resources.ImapSettingsTitle}" />
             <TextBlock Grid.Row="5"
                        Grid.Column="0"
                        Grid.ColumnSpan="4"
                        Margin="0,0,0,12"
                        Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                          AppLightTextBrush}}"
+                                                                          Metro.NormalTextBrush}}"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppDescriptionStyle}}"
+                                                                     Metro.DescriptionTextStyle}}"
                        Text="{x:Static properties:Resources.ImapSettingsDescription}"
                        TextTrimming="None"
                        TextWrapping="Wrap" />
             <TextBlock Grid.Row="6"
                        Grid.Column="0"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppLabelStyle}}">
+                                                                     Metro.LabelTextStyle}}">
                 <Run Text="{x:Static properties:Resources.Username}" />
                 <Run>:</Run>
             </TextBlock>
@@ -123,7 +123,7 @@
             <TextBlock Grid.Row="7"
                        Grid.Column="0"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppLabelStyle}}">
+                                                                     Metro.LabelTextStyle}}">
                 <Run Text="{x:Static properties:Resources.Password}" />
                 <Run>:</Run>
             </TextBlock>
@@ -134,7 +134,7 @@
             <TextBlock Grid.Row="8"
                        Grid.Column="0"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppLabelStyle}}">
+                                                                     Metro.LabelTextStyle}}">
                 <Run Text="{x:Static properties:Resources.ImapHost}" />
                 <Run>:</Run>
             </TextBlock>
@@ -147,7 +147,7 @@
             <TextBlock Grid.Row="9"
                        Grid.Column="0"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppLabelStyle}}">
+                                                                     Metro.LabelTextStyle}}">
                 <Run Text="{x:Static properties:Resources.EncryptionProtocol}" />
                 <Run>:</Run>
             </TextBlock>
@@ -172,7 +172,7 @@
             <TextBlock Grid.Row="9"
                        Grid.Column="2"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppLabelStyle}}">
+                                                                     Metro.LabelTextStyle}}">
                 <Run Text="{x:Static properties:Resources.Port}" />
                 <Run>:</Run>
             </TextBlock>
@@ -208,16 +208,16 @@
                        Grid.Column="0"
                        Grid.ColumnSpan="4"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppTitleTextStyle}}"
+                                                                     Metro.TitleTextStyle}}"
                        Text="{x:Static properties:Resources.SmtpSettingsTitle}" />
             <TextBlock Grid.Row="1"
                        Grid.Column="0"
                        Grid.ColumnSpan="4"
                        Margin="0,0,0,12"
                        Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                          AppLightTextBrush}}"
+                                                                          Metro.NormalTextBrush}}"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppDescriptionStyle}}"
+                                                                     Metro.DescriptionTextStyle}}"
                        Text="{x:Static properties:Resources.SmtpSettingsDescription}" />
             <RadioButton x:Name="UseImapCredentialsRadioButton"
                          Grid.Row="4"
@@ -242,7 +242,7 @@
                        IsEnabled="{Binding IsChecked,
                                            ElementName=UseSmtpCredentialsRadioButton}"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppLabelStyle}}">
+                                                                     Metro.LabelTextStyle}}">
                 <Run Text="{x:Static properties:Resources.Username}" />
                 <Run>:</Run>
             </TextBlock>
@@ -259,7 +259,7 @@
                        IsEnabled="{Binding IsChecked,
                                            ElementName=UseSmtpCredentialsRadioButton}"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppLabelStyle}}">
+                                                                     Metro.LabelTextStyle}}">
                 <Run Text="{x:Static properties:Resources.Password}" />
                 <Run>:</Run>
             </TextBlock>
@@ -272,7 +272,7 @@
             <TextBlock Grid.Row="2"
                        Grid.Column="0"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppLabelStyle}}">
+                                                                     Metro.LabelTextStyle}}">
                 <Run Text="{x:Static properties:Resources.ImapHost}" />
                 <Run>:</Run>
             </TextBlock>
@@ -285,7 +285,7 @@
             <TextBlock Grid.Row="3"
                        Grid.Column="0"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppLabelStyle}}">
+                                                                     Metro.LabelTextStyle}}">
                 <Run Text="{x:Static properties:Resources.EncryptionProtocol}" />
                 <Run>:</Run>
             </TextBlock>
@@ -311,7 +311,7 @@
             <TextBlock Grid.Row="3"
                        Grid.Column="2"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppLabelStyle}}">
+                                                                     Metro.LabelTextStyle}}">
                 <Run Text="{x:Static properties:Resources.Port}" />
                 <Run>:</Run>
             </TextBlock>
@@ -340,7 +340,7 @@
                     <Binding Path="IsFaulted">
                         <Binding.Converter>
                             <converters:BooleanToBrushConverter
-                                BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}"
+                                BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}"
                                 BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.FailureBrush}}" />
                         </Binding.Converter>
                     </Binding>

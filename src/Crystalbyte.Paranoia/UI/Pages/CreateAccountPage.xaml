@@ -42,7 +42,7 @@
                    IsEnabled="{Binding IsChecked,
                                        ElementName=AutoMagicButton}"
                    Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                 AppLabelStyle}}">
+                                                                 Metro.LabelTextStyle}}">
             <Run Text="{x:Static properties:Resources.AccountName}" />
             <Run>:</Run>
         </TextBlock>
@@ -62,7 +62,7 @@
                    IsEnabled="{Binding IsChecked,
                                        ElementName=AutoMagicButton}"
                    Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                 AppLabelStyle}}">
+                                                                 Metro.LabelTextStyle}}">
             <Run Text="{x:Static properties:Resources.MailAddress}" />
             <Run>:</Run>
         </TextBlock>
@@ -81,7 +81,7 @@
                    IsEnabled="{Binding IsChecked,
                                        ElementName=AutoMagicButton}"
                    Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                 AppLabelStyle}}">
+                                                                 Metro.LabelTextStyle}}">
             <Run Text="{x:Static properties:Resources.Password}" />
             <Run>:</Run>
         </TextBlock>

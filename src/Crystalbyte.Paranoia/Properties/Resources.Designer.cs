@@ -739,6 +739,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show All Contacts.
+        /// </summary>
+        public static string ShowAllContacts {
+            get {
+                return ResourceManager.GetString("ShowAllContacts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Host.
         /// </summary>
         public static string SmtpHost {

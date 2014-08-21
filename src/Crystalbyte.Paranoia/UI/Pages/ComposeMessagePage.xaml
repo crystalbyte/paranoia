@@ -45,7 +45,7 @@
                 <DataTemplate DataType="system:String">
                     <Grid>
                         <Rectangle
-                            Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}"
+                            Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}"
                             RenderOptions.EdgeMode="Aliased" />
                         <TextBlock Margin="2,0,2,0"
                                    Background="Transparent"
@@ -59,7 +59,7 @@
                     <Grid>
                         <Rectangle
                             Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                AppAccentBrush}}"
+                                                                                Metro.AccentBrush}}"
                             RenderOptions.EdgeMode="Aliased"
                             SnapsToDevicePixels="True" />
                         <StackPanel Orientation="Horizontal">
@@ -98,14 +98,14 @@
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock
                                 FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                        AppMediumLargeFontSize}}"
+                                                                                        Metro.MediumLargeFontSize}}"
                                 FontWeight="Thin"
                                 Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                          AppLightTextBrush}}"
+                                                                                          Metro.NormalTextBrush}}"
                                 Text="{Binding Name}" />
                             <TextBlock FontWeight="Thin"
                                        Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                          AppMediumTextBrush}}"
+                                                                                          Metro.SecondaryTextBrush}}"
                                        Text="{Binding Address}" />
                         </StackPanel>
                     </Grid>
@@ -129,7 +129,7 @@
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
                       Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                         AppControlBackgroundBrush}}"
+                                                                         Metro.ControlBackgroundBrush}}"
                       Padding="3" />
         <!--
             <ui:HtmlControl x:Name="HtmlControl"
@@ -140,7 +140,7 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-            AppControlBackgroundBrush}}"
+            Metro.ControlBackgroundBrush}}"
             IsTransparent="True"
             Padding="3"
             Source="{Binding Text,

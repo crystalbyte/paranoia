@@ -99,8 +99,8 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <converters:BooleanToBrushConverter x:Key="SubjectBrushConverter"
-                                            BrushForFalse="{StaticResource AppLightTextBrush}"
-                                            BrushForTrue="{StaticResource AppMediumTextBrush}" />
+                                            BrushForFalse="{StaticResource Metro.NormalTextBrush}"
+                                            BrushForTrue="{StaticResource Metro.SecondaryTextBrush}" />
         <CollectionViewSource x:Key="ContactsSource"
                               IsLiveSortingRequested="True"
                               Source="{Binding Contacts}">
@@ -172,7 +172,7 @@
                        VerticalAlignment="Center"
                        FontSize="17"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppTitleTextStyle}}"
+                                                                     Metro.TitleTextStyle}}"
                        Text="{Binding Title,
                                       RelativeSource={RelativeSource FindAncestor,
                                                                      AncestorType=paranoia:MainWindow}}" />
@@ -182,7 +182,7 @@
               Grid.ColumnSpan="2"
               HorizontalAlignment="Right"
               VerticalAlignment="Top"
-              Panel.ZIndex="2000">
+              Panel.ZIndex="100000">
             <Grid.ColumnDefinitions>
                 <!--  help button  -->
                 <ColumnDefinition Width="Auto" />
@@ -227,17 +227,17 @@
             <Rectangle Grid.RowSpan="3"
                        Margin="0"
                        Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                    AppShadeBrush}}"
+                                                                    Metro.ShadowBrush}}"
                        Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                       AppShadeOpacity}}"
+                                                                       Metro.ShadowOpacity}}"
                        RenderOptions.EdgeMode="Aliased" />
 
             <Rectangle Grid.Row="4"
                        Grid.RowSpan="2"
                        Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                    AppShadeBrush}}"
+                                                                    Metro.ShadowBrush}}"
                        Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                       AppShadeOpacity}}"
+                                                                       Metro.ShadowOpacity}}"
                        RenderOptions.EdgeMode="Aliased" />
             <DockPanel Grid.Row="0"
                        Grid.Column="0"
@@ -285,12 +285,12 @@
                             <ContextMenu x:Name="AccountMenu" StaysOpen="False">
                                 <MenuItem Command="{Binding ConfigAccountCommand}" InputGestureText="Ctrl+Shift+C">
                                     <MenuItem.Header>
-                                        <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Edit}" />
+                                        <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Edit}" />
                                     </MenuItem.Header>
                                 </MenuItem>
                                 <MenuItem Command="{Binding DeleteAccountCommand}" InputGestureText="Ctrl+Shift+D">
                                     <MenuItem.Header>
-                                        <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Delete}" />
+                                        <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Delete}" />
                                     </MenuItem.Header>
                                 </MenuItem>
                             </ContextMenu>
@@ -327,13 +327,13 @@
                            PopupAnimation="None"
                            StaysOpen="False">
                         <Border Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                   AppMenuBackgroundBrush}}"
+                                                                                   Metro.MenuBackgroundBrush}}"
                                 BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                    AppControlBorderBrush}}"
+                                                                                    Metro.ControlBorderBrush}}"
                                 BorderThickness="1">
                             <ListView Margin="1.5"
                                       Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                         AppMenuBackgroundBrush}}"
+                                                                                         Metro.MenuBackgroundBrush}}"
                                       BorderThickness="0"
                                       ItemsSource="{Binding Accounts}"
                                       SelectedValue="{Binding SelectedAccount,
@@ -354,7 +354,7 @@
                                             <TextBlock Margin="12,0,8,0"
                                                        VerticalAlignment="Center"
                                                        FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                        AppNormalFontSize}}"
+                                                                                                        Metro.NormalFontSize}}"
                                                        FontWeight="Normal"
                                                        Text="{Binding Name}" />
                                         </StackPanel>
@@ -376,7 +376,7 @@
                        Margin="16,0,0,0"
                        DataContext="{Binding SelectedAccount}"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppTitleTextStyle}}"
+                                                                     Metro.TitleTextStyle}}"
                        Text="{Binding Name}"
                        TextTrimming="CharacterEllipsis"
                        TextWrapping="NoWrap" />
@@ -385,7 +385,7 @@
                        Margin="16,0,0,16"
                        DataContext="{Binding SelectedAccount}"
                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppSubtitleTextStyle}}"
+                                                                     Metro.SubtitleTextStyle}}"
                        Text="{Binding Address}"
                        TextTrimming="CharacterEllipsis" />
 
@@ -411,140 +411,162 @@
                     <TextBlock VerticalAlignment="Center"
                                DockPanel.Dock="Left"
                                FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                AppExtraLargeFontSize}}"
+                                                                                Metro.ExtraLargeFontSize}}"
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                             AppTitleTextStyle}}">
+                                                                             Metro.TitleTextStyle}}">
                         <Run Text="{x:Static properties:Resources.ContactsTitle}" />
-                        <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" Text="{Binding Contacts, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}, FallbackValue=(0)}" />
+                        <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" Text="{Binding Contacts, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}, FallbackValue=(0)}" />
                     </TextBlock>
                 </DockPanel>
 
             </Border>
-            <ListView Grid.Row="5"
-                      Grid.Column="0"
-                      Margin="0"
-                      Background="Transparent"
-                      BorderThickness="0"
-                      ItemsSource="{Binding Source={StaticResource ContactsSource}}"
-                      KeyboardNavigation.DirectionalNavigation="Contained"
-                      KeyboardNavigation.TabNavigation="None"
-                      SelectedValue="{Binding SelectedContact,
-                                              Mode=TwoWay}"
-                      TabIndex="0"
-                      d:DataContext="{d:DesignInstance {x:Type paranoia:AppContext}}">
-                <ListView.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Command="{Binding DeleteContactCommand}" Header="{x:Static properties:Resources.Delete}" />
-                    </ContextMenu>
-                </ListView.ContextMenu>
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel x:Name="Cvsp" />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.ItemContainerStyle>
-                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
-                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
-                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                        <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Cvsp}" />
-                        <Setter Property="Padding" Value="6,2,6,1" />
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemTemplate>
-                    <DataTemplate DataType="paranoia:MailContactContext">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.Row="0"
-                                   Grid.RowSpan="2"
-                                   Grid.Column="0"
-                                   Width="40"
-                                   Margin="0,0,6,0"
+            <DockPanel Grid.Row="5"
+                       Grid.Column="0"
+                       LastChildFill="True">
+                <ToggleButton Margin="1"
+                              HorizontalContentAlignment="Stretch"
+                              DockPanel.Dock="Top"
+                              IsChecked="{Binding IsAllContactsSelected,
+                                                  Mode=TwoWay}"
+                              Padding="6,2,6,2"
+                              Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                            Metro.ListViewButtonStyle}}">
+                    <Border Height="40">
+                        <TextBlock HorizontalAlignment="Left"
                                    VerticalAlignment="Center"
-                                   RenderOptions.BitmapScalingMode="Fant"
-                                   Source="{Binding Address,
-                                                    Converter={StaticResource GravatarImageConverter}}" />
-                            <TextBlock Grid.Row="0"
-                                       Grid.Column="1"
-                                       FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                        AppMediumLargeFontSize}}"
-                                       FontWeight="Thin"
-                                       Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                          AppLightTextBrush}}"
-                                       RenderOptions.ClearTypeHint="Enabled"
-                                       Text="{Binding Name,
-                                                      Converter={StaticResource NullOrEmptyFormatter}}"
-                                       TextTrimming="CharacterEllipsis"
-                                       TextWrapping="NoWrap" />
-                            <TextBlock x:Name="AddressBlock"
-                                       Grid.Row="1"
-                                       Grid.Column="1"
-                                       FontWeight="Thin"
-                                       RenderOptions.ClearTypeHint="Enabled"
-                                       Text="{Binding Address,
-                                                      Converter={StaticResource NullOrEmptyFormatter}}"
-                                       TextTrimming="CharacterEllipsis"
-                                       TextWrapping="NoWrap">
-                                <TextBlock.Foreground>
-                                    <Binding Mode="OneWay" Path="HasUnseenMessages">
-                                        <Binding.Converter>
-                                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" />
-                                        </Binding.Converter>
-                                    </Binding>
-                                </TextBlock.Foreground>
-                            </TextBlock>
-                            <StackPanel Grid.Row="0"
-                                        Grid.RowSpan="2"
-                                        Grid.Column="2"
-                                        Margin="6,0,6,0"
-                                        VerticalAlignment="Center"
-                                        Orientation="Horizontal">
-                                <TextBlock Margin="0,0,6,0"
-                                           VerticalAlignment="Center"
-                                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                            AppLargeFontSize}}"
-                                           FontWeight="Thin"
-                                           Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                              AppAccentBrush}}"
-                                           Visibility="{Binding NotSeenCount,
-                                                                Converter={StaticResource QuantityToVisibilityConverter}}">
-                                    <Run Text="{Binding NotSeenCount}" />
-                                </TextBlock>
-                                <Image Width="12"
+                                   FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                    Metro.MediumLargeFontSize}}"
+                                   Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                 Metro.ThinTextStyle}}"
+                                   Text="{x:Static properties:Resources.ShowAllContacts}" />
+                    </Border>
+
+                </ToggleButton>
+                <ListView Margin="0"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          ItemsSource="{Binding Source={StaticResource ContactsSource}}"
+                          KeyboardNavigation.DirectionalNavigation="Contained"
+                          KeyboardNavigation.TabNavigation="None"
+                          SelectedValue="{Binding SelectedContact,
+                                                  Mode=TwoWay}"
+                          TabIndex="0"
+                          d:DataContext="{d:DesignInstance {x:Type paranoia:AppContext}}">
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="{Binding DeleteContactCommand}" Header="{x:Static properties:Resources.Delete}" />
+                        </ContextMenu>
+                    </ListView.ContextMenu>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel x:Name="Cvsp" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
+                            <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                            <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Cvsp}" />
+                            <Setter Property="Padding" Value="6,2,6,1" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate DataType="paranoia:MailContactContext">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Row="0"
+                                       Grid.RowSpan="2"
+                                       Grid.Column="0"
+                                       Width="40"
                                        Margin="0,0,6,0"
                                        VerticalAlignment="Center"
-                                       Opacity=".4"
-                                       Source="/Assets/seen.png"
-                                       Visibility="{Binding MessageCount,
-                                                            Converter={StaticResource QuantityToVisibilityConverter},
-                                                            ConverterParameter=!}" />
-                                <TextBlock VerticalAlignment="Center"
+                                       RenderOptions.BitmapScalingMode="Fant"
+                                       Source="{Binding Address,
+                                                        Converter={StaticResource GravatarImageConverter}}" />
+                                <TextBlock Grid.Row="0"
+                                           Grid.Column="1"
                                            FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                            AppNormalFontSize}}"
+                                                                                            Metro.MediumLargeFontSize}}"
+                                           FontWeight="Thin"
                                            Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                              AppMediumTextBrush}}"
-                                           Text="{Binding MessageCount}"
+                                                                                              Metro.NormalTextBrush}}"
+                                           RenderOptions.ClearTypeHint="Enabled"
+                                           Text="{Binding Name,
+                                                          Converter={StaticResource NullOrEmptyFormatter}}"
+                                           TextTrimming="CharacterEllipsis"
+                                           TextWrapping="NoWrap" />
+                                <TextBlock x:Name="AddressBlock"
+                                           Grid.Row="1"
+                                           Grid.Column="1"
+                                           FontWeight="Thin"
+                                           RenderOptions.ClearTypeHint="Enabled"
+                                           Text="{Binding Address,
+                                                          Converter={StaticResource NullOrEmptyFormatter}}"
+                                           TextTrimming="CharacterEllipsis"
+                                           TextWrapping="NoWrap">
+                                    <TextBlock.Foreground>
+                                        <Binding Mode="OneWay" Path="HasUnseenMessages">
+                                            <Binding.Converter>
+                                                <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
+                                            </Binding.Converter>
+                                        </Binding>
+                                    </TextBlock.Foreground>
+                                </TextBlock>
+                                <StackPanel Grid.Row="0"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="2"
+                                            Margin="6,0,6,0"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                    <TextBlock Margin="0,0,6,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                                Metro.LargeFontSize}}"
+                                               FontWeight="Thin"
+                                               Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                                  Metro.AccentBrush}}"
+                                               Visibility="{Binding NotSeenCount,
+                                                                    Converter={StaticResource QuantityToVisibilityConverter}}">
+                                        <Run Text="{Binding NotSeenCount}" />
+                                    </TextBlock>
+                                    <Image Width="12"
+                                           Margin="0,0,6,0"
+                                           VerticalAlignment="Center"
+                                           Opacity=".4"
+                                           Source="/Assets/seen.png"
                                            Visibility="{Binding MessageCount,
-                                                                Converter={StaticResource QuantityToVisibilityConverter}}" />
-                            </StackPanel>
-                        </Grid>
-                        <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
-                            </DataTrigger>
-                        </DataTemplate.Triggers>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                                                                Converter={StaticResource QuantityToVisibilityConverter},
+                                                                ConverterParameter=!}" />
+                                    <TextBlock VerticalAlignment="Center"
+                                               FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                                Metro.NormalFontSize}}"
+                                               Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                                  Metro.SecondaryTextBrush}}"
+                                               Text="{Binding MessageCount}"
+                                               Visibility="{Binding MessageCount,
+                                                                    Converter={StaticResource QuantityToVisibilityConverter}}" />
+                                </StackPanel>
+                            </Grid>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                    <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </DockPanel>
+
         </Grid>
         <GridSplitter Grid.Row="1"
                       Grid.RowSpan="3"
@@ -578,9 +600,9 @@
             Grid.ColumnSpan="5"
             Margin="0"
             Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-            AppShadeBrush}}"
+            Metro.ShadowBrush}}"
             Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-            AppShadeOpacity}}"
+            Metro.ShadowOpacity}}"
             RenderOptions.EdgeMode="Aliased" />
         -->
         <Grid Grid.Row="0"
@@ -597,12 +619,12 @@
                               IsChecked="{Binding IsOutboxSelected,
                                                   Mode=TwoWay}"
                               Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            MailboxToggleButtonStyle}}">
+                                                                            Metro.ListViewButtonStyle}}">
                     <TextBlock VerticalAlignment="Center"
                                FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                AppMediumLargeFontSize}}"
+                                                                                Metro.MediumLargeFontSize}}"
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                             AppLightTextStyle}}"
+                                                                             Metro.ThinTextStyle}}"
                                Text="{x:Static properties:Resources.Outbox}" />
                 </ToggleButton>
                 <Border Width="1"
@@ -648,17 +670,17 @@
                                 <TextBlock Margin="3"
                                            VerticalAlignment="Center"
                                            FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                            AppMediumLargeFontSize}}"
+                                                                                            Metro.MediumLargeFontSize}}"
                                            FontWeight="Light"
                                            RenderOptions.ClearTypeHint="Enabled"
                                            Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                         AppLightTextStyle}}"
+                                                                                         Metro.ThinTextStyle}}"
                                            Text="{Binding Type,
                                                           Converter={StaticResource MailboxLocalizer}}">
                                     <TextBlock.Foreground>
                                         <Binding Path="IsAssigned">
                                             <Binding.Converter>
-                                                <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                                                <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
                                             </Binding.Converter>
                                         </Binding>
                                     </TextBlock.Foreground>
@@ -666,9 +688,9 @@
                                 <TextBlock x:Name="QuantityBlock"
                                            VerticalAlignment="Center"
                                            FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                            AppMediumLargeFontSize}}"
+                                                                                            Metro.MediumLargeFontSize}}"
                                            Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                         AppLightTextStyle}}"
+                                                                                         Metro.ThinTextStyle}}"
                                            Text="{Binding NotSeenCount,
                                                           StringFormat={}({0})}"
                                            Visibility="{Binding NotSeenCount,
@@ -677,7 +699,7 @@
                                     <TextBlock.Foreground>
                                         <Binding Path="IsSelected">
                                             <Binding.Converter>
-                                                <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                                                <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
                                             </Binding.Converter>
                                         </Binding>
                                     </TextBlock.Foreground>
@@ -699,15 +721,15 @@
                                         <DropShadowEffect />
                                     </StackPanel.Effect>
                                     <Polygon Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                          AppShadeBrush}}"
+                                                                                          Metro.ShadowBrush}}"
                                              Points="150,0 140,12 160,12"
                                              Stroke="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                            AppAccentBrush}}" />
+                                                                                            Metro.AccentBrush}}" />
                                     <Border Margin="0,-1,0,0"
                                             Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                               AppShadeBrush}}"
+                                                                                               Metro.ShadowBrush}}"
                                             BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                AppAccentBrush}}"
+                                                                                                Metro.AccentBrush}}"
                                             BorderThickness="1">
                                         <Grid>
                                             <Grid.RowDefinitions>
@@ -723,24 +745,24 @@
                                                        VerticalAlignment="Top"
                                                        Panel.ZIndex="500"
                                                        Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                    AppShadeBrush}}"
+                                                                                                    Metro.ShadowBrush}}"
                                                        RenderOptions.EdgeMode="Aliased"
                                                        StrokeThickness="0" />
                                             <StackPanel Grid.Row="0"
                                                         Margin="6,6,6,0"
                                                         Panel.ZIndex="250">
-                                                <TextBlock Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppTitleTextStyle}}" Text="{Binding Type, Converter={StaticResource MailboxLocalizer}}" />
-                                                <TextBlock Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppSubtitleTextStyle}}" Text="{x:Static properties:Resources.MailboxAssignmentDescription}" />
+                                                <TextBlock Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.TitleTextStyle}}" Text="{Binding Type, Converter={StaticResource MailboxLocalizer}}" />
+                                                <TextBlock Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SubtitleTextStyle}}" Text="{x:Static properties:Resources.MailboxAssignmentDescription}" />
                                             </StackPanel>
                                             <StackPanel Grid.Row="1"
                                                         Margin="0,12,0,6"
                                                         Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                           AppWindowBackgroundBrush}}">
+                                                                                                           Metro.WindowBackgroundBrush}}">
                                                 <Border Padding="6">
                                                     <TreeView x:Name="CandidatesView"
                                                               MinHeight="200"
                                                               Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                                 AppWindowBackgroundBrush}}"
+                                                                                                                 Metro.WindowBackgroundBrush}}"
                                                               BorderThickness="0"
                                                               ItemsSource="{Binding MailboxCandidates}"
                                                               SelectedValuePath="Info">
@@ -762,7 +784,7 @@
                                                                         <TextBlock.Foreground>
                                                                             <Binding Path="IsSelectable">
                                                                                 <Binding.Converter>
-                                                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                                                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
                                                                                 </Binding.Converter>
                                                                             </Binding>
                                                                         </TextBlock.Foreground>
@@ -803,9 +825,9 @@
                        HorizontalAlignment="Stretch"
                        VerticalAlignment="Stretch"
                        Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                    AppShadeBrush}}"
+                                                                    Metro.ShadowBrush}}"
                        Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                       AppShadeOpacity}}" />
+                                                                       Metro.ShadowOpacity}}" />
             <Border Grid.Row="0"
                     Margin="16,0,0,0"
                     Visibility="{Binding IsChecked,
@@ -815,15 +837,15 @@
 
                 <TextBlock VerticalAlignment="Center"
                            FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            AppExtraLargeFontSize}}"
+                                                                            Metro.ExtraLargeFontSize}}"
                            Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                         AppTitleTextStyle}}"
+                                                                         Metro.TitleTextStyle}}"
                            Visibility="{Binding IsChecked,
                                                 ElementName=OutboxToggleButton,
                                                 ConverterParameter=!,
                                                 Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Run Text="{x:Static properties:Resources.MessagesTitle}" />
-                    <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
+                    <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
                 </TextBlock>
             </Border>
             <Border Grid.Row="0"
@@ -836,11 +858,11 @@
                 <TextBlock VerticalAlignment="Center"
                            DataContext="{Binding Outbox}"
                            FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            AppExtraLargeFontSize}}"
+                                                                            Metro.ExtraLargeFontSize}}"
                            Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                         AppTitleTextStyle}}">
+                                                                         Metro.TitleTextStyle}}">
                     <Run Text="{x:Static properties:Resources.MessagesTitle}" />
-                    <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}}" Text="{Binding SmtpRequests, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
+                    <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" Text="{Binding SmtpRequests, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
                 </TextBlock>
             </Border>
             <ListView x:Name="MessagesListView"
@@ -863,9 +885,9 @@
                 <ListView.Resources>
                     <converters:BooleanToBrushConverter x:Key="SeenBrushConverter"
                                                         BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                              AppAccentBrush}}"
+                                                                                                              Metro.AccentBrush}}"
                                                         BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                             AppMediumTextBrush}}" />
+                                                                                                             Metro.SecondaryTextBrush}}" />
                     <converters:BooleanToOpacityConverter x:Key="SeenOpacityConverter"
                                                           OpacityForFalse="1.0"
                                                           OpacityForTrue="0.3" />
@@ -886,32 +908,32 @@
                     <ContextMenu>
                         <MenuItem Command="{Binding ReplyCommand}" InputGestureText="Ctrl + R">
                             <MenuItem.Header>
-                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Reply}" />
+                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Reply}" />
                             </MenuItem.Header>
                         </MenuItem>
                         <MenuItem Command="{Binding ForwardCommand}" InputGestureText="Ctrl + F">
                             <MenuItem.Header>
-                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Forward}" />
+                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Forward}" />
                             </MenuItem.Header>
                         </MenuItem>
                         <MenuItem Command="{Binding PrintCommand}" InputGestureText="Ctrl + P">
                             <MenuItem.Header>
-                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Print}" />
+                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Print}" />
                             </MenuItem.Header>
                         </MenuItem>
                         <MenuItem Command="{Binding DeleteMessageCommand}" InputGestureText="Entf">
                             <MenuItem.Header>
-                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.Delete}" />
+                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Delete}" />
                             </MenuItem.Header>
                         </MenuItem>
                         <MenuItem Command="{Binding MarkAsSeenCommand}">
                             <MenuItem.Header>
-                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.MarkAsSeen}" />
+                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsSeen}" />
                             </MenuItem.Header>
                         </MenuItem>
                         <MenuItem Command="{Binding MarkAsNotSeenCommand}">
                             <MenuItem.Header>
-                                <TextBlock Style="{StaticResource AppMenuItemHeaderStyle}" Text="{x:Static properties:Resources.MarkAsNotSeen}" />
+                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsNotSeen}" />
                             </MenuItem.Header>
                         </MenuItem>
                     </ContextMenu>
@@ -968,13 +990,13 @@
                                        Grid.ColumnSpan="2"
                                        VerticalAlignment="Center"
                                        FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                        AppMediumLargeFontSize}}"
+                                                                                        Metro.MediumLargeFontSize}}"
                                        FontWeight="Thin"
                                        Foreground="{Binding IsSubjectNilOrEmpty,
                                                             Converter={StaticResource SubjectBrushConverter}}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                     AppLightTextStyle}}"
+                                                                                     Metro.ThinTextStyle}}"
                                        Text="{Binding Subject,
                                                       Converter={StaticResource NullOrEmptyFormatter}}"
                                        TextTrimming="CharacterEllipsis"
@@ -986,7 +1008,7 @@
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
                                        FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                        AppNormalFontSize}}"
+                                                                                        Metro.NormalFontSize}}"
                                        Foreground="{Binding IsSeen,
                                                             Converter={StaticResource SeenBrushConverter}}"
                                        Text="{Binding Converter={StaticResource MailContactFormatter}}" />
@@ -997,17 +1019,17 @@
                                        HorizontalAlignment="Right"
                                        VerticalAlignment="Center"
                                        FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                        AppSmallFontSize}}"
+                                                                                        Metro.SmallFontSize}}"
                                        Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                          AppMediumTextBrush}}"
+                                                                                          Metro.SecondaryTextBrush}}"
                                        Text="{Binding EntryDate,
                                                       Converter={StaticResource DateFormatter}}" />
 
                         </Grid>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                <Setter TargetName="FromBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
-                                <Setter TargetName="DateBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                                <Setter TargetName="FromBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+                                <Setter TargetName="DateBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
@@ -1064,11 +1086,11 @@
                                        Grid.ColumnSpan="2"
                                        VerticalAlignment="Center"
                                        FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                        AppMediumLargeFontSize}}"
+                                                                                        Metro.MediumLargeFontSize}}"
                                        FontWeight="Thin"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                     AppLightTextStyle}}"
+                                                                                     Metro.ThinTextStyle}}"
                                        Text="{Binding Subject,
                                                       Converter={StaticResource NullOrEmptyFormatter}}"
                                        TextTrimming="CharacterEllipsis"
@@ -1080,12 +1102,12 @@
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
                                        FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                        AppNormalFontSize}}"
+                                                                                        Metro.NormalFontSize}}"
                                        Text="{Binding Converter={StaticResource MailContactFormatter}}" />
                         </Grid>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                <Setter TargetName="FromBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}}" />
+                                <Setter TargetName="FromBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
@@ -1107,9 +1129,9 @@
                        HorizontalAlignment="Stretch"
                        VerticalAlignment="Stretch"
                        Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                    AppShadeBrush}}"
+                                                                    Metro.ShadowBrush}}"
                        Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                       AppShadeOpacity}}" />
+                                                                       Metro.ShadowOpacity}}" />
             <Border Grid.Row="0" Padding="24,24,24,0">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -1127,7 +1149,7 @@
                                Margin="0"
                                DataContext="{Binding SelectedMessage}"
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                             AppTitleTextStyle}}"
+                                                                             Metro.TitleTextStyle}}"
                                Text="{Binding Subject,
                                               Mode=OneWay,
                                               Converter={StaticResource NullOrEmptyFormatter}}"
@@ -1137,15 +1159,15 @@
                                Grid.Column="0"
                                DataContext="{Binding SelectedMessage}"
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                             AppSubtitleTextStyle}}"
+                                                                             Metro.SubtitleTextStyle}}"
                                Text="{Binding FromName}" />
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
                                DataContext="{Binding SelectedMessage}"
                                FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                AppSmallFontSize}}"
+                                                                                Metro.SmallFontSize}}"
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                             AppSubtitleTextStyle}}"
+                                                                             Metro.SubtitleTextStyle}}"
                                Text="{Binding EntryDate}" />
                     <StackPanel Grid.Row="1"
                                 Grid.RowSpan="2"
@@ -1179,7 +1201,7 @@
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch">
                 <Border BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            AppAccentBrush}}"
+                                                                            Metro.AccentBrush}}"
                         BorderThickness="0"
                         DataContext="{Binding SelectedMessage}"
                         Visibility="{Binding IsNotLoading,
@@ -1204,10 +1226,10 @@
                         <TextBlock Margin="6"
                                    HorizontalAlignment="Center"
                                    FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                    AppNormalFontSize}}"
+                                                                                    Metro.NormalFontSize}}"
                                    FontWeight="Thin"
                                    Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                      AppLightTextBrush}}"
+                                                                                      Metro.NormalTextBrush}}"
                                    Text="{x:Static properties:Resources.MessageDownload}" />
                         <ProgressBar Height="4"
                                      Margin="12"
@@ -1241,13 +1263,13 @@
             </Grid.ColumnDefinitions>
             <Grid Grid.ColumnSpan="2"
                   Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     AppShadeBrush}}"
+                                                                     Metro.ShadowBrush}}"
                   Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                  AppShadeOpacity}}" />
+                                                                  Metro.ShadowOpacity}}" />
             <Border x:Name="OverlayContent"
                     Grid.Column="1"
                     Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                       AppOverlayBackroundBrush}}"
+                                                                       Metro.FlyoutBackgroundBrush}}"
                     Padding="24">
                 <Border.RenderTransform>
                     <TransformGroup>
@@ -1291,7 +1313,7 @@
                                    Padding="0,0,0,2"
                                    RenderTransformOrigin="0.5,0.5"
                                    Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                 AppTitleTextStyle}}"
+                                                                                 Metro.TitleTextStyle}}"
                                    Text="{Binding Title}"
                                    d:DataContext="{d:DesignInstance Page}">
                             <TextBlock.RenderTransform>
@@ -1330,13 +1352,13 @@
                 Margin="0,-1,0,0"
                 VerticalAlignment="Top"
                 BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                    AppAccentBrush}}"
+                                                                    Metro.AccentBrush}}"
                 BorderThickness="0,1,0,0" />
         <StatusBar Grid.Row="4"
                    Grid.Column="0"
                    Grid.ColumnSpan="6"
                    Margin="0"
-                   Background="{StaticResource AppAccentBrush}"
+                   Background="{StaticResource Metro.AccentBrush}"
                    Padding="0">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -1392,21 +1414,21 @@
             </Grid.RowDefinitions>
             <Rectangle Grid.Row="0"
                        Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                    AppShadeBrush}}"
+                                                                    Metro.ShadowBrush}}"
                        Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                       AppShadeOpacity}}"
+                                                                       Metro.ShadowOpacity}}"
                        RenderOptions.EdgeMode="Aliased" />
             <Rectangle Grid.Row="2"
                        Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                    AppShadeBrush}}"
+                                                                    Metro.ShadowBrush}}"
                        Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                       AppShadeOpacity}}"
+                                                                       Metro.ShadowOpacity}}"
                        RenderOptions.EdgeMode="Aliased" />
             <Border Grid.Row="1"
                     Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                       AppOverlayBackroundBrush}}"
+                                                                       Metro.FlyoutBackgroundBrush}}"
                     BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                        AppAccentBrush}}"
+                                                                        Metro.AccentBrush}}"
                     BorderThickness="0"
                     Padding="0,24,0,24">
                 <Grid Width="600" HorizontalAlignment="Center">
@@ -1420,7 +1442,7 @@
                                                      ElementName=PopupFrame}"
                                Padding="0,0,0,2"
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                             AppTitleTextStyle}}"
+                                                                             Metro.TitleTextStyle}}"
                                Text="{Binding Title}"
                                d:DataContext="{d:DesignInstance Page}" />
                     <Frame x:Name="PopupFrame"

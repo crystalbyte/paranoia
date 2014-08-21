@@ -3,100 +3,75 @@
                     xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppShadeOpacity}">0.8</system:Double>
-    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppExtraSmallFontSize}">8</system:Double>
-    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppSmallFontSize}">10</system:Double>
-    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppNormalFontSize}">12</system:Double>
-    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppMediumFontSize}">15</system:Double>
-    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppMediumLargeFontSize}">16.8</system:Double>
-    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppLargeFontSize}">22</system:Double>
-    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppExtraLargeFontSize}">28</system:Double>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.ShadowOpacity}">0.8</system:Double>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.SmallFontSize}">10</system:Double>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.NormalFontSize}">12</system:Double>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.MediumFontSize}">15</system:Double>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.MediumLargeFontSize}">16.8</system:Double>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.LargeFontSize}">22</system:Double>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.ExtraLargeFontSize}">28</system:Double>
 
     <!--  App  -->
-    <!--  <Color x:Key="AppAccentColor">#E05900</Color>  -->
-    <Color x:Key="AppAccentColor">#006FC4</Color>
-    <!--  <Color x:Key="AppAccentColor">BlueViolet</Color>  -->
-    <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccentColor}" />
-    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppAccentBrush}"
-                     Color="{StaticResource AppAccentColor}" />
+    <!--  <Color x:Key="Metro.AccentColor">#E05900</Color>  -->
+    <Color x:Key="Metro.AccentColor">#006FC4</Color>
+    <!--  <Color x:Key="Metro.AccentColor">BlueViolet</Color>  -->
+    <SolidColorBrush x:Key="Metro.AccentBrush" Color="{StaticResource Metro.AccentColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}" Color="{StaticResource Metro.AccentColor}" />
 
     <Color x:Key="Metro.FailureColor">Tomato</Color>
     <SolidColorBrush x:Key="Metro.FailureBrush" Color="{StaticResource Metro.FailureColor}" />
-    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.FailureBrush}"
-                     Color="{StaticResource Metro.FailureColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.FailureBrush}" Color="{StaticResource Metro.FailureColor}" />
 
     <Color x:Key="Metro.SuccessColor">ForestGreen</Color>
     <SolidColorBrush x:Key="Metro.SuccessBrush" Color="{StaticResource Metro.SuccessColor}" />
-    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.SuccessBrush}"
-                     Color="{StaticResource Metro.SuccessColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.SuccessBrush}" Color="{StaticResource Metro.SuccessColor}" />
 
     <!--  Window  -->
-    <Color x:Key="AppWindowBackgroundColor">#222222</Color>
-    <SolidColorBrush x:Key="AppWindowBackgroundBrush" Color="{StaticResource AppWindowBackgroundColor}" />
-    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppWindowBackgroundBrush}"
-                     Color="{StaticResource AppWindowBackgroundColor}" />
+    <Color x:Key="Metro.WindowBackgroundColor">#222222</Color>
+    <SolidColorBrush x:Key="Metro.WindowBackgroundBrush" Color="{StaticResource Metro.WindowBackgroundColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.WindowBackgroundBrush}" Color="{StaticResource Metro.WindowBackgroundColor}" />
 
-    <Color x:Key="AppShadeColor">Black</Color>
-    <SolidColorBrush x:Key="AppShadeBrush" Color="{StaticResource AppShadeColor}" />
-    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppShadeBrush}"
-                     Color="{StaticResource AppShadeColor}" />
+    <Color x:Key="Metro.ShadowColor">Black</Color>
+    <SolidColorBrush x:Key="Metro.ShadowBrush" Color="{StaticResource Metro.ShadowColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.ShadowBrush}" Color="{StaticResource Metro.ShadowColor}" />
 
-    <Color x:Key="AppOverlayBackroundColor">#262626</Color>
-    <SolidColorBrush x:Key="AppOverlayBackroundBrush" Color="{StaticResource AppOverlayBackroundColor}" />
-    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppOverlayBackroundBrush}"
-                     Color="{StaticResource AppOverlayBackroundColor}" />
+    <Color x:Key="Metro.FlyoutBackgroundColor">#262626</Color>
+    <SolidColorBrush x:Key="Metro.FlyoutBackgroundBrush" Color="{StaticResource Metro.FlyoutBackgroundColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.FlyoutBackgroundBrush}" Color="{StaticResource Metro.FlyoutBackgroundColor}" />
 
     <!--  Control  -->
-    <Color x:Key="AppControlBackgroundColor">#222222</Color>
-    <SolidColorBrush x:Key="AppControlBackgroundBrush" Color="{StaticResource AppControlBackgroundColor}" />
-    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppControlBackgroundBrush}"
-                     Color="{StaticResource AppControlBackgroundColor}" />
+    <Color x:Key="Metro.ControlBackgroundColor">#222222</Color>
+    <SolidColorBrush x:Key="Metro.ControlBackgroundBrush" Color="{StaticResource Metro.ControlBackgroundColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBackgroundBrush}" Color="{StaticResource Metro.ControlBackgroundColor}" />
 
-    <Color x:Key="AppControlBorderColor">#515151</Color>
-    <SolidColorBrush x:Key="AppControlBorderBrush" Color="{StaticResource AppControlBorderColor}" />
-    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppControlBorderBrush}"
-                     Color="{StaticResource AppControlBorderColor}" />
+    <Color x:Key="Metro.ControlBorderColor">#515151</Color>
+    <SolidColorBrush x:Key="Metro.ControlBorderBrush" Color="{StaticResource Metro.ControlBorderColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBorderBrush}" Color="{StaticResource Metro.ControlBorderColor}" />
 
-    <Color x:Key="AppControlBorderHoverColor">#A3A3A3</Color>
-    <SolidColorBrush x:Key="AppControlBorderHoverBrush" Color="{StaticResource AppControlBorderHoverColor}" />
-    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppControlBorderHoverBrush}"
-                     Color="{StaticResource AppControlBorderHoverColor}" />
-
-    <Color x:Key="AppHoverColor">#333333</Color>
-    <SolidColorBrush x:Key="AppHoverBrush" Color="{StaticResource AppHoverColor}" />
-    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppHoverBrush}"
-                     Color="{StaticResource AppHoverColor}" />
+    <Color x:Key="Metro.HoverColor">#333333</Color>
+    <SolidColorBrush x:Key="Metro.HoverBrush" Color="{StaticResource Metro.HoverColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.HoverBrush}" Color="{StaticResource Metro.HoverColor}" />
 
     <!--  Menu  -->
-    <Color x:Key="AppMenuBackgroundColor">#141414</Color>
-    <SolidColorBrush x:Key="AppMenuBackgroundBrush" Color="{StaticResource AppMenuBackgroundColor}" />
-    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppMenuBackgroundBrush}"
-                     Color="{StaticResource AppMenuBackgroundColor}" />
+    <Color x:Key="Metro.MenuBackgroundColor">#141414</Color>
+    <SolidColorBrush x:Key="Metro.MenuBackgroundBrush" Color="{StaticResource Metro.MenuBackgroundColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.MenuBackgroundBrush}" Color="{StaticResource Metro.MenuBackgroundColor}" />
 
     <!--  Text  -->
-    <Color x:Key="AppLightTextColor">GhostWhite</Color>
-    <SolidColorBrush x:Key="AppLightTextBrush" Color="{StaticResource AppLightTextColor}" />
-    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppLightTextBrush}"
-                     Color="{StaticResource AppLightTextColor}" />
+    <Color x:Key="Metro.NormalTextColor">GhostWhite</Color>
+    <SolidColorBrush x:Key="Metro.NormalTextBrush" Color="{StaticResource Metro.NormalTextColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}" Color="{StaticResource Metro.NormalTextColor}" />
 
-    <Color x:Key="AppMediumTextColor">#A3A3A3</Color>
-    <SolidColorBrush x:Key="AppMediumTextBrush" Color="{StaticResource AppMediumTextColor}" />
-    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppMediumTextBrush}"
-                     Color="{StaticResource AppMediumTextColor}" />
+    <Color x:Key="Metro.SecondaryTextColor">#A3A3A3</Color>
+    <SolidColorBrush x:Key="Metro.SecondaryTextBrush" Color="{StaticResource Metro.SecondaryTextColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}" Color="{StaticResource Metro.SecondaryTextColor}" />
 
-    <Color x:Key="AppDisabledTextColor">DimGray</Color>
-    <SolidColorBrush x:Key="AppDisabledTextBrush" Color="{StaticResource AppDisabledTextColor}" />
-    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppDisabledTextBrush}"
-                     Color="{StaticResource AppDisabledTextColor}" />
+    <Color x:Key="Metro.DisabledColor">DimGray</Color>
+    <SolidColorBrush x:Key="Metro.DisabledBrush" Color="{StaticResource Metro.DisabledColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}" Color="{StaticResource Metro.DisabledColor}" />
 
-    <Color x:Key="AppDisabledControlBorderColor">DimGray</Color>
-    <SolidColorBrush x:Key="AppDisabledControlBorderBrush" Color="{StaticResource AppDisabledControlBorderColor}" />
-    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppDisabledControlBorderBrush}"
-                     Color="{StaticResource AppDisabledControlBorderColor}" />
-
-    <Color x:Key="AppSelectedUnfocusedColor">#515151</Color>
-    <SolidColorBrush x:Key="AppSelectedUnfocusedBrush" Color="{StaticResource AppSelectedUnfocusedColor}" />
-    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppSelectedUnfocusedBrush}"
-                     Color="{StaticResource AppSelectedUnfocusedColor}" />
+    <Color x:Key="Metro.SelectedUnfocusedColor">#515151</Color>
+    <SolidColorBrush x:Key="Metro.SelectedUnfocusedBrush" Color="{StaticResource Metro.SelectedUnfocusedColor}" />
+    <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.SelectedUnfocusedBrush}" Color="{StaticResource Metro.SelectedUnfocusedColor}" />
 
 </ResourceDictionary>
