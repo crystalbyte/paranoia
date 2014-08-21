@@ -3,7 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media.Animation;
 using Crystalbyte.Paranoia.Data;
 
@@ -14,11 +16,14 @@ namespace Crystalbyte.Paranoia {
     ///     Interaction logic for NotificationWindow.xaml
     /// </summary>
     public partial class NotificationWindow {
+        private readonly IEnumerable<MailMessageContext> _messages;
         private Storyboard _storyboard;
 
-        public NotificationWindow(IList<MailMessageModel> mails) {
+        public NotificationWindow(ICollection<MailMessageContext> messages) {
+            _messages = messages;
+
             InitializeComponent();
-            DataContext = new NotificationWindowContext(mails);
+            DataContext = new NotificationWindowContext(messages);
             Loaded += OnLoaded;
         }
 
@@ -41,6 +46,15 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnCloseButtonClicked(object sender, RoutedEventArgs e) {
+            Close();
+        }
+
+        private void OnWindowMouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+            if (!_messages.Any()) {
+                return;
+            }
+
+            App.Context.ShowMessage(_messages.First());
             Close();
         }
     }

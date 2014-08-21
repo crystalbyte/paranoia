@@ -110,7 +110,11 @@
                 <scm:SortDescription Direction="Ascending" PropertyName="Name" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
-
+        <CollectionViewSource x:Key="MessagesSource" Source="{Binding Messages}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription Direction="Descending" PropertyName="EntryDate" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
     </ui:MetroWindow.Resources>
     <ui:MetroWindow.InputBindings>
         <KeyBinding Key="C"
@@ -147,13 +151,6 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Grid.Resources>
-            <CollectionViewSource x:Key="MessagesSource" Source="{Binding Messages}">
-                <CollectionViewSource.SortDescriptions>
-                    <scm:SortDescription Direction="Descending" PropertyName="EntryDate" />
-                </CollectionViewSource.SortDescriptions>
-            </CollectionViewSource>
-        </Grid.Resources>
         <DockPanel Grid.Row="0"
                    Grid.Column="0"
                    Margin="6,0,0,0"
@@ -402,7 +399,6 @@
                         <Image Width="18" Source="/Assets/add.png" />
                     </ui:MetroCircleButton>
                     <ui:MetroCircleButton Margin="6"
-                                          Click="ButtonBase_OnClick"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
                                           Command="{Binding RefreshKeysCommand}"

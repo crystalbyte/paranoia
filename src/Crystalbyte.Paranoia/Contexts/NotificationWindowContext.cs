@@ -8,18 +8,13 @@ using Crystalbyte.Paranoia.Data;
 
 namespace Crystalbyte.Paranoia {
     public sealed class NotificationWindowContext : NotificationObject {
-        private IList<MailMessageModel> _messages;
-        private readonly MailMessageModel _message;
+        private readonly MailMessageContext _message;
 
-        public NotificationWindowContext(IList<MailMessageModel> messages) {
-            _messages = messages;
+        public NotificationWindowContext(ICollection<MailMessageContext> messages) {
             if (messages.Count > 0) {
                 _message = messages.First();
             }
         }
-
-
-        public MimeMessageModel Message { get; set; }
 
         public string FromAddress {
             get { return _message.FromAddress; }

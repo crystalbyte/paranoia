@@ -9,6 +9,7 @@
         Height="70"
         AllowsTransparency="True"
         Background="Transparent"
+        MouseLeftButtonUp="OnWindowMouseLeftButtonUp"
         ShowInTaskbar="False"
         WindowStyle="None">
     <Window.Resources>

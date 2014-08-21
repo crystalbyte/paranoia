@@ -748,5 +748,14 @@ namespace Crystalbyte.Paranoia {
             _messages.AddRange(messages);
             await RefreshContactStatisticsAsync();
         }
+
+        internal void ShowMessage(MailMessageContext message) {
+            if (!message.Mailbox.IsSelected) {
+                message.Mailbox.IsSelected = true;
+            }
+
+            _messages.ForEach(x => x.IsSelected = false);
+            message.IsSelected = true;
+        }
     }
 }

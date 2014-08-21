@@ -333,19 +333,24 @@ namespace Crystalbyte.Paranoia {
 
                                 messages.Add(message);
                             }
-
-
-                            if (IsInbox && messages.Count > 0) {
-                                // TODO: Here Be ToastMessage with Subject and Sender
-                                var notification = new NotificationWindow(messages);
-                                notification.Show();
-                            }
                         }
                     }
                 }
 
-                await SaveMessagesAsync(messages);
                 await SaveContactsAsync(messages);
+                await SaveMessagesAsync(messages);
+
+                var contexts = messages
+                    .Select(x => new MailMessageContext(this, x)).ToArray();
+
+                if (IsInbox && contexts.Length > 0) {
+                    var notification = new NotificationWindow(contexts);
+                    notification.Show();
+                }
+
+                if (IsSelected) {
+                    App.Context.NotifyMessagesAdded(contexts);
+                }
             } catch (Exception ex) {
                 Debug.WriteLine(ex.Message);
             } finally {
@@ -509,15 +514,12 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task SaveMessagesAsync(ICollection<MailMessageModel> messages) {
+        private async Task SaveMessagesAsync(IEnumerable<MailMessageModel> messages) {
             using (var context = new DatabaseContext()) {
                 context.Mailboxes.Attach(_mailbox);
                 _mailbox.Messages.AddRange(messages);
                 await context.SaveChangesAsync();
             }
-
-            App.Context.NotifyMessagesAdded(messages
-                .Select(x => new MailMessageContext(this, x)));
         }
 
         private Task<Int64> GetMaxUidAsync() {
@@ -683,6 +685,10 @@ namespace Crystalbyte.Paranoia {
             } catch (Exception ex) {
                 throw;
             }
+        }
+
+        internal void FocusMessage(MailMessageModel message) {
+            IsSelected = true;
         }
     }
 }
