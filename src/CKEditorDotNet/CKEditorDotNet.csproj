@@ -41,10 +41,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Awesomium.Core">
-      <HintPath>..\..\..\..\Visual Studio 2013\Projects\AwesomeEdit\AwesomeEdit\x86\Awesomium.Core.dll</HintPath>
+      <HintPath>..\Crystalbyte.Paranoia\x86\Awesomium.Core.dll</HintPath>
     </Reference>
     <Reference Include="Awesomium.Windows.Controls">
-      <HintPath>..\..\..\..\Visual Studio 2013\Projects\AwesomeEdit\AwesomeEdit\x86\Awesomium.Windows.Controls.dll</HintPath>
+      <HintPath>..\Crystalbyte.Paranoia\x86\Awesomium.Windows.Controls.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

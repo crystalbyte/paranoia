@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.UI.Commands;
+using NLog;
 
 #endregion
 
@@ -13,6 +14,8 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _createContactCommand;
         private string _name;
         private string _address;
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
+
 
 
         public CreateContactContext() {
@@ -20,13 +23,24 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnCreateContact(object obj) {
-            var contact = await SaveContactToDatabaseAsync();
+            try
+            {
+                var contact = await SaveContactToDatabaseAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message.ToString());
+            }
+            finally
+            {
+                App.Context.ClosePopup();
+            }
+            
             App.Context.NotifyContactsAdded(new[] {new MailContactContext(contact)});
-            App.Context.ClosePopup();
+            
         }
 
         private async Task<MailContactModel> SaveContactToDatabaseAsync() {
-            try {
                 var contact = new MailContactModel
                 {
                     Name = Name,
@@ -34,16 +48,12 @@ namespace Crystalbyte.Paranoia {
                     SecurityMeasure = SecurityMeasure.None
                 };
 
-                using (var database = new DatabaseContext()) {
+                using (var database = new DatabaseContext())
+                {
                     database.MailContacts.Add(contact);
                     await database.SaveChangesAsync();
                 }
-
                 return contact;
-            }
-            catch (Exception) {
-                throw;
-            }
         }
 
         public ICommand CreateContactCommand {

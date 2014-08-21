@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
+using NLog;
 
 #endregion
 
@@ -17,6 +18,7 @@ namespace Crystalbyte.Paranoia {
         private long _bytesReceived;
         private readonly MailboxContext _mailbox;
         private readonly MailMessageModel _message;
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
 
         public MailMessageContext(MailboxContext mailbox, MailMessageModel message) {
             _mailbox = mailbox;
@@ -90,7 +92,7 @@ namespace Crystalbyte.Paranoia {
                     await context.SaveChangesAsync();
                 }
             } catch (Exception ex) {
-                throw;
+                _logger.Error(ex.Message.ToString());
             }
         }
 
@@ -126,6 +128,7 @@ namespace Crystalbyte.Paranoia {
                     return message != null ? message.Data : string.Empty;
                 }
             } catch (Exception ex) {
+                _logger.Error(ex.Message.ToString());
                 throw;
             } finally {
                 DecrementLoad();
@@ -208,7 +211,7 @@ namespace Crystalbyte.Paranoia {
                 }
                 return mime;
             } catch (Exception ex) {
-                throw;
+                _logger.Error(ex.Message.ToString());
             } finally {
                 DecrementLoad();
             }

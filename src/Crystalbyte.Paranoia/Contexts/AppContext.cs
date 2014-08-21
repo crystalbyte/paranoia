@@ -25,6 +25,7 @@ using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
 using Crystalbyte.Paranoia.UI.Pages;
 using Newtonsoft.Json;
+using NLog;
 
 #endregion
 
@@ -63,6 +64,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _deleteContactCommand;
         private readonly ICommand _refreshKeysCommand;
         private bool _isAllContactsSelected;
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -149,7 +151,7 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
             } catch (Exception ex) {
-                Debug.WriteLine(ex.Message);
+                _logger.Error(ex.Message.ToString());
             } finally {
                 StatusText = Resources.ReadyStatus;
             }
@@ -170,7 +172,7 @@ namespace Crystalbyte.Paranoia {
                     await database.SaveChangesAsync();
                 }
             } catch (Exception ex) {
-                Debug.WriteLine(ex.Message);
+                _logger.Error(ex.Message.ToString());
             }
         }
 
@@ -215,7 +217,7 @@ namespace Crystalbyte.Paranoia {
                     SelectedAccount = Accounts.First();
                 }
             } catch (Exception ex) {
-                Debug.WriteLine(ex.Message);
+                _logger.Error(ex.Message.ToString());
             }
         }
 

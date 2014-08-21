@@ -19,6 +19,7 @@ using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
 using Newtonsoft.Json;
 using MailMessage = System.Net.Mail.MailMessage;
+using NLog;
 
 #endregion
 
@@ -37,6 +38,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _registerAccount;
         private readonly OutboxContext _outbox;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
 
         internal MailAccountContext(MailAccountModel account) {
             _account = account;
@@ -486,7 +488,8 @@ namespace Crystalbyte.Paranoia {
             } catch (Exception ex) {
                 Testing = new TestingContext {
                     IsFaulted = true,
-                    Message = ex.Message
+                    Message = ex.Message;
+                    _logger.Error(ex.Message.ToString());
                 };
             }
         }
@@ -505,7 +508,8 @@ namespace Crystalbyte.Paranoia {
             } catch (Exception ex) {
                 Testing = new TestingContext {
                     IsFaulted = true,
-                    Message = ex.Message
+                    Message = ex.Message;
+                    _logger.Error(ex.Message.ToString());
                 };
             }
         }
@@ -553,8 +557,8 @@ namespace Crystalbyte.Paranoia {
                     database.MailAccounts.Add(_account);
                     await database.SaveChangesAsync();
                 }
-            } catch (Exception) {
-                throw;
+            } catch (Exception ex) {
+                _logger.Error(ex.Message.ToString());
             }
         }
 
@@ -583,7 +587,8 @@ namespace Crystalbyte.Paranoia {
                     var serializer = new XmlSerializer(typeof(clientConfig));
                     var config = serializer.Deserialize(stream) as clientConfig;
                     Configure(config);
-                } catch (WebException) {
+                } catch (WebException ex) {
+                    _logger.Error(ex.Message.ToString());
                     MakeEducatedGuess();
                 } finally {
                     IsDetectingSettings = false;
@@ -644,8 +649,8 @@ namespace Crystalbyte.Paranoia {
 
                     await database.SaveChangesAsync();
                 }
-            } catch (Exception) {
-                throw;
+            } catch (Exception ex) {
+                _logger.Error(ex.Message.ToString());
             }
         }
 
@@ -668,8 +673,8 @@ namespace Crystalbyte.Paranoia {
                     var uri = new Uri(address, UriKind.Absolute);
                     await client.UploadDataTaskAsync(uri, bytes);
                 }
-            } catch (Exception) {
-                throw;
+            } catch (Exception ex) {
+                _logger.Error(ex.Message.ToString());
             }
         }
 
