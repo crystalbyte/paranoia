@@ -18,7 +18,7 @@ namespace Crystalbyte.Paranoia {
         private readonly MailAccountContext _account;
         private Exception _lastException;
         private bool _isExpanded;
-        private static Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public MailboxCandidateContext(MailAccountContext account, ImapMailboxInfo info) {
             _info = info;
@@ -116,7 +116,7 @@ namespace Crystalbyte.Paranoia {
                 IsLoaded = true;
             }
             catch (Exception ex) {
-                _logger.Error(ex);
+                Logger.Error(ex);
                 LastException = ex;
             }
             finally {

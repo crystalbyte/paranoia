@@ -15,7 +15,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _createKeyPairCommand;
         private readonly string _benFranklinQuote;
         private readonly string _benFranklin;
-        static private Logger _logger = LogManager.GetCurrentClassLogger();
+        static private Logger Logger = LogManager.GetCurrentClassLogger();
 
         public CreateKeyPairContext() {
             _createKeyPairCommand = new RelayCommand(CreateKeyPair);
@@ -45,7 +45,7 @@ namespace Crystalbyte.Paranoia {
                 }
             }
             catch (Exception ex) {
-                _logger.Error(ex.ToString());
+                Logger.Error(ex.ToString());
             }
             finally {
                 App.Context.ClosePopup();

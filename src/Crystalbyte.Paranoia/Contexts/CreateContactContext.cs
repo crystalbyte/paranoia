@@ -14,7 +14,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _createContactCommand;
         private string _name;
         private string _address;
-        private static Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public CreateContactContext() {
             _createContactCommand = new RelayCommand(OnCreateContact);
@@ -25,7 +25,7 @@ namespace Crystalbyte.Paranoia {
                 var contact = await SaveContactToDatabaseAsync();
                 App.Context.NotifyContactsAdded(new[] { new MailContactContext(contact) });
             } catch (Exception ex) {
-                _logger.Error(ex);
+                Logger.Error(ex);
             } finally {
                 App.Context.ClosePopup();
             }

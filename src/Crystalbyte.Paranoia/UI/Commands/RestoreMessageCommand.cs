@@ -15,8 +15,9 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public bool CanExecute(object parameter) {
-            return _account.SelectedMailbox.IsTrash
-                   && App.Context.SelectedMessages.Any();
+            return _account.SelectedMailbox != null 
+                && _account.SelectedMailbox.IsTrash
+                && App.Context.SelectedMessages.Any();
         }
 
         public event EventHandler CanExecuteChanged;

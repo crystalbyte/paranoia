@@ -39,7 +39,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _restoreMessagesCommand; 
         private readonly OutboxContext _outbox;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
-        private static Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         internal MailAccountContext(MailAccountModel account) {
             _account = account;
@@ -497,7 +497,7 @@ namespace Crystalbyte.Paranoia {
                     Message = ex.Message,
                 };
 
-                _logger.Error(ex);
+                Logger.Error(ex);
             }
         }
 
@@ -517,7 +517,7 @@ namespace Crystalbyte.Paranoia {
                     IsFaulted = true,
                     Message = ex.Message
                 };
-                _logger.Error(ex);
+                Logger.Error(ex);
             }
         }
 
@@ -565,7 +565,7 @@ namespace Crystalbyte.Paranoia {
                     await database.SaveChangesAsync();
                 }
             } catch (Exception ex) {
-                _logger.Error(ex);
+                Logger.Error(ex);
             }
         }
 
@@ -595,7 +595,7 @@ namespace Crystalbyte.Paranoia {
                     var config = serializer.Deserialize(stream) as clientConfig;
                     Configure(config);
                 } catch (WebException ex) {
-                    _logger.Error(ex);
+                    Logger.Error(ex);
                     MakeEducatedGuess();
                 } finally {
                     IsDetectingSettings = false;
@@ -657,7 +657,7 @@ namespace Crystalbyte.Paranoia {
                     await database.SaveChangesAsync();
                 }
             } catch (Exception ex) {
-                _logger.Error(ex);
+                Logger.Error(ex);
             }
         }
 
@@ -681,7 +681,7 @@ namespace Crystalbyte.Paranoia {
                     await client.UploadDataTaskAsync(uri, bytes);
                 }
             } catch (Exception ex) {
-                _logger.Error(ex);
+                Logger.Error(ex);
             }
         }
 
@@ -736,7 +736,7 @@ namespace Crystalbyte.Paranoia {
                             database.MailMessages.Attach(model);
                             database.MailMessages.Remove(model);
                         } catch (Exception ex) {
-                            _logger.Error(ex);
+                            Logger.Error(ex);
                             throw;
                         }
                     }
@@ -746,7 +746,7 @@ namespace Crystalbyte.Paranoia {
                 App.Context.NotifyMessagesRemoved(messages);
             } catch (Exception ex) {
 
-                _logger.Error(ex);
+                Logger.Error(ex);
             }
         }
     }

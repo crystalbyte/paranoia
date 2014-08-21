@@ -18,7 +18,7 @@ namespace Crystalbyte.Paranoia {
         private long _bytesReceived;
         private readonly MailboxContext _mailbox;
         private readonly MailMessageModel _message;
-        private static Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public MailMessageContext(MailboxContext mailbox, MailMessageModel message) {
             _mailbox = mailbox;
@@ -92,7 +92,7 @@ namespace Crystalbyte.Paranoia {
                     await context.SaveChangesAsync();
                 }
             } catch (Exception ex) {
-                _logger.Error(ex.ToString());
+                Logger.Error(ex.ToString());
             }
         }
 
@@ -128,7 +128,7 @@ namespace Crystalbyte.Paranoia {
                     return message != null ? message.Data : string.Empty;
                 }
             } catch (Exception ex) {
-                _logger.Error(ex.ToString());
+                Logger.Error(ex.ToString());
                 throw;
             } finally {
                 DecrementLoad();
