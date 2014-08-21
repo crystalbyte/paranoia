@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Mail;
+using NLog;
 
 #endregion
 
@@ -17,6 +18,7 @@ namespace Crystalbyte.Paranoia {
         private readonly MailAccountContext _account;
         private Exception _lastException;
         private bool _isExpanded;
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
 
         public MailboxCandidateContext(MailAccountContext account, ImapMailboxInfo info) {
             _info = info;
@@ -114,6 +116,7 @@ namespace Crystalbyte.Paranoia {
                 IsLoaded = true;
             }
             catch (Exception ex) {
+                _logger.Error(ex.Message.ToString());
                 LastException = ex;
             }
             finally {

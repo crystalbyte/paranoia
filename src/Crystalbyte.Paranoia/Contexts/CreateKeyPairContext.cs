@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
+using NLog;
 
 #endregion
 
@@ -14,6 +15,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _createKeyPairCommand;
         private readonly string _benFranklinQuote;
         private readonly string _benFranklin;
+        static private Logger _logger = LogManager.GetCurrentClassLogger();
 
         public CreateKeyPairContext() {
             _createKeyPairCommand = new RelayCommand(CreateKeyPair);
@@ -42,8 +44,8 @@ namespace Crystalbyte.Paranoia {
                     await App.Context.RunAsync();
                 }
             }
-            catch (Exception) {
-                throw;
+            catch (Exception ex) {
+                _logger.Error(ex.Message.ToString());
             }
             finally {
                 App.Context.ClosePopup();

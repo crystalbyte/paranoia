@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.UI.Commands;
+using NLog;
 
 #endregion
 
@@ -27,6 +28,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ObservableCollection<string> _recipients;
         private readonly ObservableCollection<MailContactContext> _suggestions;
         private readonly ICommand _sendCommand;
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -135,7 +137,7 @@ namespace Crystalbyte.Paranoia {
                 await App.Context.NotifyOutboxNotEmpty();
             }
             catch (Exception ex) {
-                Debug.WriteLine(ex.Message);
+                _logger.Error(ex.Message.ToString());
             }
         }
 
