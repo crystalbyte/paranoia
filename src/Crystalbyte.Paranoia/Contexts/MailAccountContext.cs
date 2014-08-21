@@ -497,7 +497,7 @@ namespace Crystalbyte.Paranoia {
                     Message = ex.Message,
                 };
 
-                _logger.Error(ex.Message);
+                _logger.Error(ex);
             }
         }
 
@@ -517,7 +517,7 @@ namespace Crystalbyte.Paranoia {
                     IsFaulted = true,
                     Message = ex.Message
                 };
-                _logger.Error(ex.Message);
+                _logger.Error(ex);
             }
         }
 
@@ -565,7 +565,7 @@ namespace Crystalbyte.Paranoia {
                     await database.SaveChangesAsync();
                 }
             } catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
+                _logger.Error(ex);
             }
         }
 
@@ -595,7 +595,7 @@ namespace Crystalbyte.Paranoia {
                     var config = serializer.Deserialize(stream) as clientConfig;
                     Configure(config);
                 } catch (WebException ex) {
-                    _logger.Error(ex.Message.ToString());
+                    _logger.Error(ex);
                     MakeEducatedGuess();
                 } finally {
                     IsDetectingSettings = false;
@@ -657,7 +657,7 @@ namespace Crystalbyte.Paranoia {
                     await database.SaveChangesAsync();
                 }
             } catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
+                _logger.Error(ex);
             }
         }
 
@@ -681,7 +681,7 @@ namespace Crystalbyte.Paranoia {
                     await client.UploadDataTaskAsync(uri, bytes);
                 }
             } catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
+                _logger.Error(ex);
             }
         }
 
@@ -735,8 +735,8 @@ namespace Crystalbyte.Paranoia {
 
                             database.MailMessages.Attach(model);
                             database.MailMessages.Remove(model);
-                        } catch (Exception) {
-                            // TODO: log
+                        } catch (Exception ex) {
+                            _logger.Error(ex);
                             throw;
                         }
                     }
@@ -744,9 +744,9 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 App.Context.NotifyMessagesRemoved(messages);
-            } catch (Exception) {
+            } catch (Exception ex) {
 
-                throw;
+                _logger.Error(ex);
             }
         }
     }

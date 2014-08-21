@@ -137,7 +137,7 @@ namespace Crystalbyte.Paranoia {
                 await App.Context.NotifyOutboxNotEmpty();
             }
             catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
+                _logger.Error(ex);
             }
         }
 

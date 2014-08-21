@@ -151,7 +151,7 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
             } catch (Exception ex) {
-                Logger.Error(ex.Message);
+                Logger.Error(ex);
             } finally {
                 StatusText = Resources.ReadyStatus;
             }
@@ -172,7 +172,7 @@ namespace Crystalbyte.Paranoia {
                     await database.SaveChangesAsync();
                 }
             } catch (Exception ex) {
-                Logger.Error(ex.Message);
+                Logger.Error(ex);
             }
         }
 
@@ -217,7 +217,7 @@ namespace Crystalbyte.Paranoia {
                     SelectedAccount = Accounts.First();
                 }
             } catch (Exception ex) {
-                Logger.Error(ex.Message);
+                Logger.Error(ex);
             }
         }
 

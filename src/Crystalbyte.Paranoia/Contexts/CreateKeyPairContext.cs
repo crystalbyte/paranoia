@@ -45,7 +45,7 @@ namespace Crystalbyte.Paranoia {
                 }
             }
             catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
+                _logger.Error(ex.ToString());
             }
             finally {
                 App.Context.ClosePopup();
