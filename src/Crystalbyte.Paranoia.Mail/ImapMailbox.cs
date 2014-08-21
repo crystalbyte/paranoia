@@ -22,8 +22,8 @@ namespace Crystalbyte.Paranoia.Mail {
         private const string UidPattern = @"UID \d+";
         private static readonly Regex UidRegex = new Regex(UidPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private const string HeaderPattern = @"BODY\[HEADER\]\s+\{\d+\}(.|(\r\n.+))+\r\n\r\n";
-        private static readonly Regex HeaderRegex = new Regex(HeaderPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        //private const string HeaderPattern = @"BODY\[HEADER\]\s+\{\d+\}(.|(\r\n.+))+\r\n\r\n";
+        //private static readonly Regex HeaderRegex = new Regex(HeaderPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public ImapMailbox(ImapSession session, string name) {
             _name = name;
@@ -86,7 +86,7 @@ namespace Crystalbyte.Paranoia.Mail {
             await ReadStoreResponseAsync(id);
         }
 
-        public async Task MoveMailsAsync(IEnumerable<long> uids, string destination) {
+        public async Task MoveMailsAsync(ICollection<long> uids, string destination) {
             var uidString = uids.ToCommaSeparatedValues();
             if (string.IsNullOrWhiteSpace(destination)) {
                 return;
@@ -103,6 +103,7 @@ namespace Crystalbyte.Paranoia.Mail {
                 command = string.Format("UID COPY {0} \"{1}\"", uidString, encodedName);
                 id = await _connection.WriteCommandAsync(command);
                 await ReadCopyResponseAsync(id);
+                await DeleteMailsAsync(uids);
             }
         }
 
@@ -189,10 +190,11 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         private void HandlePushNotification(ImapResponseLine line) {
-            if (line.Text.Contains(ImapResponses.Exists)) {
-                OnMessageReceived(EventArgs.Empty);
-                Exists = int.Parse(Regex.Match(line.Text, "[0-9]+").Value);
-            }
+            if (!line.Text.Contains(ImapResponses.Exists)) 
+                return;
+
+            OnMessageReceived(EventArgs.Empty);
+            Exists = int.Parse(Regex.Match(line.Text, "[0-9]+").Value);
         }
 
         public async Task StopIdleAsync() {
@@ -245,10 +247,11 @@ namespace Crystalbyte.Paranoia.Mail {
                 }
 
                 var items = line.Split(':');
-                if (items.Length > 1) {
-                    key = items[0];
-                    value = items[1];
-                }
+                if (items.Length <= 1) 
+                    continue;
+
+                key = items[0];
+                value = items[1];
             }
 
             return headers;

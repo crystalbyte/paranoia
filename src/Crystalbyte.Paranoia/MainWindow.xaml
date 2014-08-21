@@ -279,7 +279,10 @@
                                           Visibility="{Binding SelectedAccount,
                                                                Converter={StaticResource NullToVisibilityConverter}}">
                         <ui:MetroCircleButton.ContextMenu>
-                            <ContextMenu x:Name="AccountMenu" StaysOpen="False">
+                            <ContextMenu x:Name="AccountMenu"
+                                         Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                            Metro.NormalTextBrush}}"
+                                         StaysOpen="False">
                                 <MenuItem Command="{Binding ConfigAccountCommand}" InputGestureText="Ctrl+Shift+C">
                                     <MenuItem.Header>
                                         <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Edit}" />

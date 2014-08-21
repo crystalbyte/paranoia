@@ -716,11 +716,12 @@ namespace Crystalbyte.Paranoia {
         internal async Task RestoreMessagesAsync(ICollection<MailMessageContext> messages) {
             try {
                 var inbox = GetInbox();
+                var trash = GetTrash();
                 using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                     using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                         using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
-                            var mailbox = await session.SelectAsync(Name);
-                            await mailbox.MoveMailsAsync(messages.Select(x => x.Uid), inbox.Name);
+                            var mailbox = await session.SelectAsync(trash.Name);
+                            await mailbox.MoveMailsAsync(messages.Select(x => x.Uid).ToArray(), inbox.Name);
                         }
                     }
                 }
@@ -748,6 +749,10 @@ namespace Crystalbyte.Paranoia {
 
                 Logger.Error(ex);
             }
+        }
+
+        private MailboxContext GetTrash() {
+            return _mailboxes.FirstOrDefault(x => x.IsTrash);
         }
     }
 }

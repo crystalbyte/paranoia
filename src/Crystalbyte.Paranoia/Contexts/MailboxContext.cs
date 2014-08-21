@@ -93,7 +93,7 @@ namespace Crystalbyte.Paranoia {
                             if (Type == MailboxType.Trash) {
                                 await mailbox.DeleteMailsAsync(messages.Select(x => x.Uid));
                             } else {
-                                await mailbox.MoveMailsAsync(messages.Select(x => x.Uid), trashFolder);
+                                await mailbox.MoveMailsAsync(messages.Select(x => x.Uid).ToArray(), trashFolder);
                             }
                         }
                     }

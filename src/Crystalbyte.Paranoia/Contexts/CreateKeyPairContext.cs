@@ -15,7 +15,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _createKeyPairCommand;
         private readonly string _benFranklinQuote;
         private readonly string _benFranklin;
-        static private Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public CreateKeyPairContext() {
             _createKeyPairCommand = new RelayCommand(CreateKeyPair);
