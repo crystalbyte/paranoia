@@ -5,10 +5,8 @@
 
     <Style TargetType="ButtonBase">
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="BorderBrush"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBorderBrush}}" />
-        <Setter Property="Background"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBackgroundBrush}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBorderBrush}}" />
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBackgroundBrush}}" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Width" Value="Auto" />
         <Setter Property="Height" Value="Auto" />
@@ -18,8 +16,7 @@
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Foreground"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
@@ -28,34 +25,29 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Padding="{TemplateBinding Padding}">
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground"
-                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
-                <Setter Property="BorderBrush"
-                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="IsPressed" Value="True" />
                     <Condition Property="IsMouseOver" Value="True" />
                 </MultiTrigger.Conditions>
-                <Setter Property="Background"
-                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
+                <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="IsMouseOver" Value="True" />
                     <Condition Property="IsPressed" Value="False" />
                 </MultiTrigger.Conditions>
-                <Setter Property="Background"
-                        Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.HoverBrush}}" />
+                <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.HoverBrush}}" />
             </MultiTrigger>
         </Style.Triggers>
     </Style>
@@ -64,8 +56,7 @@
         <Setter Property="Padding" Value="6,4,6,4" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
     </Style>
 
     <Style x:Key="AppCommandButtonStyle"
@@ -78,11 +69,10 @@
         <Setter Property="Height" Value="24" />
     </Style>
 
-    <Style
-        x:Key="{ComponentResourceKey {x:Type properties:Resources},
+    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
                                         StatusBarButtonStyle}"
-        BasedOn="{StaticResource {x:Type ButtonBase}}"
-        TargetType="ButtonBase">
+           BasedOn="{StaticResource {x:Type ButtonBase}}"
+           TargetType="ButtonBase">
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent" />
         <Style.Triggers>
@@ -103,11 +93,10 @@
         </Style.Triggers>
     </Style>
 
-    <Style
-        x:Key="{ComponentResourceKey {x:Type properties:Resources},
+    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
                                         MinimizeButtonStyle}"
-        BasedOn="{StaticResource AppCommandButtonStyle}"
-        TargetType="ButtonBase">
+           BasedOn="{StaticResource AppCommandButtonStyle}"
+           TargetType="ButtonBase">
         <Setter Property="Command" Value="{x:Static ui:WindowCommands.Minimize}" />
         <Setter Property="ToolTip" Value="{x:Static properties:Resources.MinimizeCommandTooltip}" />
         <Setter Property="ContentTemplate">
@@ -123,11 +112,10 @@
         </Setter>
     </Style>
 
-    <Style
-        x:Key="{ComponentResourceKey {x:Type properties:Resources},
+    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
                                         MaximizeButtonStyle}"
-        BasedOn="{StaticResource AppCommandButtonStyle}"
-        TargetType="ButtonBase">
+           BasedOn="{StaticResource AppCommandButtonStyle}"
+           TargetType="ButtonBase">
         <Setter Property="Command" Value="{x:Static ui:WindowCommands.Maximize}" />
         <Setter Property="ToolTip" Value="{x:Static properties:Resources.MaximizeCommandTooltip}" />
         <Setter Property="ContentTemplate">
@@ -144,11 +132,10 @@
         </Setter>
     </Style>
 
-    <Style
-        x:Key="{ComponentResourceKey {x:Type properties:Resources},
+    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
                                         RestoreDownButtonStyle}"
-        BasedOn="{StaticResource AppCommandButtonStyle}"
-        TargetType="ButtonBase">
+           BasedOn="{StaticResource AppCommandButtonStyle}"
+           TargetType="ButtonBase">
         <Setter Property="Command" Value="{x:Static ui:WindowCommands.RestoreDown}" />
         <Setter Property="ToolTip" Value="{x:Static properties:Resources.RestoreDownCommandTooltip}" />
         <Setter Property="ContentTemplate">
@@ -165,11 +152,10 @@
         </Setter>
     </Style>
 
-    <Style
-        x:Key="{ComponentResourceKey {x:Type properties:Resources},
+    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
                                         CloseButtonStyle}"
-        BasedOn="{StaticResource AppCommandButtonStyle}"
-        TargetType="ButtonBase">
+           BasedOn="{StaticResource AppCommandButtonStyle}"
+           TargetType="ButtonBase">
         <Setter Property="Command" Value="{x:Static ApplicationCommands.Close}" />
         <Setter Property="ToolTip" Value="{x:Static properties:Resources.CloseCommandTooltip}" />
         <Setter Property="ContentTemplate">
@@ -186,11 +172,10 @@
         </Setter>
     </Style>
 
-    <Style
-        x:Key="{ComponentResourceKey {x:Type properties:Resources},
+    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
                                         HelpButtonStyle}"
-        BasedOn="{StaticResource AppCommandButtonStyle}"
-        TargetType="ButtonBase">
+           BasedOn="{StaticResource AppCommandButtonStyle}"
+           TargetType="ButtonBase">
         <Setter Property="Command" Value="{x:Static ApplicationCommands.Help}" />
         <Setter Property="ContentTemplate">
             <Setter.Value>
@@ -209,13 +194,11 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Foreground"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="MinWidth" Value="100" />
-        <Setter Property="BorderBrush"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
         <Setter Property="Padding" Value="3,4,3,4" />
         <Setter Property="Margin" Value="0,3,3,3" />
         <Setter Property="Template">
@@ -226,8 +209,7 @@
                                 VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                 Background="{TemplateBinding Background}"
                                 Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                         <Rectangle x:Name="Border"
                                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
@@ -257,26 +239,22 @@
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground"
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
-                            <Setter Property="BorderBrush"
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
+                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsPressed" Value="True" />
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background"
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
+                            <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsPressed" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background"
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
+                            <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
 

@@ -739,11 +739,11 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show All Contacts.
+        ///   Looks up a localized string similar to Show All Messages.
         /// </summary>
-        public static string ShowAllContacts {
+        public static string ShowAllMessages {
             get {
-                return ResourceManager.GetString("ShowAllContacts", resourceCulture);
+                return ResourceManager.GetString("ShowAllMessages", resourceCulture);
             }
         }
         

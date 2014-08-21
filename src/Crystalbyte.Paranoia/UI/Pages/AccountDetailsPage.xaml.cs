@@ -72,7 +72,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             _tracker.Stop();
 
             if (_isAccountInTransit) {
-                await account.SaveToDatabaseAsync();
+                await account.SaveAsync();
                 App.Context.NotifyAccountCreated(account);
             }
             else {

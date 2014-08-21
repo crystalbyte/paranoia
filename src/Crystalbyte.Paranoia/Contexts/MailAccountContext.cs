@@ -162,13 +162,10 @@ namespace Crystalbyte.Paranoia {
         public event EventHandler MailboxSelectionChanged;
 
         private async void OnMailboxSelectionChanged() {
-            await HandleMailboxSelectionChangeAsync();
             var handler = MailboxSelectionChanged;
             if (handler != null)
                 handler(this, EventArgs.Empty);
-        }
 
-        private async Task HandleMailboxSelectionChangeAsync() {
             var mailbox = SelectedMailbox;
             if (mailbox == null) {
                 return;
@@ -181,9 +178,9 @@ namespace Crystalbyte.Paranoia {
                 await SelectedMailbox.PrepareManualAssignmentAsync();
             }
 
-            var contact = App.Context.SelectedContact;
-            await mailbox.LoadMessagesForContactAsync(contact);
+            await App.Context.RefreshMessagesAsync();
             await mailbox.SyncMessagesAsync();
+
         }
 
         public MailboxContext SelectedMailbox {
@@ -530,7 +527,7 @@ namespace Crystalbyte.Paranoia {
         }
 
 
-        internal async Task SaveSmtpRequestsToDatabaseAsync(IEnumerable<MailMessage> messages) {
+        internal async Task SaveSmtpRequestsAsync(IEnumerable<MailMessage> messages) {
             using (var database = new DatabaseContext()) {
                 var account = await database.MailAccounts.FindAsync(_account.Id);
 
@@ -549,7 +546,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public async Task SaveToDatabaseAsync() {
+        public async Task SaveAsync() {
             try {
                 AddSystemMailboxes();
                 using (var database = new DatabaseContext()) {

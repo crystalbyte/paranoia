@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
+using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Pages;
@@ -203,6 +204,12 @@ namespace Crystalbyte.Paranoia {
 
         private void OnSelectedAccountChanged(object sender, SelectionChangedEventArgs e) {
             AccountSelectionPopup.IsOpen = false;
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e) {
+            var window =
+                new NotificationWindow(new[] { new MailMessageModel { Subject = "Frühstückseinladung", FromName = "Alexander Wieser", FromAddress = "krasshirsch@gmail.com"} });
+            window.Show();
         }
     }
 }

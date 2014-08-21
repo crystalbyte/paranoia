@@ -44,7 +44,7 @@
     <SolidColorBrush x:Key="Metro.ControlBackgroundBrush" Color="{StaticResource Metro.ControlBackgroundColor}" />
     <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBackgroundBrush}" Color="{StaticResource Metro.ControlBackgroundColor}" />
 
-    <Color x:Key="Metro.ControlBorderColor">#515151</Color>
+    <Color x:Key="Metro.ControlBorderColor">#525252</Color>
     <SolidColorBrush x:Key="Metro.ControlBorderBrush" Color="{StaticResource Metro.ControlBorderColor}" />
     <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBorderBrush}" Color="{StaticResource Metro.ControlBorderColor}" />
 

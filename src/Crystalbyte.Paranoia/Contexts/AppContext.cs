@@ -388,6 +388,10 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
+            await RefreshMessagesAsync();
+        }
+
+        internal async Task RefreshMessagesAsync() {
             if (SelectedContact != null) {
                 IsAllContactsSelected = false;
             }

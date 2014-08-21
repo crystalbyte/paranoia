@@ -20,14 +20,9 @@ namespace Crystalbyte.Paranoia {
             InitializeComponent();
             DataContext = new NotificationWindowContext(mails);
             Loaded += OnLoaded;
-
-            if (!DesignerProperties.GetIsInDesignMode(this)) {
-                Visibility = Visibility.Hidden;
-            }
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
-            Visibility = Visibility.Visible;
             _storyboard.Begin();
         }
 
@@ -35,13 +30,17 @@ namespace Crystalbyte.Paranoia {
             base.OnInitialized(e);
 
             Left = SystemParameters.WorkArea.Width - Width;
-            Top = SystemParameters.WorkArea.Top;
+            Top = SystemParameters.WorkArea.Top + 20;
 
             _storyboard = (Storyboard) Resources["EntryAnimation"];
             _storyboard.Completed += OnStoryboardCompleted;
         }
 
         private void OnStoryboardCompleted(object sender, EventArgs e) {
+            Close();
+        }
+
+        private void OnCloseButtonClicked(object sender, RoutedEventArgs e) {
             Close();
         }
     }

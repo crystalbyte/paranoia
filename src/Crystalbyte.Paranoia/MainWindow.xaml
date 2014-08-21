@@ -402,6 +402,7 @@
                         <Image Width="18" Source="/Assets/add.png" />
                     </ui:MetroCircleButton>
                     <ui:MetroCircleButton Margin="6"
+                                          Click="ButtonBase_OnClick"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
                                           Command="{Binding RefreshKeysCommand}"
@@ -438,7 +439,7 @@
                                                                                     Metro.MediumLargeFontSize}}"
                                    Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                  Metro.ThinTextStyle}}"
-                                   Text="{x:Static properties:Resources.ShowAllContacts}" />
+                                   Text="{x:Static properties:Resources.ShowAllMessages}" />
                     </Border>
 
                 </ToggleButton>
