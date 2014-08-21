@@ -116,7 +116,7 @@ namespace Crystalbyte.Paranoia {
                 IsLoaded = true;
             }
             catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
+                _logger.Error(ex);
                 LastException = ex;
             }
             finally {
