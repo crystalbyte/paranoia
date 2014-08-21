@@ -36,7 +36,7 @@ namespace Crystalbyte.Paranoia {
         private MailboxCandidateContext _selectedCandidate;
         private bool _isLoadingMessage;
         private int _notSeenCount;
-        private static Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
 
         internal MailboxContext(MailAccountContext account, MailboxModel mailbox) {
@@ -111,15 +111,15 @@ namespace Crystalbyte.Paranoia {
                             database.MailMessages.Remove(model);
                         } catch (Exception ex)
                         {
-                            _logger.Error(ex.Message.ToString());
+                            Logger.Error(ex.Message);
                         }
                     }
                     await database.SaveChangesAsync();
                 }
 
-                _account.AppContext.NotifyMessageCountChanged();
+                App.Context.NotifyMessagesRemoved(messages);
             } catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
+                Logger.Error(ex.Message);
             }
         }
 
@@ -172,7 +172,7 @@ namespace Crystalbyte.Paranoia {
                 _mailboxCandidates.AddRange(mailboxes
                     .Select(x => new MailboxCandidateContext(_account, x)));
             } catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
+                Logger.Error(ex.Message);
             } finally {
                 IsListingMailboxes = false;
             }
@@ -311,9 +311,9 @@ namespace Crystalbyte.Paranoia {
 
                                     if (isChallenge && isRelevant) {
                                         try {
-                                            await ProcessChallengeAsync(envelope, headers, mailbox);
+                                            await ProcessChallengeAsync(envelope, mailbox);
                                         } catch (Exception ex) {
-                                            _logger.Error(ex.Message.ToString());
+                                            Logger.Error(ex.Message);
                                         }
                                     }
                                 }
@@ -358,13 +358,13 @@ namespace Crystalbyte.Paranoia {
                 App.Context.NotifyMessagesAdded(contexts);
 
             } catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
+                Logger.Error(ex.Message);
             } finally {
                 IsSyncing = false;
             }
         }
 
-        private async Task ProcessChallengeAsync(ImapEnvelope envelope, HeaderCollection header, ImapMailbox mailbox) {
+        private async Task ProcessChallengeAsync(ImapEnvelope envelope, ImapMailbox mailbox) {
             var body = await mailbox.FetchMessageBodyAsync(envelope.Uid);
             var bytes = Encoding.UTF8.GetBytes(body);
             var message = new MailMessage(bytes);
@@ -446,7 +446,7 @@ namespace Crystalbyte.Paranoia {
                         .ToList());
                 }
             } catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
+                Logger.Error(ex.Message);
             }
         }
 
@@ -473,7 +473,7 @@ namespace Crystalbyte.Paranoia {
                 }
             } catch (Exception ex) {
                 messages.ForEach(x => x.IsSeen = true);
-                _logger.Error(ex.Message.ToString());
+                Logger.Error(ex.Message);
             }
         }
 
@@ -500,7 +500,7 @@ namespace Crystalbyte.Paranoia {
                 }
             } catch (Exception ex) {
                 messages.ForEach(x => x.IsSeen = false);
-                _logger.Error(ex.Message.ToString());
+                Logger.Error(ex.Message);
             }
         }
 
@@ -594,7 +594,7 @@ namespace Crystalbyte.Paranoia {
                     OnAssignmentChanged();
                 }
             } catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
+                Logger.Error(ex.Message);
             }
         }
 
@@ -638,7 +638,7 @@ namespace Crystalbyte.Paranoia {
 
                 await CountNotSeenAsync();
             } catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
+                Logger.Error(ex.Message);
             }
         }
 
@@ -667,7 +667,7 @@ namespace Crystalbyte.Paranoia {
                     await database.SaveChangesAsync();
                 }
             } catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
+                Logger.Error(ex.Message);
             }
         }
 
@@ -692,10 +692,8 @@ namespace Crystalbyte.Paranoia {
 
                 await CountNotSeenAsync();
             } catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
+                Logger.Error(ex.Message);
             }
         }
-
-        
     }
 }

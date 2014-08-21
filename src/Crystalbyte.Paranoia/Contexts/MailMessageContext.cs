@@ -210,8 +210,6 @@ namespace Crystalbyte.Paranoia {
                     await context.SaveChangesAsync();
                 }
                 return mime;
-            } catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
             } finally {
                 DecrementLoad();
             }

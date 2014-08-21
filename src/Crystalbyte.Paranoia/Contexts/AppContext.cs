@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Composition;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -65,7 +64,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _deleteContactCommand;
         private readonly ICommand _refreshKeysCommand;
         private bool _isAllContactsSelected;
-        private static Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -152,7 +151,7 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
             } catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
+                Logger.Error(ex.Message);
             } finally {
                 StatusText = Resources.ReadyStatus;
             }
@@ -173,11 +172,11 @@ namespace Crystalbyte.Paranoia {
                     await database.SaveChangesAsync();
                 }
             } catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
+                Logger.Error(ex.Message);
             }
         }
 
-        private async Task<KeyCollection> DownloadKeysForContactAsync(MailContactModel contact, WebClient client) {
+        private static async Task<KeyCollection> DownloadKeysForContactAsync(MailContactModel contact, WebClient client) {
             var server = Settings.Default.KeyServer;
             var address = string.Format("{0}/keys?email={1}", server, contact.Address);
 
@@ -218,7 +217,7 @@ namespace Crystalbyte.Paranoia {
                     SelectedAccount = Accounts.First();
                 }
             } catch (Exception ex) {
-                _logger.Error(ex.Message.ToString());
+                Logger.Error(ex.Message);
             }
         }
 
@@ -572,7 +571,7 @@ namespace Crystalbyte.Paranoia {
 
         #endregion
 
-        private async void OnQueryReceived(string text) {
+        private void OnQueryReceived(string text) {
             throw new NotImplementedException();
         }
 

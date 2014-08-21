@@ -494,9 +494,10 @@ namespace Crystalbyte.Paranoia {
             } catch (Exception ex) {
                 Testing = new TestingContext {
                     IsFaulted = true,
-                    Message = ex.Message;
-                    _logger.Error(ex.Message.ToString());
+                    Message = ex.Message,
                 };
+
+                _logger.Error(ex.Message);
             }
         }
 
@@ -514,9 +515,9 @@ namespace Crystalbyte.Paranoia {
             } catch (Exception ex) {
                 Testing = new TestingContext {
                     IsFaulted = true,
-                    Message = ex.Message;
-                    _logger.Error(ex.Message.ToString());
+                    Message = ex.Message
                 };
+                _logger.Error(ex.Message);
             }
         }
 
