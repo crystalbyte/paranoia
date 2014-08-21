@@ -154,6 +154,7 @@
     <Compile Include="Contexts\MailMessageContext.cs" />
     <Compile Include="Contexts\MailAccountContext.cs" />
     <Compile Include="Data\SmtpRequestModel.cs" />
+    <Compile Include="MessageType.cs" />
     <Compile Include="Net\AddressKeyPair.cs" />
     <Compile Include="Net\ChallengeResponse.cs" />
     <Compile Include="Net\KeyCollection.cs" />

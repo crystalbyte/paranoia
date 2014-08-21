@@ -744,8 +744,13 @@ namespace Crystalbyte.Paranoia {
             await RefreshContactStatisticsAsync(contacts);
         }
 
-        internal async void NotifyMessagesAdded(IEnumerable<MailMessageContext> messages) {
-            _messages.AddRange(messages);
+        internal async void NotifyMessagesAdded(ICollection<MailMessageContext> messages) {
+            if (messages.Any()) {
+                var first = messages.First();
+                if (first.Mailbox.IsSelected) {
+                    _messages.AddRange(messages);        
+                }
+            }
             await RefreshContactStatisticsAsync();
         }
 

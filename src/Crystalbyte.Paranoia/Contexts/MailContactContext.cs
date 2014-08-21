@@ -45,6 +45,7 @@ namespace Crystalbyte.Paranoia {
 
             using (var context = new DatabaseContext()) {
                 MessageCount = await context.MailMessages
+                    .Where(x => x.Type == MailType.Message)
                     .Where(x => x.FromAddress == Address)
                     .Where(x => x.Mailbox.AccountId == account.Id)
                     .CountAsync();
@@ -71,6 +72,7 @@ namespace Crystalbyte.Paranoia {
 
             using (var context = new DatabaseContext()) {
                 NotSeenCount = await context.MailMessages
+                    .Where(x => x.Type == MailType.Message)
                     .Where(x => x.FromAddress == Address)
                     .Where(x => x.Mailbox.AccountId == account.Id)
                     .Where(x => !x.Flags.Contains(MailboxFlags.Seen))

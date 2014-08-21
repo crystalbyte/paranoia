@@ -52,6 +52,9 @@ namespace Crystalbyte.Paranoia.Data {
         [Collate(CollatingSequence.NoCase)]
         public string FromAddress { get; set; }
 
+        [Column("type")]
+        public MailType Type { get; set; }
+
         [Column("mailbox_id")]
         [ForeignKey("Mailbox")]
         public Int64 MailboxId { get; set; }

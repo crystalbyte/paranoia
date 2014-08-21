@@ -295,14 +295,14 @@ namespace Crystalbyte.Paranoia {
                             }
 
                             foreach (var envelope in envelopes) {
+                                var isChallenge = false;
                                 var responses = await mailbox.FetchHeadersAsync(new[] { envelope.Uid });
                                 if (responses.ContainsKey(envelope.Uid)) {
                                     var headers = responses[envelope.Uid];
-                                    var isChallenge = headers.ContainsKey(ParanoiaHeaderKeys.Challenge);
+                                    isChallenge = headers.ContainsKey(ParanoiaHeaderKeys.Challenge);
                                     var isRelevant = envelope.InternalDate.HasValue
-                                                     &&
-                                                     (DateTime.Now - envelope.InternalDate.Value) <
-                                                     TimeSpan.FromHours(1);
+                                        && (DateTime.Now - envelope.InternalDate.Value) 
+                                            < TimeSpan.FromHours(1);
 
                                     if (isChallenge && isRelevant) {
                                         try {
@@ -310,7 +310,6 @@ namespace Crystalbyte.Paranoia {
                                         } catch (Exception ex) {
                                             Debug.WriteLine(ex.Message);
                                         }
-                                        continue;
                                     }
                                 }
 
@@ -328,7 +327,10 @@ namespace Crystalbyte.Paranoia {
                                         : string.Empty,
                                     FromName = envelope.From.Any()
                                         ? envelope.From.First().DisplayName
-                                        : string.Empty
+                                        : string.Empty,
+                                    Type = isChallenge
+                                        ? MailType.Challenge
+                                        : MailType.Message
                                 };
 
                                 messages.Add(message);
@@ -340,7 +342,7 @@ namespace Crystalbyte.Paranoia {
                 await SaveContactsAsync(messages);
                 await SaveMessagesAsync(messages);
 
-                var contexts = messages
+                var contexts = messages.Where(x => x.Type == MailType.Message)
                     .Select(x => new MailMessageContext(this, x)).ToArray();
 
                 if (IsInbox && contexts.Length > 0) {
@@ -348,9 +350,8 @@ namespace Crystalbyte.Paranoia {
                     notification.Show();
                 }
 
-                if (IsSelected) {
-                    App.Context.NotifyMessagesAdded(contexts);
-                }
+                App.Context.NotifyMessagesAdded(contexts);
+
             } catch (Exception ex) {
                 Debug.WriteLine(ex.Message);
             } finally {
@@ -507,6 +508,7 @@ namespace Crystalbyte.Paranoia {
 
             using (var context = new DatabaseContext()) {
                 NotSeenCount = await context.MailMessages
+                    .Where(x => x.Type == MailType.Message)
                     .Where(x => x.MailboxId == _mailbox.Id)
                     .Where(x => x.FromAddress == contact.Address)
                     .Where(x => !x.Flags.Contains(MailboxFlags.Seen))
@@ -516,8 +518,8 @@ namespace Crystalbyte.Paranoia {
 
         private async Task SaveMessagesAsync(IEnumerable<MailMessageModel> messages) {
             using (var context = new DatabaseContext()) {
-                context.Mailboxes.Attach(_mailbox);
-                _mailbox.Messages.AddRange(messages);
+                var mailbox = await context.Mailboxes.FindAsync(_mailbox.Id);
+                mailbox.Messages.AddRange(messages);
                 await context.SaveChangesAsync();
             }
         }
@@ -615,6 +617,7 @@ namespace Crystalbyte.Paranoia {
                 IEnumerable<MailMessageModel> messages;
                 using (var context = new DatabaseContext()) {
                     messages = await context.MailMessages
+                        .Where(x => x.Type == MailType.Message)
                         .Where(x => x.MailboxId == _mailbox.Id)
                         .Where(x => x.FromAddress == contact.Address)
                         .ToArrayAsync();
@@ -669,6 +672,7 @@ namespace Crystalbyte.Paranoia {
                 IEnumerable<MailMessageModel> messages;
                 using (var context = new DatabaseContext()) {
                     messages = await context.MailMessages
+                        .Where(x => x.Type == MailType.Message)
                         .Where(x => x.MailboxId == _mailbox.Id)
                         .ToArrayAsync();
                 }
@@ -685,10 +689,6 @@ namespace Crystalbyte.Paranoia {
             } catch (Exception ex) {
                 throw;
             }
-        }
-
-        internal void FocusMessage(MailMessageModel message) {
-            IsSelected = true;
         }
     }
 }
