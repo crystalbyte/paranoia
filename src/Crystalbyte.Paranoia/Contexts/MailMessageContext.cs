@@ -92,7 +92,7 @@ namespace Crystalbyte.Paranoia {
                     await context.SaveChangesAsync();
                 }
             } catch (Exception ex) {
-                Logger.Error(ex.ToString());
+                Logger.Error(ex);
             }
         }
 
@@ -128,7 +128,7 @@ namespace Crystalbyte.Paranoia {
                     return message != null ? message.Data : string.Empty;
                 }
             } catch (Exception ex) {
-                Logger.Error(ex.ToString());
+                Logger.Error(ex);
                 throw;
             } finally {
                 DecrementLoad();

@@ -6,7 +6,7 @@ using NLog;
 namespace Crystalbyte.Paranoia.UI.Commands {
     public sealed class RestoreMessageCommand : ICommand {
         private readonly MailAccountContext _account;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         public RestoreMessageCommand(MailAccountContext account) {
             _account = account;
@@ -33,7 +33,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
                 await _account.RestoreMessagesAsync(messages);        
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                _logger.Error(ex);
             }
         }
     }
