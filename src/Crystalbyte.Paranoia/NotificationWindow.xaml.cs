@@ -2,13 +2,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-using Crystalbyte.Paranoia.Data;
 
 #endregion
 
@@ -20,9 +18,13 @@ namespace Crystalbyte.Paranoia {
         private readonly IEnumerable<MailMessageContext> _messages;
         private Storyboard _entryStoryboard;
         private Storyboard _exitStoryboard;
+        private readonly AudioPlayer _audioPlayer;
 
         public NotificationWindow(ICollection<MailMessageContext> messages) {
             _messages = messages;
+
+            var stream = LoadSoundStream();
+            _audioPlayer = new AudioPlayer(stream) { Volume = .8f };
 
             InitializeComponent();
             DataContext = new NotificationWindowContext(messages);
@@ -31,6 +33,7 @@ namespace Crystalbyte.Paranoia {
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
             _entryStoryboard.Begin();
+            _audioPlayer.Play();
         }
 
         protected override void OnInitialized(EventArgs e) {
@@ -39,11 +42,28 @@ namespace Crystalbyte.Paranoia {
             Left = SystemParameters.WorkArea.Width - Width;
             Top = SystemParameters.WorkArea.Top + 20;
 
-            _entryStoryboard = (Storyboard) Resources["EntryAnimation"];
+            _entryStoryboard = (Storyboard)Resources["EntryAnimation"];
             _entryStoryboard.Completed += OnEntryStoryboardCompleted;
 
-            _exitStoryboard = (Storyboard) Resources["ExitAnimation"];
+            _exitStoryboard = (Storyboard)Resources["ExitAnimation"];
             _exitStoryboard.Completed += OnExitAnimationCompleted;
+        }
+
+        private static Stream LoadSoundStream() {
+            var info = Application.GetResourceStream(new Uri(@"/Assets/c2_please-answer.ogg", UriKind.Relative));
+            if (info == null) {
+                throw new NullReferenceException("info");
+            }
+            info.Stream.Seek(0, SeekOrigin.Begin);
+            return info.Stream;
+        }
+
+        protected override void OnClosed(EventArgs e) {
+            base.OnClosed(e);
+
+            if (_audioPlayer != null) {
+                _audioPlayer.Dispose();
+            }
         }
 
         private void SlideOut() {
@@ -67,7 +87,7 @@ namespace Crystalbyte.Paranoia {
             SlideOut();
         }
 
-        
+
 
         private void OnExitAnimationCompleted(object sender, EventArgs e) {
             Close();
