@@ -18,7 +18,8 @@ namespace Crystalbyte.Paranoia {
     /// </summary>
     public partial class NotificationWindow {
         private readonly IEnumerable<MailMessageContext> _messages;
-        private Storyboard _storyboard;
+        private Storyboard _entryStoryboard;
+        private Storyboard _exitStoryboard;
 
         public NotificationWindow(ICollection<MailMessageContext> messages) {
             _messages = messages;
@@ -29,7 +30,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
-            _storyboard.Begin();
+            _entryStoryboard.Begin();
         }
 
         protected override void OnInitialized(EventArgs e) {
@@ -38,16 +39,23 @@ namespace Crystalbyte.Paranoia {
             Left = SystemParameters.WorkArea.Width - Width;
             Top = SystemParameters.WorkArea.Top + 20;
 
-            _storyboard = (Storyboard) Resources["EntryAnimation"];
-            _storyboard.Completed += OnStoryboardCompleted;
+            _entryStoryboard = (Storyboard) Resources["EntryAnimation"];
+            _entryStoryboard.Completed += OnEntryStoryboardCompleted;
+
+            _exitStoryboard = (Storyboard) Resources["ExitAnimation"];
+            _exitStoryboard.Completed += OnExitAnimationCompleted;
         }
 
-        private void OnStoryboardCompleted(object sender, EventArgs e) {
-            Close();
+        private void SlideOut() {
+            _exitStoryboard.Begin();
+        }
+
+        private void OnEntryStoryboardCompleted(object sender, EventArgs e) {
+            SlideOut();
         }
 
         private void OnCloseButtonClicked(object sender, RoutedEventArgs e) {
-            Close();
+            SlideOut();
         }
 
         private void OnWindowMouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
@@ -56,12 +64,13 @@ namespace Crystalbyte.Paranoia {
             }
 
             App.Context.ShowMessage(_messages.First());
-            Close();
+            SlideOut();
         }
 
-        private void OnMediaElementMediaOpened(object sender, RoutedEventArgs e) {
-            var element = (MediaElement) sender;
-            element.Play();
+        
+
+        private void OnExitAnimationCompleted(object sender, EventArgs e) {
+            Close();
         }
     }
 }

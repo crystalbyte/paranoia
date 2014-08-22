@@ -9,6 +9,7 @@
         Background="Transparent"
         MouseLeftButtonUp="OnWindowMouseLeftButtonUp"
         ShowInTaskbar="False"
+        Topmost="True"
         WindowStyle="None">
     <Window.Resources>
         <Storyboard x:Key="EntryAnimation">
@@ -19,9 +20,19 @@
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="385" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
                     <EasingDoubleKeyFrame.EasingFunction>
                         <CubicEase EasingMode="EaseInOut" />
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="ExitAnimation">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="400">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseIn" />
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
@@ -36,7 +47,6 @@
                 <TranslateTransform />
             </TransformGroup>
         </Grid.RenderTransform>
-
         <Border Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                    Metro.MenuBackgroundBrush}}"
                 BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -88,8 +98,6 @@
                         Width="26"
                         Height="26"
                         VerticalAlignment="Top"
-                        Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                           Metro.MenuBackgroundBrush}}"
                         BorderThickness="0"
                         Click="OnCloseButtonClicked"
                         Padding="0">

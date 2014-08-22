@@ -20,7 +20,6 @@ using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
 using Newtonsoft.Json;
 using NLog;
-using System.Reactive.Linq;
 
 #endregion
 
