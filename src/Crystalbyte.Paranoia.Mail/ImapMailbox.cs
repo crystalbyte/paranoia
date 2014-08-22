@@ -32,12 +32,12 @@ namespace Crystalbyte.Paranoia.Mail {
             _flags = new List<string>();
         }
 
-        public event EventHandler MessageReceived;
+        public event EventHandler ChangeNotificationReceived;
 
-        public void OnMessageReceived(EventArgs e) {
-            var handler = MessageReceived;
-            if (handler != null)
-                handler(this, e);
+        private void OnChangeNotificationReceived() {
+            var handler = ChangeNotificationReceived;
+            if (handler != null) 
+                handler(this, EventArgs.Empty);
         }
 
         public event EventHandler<ProgressChangedEventArgs> ProgressChanged;
@@ -160,7 +160,6 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         /// <summary>
-        ///     This method is blocking.
         ///     The IDLE command may be used with any IMAP4 server implementation
         ///     that returns "IDLE" as one of the supported capabilities to the
         ///     CAPABILITY command.  If the server does not advertise the IDLE
@@ -168,7 +167,7 @@ namespace Crystalbyte.Paranoia.Mail {
         ///     for mailbox updates.
         ///     http://tools.ietf.org/html/rfc2177
         /// </summary>
-        public async void Idle() {
+        public async Task IdleAsync() {
             if (!_connection.Capabilities.Contains(ImapCommands.Idle)) {
                 throw new NotSupportedException(Resources.NotSupportedImapCommandMessage);
             }
@@ -182,19 +181,9 @@ namespace Crystalbyte.Paranoia.Mail {
             }
 
             while (true) {
-                var line = await _connection.ReadAsync();
-                if (line.IsUntagged) {
-                    HandlePushNotification(line);
-                }
+                await _connection.ReadAsync();
+                OnChangeNotificationReceived();
             }
-        }
-
-        private void HandlePushNotification(ImapResponseLine line) {
-            if (!line.Text.Contains(ImapResponses.Exists)) 
-                return;
-
-            OnMessageReceived(EventArgs.Empty);
-            Exists = int.Parse(Regex.Match(line.Text, "[0-9]+").Value);
         }
 
         public async Task StopIdleAsync() {

@@ -645,11 +645,11 @@ namespace Crystalbyte.Paranoia {
         public async Task RunAsync() {
             await LoadAccountsAsync();
             await LoadContactsAsync();
+
+            IsAllContactsSelected = true;
             SelectedAccount = Accounts.FirstOrDefault();
             if (SelectedAccount != null)
                 SelectedAccount.IsSelected = true;
-
-            IsAllContactsSelected = true;
 
             _outboxTimer.Start();
         }

@@ -62,7 +62,7 @@
     <SolidColorBrush x:Key="Metro.NormalTextBrush" Color="{StaticResource Metro.NormalTextColor}" />
     <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}" Color="{StaticResource Metro.NormalTextColor}" />
 
-    <Color x:Key="Metro.SecondaryTextColor">#A3A3A3</Color>
+    <Color x:Key="Metro.SecondaryTextColor">DimGray</Color>
     <SolidColorBrush x:Key="Metro.SecondaryTextBrush" Color="{StaticResource Metro.SecondaryTextColor}" />
     <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}" Color="{StaticResource Metro.SecondaryTextColor}" />
 

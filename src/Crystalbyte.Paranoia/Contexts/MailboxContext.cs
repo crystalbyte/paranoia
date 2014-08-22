@@ -20,6 +20,7 @@ using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
 using Newtonsoft.Json;
 using NLog;
+using System.Reactive.Linq;
 
 #endregion
 
@@ -37,7 +38,6 @@ namespace Crystalbyte.Paranoia {
         private bool _isLoadingMessage;
         private int _notSeenCount;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
 
         internal MailboxContext(MailAccountContext account, MailboxModel mailbox) {
             _account = account;
@@ -109,8 +109,7 @@ namespace Crystalbyte.Paranoia {
 
                             database.MailMessages.Attach(model);
                             database.MailMessages.Remove(model);
-                        } catch (Exception ex)
-                        {
+                        } catch (Exception ex) {
                             Logger.Error(ex);
                         }
                     }
@@ -306,7 +305,7 @@ namespace Crystalbyte.Paranoia {
                                     var headers = responses[envelope.Uid];
                                     isChallenge = headers.ContainsKey(ParanoiaHeaderKeys.Challenge);
                                     var isRelevant = envelope.InternalDate.HasValue
-                                        && (DateTime.Now - envelope.InternalDate.Value) 
+                                        && (DateTime.Now - envelope.InternalDate.Value)
                                             < TimeSpan.FromHours(1);
 
                                     if (isChallenge && isRelevant) {
@@ -642,6 +641,37 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        internal async void IdleAsync() {
+            try {
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+                    connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
+                    using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+                        using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+                            var mailbox = await session.SelectAsync(Name);
+                            try {
+                                mailbox.ChangeNotificationReceived += OnChangeNotificationReceived;
+                                await mailbox.IdleAsync();
+                            }
+                            finally {
+                                mailbox.ChangeNotificationReceived -= OnChangeNotificationReceived;
+                            }
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private async void OnChangeNotificationReceived(object sender, EventArgs e) {
+            try {
+                await SyncMessagesAsync();
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
         internal async Task DeleteAsync() {
             try {
                 using (var database = new DatabaseContext()) {
@@ -672,7 +702,6 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task LoadMessagesAsync() {
-
             try {
                 IEnumerable<MailMessageModel> messages;
                 using (var context = new DatabaseContext()) {

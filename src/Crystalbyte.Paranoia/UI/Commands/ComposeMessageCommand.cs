@@ -1,7 +1,9 @@
 ﻿#region Using directives
 
 using System;
+using System.Diagnostics;
 using System.Windows.Input;
+using NLog;
 
 #endregion
 
@@ -10,6 +12,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         #region Private Fields
 
         private readonly AppContext _app;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -27,7 +30,12 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public void Execute(object parameter) {
-            _app.OnComposeMessage();
+            try {
+                _app.OnComposeMessage();
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         public event EventHandler CanExecuteChanged;
