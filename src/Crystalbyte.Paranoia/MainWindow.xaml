@@ -1404,6 +1404,8 @@
                         Content="{Binding Zoom,
                                           Mode=OneWay,
                                           Converter={StaticResource PercentageFormatter}}"
+                        Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                           Metro.NormalTextBrush}}"
                         IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
                         Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},

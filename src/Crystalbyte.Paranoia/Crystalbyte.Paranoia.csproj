@@ -493,6 +493,7 @@
     <Resource Include="Assets\ok.png" />
     <Resource Include="Assets\cancel.png" />
     <Resource Include="Assets\refresh.png" />
+    <Resource Include="Assets\c2_please-answer.mp3" />
     <Content Include="x86\avcodec-53.dll" />
     <Content Include="x86\avformat-53.dll" />
     <Content Include="x86\avutil-51.dll" />
