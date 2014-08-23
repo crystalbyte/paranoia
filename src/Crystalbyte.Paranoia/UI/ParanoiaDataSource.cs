@@ -48,7 +48,8 @@ namespace Crystalbyte.Paranoia.UI {
         private void SendComposeAsNewResponse(DataSourceRequest request) {
             var variables = new Dictionary<string, string>() {
                 {"content", string.Empty},
-                {"current_dir", string.Format("file://{0}", Environment.CurrentDirectory.Replace(@"\", "/")) }
+                //{"current_dir", string.Format("file://{0}", Environment.CurrentDirectory.Replace(@"\", "/")) }
+                {"current_dir", string.Empty},
             };
             var html = GenerateEditorHtml(variables);
 
@@ -87,7 +88,7 @@ namespace Crystalbyte.Paranoia.UI {
             var mime = await LoadMessageContentAsync(Int64.Parse(id));
 
             var mimeBytes = Encoding.UTF8.GetBytes(mime);
-            var message = new MailMessage(mimeBytes);
+            var message = new MailMessageReader(mimeBytes);
 
             var content = message.FindFirstHtmlVersion() ?? message.FindFirstPlainTextVersion();
             if (content == null) {

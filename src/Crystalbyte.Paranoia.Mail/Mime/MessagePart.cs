@@ -18,7 +18,7 @@ namespace Crystalbyte.Paranoia.Mail.Mime {
     ///     <b>Email messages are tree structures</b>:<br />
     ///     Email messages may contain large tree structures, and the MessagePart are the nodes of the this structure.<br />
     ///     A MessagePart may either be a leaf in the structure or a internal node with links to other MessageParts.<br />
-    ///     The root of the message tree is the <see cref="MailMessage" /> class.<br />
+    ///     The root of the message tree is the <see cref="MailMessageReader" /> class.<br />
     ///     <br />
     ///     <b>Leafs</b>:<br />
     ///     If a MessagePart is a leaf, the part is not a <see cref="IsMultiPart">MultiPart</see> message.<br />

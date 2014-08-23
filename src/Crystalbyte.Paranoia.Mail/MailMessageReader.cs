@@ -22,12 +22,12 @@ namespace Crystalbyte.Paranoia.Mail {
     ///     - Message-ID</code>
     ///     which are located in the <see cref="Headers" /> property.<br />
     ///     <br />
-    ///     Use the <see cref="MailMessage.MessagePart" /> property to find the actual content of the email message.
+    ///     Use the <see cref="MailMessageReader.MessagePart" /> property to find the actual content of the email message.
     /// </summary>
     /// <example>
     ///     Examples are available on the <a href="http://hpop.sourceforge.net/">project homepage</a>.
     /// </example>
-    public class MailMessage {
+    public class MailMessageReader {
         #region Public properties
 
         /// <summary>
@@ -53,12 +53,12 @@ namespace Crystalbyte.Paranoia.Mail {
         #region Constructors
 
         /// <summary>
-        ///     Convenience constructor for <see cref="MailMessage" />.<br />
+        ///     Convenience constructor for <see cref="MailMessageReader" />.<br />
         ///     <br />
         ///     Creates a message from a byte array. The full message including its body is parsed.
         /// </summary>
         /// <param name="rawMessageContent"> The byte array which is the message contents to parse </param>
-        public MailMessage(byte[] rawMessageContent)
+        public MailMessageReader(byte[] rawMessageContent)
             : this(rawMessageContent, true) { }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Crystalbyte.Paranoia.Mail {
         ///         name="rawMessageContent" />
         ///     byte array
         /// </param>
-        public MailMessage(byte[] rawMessageContent, bool parseBody) {
+        public MailMessageReader(byte[] rawMessageContent, bool parseBody) {
             RawMessage = rawMessageContent;
 
             // Find the headers and the body parts of the byte array
@@ -140,7 +140,7 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         /// <summary>
-        ///     Finds the first <see cref="MessagePart" /> in the <see cref="MailMessage" /> hierarchy with the given MediaType.
+        ///     Finds the first <see cref="MessagePart" /> in the <see cref="MailMessageReader" /> hierarchy with the given MediaType.
         ///     <br />
         ///     <br />
         ///     The search in the hierarchy is a depth-first traversal.
@@ -157,7 +157,7 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         /// <summary>
-        ///     Finds all the <see cref="MessagePart" />s in the <see cref="MailMessage" /> hierarchy with the given MediaType.
+        ///     Finds all the <see cref="MessagePart" />s in the <see cref="MailMessageReader" /> hierarchy with the given MediaType.
         /// </summary>
         /// <param name="mediaType"> The MediaType to search for. Case is ignored. </param>
         /// <returns>
@@ -167,7 +167,7 @@ namespace Crystalbyte.Paranoia.Mail {
         ///     s were found. <br /> The order of the elements in the list is the order which they are found using a depth first
         ///     traversal of the
         ///     <see
-        ///         cref="MailMessage" />
+        ///         cref="MailMessageReader" />
         ///     hierarchy.
         /// </returns>
         public List<MessagePart> FindAllMessagePartsWithMediaType(string mediaType) {
@@ -179,11 +179,11 @@ namespace Crystalbyte.Paranoia.Mail {
         #region Message Persistence
 
         /// <summary>
-        ///     Save this <see cref="MailMessage" /> to a file.<br />
+        ///     Save this <see cref="MailMessageReader" /> to a file.<br />
         ///     <br />
         ///     Can be loaded at a later time using the <see cref="Load(FileInfo)" /> method.
         /// </summary>
-        /// <param name="file"> The File location to save the <see cref="MailMessage" /> to. Existent files will be overwritten. </param>
+        /// <param name="file"> The File location to save the <see cref="MailMessageReader" /> to. Existent files will be overwritten. </param>
         /// <exception cref="ArgumentNullException">
         ///     If
         ///     <paramref name="file" />
@@ -205,7 +205,7 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         /// <summary>
-        ///     Save this <see cref="MailMessage" /> to a stream.<br />
+        ///     Save this <see cref="MailMessageReader" /> to a stream.<br />
         /// </summary>
         /// <param name="messageStream"> The stream to write to </param>
         /// <exception cref="ArgumentNullException">
@@ -227,9 +227,9 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         /// <summary>
-        ///     Loads a <see cref="MailMessage" /> from a file containing a raw email.
+        ///     Loads a <see cref="MailMessageReader" /> from a file containing a raw email.
         /// </summary>
-        /// <param name="file"> The File location to load the <see cref="MailMessage" /> from. The file must exist. </param>
+        /// <param name="file"> The File location to load the <see cref="MailMessageReader" /> from. The file must exist. </param>
         /// <exception cref="ArgumentNullException">
         ///     If
         ///     <paramref name="file" />
@@ -246,8 +246,8 @@ namespace Crystalbyte.Paranoia.Mail {
         ///     <see cref="FileStream" />
         ///     might be thrown as well
         /// </exception>
-        /// <returns> A <see cref="MailMessage" /> with the content loaded from the <paramref name="file" /> </returns>
-        public static MailMessage Load(FileInfo file) {
+        /// <returns> A <see cref="MailMessageReader" /> with the content loaded from the <paramref name="file" /> </returns>
+        public static MailMessageReader Load(FileInfo file) {
             if (file == null)
                 throw new ArgumentNullException("file");
 
@@ -260,9 +260,9 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         /// <summary>
-        ///     Loads a <see cref="MailMessage" /> from a <see cref="Stream" /> containing a raw email.
+        ///     Loads a <see cref="MailMessageReader" /> from a <see cref="Stream" /> containing a raw email.
         /// </summary>
-        /// <param name="messageStream"> The <see cref="Stream" /> from which to load the raw <see cref="MailMessage" /> </param>
+        /// <param name="messageStream"> The <see cref="Stream" /> from which to load the raw <see cref="MailMessageReader" /> </param>
         /// <exception cref="ArgumentNullException">
         ///     If
         ///     <paramref name="messageStream" />
@@ -274,15 +274,15 @@ namespace Crystalbyte.Paranoia.Mail {
         ///     <see cref="Stream.Read" />
         ///     might be thrown as well
         /// </exception>
-        /// <returns> A <see cref="MailMessage" /> with the content loaded from the <paramref name="messageStream" /> </returns>
-        public static MailMessage Load(Stream messageStream) {
+        /// <returns> A <see cref="MailMessageReader" /> with the content loaded from the <paramref name="messageStream" /> </returns>
+        public static MailMessageReader Load(Stream messageStream) {
             if (messageStream == null)
                 throw new ArgumentNullException("messageStream");
 
             using (var outStream = new MemoryStream()) {
                 messageStream.CopyTo(outStream);
                 var content = outStream.ToArray();
-                return new MailMessage(content);
+                return new MailMessageReader(content);
             }
         }
 

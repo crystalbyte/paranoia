@@ -93,7 +93,7 @@
     <Compile Include="Mime\Header\MessageHeader.cs" />
     <Compile Include="Mime\Header\Received.cs" />
     <Compile Include="Mime\Header\RfcMailAddress.cs" />
-    <Compile Include="MailMessage.cs" />
+    <Compile Include="MailMessageReader.cs" />
     <Compile Include="Mime\MessagePart.cs" />
     <Compile Include="Mime\Traverse\AnswerMessageTraverser.cs" />
     <Compile Include="Mime\Traverse\AttachmentFinder.cs" />
