@@ -18,30 +18,25 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CKEditorDotNet
-{
+namespace CKEditorDotNet {
     // ReSharper disable once InconsistentNaming
     [ComVisible(true)]
-    public partial class CKEditor : INotifyPropertyChanged
-    {
+    public partial class CKEditor : INotifyPropertyChanged {
 
         //private readonly EditorObjectForScripting _objectForScripting;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged(PropertyChangedEventArgs e)
-        {
+        private void NotifyPropertyChanged(PropertyChangedEventArgs e) {
             var handler = PropertyChanged;
             if (handler != null)
                 PropertyChanged(this, e);
         }
 
         private string _contentHtml;
-        public string ContentHtml
-        {
+        public string ContentHtml {
             get { return _contentHtml; }
-            set
-            {
+            set {
                 if (value == _contentHtml)
                     return;
 
@@ -52,14 +47,11 @@ namespace CKEditorDotNet
         }
 
         private bool _isReadOnly;
-        public bool IsReadOnly
-        {
-            get
-            {
+        public bool IsReadOnly {
+            get {
                 return _isReadOnly;
             }
-            set
-            {
+            set {
                 if (value == _isReadOnly)
                     return;
 
@@ -69,8 +61,7 @@ namespace CKEditorDotNet
             }
         }
 
-        public CKEditor()
-        {
+        public CKEditor() {
             InitializeComponent();
             //_objectForScripting = new EditorObjectForScripting(this);
             EditorBrowser.Loaded += OnEditorBrowserLoaded;
@@ -87,16 +78,18 @@ namespace CKEditorDotNet
             //EditorBrowser.ObjectForScripting = _objectForScripting;
 
             var editorFile = Environment.CurrentDirectory + @"\..\..\..\CKEditorDotNet\Editor.html";
-            if (!File.Exists(editorFile))
-                throw new IOException("editorfile not found\n" + editorFile);
-
+            if (!File.Exists(editorFile)) {
+                editorFile = @"C:\Users\marvin\Documents\GitHub\paranoia\src\CKEditorDotNet\Editor.html";
+                    if(!File.Exists(editorFile))
+                        throw new IOException("editorfile not found\n" + editorFile);
+            }
+                
             var uri = new Uri(editorFile, UriKind.Absolute);
             EditorBrowser.Source = uri;
             Test();
         }
 
-        private void Test()
-        {
+        private void Test() {
             //new Thread(() =>
             //{
             //    Thread.Sleep(3000);
@@ -106,68 +99,56 @@ namespace CKEditorDotNet
             //}).Start();
         }
 
-        private void SetEditorReadonlyState(bool readOnly)
-        {
+        private void SetEditorReadonlyState(bool readOnly) {
             EditorBrowser.ExecuteJavascript(string.Format("setEditorReadonlyState(\"{0}\")", readOnly));
         }
 
         #region EditorCommands
 
-        public void Undo()
-        {
+        public void Undo() {
             ExecuteCommand("undo");
         }
 
-        public void Redo()
-        {
+        public void Redo() {
             ExecuteCommand("redo");
         }
 
-        public void Bold()
-        {
+        public void Bold() {
             ExecuteCommand("bold");
         }
 
-        public void Italic()
-        {
+        public void Italic() {
             ExecuteCommand("italic");
         }
 
-        public void Underline()
-        {
+        public void Underline() {
             ExecuteCommand("underline");
         }
 
-        public void Strike()
-        {
+        public void Strike() {
             ExecuteCommand("strike");
         }
 
-        public void Subscript()
-        {
+        public void Subscript() {
             ExecuteCommand("subscript");
         }
 
-        public void Superscript()
-        {
+        public void Superscript() {
             ExecuteCommand("superscript");
         }
 
-        private void ExecuteCommand(string command)
-        {
+        private void ExecuteCommand(string command) {
             EditorBrowser.ExecuteJavascript(string.Format("execCommand(\"{0}\")", command));
         }
 
-        public void SetHtml(string html)
-        {
+        public void SetHtml(string html) {
             _contentHtml = html;
 
             //if (_objectForScripting.EditorContent != html)
             //    EditorBrowser.InvokeScript("setEditorHtml", new object[] { html });
         }
 
-        public string GetHtml()
-        {
+        public string GetHtml() {
             var html = (string)EditorBrowser.ExecuteJavascriptWithResult("getEditorHtml()");
             return html;
         }
