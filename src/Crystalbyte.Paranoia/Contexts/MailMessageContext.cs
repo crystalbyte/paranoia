@@ -182,9 +182,9 @@ namespace Crystalbyte.Paranoia {
                     using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
                         var folder = await session.SelectAsync(mailbox.Name);
 
-                        folder.ProgressChanged += OnProgressChanged;
+                        folder.ByteCountChanged += OnProgressChanged;
                         var mime = await folder.FetchMessageBodyAsync(Uid);
-                        folder.ProgressChanged -= OnProgressChanged;
+                        folder.ByteCountChanged -= OnProgressChanged;
 
                         return mime;
                     }

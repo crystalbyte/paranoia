@@ -133,6 +133,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The server challenge headers are missing or corrupt..
+        /// </summary>
+        public static string ChallengeCorruptException {
+            get {
+                return ResourceManager.GetString("ChallengeCorruptException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string CloseCommandTooltip {

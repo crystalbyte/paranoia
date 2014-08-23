@@ -87,9 +87,11 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private static Task<SmtpRequestModel[]> GetPendingSmtpRequestsAsync() {
+        private Task<SmtpRequestModel[]> GetPendingSmtpRequestsAsync() {
             using (var database = new DatabaseContext()) {
-                return database.SmtpRequests.ToArrayAsync();
+                return database.SmtpRequests
+                    .Where(x => x.AccountId == _account.Id)
+                    .ToArrayAsync();
             }
         }
 

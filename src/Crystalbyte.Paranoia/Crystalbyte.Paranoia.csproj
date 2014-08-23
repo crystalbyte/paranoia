@@ -164,6 +164,8 @@
     <Compile Include="Contexts\MailMessageContext.cs" />
     <Compile Include="Contexts\MailAccountContext.cs" />
     <Compile Include="Data\SmtpRequestModel.cs" />
+    <Compile Include="ImapEnvelopeExtensions.cs" />
+    <Compile Include="ParanoiaHeaderKeys.cs" />
     <Compile Include="MessageType.cs" />
     <Compile Include="Net\AddressKeyPair.cs" />
     <Compile Include="Net\ChallengeResponse.cs" />
@@ -172,8 +174,6 @@
       <DependentUpon>NotificationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ClientConfig.cs" />
-    <Compile Include="ParanoiaFilenames.cs" />
-    <Compile Include="ParanoiaHeaders.cs" />
     <Compile Include="RevisionTracker.cs" />
     <Compile Include="SecurityMeasure.cs" />
     <Compile Include="UI\Commands\MarkAsNotSeenCommand.cs" />

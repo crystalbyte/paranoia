@@ -419,4 +419,7 @@ Once your password is lost you're screwed.</value>
   <data name="Restore" xml:space="preserve">
     <value>Restore</value>
   </data>
+  <data name="ChallengeCorruptException" xml:space="preserve">
+    <value>The server challenge headers are missing or corrupt.</value>
+  </data>
 </root>

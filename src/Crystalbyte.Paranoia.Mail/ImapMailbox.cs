@@ -41,14 +41,24 @@ namespace Crystalbyte.Paranoia.Mail {
                 handler(this, EventArgs.Empty);
         }
 
-        public event EventHandler<ProgressChangedEventArgs> ProgressChanged;
+        public event EventHandler<ProgressChangedEventArgs> ByteCountChanged;
 
-        private void OnProgressChanged(long byteCount) {
-            var handler = ProgressChanged;
+        private void OnByteCountChanged(long byteCount) {
+            var handler = ByteCountChanged;
             if (handler != null) {
                 handler(this, new ProgressChangedEventArgs(byteCount));
             }
         }
+
+        public event EventHandler<EnvelopeFetchedEventArgs> EnvelopeFetched;
+
+        private void OnSyncProgressChanged(ImapEnvelope envelope) {
+            var handler = EnvelopeFetched;
+            if (handler != null) {
+                handler(this, new EnvelopeFetchedEventArgs(envelope));
+            }
+        }
+
 
         /// <summary>
         ///     The SEARCH command searches the mailbox for messages that match
@@ -254,6 +264,7 @@ namespace Crystalbyte.Paranoia.Mail {
         public long UidValidity { get; internal set; }
         public MailboxPermissions Permissions { get; internal set; }
 
+
         public IEnumerable<string> PermanentFlags {
             get { return _permanentFlags; }
         }
@@ -365,8 +376,8 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         private async Task<IEnumerable<ImapEnvelope>> ReadFetchEnvelopesResponseAsync(string commandId) {
-            var segments = new List<string>();
             var lines = new List<ImapResponseLine> { await _connection.ReadAsync() };
+            var envelopes = new List<ImapEnvelope>();
 
             while (true) {
                 var line = await _connection.ReadAsync();
@@ -376,25 +387,28 @@ namespace Crystalbyte.Paranoia.Mail {
                             await writer.WriteAsync(l.Text);
                             await writer.WriteLineAsync();
                         }
-                        segments.Add(writer.ToString());
+                        ImapEnvelope envelope = null;
+                        try {
+                            envelope = ImapEnvelope.Parse(writer.ToString());
+                            envelopes.Add(envelope);
+                        }
+                        catch (Exception ex) {
+                            Debug.WriteLine(ex);
+                        }
+                        finally {
+                            OnSyncProgressChanged(envelope);
+                        }
                     }
                     lines.Clear();
                 }
+
                 if (line.TerminatesCommand(commandId)) {
                     break;
                 }
 
                 lines.Add(line);
             }
-            var envelopes = new List<ImapEnvelope>();
-            foreach (var segment in segments) {
-                try {
-                    envelopes.Add(ImapEnvelope.Parse(segment));
-                }
-                catch (Exception ex) {
-                    Debug.WriteLine(ex);
-                }   
-            }
+
             return envelopes;
         }
 
@@ -406,12 +420,12 @@ namespace Crystalbyte.Paranoia.Mail {
 
         private async Task<string> ReadMessageBodyResponseAsync(string id) {
             long bytes = 0;
-            OnProgressChanged(bytes);
+            OnByteCountChanged(bytes);
             using (var writer = new StringWriter()) {
                 while (true) {
                     var line = await _connection.ReadAsync();
                     bytes += Encoding.UTF8.GetByteCount(line.Text);
-                    OnProgressChanged(bytes);
+                    OnByteCountChanged(bytes);
                     if (line.IsUntagged) {
                         continue;
                     }
