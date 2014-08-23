@@ -92,7 +92,17 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             var arguments = e.Uri.OriginalString.ToPageArguments();
             if (arguments.ContainsKey("action") && arguments["action"] == "reply") {
                 PrepareAsReply(arguments);
+                return;
             }
+
+            if (arguments.ContainsKey("action") && arguments["action"] == "new") {
+                PrepareAsNew(arguments);
+            }
+        }
+        
+        private void PrepareAsNew(Dictionary<string, string> arguments) {
+            var context = (MailCompositionContext)DataContext;
+            context.Source = "asset://paranoia/message/new";
         }
 
         #endregion

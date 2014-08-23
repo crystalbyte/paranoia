@@ -23,7 +23,7 @@ namespace Crystalbyte.Paranoia {
     public sealed class MailCompositionContext : NotificationObject {
         #region Private Fields
 
-        private string _text;
+        private string _source;
         private string _subject;
         private readonly ObservableCollection<string> _recipients;
         private readonly ObservableCollection<MailContactContext> _suggestions;
@@ -88,14 +88,14 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public string Text {
-            get { return _text; }
+        public string Source {
+            get { return _source; }
             set {
-                if (_text == value) {
+                if (_source == value) {
                     return;
                 }
-                _text = value;
-                RaisePropertyChanged(() => Text);
+                _source = value;
+                RaisePropertyChanged(() => Source);
             }
         }
 
@@ -120,7 +120,7 @@ namespace Crystalbyte.Paranoia {
             var info = Application.GetResourceStream(new Uri("Resources/composition.template.html", UriKind.Relative));
             if (info != null) {
                 using (var reader = new StreamReader(info.Stream)) {
-                    Text = await reader.ReadToEndAsync();
+                    Source = await reader.ReadToEndAsync();
                 }
             }
         }

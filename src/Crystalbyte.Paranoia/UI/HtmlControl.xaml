@@ -38,66 +38,9 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <awe:WebDialogsLayer Focusable="False">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <ItemsControl
-                                    Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                 Metro.MenuBackgroundBrush}}"
-                                    Focusable="false"
-                                    IsTabStop="False"
-                                    KeyboardNavigation.TabNavigation="None"
-                                    Visibility="{TemplateBinding IsReadOnly,
-                                                                           Converter={StaticResource BooleanToVisibilityConverter},
-                                                                           ConverterParameter=!}">
-                                    <ComboBox Width="150"
-                                              Height="22"
-                                              ItemsSource="{StaticResource SafeWebFonts}"
-                                              SelectedValue="{Binding HtmlFont,
-                                                                      RelativeSource={RelativeSource TemplatedParent},
-                                                                      Mode=TwoWay}">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate DataType="FontFamily">
-                                                <TextBlock VerticalAlignment="Center"
-                                                           FontFamily="{Binding}"
-                                                           Text="{Binding}" />
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
-                                    <ComboBox Width="50"
-                                              Height="22"
-                                              Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                 Metro.NormalTextBrush}}"
-                                              IsEditable="True"
-                                              SelectedValue="{Binding HtmlFontSize,
-                                                                      RelativeSource={RelativeSource TemplatedParent},
-                                                                      Mode=TwoWay}">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate DataType="system:Int32">
-                                                <TextBlock FontSize="{Binding}" Text="{Binding}" />
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                        <system:Int32>10</system:Int32>
-                                        <system:Int32>11</system:Int32>
-                                        <system:Int32>12</system:Int32>
-                                        <system:Int32>14</system:Int32>
-                                        <system:Int32>16</system:Int32>
-                                        <system:Int32>18</system:Int32>
-                                        <system:Int32>24</system:Int32>
-                                        <system:Int32>32</system:Int32>
-                                    </ComboBox>
-                                    <Separator />
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                </ItemsControl>
-                                <Border Grid.Row="1" Padding="{TemplateBinding Padding}">
-                                    <awe:WebControl x:Name="PART_WebControl"
-                                                    AdjustToDpi="True"
+                            <Border Grid.Row="1" Padding="{TemplateBinding Padding}">
+                                <awe:WebControl x:Name="PART_WebControl"
+                                                AdjustToDpi="True"
                                                     Background="{TemplateBinding Background}"
                                                     IsTabStop="False"
                                                     IsTransparent="{TemplateBinding IsTransparent}"
@@ -111,8 +54,7 @@
                                                     Zoom="{Binding Zoom,
                                                                    RelativeSource={RelativeSource TemplatedParent},
                                                                    Mode=TwoWay}" />
-                                </Border>
-                            </Grid>
+                            </Border>
                         </awe:WebDialogsLayer>
                     </Border>
                 </ControlTemplate>

@@ -120,7 +120,7 @@
                  Grid.Column="1"
                  Text="{Binding Subject,
                                 Mode=TwoWay}" />
-        <CKE:CKEditor Grid.Row="2"
+        <!--<CKE:CKEditor Grid.Row="2"
                       Grid.Column="0"
                       Grid.ColumnSpan="2"
                       Margin="0,3,0,12"
@@ -128,9 +128,9 @@
                       VerticalAlignment="Stretch"
                       Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                          Metro.ControlBackgroundBrush}}"
-                      Padding="3" />
-        <!--
-            <ui:HtmlControl x:Name="HtmlControl"
+                      Padding="3" />-->
+
+        <ui:HtmlControl x:Name="HtmlControl"
             Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="2"
@@ -141,9 +141,9 @@
             Metro.ControlBackgroundBrush}}"
             IsTransparent="True"
             Padding="3"
-            Source="{Binding Text,
+            Source="{Binding Source,
             Mode=TwoWay}" />
-        -->
+
         <ui:MetroCircleButton Grid.Row="3"
                               Grid.Column="0"
                               HorizontalAlignment="Left"

@@ -1,35 +1,31 @@
 ﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Ho</title>
+    <style>
+        html, body {
+            height: 100%;
+        }
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta charset="utf-8" />
-        <title>Paranoia HTML message template</title>
-        <style>
-            * {
-                background: 0;
-                border: 0;
-                margin: 0;
-                padding: 0;
-            }
-
-            *:focus { outline: none; }
-
-            body {
-                background-color: #222222;
-                color: ghostwhite;
-                font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-            }
-
-            a {
-                color: #1e90ff;
-                text-decoration: none;
-                vertical-align: central;
-            }
-
-            a:hover { text-decoration: underline; }
-        </style>
-    </head>
-    <body>
-        <p id="entry" spellcheck="true" contenteditable="true">Teh txet is ful lof erroes.</p>
-    </body>
+        body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <textarea id="editor1" name="editor1">%CONTENT%</textarea>
+    <script type="text/javascript" src="%CURRENT_DIR%/Resources/jquery/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="%CURRENT_DIR%/Resources/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="%CURRENT_DIR%/Resources/ckeditor/adapters/jquery.js"></script>
+    <script type="text/javascript" src="%CURRENT_DIR%/Resources/ckeditor.paranoia/paranoia.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            alert("ye");
+            start();
+        });
+    </script>
+</body>
 </html>

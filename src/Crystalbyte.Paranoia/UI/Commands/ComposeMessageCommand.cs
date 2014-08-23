@@ -9,6 +9,7 @@ using NLog;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
     public sealed class ComposeMessageCommand : ICommand {
+
         #region Private Fields
 
         private readonly AppContext _app;

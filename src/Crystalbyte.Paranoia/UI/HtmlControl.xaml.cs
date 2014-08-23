@@ -147,7 +147,9 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnWebControlWindowClose(object sender, WindowCloseEventArgs e) {}
 
-        private void OnWebControlShowCreatedWebView(object sender, ShowCreatedWebViewEventArgs e) {}
+        private void OnWebControlShowCreatedWebView(object sender, ShowCreatedWebViewEventArgs e) {
+            
+        }
 
         #endregion
 
@@ -161,7 +163,7 @@ namespace Crystalbyte.Paranoia.UI {
             if (!_webControl.IsDocumentReady)
                 return;
 
-            const string script = "document.getElementById('entry').focus();";
+            const string script = ";";
             _webControl.ExecuteJavascript(script);
         }
 

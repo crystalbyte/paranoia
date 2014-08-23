@@ -674,7 +674,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void OnComposeMessage() {
-            var uri = typeof(ComposeMessagePage).ToPageUri();
+            var uri = typeof(ComposeMessagePage).ToPageUri("?action=new");
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 

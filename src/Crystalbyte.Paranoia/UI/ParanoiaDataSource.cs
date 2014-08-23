@@ -10,22 +10,80 @@ using System.Threading.Tasks;
 using Awesomium.Core.Data;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
+using System.Windows;
+using NLog;
+using Crystalbyte.Paranoia.Properties;
+using System.IO;
+using System.Collections;
+using System.Collections.Generic;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.UI {
     internal sealed class ParanoiaDataSource : DataSource {
-        protected override async void OnRequest(DataSourceRequest request) {
-            if (Regex.IsMatch(request.Path, "message/[0-9]+")) {
-                var id = request.Path.Split('/')[1];
-                await SendHtmlResponseAsync(request, id);
-                return;
-            }
 
-            SendResponse(request, DataSourceResponse.Empty);
+        private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
+
+        protected override async void OnRequest(DataSourceRequest request) {
+            try {
+                if (Regex.IsMatch(request.Path, "message/[0-9]+")) {
+                    var id = request.Path.Split('/')[1];
+                    await SendHtmlResponseAsync(request, id);
+                    return;
+                }
+
+                if (Regex.IsMatch(request.Path, "message/new")) {
+                    SendComposeAsNewResponse(request);
+                    return;
+                }
+
+                SendResponse(request, DataSourceResponse.Empty);
+            }
+            catch (Exception ex) {
+                //TODO: Return 793 - Zombie Apocalypse
+                Logger.Error(ex);
+            }
         }
 
-        private async Task SendHtmlResponseAsync(DataSourceRequest request, string id) {
+        private void SendComposeAsNewResponse(DataSourceRequest request) {
+            var variables = new Dictionary<string, string>() {
+                {"content", string.Empty},
+                {"current_dir", string.Format("file://{0}", Environment.CurrentDirectory.Replace(@"\", "/")) }
+            };
+            var html = GenerateEditorHtml(variables);
+
+            var bytes = Encoding.UTF8.GetBytes(html);
+            SendByteStream(request, bytes);
+        }
+
+        private static string GenerateEditorHtml(IDictionary<string, string> variables) {
+            var uri = new Uri("/Resources/composition.template.html", UriKind.Relative);
+            var info = Application.GetResourceStream(uri);
+            if (info == null) {
+                var error = string.Format(Resources.ResourceNotFoundException, uri, typeof(App).Assembly.FullName);
+                throw new Exception(error);
+            }
+
+            string html = string.Empty;
+            const string pattern = "%.+?%";
+            using (var reader = new StreamReader(info.Stream)) {
+
+                var text = reader.ReadToEnd();
+
+                html = Regex.Replace(text, pattern, m => {
+                    var key = m.Value.Trim('%').ToLower();
+                    if (variables.ContainsKey(key)) {
+                        return variables[key];
+                    }
+
+                    return string.Empty;
+                }, RegexOptions.IgnoreCase);
+            }
+
+            return html;
+        }
+
+        private async Task SendHtmlResponseAsync(DataSourceRequest request, string id, bool isReadOnly = true) {
             var mime = await LoadMessageContentAsync(Int64.Parse(id));
 
             var mimeBytes = Encoding.UTF8.GetBytes(mime);
@@ -37,9 +95,14 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var length = content.Body.Length;
+            SendByteStream(request, content.Body);
+        }
+
+        private void SendByteStream(DataSourceRequest request, byte[] bytes) {
+
+            var length = bytes.Length;
             var handle = Marshal.AllocHGlobal(length);
-            Marshal.Copy(content.Body, 0, handle, length);
+            Marshal.Copy(bytes, 0, handle, length);
 
             SendResponse(request, new DataSourceResponse {
                 Buffer = handle,
