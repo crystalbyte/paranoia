@@ -3,13 +3,13 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
-CKEDITOR.editorConfig = function( config ) {
-    config.width = '99.7%';
-    config.height = '99%';
-	config.disableNativeSpellChecker = false;
-	//config.removePlugins = 'elementspath';
-	config.resize_enabled = false;
-    // Define changes to default configuration here. For example:
-    // config.language = 'fr';
-	config.uiColor = '#96BBD7';
+CKEDITOR.editorConfig = function (config) {
+    config.width = '100%';
+    config.height = '100%';
+    config.disableNativeSpellChecker = false;
+    config.resize_enabled = false;
+    //config.uiColor = 'red';
+    //config.skin = 'office2013';
+    config.skin = 'moono-dark';
+    config.removePlugins = 'elementspath';
 };

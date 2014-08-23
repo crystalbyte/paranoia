@@ -57,13 +57,14 @@
             {
                 instanceReady: function (ev) {
                     resizeEditor();
-                },
-                afterCommandExec: function (ev) {
-                    handleAfterCommandExec(ev);
-                },
-                change: function (ev) {
-                    window.external.TextChanged(CKEDITOR.instances.editor1.getData());
                 }
+                //},
+                //afterCommandExec: function (ev) {
+                //    handleAfterCommandExec(ev);
+                //},
+                //change: function (ev) {
+                //    window.external.TextChanged(CKEDITOR.instances.editor1.getData());
+                //}
 
             },
             toolbar: [
