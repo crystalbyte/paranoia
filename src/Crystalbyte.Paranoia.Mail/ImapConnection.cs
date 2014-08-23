@@ -193,5 +193,9 @@ namespace Crystalbyte.Paranoia.Mail {
                 }
             }
         }
+
+        public bool CanIdle {
+            get { return Capabilities.Contains("IDLE"); }
+        }
     }
 }

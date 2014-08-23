@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -335,21 +336,32 @@ namespace Crystalbyte.Paranoia.Mail {
             var headers = new Dictionary<long, HeaderCollection>();
 
             foreach (var segment in segments) {
-                var key = long.Parse(UidRegex.Match(segment).Value.Split(' ')[1]);
-                var value = ParseHeaders(segment);
-                headers.Add(key, value);
+                try {
+                    var key = long.Parse(UidRegex.Match(segment).Value.Split(' ')[1]);
+                    var value = ParseHeaders(segment);
+                    headers.Add(key, value);
+                }
+                catch (Exception ex) {
+                    Debug.WriteLine(ex);
+                }
             }
 
             return headers;
         }
 
-        public async Task<IEnumerable<ImapEnvelope>> FetchEnvelopesAsync(IEnumerable<int> uids) {
-            var command = string.Format("UID FETCH {0} ALL", uids
-                .Select(x => x.ToString(CultureInfo.InvariantCulture))
-                .Aggregate((c, n) => c + ',' + n));
+        public async Task<IEnumerable<ImapEnvelope>> FetchEnvelopesAsync(ICollection<int> uids) {
 
-            var id = await _connection.WriteCommandAsync(command);
-            return await ReadFetchEnvelopesResponseAsync(id);
+            var envelopes = new List<ImapEnvelope>();
+
+            var badges = uids.Bundle(500);
+            foreach (var command in badges.Select(badge => string.Format("UID FETCH {0} ALL", badge
+                .Select(x => x.ToString(CultureInfo.InvariantCulture))
+                .Aggregate((c, n) => c + ',' + n)))) {
+                var id = await _connection.WriteCommandAsync(command);
+                envelopes.AddRange(await ReadFetchEnvelopesResponseAsync(id));
+            }
+
+            return envelopes;
         }
 
         private async Task<IEnumerable<ImapEnvelope>> ReadFetchEnvelopesResponseAsync(string commandId) {
@@ -374,8 +386,16 @@ namespace Crystalbyte.Paranoia.Mail {
 
                 lines.Add(line);
             }
-
-            return segments.Select(ImapEnvelope.Parse).ToList();
+            var envelopes = new List<ImapEnvelope>();
+            foreach (var segment in segments) {
+                try {
+                    envelopes.Add(ImapEnvelope.Parse(segment));
+                }
+                catch (Exception ex) {
+                    Debug.WriteLine(ex);
+                }   
+            }
+            return envelopes;
         }
 
         public async Task<string> FetchMessageBodyAsync(long uid) {

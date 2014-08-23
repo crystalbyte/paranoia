@@ -85,8 +85,8 @@ namespace Crystalbyte.Paranoia {
                 await SyncMailboxesAsync();
 
                 var inbox = GetInbox();
-                if (inbox.IsAssigned) {
-                    inbox.IdleAsync();
+                if (inbox != null && inbox.IsAssigned) {
+                    inbox.IdleAsync();    
                 }
 
                 IsOnline = true;
@@ -206,7 +206,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 IsOutboxSelected = false;
-
+                
                 await App.Context.RefreshMessagesAsync();
                 await mailbox.SyncMessagesAsync();
             } catch (Exception ex) {
@@ -727,7 +727,7 @@ namespace Crystalbyte.Paranoia {
         internal async Task LoadMessagesForContactAsync(MailContactContext contact) {
             try {
                 var mailbox = SelectedMailbox;
-                if (mailbox == null) {
+                if (mailbox == null || !mailbox.IsAssigned) {
                     return;
                 }
 
@@ -743,7 +743,7 @@ namespace Crystalbyte.Paranoia {
         internal async Task LoadAllMessagesAsync() {
             try {
                 var mailbox = SelectedMailbox;
-                if (mailbox == null) {
+                if (mailbox == null || !mailbox.IsAssigned) {
                     return;
                 }
 

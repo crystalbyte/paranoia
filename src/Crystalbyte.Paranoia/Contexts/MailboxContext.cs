@@ -646,6 +646,9 @@ namespace Crystalbyte.Paranoia {
                     connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                     using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                         using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+                            if (!connection.CanIdle) {
+                                return;
+                            }
                             var mailbox = await session.SelectAsync(Name);
                             try {
                                 mailbox.ChangeNotificationReceived += OnChangeNotificationReceived;

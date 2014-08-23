@@ -148,7 +148,7 @@ namespace Crystalbyte.Paranoia.Mail {
 
         private static IEnumerable<MailAddress> ParseContacts(string value) {
             var trimmed = value.TrimAny(1).TrimQuotes();
-            var entries = Regex.Matches(trimmed, "\\\".+?\\\"|NIL");
+            var entries = Regex.Matches(trimmed, "\\\"\\\"|\\\".+?\\\"|NIL");
             var contacts = entries
                 .OfType<Match>()
                 .Select(x => x.Value.Trim(new[] { '"', '\\' }))
@@ -160,6 +160,7 @@ namespace Crystalbyte.Paranoia.Mail {
                        into items
                        let name = TransferEncoder.Decode(items[0])
                        let address = string.Format("{0}@{1}", items[2], items[3])
+                       where !string.IsNullOrEmpty(items[3])
                        select new MailAddress(address, name);
         }
 

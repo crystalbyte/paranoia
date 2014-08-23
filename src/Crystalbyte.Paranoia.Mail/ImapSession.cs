@@ -102,24 +102,17 @@ namespace Crystalbyte.Paranoia.Mail {
                     continue;
                 }
 
-                if (line.IsUntagged && line.Text.ContainsIgnoreCase("EXISTS")) {
+                if (line.IsUntagged && Regex.IsMatch(line.Text, @"\d+ EXISTS", RegexOptions.IgnoreCase)) {
                     const string pattern = @"[0-9]+";
                     var value = Regex.Match(line.Text, pattern, RegexOptions.CultureInvariant).Value;
                     mailbox.Exists = int.Parse(value);
                     continue;
                 }
 
-                if (line.IsUntagged && line.Text.ContainsIgnoreCase("RECENT")) {
+                if (line.IsUntagged && Regex.IsMatch(line.Text, @"\d+ RECENT", RegexOptions.IgnoreCase)) {
                     const string pattern = @"[0-9]+";
                     var value = Regex.Match(line.Text, pattern, RegexOptions.CultureInvariant).Value;
                     mailbox.Recent = int.Parse(value);
-                    continue;
-                }
-
-                if (line.IsUntagged && line.Text.ContainsIgnoreCase("UIDNEXT")) {
-                    const string pattern = @"[0-9]+";
-                    var value = Regex.Match(line.Text, pattern, RegexOptions.CultureInvariant).Value;
-                    mailbox.UidNext = int.Parse(value);
                     continue;
                 }
 
