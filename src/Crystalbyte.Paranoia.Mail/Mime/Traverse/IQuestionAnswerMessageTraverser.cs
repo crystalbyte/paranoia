@@ -7,12 +7,12 @@
     /// <typeparam name="TQuestion"> This is the type of the question you want to have answered. </typeparam>
     public interface IQuestionAnswerMessageTraverser<TQuestion, TAnswer> {
         /// <summary>
-        ///     Call this when you want to apply this traverser on a <see cref="MailMessage" />.
+        ///     Call this when you want to apply this traverser on a <see cref="MailMessageReader" />.
         /// </summary>
-        /// <param name="message"> The <see cref="MailMessage" /> which you want to traverse. Must not be <see langword="null" /> . </param>
+        /// <param name="message"> The <see cref="MailMessageReader" /> which you want to traverse. Must not be <see langword="null" /> . </param>
         /// <param name="question"> The question </param>
         /// <returns> An answer </returns>
-        TAnswer VisitMessage(MailMessage message, TQuestion question);
+        TAnswer VisitMessage(MailMessageReader message, TQuestion question);
 
         /// <summary>
         ///     Call this when you want to apply this traverser on a <see cref="MessagePart" />.

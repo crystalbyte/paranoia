@@ -13,7 +13,7 @@ namespace Crystalbyte.Paranoia.Mail.Mime.Traverse {
         /// <summary>
         ///     Finds all the <see cref="MessagePart" />s with the given MediaType
         /// </summary>
-        /// <param name="message"> The <see cref="MailMessage" /> to start looking in </param>
+        /// <param name="message"> The <see cref="MailMessageReader" /> to start looking in </param>
         /// <param name="question"> The MediaType to look for. Case is ignored. </param>
         /// <returns>
         ///     A List of <see cref="MessagePart" /> s with the given MediaType. <br /> <br /> The List might be empty if no such
@@ -22,10 +22,10 @@ namespace Crystalbyte.Paranoia.Mail.Mime.Traverse {
         ///     s were found. <br /> The order of the elements in the list is the order which they are found using a depth first
         ///     traversal of the
         ///     <see
-        ///         cref="MailMessage" />
+        ///         cref="MailMessageReader" />
         ///     hierarchy.
         /// </returns>
-        public List<MessagePart> VisitMessage(MailMessage message, string question) {
+        public List<MessagePart> VisitMessage(MailMessageReader message, string question) {
             if (message == null)
                 throw new ArgumentNullException("message");
 
@@ -44,7 +44,7 @@ namespace Crystalbyte.Paranoia.Mail.Mime.Traverse {
         ///     s were found. <br /> The order of the elements in the list is the order which they are found using a depth first
         ///     traversal of the
         ///     <see
-        ///         cref="MailMessage" />
+        ///         cref="MailMessageReader" />
         ///     hierarchy.
         /// </returns>
         public List<MessagePart> VisitMessagePart(MessagePart messagePart, string question) {

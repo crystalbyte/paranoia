@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Crystalbyte.Paranoia.Mail.Mime.Traverse {
     /// <summary>
-    ///     This is an abstract class which handles traversing of a <see cref="MailMessage" /> tree structure.<br />
+    ///     This is an abstract class which handles traversing of a <see cref="MailMessageReader" /> tree structure.<br />
     ///     It runs through the message structure using a depth-first traversal.
     /// </summary>
     /// <typeparam name="TAnswer"> The answer you want from traversing the message tree structure </typeparam>
@@ -23,7 +23,7 @@ namespace Crystalbyte.Paranoia.Mail.Mime.Traverse {
         ///     is
         ///     <see langword="null" />
         /// </exception>
-        public TAnswer VisitMessage(MailMessage message) {
+        public TAnswer VisitMessage(MailMessageReader message) {
             if (message == null)
                 throw new ArgumentNullException("message");
 

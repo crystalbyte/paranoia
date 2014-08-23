@@ -71,14 +71,14 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
 
         private async void PrepareAsReply(IDictionary<string, string> arguments) {
-            MailMessage replyMessage;
+            MailMessageReader replyMessage;
             using (var database = new DatabaseContext()) {
                 var temp = Int64.Parse(arguments["id"]);
                 var message = await database.MimeMessages
                     .Where(x => x.MessageId == temp)
                     .ToArrayAsync();
 
-                replyMessage = new MailMessage(Encoding.UTF8.GetBytes(message[0].Data));
+                replyMessage = new MailMessageReader(Encoding.UTF8.GetBytes(message[0].Data));
             }
             var context = (MailCompositionContext) DataContext;
             context.Subject = "RE: " + replyMessage.Headers.Subject;

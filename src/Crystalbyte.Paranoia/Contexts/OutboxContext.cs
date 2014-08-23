@@ -103,43 +103,39 @@ namespace Crystalbyte.Paranoia {
 
             _sendingMessages = true;
 
-            var sheet = await GetHtmlCoverSheetAsync();
-            sheet = sheet.Replace("%FROM%", _account.Name);
+            //var sheet = await GetHtmlCoverSheetAsync();
+            //sheet = sheet.Replace("%FROM%", _account.Name);
 
             foreach (var request in requests) {
                 try {
-                    // TODO: zip mime before encrypting for optimal compression (request.Mime)
-                    // TODO: Fetch public keys, abort if no connection, cant send anyways.
-                    // TODO: foreach public key => do {
-                    // TODO: encrypt compressed mime
-
                     using (var connection = new SmtpConnection {Security = _account.SmtpSecurity}) {
                         using (var auth = await connection.ConnectAsync(_account.SmtpHost, _account.SmtpPort)) {
                             using (var session = await auth.LoginAsync(_account.SmtpUsername, _account.SmtpPassword)) {
-                                var wrapper = new MailMessage(
-                                    new MailAddress(_account.Address, _account.Name),
-                                    new MailAddress(request.ToAddress))
-                                {
-                                    Subject = string.Format(Resources.SubjectTemplate, _account.Name),
-                                    Body = sheet,
-                                    IsBodyHtml = true,
-                                    BodyEncoding = Encoding.UTF8,
-                                    HeadersEncoding = Encoding.UTF8,
-                                    SubjectEncoding = Encoding.UTF8,
-                                    BodyTransferEncoding = TransferEncoding.Base64,
-                                };
+                                //var wrapper = new MailMessage(
+                                //    new MailAddress(_account.Address, _account.Name),
+                                //    new MailAddress(request.ToAddress))
+                                //{
+                                //    Subject = string.Format(Resources.SubjectTemplate, _account.Name),
+                                //    Body = sheet,
+                                //    IsBodyHtml = true,
+                                //    BodyEncoding = Encoding.UTF8,
+                                //    HeadersEncoding = Encoding.UTF8,
+                                //    SubjectEncoding = Encoding.UTF8,
+                                //    BodyTransferEncoding = TransferEncoding.Base64,
+                                //};
 
-                                var guid = Guid.NewGuid();
-                                using (var writer = new StreamWriter(new MemoryStream()) {AutoFlush = true}) {
-                                    await writer.WriteAsync(request.Mime);
-                                    writer.BaseStream.Seek(0, SeekOrigin.Begin);
-                                    wrapper.Attachments.Add(new Attachment(writer.BaseStream, guid.ToString())
-                                    {
-                                        TransferEncoding = TransferEncoding.Base64,
-                                        NameEncoding = Encoding.UTF8
-                                    });
-                                    await session.SendAsync(wrapper);
-                                }
+                                //var guid = Guid.NewGuid();
+                                //using (var writer = new StreamWriter(new MemoryStream()) {AutoFlush = true}) {
+                                //    await writer.WriteAsync(request.Mime);
+                                //    writer.BaseStream.Seek(0, SeekOrigin.Begin);
+                                //    wrapper.Attachments.Add(new Attachment(writer.BaseStream, guid.ToString())
+                                //    {
+                                //        TransferEncoding = TransferEncoding.Base64,
+                                //        NameEncoding = Encoding.UTF8
+                                //    });
+                                
+                                await session.SendAsync(request.Mime);
+                                //}
                             }
                         }
                     }
