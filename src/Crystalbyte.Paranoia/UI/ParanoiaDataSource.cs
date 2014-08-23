@@ -48,7 +48,7 @@ namespace Crystalbyte.Paranoia.UI {
         private void SendComposeAsNewResponse(DataSourceRequest request) {
             var variables = new Dictionary<string, string>() {
                 {"content", string.Empty},
-                {"current_dir", string.Format("file://{0}", Environment.CurrentDirectory.Replace(@"\", "/")) }
+                {"current_dir", string.Format("file://127.0.0.1/{0}", Environment.CurrentDirectory.Replace(@"\", "/").Replace(":","$")) }
             };
             var html = GenerateEditorHtml(variables);
 

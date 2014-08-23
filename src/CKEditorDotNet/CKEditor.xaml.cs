@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Awesomium.Core;
 
 namespace CKEditorDotNet {
     // ReSharper disable once InconsistentNaming
@@ -63,14 +64,18 @@ namespace CKEditorDotNet {
 
         public CKEditor() {
             InitializeComponent();
+            WebCore.Initialized += (sender, e) => {
+                Dispatcher.Invoke(() => {
+                    WebCore.ResourceInterceptor = new bla();
+                });
+            };
+
             //_objectForScripting = new EditorObjectForScripting(this);
             EditorBrowser.Loaded += OnEditorBrowserLoaded;
         }
 
-        private void OnEditorBrowserLoaded(object sender, RoutedEventArgs e)
-        {
-            if (DesignerProperties.GetIsInDesignMode(this))
-            {
+        private void OnEditorBrowserLoaded(object sender, RoutedEventArgs e) {
+            if (DesignerProperties.GetIsInDesignMode(this)) {
                 EditorBrowser.Source = new Uri("about:blank");
                 return;
             }
@@ -80,10 +85,10 @@ namespace CKEditorDotNet {
             var editorFile = Environment.CurrentDirectory + @"\..\..\..\CKEditorDotNet\Editor.html";
             if (!File.Exists(editorFile)) {
                 editorFile = @"C:\Users\marvin\Documents\GitHub\paranoia\src\CKEditorDotNet\Editor.html";
-                    if(!File.Exists(editorFile))
-                        throw new IOException("editorfile not found\n" + editorFile);
+                if (!File.Exists(editorFile))
+                    throw new IOException("editorfile not found\n" + editorFile);
             }
-                
+
             var uri = new Uri(editorFile, UriKind.Absolute);
             EditorBrowser.Source = uri;
             Test();
@@ -154,6 +159,21 @@ namespace CKEditorDotNet {
         }
 
         #endregion
-
     }
+
+    public class bla : IResourceInterceptor {
+        public bool OnFilterNavigation(NavigationRequest request) {
+            return false;
+        }
+
+        public ResourceResponse OnRequest(ResourceRequest request) {
+            Debug.WriteLine(request.Url.AbsolutePath);
+            //if (request.Url.AbsolutePath.EndsWith(".js")) {
+            //    return null;
+            //}
+            
+            return null;
+        }
+    }
+
 }

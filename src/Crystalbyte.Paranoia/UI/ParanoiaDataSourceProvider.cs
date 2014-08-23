@@ -1,5 +1,6 @@
 ﻿#region Using directives
 
+using Awesomium.Core;
 using Awesomium.Core.Data;
 using Awesomium.Windows.Data;
 
