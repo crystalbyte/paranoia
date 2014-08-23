@@ -395,25 +395,29 @@ namespace Crystalbyte.Paranoia {
             const string pattern = @"\s|\t|\n|\r";
 
             var xHeaders = message.Headers.UnknownHeaders;
-            for (int i = 0; i < xHeaders.Keys.Count; i++) {
+            for (var i = 0; i < xHeaders.Keys.Count; i++) {
                 var key = xHeaders.Keys[i];
 
+                var values = xHeaders.GetValues(i);
+                if (values == null) {
+                    throw new NullReferenceException(Resources.ChallengeCorruptException);
+                }
+
                 if (string.Compare(key, ParanoiaHeaderKeys.Token, StringComparison.InvariantCultureIgnoreCase) == 0) {
-                    token = xHeaders.GetValues(i).FirstOrDefault() ?? string.Empty;
+                    token = values.FirstOrDefault() ?? string.Empty;
                     token = Regex.Replace(token, pattern, string.Empty);
                     continue;
                 }
 
                 if (string.Compare(key, ParanoiaHeaderKeys.Nonce, StringComparison.InvariantCultureIgnoreCase) == 0) {
-                    nonce = xHeaders.GetValues(i).FirstOrDefault() ?? string.Empty;
+                    nonce = values.FirstOrDefault() ?? string.Empty;
                     nonce = Regex.Replace(nonce, pattern, string.Empty);
                     continue;
                 }
 
                 if (string.Compare(key, ParanoiaHeaderKeys.PublicKey, StringComparison.InvariantCultureIgnoreCase) == 0) {
-                    publicKey = xHeaders.GetValues(i).FirstOrDefault() ?? string.Empty;
+                    publicKey = values.FirstOrDefault() ?? string.Empty;
                     publicKey = Regex.Replace(publicKey, pattern, string.Empty);
-                    continue;
                 }
             }
 

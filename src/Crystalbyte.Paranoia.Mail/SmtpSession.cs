@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using Crystalbyte.Paranoia.Mail.Properties;
 
 #endregion
 
@@ -56,7 +57,7 @@ namespace Crystalbyte.Paranoia.Mail {
                 throw new SmtpException(response.Content);
             }
 
-            var target = to.Concat(cc).Concat(bcc).OfType<RfcMailAddress>().Distinct(new RfcMailAddressComparer());
+            var target = to.Concat(cc).Concat(bcc).Distinct(new RfcMailAddressComparer());
             foreach (var contact in target) {
                 await _connection.WriteAsync(string.Format("{0} TO:<{1}>", SmtpCommands.Rcpt, contact.Address));
                 response = await _connection.ReadAsync();
@@ -66,6 +67,11 @@ namespace Crystalbyte.Paranoia.Mail {
             }
 
             await SendDataAsync(mime);
+
+            response = await _connection.ReadAsync();
+            if (!response.IsOk) {
+                throw new SmtpException(response.Content);
+            }
         }
 
         public async Task SendAsync(IEnumerable<MailMessage> messages) {
@@ -108,9 +114,20 @@ namespace Crystalbyte.Paranoia.Mail {
 
             var mime = await message.ToMimeAsync();
             await SendDataAsync(mime);
+
+            response = await _connection.ReadAsync();
+            if (!response.IsOk) {
+                throw new SmtpException(response.Content);
+            }
         }
 
         private async Task SendDataAsync(string mime) {
+            await _connection.WriteAsync(SmtpCommands.Data);
+            var response = await _connection.ReadAsync();
+            if (!response.IsContinuationRequest) {
+                throw new SmtpException(response.Content);
+            }
+
             var total = Encoding.UTF8.GetByteCount(mime);
             long bytes = 0;
 
@@ -130,7 +147,7 @@ namespace Crystalbyte.Paranoia.Mail {
                     bytes += Encoding.UTF8.GetByteCount(line) + 2;
                     OnProgressChanged(new ProgressChangedEventArgs(bytes));
 
-                    if (total == bytes) {
+                    if (total >= bytes) {
                         break;
                     }
                 }
@@ -166,7 +183,6 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         private class RfcMailAddressComparer : IEqualityComparer<RfcMailAddress> {
-
             #region Implementation of IEqualityComparer<in RfcMailAddress>
 
             public bool Equals(RfcMailAddress x, RfcMailAddress y) {
