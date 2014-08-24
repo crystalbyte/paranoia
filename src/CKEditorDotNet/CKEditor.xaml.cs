@@ -160,20 +160,4 @@ namespace CKEditorDotNet {
 
         #endregion
     }
-
-    public class bla : IResourceInterceptor {
-        public bool OnFilterNavigation(NavigationRequest request) {
-            return false;
-        }
-
-        public ResourceResponse OnRequest(ResourceRequest request) {
-            Debug.WriteLine(request.Url.AbsolutePath);
-            //if (request.Url.AbsolutePath.EndsWith(".js")) {
-            //    return null;
-            //}
-            
-            return null;
-        }
-    }
-
 }

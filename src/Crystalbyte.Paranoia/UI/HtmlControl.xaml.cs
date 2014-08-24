@@ -203,41 +203,4 @@ namespace Crystalbyte.Paranoia.UI {
 
         #endregion
     }
-
-    public class ResourceInterceptor : IResourceInterceptor {
-        public bool OnFilterNavigation(NavigationRequest request) {
-            return false;
-        }
-
-        public ResourceResponse OnRequest(ResourceRequest request) {
-            Debug.WriteLine(request.Url.AbsolutePath);
-            if (request.Url.AbsolutePath.EndsWith(".js")
-                || request.Url.AbsolutePath.EndsWith(".css")
-                || request.Url.AbsolutePath.EndsWith(".png")) {
-                var file = Environment.CurrentDirectory + request.Url.AbsolutePath.Replace("/message", string.Empty);
-                if (File.Exists(file))
-                    return ResourceResponse.Create(file);
-                else {
-                    //throw new Exception();
-                }
-            }
-            return null;
-            //using (var client = new WebClient())
-            //{
-            //    var response = client.DownloadData(request.Url);
-            //    var buffer = Marshal.AllocHGlobal(response.Length);
-            //    if(response != null)
-            //                ResourceResponse.Create(response.Length, buffer, )
-            //}
-            //if () {
-            //    var file = Environment.CurrentDirectory + request.Url.AbsolutePath.Replace("/message", string.Empty);
-            //    if (File.Exists(file))
-            //        return ResourceResponse.Create(file);
-            //    else {
-            //        throw new Exception("uri can not be resolved " + request.Url.AbsolutePath);
-            //    }
-            //}
-            //return null;
-        }
-    }
 }
