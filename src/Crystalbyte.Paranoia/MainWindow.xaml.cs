@@ -12,7 +12,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
-using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Pages;

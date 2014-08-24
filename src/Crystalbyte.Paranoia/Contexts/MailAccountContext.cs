@@ -63,6 +63,7 @@ namespace Crystalbyte.Paranoia {
             _testSettingsCommand = new RelayCommand(OnTestSettings);
             _isAutoDetectPreferred = true;
             _mailboxes = new ObservableCollection<MailboxContext>();
+            _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Mailboxes);
         }
 
         #endregion

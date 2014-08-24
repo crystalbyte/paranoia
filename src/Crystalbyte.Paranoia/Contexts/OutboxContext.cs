@@ -6,15 +6,11 @@ using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Net.Mail;
-using System.Net.Mime;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
-using MailMessage = System.Net.Mail.MailMessage;
 using NLog;
 
 #endregion
@@ -25,7 +21,7 @@ namespace Crystalbyte.Paranoia {
         private readonly MailAccountContext _account;
         private int _count;
         private readonly ObservableCollection<SmtpRequestContext> _smtpRequests;
-        private static Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public OutboxContext(MailAccountContext account) {
             _account = account;
@@ -145,7 +141,7 @@ namespace Crystalbyte.Paranoia {
                     await DropRequestFromDatabaseAsync(request);
                 }
                 catch (Exception ex) {
-                    _logger.Error(ex);
+                    Logger.Error(ex);
                 }
                 finally {
                     _sendingMessages = false;

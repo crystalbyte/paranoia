@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Globalization;
@@ -39,8 +38,6 @@ namespace Crystalbyte.Paranoia {
         private readonly MailAccountContext _account;
         private readonly ICommand _bindMailboxCommand;
         private readonly ICommand _dropBindingCommand;
-        private MailboxCandidateContext _selectedCandidate;
-        private readonly ObservableCollection<MailboxCandidateContext> _mailboxCandidates;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -53,7 +50,6 @@ namespace Crystalbyte.Paranoia {
             _mailbox = mailbox;
             _bindMailboxCommand = new BindMailboxCommand(this);
             _dropBindingCommand = new DropMailboxBindingCommand(this);
-            _mailboxCandidates = new ObservableCollection<MailboxCandidateContext>();
         }
 
         #endregion
@@ -201,25 +197,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task PrepareManualAssignmentAsync() {
-            IsListingMailboxes = true;
-            try {
-                var app = App.Composition.GetExport<AppContext>();
-                var account = app.SelectedAccount;
-
-                var mailboxes = await account.ListMailboxesAsync();
-                _mailboxCandidates.Clear();
-                _mailboxCandidates.AddRange(mailboxes
-                    .Select(x => new MailboxCandidateContext(_account, x)));
-            }
-            catch (Exception ex) {
-                Logger.Error(ex);
-            }
-            finally {
-                IsListingMailboxes = false;
-            }
-        }
-
         public bool IsInbox {
             get { return _mailbox.Type == MailboxType.Inbox; }
         }
@@ -233,21 +210,6 @@ namespace Crystalbyte.Paranoia {
                 _isListingMailboxes = value;
                 RaisePropertyChanged(() => IsListingMailboxes);
             }
-        }
-
-        public MailboxCandidateContext SelectedCandidate {
-            get { return _selectedCandidate; }
-            set {
-                if (_selectedCandidate == value) {
-                    return;
-                }
-                _selectedCandidate = value;
-                RaisePropertyChanged(() => SelectedCandidate);
-            }
-        }
-
-        public IEnumerable<MailboxCandidateContext> MailboxCandidates {
-            get { return _mailboxCandidates; }
         }
 
         public int NotSeenCount {
@@ -283,6 +245,11 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public bool IsSelectable {
+            get { return !_mailbox.Flags.ContainsIgnoreCase(MailboxFlags.NoSelect); }
+        }
+
+
         public MailboxType Type {
             get { return _mailbox.Type; }
         }
@@ -291,16 +258,6 @@ namespace Crystalbyte.Paranoia {
             using (var context = new DatabaseContext()) {
                 return context.MailAccounts.FindAsync(_mailbox.AccountId);
             }
-        }
-
-        protected override void OnSelectionChanged() {
-            base.OnSelectionChanged();
-
-            if (IsSelected)
-                return;
-
-            IsAssignable = false;
-            _mailboxCandidates.Clear();
         }
 
         internal async Task SyncMessagesAsync() {

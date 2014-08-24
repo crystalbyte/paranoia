@@ -156,7 +156,6 @@
     <Compile Include="Contexts\TestingContext.cs" />
     <Compile Include="Data\PublicKeyModel.cs" />
     <Compile Include="DocumentTextRequestedEventArgs.cs" />
-    <Compile Include="Contexts\MailboxCandidateContext.cs" />
     <Compile Include="Contexts\MailboxContext.cs" />
     <Compile Include="Contexts\MailCompositionContext.cs" />
     <Compile Include="Contexts\MailContactContext.cs" />
