@@ -235,12 +235,6 @@ Please select a corresponding IMAP folder to synchronize.</value>
   <data name="NoConnectivity" xml:space="preserve">
     <value>No connectivity, please check your internet connection.</value>
   </data>
-  <data name="NoSender" xml:space="preserve">
-    <value>&lt;no name&gt;</value>
-  </data>
-  <data name="NoSubject" xml:space="preserve">
-    <value>&lt;no subject&gt;</value>
-  </data>
   <data name="NotMemberAccessExpression" xml:space="preserve">
     <value>Expression does not access a member.</value>
   </data>
@@ -422,10 +416,13 @@ Once your password is lost you're screwed.</value>
   <data name="ChallengeCorruptException" xml:space="preserve">
     <value>The server challenge headers are missing or corrupt.</value>
   </data>
-  <data name="Assign" xml:space="preserve">
-    <value>Assign</value>
+  <data name="BindMailbox" xml:space="preserve">
+    <value>Bind mailbox</value>
   </data>
-  <data name="DropAssignment" xml:space="preserve">
-    <value>Drop Assignment</value>
+  <data name="RemoveMailboxBinding" xml:space="preserve">
+    <value>Remove binding</value>
+  </data>
+  <data name="BindingNotice" xml:space="preserve">
+    <value>Mailbox is bound.</value>
   </data>
 </root>

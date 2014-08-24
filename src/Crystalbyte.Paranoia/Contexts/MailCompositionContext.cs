@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
@@ -23,6 +22,7 @@ using Crystalbyte.Paranoia.Cryptography;
 
 namespace Crystalbyte.Paranoia {
     public sealed class MailCompositionContext : NotificationObject {
+
         #region Private Fields
 
         private string _source;
@@ -163,8 +163,12 @@ namespace Crystalbyte.Paranoia {
             var messages = new List<MailMessage>();
             using (var database = new DatabaseContext()) {
                 foreach (var recipient in Recipients) {
+                    if (string.IsNullOrEmpty(recipient)) {
+                        continue;
+                    }
 
-                    var contact = await database.MailContacts.FirstOrDefaultAsync(x => x.Address == recipient);
+                    var rec = recipient;
+                    var contact = await database.MailContacts.FirstOrDefaultAsync(x => x.Address == rec);
                     if (contact == null) {
                         var message = CreateMailMessage(account, recipient, e.Document);
                         messages.Add(message);
@@ -175,6 +179,9 @@ namespace Crystalbyte.Paranoia {
                         var message = CreateMailMessage(account, recipient, e.Document);
                         messages.Add(message);
                     }
+
+                    if (keys == null) 
+                        continue;
 
                     foreach (var key in keys) {
                         var cryptMessage = await EncryptMessageAsync(account, key, recipient, e.Document);
@@ -195,9 +202,8 @@ namespace Crystalbyte.Paranoia {
             var keyBytes = Convert.FromBase64String(key.Data);
             var nonceBytes = PublicKeyCrypto.GenerateNonce();
 
-            var encryptedBytes = await Task.Factory.StartNew(() => {
-                return App.Context.KeyContainer.EncryptWithPublicKey(bytes, keyBytes, nonceBytes);
-            });
+            var encryptedBytes = await Task.Factory.StartNew(() => 
+                App.Context.KeyContainer.EncryptWithPublicKey(bytes, keyBytes, nonceBytes));
 
             var wrapper = CreateMailMessage(account, recipient, "blubbi");
             wrapper.AlternateViews.Add(new AlternateView(new MemoryStream(encryptedBytes), new ContentType("application/base64")));

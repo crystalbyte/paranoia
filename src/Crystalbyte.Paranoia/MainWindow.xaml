@@ -23,7 +23,7 @@
     <ui:MetroWindow.Background>
         <VisualBrush TileMode="Tile" Viewport="0,0,1,1">
             <VisualBrush.Visual>
-                <Image Source="/Assets/map.jpg" />
+                <Image Source="/Assets/earth.jpg" />
             </VisualBrush.Visual>
         </VisualBrush>
     </ui:MetroWindow.Background>
@@ -651,14 +651,45 @@
                       d:DataContext="{d:DesignInstance {x:Type paranoia:MailAccountContext}}">
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem DataContext="{Binding SelectedMailbox}" Visibility="{Binding IsAssignable, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <MenuItem DataContext="{Binding SelectedMailbox}"
+                                  IsEnabled="False"
+                                  Visibility="{Binding IsAssigned,
+                                                       Converter={StaticResource BooleanToVisibilityConverter}}">
                             <MenuItem.Header>
-                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Assign}" />
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.BindingNotice}" />
+                                    <StackPanel Margin="12,4,0,4" Orientation="Horizontal">
+                                        <Path Margin="0,2,6,0"
+                                              Data="M 0 0 L 0 8 L 8 8"
+                                              Stroke="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                             Metro.ControlBorderBrush}}"
+                                              StrokeThickness="1" />
+                                        <Image Width="16"
+                                               Margin="0,0,3,0"
+                                               VerticalAlignment="Center"
+                                               Source="/Assets/folder.png" />
+                                        <TextBlock Margin="0,1,0,0"
+                                                   VerticalAlignment="Center"
+                                                   Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                                      Metro.AccentBrush}}"
+                                                   Style="{StaticResource Metro.MenuHeaderTextStyle}"
+                                                   Text="{Binding Name}" />
+                                    </StackPanel>
+                                </StackPanel>
                             </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem DataContext="{Binding SelectedMailbox}" Visibility="{Binding IsAssignable, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
+                        <MenuItem DataContext="{Binding SelectedMailbox}" Visibility="{Binding IsAssignable, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <MenuItem.Header>
-                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.DropAssignment}" />
+                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.BindMailbox}" />
+                            </MenuItem.Header>
+                        </MenuItem>
+                        <MenuItem Command="{Binding DropBindingCommand}"
+                                  DataContext="{Binding SelectedMailbox}"
+                                  Visibility="{Binding IsAssignable,
+                                                       Converter={StaticResource BooleanToVisibilityConverter},
+                                                       ConverterParameter=!}">
+                            <MenuItem.Header>
+                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.RemoveMailboxBinding}" />
                             </MenuItem.Header>
                         </MenuItem>
                     </ContextMenu>

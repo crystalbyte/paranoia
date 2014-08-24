@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Globalization;
@@ -13,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Net;
@@ -27,24 +29,36 @@ using System.Text.RegularExpressions;
 namespace Crystalbyte.Paranoia {
     [DebuggerDisplay("Name = {Name}")]
     public sealed class MailboxContext : SelectionObject {
+
+        #region Private Fields
+
         private bool _isSyncing;
-        private bool _isListingMailboxes;
-        private bool _isAssignable;
-        private readonly MailAccountContext _account;
-        private readonly MailboxModel _mailbox;
-        private readonly ObservableCollection<MailboxCandidateContext> _mailboxCandidates;
-        private readonly AssignMailboxCommand _assignmentCommand;
-        private MailboxCandidateContext _selectedCandidate;
-        private bool _isLoadingMessage;
         private int _notSeenCount;
+        private bool _isAssignable;
+        private bool _isLoadingMessage;
+        private bool _isListingMailboxes;
+        private readonly MailboxModel _mailbox;
+        private readonly MailAccountContext _account;
+        private readonly ICommand _bindMailboxCommand;
+        private readonly ICommand _dropBindingCommand;
+        private MailboxCandidateContext _selectedCandidate;
+        private readonly ObservableCollection<MailboxCandidateContext> _mailboxCandidates;
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
+
+        #region Construction
 
         internal MailboxContext(MailAccountContext account, MailboxModel mailbox) {
             _account = account;
             _mailbox = mailbox;
-            _assignmentCommand = new AssignMailboxCommand(this);
+            _bindMailboxCommand = new BindMailboxCommand(this);
+            _dropBindingCommand = new DropMailboxBindingCommand(this);
             _mailboxCandidates = new ObservableCollection<MailboxCandidateContext>();
         }
+
+        #endregion
 
         public event EventHandler AssignmentChanged;
 
@@ -126,13 +140,13 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task DropAssignmentAsync() {
-            using (var context = new DatabaseContext()) {
-                context.Mailboxes.Attach(_mailbox);
+            using (var database = new DatabaseContext()) {
+                database.Mailboxes.Attach(_mailbox);
 
                 _mailbox.Name = string.Empty;
                 _mailbox.Flags = string.Empty;
 
-                await context.SaveChangesAsync();
+                await database.SaveChangesAsync();
             }
 
             RaisePropertyChanged(() => IsAssigned);
@@ -143,8 +157,12 @@ namespace Crystalbyte.Paranoia {
             get { return !string.IsNullOrEmpty(Name); }
         }
 
-        public ICommand AssignmentCommand {
-            get { return _assignmentCommand; }
+        public ICommand BindMailboxCommand {
+            get { return _bindMailboxCommand; }
+        }
+
+        public ICommand DropMailboxBindingCommand {
+            get { return _dropBindingCommand; }
         }
 
         internal bool IsTrash {
@@ -575,35 +593,35 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task AssignMostProbableAsync(List<ImapMailboxInfo> remoteMailboxes) {
+        internal async Task BindMostProbableAsync(List<ImapMailboxInfo> mailboxes) {
             switch (Type) {
                 case MailboxType.All:
-                    await AssignAsync(_account.IsGmail
-                        ? remoteMailboxes.SingleOrDefault(x => x.IsGmailAll)
-                        : remoteMailboxes.SingleOrDefault(x => CultureInfo.CurrentCulture.CompareInfo
+                    await BindMailboxAsync(_account.IsGmail
+                        ? mailboxes.SingleOrDefault(x => x.IsGmailAll)
+                        : mailboxes.SingleOrDefault(x => CultureInfo.CurrentCulture.CompareInfo
                             .IndexOf(x.Name, "all", CompareOptions.IgnoreCase) >= 0));
                     break;
                 case MailboxType.Inbox:
-                    await AssignAsync(remoteMailboxes.SingleOrDefault(
+                    await BindMailboxAsync(mailboxes.SingleOrDefault(
                         x => CultureInfo.CurrentCulture.CompareInfo
                             .IndexOf(x.Name, "inbox", CompareOptions.IgnoreCase) >= 0));
                     break;
                 case MailboxType.Sent:
-                    await AssignAsync(_account.IsGmail
-                        ? remoteMailboxes.SingleOrDefault(x => x.IsGmailSent)
-                        : remoteMailboxes.SingleOrDefault(x => CultureInfo.CurrentCulture.CompareInfo
+                    await BindMailboxAsync(_account.IsGmail
+                        ? mailboxes.SingleOrDefault(x => x.IsGmailSent)
+                        : mailboxes.SingleOrDefault(x => CultureInfo.CurrentCulture.CompareInfo
                             .IndexOf(x.Name, "sent", CompareOptions.IgnoreCase) >= 0));
                     break;
                 case MailboxType.Draft:
-                    await AssignAsync(_account.IsGmail
-                        ? remoteMailboxes.SingleOrDefault(x => x.IsGmailDraft)
-                        : remoteMailboxes.SingleOrDefault(x => CultureInfo.CurrentCulture.CompareInfo
+                    await BindMailboxAsync(_account.IsGmail
+                        ? mailboxes.SingleOrDefault(x => x.IsGmailDraft)
+                        : mailboxes.SingleOrDefault(x => CultureInfo.CurrentCulture.CompareInfo
                             .IndexOf(x.Name, "draft", CompareOptions.IgnoreCase) >= 0));
                     break;
                 case MailboxType.Trash:
-                    await AssignAsync(_account.IsGmail
-                        ? remoteMailboxes.SingleOrDefault(x => x.IsGmailTrash)
-                        : remoteMailboxes.SingleOrDefault(x => CultureInfo.CurrentCulture.CompareInfo
+                    await BindMailboxAsync(_account.IsGmail
+                        ? mailboxes.SingleOrDefault(x => x.IsGmailTrash)
+                        : mailboxes.SingleOrDefault(x => CultureInfo.CurrentCulture.CompareInfo
                             .IndexOf(x.Name, "trash", CompareOptions.IgnoreCase) >= 0));
                     break;
                 default:
@@ -611,7 +629,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task AssignAsync(ImapMailboxInfo mailbox) {
+        internal async Task BindMailboxAsync(ImapMailboxInfo mailbox) {
             try {
                 // If no match has been found mailbox will be null.
                 if (mailbox == null) {
@@ -643,10 +661,6 @@ namespace Crystalbyte.Paranoia {
 
                 return messages.Select(x => new MailMessageContext(this, x)).ToArray();
             }
-        }
-
-        internal void NotifyCandidateSelectionChanged() {
-            _assignmentCommand.OnCanExecuteChanged();
         }
 
         internal async Task LoadMessagesForContactAsync(MailContactContext contact) {

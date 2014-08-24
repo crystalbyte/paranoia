@@ -7,10 +7,10 @@ using Crystalbyte.Paranoia.Mail;
 #endregion
 
 namespace Crystalbyte.Paranoia.UI.Commands {
-    public sealed class AssignMailboxCommand : ICommand {
+    public sealed class BindMailboxCommand : ICommand {
         private readonly MailboxContext _mailbox;
 
-        public AssignMailboxCommand(MailboxContext mailbox) {
+        public BindMailboxCommand(MailboxContext mailbox) {
             _mailbox = mailbox;
         }
 
@@ -24,7 +24,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         public async void Execute(object parameter) {
             var info = (ImapMailboxInfo) parameter;
-            await _mailbox.AssignAsync(info);
+            await _mailbox.BindMailboxAsync(info);
         }
 
         public event EventHandler CanExecuteChanged;

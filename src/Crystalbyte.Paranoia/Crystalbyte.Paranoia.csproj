@@ -287,9 +287,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\Commands\AssignMailboxCommand.cs" />
+    <Compile Include="UI\Commands\BindMailboxCommand.cs" />
     <Compile Include="UI\Commands\DeleteMessageCommand.cs" />
-    <Compile Include="UI\Commands\DropAssignmentCommand.cs" />
+    <Compile Include="UI\Commands\DropMailboxBindingCommand.cs" />
     <Compile Include="UI\Commands\FocusSearchBoxCommand.cs" />
     <Compile Include="UI\Commands\ForwardCommand.cs" />
     <Compile Include="UI\Commands\MoveCommand.cs" />
@@ -516,6 +516,9 @@
     <Resource Include="Assets\ok.png" />
     <Resource Include="Assets\cancel.png" />
     <Resource Include="Assets\refresh.png" />
+    <Resource Include="Assets\folder.png" />
+    <Resource Include="Assets\sunrise.jpg" />
+    <Resource Include="Assets\earth.jpg" />
     <Content Include="Resources\ckeditor.paranoia\paranoia.js" />
     <Content Include="Resources\ckeditor\adapters\jquery.js" />
     <Content Include="Resources\ckeditor\build-config.js" />

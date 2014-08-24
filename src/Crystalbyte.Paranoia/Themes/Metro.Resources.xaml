@@ -3,7 +3,7 @@
                     xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.ShadowOpacity}">0.8</system:Double>
+    <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.ShadowOpacity}">0.9</system:Double>
     <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.SmallFontSize}">10</system:Double>
     <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.NormalFontSize}">12</system:Double>
     <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.MediumFontSize}">15</system:Double>
@@ -12,8 +12,9 @@
     <system:Double x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.ExtraLargeFontSize}">28</system:Double>
 
     <!--  App  -->
-    <Color x:Key="Metro.AccentColor">#CA5100</Color>
+    <!--  <Color x:Key="Metro.AccentColor">#CA5100</Color>  -->
     <!--  <Color x:Key="Metro.AccentColor">#006FC4</Color>  -->
+    <Color x:Key="Metro.AccentColor">#005CA3</Color>
     <!--  <Color x:Key="Metro.AccentColor">BlueViolet</Color>  -->
     <SolidColorBrush x:Key="Metro.AccentBrush" Color="{StaticResource Metro.AccentColor}" />
     <SolidColorBrush x:Key="{ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}" Color="{StaticResource Metro.AccentColor}" />

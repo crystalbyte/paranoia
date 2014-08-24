@@ -106,20 +106,29 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Assign.
-        /// </summary>
-        public static string Assign {
-            get {
-                return ResourceManager.GetString("Assign", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Authentification failed..
         /// </summary>
         public static string AuthentificationFailed {
             get {
                 return ResourceManager.GetString("AuthentificationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mailbox is bound..
+        /// </summary>
+        public static string BindingNotice {
+            get {
+                return ResourceManager.GetString("BindingNotice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bind mailbox.
+        /// </summary>
+        public static string BindMailbox {
+            get {
+                return ResourceManager.GetString("BindMailbox", resourceCulture);
             }
         }
         
@@ -320,15 +329,6 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string DraftMailbox {
             get {
                 return ResourceManager.GetString("DraftMailbox", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Drop Assignment.
-        /// </summary>
-        public static string DropAssignment {
-            get {
-                return ResourceManager.GetString("DropAssignment", resourceCulture);
             }
         }
         
@@ -577,24 +577,6 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;no name&gt;.
-        /// </summary>
-        public static string NoSender {
-            get {
-                return ResourceManager.GetString("NoSender", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;no subject&gt;.
-        /// </summary>
-        public static string NoSubject {
-            get {
-                return ResourceManager.GetString("NoSubject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Expression does not access a member..
         /// </summary>
         public static string NotMemberAccessExpression {
@@ -672,6 +654,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string RegisterKeyTitle {
             get {
                 return ResourceManager.GetString("RegisterKeyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove binding.
+        /// </summary>
+        public static string RemoveMailboxBinding {
+            get {
+                return ResourceManager.GetString("RemoveMailboxBinding", resourceCulture);
             }
         }
         

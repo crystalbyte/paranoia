@@ -34,7 +34,6 @@ namespace Crystalbyte.Paranoia {
         private MailboxContext _selectedMailbox;
         private readonly AppContext _appContext;
         private readonly MailAccountModel _account;
-        private readonly ICommand _dropMailboxCommand;
         private readonly ICommand _testSettingsCommand;
         private readonly ICommand _registerAccount;
         private readonly ICommand _restoreMessagesCommand;
@@ -48,7 +47,6 @@ namespace Crystalbyte.Paranoia {
             _appContext = App.Context;
             _outbox = new OutboxContext(this);
             _registerAccount = new RelayCommand(OnRegister);
-            _dropMailboxCommand = new DropAssignmentCommand(this);
             _restoreMessagesCommand = new RestoreMessageCommand(this);
             _testSettingsCommand = new RelayCommand(OnTestSettings);
             _isAutoDetectPreferred = true;
@@ -65,10 +63,6 @@ namespace Crystalbyte.Paranoia {
 
         public ICommand RegisterCommand {
             get { return _registerAccount; }
-        }
-
-        public ICommand DropMailboxCommand {
-            get { return _dropMailboxCommand; }
         }
 
         public ICommand RestoreMessagesCommand {
@@ -151,7 +145,7 @@ namespace Crystalbyte.Paranoia {
 
                 var t1 = mailboxes
                     .Where(x => !x.IsAssigned)
-                    .Select(x => x.AssignMostProbableAsync(remoteMailboxes));
+                    .Select(x => x.BindMostProbableAsync(remoteMailboxes));
 
                 await Task.WhenAll(t1);
 
