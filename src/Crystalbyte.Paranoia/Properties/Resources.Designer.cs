@@ -106,6 +106,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assign.
+        /// </summary>
+        public static string Assign {
+            get {
+                return ResourceManager.GetString("Assign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Authentification failed..
         /// </summary>
         public static string AuthentificationFailed {
@@ -311,6 +320,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string DraftMailbox {
             get {
                 return ResourceManager.GetString("DraftMailbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drop Assignment.
+        /// </summary>
+        public static string DropAssignment {
+            get {
+                return ResourceManager.GetString("DropAssignment", resourceCulture);
             }
         }
         

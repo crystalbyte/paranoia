@@ -64,11 +64,16 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         internal static ImapMailboxInfo Parse(ImapResponseLine line) {
-            var parts = line.Text.Split(' ');
-            var name = ImapMailbox.DecodeName(parts[4].TrimQuotes());
-            var info = new ImapMailboxInfo(name, parts[3].TrimQuotes().ToCharArray().First())
-            {
-                Flags = Regex.Match(parts[2], @"\(.*\)").Value.Trim(new[] {'(', ')'}).Split(' ')
+
+            const string pattern = "\\(.+?\\)|\".+?\"";
+            var parts = Regex.Matches(line.Text, pattern)
+                .OfType<Match>()
+                .Select(x => x.Value)
+                .ToArray();
+
+            var name = ImapMailbox.DecodeName(parts[2].TrimQuotes());
+            var info = new ImapMailboxInfo(name, parts[1].TrimQuotes().ToCharArray().First()) {
+                Flags = Regex.Match(parts[0], @"\(.*\)").Value.Trim(new[] { '(', ')' }).Split(' ')
             };
             return info;
         }

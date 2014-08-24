@@ -422,4 +422,10 @@ Once your password is lost you're screwed.</value>
   <data name="ChallengeCorruptException" xml:space="preserve">
     <value>The server challenge headers are missing or corrupt.</value>
   </data>
+  <data name="Assign" xml:space="preserve">
+    <value>Assign</value>
+  </data>
+  <data name="DropAssignment" xml:space="preserve">
+    <value>Drop Assignment</value>
+  </data>
 </root>

@@ -180,6 +180,7 @@ namespace Crystalbyte.Paranoia {
                     return _account.Mailboxes.ToArray();
                 }
             });
+
             _mailboxes.AddRange(mailboxes.Select(x => new MailboxContext(this, x)));
             var inbox = _mailboxes.FirstOrDefault(x => x.Type == MailboxType.Inbox);
             if (inbox != null) {

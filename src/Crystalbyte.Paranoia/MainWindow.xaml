@@ -648,6 +648,20 @@
                                               Mode=TwoWay}"
                       TabIndex="2"
                       d:DataContext="{d:DesignInstance {x:Type paranoia:MailAccountContext}}">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem DataContext="{Binding SelectedMailbox}" Visibility="{Binding IsAssignable, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <MenuItem.Header>
+                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Assign}" />
+                            </MenuItem.Header>
+                        </MenuItem>
+                        <MenuItem DataContext="{Binding SelectedMailbox}" Visibility="{Binding IsAssignable, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
+                            <MenuItem.Header>
+                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.DropAssignment}" />
+                            </MenuItem.Header>
+                        </MenuItem>
+                    </ContextMenu>
+                </ListView.ContextMenu>
                 <ListView.InputBindings>
                     <KeyBinding Key="Delete" Command="{Binding DropMailboxCommand}" />
                 </ListView.InputBindings>
