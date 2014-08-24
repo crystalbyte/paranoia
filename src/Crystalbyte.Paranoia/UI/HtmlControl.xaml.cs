@@ -19,6 +19,7 @@ using Crystalbyte.Paranoia.Properties;
 namespace Crystalbyte.Paranoia.UI {
     [TemplatePart(Name = WebControlPartName, Type = typeof(WebControl))]
     public class HtmlControl : Control {
+
         #region Xaml Support
 
         private const string WebControlPartName = "PART_WebControl";
@@ -202,6 +203,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         #endregion
     }
+
     public class ResourceInterceptor : IResourceInterceptor {
         public bool OnFilterNavigation(NavigationRequest request) {
             return false;
@@ -216,7 +218,7 @@ namespace Crystalbyte.Paranoia.UI {
                 if (File.Exists(file))
                     return ResourceResponse.Create(file);
                 else {
-                    throw new Exception();
+                    //throw new Exception();
                 }
             }
             return null;

@@ -100,7 +100,7 @@
         </Storyboard>
         <converters:BooleanToBrushConverter x:Key="SubjectBrushConverter"
                                             BrushForFalse="{StaticResource Metro.NormalTextBrush}"
-                                            BrushForTrue="{StaticResource Metro.SecondaryTextBrush}" />
+                                            BrushForTrue="{StaticResource Metro.NormalTextBrush}" />
         <CollectionViewSource x:Key="ContactsSource"
                               IsLiveSortingRequested="True"
                               Source="{Binding Contacts}">
@@ -502,7 +502,8 @@
                                                                                               Metro.NormalTextBrush}}"
                                            RenderOptions.ClearTypeHint="Enabled"
                                            Text="{Binding Name,
-                                                          Converter={StaticResource NullOrEmptyFormatter}}"
+                                                          Converter={StaticResource NullOrEmptyFormatter},
+                                                          ConverterParameter=...}"
                                            TextTrimming="CharacterEllipsis"
                                            TextWrapping="NoWrap" />
                                 <TextBlock x:Name="AddressBlock"
@@ -1022,7 +1023,8 @@
                                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                      Metro.ThinTextStyle}}"
                                        Text="{Binding Subject,
-                                                      Converter={StaticResource NullOrEmptyFormatter}}"
+                                                      Converter={StaticResource NullOrEmptyFormatter},
+                                                      ConverterParameter=...}"
                                        TextTrimming="CharacterEllipsis"
                                        TextWrapping="NoWrap" />
 
