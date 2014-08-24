@@ -59,7 +59,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
     </Style>
 
-    <Style x:Key="AppCommandButtonStyle"
+    <Style x:Key="Metro.CommandButtonStyle"
            BasedOn="{StaticResource {x:Type ButtonBase}}"
            TargetType="ButtonBase">
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
@@ -70,7 +70,7 @@
     </Style>
 
     <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
-                                        StatusBarButtonStyle}"
+                                        Metro.StatusBarButtonStyle}"
            BasedOn="{StaticResource {x:Type ButtonBase}}"
            TargetType="ButtonBase">
         <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -95,7 +95,7 @@
 
     <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
                                         MinimizeButtonStyle}"
-           BasedOn="{StaticResource AppCommandButtonStyle}"
+           BasedOn="{StaticResource Metro.CommandButtonStyle}"
            TargetType="ButtonBase">
         <Setter Property="Command" Value="{x:Static ui:WindowCommands.Minimize}" />
         <Setter Property="ToolTip" Value="{x:Static properties:Resources.MinimizeCommandTooltip}" />
@@ -114,7 +114,7 @@
 
     <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
                                         MaximizeButtonStyle}"
-           BasedOn="{StaticResource AppCommandButtonStyle}"
+           BasedOn="{StaticResource Metro.CommandButtonStyle}"
            TargetType="ButtonBase">
         <Setter Property="Command" Value="{x:Static ui:WindowCommands.Maximize}" />
         <Setter Property="ToolTip" Value="{x:Static properties:Resources.MaximizeCommandTooltip}" />
@@ -134,7 +134,7 @@
 
     <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
                                         RestoreDownButtonStyle}"
-           BasedOn="{StaticResource AppCommandButtonStyle}"
+           BasedOn="{StaticResource Metro.CommandButtonStyle}"
            TargetType="ButtonBase">
         <Setter Property="Command" Value="{x:Static ui:WindowCommands.RestoreDown}" />
         <Setter Property="ToolTip" Value="{x:Static properties:Resources.RestoreDownCommandTooltip}" />
@@ -154,7 +154,7 @@
 
     <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
                                         CloseButtonStyle}"
-           BasedOn="{StaticResource AppCommandButtonStyle}"
+           BasedOn="{StaticResource Metro.CommandButtonStyle}"
            TargetType="ButtonBase">
         <Setter Property="Command" Value="{x:Static ApplicationCommands.Close}" />
         <Setter Property="ToolTip" Value="{x:Static properties:Resources.CloseCommandTooltip}" />
@@ -174,7 +174,7 @@
 
     <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
                                         HelpButtonStyle}"
-           BasedOn="{StaticResource AppCommandButtonStyle}"
+           BasedOn="{StaticResource Metro.CommandButtonStyle}"
            TargetType="ButtonBase">
         <Setter Property="Command" Value="{x:Static ApplicationCommands.Help}" />
         <Setter Property="ContentTemplate">
@@ -190,7 +190,20 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppDialogTextButtonStyle}" TargetType="Button">
+    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
+                                        Metro.ListViewButtonStyle}"
+           BasedOn="{StaticResource {x:Type ButtonBase}}"
+           TargetType="ButtonBase">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Margin" Value="0,1,0,0" />
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+        <Setter Property="Padding" Value="8,1,8,1" />
+    </Style>
+
+    <!--
+        <Style x:Key="{ComponentResourceKey {x:Type properties:Resources}, AppDialogTextButtonStyle}" TargetType="Button">
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -202,66 +215,67 @@
         <Setter Property="Padding" Value="3,4,3,4" />
         <Setter Property="Margin" Value="0,3,3,3" />
         <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Grid Margin="{TemplateBinding Margin}">
-                        <Border HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                Background="{TemplateBinding Background}"
-                                Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </Border>
-                        <Rectangle x:Name="Border"
-                                   HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                   Fill="Transparent"
-                                   Opacity="1"
-                                   Stroke="{TemplateBinding BorderBrush}"
-                                   StrokeThickness="{TemplateBinding BorderThickness}" />
-                        <Rectangle x:Name="FocusIndicator"
-                                   HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                   Fill="Transparent"
-                                   Opacity="1"
-                                   Stroke="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                  Metro.AccentBrush}}"
-                                   StrokeThickness="{TemplateBinding BorderThickness}" />
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="FocusIndicator" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="Border" Property="Visibility" Value="Collapsed" />
-                        </Trigger>
-
-                        <Trigger Property="IsFocused" Value="False">
-                            <Setter TargetName="FocusIndicator" Property="Visibility" Value="Collapsed" />
-                            <Setter TargetName="Border" Property="Visibility" Value="Visible" />
-                        </Trigger>
-
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
-                        </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsPressed" Value="True" />
-                                <Condition Property="IsMouseOver" Value="True" />
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="IsPressed" Value="False" />
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
-                        </MultiTrigger>
-                    </ControlTemplate.Triggers>
-
-                </ControlTemplate>
-            </Setter.Value>
+        <Setter.Value>
+        <ControlTemplate TargetType="{x:Type Button}">
+        <Grid Margin="{TemplateBinding Margin}">
+        <Border HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+        VerticalAlignment="{TemplateBinding VerticalAlignment}"
+        Background="{TemplateBinding Background}"
+        Padding="{TemplateBinding Padding}">
+        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Border>
+        <Rectangle x:Name="Border"
+        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+        VerticalAlignment="{TemplateBinding VerticalAlignment}"
+        Fill="Transparent"
+        Opacity="1"
+        Stroke="{TemplateBinding BorderBrush}"
+        StrokeThickness="{TemplateBinding BorderThickness}" />
+        <Rectangle x:Name="FocusIndicator"
+        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+        VerticalAlignment="{TemplateBinding VerticalAlignment}"
+        Fill="Transparent"
+        Opacity="1"
+        Stroke="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+        Metro.AccentBrush}}"
+        StrokeThickness="{TemplateBinding BorderThickness}" />
+        </Grid>
+        <ControlTemplate.Triggers>
+        <Trigger Property="IsFocused" Value="True">
+        <Setter TargetName="FocusIndicator" Property="Visibility" Value="Visible" />
+        <Setter TargetName="Border" Property="Visibility" Value="Collapsed" />
+        </Trigger>
+        
+        <Trigger Property="IsFocused" Value="False">
+        <Setter TargetName="FocusIndicator" Property="Visibility" Value="Collapsed" />
+        <Setter TargetName="Border" Property="Visibility" Value="Visible" />
+        </Trigger>
+        
+        <Trigger Property="IsEnabled" Value="False">
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
+        </Trigger>
+        <MultiTrigger>
+        <MultiTrigger.Conditions>
+        <Condition Property="IsPressed" Value="True" />
+        <Condition Property="IsMouseOver" Value="True" />
+        </MultiTrigger.Conditions>
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
+        </MultiTrigger>
+        <MultiTrigger>
+        <MultiTrigger.Conditions>
+        <Condition Property="IsMouseOver" Value="True" />
+        <Condition Property="IsPressed" Value="False" />
+        </MultiTrigger.Conditions>
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
+        </MultiTrigger>
+        </ControlTemplate.Triggers>
+        
+        </ControlTemplate>
+        </Setter.Value>
         </Setter>
-    </Style>
+        </Style>
+    -->
 
 
 </ResourceDictionary>

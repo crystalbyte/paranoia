@@ -25,6 +25,9 @@ using NLog;
 
 namespace Crystalbyte.Paranoia {
     public sealed class MailAccountContext : SelectionObject {
+
+        #region Private Fields
+
         private bool _isOnline;
         private bool _isTesting;
         private bool _isAutoDetectPreferred;
@@ -34,23 +37,42 @@ namespace Crystalbyte.Paranoia {
         private MailboxContext _selectedMailbox;
         private readonly AppContext _appContext;
         private readonly MailAccountModel _account;
+        private readonly ICommand _listMailboxesCommand;
+        private readonly ICommand _selectMailboxCommand;
         private readonly ICommand _testSettingsCommand;
-        private readonly ICommand _registerAccount;
+        private readonly ICommand _registerCommand;
         private readonly ICommand _restoreMessagesCommand;
         private readonly OutboxContext _outbox;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
+        private bool _isMailboxSelectionAvailable;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
+
+        #region Construction
 
         internal MailAccountContext(MailAccountModel account) {
             _account = account;
             _appContext = App.Context;
             _outbox = new OutboxContext(this);
-            _registerAccount = new RelayCommand(OnRegister);
+            _registerCommand = new RelayCommand(OnRegister);
+            _selectMailboxCommand = new RelayCommand(OnSelectMailbox);
+            _listMailboxesCommand = new RelayCommand(OnListMailboxes);
             _restoreMessagesCommand = new RestoreMessageCommand(this);
             _testSettingsCommand = new RelayCommand(OnTestSettings);
             _isAutoDetectPreferred = true;
             _mailboxes = new ObservableCollection<MailboxContext>();
+        }
+
+        #endregion
+
+        private void OnListMailboxes(object obj) {
+            IsMailboxSelectionAvailable = true;
+        }
+
+        private void OnSelectMailbox(object obj) {
+            
         }
 
         private async void OnRegister(object obj) {
@@ -62,7 +84,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public ICommand RegisterCommand {
-            get { return _registerAccount; }
+            get { return _registerCommand; }
         }
 
         public ICommand RestoreMessagesCommand {
@@ -73,13 +95,32 @@ namespace Crystalbyte.Paranoia {
             get { return _testSettingsCommand; }
         }
 
+        public ICommand SelectMailboxCommand {
+            get { return _selectMailboxCommand; }
+        }
+
+        public ICommand ListMailboxesCommand {
+            get { return _listMailboxesCommand; }
+        }
+
+        public bool IsMailboxSelectionAvailable {
+            get { return _isMailboxSelectionAvailable; }
+            set {
+                if (_isMailboxSelectionAvailable == value) {
+                    return;
+                }
+                _isMailboxSelectionAvailable = value;
+                RaisePropertyChanged(() => IsMailboxSelectionAvailable);
+            }
+        }
+
         internal async Task TakeOnlineAsync() {
             try {
                 await SyncMailboxesAsync();
 
                 var inbox = GetInbox();
                 if (inbox != null && inbox.IsAssigned) {
-                    inbox.IdleAsync();    
+                    inbox.IdleAsync();
                 }
 
                 IsOnline = true;
@@ -200,7 +241,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 IsOutboxSelected = false;
-                
+
                 await App.Context.RefreshMessagesAsync();
                 await mailbox.SyncMessagesAsync();
             } catch (Exception ex) {

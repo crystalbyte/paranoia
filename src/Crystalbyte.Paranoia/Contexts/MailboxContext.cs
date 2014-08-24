@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Globalization;
@@ -14,7 +13,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Net;
@@ -59,6 +57,15 @@ namespace Crystalbyte.Paranoia {
         }
 
         #endregion
+
+        public event EventHandler AttachmentChanged;
+
+        private void OnAttachmentChanged() {
+            var handler = AttachmentChanged;
+            if (handler != null) 
+                handler(this, EventArgs.Empty);
+        }
+
 
         public event EventHandler AssignmentChanged;
 
@@ -150,7 +157,20 @@ namespace Crystalbyte.Paranoia {
             }
 
             RaisePropertyChanged(() => IsAssigned);
+            RaisePropertyChanged(() => IsAssignable);
             OnAssignmentChanged();
+        }
+
+        public bool IsAttached {
+            get { return _mailbox.IsAttached; }
+            set {
+                if (_mailbox.IsAttached == value) {
+                    return;
+                }
+                _mailbox.IsAttached = value;
+                RaisePropertyChanged(() => IsAttached);
+                OnAttachmentChanged();
+            }
         }
 
         public bool IsAssigned {
@@ -290,7 +310,6 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-
             IsSyncing = true;
 
             try {
@@ -401,7 +420,7 @@ namespace Crystalbyte.Paranoia {
             return messages;
         }
 
-        private async Task ProcessChallengeAsync(ImapEnvelope envelope, ImapMailbox mailbox) {
+        private static async Task ProcessChallengeAsync(ImapEnvelope envelope, ImapMailbox mailbox) {
             var body = await mailbox.FetchMessageBodyAsync(envelope.Uid);
             var bytes = Encoding.UTF8.GetBytes(body);
             var message = new MailMessageReader(bytes);
@@ -452,7 +471,7 @@ namespace Crystalbyte.Paranoia {
             await RespondToChallengeAsync(Encoding.UTF8.GetString(data));
         }
 
-        private async Task RespondToChallengeAsync(string challenge) {
+        private static async Task RespondToChallengeAsync(string challenge) {
             var response = JsonConvert.SerializeObject(new ChallengeResponse {
                 Token = challenge
             });

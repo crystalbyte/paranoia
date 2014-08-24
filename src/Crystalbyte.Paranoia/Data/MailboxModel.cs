@@ -35,6 +35,9 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("type")]
         public MailboxType Type { get; set; }
 
+        [Column("is_attached")]
+        public bool IsAttached { get; set; }
+
         [Column("account_id")]
         [ForeignKey("Account")]
         public Int64 AccountId { get; set; }
