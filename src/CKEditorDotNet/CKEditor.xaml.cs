@@ -64,11 +64,11 @@ namespace CKEditorDotNet {
 
         public CKEditor() {
             InitializeComponent();
-            WebCore.Initialized += (sender, e) => {
-                Dispatcher.Invoke(() => {
-                    WebCore.ResourceInterceptor = new bla();
-                });
-            };
+            //WebCore.Initialized += (sender, e) => {
+            //    Dispatcher.Invoke(() => {
+            //        WebCore.ResourceInterceptor = new bla();
+            //    });
+            //};
 
             //_objectForScripting = new EditorObjectForScripting(this);
             EditorBrowser.Loaded += OnEditorBrowserLoaded;
