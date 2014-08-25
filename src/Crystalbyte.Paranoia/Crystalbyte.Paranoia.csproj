@@ -173,6 +173,7 @@
       <DependentUpon>NotificationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ClientConfig.cs" />
+    <Compile Include="ResourceInterceptor.cs" />
     <Compile Include="RevisionTracker.cs" />
     <Compile Include="SecurityMeasure.cs" />
     <Compile Include="UI\Commands\MarkAsNotSeenCommand.cs" />

@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.editorConfig = function (config) {
-    config.width = '100%';
+    config.width = '99,9%';
     config.height = '100%';
     config.disableNativeSpellChecker = false;
     config.resize_enabled = false;

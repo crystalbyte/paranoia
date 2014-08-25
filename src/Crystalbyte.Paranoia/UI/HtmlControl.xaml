@@ -41,8 +41,8 @@
                             <Border Grid.Row="1" Padding="{TemplateBinding Padding}">
                                 <awe:WebControl x:Name="PART_WebControl"
                                                 AdjustToDpi="True"
-                                                    Background="{TemplateBinding Background}"
-                                                    IsTabStop="False"
+                                                Background="{TemplateBinding Background}"
+                                                IsTabStop="False"
                                                     IsTransparent="{TemplateBinding IsTransparent}"
                                                     RenderOptions.BitmapScalingMode="NearestNeighbor"
                                                     RenderOptions.EdgeMode="Aliased"

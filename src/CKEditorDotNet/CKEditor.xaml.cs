@@ -64,11 +64,11 @@ namespace CKEditorDotNet {
 
         public CKEditor() {
             InitializeComponent();
-            WebCore.Initialized += (sender, e) => {
-                Dispatcher.Invoke(() => {
-                    WebCore.ResourceInterceptor = new bla();
-                });
-            };
+            //WebCore.Initialized += (sender, e) => {
+            //    Dispatcher.Invoke(() => {
+            //        WebCore.ResourceInterceptor = new bla();
+            //    });
+            //};
 
             //_objectForScripting = new EditorObjectForScripting(this);
             EditorBrowser.Loaded += OnEditorBrowserLoaded;
@@ -160,20 +160,4 @@ namespace CKEditorDotNet {
 
         #endregion
     }
-
-    public class bla : IResourceInterceptor {
-        public bool OnFilterNavigation(NavigationRequest request) {
-            return false;
-        }
-
-        public ResourceResponse OnRequest(ResourceRequest request) {
-            Debug.WriteLine(request.Url.AbsolutePath);
-            //if (request.Url.AbsolutePath.EndsWith(".js")) {
-            //    return null;
-            //}
-            
-            return null;
-        }
-    }
-
 }
