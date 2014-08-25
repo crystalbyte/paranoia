@@ -7,6 +7,7 @@ using System.Windows.Input;
 #endregion
 
 namespace Crystalbyte.Paranoia.UI.Commands {
+
     public sealed class ForwardCommand : ICommand {
         private readonly AppContext _app;
 

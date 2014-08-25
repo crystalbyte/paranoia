@@ -1,5 +1,4 @@
 ﻿using Crystalbyte.Paranoia.Contexts;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +7,14 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
-    internal class AddAttachmentCommand : ICommand {
+    public class RemoveAttachmentCommand : ICommand {
 
         private readonly MailCompositionContext _context;
+        private readonly AttachmentContext _attachmentContext;
 
-        public AddAttachmentCommand(MailCompositionContext context) {
+        public RemoveAttachmentCommand(MailCompositionContext context, AttachmentContext attachmentContext) {
             _context = context;
+            _attachmentContext = attachmentContext;
         }
 
         public bool CanExecute(object parameter) {
@@ -23,14 +24,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         public event EventHandler CanExecuteChanged;
 
         public void Execute(object parameter) {
-            var dialoge = new OpenFileDialog();
-            dialoge.Multiselect = true;
-            var result = dialoge.ShowDialog();
-
-            if (result != null && result == true) {
-                var filename = dialoge.FileNames;
-                filename.ForEach(x => _context.Attachments.Add(new AttachmentContext(_context, x)));
-            }
+            _context.Attachments.Remove(_attachmentContext);
         }
     }
 }
