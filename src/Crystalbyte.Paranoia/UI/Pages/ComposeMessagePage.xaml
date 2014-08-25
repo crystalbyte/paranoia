@@ -121,7 +121,7 @@
                  Grid.Column="1"
                  Text="{Binding Subject,
                                 Mode=TwoWay}" />
-        <ListView ItemsSource="{Binding Attachments}" Grid.Row="2" Grid.ColumnSpan="2">
+        <ListView ItemsSource="{Binding Attachments}" Grid.Row="2" Grid.ColumnSpan="2" Background="Transparent">
             <ListView.Style>
                 <Style TargetType="ListView">
                     <Style.Triggers>
@@ -139,7 +139,7 @@
             <ListView.ItemTemplate>
                 <ItemContainerTemplate>
                     <StackPanel Orientation="Horizontal" Background="Transparent" ToolTip="{Binding FullName}">
-                        <TextBlock Text="{Binding Name}" Margin="2,0,2,0"/>
+                        <TextBlock Text="{Binding Name}" Margin="2,0,2,0" Foreground="#BADA55"/>
                         <Button Content="X" Command="{Binding RemoveAttachmentCommand}"/>
                     </StackPanel>
                 </ItemContainerTemplate>
