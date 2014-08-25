@@ -148,6 +148,7 @@
     </ApplicationDefinition>
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="AudioPlayer.cs" />
+    <Compile Include="Contexts\AttachmentContext.cs" />
     <Compile Include="Contexts\CreateContactContext.cs" />
     <Compile Include="Contexts\CreateKeyPairContext.cs" />
     <Compile Include="Contexts\NotificationWindowContext.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="ResourceInterceptor.cs" />
     <Compile Include="RevisionTracker.cs" />
     <Compile Include="SecurityMeasure.cs" />
+    <Compile Include="UI\Commands\AddAttachmentCommand.cs" />
     <Compile Include="UI\Commands\MarkAsNotSeenCommand.cs" />
     <Compile Include="UI\Commands\MarkAsSeenCommand.cs" />
     <Compile Include="UI\Commands\RestoreMessageCommand.cs" />

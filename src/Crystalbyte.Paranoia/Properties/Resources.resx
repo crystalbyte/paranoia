@@ -425,4 +425,7 @@ Once your password is lost you're screwed.</value>
   <data name="BindingNotice" xml:space="preserve">
     <value>Mailbox is bound.</value>
   </data>
+  <data name="AddAttachment" xml:space="preserve">
+    <value>Add attachment</value>
+  </data>
 </root>
