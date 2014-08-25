@@ -43,7 +43,8 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _registerCommand;
         private readonly ICommand _restoreMessagesCommand;
         private readonly OutboxContext _outbox;
-        private readonly ObservableCollection<MailboxContext> _mailboxes;
+        private readonly ObservableCollection<MailboxContext> _systemMailboxes;
+        private readonly ObservableCollection<MailboxContext> _rootMailboxes;
         private bool _isMailboxSelectionAvailable;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -62,8 +63,11 @@ namespace Crystalbyte.Paranoia {
             _restoreMessagesCommand = new RestoreMessageCommand(this);
             _testSettingsCommand = new RelayCommand(OnTestSettings);
             _isAutoDetectPreferred = true;
-            _mailboxes = new ObservableCollection<MailboxContext>();
-            _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Mailboxes);
+            _systemMailboxes = new ObservableCollection<MailboxContext>();
+            _systemMailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => SystemMailboxes);
+
+            _rootMailboxes = new ObservableCollection<MailboxContext>();
+            _systemMailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => RootMailboxes);
         }
 
         #endregion
@@ -73,7 +77,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnSelectMailbox(object obj) {
-            
+
         }
 
         private async void OnRegister(object obj) {
@@ -151,8 +155,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void Clear() {
-            _mailboxes.Clear();
-            _mailboxes.Clear();
+            _systemMailboxes.Clear();
+            _systemMailboxes.Clear();
         }
 
         internal async Task<List<ImapMailboxInfo>> ListMailboxesAsync(string pattern = "") {
@@ -171,7 +175,7 @@ namespace Crystalbyte.Paranoia {
             try {
                 App.Context.StatusText = Resources.SyncMailboxesStatus;
 
-                var mailboxes = _mailboxes.ToArray();
+                var mailboxes = _systemMailboxes.ToArray();
                 var remoteMailboxes = await ListMailboxesAsync();
                 if (IsGmail) {
                     // Fetch gmail folders and assign automagically.
@@ -196,6 +200,16 @@ namespace Crystalbyte.Paranoia {
                     .Select(x => x.SyncMessagesAsync());
 
                 await Task.WhenAll(t2);
+
+                foreach (var mailbox in remoteMailboxes.Where(x => _systemMailboxes.All(y => x.Name != y.Name))) {
+                    var context = new MailboxContext(this, new MailboxModel {
+                        AccountId = _account.Id
+                    });
+
+                    await context.InsertAsync();
+                    await context.BindMailboxAsync(mailbox);
+                }
+
             } finally {
                 App.Context.ResetStatusText();
             }
@@ -210,20 +224,27 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task LoadMailboxesAsync() {
-            var mailboxes = await Task.Factory.StartNew(() => {
-                using (var context = new DatabaseContext()) {
-                    context.MailAccounts.Attach(_account);
-                    return _account.Mailboxes.ToArray();
-                }
-            });
+            MailboxModel[] mailboxes;
+            using (var context = new DatabaseContext()) {
+                mailboxes = await context.Mailboxes
+                    .Where(x => x.AccountId == _account.Id)
+                    .ToArrayAsync();
+            }
 
-            _mailboxes.AddRange(mailboxes.Select(x => new MailboxContext(this, x)));
-            var inbox = _mailboxes.FirstOrDefault(x => x.Type == MailboxType.Inbox);
+            _systemMailboxes.AddRange(mailboxes
+                .Where(x => x.Type != MailboxType.Custom)
+                .Select(x => new MailboxContext(this, x)));
+
+            var inbox = _systemMailboxes.FirstOrDefault(x => x.Type == MailboxType.Inbox);
             if (inbox != null) {
                 inbox.IsSelected = true;
             }
 
-            var tasks = _mailboxes.Select(x => x.CountNotSeenAsync());
+            _rootMailboxes.AddRange(mailboxes
+                .Where(x => !x.Name.Contains(x.Delimiter))
+                .Select(x => new MailboxContext(this, x)));
+
+            var tasks = _systemMailboxes.Select(x => x.CountNotSeenAsync());
             await Task.WhenAll(tasks);
         }
 
@@ -330,7 +351,7 @@ namespace Crystalbyte.Paranoia {
         private async void OnOutboxSelectionChanged() {
             try {
                 if (IsOutboxSelected) {
-                    Mailboxes.ForEach(x => x.IsSelected = false);
+                    SystemMailboxes.ForEach(x => x.IsSelected = false);
                     await Outbox.LoadSmtpRequestsFromDatabaseAsync();
                 } else {
                     Outbox.Clear();
@@ -521,8 +542,12 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public IEnumerable<MailboxContext> Mailboxes {
-            get { return _mailboxes; }
+        public IEnumerable<MailboxContext> SystemMailboxes {
+            get { return _systemMailboxes; }
+        }
+
+        public IEnumerable<MailboxContext> RootMailboxes {
+            get { return _rootMailboxes; }
         }
 
         internal async Task TestSettingsAsync() {
@@ -632,9 +657,9 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task SaveAsync() {
+        internal async Task InsertAsync() {
             try {
-                AddSystemMailboxes();
+
                 using (var database = new DatabaseContext()) {
                     database.MailAccounts.Add(_account);
                     await database.SaveChangesAsync();
@@ -644,7 +669,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void AddSystemMailboxes() {
+        internal void AddSystemMailboxes() {
             _account.Mailboxes.Add(new MailboxModel {
                 Type = MailboxType.Inbox
             });
@@ -717,7 +742,7 @@ namespace Crystalbyte.Paranoia {
 
         internal async Task DeleteAsync() {
             try {
-                foreach (var mailbox in Mailboxes) {
+                foreach (var mailbox in SystemMailboxes) {
                     await mailbox.DeleteAsync();
                 }
 
@@ -768,7 +793,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 await mailbox.LoadMessagesForContactAsync(contact);
-                foreach (var box in Mailboxes.AsParallel()) {
+                foreach (var box in SystemMailboxes.AsParallel()) {
                     await box.CountNotSeenAsync();
                 }
             } catch (Exception ex) {
@@ -784,7 +809,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 await mailbox.LoadMessagesAsync();
-                foreach (var box in Mailboxes.AsParallel()) {
+                foreach (var box in SystemMailboxes.AsParallel()) {
                     await box.CountNotSeenAsync();
                 }
             } catch (Exception ex) {
@@ -793,7 +818,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal MailboxContext GetInbox() {
-            return _mailboxes.FirstOrDefault(x => x.IsInbox);
+            return _systemMailboxes.FirstOrDefault(x => x.IsInbox);
         }
 
         internal async Task RestoreMessagesAsync(ICollection<MailMessageContext> messages) {
@@ -834,7 +859,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private MailboxContext GetTrash() {
-            return _mailboxes.FirstOrDefault(x => x.IsTrash);
+            return _systemMailboxes.FirstOrDefault(x => x.IsTrash);
         }
     }
 }

@@ -643,7 +643,7 @@
                       Background="Transparent"
                       BorderThickness="0"
                       DataContext="{Binding SelectedAccount}"
-                      ItemsSource="{Binding Mailboxes}"
+                      ItemsSource="{Binding SystemMailboxes}"
                       KeyboardNavigation.DirectionalNavigation="Contained"
                       KeyboardNavigation.TabNavigation="None"
                       Padding="0"
@@ -795,7 +795,6 @@
                                       Background="Transparent"
                                       BorderThickness="0"
                                       ItemsSource="{Binding Mailboxes}">
-
                                 <TreeView.ItemTemplate>
                                     <HierarchicalDataTemplate DataType="paranoia:MailboxContext">
                                         <StackPanel Orientation="Horizontal">

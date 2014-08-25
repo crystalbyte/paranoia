@@ -101,6 +101,30 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        internal async Task InsertAsync() {
+            try {
+                using (var database = new DatabaseContext()) {
+                    database.Mailboxes.Add(_mailbox);
+                    await database.SaveChangesAsync();
+                }
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        internal async Task UpdateAsync() {
+            try {
+                using (var database = new DatabaseContext()) {
+                    database.Mailboxes.Attach(_mailbox);
+                    database.Entry(_account).State = EntityState.Modified;
+                    await database.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
         internal async Task DeleteMessagesAsync(MailMessageContext[] messages, string trashFolder) {
             try {
                 using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
@@ -249,6 +273,9 @@ namespace Crystalbyte.Paranoia {
             get { return !_mailbox.Flags.ContainsIgnoreCase(MailboxFlags.NoSelect); }
         }
 
+        public bool IsSystemMailbox {
+            get { return _mailbox.Type != MailboxType.Custom; }
+        }
 
         public MailboxType Type {
             get { return _mailbox.Type; }
@@ -310,7 +337,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task<IEnumerable<MailMessageModel>> SyncNonChallengesAsync(ImapMailbox mailbox, long uid) {
+        private static async Task<IEnumerable<MailMessageModel>> SyncNonChallengesAsync(ImapMailbox mailbox, long uid) {
             var criteria = string.Format("{0}:* NOT HEADER \"{1}\" \"{2}\"", uid, ParanoiaHeaderKeys.Type, MailType.Challenge);
             var uids = await mailbox.SearchAsync(criteria);
             if (!uids.Any()) {
@@ -339,7 +366,7 @@ namespace Crystalbyte.Paranoia {
             return messages;
         }
 
-        private async Task<IEnumerable<MailMessageModel>> SyncChallengesAsync(ImapMailbox mailbox, long uid) {
+        private static async Task<IEnumerable<MailMessageModel>> SyncChallengesAsync(ImapMailbox mailbox, long uid) {
             var criteria = string.Format("{0}:* HEADER \"{1}\" \"{2}\"", uid, ParanoiaHeaderKeys.Type, MailType.Challenge);
             var uids = await mailbox.SearchAsync(criteria);
             if (!uids.Any()) {

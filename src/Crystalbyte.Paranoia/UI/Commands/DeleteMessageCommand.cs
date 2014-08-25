@@ -33,12 +33,12 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         public bool CanExecute(object parameter) {
             return _app.SelectedAccount != null
                    && _app.SelectedMessage != null
-                   && _app.SelectedAccount.Mailboxes.FirstOrDefault(x => x.Type == MailboxType.Trash) != null;
+                   && _app.SelectedAccount.SystemMailboxes.FirstOrDefault(x => x.Type == MailboxType.Trash) != null;
         }
 
         public async void Execute(object parameter) {
             try {
-                var trash = _app.SelectedAccount.Mailboxes.FirstOrDefault(x => x.Type == MailboxType.Trash);
+                var trash = _app.SelectedAccount.SystemMailboxes.FirstOrDefault(x => x.Type == MailboxType.Trash);
                 if (trash == null) {
                     return;
                 }
