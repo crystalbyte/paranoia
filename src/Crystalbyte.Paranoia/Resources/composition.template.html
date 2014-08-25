@@ -23,6 +23,9 @@
     <script type="text/javascript" src="Resources/ckeditor/adapters/jquery.js"></script>
     <script type="text/javascript" src="Resources/ckeditor.paranoia/paranoia.js"></script>
     <script type="text/javascript">
+        $(window).resize(function () {
+            resizeEditor();
+        });
         $(document).ready(function () {
             start();
         });

@@ -6,8 +6,10 @@ $(document).ready(function () {
 function resizeEditor() {
     var html = document.documentElement;
     var height = html.clientHeight;
-    if (CKEDITOR != 'undefined' && CKEDITOR.instances != 'undefined' && CKEDITOR.instances.editor1 != 'undefined')
-        CKEDITOR.instances.editor1.resize('100%', isNaN(height) ? '300' : height);
+    var width = html.clientWidth;
+    if (CKEDITOR != 'undefined' && CKEDITOR.instances != 'undefined' && CKEDITOR.instances.editor1 != 'undefined') {
+        CKEDITOR.instances.editor1.resize(isNaN(width) ? '300' : width, isNaN(height) ? '300' : height);
+    }
 }
 
 function getEditorHtml() {

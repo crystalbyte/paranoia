@@ -17,6 +17,7 @@ using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
 using Crystalbyte.Paranoia.Cryptography;
+using Crystalbyte.Paranoia.Contexts;
 
 #endregion
 
@@ -29,7 +30,9 @@ namespace Crystalbyte.Paranoia {
         private string _subject;
         private readonly ObservableCollection<string> _recipients;
         private readonly ObservableCollection<MailContactContext> _suggestions;
+        private readonly ObservableCollection<AttachmentContext> _attachments;
         private readonly ICommand _sendCommand;
+        private readonly ICommand _addAttachmentCommand;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
@@ -40,6 +43,8 @@ namespace Crystalbyte.Paranoia {
             _recipients = new ObservableCollection<string>();
             _suggestions = new ObservableCollection<MailContactContext>();
             _sendCommand = new SendCommand(this);
+            _addAttachmentCommand = new AddAttachmentCommand(this);
+            _attachments = new ObservableCollection<AttachmentContext>();
         }
 
         #endregion
@@ -70,8 +75,16 @@ namespace Crystalbyte.Paranoia {
             get { return _sendCommand; }
         }
 
+        public ICommand AddattachmentCommand {
+            get { return _addAttachmentCommand; }
+        }
+
         public ICollection<string> Recipients {
             get { return _recipients; }
+        }
+
+        public ICollection<AttachmentContext> Attachments {
+            get { return _attachments; }
         }
 
         public IEnumerable<MailContactContext> Suggestions {
@@ -137,8 +150,7 @@ namespace Crystalbyte.Paranoia {
                 var messages = await CreateSmtpMessagesAsync(account);
                 await account.SaveSmtpRequestsAsync(messages);
                 await App.Context.NotifyOutboxNotEmpty();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -180,7 +192,7 @@ namespace Crystalbyte.Paranoia {
                         messages.Add(message);
                     }
 
-                    if (keys == null) 
+                    if (keys == null)
                         continue;
 
                     foreach (var key in keys) {
@@ -202,7 +214,7 @@ namespace Crystalbyte.Paranoia {
             var keyBytes = Convert.FromBase64String(key.Data);
             var nonceBytes = PublicKeyCrypto.GenerateNonce();
 
-            var encryptedBytes = await Task.Factory.StartNew(() => 
+            var encryptedBytes = await Task.Factory.StartNew(() =>
                 App.Context.KeyContainer.EncryptWithPublicKey(bytes, keyBytes, nonceBytes));
 
             var wrapper = CreateMailMessage(account, recipient, "blubbi");
