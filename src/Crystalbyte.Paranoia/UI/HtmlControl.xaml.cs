@@ -3,9 +3,6 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
-using System.Net;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -16,11 +13,9 @@ using Crystalbyte.Paranoia.Properties;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.UI
-{
+namespace Crystalbyte.Paranoia.UI {
     [TemplatePart(Name = WebControlPartName, Type = typeof(WebControl))]
-    public class HtmlControl : Control
-    {
+    public class HtmlControl : Control {
 
         #region Xaml Support
 
@@ -37,35 +32,29 @@ namespace Crystalbyte.Paranoia.UI
 
         #region Construction
 
-        static HtmlControl()
-        {
+        static HtmlControl() {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(HtmlControl),
                 new FrameworkPropertyMetadata(typeof(HtmlControl)));
         }
 
-        public HtmlControl()
-        {
+        public HtmlControl() {
             HtmlFont = new FontFamily(Settings.Default.HtmlDefaultFontFamily);
             HtmlFontSize = Settings.Default.HtmlDefaultFontSize;
 
             GotKeyboardFocus += OnGotKeyboardFocus;
             IsKeyboardFocusWithinChanged += (sender, e) => Debug.WriteLine(Keyboard.FocusedElement);
 
-            if (!DesignerProperties.GetIsInDesignMode(this))
-            {
+            if (!DesignerProperties.GetIsInDesignMode(this)) {
                 Source = WebCore.Configuration.HomeURL.ToString();
             }
-            WebCore.Initialized += (sender, e) =>
-            {
-                Dispatcher.Invoke(() =>
-                {
+            WebCore.Initialized += (sender, e) => {
+                Dispatcher.Invoke(() => {
                     WebCore.ResourceInterceptor = new ResourceInterceptor();
                 });
             };
         }
 
-        private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
+        private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
             var presenter = e.NewFocus as WebViewPresenter;
             if (presenter == null)
                 return;
@@ -77,8 +66,7 @@ namespace Crystalbyte.Paranoia.UI
 
         #region Destruction
 
-        ~HtmlControl()
-        {
+        ~HtmlControl() {
             Dispose(false);
         }
 
@@ -86,8 +74,7 @@ namespace Crystalbyte.Paranoia.UI
 
         #region Dependency Properties
 
-        public float Zoom
-        {
+        public float Zoom {
             get { return (float)GetValue(ZoomProperty); }
             set { SetValue(ZoomProperty, value); }
         }
@@ -96,8 +83,7 @@ namespace Crystalbyte.Paranoia.UI
         public static readonly DependencyProperty ZoomProperty =
             DependencyProperty.Register("Zoom", typeof(float), typeof(HtmlControl), new PropertyMetadata(1.45f));
 
-        public bool IsTransparent
-        {
+        public bool IsTransparent {
             get { return (bool)GetValue(IsTransparentProperty); }
             set { SetValue(IsTransparentProperty, value); }
         }
@@ -109,8 +95,7 @@ namespace Crystalbyte.Paranoia.UI
 
         // This will be set to the target URL, when this window does not
         // host a created child view. The WebControl, is bound to this property.
-        public string Source
-        {
+        public string Source {
             get { return (string)GetValue(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
@@ -121,8 +106,7 @@ namespace Crystalbyte.Paranoia.UI
                 typeof(string), typeof(HtmlControl),
                 new FrameworkPropertyMetadata(string.Empty));
 
-        public bool IsReadOnly
-        {
+        public bool IsReadOnly {
             get { return (bool)GetValue(IsReadOnlyProperty); }
             set { SetValue(IsReadOnlyProperty, value); }
         }
@@ -131,8 +115,7 @@ namespace Crystalbyte.Paranoia.UI
         public static readonly DependencyProperty IsReadOnlyProperty =
             DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(HtmlControl), new PropertyMetadata(false));
 
-        public FontFamily HtmlFont
-        {
+        public FontFamily HtmlFont {
             get { return (FontFamily)GetValue(HtmlFontProperty); }
             set { SetValue(HtmlFontProperty, value); }
         }
@@ -142,8 +125,7 @@ namespace Crystalbyte.Paranoia.UI
             DependencyProperty.Register("HtmlFont", typeof(FontFamily), typeof(HtmlControl),
                 new PropertyMetadata(null));
 
-        public int HtmlFontSize
-        {
+        public int HtmlFontSize {
             get { return (int)GetValue(HtmlFontSizeProperty); }
             set { SetValue(HtmlFontSizeProperty, value); }
         }
@@ -156,12 +138,10 @@ namespace Crystalbyte.Paranoia.UI
 
         #region Class Overrides
 
-        public override void OnApplyTemplate()
-        {
+        public override void OnApplyTemplate() {
             base.OnApplyTemplate();
 
-            if (_webControl != null)
-            {
+            if (_webControl != null) {
                 _webControl.ShowCreatedWebView -= OnWebControlShowCreatedWebView;
                 _webControl.WindowClose -= OnWebControlWindowClose;
             }
@@ -173,8 +153,7 @@ namespace Crystalbyte.Paranoia.UI
 
         private void OnWebControlWindowClose(object sender, WindowCloseEventArgs e) { }
 
-        private void OnWebControlShowCreatedWebView(object sender, ShowCreatedWebViewEventArgs e)
-        {
+        private void OnWebControlShowCreatedWebView(object sender, ShowCreatedWebViewEventArgs e) {
 
         }
 
@@ -182,13 +161,11 @@ namespace Crystalbyte.Paranoia.UI
 
         #region Methods
 
-        public string GetDocument()
-        {
+        public string GetDocument() {
             return _webControl.HTML;
         }
 
-        private void FocusEntryParagraph()
-        {
+        private void FocusEntryParagraph() {
             if (!_webControl.IsDocumentReady)
                 return;
 
@@ -200,26 +177,21 @@ namespace Crystalbyte.Paranoia.UI
 
         #region Implementation of IDisposable
 
-        public void Dispose()
-        {
+        public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        private void Dispose(bool disposing)
-        {
-            if (_disposed)
-            {
+        private void Dispose(bool disposing) {
+            if (_disposed) {
                 return;
             }
 
-            if (disposing)
-            {
+            if (disposing) {
                 // Nothing managed to dispose here.
             }
 
-            if (_webControl != null)
-            {
+            if (_webControl != null) {
                 _webControl.Dispose();
             }
 
@@ -228,15 +200,11 @@ namespace Crystalbyte.Paranoia.UI
 
         #endregion
 
-        internal string GetEditorDocument()
-        {
-            try
-            {
+        internal string GetEditorDocument() {
+            try {
                 var html = _webControl.ExecuteJavascriptWithResult("getEditorHtml()");
                 return html;
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 Debug.WriteLine("something went wrong\n" + ex);
                 return string.Empty;
             }

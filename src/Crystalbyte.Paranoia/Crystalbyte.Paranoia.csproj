@@ -523,6 +523,7 @@
     <Resource Include="Assets\folder.png" />
     <Resource Include="Assets\sunrise.jpg" />
     <Resource Include="Assets\earth.jpg" />
+    <Resource Include="Assets\attach.png" />
     <Content Include="Resources\ckeditor.paranoia\paranoia.js" />
     <Content Include="Resources\ckeditor\adapters\jquery.js" />
     <Content Include="Resources\ckeditor\build-config.js" />

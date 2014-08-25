@@ -19,6 +19,7 @@ namespace Crystalbyte.Paranoia.UI {
     [TemplatePart(Name = AutoCompletePopupPartName, Type = typeof (Popup))]
     [TemplatePart(Name = AutoCompleteHostPartName, Type = typeof (ListView))]
     public sealed class AutoCompleteBox : RichTextBox {
+
         #region Xaml Support
 
         private const string AutoCompletePopupPartName = "PART_AutoCompletePopup";

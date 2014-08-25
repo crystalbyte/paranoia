@@ -1,9 +1,15 @@
-﻿function resizeEditor() {
+﻿
+$(document).ready(function () {
+    $(window).resize(resizeEditor);
+});
+
+function resizeEditor() {
     var html = document.documentElement;
     var height = html.clientHeight;
     if (CKEDITOR != 'undefined' && CKEDITOR.instances != 'undefined' && CKEDITOR.instances.editor1 != 'undefined')
         CKEDITOR.instances.editor1.resize('100%', isNaN(height) ? '300' : height);
 }
+
 function getEditorHtml() {
     return CKEDITOR.instances.editor1.getData();
 }

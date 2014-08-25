@@ -643,7 +643,7 @@
                       Background="Transparent"
                       BorderThickness="0"
                       DataContext="{Binding SelectedAccount}"
-                      ItemsSource="{Binding SystemMailboxes}"
+                      ItemsSource="{Binding DockedMailboxes}"
                       KeyboardNavigation.DirectionalNavigation="Contained"
                       KeyboardNavigation.TabNavigation="None"
                       Padding="0"
@@ -655,7 +655,7 @@
                     <ContextMenu>
                         <MenuItem DataContext="{Binding SelectedMailbox}"
                                   IsEnabled="False"
-                                  Visibility="{Binding IsAssigned,
+                                  Visibility="{Binding IsBound,
                                                        Converter={StaticResource BooleanToVisibilityConverter}}">
                             <MenuItem.Header>
                                 <StackPanel>
@@ -680,14 +680,14 @@
                                 </StackPanel>
                             </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem DataContext="{Binding SelectedMailbox}" Visibility="{Binding IsAssigned, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
+                        <MenuItem DataContext="{Binding SelectedMailbox}" Visibility="{Binding IsBound, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
                             <MenuItem.Header>
                                 <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.BindMailbox}" />
                             </MenuItem.Header>
                         </MenuItem>
                         <MenuItem Command="{Binding DropMailboxBindingCommand}"
                                   DataContext="{Binding SelectedMailbox}"
-                                  Visibility="{Binding IsAssigned,
+                                  Visibility="{Binding IsBound,
                                                        Converter={StaticResource BooleanToVisibilityConverter}}">
                             <MenuItem.Header>
                                 <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.RemoveMailboxBinding}" />
@@ -722,7 +722,7 @@
                                            Text="{Binding Type,
                                                           Converter={StaticResource MailboxLocalizer}}">
                                     <TextBlock.Foreground>
-                                        <Binding Path="IsAssigned">
+                                        <Binding Path="IsBound">
                                             <Binding.Converter>
                                                 <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
                                             </Binding.Converter>
@@ -794,7 +794,7 @@
                                       VerticalAlignment="Stretch"
                                       Background="Transparent"
                                       BorderThickness="0"
-                                      ItemsSource="{Binding Mailboxes}">
+                                      ItemsSource="{Binding RootMailboxes}">
                                 <TreeView.ItemTemplate>
                                     <HierarchicalDataTemplate DataType="paranoia:MailboxContext">
                                         <StackPanel Orientation="Horizontal">

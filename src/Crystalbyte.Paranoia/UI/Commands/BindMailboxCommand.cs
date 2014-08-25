@@ -19,7 +19,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
                 return false;
             }
             var info = (ImapMailboxInfo) parameter;
-            return !_mailbox.IsAssigned && info.IsSelectable;
+            return !_mailbox.IsBound && info.IsSelectable;
         }
 
         public async void Execute(object parameter) {

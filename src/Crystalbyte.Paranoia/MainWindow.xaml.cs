@@ -23,6 +23,7 @@ namespace Crystalbyte.Paranoia {
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow {
+
         #region Private Fields
 
         private Storyboard _slideInOverlayStoryboard;

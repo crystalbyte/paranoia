@@ -14,7 +14,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public bool CanExecute(object parameter) {
-            return _mailbox.IsAssigned;
+            return _mailbox.IsBound;
         }
 
         public async void Execute(object parameter) {

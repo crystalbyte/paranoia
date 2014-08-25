@@ -26,7 +26,7 @@ namespace Crystalbyte.Paranoia.Data {
                 {typeof (byte), integer},
                 {typeof (bool), integer},
                 {typeof (string), text},
-                {typeof (char), text},
+                {typeof (char), integer},
                 {typeof (DateTime), text},
                 {typeof (byte[]), blob},
                 {typeof (float), real},
