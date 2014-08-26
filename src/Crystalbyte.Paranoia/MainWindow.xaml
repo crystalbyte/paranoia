@@ -718,17 +718,20 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button x:Name="ListMailboxesButton"
-                    Grid.Column="2"
-                    Command="{Binding ListMailboxesCommand}"
-                    DataContext="{Binding SelectedAccount}"
-                    Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                  Metro.ListViewButtonStyle}}">
-                <TextBlock VerticalAlignment="Center"
-                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            Metro.MediumLargeFontSize}}"
-                           Text="..." />
-            </Button>
+            <Border Grid.Column="2"
+                    BorderBrush="Transparent"
+                    BorderThickness="0,1,0,0">
+                <Button x:Name="ListMailboxesButton"
+                        Command="{Binding ListMailboxesCommand}"
+                        DataContext="{Binding SelectedAccount}"
+                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                      Metro.ListViewButtonStyle}}">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                Metro.MediumLargeFontSize}}"
+                               Text="..." />
+                </Button>
+            </Border>
             <Popup Grid.Row="0"
                    Grid.Column="0"
                    AllowsTransparency="True"
@@ -759,11 +762,12 @@
                                       VerticalAlignment="Stretch"
                                       Background="Transparent"
                                       BorderThickness="0"
-                                      ItemsSource="{Binding RootMailboxes}">
+                                      ItemsSource="{Binding RootMailboxes}"
+                                      SelectedItemChanged="OnTreeViewSelectedItemChanged">
                                 <TreeView.ItemContainerStyle>
                                     <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
                                         <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
-                                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=OneWayToSource}" />
                                     </Style>
                                 </TreeView.ItemContainerStyle>
                                 <TreeView.ItemTemplate>
@@ -779,8 +783,6 @@
                                                    Source="/Assets/folder.png" />
                                             <TextBlock x:Name="MailboxNameBlock"
                                                        VerticalAlignment="Center"
-                                                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                     Metro.NormalTextStyle}}"
                                                        Text="{Binding LocalName}">
                                                 <TextBlock.Foreground>
                                                     <Binding Path="IsSelectable">
@@ -834,21 +836,6 @@
                         <Run Text="{x:Static properties:Resources.MessagesTitle}" />
                         <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
                     </TextBlock>
-                    <Border Margin="0,6,0,6" DataContext="{Binding SelectedAccount}">
-                        <StackPanel DataContext="{Binding SelectedMailbox}" Visibility="{Binding IsSyncingMessages, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <ProgressBar Height="1"
-                                         HorizontalAlignment="Stretch"
-                                         Maximum="{Binding TotalEnvelopeCount}"
-                                         Minimum="0"
-                                         Value="{Binding FetchedEnvelopeCount}" />
-                            <TextBlock Margin="16,3,0,0"
-                                       FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                        Metro.SmallFontSize}}"
-                                       Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                          Metro.AccentBrush}}"
-                                       Text="{x:Static properties:Resources.SyncMailboxesStatus}" />
-                        </StackPanel>
-                    </Border>
                 </StackPanel>
             </Border>
             <Border Grid.Row="0"

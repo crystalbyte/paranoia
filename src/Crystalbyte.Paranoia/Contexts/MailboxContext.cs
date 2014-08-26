@@ -120,6 +120,7 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 await SyncChildrenAsync();
+
             } catch (Exception ex) {
                 Logger.Error(ex);
             }

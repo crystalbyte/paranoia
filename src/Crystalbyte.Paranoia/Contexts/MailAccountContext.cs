@@ -271,7 +271,8 @@ namespace Crystalbyte.Paranoia {
 
                 await App.Context.RefreshMessagesAsync();
                 await mailbox.SyncMessagesAsync();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -549,7 +550,7 @@ namespace Crystalbyte.Paranoia {
 
         public IEnumerable<MailboxContext> DockedMailboxes {
             get {
-                return _mailboxes.Where(x => x.IsDocked);
+                return _mailboxes.Where(x => x.IsDocked || x.IsSelected).ToArray();
             }
         }
 

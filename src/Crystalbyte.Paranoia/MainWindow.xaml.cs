@@ -203,5 +203,17 @@ namespace Crystalbyte.Paranoia {
         private void OnSelectedAccountChanged(object sender, SelectionChangedEventArgs e) {
             AccountSelectionPopup.IsOpen = false;
         }
+
+        private void OnTreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
+            var app = App.Composition.GetExport<AppContext>();
+            var account = app.SelectedAccount;
+            if (account == null) {
+                return;
+            }
+
+            var tree = (TreeView) sender;
+            account.SelectedMailbox = tree.SelectedValue as MailboxContext;
+            account.NotifyDockingChanged();
+        }
     }
 }
