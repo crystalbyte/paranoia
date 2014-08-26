@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using NLog;
+using Crystalbyte.Paranoia.Contexts;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 #endregion
 
@@ -18,11 +22,21 @@ namespace Crystalbyte.Paranoia {
         private long _bytesReceived;
         private readonly MailboxContext _mailbox;
         private readonly MailMessageModel _message;
+        private ObservableCollection<AttachmentContext> _attachments;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public MailMessageContext(MailboxContext mailbox, MailMessageModel message) {
             _mailbox = mailbox;
             _message = message;
+        }
+
+        public ICollection<AttachmentContext> Attachments {
+            get {
+                if (_attachments == null) {
+
+                }
+                return _attachments;
+            }
         }
 
         public long Id {

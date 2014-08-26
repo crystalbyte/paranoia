@@ -182,6 +182,7 @@
     <Compile Include="UI\Commands\AddAttachmentCommand.cs" />
     <Compile Include="UI\Commands\MarkAsNotSeenCommand.cs" />
     <Compile Include="UI\Commands\MarkAsSeenCommand.cs" />
+    <Compile Include="UI\Commands\OpenAttachmentCommand.cs" />
     <Compile Include="UI\Commands\RemoveAttachmentCommand.cs" />
     <Compile Include="UI\Commands\RestoreMessageCommand.cs" />
     <Compile Include="UI\Converters\BooleanToVisibilityMultiConverter.cs" />

@@ -25,6 +25,10 @@ using Crystalbyte.Paranoia.UI.Commands;
 using Crystalbyte.Paranoia.UI.Pages;
 using Newtonsoft.Json;
 using NLog;
+using Crystalbyte.Paranoia.Contexts;
+using Crystalbyte.Paranoia.Mail;
+using System.Text;
+using Crystalbyte.Paranoia.Mail.Mime;
 
 #endregion
 
@@ -44,6 +48,7 @@ namespace Crystalbyte.Paranoia {
         private readonly DispatcherTimer _outboxTimer;
         private MailAccountContext _selectedAccount;
         private IEnumerable<MailMessageContext> _selectedMessages;
+        private ObservableCollection<AttachmentContext> _attachments;
         private readonly ObservableCollection<MailMessageContext> _messages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
         private readonly ObservableCollection<MailContactContext> _contacts;
@@ -76,6 +81,8 @@ namespace Crystalbyte.Paranoia {
 
             _messages = new ObservableCollection<MailMessageContext>();
             _messages.CollectionChanged += OnMessagesCollectionChanged;
+
+            _attachments = new ObservableCollection<AttachmentContext>();
 
             _printCommand = new PrintCommand(this);
             _replyCommand = new ReplyCommand(this);
@@ -300,6 +307,12 @@ namespace Crystalbyte.Paranoia {
 
         public IEnumerable<MailContactContext> Contacts {
             get { return _contacts; }
+        }
+
+        public ICollection<AttachmentContext> Attachments {
+            get {
+                return _attachments;
+            }
         }
 
         public bool IsPopupVisible {
@@ -593,6 +606,7 @@ namespace Crystalbyte.Paranoia {
                 await message.DownloadMessageAsync();
             }
 
+            DisplayAttachment(message);
             DisplayMessage(message);
         }
 
@@ -632,6 +646,28 @@ namespace Crystalbyte.Paranoia {
 
         private void ClearMessageView() {
             Source = null;
+        }
+
+        private void DisplayAttachment(MailMessageContext message) {
+            //Attachments.Clear();
+            var attachmentContexts = new List<AttachmentContext>();
+            using (var context = new DatabaseContext()) {
+                if (context == null)
+                    return;
+
+                var mimeMessage = context.MimeMessages.Where(x => x.MessageId == message.Id).FirstOrDefault();
+                if (mimeMessage == null)
+                    return;
+
+                var reader = new MailMessageReader(Encoding.UTF8.GetBytes(mimeMessage.Data));
+                var attachments = reader.FindAllAttachments();
+
+                attachments.ForEach(x => attachmentContexts.Add(new AttachmentContext(x)));
+            }
+            Application.Current.Dispatcher.Invoke(() => {
+                Attachments.Clear();
+                Attachments.AddRange(attachmentContexts);
+            });
         }
 
         private void DisplayMessage(MailMessageContext message) {
@@ -749,7 +785,7 @@ namespace Crystalbyte.Paranoia {
         internal async void NotifyMessagesAdded(ICollection<MailMessageContext> messages) {
             foreach (var message in messages.Where(message => message.Mailbox.IsSelected)) {
                 _messages.Add(message);
-                }
+            }
 
             await RefreshContactStatisticsAsync();
             RaisePropertyChanged(() => Messages);
