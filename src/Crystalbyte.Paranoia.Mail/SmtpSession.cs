@@ -147,7 +147,7 @@ namespace Crystalbyte.Paranoia.Mail {
                     bytes += Encoding.UTF8.GetByteCount(line) + 2;
                     OnProgressChanged(new ProgressChangedEventArgs(bytes));
 
-                    if (total >= bytes) {
+                    if (total <= bytes) {
                         break;
                     }
                 }

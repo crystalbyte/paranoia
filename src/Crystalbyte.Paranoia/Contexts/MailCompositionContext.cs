@@ -157,15 +157,19 @@ namespace Crystalbyte.Paranoia {
 
 
         private MailMessage CreateMailMessage(MailAccountContext account, string recipient, string content) {
-            return new MailMessage(
+            var message = new MailMessage(
                     new MailAddress(account.Address, account.Name),
                     new MailAddress(recipient)) {
                         IsBodyHtml = true,
                         Subject = Subject,
                         Body = string.Format("<html>{0}</html>", content),
                         BodyEncoding = Encoding.UTF8,
-                        BodyTransferEncoding = TransferEncoding.Base64
+                        BodyTransferEncoding = TransferEncoding.Base64,
                     };
+
+            _attachments.ForEach(x => message.Attachments.Add(new Attachment(x.FullName)));
+
+            return message;
         }
 
         private async Task<IEnumerable<MailMessage>> CreateSmtpMessagesAsync(MailAccountContext account) {
@@ -184,13 +188,21 @@ namespace Crystalbyte.Paranoia {
                     if (contact == null) {
                         var message = CreateMailMessage(account, recipient, e.Document);
                         messages.Add(message);
+                        continue;
                     }
 
                     var keys = await database.PublicKeys.Where(x => x.ContactId == contact.Id).ToListAsync();
                     if (keys == null || keys.Count == 0) {
                         var message = CreateMailMessage(account, recipient, e.Document);
                         messages.Add(message);
+                        continue;
                     }
+
+                    //if (contact != null) {
+                    //    var message = CreateMailMessage(account, recipient, e.Document);
+                    //    messages.Add(message);
+                    //    continue;
+                    //}
 
                     if (keys == null)
                         continue;

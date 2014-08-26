@@ -20,6 +20,7 @@ using Crystalbyte.Paranoia.UI.Commands;
 using Newtonsoft.Json;
 using MailMessage = System.Net.Mail.MailMessage;
 using NLog;
+using System.Windows;
 
 #endregion
 
@@ -186,8 +187,8 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-                var types = new List<MailboxType> { MailboxType.Inbox, MailboxType.Draft, MailboxType.Sent, MailboxType.Trash};
-                
+                var types = new List<MailboxType> { MailboxType.Inbox, MailboxType.Draft, MailboxType.Sent, MailboxType.Trash };
+
                 foreach (var mailbox in mailboxes) {
                     if (mailbox.Type == MailboxType.Inbox) {
                         types.Remove(MailboxType.Inbox);
@@ -209,7 +210,7 @@ namespace Crystalbyte.Paranoia {
                     });
 
                     await context.InsertAsync();
-                    context.SetMostProbableType(types, mailbox);    
+                    context.SetMostProbableType(types, mailbox);
                     await context.BindMailboxAsync(mailbox);
 
                     _mailboxes.Add(context);
@@ -661,9 +662,10 @@ namespace Crystalbyte.Paranoia {
                     var request = new SmtpRequestModel {
                         ToName = message.To.First().DisplayName,
                         ToAddress = message.To.First().Address,
-                        Subject = message.Subject,
-                        Mime = await message.ToMimeAsync()
+                        Subject = message.Subject
                     };
+                    var mime = await message.ToMimeAsync();
+                    request.Mime = mime;
 
                     account.SmtpRequests.Add(request);
                 }
