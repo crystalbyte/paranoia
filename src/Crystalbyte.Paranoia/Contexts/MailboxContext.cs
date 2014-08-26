@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Globalization;
@@ -38,8 +37,8 @@ namespace Crystalbyte.Paranoia {
         private readonly MailAccountContext _account;
         private readonly ICommand _bindMailboxCommand;
         private readonly ICommand _dropBindingCommand;
-        private readonly ObservableCollection<MailboxContext> _children;
         private bool _isLoadingChildren;
+        private bool _isSyncingChildren;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -50,7 +49,6 @@ namespace Crystalbyte.Paranoia {
         internal MailboxContext(MailAccountContext account, MailboxModel mailbox) {
             _account = account;
             _mailbox = mailbox;
-            _children = new ObservableCollection<MailboxContext>();
             _bindMailboxCommand = new BindMailboxCommand(this);
             _dropBindingCommand = new DropMailboxBindingCommand(this);
         }
@@ -125,33 +123,35 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task LoadChildrenAsync() {
-            try {
-                IsLoadingChildren = true;
-                if (!IsBound) {
-                    return;
-                }
-
-                var prefix = string.Format("{0}{1}", Name, Delimiter);
-
-                var mailboxes = _account.Mailboxes
-                    .Where(x => x.Name.StartsWith(prefix)).ToArray();
-
-                foreach (var mailbox in mailboxes) {
-                    await mailbox.LoadChildrenAsync();
-                }
-
-                _children.AddRange(mailboxes);
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            } finally {
-                IsLoadingChildren = false;
-            }
-        }
-
         private async Task SyncChildrenAsync() {
-            var pattern = string.Format("{0}{1}%", Name, Delimiter);
-            var children = await _account.ListMailboxesAsync(pattern);
+            try {
+                IsSyncingChildren = true;
+
+                var pattern = string.Format("{0}{1}%", Name, Delimiter);
+                var children = await _account.ListMailboxesAsync(pattern);
+                using (var database = new DatabaseContext()) {
+                    foreach (var child in children) {
+                        var c = child;
+                        var mailbox = await database.Mailboxes.FirstOrDefaultAsync(x => x.Name == c.Fullname);
+                        if (mailbox != null) {
+                            continue;
+                        }
+
+                        var context = new MailboxContext(_account, new MailboxModel {
+                            AccountId = _account.Id
+                        });
+
+                        await context.InsertAsync();
+                        await context.BindMailboxAsync(child);
+
+                        _account.NotifyMailboxAdded(context);
+                    }    
+                }
+            }
+            finally {
+                IsSyncingChildren = false;
+                RaisePropertyChanged(() => Children);
+            }
         }
 
         public bool IsLoadingChildren {
@@ -165,8 +165,30 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public object Children {
-            get { return _children; }
+        public bool IsSyncingChildren {
+            get { return _isSyncingChildren; }
+            set {
+                if (_isSyncingChildren == value) {
+                    return;
+                }
+                _isSyncingChildren = value;
+                RaisePropertyChanged(() => IsSyncingChildren);
+            }
+        }
+
+        public IEnumerable<MailboxContext> Children {
+            get {
+                var prefix = string.Format("{0}{1}", Name, Delimiter);
+                var mailboxes = _account.Mailboxes
+                  .Where(x => x.Name.StartsWith(prefix)).ToArray();
+
+                //"[Gmail]/Gesendet".Substring("[Gmail]/".Length, "[Gmail]/Gesendet".Length - "[Gmail]/".Length)
+                var m = mailboxes
+                    .Where(x => !x.Name.Substring(prefix.Length, x.Name.Length - prefix.Length).Contains(x.Delimiter))
+                    .ToArray();
+
+                return m;
+            }
         }
 
         internal string Delimiter {
@@ -339,6 +361,14 @@ namespace Crystalbyte.Paranoia {
 
         public MailboxType Type {
             get { return _mailbox.Type; }
+            set {
+                if (_mailbox.Type == value) {
+                    return;
+                }
+
+                _mailbox.Type = value;
+                RaisePropertyChanged(() => Type);
+            }
         }
 
         private Task<MailAccountModel> GetAccountAsync() {
@@ -650,28 +680,30 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        internal void SetMostProbableType(List<MailboxType> types, ImapMailboxInfo mailbox) {
 
-
-        internal void BindMostProbable(List<MailboxType> types, ImapMailboxInfo mailbox) {
-
-            if (mailbox.IsInbox && string.Compare(Name, "inbox", StringComparison.InvariantCultureIgnoreCase) >= 0) {
+            if (mailbox.IsInbox || string.Compare(Name, "inbox", StringComparison.InvariantCultureIgnoreCase) >= 0) {
                 types.Remove(MailboxType.Inbox);
                 _mailbox.Type = MailboxType.Inbox;
+                IsDocked = true;
             }
 
-            if (mailbox.IsGmailSent && string.Compare(Name, "sent", StringComparison.InvariantCultureIgnoreCase) >= 0) {
+            if (mailbox.IsGmailSent || string.Compare(Name, "sent", StringComparison.InvariantCultureIgnoreCase) >= 0) {
                 types.Remove(MailboxType.Sent);
                 _mailbox.Type = MailboxType.Sent;
+                IsDocked = true;
             }
 
-            if (mailbox.IsGmailDraft && string.Compare(Name, "draft", StringComparison.InvariantCultureIgnoreCase) >= 0) {
+            if (mailbox.IsGmailDraft || string.Compare(Name, "draft", StringComparison.InvariantCultureIgnoreCase) >= 0) {
                 types.Remove(MailboxType.Draft);
                 _mailbox.Type = MailboxType.Draft;
+                IsDocked = true;
             }
 
-            if (mailbox.IsGmailTrash && string.Compare(Name, "trash", StringComparison.InvariantCultureIgnoreCase) >= 0) {
+            if (mailbox.IsGmailTrash || string.Compare(Name, "trash", StringComparison.InvariantCultureIgnoreCase) >= 0) {
                 types.Remove(MailboxType.Trash);
                 _mailbox.Type = MailboxType.Trash;
+                IsDocked = true;
             }
         }
 
@@ -827,6 +859,10 @@ namespace Crystalbyte.Paranoia {
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
+        }
+
+        public bool HasChildren {
+            get { return Children.Any(); }
         }
     }
 }

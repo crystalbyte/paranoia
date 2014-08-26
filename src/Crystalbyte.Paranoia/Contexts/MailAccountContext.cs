@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
-using System.Data.SqlTypes;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -204,27 +203,23 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-
                 foreach (var mailbox in remoteMailboxes.Where(x => _mailboxes.All(y => string.Compare(x.Fullname, y.Name, StringComparison.InvariantCultureIgnoreCase) != 0))) {
                     var context = new MailboxContext(this, new MailboxModel {
                         AccountId = _account.Id
                     });
 
                     await context.InsertAsync();
-                    context.BindMostProbable(types, mailbox);    
+                    context.SetMostProbableType(types, mailbox);    
                     await context.BindMailboxAsync(mailbox);
 
                     _mailboxes.Add(context);
-
-                    
-                    
                 }
 
-                var inbox = mailboxes
+                var inbox = _mailboxes
                     .FirstOrDefault(x => x.IsBound && x.IsInbox);
 
                 if (inbox != null) {
-                    await inbox.SyncMessagesAsync();
+                    inbox.IsSelected = true;
                 }
             } finally {
                 App.Context.ResetStatusText();
@@ -249,10 +244,6 @@ namespace Crystalbyte.Paranoia {
 
             _mailboxes.AddRange(mailboxes
                 .Select(x => new MailboxContext(this, x)));
-
-            foreach (var mailbox in _mailboxes) {
-                await mailbox.LoadChildrenAsync();
-            }
 
             var tasks = _mailboxes.Select(x => x.CountNotSeenAsync());
             await Task.WhenAll(tasks);
@@ -891,6 +882,10 @@ namespace Crystalbyte.Paranoia {
 
         internal void NotifyDockingChanged() {
             RaisePropertyChanged(() => DockedMailboxes);
+        }
+
+        internal void NotifyMailboxAdded(MailboxContext child) {
+            _mailboxes.Add(child);
         }
     }
 }
