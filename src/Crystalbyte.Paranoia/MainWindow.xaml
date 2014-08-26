@@ -572,40 +572,6 @@
         <GridSplitter Grid.Row="1"
                       Grid.RowSpan="3"
                       Grid.Column="1" />
-        <!--
-            <StackPanel Grid.Row="0"
-            Grid.Column="2"
-            Grid.ColumnSpan="2"
-            Margin="0"
-            VerticalAlignment="Center"
-            Orientation="Horizontal" d:IsHidden="True" d:IsLocked="True">
-            <TextBox x:Name="SearchBox"
-            Margin="0,4,0,4"
-            TabIndex="3"
-            Text="{Binding QueryString,
-            Mode=TwoWay,
-            UpdateSourceTrigger=PropertyChanged}"
-            ui:Watermark.IsEnabled="True"
-            ui:Watermark.Text="{x:Static properties:Resources.SearchBoxWatermark}">
-            <TextBox.InputBindings>
-            <KeyBinding Key="Escape"
-            Command="{Binding FocusSearchBoxCommand}"
-            CommandParameter="!" />
-            </TextBox.InputBindings>
-            </TextBox>
-            </StackPanel>
-        -->
-        <!--
-            <Rectangle Grid.Row="1"
-            Grid.Column="0"
-            Grid.ColumnSpan="5"
-            Margin="0"
-            Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-            Metro.ShadowBrush}}"
-            Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-            Metro.ShadowOpacity}}"
-            RenderOptions.EdgeMode="Aliased" />
-        -->
         <Grid Grid.Row="0"
               Grid.Column="2"
               Grid.ColumnSpan="3"
@@ -853,34 +819,45 @@
                                                                     Metro.ShadowBrush}}"
                        Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                        Metro.ShadowOpacity}}" />
-            <Border Grid.Row="0"
-                    Margin="16,0,0,0"
-                    Visibility="{Binding IsChecked,
-                                         ElementName=OutboxToggleButton,
-                                         ConverterParameter=!,
-                                         Converter={StaticResource BooleanToVisibilityConverter}}">
-
-                <TextBlock VerticalAlignment="Center"
-                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            Metro.ExtraLargeFontSize}}"
-                           Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                         Metro.TitleTextStyle}}"
-                           Visibility="{Binding IsChecked,
-                                                ElementName=OutboxToggleButton,
-                                                ConverterParameter=!,
-                                                Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <Run Text="{x:Static properties:Resources.MessagesTitle}" />
-                    <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
-                </TextBlock>
+            <Border Grid.Row="0" Visibility="{Binding IsChecked, ElementName=OutboxToggleButton, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel>
+                    <TextBlock Margin="16,0,0,0"
+                               VerticalAlignment="Center"
+                               FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                Metro.ExtraLargeFontSize}}"
+                               Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                             Metro.TitleTextStyle}}"
+                               Visibility="{Binding IsChecked,
+                                                    ElementName=OutboxToggleButton,
+                                                    ConverterParameter=!,
+                                                    Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Run Text="{x:Static properties:Resources.MessagesTitle}" />
+                        <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
+                    </TextBlock>
+                    <Border Margin="0,6,0,6" DataContext="{Binding SelectedAccount}">
+                        <StackPanel DataContext="{Binding SelectedMailbox}" Visibility="{Binding IsSyncingMessages, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <ProgressBar Height="1"
+                                         HorizontalAlignment="Stretch"
+                                         Maximum="{Binding TotalEnvelopeCount}"
+                                         Minimum="0"
+                                         Value="{Binding FetchedEnvelopeCount}" />
+                            <TextBlock Margin="16,3,0,0"
+                                       FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                        Metro.SmallFontSize}}"
+                                       Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                          Metro.AccentBrush}}"
+                                       Text="{x:Static properties:Resources.SyncMailboxesStatus}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
             </Border>
             <Border Grid.Row="0"
-                    Margin="16,0,0,0"
                     DataContext="{Binding SelectedAccount}"
                     Visibility="{Binding IsChecked,
                                          ElementName=OutboxToggleButton,
                                          Converter={StaticResource BooleanToVisibilityConverter}}">
-
-                <TextBlock VerticalAlignment="Center"
+                <TextBlock Margin="16,0,0,0"
+                           VerticalAlignment="Center"
                            DataContext="{Binding Outbox}"
                            FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                             Metro.ExtraLargeFontSize}}"
@@ -889,6 +866,7 @@
                     <Run Text="{x:Static properties:Resources.MessagesTitle}" />
                     <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" Text="{Binding SmtpRequests, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
                 </TextBlock>
+
             </Border>
             <ListView x:Name="MessagesListView"
                       Grid.Row="1"

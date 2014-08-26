@@ -21,15 +21,17 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         public static IEnumerable<IEnumerable<T>> Bundle<T>(this IEnumerable<T> source, int size) {
+            // ReSharper disable PossibleMultipleEnumeration
             while (source.Any()) {
                 yield return source.Take(size);
                 source = source.Skip(size);
             }
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
-        public static void AddRange<T, S>(this IList<KeyValuePair<T, S>> target, IList<KeyValuePair<T, S>> source) {
+        public static void AddRange<T, TS>(this IList<KeyValuePair<T, TS>> target, IList<KeyValuePair<T, TS>> source) {
             foreach (var item in source) {
-                target.Add(new KeyValuePair<T, S>(item.Key, item.Value));
+                target.Add(new KeyValuePair<T, TS>(item.Key, item.Value));
             }
         }
     }

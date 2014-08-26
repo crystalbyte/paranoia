@@ -30,7 +30,7 @@ namespace Crystalbyte.Paranoia {
         #region Private Fields
 
         private int _notSeenCount;
-        private bool _isSyncing;
+        private bool _isSyncingMessages;
         private bool _isLoadingMessage;
         private bool _isListingMailboxes;
         private readonly MailboxModel _mailbox;
@@ -39,6 +39,8 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _dropBindingCommand;
         private bool _isLoadingChildren;
         private bool _isSyncingChildren;
+        private int _totalEnvelopeCount;
+        private int _fetchedEnvelopeCount;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -145,10 +147,9 @@ namespace Crystalbyte.Paranoia {
                         await context.BindMailboxAsync(child);
 
                         _account.NotifyMailboxAdded(context);
-                    }    
+                    }
                 }
-            }
-            finally {
+            } finally {
                 IsSyncingChildren = false;
                 RaisePropertyChanged(() => Children);
             }
@@ -329,14 +330,14 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool IsSyncing {
-            get { return _isSyncing; }
+        public bool IsSyncingMessages {
+            get { return _isSyncingMessages; }
             set {
-                if (_isSyncing == value) {
+                if (_isSyncingMessages == value) {
                     return;
                 }
-                _isSyncing = value;
-                RaisePropertyChanged(() => IsSyncing);
+                _isSyncingMessages = value;
+                RaisePropertyChanged(() => IsSyncingMessages);
             }
         }
 
@@ -378,15 +379,13 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task SyncMessagesAsync() {
-            Application.Current.AssertUIThread();
-
-            if (!IsBound || IsSyncing) {
-                return;
-            }
-
-            IsSyncing = true;
-
             try {
+                Application.Current.AssertUIThread();
+
+                if (!IsBound || IsSyncingMessages) {
+                    return;
+                }
+
                 var name = _mailbox.Name;
                 var maxUid = await GetMaxUidAsync();
                 var account = await GetAccountAsync();
@@ -398,6 +397,8 @@ namespace Crystalbyte.Paranoia {
                     using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
                         using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
                             var mailbox = await session.SelectAsync(name);
+
+                            IsSyncingMessages = true;
 
                             messages.AddRange(await SyncChallengesAsync(mailbox, maxUid));
                             messages.AddRange(await SyncNonChallengesAsync(mailbox, maxUid));
@@ -421,21 +422,48 @@ namespace Crystalbyte.Paranoia {
             } catch (Exception ex) {
                 Logger.Error(ex);
             } finally {
-                IsSyncing = false;
+                IsSyncingMessages = false;
             }
         }
 
-        private static async Task<IEnumerable<MailMessageModel>> SyncNonChallengesAsync(ImapMailbox mailbox, long uid) {
+        public int TotalEnvelopeCount {
+            get { return _totalEnvelopeCount; }
+            set {
+                if (_totalEnvelopeCount == value) {
+                    return;
+                }
+                _totalEnvelopeCount = value;
+                RaisePropertyChanged(() => TotalEnvelopeCount);
+            }
+        }
+
+        public int FetchedEnvelopeCount {
+            get { return _fetchedEnvelopeCount; }
+            set {
+                if (_fetchedEnvelopeCount == value) {
+                    return;
+                }
+                _fetchedEnvelopeCount = value;
+                RaisePropertyChanged(() => FetchedEnvelopeCount);
+            }
+        }
+
+        private async Task<IEnumerable<MailMessageModel>> SyncNonChallengesAsync(ImapMailbox mailbox, long uid) {
             var criteria = string.Format("{0}:* NOT HEADER \"{1}\" \"{2}\"", uid, ParanoiaHeaderKeys.Type, MailType.Challenge);
             var uids = await mailbox.SearchAsync(criteria);
             if (!uids.Any()) {
                 return new MailMessageModel[0];
             }
 
+            FetchedEnvelopeCount = 0;
+            TotalEnvelopeCount = uids.Count;
+
+            mailbox.EnvelopeFetched += OnEnvelopeFetched;
             var envelopes = (await mailbox.FetchEnvelopesAsync(uids)).ToArray();
             if (envelopes.Length == 0) {
                 return new MailMessageModel[0];
             }
+            mailbox.EnvelopeFetched -= OnEnvelopeFetched;
 
             if (envelopes.Length == 1 && envelopes.First().Uid == uid) {
                 return new MailMessageModel[0];
@@ -451,6 +479,10 @@ namespace Crystalbyte.Paranoia {
                 }
             }
             return messages;
+        }
+
+        private void OnEnvelopeFetched(object sender, EnvelopeFetchedEventArgs e) {
+            FetchedEnvelopeCount++;
         }
 
         private static async Task<IEnumerable<MailMessageModel>> SyncChallengesAsync(ImapMailbox mailbox, long uid) {

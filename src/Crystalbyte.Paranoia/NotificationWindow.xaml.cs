@@ -24,7 +24,7 @@ namespace Crystalbyte.Paranoia {
             _messages = messages;
 
             var stream = LoadSoundStream();
-            _audioPlayer = new AudioPlayer(stream) { Volume = .8f };
+            _audioPlayer = new AudioPlayer(stream) { Volume = .5f };
 
             InitializeComponent();
             DataContext = new NotificationWindowContext(messages);
