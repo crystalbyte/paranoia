@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Data.SqlTypes;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -186,35 +187,51 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-                var t1 = mailboxes
-                    .Where(x => !x.IsBound)
-                    .Select(x => x.BindMostProbableAsync(remoteMailboxes));
+                var types = new List<MailboxType> { MailboxType.Inbox, MailboxType.Draft, MailboxType.Sent, MailboxType.Trash};
+                
+                foreach (var mailbox in mailboxes) {
+                    if (mailbox.Type == MailboxType.Inbox) {
+                        types.Remove(MailboxType.Inbox);
+                    }
+                    if (mailbox.Type == MailboxType.Draft) {
+                        types.Remove(MailboxType.Draft);
+                    }
+                    if (mailbox.Type == MailboxType.Sent) {
+                        types.Remove(MailboxType.Sent);
+                    }
+                    if (mailbox.Type == MailboxType.Trash) {
+                        types.Remove(MailboxType.Trash);
+                    }
+                }
 
-                await Task.WhenAll(t1);
 
-                foreach (var mailbox in remoteMailboxes.Where(x => _mailboxes.All(y => x.Name != y.Name))) {
+                foreach (var mailbox in remoteMailboxes.Where(x => _mailboxes.All(y => string.Compare(x.Fullname, y.Name, StringComparison.InvariantCultureIgnoreCase) != 0))) {
                     var context = new MailboxContext(this, new MailboxModel {
                         AccountId = _account.Id
                     });
 
                     await context.InsertAsync();
+                    context.BindMostProbable(types, mailbox);    
                     await context.BindMailboxAsync(mailbox);
 
                     _mailboxes.Add(context);
+
+                    
+                    
                 }
 
-                var t2 = mailboxes
-                  .Where(x => x.IsBound)
-                  .Select(x => x.SyncMessagesAsync());
+                var inbox = mailboxes
+                    .FirstOrDefault(x => x.IsBound && x.IsInbox);
 
-                await Task.WhenAll(t2);
-
+                if (inbox != null) {
+                    await inbox.SyncMessagesAsync();
+                }
             } finally {
                 App.Context.ResetStatusText();
             }
         }
 
-        internal async Task SyncWithDatabaseAsync() {
+        internal async Task UpdateAsync() {
             using (var database = new DatabaseContext()) {
                 database.MailAccounts.Attach(_account);
                 database.Entry(_account).State = EntityState.Modified;
@@ -233,13 +250,17 @@ namespace Crystalbyte.Paranoia {
             _mailboxes.AddRange(mailboxes
                 .Select(x => new MailboxContext(this, x)));
 
-            var inbox = _mailboxes.FirstOrDefault(x => x.Type == MailboxType.Inbox);
-            if (inbox != null) {
-                inbox.IsSelected = true;
+            foreach (var mailbox in _mailboxes) {
+                await mailbox.LoadChildrenAsync();
             }
 
             var tasks = _mailboxes.Select(x => x.CountNotSeenAsync());
             await Task.WhenAll(tasks);
+
+            var inbox = _mailboxes.FirstOrDefault(x => x.Type == MailboxType.Inbox);
+            if (inbox != null) {
+                inbox.IsSelected = true;
+            }
         }
 
         public event EventHandler MailboxSelectionChanged;
@@ -537,8 +558,7 @@ namespace Crystalbyte.Paranoia {
 
         public IEnumerable<MailboxContext> DockedMailboxes {
             get {
-                return _mailboxes
-                    .Where(x => x.Type != MailboxType.Custom || x.IsDocked);
+                return _mailboxes.Where(x => x.IsDocked);
             }
         }
 
@@ -547,8 +567,10 @@ namespace Crystalbyte.Paranoia {
         }
 
         public IEnumerable<MailboxContext> RootMailboxes {
-            get { return _mailboxes
-                .Where(x => !string.IsNullOrEmpty(x.Name) && !x.Name.Contains(x.Delimiter)); }
+            get {
+                return _mailboxes
+                    .Where(x => !string.IsNullOrEmpty(x.Name) && !x.Name.Contains(x.Delimiter));
+            }
         }
 
         internal async Task TestSettingsAsync() {
@@ -672,16 +694,20 @@ namespace Crystalbyte.Paranoia {
 
         internal void AddSystemMailboxes() {
             _account.Mailboxes.Add(new MailboxModel {
-                Type = MailboxType.Inbox
+                Type = MailboxType.Inbox,
+                IsDocked = true
             });
             _account.Mailboxes.Add(new MailboxModel {
-                Type = MailboxType.Trash
+                Type = MailboxType.Trash,
+                IsDocked = true
             });
             _account.Mailboxes.Add(new MailboxModel {
-                Type = MailboxType.Sent
+                Type = MailboxType.Sent,
+                IsDocked = true
             });
             _account.Mailboxes.Add(new MailboxModel {
-                Type = MailboxType.Draft
+                Type = MailboxType.Draft,
+                IsDocked = true
             });
         }
 
@@ -861,6 +887,10 @@ namespace Crystalbyte.Paranoia {
 
         private MailboxContext GetTrash() {
             return _mailboxes.FirstOrDefault(x => x.IsTrash);
+        }
+
+        internal void NotifyDockingChanged() {
+            RaisePropertyChanged(() => DockedMailboxes);
         }
     }
 }

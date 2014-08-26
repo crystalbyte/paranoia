@@ -24,7 +24,7 @@ namespace Crystalbyte.Paranoia.Data {
         public string Name { get; set; }
 
         [Column("delimiter")]
-        public char Delimiter { get; set; }
+        public string Delimiter { get; set; }
 
         [Column("flags")]
         public string Flags { get; set; }

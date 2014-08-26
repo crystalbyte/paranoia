@@ -8,11 +8,11 @@ using Crystalbyte.Paranoia.Properties;
 #endregion
 
 namespace Crystalbyte.Paranoia.UI.Converters {
-    [ValueConversion(typeof (MailboxType), typeof (string))]
+    [ValueConversion(typeof (MailboxContext), typeof (string))]
     public sealed class MailboxLocalizer : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            var type = (MailboxType) value;
-            switch (type) {
+            var context = (MailboxContext) value;
+            switch (context.Type) {
                 case MailboxType.Inbox:
                     return Resources.InboxMailbox;
                 case MailboxType.Sent:
@@ -23,6 +23,9 @@ namespace Crystalbyte.Paranoia.UI.Converters {
                     return Resources.TrashMailbox;
                 case MailboxType.All:
                     return Resources.AllMailbox;
+                case MailboxType.Custom:
+                    return string.Format(context.LocalName);
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }

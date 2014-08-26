@@ -719,8 +719,7 @@
                                            RenderOptions.ClearTypeHint="Enabled"
                                            Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                          Metro.ThinTextStyle}}"
-                                           Text="{Binding Type,
-                                                          Converter={StaticResource MailboxLocalizer}}">
+                                           Text="{Binding Converter={StaticResource MailboxLocalizer}}">
                                     <TextBlock.Foreground>
                                         <Binding Path="IsBound">
                                             <Binding.Converter>
@@ -795,16 +794,28 @@
                                       Background="Transparent"
                                       BorderThickness="0"
                                       ItemsSource="{Binding RootMailboxes}">
+                                <TreeView.ItemContainerStyle>
+                                    <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
+                                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                    </Style>
+                                </TreeView.ItemContainerStyle>
                                 <TreeView.ItemTemplate>
-                                    <HierarchicalDataTemplate DataType="paranoia:MailboxContext">
+                                    <HierarchicalDataTemplate DataType="paranoia:MailboxContext" ItemsSource="{Binding Children}">
                                         <StackPanel Orientation="Horizontal">
+                                            <CheckBox VerticalAlignment="Center"
+                                                      IsChecked="{Binding IsDocked,
+                                                                          Mode=TwoWay}"
+                                                      Visibility="{Binding IsSelectable,
+                                                                           Converter={StaticResource BooleanToVisibilityConverter}}" />
                                             <Image Width="16"
                                                    Margin="0,0,6,0"
                                                    Source="/Assets/folder.png" />
-                                            <TextBlock VerticalAlignment="Center"
+                                            <TextBlock x:Name="MailboxNameBlock"
+                                                       VerticalAlignment="Center"
                                                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                     AppNormalTextStyle}}"
-                                                       Text="{Binding Name}">
+                                                                                                     Metro.NormalTextStyle}}"
+                                                       Text="{Binding LocalName}">
                                                 <TextBlock.Foreground>
                                                     <Binding Path="IsSelectable">
                                                         <Binding.Converter>
@@ -814,6 +825,11 @@
                                                 </TextBlock.Foreground>
                                             </TextBlock>
                                         </StackPanel>
+                                        <HierarchicalDataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                <Setter TargetName="MailboxNameBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+                                            </DataTrigger>
+                                        </HierarchicalDataTemplate.Triggers>
                                     </HierarchicalDataTemplate>
                                 </TreeView.ItemTemplate>
                             </TreeView>

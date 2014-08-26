@@ -73,6 +73,7 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Expression.Interactions" />
     <Reference Include="NAudio">
       <HintPath>..\packages\NAudio.1.5\lib\NAudio.dll</HintPath>
     </Reference>
@@ -129,6 +130,7 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Interactivity" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />

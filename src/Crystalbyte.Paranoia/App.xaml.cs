@@ -63,22 +63,22 @@ namespace Crystalbyte.Paranoia {
                     SmtpRequiresAuthentication = true,
                 };
 
-                account.Mailboxes.Add(new MailboxModel
-                {
-                    Type = MailboxType.Inbox
-                });
-                account.Mailboxes.Add(new MailboxModel
-                {
-                    Type = MailboxType.Trash
-                });
-                account.Mailboxes.Add(new MailboxModel
-                {
-                    Type = MailboxType.Sent
-                });
-                account.Mailboxes.Add(new MailboxModel
-                {
-                    Type = MailboxType.Draft
-                });
+                //account.Mailboxes.Add(new MailboxModel
+                //{
+                //    Type = MailboxType.Inbox
+                //});
+                //account.Mailboxes.Add(new MailboxModel
+                //{
+                //    Type = MailboxType.Trash
+                //});
+                //account.Mailboxes.Add(new MailboxModel
+                //{
+                //    Type = MailboxType.Sent
+                //});
+                //account.Mailboxes.Add(new MailboxModel
+                //{
+                //    Type = MailboxType.Draft
+                //});
 
                 database.MailAccounts.Add(account);
 

@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+                    xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Metro.Resources.xaml" />
     </ResourceDictionary.MergedDictionaries>
@@ -17,6 +16,7 @@
         <Setter Property="ScrollViewer.PanningMode" Value="Both" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TreeView">
@@ -47,158 +47,181 @@
         </Setter>
     </Style>
 
-    <Style TargetType="TreeViewItem">
-        <Setter Property="Padding" Value="3" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Cursor" Value="Arrow" />
-        <Setter Property="IsTabStop" Value="True" />
-        <Setter Property="KeyboardNavigation.TabNavigation" Value="Once" />
+    <Style x:Key="ExpandCollapseToggleStyle" TargetType="ToggleButton">
+        <Setter Property="Focusable" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="TreeViewItem">
-                    <Grid Background="{x:Null}">
+                <ControlTemplate TargetType="ToggleButton">
+                    <Grid Width="15"
+                          Height="13"
+                          Background="Transparent">
+                        <Path x:Name="Collapsed"
+                              Margin="1,1,1,1"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center"
+                              Data="M 4 0 L 8 4 L 4 8 Z"
+                              Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                           Metro.NormalTextBrush}}" />
+                        <Path x:Name="Expanded"
+                              Margin="1,1,1,1"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center"
+                              Data="M 0 4 L 8 4 L 4 8 Z"
+                              Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                           Metro.NormalTextBrush}}"
+                              Visibility="Hidden" />
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="MouseOver" />
-                                <VisualState x:Name="Pressed" />
-                                <VisualState x:Name="Disabled" />
-                            </VisualStateGroup>
-                            <VisualStateGroup x:Name="SelectionStates">
-                                <VisualState x:Name="Unselected" />
-                                <VisualState x:Name="Selected" />
-                                <VisualState x:Name="SelectedInactive" />
-                            </VisualStateGroup>
-                            <VisualStateGroup x:Name="HasItemsStates">
-                                <VisualState x:Name="HasItems" />
-                                <VisualState x:Name="NoItems" />
-                            </VisualStateGroup>
-                            <VisualStateGroup x:Name="ExpansionStates">
-                                <VisualState x:Name="Collapsed" />
-                                <VisualState x:Name="Expanded" />
-                            </VisualStateGroup>
-                            <VisualStateGroup x:Name="ValidationStates">
-                                <VisualState x:Name="Valid" />
-                                <VisualState x:Name="InvalidUnfocused" />
-                                <VisualState x:Name="InvalidFocused" />
+                            <VisualStateGroup x:Name="CheckStates">
+                                <VisualState x:Name="Checked">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Collapsed" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Expanded" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked" />
+                                <VisualState x:Name="Indeterminate" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="15" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <ToggleButton x:Name="ExpanderButton"
-                                      HorizontalAlignment="Stretch"
-                                      BorderThickness="0"
-                                      IsTabStop="False"
-                                      KeyboardNavigation.TabNavigation="Once">
-                            <ToggleButton.Template>
-                                <ControlTemplate TargetType="ToggleButton">
-                                    <Grid x:Name="Root" Background="Transparent">
-                                        <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroup x:Name="CommonStates">
-                                                <VisualState x:Name="Normal" />
-                                                <VisualState x:Name="MouseOver" />
-                                                <VisualState x:Name="Disabled" />
-                                            </VisualStateGroup>
-                                            <VisualStateGroup x:Name="CheckStates">
-                                                <VisualState x:Name="Unchecked" />
-                                                <VisualState x:Name="Checked" />
-                                            </VisualStateGroup>
-                                        </VisualStateManager.VisualStateGroups>
-                                        <Grid Margin="2 2 5 2" HorizontalAlignment="Right">
-                                            <Path x:Name="UncheckedVisual"
-                                                  Width="6"
-                                                  Height="9"
-                                                  HorizontalAlignment="Right"
-                                                  VerticalAlignment="Center"
-                                                  Data="M 0,0 L 0,9 L 5,4.5 Z"
-                                                  Fill="#FFFFFFFF"
-                                                  StrokeLineJoin="Miter"
-                                                  StrokeThickness="1">
-                                                <Path.Stroke>
-                                                    <SolidColorBrush Color="#FF989898" />
-                                                </Path.Stroke>
-                                            </Path>
-                                            <Path x:Name="CheckedVisual"
-                                                  Width="6"
-                                                  Height="6"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"
-                                                  Data="M 6,0 L 6,6 L 0,6 Z"
-                                                  Fill="#FF262626"
-                                                  Opacity="0"
-                                                  StrokeLineJoin="Miter" />
-                                        </Grid>
-                                    </Grid>
-                                </ControlTemplate>
-                            </ToggleButton.Template>
-                        </ToggleButton>
-                        <Rectangle x:Name="SelectionArea"
-                                   Grid.Row="0"
-                                   Grid.Column="1"
-                                   IsHitTestVisible="False"
-                                   Opacity="0"
-                                   StrokeThickness="0" />
-                        <Button x:Name="Header"
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                ClickMode="Hover"
-                                Cursor="{TemplateBinding Cursor}"
-                                Foreground="{TemplateBinding Foreground}"
-                                IsTabStop="False"
-                                KeyboardNavigation.TabNavigation="Once">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Grid Background="{TemplateBinding Background}">
-                                        <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroup x:Name="CommonStates">
-                                                <VisualState x:Name="Normal" />
-                                                <VisualState x:Name="Pressed" />
-                                                <VisualState x:Name="Disabled" />
-                                            </VisualStateGroup>
-                                        </VisualStateManager.VisualStateGroups>
-                                        <Rectangle x:Name="HoverArea"
-                                                   IsHitTestVisible="False"
-                                                   Opacity="0"
-                                                   StrokeThickness="0" />
-                                        <ContentPresenter x:Name="Content"
-                                                          Margin="{TemplateBinding Padding}"
-                                                          HorizontalAlignment="Left"
-                                                          Content="{TemplateBinding Content}"
-                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                          Cursor="{TemplateBinding Cursor}" />
-                                    </Grid>
-                                </ControlTemplate>
-                            </Button.Template>
-                            <Button.Content>
-                                <ContentPresenter Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" />
-                            </Button.Content>
-                        </Button>
-
-                        <ItemsPresenter x:Name="ItemsHost"
-                                        Grid.Row="1"
-                                        Grid.Column="0"
-                                        Grid.ColumnSpan="2"
-                                        Visibility="Collapsed" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="TreeViewItemFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border>
+                        <Rectangle Margin="0,0,0,0"
+                                   Opacity="0"
+                                   Stroke="Black"
+                                   StrokeDashArray="1 2"
+                                   StrokeThickness="5" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style TargetType="TreeViewItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter Property="VerticalContentAlignment" Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter Property="Padding" Value="3" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TreeViewItem">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" MinWidth="19" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Rectangle x:Name="HoverArea"
+                                   Grid.Row="0"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Stretch"
+                                   Fill="Transparent"
+                                   StrokeThickness="0" />
+                        <Rectangle x:Name="SelectionArea"
+                                   Grid.Row="0"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Stretch"
+                                   Fill="Transparent"
+                                   StrokeThickness="0" />
+                        <ToggleButton x:Name="Expander"
+                                      Grid.Row="0"
+                                      Grid.Column="0"
+                                      ClickMode="Press"
+                                      IsChecked="{Binding IsExpanded,
+                                                          RelativeSource={RelativeSource TemplatedParent}}"
+                                      Style="{StaticResource ExpandCollapseToggleStyle}" />
+                        <Border x:Name="Bd"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter x:Name="PART_Header"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              ContentSource="Header" />
+                        </Border>
+                        <ItemsPresenter x:Name="ItemsHost"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Visibility="Collapsed" />
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="SelectionStates">
+                                <VisualState x:Name="Selected">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="SelectionArea" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource Metro.AccentColor}" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unselected" />
+                                <VisualState x:Name="SelectedInactive">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="SelectionArea" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource Metro.SelectedUnfocusedColor}" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ExpansionStates">
+                                <VisualState x:Name="Expanded">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ItemsHost" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Collapsed" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasItems" Value="false">
+                            <Setter TargetName="Expander" Property="Visibility" Value="Hidden" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.HoverBrush}}" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="HasHeader" Value="false" />
+                                <Condition Property="Width" Value="Auto" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="PART_Header" Property="MinWidth" Value="75" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="HasHeader" Value="false" />
+                                <Condition Property="Height" Value="Auto" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="PART_Header" Property="MinHeight" Value="19" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
 
 </ResourceDictionary>

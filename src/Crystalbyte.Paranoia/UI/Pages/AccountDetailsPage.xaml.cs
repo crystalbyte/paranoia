@@ -72,12 +72,12 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             _tracker.Stop();
 
             if (_isAccountInTransit) {
-                account.AddSystemMailboxes();
+                //account.AddSystemMailboxes();
                 await account.InsertAsync();
                 App.Context.NotifyAccountCreated(account);
             }
             else {
-                await account.SyncWithDatabaseAsync();
+                await account.UpdateAsync();
             }
         }
 
