@@ -9,7 +9,6 @@ using System.Windows;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using NLog;
-using Crystalbyte.Paranoia.Contexts;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 

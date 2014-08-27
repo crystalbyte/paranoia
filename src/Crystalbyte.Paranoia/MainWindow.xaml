@@ -1135,11 +1135,11 @@
             <Border Grid.Row="0" Padding="24,24,24,0">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -1198,17 +1198,17 @@
                     <ListView Grid.Row="3"
                               Grid.Column="0"
                               Grid.ColumnSpan="2"
-                              Margin="0,6,0,0"
+                              MaxHeight="300"
+                              Margin="0,3,0,0"
                               Background="Transparent"
                               DataContext="{Binding DataContext,
                                                     ElementName=Window}"
                               ItemsSource="{Binding Attachments}"
-                              RenderOptions.EdgeMode="Aliased"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                              ScrollViewer.VerticalScrollBarVisibility="Auto"
-                              SnapsToDevicePixels="True">
+                              ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <ListView.Style>
                             <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="ListView">
+                                <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClicked"></EventSetter>
                                 <Style.Triggers>
                                     <Trigger Property="HasItems" Value="false">
                                         <Setter Property="Visibility" Value="Hidden" />

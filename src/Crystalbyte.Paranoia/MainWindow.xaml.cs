@@ -215,5 +215,11 @@ namespace Crystalbyte.Paranoia {
             account.SelectedMailbox = tree.SelectedValue as MailboxContext;
             account.NotifyDockingChanged();
         }
+
+        private void OnAttachmentMouseDoubleClicked(object sender, MouseButtonEventArgs e) {
+            var view = (ListView) sender;
+            var attachment = (AttachmentContext)view.SelectedValue;
+            attachment.Open();
+        }
     }
 }

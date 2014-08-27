@@ -17,7 +17,6 @@ using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
 using Crystalbyte.Paranoia.Cryptography;
-using Crystalbyte.Paranoia.Contexts;
 
 #endregion
 
