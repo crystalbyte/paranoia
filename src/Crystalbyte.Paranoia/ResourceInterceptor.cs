@@ -37,10 +37,10 @@ namespace Crystalbyte.Paranoia {
                             var buffer = Marshal.AllocHGlobal(attachment.Body.Length);
                             Marshal.Copy(attachment.Body, 0, buffer, attachment.Body.Length);
 
-                            return ResourceResponse.Create((uint)attachment.Body.Length, buffer, "image");
+                            var response = ResourceResponse.Create((uint)attachment.Body.Length, buffer, "image");
 
-                            //TODO fix memory leak
                             Marshal.FreeHGlobal(buffer);
+                            return response;
                         }
                     }
                 }
