@@ -1222,23 +1222,36 @@
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid Width="120" Height="20">
+                                <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="100" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <Image Source="{Binding FullName, IsAsync=True, Converter={StaticResource IconFinder}}"></Image>
-                                    <TextBlock VerticalAlignment="Center"
+                                    <Image Grid.Column="0"
+                                           Width="16"
+                                           Margin="0,0,6,0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Source="{Binding FullName,
+                                                            IsAsync=True,
+                                                            Converter={StaticResource IconFinder}}"
+                                           Stretch="Uniform" />
+                                    <TextBlock Grid.Column="1"
+                                               Margin="0,0,6,0"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
                                                Text="{Binding Name}"
-                                               Grid.Column="1"
                                                TextTrimming="CharacterEllipsis"
                                                TextWrapping="NoWrap"
                                                ToolTip="{Binding FullName}" />
-                                    <Button Grid.Column="1"
+                                    <Button Grid.Column="2"
+                                            Background="Transparent"
+                                            BorderThickness="0"
                                             Command="{Binding OpenAttachmentCommand}"
                                             ToolTip="{x:Static properties:Resources.OpenFile}">
                                         <Image Width="10"
+                                               Height="10"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                Source="/Assets/close.png" />
