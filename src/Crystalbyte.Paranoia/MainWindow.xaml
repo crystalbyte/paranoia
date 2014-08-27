@@ -1200,6 +1200,7 @@
                     <ListView Grid.Row="3"
                               Grid.Column="0"
                               Grid.ColumnSpan="2"
+                              Margin="0,6,0,0"
                               Background="Transparent"
                               DataContext="{Binding DataContext,
                                                     ElementName=Window}"
@@ -1226,7 +1227,7 @@
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="120" />
                                         </Grid.ColumnDefinitions>
                                         <Image Grid.Column="0"
                                                Width="16"

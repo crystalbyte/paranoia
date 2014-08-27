@@ -1,6 +1,7 @@
 ﻿#region Using directives
 
 using System;
+using System.Data.Entity;
 using System.Composition;
 using System.Composition.Hosting;
 using System.Configuration;
@@ -9,6 +10,7 @@ using System.Windows;
 using Awesomium.Core;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
+using Crystalbyte.Paranoia.Mail;
 
 #endregion
 
@@ -30,7 +32,12 @@ namespace Crystalbyte.Paranoia {
 
         internal static MessagePool MessagePool { get; private set; }
 
-        protected override void OnStartup(StartupEventArgs e) {
+#if DEBUG
+        protected async override void OnStartup(StartupEventArgs e) {
+#else
+ protected override void OnStartup(StartupEventArgs e) {
+#endif
+
             base.OnStartup(e);
 
             // TODO: remove on valid certificate usage ...
@@ -49,8 +56,7 @@ namespace Crystalbyte.Paranoia {
                 if (accounts.Length != 0)
                     return;
 
-                var account = new MailAccountModel
-                {
+                var account = new MailAccountModel {
                     Name = "Paranoia Test Account",
                     Address = "paranoia.app@gmail.com",
                     ImapUsername = "paranoia.app@gmail.com",
@@ -103,8 +109,7 @@ namespace Crystalbyte.Paranoia {
             // Initialization must be performed here,
             // before creating a WebControl.
             if (!WebCore.IsInitialized) {
-                WebCore.Initialize(new WebConfig
-                {
+                WebCore.Initialize(new WebConfig {
                     HomeURL = "http://www.awesomium.com".ToUri(),
                     LogPath = @".\starter.log",
                     LogLevel = LogLevel.Verbose
@@ -128,7 +133,7 @@ namespace Crystalbyte.Paranoia {
 
         private void Compose() {
             var config = new ContainerConfiguration()
-                .WithAssembly(typeof (App).Assembly);
+                .WithAssembly(typeof(App).Assembly);
 
             Composition = config.CreateContainer();
             Composition.SatisfyImports(this);
