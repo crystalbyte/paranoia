@@ -79,7 +79,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private async Task SendHtmlResponseAsync(DataSourceRequest request, string id) {
             var mime = await LoadMessageContentAsync(Int64.Parse(id));
-
+            mime = mime.Replace("=3D\"cid:", "=3D\"asset:/cid/");
             var mimeBytes = Encoding.UTF8.GetBytes(mime);
             var message = new MailMessageReader(mimeBytes);
 
