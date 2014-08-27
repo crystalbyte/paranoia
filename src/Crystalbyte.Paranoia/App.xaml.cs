@@ -4,13 +4,10 @@ using System;
 using System.Composition;
 using System.Composition.Hosting;
 using System.Configuration;
-using System.Data.Entity;
 using System.Net;
 using System.Windows;
 using Awesomium.Core;
 using Crystalbyte.Paranoia.Cryptography;
-using Crystalbyte.Paranoia.Data;
-using Crystalbyte.Paranoia.Mail;
 
 #endregion
 
@@ -21,12 +18,18 @@ namespace Crystalbyte.Paranoia {
     public partial class App {
         public static readonly string Name = "Paranoia";
 
+        public App() {
+            MessagePool = new MessagePool();
+        }
+
         [Import]
         public static AppContext Context { get; set; }
 
-        internal static CompositionHost Composition { get; set; }
+        internal static CompositionHost Composition { get; private set; }
 
-        protected override async void OnStartup(StartupEventArgs e) {
+        internal static MessagePool MessagePool { get; private set; }
+
+        protected override void OnStartup(StartupEventArgs e) {
             base.OnStartup(e);
 
             // TODO: remove on valid certificate usage ...

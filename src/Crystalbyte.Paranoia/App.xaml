@@ -40,6 +40,7 @@
             <converters:PercentageFormatter x:Key="PercentageFormatter" />
             <converters:SecurityProtocolFormatter x:Key="SecurityProtocolFormatter" />
             <converters:BooleanToVisibilityMultiConverter x:Key="BooleanToVisibilityMultiConverter" />
+            <converters:IconFinder x:Key="IconFinder" />
 
             <Style x:Key="AppIconImageStyle" TargetType="Image">
                 <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />

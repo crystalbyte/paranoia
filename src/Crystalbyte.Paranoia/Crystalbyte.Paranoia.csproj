@@ -150,6 +150,7 @@
     </ApplicationDefinition>
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="AudioPlayer.cs" />
+    <Compile Include="Contexts\MessagePool.cs" />
     <Compile Include="Contexts\AttachmentContext.cs" />
     <Compile Include="Contexts\CreateContactContext.cs" />
     <Compile Include="Contexts\CreateKeyPairContext.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="UI\Commands\RemoveAttachmentCommand.cs" />
     <Compile Include="UI\Commands\RestoreMessageCommand.cs" />
     <Compile Include="UI\Converters\BooleanToVisibilityMultiConverter.cs" />
+    <Compile Include="UI\Converters\IconFinder.cs" />
     <Compile Include="UI\Converters\MailContactFormatter.cs" />
     <Compile Include="UI\Converters\PercentageFormatter.cs" />
     <Compile Include="UI\Converters\SecurityProtocolFormatter.cs" />
@@ -200,6 +202,7 @@
     <Compile Include="UI\HtmlControl.xaml.cs">
       <DependentUpon>HtmlControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\IconExtensions.cs" />
     <Compile Include="UI\PageCommands.cs" />
     <Compile Include="UI\Pages\AccountDetailsPage.xaml.cs">
       <DependentUpon>AccountDetailsPage.xaml</DependentUpon>

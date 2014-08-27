@@ -428,4 +428,7 @@ Once your password is lost you're screwed.</value>
   <data name="AddAttachment" xml:space="preserve">
     <value>Add attachment</value>
   </data>
+  <data name="OpenFile" xml:space="preserve">
+    <value>Open</value>
+  </data>
 </root>
