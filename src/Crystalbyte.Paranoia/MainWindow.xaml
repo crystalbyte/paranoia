@@ -1200,6 +1200,10 @@
                     <ListView Grid.Row="3"
                               Grid.Column="0"
                               Grid.ColumnSpan="2"
+<<<<<<< HEAD
+=======
+                              Background="Transparent"
+>>>>>>> origin/master
                               DataContext="{Binding DataContext,
                                                     ElementName=Window}"
                               ItemsSource="{Binding Attachments}"
@@ -1221,12 +1225,17 @@
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
                             <DataTemplate>
+<<<<<<< HEAD
                                 <Grid Width="120" Height="20">
+=======
+                                <Grid>
+>>>>>>> origin/master
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="100" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
+<<<<<<< HEAD
                                     <Image Source="{Binding FullName, IsAsync=True, Converter={StaticResource IconFinder}}"></Image>
                                     <TextBlock VerticalAlignment="Center"
                                                Text="{Binding Name}"
@@ -1238,6 +1247,32 @@
                                             Command="{Binding OpenAttachmentCommand}"
                                             ToolTip="{x:Static properties:Resources.OpenFile}">
                                         <Image Width="10"
+=======
+                                    <Image Grid.Column="0"
+                                           Width="16"
+                                           Margin="0,0,6,0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Source="{Binding FullName,
+                                                            IsAsync=True,
+                                                            Converter={StaticResource IconFinder}}"
+                                           Stretch="Uniform" />
+                                    <TextBlock Grid.Column="1"
+                                               Margin="0,0,6,0"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Text="{Binding Name}"
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="NoWrap"
+                                               ToolTip="{Binding FullName}" />
+                                    <Button Grid.Column="2"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Command="{Binding OpenAttachmentCommand}"
+                                            ToolTip="{x:Static properties:Resources.OpenFile}">
+                                        <Image Width="10"
+                                               Height="10"
+>>>>>>> origin/master
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                Source="/Assets/close.png" />
