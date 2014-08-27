@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Crystalbyte.Paranoia.Data;
@@ -7,7 +8,7 @@ namespace Crystalbyte.Paranoia {
     internal sealed class MessagePool {
 
         private readonly Stack<MailMessageContext> _vacantObjects = new Stack<MailMessageContext>();
-        private readonly Stack<MailMessageContext> _occupiedObjects = new Stack<MailMessageContext>();
+        private readonly HashSet<MailMessageContext> _occupiedObjects = new HashSet<MailMessageContext>();
 
         public MessagePool() {
             GenerateObjects(256);
@@ -23,6 +24,12 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertUIThread();
 
             message.Recycle();
+
+            var success = _occupiedObjects.Remove(message);
+            if (!success) {
+                throw new InvalidOperationException();
+            }
+
             _vacantObjects.Push(message);
         }
 
@@ -46,7 +53,7 @@ namespace Crystalbyte.Paranoia {
 
             for (var i = 0; i < count; i++) {
                 var obj = _vacantObjects.Pop();                                                              
-                _occupiedObjects.Push(obj);
+                _occupiedObjects.Add(obj);
                 yield return obj;
             }
         }
