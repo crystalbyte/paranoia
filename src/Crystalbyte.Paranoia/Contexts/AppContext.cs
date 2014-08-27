@@ -659,7 +659,7 @@ namespace Crystalbyte.Paranoia {
                 var reader = new MailMessageReader(Encoding.UTF8.GetBytes(mimeMessage.Data));
                 var attachments = reader.FindAllAttachments();
 
-                attachments.ForEach(x => attachmentContexts.Add(new AttachmentContext(x)));
+                attachments.Where(x => x.ContentId == null).ForEach(y => attachmentContexts.Add(new AttachmentContext(y)));
             }
             Application.Current.Dispatcher.Invoke(() => {
                 Attachments.Clear();
