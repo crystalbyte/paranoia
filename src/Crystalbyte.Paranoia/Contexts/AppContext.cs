@@ -635,6 +635,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void DisplayMessages(ICollection<MailMessageContext> messages) {
+            _messages.ForEach(x => App.MessagePool.Recycle(x));
             _messages.Clear();
             _messages.AddRange(messages);
 
@@ -652,10 +653,7 @@ namespace Crystalbyte.Paranoia {
             //Attachments.Clear();
             var attachmentContexts = new List<AttachmentContext>();
             using (var context = new DatabaseContext()) {
-                if (context == null)
-                    return;
-
-                var mimeMessage = context.MimeMessages.Where(x => x.MessageId == message.Id).FirstOrDefault();
+                var mimeMessage = context.MimeMessages.FirstOrDefault(x => x.MessageId == message.Id);
                 if (mimeMessage == null)
                     return;
 

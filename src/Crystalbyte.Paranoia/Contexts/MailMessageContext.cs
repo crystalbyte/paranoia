@@ -5,11 +5,11 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using NLog;
 using Crystalbyte.Paranoia.Contexts;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -20,23 +20,32 @@ namespace Crystalbyte.Paranoia {
     public class MailMessageContext : SelectionObject {
         private int _load;
         private long _bytesReceived;
-        private readonly MailboxContext _mailbox;
-        private readonly MailMessageModel _message;
-        private ObservableCollection<AttachmentContext> _attachments;
+        private MailboxContext _mailbox;
+        private MailMessageModel _message;
+        private readonly ObservableCollection<AttachmentContext> _attachments;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public MailMessageContext(MailboxContext mailbox, MailMessageModel message) {
+        public MailMessageContext() {
+            _attachments = new ObservableCollection<AttachmentContext>();
+        }
+
+        internal void Recycle() {
+            Application.Current.AssertUIThread();
+
+            _mailbox = null;
+            _message = null;
+            _attachments.Clear();
+        }
+
+        internal void Bind(MailboxContext mailbox, MailMessageModel message) {
+            Application.Current.AssertUIThread();
+
             _mailbox = mailbox;
             _message = message;
         }
 
         public ICollection<AttachmentContext> Attachments {
-            get {
-                if (_attachments == null) {
-
-                }
-                return _attachments;
-            }
+            get { return _attachments; }
         }
 
         public long Id {

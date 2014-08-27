@@ -77,7 +77,7 @@ namespace Crystalbyte.Paranoia.UI {
             return html;
         }
 
-        private async Task SendHtmlResponseAsync(DataSourceRequest request, string id, bool isReadOnly = true) {
+        private async Task SendHtmlResponseAsync(DataSourceRequest request, string id) {
             var mime = await LoadMessageContentAsync(Int64.Parse(id));
 
             var mimeBytes = Encoding.UTF8.GetBytes(mime);
@@ -93,7 +93,6 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void SendByteStream(DataSourceRequest request, byte[] bytes) {
-
             var length = bytes.Length;
             var handle = Marshal.AllocHGlobal(length);
             Marshal.Copy(bytes, 0, handle, length);
