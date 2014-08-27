@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,9 +34,13 @@ namespace Crystalbyte.Paranoia {
 
                         var attachment = attachments.Where(x => x.ContentId == request.Url.Segments[2]).FirstOrDefault();
                         if (attachment != null) {
-                            var file = Path.GetTempFileName();
-                            attachment.Save(new FileInfo(file));
-                            return ResourceResponse.Create(file);
+                            var buffer = Marshal.AllocHGlobal(attachment.Body.Length);
+                            Marshal.Copy(attachment.Body, 0, buffer, attachment.Body.Length);
+
+                            return ResourceResponse.Create((uint)attachment.Body.Length, buffer, "image");
+
+                            //TODO fix memory leak
+                            Marshal.FreeHGlobal(buffer);
                         }
                     }
                 }
