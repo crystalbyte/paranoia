@@ -14,7 +14,6 @@ using System.Windows;
 using NLog;
 using Crystalbyte.Paranoia.Properties;
 using System.IO;
-using System.Collections;
 using System.Collections.Generic;
 
 #endregion
@@ -38,23 +37,17 @@ namespace Crystalbyte.Paranoia.UI {
                 }
 
                 SendResponse(request, DataSourceResponse.Empty);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 //TODO: Return 793 - Zombie Apocalypse
                 Logger.Error(ex);
             }
         }
 
         private void SendComposeAsNewResponse(DataSourceRequest request) {
-            var variables = new Dictionary<string, string>() {
+            var variables = new Dictionary<string, string> {
                 {"content", string.Empty}
-
-                //{"current_dir", string.Format("file://127.0.0.1/{0}", Environment.CurrentDirectory.Replace(@"\", "/").Replace(":","$")) }
-
-                ////{"current_dir", string.Format("file://{0}", Environment.CurrentDirectory.Replace(@"\", "/")) }
-                //{"current_dir", string.Empty},
-
             };
+
             var html = GenerateEditorHtml(variables);
 
             var bytes = Encoding.UTF8.GetBytes(html);
@@ -69,19 +62,15 @@ namespace Crystalbyte.Paranoia.UI {
                 throw new Exception(error);
             }
 
-            string html = string.Empty;
+            string html;
             const string pattern = "%.+?%";
             using (var reader = new StreamReader(info.Stream)) {
-
                 var text = reader.ReadToEnd();
-
                 html = Regex.Replace(text, pattern, m => {
                     var key = m.Value.Trim('%').ToLower();
-                    if (variables.ContainsKey(key)) {
-                        return variables[key];
-                    }
-
-                    return string.Empty;
+                    return variables.ContainsKey(key)
+                        ? variables[key]
+                        : string.Empty;
                 }, RegexOptions.IgnoreCase);
             }
 
