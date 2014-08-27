@@ -126,8 +126,9 @@ namespace Crystalbyte.Paranoia.Mail {
                     envelope.AddFlags(flags);
                 }
             }
-
-            matches = EnvelopeRegex.Matches(text);
+            String[] t = {"ENVELOPE"};
+            var temp = text.Split(t,StringSplitOptions.None);
+            matches = EnvelopeRegex.Matches(temp[1]);
             envelope.Subject = TransferEncoder.Decode(matches[1].Value)
                 .TrimQuotes()
                 .Replace("%%%", "\"");
