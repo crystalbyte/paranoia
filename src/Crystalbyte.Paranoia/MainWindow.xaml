@@ -1120,8 +1120,7 @@
                       Grid.Column="3" />
         <Grid Grid.Row="3"
               Grid.Column="4"
-              Grid.ColumnSpan="2"
-              Margin="0">
+              Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -1179,7 +1178,6 @@
                                 VerticalAlignment="Center"
                                 Orientation="Horizontal"
                                 Visibility="{Binding SelectedMessage,
-                                                     Delay=100,
                                                      Converter={StaticResource NullToVisibilityConverter}}">
                         <ui:MetroCircleButton Command="{Binding ReplyCommand}">
                             <Image Width="18"
@@ -1205,8 +1203,10 @@
                               DataContext="{Binding DataContext,
                                                     ElementName=Window}"
                               ItemsSource="{Binding Attachments}"
+                              RenderOptions.EdgeMode="Aliased"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                              ScrollViewer.VerticalScrollBarVisibility="Auto">
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              SnapsToDevicePixels="True">
                         <ListView.Style>
                             <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="ListView">
                                 <Style.Triggers>

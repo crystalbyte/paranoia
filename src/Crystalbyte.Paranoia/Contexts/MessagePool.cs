@@ -7,6 +7,7 @@ namespace Crystalbyte.Paranoia {
     internal sealed class MessagePool {
 
         private readonly Stack<MailMessageContext> _vacantObjects = new Stack<MailMessageContext>();
+        private readonly Stack<MailMessageContext> _occupiedObjects = new Stack<MailMessageContext>();
 
         public MessagePool() {
             GenerateObjects(256);
@@ -37,13 +38,16 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertUIThread();
 
             if (_vacantObjects.Count <= count) {
-                for (var i = 0; i < _vacantObjects.Count; i++) {
+                var total = _vacantObjects.Count + _occupiedObjects.Count;
+                for (var i = 0; i < total; i++) {
                     _vacantObjects.Push(new MailMessageContext());  
                 }
             }
 
             for (var i = 0; i < count; i++) {
-                yield return _vacantObjects.Pop();                                                              
+                var obj = _vacantObjects.Pop();                                                              
+                _occupiedObjects.Push(obj);
+                yield return obj;
             }
         }
     }
