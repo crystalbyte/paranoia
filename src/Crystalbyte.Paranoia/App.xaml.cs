@@ -73,6 +73,25 @@ namespace Crystalbyte.Paranoia {
                     SmtpRequiresAuthentication = true,
                 };
 
+                database.MailAccounts.Add(account);
+
+                account = new MailAccountModel {
+                    Name = "SPAM",
+                    Address = "osemc_test@organice.de",
+                    ImapUsername = "osemc_test",
+                    ImapPassword = "dreissig",
+                    ImapHost = "mail.organice.de",
+                    ImapPort = 993,
+                    ImapSecurity = SecurityProtocol.Implicit,
+                    SmtpHost = "osemc_test",
+                    SmtpPort = 25,
+                    SmtpUsername = "osemc_test",
+                    SmtpPassword = "dreissig",
+                    SmtpSecurity = SecurityProtocol.Implicit,
+                    UseImapCredentialsForSmtp = true,
+                    SmtpRequiresAuthentication = true,
+                };
+
                 //account.Mailboxes.Add(new MailboxModel
                 //{
                 //    Type = MailboxType.Inbox
