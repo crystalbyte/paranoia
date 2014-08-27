@@ -1199,7 +1199,7 @@
                     <ListView DataContext="{Binding DataContext,
                                                     ElementName=Window}"
                               ItemsSource="{Binding Attachments}" 
-                              Grid.Row="2" 
+                              Grid.Row="3" 
                               Grid.ColumnSpan="2"
                               Background="Transparent" 
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
