@@ -15,6 +15,11 @@ namespace Crystalbyte.Paranoia.UI.Converters {
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             try {
+                var isLarge = true;
+                var s = parameter as string;
+                if (!string.IsNullOrEmpty(s) || string.Compare(s, "16", StringComparison.InvariantCultureIgnoreCase) == 0) {
+                    isLarge = false;
+                }
                 var name = value as string;
                 if (string.IsNullOrEmpty(name)) {
                     return DefaultIcon;
@@ -30,7 +35,7 @@ namespace Crystalbyte.Paranoia.UI.Converters {
                     return DefaultIcon;
                 }
 
-                var icon = ExtractIconFromFile(location, true);
+                var icon = ExtractIconFromFile(location, isLarge);
                 if (icon == null) {
                     return DefaultIcon;
                 }

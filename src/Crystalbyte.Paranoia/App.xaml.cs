@@ -8,6 +8,7 @@ using System.Net;
 using System.Windows;
 using Awesomium.Core;
 using Crystalbyte.Paranoia.Cryptography;
+using Crystalbyte.Paranoia.Data;
 
 #endregion
 

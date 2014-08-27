@@ -28,7 +28,6 @@ using NLog;
 using Crystalbyte.Paranoia.Contexts;
 using Crystalbyte.Paranoia.Mail;
 using System.Text;
-using Crystalbyte.Paranoia.Mail.Mime;
 
 #endregion
 
@@ -48,7 +47,7 @@ namespace Crystalbyte.Paranoia {
         private readonly DispatcherTimer _outboxTimer;
         private MailAccountContext _selectedAccount;
         private IEnumerable<MailMessageContext> _selectedMessages;
-        private ObservableCollection<AttachmentContext> _attachments;
+        private readonly ObservableCollection<AttachmentContext> _attachments;
         private readonly ObservableCollection<MailMessageContext> _messages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
         private readonly ObservableCollection<MailContactContext> _contacts;
