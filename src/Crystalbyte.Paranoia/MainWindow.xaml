@@ -1140,6 +1140,7 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -1196,48 +1197,53 @@
                                    Source="/Assets/delete.png" />
                         </ui:MetroCircleButton>
                     </StackPanel>
-                    <ListView DataContext="{Binding DataContext,
-                                                    ElementName=Window}"
-                              ItemsSource="{Binding Attachments}" 
-                              Grid.Row="3" 
+                    <ListView Grid.Row="3"
+                              Grid.Column="0"
                               Grid.ColumnSpan="2"
-                              Background="Transparent" 
-                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                              DataContext="{Binding DataContext,
+                                                    ElementName=Window}"
+                              ItemsSource="{Binding Attachments}"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                               ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <ListView.Style>
-                            <Style TargetType="ListView">
+                            <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="ListView">
                                 <Style.Triggers>
                                     <Trigger Property="HasItems" Value="false">
-                                        <Setter Property="Visibility" Value="Hidden"/>
+                                        <Setter Property="Visibility" Value="Hidden" />
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
                         </ListView.Style>
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Horizontal"/>
+                                <WrapPanel Orientation="Horizontal" />
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
-                            <ItemContainerTemplate>
+                            <DataTemplate>
                                 <Grid Width="120" Height="20">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock ToolTip="{Binding FullName}" 
-                                   Text="{Binding Name}" 
-                                   Margin="2,0,2,0" 
-                                   Foreground="#BADA55" 
-                                   TextTrimming="CharacterEllipsis"
-                                   VerticalAlignment="Center"/>
-                                    <!--TODO usefull tooltip-->
-                                    <Button Grid.Column="1" 
-                                Content="O" 
-                                Command="{Binding OpenAttachmentCommand}" 
-                                ToolTip="open"/>
+                                    <Image Source="{Binding FullName, IsAsync=True, Converter={StaticResource IconFinder}}"></Image>
+                                    <TextBlock VerticalAlignment="Center"
+                                               Text="{Binding Name}"
+                                               Grid.Column="1"
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="NoWrap"
+                                               ToolTip="{Binding FullName}" />
+                                    <Button Grid.Column="1"
+                                            Command="{Binding OpenAttachmentCommand}"
+                                            ToolTip="{x:Static properties:Resources.OpenFile}">
+                                        <Image Width="10"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Source="/Assets/close.png" />
+                                    </Button>
                                 </Grid>
-                            </ItemContainerTemplate>
+                            </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                 </Grid>
