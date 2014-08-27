@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Composition;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -47,7 +48,7 @@ namespace Crystalbyte.Paranoia {
         private MailAccountContext _selectedAccount;
         private IEnumerable<MailMessageContext> _selectedMessages;
         private readonly ObservableCollection<AttachmentContext> _attachments;
-        private readonly ObservableCollection<MailMessageContext> _messages;
+        private readonly DeferredObservableCollection<MailMessageContext> _messages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
         private readonly ObservableCollection<MailContactContext> _contacts;
         private MailContactContext _selectedContact;
@@ -77,7 +78,7 @@ namespace Crystalbyte.Paranoia {
             _accounts = new ObservableCollection<MailAccountContext>();
             _accounts.CollectionChanged += OnAccountsCollectionChanged;
 
-            _messages = new ObservableCollection<MailMessageContext>();
+            _messages = new DeferredObservableCollection<MailMessageContext>();
             _messages.CollectionChanged += OnMessagesCollectionChanged;
 
             _attachments = new ObservableCollection<AttachmentContext>();
@@ -105,6 +106,7 @@ namespace Crystalbyte.Paranoia {
                 action => MessageSelectionChanged += action,
                 action => MessageSelectionChanged -= action)
                 .Throttle(TimeSpan.FromMilliseconds(100))
+                .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
                 .Subscribe(OnMessageSelectionCommitted);
 
             Observable.FromEventPattern<QueryStringEventArgs>(
@@ -411,13 +413,17 @@ namespace Crystalbyte.Paranoia {
                 IsAllContactsSelected = false;
             }
 
-            ClearMessages();
+            var start = Environment.TickCount;
+
+            ClearViews();
 
             if (IsAllContactsSelected) {
                 await LoadAllMessagesAsync();
             } else {
                 await LoadMessagesForContactAsync(SelectedContact);
             }
+
+            Debug.WriteLine("***** {0} ms", Environment.TickCount - start);
         }
 
         private async Task LoadMessagesForContactAsync(MailContactContext contact) {
@@ -554,6 +560,7 @@ namespace Crystalbyte.Paranoia {
                 if (Equals(_selectedMessages, value)) {
                     return;
                 }
+
                 _selectedMessages = value;
                 RaisePropertyChanged(() => SelectedMessage);
                 RaisePropertyChanged(() => SelectedMessages);
@@ -593,7 +600,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnMessageSelectionCommitted(EventPattern<object> obj) {
-            ClearMessageView();
+            ClearPreviewArea();
             var message = SelectedMessages.FirstOrDefault();
             if (message == null) {
                 return;
@@ -605,7 +612,7 @@ namespace Crystalbyte.Paranoia {
             }
 
             DisplayAttachment(message);
-            DisplayMessage(message);
+            PreviewMessage(message);
         }
 
         internal async Task MarkSelectionAsSeenAsync() {
@@ -633,9 +640,14 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void DisplayMessages(ICollection<MailMessageContext> messages) {
+            _messages.DeferNotifications = true;
+
             _messages.ForEach(x => App.MessagePool.Recycle(x));
             _messages.Clear();
             _messages.AddRange(messages);
+
+            _messages.DeferNotifications = false;
+            _messages.NotifyCollectionChanged();
 
             if (messages.Count > 0) {
                 messages.OrderByDescending(x => x.EntryDate)
@@ -643,12 +655,15 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void ClearMessageView() {
+        private void ClearPreviewArea() {
+            Application.Current.AssertUIThread();
+
+            _attachments.Clear();
             Source = null;
         }
 
         private void DisplayAttachment(MailMessageContext message) {
-            //Attachments.Clear();
+
             var attachmentContexts = new List<AttachmentContext>();
             using (var context = new DatabaseContext()) {
                 var mimeMessage = context.MimeMessages.FirstOrDefault(x => x.MessageId == message.Id);
@@ -666,7 +681,7 @@ namespace Crystalbyte.Paranoia {
             });
         }
 
-        private void DisplayMessage(MailMessageContext message) {
+        private void PreviewMessage(MailMessageContext message) {
             Source = string.Format("asset://paranoia/message/{0}", message.Id);
         }
 
@@ -674,7 +689,6 @@ namespace Crystalbyte.Paranoia {
             var dataDir = (string)AppDomain.CurrentDomain.GetData("DataDirectory");
             return new DirectoryInfo(Path.Combine(dataDir, "keys"));
         }
-
 
         public async Task RunAsync() {
             await LoadAccountsAsync();
@@ -747,9 +761,11 @@ namespace Crystalbyte.Paranoia {
             OnFlyOutClosed();
         }
 
-        internal void ClearMessages() {
+        internal void ClearViews() {
+            ClearPreviewArea();
+
+            _messages.ForEach(x => App.MessagePool.Recycle(x));
             _messages.Clear();
-            ClearMessageView();
         }
 
         private async void OnOutboxTimerTick(object sender, EventArgs e) {

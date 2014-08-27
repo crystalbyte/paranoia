@@ -781,7 +781,7 @@ namespace Crystalbyte.Paranoia {
 
         internal async Task LoadMessagesForContactAsync(MailContactContext contact) {
             if (contact == null) {
-                App.Context.ClearMessages();
+                App.Context.ClearViews();
                 return;
             }
 

@@ -23,24 +23,26 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         public event EventHandler CanExecuteChanged;
 
-        public void Execute(object parameter) {
+        public virtual void OnCanExecuteChanged() {
+            var handler = CanExecuteChanged;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
 
+        public void Execute(object parameter) {
             try {
                 var tempPath = Path.GetTempPath();
-                int a = 1;
+                const int a = 1;
                 var fileName = _part.FileName;
                 while (File.Exists(tempPath + fileName)) {
-                    fileName = _part.FileName.Insert(_part.FileName.LastIndexOf(".") - 1, string.Format("{0}", a));
+                    fileName = _part.FileName.Insert(_part.FileName.LastIndexOf(".", StringComparison.Ordinal) - 1, string.Format("{0}", a));
                 }
                 _part.Save(new FileInfo(fileName));
-                var process = new Process();
-                process.StartInfo = new ProcessStartInfo(fileName);
+                var process = new Process {StartInfo = new ProcessStartInfo(fileName)};
                 process.Start();
                 process.Exited += (sender, e) => File.Delete(fileName);
             } catch (Exception ex) {
                 MessageBox.Show("something went wrong\n" + ex);
             }
-
         }
     }
 }

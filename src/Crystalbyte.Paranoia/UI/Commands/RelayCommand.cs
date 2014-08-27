@@ -7,6 +7,7 @@ using System.Windows.Input;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
     public sealed class RelayCommand : ICommand {
+
         #region Private Fields
 
         private readonly Action<object> _onExecute;

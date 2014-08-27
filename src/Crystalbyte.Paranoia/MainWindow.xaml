@@ -1201,6 +1201,7 @@
                               MaxHeight="300"
                               Margin="0,3,0,0"
                               Background="Transparent"
+                              BorderThickness="0,1,0,1"
                               DataContext="{Binding DataContext,
                                                     ElementName=Window}"
                               ItemsSource="{Binding Attachments}"
@@ -1208,7 +1209,7 @@
                               ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <ListView.Style>
                             <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="ListView">
-                                <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClicked"></EventSetter>
+                                <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClicked" />
                                 <Style.Triggers>
                                     <Trigger Property="HasItems" Value="false">
                                         <Setter Property="Visibility" Value="Hidden" />

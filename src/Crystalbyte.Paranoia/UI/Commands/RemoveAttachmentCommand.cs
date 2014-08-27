@@ -18,6 +18,11 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         public event EventHandler CanExecuteChanged;
 
+        public virtual void OnCanExecuteChanged() {
+            var handler = CanExecuteChanged;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
         public void Execute(object parameter) {
             _context.Attachments.Remove(_attachmentContext);
         }

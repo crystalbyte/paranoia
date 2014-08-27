@@ -20,7 +20,6 @@ using Crystalbyte.Paranoia.UI.Commands;
 using Newtonsoft.Json;
 using MailMessage = System.Net.Mail.MailMessage;
 using NLog;
-using System.Windows;
 
 #endregion
 
@@ -259,6 +258,8 @@ namespace Crystalbyte.Paranoia {
 
         private async void OnMailboxSelectionChanged() {
             try {
+              
+
                 var handler = MailboxSelectionChanged;
                 if (handler != null)
                     handler(this, EventArgs.Empty);
@@ -269,6 +270,8 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 IsOutboxSelected = false;
+
+              
 
                 await App.Context.RefreshMessagesAsync();
                 await mailbox.SyncMessagesAsync();
