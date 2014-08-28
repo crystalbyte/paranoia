@@ -423,7 +423,7 @@ namespace Crystalbyte.Paranoia {
             }
 
             ClearViews();
-            return Task.Run(() =>LoadMessages());
+            return Task.Run(() => LoadMessages());
         }
 
         private async void LoadMessages() {
@@ -431,8 +431,7 @@ namespace Crystalbyte.Paranoia {
 
             if (IsAllContactsSelected) {
                 await LoadAllMessagesAsync();
-            }
-            else {
+            } else {
                 var contact = SelectedContact;
                 await LoadMessagesForContactAsync(contact);
             }
@@ -593,7 +592,7 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         private void OnQueryReceived(string text) {
-            throw new NotImplementedException();
+            
         }
 
         private void OnAccountsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
@@ -619,7 +618,7 @@ namespace Crystalbyte.Paranoia {
             }
             await PreviewMessageAsync(message);
         }
-        
+
 
         internal async Task MarkSelectionAsSeenAsync() {
             var tasks = SelectedMessages
@@ -771,9 +770,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void ClearViews() {
-            ClearPreviewArea();
-
             _messages.Clear();
+            ClearPreviewArea();
         }
 
         private async void OnOutboxTimerTick(object sender, EventArgs e) {
@@ -798,6 +796,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void NotifyContactsAdded(ICollection<MailContactContext> contacts) {
+            Application.Current.AssertUIThread();
+
             _contacts.AddRange(contacts);
             RefreshContactStatisticsAsync(contacts);
         }

@@ -184,7 +184,7 @@ namespace Crystalbyte.Paranoia {
                         var localizedMailboxes = await ListMailboxesAsync(pattern);
                         remoteMailboxes.AddRange(localizedMailboxes);
                     }
-                }
+                } 
 
                 var types = new List<MailboxType> { MailboxType.Inbox, MailboxType.Draft, MailboxType.Sent, MailboxType.Trash };
 
@@ -256,7 +256,7 @@ namespace Crystalbyte.Paranoia {
 
         public event EventHandler MailboxSelectionChanged;
 
-        private async void OnMailboxSelectionChanged() {
+        private void OnMailboxSelectionChanged() {
             try {
                 var handler = MailboxSelectionChanged;
                 if (handler != null)
@@ -270,7 +270,9 @@ namespace Crystalbyte.Paranoia {
                 IsOutboxSelected = false;
 
                 App.Context.RefreshMessagesAsync();
-                mailbox.SyncMessagesAsync();
+                if (!mailbox.IsIdling) {
+                    mailbox.SyncMessagesAsync();    
+                }
             }
             catch (Exception ex) {
                 Logger.Error(ex);

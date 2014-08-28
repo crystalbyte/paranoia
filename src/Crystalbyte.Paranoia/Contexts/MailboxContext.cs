@@ -41,6 +41,7 @@ namespace Crystalbyte.Paranoia {
         private bool _isSyncingChildren;
         private int _totalEnvelopeCount;
         private int _fetchedEnvelopeCount;
+        private bool _isIdling;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -379,13 +380,18 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task SyncMessagesAsync() {
-            try {
-                Application.Current.AssertUIThread();
+        internal Task SyncMessagesAsync() {
+            Application.Current.AssertUIThread();
+            return Task.Run(() => SyncMessages());
+        }
 
+        private async void SyncMessages() {
+            try {
                 if (!IsBound || IsSyncingMessages) {
                     return;
                 }
+
+                IsSyncingMessages = true;
 
                 var name = _mailbox.Name;
                 var maxUid = await GetMaxUidAsync();
@@ -399,12 +405,15 @@ namespace Crystalbyte.Paranoia {
                         using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
                             var mailbox = await session.SelectAsync(name);
 
-                            IsSyncingMessages = true;
-
                             messages.AddRange(await SyncChallengesAsync(mailbox, maxUid));
                             messages.AddRange(await SyncNonChallengesAsync(mailbox, maxUid));
                         }
                     }
+                }
+
+                if (messages.Count == 0) {
+                    FetchedEnvelopeCount = 0;
+                    return;
                 }
 
                 await SaveContactsAsync(messages);
@@ -413,15 +422,16 @@ namespace Crystalbyte.Paranoia {
                 var contexts = messages.Where(x => x.Type == MailType.Message)
                     .Select(x => new MailMessageContext(this, x)).ToArray();
 
-                if (IsInbox && contexts.Length > 0) {
+                FetchedEnvelopeCount = 0;
+
+                await Application.Current.Dispatcher.InvokeAsync(() => {
+                    App.Context.NotifyMessagesAdded(contexts);
+                    if (!IsInbox || contexts.Length <= 0)
+                        return;
+
                     var notification = new NotificationWindow(contexts);
                     notification.Show();
-                }
-
-                App.Context.NotifyMessagesAdded(contexts);
-
-            } catch (Exception ex) {
-                Logger.Error(ex);
+                });
             } finally {
                 IsSyncingMessages = false;
             }
@@ -594,30 +604,36 @@ namespace Crystalbyte.Paranoia {
 
         private static async Task SaveContactsAsync(IEnumerable<MailMessageModel> messages) {
             try {
-                var contacts = new List<MailContactModel>();
+                var groups = messages.GroupBy(x => x.FromAddress).ToArray();
+
                 using (var database = new DatabaseContext()) {
-                    foreach (var message in messages) {
-                        var m = message;
-                        var contact = await database.MailContacts
-                            .Where(x => x.Address == m.FromAddress)
-                            .FirstOrDefaultAsync();
+                    var contacts = await database.MailContacts
+                        .GroupBy(x => x.Address)
+                        .ToArrayAsync();
 
-                        if (contact != null)
-                            continue;
+                    var diff = groups.Where(x => contacts
+                        .All(y => string.Compare(x.Key, y.Key,
+                            StringComparison.InvariantCultureIgnoreCase) != 0))
+                        .ToArray();
 
-                        var model = new MailContactModel {
-                            Address = m.FromAddress,
-                            Name = m.FromName
-                        };
 
+                    var contexts = new List<MailContactContext>();
+                    foreach (var model in diff.Select(group => new MailContactModel {
+                        Address = group.First().FromAddress,
+                        Name = group.First().FromName
+                    })) {
                         database.MailContacts.Add(model);
-                        await database.SaveChangesAsync();
-                        contacts.Add(model);
+                        contexts.Add(new MailContactContext(model));
                     }
 
-                    App.Context.NotifyContactsAdded(contacts
-                        .Select(x => new MailContactContext(x))
-                        .ToList());
+                    if (diff.Length < 1) {
+                        return;
+                    }
+
+                    await database.SaveChangesAsync();
+
+                    await Application.Current.Dispatcher
+                        .InvokeAsync(() => App.Context.NotifyContactsAdded(contexts));
                 }
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -780,10 +796,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task LoadMessagesForContactAsync(MailContactContext contact) {
-            if (contact == null) {
-                App.Context.ClearViews();
-                return;
-            }
+            Application.Current.AssertBackgroundThread();
 
             try {
                 IEnumerable<MailMessageModel> messages;
@@ -804,12 +817,24 @@ namespace Crystalbyte.Paranoia {
                     .Select(x => new MailMessageContext(this, x))
                     .ToArray();
 
-                Application.Current.Dispatcher.InvokeAsync(() =>
+                await Application.Current.Dispatcher.InvokeAsync(() =>
                     App.Context.DisplayMessages(contexts));
-
                 await CountNotSeenAsync();
+
             } catch (Exception ex) {
                 Logger.Error(ex);
+            }
+        }
+
+        public bool IsIdling {
+            get { return _isIdling; }
+            set {
+                if (_isIdling == value) {
+                    return;
+                }
+
+                _isIdling = value;
+                RaisePropertyChanged(() => IsIdling);
             }
         }
 
@@ -824,10 +849,12 @@ namespace Crystalbyte.Paranoia {
                             }
                             var mailbox = await session.SelectAsync(Name);
                             try {
+                                IsIdling = true;
                                 mailbox.ChangeNotificationReceived += OnChangeNotificationReceived;
                                 await mailbox.IdleAsync();
                             } finally {
                                 mailbox.ChangeNotificationReceived -= OnChangeNotificationReceived;
+                                IsIdling = false;
                             }
                         }
                     }
@@ -875,6 +902,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task LoadMessagesAsync() {
+            Application.Current.AssertBackgroundThread();
+
             try {
                 IEnumerable<MailMessageModel> messages;
                 using (var context = new DatabaseContext()) {
@@ -893,7 +922,7 @@ namespace Crystalbyte.Paranoia {
                     .Select(x => new MailMessageContext(this, x))
                     .ToArray();
 
-                Application.Current.Dispatcher.InvokeAsync(() =>
+                await Application.Current.Dispatcher.InvokeAsync(() =>
                   App.Context.DisplayMessages(contexts));
 
                 await CountNotSeenAsync();

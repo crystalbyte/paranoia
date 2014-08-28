@@ -106,7 +106,6 @@
                               Source="{Binding Contacts}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription Direction="Descending" PropertyName="HasUnseenMessages" />
-                <scm:SortDescription Direction="Descending" PropertyName="MessageCount" />
                 <scm:SortDescription Direction="Ascending" PropertyName="Name" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
@@ -415,7 +414,7 @@
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                              Metro.TitleTextStyle}}">
                         <Run Text="{x:Static properties:Resources.ContactsTitle}" />
-                        <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" Text="{Binding Contacts, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}, FallbackValue=(0)}" />
+                        <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" Text="{Binding Contacts, Mode=OneWay, StringFormat={}{0}, Converter={StaticResource CollectionCounter}, FallbackValue=0}" />
                     </TextBlock>
                 </DockPanel>
 
@@ -834,8 +833,22 @@
                                                     ConverterParameter=!,
                                                     Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Run Text="{x:Static properties:Resources.MessagesTitle}" />
-                        <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" Text="{Binding Messages, Mode=OneWay, StringFormat={}({0}), Converter={StaticResource CollectionCounter}}" />
+                        <Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" Text="{Binding Messages, Mode=OneWay, StringFormat={}{0}, Converter={StaticResource CollectionCounter}}" />
                     </TextBlock>
+                    <TextBox Margin="6,12,6,6"
+                             Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                Metro.MenuBackgroundBrush}}"
+                             Text="{Binding QueryString,
+                                            Mode=TwoWay}" />
+                    <Border Height="1"
+                            Margin="1,6,1,-1"
+                            DataContext="{Binding SelectedAccount}">
+                        <ProgressBar HorizontalAlignment="Stretch"
+                                     DataContext="{Binding SelectedMailbox}"
+                                     Maximum="{Binding TotalEnvelopeCount}"
+                                     Minimum="0"
+                                     Value="{Binding FetchedEnvelopeCount}" />
+                    </Border>
                 </StackPanel>
             </Border>
             <Border Grid.Row="0"

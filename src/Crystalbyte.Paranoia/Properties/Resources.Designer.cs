@@ -784,7 +784,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show All Messages.
+        ///   Looks up a localized string similar to Do not filter by contact.
         /// </summary>
         public static string ShowAllMessages {
             get {

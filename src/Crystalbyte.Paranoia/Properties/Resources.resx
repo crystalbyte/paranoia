@@ -408,7 +408,7 @@ Once your password is lost you're screwed.</value>
     <value>Refreshing public keys for contacts ...</value>
   </data>
   <data name="ShowAllMessages" xml:space="preserve">
-    <value>Show All Messages</value>
+    <value>Do not filter by contact</value>
   </data>
   <data name="Restore" xml:space="preserve">
     <value>Restore</value>
