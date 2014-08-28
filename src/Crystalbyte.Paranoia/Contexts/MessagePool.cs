@@ -47,7 +47,7 @@ namespace Crystalbyte.Paranoia {
             if (_vacantObjects.Count <= count) {
                 var total = _vacantObjects.Count + _occupiedObjects.Count;
                 for (var i = 0; i < total; i++) {
-                    _vacantObjects.Push(new MailMessageContext());  
+                    //_vacantObjects.Push(new MailMessageContext());  
                 }
             }
 
