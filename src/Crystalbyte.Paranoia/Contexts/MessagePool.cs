@@ -16,7 +16,7 @@ namespace Crystalbyte.Paranoia {
 
         private void GenerateObjects(int count) {
             for (var i = 0; i < count; i++) {
-                _vacantObjects.Push(new MailMessageContext());
+                //_vacantObjects.Push(new MailMessageContext());
             }
         }
 
