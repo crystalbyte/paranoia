@@ -6,6 +6,7 @@ using System.Composition;
 using System.Composition.Hosting;
 using System.Configuration;
 using System.Net;
+using System.Threading;
 using System.Windows;
 using Awesomium.Core;
 using Crystalbyte.Paranoia.Cryptography;
@@ -39,6 +40,8 @@ namespace Crystalbyte.Paranoia {
 #endif
 
             base.OnStartup(e);
+
+            Thread.CurrentThread.Name = "Dispatcher Thread";
 
             // TODO: remove on valid certificate usage ...
             ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };

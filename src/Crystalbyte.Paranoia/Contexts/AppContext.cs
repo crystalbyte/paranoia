@@ -1,6 +1,7 @@
 ﻿#region Using directives
 
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -285,12 +286,16 @@ namespace Crystalbyte.Paranoia {
             await RefreshContactStatisticsAsync();
         }
 
-        private async Task RefreshContactStatisticsAsync(IEnumerable<MailContactContext> contacts = null) {
-            var tasks = (contacts ?? _contacts).Select(x => x.CountNotSeenAsync());
-            await Task.WhenAll(tasks);
-
-            var tasks2 = (contacts ?? _contacts).Select(x => x.CountMessagesAsync());
-            await Task.WhenAll(tasks2);
+        private Task RefreshContactStatisticsAsync(IEnumerable<MailContactContext> contacts = null) {
+            var items = (contacts ?? _contacts).ToArray();
+            return Task.Factory.StartNew(() => {
+                foreach (var tasks in items.Select(item => new[] {
+                    item.CountNotSeenAsync(),
+                    item.CountMessagesAsync()
+                })) {
+                    Task.WaitAll(tasks);
+                }
+            });
         }
 
         internal event EventHandler<QueryStringEventArgs> QueryStringChanged;

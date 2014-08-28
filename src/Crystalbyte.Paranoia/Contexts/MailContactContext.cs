@@ -1,6 +1,8 @@
 ﻿#region Using directives
 
+using System;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
@@ -37,6 +39,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task CountMessagesAsync() {
+            var count = Environment.TickCount;
+
             var account = App.Context.SelectedAccount;
             if (account == null) {
                 NotSeenCount = 0;
@@ -50,6 +54,8 @@ namespace Crystalbyte.Paranoia {
                     .Where(x => x.Mailbox.AccountId == account.Id)
                     .CountAsync();
             }
+
+            Debug.WriteLine("+ CountMessagesAsync: {0} ms", Environment.TickCount - count);
         }
 
         public int MessageCount {
