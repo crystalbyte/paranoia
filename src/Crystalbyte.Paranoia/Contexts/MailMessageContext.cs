@@ -19,28 +19,33 @@ namespace Crystalbyte.Paranoia {
     public class MailMessageContext : SelectionObject {
         private int _load;
         private long _bytesReceived;
-        private MailboxContext _mailbox;
-        private MailMessageModel _message;
+        private readonly MailboxContext _mailbox;
+        private readonly MailMessageModel _message;
         private readonly ObservableCollection<AttachmentContext> _attachments;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public MailMessageContext() {
+        //public MailMessageContext() {
+            
+        //}
+
+        //internal void Recycle() {
+        //    Application.Current.AssertUIThread();
+
+        //    _mailbox = null;
+        //    _message = null;
+        //    _attachments.Clear();
+
+        //    IsSelected = false;
+        //}
+
+        internal MailMessageContext(MailboxContext mailbox, MailMessageModel message) {
+            _mailbox = mailbox;
+            _message = message;
             _attachments = new ObservableCollection<AttachmentContext>();
         }
 
-        internal void Recycle() {
-            Application.Current.AssertUIThread();
-
-            _mailbox = null;
-            _message = null;
-            _attachments.Clear();
-        }
-
-        internal void Bind(MailboxContext mailbox, MailMessageModel message) {
-            Application.Current.AssertUIThread();
-
-            _mailbox = mailbox;
-            _message = message;
+        public bool IsRecycled {
+            get { return _message == null; }
         }
 
         public ICollection<AttachmentContext> Attachments {

@@ -23,7 +23,7 @@ namespace Crystalbyte.Paranoia {
         internal void Recycle(MailMessageContext message) {
             Application.Current.AssertUIThread();
 
-            message.Recycle();
+            //message.Recycle();
 
             var success = _occupiedObjects.Remove(message);
             if (!success) {
@@ -37,7 +37,7 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertUIThread();
 
             var context = Request(1).First();
-            context.Bind(mailbox, message);
+            //context.Bind(mailbox, message);
             return context;
         }
 

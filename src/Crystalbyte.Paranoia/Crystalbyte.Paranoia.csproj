@@ -150,10 +150,10 @@
     </ApplicationDefinition>
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="AudioPlayer.cs" />
-    <Compile Include="Contexts\MessagePool.cs" />
     <Compile Include="Contexts\AttachmentContext.cs" />
     <Compile Include="Contexts\CreateContactContext.cs" />
     <Compile Include="Contexts\CreateKeyPairContext.cs" />
+    <Compile Include="Contexts\MessagePool.cs" />
     <Compile Include="Contexts\NotificationWindowContext.cs" />
     <Compile Include="Contexts\OutboxContext.cs" />
     <Compile Include="Contexts\SmtpRequestContext.cs" />

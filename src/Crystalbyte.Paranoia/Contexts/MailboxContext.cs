@@ -411,7 +411,7 @@ namespace Crystalbyte.Paranoia {
                 await SaveMessagesAsync(messages);
 
                 var contexts = messages.Where(x => x.Type == MailType.Message)
-                    .Select(x => App.MessagePool.Request(this, x)).ToArray();
+                    .Select(x => new MailMessageContext(this, x)).ToArray();
 
                 if (IsInbox && contexts.Length > 0) {
                     var notification = new NotificationWindow(contexts);
@@ -775,7 +775,7 @@ namespace Crystalbyte.Paranoia {
                     .Where(x => x.Subject.Contains(text) && x.MailboxId == Id)
                     .ToArrayAsync();
 
-                return messages.Select(x => App.MessagePool.Request(this, x)).ToArray();
+                return messages.Select(x => new MailMessageContext(this, x)).ToArray();
             }
         }
 
@@ -800,8 +800,12 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
-                App.Context.DisplayMessages(messages
-                    .Select(x => App.MessagePool.Request(this, x)).ToArray());
+                var contexts = messages
+                    .Select(x => new MailMessageContext(this, x))
+                    .ToArray();
+
+                Application.Current.Dispatcher.InvokeAsync(() =>
+                    App.Context.DisplayMessages(contexts));
 
                 await CountNotSeenAsync();
             } catch (Exception ex) {
@@ -885,8 +889,12 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
-                App.Context.DisplayMessages(messages
-                    .Select(x => App.MessagePool.Request(this, x)).ToArray());
+                var contexts = messages
+                    .Select(x => new MailMessageContext(this, x))
+                    .ToArray();
+
+                Application.Current.Dispatcher.InvokeAsync(() =>
+                  App.Context.DisplayMessages(contexts));
 
                 await CountNotSeenAsync();
             } catch (Exception ex) {

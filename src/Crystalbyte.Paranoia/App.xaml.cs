@@ -23,7 +23,7 @@ namespace Crystalbyte.Paranoia {
         public static readonly string Name = "Paranoia";
 
         public App() {
-            MessagePool = new MessagePool();
+            //MessagePool = new MessagePool();
         }
 
         [Import]
@@ -31,7 +31,7 @@ namespace Crystalbyte.Paranoia {
 
         internal static CompositionHost Composition { get; private set; }
 
-        internal static MessagePool MessagePool { get; private set; }
+        //internal static MessagePool MessagePool { get; private set; }
 
 #if DEBUG
         protected async override void OnStartup(StartupEventArgs e) {

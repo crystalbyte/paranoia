@@ -179,9 +179,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnMessageSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var view = (ListView)sender;
-            var app = App.Composition.GetExport<AppContext>();
-            app.SelectedMessages = view.SelectedItems.OfType<MailMessageContext>();
+            var app = App.Context;
+            app.OnMessageSelectionChanged();
 
             var message = app.SelectedMessage;
             if (message == null)

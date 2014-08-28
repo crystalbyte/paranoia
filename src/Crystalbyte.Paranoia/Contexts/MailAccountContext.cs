@@ -258,8 +258,6 @@ namespace Crystalbyte.Paranoia {
 
         private async void OnMailboxSelectionChanged() {
             try {
-              
-
                 var handler = MailboxSelectionChanged;
                 if (handler != null)
                     handler(this, EventArgs.Empty);
@@ -271,10 +269,8 @@ namespace Crystalbyte.Paranoia {
 
                 IsOutboxSelected = false;
 
-              
-
-                await App.Context.RefreshMessagesAsync();
-                await mailbox.SyncMessagesAsync();
+                App.Context.RefreshMessagesAsync();
+                mailbox.SyncMessagesAsync();
             }
             catch (Exception ex) {
                 Logger.Error(ex);

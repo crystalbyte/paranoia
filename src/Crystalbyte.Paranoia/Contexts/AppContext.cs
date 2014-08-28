@@ -1,7 +1,6 @@
 ﻿#region Using directives
 
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -47,7 +46,6 @@ namespace Crystalbyte.Paranoia {
         private MailAccountContext _transitAccount;
         private readonly DispatcherTimer _outboxTimer;
         private MailAccountContext _selectedAccount;
-        private IEnumerable<MailMessageContext> _selectedMessages;
         private readonly ObservableCollection<AttachmentContext> _attachments;
         private readonly DeferredObservableCollection<MailMessageContext> _messages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
@@ -270,25 +268,29 @@ namespace Crystalbyte.Paranoia {
 
         internal event EventHandler MessageSelectionChanged;
 
-        private void OnMessageSelectionChanged() {
+        internal void OnMessageSelectionChanged() {
             var handler = MessageSelectionChanged;
             if (handler != null)
                 handler(this, EventArgs.Empty);
+
+            RaisePropertyChanged(() => SelectedMessage);
+            RaisePropertyChanged(() => SelectedMessages);
+            RaisePropertyChanged(() => IsMessageSelected);
         }
 
         internal event EventHandler AccountSelectionChanged;
 
-        private async void OnAccountSelectionChanged() {
+        private void OnAccountSelectionChanged() {
             var handler = AccountSelectionChanged;
             if (handler != null)
                 handler(this, EventArgs.Empty);
 
-            await RefreshContactStatisticsAsync();
+            RefreshContactStatisticsAsync();
         }
 
-        private Task RefreshContactStatisticsAsync(IEnumerable<MailContactContext> contacts = null) {
+        private void RefreshContactStatisticsAsync(IEnumerable<MailContactContext> contacts = null) {
             var items = (contacts ?? _contacts).ToArray();
-            return Task.Factory.StartNew(() => {
+            Task.Factory.StartNew(() => {
                 foreach (var tasks in items.Select(item => new[] {
                     item.CountNotSeenAsync(),
                     item.CountMessagesAsync()
@@ -404,31 +406,36 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async void OnContactSelectionChanged() {
+        private void OnContactSelectionChanged() {
             var account = SelectedAccount;
             if (account == null) {
                 return;
             }
 
-            await RefreshMessagesAsync();
+            RefreshMessagesAsync();
         }
 
-        internal async Task RefreshMessagesAsync() {
+        internal Task RefreshMessagesAsync() {
+            Application.Current.AssertUIThread();
+
             if (SelectedContact != null) {
                 IsAllContactsSelected = false;
             }
 
-            var start = Environment.TickCount;
-
             ClearViews();
+            return Task.Run(() =>LoadMessages());
+        }
+
+        private async void LoadMessages() {
+            Application.Current.AssertBackgroundThread();
 
             if (IsAllContactsSelected) {
                 await LoadAllMessagesAsync();
-            } else {
-                await LoadMessagesForContactAsync(SelectedContact);
             }
-
-            Debug.WriteLine("***** {0} ms", Environment.TickCount - start);
+            else {
+                var contact = SelectedContact;
+                await LoadMessagesForContactAsync(contact);
+            }
         }
 
         private async Task LoadMessagesForContactAsync(MailContactContext contact) {
@@ -560,18 +567,7 @@ namespace Crystalbyte.Paranoia {
         public PublicKeyCrypto KeyContainer { get; private set; }
 
         public IEnumerable<MailMessageContext> SelectedMessages {
-            get { return _selectedMessages; }
-            set {
-                if (Equals(_selectedMessages, value)) {
-                    return;
-                }
-
-                _selectedMessages = value;
-                RaisePropertyChanged(() => SelectedMessage);
-                RaisePropertyChanged(() => SelectedMessages);
-                RaisePropertyChanged(() => IsMessageSelected);
-                OnMessageSelectionChanged();
-            }
+            get { return _messages.Where(x => x.IsSelected).ToArray(); }
         }
 
         public MailMessageContext SelectedMessage {
@@ -605,6 +601,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnMessageSelectionCommitted(EventPattern<object> obj) {
+            Application.Current.AssertUIThread();
+
             ClearPreviewArea();
             var message = SelectedMessages.FirstOrDefault();
             if (message == null) {
@@ -645,9 +643,10 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void DisplayMessages(ICollection<MailMessageContext> messages) {
+            Application.Current.AssertUIThread();
+
             _messages.DeferNotifications = true;
 
-            _messages.ForEach(x => App.MessagePool.Recycle(x));
             _messages.Clear();
             _messages.AddRange(messages);
 
@@ -769,7 +768,6 @@ namespace Crystalbyte.Paranoia {
         internal void ClearViews() {
             ClearPreviewArea();
 
-            _messages.ForEach(x => App.MessagePool.Recycle(x));
             _messages.Clear();
         }
 
@@ -794,17 +792,17 @@ namespace Crystalbyte.Paranoia {
             StatusText = Resources.ReadyStatus;
         }
 
-        internal async void NotifyContactsAdded(ICollection<MailContactContext> contacts) {
+        internal void NotifyContactsAdded(ICollection<MailContactContext> contacts) {
             _contacts.AddRange(contacts);
-            await RefreshContactStatisticsAsync(contacts);
+            RefreshContactStatisticsAsync(contacts);
         }
 
-        internal async void NotifyMessagesAdded(ICollection<MailMessageContext> messages) {
+        internal void NotifyMessagesAdded(ICollection<MailMessageContext> messages) {
             foreach (var message in messages.Where(message => message.Mailbox.IsSelected)) {
                 _messages.Add(message);
             }
 
-            await RefreshContactStatisticsAsync();
+            RefreshContactStatisticsAsync();
             RaisePropertyChanged(() => Messages);
         }
 
@@ -817,10 +815,10 @@ namespace Crystalbyte.Paranoia {
             message.IsSelected = true;
         }
 
-        internal async void NotifyMessagesRemoved(IEnumerable<MailMessageContext> messages) {
+        internal void NotifyMessagesRemoved(IEnumerable<MailMessageContext> messages) {
             messages.ForEach(x => _messages.Remove(x));
 
-            await RefreshContactStatisticsAsync();
+            RefreshContactStatisticsAsync();
             RaisePropertyChanged(() => Messages);
         }
     }
