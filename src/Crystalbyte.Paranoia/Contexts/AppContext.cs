@@ -600,7 +600,7 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => CanSwitchAccounts);
         }
 
-        private async void OnMessageSelectionCommitted(EventPattern<object> obj) {
+        private void OnMessageSelectionCommitted(EventPattern<object> obj) {
             Application.Current.AssertUIThread();
 
             ClearPreviewArea();
@@ -609,14 +609,17 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
+            Task.Run(() => HandleMessageSelectionAsync(message));
+        }
+
+        private async void HandleMessageSelectionAsync(MailMessageContext message) {
             await MarkSelectionAsSeenAsync();
             if (!await message.GetIsMimeLoadedAsync()) {
                 await message.DownloadMessageAsync();
             }
-
-            DisplayAttachment(message);
-            PreviewMessage(message);
+            await PreviewMessageAsync(message);
         }
+        
 
         internal async Task MarkSelectionAsSeenAsync() {
             var tasks = SelectedMessages
@@ -666,18 +669,19 @@ namespace Crystalbyte.Paranoia {
             Source = null;
         }
 
-        private void DisplayAttachment(MailMessageContext message) {
+        private async Task DisplayAttachmentAsync(MailMessageContext message) {
 
             var attachmentContexts = new List<AttachmentContext>();
             using (var context = new DatabaseContext()) {
-                var mimeMessage = context.MimeMessages.FirstOrDefault(x => x.MessageId == message.Id);
+                var mimeMessage = await context.MimeMessages.FirstOrDefaultAsync(x => x.MessageId == message.Id);
                 if (mimeMessage == null)
                     return;
 
                 var reader = new MailMessageReader(Encoding.UTF8.GetBytes(mimeMessage.Data));
                 var attachments = reader.FindAllAttachments();
 
-                attachments.Where(x => x.ContentId == null).ForEach(y => attachmentContexts.Add(new AttachmentContext(y)));
+                attachments.Where(x => x.ContentId == null)
+                    .ForEach(y => attachmentContexts.Add(new AttachmentContext(y)));
             }
             Application.Current.Dispatcher.Invoke(() => {
                 Attachments.Clear();
@@ -685,8 +689,9 @@ namespace Crystalbyte.Paranoia {
             });
         }
 
-        private void PreviewMessage(MailMessageContext message) {
+        private Task PreviewMessageAsync(MailMessageContext message) {
             Source = string.Format("asset://paranoia/message/{0}", message.Id);
+            return DisplayAttachmentAsync(message);
         }
 
         internal static DirectoryInfo GetKeyDirectory() {

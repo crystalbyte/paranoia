@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Composition;
 using System.Composition.Hosting;
 using System.Configuration;
+using System.Diagnostics;
 using System.Net;
 using System.Threading;
 using System.Windows;
@@ -42,6 +43,7 @@ namespace Crystalbyte.Paranoia {
             base.OnStartup(e);
 
             Thread.CurrentThread.Name = "Dispatcher Thread";
+            //MessageBox.Show("" + Thread.CurrentThread.ManagedThreadId);
 
             // TODO: remove on valid certificate usage ...
             ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
