@@ -172,6 +172,8 @@
             VerticalAlignment="Stretch"
             Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
             Metro.ControlBackgroundBrush}}"
+            Drop="DropHtmlControl"
+            AllowDrop="True"
             IsTransparent="True"
             Padding="3"
             Source="{Binding Source,
