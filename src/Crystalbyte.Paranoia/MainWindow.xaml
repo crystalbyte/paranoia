@@ -841,7 +841,7 @@
                              Text="{Binding QueryString,
                                             Mode=TwoWay}" />
                     <Border Height="1"
-                            Margin="1,6,1,-1"
+                            Margin="1,6,1,6"
                             Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                Metro.MenuBackgroundBrush}}"
                             DataContext="{Binding SelectedAccount}">
