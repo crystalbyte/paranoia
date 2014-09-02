@@ -13,6 +13,8 @@ namespace Crystalbyte.Paranoia {
         public bool OnFilterNavigation(NavigationRequest request) {
             return false;
         }
+        internal void SetCurrentMessage() { 
+        }
 
         private long _lastId = -1;
         public ResourceResponse OnRequest(ResourceRequest request) {

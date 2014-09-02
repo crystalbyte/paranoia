@@ -49,7 +49,9 @@ namespace Crystalbyte.Paranoia.UI {
             }
             WebCore.Initialized += (sender, e) => {
                 Dispatcher.Invoke(() => {
-                    WebCore.ResourceInterceptor = new ResourceInterceptor();
+                    var resourceInterceptor = new ResourceInterceptor();
+                    resourceInterceptor.SetCurrentMessage();
+                    WebCore.ResourceInterceptor = resourceInterceptor;
                 });
             };
         }
