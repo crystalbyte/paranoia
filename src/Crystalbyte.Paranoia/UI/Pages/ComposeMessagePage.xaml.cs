@@ -147,9 +147,20 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 var temp = htmlRegex.Match(html).Value;
 
                 var conditionRegex = new Regex(@"<!--\[if.*?<!\[endif]-->", RegexOptions.Singleline);
+                var imageTagRegexPattern = "<img.*?></img>";
+                var srcPrepRegexPatter = "src=\".*?\"";
                 temp = conditionRegex.Replace(temp, string.Empty);
                 temp = temp.Replace("<![if !vml]>", string.Empty)
                     .Replace("<![endif]>", string.Empty);
+                var imageTagMatches = Regex.Matches(temp, imageTagRegexPattern);
+                foreach (Match match in imageTagMatches) {
+                    var originalSrcFile = Regex.Match(match.Value, srcPrepRegexPatter).Value;
+                    var srcFile = originalSrcFile.Replace("src=\"", string.Empty).Replace("\"", string.Empty);
+                    if (!File.Exists(srcFile))
+                        throw new Exception("701");
+
+                    temp = temp.Replace(originalSrcFile, string.Format("src=\"asset://tempImage/{0}\"", srcFile));
+                }
 
                 html = temp;
                 HtmlControl.InsertHtmlAtCurrentPosition(html);
