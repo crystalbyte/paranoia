@@ -155,7 +155,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 var imageTagMatches = Regex.Matches(temp, imageTagRegexPattern);
                 foreach (Match match in imageTagMatches) {
                     var originalSrcFile = Regex.Match(match.Value, srcPrepRegexPatter).Value;
-                    var srcFile = originalSrcFile.Replace("src=\"", string.Empty).Replace("\"", string.Empty);
+                    var srcFile = originalSrcFile.Replace("src=\"file://", string.Empty).Replace("\"", string.Empty);
                     if (!File.Exists(srcFile))
                         throw new Exception("701");
 
@@ -177,8 +177,6 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             var formats = data.GetFormats();
 
         }
-
         #endregion
-
     }
 }
