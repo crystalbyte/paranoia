@@ -125,7 +125,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         #region PasteHandler
 
         private void OnCanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e) {
-            e.CanExecute = true;
+            e.CanExecute = false;
 
             var data = Clipboard.GetDataObject();
             if (data == null)
@@ -147,15 +147,15 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 var temp = htmlRegex.Match(html).Value;
 
                 var conditionRegex = new Regex(@"<!--\[if.*?<!\[endif]-->", RegexOptions.Singleline);
-                var imageTagRegexPattern = "<img.*?></img>";
+                var imageTagRegexPattern = "<img.*?>(</img>){0,1}";
                 var srcPrepRegexPatter = "src=\".*?\"";
                 temp = conditionRegex.Replace(temp, string.Empty);
                 temp = temp.Replace("<![if !vml]>", string.Empty)
                     .Replace("<![endif]>", string.Empty);
-                var imageTagMatches = Regex.Matches(temp, imageTagRegexPattern);
+                var imageTagMatches = Regex.Matches(temp, imageTagRegexPattern, RegexOptions.Singleline | RegexOptions.Compiled);
                 foreach (Match match in imageTagMatches) {
                     var originalSrcFile = Regex.Match(match.Value, srcPrepRegexPatter).Value;
-                    var srcFile = originalSrcFile.Replace("src=\"file://", string.Empty).Replace("\"", string.Empty);
+                    var srcFile = originalSrcFile.Replace("src=\"file:///", string.Empty).Replace("\"", string.Empty);
                     if (!File.Exists(srcFile))
                         throw new Exception("701");
 
