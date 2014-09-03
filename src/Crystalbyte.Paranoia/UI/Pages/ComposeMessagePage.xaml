@@ -177,7 +177,12 @@
             IsTransparent="True"
             Padding="3"
             Source="{Binding Source,
-            Mode=TwoWay}" />
+            Mode=TwoWay}" >
+            <ui:HtmlControl.CommandBindings>
+                <CommandBinding Command="{x:Static ApplicationCommands.Paste}"  
+                                PreviewCanExecute="OnCanExecute"/>
+            </ui:HtmlControl.CommandBindings>
+        </ui:HtmlControl>
 
         <ui:MetroCircleButton Grid.Row="4"
                               Grid.Column="0"

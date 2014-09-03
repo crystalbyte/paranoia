@@ -13,14 +13,13 @@ namespace Crystalbyte.Paranoia {
         public bool OnFilterNavigation(NavigationRequest request) {
             return false;
         }
-        internal void SetCurrentMessage() { 
+        internal void SetCurrentMessage() {
         }
 
         private long _lastId = -1;
         public ResourceResponse OnRequest(ResourceRequest request) {
             if (request.Url.Scheme != "asset")
                 return null;
-
 
             //TODO improve this
             if (_lastId != -1 && request.Url.Segments[1] == "cid/") {
@@ -47,6 +46,12 @@ namespace Crystalbyte.Paranoia {
 
             if (!long.TryParse(request.Url.Segments[2], out _lastId)) {
                 _lastId = -1;
+            }
+
+            //asset://tempImage/
+            var image = request.Url.AbsolutePath.StartsWith("/") ? request.Url.AbsolutePath.Remove(0, 1) : request.Url.AbsolutePath;
+            if (File.Exists(image)) {
+                return ResourceResponse.Create(image);
             }
 
             Debug.WriteLine(request.Url.AbsolutePath);
