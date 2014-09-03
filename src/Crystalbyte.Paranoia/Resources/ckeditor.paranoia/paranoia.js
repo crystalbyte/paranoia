@@ -37,6 +37,14 @@ function Stuff() {
     window.external.Test(CKEDITOR.instances.editor1.getSelection());
 }
 
+function pasteHtmlAtCurrentPosition(html) {
+    CKEDITOR.instances.editor1.insertHtml(html);
+}
+
+function pastePlaneAtCurrentPosition(planeText) {
+    CKEDITOR.instances.editor1.insertText(planeText);
+}
+
 function start() {
     CKEDITOR.replace('editor1', {
         on:

@@ -10,6 +10,8 @@ using System.Windows.Media;
 using Awesomium.Core;
 using Awesomium.Windows.Controls;
 using Crystalbyte.Paranoia.Properties;
+using System.Text.RegularExpressions;
+using System.IO;
 
 #endregion
 
@@ -54,6 +56,8 @@ namespace Crystalbyte.Paranoia.UI {
                     WebCore.ResourceInterceptor = resourceInterceptor;
                 });
             };
+
+            //this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, OnExecuted, OnCanExecute));
         }
 
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
@@ -210,7 +214,72 @@ namespace Crystalbyte.Paranoia.UI {
                 Debug.WriteLine("something went wrong\n" + ex);
                 return string.Empty;
             }
+        }
+
+        internal void InsertHtmlAtCurrentPosition(string html) {
+            JSObject window = _webControl.ExecuteJavascriptWithResult("window");
+
+            // Make sure we have the object.
+            if (window == null)
+                return;
+            using (window) {
+                window.Invoke("pasteHtmlAtCurrentPosition", html);
+            }
+
+            //_webControl.ExecuteJavascript(string.Format("pasteHtmlAtCurrentPosition({0})", html));
+        }
+
+        internal void InsertPlaneAtCurrentPosition(string planeText) {
+            _webControl.ExecuteJavascript(string.Format("pastePlaneAtCurrentPosition({0})", planeText));
+        }
+
+        #region PasteHandler
+
+        private void OnExecuted(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
+            var data = Clipboard.GetDataObject();
+            if (data == null)
+                return;
+
+            var image = data.GetData("System.Drawing.Bitmap") as System.Drawing.Bitmap;
+            if (image != null) {
+                var file = Path.GetTempFileName();
+                image.Save(file);
+                InsertHtmlAtCurrentPosition(string.Format("<img width=480 src=\"{0}\"></img>", file));
+                return;
+            }
+
+
+            var html = (string)data.GetData(DataFormats.Html);
+            if (html != null) {
+                var htmlRegex = new Regex("<html.*?</html>",
+                RegexOptions.Singleline);
+                var temp = htmlRegex.Match(html).Value;
+
+                var conditionRegex = new Regex(@"<!--\[if.*?<!\[endif]-->", RegexOptions.Singleline);
+                temp = conditionRegex.Replace(temp, string.Empty);
+                temp = temp.Replace("<![if !vml]>", string.Empty)
+                    .Replace("<![endif]>", string.Empty);
+
+                html = temp;
+                InsertHtmlAtCurrentPosition(html);
+                return;
+            }
+
+            var planeText = (string)data.GetData(DataFormats.Text);
+            if (planeText == null)
+                return;
+
+            InsertPlaneAtCurrentPosition(planeText);
+
+            //Debug stuff
+            var formats = data.GetFormats();
 
         }
+
+        private void OnCanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e) {
+            e.CanExecute = true;
+        }
+
+        #endregion
     }
 }

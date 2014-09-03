@@ -10,6 +10,9 @@ using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.UI.Commands;
+using System.Text.RegularExpressions;
+using System.IO;
+using System.Drawing;
 
 #endregion
 
@@ -118,5 +121,53 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
             files.ToList().ForEach(x => context.Attachments.Add(new AttachmentContext(context, x)));
         }
+
+        #region PasteHandler
+
+        private void OnCanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e) {
+            e.CanExecute = true;
+
+            var data = Clipboard.GetDataObject();
+            if (data == null)
+                return;
+
+            var image = data.GetData("System.Drawing.Bitmap") as Bitmap;
+            if (image != null) {
+                var file = Path.GetTempFileName();
+                image.Save(file);
+                HtmlControl.InsertHtmlAtCurrentPosition(string.Format("<img width=480 src=\"asset://tempImage/{0}\"></img>", file));
+                return;
+            }
+
+
+            var html = (string)data.GetData(DataFormats.Html);
+            if (html != null) {
+                var htmlRegex = new Regex("<html.*?</html>",
+                RegexOptions.Singleline);
+                var temp = htmlRegex.Match(html).Value;
+
+                var conditionRegex = new Regex(@"<!--\[if.*?<!\[endif]-->", RegexOptions.Singleline);
+                temp = conditionRegex.Replace(temp, string.Empty);
+                temp = temp.Replace("<![if !vml]>", string.Empty)
+                    .Replace("<![endif]>", string.Empty);
+
+                html = temp;
+                HtmlControl.InsertHtmlAtCurrentPosition(html);
+                return;
+            }
+
+            var planeText = (string)data.GetData(DataFormats.Text);
+            if (planeText == null)
+                return;
+
+            HtmlControl.InsertPlaneAtCurrentPosition(planeText);
+
+            //Debug stuff
+            var formats = data.GetFormats();
+
+        }
+
+        #endregion
+
     }
 }
