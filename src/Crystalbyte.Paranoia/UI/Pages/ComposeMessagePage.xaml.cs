@@ -9,7 +9,6 @@ using System.Windows;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
-using Crystalbyte.Paranoia.UI.Commands;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Drawing;
@@ -102,11 +101,11 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             }
 
             if (arguments.ContainsKey("action") && arguments["action"] == "new") {
-                PrepareAsNew(arguments);
+                PrepareAsNew();
             }
         }
 
-        private void PrepareAsNew(Dictionary<string, string> arguments) {
+        private void PrepareAsNew() {
             var context = (MailCompositionContext)DataContext;
             context.Source = "asset://paranoia/message/new";
         }
@@ -114,8 +113,8 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         #endregion
 
         private void DropHtmlControl(object sender, DragEventArgs e) {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            var context = this.DataContext as MailCompositionContext;
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var context = DataContext as MailCompositionContext;
             if (files == null | context == null)
                 return;
 
@@ -147,8 +146,8 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 var temp = htmlRegex.Match(html).Value;
 
                 var conditionRegex = new Regex(@"<!--\[if.*?<!\[endif]-->", RegexOptions.Singleline);
-                var imageTagRegexPattern = "<img.*?>(</img>){0,1}";
-                var srcPrepRegexPatter = "src=\".*?\"";
+                const string imageTagRegexPattern = "<img.*?>(</img>){0,1}";
+                const string srcPrepRegexPatter = "src=\".*?\"";
                 temp = conditionRegex.Replace(temp, string.Empty);
                 temp = temp.Replace("<![if !vml]>", string.Empty)
                     .Replace("<![endif]>", string.Empty);
@@ -174,7 +173,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             HtmlControl.InsertPlaneAtCurrentPosition(planeText);
 
             //Debug stuff
-            var formats = data.GetFormats();
+            //var formats = data.GetFormats();
 
         }
         #endregion
