@@ -204,15 +204,15 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnTreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
-            var app = App.Composition.GetExport<AppContext>();
-            var account = app.SelectedAccount;
-            if (account == null) {
-                return;
-            }
+            //var app = App.Composition.GetExport<AppContext>();
+            //var account = app.SelectedAccount;
+            //if (account == null) {
+            //    return;
+            //}
 
-            var tree = (TreeView) sender;
-            account.SelectedMailbox = tree.SelectedValue as MailboxContext;
-            account.NotifyDockingChanged();
+            //var tree = (TreeView) sender;
+            //account.SelectedMailbox = tree.SelectedValue as MailboxContext;
+            //account.NotifyDockingChanged();
         }
 
         private void OnAttachmentMouseDoubleClicked(object sender, MouseButtonEventArgs e) {

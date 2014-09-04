@@ -41,21 +41,21 @@ namespace Crystalbyte.Paranoia {
         internal async Task CountMessagesAsync() {
             var count = Environment.TickCount;
 
-            var account = App.Context.SelectedAccount;
-            if (account == null) {
-                NotSeenCount = 0;
-                return;
-            }
+            //var account = App.Context.SelectedAccount;
+            //if (account == null) {
+            //    NotSeenCount = 0;
+            //    return;
+            //}
 
-            using (var context = new DatabaseContext()) {
-                MessageCount = await context.MailMessages
-                    .Where(x => x.Type == MailType.Message)
-                    .Where(x => x.FromAddress == Address)
-                    .Where(x => x.Mailbox.AccountId == account.Id)
-                    .CountAsync();
-            }
+            //using (var context = new DatabaseContext()) {
+            //    MessageCount = await context.MailMessages
+            //        .Where(x => x.Type == MailType.Message)
+            //        .Where(x => x.FromAddress == Address)
+            //        .Where(x => x.Mailbox.AccountId == account.Id)
+            //        .CountAsync();
+            //}
 
-            Debug.WriteLine("+ CountMessagesAsync: {0} ms", Environment.TickCount - count);
+            //Debug.WriteLine("+ CountMessagesAsync: {0} ms", Environment.TickCount - count);
         }
 
         public int MessageCount {
@@ -70,20 +70,20 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task CountNotSeenAsync() {
-            var account = App.Context.SelectedAccount;
-            if (account == null) {
-                NotSeenCount = 0;
-                return;
-            }
+            //var account = App.Context.SelectedAccount;
+            //if (account == null) {
+            //    NotSeenCount = 0;
+            //    return;
+            //}
 
-            using (var context = new DatabaseContext()) {
-                NotSeenCount = await context.MailMessages
-                    .Where(x => x.Type == MailType.Message)
-                    .Where(x => x.FromAddress == Address)
-                    .Where(x => x.Mailbox.AccountId == account.Id)
-                    .Where(x => !x.Flags.Contains(MailboxFlags.Seen))
-                    .CountAsync();
-            }
+            //using (var context = new DatabaseContext()) {
+            //    NotSeenCount = await context.MailMessages
+            //        .Where(x => x.Type == MailType.Message)
+            //        .Where(x => x.FromAddress == Address)
+            //        .Where(x => x.Mailbox.AccountId == account.Id)
+            //        .Where(x => !x.Flags.Contains(MailboxFlags.Seen))
+            //        .CountAsync();
+            //}
         }
 
         public bool IsValidated {

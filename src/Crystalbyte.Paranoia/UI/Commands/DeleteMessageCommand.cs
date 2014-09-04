@@ -31,25 +31,26 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public bool CanExecute(object parameter) {
-            return _app.SelectedAccount != null
-                   && _app.SelectedMessage != null
-                   && _app.SelectedAccount.DockedMailboxes.FirstOrDefault(x => x.Type == MailboxType.Trash) != null;
+            return false;
+            //return _app.SelectedAccount != null
+            //       && _app.SelectedMessage != null
+            //       && _app.SelectedAccount.DockedMailboxes.FirstOrDefault(x => x.Type == MailboxType.Trash) != null;
         }
 
         public async void Execute(object parameter) {
-            try {
-                var trash = _app.SelectedAccount.DockedMailboxes.FirstOrDefault(x => x.Type == MailboxType.Trash);
-                if (trash == null) {
-                    return;
-                }
+            //try {
+            //    var trash = _app.SelectedAccount.DockedMailboxes.FirstOrDefault(x => x.Type == MailboxType.Trash);
+            //    if (trash == null) {
+            //        return;
+            //    }
 
-                var messages = _app.SelectedMessages.ToArray();
-                var mailbox = _app.SelectedAccount.SelectedMailbox;
-                await mailbox.DeleteMessagesAsync(messages, trash.Name);
-            }
-            catch (Exception ex) {
-                Logger.Error(ex);
-            }
+            //    var messages = _app.SelectedMessages.ToArray();
+            //    var mailbox = _app.SelectedAccount.SelectedMailbox;
+            //    await mailbox.DeleteMessagesAsync(messages, trash.Name);
+            //}
+            //catch (Exception ex) {
+            //    Logger.Error(ex);
+            //}
         }
 
         public event EventHandler CanExecuteChanged;

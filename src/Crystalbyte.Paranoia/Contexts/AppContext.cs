@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Composition;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -45,7 +44,7 @@ namespace Crystalbyte.Paranoia {
         private bool _isAccountSelectionRequested;
         private MailAccountContext _transitAccount;
         private readonly DispatcherTimer _outboxTimer;
-        private MailAccountContext _selectedAccount;
+        //private MailAccountContext _selectedAccount;
         private readonly ObservableCollection<AttachmentContext> _attachments;
         private readonly DeferredObservableCollection<MailMessageContext> _messages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
@@ -62,7 +61,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _configAccountCommand;
         private readonly ICommand _createAccountCommand;
         private readonly ICommand _selectAccountCommand;
-        private readonly ICommand _deleteAccountCommand;
+        //private readonly ICommand _deleteAccountCommand;
         private readonly ICommand _createContactCommand;
         private readonly ICommand _deleteContactCommand;
         private readonly ICommand _refreshKeysCommand;
@@ -89,7 +88,7 @@ namespace Crystalbyte.Paranoia {
             _writeCommand = new ComposeMessageCommand(this);
             _markAsSeenCommand = new MarkAsSeenCommand(this);
             _markAsNotSeenCommand = new MarkAsNotSeenCommand(this);
-            _deleteAccountCommand = new RelayCommand(OnDeleteAccount);
+            //_deleteAccountCommand = new RelayCommand(OnDeleteAccount);
             _deleteContactCommand = new RelayCommand(OnDeleteContact);
             _createAccountCommand = new RelayCommand(OnCreateAccount);
             _configAccountCommand = new RelayCommand(OnConfigAccount);
@@ -209,25 +208,25 @@ namespace Crystalbyte.Paranoia {
             _contacts.AddRange(contacts.Select(x => new MailContactContext(x)));
         }
 
-        private async void OnDeleteAccount(object obj) {
-            try {
-                // TODO: Change into popup overlay.
-                if (MessageBox.Show(Application.Current.MainWindow, Resources.DeleteAccountQuestion,
-                    "Delete Account", MessageBoxButton.YesNo) == MessageBoxResult.No) {
-                    return;
-                }
+        //private async void OnDeleteAccount(object obj) {
+        //    try {
+        //        // TODO: Change into popup overlay.
+        //        if (MessageBox.Show(Application.Current.MainWindow, Resources.DeleteAccountQuestion,
+        //            "Delete Account", MessageBoxButton.YesNo) == MessageBoxResult.No) {
+        //            return;
+        //        }
 
-                var account = SelectedAccount;
-                await account.DeleteAsync();
-                _accounts.Remove(account);
+        //        var account = SelectedAccount;
+        //        await account.DeleteAsync();
+        //        _accounts.Remove(account);
 
-                if (_accounts.Count > 0) {
-                    SelectedAccount = Accounts.First();
-                }
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
+        //        if (_accounts.Count > 0) {
+        //            SelectedAccount = Accounts.First();
+        //        }
+        //    } catch (Exception ex) {
+        //        Logger.Error(ex);
+        //    }
+        //}
 
         #endregion
 
@@ -364,9 +363,9 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool IsAccountSelected {
-            get { return _selectedAccount != null; }
-        }
+        //public bool IsAccountSelected {
+        //    get { return _selectedAccount != null; }
+        //}
 
         public MailContactContext SelectedContact {
             get { return _selectedContact; }
@@ -380,19 +379,19 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public MailAccountContext SelectedAccount {
-            get { return _selectedAccount; }
-            set {
-                if (_selectedAccount == value) {
-                    return;
-                }
+        //public MailAccountContext SelectedAccount {
+        //    get { return _selectedAccount; }
+        //    set {
+        //        if (_selectedAccount == value) {
+        //            return;
+        //        }
 
-                _selectedAccount = value;
-                RaisePropertyChanged(() => SelectedAccount);
-                RaisePropertyChanged(() => IsAccountSelected);
-                OnAccountSelectionChanged();
-            }
-        }
+        //        _selectedAccount = value;
+        //        RaisePropertyChanged(() => SelectedAccount);
+        //        RaisePropertyChanged(() => IsAccountSelected);
+        //        OnAccountSelectionChanged();
+        //    }
+        //}
 
         public MailAccountContext TransitAccount {
             get { return _transitAccount; }
@@ -407,46 +406,46 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnContactSelectionChanged() {
-            var account = SelectedAccount;
-            if (account == null) {
-                return;
-            }
+            //var account = SelectedAccount;
+            //if (account == null) {
+            //    return;
+            //}
 
-            RefreshMessagesAsync();
+            //RefreshMessagesAsync();
         }
 
-        internal Task RefreshMessagesAsync() {
-            Application.Current.AssertUIThread();
+        //internal Task RefreshMessagesAsync() {
+        //    Application.Current.AssertUIThread();
 
-            if (SelectedContact != null) {
-                IsAllContactsSelected = false;
-            }
+        //    if (SelectedContact != null) {
+        //        IsAllContactsSelected = false;
+        //    }
 
-            ClearViews();
-            return Task.Run(() => LoadMessages());
-        }
+        //    ClearViews();
+        //    return Task.Run(() => LoadMessages());
+        //}
 
-        private async void LoadMessages() {
-            Application.Current.AssertBackgroundThread();
+        //private async void LoadMessages() {
+        //    Application.Current.AssertBackgroundThread();
 
-            if (IsAllContactsSelected) {
-                await LoadAllMessagesAsync();
-            } else {
-                var contact = SelectedContact;
-                await LoadMessagesForContactAsync(contact);
-            }
-        }
+        //    if (IsAllContactsSelected) {
+        //        await LoadAllMessagesAsync();
+        //    } else {
+        //        var contact = SelectedContact;
+        //        await LoadMessagesForContactAsync(contact);
+        //    }
+        //}
 
-        private async Task LoadMessagesForContactAsync(MailContactContext contact) {
-            await SelectedAccount.LoadMessagesForContactAsync(contact);
-            if (contact != null) {
-                await contact.CountNotSeenAsync();
-            }
-        }
+        //private async Task LoadMessagesForContactAsync(MailContactContext contact) {
+        //    await SelectedAccount.LoadMessagesForContactAsync(contact);
+        //    if (contact != null) {
+        //        await contact.CountNotSeenAsync();
+        //    }
+        //}
 
-        private async Task LoadAllMessagesAsync() {
-            await SelectedAccount.LoadAllMessagesAsync();
-        }
+        //private async Task LoadAllMessagesAsync() {
+        //    await SelectedAccount.LoadAllMessagesAsync();
+        //}
 
         internal void NotifyAccountCreated(MailAccountContext account) {
             _accounts.Add(account);
@@ -507,9 +506,9 @@ namespace Crystalbyte.Paranoia {
             get { return _configAccountCommand; }
         }
 
-        public ICommand DeleteAccountCommand {
-            get { return _deleteAccountCommand; }
-        }
+        //public ICommand DeleteAccountCommand {
+        //    get { return _deleteAccountCommand; }
+        //}
 
         public ICommand SelectAccountCommand {
             get { return _selectAccountCommand; }
@@ -699,13 +698,13 @@ namespace Crystalbyte.Paranoia {
         }
 
         public async Task RunAsync() {
-            await LoadAccountsAsync();
             await LoadContactsAsync();
+            await LoadAccountsAsync();
 
-            IsAllContactsSelected = true;
-            SelectedAccount = Accounts.FirstOrDefault();
-            if (SelectedAccount != null)
-                SelectedAccount.IsSelected = true;
+            //IsAllContactsSelected = true;
+            //SelectedAccount = Accounts.FirstOrDefault();
+            //if (SelectedAccount != null)
+            //    SelectedAccount.IsSelected = true;
 
             _outboxTimer.Start();
         }
@@ -714,6 +713,10 @@ namespace Crystalbyte.Paranoia {
             using (var context = new DatabaseContext()) {
                 var accounts = await context.MailAccounts.ToArrayAsync();
                 _accounts.AddRange(accounts.Select(x => new MailAccountContext(x)));
+            }
+
+            foreach (var account in Accounts) {
+                await account.LoadMailboxesAsync();
             }
         }
 

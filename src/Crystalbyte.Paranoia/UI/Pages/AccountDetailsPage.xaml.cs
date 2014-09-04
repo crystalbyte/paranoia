@@ -100,14 +100,15 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
         public void OnNavigated(NavigationEventArgs e) {
             var arguments = e.Uri.OriginalString.ToPageArguments();
-            MailAccountContext account;
-            if (arguments.ContainsKey("mode") && arguments["mode"] == "new") {
-                _isAccountInTransit = true;
-                account = App.Context.TransitAccount;
-            }
-            else {
-                account = App.Context.SelectedAccount;
-            }
+            MailAccountContext account = App.Context.TransitAccount;
+
+            //if (arguments.ContainsKey("mode") && arguments["mode"] == "new") {
+            //    _isAccountInTransit = true;
+            //    account = ;
+            //}
+            //else {
+            //    //account = App.Context.SelectedAccount;
+            //}
 
             _discardOnClose = true;
             _tracker = new RevisionTracker<MailAccountContext>(account)

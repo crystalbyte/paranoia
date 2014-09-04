@@ -137,11 +137,11 @@ namespace Crystalbyte.Paranoia {
             base.OnSelectionChanged();
 
             try {
-                Clear();
+                //Clear();
                 if (!IsSelected)
                     return;
 
-                await LoadMailboxesAsync();
+                //await LoadMailboxesAsync();
                 if (IsOnline) {
                     await SyncMailboxesAsync();
                 } else {
@@ -269,7 +269,7 @@ namespace Crystalbyte.Paranoia {
 
                 IsOutboxSelected = false;
 
-                App.Context.RefreshMessagesAsync();
+                //App.Context.RefreshMessagesAsync();
                 if (!mailbox.IsIdling) {
                     mailbox.SyncMessagesAsync();    
                 }
