@@ -25,7 +25,7 @@ using System.Text.RegularExpressions;
 
 namespace Crystalbyte.Paranoia {
     [DebuggerDisplay("Name = {Name}")]
-    public sealed class MailboxContext : SelectionObject {
+    public sealed class MailboxContext : SelectionObject, IMessageSource {
 
         #region Private Fields
 
@@ -901,38 +901,30 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task LoadMessagesAsync() {
-            Application.Current.AssertBackgroundThread();
-
-            try {
-                IEnumerable<MailMessageModel> messages;
-                using (var context = new DatabaseContext()) {
-                    messages = await context.MailMessages
-                        .Where(x => x.Type == MailType.Message)
-                        .Where(x => x.MailboxId == _mailbox.Id)
-                        .ToArrayAsync();
-                }
-
-                // Check for active selection, since it might have changed while being async.
-                if (!IsSelected) {
-                    return;
-                }
-
-                var contexts = messages
-                    .Select(x => new MailMessageContext(this, x))
-                    .ToArray();
-
-                await Application.Current.Dispatcher.InvokeAsync(() =>
-                  App.Context.DisplayMessages(contexts));
-
-                await CountNotSeenAsync();
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
-
         public bool HasChildren {
             get { return Children.Any(); }
         }
+
+        #region Implementation of IMessageSource
+
+        public async Task<IEnumerable<MailMessageContext>> GetMessagesAsync() {
+            Application.Current.AssertBackgroundThread();
+
+            IEnumerable<MailMessageModel> messages;
+            using (var context = new DatabaseContext()) {
+                messages = await context.MailMessages
+                    .Where(x => x.Type == MailType.Message)
+                    .Where(x => x.MailboxId == _mailbox.Id)
+                    .ToArrayAsync();
+            }
+
+            var contexts = messages
+                .Select(x => new MailMessageContext(this, x))
+                .ToArray();
+
+            return contexts;
+        }
+    
+        #endregion
     }
 }

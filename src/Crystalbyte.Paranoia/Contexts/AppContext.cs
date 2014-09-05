@@ -44,7 +44,7 @@ namespace Crystalbyte.Paranoia {
         private bool _isAccountSelectionRequested;
         private MailAccountContext _transitAccount;
         private readonly DispatcherTimer _outboxTimer;
-        //private MailAccountContext _selectedAccount;
+        private MailboxContext _selectedMailbox;
         private readonly ObservableCollection<AttachmentContext> _attachments;
         private readonly DeferredObservableCollection<MailMessageContext> _messages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
@@ -228,9 +228,32 @@ namespace Crystalbyte.Paranoia {
         //    }
         //}
 
+        private void RequestMessagesAsync(IMessageSource source) {
+            Application.Current.AssertUIThread();
+
+            Task.Run(() => {
+                var messages = source.GetMessagesAsync();
+
+            });
+        }
+
         #endregion
 
         #region Public Events
+
+        public event EventHandler MailboxSelectionChanged;
+
+        private void OnMailboxSelectionChanged() {
+            try {
+                var handler = MailboxSelectionChanged;
+                if (handler != null)
+                    handler(this, EventArgs.Empty);
+
+                RequestMessagesAsync(SelectedMailbox);
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
 
         internal event EventHandler FlyOutClosing;
 
@@ -277,15 +300,15 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => IsMessageSelected);
         }
 
-        internal event EventHandler AccountSelectionChanged;
+        //internal event EventHandler AccountSelectionChanged;
 
-        private void OnAccountSelectionChanged() {
-            var handler = AccountSelectionChanged;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
+        //private void OnAccountSelectionChanged() {
+        //    var handler = AccountSelectionChanged;
+        //    if (handler != null)
+        //        handler(this, EventArgs.Empty);
 
-            RefreshContactStatisticsAsync();
-        }
+        //    RefreshContactStatisticsAsync();
+        //}
 
         private void RefreshContactStatisticsAsync(IEnumerable<MailContactContext> contacts = null) {
             var items = (contacts ?? _contacts).ToArray();
@@ -329,6 +352,19 @@ namespace Crystalbyte.Paranoia {
                 }
                 _isPopupVisible = value;
                 RaisePropertyChanged(() => IsPopupVisible);
+            }
+        }
+
+        public MailboxContext SelectedMailbox {
+            get { return _selectedMailbox; }
+            set {
+                if (_selectedMailbox == value) {
+                    return;
+                }
+
+                _selectedMailbox = value;
+                RaisePropertyChanged(() => SelectedMailbox);
+                OnMailboxSelectionChanged();
             }
         }
 
@@ -591,7 +627,7 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         private void OnQueryReceived(string text) {
-            
+
         }
 
         private void OnAccountsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {

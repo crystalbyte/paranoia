@@ -34,7 +34,7 @@ namespace Crystalbyte.Paranoia {
         private bool _isDetectingSettings;
         private bool _isOutboxSelected;
         private TestingContext _testing;
-        private MailboxContext _selectedMailbox;
+
         private readonly AppContext _appContext;
         private readonly MailAccountModel _account;
         private readonly ICommand _listMailboxesCommand;
@@ -251,44 +251,6 @@ namespace Crystalbyte.Paranoia {
             var inbox = _mailboxes.FirstOrDefault(x => x.Type == MailboxType.Inbox);
             if (inbox != null) {
                 inbox.IsSelected = true;
-            }
-        }
-
-        public event EventHandler MailboxSelectionChanged;
-
-        private void OnMailboxSelectionChanged() {
-            try {
-                var handler = MailboxSelectionChanged;
-                if (handler != null)
-                    handler(this, EventArgs.Empty);
-
-                var mailbox = SelectedMailbox;
-                if (mailbox == null) {
-                    return;
-                }
-
-                IsOutboxSelected = false;
-
-                //App.Context.RefreshMessagesAsync();
-                if (!mailbox.IsIdling) {
-                    mailbox.SyncMessagesAsync();    
-                }
-            }
-            catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
-
-        public MailboxContext SelectedMailbox {
-            get { return _selectedMailbox; }
-            set {
-                if (_selectedMailbox == value) {
-                    return;
-                }
-
-                _selectedMailbox = value;
-                RaisePropertyChanged(() => SelectedMailbox);
-                OnMailboxSelectionChanged();
             }
         }
 
@@ -807,37 +769,37 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task LoadMessagesForContactAsync(MailContactContext contact) {
-            try {
-                var mailbox = SelectedMailbox;
-                if (mailbox == null || !mailbox.IsBound) {
-                    return;
-                }
+        //internal async Task LoadMessagesForContactAsync(MailContactContext contact) {
+        //    try {
+        //        var mailbox = SelectedMailbox;
+        //        if (mailbox == null || !mailbox.IsBound) {
+        //            return;
+        //        }
 
-                await mailbox.LoadMessagesForContactAsync(contact);
-                foreach (var box in DockedMailboxes.AsParallel()) {
-                    await box.CountNotSeenAsync();
-                }
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
+        //        await mailbox.LoadMessagesForContactAsync(contact);
+        //        foreach (var box in DockedMailboxes.AsParallel()) {
+        //            await box.CountNotSeenAsync();
+        //        }
+        //    } catch (Exception ex) {
+        //        Logger.Error(ex);
+        //    }
+        //}
 
-        internal async Task LoadAllMessagesAsync() {
-            try {
-                var mailbox = SelectedMailbox;
-                if (mailbox == null || !mailbox.IsBound) {
-                    return;
-                }
+        //internal async Task LoadAllMessagesAsync() {
+        //    try {
+        //        var mailbox = SelectedMailbox;
+        //        if (mailbox == null || !mailbox.IsBound) {
+        //            return;
+        //        }
 
-                await mailbox.LoadMessagesAsync();
-                foreach (var box in DockedMailboxes.AsParallel()) {
-                    await box.CountNotSeenAsync();
-                }
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
+        //        await mailbox.LoadMessagesAsync();
+        //        foreach (var box in DockedMailboxes.AsParallel()) {
+        //            await box.CountNotSeenAsync();
+        //        }
+        //    } catch (Exception ex) {
+        //        Logger.Error(ex);
+        //    }
+        //}
 
         internal MailboxContext GetInbox() {
             return _mailboxes.FirstOrDefault(x => x.IsInbox);

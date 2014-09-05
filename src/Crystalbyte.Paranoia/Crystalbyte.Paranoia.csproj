@@ -169,6 +169,7 @@
     <Compile Include="Contexts\MailAccountContext.cs" />
     <Compile Include="Data\SmtpRequestModel.cs" />
     <Compile Include="ImapEnvelopeExtensions.cs" />
+    <Compile Include="IMessageSource.cs" />
     <Compile Include="ParanoiaHeaderKeys.cs" />
     <Compile Include="MessageType.cs" />
     <Compile Include="Net\AddressKeyPair.cs" />

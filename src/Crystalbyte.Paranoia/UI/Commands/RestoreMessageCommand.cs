@@ -10,14 +10,15 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         public RestoreMessageCommand(MailAccountContext account) {
             _account = account;
-            _account.MailboxSelectionChanged += (sender, e) => OnCanExecuteChanged();
+            //_account.MailboxSelectionChanged += (sender, e) => OnCanExecuteChanged();
             App.Context.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
         }
 
         public bool CanExecute(object parameter) {
-            return _account.SelectedMailbox != null 
-                && _account.SelectedMailbox.IsTrash
-                && App.Context.SelectedMessages.Any();
+            return false;
+            //return _account.SelectedMailbox != null 
+            //    && _account.SelectedMailbox.IsTrash
+            //    && App.Context.SelectedMessages.Any();
         }
 
         public event EventHandler CanExecuteChanged;

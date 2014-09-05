@@ -163,6 +163,8 @@ namespace Crystalbyte.Paranoia {
 
         #endregion
 
+        #region Dependency Properties
+
         public bool IsFlyOutVisible {
             get { return (bool)GetValue(IsFlyOutVisibleProperty); }
             set { SetValue(IsFlyOutVisibleProperty, value); }
@@ -172,6 +174,8 @@ namespace Crystalbyte.Paranoia {
         public static readonly DependencyProperty IsFlyOutVisibleProperty =
             DependencyProperty.Register("IsFlyOutVisible", typeof(bool), typeof(MainWindow),
                 new PropertyMetadata(false, OnIsOverlayChanged));
+
+        #endregion
 
         private static void OnIsOverlayChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var window = (MainWindow)d;
@@ -204,6 +208,14 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnTreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
+            var tree = (TreeView) sender;
+            var value = tree.SelectedValue;
+
+            var mailbox = value as MailboxContext;
+            if (mailbox != null) {
+                App.Context.SelectedMailbox = mailbox;
+            }
+
             //var app = App.Composition.GetExport<AppContext>();
             //var account = app.SelectedAccount;
             //if (account == null) {

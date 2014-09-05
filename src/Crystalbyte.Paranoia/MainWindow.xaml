@@ -1653,7 +1653,9 @@
         <Grid Grid.Row="1"
               Grid.RowSpan="3"
               Grid.Column="6">
-            <TreeView MinWidth="240"
+            <TreeView Width="340"
+                      SelectedItemChanged="OnTreeViewSelectedItemChanged"
+                      MinWidth="240"
                       Margin="0"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
@@ -1674,14 +1676,16 @@
                             </Grid.ColumnDefinitions>
                             <Image Grid.Row="0"
                                    Grid.Column="0"
-                                   Width="40"
+                                   Width="36"
                                    Margin="0,0,6,0"
                                    VerticalAlignment="Center"
                                    RenderOptions.BitmapScalingMode="Fant"
                                    Source="{Binding Address,
-                                                    Converter={StaticResource GravatarImageConverter}}" />
+                                                    Converter={StaticResource GravatarImageConverter},
+                                                    ConverterParameter=36}" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                <TextBlock Margin="2,-2,0,0"
+                                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                             Metro.MediumLargeFontSize}}"
                                            FontWeight="Thin"
                                            Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -1692,7 +1696,8 @@
                                                           ConverterParameter=...}"
                                            TextTrimming="CharacterEllipsis"
                                            TextWrapping="NoWrap" />
-                                <TextBlock FontWeight="Thin"
+                                <TextBlock Margin="2,0,2,2"
+                                           FontWeight="Thin"
                                            RenderOptions.ClearTypeHint="Enabled"
                                            Text="{Binding Address,
                                                           Converter={StaticResource NullOrEmptyFormatter}}"
