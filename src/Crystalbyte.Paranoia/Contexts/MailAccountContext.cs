@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -34,6 +35,8 @@ namespace Crystalbyte.Paranoia {
         private bool _isDetectingSettings;
         private bool _isOutboxSelected;
         private TestingContext _testing;
+        private bool _isManagingMailboxes;
+        private bool _isMailboxSelectionAvailable;
 
         private readonly AppContext _appContext;
         private readonly MailAccountModel _account;
@@ -42,9 +45,10 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _testSettingsCommand;
         private readonly ICommand _registerCommand;
         private readonly ICommand _restoreMessagesCommand;
+        private readonly ICommand _showUnsubscribedMailboxesCommand;
+        private readonly ICommand _hideUnsubscribedMailboxesCommand;
         private readonly OutboxContext _outbox;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
-        private bool _isMailboxSelectionAvailable;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -61,11 +65,23 @@ namespace Crystalbyte.Paranoia {
             _listMailboxesCommand = new RelayCommand(OnListMailboxes);
             _restoreMessagesCommand = new RestoreMessageCommand(this);
             _testSettingsCommand = new RelayCommand(OnTestSettings);
+            _showUnsubscribedMailboxesCommand = new RelayCommand(OnShowUnsubscribedMailboxes);
+            _hideUnsubscribedMailboxesCommand = new RelayCommand(OnHideUnsubscribedMailboxes);
             _isAutoDetectPreferred = true;
             _mailboxes = new ObservableCollection<MailboxContext>();
             _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Mailboxes);
             //_mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => DockedMailboxes);
             _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => RootMailboxes);
+        }
+
+        private void OnHideUnsubscribedMailboxes(object obj) {
+            IsManagingMailboxes = false;
+            Mailboxes.ForEach(x => x.IsEditing = false);
+        }
+
+        private void OnShowUnsubscribedMailboxes(object obj) {
+            IsManagingMailboxes = true;
+            Mailboxes.ForEach(x => x.IsEditing = true);
         }
 
         #endregion
@@ -105,6 +121,13 @@ namespace Crystalbyte.Paranoia {
         public ICommand ListMailboxesCommand {
             get { return _listMailboxesCommand; }
         }
+        public ICommand HideUnsubscribedMailboxesCommand {
+            get { return _hideUnsubscribedMailboxesCommand; }
+        }
+
+        public ICommand ShowUnsubscribedMailboxesCommand {
+            get { return _showUnsubscribedMailboxesCommand; }
+        }
 
         public bool IsMailboxSelectionAvailable {
             get { return _isMailboxSelectionAvailable; }
@@ -122,32 +145,13 @@ namespace Crystalbyte.Paranoia {
                 await SyncMailboxesAsync();
 
                 var inbox = GetInbox();
-                if (inbox != null && inbox.IsBound) {
+                if (inbox != null) {
                     inbox.IdleAsync();
                 }
 
                 IsOnline = true;
             } catch (Exception ex) {
                 IsOnline = false;
-                Logger.Error(ex);
-            }
-        }
-
-        protected override async void OnSelectionChanged() {
-            base.OnSelectionChanged();
-
-            try {
-                //Clear();
-                if (!IsSelected)
-                    return;
-
-                //await LoadMailboxesAsync();
-                if (IsOnline) {
-                    await SyncMailboxesAsync();
-                } else {
-                    await TakeOnlineAsync();
-                }
-            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -163,6 +167,18 @@ namespace Crystalbyte.Paranoia {
                     using (var session = await auth.LoginAsync(ImapUsername, ImapPassword)) {
                         var wildcard = string.IsNullOrEmpty(pattern) ? "%" : pattern;
                         return await session.ListAsync("", ImapMailbox.EncodeName(wildcard));
+                    }
+                }
+            }
+        }
+
+        internal async Task<List<ImapMailboxInfo>> ListSubscribedMailboxesAsync(string pattern) {
+            using (var connection = new ImapConnection { Security = ImapSecurity }) {
+                connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
+                using (var auth = await connection.ConnectAsync(ImapHost, ImapPort)) {
+                    using (var session = await auth.LoginAsync(ImapUsername, ImapPassword)) {
+                        var wildcard = string.IsNullOrEmpty(pattern) ? "%" : pattern;
+                        return await session.LSubAsync("", ImapMailbox.EncodeName(wildcard));
                     }
                 }
             }
@@ -209,14 +225,14 @@ namespace Crystalbyte.Paranoia {
                     });
 
                     await context.InsertAsync();
-                    context.SetMostProbableType(types, mailbox);
+                    context.SubscribeToMostProbableType(types, mailbox);
                     await context.BindMailboxAsync(mailbox);
 
                     _mailboxes.Add(context);
                 }
 
                 var inbox = _mailboxes
-                    .FirstOrDefault(x => x.IsBound && x.IsInbox);
+                    .FirstOrDefault(x => x.IsInbox);
 
                 if (inbox != null) {
                     inbox.IsSelected = true;
@@ -304,6 +320,18 @@ namespace Crystalbyte.Paranoia {
 
         public OutboxContext Outbox {
             get { return _outbox; }
+        }
+
+        public bool IsManagingMailboxes {
+            get { return _isManagingMailboxes; }
+            set {
+                if (_isManagingMailboxes == value) {
+                    return;
+                }
+
+                _isManagingMailboxes = value;
+                RaisePropertyChanged(() => IsManagingMailboxes);
+            }
         }
 
         public bool IsOutboxSelected {

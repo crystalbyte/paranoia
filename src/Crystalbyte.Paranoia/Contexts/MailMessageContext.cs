@@ -5,7 +5,6 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using NLog;
@@ -22,21 +21,8 @@ namespace Crystalbyte.Paranoia {
         private readonly MailboxContext _mailbox;
         private readonly MailMessageModel _message;
         private readonly ObservableCollection<AttachmentContext> _attachments;
+        private long _downloadProgress;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        //public MailMessageContext() {
-            
-        //}
-
-        //internal void Recycle() {
-        //    Application.Current.AssertUIThread();
-
-        //    _mailbox = null;
-        //    _message = null;
-        //    _attachments.Clear();
-
-        //    IsSelected = false;
-        //}
 
         internal MailMessageContext(MailboxContext mailbox, MailMessageModel message) {
             _mailbox = mailbox;
@@ -87,6 +73,18 @@ namespace Crystalbyte.Paranoia {
         public bool IsSubjectNilOrEmpty {
             get { return Subject == "NIL" || string.IsNullOrEmpty(Subject); }
         }
+
+        public long DownloadProgress {
+            get { return _downloadProgress; }
+            set {
+                if (_downloadProgress == value) {
+                    return;
+                }
+                _downloadProgress = value;
+                RaisePropertyChanged(() => DownloadProgress);
+            }
+        }
+
 
         public bool IsSeen {
             get { return HasFlag(MailboxFlags.Seen); }
@@ -221,6 +219,12 @@ namespace Crystalbyte.Paranoia {
 
         private void OnProgressChanged(object sender, ProgressChangedEventArgs e) {
             BytesReceived = e.ByteCount;
+            DownloadProgress = (BytesReceived * 100 / Size);
+            
+            // Message size differs from actual sizes due to encoding
+            if (DownloadProgress > 100) {
+                DownloadProgress = 100;
+            }
         }
 
         internal async Task<string> DownloadMessageAsync() {

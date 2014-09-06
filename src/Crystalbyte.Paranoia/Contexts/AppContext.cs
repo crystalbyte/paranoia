@@ -228,16 +228,12 @@ namespace Crystalbyte.Paranoia {
         //    }
         //}
 
-        private void RequestMessagesAsync(IMessageSource source) {
-            Application.Current.AssertUIThread();
+        private async Task RequestMessagesAsync(IMessageSource source) {
+            Application.Current.AssertBackgroundThread();
 
-            _messages.Clear();
-            Task.Run(() => RequestMessages(source));
-        }
-
-        private async void RequestMessages(IMessageSource source) {
+            await Application.Current.Dispatcher.InvokeAsync(() => _messages.Clear());
             var messages = await source.GetMessagesAsync();
-            Application.Current.Dispatcher.InvokeAsync(() => {
+            await Application.Current.Dispatcher.InvokeAsync(() => {
                 _messages.DeferNotifications = true;
                 _messages.AddRange(messages);
                 _messages.DeferNotifications = false;
@@ -257,11 +253,19 @@ namespace Crystalbyte.Paranoia {
                 if (handler != null)
                     handler(this, EventArgs.Empty);
 
-                RequestMessagesAsync(SelectedMailbox);
+                if (SelectedMailbox == null) {
+                    return;
+                }
 
+                Task.Run((Action)RefreshViewForSelectedMailbox);
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
+        }
+
+        private async void RefreshViewForSelectedMailbox() {
+            await RequestMessagesAsync(SelectedMailbox);
+            await SelectedMailbox.SyncMessagesAsync();
         }
 
         internal event EventHandler FlyOutClosing;

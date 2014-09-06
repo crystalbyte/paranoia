@@ -303,9 +303,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\Commands\BindMailboxCommand.cs" />
     <Compile Include="UI\Commands\DeleteMessageCommand.cs" />
-    <Compile Include="UI\Commands\DropMailboxBindingCommand.cs" />
     <Compile Include="UI\Commands\FocusSearchBoxCommand.cs" />
     <Compile Include="UI\Commands\ForwardCommand.cs" />
     <Compile Include="UI\Commands\MoveCommand.cs" />

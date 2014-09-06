@@ -11,12 +11,10 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Net;
 using Crystalbyte.Paranoia.Properties;
-using Crystalbyte.Paranoia.UI.Commands;
 using Newtonsoft.Json;
 using NLog;
 using System.Text.RegularExpressions;
@@ -35,8 +33,6 @@ namespace Crystalbyte.Paranoia {
         private bool _isListingMailboxes;
         private readonly MailboxModel _mailbox;
         private readonly MailAccountContext _account;
-        private readonly ICommand _bindMailboxCommand;
-        private readonly ICommand _dropBindingCommand;
         private bool _isLoadingChildren;
         private bool _isSyncingChildren;
         private int _totalEnvelopeCount;
@@ -53,32 +49,9 @@ namespace Crystalbyte.Paranoia {
         internal MailboxContext(MailAccountContext account, MailboxModel mailbox) {
             _account = account;
             _mailbox = mailbox;
-            _bindMailboxCommand = new BindMailboxCommand(this);
-            _dropBindingCommand = new DropMailboxBindingCommand(this);
         }
 
         #endregion
-
-        public event EventHandler DockingChanged;
-
-        private async void OnDockingChanged() {
-            var handler = DockingChanged;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
-
-            await UpdateAsync();
-            _account.NotifyDockingChanged();
-        }
-
-        public event EventHandler MailboxBindingChanged;
-
-        private void OnMailboxBindingChanged() {
-            RaisePropertyChanged(() => IsBound);
-            RaisePropertyChanged(() => IsBindable);
-            var handler = MailboxBindingChanged;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
-        }
 
         public MailAccountContext Account {
             get { return _account; }
@@ -105,7 +78,12 @@ namespace Crystalbyte.Paranoia {
 
                 _isEditing = value;
                 RaisePropertyChanged(() => IsEditing);
+                RaisePropertyChanged(() => IsListed);
             }
+        }
+
+        public bool IsListed {
+            get { return IsEditing || IsSubscribed; }
         }
 
         public string LocalName {
@@ -145,7 +123,9 @@ namespace Crystalbyte.Paranoia {
                 IsSyncingChildren = true;
 
                 var pattern = string.Format("{0}{1}%", Name, Delimiter);
-                var children = await _account.ListMailboxesAsync(pattern);
+                var children = await _account.ListMailboxesAsync(pattern)   ;
+                var subscribed = await _account.ListSubscribedMailboxesAsync(pattern);
+
                 using (var database = new DatabaseContext()) {
                     foreach (var child in children) {
                         var c = child;
@@ -159,7 +139,7 @@ namespace Crystalbyte.Paranoia {
                         });
 
                         await context.InsertAsync();
-                        await context.BindMailboxAsync(child);
+                        await context.BindMailboxAsync(child, subscribed);
 
                         _account.NotifyMailboxAdded(context);
                     }
@@ -272,21 +252,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task DropAssignmentAsync() {
-            using (var database = new DatabaseContext()) {
-                database.Mailboxes.Attach(_mailbox);
-
-                _mailbox.Name = string.Empty;
-                _mailbox.Flags = string.Empty;
-
-                await database.SaveChangesAsync();
-            }
-
-            RaisePropertyChanged(() => IsBound);
-            RaisePropertyChanged(() => IsBindable);
-            OnMailboxBindingChanged();
-        }
-
         public bool IsSubscribed {
             get { return _mailbox.IsSubscribed; }
             set {
@@ -295,27 +260,12 @@ namespace Crystalbyte.Paranoia {
                 }
                 _mailbox.IsSubscribed = value;
                 RaisePropertyChanged(() => IsSubscribed);
+                RaisePropertyChanged(() => IsListed);
             }
-        }
-
-        public bool IsBound {
-            get { return !string.IsNullOrEmpty(Name); }
-        }
-
-        public ICommand BindMailboxCommand {
-            get { return _bindMailboxCommand; }
-        }
-
-        public ICommand DropMailboxBindingCommand {
-            get { return _dropBindingCommand; }
         }
 
         internal bool IsTrash {
             get { return Type == MailboxType.Trash; }
-        }
-
-        public bool IsBindable {
-            get { return !IsBound; }
         }
 
         public bool IsInbox {
@@ -392,14 +342,11 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal Task SyncMessagesAsync() {
-            Application.Current.AssertUIThread();
-            return Task.Run(() => SyncMessages());
-        }
+        internal async Task SyncMessagesAsync() {
+            Application.Current.AssertBackgroundThread();
 
-        private async void SyncMessages() {
             try {
-                if (!IsBound || IsSyncingMessages) {
+                if (IsSyncingMessages) {
                     return;
                 }
 
@@ -741,7 +688,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal void SetMostProbableType(List<MailboxType> types, ImapMailboxInfo mailbox) {
+        internal void SubscribeToMostProbableType(List<MailboxType> types, ImapMailboxInfo mailbox) {
 
             if (mailbox.IsInbox || string.Compare(Name, "inbox", StringComparison.InvariantCultureIgnoreCase) >= 0) {
                 types.Remove(MailboxType.Inbox);
@@ -769,6 +716,10 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task BindMailboxAsync(ImapMailboxInfo mailbox) {
+             await BindMailboxAsync(mailbox, new ImapMailboxInfo[0]);
+        }
+
+        private async Task BindMailboxAsync(ImapMailboxInfo mailbox, IEnumerable<ImapMailboxInfo> subscriptions) {
             try {
                 // If no match has been found mailbox will be null.
                 if (mailbox == null) {
@@ -781,20 +732,13 @@ namespace Crystalbyte.Paranoia {
                     _mailbox.Name = mailbox.Fullname;
                     _mailbox.Delimiter = mailbox.Delimiter.ToString(CultureInfo.InvariantCulture);
                     _mailbox.Flags = mailbox.Flags.Aggregate((c, n) => c + ';' + n);
+                    _mailbox.IsSubscribed = subscriptions.Any(x => x.Name == mailbox.Name);
 
                     await context.SaveChangesAsync();
-                    NotifyBindingChanged();
-                    OnMailboxBindingChanged();
                 }
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
-        }
-
-        private void NotifyBindingChanged() {
-            RaisePropertyChanged(() => IsBound);
-            RaisePropertyChanged(() => IsBindable);
-            RaisePropertyChanged(() => Name);
         }
 
         internal async Task<MailMessageContext[]> QueryAsync(string text) {
@@ -936,7 +880,7 @@ namespace Crystalbyte.Paranoia {
 
             return contexts;
         }
-    
+
         #endregion
     }
 }

@@ -331,13 +331,15 @@
                                                                    Metro.ShadowOpacity}}" />
         <DockPanel Grid.Row="1"
                    Grid.Column="2"
+                   Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                      Metro.MenuBackgroundBrush}}"
                    LastChildFill="True">
             <Grid DockPanel.Dock="Top">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Margin="16,0,0,0"
+                <TextBlock Margin="12,3,12,3"
                            VerticalAlignment="Center"
                            FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                             Metro.ExtraLargeFontSize}}"
@@ -447,15 +449,15 @@
                         <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                         <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Mvsp}" />
-                        <Setter Property="Padding" Value="6,2,6,2" />
+                        <Setter Property="Padding" Value="6,1,6,1" />
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate DataType="paranoia:MailMessageContext">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -469,24 +471,19 @@
                             <Image Grid.Row="0"
                                    Grid.RowSpan="2"
                                    Grid.Column="0"
-                                   Height="20"
+                                   Width="34"
+                                   Height="34"
                                    Margin="6,0,12,0"
-                                   HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   Opacity="{Binding IsSeen,
-                                                     Converter={StaticResource SeenOpacityConverter}}">
-                                <Image.Source>
-                                    <Binding Path="IsSeen">
-                                        <Binding.Converter>
-                                            <converters:BooleanToStringConverter StringForFalse="/Assets/unseen.png" StringForTrue="/Assets/seen.png" />
-                                        </Binding.Converter>
-                                    </Binding>
-                                </Image.Source>
-                            </Image>
+                                   Source="{Binding FromAddress,
+                                                    IsAsync=True,
+                                                    Converter={StaticResource GravatarImageConverter},
+                                                    ConverterParameter=48}" />
 
                             <TextBlock Grid.Row="0"
                                        Grid.Column="1"
                                        Grid.ColumnSpan="2"
+                                       Margin="0,0,6,0"
                                        VerticalAlignment="Center"
                                        FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                         Metro.MediumLargeFontSize}}"
@@ -505,17 +502,21 @@
                             <TextBlock x:Name="FromBlock"
                                        Grid.Row="1"
                                        Grid.Column="1"
+                                       Margin="0,0,12,0"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
                                        FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                         Metro.NormalFontSize}}"
                                        Foreground="{Binding IsSeen,
                                                             Converter={StaticResource SeenBrushConverter}}"
-                                       Text="{Binding Converter={StaticResource MailContactFormatter}}" />
+                                       Text="{Binding Converter={StaticResource MailContactFormatter}}"
+                                       TextTrimming="CharacterEllipsis"
+                                       TextWrapping="NoWrap" />
 
                             <TextBlock x:Name="DateBlock"
                                        Grid.Row="1"
                                        Grid.Column="2"
+                                       Margin="0,0,6,0"
                                        HorizontalAlignment="Right"
                                        VerticalAlignment="Center"
                                        FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
@@ -1314,12 +1315,19 @@
         <GridSplitter Grid.Row="1"
                       Grid.RowSpan="2"
                       Grid.Column="3" />
-        <Grid Grid.Row="1" Grid.Column="4">
+        <Grid Grid.Row="1"
+              Grid.Column="4"
+              Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                 Metro.ControlBackgroundBrush}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Border Grid.Row="0" Padding="24,24,24,0">
+            <Border Grid.Row="0"
+                    BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                        Metro.ControlBorderBrush}}"
+                    BorderThickness="0,0,0,1"
+                    Padding="0,0,0,6">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -1335,7 +1343,7 @@
                     <TextBlock Grid.Row="0"
                                Grid.Column="0"
                                Grid.ColumnSpan="2"
-                               Margin="0"
+                               Margin="12,12,12,3"
                                DataContext="{Binding SelectedMessage}"
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                              Metro.TitleTextStyle}}"
@@ -1346,21 +1354,26 @@
                                TextWrapping="NoWrap" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
+                               Margin="12,0,12,0"
                                DataContext="{Binding SelectedMessage}"
+                               FontWeight="Normal"
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                              Metro.SubtitleTextStyle}}"
                                Text="{Binding FromName}" />
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
+                               Margin="12,0,12,0"
                                DataContext="{Binding SelectedMessage}"
                                FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                 Metro.SmallFontSize}}"
+                               FontWeight="Normal"
                                Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                              Metro.SubtitleTextStyle}}"
                                Text="{Binding EntryDate}" />
                     <StackPanel Grid.Row="1"
                                 Grid.RowSpan="2"
                                 Grid.Column="1"
+                                Margin="6,0,12,0"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
                                 Orientation="Horizontal"
@@ -1388,7 +1401,7 @@
                               MaxHeight="300"
                               Margin="0,3,0,0"
                               Background="Transparent"
-                              BorderThickness="0,1,0,1"
+                              BorderThickness="0"
                               DataContext="{Binding DataContext,
                                                     ElementName=Window}"
                               ItemsSource="{Binding Attachments}"
@@ -1425,7 +1438,7 @@
                                                Source="{Binding FullName,
                                                                 IsAsync=True,
                                                                 Converter={StaticResource IconFinder},
-                                                                ConverterParameter=16}"
+                                                                ConverterParameter=24}"
                                                Stretch="Uniform" />
                                         <TextBlock Grid.Column="1"
                                                    Margin="0,0,6,0"
@@ -1444,10 +1457,10 @@
                 </Grid>
             </Border>
             <Grid Grid.Row="1"
-                  Margin="24,12,24,24"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch">
-                <Border BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                <Border Margin="0,0,0,0"
+                        BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                             Metro.AccentBrush}}"
                         BorderThickness="0"
                         DataContext="{Binding SelectedMessage}"
@@ -1470,22 +1483,32 @@
                     </Border>
                 </Border>
                 <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <StackPanel VerticalAlignment="Center">
-                        <TextBlock Margin="6"
-                                   HorizontalAlignment="Center"
-                                   FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                    Metro.NormalFontSize}}"
-                                   FontWeight="Thin"
-                                   Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                      Metro.NormalTextBrush}}"
-                                   Text="{x:Static properties:Resources.MessageDownload}" />
-                        <ProgressBar Height="4"
-                                     Margin="12"
+                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <ProgressBar Height="1"
+                                     Margin="0"
                                      HorizontalAlignment="Stretch"
+                                     Background="Transparent"
                                      Maximum="{Binding Size}"
                                      Minimum="0"
                                      Value="{Binding BytesReceived}" />
+
+
                     </StackPanel>
+                    <TextBlock Margin="24,12"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Bottom"
+                               Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                  Metro.SecondaryTextBrush}}">
+                        <Run FontSize="48"
+                             FontWeight="Thin"
+                             Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                Metro.AccentBrush}}"
+                             Text="{Binding DownloadProgress}" />
+                        <Run FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                              Metro.NormalFontSize}}"
+                             FontWeight="Thin"
+                             Text="%" />
+                    </TextBlock>
                 </Grid>
             </Grid>
         </Grid>
@@ -1757,6 +1780,24 @@
                     <TreeView.Resources>
                         <HierarchicalDataTemplate DataType="{x:Type paranoia:MailAccountContext}" ItemsSource="{Binding Mailboxes}">
                             <Grid>
+                                <Grid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Command="{Binding ShowUnsubscribedMailboxesCommand}" Visibility="{Binding IsManagingMailboxes, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
+                                            <MenuItem.Header>
+                                                <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
+                                                           Style="{StaticResource Metro.MenuHeaderTextStyle}"
+                                                           Text="{x:Static properties:Resources.ShowUnsubscribedMailboxes}" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <MenuItem Command="{Binding HideUnsubscribedMailboxesCommand}" Visibility="{Binding IsManagingMailboxes, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <MenuItem.Header>
+                                                <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
+                                                           Style="{StaticResource Metro.MenuHeaderTextStyle}"
+                                                           Text="{x:Static properties:Resources.HideUnsubscribedMailboxes}" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
@@ -1813,13 +1854,13 @@
                                                                    Converter={StaticResource BooleanToVisibilityConverter}}" />
                                 </Border>
                                 <Image Width="16"
-                                       Margin="0,0,6,0"
+                                       Margin="0,1,6,1"
                                        Source="Assets/folder.png" />
                                 <TextBlock x:Name="MailboxNameBlock"
                                            VerticalAlignment="Center"
                                            Text="{Binding LocalName}">
                                     <TextBlock.Foreground>
-                                        <Binding Path="IsSelectable">
+                                        <Binding Path="IsSubscribed">
                                             <Binding.Converter>
                                                 <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
                                             </Binding.Converter>
@@ -1836,8 +1877,10 @@
                     </TreeView.Resources>
                     <TreeView.ItemContainerStyle>
                         <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="{x:Type TreeViewItem}">
-                            <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
-                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=OneWayToSource}" />
+                            <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                            <Setter Property="Visibility" Value="{Binding IsListed, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                         </Style>
                     </TreeView.ItemContainerStyle>
                 </TreeView>

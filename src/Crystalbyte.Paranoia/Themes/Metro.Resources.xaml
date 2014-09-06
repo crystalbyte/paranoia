@@ -13,7 +13,7 @@
 
     <!--  App  -->
     <!--  <Color x:Key="Metro.AccentColor">#CA5100</Color>  -->
-    <!--  <Color x:Key="Metro.AccentColor">#006FC4</Color>  -->
+    <!--  <Color x:Key="Metro.AccentColor">#FF0000</Color>  -->
     <Color x:Key="Metro.AccentColor">#0065B2</Color>
     <!--  <Color x:Key="Metro.AccentColor">BlueViolet</Color>  -->
     <SolidColorBrush x:Key="Metro.AccentBrush" Color="{StaticResource Metro.AccentColor}" />

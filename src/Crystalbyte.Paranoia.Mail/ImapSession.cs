@@ -34,6 +34,65 @@ namespace Crystalbyte.Paranoia.Mail {
             return await ReadListResponseAsync(id);
         }
 
+        /// <summary>
+        ///     The LIST command returns a subset of names from the complete set of all names available to the client.
+        ///     http://tools.ietf.org/html/rfc3501#section-6.3.9
+        /// </summary>
+        /// <param name="referenceName">The reference name.</param>
+        /// <param name="wildcardedMailboxName">The mailbox name with possible wildcards.</param>
+        public async Task<List<ImapMailboxInfo>> LSubAsync(string referenceName, string wildcardedMailboxName) {
+            var command = string.Format("{0} \"{1}\" \"{2}\"", ImapCommands.LSub, referenceName, wildcardedMailboxName);
+            var id = await _connection.WriteCommandAsync(command);
+            return await ReadListResponseAsync(id);
+        }
+
+        /// <summary>
+        ///     The SUBSCRIBE command adds the specified mailbox name to the
+        ///     server's set of "active" or "subscribed" mailboxes as returned by
+        ///     the LSUB command.  This command returns a tagged OK response only
+        ///     if the subscription is successful.
+        ///     http://tools.ietf.org/html/rfc3501#section-6.3.6
+        /// </summary>
+        /// <param name="name">mailbox</param>
+        /// <returns>no specific responses for this command</returns>
+        public async Task SubscribeAsync(string name) {
+            // we need to convert non ASCII names according to IMAP specs.
+            // http://tools.ietf.org/html/rfc2060#section-5.1.3
+            var encodedName = ImapMailbox.EncodeName(name);
+
+            var command = string.Format("{0} \"{1}\"", ImapCommands.Subscribe , encodedName);
+            var id = await _connection.WriteCommandAsync(command);
+            await ReadEmptyResponseAsync(id);
+        }
+
+        /// <summary>
+        ///     The UNSUBSCRIBE command removes the specified mailbox name from
+        ///     the server's set of "active" or "subscribed" mailboxes as returned
+        ///     by the LSUB command.  This command returns a tagged OK response
+        ///     only if the unsubscription is successful.
+        ///     http://tools.ietf.org/html/rfc3501#section-6.3.7
+        /// </summary>
+        /// <param name="name">mailbox name</param>
+        /// <returns>no specific responses for this command</returns>
+        public async Task UnubscribeAsync(string name) {
+            // we need to convert non ASCII names according to IMAP specs.
+            // http://tools.ietf.org/html/rfc2060#section-5.1.3
+            var encodedName = ImapMailbox.EncodeName(name);
+
+            var command = string.Format("{0} \"{1}\"", ImapCommands.Unsubscribe, encodedName);
+            var id = await _connection.WriteCommandAsync(command);
+            await ReadEmptyResponseAsync(id);
+        }
+
+        private async Task ReadEmptyResponseAsync(string id) {
+            while (true) {
+                var line = await _connection.ReadAsync();
+                if (line.TerminatesCommand(id)) {
+                    break;
+                }
+            }
+        }
+
         private async Task<List<ImapMailboxInfo>> ReadListResponseAsync(string id) {
             var mailboxes = new List<ImapMailboxInfo>();
             while (true) {
@@ -54,7 +113,7 @@ namespace Crystalbyte.Paranoia.Mail {
             // http://tools.ietf.org/html/rfc2060#section-5.1.3
             var encodedName = ImapMailbox.EncodeName(name);
 
-            var command = string.Format("SELECT \"{0}\"", encodedName);
+            var command = string.Format("{0} \"{1}\"", ImapCommands.Select, encodedName);
             var id = await _connection.WriteCommandAsync(command);
             return await ReadSelectResponseAsync(name, id);
         }
@@ -64,7 +123,8 @@ namespace Crystalbyte.Paranoia.Mail {
             // http://tools.ietf.org/html/rfc2060#section-5.1.3
             var encodedName = ImapMailbox.EncodeName(name);
 
-            var command = string.Format("EXAMINE \"{0}\"", encodedName);
+
+            var command = string.Format("{0} \"{1}\"", ImapCommands.Examine, encodedName);
             var id = await _connection.WriteCommandAsync(command);
             return await ReadSelectResponseAsync(name, id);
         }

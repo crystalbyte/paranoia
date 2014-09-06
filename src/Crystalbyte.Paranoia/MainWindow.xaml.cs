@@ -202,11 +202,7 @@ namespace Crystalbyte.Paranoia {
                 page.OnNavigated(e);
             }
         }
-
-        private void OnSelectedAccountChanged(object sender, SelectionChangedEventArgs e) {
-            //AccountSelectionPopup.IsOpen = false;
-        }
-
+        
         private void OnTreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
             var tree = (TreeView) sender;
             var value = tree.SelectedValue;

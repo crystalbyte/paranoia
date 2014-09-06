@@ -437,4 +437,10 @@ Once your password is lost you're screwed.</value>
   <data name="ComposeMessage" xml:space="preserve">
     <value>New Message</value>
   </data>
+  <data name="HideUnsubscribedMailboxes" xml:space="preserve">
+    <value>Save mailbox settings</value>
+  </data>
+  <data name="ShowUnsubscribedMailboxes" xml:space="preserve">
+    <value>Manage mailboxes</value>
+  </data>
 </root>

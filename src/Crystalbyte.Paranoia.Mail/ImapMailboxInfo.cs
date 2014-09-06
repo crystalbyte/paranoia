@@ -64,8 +64,7 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         internal static ImapMailboxInfo Parse(ImapResponseLine line) {
-
-            const string pattern = "\\(.+?\\)|\".+?\"|\\w+";
+            const string pattern = "\\(.*?\\)|\".+?\"|\\w+";
             var parts = Regex.Matches(line.Text, pattern)
                 .OfType<Match>()
                 .Select(x => x.Value)

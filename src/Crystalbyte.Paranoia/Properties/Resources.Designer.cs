@@ -450,6 +450,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save mailbox settings.
+        /// </summary>
+        public static string HideUnsubscribedMailboxes {
+            get {
+                return ResourceManager.GetString("HideUnsubscribedMailboxes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Host.
         /// </summary>
         public static string ImapHost {
@@ -807,6 +816,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string ShowAllMessages {
             get {
                 return ResourceManager.GetString("ShowAllMessages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage mailboxes.
+        /// </summary>
+        public static string ShowUnsubscribedMailboxes {
+            get {
+                return ResourceManager.GetString("ShowUnsubscribedMailboxes", resourceCulture);
             }
         }
         
