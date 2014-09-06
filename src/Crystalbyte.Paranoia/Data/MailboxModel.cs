@@ -35,8 +35,8 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("type")]
         public MailboxType Type { get; set; }
 
-        [Column("is_docked")]
-        public bool IsDocked { get; set; }
+        [Column("is_subscribed")]
+        public bool IsSubscribed { get; set; }
 
         [Column("account_id")]
         [ForeignKey("Account")]

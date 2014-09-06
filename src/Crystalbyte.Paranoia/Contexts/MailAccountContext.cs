@@ -64,7 +64,7 @@ namespace Crystalbyte.Paranoia {
             _isAutoDetectPreferred = true;
             _mailboxes = new ObservableCollection<MailboxContext>();
             _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Mailboxes);
-            _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => DockedMailboxes);
+            //_mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => DockedMailboxes);
             _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => RootMailboxes);
         }
 
@@ -314,22 +314,22 @@ namespace Crystalbyte.Paranoia {
                 }
                 _isOutboxSelected = value;
                 RaisePropertyChanged(() => IsOutboxSelected);
-                OnOutboxSelectionChanged();
+                //OnOutboxSelectionChanged();
             }
         }
 
-        private async void OnOutboxSelectionChanged() {
-            try {
-                if (IsOutboxSelected) {
-                    DockedMailboxes.ForEach(x => x.IsSelected = false);
-                    await Outbox.LoadSmtpRequestsFromDatabaseAsync();
-                } else {
-                    Outbox.Clear();
-                }
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
+        //private async void OnOutboxSelectionChanged() {
+        //    try {
+        //        if (IsOutboxSelected) {
+        //            DockedMailboxes.ForEach(x => x.IsSelected = false);
+        //            await Outbox.LoadSmtpRequestsFromDatabaseAsync();
+        //        } else {
+        //            Outbox.Clear();
+        //        }
+        //    } catch (Exception ex) {
+        //        Logger.Error(ex);
+        //    }
+        //}
 
         public AppContext AppContext {
             get { return _appContext; }
@@ -512,11 +512,11 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public IEnumerable<MailboxContext> DockedMailboxes {
-            get {
-                return _mailboxes.Where(x => x.IsDocked || x.IsSelected).ToArray();
-            }
-        }
+        //public IEnumerable<MailboxContext> DockedMailboxes {
+        //    get {
+        //        return _mailboxes.Where(x => x.IsDocked || x.IsSelected).ToArray();
+        //    }
+        //}
 
         public IEnumerable<MailboxContext> Mailboxes {
             get { return _mailboxes; }
@@ -652,19 +652,19 @@ namespace Crystalbyte.Paranoia {
         internal void AddSystemMailboxes() {
             _account.Mailboxes.Add(new MailboxModel {
                 Type = MailboxType.Inbox,
-                IsDocked = true
+                IsSubscribed = true
             });
             _account.Mailboxes.Add(new MailboxModel {
                 Type = MailboxType.Trash,
-                IsDocked = true
+                IsSubscribed = true
             });
             _account.Mailboxes.Add(new MailboxModel {
                 Type = MailboxType.Sent,
-                IsDocked = true
+                IsSubscribed = true
             });
             _account.Mailboxes.Add(new MailboxModel {
                 Type = MailboxType.Draft,
-                IsDocked = true
+                IsSubscribed = true
             });
         }
 
@@ -726,20 +726,20 @@ namespace Crystalbyte.Paranoia {
 
         internal async Task DeleteAsync() {
             try {
-                foreach (var mailbox in DockedMailboxes) {
-                    await mailbox.DeleteAsync();
-                }
+                //foreach (var mailbox in DockedMailboxes) {
+                //    await mailbox.DeleteAsync();
+                //}
 
-                using (var database = new DatabaseContext()) {
-                    var contactModels = await database.MailContacts
-                        .ToArrayAsync();
+                //using (var database = new DatabaseContext()) {
+                //    var contactModels = await database.MailContacts
+                //        .ToArrayAsync();
 
-                    database.MailContacts.RemoveRange(contactModels);
-                    database.MailAccounts.Attach(_account);
-                    database.MailAccounts.Remove(_account);
+                //    database.MailContacts.RemoveRange(contactModels);
+                //    database.MailAccounts.Attach(_account);
+                //    database.MailAccounts.Remove(_account);
 
-                    await database.SaveChangesAsync();
-                }
+                //    await database.SaveChangesAsync();
+                //}
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -847,7 +847,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void NotifyDockingChanged() {
-            RaisePropertyChanged(() => DockedMailboxes);
+            //RaisePropertyChanged(() => DockedMailboxes);
         }
 
         internal void NotifyMailboxAdded(MailboxContext child) {

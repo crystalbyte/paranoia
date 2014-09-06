@@ -431,4 +431,10 @@ Once your password is lost you're screwed.</value>
   <data name="OpenFile" xml:space="preserve">
     <value>Open</value>
   </data>
+  <data name="AccountsTitle" xml:space="preserve">
+    <value>Accounts</value>
+  </data>
+  <data name="ComposeMessage" xml:space="preserve">
+    <value>New Message</value>
+  </data>
 </root>

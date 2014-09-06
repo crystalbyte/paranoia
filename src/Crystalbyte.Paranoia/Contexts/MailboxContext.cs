@@ -41,6 +41,7 @@ namespace Crystalbyte.Paranoia {
         private bool _isSyncingChildren;
         private int _totalEnvelopeCount;
         private int _fetchedEnvelopeCount;
+        private bool _isEditing;
         private bool _isIdling;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -92,6 +93,18 @@ namespace Crystalbyte.Paranoia {
 
                 _mailbox.Name = value;
                 RaisePropertyChanged(() => Name);
+            }
+        }
+
+        public bool IsEditing {
+            get { return _isEditing; }
+            set {
+                if (_isEditing == value) {
+                    return;
+                }
+
+                _isEditing = value;
+                RaisePropertyChanged(() => IsEditing);
             }
         }
 
@@ -274,15 +287,14 @@ namespace Crystalbyte.Paranoia {
             OnMailboxBindingChanged();
         }
 
-        public bool IsDocked {
-            get { return _mailbox.IsDocked; }
+        public bool IsSubscribed {
+            get { return _mailbox.IsSubscribed; }
             set {
-                if (_mailbox.IsDocked == value) {
+                if (_mailbox.IsSubscribed == value) {
                     return;
                 }
-                _mailbox.IsDocked = value;
-                RaisePropertyChanged(() => IsDocked);
-                OnDockingChanged();
+                _mailbox.IsSubscribed = value;
+                RaisePropertyChanged(() => IsSubscribed);
             }
         }
 
@@ -734,25 +746,25 @@ namespace Crystalbyte.Paranoia {
             if (mailbox.IsInbox || string.Compare(Name, "inbox", StringComparison.InvariantCultureIgnoreCase) >= 0) {
                 types.Remove(MailboxType.Inbox);
                 _mailbox.Type = MailboxType.Inbox;
-                IsDocked = true;
+                IsSubscribed = true;
             }
 
             if (mailbox.IsGmailSent || string.Compare(Name, "sent", StringComparison.InvariantCultureIgnoreCase) >= 0) {
                 types.Remove(MailboxType.Sent);
                 _mailbox.Type = MailboxType.Sent;
-                IsDocked = true;
+                IsSubscribed = true;
             }
 
             if (mailbox.IsGmailDraft || string.Compare(Name, "draft", StringComparison.InvariantCultureIgnoreCase) >= 0) {
                 types.Remove(MailboxType.Draft);
                 _mailbox.Type = MailboxType.Draft;
-                IsDocked = true;
+                IsSubscribed = true;
             }
 
             if (mailbox.IsGmailTrash || string.Compare(Name, "trash", StringComparison.InvariantCultureIgnoreCase) >= 0) {
                 types.Remove(MailboxType.Trash);
                 _mailbox.Type = MailboxType.Trash;
-                IsDocked = true;
+                IsSubscribed = true;
             }
         }
 

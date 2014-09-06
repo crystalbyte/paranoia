@@ -54,7 +54,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _resetZoomCommand;
         private readonly ICommand _replyCommand;
         private readonly ICommand _deleteCommand;
-        private readonly ICommand _writeCommand;
+        private readonly ICommand _composeMessageCommand;
         private readonly ICommand _forwardCommand;
         private readonly ICommand _markAsSeenCommand;
         private readonly ICommand _markAsNotSeenCommand;
@@ -85,7 +85,7 @@ namespace Crystalbyte.Paranoia {
             _replyCommand = new ReplyCommand(this);
             _forwardCommand = new ForwardCommand(this);
             _deleteCommand = new DeleteMessageCommand(this);
-            _writeCommand = new ComposeMessageCommand(this);
+            _composeMessageCommand = new ComposeMessageCommand(this);
             _markAsSeenCommand = new MarkAsSeenCommand(this);
             _markAsNotSeenCommand = new MarkAsNotSeenCommand(this);
             //_deleteAccountCommand = new RelayCommand(OnDeleteAccount);
@@ -231,9 +231,17 @@ namespace Crystalbyte.Paranoia {
         private void RequestMessagesAsync(IMessageSource source) {
             Application.Current.AssertUIThread();
 
-            Task.Run(() => {
-                var messages = source.GetMessagesAsync();
+            _messages.Clear();
+            Task.Run(() => RequestMessages(source));
+        }
 
+        private async void RequestMessages(IMessageSource source) {
+            var messages = await source.GetMessagesAsync();
+            Application.Current.Dispatcher.InvokeAsync(() => {
+                _messages.DeferNotifications = true;
+                _messages.AddRange(messages);
+                _messages.DeferNotifications = false;
+                _messages.NotifyCollectionChanged();
             });
         }
 
@@ -250,6 +258,7 @@ namespace Crystalbyte.Paranoia {
                     handler(this, EventArgs.Empty);
 
                 RequestMessagesAsync(SelectedMailbox);
+
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -534,9 +543,9 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool CanSwitchAccounts {
-            get { return _accounts != null && _accounts.Count > 1; }
-        }
+        //public bool CanSwitchAccounts {
+        //    get { return _accounts != null && _accounts.Count > 1; }
+        //}
 
         public ICommand ConfigAccountCommand {
             get { return _configAccountCommand; }
@@ -566,8 +575,8 @@ namespace Crystalbyte.Paranoia {
             get { return _createContactCommand; }
         }
 
-        public ICommand WriteMessageCommand {
-            get { return _writeCommand; }
+        public ICommand ComposeMessageCommand {
+            get { return _composeMessageCommand; }
         }
 
         public ICommand ReplyCommand {
@@ -631,7 +640,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnAccountsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
-            RaisePropertyChanged(() => CanSwitchAccounts);
+            RaisePropertyChanged(() => Accounts);
         }
 
         private void OnMessageSelectionCommitted(EventPattern<object> obj) {
@@ -736,11 +745,6 @@ namespace Crystalbyte.Paranoia {
         public async Task RunAsync() {
             await LoadContactsAsync();
             await LoadAccountsAsync();
-
-            //IsAllContactsSelected = true;
-            //SelectedAccount = Accounts.FirstOrDefault();
-            //if (SelectedAccount != null)
-            //    SelectedAccount.IsSelected = true;
 
             _outboxTimer.Start();
         }

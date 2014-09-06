@@ -88,6 +88,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Accounts.
+        /// </summary>
+        public static string AccountsTitle {
+            get {
+                return ResourceManager.GetString("AccountsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add attachment.
         /// </summary>
         public static string AddAttachment {
@@ -183,6 +192,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string CloseFlyOutCommandTooltip {
             get {
                 return ResourceManager.GetString("CloseFlyOutCommandTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Message.
+        /// </summary>
+        public static string ComposeMessage {
+            get {
+                return ResourceManager.GetString("ComposeMessage", resourceCulture);
             }
         }
         

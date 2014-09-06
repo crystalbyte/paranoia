@@ -48,8 +48,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnOpenAccountMenu(object sender, ExecutedRoutedEventArgs e) {
-            AccountMenu.DataContext = App.Context;
-            AccountMenu.IsOpen = true;
+            //AccountMenu.DataContext = App.Context;
+            //AccountMenu.IsOpen = true;
         }
 
         private static async void OnLoaded(object sender, RoutedEventArgs e) {
@@ -204,7 +204,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnSelectedAccountChanged(object sender, SelectionChangedEventArgs e) {
-            AccountSelectionPopup.IsOpen = false;
+            //AccountSelectionPopup.IsOpen = false;
         }
 
         private void OnTreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
@@ -215,16 +215,6 @@ namespace Crystalbyte.Paranoia {
             if (mailbox != null) {
                 App.Context.SelectedMailbox = mailbox;
             }
-
-            //var app = App.Composition.GetExport<AppContext>();
-            //var account = app.SelectedAccount;
-            //if (account == null) {
-            //    return;
-            //}
-
-            //var tree = (TreeView) sender;
-            //account.SelectedMailbox = tree.SelectedValue as MailboxContext;
-            //account.NotifyDockingChanged();
         }
 
         private void OnAttachmentMouseDoubleClicked(object sender, MouseButtonEventArgs e) {
