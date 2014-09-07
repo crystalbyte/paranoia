@@ -21,15 +21,6 @@
                 WindowStartupLocation="CenterScreen"
                 d:DataContext="{d:DesignInstance paranoia:AppContext}"
                 mc:Ignorable="d">
-    <!--
-        <ui:MetroWindow.Background>
-        <VisualBrush TileMode="Tile" Viewport="0,0,1,1">
-        <VisualBrush.Visual>
-        <Image Source="/Assets/earth.jpg" />
-        </VisualBrush.Visual>
-        </VisualBrush>
-        </ui:MetroWindow.Background>
-    -->
     <ui:MetroWindow.Resources>
         <!--  ReSharper disable once Xaml.RedundantResource  -->
         <Storyboard x:Key="OverlaySlideInStoryboard">
@@ -342,6 +333,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Margin="12,3,12,3"
                            VerticalAlignment="Center"
@@ -363,6 +355,17 @@
                          Text="{Binding QueryString,
                                         UpdateSourceTrigger=PropertyChanged,
                                         Mode=TwoWay}" />
+                <DockPanel Grid.Row="2"
+                           Margin="6,0,0,0"
+                           HorizontalAlignment="Stretch"
+                           LastChildFill="False">
+                    <RadioButton DockPanel.Dock="Left" GroupName="Filter" />
+                    <RadioButton DockPanel.Dock="Left" GroupName="Filter" />
+                    <ComboBox Margin="3,3,6,3"
+                              DockPanel.Dock="Right"
+                              Style="{StaticResource Metro.TextComboBoxStyle}" />
+                    <ComboBox DockPanel.Dock="Right" Style="{StaticResource Metro.TextComboBoxStyle}">Ascending</ComboBox>
+                </DockPanel>
             </Grid>
             <Grid>
                 <ListView x:Name="MessagesListView"
