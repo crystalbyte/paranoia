@@ -438,9 +438,10 @@ Once your password is lost you're screwed.</value>
     <value>New Message</value>
   </data>
   <data name="HideUnsubscribedMailboxes" xml:space="preserve">
-    <value>Save mailbox settings</value>
+    <value>Hide unsubscribed mailboxes</value>
   </data>
   <data name="ShowUnsubscribedMailboxes" xml:space="preserve">
-    <value>Manage mailboxes</value>
+    <value>Change mailbox subscriptions</value>
+    <comment> </comment>
   </data>
 </root>

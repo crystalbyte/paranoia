@@ -74,7 +74,7 @@ namespace Crystalbyte.Paranoia.Mail {
         /// </summary>
         /// <param name="name">mailbox name</param>
         /// <returns>no specific responses for this command</returns>
-        public async Task UnubscribeAsync(string name) {
+        public async Task UnsubscribeAsync(string name) {
             // we need to convert non ASCII names according to IMAP specs.
             // http://tools.ietf.org/html/rfc2060#section-5.1.3
             var encodedName = ImapMailbox.EncodeName(name);

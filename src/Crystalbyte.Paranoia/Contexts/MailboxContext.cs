@@ -123,7 +123,7 @@ namespace Crystalbyte.Paranoia {
                 IsSyncingChildren = true;
 
                 var pattern = string.Format("{0}{1}%", Name, Delimiter);
-                var children = await _account.ListMailboxesAsync(pattern)   ;
+                var children = await _account.ListMailboxesAsync(pattern);
                 var subscribed = await _account.ListSubscribedMailboxesAsync(pattern);
 
                 using (var database = new DatabaseContext()) {
@@ -261,6 +261,12 @@ namespace Crystalbyte.Paranoia {
                 _mailbox.IsSubscribed = value;
                 RaisePropertyChanged(() => IsSubscribed);
                 RaisePropertyChanged(() => IsListed);
+
+                if (value) {
+                    Task.Run(() => SubscribeAsync());
+                } else {
+                    Task.Run(() => UnsubscribeAsync());
+                }
             }
         }
 
@@ -322,6 +328,47 @@ namespace Crystalbyte.Paranoia {
 
         public bool IsSystemMailbox {
             get { return _mailbox.Type != MailboxType.Custom; }
+        }
+
+        private async Task SubscribeAsync() {
+            try {
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+                    using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+                        using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+                            await session.SubscribeAsync(Name);
+                        }
+                    }
+                }
+
+                using (var database = new DatabaseContext()) {
+                    var mailbox = await database.Mailboxes.FindAsync(_mailbox.Id);
+                    mailbox.IsSubscribed = true;
+                    await database.SaveChangesAsync();
+                }
+
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+        private async Task UnsubscribeAsync() {
+            try {
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+                    using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+                        using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+                            await session.UnsubscribeAsync(Name);
+                        }
+                    }
+                }
+
+                using (var database = new DatabaseContext()) {
+                    var mailbox = await database.Mailboxes.FindAsync(_mailbox.Id);
+                    mailbox.IsSubscribed = false;
+                    await database.SaveChangesAsync();
+                }
+
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         public MailboxType Type {
@@ -716,7 +763,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task BindMailboxAsync(ImapMailboxInfo mailbox) {
-             await BindMailboxAsync(mailbox, new ImapMailboxInfo[0]);
+            await BindMailboxAsync(mailbox, new ImapMailboxInfo[0]);
         }
 
         private async Task BindMailboxAsync(ImapMailboxInfo mailbox, IEnumerable<ImapMailboxInfo> subscriptions) {

@@ -450,7 +450,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save mailbox settings.
+        ///   Looks up a localized string similar to Hide unsubscribed mailboxes.
         /// </summary>
         public static string HideUnsubscribedMailboxes {
             get {
@@ -820,7 +820,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manage mailboxes.
+        ///   Looks up a localized string similar to Change mailbox subscriptions.
         /// </summary>
         public static string ShowUnsubscribedMailboxes {
             get {
