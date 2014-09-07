@@ -613,6 +613,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to It&apos;s lonely in here :(.
+        /// </summary>
+        public static string NoMessages {
+            get {
+                return ResourceManager.GetString("NoMessages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expression does not access a member..
         /// </summary>
         public static string NotMemberAccessExpression {

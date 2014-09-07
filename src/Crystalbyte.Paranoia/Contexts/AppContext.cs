@@ -116,7 +116,7 @@ namespace Crystalbyte.Paranoia {
                 .Select(x => x.Text)
                 .Subscribe(OnQueryReceived);
 
-            _outboxTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
+            _outboxTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(30) };
             _outboxTimer.Tick += OnOutboxTimerTick;
 
             _contacts = new ObservableCollection<MailContactContext>();
@@ -127,6 +127,7 @@ namespace Crystalbyte.Paranoia {
 
         private void OnMessagesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             RaisePropertyChanged(() => Messages);
+            RaisePropertyChanged(() => MessageCount);
         }
 
         private async void OnRefreshKeys(object obj) {
@@ -196,7 +197,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnDeleteContact(object obj) {
-            
+
         }
 
         internal async Task LoadContactsAsync() {
@@ -463,6 +464,10 @@ namespace Crystalbyte.Paranoia {
             get { return _messages; }
         }
 
+        public int MessageCount {
+            get { return _messages.Count; }
+        }
+
         public float Zoom {
             get { return _zoom; }
             set {
@@ -653,6 +658,7 @@ namespace Crystalbyte.Paranoia {
         public async Task RunAsync() {
             await LoadContactsAsync();
             await LoadAccountsAsync();
+            SyncAccountsAsync();
 
             _outboxTimer.Start();
         }
@@ -665,6 +671,13 @@ namespace Crystalbyte.Paranoia {
 
             foreach (var account in Accounts) {
                 await account.LoadMailboxesAsync();
+            }
+        }
+
+        private void SyncAccountsAsync() {
+            foreach (var account in Accounts) {
+                var a = account;
+                Task.Run(() => a.SyncMailboxesAsync());
             }
         }
 

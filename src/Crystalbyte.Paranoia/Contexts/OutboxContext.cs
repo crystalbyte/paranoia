@@ -16,7 +16,7 @@ using NLog;
 #endregion
 
 namespace Crystalbyte.Paranoia {
-    public sealed class OutboxContext : SelectionObject {
+    public sealed class OutboxContext : HierarchyContext {
         private bool _sendingMessages;
         private readonly MailAccountContext _account;
         private int _count;

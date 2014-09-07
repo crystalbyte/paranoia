@@ -153,6 +153,7 @@
     <Compile Include="Contexts\AttachmentContext.cs" />
     <Compile Include="Contexts\CreateContactContext.cs" />
     <Compile Include="Contexts\CreateKeyPairContext.cs" />
+    <Compile Include="Contexts\HierarchyContext.cs" />
     <Compile Include="Contexts\MessagePool.cs" />
     <Compile Include="Contexts\NotificationWindowContext.cs" />
     <Compile Include="Contexts\OutboxContext.cs" />
@@ -326,6 +327,9 @@
     <Compile Include="UI\Pages\BlankPage.xaml.cs">
       <DependentUpon>BlankPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\ProgressRing.xaml.cs">
+      <DependentUpon>ProgressRing.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\SafeWebFontProvider.cs" />
     <Compile Include="UI\TypeExtensions.cs" />
     <Compile Include="UI\Pages\ComposeMessagePage.xaml.cs">
@@ -418,6 +422,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Pages\CreateKeyPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\ProgressRing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

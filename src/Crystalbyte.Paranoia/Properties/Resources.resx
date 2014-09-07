@@ -444,4 +444,7 @@ Once your password is lost you're screwed.</value>
     <value>Change mailbox subscriptions</value>
     <comment> </comment>
   </data>
+  <data name="NoMessages" xml:space="preserve">
+    <value>It's lonely in here :(</value>
+  </data>
 </root>

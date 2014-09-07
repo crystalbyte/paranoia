@@ -35,6 +35,9 @@ namespace Crystalbyte.Paranoia.Data {
         [Collate(CollatingSequence.NoCase)]
         public string Subject { get; set; }
 
+        [Column("has_attachments")]
+        public bool HasAttachments { get; set; }
+
         [Column("entry_date")]
         public DateTime EntryDate { get; set; }
 

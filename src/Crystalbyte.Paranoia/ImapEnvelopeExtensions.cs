@@ -1,11 +1,7 @@
 ﻿using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia {
     public static class ImapEnvelopeExtensions {

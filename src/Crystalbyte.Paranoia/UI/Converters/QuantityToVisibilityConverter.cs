@@ -12,7 +12,7 @@ namespace Crystalbyte.Paranoia.UI.Converters {
     public sealed class QuantityToVisibilityConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             var p = parameter as string;
-            if (string.IsNullOrEmpty(p) && p == "!") {
+            if (!string.IsNullOrEmpty(p) && p == "!") {
                 return ((int) value) > 0 ? Visibility.Collapsed : Visibility.Visible;
             }
             return ((int) value) > 0 ? Visibility.Visible : Visibility.Collapsed;

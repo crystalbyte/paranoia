@@ -23,13 +23,14 @@ using System.Text.RegularExpressions;
 
 namespace Crystalbyte.Paranoia {
     [DebuggerDisplay("Name = {Name}")]
-    public sealed class MailboxContext : SelectionObject, IMessageSource {
+    public sealed class MailboxContext : HierarchyContext, IMessageSource {
 
         #region Private Fields
 
         private int _notSeenCount;
         private bool _isSyncingMessages;
-        private bool _isLoadingMessage;
+        private bool _isDownloadingMessage;
+        private bool _isLoadingMessages;
         private bool _isListingMailboxes;
         private readonly MailboxModel _mailbox;
         private readonly MailAccountContext _account;
@@ -82,8 +83,12 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool IsListed {
-            get { return IsEditing || IsSubscribed; }
+        public bool HasListedChildren {
+            get { return HasChildren && Children.Any(x => x.IsListed); }
+        }
+
+        public override bool IsListed {
+            get { return IsEditing || IsSubscribed || HasListedChildren; }
         }
 
         public string LocalName {
@@ -107,18 +112,20 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        protected async override void OnSelectionChanged() {
+        protected override void OnSelectionChanged() {
             base.OnSelectionChanged();
 
+            Application.Current.AssertUIThread();
             try {
-                await SyncChildrenAsync();
-
+                Task.Run(() => SyncChildrenAsync());
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
 
         private async Task SyncChildrenAsync() {
+            Application.Current.AssertBackgroundThread();
+
             try {
                 IsSyncingChildren = true;
 
@@ -141,7 +148,8 @@ namespace Crystalbyte.Paranoia {
                         await context.InsertAsync();
                         await context.BindMailboxAsync(child, subscribed);
 
-                        _account.NotifyMailboxAdded(context);
+                        Application.Current.Dispatcher
+                            .InvokeAsync(() => _account.NotifyMailboxAdded(context));
                     }
                 }
             } finally {
@@ -298,7 +306,7 @@ namespace Crystalbyte.Paranoia {
                 RaisePropertyChanged(() => NotSeenCount);
             }
         }
-
+        
         public bool IsSyncingMessages {
             get { return _isSyncingMessages; }
             set {
@@ -310,14 +318,14 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool IsLoadingMessage {
-            get { return _isLoadingMessage; }
+        public bool IsDownloadingMessage {
+            get { return _isDownloadingMessage; }
             set {
-                if (_isLoadingMessage == value) {
+                if (_isDownloadingMessage == value) {
                     return;
                 }
-                _isLoadingMessage = value;
-                RaisePropertyChanged(() => IsLoadingMessage);
+                _isDownloadingMessage = value;
+                RaisePropertyChanged(() => IsDownloadingMessage);
             }
         }
 
@@ -876,10 +884,24 @@ namespace Crystalbyte.Paranoia {
             get { return Children.Any(); }
         }
 
+
+        public bool IsLoadingMessages {
+            get { return _isLoadingMessages; }
+            set {
+                if (_isLoadingMessages == value) {
+                    return;
+                }
+                _isLoadingMessages = value;
+                RaisePropertyChanged(() => IsLoadingMessages);
+            }
+        }
+
         #region Implementation of IMessageSource
 
         public async Task<IEnumerable<MailMessageContext>> GetMessagesAsync() {
             Application.Current.AssertBackgroundThread();
+
+            IsLoadingMessages = true;
 
             IEnumerable<MailMessageModel> messages;
             using (var context = new DatabaseContext()) {
@@ -892,6 +914,8 @@ namespace Crystalbyte.Paranoia {
             var contexts = messages
                 .Select(x => new MailMessageContext(this, x))
                 .ToArray();
+
+            IsLoadingMessages = false;
 
             return contexts;
         }

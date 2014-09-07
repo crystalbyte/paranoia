@@ -20,11 +20,12 @@ using Crystalbyte.Paranoia.UI.Commands;
 using Newtonsoft.Json;
 using MailMessage = System.Net.Mail.MailMessage;
 using NLog;
+using System.Windows;
 
 #endregion
 
 namespace Crystalbyte.Paranoia {
-    public sealed class MailAccountContext : SelectionObject {
+    public sealed class MailAccountContext : HierarchyContext {
 
         #region Private Fields
 
@@ -32,7 +33,6 @@ namespace Crystalbyte.Paranoia {
         private bool _isTesting;
         private bool _isAutoDetectPreferred;
         private bool _isDetectingSettings;
-        private bool _isOutboxSelected;
         private TestingContext _testing;
         private bool _isManagingMailboxes;
         private bool _isMailboxSelectionAvailable;
@@ -67,7 +67,7 @@ namespace Crystalbyte.Paranoia {
             _isAutoDetectPreferred = true;
             _mailboxes = new ObservableCollection<MailboxContext>();
             _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Mailboxes);
-            _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => RootMailboxes);
+            _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Children);
         }
 
         private void OnHideUnsubscribedMailboxes(object obj) {
@@ -176,7 +176,9 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task SyncMailboxesAsync() {
+        internal async Task SyncMailboxesAsync() {
+            Application.Current.AssertBackgroundThread();
+
             try {
                 App.Context.StatusText = Resources.SyncMailboxesStatus;
 
@@ -220,7 +222,8 @@ namespace Crystalbyte.Paranoia {
                     context.SubscribeToMostProbableType(types, mailbox);
                     await context.BindMailboxAsync(mailbox);
 
-                    _mailboxes.Add(context);
+                    Application.Current.Dispatcher
+                        .InvokeAsync(() => _mailboxes.Add(context));
                 }
 
                 var inbox = _mailboxes
@@ -325,31 +328,6 @@ namespace Crystalbyte.Paranoia {
                 RaisePropertyChanged(() => IsManagingMailboxes);
             }
         }
-
-        public bool IsOutboxSelected {
-            get { return _isOutboxSelected; }
-            set {
-                if (_isOutboxSelected == value) {
-                    return;
-                }
-                _isOutboxSelected = value;
-                RaisePropertyChanged(() => IsOutboxSelected);
-                //OnOutboxSelectionChanged();
-            }
-        }
-
-        //private async void OnOutboxSelectionChanged() {
-        //    try {
-        //        if (IsOutboxSelected) {
-        //            DockedMailboxes.ForEach(x => x.IsSelected = false);
-        //            await Outbox.LoadSmtpRequestsFromDatabaseAsync();
-        //        } else {
-        //            Outbox.Clear();
-        //        }
-        //    } catch (Exception ex) {
-        //        Logger.Error(ex);
-        //    }
-        //}
 
         public AppContext AppContext {
             get { return _appContext; }
@@ -542,10 +520,13 @@ namespace Crystalbyte.Paranoia {
             get { return _mailboxes; }
         }
 
-        public IEnumerable<MailboxContext> RootMailboxes {
+        public IEnumerable<object> Children {
             get {
                 return _mailboxes
-                    .Where(x => !string.IsNullOrEmpty(x.Name) && !x.Name.Contains(x.Delimiter));
+                    .Where(x => !string.IsNullOrEmpty(x.Name) && !x.Name.Contains(x.Delimiter))
+                    .Cast<object>()
+                    .Concat(new[] { Outbox })
+                    .ToArray();
             }
         }
 
@@ -636,7 +617,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-
         internal async Task SaveSmtpRequestsAsync(IEnumerable<MailMessage> messages) {
             using (var database = new DatabaseContext()) {
                 var account = await database.MailAccounts.FindAsync(_account.Id);
@@ -667,25 +647,6 @@ namespace Crystalbyte.Paranoia {
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
-        }
-
-        internal void AddSystemMailboxes() {
-            _account.Mailboxes.Add(new MailboxModel {
-                Type = MailboxType.Inbox,
-                IsSubscribed = true
-            });
-            _account.Mailboxes.Add(new MailboxModel {
-                Type = MailboxType.Trash,
-                IsSubscribed = true
-            });
-            _account.Mailboxes.Add(new MailboxModel {
-                Type = MailboxType.Sent,
-                IsSubscribed = true
-            });
-            _account.Mailboxes.Add(new MailboxModel {
-                Type = MailboxType.Draft,
-                IsSubscribed = true
-            });
         }
 
         public async Task DetectSettingsAsync() {
