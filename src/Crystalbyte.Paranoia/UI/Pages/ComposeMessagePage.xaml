@@ -26,12 +26,13 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" MaxHeight="45"/>
+            <RowDefinition Height="Auto" MaxHeight="45" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
                    Grid.Column="0"
+                   HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    Text="{x:Static properties:Resources.Recipients}" />
         <ui:AutoCompleteBox x:Name="RecipientsBox"
@@ -113,6 +114,7 @@
         <TextBlock Grid.Row="1"
                    Grid.Column="0"
                    Margin="0,0,12,0"
+                   HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    Text="{x:Static properties:Resources.Subject}" />
         <TextBox x:Name="SubjectTextBox"
@@ -120,66 +122,65 @@
                  Grid.Column="1"
                  Text="{Binding Subject,
                                 Mode=TwoWay}" />
-        <ListView ItemsSource="{Binding Attachments}" 
-                  Grid.Row="2" 
+        <ListView Grid.Row="2"
                   Grid.ColumnSpan="2"
-                  Background="Transparent" 
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                  Background="Transparent"
+                  ItemsSource="{Binding Attachments}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListView.Style>
                 <Style TargetType="ListView">
                     <Style.Triggers>
                         <Trigger Property="HasItems" Value="false">
-                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Setter Property="Visibility" Value="Hidden" />
                         </Trigger>
                     </Style.Triggers>
                 </Style>
             </ListView.Style>
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal"/>
+                    <WrapPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <ItemContainerTemplate>
                     <Grid Width="120" Height="20">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="20" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock ToolTip="{Binding FullName}" 
-                                   Text="{Binding Name}" 
-                                   Margin="2,0,2,0" 
-                                   Foreground="#BADA55" 
+                        <TextBlock Margin="2,0,2,0"
+                                   VerticalAlignment="Center"
+                                   Foreground="#BADA55"
+                                   Text="{Binding Name}"
                                    TextTrimming="CharacterEllipsis"
-                                   VerticalAlignment="Center"/>
-                        <!--TODO usefull tooltip-->
-                        <Button Grid.Column="1" 
-                                Content="X" 
-                                Command="{Binding RemoveAttachmentCommand}" 
-                                ToolTip="remove"/>
+                                   ToolTip="{Binding FullName}" />
+                        <!--  TODO usefull tooltip  -->
+                        <Button Grid.Column="1"
+                                Command="{Binding RemoveAttachmentCommand}"
+                                Content="X"
+                                ToolTip="remove" />
                     </Grid>
                 </ItemContainerTemplate>
             </ListView.ItemTemplate>
         </ListView>
         <ui:HtmlControl x:Name="HtmlControl"
-            Grid.Row="3"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            Margin="0,3,0,15"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-            Metro.ControlBackgroundBrush}}"
-            Drop="DropHtmlControl"
-            AllowDrop="True"
-            IsTransparent="True"
-            Padding="3"
-            Source="{Binding Source,
-            Mode=TwoWay}" >
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="0,3,0,15"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        AllowDrop="True"
+                        Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                           Metro.ControlBackgroundBrush}}"
+                        Drop="DropHtmlControl"
+                        IsTransparent="True"
+                        Padding="3"
+                        Source="{Binding Source,
+                                         Mode=TwoWay}">
             <ui:HtmlControl.CommandBindings>
-                <CommandBinding Command="{x:Static ApplicationCommands.Paste}"  
-                                PreviewCanExecute="OnCanExecute"/>
+                <CommandBinding Command="{x:Static ApplicationCommands.Paste}" PreviewCanExecute="OnCanExecute" />
             </ui:HtmlControl.CommandBindings>
         </ui:HtmlControl>
 

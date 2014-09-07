@@ -8,7 +8,7 @@ using NLog;
 #endregion
 
 namespace Crystalbyte.Paranoia.UI.Commands {
-    public sealed class ComposeMessageCommand : ICommand {
+    public sealed class ComposeCommand : ICommand {
 
         #region Private Fields
 
@@ -19,7 +19,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         #region Construction
 
-        public ComposeMessageCommand(AppContext app) {
+        public ComposeCommand(AppContext app) {
             _app = app;
             _app.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
         }

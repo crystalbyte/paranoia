@@ -9,10 +9,13 @@ using Crystalbyte.Paranoia.Properties;
 #endregion
 
 namespace Crystalbyte.Paranoia.UI.Converters {
-    [ValueConversion(typeof (SecurityProtocol), typeof (string))]
+    [ValueConversion(typeof(SecurityProtocol), typeof(string))]
     public sealed class SecurityProtocolFormatter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            return ((SecurityProtocol) value) == SecurityProtocol.Implicit ? Resources.Implicit : Resources.Explicit;
+            if (value == null) {
+                return SecurityProtocol.None;
+            }
+            return ((SecurityProtocol)value) == SecurityProtocol.Implicit ? Resources.Implicit : Resources.Explicit;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

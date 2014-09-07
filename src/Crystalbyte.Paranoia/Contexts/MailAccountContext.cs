@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -44,7 +43,6 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _selectMailboxCommand;
         private readonly ICommand _testSettingsCommand;
         private readonly ICommand _registerCommand;
-        private readonly ICommand _restoreMessagesCommand;
         private readonly ICommand _showUnsubscribedMailboxesCommand;
         private readonly ICommand _hideUnsubscribedMailboxesCommand;
         private readonly OutboxContext _outbox;
@@ -63,14 +61,12 @@ namespace Crystalbyte.Paranoia {
             _registerCommand = new RelayCommand(OnRegister);
             _selectMailboxCommand = new RelayCommand(OnSelectMailbox);
             _listMailboxesCommand = new RelayCommand(OnListMailboxes);
-            _restoreMessagesCommand = new RestoreMessageCommand(this);
             _testSettingsCommand = new RelayCommand(OnTestSettings);
             _showUnsubscribedMailboxesCommand = new RelayCommand(OnShowUnsubscribedMailboxes);
             _hideUnsubscribedMailboxesCommand = new RelayCommand(OnHideUnsubscribedMailboxes);
             _isAutoDetectPreferred = true;
             _mailboxes = new ObservableCollection<MailboxContext>();
             _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Mailboxes);
-            //_mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => DockedMailboxes);
             _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => RootMailboxes);
         }
 
@@ -104,10 +100,6 @@ namespace Crystalbyte.Paranoia {
 
         public ICommand RegisterCommand {
             get { return _registerCommand; }
-        }
-
-        public ICommand RestoreMessagesCommand {
-            get { return _restoreMessagesCommand; }
         }
 
         public ICommand TestSettingsCommand {
@@ -200,7 +192,7 @@ namespace Crystalbyte.Paranoia {
                         var localizedMailboxes = await ListMailboxesAsync(pattern);
                         remoteMailboxes.AddRange(localizedMailboxes);
                     }
-                } 
+                }
 
                 var types = new List<MailboxType> { MailboxType.Inbox, MailboxType.Draft, MailboxType.Sent, MailboxType.Trash };
 
@@ -754,20 +746,20 @@ namespace Crystalbyte.Paranoia {
 
         internal async Task DeleteAsync() {
             try {
-                //foreach (var mailbox in DockedMailboxes) {
-                //    await mailbox.DeleteAsync();
-                //}
+                foreach (var mailbox in Mailboxes) {
+                    await mailbox.DeleteAsync();
+                }
 
-                //using (var database = new DatabaseContext()) {
-                //    var contactModels = await database.MailContacts
-                //        .ToArrayAsync();
+                using (var database = new DatabaseContext()) {
+                    var contactModels = await database.MailContacts
+                        .ToArrayAsync();
 
-                //    database.MailContacts.RemoveRange(contactModels);
-                //    database.MailAccounts.Attach(_account);
-                //    database.MailAccounts.Remove(_account);
+                    database.MailContacts.RemoveRange(contactModels);
+                    database.MailAccounts.Attach(_account);
+                    database.MailAccounts.Remove(_account);
 
-                //    await database.SaveChangesAsync();
-                //}
+                    await database.SaveChangesAsync();
+                }
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -796,38 +788,6 @@ namespace Crystalbyte.Paranoia {
                 Logger.Error(ex);
             }
         }
-
-        //internal async Task LoadMessagesForContactAsync(MailContactContext contact) {
-        //    try {
-        //        var mailbox = SelectedMailbox;
-        //        if (mailbox == null || !mailbox.IsBound) {
-        //            return;
-        //        }
-
-        //        await mailbox.LoadMessagesForContactAsync(contact);
-        //        foreach (var box in DockedMailboxes.AsParallel()) {
-        //            await box.CountNotSeenAsync();
-        //        }
-        //    } catch (Exception ex) {
-        //        Logger.Error(ex);
-        //    }
-        //}
-
-        //internal async Task LoadAllMessagesAsync() {
-        //    try {
-        //        var mailbox = SelectedMailbox;
-        //        if (mailbox == null || !mailbox.IsBound) {
-        //            return;
-        //        }
-
-        //        await mailbox.LoadMessagesAsync();
-        //        foreach (var box in DockedMailboxes.AsParallel()) {
-        //            await box.CountNotSeenAsync();
-        //        }
-        //    } catch (Exception ex) {
-        //        Logger.Error(ex);
-        //    }
-        //}
 
         internal MailboxContext GetInbox() {
             return _mailboxes.FirstOrDefault(x => x.IsInbox);
@@ -872,10 +832,6 @@ namespace Crystalbyte.Paranoia {
 
         private MailboxContext GetTrash() {
             return _mailboxes.FirstOrDefault(x => x.IsTrash);
-        }
-
-        internal void NotifyDockingChanged() {
-            //RaisePropertyChanged(() => DockedMailboxes);
         }
 
         internal void NotifyMailboxAdded(MailboxContext child) {

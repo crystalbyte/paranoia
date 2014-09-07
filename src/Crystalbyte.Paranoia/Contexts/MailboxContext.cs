@@ -178,7 +178,6 @@ namespace Crystalbyte.Paranoia {
                 var mailboxes = _account.Mailboxes
                   .Where(x => x.Name.StartsWith(prefix)).ToArray();
 
-                //"[Gmail]/Gesendet".Substring("[Gmail]/".Length, "[Gmail]/Gesendet".Length - "[Gmail]/".Length)
                 var m = mailboxes
                     .Where(x => !x.Name.Substring(prefix.Length, x.Name.Length - prefix.Length).Contains(x.Delimiter))
                     .ToArray();
@@ -798,37 +797,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task LoadMessagesForContactAsync(MailContactContext contact) {
-            Application.Current.AssertBackgroundThread();
-
-            try {
-                IEnumerable<MailMessageModel> messages;
-                using (var context = new DatabaseContext()) {
-                    messages = await context.MailMessages
-                        .Where(x => x.Type == MailType.Message)
-                        .Where(x => x.MailboxId == _mailbox.Id)
-                        .Where(x => x.FromAddress == contact.Address)
-                        .ToArrayAsync();
-                }
-
-                // Check for active selection, since it might have changed while being async.
-                if (!IsSelected) {
-                    return;
-                }
-
-                var contexts = messages
-                    .Select(x => new MailMessageContext(this, x))
-                    .ToArray();
-
-                await Application.Current.Dispatcher.InvokeAsync(() =>
-                    App.Context.DisplayMessages(contexts));
-                await CountNotSeenAsync();
-
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
-
         public bool IsIdling {
             get { return _isIdling; }
             set {
@@ -929,5 +897,50 @@ namespace Crystalbyte.Paranoia {
         }
 
         #endregion
+
+        /// <summary>
+        /// Moves messages from the trash mailbox back to the inbox.
+        /// </summary>
+        /// <param name="messages">The messages to move.</param>
+        internal async void RestoreMessagesAsync(IList<MailMessageContext> messages) {
+            try {
+                if (messages.Count < 1) {
+                    return;
+                }
+
+                var inbox = messages.First().Mailbox.Account.GetInbox();
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+                    using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+                        using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+                            var mailbox = await session.SelectAsync(Name);
+                            if (Type == MailboxType.Trash) {
+                                await mailbox.MoveMailsAsync(messages.Select(x => x.Uid).ToArray(), inbox.Name);
+                            }
+                        }
+                    }
+                }
+
+                using (var database = new DatabaseContext()) {
+                    foreach (var message in messages) {
+                        try {
+                            var model = new MailMessageModel {
+                                Id = message.Id,
+                                MailboxId = Id
+                            };
+
+                            database.MailMessages.Attach(model);
+                            database.MailMessages.Remove(model);
+                        } catch (Exception ex) {
+                            Logger.Error(ex);
+                        }
+                    }
+                    await database.SaveChangesAsync();
+                }
+
+                App.Context.NotifyMessagesRemoved(messages);
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
     }
 }

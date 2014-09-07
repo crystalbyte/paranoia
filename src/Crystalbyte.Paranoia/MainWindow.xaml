@@ -357,6 +357,7 @@
                          Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                             Metro.MenuBackgroundBrush}}"
                          Text="{Binding QueryString,
+                                        UpdateSourceTrigger=PropertyChanged,
                                         Mode=TwoWay}" />
             </Grid>
             <ListView x:Name="MessagesListView"
@@ -381,9 +382,6 @@
                                                                                                               Metro.AccentBrush}}"
                                                         BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                                                              Metro.SecondaryTextBrush}}" />
-                    <converters:BooleanToOpacityConverter x:Key="SeenOpacityConverter"
-                                                          OpacityForFalse="1.0"
-                                                          OpacityForTrue="0.3" />
                 </ListView.Resources>
                 <ListView.InputBindings>
                     <KeyBinding Key="R"
@@ -409,7 +407,7 @@
                                 <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Forward}" />
                             </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem Command="{Binding RestoreMessagesCommand}" InputGestureText="Ctrl + Alt + R">
+                        <MenuItem Command="{Binding RestoreCommand}" InputGestureText="Ctrl + Alt + R">
                             <MenuItem.Header>
                                 <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Restore}" />
                             </MenuItem.Header>
@@ -1326,7 +1324,6 @@
             <Border Grid.Row="0"
                     BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
                                                                         Metro.ControlBorderBrush}}"
-                    BorderThickness="0,0,0,1"
                     Padding="0,0,0,6">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -1400,7 +1397,8 @@
                               Grid.ColumnSpan="2"
                               MaxHeight="300"
                               Margin="0,3,0,0"
-                              Background="Transparent"
+                              Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                 Metro.MenuBackgroundBrush}}"
                               BorderThickness="0"
                               DataContext="{Binding DataContext,
                                                     ElementName=Window}"
@@ -1484,7 +1482,7 @@
                 </Border>
                 <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                        <ProgressBar Height="1"
+                        <ProgressBar Height="2"
                                      Margin="0"
                                      HorizontalAlignment="Stretch"
                                      Background="Transparent"
@@ -1739,7 +1737,7 @@
                         Padding="0,3">
                     <Grid HorizontalAlignment="Left">
                         <ui:MetroCircleButton Margin="12,6"
-                                              Command="{Binding ComposeMessageCommand}"
+                                              Command="{Binding ComposeCommand}"
                                               Text="{x:Static properties:Resources.ComposeMessage}">
                             <Image Width="18" Source="/Assets/unseen.png" />
                         </ui:MetroCircleButton>

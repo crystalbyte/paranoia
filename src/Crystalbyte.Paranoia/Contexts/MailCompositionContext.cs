@@ -145,7 +145,7 @@ namespace Crystalbyte.Paranoia {
 
         public async Task PushToOutboxAsync() {
             try {
-                //var account = App.Context.SelectedAccount;
+                //var account = 
                 //var messages = await CreateSmtpMessagesAsync(account);
                 //await account.SaveSmtpRequestsAsync(messages);
                 //await App.Context.NotifyOutboxNotEmpty();
