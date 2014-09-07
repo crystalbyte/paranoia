@@ -14,19 +14,22 @@
                 Height="768"
                 MinWidth="200"
                 MinHeight="100"
+                Background="Black"
                 BorderThickness="0"
                 KeyboardNavigation.TabNavigation="Local"
                 UseLayoutRounding="True"
                 WindowStartupLocation="CenterScreen"
                 d:DataContext="{d:DesignInstance paranoia:AppContext}"
                 mc:Ignorable="d">
-    <ui:MetroWindow.Background>
+    <!--
+        <ui:MetroWindow.Background>
         <VisualBrush TileMode="Tile" Viewport="0,0,1,1">
-            <VisualBrush.Visual>
-                <Image Source="/Assets/earth.jpg" />
-            </VisualBrush.Visual>
+        <VisualBrush.Visual>
+        <Image Source="/Assets/earth.jpg" />
+        </VisualBrush.Visual>
         </VisualBrush>
-    </ui:MetroWindow.Background>
+        </ui:MetroWindow.Background>
+    -->
     <ui:MetroWindow.Resources>
         <!--  ReSharper disable once Xaml.RedundantResource  -->
         <Storyboard x:Key="OverlaySlideInStoryboard">
