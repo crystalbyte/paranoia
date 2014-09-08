@@ -125,10 +125,15 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
         private void OnCanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e) {
             e.CanExecute = false;
+            //e.ContinueRouting = false;
+            //e.Handled = true;
 
             var data = Clipboard.GetDataObject();
             if (data == null)
                 return;
+
+            //Debug stuff
+            var formats = data.GetFormats();
 
             var image = data.GetData("System.Drawing.Bitmap") as Bitmap;
             if (image != null) {
@@ -154,8 +159,8 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 var imageTagMatches = Regex.Matches(temp, imageTagRegexPattern, RegexOptions.Singleline | RegexOptions.Compiled);
                 foreach (Match match in imageTagMatches) {
                     var originalSrcFile = Regex.Match(match.Value, srcPrepRegexPatter).Value;
-                    var srcFile = originalSrcFile.Replace("src=\"file:///", string.Empty).Replace("\"", string.Empty);
-                    if (!File.Exists(srcFile))
+                    var srcFile = originalSrcFile.Replace("src=\"", string.Empty).Replace("\"", string.Empty).Replace("file:///", string.Empty);
+                    if (new Uri(srcFile).IsFile && !File.Exists(srcFile))
                         throw new Exception("701");
 
                     temp = temp.Replace(originalSrcFile, string.Format("src=\"asset://tempImage/{0}\"", srcFile));
@@ -172,8 +177,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
             HtmlControl.InsertPlaneAtCurrentPosition(planeText);
 
-            //Debug stuff
-            //var formats = data.GetFormats();
+
 
         }
         #endregion
