@@ -37,6 +37,7 @@ namespace Crystalbyte.Paranoia {
         #region Private Fields
 
         private float _zoom;
+        private bool _showAllMessages;
         private string _queryString;
         private string _source;
         private string _statusText;
@@ -66,7 +67,9 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _deleteContactCommand;
         private readonly ICommand _refreshKeysCommand;
         private bool _isAllContactsSelected;
+        private bool _isSortAscending;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
 
         #endregion
 
@@ -123,6 +126,7 @@ namespace Crystalbyte.Paranoia {
             _contacts.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Contacts);
 
             _zoom = 1.0f;
+            _showAllMessages = true;
         }
 
         private void OnMessagesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
@@ -267,6 +271,14 @@ namespace Crystalbyte.Paranoia {
         internal void OnFlyOutClosed() {
             var handler = FlyOutClosed;
             if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
+
+        public event EventHandler SortOrderChanged;
+
+        private void OnSortOrderChanged() {
+            var handler = SortOrderChanged;
+            if (handler != null) 
                 handler(this, EventArgs.Empty);
         }
 
@@ -448,6 +460,28 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public bool ShowAllMessages {
+            get { return _showAllMessages; }
+            set {
+                if (_showAllMessages == value) {
+                    return;
+                }
+                _showAllMessages = value;
+                RaisePropertyChanged(() => ShowAllMessages);
+                OnMessageFilterChanged();
+            }
+        }
+
+        private void OnMessageFilterChanged() {
+            var mailbox = SelectedMailbox;
+            if (mailbox == null) {
+                return;
+            }
+
+            mailbox.ShowAllMessages = ShowAllMessages;
+            Task.Run(() => RequestMessagesAsync(mailbox));
+        }
+
         public string QueryString {
             get { return _queryString; }
             set {
@@ -466,6 +500,18 @@ namespace Crystalbyte.Paranoia {
 
         public int MessageCount {
             get { return _messages.Count; }
+        }
+
+        public bool IsSortAscending {
+            get { return _isSortAscending; }
+            set {
+                if (_isSortAscending == value) {
+                    return;
+                }
+                _isSortAscending = value;
+                RaisePropertyChanged(() => IsSortAscending);
+                OnSortOrderChanged();
+            }
         }
 
         public float Zoom {
@@ -594,22 +640,30 @@ namespace Crystalbyte.Paranoia {
             await PreviewMessageAsync(message);
         }
 
-        internal async Task MarkSelectionAsSeenAsync() {
-            var tasks = SelectedMessages
-                .Where(x => x.IsNotSeen)
-                .GroupBy(x => x.Mailbox)
-                .Select(x => x.Key.MarkAsSeenAsync(x.ToArray()));
+        internal Task MarkSelectionAsSeenAsync() {
+            var messages = SelectedMessages.ToArray();
 
-            await Task.WhenAll(tasks);
+            return Task.Run(() => {
+                var tasks = messages
+                    .Where(x => x.IsNotSeen)
+                    .GroupBy(x => x.Mailbox)
+                    .Select(x => x.Key.MarkAsSeenAsync(x.ToArray()));
+
+                Task.WhenAll(tasks);
+            });
         }
 
-        internal async Task MarkSelectionAsNotSeenAsync() {
-            var tasks = SelectedMessages
-                .Where(x => x.IsSeen)
-                .GroupBy(x => x.Mailbox)
-                .Select(x => x.Key.MarkAsNotSeenAsync(x.ToArray()));
+        internal Task MarkSelectionAsNotSeenAsync() {
+            var messages = SelectedMessages.ToArray();
 
-            await Task.WhenAll(tasks);
+            return Task.Run(() => {
+                var tasks = messages
+                    .Where(x => x.IsSeen)
+                    .GroupBy(x => x.Mailbox)
+                    .Select(x => x.Key.MarkAsNotSeenAsync(x.ToArray()));
+
+                Task.WhenAll(tasks);
+            });
         }
 
         internal void ClosePopup() {

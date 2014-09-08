@@ -124,6 +124,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ascending.
+        /// </summary>
+        public static string Ascending {
+            get {
+                return ResourceManager.GetString("Ascending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Authentification failed..
         /// </summary>
         public static string AuthentificationFailed {
@@ -329,6 +338,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string DeleteAccountQuestion {
             get {
                 return ResourceManager.GetString("DeleteAccountQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Descending.
+        /// </summary>
+        public static string Descending {
+            get {
+                return ResourceManager.GetString("Descending", resourceCulture);
             }
         }
         
@@ -987,6 +1005,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string TypeNotSupportedTemplate {
             get {
                 return ResourceManager.GetString("TypeNotSupportedTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unseen.
+        /// </summary>
+        public static string Unseen {
+            get {
+                return ResourceManager.GetString("Unseen", resourceCulture);
             }
         }
         

@@ -40,6 +40,7 @@ namespace Crystalbyte.Paranoia {
         private int _fetchedEnvelopeCount;
         private bool _isEditing;
         private bool _isIdling;
+        private bool _showAllMessages;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -50,6 +51,7 @@ namespace Crystalbyte.Paranoia {
         internal MailboxContext(MailAccountContext account, MailboxModel mailbox) {
             _account = account;
             _mailbox = mailbox;
+            _showAllMessages = true;
         }
 
         #endregion
@@ -306,7 +308,18 @@ namespace Crystalbyte.Paranoia {
                 RaisePropertyChanged(() => NotSeenCount);
             }
         }
-        
+
+        public bool ShowAllMessages {
+            get { return _showAllMessages; }
+            set {
+                if (_showAllMessages == value) {
+                    return;
+                }
+                _showAllMessages = value;
+                RaisePropertyChanged(() => ShowAllMessages);
+            }
+        }
+
         public bool IsSyncingMessages {
             get { return _isSyncingMessages; }
             set {
@@ -654,6 +667,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task MarkAsNotSeenAsync(MailMessageContext[] messages) {
+            Application.Current.AssertBackgroundThread();
+
             try {
                 messages.ForEach(x => x.IsSeen = false);
                 var uids = messages.Select(x => x.Uid).ToArray();
@@ -681,6 +696,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task MarkAsSeenAsync(MailMessageContext[] messages) {
+            Application.Current.AssertBackgroundThread();
+
             try {
                 messages.ForEach(x => x.IsSeen = true);
                 var uids = messages.Select(x => x.Uid).ToArray();
@@ -708,17 +725,12 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task CountNotSeenAsync() {
-            var contact = App.Context.SelectedContact;
-            if (contact == null) {
-                NotSeenCount = 0;
-                return;
-            }
+            Application.Current.AssertBackgroundThread();
 
             using (var context = new DatabaseContext()) {
                 NotSeenCount = await context.MailMessages
                     .Where(x => x.Type == MailType.Message)
                     .Where(x => x.MailboxId == _mailbox.Id)
-                    .Where(x => x.FromAddress == contact.Address)
                     .Where(x => !x.Flags.Contains(MailboxFlags.Seen))
                     .CountAsync();
             }
@@ -904,12 +916,23 @@ namespace Crystalbyte.Paranoia {
             IsLoadingMessages = true;
 
             IEnumerable<MailMessageModel> messages;
+
             using (var context = new DatabaseContext()) {
-                messages = await context.MailMessages
-                    .Where(x => x.Type == MailType.Message)
-                    .Where(x => x.MailboxId == _mailbox.Id)
-                    .ToArrayAsync();
+                if (ShowAllMessages) {
+                    messages = await context.MailMessages
+                        .Where(x => x.Type == MailType.Message)
+                        .Where(x => x.MailboxId == _mailbox.Id)
+                        .ToArrayAsync();
+                }
+                else {
+                    messages = await context.MailMessages
+                        .Where(x => x.Type == MailType.Message)
+                        .Where(x => !x.Flags.Contains(MailboxFlags.Seen))
+                        .Where(x => x.MailboxId == _mailbox.Id)
+                        .ToArrayAsync();
+                }
             }
+
 
             var contexts = messages
                 .Select(x => new MailMessageContext(this, x))

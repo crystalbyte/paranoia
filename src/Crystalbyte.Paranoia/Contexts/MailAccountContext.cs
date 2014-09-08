@@ -213,7 +213,8 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-                foreach (var mailbox in remoteMailboxes.Where(x => _mailboxes.All(y => string.Compare(x.Fullname, y.Name, StringComparison.InvariantCultureIgnoreCase) != 0))) {
+                foreach (var mailbox in remoteMailboxes.Where(x => mailboxes.All(y =>
+                    string.Compare(x.Fullname, y.Name, StringComparison.InvariantCultureIgnoreCase) != 0))) {
                     var context = new MailboxContext(this, new MailboxModel {
                         AccountId = _account.Id
                     });
@@ -222,15 +223,17 @@ namespace Crystalbyte.Paranoia {
                     context.SubscribeToMostProbableType(types, mailbox);
                     await context.BindMailboxAsync(mailbox);
 
-                    Application.Current.Dispatcher
+                    await Application.Current.Dispatcher
                         .InvokeAsync(() => _mailboxes.Add(context));
                 }
 
-                var inbox = _mailboxes
+                var inbox = mailboxes
                     .FirstOrDefault(x => x.IsInbox);
 
                 if (inbox != null) {
-                    inbox.IsSelected = true;
+                    Application.Current.Dispatcher.InvokeAsync(() => {
+                        inbox.IsSelected = true;
+                    });
                 }
             } finally {
                 App.Context.ResetStatusText();
@@ -246,6 +249,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task LoadMailboxesAsync() {
+
             MailboxModel[] mailboxes;
             using (var context = new DatabaseContext()) {
                 mailboxes = await context.Mailboxes
@@ -256,8 +260,10 @@ namespace Crystalbyte.Paranoia {
             _mailboxes.AddRange(mailboxes
                 .Select(x => new MailboxContext(this, x)));
 
-            var tasks = _mailboxes.Select(x => x.CountNotSeenAsync());
-            await Task.WhenAll(tasks);
+            await Task.Run(() => {
+                var tasks = _mailboxes.Select(x => x.CountNotSeenAsync());
+                Task.WhenAll(tasks);
+            });
 
             var inbox = _mailboxes.FirstOrDefault(x => x.Type == MailboxType.Inbox);
             if (inbox != null) {

@@ -9,6 +9,7 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
@@ -114,7 +115,7 @@ namespace Crystalbyte.Paranoia {
             base.OnInitialized(e);
 
             LoadResources();
-            HookUpNavigationRequests();
+            HookUpEvents();
         }
 
         private void LoadResources() {
@@ -127,9 +128,19 @@ namespace Crystalbyte.Paranoia {
             Overlay.Visibility = Visibility.Collapsed;
         }
 
-        private void HookUpNavigationRequests() {
+        private void HookUpEvents() {
             App.Context.PopupNavigationRequested += OnPopupNavigationRequested;
             App.Context.FlyOutNavigationRequested += OnFlyOutNavigationRequested;
+            App.Context.SortOrderChanged += OnSortOrderChanged;
+        }
+
+        private void OnSortOrderChanged(object sender, EventArgs e) {
+            var source = Resources["MessagesSource"] as CollectionViewSource;
+            if (source == null) 
+                return;
+
+            source.SortDescriptions.Clear();
+            source.SortDescriptions.Add(new SortDescription("EntryDate", App.Context.IsSortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending));
         }
 
         private void OnPopupNavigationRequested(object sender, NavigationRequestedEventArgs e) {

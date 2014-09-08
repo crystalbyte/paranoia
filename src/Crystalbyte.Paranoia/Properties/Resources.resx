@@ -442,9 +442,17 @@ Once your password is lost you're screwed.</value>
   </data>
   <data name="ShowUnsubscribedMailboxes" xml:space="preserve">
     <value>Change mailbox subscriptions</value>
-    <comment> </comment>
   </data>
   <data name="NoMessages" xml:space="preserve">
     <value>It's lonely in here :(</value>
+  </data>
+  <data name="Ascending" xml:space="preserve">
+    <value>Ascending</value>
+  </data>
+  <data name="Descending" xml:space="preserve">
+    <value>Descending</value>
+  </data>
+  <data name="Unseen" xml:space="preserve">
+    <value>Unseen</value>
   </data>
 </root>

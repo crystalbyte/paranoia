@@ -356,15 +356,24 @@
                                         UpdateSourceTrigger=PropertyChanged,
                                         Mode=TwoWay}" />
                 <DockPanel Grid.Row="2"
-                           Margin="6,0,0,0"
+                           Margin="12,0,12,0"
                            HorizontalAlignment="Stretch"
                            LastChildFill="False">
-                    <RadioButton DockPanel.Dock="Left" GroupName="Filter" />
-                    <RadioButton DockPanel.Dock="Left" GroupName="Filter" />
-                    <ComboBox Margin="3,3,6,3"
-                              DockPanel.Dock="Right"
-                              Style="{StaticResource Metro.TextComboBoxStyle}" />
-                    <ComboBox DockPanel.Dock="Right" Style="{StaticResource Metro.TextComboBoxStyle}">Ascending</ComboBox>
+                    <RadioButton Margin="3,3,9,3"
+                                 Content="{x:Static properties:Resources.All}"
+                                 DockPanel.Dock="Left"
+                                 GroupName="Filter"
+                                 IsChecked="{Binding ShowAllMessages,
+                                                     Mode=TwoWay}"
+                                 Style="{DynamicResource Metro.TextRadioButtonStyle}" />
+                    <RadioButton Content="{x:Static properties:Resources.Unseen}"
+                                 DockPanel.Dock="Left"
+                                 GroupName="Filter"
+                                 Style="{DynamicResource Metro.TextRadioButtonStyle}" />
+                    <ToggleButton DockPanel.Dock="Right"
+                                  IsChecked="{Binding IsSortAscending,
+                                                      Mode=TwoWay}"
+                                  Style="{DynamicResource Metro.SortingToggleButtonStyle}" />
                 </DockPanel>
             </Grid>
             <Grid>
@@ -1880,8 +1889,8 @@
                             </Grid>
                         </HierarchicalDataTemplate>
                         <HierarchicalDataTemplate DataType="{x:Type paranoia:MailboxContext}" ItemsSource="{Binding Children}">
-                            <StackPanel Orientation="Horizontal">
-                                <Border Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <DockPanel HorizontalAlignment="Stretch" LastChildFill="False">
+                                <Border DockPanel.Dock="Left" Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
                                     <CheckBox VerticalAlignment="Center"
                                               IsChecked="{Binding IsSubscribed,
                                                                   Mode=TwoWay}"
@@ -1890,9 +1899,11 @@
                                 </Border>
                                 <Image Width="16"
                                        Margin="0,1,6,1"
+                                       DockPanel.Dock="Left"
                                        Source="Assets/folder.png" />
                                 <TextBlock x:Name="MailboxNameBlock"
                                            VerticalAlignment="Center"
+                                           DockPanel.Dock="Left"
                                            Text="{Binding LocalName}">
                                     <TextBlock.Foreground>
                                         <Binding Path="IsSubscribed">
@@ -1902,7 +1913,23 @@
                                         </Binding>
                                     </TextBlock.Foreground>
                                 </TextBlock>
-                            </StackPanel>
+                                <Border Margin="12,0"
+                                        DockPanel.Dock="Right"
+                                        Visibility="{Binding NotSeenCount,
+                                                             Converter={StaticResource QuantityToVisibilityConverter}}">
+                                    <TextBlock VerticalAlignment="Center"
+                                               FontWeight="Bold"
+                                               Text="{Binding NotSeenCount}">
+                                        <TextBlock.Foreground>
+                                            <Binding Path="IsSelected">
+                                                <Binding.Converter>
+                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+                                                </Binding.Converter>
+                                            </Binding>
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+                                </Border>
+                            </DockPanel>
                             <HierarchicalDataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                     <Setter TargetName="MailboxNameBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />

@@ -62,7 +62,7 @@
                 <Setter Property="Stretch" Value="Uniform" />
             </Style>
 
-     
+
 
         </ResourceDictionary>
     </Application.Resources>
