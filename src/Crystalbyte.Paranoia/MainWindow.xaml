@@ -1889,50 +1889,65 @@
                             </Grid>
                         </HierarchicalDataTemplate>
                         <HierarchicalDataTemplate DataType="{x:Type paranoia:MailboxContext}" ItemsSource="{Binding Children}">
-                            <DockPanel HorizontalAlignment="Stretch" LastChildFill="False">
-                                <Border DockPanel.Dock="Left" Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                    <CheckBox VerticalAlignment="Center"
-                                              IsChecked="{Binding IsSubscribed,
-                                                                  Mode=TwoWay}"
-                                              Visibility="{Binding IsSelectable,
-                                                                   Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                </Border>
-                                <Image Width="16"
-                                       Margin="0,1,6,1"
-                                       DockPanel.Dock="Left"
-                                       Source="Assets/folder.png" />
-                                <TextBlock x:Name="MailboxNameBlock"
-                                           VerticalAlignment="Center"
+                            <Grid>
+                                <DockPanel HorizontalAlignment="Stretch" LastChildFill="False">
+                                    <Border DockPanel.Dock="Left" Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <CheckBox VerticalAlignment="Center"
+                                                  IsChecked="{Binding IsSubscribed,
+                                                                      Mode=TwoWay}"
+                                                  Visibility="{Binding IsSelectable,
+                                                                       Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                    </Border>
+                                    <Image Width="16"
+                                           Margin="0,1,6,1"
                                            DockPanel.Dock="Left"
-                                           Text="{Binding LocalName}">
-                                    <TextBlock.Foreground>
-                                        <Binding Path="IsSubscribed">
-                                            <Binding.Converter>
-                                                <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
-                                            </Binding.Converter>
-                                        </Binding>
-                                    </TextBlock.Foreground>
-                                </TextBlock>
-                                <Border Margin="12,0"
-                                        DockPanel.Dock="Right"
-                                        Visibility="{Binding NotSeenCount,
-                                                             Converter={StaticResource QuantityToVisibilityConverter}}">
-                                    <TextBlock VerticalAlignment="Center"
-                                               FontWeight="Bold"
-                                               Text="{Binding NotSeenCount}">
+                                           Source="Assets/folder.png" />
+                                    <TextBlock x:Name="MailboxNameBlock"
+                                               VerticalAlignment="Center"
+                                               DockPanel.Dock="Left"
+                                               Text="{Binding LocalName}">
                                         <TextBlock.Foreground>
-                                            <Binding Path="IsSelected">
+                                            <Binding Path="IsSubscribed">
                                                 <Binding.Converter>
-                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
                                                 </Binding.Converter>
                                             </Binding>
                                         </TextBlock.Foreground>
                                     </TextBlock>
-                                </Border>
-                            </DockPanel>
+                                    <Border Margin="12,0"
+                                            DockPanel.Dock="Right"
+                                            Visibility="{Binding NotSeenCount,
+                                                                 Converter={StaticResource QuantityToVisibilityConverter}}">
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontWeight="Bold"
+                                                   Text="{Binding NotSeenCount}">
+                                            <TextBlock.Foreground>
+                                                <Binding Path="IsSelected">
+                                                    <Binding.Converter>
+                                                        <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+                                                    </Binding.Converter>
+                                                </Binding>
+                                            </TextBlock.Foreground>
+                                        </TextBlock>
+                                    </Border>
+                                </DockPanel>
+                                <ProgressBar x:Name="EnvelopeProgressBar"
+                                             Height="2"
+                                             Margin="-22,0,-4,-3"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Bottom"
+                                             Background="Transparent"
+                                             Maximum="{Binding TotalEnvelopeCount}"
+                                             Minimum="0"
+                                             Visibility="{Binding Value,
+                                                                  RelativeSource={RelativeSource Self},
+                                                                  Converter={StaticResource QuantityToVisibilityConverter}}"
+                                             Value="{Binding FetchedEnvelopeCount}" />
+                            </Grid>
                             <HierarchicalDataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                     <Setter TargetName="MailboxNameBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+                                    <Setter TargetName="EnvelopeProgressBar" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
                                 </DataTrigger>
                             </HierarchicalDataTemplate.Triggers>
                         </HierarchicalDataTemplate>

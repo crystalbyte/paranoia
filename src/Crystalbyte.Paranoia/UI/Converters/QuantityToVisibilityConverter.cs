@@ -11,6 +11,7 @@ namespace Crystalbyte.Paranoia.UI.Converters {
     [ValueConversion(typeof (int), typeof (Visibility))]
     public sealed class QuantityToVisibilityConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            value = System.Convert.ToInt32(value);
             var p = parameter as string;
             if (!string.IsNullOrEmpty(p) && p == "!") {
                 return ((int) value) > 0 ? Visibility.Collapsed : Visibility.Visible;
