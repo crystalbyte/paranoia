@@ -278,7 +278,7 @@ namespace Crystalbyte.Paranoia {
 
         private void OnSortOrderChanged() {
             var handler = SortOrderChanged;
-            if (handler != null) 
+            if (handler != null)
                 handler(this, EventArgs.Empty);
         }
 
@@ -801,6 +801,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private Task ProcessOutgoingMessagesAsync() {
+            Accounts.ForEach(x => x.Outbox.LoadSmtpRequestsFromDatabaseAsync());
             var tasks = Accounts.Select(x => x.Outbox.ProcessOutgoingMessagesAsync());
             return Task.WhenAll(tasks);
         }

@@ -115,7 +115,7 @@ namespace Crystalbyte.Paranoia.Mail {
 
         internal async Task<SmtpResponseLine> ReadAsync() {
             var line = await _reader.ReadLineAsync();
-            //Debug.WriteLine(line);
+            Debug.WriteLine(line);
             return new SmtpResponseLine(line);
         }
 
