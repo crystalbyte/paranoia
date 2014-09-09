@@ -712,7 +712,11 @@ namespace Crystalbyte.Paranoia {
         public async Task RunAsync() {
             await LoadContactsAsync();
             await LoadAccountsAsync();
-            SyncAccountsAsync();
+
+            foreach (var account in Accounts) {
+                //return Task.Run(() => account.TakeOnlineAsync());
+            }
+            
 
             _outboxTimer.Start();
         }

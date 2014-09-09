@@ -229,6 +229,14 @@ namespace Crystalbyte.Paranoia {
             if (mailbox != null) {
                 App.Context.SelectedMailbox = mailbox;
             }
+
+            var account = value as MailAccountContext;
+            if (account == null) 
+                return;
+
+            if (!account.IsOnline) {
+                Task.Run(() => account.TakeOnlineAsync());
+            }
         }
 
         private void OnAttachmentMouseDoubleClicked(object sender, MouseButtonEventArgs e) {

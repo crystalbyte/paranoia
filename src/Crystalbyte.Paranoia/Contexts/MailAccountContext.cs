@@ -199,7 +199,6 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 var types = new List<MailboxType> { MailboxType.Inbox, MailboxType.Draft, MailboxType.Sent, MailboxType.Trash };
-
                 foreach (var mailbox in mailboxes) {
                     if (mailbox.Type == MailboxType.Inbox) {
                         types.Remove(MailboxType.Inbox);
@@ -222,6 +221,7 @@ namespace Crystalbyte.Paranoia {
                     });
 
                     await context.InsertAsync();
+                    context.SubscribeToMostProbableType(types, mailbox);
                     await context.BindMailboxAsync(mailbox, subscribed);
 
                     if (!context.IsSubscribed && context.Type != MailboxType.Custom && context.IsSelectable) {
