@@ -13,6 +13,70 @@
       d:DesignHeight="300"
       d:DesignWidth="300"
       mc:Ignorable="d">
+    <Page.Resources>
+        <DataTemplate x:Key="ContactSuggestionTemplate" DataType="paranoia:MailContactContext">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"
+                       Width="40"
+                       Margin="2,2,12,2"
+                       HorizontalAlignment="Stretch"
+                       RenderOptions.BitmapScalingMode="Fant"
+                       Source="{Binding Address,
+                                        IsAsync=True,
+                                        Converter={StaticResource GravatarImageConverter}}"
+                       Stretch="Uniform" />
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                Metro.MediumLargeFontSize}}"
+                               FontWeight="Thin"
+                               Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                  Metro.NormalTextBrush}}"
+                               Text="{Binding Name}" />
+                    <TextBlock FontWeight="Thin"
+                               Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                  Metro.SecondaryTextBrush}}"
+                               Text="{Binding Address}" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="StringTokenTemplate" DataType="system:String">
+            <Grid>
+                <Rectangle Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" RenderOptions.EdgeMode="Aliased" />
+                <TextBlock Margin="2,0,2,0"
+                           Background="Transparent"
+                           FontWeight="Regular"
+                           Text="{Binding}" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="ContactTokenTemplate" DataType="paranoia:MailContactContext">
+            <Grid>
+                <Rectangle Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                        Metro.AccentBrush}}"
+                           RenderOptions.EdgeMode="Aliased"
+                           SnapsToDevicePixels="True" />
+                <StackPanel Orientation="Horizontal">
+                    <Image Width="16"
+                           VerticalAlignment="Center"
+                           RenderOptions.BitmapScalingMode="LowQuality"
+                           Source="{Binding Address,
+                                            IsAsync=True,
+                                            Converter={StaticResource GravatarImageConverter},
+                                            ConverterParameter=16}" />
+                    <TextBlock Margin="2,0,2,0"
+                               Background="Transparent"
+                               FontWeight="Regular"
+                               Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                                  Metro.NormalTextBrush}}"
+                               Text="{Binding Name}" />
+                </StackPanel>
+
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
     <Page.InputBindings>
         <KeyBinding Key="Enter"
                     Command="{Binding SendCommand}"
@@ -26,6 +90,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" MaxHeight="45" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -35,94 +101,88 @@
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    Text="{x:Static properties:Resources.Recipients}" />
-        <ui:AutoCompleteBox x:Name="RecipientsBox"
-                            Grid.Row="0"
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ui:AutoCompleteBox x:Name="RecipientsBox"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                HorizontalAlignment="Stretch"
+                                ItemTemplate="{StaticResource ContactSuggestionTemplate}"
+                                ItemsSource="{Binding Suggestions}"
+                                ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
+                                SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
+                                StringTokenTemplate="{StaticResource StringTokenTemplate}"
+                                TokenTemplate="{StaticResource ContactTokenTemplate}" />
+            <ToggleButton x:Name="CopyButton"
+                          Grid.Row="0"
+                          Grid.Column="1"
+                          Margin="3,0,0,0"
+                          VerticalAlignment="Center">
+                <Image Width="18"
+                       VerticalAlignment="Center"
+                       Source="/Assets/message.copy.png" />
+            </ToggleButton>
+
+        </Grid>
+        <TextBlock Grid.Row="1"
+                   Grid.Column="0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Text="{x:Static properties:Resources.CarbonCopies}"
+                   Visibility="{Binding IsChecked,
+                                        ElementName=CopyButton,
+                                        Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <ui:AutoCompleteBox x:Name="CcBox"
+                            Grid.Row="1"
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
+                            ItemTemplate="{StaticResource ContactSuggestionTemplate}"
                             ItemsSource="{Binding Suggestions}"
                             ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
-                            SelectedValuesChanged="OnRecipientsBoxSelectionChanged">
-            <ui:AutoCompleteBox.StringTokenTemplate>
-                <DataTemplate DataType="system:String">
-                    <Grid>
-                        <Rectangle Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" RenderOptions.EdgeMode="Aliased" />
-                        <TextBlock Margin="2,0,2,0"
-                                   Background="Transparent"
-                                   FontWeight="Regular"
-                                   Text="{Binding}" />
-                    </Grid>
-                </DataTemplate>
-            </ui:AutoCompleteBox.StringTokenTemplate>
-            <ui:AutoCompleteBox.TokenTemplate>
-                <DataTemplate DataType="paranoia:MailContactContext">
-                    <Grid>
-                        <Rectangle Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                Metro.AccentBrush}}"
-                                   RenderOptions.EdgeMode="Aliased"
-                                   SnapsToDevicePixels="True" />
-                        <StackPanel Orientation="Horizontal">
-                            <Image Width="16"
-                                   VerticalAlignment="Center"
-                                   RenderOptions.BitmapScalingMode="LowQuality"
-                                   Source="{Binding Address,
-                                                    IsAsync=True,
-                                                    Converter={StaticResource GravatarImageConverter},
-                                                    ConverterParameter=16}" />
-                            <TextBlock Margin="2,0,2,0"
-                                       Background="Transparent"
-                                       FontWeight="Regular"
-                                       Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                          Metro.NormalTextBrush}}"
-                                       Text="{Binding Name}" />
-                        </StackPanel>
+                            SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
+                            StringTokenTemplate="{StaticResource StringTokenTemplate}"
+                            TokenTemplate="{StaticResource ContactTokenTemplate}"
+                            Visibility="{Binding IsChecked,
+                                                 ElementName=CopyButton,
+                                                 Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <TextBlock Grid.Row="2"
+                   Grid.Column="0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Text="{x:Static properties:Resources.BlindCarbonCopies}"
+                   Visibility="{Binding IsChecked,
+                                        ElementName=CopyButton,
+                                        Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <ui:AutoCompleteBox x:Name="BccBox"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            ItemTemplate="{StaticResource ContactSuggestionTemplate}"
+                            ItemsSource="{Binding Suggestions}"
+                            ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
+                            SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
+                            StringTokenTemplate="{StaticResource StringTokenTemplate}"
+                            TokenTemplate="{StaticResource ContactTokenTemplate}"
+                            Visibility="{Binding IsChecked,
+                                                 ElementName=CopyButton,
+                                                 Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-                    </Grid>
-                </DataTemplate>
-            </ui:AutoCompleteBox.TokenTemplate>
-            <ui:AutoCompleteBox.ItemTemplate>
-                <DataTemplate DataType="paranoia:MailContactContext">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0"
-                               Width="40"
-                               Margin="2,2,12,2"
-                               HorizontalAlignment="Stretch"
-                               RenderOptions.BitmapScalingMode="Fant"
-                               Source="{Binding Address,
-                                                IsAsync=True,
-                                                Converter={StaticResource GravatarImageConverter}}"
-                               Stretch="Uniform" />
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                        Metro.MediumLargeFontSize}}"
-                                       FontWeight="Thin"
-                                       Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                          Metro.NormalTextBrush}}"
-                                       Text="{Binding Name}" />
-                            <TextBlock FontWeight="Thin"
-                                       Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                          Metro.SecondaryTextBrush}}"
-                                       Text="{Binding Address}" />
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </ui:AutoCompleteBox.ItemTemplate>
-        </ui:AutoCompleteBox>
-        <TextBlock Grid.Row="1"
+        <TextBlock Grid.Row="3"
                    Grid.Column="0"
                    Margin="0,0,12,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    Text="{x:Static properties:Resources.Subject}" />
         <TextBox x:Name="SubjectTextBox"
-                 Grid.Row="1"
+                 Grid.Row="3"
                  Grid.Column="1"
                  Text="{Binding Subject,
                                 Mode=TwoWay}" />
-        <ListView Grid.Row="2"
+        <ListView Grid.Row="4"
+                  Grid.Column="0"
                   Grid.ColumnSpan="2"
                   Background="Transparent"
                   ItemsSource="{Binding Attachments}"
@@ -164,27 +224,36 @@
                 </ItemContainerTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <ui:HtmlControl x:Name="HtmlControl"
-                        Grid.Row="3"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Margin="0,3,0,15"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        AllowDrop="True"
-                        Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                           Metro.ControlBackgroundBrush}}"
-                        Drop="DropHtmlControl"
-                        IsTransparent="True"
-                        Padding="3"
-                        Source="{Binding Source,
-                                         Mode=TwoWay}">
-            <ui:HtmlControl.CommandBindings>
-                <CommandBinding Command="{x:Static ApplicationCommands.Paste}" PreviewCanExecute="OnCanExecute" />
-            </ui:HtmlControl.CommandBindings>
-        </ui:HtmlControl>
+        <Border Grid.Row="5"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="0,3,0,0"
+                BorderBrush="{DynamicResource Metro.AccentBrush}"
+                BorderThickness="1"
+                Padding="0">
+            <ui:HtmlControl x:Name="HtmlControl"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            AllowDrop="True"
+                            Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                               Metro.ControlBackgroundBrush}}"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            Drop="DropHtmlControl"
+                            IsTransparent="True"
+                            Padding="3"
+                            RenderTransformOrigin="0.5,0.5"
+                            Source="{Binding Source,
+                                             Mode=TwoWay}"
+                            Visibility="Collapsed">
+                <ui:HtmlControl.CommandBindings>
+                    <CommandBinding Command="{x:Static ApplicationCommands.Paste}" PreviewCanExecute="OnCanExecute" />
+                </ui:HtmlControl.CommandBindings>
+            </ui:HtmlControl>
+        </Border>
 
-        <ui:MetroCircleButton Grid.Row="4"
+
+        <ui:MetroCircleButton Grid.Row="6"
                               Grid.Column="0"
                               HorizontalAlignment="Left"
                               Command="{Binding SendCommand}"
@@ -193,7 +262,7 @@
                    Margin="0,0,0,0"
                    Source="/Assets/message.png" />
         </ui:MetroCircleButton>
-        <ui:MetroCircleButton Grid.Row="4"
+        <ui:MetroCircleButton Grid.Row="6"
                               Grid.Column="1"
                               HorizontalAlignment="Right"
                               Command="{Binding AddattachmentCommand}"

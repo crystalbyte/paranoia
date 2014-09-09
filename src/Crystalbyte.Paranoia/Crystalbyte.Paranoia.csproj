@@ -206,6 +206,7 @@
     <Compile Include="UI\HtmlControl.xaml.cs">
       <DependentUpon>HtmlControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\IAnimationAware.cs" />
     <Compile Include="UI\IconExtensions.cs" />
     <Compile Include="UI\PageCommands.cs" />
     <Compile Include="UI\Pages\AccountDetailsPage.xaml.cs">
@@ -543,6 +544,7 @@
     <Resource Include="Assets\sunrise.jpg" />
     <Resource Include="Assets\earth.jpg" />
     <Resource Include="Assets\attach.png" />
+    <Resource Include="Assets\message.copy.png" />
     <Content Include="Resources\ckeditor.paranoia\paranoia.js" />
     <Content Include="Resources\ckeditor\adapters\jquery.js" />
     <Content Include="Resources\ckeditor\build-config.js" />

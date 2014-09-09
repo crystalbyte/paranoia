@@ -455,4 +455,10 @@ Once your password is lost you're screwed.</value>
   <data name="Unseen" xml:space="preserve">
     <value>Unseen</value>
   </data>
+  <data name="BlindCarbonCopies" xml:space="preserve">
+    <value>Bcc</value>
+  </data>
+  <data name="CarbonCopies" xml:space="preserve">
+    <value>Cc</value>
+  </data>
 </root>

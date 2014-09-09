@@ -120,8 +120,16 @@ namespace Crystalbyte.Paranoia {
 
         private void LoadResources() {
             _slideInOverlayStoryboard = (Storyboard)Resources["OverlaySlideInStoryboard"];
+            _slideInOverlayStoryboard.Completed += OnSlideInOverlayCompleted;
             _slideOutOverlayStoryboard = (Storyboard)Resources["OverlaySlideOutStoryboard"];
             _slideOutOverlayStoryboard.Completed += OnSlideOutOverlayCompleted;
+        }
+
+        private void OnSlideInOverlayCompleted(object sender, EventArgs e) {
+            var page = FlyOutFrame.Content as IAnimationAware;
+            if (page != null) {
+                page.OnAnimationFinished();
+            }
         }
 
         private void OnSlideOutOverlayCompleted(object sender, EventArgs e) {

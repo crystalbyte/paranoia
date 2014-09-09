@@ -160,6 +160,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bcc.
+        /// </summary>
+        public static string BlindCarbonCopies {
+            get {
+                return ResourceManager.GetString("BlindCarbonCopies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to B.
         /// </summary>
         public static string Bold {
@@ -174,6 +183,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cc.
+        /// </summary>
+        public static string CarbonCopies {
+            get {
+                return ResourceManager.GetString("CarbonCopies", resourceCulture);
             }
         }
         

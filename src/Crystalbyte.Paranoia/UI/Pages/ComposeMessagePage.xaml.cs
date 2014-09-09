@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
@@ -19,7 +20,8 @@ namespace Crystalbyte.Paranoia.UI.Pages {
     /// <summary>
     ///     Interaction logic for WriteMessagePage.xaml
     /// </summary>
-    public partial class ComposeMessagePage : INavigationAware {
+    public partial class ComposeMessagePage : INavigationAware, IAnimationAware {
+
         public ComposeMessagePage() {
             InitializeComponent();
 
@@ -133,7 +135,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 return;
 
             //Debug stuff
-            var formats = data.GetFormats();
+            //var formats = data.GetFormats();
 
             var image = data.GetData("System.Drawing.Bitmap") as Bitmap;
             if (image != null) {
@@ -142,7 +144,6 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 HtmlControl.InsertHtmlAtCurrentPosition(string.Format("<img width=480 src=\"asset://tempImage/{0}\"></img>", file));
                 return;
             }
-
 
             var html = (string)data.GetData(DataFormats.Html);
             if (html != null) {
@@ -176,10 +177,15 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 return;
 
             HtmlControl.InsertPlaneAtCurrentPosition(planeText);
-
-
-
         }
+        #endregion
+
+        #region Implementation of IAnimationAware
+
+        public void OnAnimationFinished() {
+            HtmlControl.Visibility = Visibility.Visible;
+        }
+
         #endregion
     }
 }
