@@ -189,9 +189,9 @@
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListView.Style>
-                <Style TargetType="ListView">
+                <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="ListView">
                     <Style.Triggers>
-                        <Trigger Property="HasItems" Value="false">
+                        <Trigger Property="HasItems" Value="False">
                             <Setter Property="Visibility" Value="Hidden" />
                         </Trigger>
                     </Style.Triggers>
