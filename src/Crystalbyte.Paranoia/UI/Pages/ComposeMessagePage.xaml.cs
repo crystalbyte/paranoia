@@ -123,63 +123,6 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             files.ToList().ForEach(x => context.Attachments.Add(new AttachmentContext(context, x)));
         }
 
-        #region PasteHandler
-
-        private void OnCanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e) {
-            e.CanExecute = false;
-            //e.ContinueRouting = false;
-            //e.Handled = true;
-
-            var data = Clipboard.GetDataObject();
-            if (data == null)
-                return;
-
-            //Debug stuff
-            //var formats = data.GetFormats();
-
-            var image = data.GetData("System.Drawing.Bitmap") as Bitmap;
-            if (image != null) {
-                var file = Path.GetTempFileName();
-                image.Save(file);
-                HtmlControl.InsertHtmlAtCurrentPosition(string.Format("<img width=480 src=\"asset://tempImage/{0}\"></img>", file));
-                return;
-            }
-
-            var html = (string)data.GetData(DataFormats.Html);
-            if (html != null) {
-                var htmlRegex = new Regex("<html.*?</html>",
-                RegexOptions.Singleline);
-                var temp = htmlRegex.Match(html).Value;
-
-                var conditionRegex = new Regex(@"<!--\[if.*?<!\[endif]-->", RegexOptions.Singleline);
-                const string imageTagRegexPattern = "<img.*?>(</img>){0,1}";
-                const string srcPrepRegexPatter = "src=\".*?\"";
-                temp = conditionRegex.Replace(temp, string.Empty);
-                temp = temp.Replace("<![if !vml]>", string.Empty)
-                    .Replace("<![endif]>", string.Empty);
-                var imageTagMatches = Regex.Matches(temp, imageTagRegexPattern, RegexOptions.Singleline | RegexOptions.Compiled);
-                foreach (Match match in imageTagMatches) {
-                    var originalSrcFile = Regex.Match(match.Value, srcPrepRegexPatter).Value;
-                    var srcFile = originalSrcFile.Replace("src=\"", string.Empty).Replace("\"", string.Empty).Replace("file:///", string.Empty);
-                    if (new Uri(srcFile).IsFile && !File.Exists(srcFile))
-                        throw new Exception("701");
-
-                    temp = temp.Replace(originalSrcFile, string.Format("src=\"asset://tempImage/{0}\"", srcFile));
-                }
-
-                html = temp;
-                HtmlControl.InsertHtmlAtCurrentPosition(html);
-                return;
-            }
-
-            var planeText = (string)data.GetData(DataFormats.Text);
-            if (planeText == null)
-                return;
-
-            HtmlControl.InsertPlaneAtCurrentPosition(planeText);
-        }
-        #endregion
-
         #region Implementation of IAnimationAware
 
         public void OnAnimationFinished() {

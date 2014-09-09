@@ -246,9 +246,6 @@
                             Source="{Binding Source,
                                              Mode=TwoWay}"
                             Visibility="Collapsed">
-                <ui:HtmlControl.CommandBindings>
-                    <CommandBinding Command="{x:Static ApplicationCommands.Paste}" PreviewCanExecute="OnCanExecute" />
-                </ui:HtmlControl.CommandBindings>
             </ui:HtmlControl>
         </Border>
 

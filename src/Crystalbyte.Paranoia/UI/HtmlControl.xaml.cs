@@ -3,15 +3,16 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using Awesomium.Core;
 using Awesomium.Windows.Controls;
 using Crystalbyte.Paranoia.Properties;
 using System.Text.RegularExpressions;
 using System.IO;
+using FontFamily = System.Windows.Media.FontFamily;
 
 #endregion
 
@@ -49,15 +50,19 @@ namespace Crystalbyte.Paranoia.UI {
             if (!DesignerProperties.GetIsInDesignMode(this)) {
                 Source = WebCore.Configuration.HomeURL.ToString();
             }
-            WebCore.Initialized += (sender, e) => {
-                Dispatcher.Invoke(() => {
-                    var resourceInterceptor = new ResourceInterceptor();
-                    resourceInterceptor.SetCurrentMessage();
-                    WebCore.ResourceInterceptor = resourceInterceptor;
-                });
-            };
+            WebCore.Initialized += (sender, e) => Dispatcher.Invoke(() => {
+                var resourceInterceptor = new ResourceInterceptor();
+                resourceInterceptor.SetCurrentMessage();
+                WebCore.ResourceInterceptor = resourceInterceptor;
+            });
 
-            //this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, OnExecuted, OnCanExecute));
+            this.PreviewKeyDown += (sender, args) => {
+                if (args.Key != Key.V || (Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.Control)
+                    return;
+
+                args.Handled = true;
+                PasteClipboardContent();
+            };
         }
 
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
@@ -210,7 +215,8 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 var html = _webControl.ExecuteJavascriptWithResult("getEditorHtml()");
                 return html;
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Debug.WriteLine("something went wrong\n" + ex);
                 return string.Empty;
             }
@@ -219,14 +225,9 @@ namespace Crystalbyte.Paranoia.UI {
         internal void InsertHtmlAtCurrentPosition(string html) {
             JSObject window = _webControl.ExecuteJavascriptWithResult("window");
 
-            // Make sure we have the object.
-            if (window == null)
-                return;
             using (window) {
                 window.Invoke("pasteHtmlAtCurrentPosition", html);
             }
-
-            //_webControl.ExecuteJavascript(string.Format("pasteHtmlAtCurrentPosition({0})", html));
         }
 
         internal void InsertPlaneAtCurrentPosition(string planeText) {
@@ -235,19 +236,21 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region PasteHandler
 
-        private void OnExecuted(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
+        private void PasteClipboardContent() {
             var data = Clipboard.GetDataObject();
             if (data == null)
                 return;
 
-            var image = data.GetData("System.Drawing.Bitmap") as System.Drawing.Bitmap;
+            //Debug stuff
+            var formats = data.GetFormats();
+
+            var image = data.GetData("System.Drawing.Bitmap") as Bitmap;
             if (image != null) {
                 var file = Path.GetTempFileName();
                 image.Save(file);
-                InsertHtmlAtCurrentPosition(string.Format("<img width=480 src=\"{0}\"></img>", file));
+                InsertHtmlAtCurrentPosition(string.Format("<img width=480 src=\"asset://tempImage/{0}\"></img>", file));
                 return;
             }
-
 
             var html = (string)data.GetData(DataFormats.Html);
             if (html != null) {
@@ -256,9 +259,20 @@ namespace Crystalbyte.Paranoia.UI {
                 var temp = htmlRegex.Match(html).Value;
 
                 var conditionRegex = new Regex(@"<!--\[if.*?<!\[endif]-->", RegexOptions.Singleline);
+                const string imageTagRegexPattern = "<img.*?>(</img>){0,1}";
+                const string srcPrepRegexPatter = "src=\".*?\"";
                 temp = conditionRegex.Replace(temp, string.Empty);
                 temp = temp.Replace("<![if !vml]>", string.Empty)
                     .Replace("<![endif]>", string.Empty);
+                var imageTagMatches = Regex.Matches(temp, imageTagRegexPattern, RegexOptions.Singleline | RegexOptions.Compiled);
+                foreach (Match match in imageTagMatches) {
+                    var originalSrcFile = Regex.Match(match.Value, srcPrepRegexPatter).Value;
+                    var srcFile = originalSrcFile.Replace("src=\"", string.Empty).Replace("\"", string.Empty).Replace("file:///", string.Empty);
+                    if (new Uri(srcFile).IsFile && !File.Exists(srcFile))
+                        throw new Exception("701");
+
+                    temp = temp.Replace(originalSrcFile, string.Format("src=\"asset://tempImage/{0}\"", srcFile));
+                }
 
                 html = temp;
                 InsertHtmlAtCurrentPosition(html);
@@ -270,14 +284,6 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
 
             InsertPlaneAtCurrentPosition(planeText);
-
-            //Debug stuff
-            var formats = data.GetFormats();
-
-        }
-
-        private void OnCanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e) {
-            e.CanExecute = true;
         }
 
         #endregion
