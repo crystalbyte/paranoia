@@ -1934,7 +1934,7 @@
                                 </DockPanel>
                                 <ProgressBar x:Name="EnvelopeProgressBar"
                                              Height="2"
-                                             Margin="-22,0,-4,-3"
+                                             Margin="-22,0,-3,-3"
                                              HorizontalAlignment="Stretch"
                                              VerticalAlignment="Bottom"
                                              Background="Transparent"

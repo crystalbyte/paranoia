@@ -760,18 +760,21 @@ namespace Crystalbyte.Paranoia {
                 types.Remove(MailboxType.Inbox);
                 _mailbox.Type = MailboxType.Inbox;
                 IsSubscribed = true;
+                return;
             }
 
             if (mailbox.IsGmailSent || string.Compare(Name, "sent", StringComparison.InvariantCultureIgnoreCase) >= 0) {
                 types.Remove(MailboxType.Sent);
                 _mailbox.Type = MailboxType.Sent;
                 IsSubscribed = true;
+                return;
             }
 
             if (mailbox.IsGmailDraft || string.Compare(Name, "draft", StringComparison.InvariantCultureIgnoreCase) >= 0) {
                 types.Remove(MailboxType.Draft);
                 _mailbox.Type = MailboxType.Draft;
                 IsSubscribed = true;
+                return;
             }
 
             if (mailbox.IsGmailTrash || string.Compare(Name, "trash", StringComparison.InvariantCultureIgnoreCase) >= 0) {
@@ -780,12 +783,7 @@ namespace Crystalbyte.Paranoia {
                 IsSubscribed = true;
             }
         }
-
-        internal async Task BindMailboxAsync(ImapMailboxInfo mailbox) {
-            await BindMailboxAsync(mailbox, new ImapMailboxInfo[0]);
-        }
-
-        private async Task BindMailboxAsync(ImapMailboxInfo mailbox, IEnumerable<ImapMailboxInfo> subscriptions) {
+        internal async Task BindMailboxAsync(ImapMailboxInfo mailbox, IEnumerable<ImapMailboxInfo> subscriptions) {
             try {
                 // If no match has been found mailbox will be null.
                 if (mailbox == null) {
@@ -798,7 +796,7 @@ namespace Crystalbyte.Paranoia {
                     _mailbox.Name = mailbox.Fullname;
                     _mailbox.Delimiter = mailbox.Delimiter.ToString(CultureInfo.InvariantCulture);
                     _mailbox.Flags = mailbox.Flags.Aggregate((c, n) => c + ';' + n);
-                    _mailbox.IsSubscribed = subscriptions.Any(x => x.Name == mailbox.Name);
+                    _mailbox.IsSubscribed = subscriptions.Any(x => x.Name == mailbox.Name);    
 
                     await context.SaveChangesAsync();
                 }

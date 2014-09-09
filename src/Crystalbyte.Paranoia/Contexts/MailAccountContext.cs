@@ -164,7 +164,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task<List<ImapMailboxInfo>> ListSubscribedMailboxesAsync(string pattern) {
+        internal async Task<List<ImapMailboxInfo>> ListSubscribedMailboxesAsync(string pattern = "") {
             using (var connection = new ImapConnection { Security = ImapSecurity }) {
                 connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                 using (var auth = await connection.ConnectAsync(ImapHost, ImapPort)) {
@@ -184,6 +184,8 @@ namespace Crystalbyte.Paranoia {
 
                 var mailboxes = _mailboxes.ToArray();
                 var remoteMailboxes = await ListMailboxesAsync();
+                var subscribed = await ListSubscribedMailboxesAsync();
+
                 if (IsGmail) {
                     // Fetch gmail folders and assign automagically.
                     var gmail =
@@ -220,14 +222,17 @@ namespace Crystalbyte.Paranoia {
                     });
 
                     await context.InsertAsync();
-                    context.SubscribeToMostProbableType(types, mailbox);
-                    await context.BindMailboxAsync(mailbox);
+                    await context.BindMailboxAsync(mailbox, subscribed);
+
+                    if (!context.IsSubscribed && context.Type != MailboxType.Custom && context.IsSelectable) {
+                        context.IsSubscribed = true;
+                    }
 
                     await Application.Current.Dispatcher
                         .InvokeAsync(() => _mailboxes.Add(context));
                 }
 
-                Application.Current.Dispatcher.InvokeAsync(() => {
+                await Application.Current.Dispatcher.InvokeAsync(() => {
                     var inbox = _mailboxes.FirstOrDefault(x => x.IsInbox);
                     if (inbox != null) {
                         inbox.IsSelected = true;
