@@ -212,8 +212,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 var html = _webControl.ExecuteJavascriptWithResult("getEditorHtml()");
                 return html;
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Debug.WriteLine("something went wrong\n" + ex);
                 return string.Empty;
             }
@@ -243,7 +242,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             var image = data.GetData("System.Drawing.Bitmap") as Bitmap;
             if (image != null) {
-                var file = Path.GetTempFileName();
+                var file = Path.GetTempFileName() + ".jpg";
                 image.Save(file);
                 InsertHtmlAtCurrentPosition(string.Format("<img width=480 src=\"asset://tempImage/{0}\"></img>", file));
                 return;

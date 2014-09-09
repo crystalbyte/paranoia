@@ -17,6 +17,7 @@ using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
 using Crystalbyte.Paranoia.Cryptography;
+using System.Text.RegularExpressions;
 
 #endregion
 
@@ -145,10 +146,10 @@ namespace Crystalbyte.Paranoia {
 
         public async Task PushToOutboxAsync() {
             try {
-                //var account = 
-                //var messages = await CreateSmtpMessagesAsync(account);
-                //await account.SaveSmtpRequestsAsync(messages);
-                //await App.Context.NotifyOutboxNotEmpty();
+                var account = App.Context.Accounts.FirstOrDefault();
+                var messages = await CreateSmtpMessagesAsync(account);
+                await account.SaveSmtpRequestsAsync(messages);
+                await App.Context.NotifyOutboxNotEmpty();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -156,17 +157,44 @@ namespace Crystalbyte.Paranoia {
 
 
         private MailMessage CreateMailMessage(MailAccountContext account, string recipient, string content) {
-            var message = new MailMessage(
-                    new MailAddress(account.Address, account.Name),
-                    new MailAddress(recipient)) {
-                        IsBodyHtml = true,
-                        Subject = Subject,
-                        Body = string.Format("<html>{0}</html>", content),
-                        BodyEncoding = Encoding.UTF8,
-                        BodyTransferEncoding = TransferEncoding.Base64,
-                    };
+            var message = new MailMessage();
+            message.From = new MailAddress(account.Address, account.Name);
+            message.To.Add(new MailAddress(recipient));
+
+            message.IsBodyHtml = true;
+            message.Subject = Subject;
+            message.BodyEncoding = Encoding.UTF8;
+            message.BodyTransferEncoding = TransferEncoding.Base64;
+
+            message = HandleEmbeddedImages(message, content);
 
             _attachments.ForEach(x => message.Attachments.Add(new Attachment(x.FullName)));
+
+            return message;
+        }
+
+        private MailMessage HandleEmbeddedImages(MailMessage message, string content) {
+            string body = string.Format("<html>{0}</html>", content);
+
+            Regex regex = new Regex("<img (.*?)src=(.*?)>", RegexOptions.IgnoreCase);
+            var matches = regex.Matches(body);
+
+            foreach (Match x in matches) {
+                var match = Regex.Match(((Match)x).Value, "src=\"(.*?)\"");
+                var result = match.Value.Replace("src=", string.Empty).Trim(new[] { '"' }).Replace("asset://tempImage/", string.Empty);
+
+                var uri = new Uri(result, UriKind.RelativeOrAbsolute);
+                if (uri.IsFile && File.Exists(result)) {
+                    var info = new FileInfo(result);
+                    var cid = (info.Name + "@" + Guid.NewGuid()).Replace(" ", "");
+                    var attachment = new Attachment(result);
+
+                    attachment.ContentId = cid;
+                    message.Attachments.Add(attachment);
+                    body = body.Replace(match.Value, string.Format("src=\"cid:{0}\"", cid));
+                }
+            }
+            message.Body = body;
 
             return message;
         }
