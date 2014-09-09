@@ -50,19 +50,6 @@ namespace Crystalbyte.Paranoia.UI {
             if (!DesignerProperties.GetIsInDesignMode(this)) {
                 Source = WebCore.Configuration.HomeURL.ToString();
             }
-            WebCore.Initialized += (sender, e) => Dispatcher.Invoke(() => {
-                var resourceInterceptor = new ResourceInterceptor();
-                resourceInterceptor.SetCurrentMessage();
-                WebCore.ResourceInterceptor = resourceInterceptor;
-            });
-
-            this.PreviewKeyDown += (sender, args) => {
-                if (args.Key != Key.V || (Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.Control)
-                    return;
-
-                args.Handled = true;
-                PasteClipboardContent();
-            };
         }
 
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
@@ -148,6 +135,16 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         #region Class Overrides
+
+        protected override void OnPreviewKeyDown(KeyEventArgs e) {
+            base.OnPreviewKeyDown(e);
+
+            if (e.Key != Key.V || (Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.Control)
+                return;
+
+            e.Handled = true;
+            PasteClipboardContent();
+        }
 
         public override void OnApplyTemplate() {
             base.OnApplyTemplate();
