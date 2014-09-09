@@ -130,6 +130,11 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static void InitAwesomium() {
+
+            WebCore.Initialized += (sender, e) => {
+                WebCore.ResourceInterceptor = new ResourceInterceptor();
+            };
+
             // Initialization must be performed here,
             // before creating a WebControl.
             if (!WebCore.IsInitialized) {
