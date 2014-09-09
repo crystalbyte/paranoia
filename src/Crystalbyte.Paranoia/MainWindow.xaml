@@ -1824,7 +1824,7 @@
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
-                        <HierarchicalDataTemplate DataType="{x:Type paranoia:MailAccountContext}" ItemsSource="{Binding Children}">
+                        <HierarchicalDataTemplate DataType="{x:Type paranoia:MailAccountContext}" ItemsSource="{Binding Children, Mode=OneWay}">
                             <Grid>
                                 <Grid.ContextMenu>
                                     <ContextMenu>

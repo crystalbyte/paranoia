@@ -227,14 +227,13 @@ namespace Crystalbyte.Paranoia {
                         .InvokeAsync(() => _mailboxes.Add(context));
                 }
 
-                var inbox = mailboxes
-                    .FirstOrDefault(x => x.IsInbox);
-
-                if (inbox != null) {
-                    Application.Current.Dispatcher.InvokeAsync(() => {
+                Application.Current.Dispatcher.InvokeAsync(() => {
+                    var inbox = _mailboxes.FirstOrDefault(x => x.IsInbox);
+                    if (inbox != null) {
                         inbox.IsSelected = true;
-                    });
-                }
+                    }
+                });
+
             } finally {
                 App.Context.ResetStatusText();
             }
@@ -515,12 +514,6 @@ namespace Crystalbyte.Paranoia {
                 RaisePropertyChanged(() => IsTesting);
             }
         }
-
-        //public IEnumerable<MailboxContext> DockedMailboxes {
-        //    get {
-        //        return _mailboxes.Where(x => x.IsDocked || x.IsSelected).ToArray();
-        //    }
-        //}
 
         public IEnumerable<MailboxContext> Mailboxes {
             get { return _mailboxes; }

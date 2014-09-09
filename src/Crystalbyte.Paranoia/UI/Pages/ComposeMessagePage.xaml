@@ -245,8 +245,7 @@
                             RenderTransformOrigin="0.5,0.5"
                             Source="{Binding Source,
                                              Mode=TwoWay}"
-                            Visibility="Collapsed">
-            </ui:HtmlControl>
+                            Visibility="Collapsed" />
         </Border>
 
 
