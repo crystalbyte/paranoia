@@ -261,6 +261,10 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public bool IsSubscribedAndSelectable {
+            get { return IsSubscribed && IsSelectable; }
+        }
+
         public bool IsSubscribed {
             get { return _mailbox.IsSubscribed; }
             set {
@@ -269,6 +273,7 @@ namespace Crystalbyte.Paranoia {
                 }
                 _mailbox.IsSubscribed = value;
                 RaisePropertyChanged(() => IsSubscribed);
+                RaisePropertyChanged(() => IsSubscribedAndSelectable);
                 RaisePropertyChanged(() => IsListed);
 
                 if (value) {

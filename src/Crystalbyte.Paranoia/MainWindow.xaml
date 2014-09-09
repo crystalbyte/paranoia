@@ -1908,7 +1908,7 @@
                                                DockPanel.Dock="Left"
                                                Text="{Binding LocalName}">
                                         <TextBlock.Foreground>
-                                            <Binding Path="IsSubscribed">
+                                            <Binding Path="IsSubscribedAndSelectable">
                                                 <Binding.Converter>
                                                     <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
                                                 </Binding.Converter>
