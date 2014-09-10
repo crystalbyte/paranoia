@@ -54,13 +54,12 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _printCommand;
         private readonly ICommand _resetZoomCommand;
         private readonly ICommand _replyCommand;
-        private readonly ICommand _deleteCommand;
+        private readonly ICommand _deleteMessageCommand;
         private readonly ICommand _composeCommand;
         private readonly ICommand _forwardCommand;
         private readonly ICommand _restoreCommand;
         private readonly ICommand _markAsSeenCommand;
         private readonly ICommand _markAsNotSeenCommand;
-        private readonly ICommand _configAccountCommand;
         private readonly ICommand _createAccountCommand;
         private readonly ICommand _selectAccountCommand;
         private readonly ICommand _createContactCommand;
@@ -88,13 +87,13 @@ namespace Crystalbyte.Paranoia {
             _replyCommand = new ReplyCommand(this);
             _forwardCommand = new ForwardCommand(this);
             _restoreCommand = new RestoreCommand(this);
-            _deleteCommand = new DeleteMessageCommand(this);
+            _deleteMessageCommand = new DeleteMessageCommand(this);
             _composeCommand = new ComposeCommand(this);
             _markAsSeenCommand = new MarkAsSeenCommand(this);
             _markAsNotSeenCommand = new MarkAsNotSeenCommand(this);
             _deleteContactCommand = new RelayCommand(OnDeleteContact);
             _createAccountCommand = new RelayCommand(OnCreateAccount);
-            _configAccountCommand = new RelayCommand(OnConfigAccount);
+
             _createContactCommand = new RelayCommand(OnCreateContact);
             _refreshKeysCommand = new RelayCommand(OnRefreshKeys);
             _resetZoomCommand = new RelayCommand(p => Zoom = 100.0f);
@@ -219,8 +218,6 @@ namespace Crystalbyte.Paranoia {
         /// <param name="source">The message source to query.</param>
         /// <returns>Returns an async task.</returns>
         private async Task RequestMessagesAsync(IMessageSource source) {
-            Application.Current.AssertBackgroundThread();
-
             await Application.Current.Dispatcher.InvokeAsync(() => _messages.Clear());
             var messages = await source.GetMessagesAsync();
             await Application.Current.Dispatcher.InvokeAsync(() => {
@@ -237,7 +234,7 @@ namespace Crystalbyte.Paranoia {
 
         public event EventHandler MailboxSelectionChanged;
 
-        private void OnMailboxSelectionChanged() {
+        private async void OnMailboxSelectionChanged() {
             try {
                 var handler = MailboxSelectionChanged;
                 if (handler != null)
@@ -247,13 +244,13 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
-                Task.Run((Action)RefreshViewForSelectedMailbox);
+                await Task.Run(() => RefreshViewForSelectedMailbox());
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
 
-        private async void RefreshViewForSelectedMailbox() {
+        private async Task RefreshViewForSelectedMailbox() {
             await RequestMessagesAsync(SelectedMailbox);
             await SelectedMailbox.SyncMessagesAsync();
         }
@@ -331,7 +328,7 @@ namespace Crystalbyte.Paranoia {
                 handler(this, e);
         }
 
-        private async void RefreshViewChangedQueryString(string query) {
+        private async Task RefreshViewChangedQueryString(string query) {
             if (string.IsNullOrWhiteSpace(query)) {
                 await RequestMessagesAsync(SelectedMailbox);
             } else {
@@ -351,6 +348,10 @@ namespace Crystalbyte.Paranoia {
             get {
                 return _attachments;
             }
+        }
+
+        internal void ConfigureAccount(Uri uri) {
+            OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
         public bool IsPopupVisible {
@@ -472,14 +473,14 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void OnMessageFilterChanged() {
+        private async void OnMessageFilterChanged() {
             var mailbox = SelectedMailbox;
             if (mailbox == null) {
                 return;
             }
 
             mailbox.ShowAllMessages = ShowAllMessages;
-            Task.Run(() => RequestMessagesAsync(mailbox));
+            await RequestMessagesAsync(mailbox);
         }
 
         public string QueryString {
@@ -525,10 +526,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public ICommand ConfigAccountCommand {
-            get { return _configAccountCommand; }
-        }
-
         public ICommand SelectAccountCommand {
             get { return _selectAccountCommand; }
         }
@@ -569,7 +566,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public ICommand DeleteMessageCommand {
-            get { return _deleteCommand; }
+            get { return _deleteMessageCommand; }
         }
 
         public ICommand MarkAsSeenCommand {
@@ -612,15 +609,15 @@ namespace Crystalbyte.Paranoia {
 
         #endregion
 
-        private void OnQueryReceived(string text) {
-            Task.Run(() => RefreshViewChangedQueryString(text));
+        private async void OnQueryReceived(string text) {
+            await RefreshViewChangedQueryString(text);
         }
 
         private void OnAccountsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             RaisePropertyChanged(() => Accounts);
         }
 
-        private void OnMessageSelectionCommitted(EventPattern<object> obj) {
+        private async void OnMessageSelectionCommitted(EventPattern<object> obj) {
             Application.Current.AssertUIThread();
 
             ClearPreviewArea();
@@ -629,10 +626,10 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            Task.Run(() => RefreshMessageSelectionAsync(message));
+            await RefreshMessageSelectionAsync(message);
         }
 
-        private async void RefreshMessageSelectionAsync(MailMessageContext message) {
+        private async Task RefreshMessageSelectionAsync(MailMessageContext message) {
             await MarkSelectionAsSeenAsync();
             if (!await message.GetIsMimeLoadedAsync()) {
                 await message.DownloadMessageAsync();
@@ -714,9 +711,8 @@ namespace Crystalbyte.Paranoia {
             await LoadAccountsAsync();
 
             foreach (var account in Accounts) {
-                //return Task.Run(() => account.TakeOnlineAsync());
+                await account.TakeOnlineAsync();
             }
-            
 
             _outboxTimer.Start();
         }
@@ -729,13 +725,6 @@ namespace Crystalbyte.Paranoia {
 
             foreach (var account in Accounts) {
                 await account.LoadMailboxesAsync();
-            }
-        }
-
-        private void SyncAccountsAsync() {
-            foreach (var account in Accounts) {
-                var a = account;
-                Task.Run(() => a.SyncMailboxesAsync());
             }
         }
 
@@ -777,11 +766,6 @@ namespace Crystalbyte.Paranoia {
             KeyContainer = new PublicKeyCrypto();
             await KeyContainer.InitFromFileAsync(publicKey, privateKey);
             await App.Context.RunAsync();
-        }
-
-        private void OnConfigAccount(object obj) {
-            var uri = typeof(AccountDetailsPage).ToPageUri();
-            OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
         internal void CloseFlyOut() {

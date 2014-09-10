@@ -1512,13 +1512,13 @@
                 </Border>
                 <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                        <ProgressBar Height="2"
-                                     Margin="0"
-                                     HorizontalAlignment="Stretch"
-                                     Background="Transparent"
-                                     Maximum="{Binding Size}"
-                                     Minimum="0"
-                                     Value="{Binding BytesReceived}" />
+                        <ui:MetroProgressBar Height="2"
+                                             Margin="0"
+                                             HorizontalAlignment="Stretch"
+                                             Background="Transparent"
+                                             Maximum="{Binding Size}"
+                                             Minimum="0"
+                                             Value="{Binding BytesReceived}" />
 
 
                     </StackPanel>
@@ -1803,6 +1803,7 @@
                           BorderThickness="0"
                           ItemsSource="{Binding Accounts}"
                           Padding="0"
+                          ScrollViewer.CanContentScroll="False"
                           SelectedItemChanged="OnTreeViewSelectedItemChanged"
                           VirtualizingPanel.IsVirtualizing="False"
                           VirtualizingPanel.ScrollUnit="Pixel">
@@ -1840,6 +1841,22 @@
                                                 <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
                                                            Style="{StaticResource Metro.MenuHeaderTextStyle}"
                                                            Text="{x:Static properties:Resources.HideUnsubscribedMailboxes}" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <Separator Visibility="{Binding IsManagingMailboxes, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}" />
+                                        <MenuItem Command="{Binding DeleteAccountCommand}" Visibility="{Binding IsManagingMailboxes, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
+                                            <MenuItem.Header>
+                                                <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
+                                                           Style="{StaticResource Metro.MenuHeaderTextStyle}"
+                                                           Text="{x:Static properties:Resources.Delete}" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <Separator Visibility="{Binding IsManagingMailboxes, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}" />
+                                        <MenuItem Command="{Binding ConfigAccountCommand}" Visibility="{Binding IsManagingMailboxes, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
+                                            <MenuItem.Header>
+                                                <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
+                                                           Style="{StaticResource Metro.MenuHeaderTextStyle}"
+                                                           Text="{x:Static properties:Resources.Properties}" />
                                             </MenuItem.Header>
                                         </MenuItem>
                                     </ContextMenu>
@@ -1932,18 +1949,18 @@
                                         </TextBlock>
                                     </Border>
                                 </DockPanel>
-                                <ProgressBar x:Name="EnvelopeProgressBar"
-                                             Height="2"
-                                             Margin="-22,0,-3,-3"
-                                             HorizontalAlignment="Stretch"
-                                             VerticalAlignment="Bottom"
-                                             Background="Transparent"
-                                             Maximum="{Binding TotalEnvelopeCount}"
-                                             Minimum="0"
-                                             Visibility="{Binding Value,
-                                                                  RelativeSource={RelativeSource Self},
-                                                                  Converter={StaticResource QuantityToVisibilityConverter}}"
-                                             Value="{Binding FetchedEnvelopeCount}" />
+                                <ui:MetroProgressBar x:Name="EnvelopeProgressBar"
+                                                     Height="2"
+                                                     Margin="-22,0,-3,-3"
+                                                     HorizontalAlignment="Stretch"
+                                                     VerticalAlignment="Bottom"
+                                                     Background="Transparent"
+                                                     Maximum="{Binding TotalEnvelopeCount}"
+                                                     Minimum="0"
+                                                     Visibility="{Binding Value,
+                                                                          RelativeSource={RelativeSource Self},
+                                                                          Converter={StaticResource QuantityToVisibilityConverter}}"
+                                                     Value="{Binding FetchedEnvelopeCount}" />
                             </Grid>
                             <HierarchicalDataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
@@ -1957,6 +1974,7 @@
                         <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="{x:Type TreeViewItem}">
                             <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
                             <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                             <Setter Property="Visibility" Value="{Binding IsListed, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
                             <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                         </Style>

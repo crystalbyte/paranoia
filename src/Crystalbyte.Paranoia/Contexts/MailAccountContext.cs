@@ -16,7 +16,9 @@ using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Net;
 using Crystalbyte.Paranoia.Properties;
+using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
+using Crystalbyte.Paranoia.UI.Pages;
 using Newtonsoft.Json;
 using MailMessage = System.Net.Mail.MailMessage;
 using NLog;
@@ -43,6 +45,8 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _selectMailboxCommand;
         private readonly ICommand _testSettingsCommand;
         private readonly ICommand _registerCommand;
+        private readonly ICommand _deleteAccountCommand;
+        private readonly ICommand _configAccountCommand;
         private readonly ICommand _showUnsubscribedMailboxesCommand;
         private readonly ICommand _hideUnsubscribedMailboxesCommand;
         private readonly OutboxContext _outbox;
@@ -62,12 +66,19 @@ namespace Crystalbyte.Paranoia {
             _selectMailboxCommand = new RelayCommand(OnSelectMailbox);
             _listMailboxesCommand = new RelayCommand(OnListMailboxes);
             _testSettingsCommand = new RelayCommand(OnTestSettings);
+            _configAccountCommand = new RelayCommand(OnConfigAccount);
             _showUnsubscribedMailboxesCommand = new RelayCommand(OnShowUnsubscribedMailboxes);
             _hideUnsubscribedMailboxesCommand = new RelayCommand(OnHideUnsubscribedMailboxes);
             _isAutoDetectPreferred = true;
             _mailboxes = new ObservableCollection<MailboxContext>();
             _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Mailboxes);
             _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Children);
+        }
+
+        private void OnConfigAccount(object obj) {
+            var args = string.Format("?mode=edit&id={0}", Id);
+            var uri = typeof(AccountDetailsPage).ToPageUri(args);
+            App.Context.ConfigureAccount(uri);
         }
 
         private void OnHideUnsubscribedMailboxes(object obj) {
@@ -78,6 +89,7 @@ namespace Crystalbyte.Paranoia {
         private void OnShowUnsubscribedMailboxes(object obj) {
             IsManagingMailboxes = true;
             Mailboxes.ForEach(x => x.IsEditing = true);
+            IsExpanded = true;
         }
 
         #endregion
@@ -102,6 +114,10 @@ namespace Crystalbyte.Paranoia {
             get { return _registerCommand; }
         }
 
+        public ICommand ConfigAccountCommand {
+            get { return _configAccountCommand; }
+        }
+
         public ICommand TestSettingsCommand {
             get { return _testSettingsCommand; }
         }
@@ -113,6 +129,11 @@ namespace Crystalbyte.Paranoia {
         public ICommand ListMailboxesCommand {
             get { return _listMailboxesCommand; }
         }
+
+        public ICommand DeleteAccountCommand {
+            get { return _deleteAccountCommand; }
+        }
+
         public ICommand HideUnsubscribedMailboxesCommand {
             get { return _hideUnsubscribedMailboxesCommand; }
         }
@@ -133,6 +154,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task TakeOnlineAsync() {
+            Application.Current.AssertUIThread();
+
             try {
                 await SyncMailboxesAsync();
 
@@ -177,7 +200,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task SyncMailboxesAsync() {
-            Application.Current.AssertBackgroundThread();
+            Application.Current.AssertUIThread();
 
             try {
                 App.Context.StatusText = Resources.SyncMailboxesStatus;
@@ -264,10 +287,8 @@ namespace Crystalbyte.Paranoia {
             _mailboxes.AddRange(mailboxes
                 .Select(x => new MailboxContext(this, x)));
 
-            await Task.Run(() => {
-                var tasks = _mailboxes.Select(x => x.CountNotSeenAsync());
-                Task.WhenAll(tasks);
-            });
+            var tasks = _mailboxes.Select(x => x.CountNotSeenAsync());
+            await Task.WhenAll(tasks);
 
             var inbox = _mailboxes.FirstOrDefault(x => x.Type == MailboxType.Inbox);
             if (inbox != null) {

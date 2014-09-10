@@ -486,7 +486,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hide unsubscribed mailboxes.
+        ///   Looks up a localized string similar to Accept.
         /// </summary>
         public static string HideUnsubscribedMailboxes {
             get {
@@ -712,6 +712,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Properties.
+        /// </summary>
+        public static string Properties {
+            get {
+                return ResourceManager.GetString("Properties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ready.
         /// </summary>
         public static string ReadyStatus {
@@ -865,7 +874,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change mailbox subscriptions.
+        ///   Looks up a localized string similar to Manage.
         /// </summary>
         public static string ShowUnsubscribedMailboxes {
             get {

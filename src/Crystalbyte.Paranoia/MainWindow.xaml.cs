@@ -221,7 +221,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
         
-        private void OnTreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
+        private async void OnTreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
             var tree = (TreeView) sender;
             var value = tree.SelectedValue;
 
@@ -235,7 +235,7 @@ namespace Crystalbyte.Paranoia {
                 return;
 
             if (!account.IsOnline) {
-                Task.Run(() => account.TakeOnlineAsync());
+                await account.TakeOnlineAsync();
             }
         }
 

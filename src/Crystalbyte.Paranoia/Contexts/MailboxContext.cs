@@ -415,8 +415,6 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task SyncMessagesAsync() {
-            Application.Current.AssertBackgroundThread();
-
             try {
                 if (IsSyncingMessages) {
                     return;
@@ -444,6 +442,7 @@ namespace Crystalbyte.Paranoia {
 
                 if (messages.Count == 0) {
                     FetchedEnvelopeCount = 0;
+                    IsSyncingMessages = false;
                     return;
                 }
 
@@ -457,15 +456,17 @@ namespace Crystalbyte.Paranoia {
 
                 await Application.Current.Dispatcher.InvokeAsync(() => {
                     App.Context.NotifyMessagesAdded(contexts);
-                    if (!IsInbox || contexts.Length <= 0)
+                    if (IsInbox && contexts.Length > 0) 
                         return;
 
                     var notification = new NotificationWindow(contexts);
                     notification.Show();
                 });
-            } finally {
-                IsSyncingMessages = false;
+            } catch (Exception ex) {
+                Logger.Error(ex.ToString());
             }
+
+            IsSyncingMessages = false;
         }
 
         public int TotalEnvelopeCount {
@@ -730,8 +731,6 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task CountNotSeenAsync() {
-            Application.Current.AssertBackgroundThread();
-
             using (var context = new DatabaseContext()) {
                 NotSeenCount = await context.MailMessages
                     .Where(x => x.Type == MailType.Message)
@@ -801,7 +800,7 @@ namespace Crystalbyte.Paranoia {
                     _mailbox.Name = mailbox.Fullname;
                     _mailbox.Delimiter = mailbox.Delimiter.ToString(CultureInfo.InvariantCulture);
                     _mailbox.Flags = mailbox.Flags.Aggregate((c, n) => c + ';' + n);
-                    _mailbox.IsSubscribed = subscriptions.Any(x => x.Name == mailbox.Name);    
+                    _mailbox.IsSubscribed = subscriptions.Any(x => x.Name == mailbox.Name);
 
                     await context.SaveChangesAsync();
                 }
@@ -914,20 +913,16 @@ namespace Crystalbyte.Paranoia {
         #region Implementation of IMessageSource
 
         public async Task<IEnumerable<MailMessageContext>> GetMessagesAsync() {
-            Application.Current.AssertBackgroundThread();
-
             IsLoadingMessages = true;
 
             IEnumerable<MailMessageModel> messages;
-
             using (var context = new DatabaseContext()) {
                 if (ShowAllMessages) {
                     messages = await context.MailMessages
                         .Where(x => x.Type == MailType.Message)
                         .Where(x => x.MailboxId == _mailbox.Id)
                         .ToArrayAsync();
-                }
-                else {
+                } else {
                     messages = await context.MailMessages
                         .Where(x => x.Type == MailType.Message)
                         .Where(x => !x.Flags.Contains(MailboxFlags.Seen))
@@ -952,7 +947,7 @@ namespace Crystalbyte.Paranoia {
         /// Moves messages from the trash mailbox back to the inbox.
         /// </summary>
         /// <param name="messages">The messages to move.</param>
-        internal async void RestoreMessagesAsync(IList<MailMessageContext> messages) {
+        internal async Task RestoreMessagesAsync(IList<MailMessageContext> messages) {
             try {
                 if (messages.Count < 1) {
                     return;

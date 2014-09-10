@@ -1,6 +1,7 @@
 ﻿#region Using directives
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -100,15 +101,15 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
         public void OnNavigated(NavigationEventArgs e) {
             var arguments = e.Uri.OriginalString.ToPageArguments();
-            MailAccountContext account = App.Context.TransitAccount;
 
-            //if (arguments.ContainsKey("mode") && arguments["mode"] == "new") {
-            //    _isAccountInTransit = true;
-            //    account = ;
-            //}
-            //else {
-            //    //account = App.Context.SelectedAccount;
-            //}
+            MailAccountContext account;
+            if (arguments.ContainsKey("mode") && arguments["mode"] == "new") {
+                _isAccountInTransit = true;
+                account = App.Context.TransitAccount;
+            }
+            else {
+                account = App.Context.Accounts.First(x => x.Id == long.Parse(arguments["id"]));
+            }
 
             _discardOnClose = true;
             _tracker = new RevisionTracker<MailAccountContext>(account)
