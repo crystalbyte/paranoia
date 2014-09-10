@@ -19,6 +19,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     box-shadow: 0 0 3px rgba(0,0,0,.15);
 }
 
+body {
+    padding: 0;
+    margin: 0;
+}
+
 .cke_dialog strong {
     font-weight: bold;
 }
