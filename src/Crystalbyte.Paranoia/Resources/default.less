@@ -1,0 +1,62 @@
+﻿@background-color: %Metro.ControlDarkBackgroundColor%;
+@normal-text-color: %Metro.NormalTextColor%;
+@scrollbar-thumb-color: %Metro.ControlBackgroundColor%;
+@scrollbar-thumb-hover-color: %Metro.HoverColor%;
+@scrollbar-thumb-drag-color: %Metro.ScrollViewerDragColor%;
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.default-text {
+    font-size: medium;
+    color: @normal-text-color;
+    background-color: @background-color;
+}
+
+html {
+    .default-text;
+}
+
+body {
+    .default-text;
+    padding: 6px;
+}
+
+::-webkit-scrollbar {
+    background-color: @background-color;
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+::-webkit-scrollbar-track {
+    background-color: @background-color;
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: @background-color;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: @scrollbar-thumb-color;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: @scrollbar-thumb-hover-color;
+    }
+
+    ::-webkit-scrollbar-thumb:active {
+        background-color: @scrollbar-thumb-drag-color;
+    }
+
+::-webkit-scrollbar-corner {
+    background-color: @background-color;
+}
+
+::-webkit-resizer {
+    background-color: @background-color;
+}

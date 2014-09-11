@@ -3,15 +3,11 @@
                     xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties">
 
     <Style TargetType="TextBox">
-        <Setter Property="FontSize"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalFontSize}}" />
-        <Setter Property="BorderBrush"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBorderBrush}}" />
-        <Setter Property="Background"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBackgroundBrush}}" />
+        <Setter Property="FontSize" Value="{DynamicResource Metro.NormalFontSize}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
+        <Setter Property="Background" Value="{DynamicResource Metro.ControlBackgroundBrush}" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Foreground"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
         <Setter Property="Padding" Value="3" />
         <Setter Property="Margin" Value="0,3,0,3" />
         <Setter Property="Template">
@@ -32,12 +28,10 @@
                             <Setter TargetName="border" Property="Opacity" Value="0.56" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush"
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBorderBrush}}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush"
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.AccentBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -45,8 +39,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="Validation.HasError" Value="True">
-                <Setter Property="ToolTip"
-                        Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
+                <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
             </Trigger>
         </Style.Triggers>
     </Style>

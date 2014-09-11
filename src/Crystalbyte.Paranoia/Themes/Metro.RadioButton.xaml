@@ -22,9 +22,9 @@
 
     <Style TargetType="{x:Type RadioButton}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}" />
-        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBackgroundBrush}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBorderBrush}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+        <Setter Property="Background" Value="{DynamicResource Metro.ControlBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Margin" Value="0,3,0,3" />
@@ -58,8 +58,7 @@
                                 <Rectangle x:Name="optionMark"
                                            HorizontalAlignment="Stretch"
                                            VerticalAlignment="Stretch"
-                                           Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                        Metro.AccentBrush}}"
+                                           Fill="{DynamicResource Metro.AccentBrush}"
                                            RenderOptions.EdgeMode="Aliased"
                                            Visibility="{Binding IsChecked,
                                                                 RelativeSource={RelativeSource TemplatedParent},
@@ -80,13 +79,13 @@
                             <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
+                            <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource Metro.AccentBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.HoverBrush}}" />
+                            <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource Metro.HoverBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
+                            <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource Metro.DisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -97,11 +96,11 @@
     <Style x:Key="Metro.TextRadioButtonStyle" TargetType="{x:Type RadioButton}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBorderBrush}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="FontWeight" Value="Thin" />
-        <Setter Property="FontSize" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.MediumLargeFontSize}}" />
+        <Setter Property="FontSize" Value="{DynamicResource Metro.MediumLargeFontSize}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Margin" Value="3,3,3,3" />
         <Setter Property="BorderThickness" Value="0" />
@@ -119,13 +118,13 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
+                            <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource Metro.AccentBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" />
+                            <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource Metro.SecondaryTextBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
+                            <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource Metro.DisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

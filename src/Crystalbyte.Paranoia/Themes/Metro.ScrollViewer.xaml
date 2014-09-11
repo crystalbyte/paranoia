@@ -102,15 +102,14 @@
                     <Rectangle x:Name="rectangle"
                                Width="{TemplateBinding Width}"
                                Height="{TemplateBinding Height}"
-                               Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            Metro.ControlBackgroundBrush}}"
+                               Fill="{DynamicResource Metro.ControlBackgroundBrush}"
                                SnapsToDevicePixels="True" />
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.HoverBrush}}" />
+                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.HoverBrush}" />
                         </Trigger>
                         <Trigger Property="IsDragging" Value="true">
-                            <Setter TargetName="rectangle" Property="Fill" Value="{StaticResource ScrollBar.Pressed.Background}" />
+                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.ScrollViewerDragBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -127,15 +126,14 @@
                     <Rectangle x:Name="rectangle"
                                Width="{TemplateBinding Width}"
                                Height="{TemplateBinding Height}"
-                               Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            Metro.ControlBackgroundBrush}}"
+                               Fill="{DynamicResource Metro.ControlBackgroundBrush}"
                                SnapsToDevicePixels="True" />
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.HoverBrush}}" />
+                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.HoverBrush}" />
                         </Trigger>
                         <Trigger Property="IsDragging" Value="true">
-                            <Setter TargetName="rectangle" Property="Fill" Value="{StaticResource ScrollBar.Pressed.Background}" />
+                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.ScrollViewerDragBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -248,7 +246,7 @@
                 <Setter Property="MinWidth" Value="0" />
                 <Setter Property="Height" Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}}" />
                 <Setter Property="MinHeight" Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}}" />
-                <Setter Property="BorderThickness" Value="0,1" />
+                <Setter Property="BorderThickness" Value="0" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ScrollBar}">
@@ -266,7 +264,8 @@
                                               Grid.Column="0"
                                               Command="{x:Static ScrollBar.LineLeftCommand}"
                                               IsEnabled="{TemplateBinding IsMouseOver}"
-                                              Style="{StaticResource ScrollBarButton}">
+                                              Style="{StaticResource ScrollBarButton}"
+                                              Visibility="Collapsed">
                                     <Path x:Name="ArrowLeft"
                                           Margin="3"
                                           Data="M 3.18,7 C3.18,7 5,7 5,7 5,7 1.81,3.5 1.81,3.5 1.81,3.5 5,0 5,0 5,0 3.18,0 3.18,0 3.18,0 0,3.5 0,3.5 0,3.5 3.18,7 3.18,7 z"
@@ -274,7 +273,8 @@
                                           Stretch="Uniform" />
                                 </RepeatButton>
                                 <Track x:Name="PART_Track"
-                                       Grid.Column="1"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="3"
                                        IsEnabled="{TemplateBinding IsMouseOver}">
                                     <Track.DecreaseRepeatButton>
                                         <RepeatButton Command="{x:Static ScrollBar.PageLeftCommand}" Style="{StaticResource RepeatButtonTransparent}" />
@@ -290,7 +290,8 @@
                                               Grid.Column="2"
                                               Command="{x:Static ScrollBar.LineRightCommand}"
                                               IsEnabled="{TemplateBinding IsMouseOver}"
-                                              Style="{StaticResource ScrollBarButton}">
+                                              Style="{StaticResource ScrollBarButton}"
+                                              Visibility="Collapsed">
                                     <Path x:Name="ArrowRight"
                                           Margin="3"
                                           Data="M 1.81,7 C1.81,7 0,7 0,7 0,7 3.18,3.5 3.18,3.5 3.18,3.5 0,0 0,0 0,0 1.81,0 1.81,0 1.81,0 5,3.5 5,3.5 5,3.5 1.81,7 1.81,7 z"
@@ -355,7 +356,7 @@
                         <Rectangle x:Name="Corner"
                                    Grid.Row="1"
                                    Grid.Column="1"
-                                   Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+                                   Fill="Transparent" />
                         <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
                                                 Grid.Row="0"
                                                 Grid.Column="0"

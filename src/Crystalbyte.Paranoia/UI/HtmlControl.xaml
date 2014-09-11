@@ -13,7 +13,9 @@
         <awe:WebSessionProvider.DataSources>
             <ui:ParanoiaDataSourceProvider x:Key="paranoia" />
         </awe:WebSessionProvider.DataSources>
-        <core:WebPreferences Javascript="True"
+        <core:WebPreferences CustomCSS="{x:Static ui:HtmlControl.CustomCss}"
+                             EnableGPUAcceleration="True"
+                             Javascript="True"
                              ShrinkStandaloneImagesToFit="True"
                              SmoothScrolling="True" />
     </awe:WebSessionProvider>
@@ -26,10 +28,10 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBorderBrush}}" />
-        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBackgroundBrush}}" />
-        <Setter Property="Margin" Value="0"/>
-        <Setter Property="Padding" Value="0"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
+        <Setter Property="Background" Value="{DynamicResource Metro.ControlBackgroundBrush}" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:HtmlControl">
@@ -64,7 +66,7 @@
                 <Setter Property="Opacity" Value="0.56" />
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource Metro.AccentBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>

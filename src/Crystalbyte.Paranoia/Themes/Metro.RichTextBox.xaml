@@ -3,14 +3,10 @@
                     xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties">
 
     <Style TargetType="RichTextBox">
-        <Setter Property="BorderBrush"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBorderBrush}}" />
-        <Setter Property="Foreground"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
         <Setter Property="Padding" Value="0,2,0,2" />
         <Setter Property="Margin" Value="0,3,0,3" />
-        <Setter Property="FontSize"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, AppNormalFontSize}}" />
         <Setter Property="FontWeight" Value="Thin" />
     </Style>
 

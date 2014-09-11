@@ -47,10 +47,8 @@
                 <TranslateTransform />
             </TransformGroup>
         </Grid.RenderTransform>
-        <Border Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                   Metro.MenuBackgroundBrush}}"
-                BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                    Metro.ControlBorderBrush}}"
+        <Border Background="{DynamicResource Metro.MenuBackgroundBrush}"
+                BorderBrush="{DynamicResource Metro.ControlBorderBrush}"
                 BorderThickness="2">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -76,20 +74,18 @@
                            Grid.Column="1"
                            Margin="0"
                            VerticalAlignment="Bottom"
-                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            Metro.MediumLargeFontSize}}"
+                           FontSize="{DynamicResource Metro.MediumLargeFontSize}"
                            FontWeight="Normal"
-                           Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                         Metro.TitleTextStyle}}"
+                           TextTrimming="CharacterEllipsis"
+                           TextWrapping="NoWrap"
+                           Style="{DynamicResource Metro.TitleTextStyle}"
                            Text="{Binding FromName}" />
                 <TextBlock Grid.Row="1"
                            Grid.Column="1"
                            VerticalAlignment="Top"
-                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            Metro.NormalFontSize}}"
+                           FontSize="{DynamicResource Metro.NormalFontSize}"
                            FontWeight="Normal"
-                           Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                         Metro.SubtitleTextStyle}}"
+                           Style="{DynamicResource Metro.SubtitleTextStyle}"
                            Text="{Binding Subject}"
                            TextTrimming="CharacterEllipsis"
                            TextWrapping="NoWrap" />

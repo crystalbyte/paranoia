@@ -12,6 +12,9 @@ using Awesomium.Windows.Controls;
 using Crystalbyte.Paranoia.Properties;
 using System.Text.RegularExpressions;
 using System.IO;
+using dotless.Core;
+using NLog;
+using Color = System.Windows.Media.Color;
 using FontFamily = System.Windows.Media.FontFamily;
 
 #endregion
@@ -207,6 +210,36 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         #endregion
+
+        public static string CustomCss {
+            get {
+                var uri = new Uri("/Resources/default.less", UriKind.Relative);
+                var info = Application.GetResourceStream(uri);
+                if (info == null) {
+                    var error = string.Format(Properties.Resources.ResourceNotFoundException, uri, typeof(App).Assembly.FullName);
+                    throw new Exception(error);
+                }
+
+
+                string less;
+                const string pattern = "%.+?%";
+                using (var reader = new StreamReader(info.Stream)) {
+                    var text = reader.ReadToEnd();
+                    less = Regex.Replace(text, pattern, m => {
+                        var key = m.Value.Trim('%');
+                        var resource = App.ThemeDictionary[key];
+                        if (resource == null) {
+                            return "fuchsia";
+                        }
+                        // Drop the alpha channel.
+                        return string.Format("#{0}",
+                            resource.ToString().Substring(3));
+                    });
+                }
+
+                return Less.Parse(less);
+            }
+        }
 
         internal string GetEditorDocument() {
             try {

@@ -11,8 +11,7 @@
                     <Rectangle Height="1"
                                Margin="20,0,0,0"
                                HorizontalAlignment="Stretch"
-                               Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            Metro.ControlBorderBrush}}"
+                               Fill="{DynamicResource Metro.ControlBorderBrush}"
                                RenderOptions.EdgeMode="Aliased"
                                StrokeThickness="0" />
                 </ControlTemplate>
@@ -35,10 +34,8 @@
                        Placement="Bottom"
                        PopupAnimation="Fade">
                     <Border Name="SubmenuBorder"
-                            Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                               Metro.MenuBackgroundBrush}}"
-                            BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                Metro.ControlBorderBrush}}"
+                            Background="{DynamicResource Metro.MenuBackgroundBrush}"
+                            BorderBrush="{DynamicResource Metro.ControlBorderBrush}"
                             BorderThickness="1"
                             SnapsToDevicePixels="True">
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
@@ -51,14 +48,14 @@
                 <Setter TargetName="Popup" Property="PopupAnimation" Value="None" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Metro.NormalTextBrush}" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
             </Trigger>
             <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,0,0,3" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
+                <Setter Property="Foreground" Value="{DynamicResource Metro.DisabledBrush}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -75,11 +72,11 @@
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Metro.NormalTextBrush}" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
+                <Setter Property="Foreground" Value="{DynamicResource Metro.DisabledBrush}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -104,10 +101,8 @@
                         Width="13"
                         Height="13"
                         Margin="6,0,6,0"
-                        Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                           Metro.NormalTextBrush}}"
-                        BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            Metro.ControlBorderBrush}}"
+                        Background="{DynamicResource Metro.NormalTextBrush}"
+                        BorderBrush="{DynamicResource Metro.ControlBorderBrush}"
                         BorderThickness="1"
                         Visibility="Collapsed">
                     <Path Name="CheckMark"
@@ -115,8 +110,7 @@
                           Height="7"
                           Data="M 0 0 L 7 7 M 0 7 L 7 0"
                           SnapsToDevicePixels="False"
-                          Stroke="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                         Metro.DisabledBrush}}"
+                          Stroke="{DynamicResource Metro.DisabledBrush}"
                           StrokeThickness="2"
                           Visibility="Hidden" />
                 </Border>
@@ -143,10 +137,10 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.HoverBrush}}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Metro.HoverBrush}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
+                <Setter Property="Foreground" Value="{DynamicResource Metro.DisabledBrush}" />
                 <Setter TargetName="Icon" Property="Opacity" Value=".3" />
             </Trigger>
         </ControlTemplate.Triggers>
@@ -181,8 +175,7 @@
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
                       Data="M 0 0 L 0 7 L 4 3.5 Z"
-                      Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                   Metro.NormalTextBrush}}" />
+                      Fill="{DynamicResource Metro.NormalTextBrush}" />
                 <Popup Name="Popup"
                        Grid.Column="0"
                        AllowsTransparency="True"
@@ -192,10 +185,8 @@
                        Placement="Right"
                        PopupAnimation="Fade">
                     <Border Name="SubmenuBorder"
-                            Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                               Metro.MenuBackgroundBrush}}"
-                            BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                AppMenuBorderBrush}}"
+                            Background="{DynamicResource Metro.MenuBackgroundBrush}"
+                            BorderBrush="{DynamicResource Metro.ControlBorderBrush}"
                             BorderThickness="1"
                             SnapsToDevicePixels="True">
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
@@ -208,14 +199,14 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.HoverBrush}}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Metro.HoverBrush}" />
             </Trigger>
             <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="4" />
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
+                <Setter Property="Foreground" Value="{DynamicResource Metro.DisabledBrush}" />
                 <Setter TargetName="Icon" Property="Opacity" Value=".3" />
             </Trigger>
         </ControlTemplate.Triggers>
@@ -254,10 +245,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ContextMenu">
                     <Border x:Name="Border"
-                            Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                               Metro.MenuBackgroundBrush}}"
-                            BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                Metro.ControlBorderBrush}}"
+                            Background="{DynamicResource Metro.MenuBackgroundBrush}"
+                            BorderBrush="{DynamicResource Metro.ControlBorderBrush}"
                             BorderThickness="1">
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                     </Border>

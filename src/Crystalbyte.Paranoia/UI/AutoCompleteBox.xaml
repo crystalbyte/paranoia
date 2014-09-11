@@ -4,15 +4,11 @@
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
     <Style TargetType="ui:AutoCompleteBox">
-        <Setter Property="SelectionBrush"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource Metro.AccentBrush}" />
         <Setter Property="SelectionOpacity" Value="0.4" />
-        <Setter Property="Background"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBackgroundBrush}}" />
-        <Setter Property="Foreground"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
-        <Setter Property="BorderBrush"
-                Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBorderBrush}}" />
+        <Setter Property="Background" Value="{DynamicResource Metro.ControlBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -49,8 +45,7 @@
                                               MinWidth="300"
                                               MinHeight="150"
                                               Margin="1"
-                                              Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                 Metro.MenuBackgroundBrush}}"
+                                              Background="{DynamicResource Metro.MenuBackgroundBrush}"
                                               BorderThickness="0"
                                               Focusable="False"
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
@@ -71,8 +66,7 @@
                             <Setter TargetName="border" Property="Opacity" Value="0.56" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush"
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.AccentBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -80,8 +74,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="Validation.HasError" Value="True">
-                <Setter Property="ToolTip"
-                        Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
+                <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
             </Trigger>
         </Style.Triggers>
     </Style>

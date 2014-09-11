@@ -2,7 +2,6 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
-             xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
              StartupUri="MainWindow.xaml">
     <!--  Default styles: http://msdn.microsoft.com/en-us/library/aa970773.aspx  -->
     <Application.Resources>
@@ -51,17 +50,6 @@
                 <Setter Property="SnapsToDevicePixels" Value="True" />
                 <Setter Property="Stretch" Value="Uniform" />
             </Style>
-
-            <Style x:Key="AppSecurityImageStyle" TargetType="Image">
-                <Setter Property="Margin" Value="6,0,6,0" />
-                <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />
-                <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
-                <Setter Property="Width" Value="16" />
-                <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="SnapsToDevicePixels" Value="True" />
-                <Setter Property="Stretch" Value="Uniform" />
-            </Style>
-
 
 
         </ResourceDictionary>

@@ -125,8 +125,7 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <ToggleButton x:Name="ToggleButton"
-                                      Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                         Metro.ControlBorderBrush}}"
+                                      Background="{DynamicResource Metro.ControlBorderBrush}"
                                       ClickMode="Press"
                                       Focusable="False"
                                       IsChecked="{Binding IsDropDownOpen,
@@ -182,7 +181,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsKeyboardFocusWithin" Value="true">
-                            <Setter TargetName="ToggleButton" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
+                            <Setter TargetName="ToggleButton" Property="BorderBrush" Value="{DynamicResource Metro.AccentBrush}" />
                         </Trigger>
                         <Trigger Property="HasItems" Value="false">
                             <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />

@@ -163,8 +163,7 @@
             <TextBlock Margin="0,-2,0,0"
                        VerticalAlignment="Center"
                        FontSize="17"
-                       Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     Metro.TitleTextStyle}}"
+                       Style="{DynamicResource Metro.TitleTextStyle}"
                        Text="{Binding Title,
                                       RelativeSource={RelativeSource FindAncestor,
                                                                      AncestorType=paranoia:MainWindow}}" />
@@ -240,23 +239,21 @@
                     <!--  close button  -->
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, HelpButtonStyle}}" />
-                <Button Grid.Column="1" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, MinimizeButtonStyle}}" />
+                <Button Grid.Column="0" Style="{DynamicResource Metro.HelpButtonStyle}" />
+                <Button Grid.Column="1" Style="{DynamicResource Metro.MinimizeButtonStyle}" />
                 <Button Grid.Column="2"
-                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                      MaximizeButtonStyle}}"
+                        Style="{DynamicResource Metro.MaximizeButtonStyle}"
                         Visibility="{Binding IsNormalized,
                                              Converter={StaticResource BooleanToVisibilityConverter},
                                              RelativeSource={RelativeSource FindAncestor,
                                                                             AncestorType=paranoia:MainWindow}}" />
                 <Button Grid.Column="3"
-                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                      RestoreDownButtonStyle}}"
+                        Style="{DynamicResource Metro.RestoreDownButtonStyle}"
                         Visibility="{Binding IsMaximized,
                                              Converter={StaticResource BooleanToVisibilityConverter},
                                              RelativeSource={RelativeSource FindAncestor,
                                                                             AncestorType=paranoia:MainWindow}}" />
-                <Button Grid.Column="4" Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, CloseButtonStyle}}" />
+                <Button Grid.Column="4" Style="{DynamicResource Metro.CloseButtonStyle}" />
             </Grid>
         </DockPanel>
 
@@ -296,14 +293,11 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid Grid.ColumnSpan="2"
-                  Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                     Metro.ShadowBrush}}"
-                  Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                  Metro.ShadowOpacity}}" />
+                  Background="{DynamicResource Metro.ShadowBrush}"
+                  Opacity="{DynamicResource Metro.ShadowOpacity}" />
             <Border x:Name="Flyout"
                     Grid.Column="1"
-                    Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                       Metro.FlyoutBackgroundBrush}}"
+                    Background="{DynamicResource Metro.FlyoutBackgroundBrush}"
                     Padding="24">
                 <Border.RenderTransform>
                     <TransformGroup>
@@ -347,8 +341,7 @@
                                                          ElementName=FlyOutFrame}"
                                    Padding="0,0,0,2"
                                    RenderTransformOrigin="0.5,0.5"
-                                   Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                 Metro.TitleTextStyle}}"
+                                   Style="{DynamicResource Metro.TitleTextStyle}"
                                    Text="{Binding Title}"
                                    d:DataContext="{d:DesignInstance Page}">
                             <TextBlock.RenderTransform>
@@ -420,12 +413,10 @@
                         Content="{Binding Zoom,
                                           Mode=OneWay,
                                           Converter={StaticResource PercentageFormatter}}"
-                        Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                           Metro.NormalTextBrush}}"
+                        Foreground="{DynamicResource Metro.NormalTextBrush}"
                         IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
-                        Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                      Metro.StatusBarButtonStyle}}" />
+                        Style="{DynamicResource Metro.StatusBarButtonStyle}" />
             </StatusBarItem>
         </StatusBar>
         <Grid Grid.Row="0"
@@ -438,22 +429,16 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Rectangle Grid.Row="0"
-                       Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                    Metro.ShadowBrush}}"
-                       Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                       Metro.ShadowOpacity}}"
+                       Fill="{DynamicResource Metro.ShadowBrush}"
+                       Opacity="{DynamicResource Metro.ShadowOpacity}"
                        RenderOptions.EdgeMode="Aliased" />
             <Rectangle Grid.Row="2"
-                       Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                    Metro.ShadowBrush}}"
-                       Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                       Metro.ShadowOpacity}}"
+                       Fill="{DynamicResource Metro.ShadowBrush}"
+                       Opacity="{DynamicResource Metro.ShadowOpacity}"
                        RenderOptions.EdgeMode="Aliased" />
             <Border Grid.Row="1"
-                    Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                       Metro.FlyoutBackgroundBrush}}"
-                    BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                        Metro.AccentBrush}}"
+                    Background="{DynamicResource Metro.FlyoutBackgroundBrush}"
+                    BorderBrush="{DynamicResource Metro.AccentBrush}"
                     BorderThickness="0"
                     Padding="0,24,0,24">
                 <Grid Width="600" HorizontalAlignment="Center">
@@ -466,8 +451,7 @@
                                DataContext="{Binding Content,
                                                      ElementName=PopupFrame}"
                                Padding="0,0,0,2"
-                               Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                             Metro.TitleTextStyle}}"
+                               Style="{DynamicResource Metro.TitleTextStyle}"
                                Text="{Binding Title}"
                                d:DataContext="{d:DesignInstance Page}" />
                     <Frame x:Name="PopupFrame"

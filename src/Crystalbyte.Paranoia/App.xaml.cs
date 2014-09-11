@@ -23,16 +23,12 @@ namespace Crystalbyte.Paranoia {
     public partial class App {
         public static readonly string Name = "Paranoia";
 
-        public App() {
-            //MessagePool = new MessagePool();
-        }
-
         [Import]
         public static AppContext Context { get; set; }
 
         internal static CompositionHost Composition { get; private set; }
 
-        //internal static MessagePool MessagePool { get; private set; }
+        public static ResourceDictionary ThemeDictionary { get; set; }
 
 #if DEBUG
         protected async override void OnStartup(StartupEventArgs e) {
@@ -158,6 +154,10 @@ namespace Crystalbyte.Paranoia {
 
             var directory = Environment.ExpandEnvironmentVariables(location);
             AppDomain.CurrentDomain.SetData("DataDirectory", directory);
+
+            ThemeDictionary = new ResourceDictionary {
+                Source = new Uri("/Themes/Metro.Resources.xaml", UriKind.Relative)
+            };
         }
 
         private void Compose() {

@@ -496,6 +496,7 @@
     <None Include="Resources\ckeditor\samples\sample_posteddata.php" />
     <None Include="Resources\ckeditor\skins\moono-dark\readme.md" />
     <None Include="Resources\ckeditor\skins\moono\readme.md" />
+    <Resource Include="Resources\default.less" />
     <None Include="x86\awesomium_process" />
     <None Include="x86\inspector.pak" />
     <Resource Include="Resources\storage.db" />

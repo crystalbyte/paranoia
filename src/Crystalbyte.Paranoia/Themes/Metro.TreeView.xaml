@@ -6,10 +6,10 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="TreeView">
-        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBackgroundBrush}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.ControlBorderBrush}}" />
+        <Setter Property="Background" Value="{DynamicResource Metro.ControlBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
@@ -32,7 +32,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Metro.DisabledBrush}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -60,15 +60,13 @@
                               HorizontalAlignment="Left"
                               VerticalAlignment="Center"
                               Data="M 4 0 L 8 4 L 4 8 Z"
-                              Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                           Metro.NormalTextBrush}}" />
+                              Fill="{DynamicResource Metro.NormalTextBrush}" />
                         <Path x:Name="Expanded"
                               Margin="1,1,1,1"
                               HorizontalAlignment="Left"
                               VerticalAlignment="Center"
                               Data="M 0 4 L 8 4 L 4 8 Z"
-                              Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                           Metro.NormalTextBrush}}"
+                              Fill="{DynamicResource Metro.NormalTextBrush}"
                               Visibility="Hidden" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CheckStates">
@@ -200,7 +198,7 @@
                             <Setter TargetName="Expander" Property="Visibility" Value="Hidden" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.HoverBrush}}" />
+                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource Metro.HoverBrush}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

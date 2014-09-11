@@ -5,44 +5,40 @@
     <Style TargetType="TextBlock">
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
-        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
-        <Setter Property="FontSize" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalFontSize}}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+        <Setter Property="FontSize" Value="{DynamicResource Metro.NormalFontSize}" />
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" />
+                <Setter Property="Foreground" Value="{DynamicResource Metro.DisabledBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
-                                        Metro.ThinTextStyle}"
+    <Style x:Key="Metro.ThinTextStyle"
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
         <Setter Property="FontWeight" Value="Thin" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
-                                        Metro.TitleTextStyle}"
+    <Style x:Key="Metro.TitleTextStyle"
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
         <Setter Property="Margin" Value="0,6,0,6" />
-        <Setter Property="FontSize" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.LargeFontSize}}" />
+        <Setter Property="FontSize" Value="{DynamicResource Metro.LargeFontSize}" />
         <Setter Property="FontWeight" Value="Thin" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
-                                        Metro.SubtitleTextStyle}"
+    <Style x:Key="Metro.SubtitleTextStyle"
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
 
         <Setter Property="FontWeight" Value="Thin" />
         <Setter Property="Margin" Value="0,2,0,2" />
-        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" />
-        <Setter Property="FontSize" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.MediumFontSize}}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.SecondaryTextBrush}" />
+        <Setter Property="FontSize" Value="{DynamicResource Metro.MediumFontSize}" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
-                                        Metro.LabelTextStyle}"
+    <Style x:Key="Metro.LabelTextStyle"
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -51,11 +47,10 @@
         <Setter Property="Margin" Value="24,3,12,3" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey {x:Type properties:Resources},
-                                        Metro.DescriptionTextStyle}"
+    <Style x:Key="Metro.DescriptionTextStyle"
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.AccentBrush}" />
         <Setter Property="Margin" Value="0,4,0,8" />
         <Setter Property="FontWeight" Value="Normal" />
     </Style>

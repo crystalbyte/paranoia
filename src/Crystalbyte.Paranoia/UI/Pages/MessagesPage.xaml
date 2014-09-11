@@ -36,11 +36,10 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.MenuBackgroundBrush}}">
+        <Grid Grid.Column="0" Background="{DynamicResource Metro.MenuBackgroundBrush}">
             <DockPanel LastChildFill="True">
                 <Border HorizontalAlignment="Stretch"
-                        BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            Metro.ControlBorderBrush}}"
+                        BorderBrush="{DynamicResource Metro.ControlBorderBrush}"
                         BorderThickness="0,0,0,1"
                         DockPanel.Dock="Top"
                         Padding="0,3">
@@ -65,17 +64,14 @@
                     <TextBlock Margin="12,0,0,0"
                                VerticalAlignment="Center"
                                DockPanel.Dock="Left"
-                               FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                Metro.ExtraLargeFontSize}}"
-                               Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                             Metro.TitleTextStyle}}"><Run Text="{x:Static properties:Resources.AccountsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" Text="{Binding Accounts, Converter={StaticResource CollectionCounter}, FallbackValue=0, Mode=OneWay, StringFormat=\{0\}}" />
+                               FontSize="{DynamicResource Metro.ExtraLargeFontSize}"
+                               Style="{DynamicResource Metro.TitleTextStyle}"><Run Text="{x:Static properties:Resources.AccountsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.SecondaryTextBrush}" Text="{Binding Accounts, Converter={StaticResource CollectionCounter}, FallbackValue=0, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
                 </DockPanel>
                 <TreeView Margin="0"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
-                          Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                             Metro.MenuBackgroundBrush}}"
+                          Background="{DynamicResource Metro.MenuBackgroundBrush}"
                           BorderThickness="0"
                           ItemsSource="{Binding Accounts}"
                           Padding="0"
@@ -91,13 +87,12 @@
                                        Source="/Assets/folder.png" />
                                 <TextBlock x:Name="MailboxNameBlock"
                                            VerticalAlignment="Center"
-                                           Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                              Metro.NormalTextBrush}}"
+                                           Foreground="{DynamicResource Metro.NormalTextBrush}"
                                            Text="{x:Static properties:Resources.Outbox}" />
                             </StackPanel>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="MailboxNameBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+                                    <Setter TargetName="MailboxNameBlock" Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -153,11 +148,9 @@
                                                         Converter={StaticResource GravatarImageConverter}}" />
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                     <TextBlock Margin="2,-2,0,0"
-                                               FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                Metro.MediumLargeFontSize}}"
+                                               FontSize="{DynamicResource Metro.MediumLargeFontSize}"
                                                FontWeight="Thin"
-                                               Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                  Metro.NormalTextBrush}}"
+                                               Foreground="{DynamicResource Metro.NormalTextBrush}"
                                                RenderOptions.ClearTypeHint="Enabled"
                                                Text="{Binding Name,
                                                               ConverterParameter=...,
@@ -173,7 +166,7 @@
                                         <TextBlock.Foreground>
                                             <Binding Mode="OneWay" Path="IsSelected">
                                                 <Binding.Converter>
-                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.NormalTextBrush}" />
                                                 </Binding.Converter>
                                             </Binding>
                                         </TextBlock.Foreground>
@@ -202,7 +195,7 @@
                                         <TextBlock.Foreground>
                                             <Binding Path="IsSubscribedAndSelectable">
                                                 <Binding.Converter>
-                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.DisabledBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.NormalTextBrush}" />
                                                 </Binding.Converter>
                                             </Binding>
                                         </TextBlock.Foreground>
@@ -217,7 +210,7 @@
                                             <TextBlock.Foreground>
                                                 <Binding Path="IsSelected">
                                                     <Binding.Converter>
-                                                        <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+                                                        <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.NormalTextBrush}" />
                                                     </Binding.Converter>
                                                 </Binding>
                                             </TextBlock.Foreground>
@@ -239,8 +232,8 @@
                             </Grid>
                             <HierarchicalDataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="MailboxNameBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
-                                    <Setter TargetName="EnvelopeProgressBar" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+                                    <Setter TargetName="MailboxNameBlock" Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+                                    <Setter TargetName="EnvelopeProgressBar" Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
                                 </DataTrigger>
                             </HierarchicalDataTemplate.Triggers>
                         </HierarchicalDataTemplate>
@@ -262,14 +255,11 @@
                    Grid.ColumnSpan="4"
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
-                   Fill="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                Metro.ShadowBrush}}"
-                   Opacity="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                   Metro.ShadowOpacity}}" />
+                   Fill="{DynamicResource Metro.ShadowBrush}"
+                   Opacity="{DynamicResource Metro.ShadowOpacity}" />
         <DockPanel Grid.Row="0"
                    Grid.Column="2"
-                   Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                      Metro.MenuBackgroundBrush}}"
+                   Background="{DynamicResource Metro.MenuBackgroundBrush}"
                    LastChildFill="True">
             <Grid DockPanel.Dock="Top">
                 <Grid.RowDefinitions>
@@ -279,16 +269,13 @@
                 </Grid.RowDefinitions>
                 <TextBlock Margin="12,3,12,3"
                            VerticalAlignment="Center"
-                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            Metro.ExtraLargeFontSize}}"
-                           Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                         Metro.TitleTextStyle}}">
-                    <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.SecondaryTextBrush}}" Text="{Binding Messages, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
+                           FontSize="{DynamicResource Metro.ExtraLargeFontSize}"
+                           Style="{DynamicResource Metro.TitleTextStyle}">
+                    <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.SecondaryTextBrush}" Text="{Binding Messages, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
                 </TextBlock>
                 <TextBox Grid.Row="1"
                          Margin="6,6,6,6"
-                         Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            Metro.MenuBackgroundBrush}}"
+                         Background="{DynamicResource Metro.MenuBackgroundBrush}"
                          Text="{Binding QueryString,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged}" />
@@ -328,10 +315,8 @@
                           VirtualizingPanel.VirtualizationMode="Recycling">
                     <ListView.Resources>
                         <converters:BooleanToBrushConverter x:Key="SeenBrushConverter"
-                                                            BrushForFalse="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                                  Metro.AccentBrush}}"
-                                                            BrushForTrue="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                                                 Metro.SecondaryTextBrush}}" />
+                                                            BrushForFalse="{DynamicResource Metro.AccentBrush}"
+                                                            BrushForTrue="{DynamicResource Metro.SecondaryTextBrush}" />
                     </ListView.Resources>
                     <ListView.ItemsSource>
                         <Binding Source="{StaticResource MessagesSource}" />
@@ -436,14 +421,12 @@
                                            Grid.ColumnSpan="2"
                                            Margin="0,0,6,0"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                            Metro.MediumLargeFontSize}}"
+                                           FontSize="{DynamicResource Metro.MediumLargeFontSize}"
                                            FontWeight="Thin"
                                            Foreground="{Binding IsSubjectNilOrEmpty,
                                                                 Converter={StaticResource SubjectBrushConverter}}"
                                            RenderOptions.ClearTypeHint="Enabled"
-                                           Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                         Metro.ThinTextStyle}}"
+                                           Style="{DynamicResource Metro.ThinTextStyle}"
                                            Text="{Binding Subject,
                                                           ConverterParameter=...,
                                                           Converter={StaticResource NullOrEmptyFormatter}}"
@@ -456,8 +439,7 @@
                                            Margin="0,0,12,0"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                            Metro.NormalFontSize}}"
+                                           FontSize="{DynamicResource Metro.NormalFontSize}"
                                            Foreground="{Binding IsSeen,
                                                                 Converter={StaticResource SeenBrushConverter}}"
                                            Text="{Binding Converter={StaticResource MailContactFormatter}}"
@@ -470,18 +452,16 @@
                                            Margin="0,0,6,0"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                            Metro.SmallFontSize}}"
-                                           Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                              Metro.SecondaryTextBrush}}"
+                                           FontSize="{DynamicResource Metro.SmallFontSize}"
+                                           Foreground="{DynamicResource Metro.SecondaryTextBrush}"
                                            Text="{Binding EntryDate,
                                                           Converter={StaticResource DateFormatter}}" />
 
                             </Grid>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="FromBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
-                                    <Setter TargetName="DateBlock" Property="Foreground" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" />
+                                    <Setter TargetName="FromBlock" Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+                                    <Setter TargetName="DateBlock" Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -499,10 +479,8 @@
                 <TextBlock Margin="12"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
-                           FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                            Metro.MediumFontSize}}"
-                           Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                              Metro.SecondaryTextBrush}}"
+                           FontSize="{DynamicResource Metro.MediumFontSize}"
+                           Foreground="{DynamicResource Metro.SecondaryTextBrush}"
                            Text="{x:Static properties:Resources.NoMessages}"
                            Visibility="{Binding MessageCount,
                                                 ConverterParameter=!,
@@ -513,8 +491,7 @@
         <GridSplitter Grid.Row="0" Grid.Column="3" />
         <Grid Grid.Row="0"
               Grid.Column="4"
-              Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                 Metro.ControlBackgroundBrush}}">
+              Background="{DynamicResource Metro.ControlBackgroundBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -537,8 +514,7 @@
                                Grid.ColumnSpan="2"
                                Margin="12,12,12,3"
                                DataContext="{Binding SelectedMessage}"
-                               Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                             Metro.TitleTextStyle}}"
+                               Style="{DynamicResource Metro.TitleTextStyle}"
                                Text="{Binding Subject,
                                               Converter={StaticResource NullOrEmptyFormatter},
                                               Mode=OneWay}"
@@ -549,18 +525,15 @@
                                Margin="12,0,12,0"
                                DataContext="{Binding SelectedMessage}"
                                FontWeight="Normal"
-                               Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                             Metro.SubtitleTextStyle}}"
+                               Style="{DynamicResource Metro.SubtitleTextStyle}"
                                Text="{Binding FromName}" />
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
                                Margin="12,0,12,0"
                                DataContext="{Binding SelectedMessage}"
-                               FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                Metro.SmallFontSize}}"
+                               FontSize="{DynamicResource Metro.SmallFontSize}"
                                FontWeight="Normal"
-                               Style="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                             Metro.SubtitleTextStyle}}"
+                               Style="{DynamicResource Metro.SubtitleTextStyle}"
                                Text="{Binding EntryDate}" />
                     <StackPanel Grid.Row="1"
                                 Grid.RowSpan="2"
@@ -571,17 +544,17 @@
                                 Orientation="Horizontal"
                                 Visibility="{Binding SelectedMessage,
                                                      Converter={StaticResource NullToVisibilityConverter}}">
-                        <ui:MetroCircleButton BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" Command="{Binding ReplyCommand}">
+                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.NormalTextBrush}" Command="{Binding ReplyCommand}">
                             <Image Width="18"
                                    Margin="-2,2,0,0"
                                    Source="/Assets/reply.png" />
                         </ui:MetroCircleButton>
-                        <ui:MetroCircleButton BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" Command="{Binding ForwardCommand}">
+                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.NormalTextBrush}" Command="{Binding ForwardCommand}">
                             <Image Width="18"
                                    Margin="-2,2,0,0"
                                    Source="/Assets/forward.png" />
                         </ui:MetroCircleButton>
-                        <ui:MetroCircleButton BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" Command="{Binding DeleteMessagesCommand}">
+                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.NormalTextBrush}" Command="{Binding DeleteMessagesCommand}">
                             <Image Width="18"
                                    Margin="0,0,0,0"
                                    Source="/Assets/delete.png" />
@@ -592,8 +565,7 @@
                               Grid.ColumnSpan="2"
                               MaxHeight="300"
                               Margin="0,3,0,0"
-                              Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                 Metro.MenuBackgroundBrush}}"
+                              Background="{DynamicResource Metro.MenuBackgroundBrush}"
                               BorderThickness="0"
                               ItemsSource="{Binding Attachments}"
                               Padding="0,3,0,3"
@@ -657,8 +629,7 @@
                                              Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Border Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}">
                         <ui:HtmlControl x:Name="HtmlControl"
-                                        Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                           Metro.ControlBackgroundBrush}}"
+                                        Background="{DynamicResource Metro.ControlBackgroundBrush}"
                                         BorderThickness="0"
                                         DataContext="{Binding DataContext,
                                                               RelativeSource={RelativeSource FindAncestor,
@@ -687,13 +658,10 @@
                     <TextBlock Margin="24,12"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Bottom"
-                               Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                  Metro.SecondaryTextBrush}}"><Run FontSize="48"
+                               Foreground="{DynamicResource Metro.SecondaryTextBrush}"><Run FontSize="48"
                              FontWeight="Thin"
-                             Foreground="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                                Metro.AccentBrush}}"
-                             Text="{Binding DownloadProgress}" /><Run Text=" " /><Run FontSize="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
-                                                                              Metro.NormalFontSize}}"
+                             Foreground="{DynamicResource Metro.AccentBrush}"
+                             Text="{Binding DownloadProgress}" /><Run Text=" " /><Run FontSize="{DynamicResource Metro.NormalFontSize}"
                              FontWeight="Thin"
                              Text="%" />
                     </TextBlock>
