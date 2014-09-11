@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using NLog;
 
@@ -16,16 +18,28 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             InitializeComponent();
             DataContext = App.Context;
             Unloaded += OnUnloaded;
+
+            App.Context.SortOrderChanged += OnSortOrderChanged;
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e) {
             try {
+                App.Context.SortOrderChanged -= OnSortOrderChanged;
                 DataContext = null;
                 HtmlControl.Dispose();
             }
             catch (Exception ex) {
                 Logger.Error(ex);        
             }
+        }
+
+        private void OnSortOrderChanged(object sender, EventArgs e) {
+            var source = Resources["MessagesSource"] as CollectionViewSource;
+            if (source == null)
+                return;
+
+            source.SortDescriptions.Clear();
+            source.SortDescriptions.Add(new SortDescription("EntryDate", App.Context.IsSortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending));
         }
 
         private async void OnTreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {

@@ -622,7 +622,7 @@
             <Grid Grid.Row="1"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch">
-                <Border Margin="0,0,0,0"
+                <Border Margin="0"
                         BorderThickness="0"
                         DataContext="{Binding SelectedMessage}"
                         Visibility="{Binding IsNotLoading,
@@ -630,13 +630,12 @@
                     <Border Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}">
                         <ui:HtmlControl x:Name="HtmlControl"
                                         Background="{DynamicResource Metro.ControlBackgroundBrush}"
-                                        BorderBrush="{DynamicResource Metro.ControlBorderBrush}"
-                                        BorderThickness="0,1,0,0"
+                                        BorderThickness="0"
                                         DataContext="{Binding DataContext,
                                                               RelativeSource={RelativeSource FindAncestor,
                                                                                              AncestorType=Page}}"
                                         IsReadOnly="True"
-                                        IsTransparent="True"
+                                        IsTransparent="False"
                                         SnapsToDevicePixels="True"
                                         Source="{Binding Source,
                                                          Mode=OneWay}"
