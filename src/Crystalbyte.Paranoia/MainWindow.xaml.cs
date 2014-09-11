@@ -30,6 +30,7 @@ namespace Crystalbyte.Paranoia {
         private Storyboard _slideInOverlayStoryboard;
         private Storyboard _slideOutOverlayStoryboard;
         private Storyboard _slideOutMainFrameStoryboard;
+        private Storyboard _slideInMainFrameStoryboard;
 
         #endregion
 
@@ -125,10 +126,19 @@ namespace Crystalbyte.Paranoia {
 
             _slideOutMainFrameStoryboard = (Storyboard)Resources["MainFrameSlideOutStoryboard"];
             _slideOutMainFrameStoryboard.Completed += OnSlideOutMainFrameCompleted;
+
+            _slideInMainFrameStoryboard = (Storyboard)Resources["MainFrameSlideInStoryboard"];
+            _slideInMainFrameStoryboard.Completed += OnSlideInMainFrameCompleted;
+        }
+
+        private void OnSlideInMainFrameCompleted(object sender, EventArgs e) {
+            
         }
 
         private void OnSlideOutMainFrameCompleted(object sender, EventArgs e) {
-            
+            var selection = App.Context.NavigationOptions.First(x => x.IsSelected);
+            MainFrame.Navigate(selection.TargetUri);
+            _slideInMainFrameStoryboard.Begin();
         }
 
         private void OnSlideInOverlayCompleted(object sender, EventArgs e) {
@@ -220,7 +230,7 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            MainFrame.Navigate(selection.TargetUri);
+            _slideOutMainFrameStoryboard.Begin();
         }
     }
 }

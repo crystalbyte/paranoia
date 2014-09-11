@@ -64,6 +64,9 @@
       <HintPath>x86\Awesomium.Windows.Controls.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="dotless.ClientOnly">
+      <HintPath>..\packages\DotlessClientOnly.1.4.1.0\lib\dotless.ClientOnly.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>

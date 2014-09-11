@@ -103,14 +103,29 @@
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MainFrame" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="-120">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="-60">
                     <EasingDoubleKeyFrame.EasingFunction>
                         <CubicEase EasingMode="EaseIn" />
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+        <Storyboard x:Key="MainFrameSlideInStoryboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MainFrame" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MainFrame" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="60" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </ui:MetroWindow.Resources>
+    <ui:MetroWindow.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource MainFrameSlideInStoryboard}" />
+        </EventTrigger>
+    </ui:MetroWindow.Triggers>
     <ui:MetroWindow.InputBindings>
         <KeyBinding Key="N"
                     Command="{Binding ComposeCommand}"
@@ -159,8 +174,8 @@
             <Border DockPanel.Dock="Left">
                 <ListView Background="Transparent"
                           BorderThickness="0"
-                          SelectionChanged="OnMainMenuSelectionChanged"
-                          ItemsSource="{Binding NavigationOptions}">
+                          ItemsSource="{Binding NavigationOptions}"
+                          SelectionChanged="OnMainMenuSelectionChanged">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
@@ -245,22 +260,23 @@
             </Grid>
         </DockPanel>
 
-        <Frame x:Name="MainFrame"
-               Grid.Row="1"
-               BorderBrush="{DynamicResource Metro.AccentBrush}"
-               BorderThickness="0,1,0,0"
-               NavigationUIVisibility="Hidden"
-               RenderTransformOrigin="0.5,0.5"
-               Source="/UI/Pages/MessagesPage.xaml">
-            <Frame.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform />
-                    <SkewTransform />
-                    <RotateTransform />
-                    <TranslateTransform />
-                </TransformGroup>
-            </Frame.RenderTransform>
-        </Frame>
+        <Border Grid.Row="1"
+                BorderBrush="{DynamicResource Metro.AccentBrush}"
+                BorderThickness="0,1,0,0">
+            <Frame x:Name="MainFrame"
+                   NavigationUIVisibility="Hidden"
+                   RenderTransformOrigin="0.5,0.5"
+                   Source="/UI/Pages/MessagesPage.xaml">
+                <Frame.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </Frame.RenderTransform>
+            </Frame>
+        </Border>
         <Grid x:Name="Overlay"
               Grid.Row="0"
               Grid.RowSpan="3"

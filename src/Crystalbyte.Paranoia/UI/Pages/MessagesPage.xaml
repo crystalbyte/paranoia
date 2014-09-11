@@ -664,7 +664,7 @@
                                                               RelativeSource={RelativeSource FindAncestor,
                                                                                              AncestorType=Page}}"
                                         IsReadOnly="True"
-                                        IsTransparent="False"
+                                        IsTransparent="True"
                                         Source="{Binding Source,
                                                          Mode=OneWay}"
                                         Zoom="{Binding Zoom,

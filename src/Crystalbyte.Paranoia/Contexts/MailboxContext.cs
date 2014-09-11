@@ -861,7 +861,7 @@ namespace Crystalbyte.Paranoia {
         private async void OnChangeNotificationReceived(object sender, EventArgs e) {
             try {
                 var messages = await Task.Run(() => SyncMessagesAsync());
-                if (messages.Count <= 0) 
+                if (messages.Count <= 0)
                     return;
 
                 var notification = new NotificationWindow(messages);
@@ -938,12 +938,14 @@ namespace Crystalbyte.Paranoia {
                 }
             }
 
+            MailMessageContext[] contexts = null;
+            await Task.Run(() => { 
+                contexts = messages
+                    .Select(x => new MailMessageContext(this, x))
+                    .ToArray();
+            });
+
             IsLoadingMessages = false;
-
-            var contexts = messages
-                .Select(x => new MailMessageContext(this, x))
-                .ToArray();
-
             return contexts;
         }
 
