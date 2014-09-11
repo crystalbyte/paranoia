@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -51,6 +52,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _hideUnsubscribedMailboxesCommand;
         private readonly OutboxContext _outbox;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
+        private bool _isSyncingMailboxes;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -199,9 +201,25 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public bool IsSyncingMailboxes {
+            get { return _isSyncingMailboxes; }
+            set {
+                if (_isSyncingMailboxes == value) {
+                    return;
+                }
+                _isSyncingMailboxes = value;
+                RaisePropertyChanged(() => IsSyncingMailboxes);
+            }
+        }
+
         internal async Task SyncMailboxesAsync() {
             Application.Current.AssertUIThread();
 
+            if (IsSyncingMailboxes) {
+                return;
+            }
+
+            IsSyncingMailboxes = true;
             try {
                 App.Context.StatusText = Resources.SyncMailboxesStatus;
 
@@ -251,20 +269,21 @@ namespace Crystalbyte.Paranoia {
                         context.IsSubscribed = true;
                     }
 
-                    await Application.Current.Dispatcher
-                        .InvokeAsync(() => _mailboxes.Add(context));
+                    _mailboxes.Add(context);
                 }
 
-                await Application.Current.Dispatcher.InvokeAsync(() => {
-                    var inbox = _mailboxes.FirstOrDefault(x => x.IsInbox);
-                    if (inbox != null) {
-                        inbox.IsSelected = true;
-                    }
-                });
+                var inbox = _mailboxes.FirstOrDefault(x => x.IsInbox);
+                if (inbox != null) {
+                    inbox.IsSelected = true;
+                }
 
+            } catch (Exception ex) {
+                Logger.Error(ex);
             } finally {
                 App.Context.ResetStatusText();
             }
+
+            IsSyncingMailboxes = true;
         }
 
         internal async Task UpdateAsync() {
@@ -276,7 +295,6 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task LoadMailboxesAsync() {
-
             MailboxModel[] mailboxes;
             using (var context = new DatabaseContext()) {
                 mailboxes = await context.Mailboxes

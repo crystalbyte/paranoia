@@ -68,7 +68,8 @@ namespace Crystalbyte.Paranoia {
             if (publicKey == null || privateKey == null) {
                 App.Context.OnCreateKeyPair();
             } else {
-                App.Context.OpenDecryptKeyPairDialog();
+                await App.Context.InitKeysAsync();
+                await App.Context.RunAsync();
             }
         }
 
@@ -242,6 +243,9 @@ namespace Crystalbyte.Paranoia {
         private void OnAttachmentMouseDoubleClicked(object sender, MouseButtonEventArgs e) {
             var view = (ListView) sender;
             var attachment = (AttachmentContext)view.SelectedValue;
+            if (attachment == null) {
+                return;
+            }
             attachment.Open();
         }
     }

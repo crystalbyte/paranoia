@@ -16,7 +16,7 @@
         <Setter Property="AccentBrush" Value="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.AccentBrush}}" />
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="FramePadding" Value="10" />
+        <Setter Property="FramePadding" Value="4" />
         <Setter Property="WindowStyle" Value="None" />
         <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
         <Setter Property="BorderBrush" Value="{Binding AccentBrush, RelativeSource={RelativeSource Self}}" />

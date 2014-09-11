@@ -2,6 +2,7 @@
 
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Properties;
@@ -18,7 +19,7 @@ namespace Crystalbyte.Paranoia {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public CreateKeyPairContext() {
-            _createKeyPairCommand = new RelayCommand(CreateKeyPair);
+            _createKeyPairCommand = new RelayCommand(OnCreateKeyPair);
             _benFranklinQuote =
                 "“Those who surrender freedom for security will not have, nor do they deserve, either one.”";
             _benFranklin = "Benjamin Franklin (1706-1790)";
@@ -28,7 +29,7 @@ namespace Crystalbyte.Paranoia {
             get { return _createKeyPairCommand; }
         }
 
-        private static async void CreateKeyPair(object obj) {
+        private static async void OnCreateKeyPair(object obj) {
             try {
                 using (var crypto = new PublicKeyCrypto()) {
                     crypto.Init();
@@ -40,12 +41,12 @@ namespace Crystalbyte.Paranoia {
                     var privateKey = Path.Combine(dir, Settings.Default.PrivateKeyFile);
                     await crypto.SavePrivateKeyAsync(privateKey);
 
-                    App.Context.OpenDecryptKeyPairDialog();
+                    await App.Context.InitKeysAsync();
                     await App.Context.RunAsync();
                 }
             }
             catch (Exception ex) {
-                Logger.Error(ex.ToString());
+                Logger.Error(ex);
             }
             finally {
                 App.Context.ClosePopup();

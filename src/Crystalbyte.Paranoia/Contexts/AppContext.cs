@@ -36,13 +36,14 @@ namespace Crystalbyte.Paranoia {
 
         #region Private Fields
 
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private float _zoom;
         private bool _showAllMessages;
         private string _queryString;
         private string _source;
         private string _statusText;
         private bool _isPopupVisible;
-        private bool _isAccountSelectionRequested;
         private MailAccountContext _transitAccount;
         private readonly DispatcherTimer _outboxTimer;
         private MailboxContext _selectedMailbox;
@@ -61,14 +62,11 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _markAsSeenCommand;
         private readonly ICommand _markAsNotSeenCommand;
         private readonly ICommand _createAccountCommand;
-        private readonly ICommand _selectAccountCommand;
         private readonly ICommand _createContactCommand;
         private readonly ICommand _deleteContactCommand;
         private readonly ICommand _refreshKeysCommand;
         private bool _isAllContactsSelected;
         private bool _isSortAscending;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
 
         #endregion
 
@@ -85,19 +83,17 @@ namespace Crystalbyte.Paranoia {
 
             _printCommand = new PrintCommand(this);
             _replyCommand = new ReplyCommand(this);
-            _forwardCommand = new ForwardCommand(this);
-            _restoreCommand = new RestoreCommand(this);
-            _deleteMessageCommand = new DeleteMessageCommand(this);
             _composeCommand = new ComposeCommand(this);
+            _forwardCommand = new ForwardCommand(this);
+            _restoreCommand = new RestoreCommand(this); 
             _markAsSeenCommand = new MarkAsSeenCommand(this);
+            _refreshKeysCommand = new RelayCommand(OnRefreshKeys);
+            _deleteMessageCommand = new DeleteMessageCommand(this);
             _markAsNotSeenCommand = new MarkAsNotSeenCommand(this);
             _deleteContactCommand = new RelayCommand(OnDeleteContact);
             _createAccountCommand = new RelayCommand(OnCreateAccount);
-
             _createContactCommand = new RelayCommand(OnCreateContact);
-            _refreshKeysCommand = new RelayCommand(OnRefreshKeys);
             _resetZoomCommand = new RelayCommand(p => Zoom = 100.0f);
-            _selectAccountCommand = new RelayCommand(p => IsAccountSelectionRequested = true);
 
             Observable.Timer(TimeSpan.FromHours(24))
                 .Subscribe(OnRefreshContactKeys);
@@ -526,10 +522,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public ICommand SelectAccountCommand {
-            get { return _selectAccountCommand; }
-        }
-
         public ICommand ResetZoomCommand {
             get { return _resetZoomCommand; }
         }
@@ -595,18 +587,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool IsAccountSelectionRequested {
-            get { return _isAccountSelectionRequested; }
-            set {
-                if (_isAccountSelectionRequested == value) {
-                    return;
-                }
-
-                _isAccountSelectionRequested = value;
-                RaisePropertyChanged(() => IsAccountSelectionRequested);
-            }
-        }
-
         #endregion
 
         private async void OnQueryReceived(string text) {
@@ -626,7 +606,12 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            await RefreshMessageSelectionAsync(message);
+            try {
+                await RefreshMessageSelectionAsync(message);
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private async Task RefreshMessageSelectionAsync(MailMessageContext message) {
@@ -758,14 +743,13 @@ namespace Crystalbyte.Paranoia {
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
-        internal async void OpenDecryptKeyPairDialog() {
+        internal async Task InitKeysAsync() {
             var info = GetKeyDirectory();
             var publicKey = Path.Combine(info.FullName, Settings.Default.PublicKeyFile);
             var privateKey = Path.Combine(info.FullName, Settings.Default.PrivateKeyFile);
 
             KeyContainer = new PublicKeyCrypto();
             await KeyContainer.InitFromFileAsync(publicKey, privateKey);
-            await App.Context.RunAsync();
         }
 
         internal void CloseFlyOut() {
@@ -785,7 +769,12 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            await ProcessOutgoingMessagesAsync();
+            try {
+                await ProcessOutgoingMessagesAsync();
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private Task ProcessOutgoingMessagesAsync() {

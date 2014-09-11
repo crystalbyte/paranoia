@@ -14,7 +14,7 @@ namespace Crystalbyte.Paranoia.UI {
             var bitmap = icon.ToBitmap();
             var hBitmap = bitmap.GetHbitmap();
 
-            ImageSource wpfBitmap = Imaging.CreateBitmapSourceFromHBitmap(
+            var wpfBitmap = Imaging.CreateBitmapSourceFromHBitmap(
                 hBitmap,
                 IntPtr.Zero,
                 Int32Rect.Empty,

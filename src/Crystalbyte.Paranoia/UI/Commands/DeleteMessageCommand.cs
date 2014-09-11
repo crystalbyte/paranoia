@@ -31,10 +31,9 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public bool CanExecute(object parameter) {
-            return false;
-            //return _app.SelectedAccount != null
-            //       && _app.SelectedMessage != null
-            //       && _app.SelectedAccount.DockedMailboxes.FirstOrDefault(x => x.Type == MailboxType.Trash) != null;
+            var mailboxes = _app.SelectedMessages.GroupBy(x => x.Mailbox).ToArray();
+            var trashbins = mailboxes.Select(x => x.Key.Account.Mailboxes.FirstOrDefault(y => y.IsTrash)).ToArray();
+            return mailboxes.Length == trashbins.Length;
         }
 
         public async void Execute(object parameter) {

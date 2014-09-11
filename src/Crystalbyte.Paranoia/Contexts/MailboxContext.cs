@@ -114,22 +114,27 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        protected override void OnSelectionChanged() {
+        protected override async void OnSelectionChanged() {
             base.OnSelectionChanged();
 
             Application.Current.AssertUIThread();
             try {
-                Task.Run(() => SyncChildrenAsync());
+                await SyncChildrenAsync();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
 
         private async Task SyncChildrenAsync() {
-            Application.Current.AssertBackgroundThread();
+            Application.Current.AssertUIThread();
+
+            if (IsSyncingChildren) {
+                return;
+            }
+
+            IsSyncingChildren = true;
 
             try {
-                IsSyncingChildren = true;
 
                 var pattern = string.Format("{0}{1}%", Name, Delimiter);
                 var children = await _account.ListMailboxesAsync(pattern);
@@ -150,8 +155,7 @@ namespace Crystalbyte.Paranoia {
                         await context.InsertAsync();
                         await context.BindMailboxAsync(child, subscribed);
 
-                        Application.Current.Dispatcher
-                            .InvokeAsync(() => _account.NotifyMailboxAdded(context));
+                        _account.NotifyMailboxAdded(context);
                     }
                 }
             } finally {
@@ -414,10 +418,12 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task SyncMessagesAsync() {
+        internal async Task<ICollection<MailMessageContext>> SyncMessagesAsync() {
+            ICollection<MailMessageContext> contexts = null;
+
             try {
                 if (IsSyncingMessages) {
-                    return;
+                    return new MailMessageContext[0];
                 }
 
                 IsSyncingMessages = true;
@@ -443,30 +449,27 @@ namespace Crystalbyte.Paranoia {
                 if (messages.Count == 0) {
                     FetchedEnvelopeCount = 0;
                     IsSyncingMessages = false;
-                    return;
+                    return new MailMessageContext[0];
                 }
 
                 await SaveContactsAsync(messages);
                 await SaveMessagesAsync(messages);
 
-                var contexts = messages.Where(x => x.Type == MailType.Message)
+                contexts = messages.Where(x => x.Type == MailType.Message)
                     .Select(x => new MailMessageContext(this, x)).ToArray();
 
                 FetchedEnvelopeCount = 0;
 
-                await Application.Current.Dispatcher.InvokeAsync(() => {
-                    App.Context.NotifyMessagesAdded(contexts);
-                    if (IsInbox && contexts.Length > 0) 
-                        return;
+                await Application.Current.Dispatcher
+                    .InvokeAsync(() => App.Context.NotifyMessagesAdded(contexts));
 
-                    var notification = new NotificationWindow(contexts);
-                    notification.Show();
-                });
+                await CountNotSeenAsync();
             } catch (Exception ex) {
                 Logger.Error(ex.ToString());
             }
 
             IsSyncingMessages = false;
+            return contexts;
         }
 
         public int TotalEnvelopeCount {
@@ -789,13 +792,9 @@ namespace Crystalbyte.Paranoia {
         }
         internal async Task BindMailboxAsync(ImapMailboxInfo mailbox, IEnumerable<ImapMailboxInfo> subscriptions) {
             try {
-                // If no match has been found mailbox will be null.
-                if (mailbox == null) {
-                    return;
-                }
-
                 using (var context = new DatabaseContext()) {
                     context.Mailboxes.Attach(_mailbox);
+                    context.Entry(_mailbox).State = EntityState.Modified;
 
                     _mailbox.Name = mailbox.Fullname;
                     _mailbox.Delimiter = mailbox.Delimiter.ToString(CultureInfo.InvariantCulture);
@@ -859,7 +858,13 @@ namespace Crystalbyte.Paranoia {
 
         private async void OnChangeNotificationReceived(object sender, EventArgs e) {
             try {
-                await SyncMessagesAsync();
+                var messages = await SyncMessagesAsync();
+                if (messages.Count <= 0) 
+                    return;
+
+                var notification = new NotificationWindow(messages);
+                notification.Show();
+
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
