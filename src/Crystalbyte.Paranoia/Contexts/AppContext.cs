@@ -33,6 +33,7 @@ using NLog;
 namespace Crystalbyte.Paranoia {
     [Export, Shared]
     public sealed class AppContext : NotificationObject {
+
         #region Private Fields
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -50,6 +51,7 @@ namespace Crystalbyte.Paranoia {
         private readonly DeferredObservableCollection<MailMessageContext> _messages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
         private readonly ObservableCollection<MailContactContext> _contacts;
+        private readonly ObservableCollection<NavigationContext> _navigationOptions;
         private MailContactContext _selectedContact;
         private readonly ICommand _printCommand;
         private readonly ICommand _resetZoomCommand;
@@ -79,6 +81,11 @@ namespace Crystalbyte.Paranoia {
             _messages.CollectionChanged += OnMessagesCollectionChanged;
 
             _attachments = new ObservableCollection<AttachmentContext>();
+
+            _navigationOptions = new ObservableCollection<NavigationContext> {
+                new NavigationContext { Title = Resources.MessagesTitle, TargetUri = typeof(MessagesPage).ToPageUri(), IsSelected = true},
+                new NavigationContext { Title = Resources.ContactsTitle, TargetUri = typeof(ContactsPage).ToPageUri() }
+            };
 
             _printCommand = new PrintCommand(this);
             _replyCommand = new ReplyCommand(this);
@@ -333,6 +340,10 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         #region Property Declarations
+
+        public IEnumerable<NavigationContext> NavigationOptions {
+            get { return _navigationOptions; }
+        }
 
         public IEnumerable<MailContactContext> Contacts {
             get { return _contacts; }

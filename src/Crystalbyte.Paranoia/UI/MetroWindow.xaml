@@ -21,7 +21,7 @@
         <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
         <Setter Property="BorderBrush" Value="{Binding AccentBrush, RelativeSource={RelativeSource Self}}" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome CaptionHeight="28"

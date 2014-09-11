@@ -29,6 +29,7 @@ namespace Crystalbyte.Paranoia {
 
         private Storyboard _slideInOverlayStoryboard;
         private Storyboard _slideOutOverlayStoryboard;
+        private Storyboard _slideOutMainFrameStoryboard;
 
         #endregion
 
@@ -40,10 +41,6 @@ namespace Crystalbyte.Paranoia {
 
             CommandBindings.Add(new CommandBinding(WindowCommands.CloseFlyOut, OnCloseFlyOut));
             CommandBindings.Add(new CommandBinding(WindowCommands.OpenAccountMenu, OnOpenAccountMenu));
-
-            if (DesignerProperties.GetIsInDesignMode(this)) {
-                HtmlControl.Visibility = Visibility.Collapsed;
-            }
 
             Loaded += OnLoaded;
         }
@@ -120,10 +117,18 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void LoadResources() {
-            _slideInOverlayStoryboard = (Storyboard)Resources["OverlaySlideInStoryboard"];
+            _slideInOverlayStoryboard = (Storyboard)Resources["FlyoutSlideInStoryboard"];
             _slideInOverlayStoryboard.Completed += OnSlideInOverlayCompleted;
-            _slideOutOverlayStoryboard = (Storyboard)Resources["OverlaySlideOutStoryboard"];
+
+            _slideOutOverlayStoryboard = (Storyboard)Resources["FlyoutSlideOutStoryboard"];
             _slideOutOverlayStoryboard.Completed += OnSlideOutOverlayCompleted;
+
+            _slideOutMainFrameStoryboard = (Storyboard)Resources["MainFrameSlideOutStoryboard"];
+            _slideOutMainFrameStoryboard.Completed += OnSlideOutMainFrameCompleted;
+        }
+
+        private void OnSlideOutMainFrameCompleted(object sender, EventArgs e) {
+            
         }
 
         private void OnSlideInOverlayCompleted(object sender, EventArgs e) {
@@ -201,52 +206,21 @@ namespace Crystalbyte.Paranoia {
             window.OnFlyOutVisibilityChanged();
         }
 
-        private void OnMessageSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var app = App.Context;
-            app.OnMessageSelectionChanged();
-
-            var message = app.SelectedMessage;
-            if (message == null)
-                return;
-
-            var container = (Control)MessagesListView.ItemContainerGenerator.ContainerFromItem(message);
-            if (container != null) {
-                container.Focus();
-            }
-        }
-
         private void OnFlyOutFrameNavigated(object sender, NavigationEventArgs e) {
             var page = FlyOutFrame.Content as INavigationAware;
             if (page != null) {
                 page.OnNavigated(e);
             }
         }
-        
-        private async void OnTreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
-            var tree = (TreeView) sender;
-            var value = tree.SelectedValue;
 
-            var mailbox = value as MailboxContext;
-            if (mailbox != null) {
-                App.Context.SelectedMailbox = mailbox;
-            }
-
-            var account = value as MailAccountContext;
-            if (account == null) 
-                return;
-
-            if (!account.IsOnline) {
-                await account.TakeOnlineAsync();
-            }
-        }
-
-        private void OnAttachmentMouseDoubleClicked(object sender, MouseButtonEventArgs e) {
+        private void OnMainMenuSelectionChanged(object sender, SelectionChangedEventArgs e) {
             var view = (ListView) sender;
-            var attachment = (AttachmentContext)view.SelectedValue;
-            if (attachment == null) {
+            var selection = view.SelectedValue as NavigationContext;
+            if (selection == null) {
                 return;
             }
-            attachment.Open();
+
+            MainFrame.Navigate(selection.TargetUri);
         }
     }
 }

@@ -154,6 +154,7 @@
     <Compile Include="Contexts\CreateContactContext.cs" />
     <Compile Include="Contexts\CreateKeyPairContext.cs" />
     <Compile Include="Contexts\HierarchyContext.cs" />
+    <Compile Include="Contexts\NavigationContext.cs" />
     <Compile Include="Contexts\NotificationWindowContext.cs" />
     <Compile Include="Contexts\OutboxContext.cs" />
     <Compile Include="Contexts\QueryContext.cs" />
@@ -214,6 +215,9 @@
     <Compile Include="UI\Pages\AccountDetailsPage.xaml.cs">
       <DependentUpon>AccountDetailsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Pages\ContactsPage.xaml.cs">
+      <DependentUpon>ContactsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Pages\CreateAccountPage.xaml.cs">
       <DependentUpon>CreateAccountPage.xaml</DependentUpon>
     </Compile>
@@ -222,6 +226,9 @@
     </Compile>
     <Compile Include="UI\Pages\CreateKeyPage.xaml.cs">
       <DependentUpon>CreateKeyPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\MessagesPage.xaml.cs">
+      <DependentUpon>MessagesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\ParanoiaDataSource.cs" />
     <Compile Include="UI\ParanoiaDataSourceProvider.cs" />
@@ -420,6 +427,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Pages\ContactsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Pages\CreateAccountPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -429,6 +440,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Pages\CreateKeyPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\MessagesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

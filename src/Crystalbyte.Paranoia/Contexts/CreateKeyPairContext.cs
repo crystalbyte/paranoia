@@ -2,7 +2,6 @@
 
 using System;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Properties;
@@ -13,10 +12,13 @@ using NLog;
 
 namespace Crystalbyte.Paranoia {
     public sealed class CreateKeyPairContext : NotificationObject {
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private readonly ICommand _createKeyPairCommand;
         private readonly string _benFranklinQuote;
         private readonly string _benFranklin;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
 
         public CreateKeyPairContext() {
             _createKeyPairCommand = new RelayCommand(OnCreateKeyPair);
