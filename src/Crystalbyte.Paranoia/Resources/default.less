@@ -1,4 +1,5 @@
-﻿@background-color: %Metro.ControlDarkBackgroundColor%;
+﻿@accent-color: %Metro.AccentColor%;
+@background-color: %Metro.ControlDarkBackgroundColor%;
 @normal-text-color: %Metro.NormalTextColor%;
 @scrollbar-thumb-color: %Metro.ControlBackgroundColor%;
 @scrollbar-thumb-hover-color: %Metro.HoverColor%;
@@ -10,8 +11,13 @@
     border: 0;
 }
 
+a {
+    color: @accent-color;
+}
+
 .default-text {
-    font-size: medium;
+    font-family: Consolas, monaco, monospace;
+    font-size: large;
     color: @normal-text-color;
     background-color: @background-color;
 }

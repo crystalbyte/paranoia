@@ -29,7 +29,7 @@
         <Setter Property="Focusable" Value="False" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
-        <Setter Property="Background" Value="{DynamicResource Metro.ControlBackgroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource Metro.ControlDarkBackgroundBrush}" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Template">
@@ -37,7 +37,8 @@
                 <ControlTemplate TargetType="ui:HtmlControl">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         <awe:WebDialogsLayer Focusable="False">
                             <Border Padding="{TemplateBinding Padding}">
                                 <awe:WebControl x:Name="PART_WebControl"

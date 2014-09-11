@@ -121,11 +121,6 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </ui:MetroWindow.Resources>
-    <ui:MetroWindow.Triggers>
-        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-            <BeginStoryboard Storyboard="{StaticResource MainFrameSlideInStoryboard}" />
-        </EventTrigger>
-    </ui:MetroWindow.Triggers>
     <ui:MetroWindow.InputBindings>
         <KeyBinding Key="N"
                     Command="{Binding ComposeCommand}"
@@ -413,7 +408,6 @@
                         Content="{Binding Zoom,
                                           Mode=OneWay,
                                           Converter={StaticResource PercentageFormatter}}"
-                        Foreground="{DynamicResource Metro.NormalTextBrush}"
                         IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
                         Style="{DynamicResource Metro.StatusBarButtonStyle}" />

@@ -166,7 +166,7 @@
                                         <TextBlock.Foreground>
                                             <Binding Mode="OneWay" Path="IsSelected">
                                                 <Binding.Converter>
-                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.NormalTextBrush}" />
+                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.NormalTextBrush}" />
                                                 </Binding.Converter>
                                             </Binding>
                                         </TextBlock.Foreground>
@@ -195,7 +195,7 @@
                                         <TextBlock.Foreground>
                                             <Binding Path="IsSubscribedAndSelectable">
                                                 <Binding.Converter>
-                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.NormalTextBrush}" />
+                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.NormalTextBrush}" />
                                                 </Binding.Converter>
                                             </Binding>
                                         </TextBlock.Foreground>
@@ -210,7 +210,7 @@
                                             <TextBlock.Foreground>
                                                 <Binding Path="IsSelected">
                                                     <Binding.Converter>
-                                                        <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.NormalTextBrush}" />
+                                                        <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.AccentBrush}" BrushForTrue="{DynamicResource Metro.NormalTextBrush}" />
                                                     </Binding.Converter>
                                                 </Binding>
                                             </TextBlock.Foreground>
@@ -630,12 +630,14 @@
                     <Border Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}">
                         <ui:HtmlControl x:Name="HtmlControl"
                                         Background="{DynamicResource Metro.ControlBackgroundBrush}"
-                                        BorderThickness="0"
+                                        BorderBrush="{DynamicResource Metro.ControlBorderBrush}"
+                                        BorderThickness="0,1,0,0"
                                         DataContext="{Binding DataContext,
                                                               RelativeSource={RelativeSource FindAncestor,
                                                                                              AncestorType=Page}}"
                                         IsReadOnly="True"
                                         IsTransparent="True"
+                                        SnapsToDevicePixels="True"
                                         Source="{Binding Source,
                                                          Mode=OneWay}"
                                         Zoom="{Binding Zoom,
@@ -645,7 +647,7 @@
                 </Border>
                 <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                        <ui:MetroProgressBar Height="2"
+                        <ui:MetroProgressBar Height="1"
                                              Margin="0"
                                              HorizontalAlignment="Stretch"
                                              Background="Transparent"

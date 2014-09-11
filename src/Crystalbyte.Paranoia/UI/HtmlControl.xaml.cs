@@ -213,6 +213,10 @@ namespace Crystalbyte.Paranoia.UI {
 
         public static string CustomCss {
             get {
+
+                if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+                    return "body {}";
+                }
                 var uri = new Uri("/Resources/default.less", UriKind.Relative);
                 var info = Application.GetResourceStream(uri);
                 if (info == null) {
