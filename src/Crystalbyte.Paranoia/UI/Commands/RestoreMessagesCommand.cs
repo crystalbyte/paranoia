@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using NLog;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
-    public sealed class RestoreCommand : ICommand {
+    public sealed class RestoreMessagesCommand : ICommand {
 
         #region Private Fields
 
@@ -16,7 +15,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         #region Construction
 
-        public RestoreCommand(AppContext app) {
+        public RestoreMessagesCommand(AppContext app) {
             _app = app;
             _app.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
         }
@@ -24,25 +23,25 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         #endregion
 
         public bool CanExecute(object parameter) {
-            return _app.SelectedMailbox != null
-                && _app.SelectedMailbox.IsTrash
-                && _app.SelectedMessages.Any();
+            // Group by accounts, since not all messages must necessarily be from the same account.
+            var mailboxes = _app.SelectedMessages.GroupBy(x => x.Mailbox).ToArray();
+
+            // We have found a trashbin for all accounts the messages belong too.
+            return mailboxes.All(x => x.Key.IsTrash);
         }
 
         public event EventHandler CanExecuteChanged;
 
         private void OnCanExecuteChanged() {
             var handler = CanExecuteChanged;
-            if (handler != null) handler(this, EventArgs.Empty);
+            if (handler != null) 
+                handler(this, EventArgs.Empty);
         }
 
-        public void Execute(object parameter) {
+        public async void Execute(object parameter) {
             try {
-                var messages = _app.SelectedMessages.ToArray();
-                var mailboxes = messages.GroupBy(x => x.Mailbox);
-                Task.Run(() => mailboxes.ForEach(x => x.Key.RestoreMessagesAsync(x.ToList())));
-            }
-            catch (Exception ex) {
+                await _app.RestoreSelectedMessagesAsync();
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }

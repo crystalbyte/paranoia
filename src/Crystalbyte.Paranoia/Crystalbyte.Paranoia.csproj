@@ -188,7 +188,7 @@
     <Compile Include="UI\Commands\MarkAsSeenCommand.cs" />
     <Compile Include="UI\Commands\OpenAttachmentCommand.cs" />
     <Compile Include="UI\Commands\RemoveAttachmentCommand.cs" />
-    <Compile Include="UI\Commands\RestoreCommand.cs" />
+    <Compile Include="UI\Commands\RestoreMessagesCommand.cs" />
     <Compile Include="UI\Converters\BooleanToVisibilityMultiConverter.cs" />
     <Compile Include="UI\Converters\IconFinder.cs" />
     <Compile Include="UI\Converters\MailContactFormatter.cs" />

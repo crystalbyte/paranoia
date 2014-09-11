@@ -228,6 +228,8 @@
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
                 Margin="0,3,0,0"
+                Background="{DynamicResource {ComponentResourceKey {x:Type properties:Resources},
+                                                                   Metro.ControlBackgroundBrush}}"
                 BorderThickness="0"
                 Padding="0">
             <ui:HtmlControl x:Name="HtmlControl"

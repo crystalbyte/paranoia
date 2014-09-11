@@ -283,9 +283,9 @@
                         <KeyBinding Key="F"
                                     Command="{Binding ForwardCommand}"
                                     Modifiers="Control" />
-                        <KeyBinding Key="Delete" Command="{Binding DeleteMessageCommand}" />
+                        <KeyBinding Key="Delete" Command="{Binding DeleteMessagesCommand}" />
                         <KeyBinding Key="D"
-                                    Command="{Binding DeleteMessageCommand}"
+                                    Command="{Binding DeleteMessagesCommand}"
                                     Modifiers="Control" />
                     </ListView.InputBindings>
                     <ListView.ContextMenu>
@@ -300,7 +300,7 @@
                                     <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Forward}" />
                                 </MenuItem.Header>
                             </MenuItem>
-                            <MenuItem Command="{Binding RestoreCommand}" InputGestureText="Ctrl + Alt + R">
+                            <MenuItem Command="{Binding RestoreMessagesCommand}" InputGestureText="Ctrl + Alt + R">
                                 <MenuItem.Header>
                                     <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Restore}" />
                                 </MenuItem.Header>
@@ -312,7 +312,7 @@
                                 </MenuItem.Header>
                             </MenuItem>
                             <Separator />
-                            <MenuItem Command="{Binding DeleteMessageCommand}" InputGestureText="Entf">
+                            <MenuItem Command="{Binding DeleteMessagesCommand}" InputGestureText="Entf">
                                 <MenuItem.Header>
                                     <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Delete}" />
                                 </MenuItem.Header>
@@ -903,7 +903,7 @@
                                    Margin="-2,2,0,0"
                                    Source="/Assets/forward.png" />
                         </ui:MetroCircleButton>
-                        <ui:MetroCircleButton BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" Command="{Binding DeleteMessageCommand}">
+                        <ui:MetroCircleButton BorderBrush="{DynamicResource {ComponentResourceKey {x:Type properties:Resources}, Metro.NormalTextBrush}}" Command="{Binding DeleteMessagesCommand}">
                             <Image Width="18"
                                    Margin="0,0,0,0"
                                    Source="/Assets/delete.png" />
@@ -1435,7 +1435,7 @@
                                 </DockPanel>
                                 <ui:MetroProgressBar x:Name="EnvelopeProgressBar"
                                                      Height="2"
-                                                     Margin="-22,0,-3,-3"
+                                                     Margin="-22,0,-2.4,-3"
                                                      HorizontalAlignment="Stretch"
                                                      VerticalAlignment="Bottom"
                                                      Background="Transparent"
