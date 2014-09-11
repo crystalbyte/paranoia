@@ -8,7 +8,7 @@ using NLog;
 #endregion
 
 namespace Crystalbyte.Paranoia.UI.Commands {
-    public sealed class DeleteMessageCommand : ICommand {
+    public sealed class DeleteMessagesCommand : ICommand {
 
         #region Private Fields
 
@@ -19,7 +19,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         #region Construction
 
-        public DeleteMessageCommand(AppContext app) {
+        public DeleteMessagesCommand(AppContext app) {
             _app = app;
             _app.MessageSelectionChanged += OnMessageSelectionChanged;
         }
@@ -31,25 +31,21 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public bool CanExecute(object parameter) {
-            var mailboxes = _app.SelectedMessages.GroupBy(x => x.Mailbox).ToArray();
-            var trashbins = mailboxes.Select(x => x.Key.Account.Mailboxes.FirstOrDefault(y => y.IsTrash)).ToArray();
-            return mailboxes.Length == trashbins.Length;
+
+            // Group by accounts, since not all messages must necessarily be from the same account.
+            var accounts = _app.SelectedMessages.GroupBy(x => x.Mailbox.Account).ToArray();
+            var trashbins = accounts.Select(x => x.Key.Mailboxes.FirstOrDefault(y => y.IsTrash)).ToArray();
+
+            // We have found a trashbin for all accounts the messages belong too.
+            return trashbins.All(x => x != null);
         }
 
         public async void Execute(object parameter) {
-            //try {
-            //    var trash = _app.SelectedAccount.DockedMailboxes.FirstOrDefault(x => x.Type == MailboxType.Trash);
-            //    if (trash == null) {
-            //        return;
-            //    }
-
-            //    var messages = _app.SelectedMessages.ToArray();
-            //    var mailbox = _app.SelectedAccount.SelectedMailbox;
-            //    await mailbox.DeleteMessagesAsync(messages, trash.Name);
-            //}
-            //catch (Exception ex) {
-            //    Logger.Error(ex);
-            //}
+            try {
+                await _app.DeleteSelectedMessagesAsync();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         public event EventHandler CanExecuteChanged;

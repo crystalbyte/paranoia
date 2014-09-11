@@ -834,7 +834,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private MailboxContext GetTrash() {
+        internal MailboxContext GetTrash() {
             return _mailboxes.FirstOrDefault(x => x.IsTrash);
         }
 
