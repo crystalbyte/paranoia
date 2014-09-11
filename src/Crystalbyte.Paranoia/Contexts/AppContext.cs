@@ -227,7 +227,7 @@ namespace Crystalbyte.Paranoia {
 
         public event EventHandler MailboxSelectionChanged;
 
-        private async void OnMailboxSelectionChanged() {
+        private void OnMailboxSelectionChanged() {
             try {
                 var handler = MailboxSelectionChanged;
                 if (handler != null)
@@ -237,7 +237,7 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
-                await Task.Run(() => RefreshViewForSelectedMailbox());
+                Task.Run(() => RefreshViewForSelectedMailbox());
             } catch (Exception ex) {
                 Logger.Error(ex);
             }

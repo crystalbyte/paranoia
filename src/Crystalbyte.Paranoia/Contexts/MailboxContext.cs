@@ -419,6 +419,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task<ICollection<MailMessageContext>> SyncMessagesAsync() {
+            Application.Current.AssertBackgroundThread();
+
             ICollection<MailMessageContext> contexts = null;
 
             try {
@@ -858,7 +860,7 @@ namespace Crystalbyte.Paranoia {
 
         private async void OnChangeNotificationReceived(object sender, EventArgs e) {
             try {
-                var messages = await SyncMessagesAsync();
+                var messages = await Task.Run(() => SyncMessagesAsync());
                 if (messages.Count <= 0) 
                     return;
 
@@ -936,12 +938,11 @@ namespace Crystalbyte.Paranoia {
                 }
             }
 
+            IsLoadingMessages = false;
 
             var contexts = messages
                 .Select(x => new MailMessageContext(this, x))
                 .ToArray();
-
-            IsLoadingMessages = false;
 
             return contexts;
         }
