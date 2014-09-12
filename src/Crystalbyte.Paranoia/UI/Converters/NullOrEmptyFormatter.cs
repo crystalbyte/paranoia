@@ -10,12 +10,15 @@ using System.Windows.Data;
 namespace Crystalbyte.Paranoia.UI.Converters {
     [ValueConversion(typeof (string), typeof (string))]
     public sealed class NullOrEmptyFormatter : IValueConverter {
-        private const string Sub = " \u200B";
+        private const string Sub = "\u200B";
         private const string Pattern = "\n|\r";
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             var p = parameter as string;
-            var s = (string) value;
+            var s = value as string;
+            if (s == null) {
+                return p;
+            }
 
             if (s.Equals("NIL") || string.IsNullOrEmpty(s)) {
                 return string.IsNullOrWhiteSpace(p)

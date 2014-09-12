@@ -76,10 +76,10 @@
                            VerticalAlignment="Bottom"
                            FontSize="{DynamicResource Metro.MediumLargeFontSize}"
                            FontWeight="Normal"
-                           TextTrimming="CharacterEllipsis"
-                           TextWrapping="NoWrap"
                            Style="{DynamicResource Metro.TitleTextStyle}"
-                           Text="{Binding FromName}" />
+                           Text="{Binding FromName}"
+                           TextTrimming="CharacterEllipsis"
+                           TextWrapping="NoWrap" />
                 <TextBlock Grid.Row="1"
                            Grid.Column="1"
                            VerticalAlignment="Top"

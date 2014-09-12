@@ -31,32 +31,31 @@
         <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
         <Setter Property="Background" Value="{DynamicResource Metro.ControlDarkBackgroundBrush}" />
         <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="0" />
+        <Setter Property="Padding" Value="0,1.2,0,0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:HtmlControl">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         <awe:WebDialogsLayer Focusable="False">
-                            <Border Padding="{TemplateBinding Padding}">
-                                <awe:WebControl x:Name="PART_WebControl"
-                                                AdjustToDpi="True"
-                                                Background="{TemplateBinding Background}"
-                                                IsTabStop="False"
-                                                IsTransparent="{TemplateBinding IsTransparent}"
-                                                RenderOptions.BitmapScalingMode="NearestNeighbor"
-                                                RenderOptions.EdgeMode="Aliased"
-                                                SnapsToDevicePixels="True"
-                                                Source="{Binding Source,
-                                                                 RelativeSource={RelativeSource TemplatedParent},
-                                                                 Converter={StaticResource UrlConverter}}"
-                                                WebSession="{Binding Source={StaticResource WebSessionProvider}}"
-                                                Zoom="{Binding Zoom,
-                                                               RelativeSource={RelativeSource TemplatedParent},
-                                                               Mode=TwoWay}" />
-                            </Border>
+                            <awe:WebControl x:Name="PART_WebControl"
+                                            AdjustToDpi="True"
+                                            Background="{TemplateBinding Background}"
+                                            IsTabStop="False"
+                                            IsTransparent="{TemplateBinding IsTransparent}"
+                                            RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                            RenderOptions.EdgeMode="Aliased"
+                                            SnapsToDevicePixels="True"
+                                            Source="{Binding Source,
+                                                             RelativeSource={RelativeSource TemplatedParent},
+                                                             Converter={StaticResource UrlConverter}}"
+                                            WebSession="{Binding Source={StaticResource WebSessionProvider}}"
+                                            Zoom="{Binding Zoom,
+                                                           RelativeSource={RelativeSource TemplatedParent},
+                                                           Mode=TwoWay}" />
                         </awe:WebDialogsLayer>
                     </Border>
                 </ControlTemplate>

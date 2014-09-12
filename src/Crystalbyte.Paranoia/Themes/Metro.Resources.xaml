@@ -41,6 +41,9 @@
     <Color x:Key="Metro.ControlDarkBackgroundColor">#141414</Color>
     <SolidColorBrush x:Key="Metro.ControlDarkBackgroundBrush" Color="{StaticResource Metro.ControlDarkBackgroundColor}" />
 
+    <Color x:Key="Metro.ControlLightBackgroundColor">#CCCCCC</Color>
+    <SolidColorBrush x:Key="Metro.ControlLightBackgroundBrush" Color="{StaticResource Metro.ControlLightBackgroundColor}" />
+
     <Color x:Key="Metro.ControlBorderColor">#525252</Color>
     <SolidColorBrush x:Key="Metro.ControlBorderBrush" Color="{StaticResource Metro.ControlBorderColor}" />
 
@@ -55,7 +58,10 @@
     <Color x:Key="Metro.NormalTextColor">GhostWhite</Color>
     <SolidColorBrush x:Key="Metro.NormalTextBrush" Color="{StaticResource Metro.NormalTextColor}" />
 
-    <Color x:Key="Metro.TextHoverColor">#BBBBBB</Color>
+    <Color x:Key="Metro.DarkTextColor">#141414</Color>
+    <SolidColorBrush x:Key="Metro.DarkTextBrush" Color="{StaticResource Metro.DarkTextColor}" />
+
+    <Color x:Key="Metro.TextHoverColor">#777777</Color>
     <SolidColorBrush x:Key="Metro.TextHoverBrush" Color="{StaticResource Metro.TextHoverColor}" />
 
     <Color x:Key="Metro.SecondaryTextColor">DimGray</Color>

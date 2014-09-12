@@ -22,12 +22,25 @@ namespace Crystalbyte.Paranoia {
         private readonly MailMessageModel _message;
         private readonly ObservableCollection<AttachmentContext> _attachments;
         private long _downloadProgress;
+        private bool _isLocal;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         internal MailMessageContext(MailboxContext mailbox, MailMessageModel message) {
             _mailbox = mailbox;
             _message = message;
             _attachments = new ObservableCollection<AttachmentContext>();
+        }
+
+        public bool IsLocallyAvailable {
+            get { return _isLocal; }
+            set {
+                if (_isLocal == value) {
+                    return;
+                }
+
+                _isLocal = value;
+                RaisePropertyChanged(() => IsLocallyAvailable);
+            }
         }
 
         public bool IsRecycled {
@@ -143,23 +156,6 @@ namespace Crystalbyte.Paranoia {
             return _message.Flags.ContainsIgnoreCase(flag);
         }
 
-        public async Task<string> LoadMimeFromDatabaseAsync() {
-            IncrementLoad();
-            try {
-                using (var context = new DatabaseContext()) {
-                    context.MailMessages.Attach(_message);
-                    var message = await context.MimeMessages
-                        .FirstOrDefaultAsync(x => x.MessageId == _message.Id);
-                    return message != null ? message.Data : string.Empty;
-                }
-            } catch (Exception ex) {
-                Logger.Error(ex);
-                throw;
-            } finally {
-                DecrementLoad();
-            }
-        }
-
         public bool IsLoading {
             get { return _load > 0; }
         }
@@ -221,7 +217,7 @@ namespace Crystalbyte.Paranoia {
             BytesReceived = e.ByteCount;
             DownloadProgress = (BytesReceived * 100 / Size);
             
-            // Message size differs from actual sizes due to encoding
+            // Message may differ from actual sizes due to encoding.
             if (DownloadProgress > 100) {
                 DownloadProgress = 100;
             }

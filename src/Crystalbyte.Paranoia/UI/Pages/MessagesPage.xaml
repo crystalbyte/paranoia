@@ -42,7 +42,8 @@
                         BorderBrush="{DynamicResource Metro.ControlBorderBrush}"
                         BorderThickness="0,0,0,1"
                         DockPanel.Dock="Top"
-                        Padding="0,3">
+                        Padding="0,3"
+                        SnapsToDevicePixels="True">
                     <Grid HorizontalAlignment="Left">
                         <ui:MetroCircleButton Margin="12"
                                               Command="{Binding ComposeCommand}"
@@ -274,8 +275,8 @@
                     <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.SecondaryTextBrush}" Text="{Binding Messages, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
                 </TextBlock>
                 <TextBox Grid.Row="1"
-                         Margin="6,6,6,6"
-                         Background="{DynamicResource Metro.MenuBackgroundBrush}"
+                         Margin="6"
+                         Background="{DynamicResource Metro.ControlBackgroundBrush}"
                          Text="{Binding QueryString,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged}" />
@@ -422,10 +423,8 @@
                                            Margin="0,0,6,0"
                                            VerticalAlignment="Center"
                                            FontSize="{DynamicResource Metro.MediumLargeFontSize}"
-                                           FontWeight="Thin"
                                            Foreground="{Binding IsSubjectNilOrEmpty,
                                                                 Converter={StaticResource SubjectBrushConverter}}"
-                                           RenderOptions.ClearTypeHint="Enabled"
                                            Style="{DynamicResource Metro.ThinTextStyle}"
                                            Text="{Binding Subject,
                                                           ConverterParameter=...,

@@ -146,7 +146,7 @@ namespace Crystalbyte.Paranoia {
 
         public async Task PushToOutboxAsync() {
             try {
-                var account = App.Context.Accounts.FirstOrDefault();
+                var account = App.Context.Accounts.First();
                 var messages = await CreateSmtpMessagesAsync(account);
                 await account.SaveSmtpRequestsAsync(messages);
                 await App.Context.NotifyOutboxNotEmpty();
@@ -157,15 +157,15 @@ namespace Crystalbyte.Paranoia {
 
 
         private MailMessage CreateMailMessage(MailAccountContext account, string recipient, string content) {
-            var message = new MailMessage();
-            message.From = new MailAddress(account.Address, account.Name);
-            message.To.Add(new MailAddress(recipient));
+            var message = new MailMessage {
+                From = new MailAddress(account.Address, account.Name)
+            };
 
+            message.To.Add(new MailAddress(recipient));
             message.IsBodyHtml = true;
             message.Subject = Subject;
             message.BodyEncoding = Encoding.UTF8;
             message.BodyTransferEncoding = TransferEncoding.Base64;
-
             message = HandleEmbeddedImages(message, content);
 
             _attachments.ForEach(x => message.Attachments.Add(new Attachment(x.FullName)));
@@ -173,26 +173,26 @@ namespace Crystalbyte.Paranoia {
             return message;
         }
 
-        private MailMessage HandleEmbeddedImages(MailMessage message, string content) {
-            string body = string.Format("<html>{0}</html>", content);
+        private static MailMessage HandleEmbeddedImages(MailMessage message, string content) {
+            var body = string.Format("<html>{0}</html>", content);
 
-            Regex regex = new Regex("<img (.*?)src=(.*?)>", RegexOptions.IgnoreCase);
+            var regex = new Regex("<img (.*?)src=(.*?)>", RegexOptions.IgnoreCase);
             var matches = regex.Matches(body);
 
             foreach (Match x in matches) {
-                var match = Regex.Match(((Match)x).Value, "src=\"(.*?)\"");
+                var match = Regex.Match(x.Value, "src=\"(.*?)\"");
                 var result = match.Value.Replace("src=", string.Empty).Trim(new[] { '"' }).Replace("asset://tempImage/", string.Empty);
 
                 var uri = new Uri(result, UriKind.RelativeOrAbsolute);
-                if (uri.IsFile && File.Exists(result)) {
-                    var info = new FileInfo(result);
-                    var cid = (info.Name + "@" + Guid.NewGuid()).Replace(" ", "");
-                    var attachment = new Attachment(result);
+                if (!uri.IsFile || !File.Exists(result))
+                    continue;
 
-                    attachment.ContentId = cid;
-                    message.Attachments.Add(attachment);
-                    body = body.Replace(match.Value, string.Format("src=\"cid:{0}\"", cid));
-                }
+                var info = new FileInfo(result);
+                var cid = (info.Name + "@" + Guid.NewGuid()).Replace(" ", "");
+                var attachment = new Attachment(result) { ContentId = cid };
+
+                message.Attachments.Add(attachment);
+                body = body.Replace(match.Value, string.Format("src=\"cid:{0}\"", cid));
             }
             message.Body = body;
 
@@ -224,15 +224,6 @@ namespace Crystalbyte.Paranoia {
                         messages.Add(message);
                         continue;
                     }
-
-                    //if (contact != null) {
-                    //    var message = CreateMailMessage(account, recipient, e.Document);
-                    //    messages.Add(message);
-                    //    continue;
-                    //}
-
-                    if (keys == null)
-                        continue;
 
                     foreach (var key in keys) {
                         var cryptMessage = await EncryptMessageAsync(account, key, recipient, e.Document);

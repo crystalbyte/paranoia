@@ -4,6 +4,7 @@
 @scrollbar-thumb-color: %Metro.ControlBackgroundColor%;
 @scrollbar-thumb-hover-color: %Metro.HoverColor%;
 @scrollbar-thumb-drag-color: %Metro.ScrollViewerDragColor%;
+@scrollbar-background: %Metro.ControlDarkBackgroundColor%;
 
 * {
     margin: 0;
@@ -15,20 +16,15 @@ a {
     color: @accent-color;
 }
 
-.default-text {
+html {
     font-family: Consolas, monaco, monospace;
     font-size: large;
     color: @normal-text-color;
     background-color: @background-color;
 }
 
-html {
-    .default-text;
-}
-
 body {
-    .default-text;
-    padding: 6px;
+    padding: 24px;
 }
 
 ::-webkit-scrollbar {
@@ -40,11 +36,11 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background-color: @background-color;
+    background-color: @scrollbar-background;
 }
 
 ::-webkit-scrollbar-track-piece {
-    background-color: @background-color;
+    background-color: @scrollbar-background;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -60,9 +56,9 @@ body {
     }
 
 ::-webkit-scrollbar-corner {
-    background-color: @background-color;
+    background-color: @scrollbar-background;
 }
 
 ::-webkit-resizer {
-    background-color: @background-color;
+    background-color: @scrollbar-background;
 }

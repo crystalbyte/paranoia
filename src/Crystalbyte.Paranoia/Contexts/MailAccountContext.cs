@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -46,7 +45,6 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _selectMailboxCommand;
         private readonly ICommand _testSettingsCommand;
         private readonly ICommand _registerCommand;
-        private readonly ICommand _deleteAccountCommand;
         private readonly ICommand _configAccountCommand;
         private readonly ICommand _showUnsubscribedMailboxesCommand;
         private readonly ICommand _hideUnsubscribedMailboxesCommand;
@@ -130,10 +128,6 @@ namespace Crystalbyte.Paranoia {
 
         public ICommand ListMailboxesCommand {
             get { return _listMailboxesCommand; }
-        }
-
-        public ICommand DeleteAccountCommand {
-            get { return _deleteAccountCommand; }
         }
 
         public ICommand HideUnsubscribedMailboxesCommand {

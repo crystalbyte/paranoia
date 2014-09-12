@@ -68,6 +68,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _refreshKeysCommand;
         private bool _isAllContactsSelected;
         private bool _isSortAscending;
+        private string _queryContactString;
 
         #endregion
 
@@ -118,7 +119,18 @@ namespace Crystalbyte.Paranoia {
                 .Where(x => (x.Text.Length > 2 || string.IsNullOrEmpty(x.Text)))
                 .Throttle(TimeSpan.FromMilliseconds(200))
                 .Select(x => x.Text)
+                .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
                 .Subscribe(OnQueryReceived);
+
+            Observable.FromEventPattern<QueryStringEventArgs>(
+                action => ContactQueryStringChanged += action,
+                action => ContactQueryStringChanged -= action)
+                .Select(x => x.EventArgs)
+                .Where(x => (x.Text.Length > 2 || string.IsNullOrEmpty(x.Text)))
+                .Throttle(TimeSpan.FromMilliseconds(200))
+                .Select(x => x.Text)
+                .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
+                .Subscribe(OnContactQueryReceived);
 
             _outboxTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(30) };
             _outboxTimer.Tick += OnOutboxTimerTick;
@@ -128,6 +140,10 @@ namespace Crystalbyte.Paranoia {
 
             _zoom = 1.0f;
             _showAllMessages = true;
+        }
+
+        private async void OnContactQueryReceived(string query) {
+            await FilterContactsAsync(query);
         }
 
         private void OnMessagesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
@@ -203,6 +219,25 @@ namespace Crystalbyte.Paranoia {
 
         private void OnDeleteContact(object obj) { }
 
+        internal async Task FilterContactsAsync(string query) {
+            _contacts.Clear();
+
+            if (string.IsNullOrWhiteSpace(query)) {
+                await LoadContactsAsync();
+                return;
+            }
+
+            IEnumerable<MailContactModel> contacts;
+            using (var database = new DatabaseContext()) {
+                contacts = await database.MailContacts
+                    .Where(x => x.Name.Contains(query)
+                        || x.Address.Contains(query))
+                    .ToArrayAsync();
+            }
+
+            _contacts.AddRange(contacts.Select(x => new MailContactContext(x)));
+        }
+
         internal async Task LoadContactsAsync() {
             IEnumerable<MailContactModel> contacts;
             using (var database = new DatabaseContext()) {
@@ -234,7 +269,7 @@ namespace Crystalbyte.Paranoia {
 
         public event EventHandler MailboxSelectionChanged;
 
-        private void OnMailboxSelectionChanged() {
+        private async void OnMailboxSelectionChanged() {
             try {
                 var handler = MailboxSelectionChanged;
                 if (handler != null)
@@ -244,7 +279,7 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
-                Task.Run(() => RefreshViewForSelectedMailbox());
+                await Task.Run(() => RefreshViewForSelectedMailbox());
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -308,23 +343,19 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => IsMessageSelected);
         }
 
-        private void RefreshContactStatisticsAsync(IEnumerable<MailContactContext> contacts = null) {
-            var items = (contacts ?? _contacts).ToArray();
-            Task.Factory.StartNew(() => {
-                foreach (var tasks in items.Select(item => new[]
-                                      {
-                                          item.CountNotSeenAsync(),
-                                          item.CountMessagesAsync()
-                                      })) {
-                    Task.WaitAll(tasks);
-                }
-            });
-        }
-
         internal event EventHandler<QueryStringEventArgs> QueryStringChanged;
 
         private void OnQueryStringChanged(QueryStringEventArgs e) {
             var handler = QueryStringChanged;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        internal event EventHandler<QueryStringEventArgs> ContactQueryStringChanged;
+
+
+        private void OnContactQueryStringChanged(QueryStringEventArgs e) {
+            var handler = ContactQueryStringChanged;
             if (handler != null)
                 handler(this, e);
         }
@@ -493,6 +524,18 @@ namespace Crystalbyte.Paranoia {
                 _queryString = value;
                 RaisePropertyChanged(() => QueryString);
                 OnQueryStringChanged(new QueryStringEventArgs(value));
+            }
+        }
+
+        public string ContactQueryString {
+            get { return _queryContactString; }
+            set {
+                if (_queryContactString == value) {
+                    return;
+                }
+                _queryContactString = value;
+                RaisePropertyChanged(() => ContactQueryString);
+                OnContactQueryStringChanged(new QueryStringEventArgs(value));
             }
         }
 
@@ -823,7 +866,6 @@ namespace Crystalbyte.Paranoia {
         }
 
         private Task ProcessOutgoingMessagesAsync() {
-            Accounts.ForEach(x => x.Outbox.LoadSmtpRequestsFromDatabaseAsync());
             var tasks = Accounts.Select(x => x.Outbox.ProcessOutgoingMessagesAsync());
             return Task.WhenAll(tasks);
         }
@@ -840,7 +882,6 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertUIThread();
 
             _contacts.AddRange(contacts);
-            RefreshContactStatisticsAsync(contacts);
         }
 
         internal void NotifyMessagesAdded(ICollection<MailMessageContext> messages) {
@@ -848,7 +889,6 @@ namespace Crystalbyte.Paranoia {
                 _messages.Add(message);
             }
 
-            RefreshContactStatisticsAsync();
             RaisePropertyChanged(() => Messages);
         }
 

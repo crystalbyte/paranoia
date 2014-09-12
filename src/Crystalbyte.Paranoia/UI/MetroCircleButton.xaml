@@ -41,7 +41,7 @@
                                    Grid.Column="1"
                                    Margin="6,-2,0,0"
                                    VerticalAlignment="Center"
-                                   FontSize="{DynamicResource Metro.MediumFontSize}"
+                                   FontSize="{DynamicResource Metro.MediumLargeFontSize}"
                                    Foreground="{TemplateBinding Foreground}"
                                    Text="{TemplateBinding Text}"
                                    Visibility="{Binding Text,

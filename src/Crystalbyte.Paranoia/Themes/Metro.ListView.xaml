@@ -20,15 +20,13 @@
                         <Rectangle x:Name="SelectionBackground"
                                    Fill="Transparent"
                                    StrokeThickness="0" />
-                        <ContentPresenter Margin="{TemplateBinding Padding}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <ContentPresenter Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="HoverBackground"
-                                                                      Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)">
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)">
                                             <EasingColorKeyFrame KeyTime="0" Value="{StaticResource Metro.HoverColor}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
@@ -39,18 +37,15 @@
                                 <VisualState x:Name="Unselected" />
                                 <VisualState x:Name="Selected">
                                     <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="SelectionBackground"
-                                                                      Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)">
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="SelectionBackground" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)">
                                             <EasingColorKeyFrame KeyTime="0" Value="{StaticResource Metro.AccentColor}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="SelectedUnfocused">
                                     <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="SelectionBackground"
-                                                                      Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)">
-                                            <EasingColorKeyFrame KeyTime="0"
-                                                                 Value="{StaticResource Metro.SelectedUnfocusedColor}" />
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="SelectionBackground" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource Metro.SelectedUnfocusedColor}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -64,13 +59,10 @@
 
     <Style TargetType="ListView">
 
-        <Setter Property="Background"
-                Value="{DynamicResource Metro.ControlBackgroundBrush}" />
-        <Setter Property="BorderBrush"
-                Value="{DynamicResource Metro.ControlBorderBrush}" />
+        <Setter Property="Background" Value="{DynamicResource Metro.ControlBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Foreground"
-                Value="{DynamicResource Metro.NormalTextBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
@@ -92,8 +84,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="Bd" Property="BorderBrush"
-                                    Value="{DynamicResource Metro.DisabledBrush}" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Metro.DisabledBrush}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

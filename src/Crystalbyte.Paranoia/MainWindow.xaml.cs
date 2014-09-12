@@ -9,7 +9,6 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
@@ -115,6 +114,10 @@ namespace Crystalbyte.Paranoia {
 
             LoadResources();
             HookUpEvents();
+
+            if (DesignerProperties.GetIsInDesignMode(this)) {
+                MainFrame.Source = new Uri("http://www.fantasystronghold.de/news/wp-content/uploads/2014/02/MyLittlePony_splash_2048x1536_EN.jpg", UriKind.Absolute);
+            }
         }
 
         private void LoadResources() {

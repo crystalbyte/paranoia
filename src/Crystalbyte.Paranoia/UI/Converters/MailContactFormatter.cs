@@ -13,7 +13,10 @@ namespace Crystalbyte.Paranoia.UI.Converters {
         private static readonly NullOrEmptyFormatter NullOrEmptyFormatter = new NullOrEmptyFormatter();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            var s = (MailMessageContext) value;
+            var s =  value as MailMessageContext;
+            if (s == null) {
+                return NullOrEmptyFormatter.Convert(null, targetType, parameter, culture);
+            }
 
             if (s.FromName.Equals("NIL") || string.IsNullOrEmpty(s.FromName)) {
                 return NullOrEmptyFormatter.Convert(s.FromAddress, targetType, parameter, culture);

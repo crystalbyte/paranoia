@@ -1,7 +1,7 @@
 ﻿#region Using directives
 
 using System;
-using System.Threading.Tasks;
+using System.Linq;
 using Crystalbyte.Paranoia.Data;
 
 #endregion
@@ -34,26 +34,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task CountMessagesAsync() {
-            var count = Environment.TickCount;
-
-            //var account = App.Context.SelectedAccount;
-            //if (account == null) {
-            //    NotSeenCount = 0;
-            //    return;
-            //}
-
-            //using (var context = new DatabaseContext()) {
-            //    MessageCount = await context.MailMessages
-            //        .Where(x => x.Type == MailType.Message)
-            //        .Where(x => x.FromAddress == Address)
-            //        .Where(x => x.Mailbox.AccountId == account.Id)
-            //        .CountAsync();
-            //}
-
-            //Debug.WriteLine("+ CountMessagesAsync: {0} ms", Environment.TickCount - count);
-        }
-
         public int MessageCount {
             get { return _messageCount; }
             set {
@@ -65,21 +45,12 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task CountNotSeenAsync() {
-            //var account = App.Context.SelectedAccount;
-            //if (account == null) {
-            //    NotSeenCount = 0;
-            //    return;
-            //}
-
-            //using (var context = new DatabaseContext()) {
-            //    NotSeenCount = await context.MailMessages
-            //        .Where(x => x.Type == MailType.Message)
-            //        .Where(x => x.FromAddress == Address)
-            //        .Where(x => x.Mailbox.AccountId == account.Id)
-            //        .Where(x => !x.Flags.Contains(MailboxFlags.Seen))
-            //        .CountAsync();
-            //}
+        public char Group {
+            get {
+                var isEmpty = string.IsNullOrWhiteSpace(Name)
+                    || string.Compare(Name, "nil", StringComparison.InvariantCultureIgnoreCase) == 0;
+                return isEmpty ? '#' : char.ToUpper(Name.First());
+            }
         }
 
         public bool IsValidated {

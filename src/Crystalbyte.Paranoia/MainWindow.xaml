@@ -94,17 +94,21 @@
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MainFrame" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="1" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
-                    <EasingDoubleKeyFrame.EasingFunction>
+                    <!--
+                        <EasingDoubleKeyFrame.EasingFunction>
                         <CubicEase EasingMode="EaseIn" />
-                    </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    -->
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MainFrame" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="-60">
-                    <EasingDoubleKeyFrame.EasingFunction>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="-30">
+                    <!--
+                        <EasingDoubleKeyFrame.EasingFunction>
                         <CubicEase EasingMode="EaseIn" />
-                    </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    -->
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
@@ -115,7 +119,7 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MainFrame" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="60" />
+                <EasingDoubleKeyFrame KeyTime="0" Value="30" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
@@ -145,7 +149,7 @@
                    d:IsLocked="True">
             <Border Margin="6,0,12,0"
                     VerticalAlignment="Center"
-                    Background="Pink"
+                    Background="{DynamicResource Metro.AccentBrush}"
                     DockPanel.Dock="Left">
                 <Image Width="20"
                        Height="20"
@@ -156,7 +160,8 @@
             </Border>
             <TextBlock Margin="0,-2,0,0"
                        VerticalAlignment="Center"
-                       FontSize="17"
+                       FontSize="{DynamicResource Metro.MediumLargeFontSize}"
+                       FontWeight="Normal"
                        Style="{DynamicResource Metro.TitleTextStyle}"
                        Text="{Binding Title,
                                       RelativeSource={RelativeSource FindAncestor,
@@ -199,8 +204,7 @@
                             <TextBlock x:Name="TitleBlock"
                                        Margin="6,-2,6,0"
                                        VerticalAlignment="Center"
-                                       FontSize="20"
-                                       FontWeight="Thin"
+                                       FontSize="{DynamicResource Metro.MediumLargeFontSize}"
                                        Text="{Binding Title}" />
                             <DataTemplate.Triggers>
                                 <MultiDataTrigger>

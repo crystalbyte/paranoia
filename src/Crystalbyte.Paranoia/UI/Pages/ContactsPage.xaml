@@ -12,14 +12,110 @@
       mc:Ignorable="d">
     <Page.Resources>
         <CollectionViewSource x:Key="ContactsSource"
+                              IsLiveGroupingRequested="True"
                               IsLiveSortingRequested="True"
                               Source="{Binding Contacts}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Group" StringComparison="InvariantCultureIgnoreCase" />
+            </CollectionViewSource.GroupDescriptions>
             <CollectionViewSource.SortDescriptions>
-                <componentModel:SortDescription Direction="Descending" PropertyName="HasUnseenMessages" />
+                <componentModel:SortDescription Direction="Ascending" PropertyName="Group" />
                 <componentModel:SortDescription Direction="Ascending" PropertyName="Name" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </Page.Resources>
-
-    <Grid Background="{DynamicResource Metro.ControlBackgroundBrush}" />
+    <DockPanel Background="{DynamicResource Metro.ControlDarkBackgroundBrush}" LastChildFill="True">
+        <Grid Background="{DynamicResource Metro.ControlBackgroundBrush}" DockPanel.Dock="Top">
+            <TextBox Width="250"
+                     Margin="12,6"
+                     HorizontalAlignment="Left"
+                     Background="{DynamicResource Metro.ControlDarkBackgroundBrush}"
+                     Text="{Binding ContactQueryString,
+                                    UpdateSourceTrigger=PropertyChanged,
+                                    Mode=TwoWay}" />
+        </Grid>
+        <ListView Background="{DynamicResource Metro.ControlDarkBackgroundBrush}"
+                  BorderThickness="0"
+                  ItemsSource="{Binding Source={StaticResource ContactsSource}}">
+            <ListView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
+                    <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="paranoia:MailContactContext">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="40"
+                               Height="40"
+                               Margin="6,3,6,3"
+                               VerticalAlignment="Center"
+                               Source="{Binding Address,
+                                                IsAsync=True,
+                                                Converter={StaticResource GravatarImageConverter},
+                                                ConverterParameter=48}" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Width="250"
+                                       Margin="0"
+                                       FontSize="{DynamicResource Metro.MediumLargeFontSize}"
+                                       Style="{DynamicResource Metro.TitleTextStyle}"
+                                       Text="{Binding Name,
+                                                      Converter={StaticResource NullOrEmptyFormatter},
+                                                      ConverterParameter=...}"
+                                       TextTrimming="CharacterEllipsis"
+                                       TextWrapping="NoWrap" />
+                            <TextBlock x:Name="AddressBlock"
+                                       Margin="0"
+                                       FontSize="{DynamicResource Metro.NormalFontSize}"
+                                       FontWeight="Normal"
+                                       Style="{DynamicResource Metro.SubtitleTextStyle}"
+                                       Text="{Binding Address,
+                                                      Converter={StaticResource NullOrEmptyFormatter},
+                                                      ConverterParameter=...}"
+                                       TextTrimming="CharacterEllipsis"
+                                       TextWrapping="NoWrap" />
+                        </StackPanel>
+                    </StackPanel>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                            <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.Panel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </GroupStyle.Panel>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate DataType="CollectionViewGroup">
+                            <Grid Margin="11" HorizontalAlignment="Left">
+                                <Rectangle Width="40"
+                                           Height="40"
+                                           HorizontalAlignment="Stretch"
+                                           VerticalAlignment="Stretch"
+                                           Fill="{DynamicResource Metro.AccentBrush}"
+                                           RenderOptions.EdgeMode="Aliased" />
+                                <TextBlock Margin="6,3"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Bottom"
+                                           FontSize="{DynamicResource Metro.MediumFontSize}"
+                                           FontWeight="Bold"
+                                           Foreground="{DynamicResource Metro.NormalTextBrush}"
+                                           Text="{Binding Name}" />
+                            </Grid>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListView.GroupStyle>
+        </ListView>
+    </DockPanel>
 </Page>
