@@ -417,6 +417,7 @@
             </StatusBarItem>
         </StatusBar>
         <Grid Grid.Row="0"
+              Grid.RowSpan="3"
               Visibility="{Binding IsPopupVisible,
                                    Converter={StaticResource BooleanToVisibilityConverter}}"
               ZIndex="100000">

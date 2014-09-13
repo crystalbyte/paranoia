@@ -188,6 +188,7 @@
     <Compile Include="RevisionTracker.cs" />
     <Compile Include="SecurityMeasure.cs" />
     <Compile Include="UI\Commands\AddAttachmentCommand.cs" />
+    <Compile Include="UI\Commands\DeleteContactsCommand.cs" />
     <Compile Include="UI\Commands\MarkAsNotSeenCommand.cs" />
     <Compile Include="UI\Commands\MarkAsSeenCommand.cs" />
     <Compile Include="UI\Commands\OpenAttachmentCommand.cs" />
@@ -345,6 +346,7 @@
       <DependentUpon>ProgressRing.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\SafeWebFontProvider.cs" />
+    <Compile Include="UI\ItemsControlExtensions.cs" />
     <Compile Include="UI\TypeExtensions.cs" />
     <Compile Include="UI\Pages\ComposeMessagePage.xaml.cs">
       <DependentUpon>ComposeMessagePage.xaml</DependentUpon>
@@ -572,6 +574,8 @@
     <Resource Include="Assets\attach.png" />
     <Resource Include="Assets\message.copy.png" />
     <Resource Include="Assets\security.png" />
+    <Resource Include="Assets\block.png" />
+    <Resource Include="Assets\key.png" />
     <Content Include="Resources\ckeditor.paranoia\paranoia.js" />
     <Content Include="Resources\ckeditor\adapters\jquery.js" />
     <Content Include="Resources\ckeditor\build-config.js" />

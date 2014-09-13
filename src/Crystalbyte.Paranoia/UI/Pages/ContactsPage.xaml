@@ -28,7 +28,7 @@
     <DockPanel Background="{DynamicResource Metro.ControlDarkBackgroundBrush}" LastChildFill="True">
         <DockPanel Background="{DynamicResource Metro.ControlBackgroundBrush}"
                    DockPanel.Dock="Top"
-                   LastChildFill="False">
+                   LastChildFill="True">
             <TextBox Width="250"
                      Margin="12,6"
                      HorizontalAlignment="Left"
@@ -37,15 +37,71 @@
                      Text="{Binding ContactQueryString,
                                     UpdateSourceTrigger=PropertyChanged,
                                     Mode=TwoWay}" />
-            <ui:MetroCircleButton VerticalAlignment="Center"
-                                  Command="{Binding RefreshKeysCommand}"
-                                  DockPanel.Dock="Right">
-                <Image Width="18" Source="/Assets/refresh.png" />
-            </ui:MetroCircleButton>
+            <ItemsControl VerticalAlignment="Center"
+                          BorderThickness="0"
+                          ItemsSource="{Binding Alphabet}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Width="26"
+                                BorderThickness="0"
+                                Command="ui:PageCommands.ScrollToLetter">
+                            <TextBlock Margin="0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="{DynamicResource Metro.NormalFontSize}"
+                                       FontWeight="Normal"
+                                       Style="{DynamicResource Metro.TitleTextStyle}"
+                                       Text="{Binding}" />
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </DockPanel>
-        <ListView Background="{DynamicResource Metro.ControlDarkBackgroundBrush}"
+        <DockPanel Background="{DynamicResource Metro.ControlBackgroundBrush}"
+                   Dock="Bottom"
+                   LastChildFill="False">
+            <StackPanel Margin="12,0,0,0"
+                        DockPanel.Dock="Left"
+                        Orientation="Horizontal">
+                <ui:MetroCircleButton VerticalAlignment="Center"
+                                      BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                      Command="{Binding DeleteContactCommand}">
+                    <Image Width="18" Source="/Assets/delete.png" />
+                </ui:MetroCircleButton>
+                <ui:MetroCircleButton VerticalAlignment="Center"
+                                      BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                      Command="{Binding BlockContactsCommand}">
+                    <Image Width="18" Source="/Assets/block.png" />
+                </ui:MetroCircleButton>
+
+            </StackPanel>
+            <StackPanel Margin="0,6,12,6"
+                        DockPanel.Dock="Right"
+                        Orientation="Horizontal">
+                <ui:MetroCircleButton VerticalAlignment="Center"
+                                      BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                      Command="{Binding CreateContactCommand}">
+                    <Image Width="18" Source="/Assets/add.png" />
+                </ui:MetroCircleButton>
+                <ui:MetroCircleButton VerticalAlignment="Center"
+                                      BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                      Command="{Binding RefreshKeysCommand}">
+                    <Image Width="18" Source="/Assets/key.png" />
+                </ui:MetroCircleButton>
+            </StackPanel>
+        </DockPanel>
+        <ListView x:Name="ContactsList"
+                  Margin="-1,0,-1,0"
+                  Background="{DynamicResource Metro.ControlDarkBackgroundBrush}"
                   BorderThickness="0"
-                  ItemsSource="{Binding Source={StaticResource ContactsSource}}">
+                  ItemsSource="{Binding Source={StaticResource ContactsSource}}"
+                  SelectedValue="{Binding SelectedContact,
+                                          Mode=OneWayToSource}">
             <ListView.ItemContainerStyle>
                 <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                     <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->

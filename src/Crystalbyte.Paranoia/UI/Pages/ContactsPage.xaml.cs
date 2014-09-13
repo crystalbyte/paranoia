@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Crystalbyte.Paranoia.UI.Pages {
     /// <summary>
@@ -21,6 +11,36 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         public ContactsPage() {
             InitializeComponent();
             DataContext = App.Context;
+
+            CommandBindings.Add(new CommandBinding(PageCommands.ScrollToLetter, OnScrollToLetter, OnCanScrollToLetter));
+        }
+
+        private void OnCanScrollToLetter(object sender, CanExecuteRoutedEventArgs e) {
+            var button = e.OriginalSource as Button;
+            if (button == null) {
+                return;
+            }
+
+            var value = (char)button.DataContext;
+            var contact = App.Context.Contacts.FirstOrDefault(
+                x => x.Name.StartsWith(new string(value, 1), StringComparison.InvariantCultureIgnoreCase));
+            e.CanExecute = contact != null;
+        }
+
+        private void OnScrollToLetter(object sender, ExecutedRoutedEventArgs e) {
+            var button = e.OriginalSource as Button;
+            if (button == null) {
+                return;
+            }
+
+            var value = (char)button.DataContext;
+
+            var contact = App.Context.Contacts
+                .Where(x => !x.Name.StartsWith("NIL", StringComparison.InvariantCultureIgnoreCase))
+                .FirstOrDefault(x => x.Name.StartsWith(new string(value, 1), StringComparison.InvariantCultureIgnoreCase));
+
+            if (contact != null)
+                ContactsList.ScrollToCenterOfView(contact);
         }
     }
 }

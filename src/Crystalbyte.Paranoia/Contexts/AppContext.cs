@@ -66,7 +66,6 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _deleteContactCommand;
         private readonly ICommand _deleteMessagesCommand;
         private readonly ICommand _refreshKeysCommand;
-        private bool _isAllContactsSelected;
         private bool _isSortAscending;
         private string _queryContactString;
 
@@ -97,7 +96,7 @@ namespace Crystalbyte.Paranoia {
             _refreshKeysCommand = new RelayCommand(OnRefreshKeys);
             _deleteMessagesCommand = new DeleteMessagesCommand(this);
             _markAsNotSeenCommand = new MarkAsNotSeenCommand(this);
-            _deleteContactCommand = new RelayCommand(OnDeleteContact);
+            _deleteContactCommand = new DeleteContactsCommand(this);
             _createAccountCommand = new RelayCommand(OnCreateAccount);
             _createContactCommand = new RelayCommand(OnCreateContact);
             _resetZoomCommand = new RelayCommand(p => Zoom = 100.0f);
@@ -221,9 +220,13 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void OnDeleteContact(object obj) {
-
+        public object Alphabet {
+            get {
+                return Enumerable.Range(65, 25)
+                    .Select(Convert.ToChar).ToArray();
+            }
         }
+
 
         internal async Task FilterContactsAsync(string query) {
             _contacts.Clear();
@@ -352,6 +355,16 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => IsMessageSelected);
         }
 
+        internal event EventHandler ContactSelectionChanged;
+
+        internal void OnContactSelectionChanged() {
+            var handler = ContactSelectionChanged;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+
+            RaisePropertyChanged(() => SelectedContact);
+        }
+
         internal event EventHandler<QueryStringEventArgs> QueryStringChanged;
 
         private void OnQueryStringChanged(QueryStringEventArgs e) {
@@ -432,26 +445,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool IsAllContactsSelected {
-            get { return _isAllContactsSelected; }
-            set {
-                if (_isAllContactsSelected == value) {
-                    return;
-                }
-                _isAllContactsSelected = value;
-                RaisePropertyChanged(() => IsAllContactsSelected);
-                OnIsAllContactsSelected();
-            }
-        }
-
-        private void OnIsAllContactsSelected() {
-            if (IsAllContactsSelected && SelectedContact != null) {
-                Contacts.ForEach(x => x.IsSelected = false);
-            } else {
-                OnContactSelectionChanged();
-            }
-        }
-
         public MailContactContext SelectedContact {
             get { return _selectedContact; }
             set {
@@ -475,8 +468,6 @@ namespace Crystalbyte.Paranoia {
                 RaisePropertyChanged(() => TransitAccount);
             }
         }
-
-        private void OnContactSelectionChanged() { }
 
         internal void NotifyAccountCreated(MailAccountContext account) {
             _accounts.Add(account);
@@ -913,6 +904,10 @@ namespace Crystalbyte.Paranoia {
         internal void NotifyMessagesRemoved(IEnumerable<MailMessageContext> messages) {
             messages.ForEach(x => _messages.Remove(x));
             RaisePropertyChanged(() => Messages);
+        }
+
+        internal Task DeleteSelectedContactsAsync() {
+            throw new NotImplementedException();
         }
     }
 }
