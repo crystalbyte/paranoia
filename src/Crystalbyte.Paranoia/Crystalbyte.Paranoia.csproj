@@ -206,6 +206,7 @@
     <Compile Include="UI\AutoCompleteBoxCommands.cs" />
     <Compile Include="UI\Commands\RelayCommand.cs" />
     <Compile Include="UI\Commands\SendCommand.cs" />
+    <Compile Include="UI\Converters\SecurityToColorConverter.cs" />
     <Compile Include="UI\HtmlControl.xaml.cs">
       <DependentUpon>HtmlControl.xaml</DependentUpon>
     </Compile>
@@ -570,6 +571,7 @@
     <Resource Include="Assets\earth.jpg" />
     <Resource Include="Assets\attach.png" />
     <Resource Include="Assets\message.copy.png" />
+    <Resource Include="Assets\security.png" />
     <Content Include="Resources\ckeditor.paranoia\paranoia.js" />
     <Content Include="Resources\ckeditor\adapters\jquery.js" />
     <Content Include="Resources\ckeditor\build-config.js" />

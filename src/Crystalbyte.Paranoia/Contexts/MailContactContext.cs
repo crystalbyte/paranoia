@@ -1,7 +1,10 @@
 ﻿#region Using directives
 
 using System;
+using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 
 #endregion
@@ -9,9 +12,10 @@ using Crystalbyte.Paranoia.Data;
 namespace Crystalbyte.Paranoia {
     public sealed class MailContactContext : SelectionObject {
         private readonly MailContactModel _contact;
-        private bool _isValidated;
+        private bool _isVerified;
         private int _notSeenCount;
         private int _messageCount;
+        private bool _hasKeys;
 
         internal MailContactContext(MailContactModel contact) {
             _contact = contact;
@@ -19,6 +23,21 @@ namespace Crystalbyte.Paranoia {
 
         public bool HasUnseenMessages {
             get { return NotSeenCount > 0; }
+        }
+
+        public async Task NotifyKeysUpdatedAsync() {
+            await CheckForKeyExistenceAsync();
+            RaisePropertyChanged(() => Security);
+        }
+
+        public SecurityMeasure Security {
+            get {
+                if (HasKeys && IsVerified) {
+                    return SecurityMeasure.EncryptedAndVerified;
+                }
+
+                return HasKeys ? SecurityMeasure.Encrypted : SecurityMeasure.None;
+            }
         }
 
         public int NotSeenCount {
@@ -53,14 +72,25 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool IsValidated {
-            get { return _isValidated; }
+        public bool HasKeys {
+            get { return _hasKeys; }
             set {
-                if (_isValidated == value) {
+                if (_hasKeys == value) {
                     return;
                 }
-                _isValidated = value;
-                RaisePropertyChanged(() => IsValidated);
+                _hasKeys = value;
+                RaisePropertyChanged(() => HasKeys);
+            }
+        }
+
+        public bool IsVerified {
+            get { return _isVerified; }
+            set {
+                if (_isVerified == value) {
+                    return;
+                }
+                _isVerified = value;
+                RaisePropertyChanged(() => IsVerified);
             }
         }
 
@@ -85,6 +115,14 @@ namespace Crystalbyte.Paranoia {
 
                 _contact.Name = value;
                 RaisePropertyChanged(() => Name);
+            }
+        }
+
+        internal async Task CheckForKeyExistenceAsync() {
+            using (var database = new DatabaseContext()) {
+                HasKeys = (await database.PublicKeys
+                    .Where(x => x.ContactId == _contact.Id)
+                    .CountAsync()) > 0;
             }
         }
     }

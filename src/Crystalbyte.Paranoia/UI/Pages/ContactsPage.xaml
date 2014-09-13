@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
+      xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="Contacts"
       d:DataContext="{d:DesignInstance paranoia:AppContext}"
       d:DesignHeight="300"
@@ -25,15 +26,23 @@
         </CollectionViewSource>
     </Page.Resources>
     <DockPanel Background="{DynamicResource Metro.ControlDarkBackgroundBrush}" LastChildFill="True">
-        <Grid Background="{DynamicResource Metro.ControlBackgroundBrush}" DockPanel.Dock="Top">
+        <DockPanel Background="{DynamicResource Metro.ControlBackgroundBrush}"
+                   DockPanel.Dock="Top"
+                   LastChildFill="False">
             <TextBox Width="250"
                      Margin="12,6"
                      HorizontalAlignment="Left"
                      Background="{DynamicResource Metro.ControlDarkBackgroundBrush}"
+                     DockPanel.Dock="Left"
                      Text="{Binding ContactQueryString,
                                     UpdateSourceTrigger=PropertyChanged,
                                     Mode=TwoWay}" />
-        </Grid>
+            <ui:MetroCircleButton VerticalAlignment="Center"
+                                  Command="{Binding RefreshKeysCommand}"
+                                  DockPanel.Dock="Right">
+                <Image Width="18" Source="/Assets/refresh.png" />
+            </ui:MetroCircleButton>
+        </DockPanel>
         <ListView Background="{DynamicResource Metro.ControlDarkBackgroundBrush}"
                   BorderThickness="0"
                   ItemsSource="{Binding Source={StaticResource ContactsSource}}">
@@ -59,9 +68,8 @@
                                                 IsAsync=True,
                                                 Converter={StaticResource GravatarImageConverter},
                                                 ConverterParameter=48}" />
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Width="250"
-                                       Margin="0"
+                        <StackPanel Width="250" VerticalAlignment="Center">
+                            <TextBlock Margin="0"
                                        FontSize="{DynamicResource Metro.MediumLargeFontSize}"
                                        Style="{DynamicResource Metro.TitleTextStyle}"
                                        Text="{Binding Name,
@@ -80,6 +88,17 @@
                                        TextTrimming="CharacterEllipsis"
                                        TextWrapping="NoWrap" />
                         </StackPanel>
+                        <Grid Margin="12,0">
+                            <Rectangle Width="24"
+                                       Height="24"
+                                       Fill="{Binding Security,
+                                                      Converter={StaticResource SecurityToColorConverter}}">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/Assets/security.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+
+                        </Grid>
                     </StackPanel>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding IsSelected}" Value="True">

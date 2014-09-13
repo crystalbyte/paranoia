@@ -138,7 +138,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="ScrollBarStyle" TargetType="{x:Type   ScrollBar}">
+    <Style x:Key="ScrollBarStyle" TargetType="{x:Type ScrollBar}">
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
         <Setter Property="Background" Value="{DynamicResource Metro.ControlDarkBackgroundBrush}" />

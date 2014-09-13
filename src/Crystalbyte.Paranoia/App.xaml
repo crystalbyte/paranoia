@@ -28,6 +28,7 @@
                 <ResourceDictionary Source="/Themes/Metro.ToolTip.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <converters:SecurityToColorConverter x:Key="SecurityToColorConverter" />
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />
             <converters:MailboxLocalizer x:Key="MailboxLocalizer" />
             <converters:NullOrEmptyFormatter x:Key="NullOrEmptyFormatter" />

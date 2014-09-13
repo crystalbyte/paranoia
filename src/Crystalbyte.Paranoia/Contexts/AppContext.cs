@@ -103,7 +103,7 @@ namespace Crystalbyte.Paranoia {
             _resetZoomCommand = new RelayCommand(p => Zoom = 100.0f);
 
             Observable.Timer(TimeSpan.FromHours(24))
-                .Subscribe(OnRefreshContactKeys);
+                .Subscribe(OnRefreshKeys);
 
             Observable.FromEventPattern(
                 action => MessageSelectionChanged += action,
@@ -155,7 +155,7 @@ namespace Crystalbyte.Paranoia {
             await RefreshKeysForAllContactsAsync();
         }
 
-        private async void OnRefreshContactKeys(long obj) {
+        private async void OnRefreshKeys(long obj) {
             await RefreshKeysForAllContactsAsync();
         }
 
@@ -176,6 +176,10 @@ namespace Crystalbyte.Paranoia {
                         }
                         await UpdateKeysInDatabaseForContactAsync(contact, entry);
                     }
+                }
+
+                foreach (var contact in _contacts) {
+                    await contact.NotifyKeysUpdatedAsync();
                 }
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -217,7 +221,9 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void OnDeleteContact(object obj) { }
+        private void OnDeleteContact(object obj) {
+
+        }
 
         internal async Task FilterContactsAsync(string query) {
             _contacts.Clear();
@@ -245,6 +251,9 @@ namespace Crystalbyte.Paranoia {
             }
 
             _contacts.AddRange(contacts.Select(x => new MailContactContext(x)));
+            foreach (var contact in _contacts) {
+                await contact.CheckForKeyExistenceAsync();
+            }
         }
 
         /// <summary>
