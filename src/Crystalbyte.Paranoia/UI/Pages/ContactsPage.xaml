@@ -80,7 +80,7 @@
                 </ui:MetroCircleButton>
 
             </StackPanel>
-            <StackPanel Margin="0,6,12,6"
+            <StackPanel Margin="0,3,12,3"
                         DockPanel.Dock="Right"
                         Orientation="Horizontal">
                 <ui:MetroCircleButton VerticalAlignment="Center"
