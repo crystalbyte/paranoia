@@ -16,37 +16,37 @@ namespace Crystalbyte.Paranoia {
         internal void SetCurrentMessage() {
         }
 
-        private long _lastId = -1;
         public ResourceResponse OnRequest(ResourceRequest request) {
             if (request.Url.Scheme != "asset")
                 return null;
 
             //TODO improve this
-            if (_lastId != -1 && request.Url.Segments[1] == "cid/") {
+            var arguments = request.Url.OriginalString.ToPageArguments();
+            long messageId;
+            if (arguments.ContainsKey("messageId") && long.TryParse(arguments["messageId"], out messageId)) {
                 using (var database = new DatabaseContext()) {
-                    var message = database.MimeMessages.FirstOrDefault(x => x.MessageId == _lastId);
+                    var message = database.MimeMessages.FirstOrDefault(x => x.MessageId == messageId);
 
                     if (message != null) {
                         var reader = new MailMessageReader(Encoding.UTF8.GetBytes(message.Data));
                         var attachments = reader.FindAllAttachments();
 
-                        var attachment = attachments.FirstOrDefault(x => x.ContentId == request.Url.Segments[2]);
-                        if (attachment != null) {
-                            var buffer = Marshal.AllocHGlobal(attachment.Body.Length);
-                            Marshal.Copy(attachment.Body, 0, buffer, attachment.Body.Length);
+                        if (arguments.ContainsKey("cid")) {
+                            var attachment = attachments.FirstOrDefault(x => x.ContentId == Uri.UnescapeDataString(arguments["cid"]));
+                            if (attachment != null) {
+                                var buffer = Marshal.AllocHGlobal(attachment.Body.Length);
+                                Marshal.Copy(attachment.Body, 0, buffer, attachment.Body.Length);
 
-                            var response = ResourceResponse.Create((uint)attachment.Body.Length, buffer, "image");
+                                var response = ResourceResponse.Create((uint)attachment.Body.Length, buffer, "image");
 
-                            Marshal.FreeHGlobal(buffer);
-                            return response;
+                                Marshal.FreeHGlobal(buffer);
+                                return response;
+                            }
                         }
                     }
                 }
             }
 
-            if (!long.TryParse(request.Url.Segments[2], out _lastId)) {
-                _lastId = -1;
-            }
 
             //asset://tempImage/
             var image = request.Url.AbsolutePath.StartsWith("/") ? request.Url.AbsolutePath.Remove(0, 1) : request.Url.AbsolutePath;
