@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Threading.Tasks;
 
 #endregion
 
@@ -30,8 +29,8 @@ namespace Crystalbyte.Paranoia.Data {
         [Collate(CollatingSequence.NoCase)]
         public string Address { get; set; }
 
-        [Column("security_measure")]
-        public SecurityMeasure SecurityMeasure { get; set; }
+        [Column("is_blocked")]
+        public bool IsBlocked { get; set; }
 
         public virtual ICollection<PublicKeyModel> Keys {
             get { return _keys; }

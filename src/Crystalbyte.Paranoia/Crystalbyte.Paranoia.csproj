@@ -154,6 +154,7 @@
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="AudioPlayer.cs" />
     <Compile Include="Contexts\AttachmentContext.cs" />
+    <Compile Include="UI\Commands\BlockContactsCommand.cs" />
     <Compile Include="Contexts\CreateContactContext.cs" />
     <Compile Include="Contexts\CreateKeyPairContext.cs" />
     <Compile Include="Contexts\HierarchyContext.cs" />

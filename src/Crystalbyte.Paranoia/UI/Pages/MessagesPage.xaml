@@ -36,7 +36,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Background="{DynamicResource Metro.MenuBackgroundBrush}">
+        <Grid Grid.Column="0" Background="{DynamicResource Metro.WindowBackgroundBrush}">
             <DockPanel LastChildFill="True">
                 <Border HorizontalAlignment="Stretch"
                         BorderBrush="{DynamicResource Metro.ControlBorderBrush}"
@@ -72,7 +72,7 @@
                 <TreeView Margin="0"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
-                          Background="{DynamicResource Metro.MenuBackgroundBrush}"
+                          Background="{DynamicResource Metro.WindowBackgroundBrush}"
                           BorderThickness="0"
                           ItemsSource="{Binding Accounts}"
                           Padding="0"
@@ -260,7 +260,7 @@
                    Opacity="{DynamicResource Metro.ShadowOpacity}" />
         <DockPanel Grid.Row="0"
                    Grid.Column="2"
-                   Background="{DynamicResource Metro.MenuBackgroundBrush}"
+                   Background="{DynamicResource Metro.WindowBackgroundBrush}"
                    LastChildFill="True">
             <Grid DockPanel.Dock="Top">
                 <Grid.RowDefinitions>
@@ -384,7 +384,7 @@
                     <ListView.ItemContainerStyle>
                         <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
                             <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
-                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=OneWayToSource}" />
                             <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Mvsp}" />
                             <Setter Property="Padding" Value="6,1,6,1" />
                         </Style>

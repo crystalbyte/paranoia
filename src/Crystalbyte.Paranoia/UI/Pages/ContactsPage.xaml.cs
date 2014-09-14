@@ -15,7 +15,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             CommandBindings.Add(new CommandBinding(PageCommands.ScrollToLetter, OnScrollToLetter, OnCanScrollToLetter));
         }
 
-        private void OnCanScrollToLetter(object sender, CanExecuteRoutedEventArgs e) {
+        private static void OnCanScrollToLetter(object sender, CanExecuteRoutedEventArgs e) {
             var button = e.OriginalSource as Button;
             if (button == null) {
                 return;
@@ -41,6 +41,24 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
             if (contact != null)
                 ContactsList.ScrollToCenterOfView(contact);
+        }
+
+        private void OnContactsSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (!IsLoaded) {
+                return;
+            }
+
+            var app = App.Context;
+            app.OnContactSelectionChanged();
+
+            var contact = app.SelectedContact;
+            if (contact == null)
+                return;
+
+            var container = (Control)ContactsList.ItemContainerGenerator.ContainerFromItem(contact);
+            if (container != null) {
+                container.Focus();
+            }
         }
     }
 }

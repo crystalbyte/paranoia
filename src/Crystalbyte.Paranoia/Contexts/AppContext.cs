@@ -52,7 +52,6 @@ namespace Crystalbyte.Paranoia {
         private readonly ObservableCollection<MailAccountContext> _accounts;
         private readonly ObservableCollection<MailContactContext> _contacts;
         private readonly ObservableCollection<NavigationContext> _navigationOptions;
-        private MailContactContext _selectedContact;
         private readonly ICommand _printCommand;
         private readonly ICommand _resetZoomCommand;
         private readonly ICommand _replyCommand;
@@ -60,10 +59,11 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _forwardCommand;
         private readonly ICommand _restoreMessagesCommand;
         private readonly ICommand _markAsSeenCommand;
+        private readonly ICommand _blockContactsCommand;
         private readonly ICommand _markAsNotSeenCommand;
         private readonly ICommand _createAccountCommand;
         private readonly ICommand _createContactCommand;
-        private readonly ICommand _deleteContactCommand;
+        private readonly ICommand _deleteContactsCommand;
         private readonly ICommand _deleteMessagesCommand;
         private readonly ICommand _refreshKeysCommand;
         private bool _isSortAscending;
@@ -94,9 +94,10 @@ namespace Crystalbyte.Paranoia {
             _restoreMessagesCommand = new RestoreMessagesCommand(this);
             _markAsSeenCommand = new MarkAsSeenCommand(this);
             _refreshKeysCommand = new RelayCommand(OnRefreshKeys);
+            _blockContactsCommand = new BlockContactsCommand(this);
             _deleteMessagesCommand = new DeleteMessagesCommand(this);
             _markAsNotSeenCommand = new MarkAsNotSeenCommand(this);
-            _deleteContactCommand = new DeleteContactsCommand(this);
+            _deleteContactsCommand = new DeleteContactsCommand(this);
             _createAccountCommand = new RelayCommand(OnCreateAccount);
             _createContactCommand = new RelayCommand(OnCreateContact);
             _resetZoomCommand = new RelayCommand(p => Zoom = 100.0f);
@@ -363,6 +364,7 @@ namespace Crystalbyte.Paranoia {
                 handler(this, EventArgs.Empty);
 
             RaisePropertyChanged(() => SelectedContact);
+            RaisePropertyChanged(() => SelectedContacts);
         }
 
         internal event EventHandler<QueryStringEventArgs> QueryStringChanged;
@@ -442,18 +444,6 @@ namespace Crystalbyte.Paranoia {
                 }
                 _source = value;
                 RaisePropertyChanged(() => Source);
-            }
-        }
-
-        public MailContactContext SelectedContact {
-            get { return _selectedContact; }
-            set {
-                if (_selectedContact == value) {
-                    return;
-                }
-                _selectedContact = value;
-                RaisePropertyChanged(() => SelectedContact);
-                OnContactSelectionChanged();
             }
         }
 
@@ -586,6 +576,10 @@ namespace Crystalbyte.Paranoia {
             get { return _createContactCommand; }
         }
 
+        public ICommand BlockContactsCommand {
+            get { return _blockContactsCommand; }
+        }
+
         public ICommand ComposeCommand {
             get { return _composeCommand; }
         }
@@ -598,8 +592,8 @@ namespace Crystalbyte.Paranoia {
             get { return _replyCommand; }
         }
 
-        public ICommand DeleteContactCommand {
-            get { return _deleteContactCommand; }
+        public ICommand DeleteContactsCommand {
+            get { return _deleteContactsCommand; }
         }
 
         public ICommand ForwardCommand {
@@ -626,6 +620,18 @@ namespace Crystalbyte.Paranoia {
 
         public IEnumerable<MailMessageContext> SelectedMessages {
             get { return _messages.Where(x => x.IsSelected).ToArray(); }
+        }
+
+        public IEnumerable<MailContactContext> SelectedContacts {
+            get { return _contacts.Where(x => x.IsSelected).ToArray(); }
+        }
+
+        public MailContactContext SelectedContact {
+            get {
+                return SelectedContacts == null
+                    ? null
+                    : SelectedContacts.FirstOrDefault();
+            }
         }
 
         public MailMessageContext SelectedMessage {
@@ -906,8 +912,34 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => Messages);
         }
 
-        internal Task DeleteSelectedContactsAsync() {
-            throw new NotImplementedException();
+        internal async Task DeleteSelectedContactsAsync() {
+            using (var database = new DatabaseContext()) {
+                var contacts = _contacts.Select(x => new MailContactModel {
+                    Id = x.Id
+                }).ToArray();
+
+                database.MailContacts.RemoveRange(contacts);
+                await database.SaveChangesAsync();
+            }
+        }
+
+        internal async Task BlockSelectedUsersAsync() {
+            var contacts = SelectedContacts.ToArray();
+
+            using (var database = new DatabaseContext()) {
+                foreach (var contact in contacts) {
+                    try {
+                        var c = await database.MailContacts.FindAsync(contact.Id);
+                        c.IsBlocked = true;
+                        contact.IsBlocked = true;
+                    }
+                    catch (Exception ex) {
+                        Logger.Error(ex);
+                    }
+                }
+
+                await database.SaveChangesAsync();
+            }
         }
     }
 }

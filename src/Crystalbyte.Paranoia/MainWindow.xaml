@@ -11,7 +11,7 @@
                 Height="768"
                 MinWidth="200"
                 MinHeight="100"
-                Background="{DynamicResource Metro.MenuBackgroundBrush}"
+                Background="{DynamicResource Metro.WindowBackgroundBrush}"
                 BorderThickness="0"
                 KeyboardNavigation.TabNavigation="Local"
                 UseLayoutRounding="True"

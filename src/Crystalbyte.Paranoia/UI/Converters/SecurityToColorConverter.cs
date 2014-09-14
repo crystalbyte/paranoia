@@ -8,8 +8,8 @@ namespace Crystalbyte.Paranoia.UI.Converters {
     [ValueConversion(typeof(SecurityMeasure), typeof(Brush))]
     public sealed class SecurityToColorConverter : IValueConverter {
 
-        private readonly static Brush RedBrush = new SolidColorBrush(Colors.Red);
-        private readonly static Brush YellowBrush = new SolidColorBrush(Colors.Yellow);
+        private readonly static Brush RedBrush = new SolidColorBrush(Colors.Transparent);
+        private readonly static Brush YellowBrush = new SolidColorBrush(Colors.Orange);
         private readonly static Brush GreenBrush = new SolidColorBrush(Colors.Green);
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {

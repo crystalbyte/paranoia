@@ -1,7 +1,6 @@
 ﻿#region Using directives
 
 using System;
-using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +15,7 @@ namespace Crystalbyte.Paranoia {
         private int _notSeenCount;
         private int _messageCount;
         private bool _hasKeys;
+        private bool _isBlocked;
 
         internal MailContactContext(MailContactModel contact) {
             _contact = contact;
@@ -28,6 +28,22 @@ namespace Crystalbyte.Paranoia {
         public async Task NotifyKeysUpdatedAsync() {
             await CheckForKeyExistenceAsync();
             RaisePropertyChanged(() => Security);
+        }
+
+        public long Id {
+            get { return _contact.Id; }
+        }
+
+        public bool IsBlocked {
+            get { return _isBlocked; }
+            set {
+                if (_isBlocked == value) {
+                    return;
+                }
+
+                _isBlocked = value;
+                RaisePropertyChanged(() => IsBlocked);
+            }
         }
 
         public SecurityMeasure Security {

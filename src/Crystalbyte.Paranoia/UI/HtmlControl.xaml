@@ -3,7 +3,6 @@
                     xmlns:awe="http://schemas.awesomium.com/winfx"
                     xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
                     xmlns:core="clr-namespace:Awesomium.Core;assembly=Awesomium.Core"
-                    xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -29,7 +28,7 @@
         <Setter Property="Focusable" Value="False" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
-        <Setter Property="Background" Value="{DynamicResource Metro.ControlDarkBackgroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource Metro.ControlAlternateBackgroundBrush}" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0,1.2,0,0" />
         <Setter Property="Template">

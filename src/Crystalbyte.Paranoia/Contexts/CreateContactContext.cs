@@ -34,8 +34,7 @@ namespace Crystalbyte.Paranoia {
         private async Task<MailContactModel> SaveContactToDatabaseAsync() {
             var contact = new MailContactModel {
                 Name = Name,
-                Address = Address,
-                SecurityMeasure = SecurityMeasure.None
+                Address = Address
             };
 
             using (var database = new DatabaseContext()) {
