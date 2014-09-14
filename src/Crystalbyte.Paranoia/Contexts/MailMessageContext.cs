@@ -124,10 +124,10 @@ namespace Crystalbyte.Paranoia {
 
         private async Task SaveFlagsToDatabaseAsync() {
             try {
-                using (var context = new DatabaseContext()) {
-                    context.MailMessages.Attach(_message);
-                    context.Entry(_message).State = EntityState.Modified;
-                    await context.SaveChangesAsync();
+                using (var database = new DatabaseContext()) {
+                    var message = await database.MailMessages.FindAsync(_message.Id);
+                    message.Flags = _message.Flags;
+                    await database.SaveChangesAsync();
                 }
             } catch (Exception ex) {
                 Logger.Error(ex);

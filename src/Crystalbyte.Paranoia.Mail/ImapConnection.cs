@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Security;
 using System.Net.Sockets;
+using System.Runtime.ConstrainedExecution;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -85,7 +87,7 @@ namespace Crystalbyte.Paranoia.Mail {
 
         internal async Task<ImapResponseLine> ReadAsync() {
             var line = await _reader.ReadLineAsync();
-            //Debug.WriteLine(line);
+            Debug.WriteLine(line);
             return new ImapResponseLine(line);
         }
 
@@ -180,7 +182,11 @@ namespace Crystalbyte.Paranoia.Mail {
 
         private bool OnRemoteCertificateValidationCallback(object sender, X509Certificate cert, X509Chain chain,
             SslPolicyErrors error) {
-            return error == SslPolicyErrors.None || OnRemoteCertificateValidationFailed(cert, chain, error);
+            return error == SslPolicyErrors.None
+
+                || (ServicePointManager.ServerCertificateValidationCallback != null 
+                    && ServicePointManager.ServerCertificateValidationCallback(sender, cert, chain, error))
+                || OnRemoteCertificateValidationFailed(cert, chain, error);
         }
 
         public async Task TerminateCommandAsync(string commandId) {

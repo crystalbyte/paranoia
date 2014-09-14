@@ -42,7 +42,6 @@ namespace Crystalbyte.Paranoia {
         private readonly AppContext _appContext;
         private readonly MailAccountModel _account;
         private readonly ICommand _listMailboxesCommand;
-        private readonly ICommand _selectMailboxCommand;
         private readonly ICommand _testSettingsCommand;
         private readonly ICommand _registerCommand;
         private readonly ICommand _deleteAccountCommand;
@@ -64,7 +63,6 @@ namespace Crystalbyte.Paranoia {
             _appContext = App.Context;
             _outbox = new OutboxContext(this);
             _registerCommand = new RelayCommand(OnRegister);
-            _selectMailboxCommand = new RelayCommand(OnSelectMailbox);
             _listMailboxesCommand = new RelayCommand(OnListMailboxes);
             _testSettingsCommand = new RelayCommand(OnTestSettings);
             _configAccountCommand = new RelayCommand(OnConfigAccount);
@@ -150,10 +148,6 @@ namespace Crystalbyte.Paranoia {
 
         public ICommand TestSettingsCommand {
             get { return _testSettingsCommand; }
-        }
-
-        public ICommand SelectMailboxCommand {
-            get { return _selectMailboxCommand; }
         }
 
         public ICommand ListMailboxesCommand {

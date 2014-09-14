@@ -145,7 +145,7 @@
                                        VerticalAlignment="Center"
                                        RenderOptions.BitmapScalingMode="Fant"
                                        Source="{Binding Address,
-                                                        ConverterParameter=36,
+                                                        ConverterParameter=48,
                                                         Converter={StaticResource GravatarImageConverter}}" />
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                     <TextBlock Margin="2,-2,0,0"
