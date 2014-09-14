@@ -464,4 +464,7 @@ Once your password is lost you're screwed.</value>
   <data name="Properties" xml:space="preserve">
     <value>Properties</value>
   </data>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>Paranoia</value>
+  </data>
 </root>

@@ -93,5 +93,17 @@ namespace Crystalbyte.Paranoia.Properties {
                 return ((global::System.Collections.Specialized.StringCollection)(this["GmailDomains"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AcceptUntrustedCertificates {
+            get {
+                return ((bool)(this["AcceptUntrustedCertificates"]));
+            }
+            set {
+                this["AcceptUntrustedCertificates"] = value;
+            }
+        }
     }
 }

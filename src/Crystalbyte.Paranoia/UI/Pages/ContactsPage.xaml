@@ -78,6 +78,11 @@
                                       Command="{Binding BlockContactsCommand}">
                     <Image Width="18" Source="/Assets/block.png" />
                 </ui:MetroCircleButton>
+                <ui:MetroCircleButton VerticalAlignment="Center"
+                                      BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                      Command="{Binding UnblockContactsCommand}">
+                    <Image Width="18" Source="/Assets/unblock.png" />
+                </ui:MetroCircleButton>
 
             </StackPanel>
             <StackPanel Margin="0,3,6,3"

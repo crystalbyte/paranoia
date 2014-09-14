@@ -5,7 +5,6 @@ using System.Data.Entity;
 using System.Composition;
 using System.Composition.Hosting;
 using System.Configuration;
-using System.Diagnostics;
 using System.Net;
 using System.Threading;
 using System.Windows;
@@ -13,6 +12,7 @@ using Awesomium.Core;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
+using Crystalbyte.Paranoia.Properties;
 
 #endregion
 
@@ -32,6 +32,8 @@ namespace Crystalbyte.Paranoia {
 
 #if DEBUG
         protected async override void OnStartup(StartupEventArgs e) {
+
+            Settings.Default.AcceptUntrustedCertificates = true;
 #else
  protected override void OnStartup(StartupEventArgs e) {
 #endif
@@ -39,10 +41,9 @@ namespace Crystalbyte.Paranoia {
             base.OnStartup(e);
 
             Thread.CurrentThread.Name = "Dispatcher Thread";
-            //MessageBox.Show("" + Thread.CurrentThread.ManagedThreadId);
 
-            // TODO: remove on valid certificate usage ...
-            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+            ServicePointManager.ServerCertificateValidationCallback =
+                delegate { return Settings.Default.AcceptUntrustedCertificates; };
 
             InitEnvironment();
             InitSodium();
@@ -93,22 +94,7 @@ namespace Crystalbyte.Paranoia {
                     SmtpRequiresAuthentication = true,
                 };
 
-                //account.Mailboxes.Add(new MailboxModel
-                //{
-                //    Type = MailboxType.Inbox
-                //});
-                //account.Mailboxes.Add(new MailboxModel
-                //{
-                //    Type = MailboxType.Trash
-                //});
-                //account.Mailboxes.Add(new MailboxModel
-                //{
-                //    Type = MailboxType.Sent
-                //});
-                //account.Mailboxes.Add(new MailboxModel
-                //{
-                //    Type = MailboxType.Draft
-                //});
+                Settings.Default.AcceptUntrustedCertificates = true;
 
                 database.MailAccounts.Add(account);
 

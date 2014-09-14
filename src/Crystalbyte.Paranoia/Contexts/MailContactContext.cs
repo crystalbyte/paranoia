@@ -15,7 +15,6 @@ namespace Crystalbyte.Paranoia {
         private int _notSeenCount;
         private int _messageCount;
         private bool _hasKeys;
-        private bool _isBlocked;
 
         internal MailContactContext(MailContactModel contact) {
             _contact = contact;
@@ -35,13 +34,13 @@ namespace Crystalbyte.Paranoia {
         }
 
         public bool IsBlocked {
-            get { return _isBlocked; }
+            get { return _contact.IsBlocked; }
             set {
-                if (_isBlocked == value) {
+                if (_contact.IsBlocked == value) {
                     return;
                 }
 
-                _isBlocked = value;
+                _contact.IsBlocked = value;
                 RaisePropertyChanged(() => IsBlocked);
             }
         }

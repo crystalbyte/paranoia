@@ -30,7 +30,7 @@
     <Color x:Key="Metro.ShadowColor">Black</Color>
     <SolidColorBrush x:Key="Metro.ShadowBrush" Color="{StaticResource Metro.ShadowColor}" />
 
-    <Color x:Key="Metro.FlyoutBackgroundColor">#262626</Color>
+    <Color x:Key="Metro.FlyoutBackgroundColor">#252527</Color>
     <SolidColorBrush x:Key="Metro.FlyoutBackgroundBrush" Color="{StaticResource Metro.FlyoutBackgroundColor}" />
 
     <!--  Control  -->

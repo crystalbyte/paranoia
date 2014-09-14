@@ -45,6 +45,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _selectMailboxCommand;
         private readonly ICommand _testSettingsCommand;
         private readonly ICommand _registerCommand;
+        private readonly ICommand _deleteAccountCommand;
         private readonly ICommand _configAccountCommand;
         private readonly ICommand _showUnsubscribedMailboxesCommand;
         private readonly ICommand _hideUnsubscribedMailboxesCommand;
@@ -67,13 +68,42 @@ namespace Crystalbyte.Paranoia {
             _listMailboxesCommand = new RelayCommand(OnListMailboxes);
             _testSettingsCommand = new RelayCommand(OnTestSettings);
             _configAccountCommand = new RelayCommand(OnConfigAccount);
+            _deleteAccountCommand = new RelayCommand(OnDeleteAccount);
             _showUnsubscribedMailboxesCommand = new RelayCommand(OnShowUnsubscribedMailboxes);
             _hideUnsubscribedMailboxesCommand = new RelayCommand(OnHideUnsubscribedMailboxes);
             _isAutoDetectPreferred = true;
+
             _mailboxes = new ObservableCollection<MailboxContext>();
             _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Mailboxes);
             _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Children);
         }
+
+        private async void OnDeleteAccount(object obj) {
+
+            try {
+                if (MessageBox.Show(Application.Current.MainWindow,
+                        Resources.DeleteAccountQuestion, Resources.ApplicationName, MessageBoxButton.YesNo) == MessageBoxResult.No) {
+                    return;
+                }
+                App.Context.NotifyAccountDeleted(this);
+                await Task.Run((Action)OnDeleteAccountAsync);
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private async void OnDeleteAccountAsync() {
+            var success = await TryDeleteAccountAsync();
+            if (!success) {
+                Application.Current.Dispatcher.Invoke(
+                    () => App.Context.NotifyAccountCreated(this));
+            }
+        }
+
+        public ICommand DeleteAccountCommand {
+            get { return _deleteAccountCommand; }
+        }
+
 
         private void OnConfigAccount(object obj) {
             var args = string.Format("?mode=edit&id={0}", Id);
@@ -834,6 +864,56 @@ namespace Crystalbyte.Paranoia {
 
         internal void NotifyMailboxAdded(MailboxContext child) {
             _mailboxes.Add(child);
+        }
+
+        internal async Task<bool> TryDeleteAccountAsync() {
+            using (var database = new DatabaseContext()) {
+                using (var transaction = await database.BeginTransactionAsync()) {
+                    try {
+
+                        var mailboxes = await database.Mailboxes
+                            .Where(x => x.AccountId == Id)
+                            .ToArrayAsync();
+
+                        foreach (var mailbox in mailboxes) {
+                            var lMailbox = mailbox;
+                            var messages = await database.MailMessages
+                                .Where(x => x.MailboxId == lMailbox.Id)
+                                .ToArrayAsync();
+
+                            foreach (var message in messages) {
+                                var lMessage = message;
+                                var mime = await database.MimeMessages.FirstOrDefaultAsync(x => x.MessageId == lMessage.Id);
+                                if (mime == null)
+                                    continue;
+
+                                database.MimeMessages.Remove(mime);
+                                await database.SaveChangesAsync();
+                            }
+
+                            database.MailMessages.RemoveRange(messages);
+                            await database.SaveChangesAsync();
+                        }
+
+                        database.Mailboxes.RemoveRange(mailboxes);
+                        await database.SaveChangesAsync();
+
+                        var acc = new MailAccountModel { Id = Id };
+                        database.MailAccounts.Attach(acc);
+                        database.MailAccounts.Remove(acc);
+
+                        await database.SaveChangesAsync();
+
+                        transaction.Commit();
+                        return true;
+                    } catch (Exception ex) {
+                        Logger.Error(ex);
+
+                        transaction.Rollback();
+                        return false;
+                    }
+                }
+            }
         }
     }
 }

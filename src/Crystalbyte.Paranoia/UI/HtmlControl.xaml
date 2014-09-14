@@ -28,9 +28,8 @@
         <Setter Property="Focusable" Value="False" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
-        <Setter Property="Background" Value="{DynamicResource Metro.ControlAlternateBackgroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource Metro.AlternateControlBackgroundBrush}" />
         <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="0,1.2,0,0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:HtmlControl">

@@ -82,6 +82,22 @@
            TargetType="ButtonBase">
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ButtonBase">
+                    <Border Margin="{TemplateBinding Margin}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+                        <TextBlock HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   Text="{TemplateBinding Content}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
@@ -101,6 +117,7 @@
                 <Setter Property="Background" Value="#33000000" />
             </MultiTrigger>
         </Style.Triggers>
+
     </Style>
 
     <Style x:Key="Metro.MinimizeButtonStyle"

@@ -60,6 +60,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _restoreMessagesCommand;
         private readonly ICommand _markAsSeenCommand;
         private readonly ICommand _blockContactsCommand;
+        private readonly ICommand _unblockContactsCommand;
         private readonly ICommand _markAsNotSeenCommand;
         private readonly ICommand _createAccountCommand;
         private readonly ICommand _createContactCommand;
@@ -101,6 +102,7 @@ namespace Crystalbyte.Paranoia {
             _createAccountCommand = new RelayCommand(OnCreateAccount);
             _createContactCommand = new RelayCommand(OnCreateContact);
             _resetZoomCommand = new RelayCommand(p => Zoom = 100.0f);
+            _unblockContactsCommand = new UnblockContactsCommand(this);
 
             Observable.Timer(TimeSpan.FromHours(24))
                 .Subscribe(OnRefreshKeys);
@@ -580,6 +582,10 @@ namespace Crystalbyte.Paranoia {
             get { return _blockContactsCommand; }
         }
 
+        public ICommand UnblockContactsCommand {
+            get { return _unblockContactsCommand; }
+        }
+
         public ICommand ComposeCommand {
             get { return _composeCommand; }
         }
@@ -919,27 +925,48 @@ namespace Crystalbyte.Paranoia {
                 }).ToArray();
 
                 database.MailContacts.RemoveRange(contacts);
+
+                foreach (var contact in contacts) {
+                    var c = contact;
+                    var keys = await database.PublicKeys
+                        .Where(x => x.ContactId == c.Id)
+                        .ToArrayAsync();
+                    database.PublicKeys.RemoveRange(keys);
+                }
+
                 await database.SaveChangesAsync();
             }
         }
 
         internal async Task BlockSelectedUsersAsync() {
+            await SetBlockForSelectedUsersAsync(true);
+        }
+
+        internal async Task UnblockSelectedUsersAsync() {
+            await SetBlockForSelectedUsersAsync(false);
+        }
+
+        internal async Task SetBlockForSelectedUsersAsync(bool block) {
             var contacts = SelectedContacts.ToArray();
 
             using (var database = new DatabaseContext()) {
                 foreach (var contact in contacts) {
                     try {
                         var c = await database.MailContacts.FindAsync(contact.Id);
-                        c.IsBlocked = true;
-                        contact.IsBlocked = true;
-                    }
-                    catch (Exception ex) {
+                        c.IsBlocked = block;
+                        contact.IsBlocked = block;
+                    } catch (Exception ex) {
                         Logger.Error(ex);
                     }
                 }
 
                 await database.SaveChangesAsync();
             }
+        }
+
+        internal void NotifyAccountDeleted(MailAccountContext account) {
+            _accounts.Remove(account);
+            RaisePropertyChanged(() => Accounts);
         }
     }
 }

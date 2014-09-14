@@ -26,6 +26,8 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         #endregion
 
+        #region Implementation of ICommand
+
         public bool CanExecute(object parameter) {
             return true;
         }
@@ -46,5 +48,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
             if (handler != null)
                 handler(this, EventArgs.Empty);
         }
+
+        #endregion
     }
 }

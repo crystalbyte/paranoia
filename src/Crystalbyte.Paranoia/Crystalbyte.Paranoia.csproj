@@ -154,6 +154,7 @@
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="AudioPlayer.cs" />
     <Compile Include="Contexts\AttachmentContext.cs" />
+    <Compile Include="UI\Commands\UnblockContactsCommand.cs" />
     <Compile Include="UI\Commands\BlockContactsCommand.cs" />
     <Compile Include="Contexts\CreateContactContext.cs" />
     <Compile Include="Contexts\CreateKeyPairContext.cs" />
@@ -577,6 +578,7 @@
     <Resource Include="Assets\security.png" />
     <Resource Include="Assets\block.png" />
     <Resource Include="Assets\key.png" />
+    <Resource Include="Assets\unblock.png" />
     <Content Include="Resources\ckeditor.paranoia\paranoia.js" />
     <Content Include="Resources\ckeditor\adapters\jquery.js" />
     <Content Include="Resources\ckeditor\build-config.js" />

@@ -222,38 +222,41 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </Border>
-            <Grid VerticalAlignment="Top"
-                  Panel.ZIndex="100000"
-                  DockPanel.Dock="Right">
-                <Grid.ColumnDefinitions>
-                    <!--  help button  -->
-                    <ColumnDefinition Width="Auto" />
-                    <!--  minimize button  -->
-                    <ColumnDefinition Width="Auto" />
-                    <!--  restore down button  -->
-                    <ColumnDefinition Width="Auto" />
-                    <!--  maximize down button  -->
-                    <ColumnDefinition Width="Auto" />
-                    <!--  close button  -->
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Style="{DynamicResource Metro.HelpButtonStyle}" />
-                <Button Grid.Column="1" Style="{DynamicResource Metro.MinimizeButtonStyle}" />
-                <Button Grid.Column="2"
-                        Style="{DynamicResource Metro.MaximizeButtonStyle}"
-                        Visibility="{Binding IsNormalized,
-                                             Converter={StaticResource BooleanToVisibilityConverter},
-                                             RelativeSource={RelativeSource FindAncestor,
-                                                                            AncestorType=paranoia:MainWindow}}" />
-                <Button Grid.Column="3"
-                        Style="{DynamicResource Metro.RestoreDownButtonStyle}"
-                        Visibility="{Binding IsMaximized,
-                                             Converter={StaticResource BooleanToVisibilityConverter},
-                                             RelativeSource={RelativeSource FindAncestor,
-                                                                            AncestorType=paranoia:MainWindow}}" />
-                <Button Grid.Column="4" Style="{DynamicResource Metro.CloseButtonStyle}" />
-            </Grid>
+
         </DockPanel>
+
+        <Grid Grid.Row="0"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Top"
+              Panel.ZIndex="100000">
+            <Grid.ColumnDefinitions>
+                <!--  help button  -->
+                <ColumnDefinition Width="Auto" />
+                <!--  minimize button  -->
+                <ColumnDefinition Width="Auto" />
+                <!--  restore down button  -->
+                <ColumnDefinition Width="Auto" />
+                <!--  maximize down button  -->
+                <ColumnDefinition Width="Auto" />
+                <!--  close button  -->
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Style="{DynamicResource Metro.HelpButtonStyle}" />
+            <Button Grid.Column="1" Style="{DynamicResource Metro.MinimizeButtonStyle}" />
+            <Button Grid.Column="2"
+                    Style="{DynamicResource Metro.MaximizeButtonStyle}"
+                    Visibility="{Binding IsNormalized,
+                                         Converter={StaticResource BooleanToVisibilityConverter},
+                                         RelativeSource={RelativeSource FindAncestor,
+                                                                        AncestorType=paranoia:MainWindow}}" />
+            <Button Grid.Column="3"
+                    Style="{DynamicResource Metro.RestoreDownButtonStyle}"
+                    Visibility="{Binding IsMaximized,
+                                         Converter={StaticResource BooleanToVisibilityConverter},
+                                         RelativeSource={RelativeSource FindAncestor,
+                                                                        AncestorType=paranoia:MainWindow}}" />
+            <Button Grid.Column="4" Style="{DynamicResource Metro.CloseButtonStyle}" />
+        </Grid>
 
         <Border Grid.Row="1"
                 BorderBrush="{DynamicResource Metro.AccentBrush}"
@@ -374,6 +377,7 @@
         </Grid>
 
         <StatusBar Grid.Row="2"
+                   Height="24"
                    Margin="0"
                    Background="{StaticResource Metro.AccentBrush}"
                    Padding="0">
@@ -395,6 +399,7 @@
             </StatusBarItem>
             <StatusBarItem Grid.Column="2">
                 <Slider Width="150"
+                        VerticalAlignment="Stretch"
                         IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
                         LargeChange="25.0"

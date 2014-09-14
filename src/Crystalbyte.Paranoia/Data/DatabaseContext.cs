@@ -1,6 +1,9 @@
 ﻿#region Using directives
 
+using System.Data;
+using System.Data.Common;
 using System.Data.Entity;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -8,6 +11,11 @@ namespace Crystalbyte.Paranoia.Data {
     internal sealed class DatabaseContext : DbContext {
         public DatabaseContext() {
             Database.SetInitializer(new SQLiteDatabaseInitializer<DatabaseContext>());
+        }
+
+        public async Task<DbTransaction> BeginTransactionAsync(IsolationLevel level = IsolationLevel.Unspecified) {
+            await Database.Connection.OpenAsync();
+            return Database.Connection.BeginTransaction(level);
         }
 
         public DbSet<MailboxModel> Mailboxes { get; set; }

@@ -1,9 +1,10 @@
 using System;
+using System.Linq;
 using System.Windows.Input;
 using NLog;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
-    public class BlockContactsCommand : ICommand {
+    public sealed class BlockContactsCommand : ICommand {
 
         #region Private Fields
 
@@ -12,13 +13,19 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         #endregion
 
+        #region Construction
+
         public BlockContactsCommand(AppContext app) {
             _app = app;
             _app.ContactSelectionChanged += (sender, e) => OnCanExecuteChanged();
         }
 
+        #endregion
+
+        #region Implementation of ICommand
+
         public bool CanExecute(object parameter) {
-            return _app.SelectedContact != null;
+            return _app.SelectedContact != null && _app.SelectedContacts.Any(x => !x.IsBlocked);
         }
 
         public async void Execute(object parameter) {
@@ -32,10 +39,12 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         public event EventHandler CanExecuteChanged;
 
-        protected virtual void OnCanExecuteChanged() {
+        private void OnCanExecuteChanged() {
             var handler = CanExecuteChanged;
             if (handler != null) 
                 handler(this, EventArgs.Empty);
         }
+
+        #endregion
     }
 }
