@@ -36,10 +36,49 @@ namespace Crystalbyte.Paranoia.UI {
                     return;
                 }
 
+                if (Regex.IsMatch(request.Path, "message/reply")) {
+                    SendComposeAsReplyResponse(request);
+                    return;
+                }
+
                 SendResponse(request, DataSourceResponse.Empty);
             } catch (Exception ex) {
                 //TODO: Return 793 - Zombie Apocalypse
                 Logger.Error(ex);
+            }
+        }
+
+        private void SendComposeAsReplyResponse(DataSourceRequest request) {
+            long messageID;
+            var variables = new Dictionary<string, string>();
+            var arguments = request.Url.OriginalString.ToPageArguments();
+            if (arguments.ContainsKey("id") && long.TryParse(arguments["id"], out messageID)) {
+                var bodyHtml = GetBodyHtmlFromId(messageID);
+                bodyHtml = HandleImages(bodyHtml, messageID.ToString());
+                //todo insert reply header
+                variables.Add("content", bodyHtml);
+            }
+
+            if (!variables.Keys.Contains("content"))
+                variables.Add("content", string.Empty);
+
+            var html = GenerateEditorHtml(variables);
+
+            var bytes = Encoding.UTF8.GetBytes(html);
+            SendByteStream(request, bytes);
+        }
+
+        private string GetBodyHtmlFromId(long id) {
+            using (var database = new DatabaseContext()) {
+                var message = database.MimeMessages.FirstOrDefault(x => x.MessageId == id);
+                if (message != null) {
+                    var reader = new MailMessageReader(Encoding.UTF8.GetBytes(message.Data));
+                    var body = reader.FindFirstHtmlVersion().Body;
+                    if (body != null) {
+                        return Encoding.UTF8.GetString(body);
+                    }
+                }
+                return "no html body found";
             }
         }
 
@@ -89,10 +128,27 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
             //TODO improve this
-            var bytes = Encoding.UTF8.GetBytes(Encoding.UTF8.GetString(content.Body).Replace("=3D\"cid:", "=3D\"asset:/cid/").Replace("cid:", "asset:/cid/"));
+            var bytes = Encoding.UTF8.GetBytes(HandleImages(Encoding.UTF8.GetString(content.Body), id));
 
 
             SendByteStream(request, bytes);
+        }
+
+        private string HandleImages(string body, string id) {
+            const string imageTagRegexPattern = "<img.*?>(</img>){0,1}";
+            const string srcPrepRegexPatter = "src=\".*?\"";
+
+            var imageTagMatches = Regex.Matches(body, imageTagRegexPattern, RegexOptions.Singleline | RegexOptions.Compiled);
+
+            foreach (Match match in imageTagMatches) {
+                var originalSrcFile = Regex.Match(match.Value, srcPrepRegexPatter).Value;
+                var srcFile = originalSrcFile.Replace("src=\"cid:", string.Empty).Replace("src=\"", string.Empty).Replace("\"", string.Empty).Replace("file:///", string.Empty);
+                if (srcFile.StartsWith("http://") || srcFile.StartsWith("https://"))
+                    continue;
+
+                body = body.Replace(originalSrcFile, string.Format("src=\"asset://image?cid={0}&messageId={1}\"", Uri.EscapeDataString(srcFile), id));
+            }
+            return body;
         }
 
         private void SendByteStream(DataSourceRequest request, byte[] bytes) {

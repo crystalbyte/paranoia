@@ -79,16 +79,22 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
         private async void PrepareAsReply(IDictionary<string, string> arguments) {
             MailMessageReader replyMessage;
+            var temp = Int64.Parse(arguments["id"]);
+
             using (var database = new DatabaseContext()) {
-                var temp = Int64.Parse(arguments["id"]);
                 var message = await database.MimeMessages
                     .Where(x => x.MessageId == temp)
                     .ToArrayAsync();
+
+                if (message.Count() <= 0)
+                    throw new Exception("701");
 
                 replyMessage = new MailMessageReader(Encoding.UTF8.GetBytes(message[0].Data));
             }
             var context = (MailCompositionContext)DataContext;
             context.Subject = "RE: " + replyMessage.Headers.Subject;
+            context.Source = string.Format("asset://paranoia/message/reply?id={0}", temp);
+            //TODO add recipient
         }
 
         #region Implementation of INavigationAware
