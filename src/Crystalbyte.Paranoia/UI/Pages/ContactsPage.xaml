@@ -27,29 +27,6 @@
         </CollectionViewSource>
     </Page.Resources>
     <DockPanel LastChildFill="True">
-        <DockPanel Background="{DynamicResource Metro.ControlBackgroundBrush}"
-                   Dock="Bottom"
-                   LastChildFill="False">
-            <StackPanel Margin="6,0,0,0"
-                        DockPanel.Dock="Left"
-                        Orientation="Horizontal">
-                <ui:MetroCircleButton VerticalAlignment="Center"
-                                      BorderBrush="{DynamicResource Metro.NormalTextBrush}"
-                                      Command="{Binding DeleteContactsCommand}">
-                    <Image Width="18" Source="/Assets/delete.png" />
-                </ui:MetroCircleButton>
-                <ui:MetroCircleButton VerticalAlignment="Center"
-                                      BorderBrush="{DynamicResource Metro.NormalTextBrush}"
-                                      Command="{Binding BlockContactsCommand}">
-                    <Image Width="18" Source="/Assets/block.png" />
-                </ui:MetroCircleButton>
-                <ui:MetroCircleButton VerticalAlignment="Center"
-                                      BorderBrush="{DynamicResource Metro.NormalTextBrush}"
-                                      Command="{Binding UnblockContactsCommand}">
-                    <Image Width="18" Source="/Assets/unblock.png" />
-                </ui:MetroCircleButton>
-            </StackPanel>
-        </DockPanel>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="FilterColumn"
@@ -61,7 +38,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <DockPanel Grid.Column="0"
-                       Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
+                       Background="{DynamicResource Metro.ControlBackgroundBrush}"
                        LastChildFill="False">
                 <ItemsControl Background="{DynamicResource Metro.ControlBackgroundBrush}"
                               BorderThickness="0"
@@ -205,7 +182,28 @@
                 </ListView>
             </DockPanel>
             <GridSplitter Grid.Column="3" />
-            <DockPanel Grid.Column="4">
+            <DockPanel Grid.Column="4" LastChildFill="True">
+                <DockPanel Dock="Top">
+                    <StackPanel Margin="6,0,0,0"
+                                DockPanel.Dock="Right"
+                                Orientation="Horizontal">
+                        <ui:MetroCircleButton VerticalAlignment="Center"
+                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              Command="{Binding DeleteContactsCommand}">
+                            <Image Width="18" Source="/Assets/delete.png" />
+                        </ui:MetroCircleButton>
+                        <ui:MetroCircleButton VerticalAlignment="Center"
+                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              Command="{Binding BlockContactsCommand}">
+                            <Image Width="18" Source="/Assets/block.png" />
+                        </ui:MetroCircleButton>
+                        <ui:MetroCircleButton VerticalAlignment="Center"
+                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              Command="{Binding UnblockContactsCommand}">
+                            <Image Width="18" Source="/Assets/unblock.png" />
+                        </ui:MetroCircleButton>
+                    </StackPanel>
+                </DockPanel>
                 <Grid Background="{DynamicResource Metro.ControlBackgroundBrush}" />
             </DockPanel>
 
