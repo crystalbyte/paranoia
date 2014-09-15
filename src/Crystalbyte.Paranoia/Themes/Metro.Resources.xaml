@@ -24,7 +24,7 @@
     <SolidColorBrush x:Key="Metro.SuccessBrush" Color="{StaticResource Metro.SuccessColor}" />
 
     <!--  Window  -->
-    <Color x:Key="Metro.WindowBackgroundColor">Black</Color>
+    <Color x:Key="Metro.WindowBackgroundColor">#0B0B0C</Color>
     <SolidColorBrush x:Key="Metro.WindowBackgroundBrush" Color="{StaticResource Metro.WindowBackgroundColor}" />
 
     <Color x:Key="Metro.ShadowColor">Black</Color>

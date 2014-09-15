@@ -222,9 +222,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </Border>
-
         </DockPanel>
-
         <Grid Grid.Row="0"
               HorizontalAlignment="Right"
               VerticalAlignment="Top"

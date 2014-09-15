@@ -29,18 +29,16 @@
     <DockPanel LastChildFill="True">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="FilterColumn"
-                                  Width="260"
-                                  MinWidth="50" />
+                <ColumnDefinition Width="260" MinWidth="50" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="360" MinWidth="50" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <DockPanel Grid.Column="0"
-                       Background="{DynamicResource Metro.ControlBackgroundBrush}"
+                       Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
                        LastChildFill="False">
-                <ItemsControl Background="{DynamicResource Metro.ControlBackgroundBrush}"
+                <ItemsControl Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
                               BorderThickness="0"
                               DockPanel.Dock="Top"
                               ItemsSource="{Binding Alphabet}"
@@ -182,10 +180,47 @@
                 </ListView>
             </DockPanel>
             <GridSplitter Grid.Column="3" />
-            <DockPanel Grid.Column="4" LastChildFill="True">
-                <DockPanel Dock="Top">
-                    <StackPanel Margin="6,0,0,0"
-                                DockPanel.Dock="Right"
+            <DockPanel Grid.Column="4"
+                       Background="{DynamicResource Metro.ControlBackgroundBrush}"
+                       LastChildFill="False">
+                <Grid Margin="0,0,0,12"
+                      Background="{DynamicResource Metro.ControlBackgroundBrush}"
+                      DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="12">
+                        <Image Width="78"
+                               Height="78"
+                               HorizontalAlignment="Left"
+                               DataContext="{Binding SelectedContact}"
+                               Source="{Binding Address,
+                                                IsAsync=True,
+                                                Converter={StaticResource GravatarImageConverter},
+                                                ConverterParameter=128}" />
+                    </Border>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock DataContext="{Binding SelectedContact}"
+                                   FontSize="{StaticResource Metro.ExtraLargeFontSize}"
+                                   Style="{StaticResource Metro.TitleTextStyle}"
+                                   Text="{Binding Name}"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap" />
+                        <TextBlock DataContext="{Binding SelectedContact}"
+                                   Style="{StaticResource Metro.SubtitleTextStyle}"
+                                   Text="{Binding Address}"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap" />
+
+                    </StackPanel>
+                    <StackPanel Grid.Column="2"
+                                Margin="12"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
                                 Orientation="Horizontal">
                         <ui:MetroCircleButton VerticalAlignment="Center"
                                               BorderBrush="{DynamicResource Metro.NormalTextBrush}"
@@ -203,8 +238,9 @@
                             <Image Width="18" Source="/Assets/unblock.png" />
                         </ui:MetroCircleButton>
                     </StackPanel>
-                </DockPanel>
-                <Grid Background="{DynamicResource Metro.ControlBackgroundBrush}" />
+
+                </Grid>
+                <Grid />
             </DockPanel>
 
         </Grid>

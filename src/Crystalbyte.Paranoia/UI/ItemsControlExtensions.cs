@@ -9,13 +9,13 @@ namespace Crystalbyte.Paranoia.UI {
     public static class ItemsControlExtensions {
         public static void ScrollToCenterOfView(this ItemsControl itemsControl, object item) {
             // Scroll immediately if possible
-            if (!itemsControl.TryScrollToCenterOfView(item)) {
-                // Otherwise wait until everything is loaded, then scroll
-                if (itemsControl is ListBox) ((ListBox)itemsControl).ScrollIntoView(item);
-                itemsControl.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() => {
-                    itemsControl.TryScrollToCenterOfView(item);
-                }));
-            }
+            if (itemsControl.TryScrollToCenterOfView(item))
+                return;
+
+            // Otherwise wait until everything is loaded, then scroll
+            var box = itemsControl as ListBox;
+            if (box != null) box.ScrollIntoView(item);
+            itemsControl.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() => itemsControl.TryScrollToCenterOfView(item)));
         }
 
         private static bool TryScrollToCenterOfView(this ItemsControl itemsControl, object item) {

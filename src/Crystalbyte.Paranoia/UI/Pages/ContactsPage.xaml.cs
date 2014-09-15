@@ -39,7 +39,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 .FirstOrDefault(x => x.Name.StartsWith(new string(value, 1), StringComparison.InvariantCultureIgnoreCase));
 
             if (contact != null) {
-                ContactsList.ScrollIntoView(contact);
+                ContactsList.ScrollToCenterOfView(contact);
             }
         }
 
