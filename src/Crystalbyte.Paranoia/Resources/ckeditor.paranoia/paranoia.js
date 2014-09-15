@@ -60,20 +60,20 @@ function start() {
             //    window.external.TextChanged(CKEDITOR.instances.editor1.getData());
             //}
 
-        },
-        toolbar: [
-        {
-            name: 'document',
-            items: ['Undo', 'Redo', 'Font', 'FontSize']
-        },
-        {
-            name: 'document1',
-            items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'TextColor', 'BGColor']
-        },
-        {
-            name: 'document2',
-            groups: ['justify', 'mode'],
-            items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'NumberedList', 'BulletedList', '-', 'Link', 'Table', 'Source']
-        }]
+        }//,
+        //toolbar: [
+        //{
+        //    name: 'document',
+        //    items: ['Undo', 'Redo', 'Font', 'FontSize']
+        //},
+        //{
+        //    name: 'document1',
+        //    items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'TextColor', 'BGColor']
+        //},
+        //{
+        //    name: 'document2',
+        //    groups: ['justify', 'mode'],
+        //    items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'NumberedList', 'BulletedList', '-', 'Link', 'Table', 'Source']
+        //}]
     });
 };
