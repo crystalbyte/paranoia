@@ -134,8 +134,8 @@ namespace Crystalbyte.Paranoia {
             _slideInMainFrameStoryboard.Completed += OnSlideInMainFrameCompleted;
         }
 
-        private void OnSlideInMainFrameCompleted(object sender, EventArgs e) {
-            
+        private static void OnSlideInMainFrameCompleted(object sender, EventArgs e) {
+            App.Context.IsAnimating = false;
         }
 
         private void OnSlideOutMainFrameCompleted(object sender, EventArgs e) {
@@ -227,6 +227,7 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
+            App.Context.IsAnimating = true;
             _slideOutMainFrameStoryboard.Begin();
         }
     }

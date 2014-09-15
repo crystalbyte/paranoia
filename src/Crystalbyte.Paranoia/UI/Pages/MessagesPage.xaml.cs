@@ -66,7 +66,6 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private void OnMessageSelectionChanged(object sender, SelectionChangedEventArgs e) {
-
             if (!IsLoaded) {
                 return;
             }

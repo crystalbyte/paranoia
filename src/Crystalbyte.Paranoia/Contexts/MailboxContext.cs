@@ -41,6 +41,7 @@ namespace Crystalbyte.Paranoia {
         private bool _isEditing;
         private bool _isIdling;
         private bool _showAllMessages;
+        private readonly object _syncMutex = new object();
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -424,11 +425,13 @@ namespace Crystalbyte.Paranoia {
             ICollection<MailMessageContext> contexts = null;
 
             try {
-                if (IsSyncingMessages) {
-                    return new MailMessageContext[0];
-                }
+                lock (_syncMutex) {
+                    if (IsSyncingMessages) {
+                        return new MailMessageContext[0];
+                    }
 
-                IsSyncingMessages = true;
+                    IsSyncingMessages = true;    
+                }
 
                 var name = _mailbox.Name;
                 var maxUid = await GetMaxUidAsync();
@@ -470,7 +473,10 @@ namespace Crystalbyte.Paranoia {
                 Logger.Error(ex.ToString());
             }
 
-            IsSyncingMessages = false;
+            lock (_syncMutex) {
+                IsSyncingMessages = false;    
+            }
+
             return contexts;
         }
 

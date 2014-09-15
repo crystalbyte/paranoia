@@ -36,7 +36,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Background="{DynamicResource Metro.WindowBackgroundBrush}">
+        <Grid Grid.Column="0" Background="{DynamicResource Metro.AlternateControlBackgroundBrush}">
             <DockPanel LastChildFill="True">
                 <Border HorizontalAlignment="Stretch"
                         BorderBrush="{DynamicResource Metro.ControlBorderBrush}"
@@ -72,7 +72,7 @@
                 <TreeView Margin="0"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
-                          Background="{DynamicResource Metro.WindowBackgroundBrush}"
+                          Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
                           BorderThickness="0"
                           ItemsSource="{Binding Accounts}"
                           Padding="0"
@@ -251,16 +251,9 @@
                 </TreeView>
             </DockPanel>
         </Grid>
-        <Rectangle Grid.Row="0"
-                   Grid.Column="1"
-                   Grid.ColumnSpan="4"
-                   HorizontalAlignment="Stretch"
-                   VerticalAlignment="Stretch"
-                   Fill="{DynamicResource Metro.ShadowBrush}"
-                   Opacity="{DynamicResource Metro.ShadowOpacity}" />
         <DockPanel Grid.Row="0"
                    Grid.Column="2"
-                   Background="{DynamicResource Metro.WindowBackgroundBrush}"
+                   Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
                    LastChildFill="True">
             <Grid DockPanel.Dock="Top">
                 <Grid.RowDefinitions>
@@ -620,7 +613,10 @@
             </Border>
             <Grid Grid.Row="1"
                   HorizontalAlignment="Stretch"
-                  VerticalAlignment="Stretch">
+                  VerticalAlignment="Stretch"
+                  Visibility="{Binding IsAnimating,
+                                       Converter={StaticResource BooleanToVisibilityConverter},
+                                       ConverterParameter=!}">
                 <Border Margin="0"
                         BorderThickness="0"
                         DataContext="{Binding SelectedMessage}"

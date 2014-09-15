@@ -11,7 +11,6 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         public ContactsPage() {
             InitializeComponent();
             DataContext = App.Context;
-
             CommandBindings.Add(new CommandBinding(PageCommands.ScrollToLetter, OnScrollToLetter, OnCanScrollToLetter));
         }
 
@@ -34,13 +33,14 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             }
 
             var value = (char)button.DataContext;
-
             var contact = App.Context.Contacts
                 .Where(x => !x.Name.StartsWith("NIL", StringComparison.InvariantCultureIgnoreCase))
+                .OrderBy(x => x.Name)
                 .FirstOrDefault(x => x.Name.StartsWith(new string(value, 1), StringComparison.InvariantCultureIgnoreCase));
 
-            if (contact != null)
-                ContactsList.ScrollToCenterOfView(contact);
+            if (contact != null) {
+                ContactsList.ScrollIntoView(contact);
+            }
         }
 
         private void OnContactsSelectionChanged(object sender, SelectionChangedEventArgs e) {

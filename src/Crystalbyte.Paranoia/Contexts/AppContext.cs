@@ -69,6 +69,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _refreshKeysCommand;
         private bool _isSortAscending;
         private string _queryContactString;
+        private bool _isAnimating;
 
         #endregion
 
@@ -225,7 +226,7 @@ namespace Crystalbyte.Paranoia {
 
         public object Alphabet {
             get {
-                return Enumerable.Range(65, 25)
+                return Enumerable.Range(65, 26)
                     .Select(Convert.ToChar).ToArray();
             }
         }
@@ -482,6 +483,17 @@ namespace Crystalbyte.Paranoia {
 
                 _statusText = value;
                 RaisePropertyChanged(() => StatusText);
+            }
+        }
+
+        public bool IsAnimating {
+            get { return _isAnimating; }
+            set {
+                if (_isAnimating == value) {
+                    return;
+                }
+                _isAnimating = value;
+                RaisePropertyChanged(() => IsAnimating);
             }
         }
 

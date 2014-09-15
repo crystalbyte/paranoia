@@ -138,10 +138,10 @@ namespace Crystalbyte.Paranoia.UI {
             const string imageTagRegexPattern = "<img.*?>(</img>){0,1}";
             const string srcPrepRegexPatter = "src=\".*?\"";
 
-            var imageTagMatches = Regex.Matches(body, imageTagRegexPattern, RegexOptions.Singleline | RegexOptions.Compiled);
+            var imageTagMatches = Regex.Matches(body, imageTagRegexPattern, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
             foreach (Match match in imageTagMatches) {
-                var originalSrcFile = Regex.Match(match.Value, srcPrepRegexPatter).Value;
+                var originalSrcFile = Regex.Match(match.Value, srcPrepRegexPatter, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase).Value;
                 var srcFile = originalSrcFile.Replace("src=\"cid:", string.Empty).Replace("src=\"", string.Empty).Replace("\"", string.Empty).Replace("file:///", string.Empty);
                 if (srcFile.StartsWith("http://") || srcFile.StartsWith("https://"))
                     continue;
