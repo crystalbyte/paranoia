@@ -256,8 +256,8 @@
     <Compile Include="UI\Pages\MessagesPage.xaml.cs">
       <DependentUpon>MessagesPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\ParanoiaDataSource.cs" />
-    <Compile Include="UI\ParanoiaDataSourceProvider.cs" />
+    <Compile Include="ParanoiaDataSource.cs" />
+    <Compile Include="ParanoiaDataSourceProvider.cs" />
     <Compile Include="UI\INavigationAware.cs" />
     <Compile Include="UI\ItemsSourceRequestedEventArgs.cs" />
     <Compile Include="UI\ITokenMatcher.cs" />

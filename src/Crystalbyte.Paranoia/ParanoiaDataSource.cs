@@ -1,25 +1,25 @@
 ﻿#region Using directives
 
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using Awesomium.Core.Data;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
-using System.Windows;
-using NLog;
 using Crystalbyte.Paranoia.Properties;
-using System.IO;
-using System.Collections.Generic;
+using NLog;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.UI {
+namespace Crystalbyte.Paranoia {
     internal sealed class ParanoiaDataSource : DataSource {
 
         private readonly static Logger Logger = LogManager.GetCurrentClassLogger();

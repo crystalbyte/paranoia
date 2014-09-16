@@ -3,14 +3,15 @@
                     xmlns:awe="http://schemas.awesomium.com/winfx"
                     xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
                     xmlns:core="clr-namespace:Awesomium.Core;assembly=Awesomium.Core"
-                    xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
+                    xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+                    xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia">
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <awe:UrlConverter x:Key="UrlConverter" />
 
     <awe:WebSessionProvider x:Key="WebSessionProvider" DataPath=".\Cache">
         <awe:WebSessionProvider.DataSources>
-            <ui:ParanoiaDataSourceProvider x:Key="paranoia" />
+            <paranoia:ParanoiaDataSourceProvider x:Key="paranoia" />
         </awe:WebSessionProvider.DataSources>
         <core:WebPreferences CustomCSS="{x:Static ui:HtmlControl.CustomCss}"
                              EnableGPUAcceleration="True"
