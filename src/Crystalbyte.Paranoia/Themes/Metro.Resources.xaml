@@ -46,7 +46,7 @@
     <Color x:Key="Metro.ControlBorderColor">#525252</Color>
     <SolidColorBrush x:Key="Metro.ControlBorderBrush" Color="{StaticResource Metro.ControlBorderColor}" />
 
-    <Color x:Key="Metro.HoverColor">#333333</Color>
+    <Color x:Key="Metro.HoverColor">#333334</Color>
     <SolidColorBrush x:Key="Metro.HoverBrush" Color="{StaticResource Metro.HoverColor}" />
 
     <!--  Menu  -->
@@ -60,7 +60,7 @@
     <Color x:Key="Metro.ContrastTextColor">#141414</Color>
     <SolidColorBrush x:Key="Metro.ContrastTextBrush" Color="{StaticResource Metro.ContrastTextColor}" />
 
-    <Color x:Key="Metro.HoverTextColor">#777777</Color>
+    <Color x:Key="Metro.HoverTextColor">#777779</Color>
     <SolidColorBrush x:Key="Metro.HoverTextBrush" Color="{StaticResource Metro.HoverTextColor}" />
 
     <Color x:Key="Metro.SecondaryTextColor">DimGray</Color>
@@ -69,12 +69,17 @@
     <Color x:Key="Metro.DisabledColor">DimGray</Color>
     <SolidColorBrush x:Key="Metro.DisabledBrush" Color="{StaticResource Metro.DisabledColor}" />
 
-    <Color x:Key="Metro.SelectedUnfocusedColor">#515151</Color>
+    <Color x:Key="Metro.SelectedUnfocusedColor">#515153</Color>
     <SolidColorBrush x:Key="Metro.SelectedUnfocusedBrush" Color="{StaticResource Metro.SelectedUnfocusedColor}" />
 
     <!--  ScrollViewer  -->
+    <Color x:Key="Metro.ScrollBackgroundColor">#333335</Color>
+    <SolidColorBrush x:Key="Metro.ScrollBackgroundBrush" Color="{StaticResource Metro.ScrollBackgroundColor}" />
 
-    <Color x:Key="Metro.ScrollViewerDragColor">#606060</Color>
-    <SolidColorBrush x:Key="Metro.ScrollViewerDragBrush" Color="{StaticResource Metro.ScrollViewerDragColor}" />
+    <Color x:Key="Metro.ScrollHoverColor">#444446</Color>
+    <SolidColorBrush x:Key="Metro.ScrollHoverBrush" Color="{StaticResource Metro.ScrollHoverColor}" />
+
+    <Color x:Key="Metro.ScrollDragColor">#606060</Color>
+    <SolidColorBrush x:Key="Metro.ScrollDragBrush" Color="{StaticResource Metro.ScrollDragColor}" />
 
 </ResourceDictionary>

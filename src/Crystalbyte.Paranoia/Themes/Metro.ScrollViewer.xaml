@@ -100,14 +100,14 @@
                     <Rectangle x:Name="rectangle"
                                Width="{TemplateBinding Width}"
                                Height="{TemplateBinding Height}"
-                               Fill="{DynamicResource Metro.ControlBackgroundBrush}"
+                               Fill="{DynamicResource Metro.ScrollBackgroundBrush}"
                                SnapsToDevicePixels="True" />
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.HoverBrush}" />
                         </Trigger>
                         <Trigger Property="IsDragging" Value="true">
-                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.ScrollViewerDragBrush}" />
+                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.ScrollDragBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -124,14 +124,14 @@
                     <Rectangle x:Name="rectangle"
                                Width="{TemplateBinding Width}"
                                Height="{TemplateBinding Height}"
-                               Fill="{DynamicResource Metro.ControlBackgroundBrush}"
+                               Fill="{DynamicResource Metro.ScrollBackgroundBrush}"
                                SnapsToDevicePixels="True" />
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.HoverBrush}" />
+                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.ScrollHoverColor}" />
                         </Trigger>
                         <Trigger Property="IsDragging" Value="true">
-                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.ScrollViewerDragBrush}" />
+                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.ScrollDragBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

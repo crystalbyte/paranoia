@@ -2,6 +2,7 @@
 
 using System;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -27,7 +28,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 if (Regex.IsMatch(request.Path, "message/[0-9]+")) {
                     var id = request.Path.Split('/')[1];
-                    await SendHtmlResponseAsync(request, id);
+                    await SendSimpleMessageResponseAsync(request, id);
                     return;
                 }
 
@@ -49,12 +50,12 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void SendComposeAsReplyResponse(DataSourceRequest request) {
-            long messageID;
+            long messageId;
             var variables = new Dictionary<string, string>();
             var arguments = request.Url.OriginalString.ToPageArguments();
-            if (arguments.ContainsKey("id") && long.TryParse(arguments["id"], out messageID)) {
-                var bodyHtml = GetBodyHtmlFromId(messageID);
-                bodyHtml = HandleImages(bodyHtml, messageID.ToString());
+            if (arguments.ContainsKey("id") && long.TryParse(arguments["id"], out messageId)) {
+                var bodyHtml = GetBodyHtmlFromId(messageId);
+                bodyHtml = HandleImages(bodyHtml, messageId.ToString(CultureInfo.InvariantCulture));
                 //todo insert reply header
                 variables.Add("content", bodyHtml);
             }
@@ -64,7 +65,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             var html = GenerateEditorHtml(variables);
 
-            var bytes = Encoding.UTF8.GetBytes(html);
+            var bytes = Encoding.UTF8.GetBytes(Uri.EscapeDataString(html));
             SendByteStream(request, bytes);
         }
 
@@ -89,7 +90,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             var html = GenerateEditorHtml(variables);
 
-            var bytes = Encoding.UTF8.GetBytes(html);
+            var bytes = Encoding.UTF8.GetBytes(Uri.EscapeDataString(html));
             SendByteStream(request, bytes);
         }
 
@@ -116,25 +117,51 @@ namespace Crystalbyte.Paranoia.UI {
             return html;
         }
 
-        private async Task SendHtmlResponseAsync(DataSourceRequest request, string id) {
+        private async Task SendSimpleMessageResponseAsync(DataSourceRequest request, string id) {
             var mime = await LoadMessageContentAsync(Int64.Parse(id));
 
             var mimeBytes = Encoding.UTF8.GetBytes(mime);
             var message = new MailMessageReader(mimeBytes);
 
-            var content = message.FindFirstHtmlVersion() ?? message.FindFirstPlainTextVersion();
-            if (content == null) {
+            string content;
+            var html = message.FindFirstHtmlVersion();
+            if (html == null) {
+                var plain = message.FindFirstPlainTextVersion();
+                content = plain == null ? string.Empty : await FormatPlainText(message.Headers.Subject, plain.GetBodyAsText());
+            } else {
+                content = html.GetBodyAsText();
+            }
+
+            if (string.IsNullOrWhiteSpace(content)) {
                 SendResponse(request, DataSourceResponse.Empty);
                 return;
             }
-            //TODO improve this
-            var bytes = Encoding.UTF8.GetBytes(HandleImages(Encoding.UTF8.GetString(content.Body), id));
 
-
+            var bytes = Encoding.UTF8.GetBytes(HandleImages(content, id));
             SendByteStream(request, bytes);
         }
 
-        private string HandleImages(string body, string id) {
+        private async static Task<string> FormatPlainText(string subject, string plain) {
+            const string url = "/Resources/plain-text.template.html";
+            var info = Application.GetResourceStream(new Uri(url, UriKind.RelativeOrAbsolute));
+            if (info == null) {
+                var message = string.Format(Resources.ResourceNotFoundException, url, typeof(App).Assembly.FullName);
+                throw new NullReferenceException(message);
+            }
+
+            var wrapper = await info.Stream.ToUtf8StringAsync();
+            var values = new Dictionary<string, string> {
+                {"content", plain},
+                {"subject", subject}
+            };
+
+            return Regex.Replace(wrapper, "%.+?%", m => {
+                var key = m.Value.Trim('%');
+                return values[key];
+            });
+        }
+
+        private static string HandleImages(string body, string id) {
             const string imageTagRegexPattern = "<img.*?>(</img>){0,1}";
             const string srcPrepRegexPatter = "src=\".*?\"";
 

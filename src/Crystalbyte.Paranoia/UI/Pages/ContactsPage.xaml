@@ -242,7 +242,6 @@
                 </Grid>
                 <Grid />
             </DockPanel>
-
         </Grid>
     </DockPanel>
 </Page>
