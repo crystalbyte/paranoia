@@ -49,7 +49,9 @@ function start() {
     CKEDITOR.replace('editor1', {
         on:
         {
+            //extraAllowedContent: 'img [ !src, alt, height, width, class, id ]',
             instanceReady: function (ev) {
+                //editor.filter.check('img');
                 resizeEditor();
             }
             //},
@@ -60,20 +62,20 @@ function start() {
             //    window.external.TextChanged(CKEDITOR.instances.editor1.getData());
             //}
 
-        }//,
-        //toolbar: [
-        //{
-        //    name: 'document',
-        //    items: ['Undo', 'Redo', 'Font', 'FontSize']
-        //},
-        //{
-        //    name: 'document1',
-        //    items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'TextColor', 'BGColor']
-        //},
-        //{
-        //    name: 'document2',
-        //    groups: ['justify', 'mode'],
-        //    items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'NumberedList', 'BulletedList', '-', 'Link', 'Table', 'Source']
-        //}]
+        },
+        toolbar: [
+        {
+            name: 'document',
+            items: ['Undo', 'Redo', 'Font', 'FontSize']
+        },
+        {
+            name: 'document1',
+            items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'TextColor', 'BGColor']
+        },
+        {
+            name: 'document2',
+            groups: ['justify', 'mode'],
+            items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'NumberedList', 'BulletedList', '-', 'Image', 'Link', 'Table', 'Source']
+        }]
     });
 };
