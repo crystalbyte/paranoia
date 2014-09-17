@@ -663,7 +663,12 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         private async void OnQueryReceived(string text) {
-            await RefreshViewChangedQueryString(text);
+            try {
+                await RefreshViewChangedQueryString(text);
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private void OnAccountsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {

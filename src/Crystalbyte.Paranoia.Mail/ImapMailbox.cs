@@ -37,7 +37,7 @@ namespace Crystalbyte.Paranoia.Mail {
 
         private void OnChangeNotificationReceived() {
             var handler = ChangeNotificationReceived;
-            if (handler != null) 
+            if (handler != null)
                 handler(this, EventArgs.Empty);
         }
 
@@ -109,8 +109,7 @@ namespace Crystalbyte.Paranoia.Mail {
                 command = string.Format("UID MOVE {0} \"{1}\"", uidString, encodedName);
                 id = await _connection.WriteCommandAsync(command);
                 await ReadMoveResponseAsync(id);
-            }
-            else {
+            } else {
                 command = string.Format("UID COPY {0} \"{1}\"", uidString, encodedName);
                 id = await _connection.WriteCommandAsync(command);
                 await ReadCopyResponseAsync(id);
@@ -247,7 +246,7 @@ namespace Crystalbyte.Paranoia.Mail {
                 }
 
                 var items = line.Split(':');
-                if (items.Length <= 1) 
+                if (items.Length <= 1)
                     continue;
 
                 key = items[0];
@@ -351,8 +350,7 @@ namespace Crystalbyte.Paranoia.Mail {
                     var key = long.Parse(UidRegex.Match(segment).Value.Split(' ')[1]);
                     var value = ParseHeaders(segment);
                     headers.Add(key, value);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     Debug.WriteLine(ex);
                 }
             }
@@ -391,11 +389,9 @@ namespace Crystalbyte.Paranoia.Mail {
                         try {
                             envelope = ImapEnvelope.Parse(writer.ToString());
                             envelopes.Add(envelope);
-                        }
-                        catch (Exception ex) {
+                        } catch (Exception ex) {
                             Debug.WriteLine(ex);
-                        }
-                        finally {
+                        } finally {
                             OnSyncProgressChanged(envelope);
                         }
                     }
@@ -434,7 +430,7 @@ namespace Crystalbyte.Paranoia.Mail {
                     }
                     writer.WriteLine(line.Text);
                 }
-                return writer.ToString();
+                return writer.ToString().TrimEnd(')', ' ', '\r', '\n');
             }
         }
     }

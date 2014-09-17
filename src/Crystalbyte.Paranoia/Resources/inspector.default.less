@@ -1,6 +1,7 @@
 ﻿@accent-color: %Metro.AccentColor%;
-@background-color: %Metro.AlternateControlBackgroundColor%;
-@normal-text-color: %Metro.NormalTextColor%;
+/*@background-color: %Metro.AlternateControlBackgroundColor%;*/
+@background-color: WhiteSmoke;
+@normal-text-color: #333;
 @scrollbar-thumb-color: %Metro.ScrollBackgroundColor%;
 @scrollbar-thumb-hover-color: %Metro.ScrollHoverColor%;
 @scrollbar-thumb-drag-color: %Metro.ScrollDragColor%;
@@ -17,10 +18,21 @@ a {
 }
 
 html {
-    font-family: Consolas, monaco, monospace;
+    font-family: Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif; 
     font-size: large;
     color: @normal-text-color;
     background-color: @background-color;
+}
+
+ul, ol {
+    padding-top: 3px;
+    padding-left: 40px;
+    padding-bottom: 3px;
+}
+
+pre {
+    font-family: Vera Sans Mono, Consolas, Lucida Console, monospace; 
+    white-space: pre-wrap; 
 }
 
 body {

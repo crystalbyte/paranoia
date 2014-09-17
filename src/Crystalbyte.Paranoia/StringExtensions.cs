@@ -3,8 +3,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using Crystalbyte.Paranoia.Mail;
+using Crystalbyte.Paranoia.Properties;
 
 #endregion
 
@@ -14,11 +16,20 @@ namespace Crystalbyte.Paranoia {
             return text.IndexOf(value, StringComparison.InvariantCultureIgnoreCase) > -1;
         }
 
+        public static bool EqualsIgnoreCase(this string text, string value) {
+            return string.Compare(text, value, StringComparison.InvariantCultureIgnoreCase) == 0;
+        }
+
         public static SecurityProtocol ToSecurityPolicy(this string text) {
             if (text.ContainsIgnoreCase("ssl")) {
                 return SecurityProtocol.Implicit;
             }
             return text.ContainsIgnoreCase("tls") ? SecurityProtocol.Explicit : SecurityProtocol.None;
+        }
+
+        public static string ToSupportedCharset(this string value) {
+            var charsets = Settings.Default.NonWebCharsets;
+            return Regex.Replace(value, string.Join("|", charsets.OfType<string>()), "utf-8", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
 
         public static string Caesar(this string value, int shift) {

@@ -15,6 +15,7 @@ using Awesomium.Core.Data;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
+using HtmlAgilityPack;
 using NLog;
 
 #endregion
@@ -28,7 +29,7 @@ namespace Crystalbyte.Paranoia {
             try {
                 if (Regex.IsMatch(request.Path, "message/[0-9]+")) {
                     var id = request.Path.Split('/')[1];
-                    await SendSimpleMessageResponseAsync(request, id);
+                    await SendMessageQueryResponseAsync(request, id);
                     return;
                 }
 
@@ -117,19 +118,27 @@ namespace Crystalbyte.Paranoia {
             return html;
         }
 
-        private async Task SendSimpleMessageResponseAsync(DataSourceRequest request, string id) {
+        private async Task SendMessageQueryResponseAsync(DataSourceRequest request, string id) {
             var mime = await LoadMessageContentAsync(Int64.Parse(id));
 
             var mimeBytes = Encoding.UTF8.GetBytes(mime);
-            var message = new MailMessageReader(mimeBytes);
+            var reader = new MailMessageReader(mimeBytes);
 
             string content;
-            var html = message.FindFirstHtmlVersion();
+            Encoding encoding;
+            var html = reader.FindFirstHtmlVersion();
             if (html == null) {
-                var plain = message.FindFirstPlainTextVersion();
-                content = plain == null ? string.Empty : await FormatPlainText(message.Headers.Subject, plain.GetBodyAsText());
+                var plain = reader.FindFirstPlainTextVersion();
+                content = plain == null ? string.Empty : await FormatPlainText(reader.Headers.Subject, plain.GetBodyAsText());
+                encoding = Encoding.UTF8;
+
             } else {
                 content = html.GetBodyAsText();
+                try {
+                    encoding = Encoding.GetEncoding(html.ContentType.CharSet ?? "utf-8");
+                } catch (Exception) {
+                    encoding = Encoding.UTF8;
+                }
             }
 
             if (string.IsNullOrWhiteSpace(content)) {
@@ -137,8 +146,120 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
+            // Check why iso8859-15 is not being decoded properly.
+            content = NormalizeHtml(content, encoding);
             var bytes = Encoding.UTF8.GetBytes(HandleImages(content, id));
             SendByteStream(request, bytes);
+        }
+
+        private static string NormalizeHtml(string text, Encoding encoding) {
+            var document = new HtmlDocument { OptionFixNestedTags = true };
+            document.LoadHtml(text.Trim());
+
+            HtmlDocument partialDocument = null;
+            var html = document.DocumentNode.SelectSingleNode("//html");
+            if (html == null) {
+                partialDocument = document;
+
+                // If no html tag has been found, we start from scratch.
+                document = new HtmlDocument();
+                html = document.CreateElement("html");
+                document.DocumentNode.AppendChild(html);
+            }
+
+            var head = document.DocumentNode.SelectSingleNode("//head");
+            if (head == null) {
+                if (partialDocument != null) {
+                    head = partialDocument.DocumentNode.SelectSingleNode("//head");
+                    if (head == null) {
+                        head = document.CreateElement("head");
+                    } else {
+                        // Remove from partial doc, since the constructed document already has one.
+                        head.Remove();
+                    }
+                } else {
+                    head = document.CreateElement("head");
+                }
+                html.AppendChild(head);
+            }
+
+            var body = document.DocumentNode.SelectSingleNode("//body");
+            if (body == null) {
+                if (partialDocument != null) {
+                    body = partialDocument.DocumentNode.SelectSingleNode("//body");
+                    if (body == null) {
+                        body = document.CreateElement("body");
+                    } else {
+                        // Remove from partial doc, since the constructed document already has one.
+                        body.Remove();
+                    }
+
+                } else {
+                    head = document.CreateElement("body");
+                }
+                html.AppendChild(body);
+            }
+
+            if (partialDocument != null) {
+                body.AppendChildren(partialDocument.DocumentNode.ChildNodes);
+            }
+
+            const string charset = "charset";
+            const string httpEquiv = "http-equiv";
+            const string contentType = "content-type";
+
+            var nodes = document.DocumentNode.SelectNodes("//head/meta");
+            var hasCharset = nodes != null && nodes.Any(x => {
+                // Check if any attributes are present.
+                if (!x.HasAttributes) {
+                    return false;
+                }
+
+                // Check if the <meta charset="..."> element is present.
+                var attribute =
+                    x.Attributes.AttributesWithName(charset)
+                        .FirstOrDefault();
+                if (attribute != null) {
+
+                    // Since we use WebKit any Windows only encodings, 
+                    // such as ISO-8859-1, won't work and must be replaced by UTF8.
+                    attribute.Value = attribute.Value.ToSupportedCharset();
+                    return true;
+                }
+
+                // Check if the <meta http-equiv="content-type" ... > element is present.
+                attribute =
+                    x.Attributes.AttributesWithName(httpEquiv)
+                        .FirstOrDefault();
+                if (attribute != null &&
+                    attribute.Value.ContainsIgnoreCase(contentType)) {
+
+                    attribute = x.Attributes.AttributesWithName("content").FirstOrDefault();
+                    if (attribute == null) {
+                        return false;
+                    }
+
+                    // Since we use WebKit any Windows only encodings, 
+                    // such as ISO-8859-1, won't work and must be replaced by UTF8.
+                    attribute.Value = attribute.Value.ToSupportedCharset();
+                    return true;
+                }
+                return false;
+            });
+
+            if (hasCharset) {
+                return document.DocumentNode.WriteTo();
+            }
+
+            // Add proper charset tag if missing.
+            var meta = document.CreateElement("meta");
+
+            // Since we use WebKit any Windows only encodings, 
+            // such as ISO-8859-1, won't work and must be replaced by UTF8.
+            var name = encoding.WebName.ToSupportedCharset();
+            meta.Attributes.Add(charset, name);
+            head.AppendChild(meta);
+            return document.DocumentNode.WriteTo();
         }
 
         private async static Task<string> FormatPlainText(string subject, string plain) {

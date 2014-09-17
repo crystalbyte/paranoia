@@ -217,7 +217,7 @@ namespace Crystalbyte.Paranoia.UI {
                 if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                     return "body {}";
                 }
-                var uri = new Uri("/Resources/default.less", UriKind.Relative);
+                var uri = new Uri("/Resources/inspector.default.less", UriKind.Relative);
                 var info = Application.GetResourceStream(uri);
                 if (info == null) {
                     var error = string.Format(Properties.Resources.ResourceNotFoundException, uri, typeof(App).Assembly.FullName);
