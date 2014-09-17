@@ -8,7 +8,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Security;
 using System.Net.Sockets;
-using System.Runtime.ConstrainedExecution;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -28,7 +27,7 @@ namespace Crystalbyte.Paranoia.Mail {
             Capabilities = new HashSet<string>();
             Certificates = new X509Certificate2Collection();
 
-            _tcpClient = new TcpClient {ReceiveTimeout = 5000, SendTimeout = 2000};
+            _tcpClient = new TcpClient { ReceiveTimeout = 5000, SendTimeout = 2000 };
         }
 
         public X509Certificate2Collection Certificates { get; private set; }
@@ -36,6 +35,10 @@ namespace Crystalbyte.Paranoia.Mail {
 
         public bool IsConnected {
             get { return _tcpClient.Connected; }
+        }
+
+        internal Stream SecureStream {
+            get { return _secureStream; }
         }
 
         public bool IsSecure {
@@ -95,8 +98,8 @@ namespace Crystalbyte.Paranoia.Mail {
             _tcpClient.Connect(host, port);
 
             var stream = _tcpClient.GetStream();
-            _reader = new StreamReader(stream, Encoding.UTF8, false);
-            _writer = new StreamWriter(stream) {AutoFlush = true};
+            _reader = new StreamReader(stream, Encoding.ASCII, false);
+            _writer = new StreamWriter(stream) { AutoFlush = true };
 
             // Use implicit encryption (SSL).
             if (Security == SecurityProtocol.Implicit) {
@@ -175,7 +178,7 @@ namespace Crystalbyte.Paranoia.Mail {
                 _secureStream.AuthenticateAsClientAsync(host, Certificates, SslProtocols.Ssl3 | SslProtocols.Tls, true);
 
             _reader = new StreamReader(_secureStream, Encoding.UTF8, false);
-            _writer = new StreamWriter(_secureStream) {AutoFlush = true};
+            _writer = new StreamWriter(_secureStream) { AutoFlush = true };
 
             OnEncryptionProtocolNegotiated(_secureStream.SslProtocol, _secureStream.CipherStrength);
         }
@@ -184,14 +187,12 @@ namespace Crystalbyte.Paranoia.Mail {
             SslPolicyErrors error) {
             return error == SslPolicyErrors.None
 
-                || (ServicePointManager.ServerCertificateValidationCallback != null 
+                || (ServicePointManager.ServerCertificateValidationCallback != null
                     && ServicePointManager.ServerCertificateValidationCallback(sender, cert, chain, error))
                 || OnRemoteCertificateValidationFailed(cert, chain, error);
         }
 
         public async Task TerminateCommandAsync(string commandId) {
-            // TODO: Need watch (timeout) object. If server goes down and doesn't send termination symbol this may run for quite some time.
-            // TODO: Check if socket throws timeout exception at some point, since read operates on the socket stream.
             while (true) {
                 var line = await ReadAsync();
                 if (line.TerminatesCommand(commandId)) {

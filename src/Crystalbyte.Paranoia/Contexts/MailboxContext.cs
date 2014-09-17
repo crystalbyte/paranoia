@@ -578,8 +578,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static async Task ProcessChallengeAsync(ImapEnvelope envelope, ImapMailbox mailbox) {
-            var body = await mailbox.FetchMessageBodyAsync(envelope.Uid);
-            var bytes = Encoding.UTF8.GetBytes(body);
+            var bytes = await mailbox.FetchMessageBodyAsync(envelope.Uid);
             var message = new MailMessageReader(bytes);
 
             var token = string.Empty;

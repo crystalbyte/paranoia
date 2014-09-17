@@ -28,7 +28,7 @@ namespace Crystalbyte.Paranoia {
                     var message = database.MimeMessages.FirstOrDefault(x => x.MessageId == messageId);
 
                     if (message != null) {
-                        var reader = new MailMessageReader(Encoding.UTF8.GetBytes(message.Data));
+                        var reader = new MailMessageReader(message.Data);
                         var attachments = reader.FindAllAttachments();
 
                         if (arguments.ContainsKey("cid")) {

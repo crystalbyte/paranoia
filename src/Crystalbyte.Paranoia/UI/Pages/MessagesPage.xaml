@@ -657,7 +657,7 @@
                                Foreground="{DynamicResource Metro.SecondaryTextBrush}"><Run FontSize="48"
                              FontWeight="Thin"
                              Foreground="{DynamicResource Metro.AccentBrush}"
-                             Text="{Binding DownloadProgress}" /><Run Text=" " /><Run FontSize="{DynamicResource Metro.NormalFontSize}"
+                             Text="{Binding BytesReceived}" /><Run Text=" " /><Run FontSize="{DynamicResource Metro.NormalFontSize}"
                              FontWeight="Thin"
                              Text="%" />
                     </TextBlock>

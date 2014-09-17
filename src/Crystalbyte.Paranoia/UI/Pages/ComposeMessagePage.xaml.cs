@@ -86,10 +86,10 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                     .Where(x => x.MessageId == temp)
                     .ToArrayAsync();
 
-                if (message.Count() <= 0)
+                if (!message.Any())
                     throw new Exception("701");
 
-                replyMessage = new MailMessageReader(Encoding.UTF8.GetBytes(message[0].Data));
+                replyMessage = new MailMessageReader(message[0].Data);
             }
             var context = (MailCompositionContext)DataContext;
             context.Subject = "RE: " + replyMessage.Headers.Subject;

@@ -21,8 +21,8 @@ namespace Crystalbyte.Paranoia {
         private readonly MailboxContext _mailbox;
         private readonly MailMessageModel _message;
         private readonly ObservableCollection<AttachmentContext> _attachments;
-        private long _downloadProgress;
         private bool _isLocal;
+        private long _totalBytes;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         internal MailMessageContext(MailboxContext mailbox, MailMessageModel message) {
@@ -86,18 +86,6 @@ namespace Crystalbyte.Paranoia {
         public bool IsSubjectNilOrEmpty {
             get { return Subject == "NIL" || string.IsNullOrEmpty(Subject); }
         }
-
-        public long DownloadProgress {
-            get { return _downloadProgress; }
-            set {
-                if (_downloadProgress == value) {
-                    return;
-                }
-                _downloadProgress = value;
-                RaisePropertyChanged(() => DownloadProgress);
-            }
-        }
-
 
         public bool IsSeen {
             get { return HasFlag(MailboxFlags.Seen); }
@@ -193,7 +181,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task<string> FetchMimeAsync() {
+        private async Task<byte[]> FetchMimeAsync() {
             var mailbox = await GetMailboxAsync();
             var account = await GetAccountAsync(mailbox);
 
@@ -203,9 +191,11 @@ namespace Crystalbyte.Paranoia {
                     using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
                         var folder = await session.SelectAsync(mailbox.Name);
 
-                        folder.ByteCountChanged += OnProgressChanged;
+                        folder.TotalByteCountChanged += OnTotalByteCountChanged;
+                        folder.ByteCountChanged += OnByteCountChanged;
                         var mime = await folder.FetchMessageBodyAsync(Uid);
-                        folder.ByteCountChanged -= OnProgressChanged;
+                        folder.ByteCountChanged -= OnByteCountChanged;
+                        folder.TotalByteCountChanged -= OnTotalByteCountChanged;
 
                         return mime;
                     }
@@ -213,17 +203,31 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void OnProgressChanged(object sender, ProgressChangedEventArgs e) {
-            BytesReceived = e.ByteCount;
-            DownloadProgress = (BytesReceived * 100 / Size);
-            
-            // Message may differ from actual sizes due to encoding.
-            if (DownloadProgress > 100) {
-                DownloadProgress = 100;
+        private void OnTotalByteCountChanged(object sender, ProgressChangedEventArgs e) {
+            TotalBytes = e.ByteCount;
+        }
+
+        public long TotalBytes {
+            get { return _totalBytes; }
+            set {
+                if (_totalBytes == value) {
+                    return;
+                }
+                _totalBytes = value;
+                RaisePropertyChanged(() => TotalBytes);
             }
         }
 
-        internal async Task<string> DownloadMessageAsync() {
+        private void OnByteCountChanged(object sender, ProgressChangedEventArgs e) {
+            BytesReceived = e.ByteCount;
+
+            // Message may differ from actual sizes due to encoding.
+            if (BytesReceived > 100) {
+                BytesReceived = 100;
+            }
+        }
+
+        internal async Task<byte[]> DownloadMessageAsync() {
             IncrementLoad();
             try {
                 var mime = await FetchMimeAsync();

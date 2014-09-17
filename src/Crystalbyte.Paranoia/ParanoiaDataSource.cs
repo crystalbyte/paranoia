@@ -74,7 +74,7 @@ namespace Crystalbyte.Paranoia {
             using (var database = new DatabaseContext()) {
                 var message = database.MimeMessages.FirstOrDefault(x => x.MessageId == id);
                 if (message != null) {
-                    var reader = new MailMessageReader(Encoding.UTF8.GetBytes(message.Data));
+                    var reader = new MailMessageReader(message.Data);
                     var body = reader.FindFirstHtmlVersion().Body;
                     if (body != null) {
                         return Encoding.UTF8.GetString(body);
@@ -120,9 +120,7 @@ namespace Crystalbyte.Paranoia {
 
         private async Task SendMessageQueryResponseAsync(DataSourceRequest request, string id) {
             var mime = await LoadMessageContentAsync(Int64.Parse(id));
-
-            var mimeBytes = Encoding.UTF8.GetBytes(mime);
-            var reader = new MailMessageReader(mimeBytes);
+            var reader = new MailMessageReader(mime);
 
             string content;
             Encoding encoding;
@@ -313,13 +311,13 @@ namespace Crystalbyte.Paranoia {
             Marshal.FreeHGlobal(handle);
         }
 
-        private static async Task<string> LoadMessageContentAsync(Int64 id) {
+        private static async Task<byte[]> LoadMessageContentAsync(Int64 id) {
             using (var database = new DatabaseContext()) {
                 var messages = await database.MimeMessages
                     .Where(x => x.MessageId == id)
                     .ToArrayAsync();
 
-                return messages.Length > 0 ? messages[0].Data : string.Empty;
+                return messages.Length > 0 ? messages[0].Data : new byte[0];
             }
         }
     }

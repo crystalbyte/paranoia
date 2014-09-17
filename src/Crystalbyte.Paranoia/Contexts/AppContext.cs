@@ -12,7 +12,6 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -745,7 +744,7 @@ namespace Crystalbyte.Paranoia {
                 if (mimeMessage == null)
                     return;
 
-                var reader = new MailMessageReader(Encoding.UTF8.GetBytes(mimeMessage.Data));
+                var reader = new MailMessageReader(mimeMessage.Data);
                 var attachments = reader.FindAllAttachments();
 
                 attachments.Where(x => x.ContentId == null)
