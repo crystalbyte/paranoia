@@ -645,9 +645,9 @@
                                              Margin="0"
                                              HorizontalAlignment="Stretch"
                                              Background="Transparent"
-                                             Maximum="{Binding Size}"
+                                             Maximum="100"
                                              Minimum="0"
-                                             Value="{Binding BytesReceived}" />
+                                             Value="{Binding ProgressChanged}" />
 
 
                     </StackPanel>
@@ -657,7 +657,7 @@
                                Foreground="{DynamicResource Metro.SecondaryTextBrush}"><Run FontSize="48"
                              FontWeight="Thin"
                              Foreground="{DynamicResource Metro.AccentBrush}"
-                             Text="{Binding BytesReceived}" /><Run Text=" " /><Run FontSize="{DynamicResource Metro.NormalFontSize}"
+                             Text="{Binding ProgressChanged}" /><Run Text=" " /><Run FontSize="{DynamicResource Metro.NormalFontSize}"
                              FontWeight="Thin"
                              Text="%" />
                     </TextBlock>

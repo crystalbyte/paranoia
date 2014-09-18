@@ -433,21 +433,41 @@ namespace Crystalbyte.Paranoia.Mail {
 
             var stream = new MemoryStream();
             OnByteCountChanged(byteCount);
-            using (var writer = new StreamWriter(stream, encoding, 1024, true) { AutoFlush = true }) {
-                while (true) {
-                    var line = await _connection.ReadAsync();
-                    if (line.IsUntagged) {
-                        continue;
-                    }
+            using (var writer = new BinaryWriter(stream, encoding, true)) {
+                using (var reader = new BinaryReader(_connection.SecureStream, Encoding.Default, true)) {
+                    while (true) {
 
-                    if (line.TerminatesCommand(id)) {
-                        break;
-                    }
+                        var buffer = new MemoryStream();
+                        while (true) {
+                            var b = reader.ReadByte();
+                            buffer.WriteByte(b);
 
-                    writer.WriteLine(line.Text);
-                    byteCount += line.Text.Length;
-                    OnByteCountChanged(byteCount);
+                            // new lines
+                            if (b == 13) {
+                                b = reader.ReadByte();
+                                buffer.WriteByte(b);
+                                if (b == 10) {
+                                    break;
+                                }
+                            }
+                        }
+
+                        var bytes = buffer.ToArray();
+                        var line = new ImapResponseLine(Encoding.ASCII.GetString(bytes));
+                        if (line.IsUntagged) {
+                            continue;
+                        }
+
+                        if (line.TerminatesCommand(id)) {
+                            break;
+                        }
+
+                        writer.Write(bytes);
+                        byteCount += bytes.Length;
+                        OnByteCountChanged(byteCount);
+                    }    
                 }
+                
 
                 var trimLength = 0;
                 using (var reader = new BinaryReader(stream)) {

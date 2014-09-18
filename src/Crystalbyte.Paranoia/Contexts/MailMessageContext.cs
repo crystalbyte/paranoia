@@ -22,7 +22,7 @@ namespace Crystalbyte.Paranoia {
         private readonly MailMessageModel _message;
         private readonly ObservableCollection<AttachmentContext> _attachments;
         private bool _isLocal;
-        private long _totalBytes;
+        private int _progressChanged;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         internal MailMessageContext(MailboxContext mailbox, MailMessageModel message) {
@@ -172,6 +172,7 @@ namespace Crystalbyte.Paranoia {
                 }
                 _bytesReceived = value;
                 RaisePropertyChanged(() => BytesReceived);
+                RaisePropertyChanged(() => Size);
             }
         }
 
@@ -191,11 +192,9 @@ namespace Crystalbyte.Paranoia {
                     using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
                         var folder = await session.SelectAsync(mailbox.Name);
 
-                        folder.TotalByteCountChanged += OnTotalByteCountChanged;
                         folder.ByteCountChanged += OnByteCountChanged;
                         var mime = await folder.FetchMessageBodyAsync(Uid);
                         folder.ByteCountChanged -= OnByteCountChanged;
-                        folder.TotalByteCountChanged -= OnTotalByteCountChanged;
 
                         return mime;
                     }
@@ -203,27 +202,26 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void OnTotalByteCountChanged(object sender, ProgressChangedEventArgs e) {
-            TotalBytes = e.ByteCount;
-        }
-
-        public long TotalBytes {
-            get { return _totalBytes; }
-            set {
-                if (_totalBytes == value) {
-                    return;
-                }
-                _totalBytes = value;
-                RaisePropertyChanged(() => TotalBytes);
-            }
-        }
-
         private void OnByteCountChanged(object sender, ProgressChangedEventArgs e) {
             BytesReceived = e.ByteCount;
+            var percentage = (Convert.ToDouble(e.ByteCount) / Convert.ToDouble(Size)) * 100;
 
-            // Message may differ from actual sizes due to encoding.
-            if (BytesReceived > 100) {
-                BytesReceived = 100;
+            // Total bytes and the actual size may differ due to encoding and compression.
+            if (percentage > 100) {
+                percentage = 100;
+            }
+
+            ProgressChanged = Convert.ToInt32(percentage);
+        }
+
+        public int ProgressChanged {
+            get { return _progressChanged; }
+            set {
+                if (Math.Abs(_progressChanged - value) < double.Epsilon) {
+                    return;
+                }
+                _progressChanged = value;
+                RaisePropertyChanged(() => ProgressChanged);
             }
         }
 
