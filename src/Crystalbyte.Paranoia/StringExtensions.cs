@@ -27,11 +27,6 @@ namespace Crystalbyte.Paranoia {
             return text.ContainsIgnoreCase("tls") ? SecurityProtocol.Explicit : SecurityProtocol.None;
         }
 
-        public static string ToSupportedCharset(this string value) {
-            var charsets = Settings.Default.NonWebCharsets;
-            return Regex.Replace(value, string.Join("|", charsets.OfType<string>()), "utf-8", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        }
-
         public static string Caesar(this string value, int shift) {
             if (string.IsNullOrWhiteSpace(value)) {
                 return string.Empty;

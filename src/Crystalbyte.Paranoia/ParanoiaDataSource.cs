@@ -56,7 +56,7 @@ namespace Crystalbyte.Paranoia {
             var arguments = request.Url.OriginalString.ToPageArguments();
             if (arguments.ContainsKey("id") && long.TryParse(arguments["id"], out messageId)) {
                 var bodyHtml = GetBodyHtmlFromId(messageId);
-                bodyHtml = HandleImages(bodyHtml, messageId.ToString(CultureInfo.InvariantCulture));
+                bodyHtml = ConvertEmbeddedSources(bodyHtml, messageId.ToString(CultureInfo.InvariantCulture));
                 //todo insert reply header
                 variables.Add("content", bodyHtml);
             }
@@ -144,9 +144,9 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            // Check why iso8859-15 is not being decoded properly.
             content = NormalizeHtml(content, encoding);
-            var bytes = Encoding.UTF8.GetBytes(HandleImages(content, id));
+            content = ConvertEmbeddedSources(content, id);
+            var bytes = encoding.GetBytes(content);
             SendByteStream(request, bytes);
         }
 
@@ -165,6 +165,7 @@ namespace Crystalbyte.Paranoia {
                 document.DocumentNode.AppendChild(html);
             }
 
+            var body = document.DocumentNode.SelectSingleNode("//body");
             var head = document.DocumentNode.SelectSingleNode("//head");
             if (head == null) {
                 if (partialDocument != null) {
@@ -178,10 +179,14 @@ namespace Crystalbyte.Paranoia {
                 } else {
                     head = document.CreateElement("head");
                 }
-                html.AppendChild(head);
+
+                if (body != null) {
+                    html.InsertBefore(head, body);
+                } else {
+                    html.AppendChild(head);
+                }
             }
 
-            var body = document.DocumentNode.SelectSingleNode("//body");
             if (body == null) {
                 if (partialDocument != null) {
                     body = partialDocument.DocumentNode.SelectSingleNode("//body");
@@ -193,7 +198,7 @@ namespace Crystalbyte.Paranoia {
                     }
 
                 } else {
-                    head = document.CreateElement("body");
+                    body = document.CreateElement("body");
                 }
                 html.AppendChild(body);
             }
@@ -218,10 +223,6 @@ namespace Crystalbyte.Paranoia {
                     x.Attributes.AttributesWithName(charset)
                         .FirstOrDefault();
                 if (attribute != null) {
-
-                    // Since we use WebKit any Windows only encodings, 
-                    // such as ISO-8859-1, won't work and must be replaced by UTF8.
-                    attribute.Value = attribute.Value.ToSupportedCharset();
                     return true;
                 }
 
@@ -233,14 +234,7 @@ namespace Crystalbyte.Paranoia {
                     attribute.Value.ContainsIgnoreCase(contentType)) {
 
                     attribute = x.Attributes.AttributesWithName("content").FirstOrDefault();
-                    if (attribute == null) {
-                        return false;
-                    }
-
-                    // Since we use WebKit any Windows only encodings, 
-                    // such as ISO-8859-1, won't work and must be replaced by UTF8.
-                    attribute.Value = attribute.Value.ToSupportedCharset();
-                    return true;
+                    return attribute != null;
                 }
                 return false;
             });
@@ -254,7 +248,7 @@ namespace Crystalbyte.Paranoia {
 
             // Since we use WebKit any Windows only encodings, 
             // such as ISO-8859-1, won't work and must be replaced by UTF8.
-            var name = encoding.WebName.ToSupportedCharset();
+            var name = encoding.WebName;
             meta.Attributes.Add(charset, name);
             head.AppendChild(meta);
             return document.DocumentNode.WriteTo();
@@ -280,21 +274,14 @@ namespace Crystalbyte.Paranoia {
             });
         }
 
-        private static string HandleImages(string body, string id) {
-            const string imageTagRegexPattern = "<img.*?>(</img>){0,1}";
-            const string srcPrepRegexPatter = "src=\".*?\"";
-
-            var imageTagMatches = Regex.Matches(body, imageTagRegexPattern, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-            foreach (Match match in imageTagMatches) {
-                var originalSrcFile = Regex.Match(match.Value, srcPrepRegexPatter, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase).Value;
-                var srcFile = originalSrcFile.Replace("src=\"cid:", string.Empty).Replace("src=\"", string.Empty).Replace("\"", string.Empty).Replace("file:///", string.Empty);
-                if (srcFile.StartsWith("http://") || srcFile.StartsWith("https://"))
-                    continue;
-
-                body = body.Replace(originalSrcFile, string.Format("src=\"asset://image?cid={0}&messageId={1}\"", Uri.EscapeDataString(srcFile), id));
-            }
-            return body;
+        private static string ConvertEmbeddedSources(string html, string id) {
+            const string pattern = "<img.+?src=\"(?<CID>cid:.+?)\".*?>";
+            return Regex.Replace(html, pattern, m => {
+                var cid = m.Groups["CID"].Value;
+                var asset = string.Format("asset://image?cid={0}&messageId={1}",
+                    Uri.EscapeDataString(cid.Split(':')[1]), id);
+                return m.Value.Replace(cid, asset);
+            }, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
 
         private void SendByteStream(DataSourceRequest request, byte[] bytes) {
