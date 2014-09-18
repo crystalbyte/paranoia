@@ -63,7 +63,9 @@ namespace Crystalbyte.Paranoia {
                 if (message != null) {
                     var reader = new MailMessageReader(message.Data);
                     var attachments = reader.FindAllAttachments();
-                    return attachments.FirstOrDefault(x => x.ContentId == Uri.UnescapeDataString(cid)).Body;
+                    var attachment = attachments.FirstOrDefault(x => x.ContentId == Uri.UnescapeDataString(cid));
+                    if (attachment != null)
+                        return attachment.Body;
                 }
             }
 

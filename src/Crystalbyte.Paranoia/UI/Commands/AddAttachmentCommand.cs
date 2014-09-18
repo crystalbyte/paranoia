@@ -23,20 +23,14 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public void Execute(object parameter) {
-            if (parameter != null) {
-                var dialoge = new OpenFileDialog { Multiselect = true };
-                var result = dialoge.ShowDialog();
+            var dialoge = new OpenFileDialog { Multiselect = true };
+            var result = dialoge.ShowDialog();
 
-                if (result == null || result != true)
-                    return;
+            if (result == null || result != true)
+                return;
 
-                var filename = dialoge.FileNames;
-                filename.ForEach(x => _context.Attachments.Add(new AttachmentContext(_context, x)));
-            } else if (parameter is string) {
-                var file = (string)parameter;
-
-            }
-
+            var filename = dialoge.FileNames;
+            filename.ForEach(x => _context.Attachments.Add(new AttachmentContext(_context, x)));
         }
     }
 }

@@ -209,10 +209,10 @@
                                    Foreground="#BADA55"
                                    Text="{Binding Name}"
                                    TextTrimming="CharacterEllipsis"
-                                   ToolTip="{Binding FullName}" />
+                                   ToolTip="{Binding FullName}"/>
                         <!--  TODO usefull tooltip  -->
                         <Button Grid.Column="1"
-                                Command="{Binding RemoveAttachmentCommand}"
+                                Command="{Binding RemoveCommand}"
                                 Content="X"
                                 ToolTip="remove" />
                     </Grid>
