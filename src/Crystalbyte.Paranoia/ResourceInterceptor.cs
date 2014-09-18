@@ -24,29 +24,20 @@ namespace Crystalbyte.Paranoia {
             var arguments = request.Url.OriginalString.ToPageArguments();
             long messageId;
             if (arguments.ContainsKey("messageId") && long.TryParse(arguments["messageId"], out messageId)) {
-                using (var database = new DatabaseContext()) {
-                    var message = database.MimeMessages.FirstOrDefault(x => x.MessageId == messageId);
+                if (arguments.ContainsKey("cid")) {
 
-                    if (message != null) {
-                        var reader = new MailMessageReader(message.Data);
-                        var attachments = reader.FindAllAttachments();
+                    var attachment = GetAttachmentBytes(arguments["cid"], messageId);
+                    if (attachment != null) {
+                        var buffer = Marshal.AllocHGlobal(attachment.Length);
+                        Marshal.Copy(attachment, 0, buffer, attachment.Length);
 
-                        if (arguments.ContainsKey("cid")) {
-                            var attachment = attachments.FirstOrDefault(x => x.ContentId == Uri.UnescapeDataString(arguments["cid"]));
-                            if (attachment != null) {
-                                var buffer = Marshal.AllocHGlobal(attachment.Body.Length);
-                                Marshal.Copy(attachment.Body, 0, buffer, attachment.Body.Length);
+                        var response = ResourceResponse.Create((uint)attachment.Length, buffer, "image");
 
-                                var response = ResourceResponse.Create((uint)attachment.Body.Length, buffer, "image");
-
-                                Marshal.FreeHGlobal(buffer);
-                                return response;
-                            }
-                        }
+                        Marshal.FreeHGlobal(buffer);
+                        return response;
                     }
                 }
             }
-
 
             //asset://tempImage/
             var image = request.Url.AbsolutePath.StartsWith("/") ? request.Url.AbsolutePath.Remove(0, 1) : request.Url.AbsolutePath;
@@ -64,5 +55,20 @@ namespace Crystalbyte.Paranoia {
                 return ResourceResponse.Create(file);
             throw new Exception("resource could not be resolved");
         }
+
+        internal static byte[] GetAttachmentBytes(string cid, long messageId) {
+            using (var database = new DatabaseContext()) {
+                var message = database.MimeMessages.FirstOrDefault(x => x.MessageId == messageId);
+
+                if (message != null) {
+                    var reader = new MailMessageReader(message.Data);
+                    var attachments = reader.FindAllAttachments();
+                    return attachments.FirstOrDefault(x => x.ContentId == Uri.UnescapeDataString(cid)).Body;
+                }
+            }
+
+            return null;
+        }
     }
 }
+
