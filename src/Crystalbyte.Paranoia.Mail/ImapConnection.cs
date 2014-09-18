@@ -98,7 +98,9 @@ namespace Crystalbyte.Paranoia.Mail {
             _tcpClient.Connect(host, port);
 
             var stream = _tcpClient.GetStream();
-            _reader = new StreamReader(stream, Encoding.ASCII, false);
+
+            // We require an 8bit (not 7bit as ASCII) encoding to retain byte integrity.
+            _reader = new StreamReader(stream, Encoding.GetEncoding(CodePages.Latin1), false);
             _writer = new StreamWriter(stream) { AutoFlush = true };
 
             // Use implicit encryption (SSL).

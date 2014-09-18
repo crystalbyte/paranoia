@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="AuthenticationException.cs" />
     <Compile Include="CharSets.cs" />
+    <Compile Include="CodePages.cs" />
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="EnvelopeFetchedEventArgs.cs" />
     <Compile Include="HeaderCollection.cs" />

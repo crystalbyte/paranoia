@@ -7,7 +7,7 @@ using Crystalbyte.Paranoia.Data;
 namespace Crystalbyte.Paranoia.Tests.Data {
 
     [TestClass]
-    public sealed class SQLiteModelAnalyzerTests {
+    public sealed class SqLiteModelAnalyzerTests {
 
         [TestMethod]
         public void GetTableCreateScriptTest() {

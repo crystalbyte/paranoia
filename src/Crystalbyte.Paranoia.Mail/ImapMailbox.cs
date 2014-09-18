@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -117,7 +118,8 @@ namespace Crystalbyte.Paranoia.Mail {
                 command = string.Format("UID MOVE {0} \"{1}\"", uidString, encodedName);
                 id = await _connection.WriteCommandAsync(command);
                 await ReadMoveResponseAsync(id);
-            } else {
+            }
+            else {
                 command = string.Format("UID COPY {0} \"{1}\"", uidString, encodedName);
                 id = await _connection.WriteCommandAsync(command);
                 await ReadCopyResponseAsync(id);
@@ -358,7 +360,8 @@ namespace Crystalbyte.Paranoia.Mail {
                     var key = long.Parse(UidRegex.Match(segment).Value.Split(' ')[1]);
                     var value = ParseHeaders(segment);
                     headers.Add(key, value);
-                } catch (Exception ex) {
+                }
+                catch (Exception ex) {
                     Debug.WriteLine(ex);
                 }
             }
@@ -397,9 +400,11 @@ namespace Crystalbyte.Paranoia.Mail {
                         try {
                             envelope = ImapEnvelope.Parse(writer.ToString());
                             envelopes.Add(envelope);
-                        } catch (Exception ex) {
+                        }
+                        catch (Exception ex) {
                             Debug.WriteLine(ex);
-                        } finally {
+                        }
+                        finally {
                             OnSyncProgressChanged(envelope);
                         }
                     }
@@ -422,46 +427,93 @@ namespace Crystalbyte.Paranoia.Mail {
             return await ReadMessageBodyResponseAsync(id);
         }
 
+        //private async Task<byte[]> ReadMessageBodyResponseAsync(string id) {
+        //    var bytes = 0;
+        //    OnByteCountChanged(bytes);
+        //    using (var writer = new BinaryWriter(new MemoryStream())) {
+        //        while (true) {
+        //            var line = await _connection.ReadAsync();
+        //            var match = Regex.Match(line.Text, @"{\d+}");
+        //            if (match.Success) {
+
+        //                // Switch to binary reader to avoid messing up encoded bytes.
+        //                var expected = int.Parse(match.Value.Trim('{', '}'));
+        //                OnTotalByteCountChanged(new ProgressChangedEventArgs(expected));
+        //                using (var reader = new BinaryReader(_connection.SecureStream, Encoding.ASCII, true)) {
+        //                    while (true) {
+        //                        var b = reader.ReadByte();
+        //                        if (b == (byte)'\r' || b == (byte)'\n') {
+        //                            OnByteCountChanged(bytes);
+        //                        }
+
+        //                        writer.Write(b);
+        //                        bytes += 1;
+        //                        if (bytes == expected) {
+        //                            break;
+        //                        }
+        //                    }
+        //                }
+        //            }
+
+        //            if (line.IsUntagged) {
+        //                continue;
+        //            }
+        //            if (line.TerminatesCommand(id)) {
+        //                break;
+        //            }
+
+        //        }
+        //        using (var reader = new BinaryReader(writer.BaseStream)) {
+        //            writer.BaseStream.Seek(0, SeekOrigin.Begin);
+        //            return reader.ReadBytes((int)writer.BaseStream.Length);
+        //        }
+        //    }
+
         private async Task<byte[]> ReadMessageBodyResponseAsync(string id) {
-            var bytes = 0;
-            OnByteCountChanged(bytes);
-            using (var writer = new BinaryWriter(new MemoryStream())) {
+            var byteCount = 0;
+            var encoding = Encoding.GetEncoding(CodePages.Latin1);
+
+            var stream = new MemoryStream();
+            OnByteCountChanged(byteCount);
+            using (var writer = new StreamWriter(stream, encoding, 1024, true) { AutoFlush = true }) {
                 while (true) {
                     var line = await _connection.ReadAsync();
-                    var match = Regex.Match(line.Text, @"{\d+}");
-                    if (match.Success) {
-
-                        // Switch to binary reader to avoid messing up encoded bytes.
-                        var expected = int.Parse(match.Value.Trim('{', '}'));
-                        OnTotalByteCountChanged(new ProgressChangedEventArgs(expected));
-                        using (var reader = new BinaryReader(_connection.SecureStream, Encoding.ASCII, true)) {
-                            while (true) {
-                                var b = reader.ReadByte();
-                                if (b == (byte)'\r' || b == (byte)'\n') {
-                                    OnByteCountChanged(bytes);
-                                }
-
-                                writer.Write(b);
-                                bytes += 1;
-                                if (bytes == expected) {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
                     if (line.IsUntagged) {
                         continue;
                     }
+
                     if (line.TerminatesCommand(id)) {
                         break;
                     }
 
+                    writer.WriteLine(line.Text);
+                    byteCount += line.Text.Length;
+                    OnByteCountChanged(byteCount);
                 }
-                using (var reader = new BinaryReader(writer.BaseStream)) {
-                    writer.BaseStream.Seek(0, SeekOrigin.Begin);
-                    return reader.ReadBytes((int)writer.BaseStream.Length);
+
+                var trimLength = 0;
+                using (var reader = new BinaryReader(stream)) {
+                    stream.Seek(0, SeekOrigin.Begin);
+                    var buffer = reader.ReadBytes((int) stream.Length);
+
+                    for (var i = buffer.Length - 1; i > 0; i--) {
+                        var b = buffer[i];
+                        // Detect trailing line feeds (13), carriage returns (10) and the closing bracket (41).
+                        if (b == 10 || b == 13 || b == 41) {
+                            trimLength++;
+                        }
+
+                        if (b == 41) {
+                            break;
+                        }
+                    }
+
+                    var length = buffer.Length - trimLength;
+                    var target = new byte[length];
+                    Buffer.BlockCopy(buffer, 0, target, 0, length);
+                    return target;    
                 }
+                
             }
         }
     }
