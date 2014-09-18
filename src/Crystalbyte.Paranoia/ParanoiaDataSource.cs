@@ -65,8 +65,8 @@ namespace Crystalbyte.Paranoia {
                 variables.Add("content", string.Empty);
 
             var html = GenerateEditorHtml(variables);
-
-            var bytes = Encoding.UTF8.GetBytes(Uri.EscapeDataString(html));
+            //var escapedHtml = Uri.EscapeDataString(html);
+            var bytes = Encoding.UTF8.GetBytes(html);
             SendByteStream(request, bytes);
         }
 
@@ -90,8 +90,8 @@ namespace Crystalbyte.Paranoia {
             };
 
             var html = GenerateEditorHtml(variables);
-
-            var bytes = Encoding.UTF8.GetBytes(Uri.EscapeDataString(html));
+            //var escapeHtml = Uri.EscapeDataString(html);
+            var bytes = Encoding.UTF8.GetBytes(html);
             SendByteStream(request, bytes);
         }
 

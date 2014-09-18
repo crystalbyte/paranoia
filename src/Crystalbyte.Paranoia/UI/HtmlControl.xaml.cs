@@ -301,7 +301,11 @@ namespace Crystalbyte.Paranoia.UI {
                 foreach (Match match in imageTagMatches) {
                     var originalSrcFile = Regex.Match(match.Value, srcPrepRegexPatter).Value;
                     var srcFile = originalSrcFile.Replace("src=\"", string.Empty).Replace("\"", string.Empty).Replace("file:///", string.Empty);
-                    if (new Uri(srcFile).IsFile && !File.Exists(srcFile))
+
+                    if (!new Uri(srcFile).IsFile)
+                        continue;
+
+                    if (!File.Exists(srcFile))
                         throw new Exception("701");
 
                     temp = temp.Replace(originalSrcFile, string.Format("src=\"asset://tempImage/{0}\"", srcFile));
