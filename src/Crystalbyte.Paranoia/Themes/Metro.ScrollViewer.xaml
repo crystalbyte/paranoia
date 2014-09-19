@@ -104,7 +104,7 @@
                                SnapsToDevicePixels="True" />
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.HoverBrush}" />
+                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.ScrollHoverBrush}" />
                         </Trigger>
                         <Trigger Property="IsDragging" Value="true">
                             <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.ScrollDragBrush}" />
