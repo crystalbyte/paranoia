@@ -42,8 +42,7 @@ namespace Crystalbyte.Paranoia {
 
                 if (shifted > maxChar) {
                     shifted -= maxChar;
-                }
-                else if (shifted < minChar) {
+                } else if (shifted < minChar) {
                     shifted += maxChar;
                 }
 
@@ -54,11 +53,11 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal static Dictionary<String, String> ToPageArguments(this string s) {
-            const string pattern = "[A-Za-z0-9%\\.]+=[A-Za-z0-9%\\.]+";
+            const string pattern = "[A-Za-z0-9%\\.-]+=[A-Za-z0-9%\\.-]+";
             var matches = Regex.Matches(s, pattern, RegexOptions.IgnoreCase);
 
             return (from Match match in matches
-                select match.Value.Split('='))
+                    select match.Value.Split('='))
                 .ToDictionary(x => x[0], temp => temp[1]);
         }
     }

@@ -176,23 +176,40 @@ namespace Crystalbyte.Paranoia {
         private static MailMessage HandleEmbeddedImages(MailMessage message, string content) {
             var body = string.Format("<html>{0}</html>", content);
 
-            var regex = new Regex("<img (.*?)src=(.*?)>", RegexOptions.IgnoreCase);
+            var regex = new Regex("<img (.*?)src=(.*?)>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             var matches = regex.Matches(body);
 
             foreach (Match x in matches) {
                 var match = Regex.Match(x.Value, "src=\"(.*?)\"");
                 var result = match.Value.Replace("src=", string.Empty).Trim(new[] { '"' }).Replace("asset://tempImage/", string.Empty);
 
-                var uri = new Uri(result, UriKind.RelativeOrAbsolute);
-                if (!uri.IsFile || !File.Exists(result))
-                    continue;
+                Attachment attachment;
+                string name;
 
-                var info = new FileInfo(result);
-                var cid = (info.Name + "@" + Guid.NewGuid()).Replace(" ", "");
-                var attachment = new Attachment(result) { ContentId = cid };
+                var arguments = result.ToPageArguments();
+                if (arguments.ContainsKey("cid") && arguments.ContainsKey("messageId")) {
+                    var incommingCid = Uri.UnescapeDataString(arguments["cid"]);
+                    long incommingMessageId;
+                    if (!long.TryParse(arguments["messageId"], out incommingMessageId))
+                        continue;
+
+                    var bytes = ResourceInterceptor.GetAttachmentBytes(incommingCid, incommingMessageId);
+
+                    name = "image.jpg";
+                    var stream = new MemoryStream(bytes);
+                    attachment = new Attachment(stream, name) { ContentId = (name + "@" + Guid.NewGuid()).Replace(" ", "") };
+
+                } else {
+                    var uri = new Uri(result, UriKind.RelativeOrAbsolute);
+                    if (!uri.IsFile || !File.Exists(result))
+                        continue;
+
+                    name = new FileInfo(result).Name;
+                    attachment = new Attachment(result) { ContentId = (name + "@" + Guid.NewGuid()).Replace(" ", "") };
+                }
 
                 message.Attachments.Add(attachment);
-                body = body.Replace(match.Value, string.Format("src=\"cid:{0}\"", cid));
+                body = body.Replace(match.Value, string.Format("src=\"cid:{0}\"", attachment.ContentId));
             }
             message.Body = body;
 
