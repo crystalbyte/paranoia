@@ -177,6 +177,20 @@
                         </HierarchicalDataTemplate>
                         <HierarchicalDataTemplate DataType="{x:Type paranoia:MailboxContext}" ItemsSource="{Binding Children}">
                             <Grid>
+                                <Rectangle HorizontalAlignment="Stretch"
+                                           VerticalAlignment="Stretch"
+                                           Fill="Transparent"
+                                           StrokeThickness="0">
+                                    <Rectangle.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Command="{Binding DeleteMailboxCommand}">
+                                                <MenuItem.Header>
+                                                    <TextBlock VerticalAlignment="Center" Text="{x:Static properties:Resources.Delete}" />
+                                                </MenuItem.Header>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </Rectangle.ContextMenu>
+                                </Rectangle>
                                 <DockPanel HorizontalAlignment="Stretch" LastChildFill="False">
                                     <Border DockPanel.Dock="Left" Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <CheckBox VerticalAlignment="Center"

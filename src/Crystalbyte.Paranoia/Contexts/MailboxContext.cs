@@ -15,9 +15,11 @@ using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Net;
 using Crystalbyte.Paranoia.Properties;
+using Crystalbyte.Paranoia.UI.Commands;
 using Newtonsoft.Json;
 using NLog;
 using System.Text.RegularExpressions;
+using System.Windows.Input;
 
 #endregion
 
@@ -41,6 +43,9 @@ namespace Crystalbyte.Paranoia {
         private bool _isEditing;
         private bool _isIdling;
         private bool _showAllMessages;
+        private readonly ICommand _deleteMailboxCommand;
+        private readonly ICommand _createMailboxCommand;
+
         private readonly object _syncMutex = new object();
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -53,6 +58,8 @@ namespace Crystalbyte.Paranoia {
             _account = account;
             _mailbox = mailbox;
             _showAllMessages = true;
+            _deleteMailboxCommand = new DeleteMailboxCommand(this);
+            _createMailboxCommand = new CreateMailboxCommand(this);
         }
 
         #endregion
@@ -84,6 +91,14 @@ namespace Crystalbyte.Paranoia {
                 RaisePropertyChanged(() => IsEditing);
                 RaisePropertyChanged(() => IsListed);
             }
+        }
+
+        public ICommand CreateMailboxCommand {
+            get { return _createMailboxCommand; }
+        }
+
+        public ICommand DeleteMailboxCommand {
+            get { return _deleteMailboxCommand; }
         }
 
         public bool HasListedChildren {
@@ -358,6 +373,10 @@ namespace Crystalbyte.Paranoia {
 
         public bool IsSystemMailbox {
             get { return _mailbox.Type != MailboxType.Custom; }
+        }
+
+        public bool CanHaveChildren {
+            get { return !_mailbox.Flags.ContainsIgnoreCase(MailboxFlags.NoChildren); }
         }
 
         private async Task SubscribeAsync() {

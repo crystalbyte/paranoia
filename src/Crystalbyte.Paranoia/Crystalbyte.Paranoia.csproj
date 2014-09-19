@@ -173,6 +173,8 @@
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="AudioPlayer.cs" />
     <Compile Include="Contexts\AttachmentContext.cs" />
+    <Compile Include="UI\Commands\CreateMailboxCommand.cs" />
+    <Compile Include="UI\Commands\DeleteMailboxCommand.cs" />
     <Compile Include="UI\Commands\UnblockContactsCommand.cs" />
     <Compile Include="UI\Commands\BlockContactsCommand.cs" />
     <Compile Include="Contexts\CreateContactContext.cs" />
