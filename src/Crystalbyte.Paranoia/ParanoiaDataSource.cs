@@ -276,7 +276,7 @@ namespace Crystalbyte.Paranoia {
 
         private static string ConvertEmbeddedSources(string html, string id) {
             const string pattern = "<img.+?src=\"(?<CID>cid:.+?)\".*?>";
-            return Regex.Replace(html, pattern, m => {
+            return Regex.Replace(html, pattern, m => { 
                 var cid = m.Groups["CID"].Value;
                 var asset = string.Format("asset://image?cid={0}&messageId={1}",
                     Uri.EscapeDataString(cid.Split(':')[1]), id);

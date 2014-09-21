@@ -1,6 +1,7 @@
 ﻿#region Using directives
 
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 #endregion
@@ -15,14 +16,19 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             DataContext = new CreateContactContext();
 
             CommandBindings.Add(new CommandBinding(PageCommands.Cancel, OnCancel));
+            NameTextBox.TextChanged += OnNameTextBoxTextChanged;
             Loaded += OnLoaded;
+        }
+
+        private static void OnNameTextBoxTextChanged(object sender, TextChangedEventArgs e) {
+            CommandManager.InvalidateRequerySuggested();
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
             NameTextBox.Focus();
         }
 
-        private void OnCancel(object sender, ExecutedRoutedEventArgs e) {
+        private static void OnCancel(object sender, ExecutedRoutedEventArgs e) {
             App.Context.ClosePopup();
         }
     }

@@ -230,5 +230,12 @@ namespace Crystalbyte.Paranoia {
             App.Context.IsAnimating = true;
             _slideOutMainFrameStoryboard.Begin();
         }
+
+        private void OnPopupFrameNavigated(object sender, NavigationEventArgs e) {
+            var page = PopupFrame.Content as INavigationAware;
+            if (page != null) {
+                page.OnNavigated(e);
+            }
+        }
     }
 }

@@ -62,7 +62,7 @@ namespace Crystalbyte.Paranoia.Mail {
 
             var command = string.Format("{0} \"{1}\"", ImapCommands.Subscribe , encodedName);
             var id = await _connection.WriteCommandAsync(command);
-            await ReadEmptyResponseAsync(id);
+            await ReadBasicResponseAsync(id);
         }
 
         /// <summary>
@@ -81,15 +81,34 @@ namespace Crystalbyte.Paranoia.Mail {
 
             var command = string.Format("{0} \"{1}\"", ImapCommands.Unsubscribe, encodedName);
             var id = await _connection.WriteCommandAsync(command);
-            await ReadEmptyResponseAsync(id);
+            await ReadBasicResponseAsync(id);
         }
 
-        private async Task ReadEmptyResponseAsync(string id) {
+        public async Task DeleteMailboxAsync(string mailbox) {
+            var encodedName = ImapMailbox.EncodeName(mailbox);
+            var command = string.Format("DELETE \"{0}\"", encodedName);
+            var id = await _connection.WriteCommandAsync(command);
+            await ReadBasicResponseAsync(id);
+        }
+
+        public async Task CreateMailboxAsync(string fullname) {
+            var encodedName = ImapMailbox.EncodeName(fullname);
+            var command = string.Format("CREATE \"{0}\"", encodedName);
+            var id = await _connection.WriteCommandAsync(command);
+            await ReadBasicResponseAsync(id);
+        }
+
+        private async Task ReadBasicResponseAsync(string id) {
             while (true) {
                 var line = await _connection.ReadAsync();
-                if (line.TerminatesCommand(id)) {
-                    break;
+                if (!line.TerminatesCommand(id)) 
+                    continue;
+
+                if (!line.IsOk) {
+                    throw new ImapException(line.Text);
                 }
+
+                break;
             }
         }
 

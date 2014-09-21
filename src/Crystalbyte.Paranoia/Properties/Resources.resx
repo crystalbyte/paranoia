@@ -467,4 +467,13 @@ Once your password is lost you're screwed.</value>
   <data name="ApplicationName" xml:space="preserve">
     <value>Paranoia</value>
   </data>
+  <data name="CreateMailboxDescription" xml:space="preserve">
+    <value>Please enter the name of the mailbox to create.</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Sync" xml:space="preserve">
+    <value>Sync</value>
+  </data>
 </root>

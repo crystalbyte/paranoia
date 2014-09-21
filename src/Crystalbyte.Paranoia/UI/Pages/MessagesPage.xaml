@@ -177,20 +177,28 @@
                         </HierarchicalDataTemplate>
                         <HierarchicalDataTemplate DataType="{x:Type paranoia:MailboxContext}" ItemsSource="{Binding Children}">
                             <Grid>
+                                <Grid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Command="{Binding CreateMailboxCommand}">
+                                            <MenuItem.Header>
+                                                <TextBlock VerticalAlignment="Center" Text="{x:Static properties:Resources.New}" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <MenuItem Command="{Binding SyncMailboxCommand}" InputGestureText="Ctrl + S">
+                                            <MenuItem.Header>
+                                                <TextBlock VerticalAlignment="Center" Text="{x:Static properties:Resources.Sync}" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <MenuItem Command="{Binding DeleteMailboxCommand}">
+                                            <MenuItem.Header>
+                                                <TextBlock VerticalAlignment="Center" Text="{x:Static properties:Resources.Delete}" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
                                 <Rectangle HorizontalAlignment="Stretch"
                                            VerticalAlignment="Stretch"
-                                           Fill="Transparent"
-                                           StrokeThickness="0">
-                                    <Rectangle.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Command="{Binding DeleteMailboxCommand}">
-                                                <MenuItem.Header>
-                                                    <TextBlock VerticalAlignment="Center" Text="{x:Static properties:Resources.Delete}" />
-                                                </MenuItem.Header>
-                                            </MenuItem>
-                                        </ContextMenu>
-                                    </Rectangle.ContextMenu>
-                                </Rectangle>
+                                           Fill="Transparent" />
                                 <DockPanel HorizontalAlignment="Stretch" LastChildFill="False">
                                     <Border DockPanel.Dock="Left" Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <CheckBox VerticalAlignment="Center"

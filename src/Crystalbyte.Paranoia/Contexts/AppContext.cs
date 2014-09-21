@@ -268,14 +268,14 @@ namespace Crystalbyte.Paranoia {
         /// <param name="source">The message source to query.</param>
         /// <returns>Returns a task object.</returns>
         private async Task RequestMessagesAsync(IMessageSource source) {
-            await Application.Current.Dispatcher.InvokeAsync(() => _messages.Clear());
+            Application.Current.AssertUIThread();
+
+            _messages.Clear();
             var messages = await source.GetMessagesAsync();
-            await Application.Current.Dispatcher.InvokeAsync(() => {
-                _messages.DeferNotifications = true;
-                _messages.AddRange(messages);
-                _messages.DeferNotifications = false;
-                _messages.NotifyCollectionChanged();
-            });
+            _messages.DeferNotifications = true;
+            _messages.AddRange(messages);
+            _messages.DeferNotifications = false;
+            _messages.NotifyCollectionChanged();
         }
 
         #endregion
@@ -294,7 +294,7 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
-                await Task.Run(() => RefreshViewForSelectedMailbox());
+                await RefreshViewForSelectedMailbox();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -302,7 +302,7 @@ namespace Crystalbyte.Paranoia {
 
         private async Task RefreshViewForSelectedMailbox() {
             await RequestMessagesAsync(SelectedMailbox);
-            await SelectedMailbox.SyncMessagesAsync();
+            await Task.Run(() => SelectedMailbox.SyncMessagesAsync());
         }
 
         internal event EventHandler FlyOutClosing;
@@ -664,8 +664,7 @@ namespace Crystalbyte.Paranoia {
         private async void OnQueryReceived(string text) {
             try {
                 await RefreshViewChangedQueryString(text);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -786,6 +785,14 @@ namespace Crystalbyte.Paranoia {
             foreach (var account in Accounts) {
                 await account.LoadMailboxesAsync();
             }
+        }
+
+        internal void CreateMailbox(IMailboxCreator parent) {
+            NavigationStore.Push(typeof(CreateMailboxPage), parent);
+
+            var uri = typeof(CreateMailboxPage).ToPageUri();
+            OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
+            IsPopupVisible = true;
         }
 
         internal void OnCreateContact(object obj) {
@@ -931,7 +938,10 @@ namespace Crystalbyte.Paranoia {
 
         internal void NotifyMessagesRemoved(IEnumerable<MailMessageContext> messages) {
             messages.ForEach(x => _messages.Remove(x));
-            RaisePropertyChanged(() => Messages);
+        }
+
+        internal void NotifyMessageRemoved(MailMessageContext message) {
+            _messages.Remove(message);
         }
 
         internal async Task DeleteSelectedContactsAsync() {

@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -40,14 +39,6 @@ namespace Crystalbyte.Paranoia.Mail {
             var handler = ChangeNotificationReceived;
             if (handler != null)
                 handler(this, EventArgs.Empty);
-        }
-
-        public event EventHandler<ProgressChangedEventArgs> TotalByteCountChanged;
-
-        private void OnTotalByteCountChanged(ProgressChangedEventArgs e) {
-            var handler = TotalByteCountChanged;
-            if (handler != null)
-                handler(this, e);
         }
 
         public event EventHandler<ProgressChangedEventArgs> ByteCountChanged;
@@ -86,24 +77,24 @@ namespace Crystalbyte.Paranoia.Mail {
             var uidString = uids.ToCommaSeparatedValues();
             var command = string.Format(@"UID STORE {0} +FLAGS.SILENT (\Deleted)", uidString);
             var id = await _connection.WriteCommandAsync(command);
-            await ReadStoreResponseAsync(id);
+            await ReadBasicResponseAsync(id);
 
             id = await _connection.WriteCommandAsync("EXPUNGE");
-            await ReadExpungeResponseAsync(id);
+            await ReadBasicResponseAsync(id);
         }
 
         public async Task MarkAsSeenAsync(IEnumerable<long> uids) {
             var uidString = uids.ToCommaSeparatedValues();
             var command = string.Format(@"UID STORE {0} +FLAGS.SILENT (\Seen)", uidString);
             var id = await _connection.WriteCommandAsync(command);
-            await ReadStoreResponseAsync(id);
+            await ReadBasicResponseAsync(id);
         }
 
         public async Task MarkAsNotSeenAsync(IEnumerable<long> uids) {
             var uidString = uids.ToCommaSeparatedValues();
             var command = string.Format(@"UID STORE {0} -FLAGS.SILENT (\Seen)", uidString);
             var id = await _connection.WriteCommandAsync(command);
-            await ReadStoreResponseAsync(id);
+            await ReadBasicResponseAsync(id);
         }
 
         public async Task MoveMailsAsync(ICollection<long> uids, string destination) {
@@ -117,43 +108,16 @@ namespace Crystalbyte.Paranoia.Mail {
             if (_connection.CanMove) {
                 command = string.Format("UID MOVE {0} \"{1}\"", uidString, encodedName);
                 id = await _connection.WriteCommandAsync(command);
-                await ReadMoveResponseAsync(id);
-            }
-            else {
+                await ReadBasicResponseAsync(id);
+            } else {
                 command = string.Format("UID COPY {0} \"{1}\"", uidString, encodedName);
                 id = await _connection.WriteCommandAsync(command);
-                await ReadCopyResponseAsync(id);
+                await ReadBasicResponseAsync(id);
                 await DeleteMailsAsync(uids);
             }
         }
 
-        private async Task ReadMoveResponseAsync(string id) {
-            while (true) {
-                var line = await _connection.ReadAsync();
-                if (line.IsBad || line.IsNo) {
-                    throw new ImapException(line.Text);
-                }
-
-                if (line.TerminatesCommand(id)) {
-                    break;
-                }
-            }
-        }
-
-        private async Task ReadExpungeResponseAsync(string id) {
-            while (true) {
-                var line = await _connection.ReadAsync();
-                if (line.IsBad || line.IsNo) {
-                    throw new ImapException(line.Text);
-                }
-
-                if (line.TerminatesCommand(id)) {
-                    break;
-                }
-            }
-        }
-
-        private async Task ReadCopyResponseAsync(string id) {
+        private async Task ReadBasicResponseAsync(string id) {
             while (true) {
                 var line = await _connection.ReadAsync();
                 if (line.IsBad || line.IsNo) {
@@ -168,15 +132,6 @@ namespace Crystalbyte.Paranoia.Mail {
 
         public string Name {
             get { return _name; }
-        }
-
-        private async Task ReadStoreResponseAsync(string id) {
-            while (true) {
-                var line = await _connection.ReadAsync();
-                if (line.TerminatesCommand(id)) {
-                    break;
-                }
-            }
         }
 
         /// <summary>
@@ -360,8 +315,7 @@ namespace Crystalbyte.Paranoia.Mail {
                     var key = long.Parse(UidRegex.Match(segment).Value.Split(' ')[1]);
                     var value = ParseHeaders(segment);
                     headers.Add(key, value);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     Debug.WriteLine(ex);
                 }
             }
@@ -400,11 +354,9 @@ namespace Crystalbyte.Paranoia.Mail {
                         try {
                             envelope = ImapEnvelope.Parse(writer.ToString());
                             envelopes.Add(envelope);
-                        }
-                        catch (Exception ex) {
+                        } catch (Exception ex) {
                             Debug.WriteLine(ex);
-                        }
-                        finally {
+                        } finally {
                             OnSyncProgressChanged(envelope);
                         }
                     }
@@ -427,72 +379,74 @@ namespace Crystalbyte.Paranoia.Mail {
             return await ReadMessageBodyResponseAsync(id);
         }
 
-        private async Task<byte[]> ReadMessageBodyResponseAsync(string id) {
-            var byteCount = 0;
-            var encoding = Encoding.GetEncoding(CodePages.Latin1);
+        private Task<byte[]> ReadMessageBodyResponseAsync(string id) {
+            return Task.Run(() => {
+                var byteCount = 0;
+                var encoding = Encoding.GetEncoding(CodePages.Latin1);
 
-            var stream = new MemoryStream();
-            OnByteCountChanged(byteCount);
-            using (var writer = new BinaryWriter(stream, encoding, true)) {
-                using (var reader = new BinaryReader(_connection.SecureStream, Encoding.Default, true)) {
-                    while (true) {
-
-                        var buffer = new MemoryStream();
+                var stream = new MemoryStream();
+                OnByteCountChanged(byteCount);
+                using (var writer = new BinaryWriter(stream, encoding, true)) {
+                    using (var reader = new BinaryReader(_connection.SecureStream, Encoding.Default, true)) {
                         while (true) {
-                            var b = reader.ReadByte();
-                            buffer.WriteByte(b);
 
-                            // new lines
-                            if (b == 13) {
+                            var buffer = new MemoryStream();
+                            while (true) {
+                                var b = reader.ReadByte();
+                                buffer.WriteByte(b);
+
+                                // new lines
+                                if (b != 13)
+                                    continue;
+
                                 b = reader.ReadByte();
                                 buffer.WriteByte(b);
                                 if (b == 10) {
                                     break;
                                 }
                             }
-                        }
 
-                        var bytes = buffer.ToArray();
-                        var line = new ImapResponseLine(Encoding.ASCII.GetString(bytes));
-                        if (line.IsUntagged) {
-                            continue;
-                        }
+                            var bytes = buffer.ToArray();
+                            var line = new ImapResponseLine(Encoding.ASCII.GetString(bytes));
+                            if (line.IsUntagged) {
+                                continue;
+                            }
 
-                        if (line.TerminatesCommand(id)) {
-                            break;
-                        }
+                            if (line.TerminatesCommand(id)) {
+                                break;
+                            }
 
-                        writer.Write(bytes);
-                        byteCount += bytes.Length;
-                        OnByteCountChanged(byteCount);
-                    }    
-                }
-                
-
-                var trimLength = 0;
-                using (var reader = new BinaryReader(stream)) {
-                    stream.Seek(0, SeekOrigin.Begin);
-                    var buffer = reader.ReadBytes((int) stream.Length);
-
-                    for (var i = buffer.Length - 1; i > 0; i--) {
-                        var b = buffer[i];
-                        // Detect trailing line feeds (13), carriage returns (10) and the closing bracket (41).
-                        if (b == 10 || b == 13 || b == 41) {
-                            trimLength++;
-                        }
-
-                        if (b == 41) {
-                            break;
+                            writer.Write(bytes);
+                            byteCount += bytes.Length;
+                            OnByteCountChanged(byteCount);
                         }
                     }
 
-                    var length = buffer.Length - trimLength;
-                    var target = new byte[length];
-                    Buffer.BlockCopy(buffer, 0, target, 0, length);
-                    return target;    
+
+                    var trimLength = 0;
+                    using (var reader = new BinaryReader(stream)) {
+                        stream.Seek(0, SeekOrigin.Begin);
+                        var buffer = reader.ReadBytes((int)stream.Length);
+
+                        for (var i = buffer.Length - 1; i > 0; i--) {
+                            var b = buffer[i];
+                            // Detect trailing line feeds (13), carriage returns (10) and the closing bracket (41).
+                            if (b == 10 || b == 13 || b == 41) {
+                                trimLength++;
+                            }
+
+                            if (b == 41) {
+                                break;
+                            }
+                        }
+
+                        var length = buffer.Length - trimLength;
+                        var target = new byte[length];
+                        Buffer.BlockCopy(buffer, 0, target, 0, length);
+                        return target;
+                    }
                 }
-                
-            }
+            });
         }
     }
 }

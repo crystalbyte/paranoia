@@ -13,9 +13,6 @@ using Crystalbyte.Paranoia.Properties;
 using System.Text.RegularExpressions;
 using System.IO;
 using dotless.Core;
-using NLog;
-using Color = System.Windows.Media.Color;
-using FontFamily = System.Windows.Media.FontFamily;
 
 #endregion
 
@@ -274,7 +271,8 @@ namespace Crystalbyte.Paranoia.UI {
             if (data == null)
                 return;
 
-            //Debug stuff
+            // Debug stuff
+            // ReSharper disable once UnusedVariable
             var formats = data.GetFormats();
 
             var image = data.GetData("System.Drawing.Bitmap") as Bitmap;

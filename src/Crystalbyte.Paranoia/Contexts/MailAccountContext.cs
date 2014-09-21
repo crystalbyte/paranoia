@@ -126,10 +126,6 @@ namespace Crystalbyte.Paranoia {
             IsMailboxSelectionAvailable = true;
         }
 
-        private void OnSelectMailbox(object obj) {
-
-        }
-
         private async void OnRegister(object obj) {
             await RegisterKeyWithServerAsync();
         }
@@ -181,7 +177,7 @@ namespace Crystalbyte.Paranoia {
 
                 var inbox = GetInbox();
                 if (inbox != null) {
-                    inbox.IdleAsync();
+                    await inbox.IdleAsync();
                 }
 
                 IsOnline = true;
@@ -769,7 +765,7 @@ namespace Crystalbyte.Paranoia {
         internal async Task DeleteAsync() {
             try {
                 foreach (var mailbox in Mailboxes) {
-                    await mailbox.DeleteAsync();
+                    await mailbox.DeleteLocalAsync();
                 }
 
                 using (var database = new DatabaseContext()) {
@@ -877,11 +873,16 @@ namespace Crystalbyte.Paranoia {
 
                             foreach (var message in messages) {
                                 var lMessage = message;
-                                var mime = await database.MimeMessages.FirstOrDefaultAsync(x => x.MessageId == lMessage.Id);
-                                if (mime == null)
+                                var mimeMessages = await database.MimeMessages
+                                    .Where(x => x.MessageId == lMessage.Id)
+                                    .ToArrayAsync();
+
+                                if (mimeMessages == null)
                                     continue;
 
-                                database.MimeMessages.Remove(mime);
+                                foreach (var mimeMessage in mimeMessages) {
+                                    database.MimeMessages.Remove(mimeMessage);
+                                }
                                 await database.SaveChangesAsync();
                             }
 
@@ -908,6 +909,10 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
             }
+        }
+
+        internal void NotifyMailboxRemoved(MailboxContext mailbox) {
+            _mailboxes.Remove(mailbox);
         }
     }
 }

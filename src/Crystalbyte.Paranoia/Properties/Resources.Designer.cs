@@ -324,6 +324,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter the name of the mailbox to create..
+        /// </summary>
+        public static string CreateMailboxDescription {
+            get {
+                return ResourceManager.GetString("CreateMailboxDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Method was called on an invalid thread..
         /// </summary>
         public static string CrossThreadException {
@@ -649,6 +658,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        public static string New {
+            get {
+                return ResourceManager.GetString("New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No connectivity, please check your internet connection..
         /// </summary>
         public static string NoConnectivity {
@@ -951,6 +969,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Sunday {
             get {
                 return ResourceManager.GetString("Sunday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sync.
+        /// </summary>
+        public static string Sync {
+            get {
+                return ResourceManager.GetString("Sync", resourceCulture);
             }
         }
         

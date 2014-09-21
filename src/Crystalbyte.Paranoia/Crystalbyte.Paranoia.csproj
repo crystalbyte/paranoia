@@ -173,8 +173,8 @@
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="AudioPlayer.cs" />
     <Compile Include="Contexts\AttachmentContext.cs" />
-    <Compile Include="UI\Commands\CreateMailboxCommand.cs" />
-    <Compile Include="UI\Commands\DeleteMailboxCommand.cs" />
+    <Compile Include="Contexts\CreateMailboxContext.cs" />
+    <Compile Include="IMailboxCreator.cs" />
     <Compile Include="UI\Commands\UnblockContactsCommand.cs" />
     <Compile Include="UI\Commands\BlockContactsCommand.cs" />
     <Compile Include="Contexts\CreateContactContext.cs" />
@@ -239,6 +239,7 @@
     <Compile Include="UI\MetroProgressBar.xaml.cs">
       <DependentUpon>MetroProgressBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\NavigationStore.cs" />
     <Compile Include="UI\PageCommands.cs" />
     <Compile Include="UI\Pages\AccountDetailsPage.xaml.cs">
       <DependentUpon>AccountDetailsPage.xaml</DependentUpon>
@@ -254,6 +255,9 @@
     </Compile>
     <Compile Include="UI\Pages\CreateKeyPage.xaml.cs">
       <DependentUpon>CreateKeyPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\CreateMailboxPage.xaml.cs">
+      <DependentUpon>CreateMailboxPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Pages\MessagesPage.xaml.cs">
       <DependentUpon>MessagesPage.xaml</DependentUpon>
@@ -469,6 +473,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Pages\CreateKeyPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\CreateMailboxPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

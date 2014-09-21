@@ -456,6 +456,7 @@
                                Text="{Binding Title}"
                                d:DataContext="{d:DesignInstance Page}" />
                     <Frame x:Name="PopupFrame"
+                           Navigated="OnPopupFrameNavigated"
                            Grid.Row="1"
                            MinHeight="200"
                            NavigationUIVisibility="Hidden" />
