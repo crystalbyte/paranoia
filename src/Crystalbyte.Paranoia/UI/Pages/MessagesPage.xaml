@@ -102,6 +102,9 @@
                                 <Grid.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Command="{Binding ShowUnsubscribedMailboxesCommand}" Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <MenuItem.Icon>
+                                                <Image Height="16" Source="/Assets/select.png" />
+                                            </MenuItem.Icon>
                                             <MenuItem.Header>
                                                 <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
                                                            Style="{StaticResource Metro.MenuHeaderTextStyle}"
@@ -109,6 +112,9 @@
                                             </MenuItem.Header>
                                         </MenuItem>
                                         <MenuItem Command="{Binding HideUnsubscribedMailboxesCommand}" Visibility="{Binding IsManagingMailboxes, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <MenuItem.Icon>
+                                                <Image Height="16" Source="/Assets/ok.png" />
+                                            </MenuItem.Icon>
                                             <MenuItem.Header>
                                                 <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
                                                            Style="{StaticResource Metro.MenuHeaderTextStyle}"
@@ -117,6 +123,9 @@
                                         </MenuItem>
                                         <Separator Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                         <MenuItem Command="{Binding DeleteAccountCommand}" Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <MenuItem.Icon>
+                                                <Image Height="16" Source="/Assets/delete.png" />
+                                            </MenuItem.Icon>
                                             <MenuItem.Header>
                                                 <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
                                                            Style="{StaticResource Metro.MenuHeaderTextStyle}"
@@ -125,6 +134,9 @@
                                         </MenuItem>
                                         <Separator Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                         <MenuItem Command="{Binding ConfigAccountCommand}" Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <MenuItem.Icon>
+                                                <Image Height="16" Source="/Assets/edit.properties.png" />
+                                            </MenuItem.Icon>
                                             <MenuItem.Header>
                                                 <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
                                                            Style="{StaticResource Metro.MenuHeaderTextStyle}"
@@ -179,19 +191,32 @@
                             <Grid>
                                 <Grid.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Command="{Binding CreateMailboxCommand}">
+                                        <MenuItem Command="{Binding SyncMailboxCommand}">
+                                            <MenuItem.Icon>
+                                                <Image Height="16" Source="/Assets/refresh.png" />
+                                            </MenuItem.Icon>
                                             <MenuItem.Header>
-                                                <TextBlock VerticalAlignment="Center" Text="{x:Static properties:Resources.New}" />
+                                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Sync}" />
                                             </MenuItem.Header>
                                         </MenuItem>
-                                        <MenuItem Command="{Binding SyncMailboxCommand}" InputGestureText="Ctrl + S">
+                                        <Separator />
+                                        <MenuItem Command="{Binding CreateMailboxCommand}">
+                                            <MenuItem.Icon>
+                                                <Image Height="16"
+                                                       RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                                       Source="/Assets/add.png"
+                                                       UseLayoutRounding="True" />
+                                            </MenuItem.Icon>
                                             <MenuItem.Header>
-                                                <TextBlock VerticalAlignment="Center" Text="{x:Static properties:Resources.Sync}" />
+                                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.New}" />
                                             </MenuItem.Header>
                                         </MenuItem>
                                         <MenuItem Command="{Binding DeleteMailboxCommand}">
+                                            <MenuItem.Icon>
+                                                <Image Height="16" Source="/Assets/delete.png" />
+                                            </MenuItem.Icon>
                                             <MenuItem.Header>
-                                                <TextBlock VerticalAlignment="Center" Text="{x:Static properties:Resources.Delete}" />
+                                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Delete}" />
                                             </MenuItem.Header>
                                         </MenuItem>
                                     </ContextMenu>

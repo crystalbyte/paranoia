@@ -32,14 +32,14 @@ namespace Crystalbyte.Paranoia.Mail {
 
             // Cp1252 is not recognized under this name
             if (charset.ToLower() == "cp1252") {
-                charset = Charsets.Ansi;
+                charset = Charsets.Windows1252;
             }
 
             try {
                 // if this goes haywire
                 targetEncoding = Encoding.GetEncoding(charset);
             }
-            catch (Exception) {
+            catch (ArgumentException) {
                 // try this one
                 targetEncoding = Encoding.UTF8;
             }
