@@ -235,6 +235,7 @@
                                     <Image Width="16"
                                            Margin="0,1,6,1"
                                            DockPanel.Dock="Left"
+                                           RenderOptions.BitmapScalingMode="NearestNeighbor"
                                            Source="/Assets/folder.png" />
                                     <TextBlock x:Name="MailboxNameBlock"
                                                VerticalAlignment="Center"

@@ -53,6 +53,18 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="StatusBar" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="24">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseOut" />
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="StatusBar" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
+            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <!--  ReSharper disable once Xaml.RedundantResource  -->
         <Storyboard x:Key="FlyoutSlideOutStoryboard">
@@ -87,6 +99,18 @@
                         <QuinticEase EasingMode="EaseOut" />
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="StatusBar" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="24" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseOut" />
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="StatusBar" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <!--  ReSharper disable once Xaml.RedundantResource  -->
@@ -273,6 +297,67 @@
                 </Frame.RenderTransform>
             </Frame>
         </Border>
+
+
+        <Rectangle Grid.Row="2"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   Fill="{DynamicResource Metro.AlternateControlBackgroundBrush}" />
+        <StatusBar x:Name="StatusBar"
+                   Grid.Row="2"
+                   Height="24"
+                   Margin="0"
+                   Background="{StaticResource Metro.AccentBrush}"
+                   Padding="0"
+                   RenderTransformOrigin="0.5,0.5">
+            <StatusBar.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform />
+                    <SkewTransform />
+                    <RotateTransform />
+                    <TranslateTransform />
+                </TransformGroup>
+            </StatusBar.RenderTransform>
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="24" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="0">
+                <TextBlock Text="{Binding StatusText, Mode=OneWay}" />
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="2">
+                <Slider Width="150"
+                        VerticalAlignment="Stretch"
+                        IsEnabled="{Binding IsMessageSelected}"
+                        IsTabStop="False"
+                        LargeChange="25.0"
+                        Maximum="400.0"
+                        Minimum="1.0"
+                        SmallChange="5.0"
+                        TickPlacement="None"
+                        Value="{Binding Zoom,
+                                        Mode=TwoWay}" />
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="3" Padding="0">
+                <Button Width="50"
+                        Command="{Binding ResetZoomCommand}"
+                        Content="{Binding Zoom,
+                                          Mode=OneWay,
+                                          Converter={StaticResource PercentageFormatter}}"
+                        IsEnabled="{Binding IsMessageSelected}"
+                        IsTabStop="False"
+                        Style="{DynamicResource Metro.StatusBarButtonStyle}" />
+            </StatusBarItem>
+        </StatusBar>
         <Grid x:Name="Overlay"
               Grid.Row="0"
               Grid.RowSpan="3"
@@ -373,52 +458,6 @@
                 </Grid>
             </Border>
         </Grid>
-
-        <StatusBar Grid.Row="2"
-                   Height="24"
-                   Margin="0"
-                   Background="{StaticResource Metro.AccentBrush}"
-                   Padding="0">
-            <StatusBar.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="24" />
-                        </Grid.ColumnDefinitions>
-                    </Grid>
-                </ItemsPanelTemplate>
-            </StatusBar.ItemsPanel>
-            <StatusBarItem Grid.Column="0">
-                <TextBlock Text="{Binding StatusText, Mode=OneWay}" />
-            </StatusBarItem>
-            <StatusBarItem Grid.Column="2">
-                <Slider Width="150"
-                        VerticalAlignment="Stretch"
-                        IsEnabled="{Binding IsMessageSelected}"
-                        IsTabStop="False"
-                        LargeChange="25.0"
-                        Maximum="400.0"
-                        Minimum="1.0"
-                        SmallChange="5.0"
-                        TickPlacement="None"
-                        Value="{Binding Zoom,
-                                        Mode=TwoWay}" />
-            </StatusBarItem>
-            <StatusBarItem Grid.Column="3" Padding="0">
-                <Button Width="50"
-                        Command="{Binding ResetZoomCommand}"
-                        Content="{Binding Zoom,
-                                          Mode=OneWay,
-                                          Converter={StaticResource PercentageFormatter}}"
-                        IsEnabled="{Binding IsMessageSelected}"
-                        IsTabStop="False"
-                        Style="{DynamicResource Metro.StatusBarButtonStyle}" />
-            </StatusBarItem>
-        </StatusBar>
         <Grid Grid.Row="0"
               Grid.RowSpan="3"
               Visibility="{Binding IsPopupVisible,
