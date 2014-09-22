@@ -476,4 +476,16 @@ Once your password is lost you're screwed.</value>
   <data name="Sync" xml:space="preserve">
     <value>Sync</value>
   </data>
+  <data name="Drafts" xml:space="preserve">
+    <value>Drafts</value>
+  </data>
+  <data name="Sent" xml:space="preserve">
+    <value>Sent</value>
+  </data>
+  <data name="Spam" xml:space="preserve">
+    <value>Spam</value>
+  </data>
+  <data name="Trash" xml:space="preserve">
+    <value>Trash</value>
+  </data>
 </root>

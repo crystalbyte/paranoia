@@ -29,6 +29,8 @@ namespace Crystalbyte.Paranoia {
 
         #region Private Fields
 
+        private bool _isEditing;
+        private bool _isIdling;
         private int _notSeenCount;
         private bool _isSyncingMessages;
         private bool _isDownloadingMessage;
@@ -40,8 +42,6 @@ namespace Crystalbyte.Paranoia {
         private bool _isSyncingChildren;
         private int _totalEnvelopeCount;
         private int _fetchedEnvelopeCount;
-        private bool _isEditing;
-        private bool _isIdling;
         private bool _isSyncedInitially;
         private bool _showAllMessages;
         private readonly ICommand _syncMailboxCommand;
@@ -1040,9 +1040,9 @@ namespace Crystalbyte.Paranoia {
         /// Moves messages from the trash mailbox back to the inbox.
         /// </summary>
         /// <param name="messages">The messages to move.</param>
-        internal async Task RestoreMessagesAsync(IList<MailMessageContext> messages) {
+        internal async Task RestoreMessagesAsync(MailMessageContext[] messages) {
             try {
-                if (messages.Count < 1) {
+                if (messages.Length < 1) {
                     return;
                 }
 
@@ -1058,27 +1058,14 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-                using (var database = new DatabaseContext()) {
-                    foreach (var message in messages) {
-                        try {
-                            var model = new MailMessageModel {
-                                Id = message.Id,
-                                MailboxId = Id
-                            };
-
-                            database.MailMessages.Attach(model);
-                            database.MailMessages.Remove(model);
-                        } catch (Exception ex) {
-                            Logger.Error(ex);
-                        }
-                    }
-                    await database.SaveChangesAsync();
-                }
+                await DeleteMessagesAsync(messages, _account.GetTrash().Name);
 
                 App.Context.NotifyMessagesRemoved(messages);
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
+
+
         }
     }
 }

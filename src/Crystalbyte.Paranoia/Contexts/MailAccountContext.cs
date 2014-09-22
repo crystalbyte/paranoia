@@ -77,7 +77,6 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnDeleteAccount(object obj) {
-
             try {
                 if (MessageBox.Show(Application.Current.MainWindow,
                         Resources.DeleteAccountQuestion, Resources.ApplicationName, MessageBoxButton.YesNo) == MessageBoxResult.No) {

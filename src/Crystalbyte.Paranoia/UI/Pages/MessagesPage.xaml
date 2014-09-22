@@ -200,6 +200,29 @@
                                             </MenuItem.Header>
                                         </MenuItem>
                                         <Separator />
+                                        <MenuItem>
+                                            <MenuItem>
+                                                <MenuItem.Header>
+                                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Sent}" />
+                                                </MenuItem.Header>
+                                            </MenuItem>
+                                            <MenuItem>
+                                                <MenuItem.Header>
+                                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Drafts}" />
+                                                </MenuItem.Header>
+                                            </MenuItem>
+                                            <MenuItem>
+                                                <MenuItem.Header>
+                                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Trash}" />
+                                                </MenuItem.Header>
+                                            </MenuItem>
+                                            <MenuItem>
+                                                <MenuItem.Header>
+                                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Spam}" />
+                                                </MenuItem.Header>
+                                            </MenuItem>
+                                        </MenuItem>
+                                        <Separator />
                                         <MenuItem Command="{Binding CreateMailboxCommand}">
                                             <MenuItem.Icon>
                                                 <Image Height="16"

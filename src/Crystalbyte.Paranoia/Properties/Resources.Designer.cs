@@ -414,6 +414,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Drafts.
+        /// </summary>
+        public static string Drafts {
+            get {
+                return ResourceManager.GetString("Drafts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {
@@ -885,6 +894,15 @@ namespace Crystalbyte.Paranoia.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Sent.
         /// </summary>
+        public static string Sent {
+            get {
+                return ResourceManager.GetString("Sent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sent.
+        /// </summary>
         public static string SentMailbox {
             get {
                 return ResourceManager.GetString("SentMailbox", resourceCulture);
@@ -942,6 +960,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string SmtpSettingsTitle {
             get {
                 return ResourceManager.GetString("SmtpSettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spam.
+        /// </summary>
+        public static string Spam {
+            get {
+                return ResourceManager.GetString("Spam", resourceCulture);
             }
         }
         
@@ -1041,6 +1068,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Thursday {
             get {
                 return ResourceManager.GetString("Thursday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trash.
+        /// </summary>
+        public static string Trash {
+            get {
+                return ResourceManager.GetString("Trash", resourceCulture);
             }
         }
         
