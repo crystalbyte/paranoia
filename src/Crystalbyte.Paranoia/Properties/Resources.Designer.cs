@@ -214,6 +214,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change.
+        /// </summary>
+        public static string Change {
+            get {
+                return ResourceManager.GetString("Change", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string CloseCommandTooltip {
@@ -586,7 +595,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Store copies of sent messages inside a mailbox..
+        ///   Looks up a localized string similar to Store copies of sent messages inside the following mailbox..
         /// </summary>
         public static string MailboxSettingsCopy {
             get {
@@ -609,6 +618,33 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string MailboxSettingsTitle {
             get {
                 return ResourceManager.GetString("MailboxSettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage messages labeled as junk..
+        /// </summary>
+        public static string ManageJunk {
+            get {
+                return ResourceManager.GetString("ManageJunk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage sent messages..
+        /// </summary>
+        public static string ManageSent {
+            get {
+                return ResourceManager.GetString("ManageSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage deleted messages..
+        /// </summary>
+        public static string ManageTrash {
+            get {
+                return ResourceManager.GetString("ManageTrash", resourceCulture);
             }
         }
         
@@ -946,7 +982,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manage.
+        ///   Looks up a localized string similar to Manage Subscriptions.
         /// </summary>
         public static string ShowUnsubscribedMailboxes {
             get {

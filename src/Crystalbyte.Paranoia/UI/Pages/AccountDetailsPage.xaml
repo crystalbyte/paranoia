@@ -10,8 +10,8 @@
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="{x:Static properties:Resources.AccountSettingsTitle}"
       d:DataContext="{d:DesignInstance paranoia:MailAccountContext}"
-      d:DesignHeight="600"
-      d:DesignWidth="800"
+      d:DesignHeight="907.134"
+      d:DesignWidth="833.433"
       mc:Ignorable="d">
     <Page.Resources>
         <x:Array x:Key="SecurityProtocols" Type="mail:SecurityProtocol">
@@ -370,16 +370,45 @@
                                Style="{DynamicResource Metro.TitleTextStyle}"
                                Text="{x:Static properties:Resources.MailboxSettingsTitle}" />
                     <StackPanel Grid.Row="1" Grid.Column="0">
-                        <RadioButton GroupName="sent" IsChecked="{Binding StoreCopiesForSentMessages, Mode=TwoWay}">
+                        <TextBlock Style="{DynamicResource Metro.SubtitleTextStyle}" Text="{x:Static properties:Resources.ManageTrash}" />
+                        <RadioButton GroupName="sent">
                             <TextBlock Text="{x:Static properties:Resources.MailboxSettingsNoCopy}" />
                         </RadioButton>
-                        <RadioButton GroupName="sent">
+                        <RadioButton x:Name="StoreCopyRadioButton"
+                                     GroupName="sent"
+                                     IsChecked="{Binding StoreCopiesOfSentMessages,
+                                                         Mode=TwoWay}">
                             <TextBlock Text="{x:Static properties:Resources.MailboxSettingsCopy}" />
                         </RadioButton>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="100"
+                                       IsEnabled="{Binding StoreCopiesOfSentMessages}"
+                                       Text="{Binding SentMailboxName,
+                                                      Mode=OneWay,
+                                                      Converter={StaticResource NullOrEmptyFormatter},
+                                                      ConverterParameter=...}" />
+                            <Button Command="ui:PageCommands.SelectMailboxRole"
+                                    CommandParameter="sent"
+                                    IsEnabled="{Binding IsChecked,
+                                                        ElementName=StoreCopyRadioButton,
+                                                        Mode=OneWay}">
+                                <TextBlock VerticalAlignment="Center" Text="{x:Static properties:Resources.Change}" />
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Grid.Column="2" />
-
-
+                    <Popup x:Name="MailboxSelectionPopup"
+                           Grid.Row="0"
+                           Grid.Column="0"
+                           Closed="OnMailboxSelectionPopupClosed">
+                        <DockPanel LastChildFill="True">
+                            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+                                <Button Command="ui:PageCommands.Continue" />
+                                <Button Command="ui:PageCommands.Cancel" />
+                            </StackPanel>
+                            <TreeView ItemsSource="{Binding RootMailboxes}" />
+                        </DockPanel>
+                    </Popup>
                 </Grid>
             </DockPanel>
         </ScrollViewer>

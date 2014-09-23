@@ -441,7 +441,7 @@ Once your password is lost you're screwed.</value>
     <value>Accept</value>
   </data>
   <data name="ShowUnsubscribedMailboxes" xml:space="preserve">
-    <value>Manage</value>
+    <value>Manage Subscriptions</value>
   </data>
   <data name="NoMessages" xml:space="preserve">
     <value>It's lonely in here :(</value>
@@ -489,12 +489,24 @@ Once your password is lost you're screwed.</value>
     <value>Trash</value>
   </data>
   <data name="MailboxSettingsCopy" xml:space="preserve">
-    <value>Store copies of sent messages inside a mailbox.</value>
+    <value>Store copies of sent messages inside the following mailbox.</value>
   </data>
   <data name="MailboxSettingsNoCopy" xml:space="preserve">
     <value>Do not store copies of sent messages.</value>
   </data>
   <data name="MailboxSettingsTitle" xml:space="preserve">
     <value>Mailbox Settings</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="ManageJunk" xml:space="preserve">
+    <value>Manage messages labeled as junk.</value>
+  </data>
+  <data name="ManageSent" xml:space="preserve">
+    <value>Manage sent messages.</value>
+  </data>
+  <data name="ManageTrash" xml:space="preserve">
+    <value>Manage deleted messages.</value>
   </data>
 </root>

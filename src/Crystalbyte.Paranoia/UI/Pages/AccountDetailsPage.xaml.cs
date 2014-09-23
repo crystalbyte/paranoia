@@ -163,5 +163,9 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 account.UseImapCredentialsForSmtp = !button.IsChecked.Value;
             }
         }
+
+        private void OnMailboxSelectionPopupClosed(object sender, EventArgs e) {
+            
+        }
     }
 }

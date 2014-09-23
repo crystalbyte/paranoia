@@ -51,7 +51,11 @@ namespace Crystalbyte.Paranoia {
         private readonly OutboxContext _outbox;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
         private bool _isSyncingMailboxes;
-        private bool _storeCopiesForSentMessages;
+        private bool _storeCopiesOfSentMessages;
+        private string _trashMailboxName;
+        private string _junkMailboxName;
+        private string _sentMailboxName;
+        private string _draftMailboxName;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -73,8 +77,10 @@ namespace Crystalbyte.Paranoia {
             _isAutoDetectPreferred = true;
 
             _mailboxes = new ObservableCollection<MailboxContext>();
-            _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Mailboxes);
-            _mailboxes.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Children);
+            _mailboxes.CollectionChanged += (sender, e) => {
+                RaisePropertyChanged(() => Children);
+                RaisePropertyChanged(() => RootMailboxes);
+            };
         }
 
         private async void OnDeleteAccount(object obj) {
@@ -121,6 +127,51 @@ namespace Crystalbyte.Paranoia {
         }
 
         #endregion
+
+        public string TrashMailboxName {
+            get { return _trashMailboxName; }
+            set {
+                if (_trashMailboxName == value) {
+                    return;
+                }
+                _trashMailboxName = value;
+                RaisePropertyChanged(() => TrashMailboxName);
+            }
+        }
+
+        public string JunkMailboxName {
+            get { return _junkMailboxName; }
+            set {
+                if (_junkMailboxName == value) {
+                    return;
+                }
+                _junkMailboxName = value;
+                RaisePropertyChanged(() => JunkMailboxName);
+            }
+        }
+
+        public string SentMailboxName {
+            get { return _sentMailboxName; }
+            set {
+                if (_sentMailboxName == value) {
+                    return;
+                }
+
+                _sentMailboxName = value;
+                RaisePropertyChanged(() => SentMailboxName);
+            }
+        }
+
+        public string DraftMailboxName {
+            get { return _draftMailboxName; }
+            set {
+                if (_draftMailboxName == value) {
+                    return;
+                }
+                _draftMailboxName = value;
+                RaisePropertyChanged(() => DraftMailboxName);
+            }
+        }
 
         private void OnListMailboxes(object obj) {
             IsMailboxSelectionAvailable = true;
@@ -215,14 +266,14 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool StoreCopiesForSentMessages {
-            get { return _storeCopiesForSentMessages; }
+        public bool StoreCopiesOfSentMessages {
+            get { return _storeCopiesOfSentMessages; }
             set {
-                if (_storeCopiesForSentMessages == value) {
+                if (_storeCopiesOfSentMessages == value) {
                     return;
                 }
-                _storeCopiesForSentMessages = value;
-                RaisePropertyChanged(() => StoreCopiesForSentMessages);
+                _storeCopiesOfSentMessages = value;
+                RaisePropertyChanged(() => StoreCopiesOfSentMessages);
             }
         }
 
@@ -586,6 +637,12 @@ namespace Crystalbyte.Paranoia {
 
         public IEnumerable<MailboxContext> Mailboxes {
             get { return _mailboxes; }
+        }
+
+        public IEnumerable<MailboxContext> RootMailboxes {
+            get {
+                return _mailboxes.Where(x => !string.IsNullOrEmpty(x.Name) && !x.Name.Contains(x.Delimiter)).ToArray();
+            }
         }
 
         public IEnumerable<object> Children {
