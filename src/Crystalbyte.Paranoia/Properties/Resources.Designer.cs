@@ -504,7 +504,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to General Settings.
+        ///   Looks up a localized string similar to General Information &amp; Settings.
         /// </summary>
         public static string GeneralSettingsTitle {
             get {
@@ -582,6 +582,33 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string MailboxAssignmentDescription {
             get {
                 return ResourceManager.GetString("MailboxAssignmentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Store copies of sent messages inside a mailbox..
+        /// </summary>
+        public static string MailboxSettingsCopy {
+            get {
+                return ResourceManager.GetString("MailboxSettingsCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not store copies of sent messages..
+        /// </summary>
+        public static string MailboxSettingsNoCopy {
+            get {
+                return ResourceManager.GetString("MailboxSettingsNoCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mailbox Settings.
+        /// </summary>
+        public static string MailboxSettingsTitle {
+            get {
+                return ResourceManager.GetString("MailboxSettingsTitle", resourceCulture);
             }
         }
         

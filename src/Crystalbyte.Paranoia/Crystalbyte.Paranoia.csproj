@@ -610,6 +610,7 @@
     <Resource Include="Assets\unblock.png" />
     <Resource Include="Assets\edit.properties.png" />
     <Resource Include="Assets\select.png" />
+    <Resource Include="Assets\test.png" />
     <Content Include="Resources\ckeditor.paranoia\paranoia.js" />
     <Content Include="Resources\ckeditor\adapters\jquery.js" />
     <Content Include="Resources\ckeditor\build-config.js" />

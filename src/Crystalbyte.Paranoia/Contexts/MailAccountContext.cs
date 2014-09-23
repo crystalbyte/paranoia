@@ -51,6 +51,7 @@ namespace Crystalbyte.Paranoia {
         private readonly OutboxContext _outbox;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
         private bool _isSyncingMailboxes;
+        private bool _storeCopiesForSentMessages;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -211,6 +212,17 @@ namespace Crystalbyte.Paranoia {
                         return await session.LSubAsync("", ImapMailbox.EncodeName(wildcard));
                     }
                 }
+            }
+        }
+
+        public bool StoreCopiesForSentMessages {
+            get { return _storeCopiesForSentMessages; }
+            set {
+                if (_storeCopiesForSentMessages == value) {
+                    return;
+                }
+                _storeCopiesForSentMessages = value;
+                RaisePropertyChanged(() => StoreCopiesForSentMessages);
             }
         }
 

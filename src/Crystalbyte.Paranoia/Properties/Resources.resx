@@ -184,7 +184,7 @@
     <value>The following values are public and will be shared with the people you communicate with.</value>
   </data>
   <data name="GeneralSettingsTitle" xml:space="preserve">
-    <value>General Settings</value>
+    <value>General Information &amp; Settings</value>
   </data>
   <data name="ImapHost" xml:space="preserve">
     <value>Host</value>
@@ -487,5 +487,14 @@ Once your password is lost you're screwed.</value>
   </data>
   <data name="Trash" xml:space="preserve">
     <value>Trash</value>
+  </data>
+  <data name="MailboxSettingsCopy" xml:space="preserve">
+    <value>Store copies of sent messages inside a mailbox.</value>
+  </data>
+  <data name="MailboxSettingsNoCopy" xml:space="preserve">
+    <value>Do not store copies of sent messages.</value>
+  </data>
+  <data name="MailboxSettingsTitle" xml:space="preserve">
+    <value>Mailbox Settings</value>
   </data>
 </root>
