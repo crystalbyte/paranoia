@@ -136,5 +136,11 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         #endregion
+
+        private void MetroCircleButton_Click(object sender, RoutedEventArgs e) {
+            var window = new MetroPageHostWindow();
+            window.SetContent(this);
+            window.Show();
+        }
     }
 }
