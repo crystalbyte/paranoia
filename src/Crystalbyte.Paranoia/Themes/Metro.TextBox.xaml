@@ -23,7 +23,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Opacity" Value="0.56" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.DisabledBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />

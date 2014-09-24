@@ -380,19 +380,24 @@
                                                          Mode=TwoWay}">
                             <TextBlock Text="{x:Static properties:Resources.MailboxSettingsCopy}" />
                         </RadioButton>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="100"
-                                       IsEnabled="{Binding StoreCopiesOfSentMessages}"
-                                       Text="{Binding SentMailboxName,
-                                                      Mode=OneWay,
-                                                      Converter={StaticResource NullOrEmptyFormatter},
-                                                      ConverterParameter=...}" />
-                            <Button Command="ui:PageCommands.SelectMailboxRole"
+                        <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
+                            <TextBox Width="200"
+                                     Margin="30,0,3,0"
+                                     IsEnabled="{Binding StoreCopiesOfSentMessages}"
+                                     IsReadOnly="True"
+                                     Text="{Binding SentMailboxName,
+                                                    Mode=OneWay,
+                                                    Converter={StaticResource NullOrEmptyFormatter}}"
+                                     TextWrapping="NoWrap" />
+                            <Button x:Name="SelectSentMailboxButton"
+                                    Height="24"
+                                    Command="ui:PageCommands.SelectMailboxRole"
                                     CommandParameter="sent"
                                     IsEnabled="{Binding IsChecked,
                                                         ElementName=StoreCopyRadioButton,
-                                                        Mode=OneWay}">
-                                <TextBlock VerticalAlignment="Center" Text="{x:Static properties:Resources.Change}" />
+                                                        Mode=OneWay}"
+                                    Style="{DynamicResource Metro.TextBoxSiblingButtonStyle}">
+                                <TextBlock VerticalAlignment="Center" Text="..." />
                             </Button>
                         </StackPanel>
                     </StackPanel>
@@ -400,14 +405,76 @@
                     <Popup x:Name="MailboxSelectionPopup"
                            Grid.Row="0"
                            Grid.Column="0"
-                           Closed="OnMailboxSelectionPopupClosed">
-                        <DockPanel LastChildFill="True">
-                            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
-                                <Button Command="ui:PageCommands.Continue" />
-                                <Button Command="ui:PageCommands.Cancel" />
-                            </StackPanel>
-                            <TreeView ItemsSource="{Binding RootMailboxes}" />
-                        </DockPanel>
+                           Width="340"
+                           MinHeight="300"
+                           MaxHeight="600"
+                           AllowsTransparency="True"
+                           Closed="OnMailboxSelectionPopupClosed"
+                           PopupAnimation="None"
+                           StaysOpen="False">
+                        <Border Padding="2">
+                            <Grid>
+                                <Rectangle HorizontalAlignment="Stretch"
+                                           VerticalAlignment="Stretch"
+                                           Fill="Black">
+                                    <Rectangle.Effect>
+                                        <DropShadowEffect BlurRadius="2" Direction="0" />
+                                    </Rectangle.Effect>
+                                </Rectangle>
+                                <Border Background="{DynamicResource Metro.MenuBackgroundBrush}"
+                                        BorderBrush="{DynamicResource Metro.ControlBorderBrush}"
+                                        BorderThickness="1">
+                                    <DockPanel LastChildFill="True">
+                                        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+                                            <ui:MetroCircleButton Command="ui:PageCommands.Continue">
+                                                <Image Height="18" Source="/Assets/ok.png" />
+                                            </ui:MetroCircleButton>
+                                            <ui:MetroCircleButton Command="ui:PageCommands.Cancel">
+                                                <Image Height="18" Source="/Assets/cancel.png" />
+                                            </ui:MetroCircleButton>
+                                        </StackPanel>
+                                        <TreeView Background="Transparent"
+                                                  BorderThickness="0"
+                                                  ItemsSource="{Binding RootMailboxes}">
+                                            <TreeView.ItemContainerStyle>
+                                                <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
+                                                    <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                                                    <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                </Style>
+                                            </TreeView.ItemContainerStyle>
+                                            <TreeView.ItemTemplate>
+                                                <HierarchicalDataTemplate DataType="{x:Type paranoia:MailboxContext}" ItemsSource="{Binding Children}">
+                                                    <Grid>
+                                                        <Rectangle HorizontalAlignment="Stretch"
+                                                                   VerticalAlignment="Stretch"
+                                                                   Fill="Transparent" />
+                                                        <DockPanel HorizontalAlignment="Stretch" LastChildFill="False">
+                                                            <Image Width="16"
+                                                                   Margin="0,1,6,1"
+                                                                   DockPanel.Dock="Left"
+                                                                   RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                                                   Source="/Assets/folder.png" />
+                                                            <TextBlock x:Name="MailboxNameBlock"
+                                                                       VerticalAlignment="Center"
+                                                                       DockPanel.Dock="Left"
+                                                                       Text="{Binding LocalName}">
+                                                                <TextBlock.Foreground>
+                                                                    <Binding Path="IsSubscribedAndSelectable">
+                                                                        <Binding.Converter>
+                                                                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.NormalTextBrush}" />
+                                                                        </Binding.Converter>
+                                                                    </Binding>
+                                                                </TextBlock.Foreground>
+                                                            </TextBlock>
+                                                        </DockPanel>
+                                                    </Grid>
+                                                </HierarchicalDataTemplate>
+                                            </TreeView.ItemTemplate>
+                                        </TreeView>
+                                    </DockPanel>
+                                </Border>
+                            </Grid>
+                        </Border>
                     </Popup>
                 </Grid>
             </DockPanel>
