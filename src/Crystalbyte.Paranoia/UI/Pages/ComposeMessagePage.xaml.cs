@@ -22,20 +22,30 @@ namespace Crystalbyte.Paranoia.UI.Pages {
     /// </summary>
     public partial class ComposeMessagePage : INavigationAware, IAnimationAware {
 
+        private MailCompositionContext _context;
+        private MetroPageHostWindow _pageWindow;
+
+
         public ComposeMessagePage() {
             InitializeComponent();
 
-            var context = new MailCompositionContext();
-            context.Finished += OnShutdownRequested;
-            context.DocumentTextRequested += OnDocumentTextRequested;
-            DataContext = context;
+            _context = new MailCompositionContext();
+            _context.Finished += OnShutdownRequested;
+            _context.DocumentTextRequested += OnDocumentTextRequested;
+            DataContext = _context;
 
             var window = (MainWindow)Application.Current.MainWindow;
             window.FlyOutVisibilityChanged += OnFlyOutVisibilityChanged;
         }
 
-        private static void OnShutdownRequested(object sender, EventArgs e) {
-            App.Context.CloseFlyOut();
+        private void OnShutdownRequested(object sender, EventArgs e) {
+            if (_pageWindow == null) {
+                App.Context.CloseFlyOut();
+                return;
+            }
+
+            _pageWindow.Close();
+
         }
 
         private void OnDocumentTextRequested(object sender, DocumentTextRequestedEventArgs e) {
@@ -138,9 +148,11 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         #endregion
 
         private void MetroCircleButton_Click(object sender, RoutedEventArgs e) {
-            var window = new MetroPageHostWindow();
-            window.SetContent(this);
-            window.Show();
+            _pageWindow = new MetroPageHostWindow();
+            _pageWindow.SetContent(this);
+            _pageWindow.Show();
+
+            App.Context.CloseFlyOut();
         }
     }
 }
