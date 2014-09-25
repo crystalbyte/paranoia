@@ -20,6 +20,11 @@ namespace Crystalbyte.Paranoia {
     public partial class MetroPageHostWindow : MetroWindow {
         public MetroPageHostWindow() {
             InitializeComponent();
+
+            var mainwindow = Application.Current.MainWindow;
+            Owner = mainwindow;
+            Height = mainwindow.Height * 0.8;
+            Width = mainwindow.Width * 0.8;
         }
 
         public void SetContent(object content) {
