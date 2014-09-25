@@ -1,7 +1,8 @@
 ﻿namespace Crystalbyte.Paranoia {
     public enum MailboxType {
-        Custom = 0,
+        Undefined = 0,
         Inbox,
+        Junk,
         All,
         Sent,
         Draft,

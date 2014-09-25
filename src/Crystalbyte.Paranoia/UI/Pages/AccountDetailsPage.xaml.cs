@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Mail;
@@ -26,8 +27,78 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             CommandBindings.Add(new CommandBinding(PageCommands.Continue, OnPageContinue));
             CommandBindings.Add(new CommandBinding(PageCommands.Cancel, OnPageCancel));
             CommandBindings.Add(new CommandBinding(PageCommands.SelectMailboxRole, OnSelectMailboxRole));
+            CommandBindings.Add(new CommandBinding(PageCommands.CommitMailboxRoleSelection, OnCommitMailboxRoleSelection, OnCanCommitMailboxRoleSelection));
+            CommandBindings.Add(new CommandBinding(PageCommands.CancelMailboxRoleSelection, OnCancelMailboxRoleSelection));
 
             Loaded += OnLoaded;
+        }
+
+        private void OnCanCommitMailboxRoleSelection(object sender, CanExecuteRoutedEventArgs e) {
+            var account = (MailAccountContext)DataContext;
+            var mailbox = account.Mailboxes.FirstOrDefault(x => x.IsSelectedSubtly);
+            e.CanExecute = mailbox != null && mailbox.IsSelectable;
+        }
+
+
+        private Popup GetPopupByParameter(string param) {
+            switch (param) {
+                case MailboxRoles.Sent:
+                    return SentMailboxSelectionPopup;
+                case MailboxRoles.Trash:
+                    return SentMailboxSelectionPopup;
+                case MailboxRoles.Junk:
+                    return SentMailboxSelectionPopup;
+                case MailboxRoles.Draft:
+                    return SentMailboxSelectionPopup;
+            }
+
+            throw new ArgumentOutOfRangeException(param);
+        }
+
+        private void OnCancelMailboxRoleSelection(object sender, ExecutedRoutedEventArgs e) {
+            var param = e.Parameter as string;
+            if (string.IsNullOrEmpty(param)) {
+                throw new ArgumentNullException();
+            }
+
+            var popup = GetPopupByParameter(param);
+            popup.IsOpen = false;
+        }
+
+        private void OnCommitMailboxRoleSelection(object sender, ExecutedRoutedEventArgs e) {
+            var param = e.Parameter as string;
+            if (string.IsNullOrEmpty(param)) {
+                throw new ArgumentNullException();
+            }
+
+            var popup = GetPopupByParameter(param);
+            popup.IsOpen = false;
+
+            var account = (MailAccountContext) DataContext;
+            var mailbox = account.Mailboxes.FirstOrDefault(x => x.IsSelectedSubtly);
+            if (mailbox != null) {
+                SetMailboxRoleByParam(mailbox, param);
+            }
+        }
+
+        private void SetMailboxRoleByParam(MailboxContext mailbox, string param) {
+            var account = (MailAccountContext)DataContext;
+            switch (param) {
+                case MailboxRoles.Sent:
+                    account.SentMailboxName = mailbox.Name;
+                    break;
+                case MailboxRoles.Trash:
+                    account.TrashMailboxName = mailbox.Name;
+                    break;
+                case MailboxRoles.Junk:
+                    account.JunkMailboxName = mailbox.Name;
+                    break;
+                case MailboxRoles.Draft:
+                    account.DraftMailboxName = mailbox.Name;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(param);
+            }
         }
 
         private void OnSelectMailboxRole(object sender, ExecutedRoutedEventArgs e) {
@@ -40,18 +111,32 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private void ShowMailboxSelection(string param) {
-            MailboxSelectionPopup.IsOpen = true;
-            switch (param) {
-                case "trash":
-                    break;
-                case "sent":
-                    MailboxSelectionPopup.PlacementTarget = SelectSentMailboxButton;
-                    break;
-                case "draft":
-                    break;
-                case "junk":
-                    break;
+            var account = (MailAccountContext)DataContext;
+            account.Mailboxes.ForEach(x => x.IsSelectedSubtly = false);
+
+            var mailbox = GetMailboxByParameter(param);
+            if (mailbox != null) {
+                mailbox.IsSelectedSubtly = true;
             }
+
+            var popup = GetPopupByParameter(param);
+            popup.IsOpen = true;
+        }
+
+        private MailboxContext GetMailboxByParameter(string param) {
+            var account = (MailAccountContext) DataContext;
+            switch (param) {
+                case MailboxRoles.Sent:
+                    return account.GetSentMailbox();
+                case MailboxRoles.Trash:
+                    return account.GetTrashMailbox();
+                case MailboxRoles.Junk:
+                    return account.GetJunkMailbox();
+                case MailboxRoles.Draft:
+                    return account.GetDraftMailbox();
+            }
+
+            throw new ArgumentOutOfRangeException(param);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
@@ -147,6 +232,10 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 .WithProperty(x => x.SmtpUsername)
                 .WithProperty(x => x.SmtpPassword)
                 .WithProperty(x => x.SmtpSecurity)
+                .WithProperty(x => x.SentMailboxName)
+                .WithProperty(x => x.DraftMailboxName)
+                .WithProperty(x => x.TrashMailboxName)
+                .WithProperty(x => x.JunkMailboxName)
                 .WithProperty(x => x.UseImapCredentialsForSmtp)
                 .Start();
 
@@ -160,6 +249,9 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
             UseImapCredentialsRadioButton.IsChecked = account.UseImapCredentialsForSmtp;
             UseSmtpCredentialsRadioButton.IsChecked = !account.UseImapCredentialsForSmtp;
+
+            StoreCopyRadioButton.IsChecked = account.StoreCopiesOfSentMessages;
+            DontStoreCopyRadioButton.IsChecked = !account.StoreCopiesOfSentMessages;
 
             App.Context.FlyOutClosing += OnFlyOutClosing;
             App.Context.FlyOutClosed += OnFlyOutClosed;
@@ -186,8 +278,18 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             }
         }
 
-        private void OnMailboxSelectionPopupClosed(object sender, EventArgs e) {
+        private void OnStoreCopyRadioButtonChecked(object sender, RoutedEventArgs e) {
+            var account = (MailAccountContext)DataContext;
+            account.StoreCopiesOfSentMessages = true;
+        }
 
+        private void OnDontStoreCopyRadioButtonChecked(object sender, RoutedEventArgs e) {
+            var account = (MailAccountContext)DataContext;
+            account.StoreCopiesOfSentMessages = false;
+        }
+
+        private void OnAnyTreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
+            CommandManager.InvalidateRequerySuggested();            
         }
     }
 }

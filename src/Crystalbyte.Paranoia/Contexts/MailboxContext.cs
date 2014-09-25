@@ -49,6 +49,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _createMailboxCommand;
         private readonly object _syncChildrenMutex = new object();
         private readonly object _syncMessagesMutex = new object();
+        private bool _isSelectedSubtly;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -163,6 +164,17 @@ namespace Crystalbyte.Paranoia {
                 _isEditing = value;
                 RaisePropertyChanged(() => IsEditing);
                 RaisePropertyChanged(() => IsListed);
+            }
+        }
+
+        public bool IsSelectedSubtly {
+            get { return _isSelectedSubtly; }
+            set {
+                if (_isSelectedSubtly == value) {
+                    return;
+                }
+                _isSelectedSubtly = value;
+                RaisePropertyChanged(() => IsSelectedSubtly);
             }
         }
 
@@ -400,6 +412,18 @@ namespace Crystalbyte.Paranoia {
             get { return Type == MailboxType.Trash; }
         }
 
+        internal bool IsJunk {
+            get { return Type == MailboxType.Junk; }
+        }
+
+        internal bool IsDraft {
+            get { return Type == MailboxType.Draft; }
+        }
+
+        internal bool IsSent {
+            get { return Type == MailboxType.Sent; }
+        }
+
         public bool IsInbox {
             get { return _mailbox.Type == MailboxType.Inbox; }
         }
@@ -464,7 +488,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public bool IsSystemMailbox {
-            get { return _mailbox.Type != MailboxType.Custom; }
+            get { return _mailbox.Type != MailboxType.Undefined; }
         }
 
         public async Task CreateMailboxAsync(string mailbox) {
@@ -1058,7 +1082,7 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-                await DeleteMessagesAsync(messages, _account.GetTrash().Name);
+                await DeleteMessagesAsync(messages, _account.GetTrashMailbox().Name);
 
                 App.Context.NotifyMessagesRemoved(messages);
             } catch (Exception ex) {

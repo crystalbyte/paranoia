@@ -23,7 +23,7 @@ namespace Crystalbyte.Paranoia.UI.Converters {
                     return Resources.TrashMailbox;
                 case MailboxType.All:
                     return Resources.AllMailbox;
-                case MailboxType.Custom:
+                case MailboxType.Undefined:
                     return string.Format(context.LocalName);
 
                 default:

@@ -30,6 +30,8 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -175,6 +177,7 @@
     <Compile Include="Contexts\AttachmentContext.cs" />
     <Compile Include="Contexts\CreateMailboxContext.cs" />
     <Compile Include="IMailboxCreator.cs" />
+    <Compile Include="MailboxRoles.cs" />
     <Compile Include="UI\Commands\UnblockContactsCommand.cs" />
     <Compile Include="UI\Commands\BlockContactsCommand.cs" />
     <Compile Include="Contexts\CreateContactContext.cs" />
@@ -541,10 +544,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CKEditorDotNet\CKEditorDotNet.csproj">
-      <Project>{4f577e4d-6892-4b0b-bf59-87b43f60708b}</Project>
-      <Name>CKEditorDotNet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Crystalbyte.Paranoia.Cryptography\Crystalbyte.Paranoia.Cryptography.csproj">
       <Project>{fc115aed-c02e-45a6-80eb-711a1ccf14e3}</Project>
       <Name>Crystalbyte.Paranoia.Cryptography</Name>
@@ -1037,7 +1036,9 @@ xcopy /s /y "$(ProjectDir)Resources\ckeditor.paranoia\*" "$(TargetDir)Resources\
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.94.0\build\net451\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.94.0\build\net451\System.Data.SQLite.Core.targets'))" />
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

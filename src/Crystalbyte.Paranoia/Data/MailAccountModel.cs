@@ -66,8 +66,23 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("use_imap_credentials")]
         public bool UseImapCredentialsForSmtp { get; set; }
 
-        [Column("set_to_default")]
-        public DateTime SetToDefault { get; set; }
+        [Column("store_sent_copies")]
+        public bool StoreCopiesOfSentMessages { get; set; }
+
+        [Column("sent_mailbox_name")]
+        public string SentMailboxName { get; set; }
+
+        [Column("draft_mailbox_name")]
+        public string DraftMailboxName { get; set; }
+
+        [Column("trash_mailbox_name")]
+        public string TrashMailboxName { get; set; }
+
+        [Column("junk_mailbox_name")]
+        public string JunkMailboxName { get; set; }
+
+        [Column("set_as_default_time")]
+        public DateTime SetAsDefaultTime { get; set; }
 
         public virtual ICollection<MailboxModel> Mailboxes {
             get { return _mailboxes; }

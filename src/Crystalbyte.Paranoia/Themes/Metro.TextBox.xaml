@@ -18,12 +18,14 @@
                             SnapsToDevicePixels="True">
                         <ScrollViewer x:Name="PART_ContentHost"
                                       Focusable="False"
+                                      Foreground="{TemplateBinding Foreground}"
                                       HorizontalScrollBarVisibility="Hidden"
                                       VerticalScrollBarVisibility="Hidden" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.DisabledBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Metro.DisabledBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />

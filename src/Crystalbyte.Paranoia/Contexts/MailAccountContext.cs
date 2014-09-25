@@ -51,11 +51,6 @@ namespace Crystalbyte.Paranoia {
         private readonly OutboxContext _outbox;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
         private bool _isSyncingMailboxes;
-        private bool _storeCopiesOfSentMessages;
-        private string _trashMailboxName;
-        private string _junkMailboxName;
-        private string _sentMailboxName;
-        private string _draftMailboxName;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -79,7 +74,7 @@ namespace Crystalbyte.Paranoia {
             _mailboxes = new ObservableCollection<MailboxContext>();
             _mailboxes.CollectionChanged += (sender, e) => {
                 RaisePropertyChanged(() => Children);
-                RaisePropertyChanged(() => RootMailboxes);
+                RaisePropertyChanged(() => MailboxRoots);
             };
         }
 
@@ -129,46 +124,46 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         public string TrashMailboxName {
-            get { return _trashMailboxName; }
+            get { return _account.TrashMailboxName; }
             set {
-                if (_trashMailboxName == value) {
+                if (_account.TrashMailboxName == value) {
                     return;
                 }
-                _trashMailboxName = value;
+                _account.TrashMailboxName = value;
                 RaisePropertyChanged(() => TrashMailboxName);
             }
         }
 
         public string JunkMailboxName {
-            get { return _junkMailboxName; }
+            get { return _account.JunkMailboxName; }
             set {
-                if (_junkMailboxName == value) {
+                if (_account.JunkMailboxName == value) {
                     return;
                 }
-                _junkMailboxName = value;
+                _account.JunkMailboxName = value;
                 RaisePropertyChanged(() => JunkMailboxName);
             }
         }
 
         public string SentMailboxName {
-            get { return _sentMailboxName; }
+            get { return _account.SentMailboxName; }
             set {
-                if (_sentMailboxName == value) {
+                if (_account.SentMailboxName == value) {
                     return;
                 }
 
-                _sentMailboxName = value;
+                _account.SentMailboxName = value;
                 RaisePropertyChanged(() => SentMailboxName);
             }
         }
 
         public string DraftMailboxName {
-            get { return _draftMailboxName; }
+            get { return _account.DraftMailboxName; }
             set {
-                if (_draftMailboxName == value) {
+                if (_account.DraftMailboxName == value) {
                     return;
                 }
-                _draftMailboxName = value;
+                _account.DraftMailboxName = value;
                 RaisePropertyChanged(() => DraftMailboxName);
             }
         }
@@ -267,12 +262,12 @@ namespace Crystalbyte.Paranoia {
         }
 
         public bool StoreCopiesOfSentMessages {
-            get { return _storeCopiesOfSentMessages; }
+            get { return _account.StoreCopiesOfSentMessages; }
             set {
-                if (_storeCopiesOfSentMessages == value) {
+                if (_account.StoreCopiesOfSentMessages == value) {
                     return;
                 }
-                _storeCopiesOfSentMessages = value;
+                _account.StoreCopiesOfSentMessages = value;
                 RaisePropertyChanged(() => StoreCopiesOfSentMessages);
             }
         }
@@ -341,7 +336,7 @@ namespace Crystalbyte.Paranoia {
                     context.SubscribeToMostProbableType(types, mailbox);
                     await context.BindMailboxAsync(mailbox, subscribed);
 
-                    if (!context.IsSubscribed && context.Type != MailboxType.Custom && context.IsSelectable) {
+                    if (!context.IsSubscribed && context.Type != MailboxType.Undefined && context.IsSelectable) {
                         context.IsSubscribed = true;
                     }
 
@@ -363,6 +358,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task UpdateAsync() {
+            Application.Current.AssertUIThread();
+
             using (var database = new DatabaseContext()) {
                 database.MailAccounts.Attach(_account);
                 database.Entry(_account).State = EntityState.Modified;
@@ -639,7 +636,7 @@ namespace Crystalbyte.Paranoia {
             get { return _mailboxes; }
         }
 
-        public IEnumerable<MailboxContext> RootMailboxes {
+        public IEnumerable<MailboxContext> MailboxRoots {
             get {
                 return _mailboxes.Where(x => !string.IsNullOrEmpty(x.Name) && !x.Name.Contains(x.Delimiter)).ToArray();
             }
@@ -882,7 +879,7 @@ namespace Crystalbyte.Paranoia {
         internal async Task RestoreMessagesAsync(ICollection<MailMessageContext> messages) {
             try {
                 var inbox = GetInbox();
-                var trash = GetTrash();
+                var trash = GetTrashMailbox();
                 using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                     using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                         using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
@@ -916,8 +913,24 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal MailboxContext GetTrash() {
-            return _mailboxes.FirstOrDefault(x => x.IsTrash);
+        internal MailboxContext GetTrashMailbox() {
+            return _mailboxes.FirstOrDefault(x => x.IsTrash
+                || x.Name.EqualsIgnoreCase(TrashMailboxName));
+        }
+
+        internal MailboxContext GetSentMailbox() {
+            return _mailboxes.FirstOrDefault(x => x.IsSent
+                || x.Name.EqualsIgnoreCase(SentMailboxName));
+        }
+
+        internal MailboxContext GetJunkMailbox() {
+            return _mailboxes.FirstOrDefault(x => x.IsJunk
+                || x.Name.EqualsIgnoreCase(JunkMailboxName));
+        }
+
+        internal MailboxContext GetDraftMailbox() {
+            return _mailboxes.FirstOrDefault(x => x.IsDraft
+                || x.Name.EqualsIgnoreCase(DraftMailboxName));
         }
 
         internal void NotifyMailboxAdded(MailboxContext child) {

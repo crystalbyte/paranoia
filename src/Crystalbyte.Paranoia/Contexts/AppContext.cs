@@ -863,7 +863,7 @@ namespace Crystalbyte.Paranoia {
                 var messages = SelectedMessages.ToArray();
                 var accountGroups = messages.GroupBy(x => x.Mailbox.Account).ToArray();
                 foreach (var accountGroup in accountGroups) {
-                    var trash = accountGroup.Key.GetTrash();
+                    var trash = accountGroup.Key.GetTrashMailbox();
                     if (trash == null) {
                         throw new InvalidOperationException("trash must not be null.");
                     }
@@ -884,7 +884,7 @@ namespace Crystalbyte.Paranoia {
                 var messages = SelectedMessages.ToArray();
                 var accountGroups = messages.GroupBy(x => x.Mailbox.Account).ToArray();
                 foreach (var accountGroup in accountGroups) {
-                    var trash = accountGroup.Key.GetTrash();
+                    var trash = accountGroup.Key.GetTrashMailbox();
                     if (trash == null) {
                         throw new InvalidOperationException("Trash must not be null.");
                     }

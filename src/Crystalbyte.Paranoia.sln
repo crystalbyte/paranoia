@@ -22,8 +22,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Mail",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Tests", "Crystalbyte.Paranoia.Tests\Crystalbyte.Paranoia.Tests.csproj", "{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CKEditorDotNet", "CKEditorDotNet\CKEditorDotNet.csproj", "{4F577E4D-6892-4B0B-BF59-87B43F60708B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,16 +91,6 @@ Global
 		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}.Retail|Any CPU.Build.0 = Release|Any CPU
 		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}.Trial|Any CPU.ActiveCfg = Release|Any CPU
 		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8}.Trial|Any CPU.Build.0 = Release|Any CPU
-		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.MailSystem Dev|Any CPU.ActiveCfg = Release|Any CPU
-		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.MailSystem Dev|Any CPU.Build.0 = Release|Any CPU
-		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.Retail|Any CPU.ActiveCfg = Release|Any CPU
-		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.Retail|Any CPU.Build.0 = Release|Any CPU
-		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.Trial|Any CPU.ActiveCfg = Release|Any CPU
-		{4F577E4D-6892-4B0B-BF59-87B43F60708B}.Trial|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
