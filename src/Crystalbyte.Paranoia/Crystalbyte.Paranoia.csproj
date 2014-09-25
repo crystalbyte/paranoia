@@ -177,6 +177,7 @@
     <Compile Include="Contexts\AttachmentContext.cs" />
     <Compile Include="Contexts\CreateMailboxContext.cs" />
     <Compile Include="IMailboxCreator.cs" />
+    <Compile Include="MailboxRoles.cs" />
     <Compile Include="MetroPageHostWindow.xaml.cs">
       <DependentUpon>MetroPageHostWindow.xaml</DependentUpon>
     </Compile>
