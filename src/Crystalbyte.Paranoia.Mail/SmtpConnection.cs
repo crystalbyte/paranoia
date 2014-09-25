@@ -100,7 +100,8 @@ namespace Crystalbyte.Paranoia.Mail {
                 if (Capabilities.Contains(SmtpCommands.StartTls)) {
                     await WriteAsync(SmtpCommands.StartTls);
                     var response = await ReadAsync();
-                    if (response.IsOk) {
+                    //server returns "2.0.0 SMTP server ready" by success
+                    if (response.IsOk | response.IsServiceReady) {
                         await NegotiateEncryptionProtocolsAsync(host);
                         await RequestCapabilitiesAsync();
                         return new SmtpAuthenticator(this);
@@ -138,7 +139,8 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         private async Task RequestCapabilitiesAsync() {
-            await ReadToEndAsync();
+            //TODO why read to end ??? timeout caused by it
+            //await ReadToEndAsync();
             await WriteAsync(string.Format("{0} {1}", SmtpCommands.Ehlo, Environment.MachineName));
             var response = await ReadAsync();
             if (response.IsError) {
