@@ -740,7 +740,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task SaveSmtpRequestsAsync(IEnumerable<MailMessage> messages) {
-            using (var database = new DatabaseContext()) {
+            using (var database = new DatabaseContext()) {                                                     
                 var account = await database.MailAccounts.FindAsync(_account.Id);
 
                 foreach (var message in messages) {

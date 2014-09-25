@@ -87,6 +87,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" MaxHeight="45" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -95,14 +96,36 @@
                    Grid.Column="0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
+                   Text="from" />
+        <ComboBox  Grid.Row="0"
+                   Grid.Column="1"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Center"
+                   x:Name="AccountComboBox"
+                   ItemsSource="{Binding Accounts}" 
+                   SelectedItem="{Binding SelectedAccount}"
+                   SelectedIndex="0" >
+            <ComboBox.ItemTemplate>
+                <ItemContainerTemplate>
+                    <TextBlock Text="{Binding Name}" ToolTip="{Binding Address}"/>
+                </ItemContainerTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <TextBlock Grid.Row="1"
+                   Grid.Column="0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
                    Text="{x:Static properties:Resources.Recipients}" />
-        <Grid Grid.Row="0" Grid.Column="1">
+        <Grid Grid.Row="1" Grid.Column="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="7*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <ui:AutoCompleteBox x:Name="RecipientsBox"
-                                Grid.Row="0"
                                 Grid.Column="0"
                                 HorizontalAlignment="Stretch"
                                 ItemTemplate="{StaticResource ContactSuggestionTemplate}"
@@ -110,19 +133,18 @@
                                 ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
                                 SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
                                 StringTokenTemplate="{StaticResource StringTokenTemplate}"
-                                TokenTemplate="{StaticResource ContactTokenTemplate}" />
+                                TokenTemplate="{StaticResource ContactTokenTemplate}" Grid.RowSpan="2" />
             <ToggleButton x:Name="CopyButton"
-                          Grid.Row="0"
                           Grid.Column="1"
-                          Margin="3,0,0,0"
-                          VerticalAlignment="Center">
+                          Margin="3,3,0,3"
+                          VerticalAlignment="Center" Grid.RowSpan="2">
                 <Image Width="18"
                        VerticalAlignment="Center"
                        Source="/Assets/message.copy.png" />
             </ToggleButton>
 
         </Grid>
-        <TextBlock Grid.Row="1"
+        <TextBlock Grid.Row="2"
                    Grid.Column="0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
@@ -131,27 +153,6 @@
                                         ElementName=CopyButton,
                                         Converter={StaticResource BooleanToVisibilityConverter}}" />
         <ui:AutoCompleteBox x:Name="CcBox"
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            HorizontalAlignment="Stretch"
-                            ItemTemplate="{StaticResource ContactSuggestionTemplate}"
-                            ItemsSource="{Binding Suggestions}"
-                            ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
-                            SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
-                            StringTokenTemplate="{StaticResource StringTokenTemplate}"
-                            TokenTemplate="{StaticResource ContactTokenTemplate}"
-                            Visibility="{Binding IsChecked,
-                                                 ElementName=CopyButton,
-                                                 Converter={StaticResource BooleanToVisibilityConverter}}" />
-        <TextBlock Grid.Row="2"
-                   Grid.Column="0"
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Center"
-                   Text="{x:Static properties:Resources.BlindCarbonCopies}"
-                   Visibility="{Binding IsChecked,
-                                        ElementName=CopyButton,
-                                        Converter={StaticResource BooleanToVisibilityConverter}}" />
-        <ui:AutoCompleteBox x:Name="BccBox"
                             Grid.Row="2"
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
@@ -164,19 +165,40 @@
                             Visibility="{Binding IsChecked,
                                                  ElementName=CopyButton,
                                                  Converter={StaticResource BooleanToVisibilityConverter}}" />
-
         <TextBlock Grid.Row="3"
+                   Grid.Column="0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Text="{x:Static properties:Resources.BlindCarbonCopies}"
+                   Visibility="{Binding IsChecked,
+                                        ElementName=CopyButton,
+                                        Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <ui:AutoCompleteBox x:Name="BccBox"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            ItemTemplate="{StaticResource ContactSuggestionTemplate}"
+                            ItemsSource="{Binding Suggestions}"
+                            ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
+                            SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
+                            StringTokenTemplate="{StaticResource StringTokenTemplate}"
+                            TokenTemplate="{StaticResource ContactTokenTemplate}"
+                            Visibility="{Binding IsChecked,
+                                                 ElementName=CopyButton,
+                                                 Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+        <TextBlock Grid.Row="4"
                    Grid.Column="0"
                    Margin="0,0,12,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    Text="{x:Static properties:Resources.Subject}" />
         <TextBox x:Name="SubjectTextBox"
-                 Grid.Row="3"
+                 Grid.Row="4"
                  Grid.Column="1"
                  Text="{Binding Subject,
                                 Mode=TwoWay}" />
-        <ListView Grid.Row="4"
+        <ListView Grid.Row="5"
                   Grid.Column="0"
                   Grid.ColumnSpan="2"
                   Background="Transparent"
@@ -219,7 +241,7 @@
                 </ItemContainerTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Border Grid.Row="5"
+        <Border Grid.Row="6"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
                 Margin="0,3,0,0"
@@ -241,7 +263,7 @@
         </Border>
 
 
-        <ui:MetroCircleButton Grid.Row="6"
+        <ui:MetroCircleButton Grid.Row="7"
                               Grid.Column="0"
                               HorizontalAlignment="Left"
                               Command="{Binding SendCommand}"
@@ -250,13 +272,13 @@
                    Margin="0,0,0,0"
                    Source="/Assets/message.png" />
         </ui:MetroCircleButton>
-        <ui:MetroCircleButton Grid.Row="6"
+        <ui:MetroCircleButton Grid.Row="7"
                               Grid.Column="1"
                               HorizontalAlignment="Left"
                               Click="MetroCircleButton_Click"
                               Text="hi">
         </ui:MetroCircleButton>
-        <ui:MetroCircleButton Grid.Row="6"
+        <ui:MetroCircleButton Grid.Row="7"
                               Grid.Column="1"
                               HorizontalAlignment="Right"
                               Command="{Binding AddattachmentCommand}"

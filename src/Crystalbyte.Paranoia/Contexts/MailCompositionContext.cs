@@ -28,6 +28,7 @@ namespace Crystalbyte.Paranoia {
 
         private string _source;
         private string _subject;
+        private readonly IEnumerable<MailAccountContext> _accounts;
         private readonly ObservableCollection<string> _recipients;
         private readonly ObservableCollection<MailContactContext> _suggestions;
         private readonly ObservableCollection<AttachmentContext> _attachments;
@@ -40,6 +41,8 @@ namespace Crystalbyte.Paranoia {
         #region Construction
 
         public MailCompositionContext() {
+            _accounts = App.Context.Accounts;
+            SelectedAccount = _accounts.FirstOrDefault();
             _recipients = new ObservableCollection<string>();
             _suggestions = new ObservableCollection<MailContactContext>();
             _sendCommand = new SendCommand(this);
@@ -90,6 +93,12 @@ namespace Crystalbyte.Paranoia {
         public IEnumerable<MailContactContext> Suggestions {
             get { return _suggestions; }
         }
+
+        public IEnumerable<MailAccountContext> Accounts {
+            get { return _accounts; }
+        }
+
+        public MailAccountContext SelectedAccount { get; set; }
 
         public string Subject {
             get { return _subject; }
@@ -146,7 +155,7 @@ namespace Crystalbyte.Paranoia {
 
         public async Task PushToOutboxAsync() {
             try {
-                var account = App.Context.Accounts.First();
+                var account = SelectedAccount;
                 var messages = await CreateSmtpMessagesAsync(account);
                 await account.SaveSmtpRequestsAsync(messages);
                 await App.Context.NotifyOutboxNotEmpty();
