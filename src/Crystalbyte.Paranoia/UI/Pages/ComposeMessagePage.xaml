@@ -252,6 +252,12 @@
         </ui:MetroCircleButton>
         <ui:MetroCircleButton Grid.Row="6"
                               Grid.Column="1"
+                              HorizontalAlignment="Left"
+                              Click="MetroCircleButton_Click"
+                              Text="hi">
+        </ui:MetroCircleButton>
+        <ui:MetroCircleButton Grid.Row="6"
+                              Grid.Column="1"
                               HorizontalAlignment="Right"
                               Command="{Binding AddattachmentCommand}"
                               Text="{x:Static properties:Resources.AddAttachment}">

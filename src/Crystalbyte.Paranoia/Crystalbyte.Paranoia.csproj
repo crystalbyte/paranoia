@@ -177,7 +177,9 @@
     <Compile Include="Contexts\AttachmentContext.cs" />
     <Compile Include="Contexts\CreateMailboxContext.cs" />
     <Compile Include="IMailboxCreator.cs" />
-    <Compile Include="MailboxRoles.cs" />
+    <Compile Include="MetroPageHostWindow.xaml.cs">
+      <DependentUpon>MetroPageHostWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Commands\UnblockContactsCommand.cs" />
     <Compile Include="UI\Commands\BlockContactsCommand.cs" />
     <Compile Include="Contexts\CreateContactContext.cs" />
@@ -271,6 +273,10 @@
     <Compile Include="UI\ItemsSourceRequestedEventArgs.cs" />
     <Compile Include="UI\ITokenMatcher.cs" />
     <Compile Include="UI\MailAddressTokenMatcher.cs" />
+    <Page Include="MetroPageHostWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NotificationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
