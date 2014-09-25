@@ -85,11 +85,11 @@ namespace Crystalbyte.Paranoia {
                     ImapHost = "mail.organice.de",
                     ImapPort = 993,
                     ImapSecurity = SecurityProtocol.Implicit,
-                    SmtpHost = "osemc_test",
+                    SmtpHost = "mail.organice.de",
                     SmtpPort = 25,
                     SmtpUsername = "osemc_test",
                     SmtpPassword = "dreissig",
-                    SmtpSecurity = SecurityProtocol.Implicit,
+                    SmtpSecurity = SecurityProtocol.Explicit,
                     UseImapCredentialsForSmtp = true,
                     SmtpRequiresAuthentication = true,
                 };
