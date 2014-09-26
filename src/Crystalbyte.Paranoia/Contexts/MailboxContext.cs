@@ -345,7 +345,7 @@ namespace Crystalbyte.Paranoia {
                 using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                     using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                         var mailbox = await session.SelectAsync(Name);
-                        if (Type == MailboxType.Trash) {
+                        if (IsTrash) {
                             await mailbox.DeleteMailsAsync(messages.Select(x => x.Uid));
                         } else {
                             await mailbox.MoveMailsAsync(messages.Select(x => x.Uid).ToArray(), trashFolder);
@@ -409,23 +409,23 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal bool IsTrash {
-            get { return Type == MailboxType.Trash; }
+            get { return _account.TrashMailboxName.EqualsIgnoreCase(Name); }
         }
 
         internal bool IsJunk {
-            get { return Type == MailboxType.Junk; }
+            get { return _account.JunkMailboxName.EqualsIgnoreCase(Name); }
         }
 
         internal bool IsDraft {
-            get { return Type == MailboxType.Draft; }
+            get { return _account.DraftMailboxName.EqualsIgnoreCase(Name); }
         }
 
         internal bool IsSent {
-            get { return Type == MailboxType.Sent; }
+            get { return _account.SentMailboxName.EqualsIgnoreCase(Name); }
         }
 
         public bool IsInbox {
-            get { return _mailbox.Type == MailboxType.Inbox; }
+            get { return Name.Equals("inbox"); }
         }
 
         public bool IsListingMailboxes {
@@ -487,10 +487,6 @@ namespace Crystalbyte.Paranoia {
             get { return !_mailbox.Flags.ContainsIgnoreCase(MailboxFlags.NoSelect); }
         }
 
-        public bool IsSystemMailbox {
-            get { return _mailbox.Type != MailboxType.Undefined; }
-        }
-
         public async Task CreateMailboxAsync(string mailbox) {
             using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                 using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
@@ -541,18 +537,6 @@ namespace Crystalbyte.Paranoia {
                 var mailbox = await database.Mailboxes.FindAsync(_mailbox.Id);
                 mailbox.IsSubscribed = false;
                 await database.SaveChangesAsync();
-            }
-        }
-
-        public MailboxType Type {
-            get { return _mailbox.Type; }
-            set {
-                if (_mailbox.Type == value) {
-                    return;
-                }
-
-                _mailbox.Type = value;
-                RaisePropertyChanged(() => Type);
             }
         }
 
@@ -901,35 +885,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal void SubscribeToMostProbableType(List<MailboxType> types, ImapMailboxInfo mailbox) {
-
-            if (mailbox.IsInbox || string.Compare(Name, "inbox", StringComparison.InvariantCultureIgnoreCase) >= 0) {
-                types.Remove(MailboxType.Inbox);
-                _mailbox.Type = MailboxType.Inbox;
-                IsSubscribed = true;
-                return;
-            }
-
-            if (mailbox.IsGmailSent || string.Compare(Name, "sent", StringComparison.InvariantCultureIgnoreCase) >= 0) {
-                types.Remove(MailboxType.Sent);
-                _mailbox.Type = MailboxType.Sent;
-                IsSubscribed = true;
-                return;
-            }
-
-            if (mailbox.IsGmailDraft || string.Compare(Name, "draft", StringComparison.InvariantCultureIgnoreCase) >= 0) {
-                types.Remove(MailboxType.Draft);
-                _mailbox.Type = MailboxType.Draft;
-                IsSubscribed = true;
-                return;
-            }
-
-            if (mailbox.IsGmailTrash || string.Compare(Name, "trash", StringComparison.InvariantCultureIgnoreCase) >= 0) {
-                types.Remove(MailboxType.Trash);
-                _mailbox.Type = MailboxType.Trash;
-                IsSubscribed = true;
-            }
-        }
         internal async Task BindMailboxAsync(ImapMailboxInfo mailbox, IEnumerable<ImapMailboxInfo> subscriptions) {
             try {
                 using (var context = new DatabaseContext()) {
@@ -939,7 +894,7 @@ namespace Crystalbyte.Paranoia {
                     _mailbox.Name = mailbox.Fullname;
                     _mailbox.Delimiter = mailbox.Delimiter.ToString(CultureInfo.InvariantCulture);
                     _mailbox.Flags = mailbox.Flags.Aggregate((c, n) => c + ';' + n);
-                    _mailbox.IsSubscribed = subscriptions.Any(x => x.Name == mailbox.Name);
+                    _mailbox.IsSubscribed = IsSubscribed || subscriptions.Any(x => x.Name == mailbox.Name);
 
                     await context.SaveChangesAsync();
                 }
@@ -1075,7 +1030,7 @@ namespace Crystalbyte.Paranoia {
                     using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                         using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                             var mailbox = await session.SelectAsync(Name);
-                            if (Type == MailboxType.Trash) {
+                            if (IsTrash) {
                                 await mailbox.MoveMailsAsync(messages.Select(x => x.Uid).ToArray(), inbox.Name);
                             }
                         }

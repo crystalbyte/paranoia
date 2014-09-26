@@ -45,11 +45,11 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 case MailboxRoles.Sent:
                     return SentMailboxSelectionPopup;
                 case MailboxRoles.Trash:
-                    return SentMailboxSelectionPopup;
+                    return TrashMailboxSelectionPopup;
                 case MailboxRoles.Junk:
-                    return SentMailboxSelectionPopup;
+                    return JunkMailboxSelectionPopup;
                 case MailboxRoles.Draft:
-                    return SentMailboxSelectionPopup;
+                    return DraftMailboxSelectionPopup;
             }
 
             throw new ArgumentOutOfRangeException(param);

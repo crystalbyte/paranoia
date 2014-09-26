@@ -423,15 +423,6 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Drafts.
-        /// </summary>
-        public static string Drafts {
-            get {
-                return ResourceManager.GetString("Drafts", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {
@@ -576,6 +567,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Junk.
+        /// </summary>
+        public static string JunkMailbox {
+            get {
+                return ResourceManager.GetString("JunkMailbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email Address.
         /// </summary>
         public static string MailAddress {
@@ -604,6 +604,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select mailboxes to be used for storing deleted messages, drafts and junk mail..
+        /// </summary>
+        public static string MailboxSettingsDescription {
+            get {
+                return ResourceManager.GetString("MailboxSettingsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do not store copies of sent messages..
         /// </summary>
         public static string MailboxSettingsNoCopy {
@@ -622,29 +631,11 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manage messages labeled as junk..
+        ///   Looks up a localized string similar to Manage behavior for sent messages..
         /// </summary>
-        public static string ManageJunk {
+        public static string ManageSentDescription {
             get {
-                return ResourceManager.GetString("ManageJunk", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Manage sent messages..
-        /// </summary>
-        public static string ManageSent {
-            get {
-                return ResourceManager.GetString("ManageSent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Manage deleted messages..
-        /// </summary>
-        public static string ManageTrash {
-            get {
-                return ResourceManager.GetString("ManageTrash", resourceCulture);
+                return ResourceManager.GetString("ManageSentDescription", resourceCulture);
             }
         }
         
@@ -957,15 +948,6 @@ namespace Crystalbyte.Paranoia.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Sent.
         /// </summary>
-        public static string Sent {
-            get {
-                return ResourceManager.GetString("Sent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sent.
-        /// </summary>
         public static string SentMailbox {
             get {
                 return ResourceManager.GetString("SentMailbox", resourceCulture);
@@ -1131,15 +1113,6 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Thursday {
             get {
                 return ResourceManager.GetString("Thursday", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Trash.
-        /// </summary>
-        public static string Trash {
-            get {
-                return ResourceManager.GetString("Trash", resourceCulture);
             }
         }
         

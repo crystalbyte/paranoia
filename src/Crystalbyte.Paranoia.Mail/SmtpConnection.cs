@@ -17,6 +17,7 @@ using Crystalbyte.Paranoia.Mail.Properties;
 
 namespace Crystalbyte.Paranoia.Mail {
     public sealed class SmtpConnection : IDisposable {
+
         #region Private Fields
 
         private readonly TcpClient _tcpClient = new TcpClient();

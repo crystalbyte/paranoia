@@ -162,9 +162,6 @@
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="DraftMailbox" xml:space="preserve">
-    <value>Draft</value>
-  </data>
   <data name="EncryptionProtocol" xml:space="preserve">
     <value>Protocol</value>
   </data>
@@ -476,17 +473,8 @@ Once your password is lost you're screwed.</value>
   <data name="Sync" xml:space="preserve">
     <value>Sync</value>
   </data>
-  <data name="Drafts" xml:space="preserve">
-    <value>Drafts</value>
-  </data>
-  <data name="Sent" xml:space="preserve">
-    <value>Sent</value>
-  </data>
   <data name="Spam" xml:space="preserve">
     <value>Spam</value>
-  </data>
-  <data name="Trash" xml:space="preserve">
-    <value>Trash</value>
   </data>
   <data name="MailboxSettingsCopy" xml:space="preserve">
     <value>Store copies of sent messages inside the following mailbox.</value>
@@ -500,13 +488,16 @@ Once your password is lost you're screwed.</value>
   <data name="Change" xml:space="preserve">
     <value>Change</value>
   </data>
-  <data name="ManageJunk" xml:space="preserve">
-    <value>Manage messages labeled as junk.</value>
+  <data name="ManageSentDescription" xml:space="preserve">
+    <value>Manage behavior for sent messages.</value>
   </data>
-  <data name="ManageSent" xml:space="preserve">
-    <value>Manage sent messages.</value>
+  <data name="DraftMailbox" xml:space="preserve">
+    <value>Draft</value>
   </data>
-  <data name="ManageTrash" xml:space="preserve">
-    <value>Manage deleted messages.</value>
+  <data name="JunkMailbox" xml:space="preserve">
+    <value>Junk</value>
+  </data>
+  <data name="MailboxSettingsDescription" xml:space="preserve">
+    <value>Select mailboxes to be used for storing deleted messages, drafts and junk mail.</value>
   </data>
 </root>

@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -310,22 +311,6 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-                var types = new List<MailboxType> { MailboxType.Inbox, MailboxType.Draft, MailboxType.Sent, MailboxType.Trash };
-                foreach (var mailbox in mailboxes) {
-                    if (mailbox.Type == MailboxType.Inbox) {
-                        types.Remove(MailboxType.Inbox);
-                    }
-                    if (mailbox.Type == MailboxType.Draft) {
-                        types.Remove(MailboxType.Draft);
-                    }
-                    if (mailbox.Type == MailboxType.Sent) {
-                        types.Remove(MailboxType.Sent);
-                    }
-                    if (mailbox.Type == MailboxType.Trash) {
-                        types.Remove(MailboxType.Trash);
-                    }
-                }
-
                 foreach (var mailbox in remoteMailboxes.Where(x => mailboxes.All(y =>
                     string.Compare(x.Fullname, y.Name, StringComparison.InvariantCultureIgnoreCase) != 0))) {
                     var context = new MailboxContext(this, new MailboxModel {
@@ -333,15 +318,56 @@ namespace Crystalbyte.Paranoia {
                     });
 
                     await context.InsertAsync();
-                    context.SubscribeToMostProbableType(types, mailbox);
-                    await context.BindMailboxAsync(mailbox, subscribed);
 
-                    if (!context.IsSubscribed && context.Type != MailboxType.Undefined && context.IsSelectable) {
+                    if (mailbox.IsGmailAll) {
                         context.IsSubscribed = true;
+                        goto done;
                     }
+
+                    if (mailbox.IsGmailImportant) {
+                        context.IsSubscribed = true;
+                        goto done;
+                    }
+
+                    if (mailboxes.All(x => !x.IsJunk)) {
+                        if (mailbox.IsGmailJunk || mailbox.Name.ContainsIgnoreCase("junk")) {
+                            JunkMailboxName = mailbox.Name;
+                            context.IsSubscribed = true;
+                            goto done;
+                        }
+                    }
+
+                    if (mailboxes.All(x => !x.IsDraft)) {
+                        if (mailbox.IsGmailDraft || mailbox.Name.ContainsIgnoreCase("draft")) {
+                            DraftMailboxName = mailbox.Name;
+                            context.IsSubscribed = true;
+                            goto done;
+                        }    
+                    }
+
+                    if (mailboxes.All(x => !x.IsSent)) {
+                        if (mailbox.IsGmailSent || mailbox.Name.ContainsIgnoreCase("sent")) {
+                            SentMailboxName = mailbox.Name;
+                            context.IsSubscribed = true;
+                            goto done;
+                        }
+                    }
+
+                    if (mailboxes.All(x => !x.IsTrash)) {
+                        if (mailbox.IsGmailTrash || mailbox.Name.ContainsIgnoreCase("trash")) {
+                            TrashMailboxName = mailbox.Name;
+                            context.IsSubscribed = true;
+                        }
+                    }
+
+                done:
+
+                    await context.BindMailboxAsync(mailbox, subscribed);
 
                     _mailboxes.Add(context);
                 }
+
+                await UpdateAsync();
 
                 var inbox = _mailboxes.FirstOrDefault(x => x.IsInbox);
                 if (inbox != null) {
@@ -381,7 +407,7 @@ namespace Crystalbyte.Paranoia {
             var tasks = _mailboxes.Select(x => x.CountNotSeenAsync());
             await Task.WhenAll(tasks);
 
-            var inbox = _mailboxes.FirstOrDefault(x => x.Type == MailboxType.Inbox);
+            var inbox = _mailboxes.FirstOrDefault(x => x.IsInbox);
             if (inbox != null) {
                 inbox.IsSelected = true;
             }
@@ -740,7 +766,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task SaveSmtpRequestsAsync(IEnumerable<MailMessage> messages) {
-            using (var database = new DatabaseContext()) {                                                     
+            using (var database = new DatabaseContext()) {
                 var account = await database.MailAccounts.FindAsync(_account.Id);
 
                 foreach (var message in messages) {

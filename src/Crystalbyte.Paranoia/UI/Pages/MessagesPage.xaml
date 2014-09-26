@@ -85,6 +85,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Image Width="16"
                                        Margin="0,1,6,1"
+                                       SnapsToDevicePixels="True"
                                        Source="/Assets/folder.png" />
                                 <TextBlock x:Name="MailboxNameBlock"
                                            VerticalAlignment="Center"
@@ -200,29 +201,6 @@
                                             </MenuItem.Header>
                                         </MenuItem>
                                         <Separator />
-                                        <MenuItem>
-                                            <MenuItem>
-                                                <MenuItem.Header>
-                                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Sent}" />
-                                                </MenuItem.Header>
-                                            </MenuItem>
-                                            <MenuItem>
-                                                <MenuItem.Header>
-                                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Drafts}" />
-                                                </MenuItem.Header>
-                                            </MenuItem>
-                                            <MenuItem>
-                                                <MenuItem.Header>
-                                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Trash}" />
-                                                </MenuItem.Header>
-                                            </MenuItem>
-                                            <MenuItem>
-                                                <MenuItem.Header>
-                                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Spam}" />
-                                                </MenuItem.Header>
-                                            </MenuItem>
-                                        </MenuItem>
-                                        <Separator />
                                         <MenuItem Command="{Binding CreateMailboxCommand}">
                                             <MenuItem.Icon>
                                                 <Image Height="16"
@@ -258,7 +236,7 @@
                                     <Image Width="16"
                                            Margin="0,1,6,1"
                                            DockPanel.Dock="Left"
-                                           RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                           SnapsToDevicePixels="True"
                                            Source="/Assets/folder.png" />
                                     <TextBlock x:Name="MailboxNameBlock"
                                                VerticalAlignment="Center"

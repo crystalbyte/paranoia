@@ -32,9 +32,6 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("not_seen_count")]
         public int NotSeenCount { get; set; }
 
-        [Column("type")]
-        public MailboxType Type { get; set; }
-
         [Column("is_subscribed")]
         public bool IsSubscribed { get; set; }
 

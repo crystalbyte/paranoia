@@ -72,7 +72,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.ColumnSpan="2"
-                               Style="{DynamicResource Metro.TitleTextStyle}"
+                               Style="{DynamicResource Metro.SubtitleTextStyle}"
                                Text="{x:Static properties:Resources.GeneralSettingsTitle}" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
@@ -138,7 +138,7 @@
                         <TextBlock Grid.Row="0"
                                    Grid.Column="0"
                                    Grid.ColumnSpan="4"
-                                   Style="{DynamicResource Metro.TitleTextStyle}"
+                                   Style="{DynamicResource Metro.SubtitleTextStyle}"
                                    Text="{x:Static properties:Resources.ImapSettingsTitle}" />
                         <TextBlock Grid.Row="1"
                                    Grid.Column="0"
@@ -271,7 +271,7 @@
                         <TextBlock Grid.Row="0"
                                    Grid.Column="0"
                                    Grid.ColumnSpan="4"
-                                   Style="{DynamicResource Metro.TitleTextStyle}"
+                                   Style="{DynamicResource Metro.SubtitleTextStyle}"
                                    Text="{x:Static properties:Resources.SmtpSettingsTitle}" />
                         <TextBlock Grid.Row="1"
                                    Grid.Column="0"
@@ -393,11 +393,12 @@
                         <ColumnDefinition Width="24" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.ColumnSpan="3"
-                               Style="{DynamicResource Metro.TitleTextStyle}"
+                    <TextBlock Grid.Row="0"
+                               Grid.ColumnSpan="3"
+                               Style="{DynamicResource Metro.SubtitleTextStyle}"
                                Text="{x:Static properties:Resources.MailboxSettingsTitle}" />
-                    <StackPanel Grid.Row="1" Grid.Column="0">
-                        <TextBlock Style="{DynamicResource Metro.SubtitleTextStyle}" Text="{x:Static properties:Resources.ManageTrash}" />
+                    <StackPanel Grid.Row="1" Grid.Column="2">
+                        <TextBlock Margin="0,0,0,12" Text="{x:Static properties:Resources.ManageSentDescription}" />
                         <RadioButton x:Name="DontStoreCopyRadioButton"
                                      Checked="OnDontStoreCopyRadioButtonChecked"
                                      GroupName="sent">
@@ -409,8 +410,12 @@
                             <TextBlock Text="{x:Static properties:Resources.MailboxSettingsCopy}" />
                         </RadioButton>
                         <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                            <TextBox Width="200"
-                                     Margin="30,0,3,0"
+                            <TextBlock Style="{DynamicResource Metro.LabelTextStyle}">
+                                <Run Text="{x:Static properties:Resources.SentMailbox}" />
+                                <Run Text=":" />
+                            </TextBlock>
+                            <TextBox Width="260"
+                                     Margin="3"
                                      IsEnabled="{Binding StoreCopiesOfSentMessages}"
                                      IsReadOnly="True"
                                      Text="{Binding SentMailboxName,
@@ -420,74 +425,323 @@
                             <Button x:Name="SentMailboxSelectionButton"
                                     Height="24"
                                     Command="ui:PageCommands.SelectMailboxRole"
-                                    CommandParameter="sent"
+                                    CommandParameter="{x:Static paranoia:MailboxRoles.Sent}"
                                     IsEnabled="{Binding IsChecked,
                                                         ElementName=StoreCopyRadioButton,
                                                         Mode=OneWay}"
                                     Style="{DynamicResource Metro.TextBoxSiblingButtonStyle}">
                                 <TextBlock VerticalAlignment="Center" Text="..." />
                             </Button>
+
                         </StackPanel>
                     </StackPanel>
-                    <StackPanel Grid.Row="1" Grid.Column="2" />
-                    <Popup x:Name="SentMailboxSelectionPopup"
-                           Grid.Row="0"
-                           Grid.Column="0"
-                           Width="300"
-                           Height="400"
-                           AllowsTransparency="False"
-                           HorizontalOffset="-138"
-                           Placement="Relative"
-                           PlacementTarget="{Binding ElementName=SentMailboxSelectionButton}"
-                           PopupAnimation="None"
-                           StaysOpen="False"
-                           VerticalOffset="-410">
-                        <Border Background="{DynamicResource Metro.MenuBackgroundBrush}"
-                                BorderBrush="{DynamicResource Metro.AccentBrush}"
-                                BorderThickness="1">
-                            <DockPanel LastChildFill="True">
-                                <Grid Background="{DynamicResource Metro.WindowBackgroundBrush}" DockPanel.Dock="Bottom">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <ui:MetroCircleButton Grid.Column="0"
-                                                          Margin="6,6,12,6"
-                                                          HorizontalAlignment="Right"
-                                                          BorderBrush="{DynamicResource Metro.NormalTextBrush}"
-                                                          Command="ui:PageCommands.CommitMailboxRoleSelection"
-                                                          CommandParameter="{x:Static paranoia:MailboxRoles.Sent}">
-                                        <Image Height="18" Source="/Assets/ok.png" />
-                                    </ui:MetroCircleButton>
-                                    <ui:MetroCircleButton Grid.Column="1"
-                                                          Margin="12,6,6,6"
-                                                          HorizontalAlignment="Left"
-                                                          BorderBrush="{DynamicResource Metro.NormalTextBrush}"
-                                                          Command="ui:PageCommands.CancelMailboxRoleSelection"
-                                                          CommandParameter="{x:Static paranoia:MailboxRoles.Sent}">
-                                        <Image Height="18" Source="/Assets/cancel.png" />
-                                    </ui:MetroCircleButton>
-                                </Grid>
-                                <TreeView Background="Transparent"
-                                          BorderThickness="0"
-                                          ItemTemplate="{StaticResource MailboxTemplate}"
-                                          ItemsSource="{Binding MailboxRoots}"
-                                          SelectedItemChanged="OnAnyTreeViewSelectedItemChanged">
-                                    <TreeView.ItemContainerStyle>
-                                        <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
-                                            <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                            <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                            <Setter Property="IsSelected" Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
-                                            <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
-                                        </Style>
-                                    </TreeView.ItemContainerStyle>
-                                </TreeView>
-                            </DockPanel>
-                        </Border>
-                    </Popup>
+                    <Grid Grid.Row="1" Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   Grid.ColumnSpan="2"
+                                   Margin="0,0,0,12"
+                                   Text="{x:Static properties:Resources.MailboxSettingsDescription}" />
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="0"
+                                   Style="{DynamicResource Metro.LabelTextStyle}">
+                            <Run Text="{x:Static properties:Resources.TrashMailbox}" />
+                            <Run Text=":" />
+                        </TextBlock>
+                        <StackPanel Grid.Row="1"
+                                    Grid.Column="1"
+                                    Orientation="Horizontal">
+                            <TextBox Width="260"
+                                     Margin="3"
+                                     IsReadOnly="True"
+                                     Text="{Binding TrashMailboxName,
+                                                    Mode=OneWay,
+                                                    Converter={StaticResource NullOrEmptyFormatter}}"
+                                     TextWrapping="NoWrap" />
+                            <Button x:Name="TrashMailboxSelectionButton"
+                                    Height="24"
+                                    Command="ui:PageCommands.SelectMailboxRole"
+                                    CommandParameter="{x:Static paranoia:MailboxRoles.Trash}"
+                                    Style="{DynamicResource Metro.TextBoxSiblingButtonStyle}">
+                                <TextBlock VerticalAlignment="Center" Text="..." />
+                            </Button>
+                        </StackPanel>
+                        <TextBlock Grid.Row="2"
+                                   Grid.Column="0"
+                                   Style="{DynamicResource Metro.LabelTextStyle}">
+                            <Run Text="{x:Static properties:Resources.DraftMailbox}" />
+                            <Run Text=":" />
+                        </TextBlock>
+                        <StackPanel Grid.Row="2"
+                                    Grid.Column="1"
+                                    Orientation="Horizontal">
+                            <TextBox Width="260"
+                                     Margin="3"
+                                     IsReadOnly="True"
+                                     Text="{Binding DraftMailboxName,
+                                                    Mode=OneWay,
+                                                    Converter={StaticResource NullOrEmptyFormatter}}"
+                                     TextWrapping="NoWrap" />
+                            <Button x:Name="DraftMailboxSelectionButton"
+                                    Height="24"
+                                    Command="ui:PageCommands.SelectMailboxRole"
+                                    CommandParameter="{x:Static paranoia:MailboxRoles.Draft}"
+                                    Style="{DynamicResource Metro.TextBoxSiblingButtonStyle}">
+                                <TextBlock VerticalAlignment="Center" Text="..." />
+                            </Button>
+                        </StackPanel>
+                        <TextBlock Grid.Row="3"
+                                   Grid.Column="0"
+                                   Style="{DynamicResource Metro.LabelTextStyle}">
+                            <Run Text="{x:Static properties:Resources.JunkMailbox}" />
+                            <Run Text=":" />
+                        </TextBlock>
+                        <StackPanel Grid.Row="3"
+                                    Grid.Column="1"
+                                    Orientation="Horizontal">
+
+                            <TextBox Width="260"
+                                     Margin="3"
+                                     IsReadOnly="True"
+                                     Text="{Binding JunkMailboxName,
+                                                    Mode=OneWay,
+                                                    Converter={StaticResource NullOrEmptyFormatter}}"
+                                     TextWrapping="NoWrap" />
+                            <Button x:Name="JunkMailboxSelectionButton"
+                                    Height="24"
+                                    Command="ui:PageCommands.SelectMailboxRole"
+                                    CommandParameter="{x:Static paranoia:MailboxRoles.Junk}"
+                                    Style="{DynamicResource Metro.TextBoxSiblingButtonStyle}">
+                                <TextBlock VerticalAlignment="Center" Text="..." />
+                            </Button>
+                        </StackPanel>
+
+                    </Grid>
                 </Grid>
             </DockPanel>
         </ScrollViewer>
+        <Popup x:Name="SentMailboxSelectionPopup"
+               Width="300"
+               Height="400"
+               AllowsTransparency="False"
+               HorizontalOffset="-138"
+               Placement="Relative"
+               PlacementTarget="{Binding ElementName=SentMailboxSelectionButton}"
+               PopupAnimation="None"
+               StaysOpen="False"
+               VerticalOffset="-410">
+            <Border Background="{DynamicResource Metro.MenuBackgroundBrush}"
+                    BorderBrush="{DynamicResource Metro.AccentBrush}"
+                    BorderThickness="1">
+                <DockPanel LastChildFill="True">
+                    <Grid Background="{DynamicResource Metro.WindowBackgroundBrush}" DockPanel.Dock="Bottom">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ui:MetroCircleButton Grid.Column="0"
+                                              Margin="6,6,12,6"
+                                              HorizontalAlignment="Right"
+                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              Command="ui:PageCommands.CommitMailboxRoleSelection"
+                                              CommandParameter="{x:Static paranoia:MailboxRoles.Sent}">
+                            <Image Height="18" Source="/Assets/ok.png" />
+                        </ui:MetroCircleButton>
+                        <ui:MetroCircleButton Grid.Column="1"
+                                              Margin="12,6,6,6"
+                                              HorizontalAlignment="Left"
+                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              Command="ui:PageCommands.CancelMailboxRoleSelection"
+                                              CommandParameter="{x:Static paranoia:MailboxRoles.Sent}">
+                            <Image Height="18" Source="/Assets/cancel.png" />
+                        </ui:MetroCircleButton>
+                    </Grid>
+                    <TreeView Background="Transparent"
+                              BorderThickness="0"
+                              ItemTemplate="{StaticResource MailboxTemplate}"
+                              ItemsSource="{Binding MailboxRoots}"
+                              SelectedItemChanged="OnAnyTreeViewSelectedItemChanged">
+                        <TreeView.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
+                                <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
+                                <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <Setter Property="IsSelected" Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
+                                <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                    </TreeView>
+                </DockPanel>
+            </Border>
+        </Popup>
+        <Popup x:Name="TrashMailboxSelectionPopup"
+               Width="300"
+               Height="400"
+               AllowsTransparency="False"
+               HorizontalOffset="-138"
+               Placement="Relative"
+               PlacementTarget="{Binding ElementName=TrashMailboxSelectionButton}"
+               PopupAnimation="None"
+               StaysOpen="False"
+               VerticalOffset="-410">
+            <Border Background="{DynamicResource Metro.MenuBackgroundBrush}"
+                    BorderBrush="{DynamicResource Metro.AccentBrush}"
+                    BorderThickness="1">
+                <DockPanel LastChildFill="True">
+                    <Grid Background="{DynamicResource Metro.WindowBackgroundBrush}" DockPanel.Dock="Bottom">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ui:MetroCircleButton Grid.Column="0"
+                                              Margin="6,6,12,6"
+                                              HorizontalAlignment="Right"
+                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              Command="ui:PageCommands.CommitMailboxRoleSelection"
+                                              CommandParameter="{x:Static paranoia:MailboxRoles.Trash}">
+                            <Image Height="18" Source="/Assets/ok.png" />
+                        </ui:MetroCircleButton>
+                        <ui:MetroCircleButton Grid.Column="1"
+                                              Margin="12,6,6,6"
+                                              HorizontalAlignment="Left"
+                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              Command="ui:PageCommands.CancelMailboxRoleSelection"
+                                              CommandParameter="{x:Static paranoia:MailboxRoles.Trash}">
+                            <Image Height="18" Source="/Assets/cancel.png" />
+                        </ui:MetroCircleButton>
+                    </Grid>
+                    <TreeView Background="Transparent"
+                              BorderThickness="0"
+                              ItemTemplate="{StaticResource MailboxTemplate}"
+                              ItemsSource="{Binding MailboxRoots}"
+                              SelectedItemChanged="OnAnyTreeViewSelectedItemChanged">
+                        <TreeView.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
+                                <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
+                                <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <Setter Property="IsSelected" Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
+                                <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                    </TreeView>
+                </DockPanel>
+            </Border>
+        </Popup>
+        <Popup x:Name="JunkMailboxSelectionPopup"
+               Width="300"
+               Height="400"
+               AllowsTransparency="False"
+               HorizontalOffset="-138"
+               Placement="Relative"
+               PlacementTarget="{Binding ElementName=JunkMailboxSelectionButton}"
+               PopupAnimation="None"
+               StaysOpen="False"
+               VerticalOffset="-410">
+            <Border Background="{DynamicResource Metro.MenuBackgroundBrush}"
+                    BorderBrush="{DynamicResource Metro.AccentBrush}"
+                    BorderThickness="1">
+                <DockPanel LastChildFill="True">
+                    <Grid Background="{DynamicResource Metro.WindowBackgroundBrush}" DockPanel.Dock="Bottom">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ui:MetroCircleButton Grid.Column="0"
+                                              Margin="6,6,12,6"
+                                              HorizontalAlignment="Right"
+                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              Command="ui:PageCommands.CommitMailboxRoleSelection"
+                                              CommandParameter="{x:Static paranoia:MailboxRoles.Junk}">
+                            <Image Height="18" Source="/Assets/ok.png" />
+                        </ui:MetroCircleButton>
+                        <ui:MetroCircleButton Grid.Column="1"
+                                              Margin="12,6,6,6"
+                                              HorizontalAlignment="Left"
+                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              Command="ui:PageCommands.CancelMailboxRoleSelection"
+                                              CommandParameter="{x:Static paranoia:MailboxRoles.Junk}">
+                            <Image Height="18" Source="/Assets/cancel.png" />
+                        </ui:MetroCircleButton>
+                    </Grid>
+                    <TreeView Background="Transparent"
+                              BorderThickness="0"
+                              ItemTemplate="{StaticResource MailboxTemplate}"
+                              ItemsSource="{Binding MailboxRoots}"
+                              SelectedItemChanged="OnAnyTreeViewSelectedItemChanged">
+                        <TreeView.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
+                                <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
+                                <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <Setter Property="IsSelected" Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
+                                <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                    </TreeView>
+                </DockPanel>
+            </Border>
+        </Popup>
+        <Popup x:Name="DraftMailboxSelectionPopup"
+               Width="300"
+               Height="400"
+               AllowsTransparency="False"
+               HorizontalOffset="-138"
+               Placement="Relative"
+               PlacementTarget="{Binding ElementName=DraftMailboxSelectionButton}"
+               PopupAnimation="None"
+               StaysOpen="False"
+               VerticalOffset="-410">
+            <Border Background="{DynamicResource Metro.MenuBackgroundBrush}"
+                    BorderBrush="{DynamicResource Metro.AccentBrush}"
+                    BorderThickness="1">
+                <DockPanel LastChildFill="True">
+                    <Grid Background="{DynamicResource Metro.WindowBackgroundBrush}" DockPanel.Dock="Bottom">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ui:MetroCircleButton Grid.Column="0"
+                                              Margin="6,6,12,6"
+                                              HorizontalAlignment="Right"
+                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              Command="ui:PageCommands.CommitMailboxRoleSelection"
+                                              CommandParameter="{x:Static paranoia:MailboxRoles.Draft}">
+                            <Image Height="18" Source="/Assets/ok.png" />
+                        </ui:MetroCircleButton>
+                        <ui:MetroCircleButton Grid.Column="1"
+                                              Margin="12,6,6,6"
+                                              HorizontalAlignment="Left"
+                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              Command="ui:PageCommands.CancelMailboxRoleSelection"
+                                              CommandParameter="{x:Static paranoia:MailboxRoles.Draft}">
+                            <Image Height="18" Source="/Assets/cancel.png" />
+                        </ui:MetroCircleButton>
+                    </Grid>
+                    <TreeView Background="Transparent"
+                              BorderThickness="0"
+                              ItemTemplate="{StaticResource MailboxTemplate}"
+                              ItemsSource="{Binding MailboxRoots}"
+                              SelectedItemChanged="OnAnyTreeViewSelectedItemChanged">
+                        <TreeView.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
+                                <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
+                                <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <Setter Property="IsSelected" Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
+                                <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                    </TreeView>
+                </DockPanel>
+            </Border>
+        </Popup>
     </DockPanel>
 
 
