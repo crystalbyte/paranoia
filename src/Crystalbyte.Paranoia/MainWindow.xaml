@@ -228,7 +228,8 @@
                             <TextBlock x:Name="TitleBlock"
                                        Margin="6,-2,6,0"
                                        VerticalAlignment="Center"
-                                       FontSize="{DynamicResource Metro.MediumLargeFontSize}"
+                                       FontSize="{DynamicResource Metro.LargeFontSize}"
+                                       FontWeight="Thin"
                                        Text="{Binding Title}" />
                             <DataTemplate.Triggers>
                                 <MultiDataTrigger>
