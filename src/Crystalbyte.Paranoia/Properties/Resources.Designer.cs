@@ -640,6 +640,24 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Flag.
+        /// </summary>
+        public static string MarkAsFlagged {
+            get {
+                return ResourceManager.GetString("MarkAsFlagged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Flags.
+        /// </summary>
+        public static string MarkAsNotFlagged {
+            get {
+                return ResourceManager.GetString("MarkAsNotFlagged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mark as not seen.
         /// </summary>
         public static string MarkAsNotSeen {

@@ -425,7 +425,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public bool IsInbox {
-            get { return Name.Equals("inbox"); }
+            get { return Name.EqualsIgnoreCase("inbox"); }
         }
 
         public bool IsListingMailboxes {
@@ -862,7 +862,7 @@ namespace Crystalbyte.Paranoia {
                 NotSeenCount = await context.MailMessages
                     .Where(x => x.Type == MailType.Message)
                     .Where(x => x.MailboxId == _mailbox.Id)
-                    .Where(x => !x.Flags.Contains(MailboxFlags.Seen))
+                    .Where(x => !x.Flags.Contains(MailMessageFlags.Seen))
                     .CountAsync();
             }
         }
@@ -996,7 +996,7 @@ namespace Crystalbyte.Paranoia {
                 } else {
                     messages = await context.MailMessages
                         .Where(x => x.Type == MailType.Message)
-                        .Where(x => !x.Flags.Contains(MailboxFlags.Seen))
+                        .Where(x => !x.Flags.Contains(MailMessageFlags.Seen))
                         .Where(x => x.MailboxId == _mailbox.Id)
                         .ToArrayAsync();
                 }
@@ -1043,8 +1043,53 @@ namespace Crystalbyte.Paranoia {
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
+        }
 
+        internal async Task MarkAsFlaggedAsync(MailMessageContext[] messages) {
+            Application.Current.AssertBackgroundThread();
 
+            try {
+                messages.ForEach(x => x.IsFlagged = true);
+                var uids = messages.Select(x => x.Uid).ToArray();
+
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+                    using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+                        using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+                            var folder = await session.SelectAsync(Name);
+                            await folder.MarkAsFlaggedAsync(uids);
+                        }
+                    }
+                }
+
+                await CountNotSeenAsync();
+            } catch (Exception ex) {
+                messages.ForEach(x => x.IsFlagged = false);
+                Logger.Error(ex);
+            }
+        }
+
+        internal async Task MarkAsNotFlaggedAsync(MailMessageContext[] messages) {
+            Application.Current.AssertBackgroundThread();
+
+            try {
+                messages.ForEach(x => x.IsFlagged = false);
+                var uids = messages.Select(x => x.Uid).ToArray();
+
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+                    connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
+                    using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+                        using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+                            var folder = await session.SelectAsync(Name);
+                            await folder.MarkAsNotFlaggedAsync(uids);
+                        }
+                    }
+                }
+
+                await CountNotSeenAsync();
+            } catch (Exception ex) {
+                messages.ForEach(x => x.IsFlagged = true);
+                Logger.Error(ex);
+            }
         }
     }
 }

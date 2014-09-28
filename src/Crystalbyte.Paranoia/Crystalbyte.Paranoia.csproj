@@ -181,6 +181,8 @@
     <Compile Include="MetroPageHostWindow.xaml.cs">
       <DependentUpon>MetroPageHostWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Commands\MarkAsFlaggedCommand.cs" />
+    <Compile Include="UI\Commands\MarkAsNotFlaggedCommand.cs" />
     <Compile Include="UI\Commands\UnblockContactsCommand.cs" />
     <Compile Include="UI\Commands\BlockContactsCommand.cs" />
     <Compile Include="Contexts\CreateContactContext.cs" />
@@ -617,6 +619,10 @@
     <Resource Include="Assets\edit.properties.png" />
     <Resource Include="Assets\select.png" />
     <Resource Include="Assets\test.png" />
+    <Resource Include="Assets\message.restore.png" />
+    <Resource Include="Assets\star.png" />
+    <Resource Include="Assets\star.full.png" />
+    <Resource Include="Assets\paper.png" />
     <Content Include="Resources\ckeditor.paranoia\paranoia.js" />
     <Content Include="Resources\ckeditor\adapters\jquery.js" />
     <Content Include="Resources\ckeditor\build-config.js" />
@@ -1014,11 +1020,8 @@
     <Content Include="x86\xinput9_1_0.dll" />
     <Resource Include="Assets\reply.png" />
     <Resource Include="Assets\forward.png" />
-    <Resource Include="Assets\reply.small.png" />
     <Resource Include="Assets\forward.small.png" />
-    <Resource Include="Assets\delete.small.png" />
     <Resource Include="Assets\print.png" />
-    <Resource Include="Assets\print.small.png" />
     <Resource Include="Assets\message.png" />
     <Resource Include="Assets\seen.png" />
     <Resource Include="Assets\unseen.png" />

@@ -16,20 +16,30 @@ using System.Collections.ObjectModel;
 namespace Crystalbyte.Paranoia {
     [DebuggerDisplay("Subject = {Subject}, Address = {FromAddress}")]
     public class MailMessageContext : SelectionObject {
+
+        #region Private Fields
+
         private int _load;
+        private bool _isLocal;
         private long _bytesReceived;
+        private int _progressChanged;
         private readonly MailboxContext _mailbox;
         private readonly MailMessageModel _message;
         private readonly ObservableCollection<AttachmentContext> _attachments;
-        private bool _isLocal;
-        private int _progressChanged;
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
+
+        #region Construction
 
         internal MailMessageContext(MailboxContext mailbox, MailMessageModel message) {
             _mailbox = mailbox;
             _message = message;
             _attachments = new ObservableCollection<AttachmentContext>();
         }
+
+        #endregion
 
         public bool IsLocallyAvailable {
             get { return _isLocal; }
@@ -87,17 +97,40 @@ namespace Crystalbyte.Paranoia {
             get { return Subject == "NIL" || string.IsNullOrEmpty(Subject); }
         }
 
-        public bool IsSeen {
-            get { return HasFlag(MailboxFlags.Seen); }
+        public bool IsFlagged {
+            get { return HasFlag(MailMessageFlags.Flagged); }
             set {
-                if (HasFlag(MailboxFlags.Seen) == value) {
+                if (HasFlag(MailMessageFlags.Flagged) == value) {
                     return;
                 }
 
                 if (value) {
-                    WriteFlag(MailboxFlags.Seen);
+                    WriteFlag(MailMessageFlags.Flagged);
                 } else {
-                    DropFlag(MailboxFlags.Seen);
+                    DropFlag(MailMessageFlags.Flagged);
+                }
+
+                RaisePropertyChanged(() => IsFlagged);
+                RaisePropertyChanged(() => IsNotFlagged);
+                OnFlaggedStatusChanged();
+            }
+        }
+
+        private async void OnFlaggedStatusChanged() {
+            await SaveFlagsToDatabaseAsync();
+        }
+
+        public bool IsSeen {
+            get { return HasFlag(MailMessageFlags.Seen); }
+            set {
+                if (HasFlag(MailMessageFlags.Seen) == value) {
+                    return;
+                }
+
+                if (value) {
+                    WriteFlag(MailMessageFlags.Seen);
+                } else {
+                    DropFlag(MailMessageFlags.Seen);
                 }
 
                 RaisePropertyChanged(() => IsSeen);
@@ -124,6 +157,10 @@ namespace Crystalbyte.Paranoia {
 
         public bool IsNotSeen {
             get { return !IsSeen; }
+        }
+
+        public bool IsNotFlagged {
+            get { return !IsFlagged; }
         }
 
         private void DropFlag(string flag) {

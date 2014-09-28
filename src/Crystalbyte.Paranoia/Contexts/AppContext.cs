@@ -58,9 +58,11 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _forwardCommand;
         private readonly ICommand _restoreMessagesCommand;
         private readonly ICommand _markAsSeenCommand;
+        private readonly ICommand _markAsNotSeenCommand;
+        private readonly ICommand _markAsFlaggedCommand;
+        private readonly ICommand _markAsNotFlaggedCommand;
         private readonly ICommand _blockContactsCommand;
         private readonly ICommand _unblockContactsCommand;
-        private readonly ICommand _markAsNotSeenCommand;
         private readonly ICommand _createAccountCommand;
         private readonly ICommand _createContactCommand;
         private readonly ICommand _deleteContactsCommand;
@@ -69,6 +71,7 @@ namespace Crystalbyte.Paranoia {
         private bool _isSortAscending;
         private string _queryContactString;
         private bool _isAnimating;
+        
 
         #endregion
 
@@ -103,6 +106,8 @@ namespace Crystalbyte.Paranoia {
             _createContactCommand = new RelayCommand(OnCreateContact);
             _resetZoomCommand = new RelayCommand(p => Zoom = 100.0f);
             _unblockContactsCommand = new UnblockContactsCommand(this);
+            _markAsFlaggedCommand = new MarkAsFlaggedCommand(this);
+            _markAsNotFlaggedCommand = new MarkAsNotFlaggedCommand(this);
 
             Observable.Timer(TimeSpan.FromHours(24))
                 .Subscribe(OnRefreshKeys);
@@ -629,11 +634,21 @@ namespace Crystalbyte.Paranoia {
             get { return _markAsNotSeenCommand; }
         }
 
+        public ICommand MarkAsNotFlaggedCommand {
+            get { return _markAsNotFlaggedCommand; }
+        }
+
+        public ICommand MarkAsFlaggedCommand {
+            get { return _markAsFlaggedCommand; }
+        }
+
         public ICommand CreateAccountCommand {
             get { return _createAccountCommand; }
         }
 
-        public PublicKeyCrypto KeyContainer { get; private set; }
+        public PublicKeyCrypto KeyContainer {
+            get; private set;
+        }
 
         public IEnumerable<MailMessageContext> SelectedMessages {
             get { return _messages.Where(x => x.IsSelected).ToArray(); }
@@ -993,6 +1008,32 @@ namespace Crystalbyte.Paranoia {
         internal void NotifyAccountDeleted(MailAccountContext account) {
             _accounts.Remove(account);
             RaisePropertyChanged(() => Accounts);
+        }
+
+        internal Task MarkSelectionAsFlaggedAsync() {
+            var messages = SelectedMessages.ToArray();
+
+            return Task.Run(() => {
+                var tasks = messages
+                    .Where(x => x.IsSeen)
+                    .GroupBy(x => x.Mailbox)
+                    .Select(x => x.Key.MarkAsFlaggedAsync(x.ToArray()));
+
+                Task.WhenAll(tasks);
+            });
+        }
+
+        public Task MarkSelectionAsNotFlaggedAsync() {
+            var messages = SelectedMessages.ToArray();
+
+            return Task.Run(() => {
+                var tasks = messages
+                    .Where(x => x.IsSeen)
+                    .GroupBy(x => x.Mailbox)
+                    .Select(x => x.Key.MarkAsNotFlaggedAsync(x.ToArray()));
+
+                Task.WhenAll(tasks);
+            });
         }
     }
 }

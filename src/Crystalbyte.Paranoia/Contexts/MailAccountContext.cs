@@ -7,8 +7,8 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Net.NetworkInformation;
-using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -21,7 +21,6 @@ using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
 using Crystalbyte.Paranoia.UI.Pages;
 using Newtonsoft.Json;
-using MailMessage = System.Net.Mail.MailMessage;
 using NLog;
 using System.Windows;
 
@@ -222,12 +221,11 @@ namespace Crystalbyte.Paranoia {
             try {
                 await SyncMailboxesAsync();
 
+                IsOnline = true;
                 var inbox = GetInbox();
                 if (inbox != null) {
                     await inbox.IdleAsync();
                 }
-
-                IsOnline = true;
             } catch (Exception ex) {
                 IsOnline = false;
                 Logger.Error(ex);

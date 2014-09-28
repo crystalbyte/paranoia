@@ -500,4 +500,10 @@ Once your password is lost you're screwed.</value>
   <data name="MailboxSettingsDescription" xml:space="preserve">
     <value>Select mailboxes to be used for storing deleted messages, drafts and junk mail.</value>
   </data>
+  <data name="MarkAsFlagged" xml:space="preserve">
+    <value>Flag</value>
+  </data>
+  <data name="MarkAsNotFlagged" xml:space="preserve">
+    <value>Remove Flags</value>
+  </data>
 </root>

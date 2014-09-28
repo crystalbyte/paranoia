@@ -97,17 +97,17 @@
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    Text="from" />
-        <ComboBox  Grid.Row="0"
-                   Grid.Column="1"
-                   HorizontalAlignment="Stretch"
-                   VerticalAlignment="Center"
-                   x:Name="AccountComboBox"
-                   ItemsSource="{Binding Accounts}" 
-                   SelectedItem="{Binding SelectedAccount}"
-                   SelectedIndex="0" >
+        <ComboBox x:Name="AccountComboBox"
+                  Grid.Row="0"
+                  Grid.Column="1"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Center"
+                  ItemsSource="{Binding Accounts}"
+                  SelectedIndex="0"
+                  SelectedItem="{Binding SelectedAccount}">
             <ComboBox.ItemTemplate>
                 <ItemContainerTemplate>
-                    <TextBlock Text="{Binding Name}" ToolTip="{Binding Address}"/>
+                    <TextBlock Text="{Binding Name}" ToolTip="{Binding Address}" />
                 </ItemContainerTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
@@ -116,16 +116,17 @@
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    Text="{x:Static properties:Resources.Recipients}" />
-        <Grid Grid.Row="1" Grid.Column="1" >
+        <Grid Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="7*"/>
-                <RowDefinition/>
+                <RowDefinition Height="7*" />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <ui:AutoCompleteBox x:Name="RecipientsBox"
+                                Grid.RowSpan="2"
                                 Grid.Column="0"
                                 HorizontalAlignment="Stretch"
                                 ItemTemplate="{StaticResource ContactSuggestionTemplate}"
@@ -133,11 +134,12 @@
                                 ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
                                 SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
                                 StringTokenTemplate="{StaticResource StringTokenTemplate}"
-                                TokenTemplate="{StaticResource ContactTokenTemplate}" Grid.RowSpan="2" />
+                                TokenTemplate="{StaticResource ContactTokenTemplate}" />
             <ToggleButton x:Name="CopyButton"
+                          Grid.RowSpan="2"
                           Grid.Column="1"
                           Margin="3,3,0,3"
-                          VerticalAlignment="Center" Grid.RowSpan="2">
+                          VerticalAlignment="Center">
                 <Image Width="18"
                        VerticalAlignment="Center"
                        Source="/Assets/message.copy.png" />
@@ -231,7 +233,7 @@
                                    Foreground="#BADA55"
                                    Text="{Binding Name}"
                                    TextTrimming="CharacterEllipsis"
-                                   ToolTip="{Binding FullName}"/>
+                                   ToolTip="{Binding FullName}" />
                         <!--  TODO usefull tooltip  -->
                         <Button Grid.Column="1"
                                 Command="{Binding RemoveCommand}"
@@ -276,8 +278,7 @@
                               Grid.Column="1"
                               HorizontalAlignment="Left"
                               Click="MetroCircleButton_Click"
-                              Text="hi">
-        </ui:MetroCircleButton>
+                              Text="hi" />
         <ui:MetroCircleButton Grid.Row="7"
                               Grid.Column="1"
                               HorizontalAlignment="Right"

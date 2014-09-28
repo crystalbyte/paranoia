@@ -58,6 +58,7 @@
     <Compile Include="MailboxNames.cs" />
     <Compile Include="MailboxPermissions.cs" />
     <Compile Include="MailMessageExtensions.cs" />
+    <Compile Include="MailMessageFlags.cs" />
     <Compile Include="Mime\Decode\QuotedPrintable.cs">
       <SubType>Code</SubType>
     </Compile>

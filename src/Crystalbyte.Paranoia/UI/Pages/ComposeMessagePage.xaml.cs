@@ -21,18 +21,15 @@ namespace Crystalbyte.Paranoia.UI.Pages {
     ///     Interaction logic for WriteMessagePage.xaml
     /// </summary>
     public partial class ComposeMessagePage : INavigationAware, IAnimationAware {
-
-        private MailCompositionContext _context;
         private MetroPageHostWindow _pageWindow;
-
 
         public ComposeMessagePage() {
             InitializeComponent();
 
-            _context = new MailCompositionContext();
-            _context.Finished += OnShutdownRequested;
-            _context.DocumentTextRequested += OnDocumentTextRequested;
-            DataContext = _context;
+            var context = new MailCompositionContext();
+            context.Finished += OnShutdownRequested;
+            context.DocumentTextRequested += OnDocumentTextRequested;
+            DataContext = context;
 
             var window = (MainWindow)Application.Current.MainWindow;
             window.FlyOutVisibilityChanged += OnFlyOutVisibilityChanged;
@@ -97,7 +94,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                     .ToArrayAsync();
 
                 if (!message.Any())
-                    throw new Exception("701");
+                    throw new Exception("Message has not yet been loaded, menu must be disabled until it is.");
 
                 replyMessage = new MailMessageReader(message[0].Data);
             }

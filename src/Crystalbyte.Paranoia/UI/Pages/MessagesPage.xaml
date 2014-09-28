@@ -48,7 +48,7 @@
                         <ui:MetroCircleButton Margin="12"
                                               Command="{Binding ComposeCommand}"
                                               Text="{x:Static properties:Resources.ComposeMessage}">
-                            <Image Width="18" Source="/Assets/unseen.png" />
+                            <Image Width="18" Source="/Assets/paper.png" />
                         </ui:MetroCircleButton>
                     </Grid>
                 </Border>
@@ -89,6 +89,7 @@
                                        Source="/Assets/folder.png" />
                                 <TextBlock x:Name="MailboxNameBlock"
                                            VerticalAlignment="Center"
+                                           FontSize="{DynamicResource Metro.SmallFontSize}"
                                            Foreground="{DynamicResource Metro.NormalTextBrush}"
                                            Text="{x:Static properties:Resources.Outbox}" />
                             </StackPanel>
@@ -241,6 +242,7 @@
                                     <TextBlock x:Name="MailboxNameBlock"
                                                VerticalAlignment="Center"
                                                DockPanel.Dock="Left"
+                                               FontSize="{DynamicResource Metro.SmallFontSize}"
                                                Text="{Binding LocalName}">
                                         <TextBlock.Foreground>
                                             <Binding Path="IsSubscribedAndSelectable">
@@ -255,6 +257,7 @@
                                             Visibility="{Binding NotSeenCount,
                                                                  Converter={StaticResource QuantityToVisibilityConverter}}">
                                         <TextBlock VerticalAlignment="Center"
+                                                   FontSize="{DynamicResource Metro.SmallFontSize}"
                                                    FontWeight="Bold"
                                                    Text="{Binding NotSeenCount}">
                                             <TextBlock.Foreground>
@@ -379,39 +382,95 @@
                     <ListView.ContextMenu>
                         <ContextMenu>
                             <MenuItem Command="{Binding ReplyCommand}" InputGestureText="Ctrl + R">
+                                <MenuItem.Icon>
+                                    <Image Height="16"
+                                           Source="/Assets/reply.png"
+                                           UseLayoutRounding="True" />
+                                </MenuItem.Icon>
                                 <MenuItem.Header>
                                     <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Reply}" />
                                 </MenuItem.Header>
                             </MenuItem>
                             <MenuItem Command="{Binding ForwardCommand}" InputGestureText="Ctrl + F">
+                                <MenuItem.Icon>
+                                    <Image Height="16"
+                                           Source="/Assets/forward.png"
+                                           UseLayoutRounding="True" />
+                                </MenuItem.Icon>
                                 <MenuItem.Header>
                                     <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Forward}" />
                                 </MenuItem.Header>
                             </MenuItem>
                             <MenuItem Command="{Binding RestoreMessagesCommand}" InputGestureText="Ctrl + Alt + R">
+                                <MenuItem.Icon>
+                                    <Image Height="16"
+                                           Source="/Assets/message.restore.png"
+                                           UseLayoutRounding="True" />
+                                </MenuItem.Icon>
                                 <MenuItem.Header>
                                     <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Restore}" />
                                 </MenuItem.Header>
                             </MenuItem>
                             <Separator />
                             <MenuItem Command="{Binding PrintCommand}" InputGestureText="Ctrl + P">
+                                <MenuItem.Icon>
+                                    <Image Height="16"
+                                           Source="/Assets/print.png"
+                                           UseLayoutRounding="True" />
+                                </MenuItem.Icon>
                                 <MenuItem.Header>
                                     <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Print}" />
                                 </MenuItem.Header>
                             </MenuItem>
                             <Separator />
                             <MenuItem Command="{Binding DeleteMessagesCommand}" InputGestureText="Entf">
+                                <MenuItem.Icon>
+                                    <Image Height="16"
+                                           Source="/Assets/delete.png"
+                                           UseLayoutRounding="True" />
+                                </MenuItem.Icon>
                                 <MenuItem.Header>
                                     <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Delete}" />
                                 </MenuItem.Header>
                             </MenuItem>
                             <Separator />
+                            <MenuItem Command="{Binding MarkAsFlaggedCommand}">
+                                <MenuItem.Icon>
+                                    <Image Height="16"
+                                           Source="/Assets/star.full.png"
+                                           UseLayoutRounding="True" />
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsFlagged}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem Command="{Binding MarkAsNotFlaggedCommand}">
+                                <MenuItem.Icon>
+                                    <Image Height="16"
+                                           Source="/Assets/star.png"
+                                           UseLayoutRounding="True" />
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsNotFlagged}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator />
                             <MenuItem Command="{Binding MarkAsSeenCommand}">
+                                <MenuItem.Icon>
+                                    <Image Height="16"
+                                           Source="/Assets/seen.png"
+                                           UseLayoutRounding="True" />
+                                </MenuItem.Icon>
                                 <MenuItem.Header>
                                     <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsSeen}" />
                                 </MenuItem.Header>
                             </MenuItem>
                             <MenuItem Command="{Binding MarkAsNotSeenCommand}">
+                                <MenuItem.Icon>
+                                    <Image Height="16"
+                                           Source="/Assets/message.png"
+                                           UseLayoutRounding="True" />
+                                </MenuItem.Icon>
                                 <MenuItem.Header>
                                     <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsNotSeen}" />
                                 </MenuItem.Header>
@@ -435,8 +494,8 @@
                         <DataTemplate DataType="paranoia:MailMessageContext">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="24" />
+                                    <RowDefinition Height="22" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
@@ -446,7 +505,8 @@
                                 <Rectangle Grid.Row="0"
                                            Grid.RowSpan="2"
                                            Grid.Column="0"
-                                           Grid.ColumnSpan="3" />
+                                           Grid.ColumnSpan="3"
+                                           Fill="Transparent" />
                                 <Image Grid.Row="0"
                                        Grid.RowSpan="2"
                                        Grid.Column="0"
@@ -459,30 +519,46 @@
                                                         Converter={StaticResource GravatarImageConverter},
                                                         IsAsync=True}" />
 
-                                <TextBlock Grid.Row="0"
+                                <TextBlock x:Name="SubjectBlock"
+                                           Grid.Row="1"
                                            Grid.Column="1"
-                                           Grid.ColumnSpan="2"
                                            Margin="0,0,6,0"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource Metro.MediumLargeFontSize}"
-                                           Foreground="{Binding IsSubjectNilOrEmpty,
-                                                                Converter={StaticResource SubjectBrushConverter}}"
-                                           Style="{DynamicResource Metro.ThinTextStyle}"
+                                           FontSize="{DynamicResource Metro.NormalFontSize}"
                                            Text="{Binding Subject,
                                                           ConverterParameter=...,
                                                           Converter={StaticResource NullOrEmptyFormatter}}"
                                            TextTrimming="CharacterEllipsis"
-                                           TextWrapping="NoWrap" />
-
+                                           TextWrapping="NoWrap">
+                                    <TextBlock.Foreground>
+                                        <Binding Path="IsNotSeen">
+                                            <Binding.Converter>
+                                                <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.AccentBrush}" />
+                                            </Binding.Converter>
+                                        </Binding>
+                                    </TextBlock.Foreground>
+                                </TextBlock>
+                                <StackPanel Grid.Row="0"
+                                            Grid.Column="2"
+                                            Margin="0,0,4,0"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                    <Image Width="16"
+                                           Source="/Assets/star.full.png"
+                                           Visibility="{Binding IsFlagged,
+                                                                Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                </StackPanel>
                                 <TextBlock x:Name="FromBlock"
-                                           Grid.Row="1"
+                                           Grid.Row="0"
                                            Grid.Column="1"
                                            Margin="0,0,12,0"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource Metro.NormalFontSize}"
-                                           Foreground="{Binding IsSeen,
-                                                                Converter={StaticResource SeenBrushConverter}}"
+                                           FontSize="{DynamicResource Metro.MediumLargeFontSize}"
+                                           FontWeight="Thin"
+                                           Foreground="{Binding IsSubjectNilOrEmpty,
+                                                                Converter={StaticResource SubjectBrushConverter}}"
                                            Text="{Binding Converter={StaticResource MailContactFormatter}}"
                                            TextTrimming="CharacterEllipsis"
                                            TextWrapping="NoWrap" />
@@ -501,7 +577,7 @@
                             </Grid>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="FromBlock" Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+                                    <Setter TargetName="SubjectBlock" Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
                                     <Setter TargetName="DateBlock" Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>

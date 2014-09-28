@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
@@ -47,12 +46,29 @@ namespace Crystalbyte.Paranoia.Mail {
             _headers = new List<KeyValuePair<string, string>>();
         }
 
-        public long Uid { get; internal set; }
-        public DateTime? InternalDate { get; internal set; }
-        public string Subject { get; internal set; }
-        public long Size { get; internal set; }
-        public string MessageId { get; internal set; }
-        public string InReplyTo { get; internal set; }
+        public long Uid {
+            get; internal set;
+        }
+
+        public DateTime? InternalDate {
+            get; internal set;
+        }
+
+        public string Subject {
+            get; internal set;
+        }
+
+        public long Size {
+            get; internal set;
+        }
+
+        public string MessageId {
+            get; internal set;
+        }
+
+        public string InReplyTo {
+            get; internal set;
+        }
 
         public IList<KeyValuePair<string, string>> Headers {
             get { return _headers; }
@@ -126,6 +142,7 @@ namespace Crystalbyte.Paranoia.Mail {
                     envelope.AddFlags(flags);
                 }
             }
+
             String[] t = {"ENVELOPE"};
             var temp = text.Split(t,StringSplitOptions.None);
             matches = EnvelopeRegex.Matches(temp[1]);
@@ -144,8 +161,6 @@ namespace Crystalbyte.Paranoia.Mail {
 
             return envelope;
         }
-
-      
 
         private static IEnumerable<MailAddress> ParseContacts(string value) {
             var trimmed = value.TrimAny(1).TrimQuotes();
