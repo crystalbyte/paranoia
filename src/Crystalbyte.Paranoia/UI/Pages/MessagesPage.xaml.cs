@@ -1,9 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using Awesomium.Core;
 using NLog;
 
 namespace Crystalbyte.Paranoia.UI.Pages {
@@ -19,7 +23,25 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             DataContext = App.Context;
             Unloaded += OnUnloaded;
 
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint, OnCanPrint));
             App.Context.SortOrderChanged += OnSortOrderChanged;
+
+        }
+
+        private void OnPrint(object sender, ExecutedRoutedEventArgs e) {
+            var html = HtmlControl.GetDocument();
+
+            var browser = new WebBrowser();
+            browser.Navigated += (x, y) => {
+                dynamic document = browser.Document;
+                document.execCommand("print", true, null);
+                browser.Dispose();
+            };
+            browser.NavigateToString(html);
+        }
+
+        private void OnCanPrint(object sender, CanExecuteRoutedEventArgs e) {
+            e.CanExecute = MessagesListView.SelectedValue != null;
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e) {
@@ -27,9 +49,8 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 App.Context.SortOrderChanged -= OnSortOrderChanged;
                 DataContext = null;
                 HtmlControl.Dispose();
-            }
-            catch (Exception ex) {
-                Logger.Error(ex);        
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
         }
 
@@ -72,6 +93,8 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
             var app = App.Context;
             app.OnMessageSelectionChanged();
+
+            CommandManager.InvalidateRequerySuggested();
 
             var message = app.SelectedMessage;
             if (message == null)

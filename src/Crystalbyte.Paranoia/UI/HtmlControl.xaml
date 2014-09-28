@@ -3,8 +3,8 @@
                     xmlns:awe="http://schemas.awesomium.com/winfx"
                     xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
                     xmlns:core="clr-namespace:Awesomium.Core;assembly=Awesomium.Core"
-                    xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
-                    xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia">
+                    xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
+                    xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <awe:UrlConverter x:Key="UrlConverter" />

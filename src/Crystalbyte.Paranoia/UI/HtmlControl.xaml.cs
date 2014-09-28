@@ -13,6 +13,7 @@ using Crystalbyte.Paranoia.Properties;
 using System.Text.RegularExpressions;
 using System.IO;
 using dotless.Core;
+using FontFamily = System.Windows.Media.FontFamily;
 
 #endregion
 
@@ -66,6 +67,17 @@ namespace Crystalbyte.Paranoia.UI {
 
         ~HtmlControl() {
             Dispose(false);
+        }
+
+        #endregion
+
+        #region Event Declarations
+
+        public event EventHandler<PrintCompleteEventArgs> PrintSourcesCreated;
+
+        protected virtual void OnPrintSourcesCreated(PrintCompleteEventArgs e) {
+            var handler = PrintSourcesCreated;
+            if (handler != null) handler(this, e);
         }
 
         #endregion
@@ -159,7 +171,9 @@ namespace Crystalbyte.Paranoia.UI {
             _webControl.WindowClose += OnWebControlWindowClose;
         }
 
-        private void OnWebControlWindowClose(object sender, WindowCloseEventArgs e) { }
+        private void OnWebControlWindowClose(object sender, WindowCloseEventArgs e) {
+
+        }
 
         private void OnWebControlShowCreatedWebView(object sender, ShowCreatedWebViewEventArgs e) {
 

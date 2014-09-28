@@ -363,7 +363,6 @@
     <Compile Include="UI\Commands\FocusSearchBoxCommand.cs" />
     <Compile Include="UI\Commands\ForwardCommand.cs" />
     <Compile Include="UI\Commands\MoveCommand.cs" />
-    <Compile Include="UI\Commands\PrintCommand.cs" />
     <Compile Include="UI\Commands\ReplyCommand.cs" />
     <Compile Include="UI\Commands\ComposeCommand.cs" />
     <Compile Include="UI\Converters\BooleanToBrushConverter.cs" />

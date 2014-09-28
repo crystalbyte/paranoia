@@ -126,7 +126,14 @@
                                         <Separator Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                         <MenuItem Command="{Binding DeleteAccountCommand}" Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <MenuItem.Icon>
-                                                <Image Height="16" Source="/Assets/delete.png" />
+                                                <Rectangle Width="16"
+                                                           Height="16"
+                                                           Fill="{DynamicResource Metro.FailureBrush}">
+                                                    <Rectangle.OpacityMask>
+                                                        <ImageBrush ImageSource="/Assets/delete.png" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+
                                             </MenuItem.Icon>
                                             <MenuItem.Header>
                                                 <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
@@ -412,17 +419,6 @@
                                 </MenuItem.Header>
                             </MenuItem>
                             <Separator />
-                            <MenuItem Command="{Binding PrintCommand}" InputGestureText="Ctrl + P">
-                                <MenuItem.Icon>
-                                    <Image Height="16"
-                                           Source="/Assets/print.png"
-                                           UseLayoutRounding="True" />
-                                </MenuItem.Icon>
-                                <MenuItem.Header>
-                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Print}" />
-                                </MenuItem.Header>
-                            </MenuItem>
-                            <Separator />
                             <MenuItem Command="{Binding DeleteMessagesCommand}" InputGestureText="Entf">
                                 <MenuItem.Icon>
                                     <Image Height="16"
@@ -525,19 +521,13 @@
                                            Margin="0,0,6,0"
                                            VerticalAlignment="Center"
                                            FontSize="{DynamicResource Metro.NormalFontSize}"
+                                           Foreground="{Binding IsSeen,
+                                                                Converter={StaticResource SeenBrushConverter}}"
                                            Text="{Binding Subject,
                                                           ConverterParameter=...,
                                                           Converter={StaticResource NullOrEmptyFormatter}}"
                                            TextTrimming="CharacterEllipsis"
-                                           TextWrapping="NoWrap">
-                                    <TextBlock.Foreground>
-                                        <Binding Path="IsNotSeen">
-                                            <Binding.Converter>
-                                                <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.AccentBrush}" />
-                                            </Binding.Converter>
-                                        </Binding>
-                                    </TextBlock.Foreground>
-                                </TextBlock>
+                                           TextWrapping="NoWrap" />
                                 <StackPanel Grid.Row="0"
                                             Grid.Column="2"
                                             Margin="0,0,4,0"
@@ -675,6 +665,11 @@
                             <Image Width="18"
                                    Margin="0,0,0,0"
                                    Source="/Assets/delete.png" />
+                        </ui:MetroCircleButton>
+                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.NormalTextBrush}" Command="ApplicationCommands.Print">
+                            <Image Width="18"
+                                   Margin="0,0,0,0"
+                                   Source="/Assets/print.png" />
                         </ui:MetroCircleButton>
                     </StackPanel>
                     <ListView Grid.Row="3"

@@ -51,7 +51,6 @@ namespace Crystalbyte.Paranoia {
         private readonly ObservableCollection<MailAccountContext> _accounts;
         private readonly ObservableCollection<MailContactContext> _contacts;
         private readonly ObservableCollection<NavigationContext> _navigationOptions;
-        private readonly ICommand _printCommand;
         private readonly ICommand _resetZoomCommand;
         private readonly ICommand _replyCommand;
         private readonly ICommand _composeCommand;
@@ -91,7 +90,6 @@ namespace Crystalbyte.Paranoia {
                 new NavigationContext { Title = Resources.ContactsTitle, TargetUri = typeof(ContactsPage).ToPageUri() }
             };
 
-            _printCommand = new PrintCommand(this);
             _replyCommand = new ReplyCommand(this);
             _composeCommand = new ComposeCommand(this);
             _forwardCommand = new ForwardCommand(this);
@@ -123,7 +121,7 @@ namespace Crystalbyte.Paranoia {
                 action => QueryStringChanged += action,
                 action => QueryStringChanged -= action)
                 .Select(x => x.EventArgs)
-                .Where(x => (x.Text.Length > 2 || string.IsNullOrEmpty(x.Text)))
+                .Where(x => (x.Text.Length > 1 || string.IsNullOrEmpty(x.Text)))
                 .Throttle(TimeSpan.FromMilliseconds(200))
                 .Select(x => x.Text)
                 .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
@@ -133,7 +131,7 @@ namespace Crystalbyte.Paranoia {
                 action => ContactQueryStringChanged += action,
                 action => ContactQueryStringChanged -= action)
                 .Select(x => x.EventArgs)
-                .Where(x => (x.Text.Length > 2 || string.IsNullOrEmpty(x.Text)))
+                .Where(x => (x.Text.Length > 1 || string.IsNullOrEmpty(x.Text)))
                 .Throttle(TimeSpan.FromMilliseconds(200))
                 .Select(x => x.Text)
                 .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
@@ -580,10 +578,6 @@ namespace Crystalbyte.Paranoia {
 
         public ICommand ResetZoomCommand {
             get { return _resetZoomCommand; }
-        }
-
-        public ICommand PrintCommand {
-            get { return _printCommand; }
         }
 
         public ICommand RefreshKeysCommand {
