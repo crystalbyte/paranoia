@@ -25,7 +25,7 @@ namespace Crystalbyte.Paranoia.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Verdana")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Calibri")]
         public string HtmlDefaultFontFamily {
             get {
                 return ((string)(this["HtmlDefaultFontFamily"]));
@@ -37,7 +37,7 @@ namespace Crystalbyte.Paranoia.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        [global::System.Configuration.DefaultSettingValueAttribute("12")]
         public int HtmlDefaultFontSize {
             get {
                 return ((int)(this["HtmlDefaultFontSize"]));
@@ -113,6 +113,18 @@ namespace Crystalbyte.Paranoia.Properties {
         public global::System.Collections.Specialized.StringCollection NonWebCharsets {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["NonWebCharsets"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("beach")]
+        public string CustomTheme {
+            get {
+                return ((string)(this["CustomTheme"]));
+            }
+            set {
+                this["CustomTheme"] = value;
             }
         }
     }

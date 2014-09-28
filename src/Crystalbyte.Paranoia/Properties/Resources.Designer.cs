@@ -106,6 +106,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Advanced.
+        /// </summary>
+        public static string Advanced {
+            get {
+                return ResourceManager.GetString("Advanced", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string All {
@@ -640,7 +649,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Flag.
+        ///   Looks up a localized string similar to Flagged.
         /// </summary>
         public static string MarkAsFlagged {
             get {
@@ -649,7 +658,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove Flags.
+        ///   Looks up a localized string similar to Not Flagged.
         /// </summary>
         public static string MarkAsNotFlagged {
             get {
@@ -658,7 +667,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mark as not seen.
+        ///   Looks up a localized string similar to Not Seen.
         /// </summary>
         public static string MarkAsNotSeen {
             get {
@@ -667,7 +676,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mark as seen.
+        ///   Looks up a localized string similar to Seen.
         /// </summary>
         public static string MarkAsSeen {
             get {

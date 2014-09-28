@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="HtmlDefaultFontFamily" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Verdana</Value>
+      <Value Profile="(Default)">Calibri</Value>
     </Setting>
     <Setting Name="HtmlDefaultFontSize" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">10</Value>
+      <Value Profile="(Default)">12</Value>
     </Setting>
     <Setting Name="KeyServer" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://88.198.19.85:15123</Value>
@@ -33,6 +33,9 @@
     <Setting Name="NonWebCharsets" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" /&gt;</Value>
+    </Setting>
+    <Setting Name="CustomTheme" Type="System.String" Scope="User">
+      <Value Profile="(Default)">beach</Value>
     </Setting>
   </Settings>
 </SettingsFile>

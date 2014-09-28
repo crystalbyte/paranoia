@@ -17,11 +17,14 @@
     <!--  <Color x:Key="Metro.AccentColor">BlueViolet</Color>  -->
     <SolidColorBrush x:Key="Metro.AccentBrush" Color="{StaticResource Metro.AccentColor}" />
 
-    <Color x:Key="Metro.FailureColor">Tomato</Color>
+    <Color x:Key="Metro.FailureColor">Red</Color>
     <SolidColorBrush x:Key="Metro.FailureBrush" Color="{StaticResource Metro.FailureColor}" />
 
     <Color x:Key="Metro.SuccessColor">ForestGreen</Color>
     <SolidColorBrush x:Key="Metro.SuccessBrush" Color="{StaticResource Metro.SuccessColor}" />
+
+    <Color x:Key="Metro.StarColor">Orange</Color>
+    <SolidColorBrush x:Key="Metro.StarBrush" Color="{StaticResource Metro.StarColor}" />
 
     <!--  Window  -->
     <Color x:Key="Metro.WindowBackgroundColor">#0B0B0C</Color>

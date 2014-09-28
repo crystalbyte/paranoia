@@ -133,7 +133,6 @@
                                                         <ImageBrush ImageSource="/Assets/delete.png" />
                                                     </Rectangle.OpacityMask>
                                                 </Rectangle>
-
                                             </MenuItem.Icon>
                                             <MenuItem.Header>
                                                 <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
@@ -421,55 +420,68 @@
                             <Separator />
                             <MenuItem Command="{Binding DeleteMessagesCommand}" InputGestureText="Entf">
                                 <MenuItem.Icon>
-                                    <Image Height="16"
-                                           Source="/Assets/delete.png"
-                                           UseLayoutRounding="True" />
+                                    <Rectangle Width="16"
+                                               Height="16"
+                                               Fill="{DynamicResource Metro.FailureBrush}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/delete.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
                                 </MenuItem.Icon>
                                 <MenuItem.Header>
                                     <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Delete}" />
                                 </MenuItem.Header>
                             </MenuItem>
                             <Separator />
-                            <MenuItem Command="{Binding MarkAsFlaggedCommand}">
-                                <MenuItem.Icon>
-                                    <Image Height="16"
-                                           Source="/Assets/star.full.png"
-                                           UseLayoutRounding="True" />
-                                </MenuItem.Icon>
+                            <MenuItem>
                                 <MenuItem.Header>
-                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsFlagged}" />
+                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Advanced}" />
                                 </MenuItem.Header>
-                            </MenuItem>
-                            <MenuItem Command="{Binding MarkAsNotFlaggedCommand}">
-                                <MenuItem.Icon>
-                                    <Image Height="16"
-                                           Source="/Assets/star.png"
-                                           UseLayoutRounding="True" />
-                                </MenuItem.Icon>
-                                <MenuItem.Header>
-                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsNotFlagged}" />
-                                </MenuItem.Header>
-                            </MenuItem>
-                            <Separator />
-                            <MenuItem Command="{Binding MarkAsSeenCommand}">
-                                <MenuItem.Icon>
-                                    <Image Height="16"
-                                           Source="/Assets/seen.png"
-                                           UseLayoutRounding="True" />
-                                </MenuItem.Icon>
-                                <MenuItem.Header>
-                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsSeen}" />
-                                </MenuItem.Header>
-                            </MenuItem>
-                            <MenuItem Command="{Binding MarkAsNotSeenCommand}">
-                                <MenuItem.Icon>
-                                    <Image Height="16"
-                                           Source="/Assets/message.png"
-                                           UseLayoutRounding="True" />
-                                </MenuItem.Icon>
-                                <MenuItem.Header>
-                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsNotSeen}" />
-                                </MenuItem.Header>
+                                <MenuItem Command="{Binding MarkAsFlaggedCommand}">
+                                    <MenuItem.Icon>
+                                        <Rectangle Width="16"
+                                                   Height="16"
+                                                   Fill="{DynamicResource Metro.StarBrush}">
+                                            <Rectangle.OpacityMask>
+                                                <ImageBrush ImageSource="/Assets/star.full.png" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsFlagged}" />
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem Command="{Binding MarkAsNotFlaggedCommand}">
+                                    <MenuItem.Icon>
+                                        <Image Height="16"
+                                               Source="/Assets/star.png"
+                                               UseLayoutRounding="True" />
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsNotFlagged}" />
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Command="{Binding MarkAsSeenCommand}">
+                                    <MenuItem.Icon>
+                                        <Image Height="16"
+                                               Source="/Assets/seen.png"
+                                               UseLayoutRounding="True" />
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsSeen}" />
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem Command="{Binding MarkAsNotSeenCommand}">
+                                    <MenuItem.Icon>
+                                        <Image Height="16"
+                                               Source="/Assets/message.png"
+                                               UseLayoutRounding="True" />
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsNotSeen}" />
+                                    </MenuItem.Header>
+                                </MenuItem>
                             </MenuItem>
                         </ContextMenu>
                     </ListView.ContextMenu>
@@ -534,10 +546,15 @@
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
                                             Orientation="Horizontal">
-                                    <Image Width="16"
-                                           Source="/Assets/star.full.png"
-                                           Visibility="{Binding IsFlagged,
-                                                                Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                    <Rectangle Width="16"
+                                               Height="16"
+                                               Fill="{DynamicResource Metro.StarBrush}"
+                                               Visibility="{Binding IsFlagged,
+                                                                    Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/star.full.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
                                 </StackPanel>
                                 <TextBlock x:Name="FromBlock"
                                            Grid.Row="0"
@@ -662,9 +679,13 @@
                                    Source="/Assets/forward.png" />
                         </ui:MetroCircleButton>
                         <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.NormalTextBrush}" Command="{Binding DeleteMessagesCommand}">
-                            <Image Width="18"
-                                   Margin="0,0,0,0"
-                                   Source="/Assets/delete.png" />
+                            <Rectangle Width="18"
+                                       Height="16"
+                                       Fill="{DynamicResource Metro.FailureBrush}">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/Assets/delete.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
                         </ui:MetroCircleButton>
                         <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.NormalTextBrush}" Command="ApplicationCommands.Print">
                             <Image Width="18"

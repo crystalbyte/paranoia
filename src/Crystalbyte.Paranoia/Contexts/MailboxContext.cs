@@ -632,6 +632,7 @@ namespace Crystalbyte.Paranoia {
         private async Task<IEnumerable<MailMessageModel>> SyncNonChallengesAsync(ImapMailbox mailbox, long uid) {
             var criteria = string.Format("{0}:* NOT HEADER \"{1}\" \"{2}\"", uid, ParanoiaHeaderKeys.Type, MailType.Challenge);
             var uids = await mailbox.SearchAsync(criteria);
+
             if (!uids.Any()) {
                 return new MailMessageModel[0];
             }

@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Composition;
 using System.Composition.Hosting;
 using System.Configuration;
+using System.IO;
 using System.Net;
 using System.Threading;
 using System.Windows;
@@ -144,6 +145,33 @@ namespace Crystalbyte.Paranoia {
             ThemeDictionary = new ResourceDictionary {
                 Source = new Uri("/Themes/Metro.Resources.xaml", UriKind.Relative)
             };
+
+            var theme = Settings.Default.CustomTheme;
+            if (string.IsNullOrWhiteSpace(theme)) {
+                return;
+            }
+
+            var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var themePath = Path.Combine(localAppData, theme);
+            if (!Directory.Exists(themePath)) {
+                return;
+            }
+
+            ApplyCustomTheme(themePath);
+        }
+
+        private static void ApplyCustomTheme(string path) {
+            var file = new FileInfo(Path.Combine(path, "theme.info"));
+            if (!file.Exists) {
+                return;
+            }
+
+            var lines = File.ReadLines(file.FullName);
+            foreach (var line in lines) {
+                var split = line.Split(':');
+            }
+
+            //TODO: to be continued ...
         }
 
         private void Compose() {
