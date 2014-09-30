@@ -3,6 +3,7 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
                 xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+                x:Name="Window"
                 Width="900"
                 Height="600"
                 MinWidth="450"
@@ -16,6 +17,10 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0"
+                   VerticalAlignment="Center"
+                   Text="{Binding Title,
+                                  ElementName=Window}" />
         <Grid Grid.Row="0"
               HorizontalAlignment="Right"
               VerticalAlignment="Top"

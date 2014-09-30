@@ -4,15 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Media.Animation;
+using System.Windows.Media;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Drawing;
 
 #endregion
 
@@ -27,7 +23,15 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
             var context = new MailCompositionContext();
             context.DocumentTextRequested += OnDocumentTextRequested;
+            context.Finished += OnFinished;
             DataContext = context;
+        }
+
+        private void OnFinished(object sender, EventArgs e) {
+            var window = GetParentWindow(this);
+            if (window != null) {
+                window.Close();
+            }
         }
 
         private void OnDocumentTextRequested(object sender, DocumentTextRequestedEventArgs e) {
@@ -111,6 +115,17 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 return;
 
             files.ToList().ForEach(x => context.Attachments.Add(new AttachmentContext(context, x)));
+        }
+
+        public static Window GetParentWindow(DependencyObject child) {
+            var parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) {
+                return null;
+            }
+
+            var parent = parentObject as Window;
+            return parent ?? GetParentWindow(parentObject);
         }
     }
 }

@@ -78,7 +78,7 @@ namespace Crystalbyte.Paranoia {
             get { return _sendCommand; }
         }
 
-        public ICommand AddattachmentCommand {
+        public ICommand AddAttachmentCommand {
             get { return _addAttachmentCommand; }
         }
 

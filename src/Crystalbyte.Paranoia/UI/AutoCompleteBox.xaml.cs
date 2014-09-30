@@ -270,6 +270,8 @@ namespace Crystalbyte.Paranoia.UI {
 
             _autoCompletePopup = (Popup)Template.FindName(AutoCompletePopupPartName, this);
             _autoCompleteHost = (ListView)Template.FindName(AutoCompleteHostPartName, this);
+
+            InvalidateWatermark();
         }
 
         #endregion

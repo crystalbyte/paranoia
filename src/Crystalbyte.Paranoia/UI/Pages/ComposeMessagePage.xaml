@@ -8,11 +8,10 @@
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
       xmlns:system="clr-namespace:System;assembly=mscorlib"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
-      Title="{x:Static properties:Resources.ComposeMessagePageTitle}"
       FocusManager.FocusedElement="{Binding ElementName=RecipientsBox}"
       d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}"
-      d:DesignHeight="300"
-      d:DesignWidth="300"
+      d:DesignHeight="480"
+      d:DesignWidth="768"
       mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="ContactSuggestionTemplate" DataType="paranoia:MailContactContext">
@@ -93,13 +92,25 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Grid.Column="3"
+                    Margin="6,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+            <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.NormalTextBrush}" Command="{Binding AddAttachmentCommand}">
+                <Image Width="18" Source="/Assets/attachment.png" />
+            </ui:MetroCircleButton>
+        </StackPanel>
         <Button Grid.Row="1"
                 Grid.RowSpan="3"
                 Grid.Column="0"
                 Width="80"
-                Margin="0,3,6,3"
+                Margin="0,3,5,3"
                 VerticalAlignment="Stretch"
-                BorderBrush="{DynamicResource Metro.ControlBorderBrush}">
+                BorderBrush="{DynamicResource Metro.ControlBorderBrush}"
+                Command="{Binding SendCommand}"
+                TabIndex="4">
             <Image Width="18" Source="/Assets/message.png" />
         </Button>
         <ComboBox x:Name="AccountComboBox"
@@ -175,11 +186,13 @@
                                 Grid.RowSpan="2"
                                 Grid.Column="0"
                                 HorizontalAlignment="Stretch"
+                                Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
                                 ItemTemplate="{StaticResource ContactSuggestionTemplate}"
                                 ItemsSource="{Binding Suggestions}"
                                 ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
                                 SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
                                 StringTokenTemplate="{StaticResource StringTokenTemplate}"
+                                TabIndex="0"
                                 TokenTemplate="{StaticResource ContactTokenTemplate}"
                                 Watermark="{x:Static properties:Resources.To}" />
             <ToggleButton x:Name="CopyButton"
@@ -229,6 +242,8 @@
                          Grid.Row="3"
                          Grid.Column="1"
                          Grid.ColumnSpan="3"
+                         Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
+                         TabIndex="1"
                          Text="{Binding Subject,
                                         Mode=TwoWay}"
                          Watermark="{x:Static properties:Resources.Subject}" />
@@ -275,11 +290,11 @@
                 </ItemContainerTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Border Grid.Row="6"
+        <Border Grid.Row="4"
                 Grid.Column="0"
-                Grid.ColumnSpan="2"
+                Grid.ColumnSpan="4"
                 Margin="0,3,0,0"
-                Background="{DynamicResource Metro.ControlBackgroundBrush}"
+                Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
                 BorderThickness="0"
                 Padding="0">
             <ui:HtmlControl x:Name="HtmlControl"
@@ -293,7 +308,8 @@
                             RenderTransformOrigin="0.5,0.5"
                             Source="{Binding Source,
                                              Mode=TwoWay}"
-                            Visibility="Collapsed" />
+                            TabIndex="3"
+                            d:IsHidden="True" />
         </Border>
     </Grid>
 </Page>
