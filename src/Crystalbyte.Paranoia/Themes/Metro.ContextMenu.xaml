@@ -1,13 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="Separator">
-        <Setter Property="Margin" Value="0,1.4,0,1.4" />
+        <Setter Property="Margin" Value="0,2.2,0,2.2" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Separator">
                     <Rectangle Height="1"
-                               Margin="30,0,0,0"
+                               Margin="34,0,0,0"
                                HorizontalAlignment="Stretch"
                                Fill="#333337"
                                RenderOptions.EdgeMode="Aliased"
@@ -127,7 +127,7 @@
                                   RecognizesAccessKey="True" />
                 <TextBlock x:Name="InputGestureText"
                            Grid.Column="2"
-                           Margin="5,2,2,2"
+                           Margin="5,0,0,0"
                            VerticalAlignment="Center"
                            DockPanel.Dock="Right"
                            FontSize="{DynamicResource Metro.SmallFontSize}"
@@ -184,7 +184,7 @@
                                   RecognizesAccessKey="True" />
                 <TextBlock x:Name="InputGestureText"
                            Grid.Column="2"
-                           Margin="5,2,2,2"
+                           Margin="5,0,0,0"
                            DockPanel.Dock="Right"
                            FontSize="{DynamicResource Metro.SmallFontSize}"
                            RenderOptions.ClearTypeHint="Enabled"
@@ -220,7 +220,7 @@
                 <Setter TargetName="Border" Property="Background" Value="{DynamicResource Metro.HoverBrush}" />
             </Trigger>
             <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
-                <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3" />
+                <Setter TargetName="SubmenuBorder" Property="Padding" Value="2" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Foreground" Value="{DynamicResource Metro.DisabledBrush}" />
@@ -230,7 +230,7 @@
     </ControlTemplate>
 
     <Style TargetType="MenuItem">
-        <Setter Property="Padding" Value="3,1,3,1" />
+        <Setter Property="Padding" Value="3" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="OverridesDefaultStyle" Value="True" />

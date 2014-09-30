@@ -64,7 +64,6 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private async void OnTreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
-
             if (!IsLoaded) {
                 return;
             }

@@ -152,9 +152,7 @@
         <KeyBinding Key="N"
                     Command="{Binding ComposeCommand}"
                     Modifiers="Control" />
-        <KeyBinding Key="P"
-                    Command="{Binding PrintCommand}"
-                    Modifiers="Control" />
+        <KeyBinding Key="Print" Command="ApplicationCommands.Print" />
         <KeyBinding Key="Escape" Command="ui:WindowCommands.CloseFlyOut" />
     </ui:MetroWindow.InputBindings>
     <Grid x:Name="LayoutRoot">

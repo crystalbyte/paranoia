@@ -70,7 +70,7 @@ namespace Crystalbyte.Paranoia {
         private bool _isSortAscending;
         private string _queryContactString;
         private bool _isAnimating;
-        
+
 
         #endregion
 
@@ -271,14 +271,17 @@ namespace Crystalbyte.Paranoia {
         /// <param name="source">The message source to query.</param>
         /// <returns>Returns a task object.</returns>
         private async Task RequestMessagesAsync(IMessageSource source) {
-            Application.Current.AssertUIThread();
+            Application.Current.AssertBackgroundThread();
 
-            _messages.Clear();
+            Application.Current.Dispatcher.InvokeAsync(() => _messages.Clear());
             var messages = await source.GetMessagesAsync();
-            _messages.DeferNotifications = true;
-            _messages.AddRange(messages);
-            _messages.DeferNotifications = false;
-            _messages.NotifyCollectionChanged();
+            Application.Current.Dispatcher.InvokeAsync(() => {
+                _messages.DeferNotifications = true;
+                _messages.AddRange(messages);
+                _messages.DeferNotifications = false;
+                _messages.NotifyCollectionChanged();
+            });
+
         }
 
         #endregion
@@ -304,7 +307,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task RefreshViewForSelectedMailbox() {
-            await RequestMessagesAsync(SelectedMailbox);
+            await Task.Run(() => RequestMessagesAsync(SelectedMailbox));
             await Task.Run(() => SelectedMailbox.SyncMessagesAsync());
         }
 
@@ -391,9 +394,9 @@ namespace Crystalbyte.Paranoia {
 
         private async Task RefreshViewChangedQueryString(string query) {
             if (string.IsNullOrWhiteSpace(query)) {
-                await RequestMessagesAsync(SelectedMailbox);
+                await Task.Run(() => RequestMessagesAsync(SelectedMailbox));
             } else {
-                await RequestMessagesAsync(new QueryContext(query));
+                await Task.Run(() => RequestMessagesAsync(new QueryContext(query)));
             }
         }
 
@@ -518,7 +521,7 @@ namespace Crystalbyte.Paranoia {
             }
 
             mailbox.ShowAllMessages = ShowAllMessages;
-            await RequestMessagesAsync(mailbox);
+            await Task.Run(() => RequestMessagesAsync(mailbox));
         }
 
         public string QueryString {
@@ -641,7 +644,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         public PublicKeyCrypto KeyContainer {
-            get; private set;
+            get;
+            private set;
         }
 
         public IEnumerable<MailMessageContext> SelectedMessages {

@@ -547,8 +547,6 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task<ICollection<MailMessageContext>> SyncMessagesAsync() {
-            Application.Current.AssertBackgroundThread();
-
             ICollection<MailMessageContext> contexts;
 
             lock (_syncMessagesMutex) {
@@ -616,6 +614,7 @@ namespace Crystalbyte.Paranoia {
                 _totalEnvelopeCount = value;
                 RaisePropertyChanged(() => TotalEnvelopeCount);
             }
+             
         }
 
         public int FetchedEnvelopeCount {
