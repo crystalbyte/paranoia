@@ -20,47 +20,24 @@ namespace Crystalbyte.Paranoia.UI.Pages {
     /// <summary>
     ///     Interaction logic for WriteMessagePage.xaml
     /// </summary>
-    public partial class ComposeMessagePage : INavigationAware, IAnimationAware {
-        private MetroPageHostWindow _pageWindow;
+    public partial class ComposeMessagePage : INavigationAware {
 
         public ComposeMessagePage() {
             InitializeComponent();
 
             var context = new MailCompositionContext();
-            context.Finished += OnShutdownRequested;
             context.DocumentTextRequested += OnDocumentTextRequested;
             DataContext = context;
-
-            var window = (MainWindow)Application.Current.MainWindow;
-            window.FlyOutVisibilityChanged += OnFlyOutVisibilityChanged;
-        }
-
-        private void OnShutdownRequested(object sender, EventArgs e) {
-            if (_pageWindow == null) {
-                App.Context.CloseFlyOut();
-                return;
-            }
-
-            _pageWindow.Close();
-
         }
 
         private void OnDocumentTextRequested(object sender, DocumentTextRequestedEventArgs e) {
             var html = HtmlControl.GetEditorDocument();
-
             e.Document = html;
         }
 
         private async void Reset() {
             var composition = (MailCompositionContext)DataContext;
             await composition.ResetAsync();
-        }
-
-        private void OnFlyOutVisibilityChanged(object sender, EventArgs e) {
-            var window = (MainWindow)Application.Current.MainWindow;
-            if (!window.IsFlyOutVisible) {
-                RecipientsBox.Close();
-            }
         }
 
         public MailCompositionContext Composition {
@@ -134,22 +111,6 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 return;
 
             files.ToList().ForEach(x => context.Attachments.Add(new AttachmentContext(context, x)));
-        }
-
-        #region Implementation of IAnimationAware
-
-        public void OnAnimationFinished() {
-            HtmlControl.Visibility = Visibility.Visible;
-        }
-
-        #endregion
-
-        private void MetroCircleButton_Click(object sender, RoutedEventArgs e) {
-            _pageWindow = new MetroPageHostWindow();
-            _pageWindow.SetContent(this);
-            _pageWindow.Show();
-
-            App.Context.CloseFlyOut();
         }
     }
 }

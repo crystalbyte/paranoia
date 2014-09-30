@@ -15,7 +15,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             InitializeComponent();
             DataContext = new CreateContactContext();
 
-            CommandBindings.Add(new CommandBinding(PageCommands.Cancel, OnCancel));
+            CommandBindings.Add(new CommandBinding(NavigationCommands.Close, OnCancel));
             NameTextBox.TextChanged += OnNameTextBoxTextChanged;
             Loaded += OnLoaded;
         }

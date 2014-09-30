@@ -174,13 +174,13 @@
     </ApplicationDefinition>
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="AudioPlayer.cs" />
+    <Compile Include="CompositionWindow.xaml.cs">
+      <DependentUpon>CompositionWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Contexts\AttachmentContext.cs" />
     <Compile Include="Contexts\CreateMailboxContext.cs" />
     <Compile Include="IMailboxCreator.cs" />
     <Compile Include="MailboxRoles.cs" />
-    <Compile Include="MetroPageHostWindow.xaml.cs">
-      <DependentUpon>MetroPageHostWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\Commands\MarkAsFlaggedCommand.cs" />
     <Compile Include="UI\Commands\MarkAsNotFlaggedCommand.cs" />
     <Compile Include="UI\Commands\UnblockContactsCommand.cs" />
@@ -244,11 +244,16 @@
     </Compile>
     <Compile Include="UI\IAnimationAware.cs" />
     <Compile Include="UI\IconExtensions.cs" />
+    <Compile Include="UI\MailboxCommands.cs" />
+    <Compile Include="UI\MessageCommands.cs" />
     <Compile Include="UI\MetroProgressBar.xaml.cs">
       <DependentUpon>MetroProgressBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\MetroTextBox.xaml.cs">
+      <DependentUpon>MetroTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\NavigationCommands.cs" />
     <Compile Include="UI\NavigationStore.cs" />
-    <Compile Include="UI\PageCommands.cs" />
     <Compile Include="UI\Pages\AccountDetailsPage.xaml.cs">
       <DependentUpon>AccountDetailsPage.xaml</DependentUpon>
     </Compile>
@@ -276,9 +281,9 @@
     <Compile Include="UI\ItemsSourceRequestedEventArgs.cs" />
     <Compile Include="UI\ITokenMatcher.cs" />
     <Compile Include="UI\MailAddressTokenMatcher.cs" />
-    <Page Include="MetroPageHostWindow.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="CompositionWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="NotificationWindow.xaml">
       <SubType>Designer</SubType>
@@ -363,8 +368,6 @@
     <Compile Include="UI\Commands\FocusSearchBoxCommand.cs" />
     <Compile Include="UI\Commands\ForwardCommand.cs" />
     <Compile Include="UI\Commands\MoveCommand.cs" />
-    <Compile Include="UI\Commands\ReplyCommand.cs" />
-    <Compile Include="UI\Commands\ComposeCommand.cs" />
     <Compile Include="UI\Converters\BooleanToBrushConverter.cs" />
     <Compile Include="UI\Converters\BooleanToOpacityConverter.cs" />
     <Compile Include="UI\Converters\BooleanToStringConverter.cs" />
@@ -454,6 +457,10 @@
     <Page Include="UI\MetroProgressBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MetroTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\MetroWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -609,7 +616,6 @@
     <Resource Include="Assets\folder.png" />
     <Resource Include="Assets\sunrise.jpg" />
     <Resource Include="Assets\earth.jpg" />
-    <Resource Include="Assets\attach.png" />
     <Resource Include="Assets\message.copy.png" />
     <Resource Include="Assets\security.png" />
     <Resource Include="Assets\block.png" />
@@ -622,6 +628,7 @@
     <Resource Include="Assets\star.png" />
     <Resource Include="Assets\star.full.png" />
     <Resource Include="Assets\paper.png" />
+    <Resource Include="Assets\attachment.png" />
     <Content Include="Resources\ckeditor.paranoia\paranoia.js" />
     <Content Include="Resources\ckeditor\adapters\jquery.js" />
     <Content Include="Resources\ckeditor\build-config.js" />

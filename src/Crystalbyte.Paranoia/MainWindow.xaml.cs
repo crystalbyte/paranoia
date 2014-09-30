@@ -39,14 +39,8 @@ namespace Crystalbyte.Paranoia {
             InitializeComponent();
             DataContext = App.Context;
 
-            CommandBindings.Add(new CommandBinding(WindowCommands.CloseFlyOut, OnCloseFlyOut));
-            CommandBindings.Add(new CommandBinding(WindowCommands.OpenAccountMenu, OnOpenAccountMenu));
-
             Loaded += OnLoaded;
-        }
-
-        private void OnOpenAccountMenu(object sender, ExecutedRoutedEventArgs e) {
-
+            CommandBindings.Add(new CommandBinding(WindowCommands.CloseFlyOut, OnCloseFlyOut));
         }
 
         private static async void OnLoaded(object sender, RoutedEventArgs e) {

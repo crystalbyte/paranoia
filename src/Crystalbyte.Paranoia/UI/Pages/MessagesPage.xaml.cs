@@ -1,13 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using Awesomium.Core;
 using NLog;
 
 namespace Crystalbyte.Paranoia.UI.Pages {
@@ -24,8 +20,25 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             Unloaded += OnUnloaded;
 
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint, OnCanPrint));
+            CommandBindings.Add(new CommandBinding(MessageCommands.Compose, OnCompose));
             App.Context.SortOrderChanged += OnSortOrderChanged;
 
+        }
+
+        private static void OnCompose(object sender, ExecutedRoutedEventArgs e) {
+            var owner = Application.Current.MainWindow;
+            var window = new CompositionWindow {
+                Source = typeof(ComposeMessagePage).ToPageUri("?action=new"),
+                Owner = owner,
+                Height = owner.Height > 500 ? owner.Height * 0.9 : 500,
+                Width = owner.Width > 800 ? owner.Width * 0.9 : 800,
+            };
+
+            if (owner.WindowState == WindowState.Maximized) {
+                window.WindowState = WindowState.Maximized;
+            }
+
+            window.Show();
         }
 
         private void OnPrint(object sender, ExecutedRoutedEventArgs e) {

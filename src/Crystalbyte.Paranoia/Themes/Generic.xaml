@@ -5,6 +5,7 @@
         <ResourceDictionary Source="/Paranoia;component/UI/MetroCircleButton.xaml" />
         <ResourceDictionary Source="/Paranoia;component/UI/AutoCompleteBox.xaml" />
         <ResourceDictionary Source="/Paranoia;component/UI/MetroWindow.xaml" />
+        <ResourceDictionary Source="/Paranoia;component/UI/MetroTextBox.xaml" />
         <ResourceDictionary Source="/Paranoia;component/UI/MetroProgressBar.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

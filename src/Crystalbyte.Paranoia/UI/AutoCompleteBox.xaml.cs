@@ -16,8 +16,8 @@ using System.Windows.Input;
 #endregion
 
 namespace Crystalbyte.Paranoia.UI {
-    [TemplatePart(Name = AutoCompletePopupPartName, Type = typeof (Popup))]
-    [TemplatePart(Name = AutoCompleteHostPartName, Type = typeof (ListView))]
+    [TemplatePart(Name = AutoCompletePopupPartName, Type = typeof(Popup))]
+    [TemplatePart(Name = AutoCompleteHostPartName, Type = typeof(ListView))]
     public sealed class AutoCompleteBox : RichTextBox {
 
         #region Xaml Support
@@ -40,13 +40,13 @@ namespace Crystalbyte.Paranoia.UI {
         #region Construction
 
         static AutoCompleteBox() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (AutoCompleteBox),
-                new FrameworkPropertyMetadata(typeof (AutoCompleteBox)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(AutoCompleteBox),
+                new FrameworkPropertyMetadata(typeof(AutoCompleteBox)));
         }
 
         public AutoCompleteBox() {
             _selectedValues = new ObservableCollection<object>();
-            _tokenMatchers = new List<ITokenMatcher> {new MailAddressTokenMatcher()};
+            _tokenMatchers = new List<ITokenMatcher> { new MailAddressTokenMatcher() };
 
             CommandBindings.Add(new CommandBinding(AutoCompleteBoxCommands.Select, OnSelectContact));
             SelectedValues = _selectedValues;
@@ -88,14 +88,44 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Dependency Properties
 
+        public bool IsWatermarkVisible {
+            get { return (bool)GetValue(IsWatermarkVisibleProperty); }
+            set { SetValue(IsWatermarkVisibleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsWatermarkVisible.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsWatermarkVisibleProperty =
+            DependencyProperty.Register("IsWatermarkVisible", typeof(bool), typeof(AutoCompleteBox), new PropertyMetadata(false));
+
+
+
+        public object Watermark {
+            get { return GetValue(WatermarkProperty); }
+            set { SetValue(WatermarkProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty WatermarkProperty =
+            DependencyProperty.Register("Watermark", typeof(object), typeof(AutoCompleteBox), new PropertyMetadata(null));
+
+
+        public DataTemplate WatermarkTemplate {
+            get { return (DataTemplate)GetValue(WatermarkTemplateProperty); }
+            set { SetValue(WatermarkTemplateProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for WatermarkTemplate.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty WatermarkTemplateProperty =
+            DependencyProperty.Register("WatermarkTemplate", typeof(DataTemplate), typeof(AutoCompleteBox), new PropertyMetadata(null));
+
         public IEnumerable<object> SelectedValues {
-            get { return (IEnumerable<object>) GetValue(SelectedValuesProperty); }
+            get { return (IEnumerable<object>)GetValue(SelectedValuesProperty); }
             set { SetValue(SelectedValuesProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for SelectedValues.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedValuesProperty =
-            DependencyProperty.Register("SelectedValues", typeof (IEnumerable<object>), typeof (AutoCompleteBox),
+            DependencyProperty.Register("SelectedValues", typeof(IEnumerable<object>), typeof(AutoCompleteBox),
                 new PropertyMetadata(null));
 
 
@@ -106,47 +136,47 @@ namespace Crystalbyte.Paranoia.UI {
 
         // Using a DependencyProperty as the backing store for ItemsSource.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register("ItemsSource", typeof (object), typeof (AutoCompleteBox),
+            DependencyProperty.Register("ItemsSource", typeof(object), typeof(AutoCompleteBox),
                 new PropertyMetadata(null));
 
         public DataTemplate ItemTemplate {
-            get { return (DataTemplate) GetValue(ItemTemplateProperty); }
+            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
             set { SetValue(ItemTemplateProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for ItemTemplate.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ItemTemplateProperty =
-            DependencyProperty.Register("ItemTemplate", typeof (DataTemplate), typeof (AutoCompleteBox),
+            DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(AutoCompleteBox),
                 new PropertyMetadata(null));
 
         public ItemsPanelTemplate ItemsPanel {
-            get { return (ItemsPanelTemplate) GetValue(ItemsPanelProperty); }
+            get { return (ItemsPanelTemplate)GetValue(ItemsPanelProperty); }
             set { SetValue(ItemsPanelProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for ItemsPanel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ItemsPanelProperty =
-            DependencyProperty.Register("ItemsPanel", typeof (ItemsPanelTemplate), typeof (AutoCompleteBox),
+            DependencyProperty.Register("ItemsPanel", typeof(ItemsPanelTemplate), typeof(AutoCompleteBox),
                 new PropertyMetadata(null));
 
         public DataTemplate TokenTemplate {
-            get { return (DataTemplate) GetValue(TokenTemplateProperty); }
+            get { return (DataTemplate)GetValue(TokenTemplateProperty); }
             set { SetValue(TokenTemplateProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for TokenTemplate.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TokenTemplateProperty =
-            DependencyProperty.Register("TokenTemplate", typeof (DataTemplate), typeof (AutoCompleteBox),
+            DependencyProperty.Register("TokenTemplate", typeof(DataTemplate), typeof(AutoCompleteBox),
                 new PropertyMetadata(null));
 
         public DataTemplate StringTokenTemplate {
-            get { return (DataTemplate) GetValue(StringTokenTemplateProperty); }
+            get { return (DataTemplate)GetValue(StringTokenTemplateProperty); }
             set { SetValue(StringTokenTemplateProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for StringTokenTemplate.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty StringTokenTemplateProperty =
-            DependencyProperty.Register("StringTokenTemplate", typeof (DataTemplate), typeof (AutoCompleteBox),
+            DependencyProperty.Register("StringTokenTemplate", typeof(DataTemplate), typeof(AutoCompleteBox),
                 new PropertyMetadata(null));
 
         #endregion
@@ -172,6 +202,12 @@ namespace Crystalbyte.Paranoia.UI {
             e.Handled = true;
         }
 
+        protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e) {
+            base.OnLostKeyboardFocus(e);
+
+            InvalidateWatermark();
+        }
+
         protected override void OnInitialized(EventArgs e) {
             base.OnInitialized(e);
 
@@ -180,7 +216,7 @@ namespace Crystalbyte.Paranoia.UI {
                 action => TextChanged -= action)
                 .Throttle(TimeSpan.FromMilliseconds(250))
                 .ObserveOn(SynchronizationContext.Current)
-                .Select(x => ((AutoCompleteBox) x.Sender).Text)
+                .Select(x => ((AutoCompleteBox)x.Sender).Text)
                 .Subscribe(OnTextChangeConfirmed);
 
             TextChanged += OnTextChanged;
@@ -208,15 +244,13 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private static InlineUIContainer CreateContainer(UIElement presenter) {
-            return new InlineUIContainer(presenter)
-            {
+            return new InlineUIContainer(presenter) {
                 BaselineAlignment = BaselineAlignment.Center
             };
         }
 
         private InlineUIContainer CreateTokenContainerFromString(string value) {
-            return CreateContainer(new ContentPresenter
-            {
+            return CreateContainer(new ContentPresenter {
                 Content = value,
                 DataContext = value,
                 ContentTemplate = StringTokenTemplate
@@ -224,8 +258,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private InlineUIContainer CreateTokenContainerFromItem(object value) {
-            return CreateContainer(new ContentPresenter
-            {
+            return CreateContainer(new ContentPresenter {
                 Content = value,
                 DataContext = value,
                 ContentTemplate = TokenTemplate
@@ -235,8 +268,8 @@ namespace Crystalbyte.Paranoia.UI {
         public override void OnApplyTemplate() {
             base.OnApplyTemplate();
 
-            _autoCompletePopup = (Popup) Template.FindName(AutoCompletePopupPartName, this);
-            _autoCompleteHost = (ListView) Template.FindName(AutoCompleteHostPartName, this);
+            _autoCompletePopup = (Popup)Template.FindName(AutoCompletePopupPartName, this);
+            _autoCompleteHost = (ListView)Template.FindName(AutoCompleteHostPartName, this);
         }
 
         #endregion
@@ -295,6 +328,11 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnTextChanged(object sender, TextChangedEventArgs e) {
             RecognizeMatches();
             UpdateSelectedValues();
+            InvalidateWatermark();
+        }
+
+        private void InvalidateWatermark() {
+            IsWatermarkVisible = string.IsNullOrEmpty(Text) && _selectedValues.Count == 0;
         }
 
         private void UpdateSelectedValues() {
@@ -305,11 +343,11 @@ namespace Crystalbyte.Paranoia.UI {
 
             var objects = paragraph.Inlines
                 .OfType<InlineUIContainer>()
-                .Select(x => ((ContentPresenter) x.Child).Content);
+                .Select(x => ((ContentPresenter)x.Child).Content);
 
             _selectedValues.Clear();
             _selectedValues.AddRange(objects);
-
+            
             OnSelectedValuesChanged();
         }
 
@@ -325,8 +363,7 @@ namespace Crystalbyte.Paranoia.UI {
             var source = ItemsSource as ICollection;
             if (source != null && source.Count > 0) {
                 _autoCompletePopup.IsOpen = true;
-            }
-            else {
+            } else {
                 _autoCompletePopup.IsOpen = false;
             }
         }

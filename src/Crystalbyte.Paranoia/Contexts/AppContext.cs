@@ -52,9 +52,6 @@ namespace Crystalbyte.Paranoia {
         private readonly ObservableCollection<MailContactContext> _contacts;
         private readonly ObservableCollection<NavigationContext> _navigationOptions;
         private readonly ICommand _resetZoomCommand;
-        private readonly ICommand _replyCommand;
-        private readonly ICommand _composeCommand;
-        private readonly ICommand _forwardCommand;
         private readonly ICommand _restoreMessagesCommand;
         private readonly ICommand _markAsSeenCommand;
         private readonly ICommand _markAsNotSeenCommand;
@@ -90,9 +87,6 @@ namespace Crystalbyte.Paranoia {
                 new NavigationContext { Title = Resources.ContactsTitle, TargetUri = typeof(ContactsPage).ToPageUri() }
             };
 
-            _replyCommand = new ReplyCommand(this);
-            _composeCommand = new ComposeCommand(this);
-            _forwardCommand = new ForwardCommand(this);
             _restoreMessagesCommand = new RestoreMessagesCommand(this);
             _markAsSeenCommand = new MarkAsSeenCommand(this);
             _refreshKeysCommand = new RelayCommand(OnRefreshKeys);
@@ -273,9 +267,9 @@ namespace Crystalbyte.Paranoia {
         private async Task RequestMessagesAsync(IMessageSource source) {
             Application.Current.AssertBackgroundThread();
 
-            Application.Current.Dispatcher.InvokeAsync(() => _messages.Clear());
+            await Application.Current.Dispatcher.InvokeAsync(() => _messages.Clear());
             var messages = await source.GetMessagesAsync();
-            Application.Current.Dispatcher.InvokeAsync(() => {
+            await Application.Current.Dispatcher.InvokeAsync(() => {
                 _messages.DeferNotifications = true;
                 _messages.AddRange(messages);
                 _messages.DeferNotifications = false;
@@ -599,26 +593,14 @@ namespace Crystalbyte.Paranoia {
             get { return _unblockContactsCommand; }
         }
 
-        public ICommand ComposeCommand {
-            get { return _composeCommand; }
-        }
-
         public ICommand RestoreMessagesCommand {
             get { return _restoreMessagesCommand; }
-        }
-
-        public ICommand ReplyCommand {
-            get { return _replyCommand; }
         }
 
         public ICommand DeleteContactsCommand {
             get { return _deleteContactsCommand; }
         }
-
-        public ICommand ForwardCommand {
-            get { return _forwardCommand; }
-        }
-
+    
         public ICommand DeleteMessagesCommand {
             get { return _deleteMessagesCommand; }
         }
@@ -820,23 +802,23 @@ namespace Crystalbyte.Paranoia {
             IsPopupVisible = true;
         }
 
-        internal void OnComposeMessage() {
-            var uri = typeof(ComposeMessagePage).ToPageUri("?action=new");
-            OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
-        }
+        //internal void OnComposeMessage() {
+        //    var uri = typeof(ComposeMessagePage).ToPageUri("?action=new");
+        //    OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
+        //}
 
         private void OnCreateAccount(object obj) {
             var uri = typeof(CreateAccountPage).ToPageUri();
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
-        internal void OnReplyToMessage() {
-            if (SelectedMessage == null) {
-                return;
-            }
-            var uri = typeof(ComposeMessagePage).ToPageUriAsReply(SelectedMessage);
-            OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
-        }
+        //internal void OnReplyToMessage() {
+        //    if (SelectedMessage == null) {
+        //        return;
+        //    }
+        //    var uri = typeof(ComposeMessagePage).ToPageUriAsReply(SelectedMessage);
+        //    OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
+        //}
 
         internal async Task InitKeysAsync() {
             var info = GetKeyDirectory();

@@ -29,8 +29,8 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public MetroWindow() {
-            SourceInitialized += OnSourceInitialized;
             Loaded += OnLoaded;
+            SourceInitialized += OnSourceInitialized;
 
             CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
             CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));

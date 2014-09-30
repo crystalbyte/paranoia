@@ -12,8 +12,8 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             var parent = (IMailboxCreator) NavigationStore.Pop(typeof(CreateMailboxPage));
             DataContext = new CreateMailboxContext(parent);
 
-            CommandBindings.Add(new CommandBinding(PageCommands.Cancel, OnCancel));
-            CommandBindings.Add(new CommandBinding(PageCommands.Continue, OnContinue, OnCanContinue));
+            CommandBindings.Add(new CommandBinding(NavigationCommands.Close, OnCancel));
+            CommandBindings.Add(new CommandBinding(NavigationCommands.Continue, OnContinue, OnCanContinue));
             NameTextBox.TextChanged += OnNameTextBoxTextChanged;
             Loaded += OnLoaded;
         }

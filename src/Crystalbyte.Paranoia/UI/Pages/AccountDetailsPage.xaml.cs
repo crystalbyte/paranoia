@@ -24,16 +24,16 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         public AccountDetailsPage() {
             InitializeComponent();
 
-            CommandBindings.Add(new CommandBinding(PageCommands.Continue, OnPageContinue));
-            CommandBindings.Add(new CommandBinding(PageCommands.Cancel, OnPageCancel));
-            CommandBindings.Add(new CommandBinding(PageCommands.SelectMailboxRole, OnSelectMailboxRole));
-            CommandBindings.Add(new CommandBinding(PageCommands.CommitMailboxRoleSelection, OnCommitMailboxRoleSelection, OnCanCommitMailboxRoleSelection));
-            CommandBindings.Add(new CommandBinding(PageCommands.CancelMailboxRoleSelection, OnCancelMailboxRoleSelection));
+            CommandBindings.Add(new CommandBinding(NavigationCommands.Continue, OnContinue));
+            CommandBindings.Add(new CommandBinding(NavigationCommands.Close, OnClose));
+            CommandBindings.Add(new CommandBinding(MailboxCommands.Select, OnSelect));
+            CommandBindings.Add(new CommandBinding(MailboxCommands.Commit, OnCommit, OnCanCommit));
+            CommandBindings.Add(new CommandBinding(MailboxCommands.Cancel, OnCancel));
 
             Loaded += OnLoaded;
         }
 
-        private void OnCanCommitMailboxRoleSelection(object sender, CanExecuteRoutedEventArgs e) {
+        private void OnCanCommit(object sender, CanExecuteRoutedEventArgs e) {
             var account = (MailAccountContext)DataContext;
             var mailbox = account.Mailboxes.FirstOrDefault(x => x.IsSelectedSubtly);
             e.CanExecute = mailbox != null && mailbox.IsSelectable;
@@ -55,7 +55,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             throw new ArgumentOutOfRangeException(param);
         }
 
-        private void OnCancelMailboxRoleSelection(object sender, ExecutedRoutedEventArgs e) {
+        private void OnCancel(object sender, ExecutedRoutedEventArgs e) {
             var param = e.Parameter as string;
             if (string.IsNullOrEmpty(param)) {
                 throw new ArgumentNullException();
@@ -65,7 +65,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             popup.IsOpen = false;
         }
 
-        private void OnCommitMailboxRoleSelection(object sender, ExecutedRoutedEventArgs e) {
+        private void OnCommit(object sender, ExecutedRoutedEventArgs e) {
             var param = e.Parameter as string;
             if (string.IsNullOrEmpty(param)) {
                 throw new ArgumentNullException();
@@ -101,7 +101,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             }
         }
 
-        private void OnSelectMailboxRole(object sender, ExecutedRoutedEventArgs e) {
+        private void OnSelect(object sender, ExecutedRoutedEventArgs e) {
             var param = e.Parameter as string;
             if (string.IsNullOrEmpty(param)) {
                 throw new ArgumentNullException();
@@ -158,7 +158,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             }
         }
 
-        private static void OnPageCancel(object sender, ExecutedRoutedEventArgs e) {
+        private static void OnClose(object sender, ExecutedRoutedEventArgs e) {
             App.Context.CloseFlyOut();
         }
 
@@ -167,7 +167,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             _tracker.Revert();
         }
 
-        private async void OnPageContinue(object sender, ExecutedRoutedEventArgs e) {
+        private async void OnContinue(object sender, ExecutedRoutedEventArgs e) {
             var account = (MailAccountContext)DataContext;
             await SaveChangesAsync(account);
 

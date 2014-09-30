@@ -847,15 +847,6 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To.
-        /// </summary>
-        public static string Recipients {
-            get {
-                return ResourceManager.GetString("Recipients", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Refreshing public keys for contacts ....
         /// </summary>
         public static string RefreshingPublicKeysStatus {
@@ -1140,6 +1131,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Thursday {
             get {
                 return ResourceManager.GetString("Thursday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To.
+        /// </summary>
+        public static string To {
+            get {
+                return ResourceManager.GetString("To", resourceCulture);
             }
         }
         

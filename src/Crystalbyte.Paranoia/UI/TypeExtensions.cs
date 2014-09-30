@@ -14,8 +14,8 @@ namespace Crystalbyte.Paranoia.UI {
             return new Uri(string.Format("/UI/Pages/{0}.xaml{1}", type.Name, arguments), UriKind.Relative);
         }
 
-        public static Uri ToPageUriAsReply(this Type type, MailMessageContext mail) {
-            return new Uri(string.Format("/UI/Pages/{0}.xaml?action=reply&id={1}", type.Name, mail.Id), UriKind.Relative);
-        }
+        //public static Uri ToPageUriAsReply(this Type type, MailMessageContext mail) {
+        //    return new Uri(string.Format("/UI/Pages/{0}.xaml?action=reply&id={1}", type.Name, mail.Id), UriKind.Relative);
+        //}
     }
 }

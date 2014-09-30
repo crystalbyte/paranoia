@@ -46,7 +46,7 @@
                         SnapsToDevicePixels="True">
                     <Grid HorizontalAlignment="Left">
                         <ui:MetroCircleButton Margin="12"
-                                              Command="{Binding ComposeCommand}"
+                                              Command="ui:MessageCommands.Compose"
                                               Text="{x:Static properties:Resources.ComposeMessage}">
                             <Image Width="18" Source="/Assets/paper.png" />
                         </ui:MetroCircleButton>
@@ -375,10 +375,10 @@
                     </ListView.ItemsSource>
                     <ListView.InputBindings>
                         <KeyBinding Key="R"
-                                    Command="{Binding ReplyCommand}"
+                                    Command="ui:MessageCommands.Reply"
                                     Modifiers="Control" />
                         <KeyBinding Key="F"
-                                    Command="{Binding ForwardCommand}"
+                                    Command="ui:MessageCommands.Forward"
                                     Modifiers="Control" />
                         <KeyBinding Key="Delete" Command="{Binding DeleteMessagesCommand}" />
                         <KeyBinding Key="D"
@@ -387,7 +387,7 @@
                     </ListView.InputBindings>
                     <ListView.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Command="{Binding ReplyCommand}" InputGestureText="Ctrl + R">
+                            <MenuItem Command="ui:MessageCommands.Reply" InputGestureText="Ctrl + R">
                                 <MenuItem.Icon>
                                     <Image Height="16"
                                            Source="/Assets/reply.png"
@@ -397,7 +397,7 @@
                                     <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Reply}" />
                                 </MenuItem.Header>
                             </MenuItem>
-                            <MenuItem Command="{Binding ForwardCommand}" InputGestureText="Ctrl + F">
+                            <MenuItem Command="ui:MessageCommands.Forward" InputGestureText="Ctrl + F">
                                 <MenuItem.Icon>
                                     <Image Height="16"
                                            Source="/Assets/forward.png"
@@ -668,12 +668,12 @@
                                 Orientation="Horizontal"
                                 Visibility="{Binding SelectedMessage,
                                                      Converter={StaticResource NullToVisibilityConverter}}">
-                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.NormalTextBrush}" Command="{Binding ReplyCommand}">
+                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.NormalTextBrush}" Command="ui:MessageCommands.Reply">
                             <Image Width="18"
                                    Margin="-2,2,0,0"
                                    Source="/Assets/reply.png" />
                         </ui:MetroCircleButton>
-                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.NormalTextBrush}" Command="{Binding ForwardCommand}">
+                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.NormalTextBrush}" Command="ui:MessageCommands.Forward">
                             <Image Width="18"
                                    Margin="-2,2,0,0"
                                    Source="/Assets/forward.png" />

@@ -18,8 +18,8 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             InitializeComponent();
             DataContext = new MailAccountContext(new MailAccountModel());
 
-            CommandBindings.Add(new CommandBinding(PageCommands.Cancel, OnCancel));
-            CommandBindings.Add(new CommandBinding(PageCommands.Continue, OnContinue));
+            CommandBindings.Add(new CommandBinding(NavigationCommands.Close, OnCancel));
+            CommandBindings.Add(new CommandBinding(NavigationCommands.Continue, OnContinue));
 
             PasswordBox.PasswordChanged += OnPasswordChanged;
             Loaded += OnLoaded;

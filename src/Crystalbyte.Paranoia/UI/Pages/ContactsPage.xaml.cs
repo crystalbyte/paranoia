@@ -11,7 +11,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         public ContactsPage() {
             InitializeComponent();
             DataContext = App.Context;
-            CommandBindings.Add(new CommandBinding(PageCommands.ScrollToLetter, OnScrollToLetter, OnCanScrollToLetter));
+            CommandBindings.Add(new CommandBinding(NavigationCommands.ScrollToLetter, OnScrollToLetter, OnCanScrollToLetter));
         }
 
         private static void OnCanScrollToLetter(object sender, CanExecuteRoutedEventArgs e) {

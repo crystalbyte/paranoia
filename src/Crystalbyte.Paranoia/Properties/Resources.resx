@@ -247,7 +247,7 @@ Please select a corresponding IMAP folder to synchronize.</value>
   <data name="ReadyStatus" xml:space="preserve">
     <value>Ready</value>
   </data>
-  <data name="Recipients" xml:space="preserve">
+  <data name="To" xml:space="preserve">
     <value>To</value>
   </data>
   <data name="Reply" xml:space="preserve">

@@ -54,7 +54,7 @@
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="ContentPresenter">
-                            <Button BorderThickness="0" Command="ui:PageCommands.ScrollToLetter">
+                            <Button BorderThickness="0" Command="ui:NavigationCommands.ScrollToLetter">
                                 <Grid Width="40" Height="40">
                                     <TextBlock Margin="4,2"
                                                HorizontalAlignment="Center"
