@@ -150,7 +150,7 @@
     </ui:MetroWindow.Resources>
     <ui:MetroWindow.InputBindings>
         <KeyBinding Key="N"
-                    Command="{Binding ComposeCommand}"
+                    Command="ui:MessageCommands.Compose"
                     Modifiers="Control" />
         <KeyBinding Key="Print" Command="ApplicationCommands.Print" />
         <KeyBinding Key="Escape" Command="ui:WindowCommands.CloseFlyOut" />
