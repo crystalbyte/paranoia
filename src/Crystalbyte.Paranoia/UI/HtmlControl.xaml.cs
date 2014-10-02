@@ -314,8 +314,10 @@ namespace Crystalbyte.Paranoia.UI {
                     var originalSrcFile = Regex.Match(match.Value, srcPrepRegexPatter).Value;
                     var srcFile = originalSrcFile.Replace("src=\"", string.Empty).Replace("\"", string.Empty).Replace("file:///", string.Empty);
 
-                    if (!new Uri(srcFile).IsFile)
+                    Uri uri;
+                    if (!Uri.TryCreate(srcFile, UriKind.Absolute, out uri) || !uri.IsFile)
                         continue;
+
 
                     if (!File.Exists(srcFile))
                         throw new Exception("701");
