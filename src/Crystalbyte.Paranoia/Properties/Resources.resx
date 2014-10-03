@@ -509,4 +509,7 @@ Once your password is lost you're screwed.</value>
   <data name="Advanced" xml:space="preserve">
     <value>Advanced</value>
   </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
 </root>

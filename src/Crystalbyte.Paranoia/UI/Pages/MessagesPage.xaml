@@ -141,6 +141,16 @@
                                             </MenuItem.Header>
                                         </MenuItem>
                                         <Separator Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                        <MenuItem Command="{Binding RegisterCommand}" Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <!--<MenuItem.Icon>
+                                                <Image Height="16" Source="/Assets/edit.properties.png" />
+                                            </MenuItem.Icon>-->
+                                            <MenuItem.Header>
+                                                <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
+                                                           Style="{StaticResource Metro.MenuHeaderTextStyle}"
+                                                           Text="{x:Static properties:Resources.Register}" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
                                         <MenuItem Command="{Binding ConfigAccountCommand}" Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <MenuItem.Icon>
                                                 <Image Height="16" Source="/Assets/edit.properties.png" />

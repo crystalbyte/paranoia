@@ -26,13 +26,19 @@ namespace Crystalbyte.Paranoia.Cryptography {
         private static readonly uint umacBytesSize = uzeroByteSize - uboxZeroByteSize;
         private static readonly int macBytesSize = zeroByteSize - boxZeroByteSize;
 
+        /// <summary>
+        /// Gets the size of the nonce byte array.
+        /// </summary>
+        public static int NonceSize { 
+            get { return Convert.ToInt32(nonceSize / Marshal.SizeOf<Byte>()); } }
+
         public async Task InitFromFileAsync(string publicKeyPath, string privateKeyPath, string password = "") {
 
             string publicKey = string.Empty;
             string privateKey = string.Empty;
 
-            await  Task.Factory.StartNew(() => {
-                publicKey = File.ReadAllText(publicKeyPath);                
+            await Task.Factory.StartNew(() => {
+                publicKey = File.ReadAllText(publicKeyPath);
                 privateKey = File.ReadAllText(privateKeyPath);
             });
 
@@ -41,7 +47,7 @@ namespace Crystalbyte.Paranoia.Cryptography {
             var decodedPublicKey = Convert.FromBase64String(publicKey);
             WriteKey(decodedPublicKey, _publicKeyPtr);
 
-                
+
             var decodedPrivateKey = Convert.FromBase64String(privateKey);
             WriteKey(decodedPrivateKey, _privateKeyPtr);
         }
@@ -50,7 +56,7 @@ namespace Crystalbyte.Paranoia.Cryptography {
             Marshal.Copy(key, 0, ptr, keySize);
         }
 
-        internal byte[] PublicKey {
+        public byte[] PublicKey {
             get {
                 var bytes = new byte[keySize];
                 Marshal.Copy(_publicKeyPtr, bytes, 0, keySize);
@@ -178,7 +184,7 @@ namespace Crystalbyte.Paranoia.Cryptography {
             if (_privateKeyPtr != IntPtr.Zero) {
                 Marshal.FreeHGlobal(_privateKeyPtr);
             }
-            
+
             base.DisposeNative();
         }
 

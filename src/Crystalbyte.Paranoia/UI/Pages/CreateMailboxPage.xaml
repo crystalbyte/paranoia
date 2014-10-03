@@ -13,9 +13,9 @@
       mc:Ignorable="d">
 
     <Page.InputBindings>
-        <KeyBinding Key="Escape" Command="ui:PageCommands.Cancel" />
-        <KeyBinding Key="Enter" Command="ui:PageCommands.Continue" />
-        <KeyBinding Key="Return" Command="ui:PageCommands.Continue" />
+        <KeyBinding Key="Escape" Command="ui:NavigationCommands.Close" />
+        <KeyBinding Key="Enter" Command="ui:NavigationCommands.Continue" />
+        <KeyBinding Key="Return" Command="ui:NavigationCommands.Continue" />
     </Page.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -49,11 +49,11 @@
                     Margin="0,36,0,0"
                     Orientation="Horizontal">
             <ui:MetroCircleButton x:Name="AcceptButton"
-                                  Command="ui:PageCommands.Continue"
+                                  Command="ui:NavigationCommands.Continue"
                                   Text="{x:Static properties:Resources.Accept}">
                 <Image Width="18" Source="/Assets/ok.png" />
             </ui:MetroCircleButton>
-            <ui:MetroCircleButton Command="ui:PageCommands.Cancel" Text="{x:Static properties:Resources.Cancel}">
+            <ui:MetroCircleButton Command="ui:NavigationCommands.Cancel" Text="{x:Static properties:Resources.Cancel}">
                 <Image Width="18" Source="/Assets/cancel.png" />
             </ui:MetroCircleButton>
         </StackPanel>

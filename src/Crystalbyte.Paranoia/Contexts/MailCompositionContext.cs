@@ -159,7 +159,8 @@ namespace Crystalbyte.Paranoia {
                 var messages = await CreateSmtpMessagesAsync(account);
                 await account.SaveSmtpRequestsAsync(messages);
                 await App.Context.NotifyOutboxNotEmpty();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -208,7 +209,8 @@ namespace Crystalbyte.Paranoia {
                     var stream = new MemoryStream(bytes);
                     attachment = new Attachment(stream, name) { ContentId = (name + "@" + Guid.NewGuid()).Replace(" ", "") };
 
-                } else {
+                }
+                else {
                     var uri = new Uri(result, UriKind.RelativeOrAbsolute);
                     if (!uri.IsFile || !File.Exists(result))
                         continue;
@@ -244,17 +246,15 @@ namespace Crystalbyte.Paranoia {
                         continue;
                     }
 
-                    var keys = await database.PublicKeys.Where(x => x.ContactId == contact.Id).ToListAsync();
-                    if (keys == null || keys.Count == 0) {
+                    var keys = await database.PublicKeys.Where(x => x.ContactId == contact.Id).ToArrayAsync();
+                    if (keys == null || keys.Length == 0) {
                         var message = CreateMailMessage(account, recipient, e.Document);
                         messages.Add(message);
                         continue;
                     }
 
-                    foreach (var key in keys) {
-                        var cryptMessage = await EncryptMessageAsync(account, key, recipient, e.Document);
-                        messages.Add(cryptMessage);
-                    }
+                    var cryptMessage = await EncryptMessageAsync(account, keys, recipient, e.Document);
+                    messages.Add(cryptMessage);
                 }
 
                 return messages;
@@ -262,19 +262,34 @@ namespace Crystalbyte.Paranoia {
         }
 
 
-        private async Task<MailMessage> EncryptMessageAsync(MailAccountContext account, PublicKeyModel key, string recipient, string content) {
+        private async Task<MailMessage> EncryptMessageAsync(MailAccountContext account, PublicKeyModel[] keys, string recipient, string content) {
             var message = CreateMailMessage(account, recipient, content);
             var mime = await message.ToMimeAsync();
 
             var bytes = Encoding.UTF8.GetBytes(mime);
-            var keyBytes = Convert.FromBase64String(key.Data);
-            var nonceBytes = PublicKeyCrypto.GenerateNonce();
-
-            var encryptedBytes = await Task.Factory.StartNew(() =>
-                App.Context.KeyContainer.EncryptWithPublicKey(bytes, keyBytes, nonceBytes));
 
             var wrapper = CreateMailMessage(account, recipient, "blubbi");
-            wrapper.AlternateViews.Add(new AlternateView(new MemoryStream(encryptedBytes), new ContentType("application/base64")));
+            var publicKey = Convert.ToBase64String(App.Context.KeyContainer.PublicKey);
+            wrapper.Headers.Add(ParanoiaHeaderKeys.PublicKey, publicKey);
+
+            foreach (var key in keys) {
+                var keyBytes = Convert.FromBase64String(key.Data);
+                var nonceBytes = PublicKeyCrypto.GenerateNonce();
+
+                var encryptedBytes = await Task.Factory.StartNew(() =>
+                App.Context.KeyContainer.EncryptWithPublicKey(bytes, keyBytes, nonceBytes));
+
+                var writer = new BinaryWriter(new MemoryStream());
+                writer.Write(nonceBytes);
+                writer.Write(encryptedBytes);
+                writer.Flush();
+
+                writer.BaseStream.Seek(0, SeekOrigin.Begin);
+
+                var view = new AlternateView(writer.BaseStream, new ContentType("application/x-setolicious"));
+                wrapper.AlternateViews.Add(view);
+            }
+
             return wrapper;
         }
     }

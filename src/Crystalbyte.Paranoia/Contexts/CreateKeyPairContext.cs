@@ -33,6 +33,8 @@ namespace Crystalbyte.Paranoia {
 
         private static async void OnCreateKeyPair(object obj) {
             try {
+                App.Context.ClosePopup();
+
                 using (var crypto = new PublicKeyCrypto()) {
                     crypto.Init();
                     var dir = AppContext.GetKeyDirectory().FullName;
@@ -49,9 +51,6 @@ namespace Crystalbyte.Paranoia {
             }
             catch (Exception ex) {
                 Logger.Error(ex);
-            }
-            finally {
-                App.Context.ClosePopup();
             }
         }
 

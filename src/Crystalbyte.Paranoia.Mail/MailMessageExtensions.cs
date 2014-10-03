@@ -28,7 +28,9 @@ namespace Crystalbyte.Paranoia.Mail {
                         BindingFlags.Instance | BindingFlags.NonPublic |
                         BindingFlags.InvokeMethod, null, message,
                         new[] { mailWriter, true, true });
+
                 return Encoding.UTF8.GetString(stream.ToArray());
+                
             });
         }
     }

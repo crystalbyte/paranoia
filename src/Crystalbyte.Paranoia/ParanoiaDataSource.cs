@@ -17,6 +17,8 @@ using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using HtmlAgilityPack;
 using NLog;
+using Crystalbyte.Paranoia.Cryptography;
+using Crystalbyte.Paranoia.Mail.Mime;
 
 #endregion
 
@@ -44,7 +46,8 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 SendResponse(request, DataSourceResponse.Empty);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 //TODO: Return 793 - Zombie Apocalypse
                 Logger.Error(ex);
             }
@@ -118,10 +121,70 @@ namespace Crystalbyte.Paranoia {
             return html;
         }
 
+
+        private async Task<bool> TryDecryptAndSendMessageResponseAsync(DataSourceRequest request, MailMessageReader reader, MessagePart part, string id) {
+            try {
+                var address = reader.Headers.From.Address;
+                var publicKey = reader.Headers.UnknownHeaders.Get(ParanoiaHeaderKeys.PublicKey);
+
+
+                byte[] messageBytes, nonceBytes;
+                using (var r = new BinaryReader(new MemoryStream(part.Body))) {
+                    nonceBytes = r.ReadBytes(PublicKeyCrypto.NonceSize);
+                    messageBytes = r.ReadBytes(part.Body.Length - nonceBytes.Length);
+                }
+
+                using (var database = new DatabaseContext()) {
+                    var contact = await database.MailContacts.FirstOrDefaultAsync(x => x.Address == address);
+                    if (contact == null) {
+                        throw new Exception("Contact not found exception.");
+                    }
+
+                    var keys = await database.PublicKeys.Where(x => x.ContactId == contact.Id).ToArrayAsync();
+                    if (keys.All(x => string.Compare(publicKey, x.Data, StringComparison.InvariantCulture) != 0)) {
+                        var ownKey = Convert.ToBase64String(App.Context.KeyContainer.PublicKey);
+                        if (string.Compare(ownKey, publicKey, StringComparison.Ordinal) != 0) {
+                            throw new Exception("NSA SPIED ON YOU!");
+                        }
+                    }
+                }
+
+                var keyBytes = Convert.FromBase64String(publicKey);
+                var payload = App.Context.KeyContainer.DecryptWithPrivateKey(messageBytes, keyBytes, nonceBytes);
+
+                await SendMessageResponseAsync(request, new MailMessageReader(payload), id);
+                return true;
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
+                return false;
+            }
+        }
+
+        private void SendExceptionResponse(DataSourceRequest request, Exception ex) {
+            SendResponse(request, DataSourceResponse.Empty);
+        }
+
         private async Task SendMessageQueryResponseAsync(DataSourceRequest request, string id) {
             var mime = await LoadMessageContentAsync(Int64.Parse(id));
             var reader = new MailMessageReader(mime);
 
+            var parts = reader.FindAllMessagePartsWithMediaType("application/x-setolicious");
+            if (parts != null && parts.Count > 0) {
+                foreach (var part in parts) {
+                    var success = await TryDecryptAndSendMessageResponseAsync(request, reader, part, id);
+                    if (success) {
+                        return;
+                    }
+                }
+
+                return;
+            }
+
+            await SendMessageResponseAsync(request, reader, id);
+        }
+
+        private async Task SendMessageResponseAsync(DataSourceRequest request, MailMessageReader reader, string id) {
             string content;
             Encoding encoding;
             var html = reader.FindFirstHtmlVersion();
@@ -130,11 +193,13 @@ namespace Crystalbyte.Paranoia {
                 content = plain == null ? string.Empty : await FormatPlainText(reader.Headers.Subject, plain.GetBodyAsText());
                 encoding = Encoding.UTF8;
 
-            } else {
+            }
+            else {
                 content = html.GetBodyAsText();
                 try {
                     encoding = Encoding.GetEncoding(html.ContentType.CharSet ?? "utf-8");
-                } catch (Exception) {
+                }
+                catch (Exception) {
                     encoding = Encoding.UTF8;
                 }
             }
@@ -172,17 +237,20 @@ namespace Crystalbyte.Paranoia {
                     head = partialDocument.DocumentNode.SelectSingleNode("//head");
                     if (head == null) {
                         head = document.CreateElement("head");
-                    } else {
+                    }
+                    else {
                         // Remove from partial doc, since the constructed document already has one.
                         head.Remove();
                     }
-                } else {
+                }
+                else {
                     head = document.CreateElement("head");
                 }
 
                 if (body != null) {
                     html.InsertBefore(head, body);
-                } else {
+                }
+                else {
                     html.AppendChild(head);
                 }
             }
@@ -192,12 +260,14 @@ namespace Crystalbyte.Paranoia {
                     body = partialDocument.DocumentNode.SelectSingleNode("//body");
                     if (body == null) {
                         body = document.CreateElement("body");
-                    } else {
+                    }
+                    else {
                         // Remove from partial doc, since the constructed document already has one.
                         body.Remove();
                     }
 
-                } else {
+                }
+                else {
                     body = document.CreateElement("body");
                 }
                 html.AppendChild(body);
@@ -276,7 +346,7 @@ namespace Crystalbyte.Paranoia {
 
         private static string ConvertEmbeddedSources(string html, string id) {
             const string pattern = "<img.+?src=\"(?<CID>cid:.+?)\".*?>";
-            return Regex.Replace(html, pattern, m => { 
+            return Regex.Replace(html, pattern, m => {
                 var cid = m.Groups["CID"].Value;
                 var asset = string.Format("asset://image?cid={0}&messageId={1}",
                     Uri.EscapeDataString(cid.Split(':')[1]), id);
