@@ -192,23 +192,38 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Class Overrides
 
+        protected override void OnPreviewKeyDown(KeyEventArgs e) {
+            base.OnPreviewKeyDown(e);
+
+            var container = GetFirstItem();
+            if (e.Key == Key.Up && _autoCompletePopup.IsOpen && container.IsSelected) {
+                container.IsSelected = false;
+                Focus();
+                e.Handled = true;
+                return;
+            }
+
+            if (e.Key == Key.Tab && _autoCompletePopup.IsOpen && IsFocused) {
+                container.IsSelected = true;
+                CommitSelection();
+                e.Handled = true;
+            }
+        }
+
         protected override void OnPreviewKeyUp(KeyEventArgs e) {
             base.OnPreviewKeyUp(e);
 
-            if (e.Key == Key.Down && _autoCompletePopup.IsOpen) {
+            if (e.Key == Key.Down && _autoCompletePopup.IsOpen && IsFocused) {
                 SelectFirstElement();
                 e.Handled = true;
                 return;
             }
 
-            var container = GetFirstItem();
-            if (e.Key != Key.Up
-                || !_autoCompletePopup.IsOpen
-                || !container.IsSelected)
+            if (e.Key == Key.Escape && _autoCompletePopup.IsOpen) {
+                Close();
+                e.Handled = true;
                 return;
-
-            FocusInputControl(container);
-            e.Handled = true;
+            }
         }
 
         protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e) {
@@ -299,11 +314,6 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        private void FocusInputControl(ListBoxItem item) {
-            item.IsSelected = false;
-            Focus();
-        }
-
         private ListViewItem GetFirstItem() {
             var source = ItemsSource as IList;
             if (source == null || source.Count <= 0)
@@ -328,6 +338,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         internal void Close() {
             _autoCompletePopup.IsOpen = false;
+            Focus();
         }
 
         private void OnSelectContact(object sender, EventArgs e) {
@@ -358,7 +369,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             _selectedValues.Clear();
             _selectedValues.AddRange(objects);
-            
+
             OnSelectedValuesChanged();
         }
 

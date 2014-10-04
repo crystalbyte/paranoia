@@ -19,7 +19,6 @@ namespace Crystalbyte.Paranoia {
         private readonly string _benFranklinQuote;
         private readonly string _benFranklin;
 
-
         public CreateKeyPairContext() {
             _createKeyPairCommand = new RelayCommand(OnCreateKeyPair);
             _benFranklinQuote =
