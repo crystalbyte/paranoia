@@ -21,24 +21,59 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint, OnCanPrint));
             CommandBindings.Add(new CommandBinding(MessageCommands.Compose, OnCompose));
+            CommandBindings.Add(new CommandBinding(MessageCommands.Reply, OnReply));
+            CommandBindings.Add(new CommandBinding(MessageCommands.ReplyAll, OnReplyAll));
+            CommandBindings.Add(new CommandBinding(MessageCommands.Forward, OnForward));
             App.Context.SortOrderChanged += OnSortOrderChanged;
-
         }
 
-        private static void OnCompose(object sender, ExecutedRoutedEventArgs e) {
+        private static void OnForward(object sender, ExecutedRoutedEventArgs e) {
+            MessageBox.Show("Not yet implemented.");
+        }
+
+        private static void OnReply(object sender, ExecutedRoutedEventArgs e) {
+
+            var message = App.Context.SelectedMessage;
+            if (message == null) {
+                throw new InvalidOperationException();
+            }
+
             var owner = Application.Current.MainWindow;
-            var window = new CompositionWindow {
-                Source = typeof(ComposeMessagePage).ToPageUri("?action=new"),
-                Owner = owner,
-                Height = owner.Height > 500 ? owner.Height * 0.9 : 500,
-                Width = owner.Width > 800 ? owner.Width * 0.9 : 800,
-            };
+            var window = CreateChildWindow(owner);
+
+            var uri = string.Format("?action=reply&id={0}", message.Id);
+            window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
 
             if (owner.WindowState == WindowState.Maximized) {
                 window.WindowState = WindowState.Maximized;
             }
 
             window.Show();
+        }
+
+        private static void OnReplyAll(object sender, ExecutedRoutedEventArgs e) {
+            MessageBox.Show("Not yet implemented.");
+        }
+
+        private static void OnCompose(object sender, ExecutedRoutedEventArgs e) {
+            var owner = Application.Current.MainWindow;
+            var window = CreateChildWindow(owner);
+            window.Source = typeof(ComposeMessagePage).ToPageUri("?action=new");
+
+            if (owner.WindowState == WindowState.Maximized) {
+                window.WindowState = WindowState.Maximized;
+            }
+
+            window.Show();
+        }
+
+        private static CompositionWindow CreateChildWindow(Window owner) {
+            var window = new CompositionWindow {
+                Owner = owner,
+                Height = owner.Height > 500 ? owner.Height * 0.9 : 500,
+                Width = owner.Width > 800 ? owner.Width * 0.9 : 800,
+            };
+            return window;
         }
 
         private void OnPrint(object sender, ExecutedRoutedEventArgs e) {

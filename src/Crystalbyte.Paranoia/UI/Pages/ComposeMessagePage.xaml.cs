@@ -44,12 +44,9 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             await composition.ResetAsync();
         }
 
-        public MailCompositionContext Composition {
-            get { return (MailCompositionContext)DataContext; }
-        }
-
         private async void OnRecipientsBoxItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
-            await Composition.QueryRecipientsAsync(e.Text);
+            var composition = (MailCompositionContext)DataContext;
+            await composition.QueryRecipientsAsync(e.Text);
         }
 
         private void OnRecipientsBoxSelectionChanged(object sender, EventArgs e) {
@@ -64,25 +61,34 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             context.Recipients.AddRange(addresses);
         }
 
+        private void PrepareAsNew() {
+            var context = (MailCompositionContext)DataContext;
+            context.Source = "asset://paranoia/message/new";
+        }
 
         private async void PrepareAsReply(IDictionary<string, string> arguments) {
+            MailContactContext from;
             MailMessageReader replyMessage;
-            var temp = Int64.Parse(arguments["id"]);
+            var id = Int64.Parse(arguments["id"]);
 
             using (var database = new DatabaseContext()) {
                 var message = await database.MimeMessages
-                    .Where(x => x.MessageId == temp)
+                    .Where(x => x.MessageId == id)
                     .ToArrayAsync();
 
                 if (!message.Any())
-                    throw new Exception("Message has not yet been loaded, menu must be disabled until it is.");
+                    throw new InvalidOperationException("Message has not yet been loaded, menu must be disabled until it is.");
 
                 replyMessage = new MailMessageReader(message[0].Data);
+                from = new MailContactContext(await database.MailContacts
+                    .FirstAsync(x => x.Address == replyMessage.Headers.From.Address));
             }
+
             var context = (MailCompositionContext)DataContext;
             context.Subject = "RE: " + replyMessage.Headers.Subject;
-            context.Source = string.Format("asset://paranoia/message/reply?id={0}", temp);
-            //TODO add recipient
+            context.Source = string.Format("asset://paranoia/message/reply?id={0}", id);
+
+            RecipientsBox.Preset(new[] { from });
         }
 
         #region Implementation of INavigationAware
@@ -91,19 +97,33 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             Reset();
 
             var arguments = e.Uri.OriginalString.ToPageArguments();
+            if (arguments.ContainsKey("action") && arguments["action"] == "new") {
+                PrepareAsNew();
+                return;
+            }
+            
             if (arguments.ContainsKey("action") && arguments["action"] == "reply") {
                 PrepareAsReply(arguments);
                 return;
             }
 
-            if (arguments.ContainsKey("action") && arguments["action"] == "new") {
-                PrepareAsNew();
+            if (arguments.ContainsKey("action") && arguments["action"] == "reply-all") {
+                PrepareAsReplyAll(arguments);
+                return;
+            }
+
+            if (arguments.ContainsKey("action") && arguments["action"] == "forward") {
+                PrepareAsForward(arguments);
+                return;
             }
         }
 
-        private void PrepareAsNew() {
-            var context = (MailCompositionContext)DataContext;
-            context.Source = "asset://paranoia/message/new";
+        private void PrepareAsReplyAll(Dictionary<string, string> arguments) {
+            throw new NotImplementedException();
+        }
+
+        private void PrepareAsForward(Dictionary<string, string> arguments) {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -142,9 +142,11 @@
                                         </MenuItem>
                                         <Separator Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                         <MenuItem Command="{Binding RegisterCommand}" Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                            <!--<MenuItem.Icon>
+                                            <!--
+                                                <MenuItem.Icon>
                                                 <Image Height="16" Source="/Assets/edit.properties.png" />
-                                            </MenuItem.Icon>-->
+                                                </MenuItem.Icon>
+                                            -->
                                             <MenuItem.Header>
                                                 <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
                                                            Style="{StaticResource Metro.MenuHeaderTextStyle}"

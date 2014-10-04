@@ -130,10 +130,16 @@ namespace Crystalbyte.Paranoia {
                 var candidates = await database.MailContacts
                     .Where(x => x.Address.StartsWith(text)
                                 || x.Name.StartsWith(text))
+                    .Take(20)
                     .ToArrayAsync();
 
+                var contexts = candidates.Select(x => new MailContactContext(x)).ToArray();
+                foreach (var context in contexts) {
+                    await context.CheckForKeyExistenceAsync();
+                }
+
                 _suggestions.Clear();
-                _suggestions.AddRange(candidates.Select(x => new MailContactContext(x)));
+                _suggestions.AddRange(contexts);
             }
         }
 
@@ -159,8 +165,7 @@ namespace Crystalbyte.Paranoia {
                 var messages = await CreateSmtpMessagesAsync(account);
                 await account.SaveSmtpRequestsAsync(messages);
                 await App.Context.NotifyOutboxNotEmpty();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -209,8 +214,7 @@ namespace Crystalbyte.Paranoia {
                     var stream = new MemoryStream(bytes);
                     attachment = new Attachment(stream, name) { ContentId = (name + "@" + Guid.NewGuid()).Replace(" ", "") };
 
-                }
-                else {
+                } else {
                     var uri = new Uri(result, UriKind.RelativeOrAbsolute);
                     if (!uri.IsFile || !File.Exists(result))
                         continue;

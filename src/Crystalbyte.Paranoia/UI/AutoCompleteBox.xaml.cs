@@ -128,6 +128,15 @@ namespace Crystalbyte.Paranoia.UI {
             DependencyProperty.Register("SelectedValues", typeof(IEnumerable<object>), typeof(AutoCompleteBox),
                 new PropertyMetadata(null));
 
+        public Style ItemContainerStyle {
+            get { return (Style)GetValue(ItemContainerStyleProperty); }
+            set { SetValue(ItemContainerStyleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ItemContainerStyle.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemContainerStyleProperty =
+            DependencyProperty.Register("ItemContainerStyle", typeof(Style), typeof(AutoCompleteBox), new PropertyMetadata(null));
+
 
         public object ItemsSource {
             get { return GetValue(ItemsSourceProperty); }
@@ -284,7 +293,7 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        public void Preset(params object[] items) {
+        public void Preset(params MailContactContext[] items) {
             foreach (var token in items.Select(CreateTokenContainerFromItem)) {
                 AppendContainer(token);
             }

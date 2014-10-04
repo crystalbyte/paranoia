@@ -23,54 +23,86 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0"
-                       Width="40"
-                       Margin="2,2,12,2"
+                       Width="32"
+                       Margin="2,2,6,2"
                        HorizontalAlignment="Stretch"
                        RenderOptions.BitmapScalingMode="Fant"
                        Source="{Binding Address,
                                         IsAsync=True,
-                                        Converter={StaticResource GravatarImageConverter}}"
+                                        Converter={StaticResource GravatarImageConverter},
+                                        ConverterParameter=48}"
                        Stretch="Uniform" />
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                    <TextBlock FontSize="{DynamicResource Metro.MediumLargeFontSize}"
+                    <TextBlock FontSize="{DynamicResource Metro.MediumFontSize}"
                                FontWeight="Thin"
                                Foreground="{DynamicResource Metro.NormalTextBrush}"
                                Text="{Binding Name}" />
-                    <TextBlock FontWeight="Thin"
-                               Foreground="{DynamicResource Metro.SecondaryTextBrush}"
-                               Text="{Binding Address}" />
+                    <TextBlock FontSize="{DynamicResource Metro.SmallFontSize}" Text="{Binding Address}">
+                        <TextBlock.Foreground>
+                            <Binding Mode="OneWay" Path="IsSelected">
+                                <Binding.Converter>
+                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.NormalTextBrush}" />
+                                </Binding.Converter>
+                            </Binding>
+                        </TextBlock.Foreground>
+                    </TextBlock>
                 </StackPanel>
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="StringTokenTemplate" DataType="system:String">
             <Grid>
-                <Rectangle Fill="{DynamicResource Metro.AccentBrush}" RenderOptions.EdgeMode="Aliased" />
-                <TextBlock Margin="2,0,2,0"
-                           Background="Transparent"
-                           FontWeight="Regular"
-                           Text="{Binding}" />
+                <Rectangle HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           Fill="#222" />
+                <StackPanel Margin="0,0,3,0" Orientation="Horizontal">
+                    <Border Background="Transparent"
+                            BorderBrush="Red"
+                            BorderThickness="0,0,3,0"
+                            RenderOptions.EdgeMode="Aliased"
+                            UseLayoutRounding="True">
+                        <Image Width="16"
+                               VerticalAlignment="Center"
+                               RenderOptions.BitmapScalingMode="Linear"
+                               Source="{Binding IsAsync=True,
+                                                Converter={StaticResource GravatarImageConverter},
+                                                ConverterParameter=32}" />
+                    </Border>
+                    <TextBlock Margin="2,0,2,0"
+                               Background="Transparent"
+                               FontWeight="Normal"
+                               Foreground="{DynamicResource Metro.NormalTextBrush}"
+                               Text="{Binding}" />
+                </StackPanel>
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="ContactTokenTemplate" DataType="paranoia:MailContactContext">
-            <Grid>
-                <Rectangle Fill="{DynamicResource Metro.AccentBrush}"
-                           RenderOptions.EdgeMode="Aliased"
-                           SnapsToDevicePixels="True" />
-                <StackPanel Orientation="Horizontal">
-                    <Image Width="16"
-                           VerticalAlignment="Center"
-                           RenderOptions.BitmapScalingMode="LowQuality"
-                           Source="{Binding Address,
-                                            IsAsync=True,
-                                            Converter={StaticResource GravatarImageConverter},
-                                            ConverterParameter=16}" />
+            <Grid RenderOptions.EdgeMode="Aliased" SnapsToDevicePixels="True">
+                <Rectangle HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           Fill="#222" />
+                <StackPanel Margin="0,0,3,0" Orientation="Horizontal">
+                    <Border Height="16"
+                            Margin="0,0,4,0"
+                            Background="Transparent"
+                            BorderBrush="{Binding Security,
+                                                  Converter={StaticResource SecurityToColorConverter}}"
+                            BorderThickness="0,0,3,0">
+
+                        <Image MinWidth="16"
+                               VerticalAlignment="Stretch"
+                               RenderOptions.BitmapScalingMode="Linear"
+                               Source="{Binding Address,
+                                                IsAsync=True,
+                                                Converter={StaticResource GravatarImageConverter},
+                                                ConverterParameter=32}"
+                               Stretch="UniformToFill" />
+                    </Border>
                     <TextBlock Margin="2,0,2,0"
                                Background="Transparent"
-                               FontWeight="Regular"
+                               FontWeight="Normal"
                                Foreground="{DynamicResource Metro.NormalTextBrush}"
                                Text="{Binding Name}" />
                 </StackPanel>
-
             </Grid>
         </DataTemplate>
     </Page.Resources>
@@ -197,7 +229,14 @@
                                 StringTokenTemplate="{StaticResource StringTokenTemplate}"
                                 TabIndex="0"
                                 TokenTemplate="{StaticResource ContactTokenTemplate}"
-                                Watermark="{x:Static properties:Resources.To}" />
+                                Watermark="{x:Static properties:Resources.To}">
+                <ui:AutoCompleteBox.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
+                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    </Style>
+                </ui:AutoCompleteBox.ItemContainerStyle>
+            </ui:AutoCompleteBox>
             <ToggleButton x:Name="CopyButton"
                           Grid.Row="0"
                           Grid.RowSpan="2"
@@ -225,7 +264,14 @@
                             Visibility="{Binding IsChecked,
                                                  ElementName=CopyButton,
                                                  Converter={StaticResource BooleanToVisibilityConverter}}"
-                            Watermark="{x:Static properties:Resources.CarbonCopies}" />
+                            Watermark="{x:Static properties:Resources.CarbonCopies}">
+            <ui:AutoCompleteBox.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
+                    <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                </Style>
+            </ui:AutoCompleteBox.ItemContainerStyle>
+        </ui:AutoCompleteBox>
         <ui:AutoCompleteBox x:Name="BccBox"
                             Grid.Row="1"
                             Grid.Column="2"
@@ -239,7 +285,14 @@
                             Visibility="{Binding IsChecked,
                                                  ElementName=CopyButton,
                                                  Converter={StaticResource BooleanToVisibilityConverter}}"
-                            Watermark="{x:Static properties:Resources.BlindCarbonCopies}" />
+                            Watermark="{x:Static properties:Resources.BlindCarbonCopies}">
+            <ui:AutoCompleteBox.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
+                    <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                </Style>
+            </ui:AutoCompleteBox.ItemContainerStyle>
+        </ui:AutoCompleteBox>
 
         <ui:MetroTextBox x:Name="SubjectTextBox"
                          Grid.Row="3"
