@@ -9,11 +9,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Awesomium.Core;
 using Awesomium.Windows.Controls;
-using Crystalbyte.Paranoia.Properties;
 using System.Text.RegularExpressions;
 using System.IO;
-using dotless.Core;
-using FontFamily = System.Windows.Media.FontFamily;
 
 #endregion
 
@@ -42,23 +39,11 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public HtmlControl() {
-            HtmlFont = new FontFamily(Settings.Default.HtmlDefaultFontFamily);
-            HtmlFontSize = Settings.Default.HtmlDefaultFontSize;
-
-            GotKeyboardFocus += OnGotKeyboardFocus;
             IsKeyboardFocusWithinChanged += (sender, e) => Debug.WriteLine(Keyboard.FocusedElement);
 
             if (!DesignerProperties.GetIsInDesignMode(this)) {
                 Source = WebCore.Configuration.HomeURL.ToString();
             }
-        }
-
-        private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
-            var presenter = e.NewFocus as WebViewPresenter;
-            if (presenter == null)
-                return;
-
-            FocusEntryParagraph();
         }
 
         #endregion
@@ -83,6 +68,15 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         #region Dependency Properties
+
+        public WebSession WebSession {
+            get { return (WebSession)GetValue(WebSessionProperty); }
+            set { SetValue(WebSessionProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for WebSession.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty WebSessionProperty =
+            DependencyProperty.Register("WebSession", typeof(WebSession), typeof(HtmlControl), new PropertyMetadata(null));
 
         public float Zoom {
             get { return (float)GetValue(ZoomProperty); }
@@ -124,25 +118,6 @@ namespace Crystalbyte.Paranoia.UI {
         // Using a DependencyProperty as the backing store for IsReadOnly.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsReadOnlyProperty =
             DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(HtmlControl), new PropertyMetadata(false));
-
-        public FontFamily HtmlFont {
-            get { return (FontFamily)GetValue(HtmlFontProperty); }
-            set { SetValue(HtmlFontProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for SelectedFont.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty HtmlFontProperty =
-            DependencyProperty.Register("HtmlFont", typeof(FontFamily), typeof(HtmlControl),
-                new PropertyMetadata(null));
-
-        public int HtmlFontSize {
-            get { return (int)GetValue(HtmlFontSizeProperty); }
-            set { SetValue(HtmlFontSizeProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for HtmlFontSize.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty HtmlFontSizeProperty =
-            DependencyProperty.Register("HtmlFontSize", typeof(int), typeof(HtmlControl), new PropertyMetadata(0));
 
         #endregion
 
@@ -187,14 +162,6 @@ namespace Crystalbyte.Paranoia.UI {
             return _webControl.HTML;
         }
 
-        private void FocusEntryParagraph() {
-            if (!_webControl.IsDocumentReady)
-                return;
-
-            const string script = ";";
-            _webControl.ExecuteJavascript(script);
-        }
-
         #endregion
 
         #region Implementation of IDisposable
@@ -221,40 +188,6 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         #endregion
-
-        public static string CustomCss {
-            get {
-
-                if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                    return "body {}";
-                }
-                var uri = new Uri("/Resources/inspector.default.less", UriKind.Relative);
-                var info = Application.GetResourceStream(uri);
-                if (info == null) {
-                    var error = string.Format(Properties.Resources.ResourceNotFoundException, uri, typeof(App).Assembly.FullName);
-                    throw new Exception(error);
-                }
-
-
-                string less;
-                const string pattern = "%.+?%";
-                using (var reader = new StreamReader(info.Stream)) {
-                    var text = reader.ReadToEnd();
-                    less = Regex.Replace(text, pattern, m => {
-                        var key = m.Value.Trim('%');
-                        var resource = App.ThemeDictionary[key];
-                        if (resource == null) {
-                            return "fuchsia";
-                        }
-                        // Drop the alpha channel.
-                        return string.Format("#{0}",
-                            resource.ToString().Substring(3));
-                    });
-                }
-
-                return Less.Parse(less);
-            }
-        }
 
         internal string GetEditorDocument() {
             try {

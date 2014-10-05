@@ -453,7 +453,7 @@
                                     <MenuItem.Icon>
                                         <Rectangle Width="16"
                                                    Height="16"
-                                                   Fill="{DynamicResource Metro.StarBrush}">
+                                                   Fill="{DynamicResource Metro.WarningColor}">
                                             <Rectangle.OpacityMask>
                                                 <ImageBrush ImageSource="/Assets/star.full.png" />
                                             </Rectangle.OpacityMask>
@@ -560,7 +560,7 @@
                                             Orientation="Horizontal">
                                     <Rectangle Width="16"
                                                Height="16"
-                                               Fill="{DynamicResource Metro.StarBrush}"
+                                               Fill="{DynamicResource Metro.WarningColor}"
                                                Visibility="{Binding IsFlagged,
                                                                     Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <Rectangle.OpacityMask>
@@ -787,6 +787,7 @@
                                         SnapsToDevicePixels="True"
                                         Source="{Binding Source,
                                                          Mode=OneWay}"
+                                        WebSession="{Binding Source={StaticResource InspectionWebSessionProvider}}"
                                         Zoom="{Binding Zoom,
                                                        Mode=TwoWay}"
                                         d:IsHidden="True" />

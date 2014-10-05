@@ -1,12 +1,14 @@
 ﻿#region Using directives
 
 using System;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Composition;
 using System.Composition.Hosting;
 using System.Configuration;
 using System.IO;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using Awesomium.Core;
@@ -14,6 +16,7 @@ using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
+using dotless.Core;
 
 #endregion
 
@@ -29,7 +32,43 @@ namespace Crystalbyte.Paranoia {
 
         internal static CompositionHost Composition { get; private set; }
 
-        public static ResourceDictionary ThemeDictionary { get; set; }
+        public static string InspectionCss {
+            get { return GetCssResource(); }
+        }
+
+        public static string CompositionCss {
+            get { return GetCssResource("/Resources/html.composition.less"); }
+        }
+
+        public static string GetCssResource(string name = "/Resources/html.inspection.less") {
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
+                return "body {}";
+            }
+            var uri = new Uri(name, UriKind.Relative);
+            var info = GetResourceStream(uri);
+            if (info == null) {
+                var error = string.Format(Paranoia.Properties.Resources.ResourceNotFoundException, uri, typeof(App).Assembly.FullName);
+                throw new Exception(error);
+            }
+
+            string less;
+            const string pattern = "%.+?%";
+            using (var reader = new StreamReader(info.Stream)) {
+                var text = reader.ReadToEnd();
+                less = Regex.Replace(text, pattern, m => {
+                    var key = m.Value.Trim('%');
+                    var resource = Current.Resources[key];
+                    if (resource == null) {
+                        return "fuchsia";
+                    }
+                    // Drop the alpha channel.
+                    return string.Format("#{0}",
+                        resource.ToString().Substring(3));
+                });
+            }
+
+            return Less.Parse(less);
+        }
 
 #if DEBUG
         protected async override void OnStartup(StartupEventArgs e) {
@@ -141,10 +180,6 @@ namespace Crystalbyte.Paranoia {
 
             var directory = Environment.ExpandEnvironmentVariables(location);
             AppDomain.CurrentDomain.SetData("DataDirectory", directory);
-
-            ThemeDictionary = new ResourceDictionary {
-                Source = new Uri("/Themes/Metro.Resources.xaml", UriKind.Relative)
-            };
 
             var theme = Settings.Default.CustomTheme;
             if (string.IsNullOrWhiteSpace(theme)) {

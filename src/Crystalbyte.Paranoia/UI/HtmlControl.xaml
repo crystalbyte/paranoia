@@ -9,14 +9,10 @@
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <awe:UrlConverter x:Key="UrlConverter" />
 
-    <awe:WebSessionProvider x:Key="WebSessionProvider" DataPath=".\Cache">
-        <awe:WebSessionProvider.DataSources>
-            <paranoia:ParanoiaDataSourceProvider x:Key="paranoia" />
-        </awe:WebSessionProvider.DataSources>
-        <core:WebPreferences CustomCSS="{x:Static ui:HtmlControl.CustomCss}"
-                             EnableGPUAcceleration="True"
-                             Javascript="True"
-                             ShrinkStandaloneImagesToFit="True"
+    <awe:WebSessionProvider x:Key="WebSessionProvider">
+        <core:WebPreferences EnableGPUAcceleration="False"
+                             Javascript="False"
+                             ShrinkStandaloneImagesToFit="False"
                              SmoothScrolling="True" />
     </awe:WebSessionProvider>
 

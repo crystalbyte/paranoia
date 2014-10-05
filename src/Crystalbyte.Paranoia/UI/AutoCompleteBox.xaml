@@ -15,7 +15,6 @@
     <Style TargetType="ui:AutoCompleteBox">
         <Setter Property="AcceptsReturn" Value="False" />
         <Setter Property="SelectionBrush" Value="{DynamicResource Metro.AccentBrush}" />
-        <Setter Property="SelectionOpacity" Value="0.4" />
         <Setter Property="FontSize" Value="{DynamicResource Metro.NormalFontSize}" />
         <Setter Property="WatermarkTemplate" Value="{StaticResource DefaultWatermarkTemplate}" />
         <Setter Property="Background" Value="{DynamicResource Metro.ControlBackgroundBrush}" />

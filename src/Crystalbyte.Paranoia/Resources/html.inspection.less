@@ -1,0 +1,79 @@
+﻿@accent-color: %Metro.AccentColor%;
+@background-color: WhiteSmoke;
+@normal-text-color: #333;
+@scrollbar-thumb-hover-color: #666668;
+@scrollbar-thumb-drag-color: #888889;
+@scrollbar-thumb-color: #555557;
+@scrollbar-background: #333335;
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+a {
+    color: @accent-color;
+}
+
+html {
+    font-family: Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif; 
+    font-size: large;
+    color: @normal-text-color;
+    background-color: @background-color;
+}
+
+ul, ol {
+    padding-top: 3px;
+    padding-left: 40px;
+    padding-bottom: 3px;
+}
+
+pre {
+    font-family: Vera Sans Mono, Consolas, Lucida Console, monospace; 
+    white-space: pre-wrap; 
+}
+
+textarea {
+    background-color: @background-color;
+}
+
+body {
+    padding: 24px;
+}
+
+::-webkit-scrollbar {
+    background-color: @background-color;
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+::-webkit-scrollbar-track {
+    background-color: @scrollbar-background;
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: @scrollbar-background;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: @scrollbar-thumb-color;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: @scrollbar-thumb-hover-color;
+    }
+
+    ::-webkit-scrollbar-thumb:active {
+        background-color: @scrollbar-thumb-drag-color;
+    }
+
+::-webkit-scrollbar-corner {
+    background-color: @scrollbar-background;
+}
+
+::-webkit-resizer {
+    background-color: @scrollbar-background;
+}

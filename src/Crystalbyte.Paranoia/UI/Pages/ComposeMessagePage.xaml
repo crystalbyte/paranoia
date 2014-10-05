@@ -56,7 +56,7 @@
                            Fill="#222" />
                 <StackPanel Margin="0,0,3,0" Orientation="Horizontal">
                     <Border Background="Transparent"
-                            BorderBrush="Brown"
+                            BorderBrush="{DynamicResource Metro.FailureBrush}"
                             BorderThickness="0,0,3,0"
                             RenderOptions.EdgeMode="Aliased"
                             UseLayoutRounding="True">
@@ -363,6 +363,7 @@
                             Source="{Binding Source,
                                              Mode=TwoWay}"
                             TabIndex="3"
+                            WebSession="{Binding Source={StaticResource CompositionWebSessionProvider}}"
                             d:IsHidden="True" />
         </Border>
     </Grid>

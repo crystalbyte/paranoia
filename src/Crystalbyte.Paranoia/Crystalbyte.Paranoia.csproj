@@ -181,6 +181,7 @@
     <Compile Include="Contexts\CreateMailboxContext.cs" />
     <Compile Include="IMailboxCreator.cs" />
     <Compile Include="MailboxRoles.cs" />
+    <Compile Include="MetroColors.cs" />
     <Compile Include="UI\Commands\MarkAsFlaggedCommand.cs" />
     <Compile Include="UI\Commands\MarkAsNotFlaggedCommand.cs" />
     <Compile Include="UI\Commands\UnblockContactsCommand.cs" />
@@ -426,10 +427,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Metro.Resources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Themes\Metro.RichTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -548,7 +545,8 @@
     <None Include="Resources\ckeditor\samples\sample_posteddata.php" />
     <None Include="Resources\ckeditor\skins\moono-dark\readme.md" />
     <None Include="Resources\ckeditor\skins\moono\readme.md" />
-    <Resource Include="Resources\inspector.default.less" />
+    <Resource Include="Resources\html.inspection.less" />
+    <Resource Include="Resources\html.composition.less" />
     <None Include="x86\awesomium_process" />
     <None Include="x86\inspector.pak" />
     <Resource Include="Resources\storage.db" />

@@ -1,13 +1,16 @@
 ﻿<Application x:Class="Crystalbyte.Paranoia.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:awe="http://schemas.awesomium.com/winfx"
              xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
+             xmlns:core="clr-namespace:Awesomium.Core;assembly=Awesomium.Core"
+             xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              StartupUri="MainWindow.xaml">
     <!--  Default styles: http://msdn.microsoft.com/en-us/library/aa970773.aspx  -->
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Themes/Metro.Resources.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.ComboBox.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.ContextMenu.xaml" />
                 <ResourceDictionary Source="/Themes/Metro.TextBlock.xaml" />
@@ -43,15 +46,61 @@
             <converters:BooleanToVisibilityMultiConverter x:Key="BooleanToVisibilityMultiConverter" />
             <converters:IconFinder x:Key="IconFinder" />
 
-            <Style x:Key="AppIconImageStyle" TargetType="Image">
-                <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />
-                <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
-                <Setter Property="Width" Value="16" />
-                <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="SnapsToDevicePixels" Value="True" />
-                <Setter Property="Stretch" Value="Uniform" />
-            </Style>
+            <awe:WebSessionProvider x:Key="CompositionWebSessionProvider">
+                <awe:WebSessionProvider.DataSources>
+                    <paranoia:ParanoiaDataSourceProvider x:Key="paranoia" />
+                </awe:WebSessionProvider.DataSources>
+                <core:WebPreferences CustomCSS="{x:Static paranoia:App.CompositionCss}"
+                                     DefaultEncoding="utf-8"
+                                     EnableGPUAcceleration="True"
+                                     Javascript="True"
+                                     SmoothScrolling="True" />
+            </awe:WebSessionProvider>
 
+            <awe:WebSessionProvider x:Key="InspectionWebSessionProvider">
+                <awe:WebSessionProvider.DataSources>
+                    <paranoia:ParanoiaDataSourceProvider x:Key="paranoia" />
+                </awe:WebSessionProvider.DataSources>
+                <core:WebPreferences CustomCSS="{x:Static paranoia:App.InspectionCss}"
+                                     DefaultEncoding="utf-8"
+                                     EnableGPUAcceleration="True"
+                                     Javascript="False"
+                                     SmoothScrolling="True" />
+            </awe:WebSessionProvider>
+
+            <!--  Font Sizes  -->
+
+            <system:Double x:Key="Metro.ShadowOpacity">0.9</system:Double>
+            <system:Double x:Key="Metro.SmallFontSize">12</system:Double>
+            <system:Double x:Key="Metro.NormalFontSize">14</system:Double>
+            <system:Double x:Key="Metro.MediumFontSize">16</system:Double>
+            <system:Double x:Key="Metro.MediumLargeFontSize">18</system:Double>
+            <system:Double x:Key="Metro.LargeFontSize">22</system:Double>
+            <system:Double x:Key="Metro.ExtraLargeFontSize">28</system:Double>
+
+            <!--  Colors  -->
+            <SolidColorBrush x:Key="Metro.AccentBrush" Color="{x:Static paranoia:MetroColors.AccentColor}" />
+            <SolidColorBrush x:Key="Metro.FailureBrush" Color="{x:Static paranoia:MetroColors.FailureColor}" />
+            <SolidColorBrush x:Key="Metro.SuccessBrush" Color="{x:Static paranoia:MetroColors.SuccessColor}" />
+            <SolidColorBrush x:Key="Metro.WarningBrush" Color="{x:Static paranoia:MetroColors.WarningColor}" />
+            <SolidColorBrush x:Key="Metro.WindowBackgroundBrush" Color="{x:Static paranoia:MetroColors.WindowBackgroundColor}" />
+            <SolidColorBrush x:Key="Metro.FlyoutBackgroundBrush" Color="{x:Static paranoia:MetroColors.FlyoutBackgroundColor}" />
+            <SolidColorBrush x:Key="Metro.ShadowBrush" Color="{x:Static paranoia:MetroColors.ShadowColor}" />
+            <SolidColorBrush x:Key="Metro.ControlBackgroundBrush" Color="{x:Static paranoia:MetroColors.ControlBackgroundColor}" />
+            <SolidColorBrush x:Key="Metro.AlternateControlBackgroundBrush" Color="{x:Static paranoia:MetroColors.SecondaryControlBackgroundColor}" />
+            <SolidColorBrush x:Key="Metro.PaperBackgroundColor" Color="{x:Static paranoia:MetroColors.PaperBackgroundColor}" />
+            <SolidColorBrush x:Key="Metro.ControlBorderBrush" Color="{x:Static paranoia:MetroColors.ControlBorderColor}" />
+            <SolidColorBrush x:Key="Metro.HoverBrush" Color="{x:Static paranoia:MetroColors.HoverColor}" />
+            <SolidColorBrush x:Key="Metro.MenuBackgroundBrush" Color="{x:Static paranoia:MetroColors.MenuBackgroundColor}" />
+            <SolidColorBrush x:Key="Metro.NormalTextBrush" Color="{x:Static paranoia:MetroColors.NormalTextColor}" />
+            <SolidColorBrush x:Key="Metro.PaperTextBrush" Color="{x:Static paranoia:MetroColors.PaperTextColor}" />
+            <SolidColorBrush x:Key="Metro.SecondaryTextBrush" Color="{x:Static paranoia:MetroColors.SecondaryTextColor}" />
+            <SolidColorBrush x:Key="Metro.HoverTextBrush" Color="{x:Static paranoia:MetroColors.SecondaryTextColor}" />
+            <SolidColorBrush x:Key="Metro.DisabledBrush" Color="{x:Static paranoia:MetroColors.DisabledColor}" />
+            <SolidColorBrush x:Key="Metro.SelectedUnfocusedBrush" Color="{x:Static paranoia:MetroColors.SelectedUnfocusedColor}" />
+            <SolidColorBrush x:Key="Metro.ScrollBackgroundBrush" Color="{x:Static paranoia:MetroColors.ScrollBackgroundColor}" />
+            <SolidColorBrush x:Key="Metro.ScrollHoverBrush" Color="{x:Static paranoia:MetroColors.ScrollHoverColor}" />
+            <SolidColorBrush x:Key="Metro.ScrollDragBrush" Color="{x:Static paranoia:MetroColors.ScrollDragColor}" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
