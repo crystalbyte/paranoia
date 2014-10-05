@@ -123,10 +123,28 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0"
+        <Grid Grid.Row="0"
+              Grid.RowSpan="2"
+              Grid.Column="3"
+              Margin="6,3,0,3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button Width="60" Grid.Row="0" VerticalAlignment="Stretch"
+                BorderBrush="{DynamicResource Metro.Control.BorderBrush}"
+                Command="{Binding AddAttachmentCommand}" Height="40">
+                <Image Width="18" Source="/Assets/attachment.png" />
+            </Button>
+            <ToggleButton Grid.Row="1" Margin="0,0,0,0" Height="Auto" x:Name="CCBCCToggleButton">
+                <Image Width="10" Source="/Assets/message.copy.png"/>
+            </ToggleButton>
+        </Grid>
+
+        <!--<StackPanel Grid.Row="0"
                     Grid.RowSpan="2"
                     Grid.Column="3"
                     Margin="6,0"
@@ -134,15 +152,14 @@
                     Orientation="Horizontal">
             <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="{Binding AddAttachmentCommand}">
                 <Image Width="18" Source="/Assets/attachment.png" />
-            </ui:MetroCircleButton>
-        </StackPanel>
+            </ui:MetroCircleButton>-->
+        <!--</StackPanel>-->
         <Button Grid.Row="0"
-                Grid.RowSpan="4"
+                Grid.RowSpan="2"
                 Grid.Column="0"
-                Width="80"
-                Height="90"
+                Width="70"
                 Margin="0,3,5,3"
-                VerticalAlignment="Bottom"
+                VerticalAlignment="Stretch"
                 BorderBrush="{DynamicResource Metro.Control.BorderBrush}"
                 Command="{Binding SendCommand}"
                 TabIndex="4">
@@ -206,9 +223,8 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <Grid Grid.Row="2"
-              Grid.Column="1"
-              Grid.ColumnSpan="3">
+        <Grid Grid.Row="0"
+              Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="7*" />
                 <RowDefinition />
@@ -250,7 +266,57 @@
             </ToggleButton>
 
         </Grid>
-        <ui:AutoCompleteBox x:Name="CarbonCopyBox"
+        <Grid Grid.Row="3" Grid.ColumnSpan="4" x:Name="CCBCCGrid" Visibility="{Binding IsChecked, 
+                                                                                       ElementName=CCBCCToggleButton, 
+                                                                                       Converter={StaticResource BooleanToVisibilityConverter}}" >
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <ui:AutoCompleteBox x:Name="CarbonCopyBox"
+                            Grid.Row="0"
+                            HorizontalAlignment="Stretch"
+                            ItemTemplate="{StaticResource ContactSuggestionTemplate}"
+                            ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
+                            SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
+                            StringTokenTemplate="{StaticResource StringTokenTemplate}"
+                            TokenTemplate="{StaticResource ContactTokenTemplate}"
+                            Visibility="{Binding IsChecked,
+                                                 ElementName=CopyButton,
+                                                 Converter={StaticResource BooleanToVisibilityConverter}}"
+                            Watermark="{x:Static properties:Resources.CarbonCopies}">
+                <ui:AutoCompleteBox.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
+
+                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    </Style>
+                </ui:AutoCompleteBox.ItemContainerStyle>
+            </ui:AutoCompleteBox>
+            <ui:AutoCompleteBox x:Name="BlindCarbonCopyBox"
+                            Grid.Row="1"
+                            HorizontalAlignment="Stretch"
+                            ItemTemplate="{StaticResource ContactSuggestionTemplate}"
+                            ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
+                            SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
+                            StringTokenTemplate="{StaticResource StringTokenTemplate}"
+                            TokenTemplate="{StaticResource ContactTokenTemplate}"
+                            Visibility="{Binding IsChecked,
+                                                 ElementName=CopyButton,
+                                                 Converter={StaticResource BooleanToVisibilityConverter}}"
+                            Watermark="{x:Static properties:Resources.BlindCarbonCopies}">
+                <ui:AutoCompleteBox.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
+
+                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    </Style>
+                </ui:AutoCompleteBox.ItemContainerStyle>
+            </ui:AutoCompleteBox>
+        </Grid>
+        <!--<ui:AutoCompleteBox x:Name="CarbonCopyBox"
                             Grid.Row="0"
                             Grid.Column="2"
                             HorizontalAlignment="Stretch"
@@ -265,7 +331,9 @@
                             Watermark="{x:Static properties:Resources.CarbonCopies}">
             <ui:AutoCompleteBox.ItemContainerStyle>
                 <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
-                    <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                    -->
+        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+        <!--
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                 </Style>
             </ui:AutoCompleteBox.ItemContainerStyle>
@@ -285,25 +353,26 @@
                             Watermark="{x:Static properties:Resources.BlindCarbonCopies}">
             <ui:AutoCompleteBox.ItemContainerStyle>
                 <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
-                    <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                    -->
+        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+        <!--
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                 </Style>
             </ui:AutoCompleteBox.ItemContainerStyle>
-        </ui:AutoCompleteBox>
+        </ui:AutoCompleteBox>-->
 
         <ui:MetroTextBox x:Name="SubjectTextBox"
-                         Grid.Row="3"
-                         Grid.Column="1"
-                         Grid.ColumnSpan="3"
+                         Grid.Row="1"
+                         Grid.Column="2"
                          Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                          TabIndex="1"
                          Text="{Binding Subject,
                                         UpdateSourceTrigger=PropertyChanged,
                                         Mode=TwoWay}"
                          Watermark="{x:Static properties:Resources.Subject}" />
-        <ListView Grid.Row="5"
+        <ListView Grid.Row="4"
                   Grid.Column="0"
-                  Grid.ColumnSpan="2"
+                  Grid.ColumnSpan="4"
                   Background="Transparent"
                   ItemsSource="{Binding Attachments}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -344,7 +413,7 @@
                 </ItemContainerTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Border Grid.Row="4"
+        <Border Grid.Row="5"
                 Grid.Column="0"
                 Grid.ColumnSpan="4"
                 Margin="0,3,0,0"

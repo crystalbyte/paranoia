@@ -160,6 +160,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             await from.CheckSecurityStateAsync();
 
             RecipientsBox.Preset(new[] { from });
+
             CarbonCopyBox.Preset(carbonCopies);
             BlindCarbonCopyBox.Preset(blindCarbonCopies);
         }
