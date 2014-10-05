@@ -57,13 +57,14 @@ namespace Crystalbyte.Paranoia {
                 var text = reader.ReadToEnd();
                 less = Regex.Replace(text, pattern, m => {
                     var key = m.Value.Trim('%');
-                    var resource = Current.Resources[key];
-                    if (resource == null) {
+                    string color;
+                    var success = MetroColors.TryGetColorByName(key, out color);
+                    if (!success) {
                         return "fuchsia";
                     }
                     // Drop the alpha channel.
                     return string.Format("#{0}",
-                        resource.ToString().Substring(3));
+                        color.Substring(3));
                 });
             }
 

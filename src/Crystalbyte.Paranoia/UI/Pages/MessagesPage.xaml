@@ -15,8 +15,8 @@
       mc:Ignorable="d">
     <Page.Resources>
         <converters:BooleanToBrushConverter x:Key="SubjectBrushConverter"
-                                            BrushForFalse="{StaticResource Metro.NormalTextBrush}"
-                                            BrushForTrue="{StaticResource Metro.NormalTextBrush}" />
+                                            BrushForFalse="{StaticResource Metro.Control.TextBrush}"
+                                            BrushForTrue="{StaticResource Metro.Control.TextBrush}" />
         <CollectionViewSource x:Key="MessagesSource" Source="{Binding Messages}">
             <CollectionViewSource.SortDescriptions>
                 <componentModel:SortDescription Direction="Descending" PropertyName="EntryDate" />
@@ -36,10 +36,10 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Background="{DynamicResource Metro.AlternateControlBackgroundBrush}">
+        <Grid Grid.Column="0" Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}">
             <DockPanel LastChildFill="True">
                 <Border HorizontalAlignment="Stretch"
-                        BorderBrush="{DynamicResource Metro.ControlBorderBrush}"
+                        BorderBrush="{DynamicResource Metro.Control.BorderBrush}"
                         BorderThickness="0,0,0,1"
                         DockPanel.Dock="Top"
                         Padding="0,3"
@@ -66,13 +66,13 @@
                                VerticalAlignment="Center"
                                DockPanel.Dock="Left"
                                FontSize="{DynamicResource Metro.ExtraLargeFontSize}"
-                               Style="{DynamicResource Metro.TitleTextStyle}"><Run Text="{x:Static properties:Resources.AccountsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.SecondaryTextBrush}" Text="{Binding Accounts, Converter={StaticResource CollectionCounter}, FallbackValue=0, Mode=OneWay, StringFormat=\{0\}}" />
+                               Style="{DynamicResource Metro.TitleTextStyle}"><Run Text="{x:Static properties:Resources.AccountsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{Binding Accounts, Converter={StaticResource CollectionCounter}, FallbackValue=0, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
                 </DockPanel>
                 <TreeView Margin="0"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
-                          Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
+                          Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                           BorderThickness="0"
                           ItemsSource="{Binding Accounts}"
                           Padding="0"
@@ -90,12 +90,12 @@
                                 <TextBlock x:Name="MailboxNameBlock"
                                            VerticalAlignment="Center"
                                            FontSize="{DynamicResource Metro.SmallFontSize}"
-                                           Foreground="{DynamicResource Metro.NormalTextBrush}"
+                                           Foreground="{DynamicResource Metro.Control.TextBrush}"
                                            Text="{x:Static properties:Resources.Outbox}" />
                             </StackPanel>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="MailboxNameBlock" Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+                                    <Setter TargetName="MailboxNameBlock" Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -108,7 +108,7 @@
                                                 <Image Height="16" Source="/Assets/select.png" />
                                             </MenuItem.Icon>
                                             <MenuItem.Header>
-                                                <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
+                                                <TextBlock Foreground="{StaticResource Metro.Control.TextBrush}"
                                                            Style="{StaticResource Metro.MenuHeaderTextStyle}"
                                                            Text="{x:Static properties:Resources.ShowUnsubscribedMailboxes}" />
                                             </MenuItem.Header>
@@ -118,7 +118,7 @@
                                                 <Image Height="16" Source="/Assets/ok.png" />
                                             </MenuItem.Icon>
                                             <MenuItem.Header>
-                                                <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
+                                                <TextBlock Foreground="{StaticResource Metro.Control.TextBrush}"
                                                            Style="{StaticResource Metro.MenuHeaderTextStyle}"
                                                            Text="{x:Static properties:Resources.HideUnsubscribedMailboxes}" />
                                             </MenuItem.Header>
@@ -128,14 +128,14 @@
                                             <MenuItem.Icon>
                                                 <Rectangle Width="16"
                                                            Height="16"
-                                                           Fill="{DynamicResource Metro.FailureBrush}">
+                                                           Fill="{DynamicResource Metro.App.FailureBrush}">
                                                     <Rectangle.OpacityMask>
                                                         <ImageBrush ImageSource="/Assets/delete.png" />
                                                     </Rectangle.OpacityMask>
                                                 </Rectangle>
                                             </MenuItem.Icon>
                                             <MenuItem.Header>
-                                                <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
+                                                <TextBlock Foreground="{StaticResource Metro.Control.TextBrush}"
                                                            Style="{StaticResource Metro.MenuHeaderTextStyle}"
                                                            Text="{x:Static properties:Resources.Delete}" />
                                             </MenuItem.Header>
@@ -148,7 +148,7 @@
                                                 </MenuItem.Icon>
                                             -->
                                             <MenuItem.Header>
-                                                <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
+                                                <TextBlock Foreground="{StaticResource Metro.Control.TextBrush}"
                                                            Style="{StaticResource Metro.MenuHeaderTextStyle}"
                                                            Text="{x:Static properties:Resources.Register}" />
                                             </MenuItem.Header>
@@ -158,7 +158,7 @@
                                                 <Image Height="16" Source="/Assets/edit.properties.png" />
                                             </MenuItem.Icon>
                                             <MenuItem.Header>
-                                                <TextBlock Foreground="{StaticResource Metro.NormalTextBrush}"
+                                                <TextBlock Foreground="{StaticResource Metro.Control.TextBrush}"
                                                            Style="{StaticResource Metro.MenuHeaderTextStyle}"
                                                            Text="{x:Static properties:Resources.Properties}" />
                                             </MenuItem.Header>
@@ -183,7 +183,7 @@
                                     <TextBlock Margin="2,-2,0,0"
                                                FontSize="{DynamicResource Metro.MediumLargeFontSize}"
                                                FontWeight="Thin"
-                                               Foreground="{DynamicResource Metro.NormalTextBrush}"
+                                               Foreground="{DynamicResource Metro.Control.TextBrush}"
                                                RenderOptions.ClearTypeHint="Enabled"
                                                Text="{Binding Name,
                                                               ConverterParameter=...,
@@ -199,7 +199,7 @@
                                         <TextBlock.Foreground>
                                             <Binding Mode="OneWay" Path="IsSelected">
                                                 <Binding.Converter>
-                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.NormalTextBrush}" />
+                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.Control.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.Control.TextBrush}" />
                                                 </Binding.Converter>
                                             </Binding>
                                         </TextBlock.Foreground>
@@ -265,7 +265,7 @@
                                         <TextBlock.Foreground>
                                             <Binding Path="IsSubscribedAndSelectable">
                                                 <Binding.Converter>
-                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.NormalTextBrush}" />
+                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.Control.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.Control.TextBrush}" />
                                                 </Binding.Converter>
                                             </Binding>
                                         </TextBlock.Foreground>
@@ -281,7 +281,7 @@
                                             <TextBlock.Foreground>
                                                 <Binding Path="IsSelected">
                                                     <Binding.Converter>
-                                                        <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.App.AccentBrush}" BrushForTrue="{DynamicResource Metro.NormalTextBrush}" />
+                                                        <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.App.AccentBrush}" BrushForTrue="{DynamicResource Metro.Control.TextBrush}" />
                                                     </Binding.Converter>
                                                 </Binding>
                                             </TextBlock.Foreground>
@@ -303,8 +303,8 @@
                             </Grid>
                             <HierarchicalDataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="MailboxNameBlock" Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
-                                    <Setter TargetName="EnvelopeProgressBar" Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+                                    <Setter TargetName="MailboxNameBlock" Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
+                                    <Setter TargetName="EnvelopeProgressBar" Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
                                 </DataTrigger>
                             </HierarchicalDataTemplate.Triggers>
                         </HierarchicalDataTemplate>
@@ -323,7 +323,7 @@
         </Grid>
         <DockPanel Grid.Row="0"
                    Grid.Column="2"
-                   Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
+                   Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                    LastChildFill="True">
             <Grid DockPanel.Dock="Top">
                 <Grid.RowDefinitions>
@@ -335,11 +335,11 @@
                            VerticalAlignment="Center"
                            FontSize="{DynamicResource Metro.ExtraLargeFontSize}"
                            Style="{DynamicResource Metro.TitleTextStyle}">
-                    <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.SecondaryTextBrush}" Text="{Binding Messages, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
+                    <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{Binding Messages, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
                 </TextBlock>
                 <TextBox Grid.Row="1"
                          Margin="6"
-                         Background="{DynamicResource Metro.ControlBackgroundBrush}"
+                         Background="{DynamicResource Metro.Control.BackgroundBrush}"
                          Text="{Binding QueryString,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged}" />
@@ -380,7 +380,7 @@
                     <ListView.Resources>
                         <converters:BooleanToBrushConverter x:Key="SeenBrushConverter"
                                                             BrushForFalse="{DynamicResource Metro.App.AccentBrush}"
-                                                            BrushForTrue="{DynamicResource Metro.SecondaryTextBrush}" />
+                                                            BrushForTrue="{DynamicResource Metro.Control.SecondaryTextBrush}" />
                     </ListView.Resources>
                     <ListView.ItemsSource>
                         <Binding Source="{StaticResource MessagesSource}" />
@@ -434,7 +434,7 @@
                                 <MenuItem.Icon>
                                     <Rectangle Width="16"
                                                Height="16"
-                                               Fill="{DynamicResource Metro.FailureBrush}">
+                                               Fill="{DynamicResource Metro.App.FailureBrush}">
                                         <Rectangle.OpacityMask>
                                             <ImageBrush ImageSource="/Assets/delete.png" />
                                         </Rectangle.OpacityMask>
@@ -589,15 +589,15 @@
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
                                            FontSize="{DynamicResource Metro.SmallFontSize}"
-                                           Foreground="{DynamicResource Metro.SecondaryTextBrush}"
+                                           Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
                                            Text="{Binding EntryDate,
                                                           Converter={StaticResource DateFormatter}}" />
 
                             </Grid>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="SubjectBlock" Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
-                                    <Setter TargetName="DateBlock" Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+                                    <Setter TargetName="SubjectBlock" Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
+                                    <Setter TargetName="DateBlock" Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -616,7 +616,7 @@
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
                            FontSize="{DynamicResource Metro.MediumFontSize}"
-                           Foreground="{DynamicResource Metro.SecondaryTextBrush}"
+                           Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
                            Text="{x:Static properties:Resources.NoMessages}"
                            Visibility="{Binding MessageCount,
                                                 ConverterParameter=!,
@@ -627,7 +627,7 @@
         <GridSplitter Grid.Row="0" Grid.Column="3" />
         <Grid Grid.Row="0"
               Grid.Column="4"
-              Background="{DynamicResource Metro.ControlBackgroundBrush}">
+              Background="{DynamicResource Metro.Control.BackgroundBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -680,26 +680,26 @@
                                 Orientation="Horizontal"
                                 Visibility="{Binding SelectedMessage,
                                                      Converter={StaticResource NullToVisibilityConverter}}">
-                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.NormalTextBrush}" Command="ui:MessageCommands.Reply">
+                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="ui:MessageCommands.Reply">
                             <Image Width="18"
                                    Margin="-2,2,0,0"
                                    Source="/Assets/reply.png" />
                         </ui:MetroCircleButton>
-                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.NormalTextBrush}" Command="ui:MessageCommands.Forward">
+                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="ui:MessageCommands.Forward">
                             <Image Width="18"
                                    Margin="-2,2,0,0"
                                    Source="/Assets/forward.png" />
                         </ui:MetroCircleButton>
-                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.NormalTextBrush}" Command="{Binding DeleteMessagesCommand}">
+                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="{Binding DeleteMessagesCommand}">
                             <Rectangle Width="18"
                                        Height="16"
-                                       Fill="{DynamicResource Metro.FailureBrush}">
+                                       Fill="{DynamicResource Metro.App.FailureBrush}">
                                 <Rectangle.OpacityMask>
                                     <ImageBrush ImageSource="/Assets/delete.png" />
                                 </Rectangle.OpacityMask>
                             </Rectangle>
                         </ui:MetroCircleButton>
-                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.NormalTextBrush}" Command="ApplicationCommands.Print">
+                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="ApplicationCommands.Print">
                             <Image Width="18"
                                    Margin="0,0,0,0"
                                    Source="/Assets/print.png" />
@@ -710,7 +710,7 @@
                               Grid.ColumnSpan="2"
                               MaxHeight="300"
                               Margin="0,3,0,0"
-                              Background="{DynamicResource Metro.MenuBackgroundBrush}"
+                              Background="{DynamicResource Metro.Menu.BackgroundBrush}"
                               BorderThickness="0"
                               ItemsSource="{Binding Attachments}"
                               Padding="0,3,0,3"
@@ -777,7 +777,7 @@
                                              Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Border Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}">
                         <ui:HtmlControl x:Name="HtmlControl"
-                                        Background="{DynamicResource Metro.ControlBackgroundBrush}"
+                                        Background="{DynamicResource Metro.Control.BackgroundBrush}"
                                         BorderThickness="0"
                                         DataContext="{Binding DataContext,
                                                               RelativeSource={RelativeSource FindAncestor,
@@ -808,7 +808,7 @@
                     <TextBlock Margin="24,12"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Bottom"
-                               Foreground="{DynamicResource Metro.SecondaryTextBrush}"><Run FontSize="48"
+                               Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"><Run FontSize="48"
                              FontWeight="Thin"
                              Foreground="{DynamicResource Metro.App.AccentBrush}"
                              Text="{Binding ProgressChanged}" /><Run Text=" " /><Run FontSize="{DynamicResource Metro.NormalFontSize}"

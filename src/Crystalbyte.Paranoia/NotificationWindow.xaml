@@ -47,8 +47,8 @@
                 <TranslateTransform />
             </TransformGroup>
         </Grid.RenderTransform>
-        <Border Background="{DynamicResource Metro.MenuBackgroundBrush}"
-                BorderBrush="{DynamicResource Metro.ControlBorderBrush}"
+        <Border Background="{DynamicResource Metro.Menu.BackgroundBrush}"
+                BorderBrush="{DynamicResource Metro.Control.BorderBrush}"
                 BorderThickness="2">
             <Grid>
                 <Grid.ColumnDefinitions>

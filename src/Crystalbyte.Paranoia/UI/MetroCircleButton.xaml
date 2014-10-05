@@ -6,7 +6,7 @@
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 
     <Style TargetType="ui:MetroCircleButton">
-        <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
         <Setter Property="Margin" Value="6" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
@@ -51,7 +51,7 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Presenter" Property="Opacity" Value=".2" />
                             <Setter TargetName="Ellipse" Property="Opacity" Value=".2" />
-                            <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource Metro.DisabledBrush}" />
+                            <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

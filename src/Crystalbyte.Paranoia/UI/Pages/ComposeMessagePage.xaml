@@ -35,13 +35,13 @@
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <TextBlock FontSize="{DynamicResource Metro.MediumFontSize}"
                                FontWeight="Thin"
-                               Foreground="{DynamicResource Metro.NormalTextBrush}"
+                               Foreground="{DynamicResource Metro.Control.TextBrush}"
                                Text="{Binding Name}" />
                     <TextBlock FontSize="{DynamicResource Metro.SmallFontSize}" Text="{Binding Address}">
                         <TextBlock.Foreground>
                             <Binding Mode="OneWay" Path="IsSelected">
                                 <Binding.Converter>
-                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.NormalTextBrush}" />
+                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.Control.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.Control.TextBrush}" />
                                 </Binding.Converter>
                             </Binding>
                         </TextBlock.Foreground>
@@ -56,7 +56,7 @@
                            Fill="#222" />
                 <StackPanel Margin="0,0,3,0" Orientation="Horizontal">
                     <Border Background="Transparent"
-                            BorderBrush="{DynamicResource Metro.FailureBrush}"
+                            BorderBrush="{DynamicResource Metro.App.FailureBrush}"
                             BorderThickness="0,0,3,0"
                             RenderOptions.EdgeMode="Aliased"
                             UseLayoutRounding="True">
@@ -70,7 +70,7 @@
                     <TextBlock Margin="2,0,2,0"
                                Background="Transparent"
                                FontWeight="Normal"
-                               Foreground="{DynamicResource Metro.NormalTextBrush}"
+                               Foreground="{DynamicResource Metro.Control.TextBrush}"
                                Text="{Binding}" />
                 </StackPanel>
             </Grid>
@@ -100,7 +100,7 @@
                     <TextBlock Margin="2,0,2,0"
                                Background="Transparent"
                                FontWeight="Normal"
-                               Foreground="{DynamicResource Metro.NormalTextBrush}"
+                               Foreground="{DynamicResource Metro.Control.TextBrush}"
                                Text="{Binding NameOrAddress}" />
                 </StackPanel>
             </Grid>
@@ -132,7 +132,7 @@
                     Margin="6,0"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
-            <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.NormalTextBrush}" Command="{Binding AddAttachmentCommand}">
+            <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="{Binding AddAttachmentCommand}">
                 <Image Width="18" Source="/Assets/attachment.png" />
             </ui:MetroCircleButton>
         </StackPanel>
@@ -143,7 +143,7 @@
                 Height="90"
                 Margin="0,3,5,3"
                 VerticalAlignment="Bottom"
-                BorderBrush="{DynamicResource Metro.ControlBorderBrush}"
+                BorderBrush="{DynamicResource Metro.Control.BorderBrush}"
                 Command="{Binding SendCommand}"
                 TabIndex="4">
             <Image Width="18" Source="/Assets/message.png" />
@@ -180,7 +180,7 @@
                             <TextBlock Margin="2,-2,0,0"
                                        FontSize="{DynamicResource Metro.MediumLargeFontSize}"
                                        FontWeight="Thin"
-                                       Foreground="{DynamicResource Metro.NormalTextBrush}"
+                                       Foreground="{DynamicResource Metro.Control.TextBrush}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Text="{Binding Name,
                                                       ConverterParameter=...,
@@ -196,7 +196,7 @@
                                 <TextBlock.Foreground>
                                     <Binding Mode="OneWay" Path="IsSelected">
                                         <Binding.Converter>
-                                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.NormalTextBrush}" />
+                                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.Control.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.Control.TextBrush}" />
                                         </Binding.Converter>
                                     </Binding>
                                 </TextBlock.Foreground>
@@ -221,7 +221,7 @@
                                 Grid.RowSpan="2"
                                 Grid.Column="0"
                                 HorizontalAlignment="Stretch"
-                                Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
+                                Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                                 ItemTemplate="{StaticResource ContactSuggestionTemplate}"
                                 ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
                                 SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
@@ -295,7 +295,7 @@
                          Grid.Row="3"
                          Grid.Column="1"
                          Grid.ColumnSpan="3"
-                         Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
+                         Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                          TabIndex="1"
                          Text="{Binding Subject,
                                         UpdateSourceTrigger=PropertyChanged,
@@ -348,14 +348,14 @@
                 Grid.Column="0"
                 Grid.ColumnSpan="4"
                 Margin="0,3,0,0"
-                Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
+                Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                 BorderThickness="0"
                 Padding="0">
             <ui:HtmlControl x:Name="HtmlControl"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             AllowDrop="True"
-                            Background="{DynamicResource Metro.ControlBackgroundBrush}"
+                            Background="{DynamicResource Metro.Control.BackgroundBrush}"
                             Drop="DropHtmlControl"
                             IsTransparent="True"
                             Padding="3"

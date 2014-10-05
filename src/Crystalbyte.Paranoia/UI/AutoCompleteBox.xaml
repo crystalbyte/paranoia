@@ -8,7 +8,7 @@
                    Background="Transparent"
                    Focusable="False"
                    FontStyle="Italic"
-                   Foreground="{DynamicResource Metro.SecondaryTextBrush}"
+                   Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
                    Text="{Binding}" />
     </DataTemplate>
 
@@ -17,9 +17,9 @@
         <Setter Property="SelectionBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
         <Setter Property="FontSize" Value="{DynamicResource Metro.NormalFontSize}" />
         <Setter Property="WatermarkTemplate" Value="{StaticResource DefaultWatermarkTemplate}" />
-        <Setter Property="Background" Value="{DynamicResource Metro.ControlBackgroundBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
+        <Setter Property="Background" Value="{DynamicResource Metro.Control.BackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Metro.Control.BorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="0,3,0,3" />
         <Setter Property="FontFamily" Value="Calibri" />
@@ -65,7 +65,7 @@
                                               MinWidth="300"
                                               MinHeight="150"
                                               Margin="1"
-                                              Background="{DynamicResource Metro.MenuBackgroundBrush}"
+                                              Background="{DynamicResource Metro.Menu.BackgroundBrush}"
                                               BorderThickness="0"
                                               Focusable="False"
                                               ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
@@ -93,11 +93,11 @@
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.DisabledBrush}" />
-                            <Setter Property="Foreground" Value="{DynamicResource Metro.DisabledBrush}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.Control.DisabledBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.Control.BorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.App.AccentBrush}" />

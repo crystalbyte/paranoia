@@ -24,7 +24,7 @@
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)">
-                                            <EasingColorKeyFrame KeyTime="0" Value="{x:Static paranoia:MetroColors.HoverColor}" />
+                                            <EasingColorKeyFrame KeyTime="0" Value="{x:Static paranoia:MetroColors.ControlHoverColor}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -35,14 +35,14 @@
                                 <VisualState x:Name="Selected">
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="SelectionBackground" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)">
-                                            <EasingColorKeyFrame KeyTime="0" Value="{x:Static paranoia:MetroColors.AccentColor}" />
+                                            <EasingColorKeyFrame KeyTime="0" Value="{x:Static paranoia:MetroColors.AppAccentColor}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="SelectedUnfocused">
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="SelectionBackground" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)">
-                                            <EasingColorKeyFrame KeyTime="0" Value="{x:Static paranoia:MetroColors.SelectedUnfocusedColor}" />
+                                            <EasingColorKeyFrame KeyTime="0" Value="{x:Static paranoia:MetroColors.ControlSelectedUnfocusedColor}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -56,10 +56,10 @@
 
     <Style TargetType="ListView">
 
-        <Setter Property="Background" Value="{DynamicResource Metro.ControlBackgroundBrush}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
+        <Setter Property="Background" Value="{DynamicResource Metro.Control.BackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Metro.Control.BorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
@@ -81,7 +81,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Metro.DisabledBrush}" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Metro.Control.DisabledBrush}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

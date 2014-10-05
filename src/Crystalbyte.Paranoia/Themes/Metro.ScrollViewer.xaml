@@ -100,14 +100,14 @@
                     <Rectangle x:Name="rectangle"
                                Width="{TemplateBinding Width}"
                                Height="{TemplateBinding Height}"
-                               Fill="{DynamicResource Metro.ScrollBackgroundBrush}"
+                               Fill="{DynamicResource Metro.Scroll.Thumb.BackgroundBrush}"
                                SnapsToDevicePixels="True" />
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.ScrollHoverBrush}" />
+                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.Scroll.Thumb.HoverBrush}" />
                         </Trigger>
                         <Trigger Property="IsDragging" Value="true">
-                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.ScrollDragBrush}" />
+                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.Scroll.Thumb.DragBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -124,14 +124,14 @@
                     <Rectangle x:Name="rectangle"
                                Width="{TemplateBinding Width}"
                                Height="{TemplateBinding Height}"
-                               Fill="{DynamicResource Metro.ScrollBackgroundBrush}"
+                               Fill="{DynamicResource Metro.Scroll.Thumb.BackgroundBrush}"
                                SnapsToDevicePixels="True" />
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.ScrollHoverColor}" />
                         </Trigger>
                         <Trigger Property="IsDragging" Value="true">
-                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.ScrollDragBrush}" />
+                            <Setter TargetName="rectangle" Property="Fill" Value="{DynamicResource Metro.Scroll.Thumb.DragBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -141,7 +141,7 @@
     <Style x:Key="ScrollBarStyle" TargetType="{x:Type ScrollBar}">
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
-        <Setter Property="Background" Value="{DynamicResource Metro.AlternateControlBackgroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource Metro.Control.SecondaryBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="BorderThickness" Value="0" />

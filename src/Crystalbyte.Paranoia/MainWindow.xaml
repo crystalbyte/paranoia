@@ -11,7 +11,7 @@
                 Height="768"
                 MinWidth="200"
                 MinHeight="100"
-                Background="{DynamicResource Metro.WindowBackgroundBrush}"
+                Background="{DynamicResource Metro.Window.BackgroundBrush}"
                 BorderThickness="0"
                 KeyboardNavigation.TabNavigation="Local"
                 UseLayoutRounding="True"
@@ -235,7 +235,7 @@
                                         <Condition Binding="{Binding IsSelected}" Value="False" />
                                         <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType=ListViewItem}}" Value="True" />
                                     </MultiDataTrigger.Conditions>
-                                    <Setter TargetName="TitleBlock" Property="Foreground" Value="{DynamicResource Metro.SecondaryTextBrush}" />
+                                    <Setter TargetName="TitleBlock" Property="Foreground" Value="{DynamicResource Metro.Control.SecondaryTextBrush}" />
                                 </MultiDataTrigger>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                     <Setter TargetName="TitleBlock" Property="Foreground" Value="{DynamicResource Metro.App.AccentBrush}" />
@@ -301,7 +301,7 @@
         <Rectangle Grid.Row="2"
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
-                   Fill="{DynamicResource Metro.AlternateControlBackgroundBrush}" />
+                   Fill="{DynamicResource Metro.Control.SecondaryBackgroundBrush}" />
         <StatusBar x:Name="StatusBar"
                    Grid.Row="2"
                    Height="24"
@@ -376,11 +376,11 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid Grid.ColumnSpan="2"
-                  Background="{DynamicResource Metro.ShadowBrush}"
+                  Background="{DynamicResource Metro.Window.ShadowBrush}"
                   Opacity="{DynamicResource Metro.ShadowOpacity}" />
             <Border x:Name="Flyout"
                     Grid.Column="1"
-                    Background="{DynamicResource Metro.FlyoutBackgroundBrush}"
+                    Background="{DynamicResource Metro.Flyout.BackgroundBrush}"
                     Padding="24">
                 <Border.RenderTransform>
                     <TransformGroup>
@@ -401,7 +401,7 @@
                                 Orientation="Horizontal">
                         <ui:MetroCircleButton x:Name="Button"
                                               Margin="0,0,12,0"
-                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              BorderBrush="{DynamicResource Metro.Control.TextBrush}"
                                               Command="ui:WindowCommands.CloseFlyOut"
                                               Focusable="False"
                                               RenderTransformOrigin="0.5,0.5">
@@ -468,15 +468,15 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Rectangle Grid.Row="0"
-                       Fill="{DynamicResource Metro.ShadowBrush}"
+                       Fill="{DynamicResource Metro.Window.ShadowBrush}"
                        Opacity="{DynamicResource Metro.ShadowOpacity}"
                        RenderOptions.EdgeMode="Aliased" />
             <Rectangle Grid.Row="2"
-                       Fill="{DynamicResource Metro.ShadowBrush}"
+                       Fill="{DynamicResource Metro.Window.ShadowBrush}"
                        Opacity="{DynamicResource Metro.ShadowOpacity}"
                        RenderOptions.EdgeMode="Aliased" />
             <Border Grid.Row="1"
-                    Background="{DynamicResource Metro.FlyoutBackgroundBrush}"
+                    Background="{DynamicResource Metro.Flyout.BackgroundBrush}"
                     BorderBrush="{DynamicResource Metro.App.AccentBrush}"
                     BorderThickness="0"
                     Padding="0,24,0,24">

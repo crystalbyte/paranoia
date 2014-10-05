@@ -9,7 +9,7 @@
 
     <Style TargetType="{x:Type ui:MetroProgressBar}">
         <Setter Property="Foreground" Value="{DynamicResource Metro.App.AccentBrush}" />
-        <Setter Property="Background" Value="{DynamicResource Metro.ControlBackgroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource Metro.Control.BackgroundBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource TransparentOutlineBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource OutlineBorderThickness}" />
         <Setter Property="Maximum" Value="100" />

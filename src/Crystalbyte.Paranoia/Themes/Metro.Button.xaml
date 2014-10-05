@@ -5,8 +5,8 @@
 
     <Style TargetType="ButtonBase">
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
-        <Setter Property="Background" Value="{DynamicResource Metro.AlternateControlBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Metro.Control.BorderBrush}" />
+        <Setter Property="Background" Value="{DynamicResource Metro.Control.SecondaryBackgroundBrush}" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Width" Value="Auto" />
         <Setter Property="Height" Value="Auto" />
@@ -16,7 +16,7 @@
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
@@ -30,8 +30,8 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource Metro.DisabledBrush}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource Metro.DisabledBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource Metro.Control.DisabledBrush}" />
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -45,7 +45,7 @@
                     <Condition Property="IsMouseOver" Value="True" />
                     <Condition Property="IsPressed" Value="False" />
                 </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="{DynamicResource Metro.HoverBrush}" />
+                <Setter Property="Background" Value="{DynamicResource Metro.Control.HoverBrush}" />
             </MultiTrigger>
         </Style.Triggers>
     </Style>
@@ -54,7 +54,7 @@
         <Setter Property="Padding" Value="6,4,6,4" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Metro.NormalTextBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Metro.Control.TextBrush}" />
     </Style>
 
     <Style x:Key="Metro.MenuButtonStyle"
@@ -99,7 +99,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -231,9 +231,9 @@
         <Setter Property="Padding" Value="3" />
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource Metro.DisabledBrush}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource Metro.DisabledBrush}" />
-                <Setter Property="Background" Value="{DynamicResource Metro.ControlBackgroundBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource Metro.Control.DisabledBrush}" />
+                <Setter Property="Background" Value="{DynamicResource Metro.Control.BackgroundBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>

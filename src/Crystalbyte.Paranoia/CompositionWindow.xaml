@@ -13,12 +13,12 @@
                 Height="600"
                 MinWidth="450"
                 MinHeight="300"
-                BorderBrush="{DynamicResource Metro.ShadowBrush}"
+                BorderBrush="{DynamicResource Metro.Window.ShadowBrush}"
                 BorderThickness="1"
                 UseLayoutRounding="True"
                 WindowStartupLocation="CenterOwner"
                 mc:Ignorable="d">
-    <Grid Background="{DynamicResource Metro.ControlBackgroundBrush}">
+    <Grid Background="{DynamicResource Metro.Control.BackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

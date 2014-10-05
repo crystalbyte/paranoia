@@ -4,10 +4,10 @@
         <Setter Property="SelectionBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
         <Setter Property="SelectionOpacity" Value="0.4" />
         <Setter Property="FontSize" Value="{DynamicResource Metro.NormalFontSize}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
-        <Setter Property="Background" Value="{DynamicResource Metro.ControlBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Metro.Control.BorderBrush}" />
+        <Setter Property="Background" Value="{DynamicResource Metro.Control.BackgroundBrush}" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
         <Setter Property="Padding" Value="3" />
         <Setter Property="FontFamily" Value="Calibri" />
         <Setter Property="Margin" Value="0,3,0,3" />
@@ -27,11 +27,11 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.DisabledBrush}" />
-                            <Setter Property="Foreground" Value="{DynamicResource Metro.DisabledBrush}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.Control.DisabledBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.Control.BorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.App.AccentBrush}" />

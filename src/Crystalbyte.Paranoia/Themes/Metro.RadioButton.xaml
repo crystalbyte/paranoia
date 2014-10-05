@@ -22,9 +22,9 @@
 
     <Style TargetType="{x:Type RadioButton}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}" />
-        <Setter Property="Background" Value="{DynamicResource Metro.ControlBackgroundBrush}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+        <Setter Property="Background" Value="{DynamicResource Metro.Control.BackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Metro.Control.BorderBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Margin" Value="0,3,0,3" />
@@ -82,10 +82,10 @@
                             <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource Metro.HoverBrush}" />
+                            <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource Metro.Control.HoverBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource Metro.DisabledBrush}" />
+                            <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource Metro.Control.DisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -96,8 +96,8 @@
     <Style x:Key="Metro.TextRadioButtonStyle" TargetType="{x:Type RadioButton}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Metro.Control.BorderBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="FontWeight" Value="Thin" />
         <Setter Property="FontSize" Value="{DynamicResource Metro.MediumLargeFontSize}" />
@@ -121,10 +121,10 @@
                             <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource Metro.App.AccentBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource Metro.SecondaryTextBrush}" />
+                            <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource Metro.Control.SecondaryTextBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource Metro.DisabledBrush}" />
+                            <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

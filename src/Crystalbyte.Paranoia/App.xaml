@@ -79,28 +79,29 @@
             <system:Double x:Key="Metro.ExtraLargeFontSize">28</system:Double>
 
             <!--  Colors  -->
-            <SolidColorBrush x:Key="Metro.App.AccentBrush" Color="{x:Static paranoia:MetroColors.AccentColor}" />
-            <SolidColorBrush x:Key="Metro.FailureBrush" Color="{x:Static paranoia:MetroColors.FailureColor}" />
-            <SolidColorBrush x:Key="Metro.SuccessBrush" Color="{x:Static paranoia:MetroColors.SuccessColor}" />
-            <SolidColorBrush x:Key="Metro.WarningBrush" Color="{x:Static paranoia:MetroColors.WarningColor}" />
-            <SolidColorBrush x:Key="Metro.WindowBackgroundBrush" Color="{x:Static paranoia:MetroColors.WindowBackgroundColor}" />
-            <SolidColorBrush x:Key="Metro.FlyoutBackgroundBrush" Color="{x:Static paranoia:MetroColors.FlyoutBackgroundColor}" />
-            <SolidColorBrush x:Key="Metro.ShadowBrush" Color="{x:Static paranoia:MetroColors.ShadowColor}" />
-            <SolidColorBrush x:Key="Metro.ControlBackgroundBrush" Color="{x:Static paranoia:MetroColors.ControlBackgroundColor}" />
-            <SolidColorBrush x:Key="Metro.AlternateControlBackgroundBrush" Color="{x:Static paranoia:MetroColors.SecondaryControlBackgroundColor}" />
-            <SolidColorBrush x:Key="Metro.PaperBackgroundColor" Color="{x:Static paranoia:MetroColors.PaperBackgroundColor}" />
-            <SolidColorBrush x:Key="Metro.ControlBorderBrush" Color="{x:Static paranoia:MetroColors.ControlBorderColor}" />
-            <SolidColorBrush x:Key="Metro.HoverBrush" Color="{x:Static paranoia:MetroColors.HoverColor}" />
-            <SolidColorBrush x:Key="Metro.MenuBackgroundBrush" Color="{x:Static paranoia:MetroColors.MenuBackgroundColor}" />
-            <SolidColorBrush x:Key="Metro.NormalTextBrush" Color="{x:Static paranoia:MetroColors.NormalTextColor}" />
-            <SolidColorBrush x:Key="Metro.PaperTextBrush" Color="{x:Static paranoia:MetroColors.PaperTextColor}" />
-            <SolidColorBrush x:Key="Metro.SecondaryTextBrush" Color="{x:Static paranoia:MetroColors.SecondaryTextColor}" />
-            <SolidColorBrush x:Key="Metro.HoverTextBrush" Color="{x:Static paranoia:MetroColors.SecondaryTextColor}" />
-            <SolidColorBrush x:Key="Metro.DisabledBrush" Color="{x:Static paranoia:MetroColors.DisabledColor}" />
-            <SolidColorBrush x:Key="Metro.SelectedUnfocusedBrush" Color="{x:Static paranoia:MetroColors.SelectedUnfocusedColor}" />
-            <SolidColorBrush x:Key="Metro.ScrollBackgroundBrush" Color="{x:Static paranoia:MetroColors.ScrollBackgroundColor}" />
-            <SolidColorBrush x:Key="Metro.ScrollHoverBrush" Color="{x:Static paranoia:MetroColors.ScrollHoverColor}" />
-            <SolidColorBrush x:Key="Metro.ScrollDragBrush" Color="{x:Static paranoia:MetroColors.ScrollDragColor}" />
+            <SolidColorBrush x:Key="Metro.App.AccentBrush" Color="{x:Static paranoia:MetroColors.AppAccentColor}" />
+            <SolidColorBrush x:Key="Metro.App.FailureBrush" Color="{x:Static paranoia:MetroColors.AppFailureColor}" />
+            <SolidColorBrush x:Key="Metro.App.SuccessBrush" Color="{x:Static paranoia:MetroColors.AppSuccessColor}" />
+            <SolidColorBrush x:Key="Metro.App.WarningBrush" Color="{x:Static paranoia:MetroColors.AppWarningColor}" />
+            <SolidColorBrush x:Key="Metro.Flyout.BackgroundBrush" Color="{x:Static paranoia:MetroColors.FlyoutBackgroundColor}" />
+            <SolidColorBrush x:Key="Metro.Window.BackgroundBrush" Color="{x:Static paranoia:MetroColors.WindowBackgroundColor}" />
+            <SolidColorBrush x:Key="Metro.Window.ShadowBrush" Color="{x:Static paranoia:MetroColors.WindowShadowColor}" />
+            <SolidColorBrush x:Key="Metro.Control.BackgroundBrush" Color="{x:Static paranoia:MetroColors.ControlBackgroundColor}" />
+            <SolidColorBrush x:Key="Metro.Control.SecondaryBackgroundBrush" Color="{x:Static paranoia:MetroColors.ControlSecondaryBackgroundColor}" />
+            <SolidColorBrush x:Key="Metro.Control.BorderBrush" Color="{x:Static paranoia:MetroColors.ControlBorderColor}" />
+            <SolidColorBrush x:Key="Metro.Control.HoverBrush" Color="{x:Static paranoia:MetroColors.ControlHoverColor}" />
+            <SolidColorBrush x:Key="Metro.Control.TextBrush" Color="{x:Static paranoia:MetroColors.ControlTextColor}" />
+            <SolidColorBrush x:Key="Metro.Control.SecondaryTextBrush" Color="{x:Static paranoia:MetroColors.ControlSecondaryTextColor}" />
+            <SolidColorBrush x:Key="Metro.Control.HoverTextBrush" Color="{x:Static paranoia:MetroColors.ControlHoverTextColor}" />
+            <SolidColorBrush x:Key="Metro.Control.DisabledBrush" Color="{x:Static paranoia:MetroColors.ControlDisabledColor}" />
+            <SolidColorBrush x:Key="Metro.Control.SelectedUnfocusedBrush" Color="{x:Static paranoia:MetroColors.ControlSelectedUnfocusedColor}" />
+            <SolidColorBrush x:Key="Metro.Paper.BackgroundBrush" Color="{x:Static paranoia:MetroColors.PaperBackgroundColor}" />
+            <SolidColorBrush x:Key="Metro.Paper.TextBrush" Color="{x:Static paranoia:MetroColors.PaperTextColor}" />
+            <SolidColorBrush x:Key="Metro.Menu.BackgroundBrush" Color="{x:Static paranoia:MetroColors.MenuBackgroundColor}" />
+            <SolidColorBrush x:Key="Metro.Scroll.Thumb.BackgroundBrush" Color="{x:Static paranoia:MetroColors.ScrollThumbBackgroundColor}" />
+            <SolidColorBrush x:Key="Metro.Scroll.Thumb.HoverBrush" Color="{x:Static paranoia:MetroColors.ScrollThumbHoverColor}" />
+            <SolidColorBrush x:Key="Metro.Scroll.Thumb.DragBrush" Color="{x:Static paranoia:MetroColors.ScrollThumbDragColor}" />
+            <SolidColorBrush x:Key="Metro.Scroll.BackgroundBrush" Color="{x:Static paranoia:MetroColors.ScrollBackgroundColor}" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

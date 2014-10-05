@@ -36,9 +36,9 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <DockPanel Grid.Column="0"
-                       Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
+                       Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                        LastChildFill="False">
-                <ItemsControl Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
+                <ItemsControl Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                               BorderThickness="0"
                               DockPanel.Dock="Top"
                               ItemsSource="{Binding Alphabet}"
@@ -76,7 +76,7 @@
 
             <Grid Grid.Column="1" Width="4" />
             <DockPanel Grid.Column="2"
-                       Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
+                       Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                        LastChildFill="True">
                 <DockPanel DockPanel.Dock="Top" LastChildFill="True">
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
@@ -92,17 +92,17 @@
                                DockPanel.Dock="Top"
                                FontSize="{DynamicResource Metro.ExtraLargeFontSize}"
                                Style="{DynamicResource Metro.TitleTextStyle}">
-                        <Run Text="{x:Static properties:Resources.ContactsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.SecondaryTextBrush}" Text="{Binding Contacts, Converter={StaticResource CollectionCounter}, Mode=OneWay}" />
+                        <Run Text="{x:Static properties:Resources.ContactsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{Binding Contacts, Converter={StaticResource CollectionCounter}, Mode=OneWay}" />
                     </TextBlock>
                 </DockPanel>
                 <TextBox Margin="6"
-                         Background="{DynamicResource Metro.ControlBackgroundBrush}"
+                         Background="{DynamicResource Metro.Control.BackgroundBrush}"
                          DockPanel.Dock="Top"
                          Text="{Binding ContactQueryString,
                                         UpdateSourceTrigger=PropertyChanged,
                                         Mode=TwoWay}" />
                 <ListView x:Name="ContactsList"
-                          Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
+                          Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                           BorderThickness="0"
                           ItemsSource="{Binding Source={StaticResource ContactsSource}}"
                           SelectionChanged="OnContactsSelectionChanged">
@@ -153,7 +153,7 @@
                                 <Grid Margin="12,0" Visibility="{Binding IsBlocked, Converter={StaticResource BooleanToVisibilityConverter}}">
                                     <Rectangle Width="18"
                                                Height="18"
-                                               Fill="{DynamicResource Metro.FailureBrush}">
+                                               Fill="{DynamicResource Metro.App.FailureBrush}">
                                         <Rectangle.OpacityMask>
                                             <ImageBrush ImageSource="/Assets/block.png" />
                                         </Rectangle.OpacityMask>
@@ -172,7 +172,7 @@
                             </StackPanel>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+                                    <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -181,10 +181,10 @@
             </DockPanel>
             <GridSplitter Grid.Column="3" />
             <DockPanel Grid.Column="4"
-                       Background="{DynamicResource Metro.ControlBackgroundBrush}"
+                       Background="{DynamicResource Metro.Control.BackgroundBrush}"
                        LastChildFill="False">
                 <Grid Margin="0,0,0,12"
-                      Background="{DynamicResource Metro.ControlBackgroundBrush}"
+                      Background="{DynamicResource Metro.Control.BackgroundBrush}"
                       DockPanel.Dock="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -223,17 +223,17 @@
                                 VerticalAlignment="Top"
                                 Orientation="Horizontal">
                         <ui:MetroCircleButton VerticalAlignment="Center"
-                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              BorderBrush="{DynamicResource Metro.Control.TextBrush}"
                                               Command="{Binding DeleteContactsCommand}">
                             <Image Width="18" Source="/Assets/delete.png" />
                         </ui:MetroCircleButton>
                         <ui:MetroCircleButton VerticalAlignment="Center"
-                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              BorderBrush="{DynamicResource Metro.Control.TextBrush}"
                                               Command="{Binding BlockContactsCommand}">
                             <Image Width="18" Source="/Assets/block.png" />
                         </ui:MetroCircleButton>
                         <ui:MetroCircleButton VerticalAlignment="Center"
-                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              BorderBrush="{DynamicResource Metro.Control.TextBrush}"
                                               Command="{Binding UnblockContactsCommand}">
                             <Image Width="18" Source="/Assets/unblock.png" />
                         </ui:MetroCircleButton>

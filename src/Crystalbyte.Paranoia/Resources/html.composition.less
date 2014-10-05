@@ -1,10 +1,9 @@
-﻿@accent-color: %Metro.AccentColor%;
-@background-color: WhiteSmoke;
-@normal-text-color: #333;
-@scrollbar-thumb-hover-color: #666668;
-@scrollbar-thumb-drag-color: #888889;
-@scrollbar-thumb-color: #555557;
-@scrollbar-background: #333335;
+﻿@accent-color: %AppAccentColor%;
+@paper-background-color: %PaperBackgroundColor%;
+@scrollbar-thumb-hover-color: %ScrollThumbHoverColor%;
+@scrollbar-thumb-drag-color: %ScrollThumbDragColor%;
+@scrollbar-thumb-color: %ScrollThumbBackgroundColor%;
+@scrollbar-background: %ScrollBackgroundColor%;
 
 * {
     margin: 0;
@@ -19,8 +18,6 @@ a {
 html {
     font-family: Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif; 
     font-size: large;
-    color: @normal-text-color;
-    background-color: @background-color;
 }
 
 ul, ol {
@@ -29,21 +26,17 @@ ul, ol {
     padding-bottom: 3px;
 }
 
+body {
+    background-color: @paper-background-color;
+}
+
 pre {
     font-family: Vera Sans Mono, Consolas, Lucida Console, monospace; 
     white-space: pre-wrap; 
 }
 
-textarea {
-    background-color: @background-color;
-}
-
-body {
-    padding: 24px;
-}
-
 ::-webkit-scrollbar {
-    background-color: @background-color;
+    background-color: @scrollbar-background;
 }
 
 ::-webkit-scrollbar-button {

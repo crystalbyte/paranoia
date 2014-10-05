@@ -38,7 +38,7 @@
                         <TextBlock.Foreground>
                             <Binding Path="IsSubscribedAndSelectable">
                                 <Binding.Converter>
-                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.NormalTextBrush}" />
+                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.Control.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.Control.TextBrush}" />
                                 </Binding.Converter>
                             </Binding>
                         </TextBlock.Foreground>
@@ -144,7 +144,7 @@
                                    Grid.Column="0"
                                    Grid.ColumnSpan="4"
                                    Margin="0,0,0,12"
-                                   Foreground="{DynamicResource Metro.NormalTextBrush}"
+                                   Foreground="{DynamicResource Metro.Control.TextBrush}"
                                    Style="{DynamicResource Metro.DescriptionTextStyle}"
                                    Text="{x:Static properties:Resources.ImapSettingsDescription}"
                                    TextTrimming="None" />
@@ -226,8 +226,8 @@
                                    Grid.ColumnSpan="4"
                                    Margin="0,12,0,0"
                                    LastChildFill="True">
-                            <ui:MetroCircleButton Background="{DynamicResource Metro.ControlBackgroundBrush}"
-                                                  BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                            <ui:MetroCircleButton Background="{DynamicResource Metro.Control.BackgroundBrush}"
+                                                  BorderBrush="{DynamicResource Metro.Control.TextBrush}"
                                                   Command="{Binding TestSettingsCommand}"
                                                   DockPanel.Dock="Right"
                                                   Text="{x:Static properties:Resources.TestSettings}">
@@ -243,7 +243,7 @@
                                 <TextBlock.Foreground>
                                     <Binding Path="IsFaulted">
                                         <Binding.Converter>
-                                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.App.AccentBrush}" BrushForTrue="{DynamicResource Metro.FailureBrush}" />
+                                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.App.AccentBrush}" BrushForTrue="{DynamicResource Metro.App.FailureBrush}" />
                                         </Binding.Converter>
                                     </Binding>
                                 </TextBlock.Foreground>
@@ -277,7 +277,7 @@
                                    Grid.Column="0"
                                    Grid.ColumnSpan="4"
                                    Margin="0,0,0,12"
-                                   Foreground="{DynamicResource Metro.NormalTextBrush}"
+                                   Foreground="{DynamicResource Metro.Control.TextBrush}"
                                    Style="{DynamicResource Metro.DescriptionTextStyle}"
                                    Text="{x:Static properties:Resources.SmtpSettingsDescription}" />
                         <RadioButton x:Name="UseImapCredentialsRadioButton"
@@ -540,11 +540,11 @@
                PopupAnimation="None"
                StaysOpen="False"
                VerticalOffset="-410">
-            <Border Background="{DynamicResource Metro.MenuBackgroundBrush}"
+            <Border Background="{DynamicResource Metro.Menu.BackgroundBrush}"
                     BorderBrush="{DynamicResource Metro.App.AccentBrush}"
                     BorderThickness="1">
                 <DockPanel LastChildFill="True">
-                    <Grid Background="{DynamicResource Metro.WindowBackgroundBrush}" DockPanel.Dock="Bottom">
+                    <Grid Background="{DynamicResource Metro.Window.BackgroundBrush}" DockPanel.Dock="Bottom">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -552,7 +552,7 @@
                         <ui:MetroCircleButton Grid.Column="0"
                                               Margin="6,6,12,6"
                                               HorizontalAlignment="Right"
-                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              BorderBrush="{DynamicResource Metro.Control.TextBrush}"
                                               Command="ui:MailboxCommands.Commit"
                                               CommandParameter="{x:Static paranoia:MailboxRoles.Sent}">
                             <Image Height="18" Source="/Assets/ok.png" />
@@ -560,7 +560,7 @@
                         <ui:MetroCircleButton Grid.Column="1"
                                               Margin="12,6,6,6"
                                               HorizontalAlignment="Left"
-                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              BorderBrush="{DynamicResource Metro.Control.TextBrush}"
                                               Command="ui:MailboxCommands.Commit"
                                               CommandParameter="{x:Static paranoia:MailboxRoles.Sent}">
                             <Image Height="18" Source="/Assets/cancel.png" />
@@ -593,11 +593,11 @@
                PopupAnimation="None"
                StaysOpen="False"
                VerticalOffset="-410">
-            <Border Background="{DynamicResource Metro.MenuBackgroundBrush}"
+            <Border Background="{DynamicResource Metro.Menu.BackgroundBrush}"
                     BorderBrush="{DynamicResource Metro.App.AccentBrush}"
                     BorderThickness="1">
                 <DockPanel LastChildFill="True">
-                    <Grid Background="{DynamicResource Metro.WindowBackgroundBrush}" DockPanel.Dock="Bottom">
+                    <Grid Background="{DynamicResource Metro.Window.BackgroundBrush}" DockPanel.Dock="Bottom">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -605,7 +605,7 @@
                         <ui:MetroCircleButton Grid.Column="0"
                                               Margin="6,6,12,6"
                                               HorizontalAlignment="Right"
-                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              BorderBrush="{DynamicResource Metro.Control.TextBrush}"
                                               Command="ui:MailboxCommands.Commit"
                                               CommandParameter="{x:Static paranoia:MailboxRoles.Trash}">
                             <Image Height="18" Source="/Assets/ok.png" />
@@ -613,7 +613,7 @@
                         <ui:MetroCircleButton Grid.Column="1"
                                               Margin="12,6,6,6"
                                               HorizontalAlignment="Left"
-                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              BorderBrush="{DynamicResource Metro.Control.TextBrush}"
                                               Command="ui:MailboxCommands.Commit"
                                               CommandParameter="{x:Static paranoia:MailboxRoles.Trash}">
                             <Image Height="18" Source="/Assets/cancel.png" />
@@ -646,11 +646,11 @@
                PopupAnimation="None"
                StaysOpen="False"
                VerticalOffset="-410">
-            <Border Background="{DynamicResource Metro.MenuBackgroundBrush}"
+            <Border Background="{DynamicResource Metro.Menu.BackgroundBrush}"
                     BorderBrush="{DynamicResource Metro.App.AccentBrush}"
                     BorderThickness="1">
                 <DockPanel LastChildFill="True">
-                    <Grid Background="{DynamicResource Metro.WindowBackgroundBrush}" DockPanel.Dock="Bottom">
+                    <Grid Background="{DynamicResource Metro.Window.BackgroundBrush}" DockPanel.Dock="Bottom">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -658,7 +658,7 @@
                         <ui:MetroCircleButton Grid.Column="0"
                                               Margin="6,6,12,6"
                                               HorizontalAlignment="Right"
-                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              BorderBrush="{DynamicResource Metro.Control.TextBrush}"
                                               Command="ui:MailboxCommands.Commit"
                                               CommandParameter="{x:Static paranoia:MailboxRoles.Junk}">
                             <Image Height="18" Source="/Assets/ok.png" />
@@ -666,7 +666,7 @@
                         <ui:MetroCircleButton Grid.Column="1"
                                               Margin="12,6,6,6"
                                               HorizontalAlignment="Left"
-                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              BorderBrush="{DynamicResource Metro.Control.TextBrush}"
                                               Command="ui:MailboxCommands.Cancel"
                                               CommandParameter="{x:Static paranoia:MailboxRoles.Junk}">
                             <Image Height="18" Source="/Assets/cancel.png" />
@@ -699,11 +699,11 @@
                PopupAnimation="None"
                StaysOpen="False"
                VerticalOffset="-410">
-            <Border Background="{DynamicResource Metro.MenuBackgroundBrush}"
+            <Border Background="{DynamicResource Metro.Menu.BackgroundBrush}"
                     BorderBrush="{DynamicResource Metro.App.AccentBrush}"
                     BorderThickness="1">
                 <DockPanel LastChildFill="True">
-                    <Grid Background="{DynamicResource Metro.WindowBackgroundBrush}" DockPanel.Dock="Bottom">
+                    <Grid Background="{DynamicResource Metro.Window.BackgroundBrush}" DockPanel.Dock="Bottom">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -711,7 +711,7 @@
                         <ui:MetroCircleButton Grid.Column="0"
                                               Margin="6,6,12,6"
                                               HorizontalAlignment="Right"
-                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              BorderBrush="{DynamicResource Metro.Control.TextBrush}"
                                               Command="ui:MailboxCommands.Commit"
                                               CommandParameter="{x:Static paranoia:MailboxRoles.Draft}">
                             <Image Height="18" Source="/Assets/ok.png" />
@@ -719,7 +719,7 @@
                         <ui:MetroCircleButton Grid.Column="1"
                                               Margin="12,6,6,6"
                                               HorizontalAlignment="Left"
-                                              BorderBrush="{DynamicResource Metro.NormalTextBrush}"
+                                              BorderBrush="{DynamicResource Metro.Control.TextBrush}"
                                               Command="ui:MailboxCommands.Cancel"
                                               CommandParameter="{x:Static paranoia:MailboxRoles.Draft}">
                             <Image Height="18" Source="/Assets/cancel.png" />

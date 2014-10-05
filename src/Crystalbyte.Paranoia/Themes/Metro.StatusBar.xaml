@@ -50,7 +50,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{DynamicResource Metro.DisabledBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

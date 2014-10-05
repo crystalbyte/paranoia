@@ -93,7 +93,7 @@
                        Grid.ColumnSpan="2"
                        Margin="24,0,0,0"
                        FontStyle="Italic"
-                       Foreground="{DynamicResource Metro.SecondaryTextBrush}">
+                       Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}">
                 <Run Text="-" />
                 <Run Text="{Binding BenFranklin, Mode=OneTime}" />
 

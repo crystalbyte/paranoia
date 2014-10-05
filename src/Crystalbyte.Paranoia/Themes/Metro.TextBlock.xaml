@@ -3,11 +3,11 @@
     <Style TargetType="TextBlock">
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
-        <Setter Property="Foreground" Value="{DynamicResource Metro.NormalTextBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
         <Setter Property="FontSize" Value="{DynamicResource Metro.NormalFontSize}" />
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource Metro.DisabledBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -32,7 +32,7 @@
 
         <Setter Property="FontWeight" Value="Thin" />
         <Setter Property="Margin" Value="0,2,0,2" />
-        <Setter Property="Foreground" Value="{DynamicResource Metro.SecondaryTextBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.Control.SecondaryTextBrush}" />
         <Setter Property="FontSize" Value="{DynamicResource Metro.MediumFontSize}" />
     </Style>
 
