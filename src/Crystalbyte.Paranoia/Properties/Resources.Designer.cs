@@ -703,6 +703,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The requested message could not be found..
+        /// </summary>
+        public static string MessageNotFoundException {
+            get {
+                return ResourceManager.GetString("MessageNotFoundException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Messages.
         /// </summary>
         public static string MessagesTitle {

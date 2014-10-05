@@ -127,5 +127,29 @@ namespace Crystalbyte.Paranoia.Properties {
                 this["CustomTheme"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Re:")]
+        public string PrefixForAnswering {
+            get {
+                return ((string)(this["PrefixForAnswering"]));
+            }
+            set {
+                this["PrefixForAnswering"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Fwd:")]
+        public string PrefixForForwarding {
+            get {
+                return ((string)(this["PrefixForForwarding"]));
+            }
+            set {
+                this["PrefixForForwarding"] = value;
+            }
+        }
     }
 }

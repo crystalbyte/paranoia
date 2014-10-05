@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
@@ -84,6 +85,10 @@ namespace Crystalbyte.Paranoia.UI {
             get { return _tokenMatchers; }
         }
 
+        private bool IsStyleApplied {
+            get { return _autoCompletePopup != null; }
+        }
+
         #endregion
 
         #region Dependency Properties
@@ -146,7 +151,12 @@ namespace Crystalbyte.Paranoia.UI {
         // Using a DependencyProperty as the backing store for ItemsSource.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register("ItemsSource", typeof(object), typeof(AutoCompleteBox),
-                new PropertyMetadata(null));
+                new PropertyMetadata(OnItemsSourceChanged));
+
+        private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            var box = (AutoCompleteBox)d;
+            box.OnItemsSourceChanged(e.NewValue, e.OldValue);
+        }
 
         public DataTemplate ItemTemplate {
             get { return (DataTemplate)GetValue(ItemTemplateProperty); }
@@ -196,17 +206,22 @@ namespace Crystalbyte.Paranoia.UI {
             base.OnPreviewKeyDown(e);
 
             var container = GetFirstItem();
+            if (container == null) {
+                return;
+            }
+
             if (e.Key == Key.Up && _autoCompletePopup.IsOpen && container.IsSelected) {
+                e.Handled = true;
                 container.IsSelected = false;
                 Focus();
-                e.Handled = true;
                 return;
             }
 
             if (e.Key == Key.Tab && _autoCompletePopup.IsOpen && IsFocused) {
+                e.Handled = true;
                 container.IsSelected = true;
                 CommitSelection();
-                e.Handled = true;
+                Close();
             }
         }
 
@@ -214,15 +229,14 @@ namespace Crystalbyte.Paranoia.UI {
             base.OnPreviewKeyUp(e);
 
             if (e.Key == Key.Down && _autoCompletePopup.IsOpen && IsFocused) {
-                SelectFirstElement();
                 e.Handled = true;
+                SelectFirstElement();
                 return;
             }
 
             if (e.Key == Key.Escape && _autoCompletePopup.IsOpen) {
-                Close();
                 e.Handled = true;
-                return;
+                Close();
             }
         }
 
@@ -238,6 +252,11 @@ namespace Crystalbyte.Paranoia.UI {
             Observable.FromEventPattern<TextChangedEventHandler, TextChangedEventArgs>(
                 action => TextChanged += action,
                 action => TextChanged -= action)
+                .Where(x => IsStyleApplied)
+                .Where(x => {
+                    var text = ((AutoCompleteBox)x.Sender).Text;
+                    return !string.IsNullOrWhiteSpace(text) && text.Length > 1;
+                })
                 .Throttle(TimeSpan.FromMilliseconds(250))
                 .ObserveOn(SynchronizationContext.Current)
                 .Select(x => ((AutoCompleteBox)x.Sender).Text)
@@ -308,10 +327,37 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        public void Preset(params MailContactContext[] items) {
+        public void Preset(IEnumerable<MailContactContext> items) {
             foreach (var token in items.Select(CreateTokenContainerFromItem)) {
                 AppendContainer(token);
             }
+        }
+
+        private void OnItemsSourceChanged(object newSource, object oldSource) {
+            var oldCollection = oldSource as INotifyCollectionChanged;
+            if (oldCollection != null) {
+                oldCollection.CollectionChanged -= OnItemsSourceCollectionChanged;
+            }
+
+            var newCollection = newSource as INotifyCollectionChanged;
+            if (newCollection != null) {
+                newCollection.CollectionChanged += OnItemsSourceCollectionChanged;
+            }
+
+            CheckPopupVisibility();
+        }
+
+        private void CheckPopupVisibility() {
+            var source = ItemsSource as ICollection;
+            if (source != null && source.Count > 0) {
+                _autoCompletePopup.IsOpen = true;
+            } else {
+                _autoCompletePopup.IsOpen = false;
+            }
+        }
+
+        private void OnItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+            CheckPopupVisibility();
         }
 
         private ListViewItem GetFirstItem() {
@@ -381,13 +427,6 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnTextChangeConfirmed(string text) {
             OnItemsSourceRequested(new ItemsSourceRequestedEventArgs(text));
-
-            var source = ItemsSource as ICollection;
-            if (source != null && source.Count > 0) {
-                _autoCompletePopup.IsOpen = true;
-            } else {
-                _autoCompletePopup.IsOpen = false;
-            }
         }
 
         private void RecognizeMatches() {

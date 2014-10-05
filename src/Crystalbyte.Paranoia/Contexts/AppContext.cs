@@ -255,7 +255,7 @@ namespace Crystalbyte.Paranoia {
 
             _contacts.AddRange(contacts.Select(x => new MailContactContext(x)));
             foreach (var contact in _contacts) {
-                await contact.CheckForKeyExistenceAsync();
+                await contact.CheckSecurityStateAsync();
             }
         }
 

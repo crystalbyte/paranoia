@@ -28,7 +28,22 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private static void OnForward(object sender, ExecutedRoutedEventArgs e) {
-            MessageBox.Show("Not yet implemented.");
+            var message = App.Context.SelectedMessage;
+            if (message == null) {
+                throw new InvalidOperationException();
+            }
+
+            var owner = Application.Current.MainWindow;
+            var window = CreateChildWindow(owner);
+
+            var uri = string.Format("?action=forward&id={0}", message.Id);
+            window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
+
+            if (owner.WindowState == WindowState.Maximized) {
+                window.WindowState = WindowState.Maximized;
+            }
+
+            window.Show();
         }
 
         private static void OnReply(object sender, ExecutedRoutedEventArgs e) {
@@ -52,7 +67,22 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private static void OnReplyAll(object sender, ExecutedRoutedEventArgs e) {
-            MessageBox.Show("Not yet implemented.");
+            var message = App.Context.SelectedMessage;
+            if (message == null) {
+                throw new InvalidOperationException();
+            }
+
+            var owner = Application.Current.MainWindow;
+            var window = CreateChildWindow(owner);
+
+            var uri = string.Format("?action=reply-all&id={0}", message.Id);
+            window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
+
+            if (owner.WindowState == WindowState.Maximized) {
+                window.WindowState = WindowState.Maximized;
+            }
+
+            window.Show();
         }
 
         private static void OnCompose(object sender, ExecutedRoutedEventArgs e) {

@@ -56,7 +56,7 @@
                            Fill="#222" />
                 <StackPanel Margin="0,0,3,0" Orientation="Horizontal">
                     <Border Background="Transparent"
-                            BorderBrush="Red"
+                            BorderBrush="Brown"
                             BorderThickness="0,0,3,0"
                             RenderOptions.EdgeMode="Aliased"
                             UseLayoutRounding="True">
@@ -101,7 +101,7 @@
                                Background="Transparent"
                                FontWeight="Normal"
                                Foreground="{DynamicResource Metro.NormalTextBrush}"
-                               Text="{Binding Name}" />
+                               Text="{Binding NameOrAddress}" />
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -223,7 +223,6 @@
                                 HorizontalAlignment="Stretch"
                                 Background="{DynamicResource Metro.AlternateControlBackgroundBrush}"
                                 ItemTemplate="{StaticResource ContactSuggestionTemplate}"
-                                ItemsSource="{Binding Suggestions}"
                                 ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
                                 SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
                                 StringTokenTemplate="{StaticResource StringTokenTemplate}"
@@ -251,12 +250,11 @@
             </ToggleButton>
 
         </Grid>
-        <ui:AutoCompleteBox x:Name="CcBox"
+        <ui:AutoCompleteBox x:Name="CarbonCopyBox"
                             Grid.Row="0"
                             Grid.Column="2"
                             HorizontalAlignment="Stretch"
                             ItemTemplate="{StaticResource ContactSuggestionTemplate}"
-                            ItemsSource="{Binding Suggestions}"
                             ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
                             SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
                             StringTokenTemplate="{StaticResource StringTokenTemplate}"
@@ -272,12 +270,11 @@
                 </Style>
             </ui:AutoCompleteBox.ItemContainerStyle>
         </ui:AutoCompleteBox>
-        <ui:AutoCompleteBox x:Name="BccBox"
+        <ui:AutoCompleteBox x:Name="BlindCarbonCopyBox"
                             Grid.Row="1"
                             Grid.Column="2"
                             HorizontalAlignment="Stretch"
                             ItemTemplate="{StaticResource ContactSuggestionTemplate}"
-                            ItemsSource="{Binding Suggestions}"
                             ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
                             SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
                             StringTokenTemplate="{StaticResource StringTokenTemplate}"

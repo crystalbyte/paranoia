@@ -37,5 +37,11 @@
     <Setting Name="CustomTheme" Type="System.String" Scope="User">
       <Value Profile="(Default)">beach</Value>
     </Setting>
+    <Setting Name="PrefixForAnswering" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Re:</Value>
+    </Setting>
+    <Setting Name="PrefixForForwarding" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Fwd:</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

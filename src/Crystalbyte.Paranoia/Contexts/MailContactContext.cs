@@ -25,7 +25,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public async Task NotifyKeysUpdatedAsync() {
-            await CheckForKeyExistenceAsync();
+            await CheckSecurityStateAsync();
             RaisePropertyChanged(() => Security);
         }
 
@@ -133,7 +133,11 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task CheckForKeyExistenceAsync() {
+        public string NameOrAddress {
+            get { return string.IsNullOrWhiteSpace(Name) || Name.EqualsIgnoreCase("NIL") ? Address : Name; }
+        }
+
+        internal async Task CheckSecurityStateAsync() {
             using (var database = new DatabaseContext()) {
                 HasKeys = (await database.PublicKeys
                     .Where(x => x.ContactId == _contact.Id)

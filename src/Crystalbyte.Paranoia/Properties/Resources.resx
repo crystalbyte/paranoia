@@ -512,4 +512,7 @@ Once your password is lost you're screwed.</value>
   <data name="Register" xml:space="preserve">
     <value>Register</value>
   </data>
+  <data name="MessageNotFoundException" xml:space="preserve">
+    <value>The requested message could not be found.</value>
+  </data>
 </root>

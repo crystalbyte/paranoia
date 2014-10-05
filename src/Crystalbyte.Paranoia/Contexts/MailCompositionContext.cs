@@ -30,10 +30,10 @@ namespace Crystalbyte.Paranoia {
         private string _subject;
         private readonly IEnumerable<MailAccountContext> _accounts;
         private readonly ObservableCollection<string> _recipients;
-        private readonly ObservableCollection<MailContactContext> _suggestions;
         private readonly ObservableCollection<AttachmentContext> _attachments;
         private readonly ICommand _sendCommand;
         private readonly ICommand _addAttachmentCommand;
+        private MailAccountContext _selectedAccount;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
@@ -42,9 +42,8 @@ namespace Crystalbyte.Paranoia {
 
         public MailCompositionContext() {
             _accounts = App.Context.Accounts;
-            SelectedAccount = _accounts.FirstOrDefault();
+            _selectedAccount = _accounts.FirstOrDefault();
             _recipients = new ObservableCollection<string>();
-            _suggestions = new ObservableCollection<MailContactContext>();
             _sendCommand = new SendCommand(this);
             _addAttachmentCommand = new AddAttachmentCommand(this);
             _attachments = new ObservableCollection<AttachmentContext>();
@@ -89,16 +88,21 @@ namespace Crystalbyte.Paranoia {
         public ICollection<AttachmentContext> Attachments {
             get { return _attachments; }
         }
-
-        public IEnumerable<MailContactContext> Suggestions {
-            get { return _suggestions; }
-        }
-
+        
         public IEnumerable<MailAccountContext> Accounts {
             get { return _accounts; }
         }
 
-        public MailAccountContext SelectedAccount { get; set; }
+        public MailAccountContext SelectedAccount {
+            get { return _selectedAccount; }
+            set {
+                if (_selectedAccount == value) {
+                    return;
+                }
+                _selectedAccount = value;
+                RaisePropertyChanged(() => SelectedAccount);
+            }
+        }
 
         public string Subject {
             get { return _subject; }
@@ -124,24 +128,6 @@ namespace Crystalbyte.Paranoia {
         }
 
         #endregion
-
-        public async Task QueryRecipientsAsync(string text) {
-            using (var database = new DatabaseContext()) {
-                var candidates = await database.MailContacts
-                    .Where(x => x.Address.StartsWith(text)
-                                || x.Name.StartsWith(text))
-                    .Take(20)
-                    .ToArrayAsync();
-
-                var contexts = candidates.Select(x => new MailContactContext(x)).ToArray();
-                foreach (var context in contexts) {
-                    await context.CheckForKeyExistenceAsync();
-                }
-
-                _suggestions.Clear();
-                _suggestions.AddRange(contexts);
-            }
-        }
 
         public async Task ResetAsync() {
             _recipients.Clear();
@@ -266,7 +252,7 @@ namespace Crystalbyte.Paranoia {
         }
 
 
-        private async Task<MailMessage> EncryptMessageAsync(MailAccountContext account, PublicKeyModel[] keys, string recipient, string content) {
+        private async Task<MailMessage> EncryptMessageAsync(MailAccountContext account, IEnumerable<PublicKeyModel> keys, string recipient, string content) {
             var message = CreateMailMessage(account, recipient, content);
             var mime = await message.ToMimeAsync();
 

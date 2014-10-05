@@ -4,11 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
+using Crystalbyte.Paranoia.Mail.Mime.Header;
+using Crystalbyte.Paranoia.Properties;
 
 #endregion
 
@@ -45,8 +48,25 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private async void OnRecipientsBoxItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
-            var composition = (MailCompositionContext)DataContext;
-            await composition.QueryRecipientsAsync(e.Text);
+            RecipientsBox.ItemsSource = await QueryContactsAsync(e.Text);
+        }
+
+        public async Task<MailContactContext[]> QueryContactsAsync(string text) {
+
+            using (var database = new DatabaseContext()) {
+                var candidates = await database.MailContacts
+                    .Where(x => x.Address.StartsWith(text)
+                                || x.Name.StartsWith(text))
+                    .Take(20)
+                    .ToArrayAsync();
+
+                var contexts = candidates.Select(x => new MailContactContext(x)).ToArray();
+                foreach (var context in contexts) {
+                    await context.CheckSecurityStateAsync();
+                }
+
+                return contexts;
+            }
         }
 
         private void OnRecipientsBoxSelectionChanged(object sender, EventArgs e) {
@@ -66,67 +86,103 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             context.Source = "asset://paranoia/message/new";
         }
 
-        private async void PrepareAsReply(IDictionary<string, string> arguments) {
+        private async void PrepareAsReply(IReadOnlyDictionary<string, string> arguments) {
             MailContactContext from;
-            MailMessageReader replyMessage;
+            MailMessageReader message;
             var id = Int64.Parse(arguments["id"]);
 
             using (var database = new DatabaseContext()) {
-                var message = await database.MimeMessages
+                var mime = await database.MimeMessages
                     .Where(x => x.MessageId == id)
                     .ToArrayAsync();
 
-                if (!message.Any())
-                    throw new InvalidOperationException("Message has not yet been loaded, menu must be disabled until it is.");
+                if (!mime.Any())
+                    throw new InvalidOperationException(Properties.Resources.MessageNotFoundException);
 
-                replyMessage = new MailMessageReader(message[0].Data);
+                message = new MailMessageReader(mime[0].Data);
                 from = new MailContactContext(await database.MailContacts
-                    .FirstAsync(x => x.Address == replyMessage.Headers.From.Address));
+                    .FirstAsync(x => x.Address == message.Headers.From.Address));
             }
 
             var context = (MailCompositionContext)DataContext;
-            context.Subject = "RE: " + replyMessage.Headers.Subject;
+            context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
             context.Source = string.Format("asset://paranoia/message/reply?id={0}", id);
+
+            await from.CheckSecurityStateAsync();
 
             RecipientsBox.Preset(new[] { from });
         }
 
-        #region Implementation of INavigationAware
+        private async void PrepareAsReplyAll(IReadOnlyDictionary<string, string> arguments) {
+            MailContactContext from;
+            var carbonCopies = new List<MailContactContext>();
+            var blindCarbonCopies = new List<MailContactContext>();
+            MailMessageReader message;
+            var id = Int64.Parse(arguments["id"]);
 
-        public void OnNavigated(NavigationEventArgs e) {
-            Reset();
+            using (var database = new DatabaseContext()) {
+                var mime = await database.MimeMessages
+                    .Where(x => x.MessageId == id)
+                    .ToArrayAsync();
 
-            var arguments = e.Uri.OriginalString.ToPageArguments();
-            if (arguments.ContainsKey("action") && arguments["action"] == "new") {
-                PrepareAsNew();
-                return;
-            }
-            
-            if (arguments.ContainsKey("action") && arguments["action"] == "reply") {
-                PrepareAsReply(arguments);
-                return;
+                if (!mime.Any())
+                    throw new InvalidOperationException(Properties.Resources.MessageNotFoundException);
+
+                message = new MailMessageReader(mime[0].Data);
+                from = new MailContactContext(await database.MailContacts
+                    .FirstAsync(x => x.Address == message.Headers.From.Address));
+
+                foreach (var cc in message.Headers.Cc.Where(y => 
+                    !App.Context.Accounts.Any(x => x.Address.EqualsIgnoreCase(y.Address)))) {
+                    var lcc = cc;
+                    var contact = new MailContactContext(await database.MailContacts
+                        .FirstAsync(x => x.Address == lcc.Address));
+
+                    await contact.CheckSecurityStateAsync();
+                    carbonCopies.Add(contact);
+                }
+
+                foreach (var bcc in message.Headers.Bcc.Where(y =>
+                    !App.Context.Accounts.Any(x => x.Address.EqualsIgnoreCase(y.Address)))) {
+                    var lbcc = bcc;
+                    var contact = new MailContactContext(await database.MailContacts
+                        .FirstAsync(x => x.Address == lbcc.Address));
+
+                    await contact.CheckSecurityStateAsync();
+                    blindCarbonCopies.Add(contact);
+                }
             }
 
-            if (arguments.ContainsKey("action") && arguments["action"] == "reply-all") {
-                PrepareAsReplyAll(arguments);
-                return;
-            }
+            var context = (MailCompositionContext)DataContext;
+            context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
+            context.Source = string.Format("asset://paranoia/message/reply?id={0}", id);
 
-            if (arguments.ContainsKey("action") && arguments["action"] == "forward") {
-                PrepareAsForward(arguments);
-                return;
-            }
+            await from.CheckSecurityStateAsync();
+
+            RecipientsBox.Preset(new[] { from });
+            CarbonCopyBox.Preset(carbonCopies);
+            BlindCarbonCopyBox.Preset(blindCarbonCopies);
         }
 
-        private void PrepareAsReplyAll(Dictionary<string, string> arguments) {
-            throw new NotImplementedException();
-        }
+        private async void PrepareAsForward(IReadOnlyDictionary<string, string> arguments) {
+            MailMessageReader message;
+            var id = Int64.Parse(arguments["id"]);
 
-        private void PrepareAsForward(Dictionary<string, string> arguments) {
-            throw new NotImplementedException();
-        }
+            using (var database = new DatabaseContext()) {
+                var mime = await database.MimeMessages
+                    .Where(x => x.MessageId == id)
+                    .ToArrayAsync();
 
-        #endregion
+                if (!mime.Any())
+                    throw new InvalidOperationException(Properties.Resources.MessageNotFoundException);
+
+                message = new MailMessageReader(mime[0].Data);
+            }
+
+            var context = (MailCompositionContext)DataContext;
+            context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForForwarding, message.Headers.Subject);
+            context.Source = string.Format("asset://paranoia/message/forward?id={0}", id);
+        }
 
         private void DropHtmlControl(object sender, DragEventArgs e) {
             var files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -147,5 +203,33 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             var parent = parentObject as Window;
             return parent ?? GetParentWindow(parentObject);
         }
+
+        #region Implementation of INavigationAware
+
+        public void OnNavigated(NavigationEventArgs e) {
+            Reset();
+
+            var arguments = e.Uri.OriginalString.ToPageArguments();
+            if (arguments.ContainsKey("action") && arguments["action"] == "new") {
+                PrepareAsNew();
+                return;
+            }
+
+            if (arguments.ContainsKey("action") && arguments["action"] == "reply") {
+                PrepareAsReply(arguments);
+                return;
+            }
+
+            if (arguments.ContainsKey("action") && arguments["action"] == "reply-all") {
+                PrepareAsReplyAll(arguments);
+                return;
+            }
+
+            if (arguments.ContainsKey("action") && arguments["action"] == "forward") {
+                PrepareAsForward(arguments);
+            }
+        }
+
+        #endregion
     }
 }
