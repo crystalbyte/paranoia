@@ -55,7 +55,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public static object ControlTextColor {
-            get { return ColorConverter.ConvertFromString("WhiteSmoke"); }
+            get { return ColorConverter.ConvertFromString("#222224"); }
         }
 
         public static object ControlBackgroundColor {

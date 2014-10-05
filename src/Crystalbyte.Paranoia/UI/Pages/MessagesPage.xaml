@@ -453,7 +453,7 @@
                                     <MenuItem.Icon>
                                         <Rectangle Width="16"
                                                    Height="16"
-                                                   Fill="{DynamicResource Metro.WarningColor}">
+                                                   Fill="{DynamicResource Metro.App.WarningBrush}">
                                             <Rectangle.OpacityMask>
                                                 <ImageBrush ImageSource="/Assets/star.full.png" />
                                             </Rectangle.OpacityMask>
@@ -560,7 +560,7 @@
                                             Orientation="Horizontal">
                                     <Rectangle Width="16"
                                                Height="16"
-                                               Fill="{DynamicResource Metro.WarningColor}"
+                                               Fill="{DynamicResource Metro.App.WarningBrush}"
                                                Visibility="{Binding IsFlagged,
                                                                     Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <Rectangle.OpacityMask>

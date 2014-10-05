@@ -90,7 +90,8 @@
             <SolidColorBrush x:Key="Metro.Control.SecondaryBackgroundBrush" Color="{x:Static paranoia:MetroColors.ControlSecondaryBackgroundColor}" />
             <SolidColorBrush x:Key="Metro.Control.BorderBrush" Color="{x:Static paranoia:MetroColors.ControlBorderColor}" />
             <SolidColorBrush x:Key="Metro.Control.HoverBrush" Color="{x:Static paranoia:MetroColors.ControlHoverColor}" />
-            <SolidColorBrush x:Key="Metro.Control.TextBrush" Color="{x:Static paranoia:MetroColors.ControlTextColor}" />
+            <!--  <SolidColorBrush x:Key="Metro.Control.TextBrush" Color="{x:Static paranoia:MetroColors.ControlTextColor}" />  -->
+            <SolidColorBrush x:Key="Metro.Control.TextBrush" Color="WhiteSmoke" />
             <SolidColorBrush x:Key="Metro.Control.SecondaryTextBrush" Color="{x:Static paranoia:MetroColors.ControlSecondaryTextColor}" />
             <SolidColorBrush x:Key="Metro.Control.HoverTextBrush" Color="{x:Static paranoia:MetroColors.ControlHoverTextColor}" />
             <SolidColorBrush x:Key="Metro.Control.DisabledBrush" Color="{x:Static paranoia:MetroColors.ControlDisabledColor}" />
