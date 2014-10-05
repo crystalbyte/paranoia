@@ -243,7 +243,7 @@
                                 <TextBlock.Foreground>
                                     <Binding Path="IsFaulted">
                                         <Binding.Converter>
-                                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.AccentBrush}" BrushForTrue="{DynamicResource Metro.FailureBrush}" />
+                                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.App.AccentBrush}" BrushForTrue="{DynamicResource Metro.FailureBrush}" />
                                         </Binding.Converter>
                                     </Binding>
                                 </TextBlock.Foreground>
@@ -541,7 +541,7 @@
                StaysOpen="False"
                VerticalOffset="-410">
             <Border Background="{DynamicResource Metro.MenuBackgroundBrush}"
-                    BorderBrush="{DynamicResource Metro.AccentBrush}"
+                    BorderBrush="{DynamicResource Metro.App.AccentBrush}"
                     BorderThickness="1">
                 <DockPanel LastChildFill="True">
                     <Grid Background="{DynamicResource Metro.WindowBackgroundBrush}" DockPanel.Dock="Bottom">
@@ -594,7 +594,7 @@
                StaysOpen="False"
                VerticalOffset="-410">
             <Border Background="{DynamicResource Metro.MenuBackgroundBrush}"
-                    BorderBrush="{DynamicResource Metro.AccentBrush}"
+                    BorderBrush="{DynamicResource Metro.App.AccentBrush}"
                     BorderThickness="1">
                 <DockPanel LastChildFill="True">
                     <Grid Background="{DynamicResource Metro.WindowBackgroundBrush}" DockPanel.Dock="Bottom">
@@ -647,7 +647,7 @@
                StaysOpen="False"
                VerticalOffset="-410">
             <Border Background="{DynamicResource Metro.MenuBackgroundBrush}"
-                    BorderBrush="{DynamicResource Metro.AccentBrush}"
+                    BorderBrush="{DynamicResource Metro.App.AccentBrush}"
                     BorderThickness="1">
                 <DockPanel LastChildFill="True">
                     <Grid Background="{DynamicResource Metro.WindowBackgroundBrush}" DockPanel.Dock="Bottom">
@@ -700,7 +700,7 @@
                StaysOpen="False"
                VerticalOffset="-410">
             <Border Background="{DynamicResource Metro.MenuBackgroundBrush}"
-                    BorderBrush="{DynamicResource Metro.AccentBrush}"
+                    BorderBrush="{DynamicResource Metro.App.AccentBrush}"
                     BorderThickness="1">
                 <DockPanel LastChildFill="True">
                     <Grid Background="{DynamicResource Metro.WindowBackgroundBrush}" DockPanel.Dock="Bottom">

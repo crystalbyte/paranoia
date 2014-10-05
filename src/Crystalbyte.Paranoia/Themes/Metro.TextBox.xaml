@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style TargetType="TextBox">
-        <Setter Property="SelectionBrush" Value="{DynamicResource Metro.AccentBrush}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
         <Setter Property="SelectionOpacity" Value="0.4" />
         <Setter Property="FontSize" Value="{DynamicResource Metro.NormalFontSize}" />
         <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
@@ -34,7 +34,7 @@
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.AccentBrush}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

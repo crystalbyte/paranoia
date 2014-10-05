@@ -171,7 +171,7 @@
                    d:IsLocked="True">
             <Border Margin="6,0,12,0"
                     VerticalAlignment="Center"
-                    Background="{DynamicResource Metro.AccentBrush}"
+                    Background="{DynamicResource Metro.App.AccentBrush}"
                     DockPanel.Dock="Left">
                 <Image Width="20"
                        Height="20"
@@ -238,7 +238,7 @@
                                     <Setter TargetName="TitleBlock" Property="Foreground" Value="{DynamicResource Metro.SecondaryTextBrush}" />
                                 </MultiDataTrigger>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="TitleBlock" Property="Foreground" Value="{DynamicResource Metro.AccentBrush}" />
+                                    <Setter TargetName="TitleBlock" Property="Foreground" Value="{DynamicResource Metro.App.AccentBrush}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -280,7 +280,7 @@
         </Grid>
 
         <Border Grid.Row="1"
-                BorderBrush="{DynamicResource Metro.AccentBrush}"
+                BorderBrush="{DynamicResource Metro.App.AccentBrush}"
                 BorderThickness="0,1,0,0">
             <Frame x:Name="MainFrame"
                    NavigationUIVisibility="Hidden"
@@ -306,7 +306,7 @@
                    Grid.Row="2"
                    Height="24"
                    Margin="0"
-                   Background="{StaticResource Metro.AccentBrush}"
+                   Background="{StaticResource Metro.App.AccentBrush}"
                    Padding="0"
                    RenderTransformOrigin="0.5,0.5">
             <StatusBar.RenderTransform>
@@ -477,7 +477,7 @@
                        RenderOptions.EdgeMode="Aliased" />
             <Border Grid.Row="1"
                     Background="{DynamicResource Metro.FlyoutBackgroundBrush}"
-                    BorderBrush="{DynamicResource Metro.AccentBrush}"
+                    BorderBrush="{DynamicResource Metro.App.AccentBrush}"
                     BorderThickness="0"
                     Padding="0,24,0,24">
                 <Grid Width="600" HorizontalAlignment="Center">

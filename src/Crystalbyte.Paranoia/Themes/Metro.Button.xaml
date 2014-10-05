@@ -38,7 +38,7 @@
                     <Condition Property="IsPressed" Value="True" />
                     <Condition Property="IsMouseOver" Value="True" />
                 </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="{DynamicResource Metro.AccentBrush}" />
+                <Setter Property="Background" Value="{DynamicResource Metro.App.AccentBrush}" />
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>

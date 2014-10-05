@@ -8,7 +8,7 @@
     <SolidColorBrush x:Key="TransparentOutlineBrush">Transparent</SolidColorBrush>
 
     <Style TargetType="{x:Type ui:MetroProgressBar}">
-        <Setter Property="Foreground" Value="{DynamicResource Metro.AccentBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.App.AccentBrush}" />
         <Setter Property="Background" Value="{DynamicResource Metro.ControlBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource TransparentOutlineBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource OutlineBorderThickness}" />

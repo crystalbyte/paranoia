@@ -39,7 +39,7 @@
                                 <Rectangle x:Name="optionMark"
                                            HorizontalAlignment="Stretch"
                                            VerticalAlignment="Stretch"
-                                           Fill="{DynamicResource Metro.AccentBrush}"
+                                           Fill="{DynamicResource Metro.App.AccentBrush}"
                                            RenderOptions.EdgeMode="Aliased"
                                            Visibility="{Binding IsChecked,
                                                                 RelativeSource={RelativeSource TemplatedParent},
@@ -57,7 +57,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource Metro.AccentBrush}" />
+                            <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource Metro.HoverBrush}" />

@@ -79,7 +79,7 @@
             <system:Double x:Key="Metro.ExtraLargeFontSize">28</system:Double>
 
             <!--  Colors  -->
-            <SolidColorBrush x:Key="Metro.AccentBrush" Color="{x:Static paranoia:MetroColors.AccentColor}" />
+            <SolidColorBrush x:Key="Metro.App.AccentBrush" Color="{x:Static paranoia:MetroColors.AccentColor}" />
             <SolidColorBrush x:Key="Metro.FailureBrush" Color="{x:Static paranoia:MetroColors.FailureColor}" />
             <SolidColorBrush x:Key="Metro.SuccessBrush" Color="{x:Static paranoia:MetroColors.SuccessColor}" />
             <SolidColorBrush x:Key="Metro.WarningBrush" Color="{x:Static paranoia:MetroColors.WarningColor}" />

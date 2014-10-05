@@ -58,7 +58,7 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsPressed" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Ellipse" Property="Stroke" Value="{DynamicResource Metro.AccentBrush}" />
+                            <Setter TargetName="Ellipse" Property="Stroke" Value="{DynamicResource Metro.App.AccentBrush}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -71,15 +71,15 @@
                     <Condition Property="IsPressed" Value="False" />
                 </MultiTrigger.Conditions>
                 <Setter Property="Background" Value="Transparent" />
-                <Setter Property="BorderBrush" Value="{DynamicResource Metro.AccentBrush}" />
-                <Setter Property="Foreground" Value="{DynamicResource Metro.AccentBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource Metro.App.AccentBrush}" />
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="IsMouseOver" Value="True" />
                     <Condition Property="IsPressed" Value="True" />
                 </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="{DynamicResource Metro.AccentBrush}" />
+                <Setter Property="Background" Value="{DynamicResource Metro.App.AccentBrush}" />
             </MultiTrigger>
         </Style.Triggers>
     </Style>

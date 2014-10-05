@@ -27,7 +27,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Background" Value="{DynamicResource Metro.AccentBrush}" />
+                <Setter Property="Background" Value="{DynamicResource Metro.App.AccentBrush}" />
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -52,7 +52,7 @@
     <Style x:Key="Metro.SortingToggleButtonStyle" TargetType="ToggleButton">
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource Metro.AccentBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.App.AccentBrush}" />
         <Setter Property="Content" Value="{x:Static properties:Resources.Descending}" />
         <Setter Property="Template">
             <Setter.Value>

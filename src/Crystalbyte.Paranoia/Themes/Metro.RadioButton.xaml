@@ -58,7 +58,7 @@
                                 <Rectangle x:Name="optionMark"
                                            HorizontalAlignment="Stretch"
                                            VerticalAlignment="Stretch"
-                                           Fill="{DynamicResource Metro.AccentBrush}"
+                                           Fill="{DynamicResource Metro.App.AccentBrush}"
                                            RenderOptions.EdgeMode="Aliased"
                                            Visibility="{Binding IsChecked,
                                                                 RelativeSource={RelativeSource TemplatedParent},
@@ -79,7 +79,7 @@
                             <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource Metro.AccentBrush}" />
+                            <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource Metro.HoverBrush}" />
@@ -118,7 +118,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource Metro.AccentBrush}" />
+                            <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource Metro.App.AccentBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource Metro.SecondaryTextBrush}" />

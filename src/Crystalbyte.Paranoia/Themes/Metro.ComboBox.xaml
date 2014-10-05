@@ -41,7 +41,7 @@
             </VisualStateManager.VisualStateGroups>
             <Border x:Name="Border"
                     Grid.ColumnSpan="2"
-                    Background="{StaticResource Metro.ControlBackgroundBrush}"
+                    Background="{DynamicResource Metro.ControlBackgroundBrush}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="1" />
             <Path x:Name="Arrow"
@@ -153,7 +153,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsKeyboardFocusWithin" Value="true">
-                            <Setter TargetName="ToggleButton" Property="BorderBrush" Value="{DynamicResource Metro.AccentBrush}" />
+                            <Setter TargetName="ToggleButton" Property="BorderBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
                         </Trigger>
                         <Trigger Property="HasItems" Value="false">
                             <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />

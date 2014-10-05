@@ -23,6 +23,7 @@
         <Setter Property="IsTransparent" Value="False" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Focusable" Value="False" />
+        <Setter Property="WebSession" Value="{Binding Source={StaticResource WebSessionProvider}}" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
         <Setter Property="Background" Value="{DynamicResource Metro.AlternateControlBackgroundBrush}" />
@@ -47,7 +48,7 @@
                                             Source="{Binding Source,
                                                              RelativeSource={RelativeSource TemplatedParent},
                                                              Converter={StaticResource UrlConverter}}"
-                                            WebSession="{Binding Source={StaticResource WebSessionProvider}}"
+                                            WebSession="{TemplateBinding WebSession}"
                                             Zoom="{Binding Zoom,
                                                            RelativeSource={RelativeSource TemplatedParent},
                                                            Mode=TwoWay}" />
@@ -61,7 +62,7 @@
                 <Setter Property="Opacity" Value="0.56" />
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource Metro.AccentBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>

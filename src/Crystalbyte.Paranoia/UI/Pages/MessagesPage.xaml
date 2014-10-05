@@ -281,7 +281,7 @@
                                             <TextBlock.Foreground>
                                                 <Binding Path="IsSelected">
                                                     <Binding.Converter>
-                                                        <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.AccentBrush}" BrushForTrue="{DynamicResource Metro.NormalTextBrush}" />
+                                                        <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.App.AccentBrush}" BrushForTrue="{DynamicResource Metro.NormalTextBrush}" />
                                                     </Binding.Converter>
                                                 </Binding>
                                             </TextBlock.Foreground>
@@ -379,7 +379,7 @@
                           VirtualizingPanel.VirtualizationMode="Recycling">
                     <ListView.Resources>
                         <converters:BooleanToBrushConverter x:Key="SeenBrushConverter"
-                                                            BrushForFalse="{DynamicResource Metro.AccentBrush}"
+                                                            BrushForFalse="{DynamicResource Metro.App.AccentBrush}"
                                                             BrushForTrue="{DynamicResource Metro.SecondaryTextBrush}" />
                     </ListView.Resources>
                     <ListView.ItemsSource>
@@ -810,7 +810,7 @@
                                VerticalAlignment="Bottom"
                                Foreground="{DynamicResource Metro.SecondaryTextBrush}"><Run FontSize="48"
                              FontWeight="Thin"
-                             Foreground="{DynamicResource Metro.AccentBrush}"
+                             Foreground="{DynamicResource Metro.App.AccentBrush}"
                              Text="{Binding ProgressChanged}" /><Run Text=" " /><Run FontSize="{DynamicResource Metro.NormalFontSize}"
                              FontWeight="Thin"
                              Text="%" />

@@ -14,7 +14,7 @@
 
     <Style TargetType="ui:AutoCompleteBox">
         <Setter Property="AcceptsReturn" Value="False" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource Metro.AccentBrush}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
         <Setter Property="FontSize" Value="{DynamicResource Metro.NormalFontSize}" />
         <Setter Property="WatermarkTemplate" Value="{StaticResource DefaultWatermarkTemplate}" />
         <Setter Property="Background" Value="{DynamicResource Metro.ControlBackgroundBrush}" />
@@ -100,7 +100,7 @@
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.ControlBorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.AccentBrush}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

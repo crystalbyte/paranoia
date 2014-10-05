@@ -13,7 +13,7 @@
 
     <Style TargetType="ui:MetroWindow">
         <Setter Property="HoverBrush" Value="{DynamicResource Metro.HoverBrush}" />
-        <Setter Property="AccentBrush" Value="{DynamicResource Metro.AccentBrush}" />
+        <Setter Property="AccentBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="FramePadding" Value="4" />
