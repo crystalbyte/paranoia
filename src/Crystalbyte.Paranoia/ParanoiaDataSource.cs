@@ -46,8 +46,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 SendResponse(request, DataSourceResponse.Empty);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 //TODO: Return 793 - Zombie Apocalypse
                 Logger.Error(ex);
             }
@@ -78,9 +77,9 @@ namespace Crystalbyte.Paranoia {
                 var message = database.MimeMessages.FirstOrDefault(x => x.MessageId == id);
                 if (message != null) {
                     var reader = new MailMessageReader(message.Data);
-                    var body = reader.FindFirstHtmlVersion().Body;
+                    var body = reader.FindFirstHtmlVersion();
                     if (body != null) {
-                        return Encoding.UTF8.GetString(body);
+                        return body.GetBodyAsText();
                     }
                 }
                 return "no html body found";
@@ -154,8 +153,7 @@ namespace Crystalbyte.Paranoia {
 
                 await SendMessageResponseAsync(request, new MailMessageReader(payload), id);
                 return true;
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
                 return false;
             }
@@ -193,13 +191,11 @@ namespace Crystalbyte.Paranoia {
                 content = plain == null ? string.Empty : await FormatPlainText(reader.Headers.Subject, plain.GetBodyAsText());
                 encoding = Encoding.UTF8;
 
-            }
-            else {
+            } else {
                 content = html.GetBodyAsText();
                 try {
                     encoding = Encoding.GetEncoding(html.ContentType.CharSet ?? "utf-8");
-                }
-                catch (Exception) {
+                } catch (Exception) {
                     encoding = Encoding.UTF8;
                 }
             }
@@ -237,20 +233,17 @@ namespace Crystalbyte.Paranoia {
                     head = partialDocument.DocumentNode.SelectSingleNode("//head");
                     if (head == null) {
                         head = document.CreateElement("head");
-                    }
-                    else {
+                    } else {
                         // Remove from partial doc, since the constructed document already has one.
                         head.Remove();
                     }
-                }
-                else {
+                } else {
                     head = document.CreateElement("head");
                 }
 
                 if (body != null) {
                     html.InsertBefore(head, body);
-                }
-                else {
+                } else {
                     html.AppendChild(head);
                 }
             }
@@ -260,14 +253,12 @@ namespace Crystalbyte.Paranoia {
                     body = partialDocument.DocumentNode.SelectSingleNode("//body");
                     if (body == null) {
                         body = document.CreateElement("body");
-                    }
-                    else {
+                    } else {
                         // Remove from partial doc, since the constructed document already has one.
                         body.Remove();
                     }
 
-                }
-                else {
+                } else {
                     body = document.CreateElement("body");
                 }
                 html.AppendChild(body);
