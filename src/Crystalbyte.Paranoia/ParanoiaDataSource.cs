@@ -45,6 +45,11 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
+                if (Regex.IsMatch(request.Path, "message/forward")) {
+                    SendComposeAsForwardResponse(request);
+                    return;
+                }
+
                 SendResponse(request, DataSourceResponse.Empty);
             } catch (Exception ex) {
                 //TODO: Return 793 - Zombie Apocalypse
@@ -52,14 +57,27 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        private void SendComposeAsForwardResponse(DataSourceRequest request) {
+            //TODO insert header
+            var header = "";
+            SendComposeAsResponse(request, header);
+        }
+
         private void SendComposeAsReplyResponse(DataSourceRequest request) {
+            //TODO insert header
+            var header = "";
+            SendComposeAsResponse(request, header);
+
+        }
+
+        private void SendComposeAsResponse(DataSourceRequest request, string header) {
             long messageId;
             var variables = new Dictionary<string, string>();
             var arguments = request.Url.OriginalString.ToPageArguments();
             if (arguments.ContainsKey("id") && long.TryParse(arguments["id"], out messageId)) {
                 var bodyHtml = GetBodyHtmlFromId(messageId);
                 bodyHtml = ConvertEmbeddedSources(bodyHtml, messageId.ToString(CultureInfo.InvariantCulture));
-                //todo insert reply header
+                //TODO insert header here
                 variables.Add("content", bodyHtml);
             }
 
@@ -67,7 +85,6 @@ namespace Crystalbyte.Paranoia {
                 variables.Add("content", string.Empty);
 
             var html = GenerateEditorHtml(variables);
-            //var escapedHtml = Uri.EscapeDataString(html);
             var bytes = Encoding.UTF8.GetBytes(html);
             SendByteStream(request, bytes);
         }
