@@ -73,6 +73,7 @@ namespace Crystalbyte.Paranoia {
 
             _mailboxes = new ObservableCollection<MailboxContext>();
             _mailboxes.CollectionChanged += (sender, e) => {
+                RaisePropertyChanged(() => HasMailboxes);
                 RaisePropertyChanged(() => Children);
                 RaisePropertyChanged(() => MailboxRoots);
             };
@@ -334,7 +335,7 @@ namespace Crystalbyte.Paranoia {
 
                     if (mailboxes.All(x => !x.IsJunk)) {
                         if (mailbox.IsGmailJunk || mailbox.Name.ContainsIgnoreCase("junk")) {
-                            JunkMailboxName = mailbox.Name;
+                            JunkMailboxName = mailbox.Fullname;
                             context.IsSubscribed = true;
                             goto done;
                         }
@@ -342,7 +343,7 @@ namespace Crystalbyte.Paranoia {
 
                     if (mailboxes.All(x => !x.IsDraft)) {
                         if (mailbox.IsGmailDraft || mailbox.Name.ContainsIgnoreCase("draft")) {
-                            DraftMailboxName = mailbox.Name;
+                            DraftMailboxName = mailbox.Fullname;
                             context.IsSubscribed = true;
                             goto done;
                         }    
@@ -350,7 +351,7 @@ namespace Crystalbyte.Paranoia {
 
                     if (mailboxes.All(x => !x.IsSent)) {
                         if (mailbox.IsGmailSent || mailbox.Name.ContainsIgnoreCase("sent")) {
-                            SentMailboxName = mailbox.Name;
+                            SentMailboxName = mailbox.Fullname;
                             context.IsSubscribed = true;
                             goto done;
                         }
@@ -358,7 +359,7 @@ namespace Crystalbyte.Paranoia {
 
                     if (mailboxes.All(x => !x.IsTrash)) {
                         if (mailbox.IsGmailTrash || mailbox.Name.ContainsIgnoreCase("trash")) {
-                            TrashMailboxName = mailbox.Name;
+                            TrashMailboxName = mailbox.Fullname;
                             context.IsSubscribed = true;
                         }
                     }
@@ -482,6 +483,10 @@ namespace Crystalbyte.Paranoia {
 
         public AppContext AppContext {
             get { return _appContext; }
+        }
+
+        public bool HasMailboxes {
+            get { return _mailboxes.Count > 0; }
         }
 
         public string Name {

@@ -383,7 +383,7 @@
                            Margin="0,24"
                            DockPanel.Dock="Top"
                            Fill="#333337" />
-                <Grid DockPanel.Dock="Top">
+                <Grid DockPanel.Dock="Top" IsEnabled="{Binding HasMailboxes}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />

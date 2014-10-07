@@ -27,7 +27,11 @@ namespace Crystalbyte.Paranoia {
         }
 
         public static object AppAccentColor {
-            get { return ColorConverter.ConvertFromString("#0065B2"); }
+            //get { return ColorConverter.ConvertFromString("#0065B2"); }
+            get { return ColorConverter.ConvertFromString("#125DD6"); }
+            //get { return ColorConverter.ConvertFromString("#4D699E"); }
+            //get { return ColorConverter.ConvertFromString("#A0625B"); }
+            //get { return ColorConverter.ConvertFromString("#6F5B91"); }
         }
 
         public static object AppFailureColor {

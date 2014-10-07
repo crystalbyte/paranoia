@@ -228,7 +228,7 @@
         <Setter Property="MinWidth" Value="24" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
-        <Setter Property="Padding" Value="3" />
+        <Setter Property="Padding" Value="4" />
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
