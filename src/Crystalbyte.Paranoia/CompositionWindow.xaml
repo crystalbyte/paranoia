@@ -9,10 +9,6 @@
                 Title="{Binding Text,
                                 ElementName=TitleBlock,
                                 Mode=OneWay}"
-                Width="900"
-                Height="600"
-                MinWidth="450"
-                MinHeight="300"
                 BorderBrush="{DynamicResource Metro.Window.ShadowBrush}"
                 BorderThickness="1"
                 UseLayoutRounding="True"

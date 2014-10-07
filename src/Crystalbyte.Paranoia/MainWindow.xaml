@@ -9,8 +9,6 @@
                 Title="p4r4n014"
                 Width="1280"
                 Height="768"
-                MinWidth="200"
-                MinHeight="100"
                 Background="{DynamicResource Metro.Window.BackgroundBrush}"
                 BorderThickness="0"
                 Foreground="{DynamicResource Metro.Control.TextBrush}"

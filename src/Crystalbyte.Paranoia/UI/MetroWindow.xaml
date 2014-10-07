@@ -23,6 +23,8 @@
         <Setter Property="BorderBrush" Value="{Binding AccentBrush, RelativeSource={RelativeSource Self}}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="MinHeight" Value="225"/>
+        <Setter Property="MinWidth" Value="400"/>
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome CaptionHeight="28"
