@@ -91,6 +91,7 @@
                             Padding="{TemplateBinding Padding}">
                         <TextBlock HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   FontSize="{DynamicResource Metro.SmallFontSize}"
                                    Foreground="{TemplateBinding Foreground}"
                                    Text="{TemplateBinding Content}" />
                     </Border>

@@ -330,7 +330,7 @@
                 </ItemsPanelTemplate>
             </StatusBar.ItemsPanel>
             <StatusBarItem Grid.Column="0">
-                <TextBlock Text="{Binding StatusText, Mode=OneWay}" />
+                <TextBlock Text="{Binding StatusText, Mode=OneWay}" FontSize="{DynamicResource Metro.SmallFontSize}" />
             </StatusBarItem>
             <StatusBarItem Grid.Column="2">
                 <Slider Width="150"

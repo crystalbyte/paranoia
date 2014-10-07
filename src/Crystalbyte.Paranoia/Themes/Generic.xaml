@@ -7,5 +7,6 @@
         <ResourceDictionary Source="/Paranoia;component/UI/MetroWindow.xaml" />
         <ResourceDictionary Source="/Paranoia;component/UI/MetroTextBox.xaml" />
         <ResourceDictionary Source="/Paranoia;component/UI/MetroProgressBar.xaml" />
+        <ResourceDictionary Source="/Paranoia;component/UI/MetroScrollViewer.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

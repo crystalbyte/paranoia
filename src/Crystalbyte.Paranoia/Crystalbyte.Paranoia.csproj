@@ -250,6 +250,9 @@
     <Compile Include="UI\MetroProgressBar.xaml.cs">
       <DependentUpon>MetroProgressBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\MetroScrollViewer.xaml.cs">
+      <DependentUpon>MetroScrollViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\MetroTextBox.xaml.cs">
       <DependentUpon>MetroTextBox.xaml</DependentUpon>
     </Compile>
@@ -452,6 +455,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\MetroProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MetroScrollViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

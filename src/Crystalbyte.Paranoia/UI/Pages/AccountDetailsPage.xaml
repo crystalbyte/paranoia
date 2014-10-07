@@ -57,9 +57,10 @@
                     <Image Width="18" Source="/Assets/cancel.png" />
                 </ui:MetroCircleButton>
             </StackPanel>
-            <ScrollViewer HorizontalScrollBarVisibility="Disabled"
-                          Padding="2,0"
-                          VerticalScrollBarVisibility="Auto">
+            <ui:MetroScrollViewer Background="{DynamicResource Metro.Flyout.BackgroundBrush}"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  Padding="2,0"
+                                  VerticalScrollBarVisibility="Auto">
                 <DockPanel LastChildFill="False">
                     <Grid DockPanel.Dock="Top">
                         <Grid.RowDefinitions>
@@ -530,7 +531,7 @@
                         </Grid>
                     </Grid>
                 </DockPanel>
-            </ScrollViewer>
+            </ui:MetroScrollViewer>
 
         </DockPanel>
         <Popup x:Name="SentMailboxSelectionPopup"
