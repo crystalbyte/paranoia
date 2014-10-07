@@ -167,6 +167,7 @@
                   Margin="0,3,5,3"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
+                  Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                   ItemsSource="{Binding Accounts}"
                   SelectedIndex="0"
                   SelectedItem="{Binding SelectedAccount}">
@@ -337,7 +338,7 @@
                 </ItemContainerTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Border Grid.Row="5"
+        <Border Grid.Row="4"
                 Grid.Column="0"
                 Grid.ColumnSpan="4"
                 Margin="0,3,0,0"
@@ -348,7 +349,7 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             AllowDrop="True"
-                            Background="{DynamicResource Metro.Control.BackgroundBrush}"
+                            Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                             Drop="DropHtmlControl"
                             IsTransparent="True"
                             Padding="3"

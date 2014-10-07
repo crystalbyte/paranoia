@@ -13,49 +13,54 @@ namespace Crystalbyte.Paranoia.Mail {
         public static string Encode(string text, string transferEncoding, string charset, bool useBockText = true) {
             switch (transferEncoding) {
                 case ContentTransferEncodings.QuotedPrintable: {
-                    var bytes = Encoding.UTF8.GetBytes(text);
-                    return QpConverter.ToQuotedPrintableString(bytes);
-                }
+                        var bytes = Encoding.UTF8.GetBytes(text);
+                        return QpConverter.ToQuotedPrintableString(bytes);
+                    }
                 case ContentTransferEncodings.None: {
-                    return text;
-                }
+                        return text;
+                    }
                 default: {
-                    var bytes = Encoding.UTF8.GetBytes(text);
-                    var encodedText = Convert.ToBase64String(bytes);
-                    return useBockText ? encodedText.ToBlockText(76) : encodedText;
-                }
+                        var bytes = Encoding.UTF8.GetBytes(text);
+                        var encodedText = Convert.ToBase64String(bytes);
+                        return useBockText ? encodedText.ToBlockText(76) : encodedText;
+                    }
             }
         }
 
         public static string Decode(string literals, string transferEncoding, string charset) {
             Encoding targetEncoding;
 
-            // Cp1252 is not recognized under this name
-            if (charset.ToLower() == "cp1252") {
-                charset = Charsets.Windows1252;
+            var value = charset.ToLower();
+            switch (value) {
+                case "cp1252":
+                    // Cp1252 is not recognized under this name
+                    charset = Charsets.Windows1252;
+                    break;
+                case "x-unknown":
+                    charset = Charsets.Utf8;
+                    break;
             }
 
             try {
                 // if this goes haywire
                 targetEncoding = Encoding.GetEncoding(charset);
-            }
-            catch (ArgumentException) {
+            } catch (ArgumentException) {
                 // try this one
                 targetEncoding = Encoding.UTF8;
             }
 
             switch (transferEncoding.ToLower()) {
                 case ContentTransferEncodings.QuotedPrintable: {
-                    return QpConverter.FromQuotedPrintable(literals, targetEncoding);
-                }
+                        return QpConverter.FromQuotedPrintable(literals, targetEncoding);
+                    }
                 case ContentTransferEncodings.Base64: {
-                    var bytes = Convert.FromBase64String(literals);
-                    return targetEncoding.GetString(bytes);
-                }
+                        var bytes = Convert.FromBase64String(literals);
+                        return targetEncoding.GetString(bytes);
+                    }
                 default: {
-                    // no encoding
-                    return literals;
-                }
+                        // no encoding
+                        return literals;
+                    }
             }
         }
 
@@ -82,13 +87,13 @@ namespace Crystalbyte.Paranoia.Mail {
 
             switch (encoding) {
                 case "Q": {
-                    decodedText = Decode(message, ContentTransferEncodings.QuotedPrintable, charset);
-                    break;
-                }
+                        decodedText = Decode(message, ContentTransferEncodings.QuotedPrintable, charset);
+                        break;
+                    }
                 default: {
-                    decodedText = Decode(message, ContentTransferEncodings.Base64, charset);
-                    break;
-                }
+                        decodedText = Decode(message, ContentTransferEncodings.Base64, charset);
+                        break;
+                    }
             }
 
             return decodedText;

@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
+                    xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -13,6 +14,7 @@
     <Style TargetType="ui:MetroWindow">
         <Setter Property="HoverBrush" Value="{DynamicResource Metro.Control.HoverBrush}" />
         <Setter Property="AccentBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
+        <Setter Property="ShadowColor" Value="{x:Static paranoia:MetroColors.WindowShadowColor}" />
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="FramePadding" Value="4" />
@@ -39,7 +41,7 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Padding="{TemplateBinding Padding}">
                             <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" Color="{DynamicResource Metro.ShadowColor}" />
+                                <DropShadowEffect ShadowDepth="0" Color="{TemplateBinding ShadowColor}" />
                             </Border.Effect>
                             <Grid>
                                 <Grid.RowDefinitions>

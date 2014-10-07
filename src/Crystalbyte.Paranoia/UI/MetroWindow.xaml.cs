@@ -47,7 +47,14 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Dependency Properties
 
+        public Color ShadowColor {
+            get { return (Color)GetValue(ShadowColorProperty); }
+            set { SetValue(ShadowColorProperty, value); }
+        }
 
+        // Using a DependencyProperty as the backing store for ShadowColor.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShadowColorProperty =
+            DependencyProperty.Register("ShadowColor", typeof(Color), typeof(MetroWindow), new PropertyMetadata(Color.FromArgb(0, 0, 0, 0)));
 
         public Thickness ActualFramePadding {
             get { return (Thickness)GetValue(ActualFramePaddingProperty); }
