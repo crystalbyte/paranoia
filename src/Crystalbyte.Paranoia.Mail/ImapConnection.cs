@@ -53,6 +53,10 @@ namespace Crystalbyte.Paranoia.Mail {
             get { return Capabilities.Contains("MOVE"); }
         }
 
+        public bool HasNamespaces {
+            get { return Capabilities.Contains(ImapCommands.Namespace); }
+        }
+
         public HashSet<string> Capabilities { get; internal set; }
 
         #region Implementation of IDisposable

@@ -241,6 +241,11 @@ namespace Crystalbyte.Paranoia {
                 connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                 using (var auth = await connection.ConnectAsync(ImapHost, ImapPort)) {
                     using (var session = await auth.LoginAsync(ImapUsername, ImapPassword)) {
+
+                        if (connection.HasNamespaces) {
+                            await session.GetNamespacesAsync();
+                        }
+
                         var wildcard = string.IsNullOrEmpty(pattern) ? "%" : pattern;
                         return await session.ListAsync("", ImapMailbox.EncodeName(wildcard));
                     }

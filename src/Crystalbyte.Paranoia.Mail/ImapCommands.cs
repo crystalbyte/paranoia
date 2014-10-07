@@ -10,5 +10,6 @@
         public static string Unsubscribe = "UNSUBSCRIBE";
         public static string Select = "SELECT";
         public static string Examine = "EXAMINE";
+        public static string Namespace = "NAMESPACE";
     }
 }

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -62,7 +63,26 @@ namespace Crystalbyte.Paranoia.Mail {
 
             var command = string.Format("{0} \"{1}\"", ImapCommands.Subscribe , encodedName);
             var id = await _connection.WriteCommandAsync(command);
-            await ReadBasicResponseAsync(id);
+            await ReadNamespaceResponseAsync(id);
+        }
+
+        private async Task ReadNamespaceResponseAsync(string id) {
+            while (true) {
+                var line = await _connection.ReadAsync();
+
+                if (line.IsUntagged) {
+                    Debug.WriteLine(line.Text);
+                }
+
+                if (!line.TerminatesCommand(id))
+                    continue;
+
+                if (!line.IsOk) {
+                    throw new ImapException(line.Text);
+                }
+
+                break;
+            }
         }
 
         /// <summary>
@@ -80,6 +100,12 @@ namespace Crystalbyte.Paranoia.Mail {
             var encodedName = ImapMailbox.EncodeName(name);
 
             var command = string.Format("{0} \"{1}\"", ImapCommands.Unsubscribe, encodedName);
+            var id = await _connection.WriteCommandAsync(command);
+            await ReadBasicResponseAsync(id);
+        }
+
+        public async Task GetNamespacesAsync() {
+            var command = ImapCommands.Namespace;
             var id = await _connection.WriteCommandAsync(command);
             await ReadBasicResponseAsync(id);
         }
