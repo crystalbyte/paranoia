@@ -99,10 +99,20 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
         private static CompositionWindow CreateChildWindow(Window owner) {
             var window = new CompositionWindow {
-                Owner = owner,
                 Height = owner.Height > 500 ? owner.Height * 0.9 : 500,
                 Width = owner.Width > 800 ? owner.Width * 0.9 : 800,
             };
+
+            var ownerPoint = owner.PointToScreen(new Point(0, 0));
+
+            var left = ownerPoint.X + (owner.Width / 2) - (window.Width / 2);
+            var top = ownerPoint.Y + (owner.Height / 2) - (window.Height / 2);
+
+            window.Left = left < 0 ? 0 : left;
+            window.Top = top < 0 ? 0 : top;
+
+            owner.Closed += (sender, e) => window.Close();
+
             return window;
         }
 
