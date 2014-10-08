@@ -504,7 +504,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The following values are public and will be shared with the people you communicate with..
+        ///   Looks up a localized string similar to Your name and e-mail address are public and will be shared with the people you communicate with..
         /// </summary>
         public static string GeneralSettingsDescription {
             get {
@@ -545,15 +545,6 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string ImapSettingsDescription {
             get {
                 return ResourceManager.GetString("ImapSettingsDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Inbound Server Settings (IMAP).
-        /// </summary>
-        public static string ImapSettingsTitle {
-            get {
-                return ResourceManager.GetString("ImapSettingsTitle", resourceCulture);
             }
         }
         
@@ -991,6 +982,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mail Server Settings.
+        /// </summary>
+        public static string ServerSettingsTitle {
+            get {
+                return ResourceManager.GetString("ServerSettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do not filter by contact.
         /// </summary>
         public static string ShowAllMessages {
@@ -1005,6 +1005,24 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string ShowUnsubscribedMailboxes {
             get {
                 return ResourceManager.GetString("ShowUnsubscribedMailboxes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a file containing the default signature text for this account..
+        /// </summary>
+        public static string SignatureDescription {
+            get {
+                return ResourceManager.GetString("SignatureDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Signature Settings.
+        /// </summary>
+        public static string SignatureTitle {
+            get {
+                return ResourceManager.GetString("SignatureTitle", resourceCulture);
             }
         }
         

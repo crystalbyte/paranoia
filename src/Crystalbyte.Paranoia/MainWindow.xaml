@@ -396,7 +396,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel x:Name="StackPanel"
                                 Grid.Row="0"
-                                Margin="0,0,0,12"
+                                Margin="0,0,0,18"
                                 Orientation="Horizontal">
                         <ui:MetroCircleButton x:Name="Button"
                                               Margin="0,0,12,0"

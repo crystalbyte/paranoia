@@ -49,7 +49,9 @@
     </Page.Resources>
     <Grid>
         <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
-            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+            <StackPanel Margin="0,12,0,0"
+                        DockPanel.Dock="Bottom"
+                        Orientation="Horizontal">
                 <ui:MetroCircleButton Command="ui:NavigationCommands.Continue" Text="{x:Static properties:Resources.Accept}">
                     <Image Width="18" Source="/Assets/ok.png" />
                 </ui:MetroCircleButton>
@@ -141,12 +143,11 @@
                                        Grid.Column="0"
                                        Grid.ColumnSpan="4"
                                        Style="{DynamicResource Metro.SubtitleTextStyle}"
-                                       Text="{x:Static properties:Resources.ImapSettingsTitle}" />
+                                       Text="{x:Static properties:Resources.ServerSettingsTitle}" />
                             <TextBlock Grid.Row="1"
                                        Grid.Column="0"
                                        Grid.ColumnSpan="4"
                                        Margin="0,0,0,12"
-                                       Foreground="{DynamicResource Metro.Control.TextBrush}"
                                        Style="{DynamicResource Metro.DescriptionTextStyle}"
                                        Text="{x:Static properties:Resources.ImapSettingsDescription}"
                                        TextTrimming="None" />
@@ -254,7 +255,7 @@
                         </Grid>
                         <Grid Grid.Row="0" Grid.Column="2">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="26" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -270,16 +271,10 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Row="0"
-                                       Grid.Column="0"
-                                       Grid.ColumnSpan="4"
-                                       Style="{DynamicResource Metro.SubtitleTextStyle}"
-                                       Text="{x:Static properties:Resources.SmtpSettingsTitle}" />
                             <TextBlock Grid.Row="1"
                                        Grid.Column="0"
                                        Grid.ColumnSpan="4"
                                        Margin="0,0,0,12"
-                                       Foreground="{DynamicResource Metro.Control.TextBrush}"
                                        Style="{DynamicResource Metro.DescriptionTextStyle}"
                                        Text="{x:Static properties:Resources.SmtpSettingsDescription}" />
                             <RadioButton x:Name="UseImapCredentialsRadioButton"
@@ -400,7 +395,9 @@
                                    Style="{DynamicResource Metro.SubtitleTextStyle}"
                                    Text="{x:Static properties:Resources.MailboxSettingsTitle}" />
                         <StackPanel Grid.Row="1" Grid.Column="2">
-                            <TextBlock Margin="0,0,0,12" Text="{x:Static properties:Resources.ManageSentDescription}" />
+                            <TextBlock Margin="0,0,0,12"
+                                       Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
+                                       Text="{x:Static properties:Resources.ManageSentDescription}" />
                             <RadioButton x:Name="DontStoreCopyRadioButton"
                                          Checked="OnDontStoreCopyRadioButtonChecked"
                                          GroupName="sent">
@@ -425,7 +422,6 @@
                                                         Converter={StaticResource NullOrEmptyFormatter}}"
                                          TextWrapping="NoWrap" />
                                 <Button x:Name="SentMailboxSelectionButton"
-                                        Height="24"
                                         Command="ui:MailboxCommands.Select"
                                         CommandParameter="{x:Static paranoia:MailboxRoles.Sent}"
                                         IsEnabled="{Binding IsChecked,
@@ -453,6 +449,7 @@
                             <TextBlock Grid.Row="0"
                                        Grid.ColumnSpan="2"
                                        Margin="0,0,0,12"
+                                       Style="{DynamicResource Metro.DescriptionTextStyle}"
                                        Text="{x:Static properties:Resources.MailboxSettingsDescription}" />
                             <TextBlock Grid.Row="1"
                                        Grid.Column="0"
@@ -471,7 +468,6 @@
                                                         Converter={StaticResource NullOrEmptyFormatter}}"
                                          TextWrapping="NoWrap" />
                                 <Button x:Name="TrashMailboxSelectionButton"
-                                        Height="24"
                                         Command="ui:MailboxCommands.Select"
                                         CommandParameter="{x:Static paranoia:MailboxRoles.Trash}"
                                         Style="{DynamicResource Metro.TextBoxSiblingButtonStyle}">
@@ -495,7 +491,6 @@
                                                         Converter={StaticResource NullOrEmptyFormatter}}"
                                          TextWrapping="NoWrap" />
                                 <Button x:Name="DraftMailboxSelectionButton"
-                                        Height="24"
                                         Command="ui:MailboxCommands.Select"
                                         CommandParameter="{x:Static paranoia:MailboxRoles.Draft}"
                                         Style="{DynamicResource Metro.TextBoxSiblingButtonStyle}">
@@ -520,7 +515,6 @@
                                                         Converter={StaticResource NullOrEmptyFormatter}}"
                                          TextWrapping="NoWrap" />
                                 <Button x:Name="JunkMailboxSelectionButton"
-                                        Height="24"
                                         Command="ui:MailboxCommands.Select"
                                         CommandParameter="{x:Static paranoia:MailboxRoles.Junk}"
                                         Style="{DynamicResource Metro.TextBoxSiblingButtonStyle}">
@@ -529,6 +523,30 @@
                             </StackPanel>
 
                         </Grid>
+                    </Grid>
+                    <Rectangle Height="1"
+                               Margin="0,24"
+                               DockPanel.Dock="Top"
+                               Fill="#333337" />
+                    <Grid DockPanel.Dock="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="24" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   Grid.ColumnSpan="3"
+                                   Style="{DynamicResource Metro.SubtitleTextStyle}"
+                                   Text="{x:Static properties:Resources.SignatureTitle}" />
+                        <StackPanel Grid.Row="1" Grid.Column="0">
+                            <TextBlock Margin="0,0,0,12"
+                                       Style="{DynamicResource Metro.DescriptionTextStyle}"
+                                       Text="{x:Static properties:Resources.SignatureDescription}" />
+                        </StackPanel>
                     </Grid>
                 </DockPanel>
             </ui:MetroScrollViewer>

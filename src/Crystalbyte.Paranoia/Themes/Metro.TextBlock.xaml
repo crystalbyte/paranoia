@@ -30,9 +30,8 @@
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
 
-        <Setter Property="FontWeight" Value="Thin" />
         <Setter Property="Margin" Value="0,2,0,2" />
-        <Setter Property="Foreground" Value="{DynamicResource Metro.Control.SecondaryTextBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.App.AccentBrush}" />
         <Setter Property="FontSize" Value="{DynamicResource Metro.MediumFontSize}" />
     </Style>
 
@@ -43,13 +42,13 @@
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="FontSize" Value="{DynamicResource Metro.SmallFontSize}" />
-        <Setter Property="Margin" Value="12,3,6,3" />
+        <Setter Property="Margin" Value="18,3,12,3" />
     </Style>
 
     <Style x:Key="Metro.DescriptionTextStyle"
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{DynamicResource Metro.App.AccentBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metro.Control.SecondaryTextBrush}" />
         <Setter Property="Margin" Value="0,4,0,8" />
         <Setter Property="FontWeight" Value="Normal" />
     </Style>

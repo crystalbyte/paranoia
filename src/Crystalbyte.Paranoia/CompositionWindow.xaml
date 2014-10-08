@@ -9,7 +9,7 @@
                 Title="{Binding Text,
                                 ElementName=TitleBlock,
                                 Mode=OneWay}"
-                BorderBrush="{DynamicResource Metro.App.AccentBrush}"
+                BorderBrush="{DynamicResource Metro.Window.ShadowBrush}"
                 BorderThickness="1"
                 UseLayoutRounding="True"
                 WindowStartupLocation="CenterOwner"

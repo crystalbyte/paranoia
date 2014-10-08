@@ -178,7 +178,7 @@
     <value>Friday</value>
   </data>
   <data name="GeneralSettingsDescription" xml:space="preserve">
-    <value>The following values are public and will be shared with the people you communicate with.</value>
+    <value>Your name and e-mail address are public and will be shared with the people you communicate with.</value>
   </data>
   <data name="GeneralSettingsTitle" xml:space="preserve">
     <value>General Information &amp; Settings</value>
@@ -189,8 +189,8 @@
   <data name="ImapSettingsDescription" xml:space="preserve">
     <value>The IMAP server settings are required to establish a connection to the incoming mail server.</value>
   </data>
-  <data name="ImapSettingsTitle" xml:space="preserve">
-    <value>Inbound Server Settings (IMAP)</value>
+  <data name="ServerSettingsTitle" xml:space="preserve">
+    <value>Mail Server Settings</value>
   </data>
   <data name="Implicit" xml:space="preserve">
     <value>Implicit (SSL)</value>
@@ -514,5 +514,11 @@ Once your password is lost you're screwed.</value>
   </data>
   <data name="MessageNotFoundException" xml:space="preserve">
     <value>The requested message could not be found.</value>
+  </data>
+  <data name="SignatureDescription" xml:space="preserve">
+    <value>Select a file containing the default signature text for this account.</value>
+  </data>
+  <data name="SignatureTitle" xml:space="preserve">
+    <value>Signature Settings</value>
   </data>
 </root>
