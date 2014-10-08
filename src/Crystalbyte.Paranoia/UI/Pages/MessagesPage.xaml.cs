@@ -104,13 +104,10 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             };
 
             var ownerPoint = owner.PointToScreen(new Point(0, 0));
-
             var left = ownerPoint.X + (owner.Width / 2) - (window.Width / 2);
             var top = ownerPoint.Y + (owner.Height / 2) - (window.Height / 2);
-
             window.Left = left < 0 ? 0 : left;
             window.Top = top < 0 ? 0 : top;
-
             owner.Closed += (sender, e) => window.Close();
 
             return window;
@@ -121,9 +118,14 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
             var browser = new WebBrowser();
             browser.Navigated += (x, y) => {
-                dynamic document = browser.Document;
-                document.execCommand("print", true, null);
-                browser.Dispose();
+                try {
+                    dynamic document = browser.Document;
+                    document.execCommand("print", true, null);
+                } catch (Exception ex) {
+                    Logger.Error(ex);
+                } finally {
+                    browser.Dispose();
+                }
             };
             browser.NavigateToString(html);
         }

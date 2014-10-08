@@ -68,7 +68,7 @@ namespace Crystalbyte.Paranoia.Mail {
         /// <param name="criteria"> The search criteria. </param>
         /// <returns> The uids of messages matching the given criteria. </returns>
         public async Task<IList<int>> SearchAsync(string criteria) {
-            var command = String.Format("UID SEARCH {0}", criteria);
+            var command = String.Format("UID SEARCH UID {0}", criteria);
             var id = await _connection.WriteCommandAsync(command);
             return await ReadSearchResponseAsync(id);
         }
