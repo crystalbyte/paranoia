@@ -12,4 +12,6 @@ CKEDITOR.editorConfig = function (config) {
     //config.skin = 'office2013';
     config.skin = 'moono-dark';
     config.removePlugins = 'elementspath';
+    config.margin = 0;
+    config.padding = 0;
 };
