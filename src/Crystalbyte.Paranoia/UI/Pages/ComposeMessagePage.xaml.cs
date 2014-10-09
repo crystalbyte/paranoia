@@ -10,14 +10,13 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
-using Crystalbyte.Paranoia.Mail.Mime.Header;
 using Crystalbyte.Paranoia.Properties;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.UI.Pages {
     /// <summary>
-    ///     Interaction logic for WriteMessagePage.xaml
+    ///     Interaction logic for ComposeMessagePage.xaml
     /// </summary>
     public partial class ComposeMessagePage : INavigationAware {
 

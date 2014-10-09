@@ -46,6 +46,7 @@ namespace Crystalbyte.Paranoia {
         private MailAccountContext _transitAccount;
         private readonly DispatcherTimer _outboxTimer;
         private MailboxContext _selectedMailbox;
+        private OutboxContext _selectedOutbox;
         private readonly ObservableCollection<AttachmentContext> _attachments;
         private readonly DeferredObservableCollection<MailMessageContext> _messages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
@@ -101,6 +102,8 @@ namespace Crystalbyte.Paranoia {
             _markAsFlaggedCommand = new MarkAsFlaggedCommand(this);
             _markAsNotFlaggedCommand = new MarkAsNotFlaggedCommand(this);
 
+            NetworkChange.NetworkAvailabilityChanged += OnNetworkAvailabilityChanged;
+
             Observable.Timer(TimeSpan.FromHours(24))
                 .Subscribe(OnRefreshKeys);
 
@@ -109,7 +112,7 @@ namespace Crystalbyte.Paranoia {
                 action => MessageSelectionChanged -= action)
                 .Throttle(TimeSpan.FromMilliseconds(100))
                 .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
-                .Subscribe(OnMessageSelectionCommitted);
+                .Subscribe(OnMessageSelectionReceived);
 
             Observable.FromEventPattern<QueryStringEventArgs>(
                 action => QueryStringChanged += action,
@@ -139,6 +142,16 @@ namespace Crystalbyte.Paranoia {
 
             _zoom = 1.0f;
             _showAllMessages = true;
+        }
+
+        private async void OnNetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e) {
+            foreach (var account in Accounts) {
+                if (!e.IsAvailable) {
+                    account.IsOnline = false;
+                } else {
+                    await account.TakeOnlineAsync();
+                }
+            }
         }
 
         private async void OnContactQueryReceived(string query) {
@@ -282,6 +295,24 @@ namespace Crystalbyte.Paranoia {
 
         #region Public Events
 
+        public event EventHandler OutboxSelectionChanged;
+
+        private async void OnOutboxSelectionChanged() {
+            try {
+                var handler = OutboxSelectionChanged;
+                if (handler != null)
+                    handler(this, EventArgs.Empty);
+
+                if (SelectedOutbox == null) {
+                    return;
+                }
+
+                await RefreshViewForSelectedOutbox();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
         public event EventHandler MailboxSelectionChanged;
 
         private async void OnMailboxSelectionChanged() {
@@ -298,6 +329,10 @@ namespace Crystalbyte.Paranoia {
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
+        }
+
+        private async Task RefreshViewForSelectedOutbox() {
+            await RequestOutboxContentAsync(SelectedOutbox);
         }
 
         private async Task RefreshViewForSelectedMailbox() {
@@ -394,6 +429,10 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        private static async Task RequestOutboxContentAsync(OutboxContext outbox) {
+            await outbox.LoadSmtpRequestsFromDatabaseAsync();
+        }
+
         #endregion
 
         #region Property Declarations
@@ -425,6 +464,10 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public bool IsOutboxSelected {
+            get { return SelectedOutbox != null; }
+        }
+
         public MailboxContext SelectedMailbox {
             get { return _selectedMailbox; }
             set {
@@ -434,7 +477,22 @@ namespace Crystalbyte.Paranoia {
 
                 _selectedMailbox = value;
                 RaisePropertyChanged(() => SelectedMailbox);
+                RaisePropertyChanged(() => IsOutboxSelected);
                 OnMailboxSelectionChanged();
+            }
+        }
+
+        public OutboxContext SelectedOutbox {
+            get { return _selectedOutbox; }
+            set {
+                if (_selectedOutbox == value) {
+                    return;
+                }
+
+                _selectedOutbox = value;
+                RaisePropertyChanged(() => SelectedOutbox);
+                RaisePropertyChanged(() => IsOutboxSelected);
+                OnOutboxSelectionChanged();
             }
         }
 
@@ -600,7 +658,7 @@ namespace Crystalbyte.Paranoia {
         public ICommand DeleteContactsCommand {
             get { return _deleteContactsCommand; }
         }
-    
+
         public ICommand DeleteMessagesCommand {
             get { return _deleteMessagesCommand; }
         }
@@ -668,7 +726,7 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => Accounts);
         }
 
-        private async void OnMessageSelectionCommitted(EventPattern<object> obj) {
+        private async void OnMessageSelectionReceived(EventPattern<object> obj) {
             Application.Current.AssertUIThread();
 
             ClearPreviewArea();
@@ -763,6 +821,7 @@ namespace Crystalbyte.Paranoia {
         public async Task RunAsync() {
             await LoadContactsAsync();
             await LoadAccountsAsync();
+            await RefreshKeysForAllContactsAsync();
 
             foreach (var account in Accounts) {
                 await account.TakeOnlineAsync();
@@ -802,23 +861,10 @@ namespace Crystalbyte.Paranoia {
             IsPopupVisible = true;
         }
 
-        //internal void OnComposeMessage() {
-        //    var uri = typeof(ComposeMessagePage).ToPageUri("?action=new");
-        //    OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
-        //}
-
         private void OnCreateAccount(object obj) {
             var uri = typeof(CreateAccountPage).ToPageUri();
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
-
-        //internal void OnReplyToMessage() {
-        //    if (SelectedMessage == null) {
-        //        return;
-        //    }
-        //    var uri = typeof(ComposeMessagePage).ToPageUriAsReply(SelectedMessage);
-        //    OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
-        //}
 
         internal async Task InitKeysAsync() {
             var info = GetKeyDirectory();

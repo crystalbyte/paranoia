@@ -24,7 +24,36 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             CommandBindings.Add(new CommandBinding(MessageCommands.Reply, OnReply));
             CommandBindings.Add(new CommandBinding(MessageCommands.ReplyAll, OnReplyAll));
             CommandBindings.Add(new CommandBinding(MessageCommands.Forward, OnForward));
+            CommandBindings.Add(new CommandBinding(MessageCommands.Resume, OnResume));
+            CommandBindings.Add(new CommandBinding(OutboxCommands.Delete, OnDeleteSmtpRequest, OnCanDeleteSmtpRequest));
             App.Context.SortOrderChanged += OnSortOrderChanged;
+        }
+
+        private void OnCanDeleteSmtpRequest(object sender, CanExecuteRoutedEventArgs e) {
+            
+        }
+
+        private void OnDeleteSmtpRequest(object sender, ExecutedRoutedEventArgs e) {
+            
+        }
+
+        private static void OnResume(object sender, ExecutedRoutedEventArgs e) {
+            var message = App.Context.SelectedMessage;
+            if (message == null) {
+                throw new InvalidOperationException();
+            }
+
+            var owner = Application.Current.MainWindow;
+            var window = CreateChildWindow(owner);
+
+            var uri = string.Format("?action=resume&id={0}", message.Id);
+            window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
+
+            if (owner.WindowState == WindowState.Maximized) {
+                window.WindowState = WindowState.Maximized;
+            }
+
+            window.Show();
         }
 
         private static void OnForward(object sender, ExecutedRoutedEventArgs e) {
@@ -47,7 +76,6 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private static void OnReply(object sender, ExecutedRoutedEventArgs e) {
-
             var message = App.Context.SelectedMessage;
             if (message == null) {
                 throw new InvalidOperationException();
@@ -161,10 +189,9 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             var tree = (TreeView)sender;
             var value = tree.SelectedValue;
 
-            var mailbox = value as MailboxContext;
-            if (mailbox != null) {
-                App.Context.SelectedMailbox = mailbox;
-            }
+
+            App.Context.SelectedOutbox = value as OutboxContext;
+            App.Context.SelectedMailbox = value as MailboxContext;
 
             var account = value as MailAccountContext;
             if (account == null)
@@ -172,6 +199,27 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
             if (!account.IsOnline) {
                 await account.TakeOnlineAsync();
+            }
+        }
+
+        private void OnSmtpRequestSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (!IsLoaded) {
+                return;
+            }
+
+            var outbox = App.Context.SelectedOutbox;
+            outbox.OnSmtpRequestSelectionChanged();
+
+            CommandManager.InvalidateRequerySuggested();
+
+            var request = outbox.SelectedSmtpRequest;
+            if (request == null) {
+                return;
+            }
+
+            var container = (Control)SmtpRequestsListView.ItemContainerGenerator.ContainerFromItem(request);
+            if (container != null) {
+                container.Focus();
             }
         }
 

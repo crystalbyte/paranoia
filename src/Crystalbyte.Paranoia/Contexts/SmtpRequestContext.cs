@@ -1,5 +1,6 @@
 ﻿#region Using directives
 
+using System;
 using Crystalbyte.Paranoia.Data;
 
 #endregion
@@ -12,6 +13,18 @@ namespace Crystalbyte.Paranoia {
             _model = model;
         }
 
+        public bool IsSubjectNilOrEmpty {
+            get { return string.IsNullOrEmpty(Subject); }
+        }
+
+        public string ToNameOrAddress {
+            get { return string.IsNullOrEmpty(ToName) ? ToAddress : ToName; }
+        }
+
+        public DateTime CompositionDate {
+            get { return _model.CompositionDate; }
+        }
+
         public string Subject {
             get { return _model.Subject; }
         }
@@ -22,6 +35,10 @@ namespace Crystalbyte.Paranoia {
 
         public string ToAddress {
             get { return _model.ToAddress; }
+        }
+
+        public Int64 Id {
+            get { return _model.Id; }
         }
     }
 }

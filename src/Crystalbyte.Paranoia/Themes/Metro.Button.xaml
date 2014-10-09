@@ -226,8 +226,8 @@
     <Style x:Key="Metro.TextBoxSiblingButtonStyle"
            BasedOn="{StaticResource {x:Type ButtonBase}}"
            TargetType="ButtonBase">
-        <Setter Property="Width" Value="24.5" />
-        <Setter Property="Height" Value="24.5" />
+        <Setter Property="Width" Value="25" />
+        <Setter Property="Height" Value="25" />
         <Setter Property="FontFamily" Value="Calibri" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />

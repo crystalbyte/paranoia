@@ -29,6 +29,9 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("to_address")]
         public string ToAddress { get; set; }
 
+        [Column("composition_date")]
+        public DateTime CompositionDate { get; set; }
+
         public MailAccountModel Account { get; set; }
     }
 }

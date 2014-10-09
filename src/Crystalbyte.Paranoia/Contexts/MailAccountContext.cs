@@ -779,6 +779,7 @@ namespace Crystalbyte.Paranoia {
 
                 foreach (var message in messages) {
                     var request = new SmtpRequestModel {
+                        CompositionDate = DateTime.Now,
                         ToName = message.To.First().DisplayName,
                         ToAddress = message.To.First().Address,
                         Subject = message.Subject

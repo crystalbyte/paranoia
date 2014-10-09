@@ -35,6 +35,11 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
+                if (Regex.IsMatch(request.Path, "smtp-request/[0-9]+")) {
+                    SendSmtpRequestQueryResponse(request);
+                    return;
+                }
+
                 if (Regex.IsMatch(request.Path, "message/new")) {
                     SendComposeAsNewResponse(request);
                     return;
@@ -55,6 +60,10 @@ namespace Crystalbyte.Paranoia {
                 //TODO: Return 793 - Zombie Apocalypse
                 Logger.Error(ex);
             }
+        }
+
+        private void SendSmtpRequestQueryResponse(DataSourceRequest request) {
+            // TODO: implement
         }
 
         private void SendComposeAsForwardResponse(DataSourceRequest request) {
