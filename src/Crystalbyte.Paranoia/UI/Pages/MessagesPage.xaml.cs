@@ -142,7 +142,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private void OnPrint(object sender, ExecutedRoutedEventArgs e) {
-            var html = HtmlControl.GetDocument();
+            var html = MessageViewer.GetDocument();
 
             var browser = new WebBrowser();
             browser.Navigated += (x, y) => {
@@ -166,7 +166,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             try {
                 App.Context.SortOrderChanged -= OnSortOrderChanged;
                 DataContext = null;
-                HtmlControl.Dispose();
+                MessageViewer.Dispose();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }

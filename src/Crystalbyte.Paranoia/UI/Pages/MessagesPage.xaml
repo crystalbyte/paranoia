@@ -667,7 +667,7 @@
                           KeyboardNavigation.DirectionalNavigation="Contained"
                           KeyboardNavigation.TabNavigation="None"
                           Padding="0"
-                          SelectionChanged="OnMessageSelectionChanged"
+                          SelectionChanged="OnSmtpRequestSelectionChanged"
                           TabIndex="4"
                           VirtualizingPanel.IsVirtualizing="True"
                           VirtualizingPanel.VirtualizationMode="Recycling">
@@ -790,15 +790,16 @@
         <GridSplitter Grid.Row="0" Grid.Column="3" />
         <Grid Grid.Row="0"
               Grid.Column="4"
-              Background="{DynamicResource Metro.Control.BackgroundBrush}"
-              Visibility="{Binding IsOutboxSelected,
-                                   Converter={StaticResource BooleanToVisibilityConverter},
-                                   ConverterParameter=!}">
+              Background="{DynamicResource Metro.Control.BackgroundBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Border Grid.Row="0" Padding="0,0,0,6">
+            <Border Grid.Row="0"
+                    Padding="0,0,0,6"
+                    Visibility="{Binding IsOutboxSelected,
+                                         Converter={StaticResource BooleanToVisibilityConverter},
+                                         ConverterParameter=!}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -943,7 +944,7 @@
                         Visibility="{Binding IsNotLoading,
                                              Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Border Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}">
-                        <ui:HtmlControl x:Name="HtmlControl"
+                        <ui:HtmlControl x:Name="MessageViewer"
                                         Background="{DynamicResource Metro.Control.BackgroundBrush}"
                                         BorderThickness="0"
                                         DataContext="{Binding DataContext,
@@ -983,112 +984,6 @@
                              Text="%" />
                     </TextBlock>
                 </Grid>
-            </Grid>
-        </Grid>
-        <Grid Grid.Row="0"
-              Grid.Column="4"
-              Background="{DynamicResource Metro.Control.BackgroundBrush}"
-              Visibility="{Binding IsOutboxSelected,
-                                   Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Border Grid.Row="0"
-                    DataContext="{Binding SelectedOutbox}"
-                    Padding="0,0,0,6">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0"
-                               Grid.Column="0"
-                               Grid.ColumnSpan="2"
-                               Margin="12,12,12,3"
-                               DataContext="{Binding SelectedSmtpRequest}"
-                               Style="{DynamicResource Metro.TitleTextStyle}"
-                               Text="{Binding Subject,
-                                              Converter={StaticResource NullOrEmptyFormatter},
-                                              Mode=OneWay}"
-                               TextTrimming="CharacterEllipsis"
-                               TextWrapping="NoWrap" />
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="0"
-                               Margin="12,0,12,0"
-                               DataContext="{Binding SelectedSmtpRequest}"
-                               FontWeight="Normal"
-                               Style="{DynamicResource Metro.SubtitleTextStyle}"
-                               Text="{Binding ToNameOrAddress}" />
-                    <TextBlock Grid.Row="2"
-                               Grid.Column="0"
-                               Margin="12,0,12,0"
-                               DataContext="{Binding SelectedSmtpRequest}"
-                               FontSize="{DynamicResource Metro.SmallFontSize}"
-                               FontWeight="Normal"
-                               Style="{DynamicResource Metro.SubtitleTextStyle}"
-                               Text="{Binding CompositionDate}" />
-                    <StackPanel Grid.Row="1"
-                                Grid.RowSpan="2"
-                                Grid.Column="1"
-                                Margin="6,0,6,0"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal"
-                                Visibility="{Binding SelectedSmtpRequest,
-                                                     Converter={StaticResource NullToVisibilityConverter}}">
-
-                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="ui:OutboxCommands.Delete">
-                            <Rectangle Width="18"
-                                       Height="16"
-                                       Fill="{DynamicResource Metro.App.FailureBrush}">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="/Assets/delete.png" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </ui:MetroCircleButton>
-                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="ApplicationCommands.Print">
-                            <Image Width="18"
-                                   Margin="0,0,0,0"
-                                   Source="/Assets/print.png" />
-                        </ui:MetroCircleButton>
-                    </StackPanel>
-                </Grid>
-            </Border>
-            <Grid Grid.Row="1"
-                  HorizontalAlignment="Stretch"
-                  VerticalAlignment="Stretch"
-                  Visibility="{Binding IsAnimating,
-                                       Converter={StaticResource BooleanToVisibilityConverter},
-                                       ConverterParameter=!}">
-                <Border Margin="0"
-                        BorderThickness="0"
-                        DataContext="{Binding SelectedOutbox}"
-                        Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}">
-                    <Border Visibility="{Binding SelectedSmtpRequest, Converter={StaticResource NullToVisibilityConverter}}">
-                        <ui:HtmlControl Background="{DynamicResource Metro.Control.BackgroundBrush}"
-                                        BorderThickness="0"
-                                        DataContext="{Binding DataContext,
-                                                              RelativeSource={RelativeSource FindAncestor,
-                                                                                             AncestorType=Page}}"
-                                        IsReadOnly="True"
-                                        IsTransparent="False"
-                                        SnapsToDevicePixels="True"
-                                        Source="{Binding Source,
-                                                         Mode=OneWay}"
-                                        WebSession="{Binding Source={StaticResource InspectionWebSessionProvider}}"
-                                        Zoom="{Binding Zoom,
-                                                       Mode=TwoWay}"
-                                        d:IsHidden="True" />
-                    </Border>
-                </Border>
             </Grid>
         </Grid>
     </Grid>

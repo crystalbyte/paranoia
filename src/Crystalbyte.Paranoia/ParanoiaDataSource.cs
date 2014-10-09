@@ -36,7 +36,8 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 if (Regex.IsMatch(request.Path, "smtp-request/[0-9]+")) {
-                    SendSmtpRequestQueryResponse(request);
+                    var id = request.Path.Split('/')[1];
+                    await SendSmtpRequestQueryResponseAsync(request, id);
                     return;
                 }
 
@@ -62,8 +63,18 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void SendSmtpRequestQueryResponse(DataSourceRequest request) {
-            // TODO: implement
+        private async Task SendSmtpRequestQueryResponseAsync(DataSourceRequest request, string id) {
+            using (var database = new DatabaseContext()) {
+                var smtpRequest = await database.SmtpRequests.FindAsync(Int64.Parse(id));
+                if (smtpRequest == null) {
+                    throw new InvalidOperationException("SmtpRequest not found exception.");
+                }
+
+                var mime = smtpRequest.Mime;
+                var bytes = Encoding.UTF8.GetBytes(mime);
+                // TODO: Encryption not yet handled.
+                SendByteStream(request, bytes);
+            }
         }
 
         private void SendComposeAsForwardResponse(DataSourceRequest request) {

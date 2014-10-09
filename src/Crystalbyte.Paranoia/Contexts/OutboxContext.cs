@@ -21,12 +21,11 @@ using System.Collections.Specialized;
 namespace Crystalbyte.Paranoia {
     public sealed class OutboxContext : HierarchyContext {
         private int _count;
-        private string _source;
         private bool _sendingMessages;
         private bool _isLoadingRequests;
         private readonly MailAccountContext _account;
         private readonly ObservableCollection<SmtpRequestContext> _smtpRequests;
-        private string _queryString;       
+        private string _queryString;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -75,11 +74,11 @@ namespace Crystalbyte.Paranoia {
         }
 
         public event EventHandler SmtpRequestSelectionChanged;
-        
+
 
         internal void OnSmtpRequestSelectionChanged() {
             var handler = SmtpRequestSelectionChanged;
-            if (handler != null) 
+            if (handler != null)
                 handler(this, EventArgs.Empty);
 
             RaisePropertyChanged(() => SelectedSmtpRequest);
@@ -140,19 +139,8 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public string Source {
-            get { return _source; }
-            set {
-                if (_source == value) {
-                    return;
-                }
-                _source = value;
-                RaisePropertyChanged(() => Source);
-            }
-        }
-
-        private void PreviewSmtpRequest(SmtpRequestContext request) {
-            Source = string.Format("asset://paranoia/smtp-request/{0}", request.Id);
+        private static void PreviewSmtpRequest(SmtpRequestContext request) {
+            App.Context.Source = string.Format("asset://paranoia/smtp-request/{0}", request.Id);
         }
 
         internal async Task CountMessagesAsync() {
