@@ -183,6 +183,7 @@
     <Compile Include="MailboxRoles.cs" />
     <Compile Include="MediaTypes.cs" />
     <Compile Include="MetroColors.cs" />
+    <Compile Include="NavigationInterceptor.cs" />
     <Compile Include="UI\Commands\MarkAsFlaggedCommand.cs" />
     <Compile Include="UI\Commands\MarkAsNotFlaggedCommand.cs" />
     <Compile Include="UI\Commands\UnblockContactsCommand.cs" />
