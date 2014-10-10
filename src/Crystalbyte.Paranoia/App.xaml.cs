@@ -162,6 +162,7 @@ namespace Crystalbyte.Paranoia {
             // before creating a WebControl.
             if (!WebCore.IsInitialized) {
                 WebCore.Initialize(new WebConfig {
+                    RemoteDebuggingPort = 1337,
                     HomeURL = "http://www.awesomium.com".ToUri(),
                     LogPath = @".\starter.log",
                     LogLevel = LogLevel.Verbose

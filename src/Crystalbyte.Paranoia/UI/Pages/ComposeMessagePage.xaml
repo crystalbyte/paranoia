@@ -352,7 +352,6 @@
                             Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                             Drop="DropHtmlControl"
                             IsTransparent="True"
-                            Padding="3"
                             RenderTransformOrigin="0.5,0.5"
                             Source="{Binding Source,
                                              Mode=TwoWay}"

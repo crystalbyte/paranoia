@@ -51,7 +51,8 @@
                     <paranoia:ParanoiaDataSourceProvider x:Key="paranoia" />
                 </awe:WebSessionProvider.DataSources>
                 <core:WebPreferences CustomCSS="{x:Static paranoia:App.CompositionCss}"
-                                     DefaultEncoding="utf-8"
+                                     DefaultEncoding="utf-8" 
+                                     
                                      EnableGPUAcceleration="True"
                                      Javascript="True"
                                      SmoothScrolling="True" />

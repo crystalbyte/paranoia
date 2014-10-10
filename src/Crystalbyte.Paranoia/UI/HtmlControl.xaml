@@ -22,6 +22,7 @@
         <Setter Property="IsTransparent" Value="False" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Focusable" Value="False" />
+        <Setter Property="Padding" Value="0" />
         <Setter Property="WebSession" Value="{Binding Source={StaticResource WebSessionProvider}}" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="BorderBrush" Value="{DynamicResource Metro.Control.BorderBrush}" />
@@ -33,7 +34,6 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="{TemplateBinding Padding}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         <awe:WebDialogsLayer Focusable="False">
                             <awe:WebControl x:Name="PART_WebControl"
