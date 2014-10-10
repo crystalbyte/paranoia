@@ -775,6 +775,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nothing left to do here :).
+        /// </summary>
+        public static string NothingToSend {
+            get {
+                return ResourceManager.GetString("NothingToSend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expression does not access a member..
         /// </summary>
         public static string NotMemberAccessExpression {

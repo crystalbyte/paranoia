@@ -9,10 +9,12 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
+using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
 using System.Collections.Specialized;
 
@@ -26,6 +28,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ObservableCollection<SmtpRequestContext> _smtpRequests;
         private string _queryString;
         private int _smtpRequestCount;
+        private readonly ICommand _sendMessagesCommand;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -33,6 +36,8 @@ namespace Crystalbyte.Paranoia {
             _account = account;
             _smtpRequests = new ObservableCollection<SmtpRequestContext>();
             _smtpRequests.CollectionChanged += OnSmtpRequestsCollectionChanged;
+
+            _sendMessagesCommand = new RelayCommand(OnSendMessages);
 
             Observable.FromEventPattern<QueryStringEventArgs>(
                 action => QueryStringChanged += action,
@@ -43,6 +48,14 @@ namespace Crystalbyte.Paranoia {
                     .Select(x => x.Text)
                     .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
                     .Subscribe(OnQueryReceived);
+        }
+
+        private async void OnSendMessages(object obj) {
+            await ProcessOutgoingMessagesAsync();
+        }
+
+        public ICommand SendMessagesCommand {
+            get { return _sendMessagesCommand; }
         }
 
         private void OnSmtpRequestsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
@@ -126,7 +139,7 @@ namespace Crystalbyte.Paranoia {
         public string Name {
             get { return Resources.Outbox; }
         }
-    
+
         internal async Task LoadSmtpRequestsAsync() {
             try {
                 IsLoadingRequests = true;
@@ -150,7 +163,7 @@ namespace Crystalbyte.Paranoia {
         private static void ViewSmtpRequest(SmtpRequestContext request) {
             App.Context.Source = string.Format("asset://paranoia/smtp-request/{0}", request.Id);
         }
-    
+
         public bool IsLoadingRequests {
             get { return _isLoadingRequests; }
             set {
@@ -168,7 +181,7 @@ namespace Crystalbyte.Paranoia {
 
         protected override void OnSelectionChanged() {
             base.OnSelectionChanged();
-            
+
             RaisePropertyChanged(() => SelectedSmtpRequest);
             RaisePropertyChanged(() => SelectedSmtpRequests);
         }
@@ -206,44 +219,20 @@ namespace Crystalbyte.Paranoia {
 
             _sendingMessages = true;
 
-            //var sheet = await GetHtmlCoverSheetAsync();
-            //sheet = sheet.Replace("%FROM%", _account.Name);
-
             foreach (var request in requests) {
                 try {
                     using (var connection = new SmtpConnection { Security = _account.SmtpSecurity }) {
                         using (var auth = await connection.ConnectAsync(_account.SmtpHost, _account.SmtpPort)) {
                             using (var session = await auth.LoginAsync(_account.SmtpUsername, _account.SmtpPassword)) {
-                                //var wrapper = new MailMessage(
-                                //    new MailAddress(_account.Address, _account.Name),
-                                //    new MailAddress(request.ToAddress))
-                                //{
-                                //    Subject = string.Format(Resources.SubjectTemplate, _account.Name),
-                                //    Body = sheet,
-                                //    IsBodyHtml = true,
-                                //    BodyEncoding = Encoding.UTF8,
-                                //    HeadersEncoding = Encoding.UTF8,
-                                //    SubjectEncoding = Encoding.UTF8,
-                                //    BodyTransferEncoding = TransferEncoding.Base64,
-                                //};
-
-                                //var guid = Guid.NewGuid();
-                                //using (var writer = new StreamWriter(new MemoryStream()) {AutoFlush = true}) {
-                                //    await writer.WriteAsync(request.Mime);
-                                //    writer.BaseStream.Seek(0, SeekOrigin.Begin);
-                                //    wrapper.Attachments.Add(new Attachment(writer.BaseStream, guid.ToString())
-                                //    {
-                                //        TransferEncoding = TransferEncoding.Base64,
-                                //        NameEncoding = Encoding.UTF8
-                                //    });
-
                                 await session.SendAsync(request.Mime);
-                                //}
                             }
                         }
                     }
 
-                    // TODO: foreach public key => end }
+                    var context = _smtpRequests.FirstOrDefault(x => x.Id == request.Id);
+                    if (context != null) {
+                        _smtpRequests.Remove(context);
+                    }
 
                     await DeleteRequestFromDatabaseAsync(request);
                     await CountSmtpRequestsAsync();

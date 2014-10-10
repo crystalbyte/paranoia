@@ -636,6 +636,7 @@
     <Resource Include="Assets\star.full.png" />
     <Resource Include="Assets\paper.png" />
     <Resource Include="Assets\attachment.png" />
+    <Resource Include="Assets\upload.png" />
     <Content Include="Resources\ckeditor.paranoia\paranoia.js" />
     <Content Include="Resources\ckeditor\adapters\jquery.js" />
     <Content Include="Resources\ckeditor\build-config.js" />

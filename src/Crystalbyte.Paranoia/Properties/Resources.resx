@@ -521,4 +521,7 @@ Once your password is lost you're screwed.</value>
   <data name="SignatureTitle" xml:space="preserve">
     <value>Signature Settings</value>
   </data>
+  <data name="NothingToSend" xml:space="preserve">
+    <value>Nothing left to do here :)</value>
+  </data>
 </root>

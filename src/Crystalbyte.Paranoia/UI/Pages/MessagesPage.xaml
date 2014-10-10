@@ -357,12 +357,23 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Margin="12,3,12,3"
-                           VerticalAlignment="Center"
-                           FontSize="{DynamicResource Metro.ExtraLargeFontSize}"
-                           Style="{DynamicResource Metro.TitleTextStyle}">
-                    <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{Binding Messages, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
-                </TextBlock>
+                <DockPanel LastChildFill="True">
+                    <ui:MetroCircleButton Margin="6"
+                                          VerticalAlignment="Center"
+                                          Command="{Binding SyncMailboxCommand}"
+                                          DataContext="{Binding SelectedMailbox}"
+                                          DockPanel.Dock="Right">
+                        <Image Width="18" Source="/Assets/refresh.png" />
+                    </ui:MetroCircleButton>
+                    <TextBlock Margin="12,0"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               FontSize="{DynamicResource Metro.ExtraLargeFontSize}"
+                               Style="{DynamicResource Metro.TitleTextStyle}">
+                        <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{Binding Messages, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
+                    </TextBlock>
+                </DockPanel>
+
                 <TextBox Grid.Row="1"
                          Margin="6"
                          Background="{DynamicResource Metro.Control.BackgroundBrush}"
@@ -655,17 +666,27 @@
                    LastChildFill="True"
                    Visibility="{Binding IsOutboxSelected,
                                         Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Grid DataContext="{Binding SelectedOutbox}" DockPanel.Dock="Top">
+            <Grid DockPanel.Dock="Top">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Margin="12,3,12,3"
-                           VerticalAlignment="Center"
-                           FontSize="{DynamicResource Metro.ExtraLargeFontSize}"
-                           Style="{DynamicResource Metro.TitleTextStyle}">
-                    <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{Binding SmtpRequests, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
-                </TextBlock>
+                <DockPanel LastChildFill="True">
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                        <ui:MetroCircleButton Margin="6"
+                                              Command="{Binding SendMessagesCommand}"
+                                              DataContext="{Binding SelectedOutbox}">
+                            <Image Width="18" Source="/Assets/upload.png" />
+                        </ui:MetroCircleButton>
+                    </StackPanel>
+                    <TextBlock Margin="12,0"
+                               VerticalAlignment="Center"
+                               DataContext="{Binding SelectedOutbox}"
+                               FontSize="{DynamicResource Metro.ExtraLargeFontSize}"
+                               Style="{DynamicResource Metro.TitleTextStyle}">
+                        <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{Binding SmtpRequests, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
+                    </TextBlock>
+                </DockPanel>
                 <TextBox Grid.Row="1"
                          Margin="6"
                          Background="{DynamicResource Metro.Control.BackgroundBrush}"
@@ -802,7 +823,7 @@
                            VerticalAlignment="Top"
                            FontSize="{DynamicResource Metro.MediumFontSize}"
                            Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
-                           Text="{x:Static properties:Resources.NoMessages}"
+                           Text="{x:Static properties:Resources.NothingToSend}"
                            Visibility="{Binding SmtpRequestCount,
                                                 ConverterParameter=!,
                                                 Converter={StaticResource QuantityToVisibilityConverter}}" />

@@ -145,10 +145,11 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnNetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e) {
+            if (!e.IsAvailable) 
+                return;
+
             foreach (var account in Accounts) {
-                if (e.IsAvailable) {
-                    await account.TakeOnlineAsync();
-                }
+                await account.TakeOnlineAsync();
             }
         }
 
@@ -332,7 +333,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 ClearMessagesAndSmtpRequests();
-                await RefreshViewForSelectedMailbox();
+                await RefreshViewForSelectedMailboxAsync();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -342,7 +343,7 @@ namespace Crystalbyte.Paranoia {
             await RequestOutboxContentAsync(SelectedOutbox);
         }
 
-        private async Task RefreshViewForSelectedMailbox() {
+        private async Task RefreshViewForSelectedMailboxAsync() {
             await Task.Run(() => RequestMessagesAsync(SelectedMailbox));
             await Task.Run(() => SelectedMailbox.SyncMessagesAsync());
         }
@@ -964,7 +965,7 @@ namespace Crystalbyte.Paranoia {
 
         public bool IsMessageOrSmtpRequestSelected {
             get {
-                return SelectedMessage != null 
+                return SelectedMessage != null
                     || (SelectedOutbox != null && SelectedOutbox.SelectedSmtpRequest != null);
             }
         }

@@ -21,7 +21,7 @@
     <Style x:Key="Metro.TitleTextStyle"
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
-        <Setter Property="Margin" Value="0,6,0,6" />
+        <Setter Property="Margin" Value="0,3,0,3" />
         <Setter Property="FontSize" Value="{DynamicResource Metro.LargeFontSize}" />
         <Setter Property="FontWeight" Value="Thin" />
     </Style>
