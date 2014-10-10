@@ -104,35 +104,35 @@ namespace Crystalbyte.Paranoia {
 
             NetworkChange.NetworkAvailabilityChanged += OnNetworkAvailabilityChanged;
 
-            Observable.Timer(TimeSpan.FromHours(24))
+            Observable.Timer(TimeSpan.FromHours(2))
                 .Subscribe(OnRefreshKeys);
 
             Observable.FromEventPattern(
                 action => MessageSelectionChanged += action,
                 action => MessageSelectionChanged -= action)
-                .Throttle(TimeSpan.FromMilliseconds(100))
-                .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
-                .Subscribe(OnMessageSelectionReceived);
+                    .Throttle(TimeSpan.FromMilliseconds(100))
+                    .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
+                    .Subscribe(OnMessageSelectionReceived);
 
             Observable.FromEventPattern<QueryStringEventArgs>(
                 action => QueryStringChanged += action,
                 action => QueryStringChanged -= action)
-                .Select(x => x.EventArgs)
-                .Where(x => (x.Text.Length > 1 || string.IsNullOrEmpty(x.Text)))
-                .Throttle(TimeSpan.FromMilliseconds(200))
-                .Select(x => x.Text)
-                .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
-                .Subscribe(OnQueryReceived);
+                    .Select(x => x.EventArgs)
+                    .Where(x => (x.Text.Length > 1 || string.IsNullOrEmpty(x.Text)))
+                    .Throttle(TimeSpan.FromMilliseconds(200))
+                    .Select(x => x.Text)
+                    .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
+                    .Subscribe(OnQueryReceived);
 
             Observable.FromEventPattern<QueryStringEventArgs>(
                 action => ContactQueryStringChanged += action,
                 action => ContactQueryStringChanged -= action)
-                .Select(x => x.EventArgs)
-                .Where(x => (x.Text.Length > 1 || string.IsNullOrEmpty(x.Text)))
-                .Throttle(TimeSpan.FromMilliseconds(200))
-                .Select(x => x.Text)
-                .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
-                .Subscribe(OnContactQueryReceived);
+                    .Select(x => x.EventArgs)
+                    .Where(x => (x.Text.Length > 1 || string.IsNullOrEmpty(x.Text)))
+                    .Throttle(TimeSpan.FromMilliseconds(200))
+                    .Select(x => x.Text)
+                    .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
+                    .Subscribe(OnContactQueryReceived);
 
             _outboxTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(30) };
             _outboxTimer.Tick += OnOutboxTimerTick;
@@ -146,9 +146,7 @@ namespace Crystalbyte.Paranoia {
 
         private async void OnNetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e) {
             foreach (var account in Accounts) {
-                if (!e.IsAvailable) {
-                    account.IsOnline = false;
-                } else {
+                if (e.IsAvailable) {
                     await account.TakeOnlineAsync();
                 }
             }
@@ -161,6 +159,7 @@ namespace Crystalbyte.Paranoia {
         private void OnMessagesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             RaisePropertyChanged(() => Messages);
             RaisePropertyChanged(() => MessageCount);
+            RaisePropertyChanged(() => IsMessageOrSmtpRequestSelected);
         }
 
         private async void OnRefreshKeys(object obj) {
@@ -307,10 +306,17 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
+                ClearMessagesAndSmtpRequests();
                 await RefreshViewForSelectedOutbox();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
+        }
+
+        private void ClearMessagesAndSmtpRequests() {
+            _messages.Clear();
+            _accounts.ForEach(x => x.Outbox.ClearSmtpRequests());
+            Source = "about:blank";
         }
 
         public event EventHandler MailboxSelectionChanged;
@@ -325,6 +331,7 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
+                ClearMessagesAndSmtpRequests();
                 await RefreshViewForSelectedMailbox();
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -391,6 +398,7 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => SelectedMessage);
             RaisePropertyChanged(() => SelectedMessages);
             RaisePropertyChanged(() => IsMessageSelected);
+            RaisePropertyChanged(() => IsMessageOrSmtpRequestSelected);
         }
 
         internal event EventHandler ContactSelectionChanged;
@@ -430,7 +438,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static async Task RequestOutboxContentAsync(OutboxContext outbox) {
-            await outbox.LoadSmtpRequestsFromDatabaseAsync();
+            await outbox.LoadSmtpRequestsAsync();
         }
 
         #endregion
@@ -747,7 +755,7 @@ namespace Crystalbyte.Paranoia {
             if (!await message.GetIsMimeLoadedAsync()) {
                 await message.DownloadMessageAsync();
             }
-            await PreviewMessageAsync(message);
+            await ViewMessageAsync(message);
         }
 
         internal Task MarkSelectionAsSeenAsync() {
@@ -808,7 +816,7 @@ namespace Crystalbyte.Paranoia {
             });
         }
 
-        private Task PreviewMessageAsync(MailMessageContext message) {
+        private Task ViewMessageAsync(MailMessageContext message) {
             Source = string.Format("asset://paranoia/message/{0}", message.Id);
             return DisplayAttachmentAsync(message);
         }
@@ -821,8 +829,8 @@ namespace Crystalbyte.Paranoia {
         public async Task RunAsync() {
             await LoadContactsAsync();
             await LoadAccountsAsync();
-            await RefreshKeysForAllContactsAsync();
 
+            await RefreshKeysForAllContactsAsync();
             foreach (var account in Accounts) {
                 await account.TakeOnlineAsync();
             }
@@ -838,6 +846,7 @@ namespace Crystalbyte.Paranoia {
 
             foreach (var account in Accounts) {
                 await account.LoadMailboxesAsync();
+                await account.Outbox.LoadSmtpRequestsAsync();
             }
         }
 
@@ -947,7 +956,21 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task NotifyOutboxNotEmpty() {
+            foreach (var account in Accounts) {
+                await account.Outbox.CountSmtpRequestsAsync();
+            }
             await ProcessOutgoingMessagesAsync();
+        }
+
+        public bool IsMessageOrSmtpRequestSelected {
+            get {
+                return SelectedMessage != null 
+                    || (SelectedOutbox != null && SelectedOutbox.SelectedSmtpRequest != null);
+            }
+        }
+
+        internal void NotifySmtpRequestChanged() {
+            RaisePropertyChanged(() => IsMessageOrSmtpRequestSelected);
         }
 
         public void ResetStatusText() {

@@ -181,6 +181,7 @@
     <Compile Include="Contexts\CreateMailboxContext.cs" />
     <Compile Include="IMailboxCreator.cs" />
     <Compile Include="MailboxRoles.cs" />
+    <Compile Include="MediaTypes.cs" />
     <Compile Include="MetroColors.cs" />
     <Compile Include="UI\Commands\MarkAsFlaggedCommand.cs" />
     <Compile Include="UI\Commands\MarkAsNotFlaggedCommand.cs" />

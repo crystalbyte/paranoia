@@ -189,7 +189,6 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             var tree = (TreeView)sender;
             var value = tree.SelectedValue;
 
-
             App.Context.SelectedOutbox = value as OutboxContext;
             App.Context.SelectedMailbox = value as MailboxContext;
 
@@ -197,7 +196,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             if (account == null)
                 return;
 
-            if (!account.IsOnline) {
+            if (account.TakeOnlineHint) {
                 await account.TakeOnlineAsync();
             }
         }
@@ -208,10 +207,13 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             }
 
             var outbox = App.Context.SelectedOutbox;
+            if (outbox == null) {
+                return;
+            }
+
             outbox.OnSmtpRequestSelectionChanged();
 
             CommandManager.InvalidateRequerySuggested();
-
             var request = outbox.SelectedSmtpRequest;
             if (request == null) {
                 return;

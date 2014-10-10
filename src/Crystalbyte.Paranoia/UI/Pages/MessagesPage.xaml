@@ -82,17 +82,41 @@
                           VirtualizingPanel.ScrollUnit="Pixel">
                     <TreeView.Resources>
                         <DataTemplate DataType="{x:Type paranoia:OutboxContext}">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="16"
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0"
+                                       Width="16"
                                        Margin="0,1,6,1"
                                        SnapsToDevicePixels="True"
                                        Source="/Assets/folder.png" />
                                 <TextBlock x:Name="MailboxNameBlock"
+                                           Grid.Column="1"
                                            VerticalAlignment="Center"
                                            FontSize="{DynamicResource Metro.SmallFontSize}"
                                            Foreground="{DynamicResource Metro.Control.TextBrush}"
                                            Text="{x:Static properties:Resources.Outbox}" />
-                            </StackPanel>
+                                <Border Grid.Column="2"
+                                        Margin="12,0"
+                                        Visibility="{Binding SmtpRequestCount,
+                                                             Converter={StaticResource QuantityToVisibilityConverter}}">
+                                    <TextBlock VerticalAlignment="Center"
+                                               FontSize="{DynamicResource Metro.SmallFontSize}"
+                                               FontWeight="Bold"
+                                               Text="{Binding SmtpRequestCount}">
+                                        <TextBlock.Foreground>
+                                            <Binding Path="IsSelected">
+                                                <Binding.Converter>
+                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.App.AccentBrush}" BrushForTrue="{DynamicResource Metro.Control.TextBrush}" />
+                                                </Binding.Converter>
+                                            </Binding>
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+                                </Border>
+                            </Grid>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                     <Setter TargetName="MailboxNameBlock" Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
@@ -142,11 +166,9 @@
                                         </MenuItem>
                                         <Separator Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                         <MenuItem Command="{Binding RegisterCommand}" Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                            <!--
-                                                <MenuItem.Icon>
-                                                <Image Height="16" Source="/Assets/edit.properties.png" />
-                                                </MenuItem.Icon>
-                                            -->
+                                            <MenuItem.Icon>
+                                                <Image Height="16" Source="/Assets/paper.png" />
+                                            </MenuItem.Icon>
                                             <MenuItem.Header>
                                                 <TextBlock Foreground="{StaticResource Metro.Control.TextBrush}"
                                                            Style="{StaticResource Metro.MenuHeaderTextStyle}"
@@ -932,18 +954,9 @@
                     </ListView>
                 </Grid>
             </Border>
-            <Grid Grid.Row="1"
-                  HorizontalAlignment="Stretch"
-                  VerticalAlignment="Stretch"
-                  Visibility="{Binding IsAnimating,
-                                       Converter={StaticResource BooleanToVisibilityConverter},
-                                       ConverterParameter=!}">
-                <Border Margin="0"
-                        BorderThickness="0"
-                        DataContext="{Binding SelectedMessage}"
-                        Visibility="{Binding IsNotLoading,
-                                             Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <Border Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}">
+            <Border Grid.Row="1" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid Visibility="{Binding IsAnimating, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
+                    <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <ui:HtmlControl x:Name="MessageViewer"
                                         Background="{DynamicResource Metro.Control.BackgroundBrush}"
                                         BorderThickness="0"
@@ -951,7 +964,7 @@
                                                               RelativeSource={RelativeSource FindAncestor,
                                                                                              AncestorType=Page}}"
                                         IsReadOnly="True"
-                                        IsTransparent="False"
+                                        IsTransparent="True"
                                         SnapsToDevicePixels="True"
                                         Source="{Binding Source,
                                                          Mode=OneWay}"
@@ -959,32 +972,32 @@
                                         Zoom="{Binding Zoom,
                                                        Mode=TwoWay}"
                                         d:IsHidden="True" />
-                    </Border>
-                </Border>
-                <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                        <ui:MetroProgressBar Height="1"
-                                             Margin="0"
-                                             HorizontalAlignment="Stretch"
-                                             Background="Transparent"
-                                             Maximum="100"
-                                             Minimum="0"
-                                             Value="{Binding ProgressChanged}" />
+                    </Grid>
+                    <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                            <ui:MetroProgressBar Height="1"
+                                                 Margin="0"
+                                                 HorizontalAlignment="Stretch"
+                                                 Background="Transparent"
+                                                 Maximum="100"
+                                                 Minimum="0"
+                                                 Value="{Binding ProgressChanged}" />
 
 
-                    </StackPanel>
-                    <TextBlock Margin="24,12"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Bottom"
-                               Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"><Run FontSize="48"
-                             FontWeight="Thin"
-                             Foreground="{DynamicResource Metro.App.AccentBrush}"
-                             Text="{Binding ProgressChanged}" /><Run Text=" " /><Run FontSize="{DynamicResource Metro.NormalFontSize}"
-                             FontWeight="Thin"
-                             Text="%" />
-                    </TextBlock>
+                        </StackPanel>
+                        <TextBlock Margin="24,12"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Bottom"
+                                   Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"><Run FontSize="48"
+                                 FontWeight="Thin"
+                                 Foreground="{DynamicResource Metro.App.AccentBrush}"
+                                 Text="{Binding ProgressChanged}" /><Run Text=" " /><Run FontSize="{DynamicResource Metro.NormalFontSize}"
+                                 FontWeight="Thin"
+                                 Text="%" />
+                        </TextBlock>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </Border>
         </Grid>
     </Grid>
 </Page>

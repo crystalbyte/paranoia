@@ -20,12 +20,12 @@ using System.Collections.Specialized;
 
 namespace Crystalbyte.Paranoia {
     public sealed class OutboxContext : HierarchyContext {
-        private int _count;
         private bool _sendingMessages;
         private bool _isLoadingRequests;
         private readonly MailAccountContext _account;
         private readonly ObservableCollection<SmtpRequestContext> _smtpRequests;
         private string _queryString;
+        private int _smtpRequestCount;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -47,6 +47,9 @@ namespace Crystalbyte.Paranoia {
 
         private void OnSmtpRequestsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             RaisePropertyChanged(() => SmtpRequestCount);
+            RaisePropertyChanged(() => SelectedSmtpRequest);
+            RaisePropertyChanged(() => SelectedSmtpRequests);
+            App.Context.NotifySmtpRequestChanged();
         }
 
         internal event EventHandler<QueryStringEventArgs> QueryStringChanged;
@@ -70,7 +73,22 @@ namespace Crystalbyte.Paranoia {
         }
 
         public int SmtpRequestCount {
-            get { return _smtpRequests.Count; }
+            get { return _smtpRequestCount; }
+            set {
+                if (_smtpRequestCount == value) {
+                    return;
+                }
+                _smtpRequestCount = value;
+                RaisePropertyChanged(() => SmtpRequestCount);
+            }
+        }
+
+        internal async Task CountSmtpRequestsAsync() {
+            using (var context = new DatabaseContext()) {
+                SmtpRequestCount = await context.SmtpRequests
+                    .Where(x => x.AccountId == _account.Id)
+                    .CountAsync();
+            }
         }
 
         public event EventHandler SmtpRequestSelectionChanged;
@@ -84,9 +102,11 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => SelectedSmtpRequest);
             RaisePropertyChanged(() => SelectedSmtpRequests);
 
+            App.Context.NotifySmtpRequestChanged();
+
             var request = SelectedSmtpRequest;
             if (request != null) {
-                PreviewSmtpRequest(request);
+                ViewSmtpRequest(request);
             }
         }
 
@@ -96,6 +116,7 @@ namespace Crystalbyte.Paranoia {
                 if (_queryString == value) {
                     return;
                 }
+
                 _queryString = value;
                 RaisePropertyChanged(() => QueryString);
                 OnQueryStringChanged(new QueryStringEventArgs(value));
@@ -105,23 +126,8 @@ namespace Crystalbyte.Paranoia {
         public string Name {
             get { return Resources.Outbox; }
         }
-
-        public int Count {
-            get { return _count; }
-            set {
-                if (_count == value) {
-                    return;
-                }
-                _count = value;
-                RaisePropertyChanged(() => Count);
-            }
-        }
-
-        public void Clear() {
-            _smtpRequests.Clear();
-        }
-
-        internal async Task LoadSmtpRequestsFromDatabaseAsync() {
+    
+        internal async Task LoadSmtpRequestsAsync() {
             try {
                 IsLoadingRequests = true;
                 using (var database = new DatabaseContext()) {
@@ -131,6 +137,8 @@ namespace Crystalbyte.Paranoia {
 
                     _smtpRequests.Clear();
                     _smtpRequests.AddRange(requests.Select(x => new SmtpRequestContext(x)));
+
+                    await CountSmtpRequestsAsync();
                 }
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -139,18 +147,10 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private static void PreviewSmtpRequest(SmtpRequestContext request) {
+        private static void ViewSmtpRequest(SmtpRequestContext request) {
             App.Context.Source = string.Format("asset://paranoia/smtp-request/{0}", request.Id);
         }
-
-        internal async Task CountMessagesAsync() {
-            using (var database = new DatabaseContext()) {
-                Count = await database.SmtpRequests
-                    .Where(x => x.AccountId == _account.Id)
-                    .CountAsync();
-            }
-        }
-
+    
         public bool IsLoadingRequests {
             get { return _isLoadingRequests; }
             set {
@@ -160,6 +160,17 @@ namespace Crystalbyte.Paranoia {
                 _isLoadingRequests = value;
                 RaisePropertyChanged(() => IsLoadingRequests);
             }
+        }
+
+        public void ClearSmtpRequests() {
+            _smtpRequests.Clear();
+        }
+
+        protected override void OnSelectionChanged() {
+            base.OnSelectionChanged();
+            
+            RaisePropertyChanged(() => SelectedSmtpRequest);
+            RaisePropertyChanged(() => SelectedSmtpRequests);
         }
 
         public IEnumerable<SmtpRequestContext> SmtpRequests {
@@ -235,6 +246,7 @@ namespace Crystalbyte.Paranoia {
                     // TODO: foreach public key => end }
 
                     await DeleteRequestFromDatabaseAsync(request);
+                    await CountSmtpRequestsAsync();
                 } catch (Exception ex) {
                     Logger.Error(ex);
                 } finally {

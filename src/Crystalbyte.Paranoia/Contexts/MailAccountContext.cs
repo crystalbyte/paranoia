@@ -31,8 +31,8 @@ namespace Crystalbyte.Paranoia {
 
         #region Private Fields
 
-        private bool _isOnline;
         private bool _isTesting;
+        private bool _takeOnlineHint;
         private bool _isAutoDetectPreferred;
         private bool _isDetectingSettings;
         private TestingContext _testing;
@@ -61,6 +61,7 @@ namespace Crystalbyte.Paranoia {
         internal MailAccountContext(MailAccountModel account) {
             _account = account;
             _appContext = App.Context;
+            _takeOnlineHint = true;
             _outbox = new OutboxContext(this);
             _registerCommand = new RelayCommand(OnRegister);
             _listMailboxesCommand = new RelayCommand(OnListMailboxes);
@@ -221,14 +222,11 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 await SyncMailboxesAsync();
-
-                IsOnline = true;
                 var inbox = GetInbox();
                 if (inbox != null) {
                     await inbox.IdleAsync();
                 }
             } catch (Exception ex) {
-                IsOnline = false;
                 Logger.Error(ex);
             }
         }
@@ -453,15 +451,15 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool IsOnline {
-            get { return _isOnline; }
+        public bool TakeOnlineHint {
+            get { return _takeOnlineHint; }
             set {
-                if (_isOnline == value) {
+                if (_takeOnlineHint == value) {
                     return;
                 }
 
-                _isOnline = value;
-                RaisePropertyChanged(() => IsOnline);
+                _takeOnlineHint = value;
+                RaisePropertyChanged(() => TakeOnlineHint);
             }
         }
 

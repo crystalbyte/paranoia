@@ -72,8 +72,21 @@ namespace Crystalbyte.Paranoia {
 
                 var mime = smtpRequest.Mime;
                 var bytes = Encoding.UTF8.GetBytes(mime);
-                // TODO: Encryption not yet handled.
-                SendByteStream(request, bytes);
+                var reader = new MailMessageReader(bytes);
+
+                var parts = reader.FindAllMessagePartsWithMediaType(MediaTypes.EncryptedMime);
+                if (parts != null && parts.Count > 0) {
+                    foreach (var part in parts) {
+                        var success = await TryDecryptAndSendMessageResponseAsync(request, reader, part, id);
+                        if (success) {
+                            return;
+                        }
+                    }
+
+                    return;
+                }
+
+                await SendMessageResponseAsync(request, reader, id);
             }
         }
 
@@ -204,7 +217,7 @@ namespace Crystalbyte.Paranoia {
             var mime = await LoadMessageContentAsync(Int64.Parse(id));
             var reader = new MailMessageReader(mime);
 
-            var parts = reader.FindAllMessagePartsWithMediaType("application/x-setolicious");
+            var parts = reader.FindAllMessagePartsWithMediaType(MediaTypes.EncryptedMime);
             if (parts != null && parts.Count > 0) {
                 foreach (var part in parts) {
                     var success = await TryDecryptAndSendMessageResponseAsync(request, reader, part, id);
