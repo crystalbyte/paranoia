@@ -10,7 +10,6 @@
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
-    <BaseInputPaths Condition=" '$(BaseInputPaths)' == '' ">$(MSBuildProjectDirectory)\..\Crystalbyte.Paranoia\bin\$(Configuration)\IronPython-$(DisplayVersion)</BaseInputPaths>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -22,6 +21,7 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="PrimaryOutput.wxs" />
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
@@ -31,11 +31,24 @@
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+      <RefTargetDir>APPLICATIONROOT</RefTargetDir>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Harvest.Debug.Transform.xsl" />
+    <Content Include="Harvest.Release.Transform.xsl" />
     <Content Include="Product.wxi" />
+    <Content Include="WiX-Manual.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--
@@ -43,23 +56,11 @@
 	  Other similar extension points exist, see Wix.targets.
   -->
   <Target Name="BeforeBuild">
-    <HeatDirectory OutputFile ="%(ProjectReference.Filename).wxs"
-                   Directory=" %(ProjectReference.RootDir)%(ProjectReference.Directory)bin\$(Configuration)"
-                   DirectoryRefId="INSTALLLOCATION"
-                   ComponentGroupName="%(ProjectReference.Filename).Component"
-                   AutoGenerateGuids="True"
-                   GenerateGuidsNow="True"
-                   SuppressCom="True"
-                   SuppressFragments="True"
-                   SuppressRegistry="True"
-                   SuppressRootDirectory="True"
-                   ToolPath="$(WiXToolPath)"
-                   Condition="'%(ProjectReference.WebProject)'=='True'"
-                   Transforms="%(ProjectReference.Filename).xsl"
-                   PreprocessorVariable="var.%(ProjectReference.Name).PackageDir" />
-
+    <PropertyGroup>
+      <DefineConstants>PrimaryOutputDir=%(ProjectReference.RootDir)%(ProjectReference.Directory)bin\$(Configuration)</DefineConstants>
+    </PropertyGroup>
+    <HeatDirectory NoLogo="true" ToolPath="$(WixToolPath)" Transforms="Harvest.$(Configuration).Transform.xsl" VerboseOutput="true" AutogenerateGuids="true" OutputFile="$(ProjectDir)PrimaryOutput.wxs" Directory="$(SolutionDir)Crystalbyte.Paranoia\bin\$(Configuration)" ComponentGroupName="PrimaryOutputComponent" DirectoryRefId="APPLICATIONROOT" KeepEmptyDirectories="true" PreprocessorVariable="var.PrimaryOutputDir" SuppressRootDirectory="true" SuppressRegistry="true" />
   </Target>
   <Target Name="AfterBuild">
   </Target>
-
 </Project>

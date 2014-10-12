@@ -3,7 +3,6 @@
   <?define ProductName="Paranoia" ?>
   <?define ProductTitle="Crystalbyte Paranoia" ?>
   <?define Manufacturer="Crystalbyte" ?>
-  <?define Description="Paranoia is a secure e-mail agent." ?>
   <?define ProductVersion="1.0.0.0 ?>
   <?define UpgradeCode="1B51CCBB-19F6-4ADF-96C8-D67DE76BE0E3" ?>
 </Include>
