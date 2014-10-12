@@ -10,6 +10,8 @@
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -37,6 +39,7 @@
   <ItemGroup>
     <Content Include="Harvest.Debug.Transform.xsl" />
     <Content Include="Harvest.Release.Transform.xsl" />
+    <Content Include="packages.config" />
     <Content Include="Product.wxi" />
     <Content Include="WiX-Manual.txt" />
   </ItemGroup>
@@ -50,6 +53,11 @@
       <Name>WixUtilExtension</Name>
     </WixExtension>
   </ItemGroup>
+  <PropertyGroup>
+    <WixToolPath>$(SolutionDir)packages\WiX.Toolset.3.8.1128.0\tools\wix\</WixToolPath>
+    <WixTargetsPath>$(WixToolPath)wix.targets</WixTargetsPath>
+    <WixTasksPath>$(WixToolPath)WixTasks.dll</WixTasksPath>
+  </PropertyGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--
 	  To modify your build process, add your task inside one of the targets below and uncomment it.
@@ -62,5 +70,12 @@
     <HeatDirectory NoLogo="true" ToolPath="$(WixToolPath)" Transforms="Harvest.$(Configuration).Transform.xsl" VerboseOutput="true" AutogenerateGuids="true" OutputFile="$(ProjectDir)PrimaryOutput.wxs" Directory="$(SolutionDir)Crystalbyte.Paranoia\bin\$(Configuration)" ComponentGroupName="PrimaryOutputComponent" DirectoryRefId="APPLICATIONROOT" KeepEmptyDirectories="true" PreprocessorVariable="var.PrimaryOutputDir" SuppressRootDirectory="true" SuppressRegistry="true" />
   </Target>
   <Target Name="AfterBuild">
+  </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
 </Project>

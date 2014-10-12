@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <?include Product.wxi?>
-  <Product Id="*" Name="$(var.ProductTitle)" Language="1033" Version="1.0.0.0" Manufacturer="Crystalbyte" UpgradeCode="2fc5da4c-5632-4b27-a93b-ad65c8661e64">
+  <Product Id="*" Name="$(var.ProductTitle)" Language="1033" Version="1.0.0.0" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated" />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-
     <MediaTemplate EmbedCab="yes" />
+
+    <Property Id="ARPSYSTEMCOMPONENT" Value="0" />
 
     <Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONROOT" />
     <UIRef Id="WixUI_InstallDir" />
 
-    <!-- 
-      RemoveFolderEx requires that we "remember" the path for uninstall.
-      Read the path value and set the APPLICATIONROOTPATH property with the value.
-    -->
+    <!-- RemoveFolderEx requires that we "remember" the path for uninstall.
+         Read the path value and set the APPLICATIONROOTPATH property with the value. -->
     <Property Id="APPLICATIONROOTPATH">
-      <RegistrySearch Key="SOFTWARE\$(var.Manufacturer)\$(var.ProductName)" Root="HKLM" Type="raw" Id="AppPathRegEntry" Name="Path" />
+      <RegistrySearch Key="SOFTWARE\$(var.Manufacturer)\$(var.ProductName)" Root="HKLM" Type="raw" Id="APPLICATION_REGPATH" Name="Path" />
     </Property>
 
     <DirectoryRef Id="APPLICATIONROOT">
       <Component Id="RemoveApplicationFolderComponent" Guid="*">
         <RegistryValue Root="HKLM" Key="SOFTWARE\$(var.Manufacturer)\$(var.ProductName)" Name="Path" Type="string" Value="[APPLICATIONROOT]" KeyPath="yes" />
-        <!-- We need to use APPLICATIONFOLDER variable here or RemoveFolderEx
+        <!-- We need to use APPLICATIONROOTPATH variable here or RemoveFolderEx
              will not remove on "install". -->
         <util:RemoveFolderEx On="uninstall" Property="APPLICATIONROOTPATH" />
       </Component>
