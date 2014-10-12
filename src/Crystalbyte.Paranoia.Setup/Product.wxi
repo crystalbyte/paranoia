@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
+  <!-- Package Information-->
   <?define ProductName="Paranoia" ?>
-  <?define ProductTitle="Crystalbyte Paranoia" ?>
   <?define Manufacturer="Crystalbyte" ?>
-  <?define ProductVersion="1.0.0.0 ?>
+  <?define ProductTitle="$(var.Manufacturer) $(var.ProductName)" ?>
   <?define UpgradeCode="1B51CCBB-19F6-4ADF-96C8-D67DE76BE0E3" ?>
+  
+  <!-- Versioning -->
+  <?define MajorVersion="1"?>
+  <?define MinorVersion="1"?>
+  <?define Revision="0"?>
+  <?define Build="0"?>
+  <?define ProductVersion="$(var.MajorVersion).$(var.MinorVersion).$(var.Revision).$(var.Build)" ?>
+  
+  <!-- A Shiny Unicorn -->
+  <?define HklmSoftwareCompanyKey=SOFTWARE\$(var.Manufacturer)?>
+  <?define HklmSoftwareInstallPathKey=$(var.HklmSoftwareCompanyKey)\$(var.ProductName)?>
 </Include>
