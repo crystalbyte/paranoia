@@ -6,12 +6,9 @@
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 		<MediaTemplate />
 
-		<Feature Id="ProductFeature" Title="Crystalbyte.Paranoia.Setup" Level="1">
-			<ComponentGroupRef Id="ProductComponents" />
-		</Feature>
-    <Feature Id="ProductFeature" Title="Crystalbyte.Paranoia.Setup" Level="1">
-      <ComponentGroupRef Id="ParanoiaComponents" />
-    </Feature>
+		<!--<Feature Id="ProductFeature" Title="Crystalbyte.Paranoia.Setup" Level="1">
+			<ComponentGroupRef Id="Crystalbyte.Paranoia.Component" />
+		</Feature>-->
 	</Product>
 
 	<Fragment>
@@ -20,14 +17,5 @@
 				<Directory Id="INSTALLFOLDER" Name="Crystalbyte.Paranoia.Setup" />
 			</Directory>
 		</Directory>
-	</Fragment>
-
-	<Fragment>
-		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
-			<!-- <Component Id="ProductComponent"> -->
-				<!-- TODO: Insert files, registry keys, and other resources here. -->
-			<!-- </Component> -->
-		</ComponentGroup>
 	</Fragment>
 </Wix>
