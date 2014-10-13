@@ -53,6 +53,9 @@
             <Component Id="cmpC678B373DB999D8A04A410FBADB2E617" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filD6CECB9D541DF660C6B52BE71E7F7452" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Mail.pdb" />
             </Component>
+            <Component Id="cmpB8C81CB399A45DF0500C8CCC806D6725" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil37C5426C17BC78E76755A859E2263541" KeyPath="yes" Source="$(var.PrimaryOutputDir)\debug.log" />
+            </Component>
             <Component Id="cmp9D745C95D55B544704D037E3A86C7CBF" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filD7E76EEE7754513246C4E95A16F017C3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\dotless.ClientOnly.dll" />
             </Component>

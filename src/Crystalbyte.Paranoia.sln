@@ -10,7 +10,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(solution)", "(solution)", "{8690125E-AC10-4513-9A4F-75CD92CC29F0}"
 	ProjectSection(SolutionItems) = preProject
 		Crystalbyte.Paranoia.vsmdi = Crystalbyte.Paranoia.vsmdi
-		Sources.txt = Sources.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(tests)", "(tests)", "{8DEACA7E-BA38-4B1E-A2A7-D5A0A3E0577F}"

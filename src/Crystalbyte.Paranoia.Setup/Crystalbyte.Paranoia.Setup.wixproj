@@ -41,7 +41,7 @@
     <Content Include="Harvest.Release.Transform.xsl" />
     <Content Include="packages.config" />
     <Content Include="Product.wxi" />
-    <Content Include="WiX-Manual.txt" />
+    <Content Include="References.txt" />
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixUIExtension">

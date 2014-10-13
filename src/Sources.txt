@@ -1,2 +1,0 @@
-Register E-Mail Program to Start menu
-http://msdn.microsoft.com/en-us/library/windows/desktop/dd203067(v=vs.85).aspx

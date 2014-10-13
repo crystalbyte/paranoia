@@ -1,2 +1,0 @@
-﻿# MSBuild references
-http://msdn.microsoft.com/de-de/library/ms164309.aspx

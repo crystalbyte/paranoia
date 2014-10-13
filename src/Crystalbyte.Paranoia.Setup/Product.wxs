@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <?include Product.wxi?>
-  <Product Id="*" Name="$(var.ProductTitle)" 
-           Language="1033" 
-           Version="$(var.ProductVersion)" 
-           Manufacturer="$(var.Manufacturer)" 
-           UpgradeCode="$(var.UpgradeCode)">
+  <Product Id="*" Name="$(var.ProductTitle)"
+           Language="1033" Version="$(var.ProductVersion)"
+           Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated" />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
@@ -17,18 +15,60 @@
     <!-- RemoveFolderEx requires that we "remember" the path for uninstall.
          Read the path value and set the APPLICATIONFOLDER property with the value. -->
     <Property Id="APPLICATIONFOLDER_PROPERTY" Secure="yes">
-      <RegistrySearch Key="$(var.HklmSoftwareInstallPathKey)" Root="HKLM" Type="raw" Id="APPLICATIONFOLDER_REGSEARCH" Name="Path" />
+      <RegistrySearch Key="$(var.HklmInstallPathRegKey)" Root="HKLM" Type="raw" Id="APPLICATIONFOLDER_REGSEARCH" Name="Path" />
     </Property>
 
     <Feature Id="ProductFeature" Title="$(var.ProductTitle)" Level="1">
       <ComponentGroupRef Id="PrimaryOutputComponent" />
-      <ComponentRef Id="UninstallAction" />
+      <ComponentRef Id="MailClientRegistryComponent"/>
+      <ComponentRef Id="FileTypeAssociationComponent" />
+      <ComponentRef Id="CleanupComponent" />
     </Feature>
 
     <DirectoryRef Id="APPLICATIONFOLDER">
-      <Component Id="UninstallAction" Guid="*">
-        <RegistryValue Root="HKLM" Key="$(var.HklmSoftwareInstallPathKey)" Name="Path" Type="string" Value="[APPLICATIONFOLDER]" KeyPath="yes" />
+      <!-- Setting up file clean up on uninstall. -->
+      <Component Id="CleanupComponent" Guid="A1B39562-A269-452B-96F5-B1D25AB65CC6">
+        <!-- Save the installation path to the registry. -->
+        <RegistryValue Root="HKLM" Key="$(var.HklmInstallPathRegKey)" Name="Path" Type="string" Value="[APPLICATIONFOLDER]" KeyPath="yes" />
+        
+        <!-- Remove the installation key on uninstall. -->
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="$(var.HklmCompanyRegKey)" />
+        
+        <!-- Delete the application folder on uninstall. -->
         <util:RemoveFolderEx On="uninstall" Property="APPLICATIONFOLDER_PROPERTY" />
+      </Component>
+
+      <!-- Msdn reference for registering app as a candidate for the mail start menu item.
+           http://msdn.microsoft.com/en-us/library/windows/desktop/dd203067(v=vs.85).aspx#email_reg -->
+      <Component Id="MailClientRegistryComponent" Guid="47F3FB9E-CBB6-4999-BB06-BC616B73CEDB">
+        <RegistryValue Root="HKLM" Key="$(var.HklmClientMailRegKey)\$(var.ProductName)" Type="string" Value="$(var.ProductName)" KeyPath="yes" />
+
+        <!-- Msdn reference for accessing resource from file. -->
+        <RegistryValue Root="HKLM" Key="$(var.HklmClientMailRegKey)\$(var.ProductName)" Name="LocalizedString" Type="string" Value="@[APPLICATIONFOLDER]$(var.Crystalbyte.Paranoia.TargetFileName),-$(var.AppNameResourceId)" />
+
+        <!-- Setting the default icon. -->
+        <RegistryValue Root="HKLM" Key="$(var.HklmClientMailRegKey)\$(var.ProductName)\DefaultIcon" Type="string" Value="@[APPLICATIONFOLDER]$(var.Crystalbyte.Paranoia.TargetFileName),-1" />
+
+        <!-- Remove default mail client registry values -->
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="$(var.HklmClientMailRegKey)" />
+      </Component>
+
+      <Component Id="FileTypeAssociationComponent" Guid="A2BFF289-7705-4B2F-9071-34FD730E063F">
+        <!-- Register the application with the versioned program id "Crystalbyte.Paranoia.1". -->
+        <RegistryValue Root="HKCR" Key="$(var.VersionedProgId)" Type="string" Value="@[APPLICATIONFOLDER]$(var.Crystalbyte.Paranoia.TargetFileName)" KeyPath="yes" />
+        <RegistryValue Root="HKCR" Key="$(var.VersionedProgId)\EditFlags" Type="integer" Value="$(var.FtaHasExtension)" />
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKCR" Key="$(var.VersionedProgId)" />
+        
+        <!-- Set the default version to the current version -->
+        <RegistryValue Root="HKCR" Key="$(var.ProgId)\CurVer" Type="string" Value="$(var.VersionedProgId)" />
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKCR" Key="$(var.ProgId)" />
+        
+        <!-- Register the ".eml" file type. The type should probably not be removed on uninstall since other programs may still use it. -->
+        <RegistryValue Root="HKCR" Key=".$(var.EmlExtension)" Type="string" Value="$(var.ProgId)" />
+        
+        <!-- Add application to the "Open With ..." file menu.
+             http://msdn.microsoft.com/en-us/library/windows/desktop/hh127445(v=vs.85).aspx -->
+        <RegistryValue Root="HKCR" Key=".$(var.EmlExtension)\OpenWithProgids" Name="$(var.ProgId)" Type="binary" Value="" />
       </Component>
     </DirectoryRef>
   </Product>

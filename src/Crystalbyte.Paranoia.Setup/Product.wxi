@@ -6,14 +6,29 @@
   <?define ProductTitle="$(var.Manufacturer) $(var.ProductName)" ?>
   <?define UpgradeCode="1B51CCBB-19F6-4ADF-96C8-D67DE76BE0E3" ?>
   
-  <!-- Versioning -->
+  <!-- Application Information -->
   <?define MajorVersion="1"?>
   <?define MinorVersion="0"?>
   <?define Revision="0"?>
   <?define Build="0"?>
   <?define ProductVersion="$(var.MajorVersion).$(var.MinorVersion).$(var.Revision).$(var.Build)" ?>
   
-  <!-- A Shiny Unicorn -->
-  <?define HklmSoftwareCompanyKey=SOFTWARE\$(var.Manufacturer)?>
-  <?define HklmSoftwareInstallPathKey=$(var.HklmSoftwareCompanyKey)\$(var.ProductName)?>
+  <!-- Application InstallPath Memory -->
+  <?define HklmCompanyRegKey=SOFTWARE\$(var.Manufacturer)?>
+  <?define HklmInstallPathRegKey=$(var.HklmCompanyRegKey)\$(var.ProductName)?>
+
+  <!-- Default Mail Client Registration -->
+  <?define HklmClientMailRegKey=SOFTWARE\Clients\Mail?>
+  
+  <!-- The id "ApplicationName" is the name of the string resource (Resources.resx) inside the the "Crystalbyte.Paranoia" project. -->
+  <?define AppNameResourceId=ApplicationName?>
+  
+  <!-- File Type Properties-->
+  <?define EmlExtension=eml?>
+  
+  <!-- Always use versioned identifiers 
+       http://msdn.microsoft.com/en-us/library/windows/desktop/cc144152(v=vs.85).aspx#versioned_progids -->
+  <?define VersionedProgId=$(var.Manufacturer).$(var.ProductName).$(var.MajorVersion)?>
+  <?define FtaHasExtension=64?>
+  <?define ProgId=$(var.Manufacturer).$(var.ProductName)?>
 </Include>
