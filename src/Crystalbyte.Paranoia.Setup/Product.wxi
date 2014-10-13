@@ -8,7 +8,7 @@
   
   <!-- Versioning -->
   <?define MajorVersion="1"?>
-  <?define MinorVersion="1"?>
+  <?define MinorVersion="0"?>
   <?define Revision="0"?>
   <?define Build="0"?>
   <?define ProductVersion="$(var.MajorVersion).$(var.MinorVersion).$(var.Revision).$(var.Build)" ?>

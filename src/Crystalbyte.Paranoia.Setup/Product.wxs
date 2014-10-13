@@ -1,34 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <?include Product.wxi?>
-  <Product Id="*" Name="$(var.ProductTitle)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+  <Product Id="*" Name="$(var.ProductTitle)" 
+           Language="1033" 
+           Version="$(var.ProductVersion)" 
+           Manufacturer="$(var.Manufacturer)" 
+           UpgradeCode="$(var.UpgradeCode)">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated" />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <MediaTemplate EmbedCab="yes" />
 
-    <Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONROOT" />
+    <Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONFOLDER" />
     <UIRef Id="WixUI_InstallDir" />
 
     <!-- RemoveFolderEx requires that we "remember" the path for uninstall.
-         Read the path value and set the APPLICATIONROOTPATH property with the value. -->
-    <Property Id="APPLICATIONROOTPATH">
-      <RegistrySearch Key="$(var.HklmSoftwareInstallPathKey)" Root="HKLM" Type="raw" Id="APPLICATIONPATH_REGSEARCH" Name="Path" />
+         Read the path value and set the APPLICATIONFOLDER property with the value. -->
+    <Property Id="APPLICATIONFOLDER_PROPERTY" Secure="yes">
+      <RegistrySearch Key="$(var.HklmSoftwareInstallPathKey)" Root="HKLM" Type="raw" Id="APPLICATIONFOLDER_REGSEARCH" Name="Path" />
     </Property>
 
     <Feature Id="ProductFeature" Title="$(var.ProductTitle)" Level="1">
       <ComponentGroupRef Id="PrimaryOutputComponent" />
-      <Component Id="UninstallComponent" Guid="*" Directory="APPLICATIONROOT">
-        <RegistryValue Root="HKLM" Key="$(var.HklmSoftwareInstallPathKey)" Name="Path" Type="string" Value="[APPLICATIONROOT]" KeyPath="yes" />
-        <util:RemoveFolderEx On="uninstall" Property="APPLICATIONROOTPATH" />
-      </Component>
+      <ComponentRef Id="UninstallAction" />
     </Feature>
+
+    <DirectoryRef Id="APPLICATIONFOLDER">
+      <Component Id="UninstallAction" Guid="*">
+        <RegistryValue Root="HKLM" Key="$(var.HklmSoftwareInstallPathKey)" Name="Path" Type="string" Value="[APPLICATIONFOLDER]" KeyPath="yes" />
+        <util:RemoveFolderEx On="uninstall" Property="APPLICATIONFOLDER_PROPERTY" />
+      </Component>
+    </DirectoryRef>
   </Product>
 
   <Fragment>
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
-        <Directory Id="APPLICATIONROOT" Name="$(var.ProductName)" />
+        <Directory Id="APPLICATIONFOLDER" Name="$(var.ProductName)" />
       </Directory>
     </Directory>
   </Fragment>

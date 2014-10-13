@@ -33,7 +33,7 @@
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>APPLICATIONROOT</RefTargetDir>
+      <RefTargetDir>APPLICATIONFOLDER</RefTargetDir>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -67,7 +67,7 @@
     <PropertyGroup>
       <DefineConstants>PrimaryOutputDir=%(ProjectReference.RootDir)%(ProjectReference.Directory)bin\$(Configuration)</DefineConstants>
     </PropertyGroup>
-    <HeatDirectory NoLogo="true" ToolPath="$(WixToolPath)" Transforms="Harvest.$(Configuration).Transform.xsl" VerboseOutput="true" AutogenerateGuids="true" OutputFile="$(ProjectDir)PrimaryOutput.wxs" Directory="$(SolutionDir)Crystalbyte.Paranoia\bin\$(Configuration)" ComponentGroupName="PrimaryOutputComponent" DirectoryRefId="APPLICATIONROOT" KeepEmptyDirectories="true" PreprocessorVariable="var.PrimaryOutputDir" SuppressRootDirectory="true" SuppressRegistry="true" />
+    <HeatDirectory NoLogo="true" ToolPath="$(WixToolPath)" Transforms="Harvest.$(Configuration).Transform.xsl" VerboseOutput="true" AutogenerateGuids="true" OutputFile="$(ProjectDir)PrimaryOutput.wxs" Directory="$(SolutionDir)Crystalbyte.Paranoia\bin\$(Configuration)" ComponentGroupName="PrimaryOutputComponent" DirectoryRefId="APPLICATIONFOLDER" KeepEmptyDirectories="true" PreprocessorVariable="var.PrimaryOutputDir" SuppressRootDirectory="true" SuppressCom="true" SuppressRegistry="true" />
   </Target>
   <Target Name="AfterBuild">
   </Target>
