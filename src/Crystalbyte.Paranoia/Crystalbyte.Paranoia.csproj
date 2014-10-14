@@ -177,12 +177,17 @@
     </ApplicationDefinition>
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="AudioPlayer.cs" />
+    <Compile Include="Automation\Application.cs" />
+    <Compile Include="Automation\ApplicationClassFactory.cs" />
+    <Compile Include="Automation\IApplication.cs" />
+    <Compile Include="Automation\IClassFactory.cs" />
     <Compile Include="CompositionWindow.xaml.cs">
       <DependentUpon>CompositionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Contexts\AttachmentContext.cs" />
     <Compile Include="Contexts\CreateMailboxContext.cs" />
     <Compile Include="IMailboxCreator.cs" />
+    <Compile Include="InprocMutex.cs" />
     <Compile Include="MailboxRoles.cs" />
     <Compile Include="MediaTypes.cs" />
     <Compile Include="MetroColors.cs" />

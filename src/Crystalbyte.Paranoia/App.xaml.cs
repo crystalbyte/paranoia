@@ -6,17 +6,24 @@ using System.Data.Entity;
 using System.Composition;
 using System.Composition.Hosting;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using Awesomium.Core;
+using Crystalbyte.Paranoia.Automation;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using dotless.Core;
+using NLog;
+using LogLevel = Awesomium.Core.LogLevel;
 
 #endregion
 
@@ -25,7 +32,17 @@ namespace Crystalbyte.Paranoia {
     ///     Interaction logic for App.xaml
     /// </summary>
     public partial class App {
-        public static readonly string Name = "Paranoia";
+
+        #region Private Fields
+
+        private ApplicationClassFactory _factory;
+        private const string MutexId = @"Local\7141BF12-D7A5-40FC-A1BF-7EE2846FA836";
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
+
+        #region Properties
 
         [Import]
         public static AppContext Context { get; set; }
@@ -33,19 +50,24 @@ namespace Crystalbyte.Paranoia {
         internal static CompositionHost Composition { get; private set; }
 
         public static string InspectionCss {
-            get { return GetCssResource(); }
+            get { return GetCssResource("/Resources/html.inspection.less"); }
         }
 
         public static string CompositionCss {
             get { return GetCssResource("/Resources/html.composition.less"); }
         }
 
+        #endregion
+
         private static void RunFirstStartProcedure() {
             //Contest for eml file extension.
             // TODO: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144160(v=vs.85).aspx#first_run_and_defaults
+
+            Settings.Default.IsFirstStart = false;
+            Settings.Default.Save();
         }
 
-        public static string GetCssResource(string name = "/Resources/html.inspection.less") {
+        public static string GetCssResource(string name) {
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 return "body {}";
             }
@@ -83,29 +105,26 @@ namespace Crystalbyte.Paranoia {
 #endif
             base.OnStartup(e);
 
-            if (Settings.Default.IsFirstStart) {
-                RunFirstStartProcedure();
-
-                Settings.Default.IsFirstStart = false;
-                Settings.Default.Save();
+            var success = TryCallingLiveProcess();
+            if (success) {
+                Current.Shutdown();
+                return;
             }
 
-            Settings.Default.AcceptUntrustedCertificates = true;
-            
-
-            Thread.CurrentThread.Name = "Dispatcher Thread";
-
-            ServicePointManager.ServerCertificateValidationCallback =
-                delegate { return Settings.Default.AcceptUntrustedCertificates; };
+            if (Settings.Default.IsFirstStart) {
+                RunFirstStartProcedure();
+            }
 
             InitEnvironment();
+            RegisterComClassFactory();
             InitSodium();
             InitAwesomium();
 
             Compose();
 
-#if DEBUG
+            InitTheme();
 
+#if DEBUG
             using (var database = new DatabaseContext()) {
                 var accounts = await database.MailAccounts.ToArrayAsync();
                 if (accounts.Length != 0)
@@ -156,10 +175,63 @@ namespace Crystalbyte.Paranoia {
 #endif
         }
 
+        private void RegisterComClassFactory() {
+            _factory = new ApplicationClassFactory();
+            _factory.Publish();
+        }
+
+        private void RevokeComClassFactory() {
+            _factory.Revoke();
+        }
+
+        private static bool TryCallingLiveProcess() {
+            var success = false;
+
+            // Commence craziness.
+            // http://stackoverflow.com/questions/229565/what-is-a-good-pattern-for-using-a-global-mutex-in-c
+
+            bool isNew;
+            var allowEveryoneRule = new MutexAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), MutexRights.FullControl, AccessControlType.Allow);
+            var securitySettings = new MutexSecurity();
+            securitySettings.AddAccessRule(allowEveryoneRule);
+
+            using (var mutex = new Mutex(false, MutexId, out isNew, securitySettings)) {
+                var hasHandle = false;
+                try {
+                    hasHandle = mutex.WaitOne(3000, false);
+                    if (hasHandle == false)
+                        throw new TimeoutException("Timeout waiting for exclusive access.");
+
+                    try {
+                        var type = Type.GetTypeFromProgID(ApplicationClassFactory.ProgId);
+                        var application = (IApplication) Activator.CreateInstance(type);
+
+                        success = true;
+                    } catch (Exception ex) {
+                        Logger.Error(ex);
+                        success = false;
+                    }
+
+                } catch (TimeoutException ex) {
+                    Logger.Error(ex);
+                } catch (AbandonedMutexException ex) {
+                    Logger.Error(ex);
+                    hasHandle = true;
+                } finally {
+                    if (hasHandle)
+                        mutex.ReleaseMutex();
+                }
+            }
+
+            return success;
+        }
+
         protected override void OnExit(ExitEventArgs e) {
             // Make sure we shutdown the core last.
             if (WebCore.IsInitialized)
                 WebCore.Shutdown();
+            
+            RevokeComClassFactory();
 
             base.OnExit(e);
         }
@@ -186,15 +258,7 @@ namespace Crystalbyte.Paranoia {
             Sodium.InitNativeLibrary();
         }
 
-        private static void InitEnvironment() {
-            var location = ConfigurationManager.AppSettings["DataDirectory"];
-            if (string.IsNullOrEmpty(location)) {
-                throw new Exception("Entry for the DataDirectory missing from configuration file.");
-            }
-
-            var directory = Environment.ExpandEnvironmentVariables(location);
-            AppDomain.CurrentDomain.SetData("DataDirectory", directory);
-
+        private static void InitTheme() {
             var theme = Settings.Default.CustomTheme;
             if (string.IsNullOrWhiteSpace(theme)) {
                 return;
@@ -207,6 +271,24 @@ namespace Crystalbyte.Paranoia {
             }
 
             ApplyCustomTheme(themePath);
+        }
+
+        private static void InitEnvironment() {
+#if DEBUG
+            Settings.Default.AcceptUntrustedCertificates = true;
+#endif
+            Thread.CurrentThread.Name = "Dispatcher Thread";
+
+            ServicePointManager.ServerCertificateValidationCallback =
+                delegate { return Settings.Default.AcceptUntrustedCertificates; };
+
+            var location = ConfigurationManager.AppSettings["DataDirectory"];
+            if (string.IsNullOrEmpty(location)) {
+                throw new Exception("Entry for the DataDirectory missing from configuration file.");
+            }
+
+            var directory = Environment.ExpandEnvironmentVariables(location);
+            AppDomain.CurrentDomain.SetData("DataDirectory", directory);
         }
 
         private static void ApplyCustomTheme(string path) {
