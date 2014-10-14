@@ -151,5 +151,17 @@ namespace Crystalbyte.Paranoia.Properties {
                 this["PrefixForForwarding"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsFirstStart {
+            get {
+                return ((bool)(this["IsFirstStart"]));
+            }
+            set {
+                this["IsFirstStart"] = value;
+            }
+        }
     }
 }

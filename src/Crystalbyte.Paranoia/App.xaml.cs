@@ -40,6 +40,11 @@ namespace Crystalbyte.Paranoia {
             get { return GetCssResource("/Resources/html.composition.less"); }
         }
 
+        private static void RunFirstStartProcedure() {
+            //Contest for eml file extension.
+            // TODO: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144160(v=vs.85).aspx#first_run_and_defaults
+        }
+
         public static string GetCssResource(string name = "/Resources/html.inspection.less") {
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 return "body {}";
@@ -73,13 +78,20 @@ namespace Crystalbyte.Paranoia {
 
 #if DEBUG
         protected async override void OnStartup(StartupEventArgs e) {
+#else
+        protected override void OnStartup(StartupEventArgs e) {
+#endif
+            base.OnStartup(e);
+
+            if (Settings.Default.IsFirstStart) {
+                RunFirstStartProcedure();
+
+                Settings.Default.IsFirstStart = false;
+                Settings.Default.Save();
+            }
 
             Settings.Default.AcceptUntrustedCertificates = true;
-#else
- protected override void OnStartup(StartupEventArgs e) {
-#endif
-
-            base.OnStartup(e);
+            
 
             Thread.CurrentThread.Name = "Dispatcher Thread";
 

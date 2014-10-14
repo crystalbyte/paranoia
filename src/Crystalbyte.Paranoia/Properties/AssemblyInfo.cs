@@ -1,4 +1,6 @@
-﻿#region Using directives
+﻿using Crystalbyte.Paranoia.Properties;
+
+#region Using directives
 
 using System.Runtime.CompilerServices;
 
@@ -17,11 +19,15 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("Crystalbyte.Paranoia")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Crystalbyte.Paranoia")]
+[assembly: AssemblyTitle("Paranoia")]
+[assembly: AssemblyDescription("Paranoia is a secure e-mail application.")]
+#if DEBUG
+[assembly: AssemblyConfiguration("Debug")]
+#else
+[assembly: AssemblyConfiguration("Release")]
+#endif
+[assembly: AssemblyCompany("Crystalbyte")]
+[assembly: AssemblyProduct("Crystalbyte Paranoia")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

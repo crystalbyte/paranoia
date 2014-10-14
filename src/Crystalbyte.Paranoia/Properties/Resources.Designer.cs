@@ -151,6 +151,24 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Paranoia is a secure mail application..
+        /// </summary>
+        public static string AssemblyDescription {
+            get {
+                return ResourceManager.GetString("AssemblyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paranoia.
+        /// </summary>
+        public static string AssemblyTitle {
+            get {
+                return ResourceManager.GetString("AssemblyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Authentification failed..
         /// </summary>
         public static string AuthentificationFailed {
@@ -576,6 +594,16 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        public static System.Drawing.Icon logo {
+            get {
+                object obj = ResourceManager.GetObject("logo", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email Address.
         /// </summary>
         public static string MailAddress {
@@ -996,6 +1024,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string ServerSettingsTitle {
             get {
                 return ResourceManager.GetString("ServerSettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paranoia (Desktop).
+        /// </summary>
+        public static string ShellName {
+            get {
+                return ResourceManager.GetString("ShellName", resourceCulture);
             }
         }
         

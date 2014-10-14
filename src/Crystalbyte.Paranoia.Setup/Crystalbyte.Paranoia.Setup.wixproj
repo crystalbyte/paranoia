@@ -39,6 +39,7 @@
   <ItemGroup>
     <Content Include="Harvest.Debug.Transform.xsl" />
     <Content Include="Harvest.Release.Transform.xsl" />
+    <Content Include="logo.ico" />
     <Content Include="packages.config" />
     <Content Include="Product.wxi" />
     <Content Include="References.txt" />

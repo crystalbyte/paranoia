@@ -55,6 +55,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\logo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Awesomium.Core, Version=1.7.4.2, Culture=neutral, PublicKeyToken=e1a0d7c8071a5214, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -633,6 +636,7 @@
     <Resource Include="Assets\paper.png" />
     <Resource Include="Assets\attachment.png" />
     <Resource Include="Assets\upload.png" />
+    <Resource Include="Assets\logo.png" />
     <Content Include="Resources\ckeditor.paranoia\paranoia.js" />
     <Content Include="Resources\ckeditor\adapters\jquery.js" />
     <Content Include="Resources\ckeditor\build-config.js" />
@@ -1013,6 +1017,7 @@
     <Content Include="Resources\ckeditor\styles.js" />
     <Content Include="Resources\jquery\jquery-2.1.1.min.js" />
     <Resource Include="Resources\plain-text.template.html" />
+    <Resource Include="Resources\logo.ico" />
     <Content Include="x86\avcodec-53.dll" />
     <Content Include="x86\avformat-53.dll" />
     <Content Include="x86\avutil-51.dll" />

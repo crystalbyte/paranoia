@@ -7,5 +7,5 @@ http://wixtoolset.org/documentation/manual/v3/
 # Public Blog of WiX Author
 http://www.joyofsetup.com/
 
-# MSDN Guidelines for File Types
-http://msdn.microsoft.com/en-us/library/windows/desktop/cc144156(v=vs.85).aspx
+# MSDN Guidelines for File Associations and Default Programs
+http://msdn.microsoft.com/en-us/library/windows/desktop/ee872123(v=vs.85).aspx

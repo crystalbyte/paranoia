@@ -9,66 +9,56 @@
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <MediaTemplate EmbedCab="yes" />
 
+    <Icon Id="InstallerLogo" SourceFile="logo.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="InstallerLogo" />
+
     <Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONFOLDER" />
     <UIRef Id="WixUI_InstallDir" />
 
     <!-- RemoveFolderEx requires that we "remember" the path for uninstall.
-         Read the path value and set the APPLICATIONFOLDER property with the value. -->
+         Read the path value and set the APPLICATIONFOLDER_PROPERTY property with the value. -->
     <Property Id="APPLICATIONFOLDER_PROPERTY" Secure="yes">
       <RegistrySearch Key="$(var.HklmInstallPathRegKey)" Root="HKLM" Type="raw" Id="APPLICATIONFOLDER_REGSEARCH" Name="Path" />
     </Property>
 
     <Feature Id="ProductFeature" Title="$(var.ProductTitle)" Level="1">
       <ComponentGroupRef Id="PrimaryOutputComponent" />
-      <ComponentRef Id="MailClientRegistryComponent"/>
-      <ComponentRef Id="FileTypeAssociationComponent" />
+      <ComponentRef Id="ProgramRegistrationComponent"/>
       <ComponentRef Id="CleanupComponent" />
     </Feature>
 
     <DirectoryRef Id="APPLICATIONFOLDER">
       <!-- Setting up file clean up on uninstall. -->
-      <Component Id="CleanupComponent" Guid="A1B39562-A269-452B-96F5-B1D25AB65CC6">
+      <Component Id="CleanupComponent" Guid="A1B39562-A269-452B-96F5-B1D25AB65CC6" Win64="no">
         <!-- Save the installation path to the registry. -->
         <RegistryValue Root="HKLM" Key="$(var.HklmInstallPathRegKey)" Name="Path" Type="string" Value="[APPLICATIONFOLDER]" KeyPath="yes" />
-        
+
         <!-- Remove the installation key on uninstall. -->
         <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="$(var.HklmCompanyRegKey)" />
-        
+
         <!-- Delete the application folder on uninstall. -->
         <util:RemoveFolderEx On="uninstall" Property="APPLICATIONFOLDER_PROPERTY" />
       </Component>
 
-      <!-- Msdn reference for registering app as a candidate for the mail start menu item.
-           http://msdn.microsoft.com/en-us/library/windows/desktop/dd203067(v=vs.85).aspx#email_reg -->
-      <Component Id="MailClientRegistryComponent" Guid="47F3FB9E-CBB6-4999-BB06-BC616B73CEDB">
-        <RegistryValue Root="HKLM" Key="$(var.HklmClientMailRegKey)\$(var.ProductName)" Type="string" Value="$(var.ProductName)" KeyPath="yes" />
+      <Component Id="ProgramRegistrationComponent" Guid="47F3FB9E-CBB6-4999-BB06-BC616B73CEDB" Win64="no">
+        <!-- MSDN Guidelines for File Associations and Default Programs
+             http://msdn.microsoft.com/en-us/library/windows/desktop/ee872123(v=vs.85).aspx -->
 
-        <!-- Msdn reference for accessing resource from file. -->
-        <RegistryValue Root="HKLM" Key="$(var.HklmClientMailRegKey)\$(var.ProductName)" Name="LocalizedString" Type="string" Value="@[APPLICATIONFOLDER]$(var.Crystalbyte.Paranoia.TargetFileName),-$(var.AppNameResourceId)" />
-
-        <!-- Setting the default icon. -->
-        <RegistryValue Root="HKLM" Key="$(var.HklmClientMailRegKey)\$(var.ProductName)\DefaultIcon" Type="string" Value="@[APPLICATIONFOLDER]$(var.Crystalbyte.Paranoia.TargetFileName),-1" />
-
-        <!-- Remove default mail client registry values -->
-        <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="$(var.HklmClientMailRegKey)" />
-      </Component>
-
-      <Component Id="FileTypeAssociationComponent" Guid="A2BFF289-7705-4B2F-9071-34FD730E063F">
         <!-- Register the application with the versioned program id "Crystalbyte.Paranoia.1". -->
-        <RegistryValue Root="HKCR" Key="$(var.VersionedProgId)" Type="string" Value="@[APPLICATIONFOLDER]$(var.Crystalbyte.Paranoia.TargetFileName)" KeyPath="yes" />
-        <RegistryValue Root="HKCR" Key="$(var.VersionedProgId)\EditFlags" Type="integer" Value="$(var.FtaHasExtension)" />
+        <RegistryValue Root="HKCR" Key="$(var.VersionedProgId)" Type="string" Value="$(var.ProductTitle)" KeyPath="yes" />
+        <RegistryValue Root="HKCR" Key="$(var.VersionedProgId)\FriendlyTypeName" Type="string" Value="@[APPLICATIONFOLDER]$(var.Crystalbyte.Paranoia.TargetFileName),-$(var.AppNameResourceId)" />
+        <RegistryValue Root="HKCR" Key="$(var.VersionedProgId)\CurVer" Type="string" Value="$(var.VersionedProgId)" />
+        <RegistryValue Root="HKCR" Key="$(var.VersionedProgId)\DefaultIcon" Type="string" Value="@$(var.Crystalbyte.Paranoia.TargetName)" />
+        <RegistryValue Root="HKCR" Key="$(var.VersionedProgId)\shell\open\command" Type="string" Value='"[APPLICATIONFOLDER]$(var.Crystalbyte.Paranoia.TargetFileName)" "%1"' />
         <RemoveRegistryKey Action="removeOnUninstall" Root="HKCR" Key="$(var.VersionedProgId)" />
-        
-        <!-- Set the default version to the current version -->
-        <RegistryValue Root="HKCR" Key="$(var.ProgId)\CurVer" Type="string" Value="$(var.VersionedProgId)" />
-        <RemoveRegistryKey Action="removeOnUninstall" Root="HKCR" Key="$(var.ProgId)" />
-        
-        <!-- Register the ".eml" file type. The type should probably not be removed on uninstall since other programs may still use it. -->
-        <RegistryValue Root="HKCR" Key=".$(var.EmlExtension)" Type="string" Value="$(var.ProgId)" />
-        
-        <!-- Add application to the "Open With ..." file menu.
-             http://msdn.microsoft.com/en-us/library/windows/desktop/hh127445(v=vs.85).aspx -->
-        <RegistryValue Root="HKCR" Key=".$(var.EmlExtension)\OpenWithProgids" Name="$(var.ProgId)" Type="binary" Value="" />
+
+        <!-- Register the ".eml" file type. The key itself must not be removed on uninstall since other programs may continue using it. 
+             TODO: Ideally we need to save the old value for the key and restore it upon removal. -->
+        <RegistryValue Root="HKCR" Key=".$(var.EmlExtension)" Type="string" Value="$(var.VersionedProgId)" />
+        <RegistryValue Root="HKCR" Key=".$(var.EmlExtension)" Name="PerceivedType" Type="string" Value="Document" />
+        <RegistryValue Root="HKCR" Key=".$(var.EmlExtension)" Name="Content Type" Type="string" Value="message/rfc822" />
+
+        <!-- TODO: Call SHChangeNotify to notify the shell to register the new file type using a custom action.-->
       </Component>
     </DirectoryRef>
   </Product>

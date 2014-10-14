@@ -3,8 +3,10 @@
   <!-- Package Information-->
   <?define ProductName="Paranoia" ?>
   <?define Manufacturer="Crystalbyte" ?>
+  <?define FriendlyName="$(var.ProductName)" ?>
   <?define ProductTitle="$(var.Manufacturer) $(var.ProductName)" ?>
   <?define UpgradeCode="1B51CCBB-19F6-4ADF-96C8-D67DE76BE0E3" ?>
+  <?define ProductCode="06D396DF-6C09-408E-BB27-C8F03E5CFB2C" ?>
   
   <!-- Application Information -->
   <?define MajorVersion="1"?>
@@ -20,8 +22,8 @@
   <!-- Default Mail Client Registration -->
   <?define HklmClientMailRegKey=SOFTWARE\Clients\Mail?>
   
-  <!-- The id "ApplicationName" is the name of the string resource (Resources.resx) inside the the "Crystalbyte.Paranoia" project. -->
-  <?define AppNameResourceId=ApplicationName?>
+  <!-- The id "ShellName" is the name of the string resource (Resources.resx) inside the "Crystalbyte.Paranoia" project. -->
+  <?define AppNameResourceId=ShellName?>
   
   <!-- File Type Properties-->
   <?define EmlExtension=eml?>
@@ -29,6 +31,5 @@
   <!-- Always use versioned identifiers 
        http://msdn.microsoft.com/en-us/library/windows/desktop/cc144152(v=vs.85).aspx#versioned_progids -->
   <?define VersionedProgId=$(var.Manufacturer).$(var.ProductName).$(var.MajorVersion)?>
-  <?define FtaHasExtension=64?>
   <?define ProgId=$(var.Manufacturer).$(var.ProductName)?>
 </Include>
