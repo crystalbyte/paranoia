@@ -40,7 +40,6 @@
     <Content Include="Harvest.Debug.Transform.xsl" />
     <Content Include="Harvest.Release.Transform.xsl" />
     <Content Include="logo.ico" />
-    <Content Include="packages.config" />
     <Content Include="Product.wxi" />
     <Content Include="References.txt" />
   </ItemGroup>
@@ -54,11 +53,6 @@
       <Name>WixUtilExtension</Name>
     </WixExtension>
   </ItemGroup>
-  <PropertyGroup>
-    <WixToolPath>$(SolutionDir)packages\WiX.Toolset.3.8.1128.0\tools\wix\</WixToolPath>
-    <WixTargetsPath>$(WixToolPath)wix.targets</WixTargetsPath>
-    <WixTasksPath>$(WixToolPath)WixTasks.dll</WixTasksPath>
-  </PropertyGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--
 	  To modify your build process, add your task inside one of the targets below and uncomment it.
@@ -72,11 +66,12 @@
   </Target>
   <Target Name="AfterBuild">
   </Target>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!--<Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />-->
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>
