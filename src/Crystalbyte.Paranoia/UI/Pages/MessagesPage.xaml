@@ -436,6 +436,9 @@
                     </ListView.InputBindings>
                     <ListView.ContextMenu>
                         <ContextMenu>
+                            <MenuItem Command="ui:MessageCommands.Inspect">
+                                <MenuItem.Header>bla</MenuItem.Header>
+                            </MenuItem>
                             <MenuItem Command="ui:MessageCommands.Reply" InputGestureText="Ctrl + R">
                                 <MenuItem.Icon>
                                     <Image Height="16"
