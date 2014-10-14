@@ -187,11 +187,12 @@
     <Compile Include="Contexts\AttachmentContext.cs" />
     <Compile Include="Contexts\CreateMailboxContext.cs" />
     <Compile Include="IMailboxCreator.cs" />
-    <Compile Include="InprocMutex.cs" />
+    <Compile Include="InspectMessageWindow.xaml.cs">
+      <DependentUpon>InspectMessageWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MailboxRoles.cs" />
     <Compile Include="MediaTypes.cs" />
     <Compile Include="MetroColors.cs" />
-    <Compile Include="NavigationInterceptor.cs" />
     <Compile Include="UI\Commands\MarkAsFlaggedCommand.cs" />
     <Compile Include="UI\Commands\MarkAsNotFlaggedCommand.cs" />
     <Compile Include="UI\Commands\UnblockContactsCommand.cs" />
@@ -299,6 +300,10 @@
     <Page Include="CompositionWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="InspectMessageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NotificationWindow.xaml">
       <SubType>Designer</SubType>

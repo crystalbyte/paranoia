@@ -25,16 +25,17 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             CommandBindings.Add(new CommandBinding(MessageCommands.ReplyAll, OnReplyAll));
             CommandBindings.Add(new CommandBinding(MessageCommands.Forward, OnForward));
             CommandBindings.Add(new CommandBinding(MessageCommands.Resume, OnResume));
+            CommandBindings.Add(new CommandBinding(MessageCommands.Inspect, OnInspect));
             CommandBindings.Add(new CommandBinding(OutboxCommands.Delete, OnDeleteSmtpRequest, OnCanDeleteSmtpRequest));
             App.Context.SortOrderChanged += OnSortOrderChanged;
         }
 
         private void OnCanDeleteSmtpRequest(object sender, CanExecuteRoutedEventArgs e) {
-            
+
         }
 
         private void OnDeleteSmtpRequest(object sender, ExecutedRoutedEventArgs e) {
-            
+
         }
 
         private static void OnResume(object sender, ExecutedRoutedEventArgs e) {
@@ -44,7 +45,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             }
 
             var owner = Application.Current.MainWindow;
-            var window = CreateChildWindow(owner);
+            var window = CreateComposeChildWindow(owner);
 
             var uri = string.Format("?action=resume&id={0}", message.Id);
             window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
@@ -63,7 +64,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             }
 
             var owner = Application.Current.MainWindow;
-            var window = CreateChildWindow(owner);
+            var window = CreateComposeChildWindow(owner);
 
             var uri = string.Format("?action=forward&id={0}", message.Id);
             window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
@@ -82,7 +83,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             }
 
             var owner = Application.Current.MainWindow;
-            var window = CreateChildWindow(owner);
+            var window = CreateComposeChildWindow(owner);
 
             var uri = string.Format("?action=reply&id={0}", message.Id);
             window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
@@ -101,7 +102,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             }
 
             var owner = Application.Current.MainWindow;
-            var window = CreateChildWindow(owner);
+            var window = CreateComposeChildWindow(owner);
 
             var uri = string.Format("?action=reply-all&id={0}", message.Id);
             window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
@@ -115,7 +116,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
         private static void OnCompose(object sender, ExecutedRoutedEventArgs e) {
             var owner = Application.Current.MainWindow;
-            var window = CreateChildWindow(owner);
+            var window = CreateComposeChildWindow(owner);
             window.Source = typeof(ComposeMessagePage).ToPageUri("?action=new");
 
             if (owner.WindowState == WindowState.Maximized) {
@@ -125,17 +126,18 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             window.Show();
         }
 
-        private static CompositionWindow CreateChildWindow(Window owner) {
+        private static CompositionWindow CreateComposeChildWindow(Window owner) {
             var window = new CompositionWindow {
                 Height = owner.Height > 500 ? owner.Height * 0.9 : 500,
                 Width = owner.Width > 800 ? owner.Width * 0.9 : 800,
             };
 
             var ownerPoint = owner.PointToScreen(new Point(0, 0));
+
             var left = ownerPoint.X + (owner.Width / 2) - (window.Width / 2);
             var top = ownerPoint.Y + (owner.Height / 2) - (window.Height / 2);
-            window.Left = left < 0 ? 0 : left;
-            window.Top = top < 0 ? 0 : top;
+            window.Left = left < ownerPoint.X ? ownerPoint.X : left;
+            window.Top = top < ownerPoint.Y ? ownerPoint.Y : top;
             owner.Closed += (sender, e) => window.Close();
 
             return window;
@@ -255,6 +257,31 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 return;
             }
             attachment.Open();
+        }
+
+        private void OnInspect(object sender, ExecutedRoutedEventArgs e) {
+            var owner = Application.Current.MainWindow;
+            var inspector = CreateInspectorChildWindow(owner);
+            inspector.Show();
+        }
+
+        private static InspectMessageWindow CreateInspectorChildWindow(Window owner) {
+            var message = App.Context.SelectedMessage;
+
+            var window = new InspectMessageWindow(message) {
+                Height = owner.Height > 500 ? owner.Height * 0.9 : 500,
+                Width = owner.Width > 800 ? owner.Width * 0.9 : 800,
+            };
+
+            var ownerPoint = owner.PointToScreen(new Point(0, 0));
+
+            var left = ownerPoint.X + (owner.Width / 2) - (window.Width / 2);
+            var top = ownerPoint.Y + (owner.Height / 2) - (window.Height / 2);
+            window.Left = left < ownerPoint.X ? ownerPoint.X : left;
+            window.Top = top < ownerPoint.Y ? ownerPoint.Y : top;
+            owner.Closed += (sender, e) => window.Close();
+
+            return window;
         }
     }
 }
