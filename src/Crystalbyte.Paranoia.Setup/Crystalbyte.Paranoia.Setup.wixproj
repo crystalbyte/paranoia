@@ -27,6 +27,14 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Crystalbyte.Paranoia.Automation\Crystalbyte.Paranoia.Automation.csproj">
+      <Name>Crystalbyte.Paranoia.Automation</Name>
+      <Project>{1081ba38-a5ae-4ba3-8222-6283ab225cac}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\Crystalbyte.Paranoia\Crystalbyte.Paranoia.csproj">
       <Name>Crystalbyte.Paranoia</Name>
       <Project>{a0762e18-fac3-4624-8b65-9d1af8e4f366}</Project>

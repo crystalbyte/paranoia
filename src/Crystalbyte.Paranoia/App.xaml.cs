@@ -35,9 +35,7 @@ namespace Crystalbyte.Paranoia {
 
         #region Private Fields
 
-        private ApplicationClassFactory _factory;
         private const string MutexId = @"Local\7141BF12-D7A5-40FC-A1BF-7EE2846FA836";
-
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
@@ -175,13 +173,12 @@ namespace Crystalbyte.Paranoia {
 #endif
         }
 
-        private void RegisterComClassFactory() {
-            _factory = new ApplicationClassFactory();
-            _factory.Publish();
+        private static void RegisterComClassFactory() {
+            ApplicationClassFactory.Register();
         }
 
-        private void RevokeComClassFactory() {
-            _factory.Revoke();
+        private static void RevokeComClassFactory() {
+            ApplicationClassFactory.Revoke();
         }
 
         private static bool TryCallingLiveProcess() {

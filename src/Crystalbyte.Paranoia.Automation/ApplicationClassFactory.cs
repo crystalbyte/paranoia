@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Markup;
-using System.Windows.Media;
 
 namespace Crystalbyte.Paranoia.Automation {
     
@@ -16,28 +10,28 @@ namespace Crystalbyte.Paranoia.Automation {
 
         #region Private Fields
 
-        private int? _cookie;
+        private static int? _cookie;
 
         #endregion
 
         #region COM Registration
 
-        internal const string ProgId = "Paranoia.Application";
-        internal const string ClassId = "AA1CC4EE-2EB6-4521-940B-5B4C56C46CB0";
+        public const string ProgId = "Paranoia.Application";
+        public const string ClassId = "AA1CC4EE-2EB6-4521-940B-5B4C56C46CB0";
 
         #endregion
 
         #region Methods
 
-        public void Publish() {
-            const RegistrationClassContext flags = RegistrationClassContext.InProcessServer;
+        public static void Register() {
+            const RegistrationClassContext flags = RegistrationClassContext.LocalServer;
 
             var services = new RegistrationServices();
             _cookie = services.RegisterTypeForComClients(typeof(ApplicationClassFactory),
                 flags, RegistrationConnectionType.MultipleUse);
         }
 
-        public void Revoke() {
+        public static void Revoke() {
             if (_cookie == null) {
                 return;
             }

@@ -177,10 +177,6 @@
     </ApplicationDefinition>
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="AudioPlayer.cs" />
-    <Compile Include="Automation\Application.cs" />
-    <Compile Include="Automation\ApplicationClassFactory.cs" />
-    <Compile Include="Automation\IApplication.cs" />
-    <Compile Include="Automation\IClassFactory.cs" />
     <Compile Include="CompositionWindow.xaml.cs">
       <DependentUpon>CompositionWindow.xaml</DependentUpon>
     </Compile>
@@ -580,6 +576,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Crystalbyte.Paranoia.Automation\Crystalbyte.Paranoia.Automation.csproj">
+      <Project>{1081ba38-a5ae-4ba3-8222-6283ab225cac}</Project>
+      <Name>Crystalbyte.Paranoia.Automation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Crystalbyte.Paranoia.Cryptography\Crystalbyte.Paranoia.Cryptography.csproj">
       <Project>{fc115aed-c02e-45a6-80eb-711a1ccf14e3}</Project>
       <Name>Crystalbyte.Paranoia.Cryptography</Name>
@@ -612,7 +612,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Automation\" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\close.png" />
     <Resource Include="Assets\help.png" />
@@ -1059,7 +1061,9 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy /s /y "$(ProjectDir)Resources\jquery\*" "$(TargetDir)Resources\jquery\"
 xcopy /s /y "$(ProjectDir)Resources\ckeditor\*" "$(TargetDir)Resources\ckeditor\"
-xcopy /s /y "$(ProjectDir)Resources\ckeditor.paranoia\*" "$(TargetDir)Resources\ckeditor.paranoia\"</PostBuildEvent>
+xcopy /s /y "$(ProjectDir)Resources\ckeditor.paranoia\*" "$(TargetDir)Resources\ckeditor.paranoia\"
+
+REM regasm.exe "$(TargetPath)" /codebase /tlb</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

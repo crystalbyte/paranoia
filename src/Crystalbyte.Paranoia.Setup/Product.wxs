@@ -24,6 +24,7 @@
     <Feature Id="ProductFeature" Title="$(var.ProductTitle)" Level="1">
       <ComponentGroupRef Id="PrimaryOutputComponent" />
       <ComponentRef Id="ProgramRegistrationComponent"/>
+      <ComponentRef Id="ComServerRegistrationComponent"/>
       <ComponentRef Id="CleanupComponent" />
     </Feature>
 
@@ -59,6 +60,19 @@
         <RegistryValue Root="HKCR" Key=".$(var.EmlExtension)" Name="Content Type" Type="string" Value="message/rfc822" />
 
         <!-- TODO: Call SHChangeNotify to notify the shell to register the new file type using a custom action.-->
+      </Component>
+
+      <Component Id="ComServerRegistrationComponent">
+        <!-- MSDN Register COM Application object.
+             http://msdn.microsoft.com/en-us/library/windows/desktop/ee872123(v=vs.85).aspx -->
+
+        <RegistryValue Root="HKCR" Key="$(var.ApplicationProgId)" Type="string" Value="$(var.ApplicationProgId)" KeyPath="yes" />
+        <RegistryValue Root="HKCR" Key="$(var.ApplicationProgId)\CLSID" Type="string" Value="$(var.ApplicationClassId)" />
+        <RegistryValue Root="HKCR" Key="$(var.ApplicationProgId)\{$(var.ApplicationClassId)}" Type="string" Value="$(var.ApplicationProgId)" />
+        <RegistryValue Root="HKCR" Key="$(var.ApplicationProgId)\{$(var.ApplicationClassId)}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Type="string" Value="" />
+        <RegistryValue Root="HKCR" Key="$(var.ApplicationProgId)\{$(var.ApplicationClassId)}\LocalServer32" Type="string" Value="@[APPLICATIONFOLDER]$(var.Crystalbyte.Paranoia.TargetFileName)" />
+        <RegistryValue Root="HKCR" Key="$(var.ApplicationProgId)\{$(var.ApplicationClassId)}\ProgId" Type="string" Value="$(var.ApplicationProgId)" />
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKCR" Key="$(var.ApplicationProgId)" />
       </Component>
     </DirectoryRef>
   </Product>
