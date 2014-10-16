@@ -82,10 +82,8 @@ namespace Crystalbyte.Paranoia {
                             return;
                         }
                     }
-
                     return;
                 }
-
                 await SendMessageResponseAsync(request, reader, id);
             }
         }
