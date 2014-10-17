@@ -9,9 +9,9 @@ namespace Crystalbyte.Paranoia.Automation {
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IClassFactory {
         [PreserveSig]
-        UInt32 CreateInstance(IntPtr pUnkOuter, ref Guid riid, out IntPtr ppvObject);
+        int CreateInstance(IntPtr pUnkOuter, ref Guid riid, out IntPtr ppvObject);
 
         [PreserveSig]
-        UInt32 LockServer(bool fLock);
+        int LockServer(bool fLock);
     }
 }

@@ -26,6 +26,12 @@
             <Component Id="cmpF90E432A4EF21A9D49F1432CC8606232" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil994DAE0B488C843F96C5188061C8A8FC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-15.log" />
             </Component>
+            <Component Id="cmp7A712F99BD63C711414AAF0056D79C14" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filA5D013D50117F9086E5E6B6250313C7D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-16.log" />
+            </Component>
+            <Component Id="cmp1A6C0FE675BAB642EBDDA67FA760DB82" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil0ABB13BAFA484194679B712A6DA2F5E2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-17.log" />
+            </Component>
             <Component Id="cmp63E096F88C92E34035988D68897C9AC7" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil6149A3A5A64C602E7C9DA3E939C13557" KeyPath="yes" Source="$(var.PrimaryOutputDir)\avcodec-53.dll" />
             </Component>
@@ -46,6 +52,9 @@
             </Component>
             <Component Id="cmp2E95087C33C3A3544A120CC0863A6E5A" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil5A557F6F8A140B24B689776AF9F37BAF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\awesomium_process" />
+            </Component>
+            <Component Id="cmp3DFBAE79C89B28BECF3357EBE0A7B64D" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filCB72AE4B415C6CD679E0DFF2C623FFC6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Automation.tlb" />
             </Component>
             <Component Id="cmpBB93EC7A80C665380BF238282CF969BE" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil086907777BDE65F42395C67BDD45DC69" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Cryptography.dll" />
@@ -95,20 +104,11 @@
             <Component Id="cmp649A934A37C7F0DC8ADD84104468D6A4" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil62BDEBE76BBED1680D2C2094E12135B0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Microsoft.Expression.Interactions.dll" />
             </Component>
-            <Component Id="cmpBE9DF01A66595E282E73857268A99F34" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil45521DE5F184A1F1579B4035389ABBE3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\NAudio.dll" />
-            </Component>
             <Component Id="cmp4CDF7DFD2D0E95016925C6786A10C503" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil58078AD85E0073F162CFFABD8ECDFD92" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Newtonsoft.Json.dll" />
             </Component>
             <Component Id="cmp459428455A80F4974712A2D278241949" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filDE9AFB8C595C5CEE318048C2DF9057E3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\NLog.dll" />
-            </Component>
-            <Component Id="cmpF90132997C960CFC024E5614A14B4CF3" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil29516D074BE60742CECB58498AD90969" KeyPath="yes" Source="$(var.PrimaryOutputDir)\NVorbis.dll" />
-            </Component>
-            <Component Id="cmp98448D10445F00D3C719506652F03CAB" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil0EFEA556767D8B46A19A53EF3A16E47B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\NVorbis.NAudioSupport.dll" />
             </Component>
             <Component Id="cmpB5ED5B54A64B18CFC9AED6049D88B6F0" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filE900DD48767027E051CFFCB9D9C7A3CC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.exe" />
@@ -118,6 +118,15 @@
             </Component>
             <Component Id="cmp6AD55DB8C684C408AC22C2EADEC4E91D" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filFABF4F9712DA42F63DAA3F49139A7C08" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.pdb" />
+            </Component>
+            <Component Id="cmpEE3BD8E602E0130316AC2F09538490DD" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filF32BB52DF39FEBE7FF839E31C2411DAF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.reg" />
+            </Component>
+            <Component Id="cmpFB9AFAD9962418119F5F97DFA5454496" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil0AF8EE538CB7F6F1810FAD43AAC25099" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.tlb" />
+            </Component>
+            <Component Id="cmpF42619D2A9A485EABEB195AB80FE71DA" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil6328E717286C12267C01848ED2C4C95A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.v12.suo" />
             </Component>
             <Component Id="cmpF38711A2A24795240EF7C27EB999D0AC" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil042ECC9F1BDC53B477C32199E888DDAA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.vshost.exe" />

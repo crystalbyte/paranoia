@@ -10,10 +10,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Web.UI;
 using System.Windows;
 using Awesomium.Core;
 using Crystalbyte.Paranoia.Automation;
@@ -35,8 +37,17 @@ namespace Crystalbyte.Paranoia {
 
         #region Private Fields
 
+        private readonly ComServer _server;
         private const string MutexId = @"Local\7141BF12-D7A5-40FC-A1BF-7EE2846FA836";
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
+
+        #region Construction
+
+        public App() {
+            _server = new ComServer(this);
+        }
 
         #endregion
 
@@ -58,7 +69,7 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         private static void RunFirstStartProcedure() {
-            //Contest for eml file extension.
+            // Contest for eml file extension.
             // TODO: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144160(v=vs.85).aspx#first_run_and_defaults
 
             Settings.Default.IsFirstStart = false;
@@ -105,6 +116,7 @@ namespace Crystalbyte.Paranoia {
 
             var success = TryCallingLiveProcess();
             if (success) {
+                StartupUri = null;
                 Current.Shutdown();
                 return;
             }
@@ -114,13 +126,13 @@ namespace Crystalbyte.Paranoia {
             }
 
             InitEnvironment();
-            RegisterComClassFactory();
+
             InitSodium();
             InitAwesomium();
-
             Compose();
 
             InitTheme();
+            StartComServer();
 
 #if DEBUG
             using (var database = new DatabaseContext()) {
@@ -173,12 +185,8 @@ namespace Crystalbyte.Paranoia {
 #endif
         }
 
-        private static void RegisterComClassFactory() {
-            ApplicationClassFactory.Register();
-        }
-
-        private static void RevokeComClassFactory() {
-            ApplicationClassFactory.Revoke();
+        private void StartComServer() {
+            _server.Start();
         }
 
         private static bool TryCallingLiveProcess() {
@@ -200,8 +208,20 @@ namespace Crystalbyte.Paranoia {
                         throw new TimeoutException("Timeout waiting for exclusive access.");
 
                     try {
-                        var type = Type.GetTypeFromProgID(ApplicationClassFactory.ProgId);
-                        var application = (IApplication) Activator.CreateInstance(type);
+                        var name = Process.GetCurrentProcess().ProcessName;
+                        var processes = Process.GetProcessesByName(name);
+                        if (processes.Length == 1) {
+                            // We are the sole process, we therefor won't relay to another.
+                            return false;
+                        }
+
+                        var arguments = Environment.GetCommandLineArgs();
+                        if (arguments.Length < 2) {
+                            return true;
+                        }
+                        var type = Type.GetTypeFromProgID(Automation.Application.ProgId);
+                        var application = (IApplication)Activator.CreateInstance(type);
+                        application.OpenFile(arguments[1]);
 
                         success = true;
                     } catch (Exception ex) {
@@ -224,13 +244,23 @@ namespace Crystalbyte.Paranoia {
         }
 
         protected override void OnExit(ExitEventArgs e) {
-            // Make sure we shutdown the core last.
-            if (WebCore.IsInitialized)
-                WebCore.Shutdown();
-            
-            RevokeComClassFactory();
-
             base.OnExit(e);
+
+            try {
+                StopComServer();
+
+                // Make sure we shutdown the core last.
+                if (WebCore.IsInitialized)
+                    WebCore.Shutdown();
+            }
+            catch (Exception ex) {
+                
+                Logger.Error(ex);
+            }
+        }
+
+        private void StopComServer() {
+            _server.Stop();
         }
 
         private static void InitAwesomium() {

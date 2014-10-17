@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(solution)", "(solution)", "{8690125E-AC10-4513-9A4F-75CD92CC29F0}"
 	ProjectSection(SolutionItems) = preProject
 		Crystalbyte.Paranoia.vsmdi = Crystalbyte.Paranoia.vsmdi
+		key.debug.snk = key.debug.snk
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(tests)", "(tests)", "{8DEACA7E-BA38-4B1E-A2A7-D5A0A3E0577F}"
@@ -25,8 +26,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(installation)", "(installation)", "{70768105-44E2-48E2-8AED-C3B69EAEFACB}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Crystalbyte.Paranoia.Setup", "Crystalbyte.Paranoia.Setup\Crystalbyte.Paranoia.Setup.wixproj", "{4CC7E095-0336-4415-BD8C-E29DFA4369ED}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Automation", "Crystalbyte.Paranoia.Automation\Crystalbyte.Paranoia.Automation.csproj", "{1081BA38-A5AE-4BA3-8222-6283AB225CAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -222,31 +221,6 @@ Global
 		{4CC7E095-0336-4415-BD8C-E29DFA4369ED}.Trial|Mixed Platforms.Build.0 = Release|x86
 		{4CC7E095-0336-4415-BD8C-E29DFA4369ED}.Trial|x86.ActiveCfg = Release|x86
 		{4CC7E095-0336-4415-BD8C-E29DFA4369ED}.Trial|x86.Build.0 = Release|x86
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.MailSystem Dev|Any CPU.ActiveCfg = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.MailSystem Dev|Any CPU.Build.0 = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.MailSystem Dev|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.MailSystem Dev|Mixed Platforms.Build.0 = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.MailSystem Dev|x86.ActiveCfg = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Release|x86.ActiveCfg = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Retail|Any CPU.ActiveCfg = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Retail|Any CPU.Build.0 = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Retail|x86.ActiveCfg = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Trial|Any CPU.ActiveCfg = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Trial|Any CPU.Build.0 = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Trial|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Trial|Mixed Platforms.Build.0 = Release|Any CPU
-		{1081BA38-A5AE-4BA3-8222-6283AB225CAC}.Trial|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

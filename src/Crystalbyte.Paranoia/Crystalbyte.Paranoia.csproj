@@ -43,7 +43,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -57,6 +57,12 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\key.debug.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Awesomium.Core, Version=1.7.4.2, Culture=neutral, PublicKeyToken=e1a0d7c8071a5214, processorArchitecture=x86">
@@ -87,10 +93,6 @@
       <HintPath>..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions" />
-    <Reference Include="NAudio, Version=1.7.1.17, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NAudio.1.7.1\lib\net35\NAudio.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -98,12 +100,6 @@
     <Reference Include="NLog, Version=3.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NLog.3.1.0.0\lib\net45\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="NVorbis">
-      <HintPath>..\packages\NVorbis.0.8.3.0\lib\NVorbis.dll</HintPath>
-    </Reference>
-    <Reference Include="NVorbis.NAudioSupport">
-      <HintPath>..\packages\NVorbis.NAudioSupport.0.5.6\lib\NVorbis.NAudioSupport.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -176,7 +172,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationExtensions.cs" />
-    <Compile Include="AudioPlayer.cs" />
+    <Compile Include="Automation\Application.cs" />
+    <Compile Include="Automation\ApplicationClassFactory.cs" />
+    <Compile Include="Automation\ComObject.cs" />
+    <Compile Include="Automation\ComServer.cs" />
+    <Compile Include="Automation\IApplication.cs" />
+    <Compile Include="Automation\IClassFactory.cs" />
+    <Compile Include="Automation\IComServer.cs" />
     <Compile Include="CompositionWindow.xaml.cs">
       <DependentUpon>CompositionWindow.xaml</DependentUpon>
     </Compile>
@@ -546,6 +548,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Resource Include="Assets\c2_please-answer.ogg" />
+    <None Include="..\key.debug.snk">
+      <Link>key.debug.snk</Link>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -576,10 +581,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Crystalbyte.Paranoia.Automation\Crystalbyte.Paranoia.Automation.csproj">
-      <Project>{1081ba38-a5ae-4ba3-8222-6283ab225cac}</Project>
-      <Name>Crystalbyte.Paranoia.Automation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Crystalbyte.Paranoia.Cryptography\Crystalbyte.Paranoia.Cryptography.csproj">
       <Project>{fc115aed-c02e-45a6-80eb-711a1ccf14e3}</Project>
       <Name>Crystalbyte.Paranoia.Cryptography</Name>
@@ -612,9 +613,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Automation\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Assets\close.png" />
     <Resource Include="Assets\help.png" />
@@ -1063,7 +1062,7 @@
 xcopy /s /y "$(ProjectDir)Resources\ckeditor\*" "$(TargetDir)Resources\ckeditor\"
 xcopy /s /y "$(ProjectDir)Resources\ckeditor.paranoia\*" "$(TargetDir)Resources\ckeditor.paranoia\"
 
-REM regasm.exe "$(TargetPath)" /codebase /tlb</PostBuildEvent>
+REM regasm.exe "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

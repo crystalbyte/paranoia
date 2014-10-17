@@ -1,4 +1,5 @@
-﻿using Awesomium.Core;
+﻿using System.Reflection;
+using Awesomium.Core;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using System;
@@ -50,7 +51,9 @@ namespace Crystalbyte.Paranoia {
             //TODO add more resources if needed
             if (!request.Url.AbsolutePath.EndsWith(".js") && !request.Url.AbsolutePath.EndsWith(".css") &&
                 !request.Url.AbsolutePath.EndsWith(".png")) return null;
-            var file = Environment.CurrentDirectory + request.Url.AbsolutePath.Replace("/message", string.Empty);
+
+            var basePath = new FileInfo(Assembly.GetEntryAssembly().Location).DirectoryName;
+            var file = basePath + request.Url.AbsolutePath.Replace("/message", string.Empty);
             if (File.Exists(file))
                 return ResourceResponse.Create(file);
             throw new Exception("resource could not be resolved");
