@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using NLog;
+using System.Windows.Media;
 
 namespace Crystalbyte.Paranoia.UI.Pages {
     /// <summary>
@@ -275,13 +276,63 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
             var ownerPoint = owner.PointToScreen(new Point(0, 0));
 
-            var left = ownerPoint.X + (owner.Width / 2) - (window.Width / 2);
-            var top = ownerPoint.Y + (owner.Height / 2) - (window.Height / 2);
+            var sourceOwner = PresentationSource.FromVisual(owner);
+            var ownerSize = (Size)sourceOwner.CompositionTarget.TransformToDevice.Transform((Vector)owner.DesiredSize);
+
+            var source = PresentationSource.FromVisual(window);
+            Size size;
+            if (source != null)
+                size = (Size)source.CompositionTarget.TransformToDevice.Transform((Vector)owner.DesiredSize);
+            else {
+                using (var graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero)) {
+                    var pixelWidth = window.Width * graphics.DpiX / 96.0;
+                    var pixelHeight = window.Height * graphics.DpiY / 96.0;
+                    size = new Size(pixelWidth, pixelHeight);
+                }
+            }
+
+
+            var left = ownerPoint.X + (ownerSize.Width / 2) - (size.Width / 2);
+            var top = ownerPoint.Y + (ownerSize.Height / 2) - (size.Height / 2);
+
             window.Left = left < ownerPoint.X ? ownerPoint.X : left;
             window.Top = top < ownerPoint.Y ? ownerPoint.Y : top;
+
             owner.Closed += (sender, e) => window.Close();
 
             return window;
+
+
+            //using (var graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero)) {
+            //    var pixelWidthOwner = owner.Width * graphics.DpiX / 96.0;
+            //    var pixelHeightOwner = owner.Height * graphics.DpiY / 96.0;
+
+            //    var pixelWidth = window.Width * graphics.DpiX / 96.0;
+            //    var pixelHeight = window.Height * graphics.DpiY / 96.0;
+
+            //    var left = ownerPoint.X + (pixelWidthOwner / 2) - (pixelWidth / 2);
+            //    var top = ownerPoint.Y + (pixelHeightOwner / 2) - (pixelHeight / 2);
+
+            //    window.Left = left < ownerPoint.X ? ownerPoint.X : left;
+            //    window.Top = top < ownerPoint.Y ? ownerPoint.Y : top;
+            //}
+
+            //using (var graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero)) {
+            //    var pixelWidth = (int)(owner.DesiredSize.Width * graphics.DpiX / 96.0);
+            //    var pixelHeight = (int)(owner.DesiredSize.Height * graphics.DpiY / 96.0);
+
+            //    var pixelWidtha = (int)(owner.Width * graphics.DpiX / 96.0);
+            //    var pixelHeightb = (int)(owner.Height * graphics.DpiY / 96.0);
+            //}
+
+            //var left = ownerPoint.X + (owner.Width / 2) - (window.Width / 2);
+            //var top = ownerPoint.Y + (owner.Height / 2) - (window.Height / 2);
+            //window.Left = left < ownerPoint.X ? ownerPoint.X : left;
+            //window.Top = top < ownerPoint.Y ? ownerPoint.Y : top;
+            //owner.Closed += (sender, e) => window.Close();
+
+            //return window;
         }
+
     }
 }
