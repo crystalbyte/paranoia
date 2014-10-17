@@ -45,12 +45,22 @@
         <!-- MSDN Guidelines for File Associations and Default Programs
              http://msdn.microsoft.com/en-us/library/windows/desktop/ee872123(v=vs.85).aspx -->
 
+        <!-- Register the application with the version independent program id "Crystalbyte.Paranoia". -->
+        <RegistryValue Root="HKCR" Key="$(var.VerIndAppProgId)" Type="string" Value="$(var.ProductTitle)" KeyPath="yes" />
+        <RegistryValue Root="HKCR" Key="$(var.VerIndAppProgId)\CLSID" Type="string" Value="$(var.AppClassId)" />
+        <RegistryValue Root="HKCR" Key="$(var.VerIndAppProgId)\CurVer" Type="string" Value="$(var.AppProgId)" />
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKCR" Key="$(var.VerIndAppProgId)" />
+
         <!-- Register the application with the versioned program id "Crystalbyte.Paranoia.1". -->
-        <RegistryValue Root="HKCR" Key="$(var.VersionedProgId)" Type="string" Value="$(var.ProductTitle)" KeyPath="yes" />
-        <RegistryValue Root="HKCR" Key="$(var.VersionedProgId)\FriendlyTypeName" Type="string" Value="@[APPLICATIONFOLDER]$(var.Crystalbyte.Paranoia.TargetFileName),-$(var.AppNameResourceId)" />
-        <RegistryValue Root="HKCR" Key="$(var.VersionedProgId)\CurVer" Type="string" Value="$(var.VersionedProgId)" />
-        <RegistryValue Root="HKCR" Key="$(var.VersionedProgId)\DefaultIcon" Type="string" Value="@$(var.Crystalbyte.Paranoia.TargetName)" />
-        <RegistryValue Root="HKCR" Key="$(var.VersionedProgId)\shell\open\command" Type="string" Value='"[APPLICATIONFOLDER]$(var.Crystalbyte.Paranoia.TargetFileName)" "%1"' />
+        <RegistryValue Root="HKCR" Key="$(var.AppProgId)" Type="string" Value="$(var.ProductTitle)" KeyPath="yes" />
+        <RegistryValue Root="HKCR" Key="$(var.AppProgId)\CLSID" Type="string" Value="$(var.AppClassId)" />
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKCR" Key="$(var.AppProgId)" />
+
+        <RegistryValue Root="HKCR" Key="$(var.AppProgId)\CLSID\{$(var.AppClassId)}" Type="string" Value="$(var.ProductTitle)" KeyPath="yes" />
+        <!-- here i stopped -->
+        <RegistryValue Root="HKCR" Key="$(var.AppProgId)\FriendlyTypeName" Type="string" Value="[APPLICATIONFOLDER]$(var.Crystalbyte.Paranoia.TargetFileName),-$(var.AppNameResourceId)" />
+        <RegistryValue Root="HKCR" Key="$(var.AppProgId)\DefaultIcon" Type="string" Value="$(var.Crystalbyte.Paranoia.TargetName)" />
+        <RegistryValue Root="HKCR" Key="$(var.AppProgId)\shell\open\command" Type="string" Value='"[APPLICATIONFOLDER]$(var.Crystalbyte.Paranoia.TargetFileName)" "%1"' />
         <RemoveRegistryKey Action="removeOnUninstall" Root="HKCR" Key="$(var.VersionedProgId)" />
 
         <!-- Register the ".eml" file type. The key itself must not be removed on uninstall since other programs may continue using it. 

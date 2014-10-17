@@ -30,10 +30,10 @@
   
   <!-- Always use versioned identifiers 
        http://msdn.microsoft.com/en-us/library/windows/desktop/cc144152(v=vs.85).aspx#versioned_progids -->
-  <?define VersionedProgId=$(var.Manufacturer).$(var.ProductName).$(var.MajorVersion)?>
-  <?define ProgId=$(var.Manufacturer).$(var.ProductName)?>
+
+  <!-- Keys for ProgId Paranoia.Application -->
+  <?define VerIndAppProgId=$(var.ProductName).Application?>
+  <?define AppProgId=$(var.VerIndAppProgId).$(var.MajorVersion)?>
+  <?define AppClassId=AA1CC4EE-2EB6-4521-940B-5B4C56C46CB0?>
   
-  <!-- Application COM Server-->
-  <?define ApplicationProgId=Paranoia.Application?>
-  <?define ApplicationClassId=AA1CC4EE-2EB6-4521-940B-5B4C56C46CB0?>
 </Include>
