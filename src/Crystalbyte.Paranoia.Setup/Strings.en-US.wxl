@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+	<String Id="EmlExtensionDescription">E-Mail Message</String>
+	<String Id="ApplicationDescription">Paranoia is a secure e-mail agent.</String>
+	<String Id="MailtoProtocolDescription">Mailto Protocol</String>
+</WixLocalization>

@@ -53,6 +53,9 @@
       <Name>WixUtilExtension</Name>
     </WixExtension>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Strings.en-US.wxl" />
+  </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--
 	  To modify your build process, add your task inside one of the targets below and uncomment it.

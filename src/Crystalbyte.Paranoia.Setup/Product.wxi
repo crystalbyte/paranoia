@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
   <!-- Package Information-->
-  <?define ProductName="Paranoia" ?>
+  <?define ProductName="$(var.Crystalbyte.Paranoia.TargetName)" ?>
+  <?define ProductExecutable="$(var.Crystalbyte.Paranoia.TargetFileName)" ?>
   <?define Manufacturer="Crystalbyte" ?>
   <?define FriendlyName="$(var.ProductName)" ?>
-  <?define ProductTitle="$(var.Manufacturer) $(var.ProductName)" ?>
+  <?define ProductTitle="$(var.ProductName)" ?>
   <?define UpgradeCode="1B51CCBB-19F6-4ADF-96C8-D67DE76BE0E3" ?>
   <?define ProductCode="06D396DF-6C09-408E-BB27-C8F03E5CFB2C" ?>
   
@@ -14,14 +15,7 @@
   <?define Revision="0"?>
   <?define Build="0"?>
   <?define ProductVersion="$(var.MajorVersion).$(var.MinorVersion).$(var.Revision).$(var.Build)" ?>
-  
-  <!-- Application InstallPath Memory -->
-  <?define HklmCompanyRegKey=SOFTWARE\$(var.Manufacturer)?>
-  <?define HklmInstallPathRegKey=$(var.HklmCompanyRegKey)\$(var.ProductName)?>
 
-  <!-- Default Mail Client Registration -->
-  <?define HklmClientMailRegKey=SOFTWARE\Clients\Mail?>
-  
   <!-- The id "ShellName" is the name of the string resource (Resources.resx) inside the "Crystalbyte.Paranoia" project. -->
   <?define AppNameResourceId=ShellName?>
   
@@ -30,10 +24,19 @@
   
   <!-- Always use versioned identifiers 
        http://msdn.microsoft.com/en-us/library/windows/desktop/cc144152(v=vs.85).aspx#versioned_progids -->
-
-  <!-- Keys for ProgId Paranoia.Application -->
-  <?define VerIndAppProgId=$(var.ProductName).Application?>
-  <?define AppProgId=$(var.VerIndAppProgId).$(var.MajorVersion)?>
-  <?define AppClassId=AA1CC4EE-2EB6-4521-940B-5B4C56C46CB0?>
+  
+  <!-- Keys for the application registry -->
+  <?define ProgId=$(var.Manufacturer).$(var.ProductName).$(var.MajorVersion)?>
+  <?define EmlProgId=$(var.ProductName).File.$(var.EmlExtension).$(var.MajorVersion).$(var.MinorVersion)?>
+  <?define MailtoProgId=$(var.ProductName).Url.mailto.$(var.MajorVersion).$(var.MinorVersion)?>
+  
+  <!-- Keys for the COM Server. -->
+  <!-- Paranoia.Application-->
+  <?define CoAppVerIndProgId=$(var.ProductName).Application?>
+  
+  <!-- Paranoia.Application.1 -->
+  <?define CoAppProgId=$(var.CoAppVerIndProgId).$(var.MajorVersion)?>
+  <?define CoAppClassId=AA1CC4EE-2EB6-4521-940B-5B4C56C46CB0?>
+  <?define CoAppClassName=Crystalbyte.Paranoia.Automation.Application?>
   
 </Include>

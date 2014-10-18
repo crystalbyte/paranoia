@@ -18,71 +18,102 @@
     <!-- RemoveFolderEx requires that we "remember" the path for uninstall.
          Read the path value and set the APPLICATIONFOLDER_PROPERTY property with the value. -->
     <Property Id="APPLICATIONFOLDER_PROPERTY" Secure="yes">
-      <RegistrySearch Key="$(var.HklmInstallPathRegKey)" Root="HKLM" Type="raw" Id="APPLICATIONFOLDER_REGSEARCH" Name="Path" />
+      <RegistrySearch Key="SOFTWARE\$(var.Manufacturer)\$(var.ProductName)" Root="HKLM" Type="raw" Id="APPLICATIONFOLDER_REGSEARCH" Name="InstallDir" />
     </Property>
 
     <Feature Id="ProductFeature" Title="$(var.ProductTitle)" Level="1">
       <ComponentGroupRef Id="PrimaryOutputComponent" />
-      <ComponentRef Id="ProgramRegistrationComponent"/>
-      <ComponentRef Id="ComServerRegistrationComponent"/>
-      <ComponentRef Id="CleanupComponent" />
+      <ComponentRef Id="ProgramRegistry"/>
+      <ComponentRef Id="CoAppServerRegistry"/>
     </Feature>
 
     <DirectoryRef Id="APPLICATIONFOLDER">
-      <!-- Setting up file clean up on uninstall. -->
-      <Component Id="CleanupComponent" Guid="A1B39562-A269-452B-96F5-B1D25AB65CC6" Win64="no">
-        <!-- Save the installation path to the registry. -->
-        <RegistryValue Root="HKLM" Key="$(var.HklmInstallPathRegKey)" Name="Path" Type="string" Value="[APPLICATIONFOLDER]" KeyPath="yes" />
 
-        <!-- Remove the installation key on uninstall. -->
-        <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="$(var.HklmCompanyRegKey)" />
+      <Component Id="ProgramRegistry" Guid="47F3FB9E-CBB6-4999-BB06-BC616B73CEDB" Win64="no">
+        
+        <!-- Predefined Keys, read  
+             http://msdn.microsoft.com/en-us/library/windows/desktop/ms724475(v=vs.85).aspx -->
+        <!-- MSDN Application Registration.
+             http://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx -->
 
-        <!-- Delete the application folder on uninstall. -->
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\$(var.ProductExecutable)" Type="string" Value="[APPLICATIONFOLDER]$(var.ProductExecutable)" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\$(var.ProductExecutable)" Name="Path" Type="string" Value="[APPLICATIONFOLDER]" />
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\$(var.ProductExecutable)" />
+
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Applications\$(var.ProductExecutable)" Type="string" Value="" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Applications\$(var.ProductExecutable)\DefaultIcon" Type="string" Value="[APPLICATIONFOLDER]$(var.ProductExecutable),1" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Applications\$(var.ProductExecutable)\FriendlyAppName" Type="string" Value="[APPLICATIONFOLDER]$(var.ProductExecutable),-$(var.AppNameResourceId)" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Applications\$(var.ProductExecutable)\SupportedTypes\.$(var.EmlExtension)" Type="string" Value="" />
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKCR" Key="SOFTWARE\Classes\Applications\$(var.ProductExecutable)" />
+        
+        <RegistryValue Root="HKLM" Key="SOFTWARE\$(var.Manufacturer)\$(var.ProductName)" Type="string" Value="$(var.ProductTitle)" KeyPath="yes" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\$(var.Manufacturer)\$(var.ProductName)" Name="InstallDir" Type="string" Value="[APPLICATIONFOLDER]" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\$(var.Manufacturer)\$(var.ProductName)\Capabilities\ApplicationDescription" Type="string" Value="!(loc.ApplicationDescription)" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\$(var.Manufacturer)\$(var.ProductName)\Capabilities\ApplicationName" Type="string" Value="$(var.ProductTitle)" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\$(var.Manufacturer)\$(var.ProductName)\Capabilities\FileAssociations\.$(var.EmlExtension)" Type="string" Value="!(loc.EmlExtensionDescription)" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\$(var.Manufacturer)\$(var.ProductName)\Capabilities\UrlAssociations\mailto" Type="string" Value="$(var.MailtoProgId)" />
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="SOFTWARE\$(var.Manufacturer)\$(var.ProductName)" />
+
+        <!-- Advertise as a Mail Client. -->
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Clients\Mail\$(var.ProductName)" Type="string" Value="$(var.ProductTitle)" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Clients\Mail\$(var.ProductName)\DefaultIcon" Type="string" Value="[APPLICATIONFOLDER]$(var.ProductExecutable),1" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Clients\Mail\$(var.ProductName)\protocols\mailto" Type="string" Value="URL:MailTo Protocol" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Clients\Mail\$(var.ProductName)\protocols\mailto\EditFlags" Type="binary" Value="02000000" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Clients\Mail\$(var.ProductName)\protocols\mailto\URL Protocol" Type="string" Value="" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Clients\Mail\$(var.ProductName)\protocols\mailto\DefaultIcon" Type="string" Value="[APPLICATIONFOLDER]$(var.ProductExecutable),1" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Clients\Mail\$(var.ProductName)\protocols\shell\open\command" Type="string" Value='"[APPLICATIONFOLDER]$(var.ProductExecutable)" /mailto "%1"' />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Clients\Mail\$(var.ProductName)\shell\open\command" Type="string" Value='"[APPLICATIONFOLDER]$(var.ProductExecutable)"' />
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="SOFTWARE\Clients\Mail\$(var.ProductName)" />
+        
+        <RegistryValue Root="HKLM" Key="SOFTWARE\RegisteredApplications\$(var.ProgId)" Type="string" Value="!(loc.EmlExtensionDescription)" />
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="SOFTWARE\RegisteredApplications\$(var.ProgId)" />
+        
+        <!-- Remove files on uninstall.-->
         <util:RemoveFolderEx On="uninstall" Property="APPLICATIONFOLDER_PROPERTY" />
+
+        <!-- MSDN Registering Verbs for File Name Extensions.
+             http://msdn.microsoft.com/en-us/library/bb165967.aspx -->
+
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\.$(var.EmlExtension)" Type="string" Value="$(var.EmlProgId)" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\.$(var.EmlExtension)\PerceivedType" Type="string" Value="Document" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\.$(var.EmlExtension)\Content Type" Type="string" Value="message/rfc822" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\.$(var.EmlExtension)\$(var.EmlProgId)\shellnew" Type="string" Value="" />
+
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\.$(var.EmlExtension)\OpenWithProgIds" Name="$(var.EmlProgId)" Type="string" Value="" />
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="SOFTWARE\Classes\.$(var.EmlExtension)\OpenWithProgIds" />
+
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\$(var.MailtoProgId)" Type="string" Value="!(loc.MailtoProtocolDescription)" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\$(var.MailtoProgId)\DefaultIcon" Type="string" Value="[APPLICATIONFOLDER]$(var.ProductExecutable),1" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\$(var.MailtoProgId)\shell\open\command" Type="string" Value='"[APPLICATIONFOLDER]$(var.ProductExecutable)" /mailto "%1"' />
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="SOFTWARE\Classes\$(var.MailtoProgId)" />
+
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\$(var.EmlProgId)" Type="string" Value="!(loc.EmlExtensionDescription)" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\$(var.EmlProgId)\DefaultIcon" Type="string" Value="[APPLICATIONFOLDER]$(var.ProductExecutable),1" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\$(var.EmlProgId)\shell\open\command" Type="string" Value='"[APPLICATIONFOLDER]$(var.ProductExecutable)" "%1"' />
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="SOFTWARE\Classes\$(var.EmlProgId)" />
       </Component>
 
-      <Component Id="ProgramRegistrationComponent" Guid="47F3FB9E-CBB6-4999-BB06-BC616B73CEDB" Win64="no">
-        <!-- MSDN Guidelines for File Associations and Default Programs
-             http://msdn.microsoft.com/en-us/library/windows/desktop/ee872123(v=vs.85).aspx -->
-
-        <!-- Register the application with the version independent program id "Crystalbyte.Paranoia". -->
-        <RegistryValue Root="HKCR" Key="$(var.VerIndAppProgId)" Type="string" Value="$(var.ProductTitle)" KeyPath="yes" />
-        <RegistryValue Root="HKCR" Key="$(var.VerIndAppProgId)\CLSID" Type="string" Value="$(var.AppClassId)" />
-        <RegistryValue Root="HKCR" Key="$(var.VerIndAppProgId)\CurVer" Type="string" Value="$(var.AppProgId)" />
-        <RemoveRegistryKey Action="removeOnUninstall" Root="HKCR" Key="$(var.VerIndAppProgId)" />
-
-        <!-- Register the application with the versioned program id "Crystalbyte.Paranoia.1". -->
-        <RegistryValue Root="HKCR" Key="$(var.AppProgId)" Type="string" Value="$(var.ProductTitle)" KeyPath="yes" />
-        <RegistryValue Root="HKCR" Key="$(var.AppProgId)\CLSID" Type="string" Value="$(var.AppClassId)" />
-        <RemoveRegistryKey Action="removeOnUninstall" Root="HKCR" Key="$(var.AppProgId)" />
-
-        <RegistryValue Root="HKCR" Key="$(var.AppProgId)\CLSID\{$(var.AppClassId)}" Type="string" Value="$(var.ProductTitle)" KeyPath="yes" />
-        <!-- here i stopped -->
-        <RegistryValue Root="HKCR" Key="$(var.AppProgId)\FriendlyTypeName" Type="string" Value="[APPLICATIONFOLDER]$(var.Crystalbyte.Paranoia.TargetFileName),-$(var.AppNameResourceId)" />
-        <RegistryValue Root="HKCR" Key="$(var.AppProgId)\DefaultIcon" Type="string" Value="$(var.Crystalbyte.Paranoia.TargetName)" />
-        <RegistryValue Root="HKCR" Key="$(var.AppProgId)\shell\open\command" Type="string" Value='"[APPLICATIONFOLDER]$(var.Crystalbyte.Paranoia.TargetFileName)" "%1"' />
-        <RemoveRegistryKey Action="removeOnUninstall" Root="HKCR" Key="$(var.VersionedProgId)" />
-
-        <!-- Register the ".eml" file type. The key itself must not be removed on uninstall since other programs may continue using it. 
-             TODO: Ideally we need to save the old value for the key and restore it upon removal. -->
-        <RegistryValue Root="HKCR" Key=".$(var.EmlExtension)" Type="string" Value="$(var.VersionedProgId)" />
-        <RegistryValue Root="HKCR" Key=".$(var.EmlExtension)" Name="PerceivedType" Type="string" Value="Document" />
-        <RegistryValue Root="HKCR" Key=".$(var.EmlExtension)" Name="Content Type" Type="string" Value="message/rfc822" />
-
-        <!-- TODO: Call SHChangeNotify to notify the shell to register the new file type using a custom action.-->
-      </Component>
-
-      <Component Id="ComServerRegistrationComponent">
+      <Component Id="CoAppServerRegistry" Win64="no">
         <!-- MSDN Register COM Application object.
              http://msdn.microsoft.com/en-us/library/windows/desktop/ee872123(v=vs.85).aspx -->
 
-        <RegistryValue Root="HKCR" Key="$(var.ApplicationProgId)" Type="string" Value="$(var.ApplicationProgId)" KeyPath="yes" />
-        <RegistryValue Root="HKCR" Key="$(var.ApplicationProgId)\CLSID" Type="string" Value="$(var.ApplicationClassId)" />
-        <RegistryValue Root="HKCR" Key="$(var.ApplicationProgId)\{$(var.ApplicationClassId)}" Type="string" Value="$(var.ApplicationProgId)" />
-        <RegistryValue Root="HKCR" Key="$(var.ApplicationProgId)\{$(var.ApplicationClassId)}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Type="string" Value="" />
-        <RegistryValue Root="HKCR" Key="$(var.ApplicationProgId)\{$(var.ApplicationClassId)}\LocalServer32" Type="string" Value="@[APPLICATIONFOLDER]$(var.Crystalbyte.Paranoia.TargetFileName)" />
-        <RegistryValue Root="HKCR" Key="$(var.ApplicationProgId)\{$(var.ApplicationClassId)}\ProgId" Type="string" Value="$(var.ApplicationProgId)" />
-        <RemoveRegistryKey Action="removeOnUninstall" Root="HKCR" Key="$(var.ApplicationProgId)" />
+        <!-- Register version-independent ProgId.-->
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\$(var.CoAppVerIndProgId)" Type="string" Value="$(var.CoAppClassName)" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\$(var.CoAppVerIndProgId)\CLSID" Type="string" Value="$(var.CoAppClassId)" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\$(var.CoAppVerIndProgId)\CurVer" Type="string" Value="$(var.CoAppProgId)" />
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="SOFTWARE\Classes\$(var.CoAppVerIndProgId)" />
+
+        <!-- Register versioned ProgId.-->
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\$(var.CoAppProgId)" Type="string" Value="$(var.CoAppClassName)" KeyPath="yes" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\$(var.CoAppProgId)\CLSID" Type="string" Value="$(var.CoAppClassId)" />
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="SOFTWARE\Classes\$(var.CoAppProgId)" />
+
+        <!-- Register COM server.-->
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\CLSID\{$(var.CoAppClassId)}" Type="string" Value="$(var.CoAppClassName)" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\CLSID\{$(var.CoAppClassId)}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Type="string" Value="" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\CLSID\{$(var.CoAppClassId)}\LocalServer32" Type="string" Value="[APPLICATIONFOLDER]$(var.Crystalbyte.Paranoia.TargetFileName)" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\CLSID\{$(var.CoAppClassId)}\ProgId" Type="string" Value="$(var.CoAppProgId)" />
+        <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="SOFTWARE\Classes\CLSID\{$(var.CoAppClassId)}" />
       </Component>
     </DirectoryRef>
   </Product>

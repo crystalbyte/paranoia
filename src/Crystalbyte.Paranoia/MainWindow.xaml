@@ -12,7 +12,6 @@
                 Background="{DynamicResource Metro.Window.BackgroundBrush}"
                 BorderThickness="0"
                 Foreground="{DynamicResource Metro.Control.TextBrush}"
-                Icon="Resources/logo.ico"
                 KeyboardNavigation.TabNavigation="Local"
                 UseLayoutRounding="True"
                 WindowStartupLocation="CenterScreen"
