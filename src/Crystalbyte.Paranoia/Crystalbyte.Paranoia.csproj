@@ -188,8 +188,8 @@
     <Compile Include="Contexts\AttachmentContext.cs" />
     <Compile Include="Contexts\CreateMailboxContext.cs" />
     <Compile Include="IMailboxCreator.cs" />
-    <Compile Include="InspectMessageWindow.xaml.cs">
-      <DependentUpon>InspectMessageWindow.xaml</DependentUpon>
+    <Compile Include="InspectionWindow.xaml.cs">
+      <DependentUpon>InspectionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MailboxRoles.cs" />
     <Compile Include="MediaTypes.cs" />
@@ -302,7 +302,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="InspectMessageWindow.xaml">
+    <Page Include="InspectionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
