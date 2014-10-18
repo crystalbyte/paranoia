@@ -46,7 +46,8 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             }
 
             var owner = Application.Current.MainWindow;
-            var window = CreateComposeChildWindow(owner);
+            var window = new CompositionWindow();
+            window.MimicOwnership(Application.Current.MainWindow);
 
             var uri = string.Format("?action=resume&id={0}", message.Id);
             window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
@@ -65,7 +66,8 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             }
 
             var owner = Application.Current.MainWindow;
-            var window = CreateComposeChildWindow(owner);
+            var window = new CompositionWindow();
+            window.MimicOwnership(Application.Current.MainWindow);
 
             var uri = string.Format("?action=forward&id={0}", message.Id);
             window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
@@ -84,7 +86,8 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             }
 
             var owner = Application.Current.MainWindow;
-            var window = CreateComposeChildWindow(owner);
+            var window = new CompositionWindow();
+            window.MimicOwnership(Application.Current.MainWindow);
 
             var uri = string.Format("?action=reply&id={0}", message.Id);
             window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
@@ -103,7 +106,8 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             }
 
             var owner = Application.Current.MainWindow;
-            var window = CreateComposeChildWindow(owner);
+            var window = new CompositionWindow();
+            window.MimicOwnership(owner);
 
             var uri = string.Format("?action=reply-all&id={0}", message.Id);
             window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
@@ -117,7 +121,8 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
         private static void OnCompose(object sender, ExecutedRoutedEventArgs e) {
             var owner = Application.Current.MainWindow;
-            var window = CreateComposeChildWindow(owner);
+            var window = new CompositionWindow();
+            window.MimicOwnership(Application.Current.MainWindow);
             window.Source = typeof(ComposeMessagePage).ToPageUri("?action=new");
 
             if (owner.WindowState == WindowState.Maximized) {
@@ -127,22 +132,6 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             window.Show();
         }
 
-        private static CompositionWindow CreateComposeChildWindow(Window owner) {
-            var window = new CompositionWindow {
-                Height = owner.Height > 500 ? owner.Height * 0.9 : 500,
-                Width = owner.Width > 800 ? owner.Width * 0.9 : 800,
-            };
-
-            var ownerPoint = owner.PointToScreen(new Point(0, 0));
-
-            var left = ownerPoint.X + (owner.Width / 2) - (window.Width / 2);
-            var top = ownerPoint.Y + (owner.Height / 2) - (window.Height / 2);
-            window.Left = left < ownerPoint.X ? ownerPoint.X : left;
-            window.Top = top < ownerPoint.Y ? ownerPoint.Y : top;
-            owner.Closed += (sender, e) => window.Close();
-
-            return window;
-        }
 
         private void OnPrint(object sender, ExecutedRoutedEventArgs e) {
             var html = MessageViewer.GetDocument();
@@ -266,10 +255,10 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             inspector.Show();
         }
 
-        private static InspectMessageWindow CreateInspectorChildWindow(Window owner) {
+        private static InspectionWindow CreateInspectorChildWindow(Window owner) {
             var message = App.Context.SelectedMessage;
 
-            var window = new InspectMessageWindow(message) {
+            var window = new InspectionWindow(message) {
                 Height = owner.Height > 500 ? owner.Height * 0.9 : 500,
                 Width = owner.Width > 800 ? owner.Width * 0.9 : 800,
             };

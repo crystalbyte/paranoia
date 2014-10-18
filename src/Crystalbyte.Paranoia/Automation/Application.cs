@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using dotless.Core.Parser.Tree;
 
 namespace Crystalbyte.Paranoia.Automation {
 
@@ -29,7 +31,7 @@ namespace Crystalbyte.Paranoia.Automation {
             // COM demands parameterless constructor.    
         }
 
-        public Application(IComServer server) 
+        public Application(IComServer server)
             : base(server) { }
 
         #endregion
@@ -37,8 +39,8 @@ namespace Crystalbyte.Paranoia.Automation {
         #region Implementation of IApplication
 
         public void OpenFile(string path) {
-            var message = string.Format("Path: {0}, Pid: {1}", path, Process.GetCurrentProcess().Id);
-            MessageBox.Show(message);
+            System.Windows.Application.Current.Dispatcher.Invoke(
+                () => App.Context.InspectMessage(new FileInfo(path)));
         }
 
         #endregion

@@ -992,6 +992,11 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => Messages);
         }
 
+        internal void InspectMessage(FileInfo file) {
+            var inspector = new InspectionWindow(file);
+            inspector.Show();
+        }
+
         internal void ShowMessage(MailMessageContext message) {
             if (!message.Mailbox.IsSelected) {
                 message.Mailbox.IsSelected = true;

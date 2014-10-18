@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,19 +17,19 @@ namespace Crystalbyte.Paranoia {
     /// <summary>
     /// Interaktionslogik für InspectMessageWindow.xaml
     /// </summary>
-    public partial class InspectMessageWindow {
-        public InspectMessageWindow() {
+    public partial class InspectionWindow {
+        public InspectionWindow() {
             InitializeComponent();
         }
 
-        public InspectMessageWindow(string file)
+        public InspectionWindow(FileSystemInfo file)
             : this() {
+            blub.Source = string.Format("asset://paranoia/file?path={0}", Uri.EscapeDataString(file.FullName));
         }
 
-        public InspectMessageWindow(MailMessageContext message)
+        public InspectionWindow(MailMessageContext message)
             : this() {
-                var source = App.Context.Source;
-                blub.Source = source; 
+            blub.Source = string.Format("asset://paranoia/message/{0}", message.Id);
         }
     }
 }

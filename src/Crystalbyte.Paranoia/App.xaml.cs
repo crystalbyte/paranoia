@@ -252,12 +252,11 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-
             var info = new FileInfo(arguments[1]);
             if (info.Exists) {
                 var type = Type.GetTypeFromProgID(Automation.Application.ProgId);
                 dynamic application = Activator.CreateInstance(type);
-                application.OpenFile(arguments[1]);    
+                application.OpenFile(arguments[1]);
             }
         }
 
