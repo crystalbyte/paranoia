@@ -15,9 +15,6 @@
   <?define Revision="0"?>
   <?define Build="0"?>
   <?define ProductVersion="$(var.MajorVersion).$(var.MinorVersion).$(var.Revision).$(var.Build)" ?>
-
-  <!-- The id "ShellName" is the name of the string resource (Resources.resx) inside the "Crystalbyte.Paranoia" project. -->
-  <?define AppNameResourceId=ShellName?>
   
   <!-- File Type Properties-->
   <?define EmlExtension=eml?>
@@ -38,5 +35,7 @@
   <?define CoAppProgId=$(var.CoAppVerIndProgId).$(var.MajorVersion)?>
   <?define CoAppClassId=AA1CC4EE-2EB6-4521-940B-5B4C56C46CB0?>
   <?define CoAppClassName=Crystalbyte.Paranoia.Automation.Application?>
+  
+  <?define CoAppInterfaceId=D01DE446-E6AD-4BDA-B768-4AB4579FE909?>
   
 </Include>

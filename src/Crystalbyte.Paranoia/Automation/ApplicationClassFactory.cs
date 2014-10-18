@@ -36,7 +36,7 @@ namespace Crystalbyte.Paranoia.Automation {
                 Marshal.ThrowExceptionForHR(E_NOAGGREGATION);
             }
 
-            if (riid != Marshal.GenerateGuidForType(typeof(Application))
+            if (riid != Marshal.GenerateGuidForType(typeof(IApplication))
                     && riid != IID_IDispatch && riid != IID_IUnknown) {
                 Marshal.ThrowExceptionForHR(E_NOINTERFACE);
             }

@@ -173,7 +173,7 @@
                    VerticalAlignment="Center"
                    DockPanel.Dock="Left"
                    RenderOptions.BitmapScalingMode="HighQuality"
-                   Source="/Assets/logo.png" />
+                   Source="/Assets/logo.window.png" />
             <TextBlock Margin="0,-2,0,0"
                        VerticalAlignment="Center"
                        FontSize="{DynamicResource Metro.MediumFontSize}"

@@ -20,23 +20,19 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0"
+                    Height="34"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     DataContext="{Binding Content,
                                           ElementName=NavFrame}"
                     Orientation="Horizontal"
                     d:DataContext="{d:DesignInstance Page}">
-            <Border Margin="6,6,12,0"
-                    VerticalAlignment="Center"
-                    Background="{DynamicResource Metro.App.AccentBrush}"
-                    DockPanel.Dock="Left">
-                <Image Width="20"
-                       Height="20"
-                       VerticalAlignment="Center"
-                       Source="{Binding Icon,
-                                        RelativeSource={RelativeSource FindAncestor,
-                                                                       AncestorType=paranoia:MainWindow}}" />
-            </Border>
+            <Image Width="20"
+                   Margin="10,0"
+                   VerticalAlignment="Center"
+                   DockPanel.Dock="Left"
+                   RenderOptions.BitmapScalingMode="HighQuality"
+                   Source="/Assets/logo.window.png" />
             <TextBlock x:Name="TitleBlock"
                        Margin="0,3,0,0"
                        VerticalAlignment="Center"

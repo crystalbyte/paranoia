@@ -8,14 +8,11 @@ using System.Composition.Hosting;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Web.UI;
 using System.Windows;
 using Awesomium.Core;
 using Crystalbyte.Paranoia.Automation;
@@ -114,11 +111,21 @@ namespace Crystalbyte.Paranoia {
 #endif
             base.OnStartup(e);
 
+#if DEBUG
+
+            var commands = Environment.CommandLine;
+            var message = string.Format("Arguments: {0}{1}{1}Pid: {2}{1}{1}Continue?", commands, Environment.NewLine, Process.GetCurrentProcess().Id);
+            var result = MessageBox.Show(message, "Command Line Arguments", MessageBoxButton.YesNo);
+            if (result.HasFlag(MessageBoxResult.No)) {
+                ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                Shutdown(1);
+            }
+
+#endif
             var success = TryCallingLiveProcess();
             if (success) {
-                StartupUri = null;
-                Current.Shutdown();
-                return;
+                ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                Shutdown(0);
             }
 
             if (Settings.Default.IsFirstStart) {
@@ -133,6 +140,8 @@ namespace Crystalbyte.Paranoia {
 
             InitTheme();
             StartComServer();
+
+            ProcessCommandLine();
 
 #if DEBUG
             using (var database = new DatabaseContext()) {
@@ -215,13 +224,7 @@ namespace Crystalbyte.Paranoia {
                             return false;
                         }
 
-                        var arguments = Environment.GetCommandLineArgs();
-                        if (arguments.Length < 2) {
-                            return true;
-                        }
-                        var type = Type.GetTypeFromProgID(Automation.Application.ProgId);
-                        var application = (IApplication)Activator.CreateInstance(type);
-                        application.OpenFile(arguments[1]);
+                        ProcessCommandLine();
 
                         success = true;
                     } catch (Exception ex) {
@@ -243,6 +246,21 @@ namespace Crystalbyte.Paranoia {
             return success;
         }
 
+        private static void ProcessCommandLine() {
+            var arguments = Environment.GetCommandLineArgs();
+            if (arguments.Length == 1) {
+                return;
+            }
+
+
+            var info = new FileInfo(arguments[1]);
+            if (info.Exists) {
+                var type = Type.GetTypeFromProgID(Automation.Application.ProgId);
+                dynamic application = Activator.CreateInstance(type);
+                application.OpenFile(arguments[1]);    
+            }
+        }
+
         protected override void OnExit(ExitEventArgs e) {
             base.OnExit(e);
 
@@ -252,9 +270,8 @@ namespace Crystalbyte.Paranoia {
                 // Make sure we shutdown the core last.
                 if (WebCore.IsInitialized)
                     WebCore.Shutdown();
-            }
-            catch (Exception ex) {
-                
+            } catch (Exception ex) {
+
                 Logger.Error(ex);
             }
         }

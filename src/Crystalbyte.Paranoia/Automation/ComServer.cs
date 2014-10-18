@@ -26,6 +26,9 @@ namespace Crystalbyte.Paranoia.Automation {
         }
 
         #endregion
+
+        #region Methods
+
         public void Start() {
             try {
                 var classId = new Guid(Application.ClassId);
@@ -56,6 +59,8 @@ namespace Crystalbyte.Paranoia.Automation {
                 Logger.Error(ex);
             }
         }
+
+        #endregion
 
         #region Implementation of IComServer
 
