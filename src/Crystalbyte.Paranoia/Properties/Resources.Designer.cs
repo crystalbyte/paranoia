@@ -133,6 +133,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Crystalbyte Paranoia.
+        /// </summary>
+        public static string ApplicationLongName {
+            get {
+                return ResourceManager.GetString("ApplicationLongName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Paranoia.
         /// </summary>
         public static string ApplicationName {
@@ -1024,15 +1033,6 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string ServerSettingsTitle {
             get {
                 return ResourceManager.GetString("ServerSettingsTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Paranoia (Desktop).
-        /// </summary>
-        public static string ShellName {
-            get {
-                return ResourceManager.GetString("ShellName", resourceCulture);
             }
         }
         

@@ -530,11 +530,11 @@ Once your password is lost you're screwed.</value>
   <data name="AssemblyTitle" xml:space="preserve">
     <value>Paranoia</value>
   </data>
-  <data name="ShellName" xml:space="preserve">
-    <value>Paranoia (Desktop)</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logo.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ApplicationLongName" xml:space="preserve">
+    <value>Crystalbyte Paranoia</value>
   </data>
 </root>

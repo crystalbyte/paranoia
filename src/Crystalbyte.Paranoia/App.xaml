@@ -6,6 +6,7 @@
              xmlns:core="clr-namespace:Awesomium.Core;assembly=Awesomium.Core"
              xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             ShutdownMode="OnMainWindowClose"
              StartupUri="MainWindow.xaml">
     <!--  Default styles: http://msdn.microsoft.com/en-us/library/aa970773.aspx  -->
     <Application.Resources>
@@ -51,8 +52,7 @@
                     <paranoia:ParanoiaDataSourceProvider x:Key="paranoia" />
                 </awe:WebSessionProvider.DataSources>
                 <core:WebPreferences CustomCSS="{x:Static paranoia:App.CompositionCss}"
-                                     DefaultEncoding="utf-8" 
-                                     
+                                     DefaultEncoding="utf-8"
                                      EnableGPUAcceleration="True"
                                      Javascript="True"
                                      SmoothScrolling="True" />

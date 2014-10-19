@@ -5,6 +5,7 @@
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
                 xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+                xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                 x:Name="Window"
                 Title="{Binding Text,
                                 ElementName=TitleBlock,
@@ -38,12 +39,11 @@
                        VerticalAlignment="Center"
                        DataContext="{Binding DataContext}"
                        FontSize="{DynamicResource Metro.NormalFontSize}"
-                       Text="{Binding Subject,
-                                      StringFormat={}p4r4n014 - {0},
-                                      Delay=250,
-                                      Converter={StaticResource NullOrEmptyFormatter},
-                                      ConverterParameter=...}"
-                       d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}" />
+                       d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}">
+                <Run Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
+                <Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text=" - " />
+                <Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{x:Static properties:Resources.ApplicationLongName}" />
+            </TextBlock>
 
         </StackPanel>
         <Grid Grid.Row="0"

@@ -187,12 +187,15 @@
     </Compile>
     <Compile Include="Contexts\AttachmentContext.cs" />
     <Compile Include="Contexts\CreateMailboxContext.cs" />
+    <Compile Include="Contexts\FileInspectionContext.cs" />
+    <Compile Include="Contexts\InspectionContext.cs" />
     <Compile Include="IMailboxCreator.cs" />
     <Compile Include="InspectionWindow.xaml.cs">
       <DependentUpon>InspectionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MailboxRoles.cs" />
     <Compile Include="MediaTypes.cs" />
+    <Compile Include="Contexts\MessageInspectionContext.cs" />
     <Compile Include="MetroColors.cs" />
     <Compile Include="UI\Commands\MarkAsFlaggedCommand.cs" />
     <Compile Include="UI\Commands\MarkAsNotFlaggedCommand.cs" />
@@ -252,6 +255,7 @@
     <Compile Include="UI\Commands\RelayCommand.cs" />
     <Compile Include="UI\Commands\SendCommand.cs" />
     <Compile Include="UI\Converters\SecurityToColorConverter.cs" />
+    <Compile Include="UI\DeferredActions.cs" />
     <Compile Include="UI\HtmlControl.xaml.cs">
       <DependentUpon>HtmlControl.xaml</DependentUpon>
     </Compile>

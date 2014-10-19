@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Pages;
+using NLog;
 
 #endregion
 
@@ -30,6 +31,8 @@ namespace Crystalbyte.Paranoia {
         private Storyboard _slideOutOverlayStoryboard;
         private Storyboard _slideOutMainFrameStoryboard;
         private Storyboard _slideInMainFrameStoryboard;
+
+        private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -106,11 +109,25 @@ namespace Crystalbyte.Paranoia {
         protected override void OnInitialized(EventArgs e) {
             base.OnInitialized(e);
 
+            InvokeDeferredActions();
             LoadResources();
             HookUpEvents();
 
+
             if (DesignerProperties.GetIsInDesignMode(this)) {
                 MainFrame.Source = new Uri("http://www.fantasystronghold.de/news/wp-content/uploads/2014/02/MyLittlePony_splash_2048x1536_EN.jpg", UriKind.Absolute);
+            }
+        }
+
+        private static void InvokeDeferredActions() {
+            while (DeferredActions.HasActions) {
+                var action = DeferredActions.Pop();
+                try {
+                    action();
+                }
+                catch (Exception ex) {
+                    Logger.Error(ex);
+                }
             }
         }
 

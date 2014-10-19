@@ -548,6 +548,7 @@
                             <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=OneWayToSource}" />
                             <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Mvsp}" />
                             <Setter Property="Padding" Value="6,1,6,1" />
+                            <EventSetter Event="MouseDoubleClick" Handler="OnMessageMouseDoubleClick"></EventSetter>
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>

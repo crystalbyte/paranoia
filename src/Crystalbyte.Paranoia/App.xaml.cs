@@ -13,6 +13,7 @@ using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using Awesomium.Core;
 using Crystalbyte.Paranoia.Automation;
@@ -20,9 +21,11 @@ using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
+using Crystalbyte.Paranoia.UI;
 using dotless.Core;
 using NLog;
 using LogLevel = Awesomium.Core.LogLevel;
+using WinApp = System.Windows.Application;
 
 #endregion
 
@@ -169,7 +172,7 @@ namespace Crystalbyte.Paranoia {
                 database.MailAccounts.Add(account);
 
                 account = new MailAccountModel {
-                    Name = "SPAM",
+                    Name = "So much Spam!",
                     Address = "osemc_test@organice.de",
                     ImapUsername = "osemc_test",
                     ImapPassword = "dreissig",
@@ -205,7 +208,8 @@ namespace Crystalbyte.Paranoia {
             // http://stackoverflow.com/questions/229565/what-is-a-good-pattern-for-using-a-global-mutex-in-c
 
             bool isNew;
-            var allowEveryoneRule = new MutexAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), MutexRights.FullControl, AccessControlType.Allow);
+            var allowEveryoneRule = new MutexAccessRule(
+                new SecurityIdentifier(WellKnownSidType.WorldSid, null), MutexRights.FullControl, AccessControlType.Allow);
             var securitySettings = new MutexSecurity();
             securitySettings.AddAccessRule(allowEveryoneRule);
 
@@ -220,11 +224,11 @@ namespace Crystalbyte.Paranoia {
                         var name = Process.GetCurrentProcess().ProcessName;
                         var processes = Process.GetProcessesByName(name);
                         if (processes.Length == 1) {
-                            // We are the sole process, we therefor won't relay to another.
+                            // Since we are the sole process no relaying is possible.
                             return false;
                         }
 
-                        ProcessCommandLine();
+                        RelayCommandLine();
 
                         success = true;
                     } catch (Exception ex) {
@@ -246,17 +250,45 @@ namespace Crystalbyte.Paranoia {
             return success;
         }
 
+        private static void RelayCommandLine() {
+            var arguments = Environment.GetCommandLineArgs();
+            if (arguments.Length == 1) {
+                return;
+            }
+
+            try {
+                var info = new FileInfo(arguments[1]);
+                if (info.Exists) {
+                    var type = Type.GetTypeFromProgID(Automation.Application.ProgId);
+                    // TODO: Casting to IApplication fails for some reason, we therefor invoke on a dynamic object.
+                    dynamic application = Activator.CreateInstance(type);
+                    application.OpenFile(arguments[1]);
+                }
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
         private static void ProcessCommandLine() {
             var arguments = Environment.GetCommandLineArgs();
             if (arguments.Length == 1) {
                 return;
             }
 
-            var info = new FileInfo(arguments[1]);
-            if (info.Exists) {
-                var type = Type.GetTypeFromProgID(Automation.Application.ProgId);
-                dynamic application = Activator.CreateInstance(type);
-                application.OpenFile(arguments[1]);
+            try {
+                var info = new FileInfo(arguments[1]);
+                if (info.Exists) {
+                    // Can't access the main window here directly since it is not yet created.
+                    DeferredActions.Push(() => {
+                        Current.MainWindow.Loaded += (sender, e) => {
+                            Current.MainWindow.WindowState = WindowState.Minimized;
+                            // Cannot await anonymous method.
+                            Task.Run(() => Context.InspectMessageAsync(info));
+                        };
+                    });
+                }
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
         }
 
@@ -265,12 +297,10 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 StopComServer();
-
                 // Make sure we shutdown the core last.
                 if (WebCore.IsInitialized)
                     WebCore.Shutdown();
             } catch (Exception ex) {
-
                 Logger.Error(ex);
             }
         }

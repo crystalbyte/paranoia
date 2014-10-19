@@ -1,35 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using NLog;
 
 namespace Crystalbyte.Paranoia {
     /// <summary>
-    /// Interaktionslogik für InspectMessageWindow.xaml
+    /// Interaction logic for InspectionWindow.xaml
     /// </summary>
     public partial class InspectionWindow {
+
+        #region Private Fields
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
+
+        #region Construction
+
         public InspectionWindow() {
             InitializeComponent();
         }
 
-        public InspectionWindow(FileSystemInfo file)
-            : this() {
-            blub.Source = string.Format("asset://paranoia/file?path={0}", Uri.EscapeDataString(file.FullName));
+        #endregion
+
+        #region Methods
+
+        public async Task InitWithMessageAsync(MailMessageContext message) {
+            var context = new MessageInspectionContext(message);
+            try {
+                DataContext = context;
+                HtmlViewer.Source = string.Format("asset://paranoia/message/{0}", message.Id);
+                await context.InitAsync();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
-        public InspectionWindow(MailMessageContext message)
-            : this() {
-            blub.Source = string.Format("asset://paranoia/message/{0}", message.Id);
+        public async Task InitWithFileAsync(FileSystemInfo file) {
+            var context = new FileInspectionContext(file);
+            try {
+                DataContext = context;
+                HtmlViewer.Source = string.Format("asset://paranoia/file?path={0}", Uri.EscapeDataString(file.FullName));
+                await context.InitAsync();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
+
+        #endregion
     }
 }

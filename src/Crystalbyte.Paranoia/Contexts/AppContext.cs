@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Composition;
 using System.Data.Entity;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -26,6 +27,8 @@ using Crystalbyte.Paranoia.UI.Commands;
 using Crystalbyte.Paranoia.UI.Pages;
 using Newtonsoft.Json;
 using NLog;
+using Point = System.Windows.Point;
+using Size = System.Windows.Size;
 
 #endregion
 
@@ -83,7 +86,8 @@ namespace Crystalbyte.Paranoia {
 
             _attachments = new ObservableCollection<AttachmentContext>();
 
-            _navigationOptions = new ObservableCollection<NavigationContext> {
+            _navigationOptions = new ObservableCollection<NavigationContext>
+            {
                 new NavigationContext { Title = Resources.MessagesTitle, TargetUri = typeof(MessagesPage).ToPageUri(), IsSelected = true},
                 new NavigationContext { Title = Resources.ContactsTitle, TargetUri = typeof(ContactsPage).ToPageUri() }
             };
@@ -118,7 +122,7 @@ namespace Crystalbyte.Paranoia {
                 action => QueryStringChanged += action,
                 action => QueryStringChanged -= action)
                     .Select(x => x.EventArgs)
-                    .Where(x => (x.Text.Length > 1 || string.IsNullOrEmpty(x.Text)))
+                    .Where(x => (x.Text.Length > 1 || String.IsNullOrEmpty(x.Text)))
                     .Throttle(TimeSpan.FromMilliseconds(200))
                     .Select(x => x.Text)
                     .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
@@ -128,7 +132,7 @@ namespace Crystalbyte.Paranoia {
                 action => ContactQueryStringChanged += action,
                 action => ContactQueryStringChanged -= action)
                     .Select(x => x.EventArgs)
-                    .Where(x => (x.Text.Length > 1 || string.IsNullOrEmpty(x.Text)))
+                    .Where(x => (x.Text.Length > 1 || String.IsNullOrEmpty(x.Text)))
                     .Throttle(TimeSpan.FromMilliseconds(200))
                     .Select(x => x.Text)
                     .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
@@ -145,7 +149,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnNetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e) {
-            if (!e.IsAvailable) 
+            if (!e.IsAvailable)
                 return;
 
             foreach (var account in Accounts) {
@@ -221,7 +225,7 @@ namespace Crystalbyte.Paranoia {
 
         private static async Task<KeyCollection> DownloadKeysForContactAsync(MailContactModel contact, WebClient client) {
             var server = Settings.Default.KeyServer;
-            var address = string.Format("{0}/keys?email={1}", server, contact.Address);
+            var address = String.Format("{0}/keys?email={1}", server, contact.Address);
 
             var uri = new Uri(address, UriKind.Absolute);
             client.Headers.Add(HttpRequestHeader.UserAgent, Settings.Default.UserAgent);
@@ -244,7 +248,7 @@ namespace Crystalbyte.Paranoia {
         internal async Task FilterContactsAsync(string query) {
             _contacts.Clear();
 
-            if (string.IsNullOrWhiteSpace(query)) {
+            if (String.IsNullOrWhiteSpace(query)) {
                 await LoadContactsAsync();
                 return;
             }
@@ -431,7 +435,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task RefreshViewChangedQueryString(string query) {
-            if (string.IsNullOrWhiteSpace(query)) {
+            if (String.IsNullOrWhiteSpace(query)) {
                 await Task.Run(() => RequestMessagesAsync(SelectedMailbox));
             } else {
                 await Task.Run(() => RequestMessagesAsync(new QueryContext(query)));
@@ -632,7 +636,7 @@ namespace Crystalbyte.Paranoia {
         public float Zoom {
             get { return _zoom; }
             set {
-                if (Math.Abs(_zoom - value) < float.Epsilon) {
+                if (Math.Abs(_zoom - value) < Single.Epsilon) {
                     return;
                 }
                 _zoom = value;
@@ -818,7 +822,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private Task ViewMessageAsync(MailMessageContext message) {
-            Source = string.Format("asset://paranoia/message/{0}", message.Id);
+            Source = String.Format("asset://paranoia/message/{0}", message.Id);
             return DisplayAttachmentAsync(message);
         }
 
@@ -992,9 +996,86 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => Messages);
         }
 
-        internal void InspectMessage(FileInfo file) {
-            var inspector = new InspectionWindow(file);
+        internal async Task InspectMessageAsync(FileInfo file) {
+            var inspector = new InspectionWindow { ShowActivated = true };
+            await inspector.InitWithFileAsync(file);
             inspector.Show();
+        }
+        internal async Task InspectMessageAsync(MailMessageContext message) {
+            var inspector = CreateInspectorChildWindow(Application.Current.MainWindow);
+            await inspector.InitWithMessageAsync(message);
+            inspector.Show();
+        }
+
+        private static InspectionWindow CreateInspectorChildWindow(Window owner) {
+
+            // TODO: This needs refactoring :P
+            // Owner must be set, else Chromium steals focus on load.
+            var window = new InspectionWindow() {
+                Owner =  owner,
+                ShowActivated = true,
+                Height = owner.Height > 500 ? owner.Height * 0.9 : 500,
+                Width = owner.Width > 800 ? owner.Width * 0.9 : 800,
+            };
+
+            var ownerPoint = owner.PointToScreen(new Point(0, 0));
+
+            var sourceOwner = PresentationSource.FromVisual(owner);
+            var ownerSize = (Size)sourceOwner.CompositionTarget.TransformToDevice.Transform((Vector)owner.DesiredSize);
+
+            var source = PresentationSource.FromVisual(window);
+            Size size;
+            if (source != null)
+                size = (Size)source.CompositionTarget.TransformToDevice.Transform((Vector)owner.DesiredSize);
+            else {
+                using (var graphics = Graphics.FromHwnd(IntPtr.Zero)) {
+                    var pixelWidth = window.Width * graphics.DpiX / 96.0;
+                    var pixelHeight = window.Height * graphics.DpiY / 96.0;
+                    size = new Size(pixelWidth, pixelHeight);
+                }
+            }
+
+
+            var left = ownerPoint.X + (ownerSize.Width / 2) - (size.Width / 2);
+            var top = ownerPoint.Y + (ownerSize.Height / 2) - (size.Height / 2);
+
+            window.Left = left < ownerPoint.X ? ownerPoint.X : left;
+            window.Top = top < ownerPoint.Y ? ownerPoint.Y : top;
+
+            owner.Closed += (sender, e) => window.Close();
+
+            return window;
+
+
+            //using (var graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero)) {
+            //    var pixelWidthOwner = owner.Width * graphics.DpiX / 96.0;
+            //    var pixelHeightOwner = owner.Height * graphics.DpiY / 96.0;
+
+            //    var pixelWidth = window.Width * graphics.DpiX / 96.0;
+            //    var pixelHeight = window.Height * graphics.DpiY / 96.0;
+
+            //    var left = ownerPoint.X + (pixelWidthOwner / 2) - (pixelWidth / 2);
+            //    var top = ownerPoint.Y + (pixelHeightOwner / 2) - (pixelHeight / 2);
+
+            //    window.Left = left < ownerPoint.X ? ownerPoint.X : left;
+            //    window.Top = top < ownerPoint.Y ? ownerPoint.Y : top;
+            //}
+
+            //using (var graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero)) {
+            //    var pixelWidth = (int)(owner.DesiredSize.Width * graphics.DpiX / 96.0);
+            //    var pixelHeight = (int)(owner.DesiredSize.Height * graphics.DpiY / 96.0);
+
+            //    var pixelWidtha = (int)(owner.Width * graphics.DpiX / 96.0);
+            //    var pixelHeightb = (int)(owner.Height * graphics.DpiY / 96.0);
+            //}
+
+            //var left = ownerPoint.X + (owner.Width / 2) - (window.Width / 2);
+            //var top = ownerPoint.Y + (owner.Height / 2) - (window.Height / 2);
+            //window.Left = left < ownerPoint.X ? ownerPoint.X : left;
+            //window.Top = top < ownerPoint.Y ? ownerPoint.Y : top;
+            //owner.Closed += (sender, e) => window.Close();
+
+            //return window;
         }
 
         internal void ShowMessage(MailMessageContext message) {

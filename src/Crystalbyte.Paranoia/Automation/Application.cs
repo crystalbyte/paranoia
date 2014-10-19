@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Media;
+﻿using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using dotless.Core.Parser.Tree;
+using WinApp = System.Windows.Application;
 
 namespace Crystalbyte.Paranoia.Automation {
 
@@ -39,8 +31,8 @@ namespace Crystalbyte.Paranoia.Automation {
         #region Implementation of IApplication
 
         public void OpenFile(string path) {
-            System.Windows.Application.Current.Dispatcher.Invoke(
-                () => App.Context.InspectMessage(new FileInfo(path)));
+            WinApp.Current.Dispatcher.Invoke(
+                () => App.Context.InspectMessageAsync(new FileInfo(path)));
         }
 
         #endregion
