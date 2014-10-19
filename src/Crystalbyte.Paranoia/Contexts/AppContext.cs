@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Composition;
 using System.Data.Entity;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -15,6 +14,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Crystalbyte.Paranoia.Cryptography;
@@ -27,8 +27,6 @@ using Crystalbyte.Paranoia.UI.Commands;
 using Crystalbyte.Paranoia.UI.Pages;
 using Newtonsoft.Json;
 using NLog;
-using Point = System.Windows.Point;
-using Size = System.Windows.Size;
 
 #endregion
 
@@ -996,86 +994,117 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => Messages);
         }
 
+        internal void Forward() {
+            var message = App.Context.SelectedMessage;
+            if (message == null) {
+                throw new InvalidOperationException();
+            }
+
+            var owner = Application.Current.MainWindow;
+            var window = new CompositionWindow();
+            window.MimicOwnership(Application.Current.MainWindow);
+
+            var uri = string.Format("?action=forward&id={0}", message.Id);
+            window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
+
+            if (owner.WindowState == WindowState.Maximized) {
+                window.WindowState = WindowState.Maximized;
+            }
+
+            window.Show();
+        }
+
+        internal void Reply() {
+            var message = App.Context.SelectedMessage;
+            if (message == null) {
+                throw new InvalidOperationException();
+            }
+
+            var owner = Application.Current.MainWindow;
+            var window = new CompositionWindow();
+            window.MimicOwnership(Application.Current.MainWindow);
+
+            var uri = string.Format("?action=reply&id={0}", message.Id);
+            window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
+
+            if (owner.WindowState == WindowState.Maximized) {
+                window.WindowState = WindowState.Maximized;
+            }
+
+            window.Show();
+        }
+
+        internal void Print(string html) {
+            var browser = new WebBrowser();
+            browser.Navigated += (x, y) => {
+                try {
+                    dynamic document = browser.Document;
+                    document.execCommand("print", true, null);
+                } catch (Exception ex) {
+                    Logger.Error(ex);
+                } finally {
+                    browser.Dispose();
+                }
+            };
+            browser.NavigateToString(html);
+        }
+
+        internal void Compose() {
+            var owner = Application.Current.MainWindow;
+            var window = new CompositionWindow();
+            window.MimicOwnership(Application.Current.MainWindow);
+            window.Source = typeof(ComposeMessagePage).ToPageUri("?action=new");
+
+            if (owner.WindowState == WindowState.Maximized) {
+                window.WindowState = WindowState.Maximized;
+            }
+
+            window.Show();
+        }
+
+        internal void ReplyAll() {
+            var message = App.Context.SelectedMessage;
+            if (message == null) {
+                throw new InvalidOperationException();
+            }
+
+            var owner = Application.Current.MainWindow;
+            var window = new CompositionWindow();
+            window.MimicOwnership(owner);
+
+            var uri = string.Format("?action=reply-all&id={0}", message.Id);
+            window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
+
+            if (owner.WindowState == WindowState.Maximized) {
+                window.WindowState = WindowState.Maximized;
+            }
+
+            window.Show();
+        }
+
         internal async Task InspectMessageAsync(FileInfo file) {
-            var inspector = new InspectionWindow { ShowActivated = true };
+            var owner = Application.Current.MainWindow;
+            var inspector = new InspectionWindow {
+                WindowState =
+                    owner.WindowState == WindowState.Maximized
+                    ? WindowState.Maximized
+                    : WindowState.Normal
+            };
+            inspector.MimicOwnership(owner);
             await inspector.InitWithFileAsync(file);
             inspector.Show();
         }
         internal async Task InspectMessageAsync(MailMessageContext message) {
-            var inspector = CreateInspectorChildWindow(Application.Current.MainWindow);
+            var owner = Application.Current.MainWindow;
+            var inspector = new InspectionWindow {
+                WindowState =
+                    owner.WindowState == WindowState.Maximized
+                    ? WindowState.Maximized
+                    : WindowState.Normal
+            };
+            inspector.MimicOwnership(owner);
             await inspector.InitWithMessageAsync(message);
             inspector.Show();
-        }
-
-        private static InspectionWindow CreateInspectorChildWindow(Window owner) {
-
-            // TODO: This needs refactoring :P
-            // Owner must be set, else Chromium steals focus on load.
-            var window = new InspectionWindow() {
-                Owner =  owner,
-                ShowActivated = true,
-                Height = owner.Height > 500 ? owner.Height * 0.9 : 500,
-                Width = owner.Width > 800 ? owner.Width * 0.9 : 800,
-            };
-
-            var ownerPoint = owner.PointToScreen(new Point(0, 0));
-
-            var sourceOwner = PresentationSource.FromVisual(owner);
-            var ownerSize = (Size)sourceOwner.CompositionTarget.TransformToDevice.Transform((Vector)owner.DesiredSize);
-
-            var source = PresentationSource.FromVisual(window);
-            Size size;
-            if (source != null)
-                size = (Size)source.CompositionTarget.TransformToDevice.Transform((Vector)owner.DesiredSize);
-            else {
-                using (var graphics = Graphics.FromHwnd(IntPtr.Zero)) {
-                    var pixelWidth = window.Width * graphics.DpiX / 96.0;
-                    var pixelHeight = window.Height * graphics.DpiY / 96.0;
-                    size = new Size(pixelWidth, pixelHeight);
-                }
-            }
-
-
-            var left = ownerPoint.X + (ownerSize.Width / 2) - (size.Width / 2);
-            var top = ownerPoint.Y + (ownerSize.Height / 2) - (size.Height / 2);
-
-            window.Left = left < ownerPoint.X ? ownerPoint.X : left;
-            window.Top = top < ownerPoint.Y ? ownerPoint.Y : top;
-
-            owner.Closed += (sender, e) => window.Close();
-
-            return window;
-
-
-            //using (var graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero)) {
-            //    var pixelWidthOwner = owner.Width * graphics.DpiX / 96.0;
-            //    var pixelHeightOwner = owner.Height * graphics.DpiY / 96.0;
-
-            //    var pixelWidth = window.Width * graphics.DpiX / 96.0;
-            //    var pixelHeight = window.Height * graphics.DpiY / 96.0;
-
-            //    var left = ownerPoint.X + (pixelWidthOwner / 2) - (pixelWidth / 2);
-            //    var top = ownerPoint.Y + (pixelHeightOwner / 2) - (pixelHeight / 2);
-
-            //    window.Left = left < ownerPoint.X ? ownerPoint.X : left;
-            //    window.Top = top < ownerPoint.Y ? ownerPoint.Y : top;
-            //}
-
-            //using (var graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero)) {
-            //    var pixelWidth = (int)(owner.DesiredSize.Width * graphics.DpiX / 96.0);
-            //    var pixelHeight = (int)(owner.DesiredSize.Height * graphics.DpiY / 96.0);
-
-            //    var pixelWidtha = (int)(owner.Width * graphics.DpiX / 96.0);
-            //    var pixelHeightb = (int)(owner.Height * graphics.DpiY / 96.0);
-            //}
-
-            //var left = ownerPoint.X + (owner.Width / 2) - (window.Width / 2);
-            //var top = ownerPoint.Y + (owner.Height / 2) - (window.Height / 2);
-            //window.Left = left < ownerPoint.X ? ownerPoint.X : left;
-            //window.Top = top < ownerPoint.Y ? ownerPoint.Y : top;
-            //owner.Closed += (sender, e) => window.Close();
-
-            //return window;
         }
 
         internal void ShowMessage(MailMessageContext message) {

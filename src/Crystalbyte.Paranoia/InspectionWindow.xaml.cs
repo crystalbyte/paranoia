@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Crystalbyte.Paranoia.UI;
 using NLog;
 
 namespace Crystalbyte.Paranoia {
@@ -19,11 +21,40 @@ namespace Crystalbyte.Paranoia {
 
         public InspectionWindow() {
             InitializeComponent();
+
+            CommandBindings.Add(new CommandBinding(MessageCommands.Reply, OnReply));
+            CommandBindings.Add(new CommandBinding(MessageCommands.Forward, OnForward));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint));
         }
 
         #endregion
 
         #region Methods
+
+        private void OnPrint(object sender, ExecutedRoutedEventArgs e) {
+            var html = HtmlViewer.GetDocument();
+            try {
+                App.Context.Print(html);
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private static void OnForward(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                App.Context.Forward();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private static void OnReply(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                App.Context.Reply();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
 
         public async Task InitWithMessageAsync(MailMessageContext message) {
             var context = new MessageInspectionContext(message);

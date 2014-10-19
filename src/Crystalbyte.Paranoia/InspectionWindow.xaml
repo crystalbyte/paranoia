@@ -7,40 +7,45 @@
                 xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                 xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                 x:Name="Window"
+                Title="{Binding Subject,
+                                Mode=OneWay,
+                                StringFormat={}{0} - Crystalbyte Paranoia}"
                 Width="800"
                 Height="480"
-                BorderBrush="{DynamicResource Metro.Window.ShadowBrush}"
-                BorderThickness="1"
+                BorderThickness="0"
+                ShowActivated="True"
                 UseLayoutRounding="True"
                 WindowStartupLocation="CenterOwner"
+                d:DataContext="{d:DesignInstance paranoia:InspectionContext}"
                 mc:Ignorable="d">
     <Grid Background="{DynamicResource Metro.Control.BackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0"
                     Height="34"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    DataContext="{Binding Content,
-                                          ElementName=NavFrame}"
-                    Orientation="Horizontal"
-                    d:DataContext="{d:DesignInstance Page}">
-
+                    Orientation="Horizontal">
             <Image Width="20"
                    Margin="10,0"
                    VerticalAlignment="Center"
                    DockPanel.Dock="Left"
                    RenderOptions.BitmapScalingMode="HighQuality"
                    Source="/Assets/logo.window.png" />
-            <TextBlock x:Name="TitleBlock"
-                       Margin="0,3,0,0"
+            <TextBlock Margin="0,-1,0,0"
                        VerticalAlignment="Center"
-                       DataContext="{Binding DataContext}"
                        FontSize="{DynamicResource Metro.NormalFontSize}"
-                       d:DataContext="{d:DesignInstance paranoia:InspectionContext}">
-                <Run Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
+                       Text="{Binding Subject,
+                                      Mode=OneWay,
+                                      Converter={StaticResource NullOrEmptyFormatter},
+                                      ConverterParameter=...}" />
+            <TextBlock Margin="0,-1,0,0"
+                       VerticalAlignment="Center"
+                       FontSize="{DynamicResource Metro.NormalFontSize}">
                 <Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text=" - " />
                 <Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{x:Static properties:Resources.ApplicationLongName}" />
             </TextBlock>
@@ -69,36 +74,87 @@
                     Visibility="{Binding IsNormalized,
                                          Converter={StaticResource BooleanToVisibilityConverter},
                                          RelativeSource={RelativeSource FindAncestor,
-                                                                        AncestorType=paranoia:CompositionWindow}}" />
+                                                                        AncestorType=paranoia:InspectionWindow}}" />
             <Button Grid.Column="3"
                     Style="{DynamicResource Metro.RestoreDownButtonStyle}"
                     Visibility="{Binding IsMaximized,
                                          Converter={StaticResource BooleanToVisibilityConverter},
                                          RelativeSource={RelativeSource FindAncestor,
-                                                                        AncestorType=paranoia:CompositionWindow}}" />
+                                                                        AncestorType=paranoia:InspectionWindow}}" />
             <Button Grid.Column="4" Style="{DynamicResource Metro.CloseButtonStyle}" />
         </Grid>
         <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <!--  buttons  -->
-                <RowDefinition Height="Auto" />
-                <!--  from  -->
-                <RowDefinition Height="Auto" />
-                <!--  to  -->
-                <RowDefinition Height="Auto" />
-                <!--  cc  -->
-                <RowDefinition Height="Auto" />
-                <!--  attachments  -->
-                <RowDefinition Height="Auto" />
-                <!--  browser  -->
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Button Grid.Row="0" Content="Reply" />
+            <Grid Margin="12,0" HorizontalAlignment="Left">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource Metro.TitleTextStyle}"
+                           Text="{Binding Subject,
+                                          Converter={StaticResource NullOrEmptyFormatter},
+                                          ConverterParameter=...}"
+                           TextTrimming="CharacterEllipsis"
+                           TextWrapping="NoWrap" />
+                <StackPanel Grid.Row="1"
+                            Margin="0,0,0,6"
+                            VerticalAlignment="Top"
+                            Orientation="Horizontal">
+                    <TextBlock Margin="0,3,6,3"
+                               Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
+                               Style="{StaticResource Metro.SubtitleTextStyle}">
+                        <Run Text="{x:Static properties:Resources.From}" /><Run Text=":" />
+                    </TextBlock>
+                    <TextBlock Margin="3"
+                               Style="{StaticResource Metro.SubtitleTextStyle}"
+                               Text="{Binding From,
+                                              Converter={StaticResource NullOrEmptyFormatter},
+                                              ConverterParameter=...}" />
+                    <TextBlock Margin="24,3,6,3"
+                               Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
+                               Style="{StaticResource Metro.SubtitleTextStyle}">
+                        <Run Text="{x:Static properties:Resources.To}" /><Run Text=":" />
+                    </TextBlock>
+                    <TextBlock Margin="3"
+                               Style="{StaticResource Metro.SubtitleTextStyle}"
+                               Text="{Binding To,
+                                              Converter={StaticResource NullOrEmptyFormatter},
+                                              ConverterParameter=...}" />
+                    <TextBlock Margin="24,3,6,3"
+                               Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
+                               Style="{StaticResource Metro.SubtitleTextStyle}">
+                        <Run Text="{x:Static properties:Resources.Date}" /><Run Text=":" />
+                    </TextBlock>
+                    <TextBlock Margin="3"
+                               Style="{StaticResource Metro.SubtitleTextStyle}"
+                               Text="{Binding Date,
+                                              Converter={StaticResource DateFormatter}}" />
+                </StackPanel>
+            </Grid>
+            <StackPanel Margin="6,0,6,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="ui:MessageCommands.Reply">
+                    <Image Width="18" Source="/Assets/reply.png" />
+                </ui:MetroCircleButton>
+                <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="ui:MessageCommands.Forward">
+                    <Image Width="18" Source="/Assets/forward.png" />
+                </ui:MetroCircleButton>
+                <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="ApplicationCommands.Print">
+                    <Image Width="18" Source="/Assets/print.png" />
+                </ui:MetroCircleButton>
+            </StackPanel>
 
-
+        </Grid>
+        <Grid Grid.Row="2">
             <ui:HtmlControl x:Name="HtmlViewer"
-                            Grid.Row="5"
+                            BorderThickness="0"
                             WebSession="{Binding Source={StaticResource InspectionWebSessionProvider}}" />
         </Grid>
+        <StatusBar Grid.Row="3"
+                   Height="24"
+                   Background="{DynamicResource Metro.App.AccentBrush}" />
     </Grid>
 </ui:MetroWindow>

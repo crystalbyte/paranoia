@@ -44,114 +44,45 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private static void OnResume(object sender, ExecutedRoutedEventArgs e) {
-            var message = App.Context.SelectedMessage;
-            if (message == null) {
-                throw new InvalidOperationException();
-            }
-
-            var owner = Application.Current.MainWindow;
-            var window = new CompositionWindow();
-            window.MimicOwnership(Application.Current.MainWindow);
-
-            var uri = string.Format("?action=resume&id={0}", message.Id);
-            window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
-
-            if (owner.WindowState == WindowState.Maximized) {
-                window.WindowState = WindowState.Maximized;
-            }
-
-            window.Show();
+            throw new NotImplementedException();
         }
 
         private static void OnForward(object sender, ExecutedRoutedEventArgs e) {
-            var message = App.Context.SelectedMessage;
-            if (message == null) {
-                throw new InvalidOperationException();
+            try {
+                App.Context.Forward();
             }
-
-            var owner = Application.Current.MainWindow;
-            var window = new CompositionWindow();
-            window.MimicOwnership(Application.Current.MainWindow);
-
-            var uri = string.Format("?action=forward&id={0}", message.Id);
-            window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
-
-            if (owner.WindowState == WindowState.Maximized) {
-                window.WindowState = WindowState.Maximized;
+            catch (Exception ex) {
+                Logger.Error(ex);
             }
-
-            window.Show();
         }
 
         private static void OnReply(object sender, ExecutedRoutedEventArgs e) {
-            var message = App.Context.SelectedMessage;
-            if (message == null) {
-                throw new InvalidOperationException();
+            try {
+                App.Context.Reply();
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
-
-            var owner = Application.Current.MainWindow;
-            var window = new CompositionWindow();
-            window.MimicOwnership(Application.Current.MainWindow);
-
-            var uri = string.Format("?action=reply&id={0}", message.Id);
-            window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
-
-            if (owner.WindowState == WindowState.Maximized) {
-                window.WindowState = WindowState.Maximized;
-            }
-
-            window.Show();
         }
 
         private static void OnReplyAll(object sender, ExecutedRoutedEventArgs e) {
-            var message = App.Context.SelectedMessage;
-            if (message == null) {
-                throw new InvalidOperationException();
+            try {
+                App.Context.ReplyAll();
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
-
-            var owner = Application.Current.MainWindow;
-            var window = new CompositionWindow();
-            window.MimicOwnership(owner);
-
-            var uri = string.Format("?action=reply-all&id={0}", message.Id);
-            window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
-
-            if (owner.WindowState == WindowState.Maximized) {
-                window.WindowState = WindowState.Maximized;
-            }
-
-            window.Show();
         }
 
         private static void OnCompose(object sender, ExecutedRoutedEventArgs e) {
-            var owner = Application.Current.MainWindow;
-            var window = new CompositionWindow();
-            window.MimicOwnership(Application.Current.MainWindow);
-            window.Source = typeof(ComposeMessagePage).ToPageUri("?action=new");
-
-            if (owner.WindowState == WindowState.Maximized) {
-                window.WindowState = WindowState.Maximized;
+            try {
+                App.Context.Compose();
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
-
-            window.Show();
         }
-
 
         private void OnPrint(object sender, ExecutedRoutedEventArgs e) {
             var html = MessageViewer.GetDocument();
-
-            var browser = new WebBrowser();
-            browser.Navigated += (x, y) => {
-                try {
-                    dynamic document = browser.Document;
-                    document.execCommand("print", true, null);
-                } catch (Exception ex) {
-                    Logger.Error(ex);
-                } finally {
-                    browser.Dispose();
-                }
-            };
-            browser.NavigateToString(html);
+            App.Context.Print(html);
         }
 
         private void OnCanPrint(object sender, CanExecuteRoutedEventArgs e) {

@@ -537,4 +537,10 @@ Once your password is lost you're screwed.</value>
   <data name="ApplicationLongName" xml:space="preserve">
     <value>Crystalbyte Paranoia</value>
   </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
 </root>
