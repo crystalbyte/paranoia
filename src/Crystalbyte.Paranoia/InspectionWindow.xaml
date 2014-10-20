@@ -36,14 +36,20 @@
                    DockPanel.Dock="Left"
                    RenderOptions.BitmapScalingMode="HighQuality"
                    Source="/Assets/logo.window.png" />
-            <TextBlock Margin="0,-1,0,0"
-                       VerticalAlignment="Center"
-                       FontSize="{DynamicResource Metro.NormalFontSize}"
-                       Text="{Binding Subject,
-                                      Mode=OneWay,
-                                      Converter={StaticResource NullOrEmptyFormatter},
-                                      ConverterParameter=...}" />
-            <TextBlock Margin="0,-1,0,0"
+            <TextBox Margin="0,-1,0,0"
+                     VerticalAlignment="Center"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     FontSize="{DynamicResource Metro.NormalFontSize}"
+                     IsReadOnly="True"
+                     Padding="3,0"
+                     RenderOptions.ClearTypeHint="Enabled"
+                     Text="{Binding Subject,
+                                    Mode=OneWay,
+                                    Converter={StaticResource NullOrEmptyFormatter},
+                                    ConverterParameter=...}"
+                     WindowChrome.IsHitTestVisibleInChrome="True" />
+            <TextBlock Margin="1,-1,0,0"
                        VerticalAlignment="Center"
                        FontSize="{DynamicResource Metro.NormalFontSize}">
                 <Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text=" - " />
@@ -83,61 +89,19 @@
                                                                         AncestorType=paranoia:InspectionWindow}}" />
             <Button Grid.Column="4" Style="{DynamicResource Metro.CloseButtonStyle}" />
         </Grid>
-        <Grid Grid.Row="1">
-            <Grid Margin="12,0" HorizontalAlignment="Left">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0"
-                           VerticalAlignment="Center"
-                           Style="{StaticResource Metro.TitleTextStyle}"
-                           Text="{Binding Subject,
-                                          Converter={StaticResource NullOrEmptyFormatter},
-                                          ConverterParameter=...}"
-                           TextTrimming="CharacterEllipsis"
-                           TextWrapping="NoWrap" />
-                <StackPanel Grid.Row="1"
-                            Margin="0,0,0,6"
-                            VerticalAlignment="Top"
-                            Orientation="Horizontal">
-                    <TextBlock Margin="0,3,6,3"
-                               Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
-                               Style="{StaticResource Metro.SubtitleTextStyle}">
-                        <Run Text="{x:Static properties:Resources.From}" /><Run Text=":" />
-                    </TextBlock>
-                    <TextBlock Margin="3"
-                               Style="{StaticResource Metro.SubtitleTextStyle}"
-                               Text="{Binding From,
-                                              Converter={StaticResource NullOrEmptyFormatter},
-                                              ConverterParameter=...}" />
-                    <TextBlock Margin="24,3,6,3"
-                               Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
-                               Style="{StaticResource Metro.SubtitleTextStyle}">
-                        <Run Text="{x:Static properties:Resources.To}" /><Run Text=":" />
-                    </TextBlock>
-                    <TextBlock Margin="3"
-                               Style="{StaticResource Metro.SubtitleTextStyle}"
-                               Text="{Binding To,
-                                              Converter={StaticResource NullOrEmptyFormatter},
-                                              ConverterParameter=...}" />
-                    <TextBlock Margin="24,3,6,3"
-                               Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
-                               Style="{StaticResource Metro.SubtitleTextStyle}">
-                        <Run Text="{x:Static properties:Resources.Date}" /><Run Text=":" />
-                    </TextBlock>
-                    <TextBlock Margin="3"
-                               Style="{StaticResource Metro.SubtitleTextStyle}"
-                               Text="{Binding Date,
-                                              Converter={StaticResource DateFormatter}}" />
-                </StackPanel>
-            </Grid>
+        <DockPanel Grid.Row="1"
+                   Margin="0,0,0,6"
+                   LastChildFill="True">
             <StackPanel Margin="6,0,6,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
+                        DockPanel.Dock="Right"
                         Orientation="Horizontal">
                 <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="ui:MessageCommands.Reply">
                     <Image Width="18" Source="/Assets/reply.png" />
+                </ui:MetroCircleButton>
+                <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="ui:MessageCommands.ReplyAll">
+                    <Image Width="18" Source="/Assets/reply.all.png" />
                 </ui:MetroCircleButton>
                 <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="ui:MessageCommands.Forward">
                     <Image Width="18" Source="/Assets/forward.png" />
@@ -146,8 +110,95 @@
                     <Image Width="18" Source="/Assets/print.png" />
                 </ui:MetroCircleButton>
             </StackPanel>
-
-        </Grid>
+            <StackPanel Margin="12,0"
+                        DockPanel.Dock="Right"
+                        Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center"
+                           FontSize="{DynamicResource Metro.SmallFontSize}"
+                           FontWeight="Normal"
+                           Style="{DynamicResource Metro.SubtitleTextStyle}"
+                           Text="{Binding Date}" />
+            </StackPanel>
+            <Grid Margin="6,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0"
+                            DataContext="{Binding From}"
+                            Orientation="Horizontal">
+                    <Image Width="40"
+                           Margin="0,0,6,0"
+                           VerticalAlignment="Center"
+                           RenderOptions.BitmapScalingMode="Fant"
+                           Source="{Binding Address,
+                                            ConverterParameter=48,
+                                            Converter={StaticResource GravatarImageConverter}}" />
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBox Margin="2,-2,0,0"
+                                 BorderThickness="0"
+                                 FontSize="{DynamicResource Metro.MediumLargeFontSize}"
+                                 FontWeight="Thin"
+                                 Foreground="{DynamicResource Metro.Control.TextBrush}"
+                                 IsReadOnly="True"
+                                 Padding="0"
+                                 RenderOptions.ClearTypeHint="Enabled"
+                                 Text="{Binding Name,
+                                                ConverterParameter=...,
+                                                Converter={StaticResource NullOrEmptyFormatter}}"
+                                 TextWrapping="NoWrap" />
+                        <TextBox Margin="2,0,2,2"
+                                 BorderThickness="0"
+                                 Foreground="{DynamicResource Metro.App.AccentBrush}"
+                                 IsReadOnly="True"
+                                 Padding="0"
+                                 RenderOptions.ClearTypeHint="Enabled"
+                                 Text="{Binding Address,
+                                                Converter={StaticResource NullOrEmptyFormatter}}"
+                                 TextWrapping="NoWrap" />
+                    </StackPanel>
+                </StackPanel>
+                <Image Grid.Column="1"
+                       Width="18"
+                       Margin="12,0"
+                       Source="/Assets/arrow.right.png" />
+                <StackPanel Grid.Column="2"
+                            DataContext="{Binding PrimaryTo}"
+                            Orientation="Horizontal">
+                    <Image Width="40"
+                           Margin="0,0,6,0"
+                           VerticalAlignment="Center"
+                           RenderOptions.BitmapScalingMode="Fant"
+                           Source="{Binding Address,
+                                            ConverterParameter=48,
+                                            Converter={StaticResource GravatarImageConverter}}" />
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBox Margin="2,-2,0,0"
+                                 BorderThickness="0"
+                                 FontSize="{DynamicResource Metro.MediumLargeFontSize}"
+                                 FontWeight="Thin"
+                                 Foreground="{DynamicResource Metro.Control.TextBrush}"
+                                 IsReadOnly="True"
+                                 Padding="0"
+                                 RenderOptions.ClearTypeHint="Enabled"
+                                 Text="{Binding Name,
+                                                ConverterParameter=...,
+                                                Converter={StaticResource NullOrEmptyFormatter}}"
+                                 TextWrapping="NoWrap" />
+                        <TextBox Margin="2,0,2,2"
+                                 BorderThickness="0"
+                                 Foreground="{DynamicResource Metro.App.AccentBrush}"
+                                 IsReadOnly="True"
+                                 Padding="0"
+                                 RenderOptions.ClearTypeHint="Enabled"
+                                 Text="{Binding Address,
+                                                Converter={StaticResource NullOrEmptyFormatter}}"
+                                 TextWrapping="NoWrap" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </DockPanel>
         <Grid Grid.Row="2">
             <ui:HtmlControl x:Name="HtmlViewer"
                             BorderThickness="0"

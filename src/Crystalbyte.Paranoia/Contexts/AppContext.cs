@@ -994,38 +994,66 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => Messages);
         }
 
-        internal void Forward() {
-            var message = App.Context.SelectedMessage;
-            if (message == null) {
-                throw new InvalidOperationException();
-            }
-
-            var owner = Application.Current.MainWindow;
-            var window = new CompositionWindow();
-            window.MimicOwnership(Application.Current.MainWindow);
-
-            var uri = string.Format("?action=forward&id={0}", message.Id);
-            window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
-
-            if (owner.WindowState == WindowState.Maximized) {
-                window.WindowState = WindowState.Maximized;
-            }
-
-            window.Show();
+        internal void Reply() {
+            Reply(SelectedMessage);
         }
 
-        internal void Reply() {
+        internal void Reply(MailMessageContext message) {
+            var url = string.Format("?action=reply&id={0}", message.Id);
+            var uri = typeof(ComposeMessagePage).ToPageUri(url);
+            App.Context.Compose(uri);
+        }
+
+        internal void Reply(FileSystemInfo file) {
+            var path = Uri.EscapeDataString(file.FullName);
+            var url = string.Format("?action=reply&path={0}", path);
+            var uri = typeof(ComposeMessagePage).ToPageUri(url);
+            App.Context.Compose(uri);
+        }
+
+        internal void Forward() {
+            Forward(SelectedMessage);
+        }
+
+        internal void Forward(MailMessageContext message) {
+            var url = string.Format("?action=forward&id={0}", message.Id);
+            var uri = typeof(ComposeMessagePage).ToPageUri(url);
+            App.Context.Compose(uri);
+        }
+
+        internal void Forward(FileSystemInfo file) {
+            var path = Uri.EscapeDataString(file.FullName);
+            var url = string.Format("?action=forward&path={0}", path);
+            var uri = typeof(ComposeMessagePage).ToPageUri(url);
+            App.Context.Compose(uri);
+        }
+
+        internal void ReplyToAll() {
+            ReplyToAll(SelectedMessage);
+        }
+
+        internal void ReplyToAll(MailMessageContext message) {
+            var url = string.Format("?action=reply-all&id={0}", message.Id);
+            var uri = typeof(ComposeMessagePage).ToPageUri(url);
+            App.Context.Compose(uri);
+        }
+
+        internal void ReplyToAll(FileSystemInfo file) {
+            var path = Uri.EscapeDataString(file.FullName);
+            var url = string.Format("?action=reply-all&path={0}", path);
+            var uri = typeof(ComposeMessagePage).ToPageUri(url);
+            App.Context.Compose(uri);
+        }
+
+        internal void Compose(Uri uri) {
             var message = App.Context.SelectedMessage;
             if (message == null) {
                 throw new InvalidOperationException();
             }
 
             var owner = Application.Current.MainWindow;
-            var window = new CompositionWindow();
-            window.MimicOwnership(Application.Current.MainWindow);
-
-            var uri = string.Format("?action=reply&id={0}", message.Id);
-            window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
+            var window = new CompositionWindow { Source = uri };
+            window.MimicOwnership(owner);
 
             if (owner.WindowState == WindowState.Maximized) {
                 window.WindowState = WindowState.Maximized;
@@ -1054,26 +1082,6 @@ namespace Crystalbyte.Paranoia {
             var window = new CompositionWindow();
             window.MimicOwnership(Application.Current.MainWindow);
             window.Source = typeof(ComposeMessagePage).ToPageUri("?action=new");
-
-            if (owner.WindowState == WindowState.Maximized) {
-                window.WindowState = WindowState.Maximized;
-            }
-
-            window.Show();
-        }
-
-        internal void ReplyAll() {
-            var message = App.Context.SelectedMessage;
-            if (message == null) {
-                throw new InvalidOperationException();
-            }
-
-            var owner = Application.Current.MainWindow;
-            var window = new CompositionWindow();
-            window.MimicOwnership(owner);
-
-            var uri = string.Format("?action=reply-all&id={0}", message.Id);
-            window.Source = typeof(ComposeMessagePage).ToPageUri(uri);
 
             if (owner.WindowState == WindowState.Maximized) {
                 window.WindowState = WindowState.Maximized;

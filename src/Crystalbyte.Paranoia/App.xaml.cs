@@ -280,10 +280,10 @@ namespace Crystalbyte.Paranoia {
                 if (info.Exists) {
                     // Can't access the main window here directly since it is not yet created.
                     DeferredActions.Push(() => {
-                        Current.MainWindow.Loaded += (sender, e) => {
+                        Current.MainWindow.Loaded += async (sender, e) => {
                             Current.MainWindow.WindowState = WindowState.Minimized;
                             // Cannot await anonymous method.
-                            Task.Run(() => Context.InspectMessageAsync(info));
+                            await Context.InspectMessageAsync(info);
                         };
                     });
                 }

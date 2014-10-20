@@ -25,7 +25,6 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             CommandBindings.Add(new CommandBinding(MessageCommands.Reply, OnReply));
             CommandBindings.Add(new CommandBinding(MessageCommands.ReplyAll, OnReplyAll));
             CommandBindings.Add(new CommandBinding(MessageCommands.Forward, OnForward));
-            CommandBindings.Add(new CommandBinding(MessageCommands.Resume, OnResume));
             CommandBindings.Add(new CommandBinding(MessageCommands.Inspect, OnInspect, OnCanInspect));
             CommandBindings.Add(new CommandBinding(OutboxCommands.Delete, OnDeleteSmtpRequest, OnCanDeleteSmtpRequest));
             App.Context.SortOrderChanged += OnSortOrderChanged;
@@ -41,10 +40,6 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
         private void OnDeleteSmtpRequest(object sender, ExecutedRoutedEventArgs e) {
 
-        }
-
-        private static void OnResume(object sender, ExecutedRoutedEventArgs e) {
-            throw new NotImplementedException();
         }
 
         private static void OnForward(object sender, ExecutedRoutedEventArgs e) {
@@ -66,7 +61,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
         private static void OnReplyAll(object sender, ExecutedRoutedEventArgs e) {
             try {
-                App.Context.ReplyAll();
+                App.Context.ReplyToAll();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }

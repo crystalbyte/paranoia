@@ -4,8 +4,8 @@
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
-                xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                 xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+                xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                 x:Name="Window"
                 Title="{Binding Text,
                                 ElementName=TitleBlock,

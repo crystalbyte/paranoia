@@ -26,6 +26,9 @@
             <Component Id="cmpA11201BDB0AC9C4234278F4CB96CF900" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filBBCE8DEF7F0E1014F874371CDF691401" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-19.log" />
             </Component>
+            <Component Id="cmpB4615E5FF4F4AC4752DF07F337763CD7" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil839D387E8911363EDD84FEE3A6A55034" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-20.log" />
+            </Component>
             <Component Id="cmp63E096F88C92E34035988D68897C9AC7" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil6149A3A5A64C602E7C9DA3E939C13557" KeyPath="yes" Source="$(var.PrimaryOutputDir)\avcodec-53.dll" />
             </Component>

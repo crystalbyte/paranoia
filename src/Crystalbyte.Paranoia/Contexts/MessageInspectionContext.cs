@@ -22,11 +22,23 @@ namespace Crystalbyte.Paranoia {
 
         #region Class Overrides
 
-        protected async override Task<MailMessageReader> GetMailMessageReaderAsync() {
+        protected internal async override Task<MailMessageReader> GetMailMessageReaderAsync() {
             using (var database = new DatabaseContext()) {
                 var mime = await database.MimeMessages.FirstOrDefaultAsync(x => x.MessageId == _message.Id);
                 return new MailMessageReader(mime.Data);
             }
+        }
+
+        internal override void Reply() {
+            App.Context.Reply(_message);
+        }
+
+        internal override void ReplyAll() {
+            App.Context.ReplyToAll(_message);
+        }
+
+        internal override void Forward() {
+            App.Context.Forward(_message);
         }
 
         #endregion

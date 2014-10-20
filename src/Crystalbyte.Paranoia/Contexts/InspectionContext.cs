@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
+using NLog;
 
 namespace Crystalbyte.Paranoia {
     public abstract class InspectionContext : NotificationObject {
@@ -9,27 +14,110 @@ namespace Crystalbyte.Paranoia {
         #region Private Fields
 
         private string _subject;
-        private string _from;
-        private string _to;
+        private MailContactContext _from;
+        private readonly IList<MailContactContext> _to;
+        private readonly IList<MailContactContext> _cc;
         private DateTime _date;
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
+
+        #region Construction
+
+        protected InspectionContext() {
+            _to = new ObservableCollection<MailContactContext>();
+            _cc = new ObservableCollection<MailContactContext>();
+        }
 
         #endregion
 
         #region Methods
 
-        protected abstract Task<MailMessageReader> GetMailMessageReaderAsync();
+        internal abstract void Reply();
+
+        internal abstract void ReplyAll();
+
+        internal abstract void Forward();
+
+        protected internal abstract Task<MailMessageReader> GetMailMessageReaderAsync();
 
         public async Task InitAsync() {
             var reader = await GetMailMessageReaderAsync();
             Subject = reader.Headers.Subject;
-            From = reader.Headers.From.DisplayName;
             Date = reader.Headers.DateSent.ToLocalTime();
-            To = string.Join(", ", reader.Headers.To.Select(x => x.DisplayName));
+
+            try {
+                using (var database = new DatabaseContext()) {
+                    var from = await database.MailContacts
+                        .FirstOrDefaultAsync(x => x.Address == reader.Headers.From.Address);
+                    if (from == null) {
+                        from = new MailContactModel {
+                            Name = reader.Headers.From.DisplayName,
+                            Address = reader.Headers.From.Address
+                        };
+
+                        database.MailContacts.Add(from);
+                    }
+
+                    _from = new MailContactContext(from);
+
+                    foreach (var value in reader.Headers.To) {
+                        var v = value;
+                        var contact = await database.MailContacts
+                            .FirstOrDefaultAsync(x => x.Address == v.Address);
+                        if (contact == null) {
+                            contact = new MailContactModel {
+                                Name = v.DisplayName,
+                                Address = v.Address
+                            };
+
+                            database.MailContacts.Add(contact);
+                        }
+                        _to.Add(new MailContactContext(contact));
+                    }
+
+                    foreach (var value in reader.Headers.Cc) {
+                        var v = value;
+                        var contact = await database.MailContacts
+                            .FirstOrDefaultAsync(x => x.Address == v.Address);
+                        if (contact == null) {
+                            contact = new MailContactModel {
+                                Name = v.DisplayName,
+                                Address = v.Address
+                            };
+
+                            database.MailContacts.Add(contact);
+                        }
+                        _cc.Add(new MailContactContext(contact));
+                    }
+
+                    await database.SaveChangesAsync();
+                }
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         #endregion
 
         #region Properties
+
+        public MailContactContext From {
+            get { return _from; }
+        }
+
+        public MailContactContext PrimaryTo {
+            get { return _to.FirstOrDefault(); }
+        }
+
+        public IEnumerable<MailContactContext> To {
+            get { return _to; }
+        }
+
+        public IEnumerable<MailContactContext> Cc {
+            get { return _cc; }
+        }
 
         public string Subject {
             get { return _subject; }
@@ -40,30 +128,6 @@ namespace Crystalbyte.Paranoia {
 
                 _subject = value;
                 RaisePropertyChanged(() => Subject);
-            }
-        }
-
-        public string From {
-            get { return _from; }
-            set {
-                if (_from == value) {
-                    return;
-                }
-
-                _from = value;
-                RaisePropertyChanged(() => From);
-            }
-        }
-
-        public string To {
-            get { return _to; }
-            set {
-                if (_to == value) {
-                    return;
-                }
-
-                _to = value;
-                RaisePropertyChanged(() => To);
             }
         }
 

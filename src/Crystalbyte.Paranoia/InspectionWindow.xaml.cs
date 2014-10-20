@@ -23,6 +23,7 @@ namespace Crystalbyte.Paranoia {
             InitializeComponent();
 
             CommandBindings.Add(new CommandBinding(MessageCommands.Reply, OnReply));
+            CommandBindings.Add(new CommandBinding(MessageCommands.ReplyAll, OnReplyAll));
             CommandBindings.Add(new CommandBinding(MessageCommands.Forward, OnForward));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint));
         }
@@ -40,17 +41,28 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private static void OnForward(object sender, ExecutedRoutedEventArgs e) {
+        private void OnForward(object sender, ExecutedRoutedEventArgs e) {
             try {
-                App.Context.Forward();
+                var context = (InspectionContext)DataContext;
+                context.Forward();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
 
-        private static void OnReply(object sender, ExecutedRoutedEventArgs e) {
+        private void OnReply(object sender, ExecutedRoutedEventArgs e) {
             try {
-                App.Context.Reply();
+                var context = (InspectionContext)DataContext;
+                context.Reply();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private void OnReplyAll(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                var context = (InspectionContext)DataContext;
+                context.ReplyAll();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }

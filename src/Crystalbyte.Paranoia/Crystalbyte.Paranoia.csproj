@@ -656,6 +656,8 @@
     <Resource Include="Assets\attachment.png" />
     <Resource Include="Assets\upload.png" />
     <Resource Include="Assets\logo.window.png" />
+    <Resource Include="Assets\reply.all.png" />
+    <Resource Include="Assets\arrow.right.png" />
     <Content Include="Resources\ckeditor.paranoia\paranoia.js" />
     <Content Include="Resources\ckeditor\adapters\jquery.js" />
     <Content Include="Resources\ckeditor\build-config.js" />

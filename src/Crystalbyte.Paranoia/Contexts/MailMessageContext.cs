@@ -41,6 +41,8 @@ namespace Crystalbyte.Paranoia {
 
         #endregion
 
+        #region Properties
+
         public bool IsLocallyAvailable {
             get { return _isLocal; }
             set {
@@ -116,9 +118,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async void OnFlaggedStatusChanged() {
-            await SaveFlagsToDatabaseAsync();
-        }
+     
 
         public bool IsSeen {
             get { return HasFlag(MailMessageFlags.Seen); }
@@ -139,7 +139,13 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        #endregion
+
         private async void OnSeenStatusChanged() {
+            await SaveFlagsToDatabaseAsync();
+        }
+
+        private async void OnFlaggedStatusChanged() {
             await SaveFlagsToDatabaseAsync();
         }
 
