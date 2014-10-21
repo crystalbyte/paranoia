@@ -295,6 +295,7 @@
             </ui:AutoCompleteBox>
         </StackPanel>
 
+        <!--  ttt  -->
         <ListView Grid.Row="4"
                   Grid.Column="0"
                   Grid.ColumnSpan="4"

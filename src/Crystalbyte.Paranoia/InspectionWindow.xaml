@@ -22,7 +22,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0"
@@ -38,12 +40,9 @@
                    Source="/Assets/logo.window.png" />
             <TextBox Margin="0,-1,0,0"
                      VerticalAlignment="Center"
-                     Background="Transparent"
-                     BorderThickness="0"
                      FontSize="{DynamicResource Metro.NormalFontSize}"
-                     IsReadOnly="True"
-                     Padding="3,0"
-                     RenderOptions.ClearTypeHint="Enabled"
+                     Foreground="{DynamicResource Metro.Control.TextBrush}"
+                     Style="{DynamicResource Metro.ReadOnlyTextBox}"
                      Text="{Binding Subject,
                                     Mode=OneWay,
                                     Converter={StaticResource NullOrEmptyFormatter},
@@ -90,7 +89,7 @@
             <Button Grid.Column="4" Style="{DynamicResource Metro.CloseButtonStyle}" />
         </Grid>
         <DockPanel Grid.Row="1"
-                   Margin="0,0,0,6"
+                   Margin="0,0,0,3"
                    LastChildFill="True">
             <StackPanel Margin="6,0,6,0"
                         HorizontalAlignment="Right"
@@ -137,26 +136,20 @@
                                             Converter={StaticResource GravatarImageConverter}}" />
                     <StackPanel VerticalAlignment="Center">
                         <TextBox Margin="2,-2,0,0"
-                                 BorderThickness="0"
                                  FontSize="{DynamicResource Metro.MediumLargeFontSize}"
                                  FontWeight="Thin"
                                  Foreground="{DynamicResource Metro.Control.TextBrush}"
-                                 IsReadOnly="True"
                                  Padding="0"
-                                 RenderOptions.ClearTypeHint="Enabled"
+                                 Style="{DynamicResource Metro.ReadOnlyTextBox}"
                                  Text="{Binding Name,
                                                 ConverterParameter=...,
-                                                Converter={StaticResource NullOrEmptyFormatter}}"
-                                 TextWrapping="NoWrap" />
+                                                Converter={StaticResource NullOrEmptyFormatter}}" />
                         <TextBox Margin="2,0,2,2"
-                                 BorderThickness="0"
                                  Foreground="{DynamicResource Metro.App.AccentBrush}"
-                                 IsReadOnly="True"
                                  Padding="0"
-                                 RenderOptions.ClearTypeHint="Enabled"
+                                 Style="{DynamicResource Metro.ReadOnlyTextBox}"
                                  Text="{Binding Address,
-                                                Converter={StaticResource NullOrEmptyFormatter}}"
-                                 TextWrapping="NoWrap" />
+                                                Converter={StaticResource NullOrEmptyFormatter}}" />
                     </StackPanel>
                 </StackPanel>
                 <Image Grid.Column="1"
@@ -175,36 +168,106 @@
                                             Converter={StaticResource GravatarImageConverter}}" />
                     <StackPanel VerticalAlignment="Center">
                         <TextBox Margin="2,-2,0,0"
-                                 BorderThickness="0"
                                  FontSize="{DynamicResource Metro.MediumLargeFontSize}"
                                  FontWeight="Thin"
                                  Foreground="{DynamicResource Metro.Control.TextBrush}"
-                                 IsReadOnly="True"
                                  Padding="0"
-                                 RenderOptions.ClearTypeHint="Enabled"
+                                 Style="{DynamicResource Metro.ReadOnlyTextBox}"
                                  Text="{Binding Name,
                                                 ConverterParameter=...,
-                                                Converter={StaticResource NullOrEmptyFormatter}}"
-                                 TextWrapping="NoWrap" />
+                                                Converter={StaticResource NullOrEmptyFormatter}}" />
                         <TextBox Margin="2,0,2,2"
-                                 BorderThickness="0"
                                  Foreground="{DynamicResource Metro.App.AccentBrush}"
-                                 IsReadOnly="True"
                                  Padding="0"
-                                 RenderOptions.ClearTypeHint="Enabled"
+                                 Style="{DynamicResource Metro.ReadOnlyTextBox}"
                                  Text="{Binding Address,
-                                                Converter={StaticResource NullOrEmptyFormatter}}"
-                                 TextWrapping="NoWrap" />
+                                                Converter={StaticResource NullOrEmptyFormatter}}" />
                     </StackPanel>
                 </StackPanel>
             </Grid>
         </DockPanel>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2"
+              Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
+              Visibility="{Binding HasCarbonCopies,
+                                   Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ItemsControl Margin="6,3" ItemsSource="{Binding Cc}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="paranoia:MailContactContext">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="32"
+                                   Margin="0,0,3,0"
+                                   VerticalAlignment="Center"
+                                   RenderOptions.BitmapScalingMode="Fant"
+                                   Source="{Binding Address,
+                                                    ConverterParameter=48,
+                                                    Converter={StaticResource GravatarImageConverter}}" />
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBox Margin="0,-2,0,0"
+                                         FontSize="{DynamicResource Metro.NormalFontSize}"
+                                         FontWeight="Normal"
+                                         Foreground="{DynamicResource Metro.Control.TextBrush}"
+                                         Padding="0"
+                                         Style="{DynamicResource Metro.ReadOnlyTextBox}"
+                                         Text="{Binding Name,
+                                                        ConverterParameter=...,
+                                                        Converter={StaticResource NullOrEmptyFormatter}}" />
+                                <TextBox Margin="0,0,2,2"
+                                         FontSize="{DynamicResource Metro.SmallFontSize}"
+                                         FontWeight="Normal"
+                                         Foreground="{DynamicResource Metro.App.AccentBrush}"
+                                         Padding="0"
+                                         Style="{DynamicResource Metro.ReadOnlyTextBox}"
+                                         Text="{Binding Address,
+                                                        Converter={StaticResource NullOrEmptyFormatter}}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBlock Margin="0,0,6,-7"
+                       HorizontalAlignment="Right"
+                       FontFamily="Verdana"
+                       FontSize="34"
+                       FontStyle="Italic"
+                       FontWeight="Thin"
+                       Foreground="{DynamicResource Metro.Control.BackgroundBrush}"
+                       Text="CC" />
+        </Grid>
+        <Grid Grid.Row="3" Margin="0,3,0,0">
             <ui:HtmlControl x:Name="HtmlViewer"
                             BorderThickness="0"
                             WebSession="{Binding Source={StaticResource InspectionWebSessionProvider}}" />
         </Grid>
-        <StatusBar Grid.Row="3"
+        <ListView Grid.Row="4"
+                  Background="{DynamicResource Metro.Control.BackgroundBrush}"
+                  BorderThickness="0"
+                  ItemTemplate="{StaticResource Metro.ThumbnailTemplate}"
+                  ItemsSource="{Binding Attachments}"
+                  ScrollViewer.CanContentScroll="False"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <ListView.Style>
+                <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type ListView}">
+                    <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClicked" />
+                    <Style.Triggers>
+                        <Trigger Property="HasItems" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Style>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+        <StatusBar Grid.Row="5"
                    Height="24"
                    Background="{DynamicResource Metro.App.AccentBrush}" />
     </Grid>

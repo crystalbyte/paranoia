@@ -70,7 +70,6 @@
             </awe:WebSessionProvider>
 
             <!--  Font Sizes  -->
-
             <system:Double x:Key="Metro.ShadowOpacity">0.9</system:Double>
             <system:Double x:Key="Metro.SmallFontSize">12</system:Double>
             <system:Double x:Key="Metro.NormalFontSize">14</system:Double>
@@ -104,6 +103,52 @@
             <SolidColorBrush x:Key="Metro.Scroll.Thumb.HoverBrush" Color="{x:Static paranoia:MetroColors.ScrollThumbHoverColor}" />
             <SolidColorBrush x:Key="Metro.Scroll.Thumb.DragBrush" Color="{x:Static paranoia:MetroColors.ScrollThumbDragColor}" />
             <SolidColorBrush x:Key="Metro.Scroll.BackgroundBrush" Color="{x:Static paranoia:MetroColors.ScrollBackgroundColor}" />
+
+            <DataTemplate x:Key="Metro.ThumbnailTemplate" DataType="paranoia:AttachmentContext">
+                <Grid Width="120"
+                      Height="80"
+                      Margin="3,3,3,3"
+                      Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           RenderOptions.BitmapScalingMode="HighQuality"
+                           Source="{Binding FullName,
+                                            ConverterParameter=24,
+                                            Converter={StaticResource IconFinder},
+                                            IsAsync=True}"
+                           Stretch="UniformToFill"
+                           Visibility="{Binding IsImage,
+                                                Converter={StaticResource BooleanToVisibilityConverter},
+                                                ConverterParameter=!}" />
+                    <Image Grid.Row="0"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           RenderOptions.BitmapScalingMode="HighQuality"
+                           Source="{Binding Bytes,
+                                            IsAsync=True}"
+                           Stretch="Uniform"
+                           Visibility="{Binding IsImage,
+                                                Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <Grid Grid.Row="0" VerticalAlignment="Bottom">
+                        <Rectangle HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Stretch"
+                                   Fill="{DynamicResource Metro.Window.ShadowBrush}"
+                                   Opacity="{DynamicResource Metro.ShadowOpacity}" />
+                        <TextBlock Margin="3"
+                                   Background="Transparent"
+                                   FontSize="{DynamicResource Metro.SmallFontSize}"
+                                   Text="{Binding Name}"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap"
+                                   ToolTip="{Binding FullName}" />
+                    </Grid>
+                </Grid>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -17,6 +17,7 @@ namespace Crystalbyte.Paranoia {
         private MailContactContext _from;
         private readonly IList<MailContactContext> _to;
         private readonly IList<MailContactContext> _cc;
+        private readonly IList<AttachmentContext> _attachments;
         private DateTime _date;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -28,6 +29,7 @@ namespace Crystalbyte.Paranoia {
         protected InspectionContext() {
             _to = new ObservableCollection<MailContactContext>();
             _cc = new ObservableCollection<MailContactContext>();
+            _attachments = new ObservableCollection<AttachmentContext>();
         }
 
         #endregion
@@ -92,6 +94,10 @@ namespace Crystalbyte.Paranoia {
                         _cc.Add(new MailContactContext(contact));
                     }
 
+                    foreach (var attachment in reader.FindAllAttachments()) {
+                        _attachments.Add(new AttachmentContext(attachment));
+                    }
+
                     await database.SaveChangesAsync();
                 }
             } catch (Exception ex) {
@@ -102,6 +108,14 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         #region Properties
+
+        public IEnumerable<AttachmentContext> Attachments {
+            get { return _attachments; }
+        }
+
+        public bool HasCarbonCopies {
+            get { return _cc.Count > 0; }
+        }
 
         public MailContactContext From {
             get { return _from; }

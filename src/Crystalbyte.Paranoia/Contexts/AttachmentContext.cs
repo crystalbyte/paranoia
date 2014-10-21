@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Mail.Mime;
 using Crystalbyte.Paranoia.UI.Commands;
@@ -33,7 +34,7 @@ namespace Crystalbyte.Paranoia {
 
         public void Open() {
             if (_openCommand != null && _openCommand.CanExecute(null)) {
-                _openCommand.Execute(null);        
+                _openCommand.Execute(null);
             }
         }
 
@@ -43,6 +44,17 @@ namespace Crystalbyte.Paranoia {
 
         public string FullName {
             get { return _fullname; }
+        }
+
+        public bool IsImage {
+            get {
+                return _part.ContentType.MediaType.Contains("image")
+                    || Regex.IsMatch(_part.FileName, ".jpg|.png|.jpeg|.tiff|.gif", RegexOptions.IgnoreCase);
+            }
+        }
+
+        public byte[] Bytes {
+            get { return _part.Body; }
         }
 
         public ICommand RemoveCommand {

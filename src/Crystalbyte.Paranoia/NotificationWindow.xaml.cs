@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -64,8 +63,6 @@ namespace Crystalbyte.Paranoia {
             App.Context.ShowMessage(_messages.First());
             SlideOut();
         }
-
-
 
         private void OnExitAnimationCompleted(object sender, EventArgs e) {
             Close();

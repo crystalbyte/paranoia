@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.UI;
 using NLog;
@@ -91,5 +92,17 @@ namespace Crystalbyte.Paranoia {
         }
 
         #endregion
+
+        private void OnAttachmentMouseDoubleClicked(object sender, MouseButtonEventArgs e) {
+            if (!IsLoaded) {
+                return;
+            }
+            var view = (ListView)sender;
+            var attachment = (AttachmentContext)view.SelectedValue;
+            if (attachment == null) {
+                return;
+            }
+            attachment.Open();
+        }
     }
 }

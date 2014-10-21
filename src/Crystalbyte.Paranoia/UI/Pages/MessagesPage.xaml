@@ -838,6 +838,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Border Grid.Row="0"
                     Padding="0,0,0,6"
@@ -849,8 +850,6 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -917,63 +916,7 @@
                                    Source="/Assets/print.png" />
                         </ui:MetroCircleButton>
                     </StackPanel>
-                    <ListView Grid.Row="3"
-                              Grid.Column="0"
-                              Grid.ColumnSpan="2"
-                              MaxHeight="300"
-                              Margin="0,3,0,0"
-                              Background="{DynamicResource Metro.Menu.BackgroundBrush}"
-                              BorderThickness="0"
-                              ItemsSource="{Binding Attachments}"
-                              Padding="0,3,0,3"
-                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                              ScrollViewer.VerticalScrollBarVisibility="Auto">
-                        <ListView.Style>
-                            <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type ListView}">
-                                <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClicked" />
-                                <Style.Triggers>
-                                    <Trigger Property="HasItems" Value="false">
-                                        <Setter Property="Visibility" Value="Hidden" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ListView.Style>
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Border Padding="3">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="120" />
-                                        </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0"
-                                               Width="16"
-                                               Margin="3,0,6,0"
-                                               VerticalAlignment="Center"
-                                               Source="{Binding FullName,
-                                                                ConverterParameter=24,
-                                                                Converter={StaticResource IconFinder},
-                                                                IsAsync=True}"
-                                               Stretch="Uniform" />
-                                        <TextBlock Grid.Column="1"
-                                                   Margin="0,0,6,0"
-                                                   HorizontalAlignment="Left"
-                                                   VerticalAlignment="Center"
-                                                   Text="{Binding Name}"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   TextWrapping="NoWrap"
-                                                   ToolTip="{Binding FullName}" />
 
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
                 </Grid>
             </Border>
             <Border Grid.Row="1" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -1020,6 +963,32 @@
                     </Grid>
                 </Grid>
             </Border>
+            <ListView Grid.Row="2"
+                      Background="{DynamicResource Metro.Control.BackgroundBrush}"
+                      BorderThickness="0"
+                      ItemTemplate="{StaticResource Metro.ThumbnailTemplate}"
+                      ItemsSource="{Binding Attachments}"
+                      ScrollViewer.CanContentScroll="False"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                      Visibility="{Binding IsMessageOrSmtpRequestSelected,
+                                           Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ListView.Style>
+                    <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type ListView}">
+                        <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClicked" />
+                        <Style.Triggers>
+                            <Trigger Property="HasItems" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.Style>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
         </Grid>
     </Grid>
 </Page>
