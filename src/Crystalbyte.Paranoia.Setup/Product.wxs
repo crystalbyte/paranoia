@@ -46,6 +46,7 @@
         <RemoveRegistryKey Action="removeOnUninstall" Root="HKCR" Key="SOFTWARE\Classes\Applications\$(var.ProductExecutable)" />
 
         <RegistryValue Root="HKLM" Key="SOFTWARE\RegisteredApplications" Name="$(var.ProgId)" Type="string" Value="SOFTWARE\$(var.Manufacturer)\$(var.ProductName)" />
+        <!-- TODO: We need to remove the value on uninstall without removing the key itself. -->
         
         <RegistryValue Root="HKLM" Key="SOFTWARE\$(var.Manufacturer)\$(var.ProductName)" Type="string" Value="$(var.ProductTitle)" KeyPath="yes" />
         <RegistryValue Root="HKLM" Key="SOFTWARE\$(var.Manufacturer)\$(var.ProductName)" Name="InstallDir" Type="string" Value="[APPLICATIONFOLDER]" />
@@ -61,14 +62,14 @@
         <RegistryValue Root="HKLM" Key="SOFTWARE\Clients\Mail\$(var.ProductName)\shell\open\command" Type="string" Value='"[APPLICATIONFOLDER]$(var.ProductExecutable)"' />
         <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="SOFTWARE\Clients\Mail\$(var.ProductName)" />
 
-        
-        <!-- TODO: We need to remove the value on uninstall without removing the key itself. -->
-
         <!-- Remove files on uninstall.-->
         <util:RemoveFolderEx On="uninstall" Property="APPLICATIONFOLDER_PROPERTY" />
 
         <!-- MSDN Registering Verbs for File Name Extensions.
              http://msdn.microsoft.com/en-us/library/bb165967.aspx -->
+
+        <!-- Do not set the "DefaultIcon" keys in WPF applications.
+             http://stackoverflow.com/questions/16367098/wpf-application-file-association-defaulticon-is-not-working -->
 
         <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\.$(var.EmlExtension)" Type="string" Value="$(var.EmlProgId)" />
         <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\.$(var.EmlExtension)\PerceivedType" Type="string" Value="Document" />
@@ -76,9 +77,7 @@
         <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\.$(var.EmlExtension)\$(var.EmlProgId)\shellnew" Type="string" Value="" />
         <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\.$(var.EmlExtension)\OpenWithProgIds" Name="$(var.EmlProgId)" Type="string" Value="" />
         <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="SOFTWARE\Classes\.$(var.EmlExtension)\OpenWithProgIds" />
-
-        <!-- Do not set the "DefaultIcon" keys in WPF applications.
-             http://stackoverflow.com/questions/16367098/wpf-application-file-association-defaulticon-is-not-working -->
+        
         <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\$(var.MailtoProgId)" Type="string" Value="!(loc.MailtoProtocolDescription)" />
         <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\$(var.MailtoProgId)\shell\open\command" Type="string" Value='"[APPLICATIONFOLDER]$(var.ProductExecutable)" /mailto "%1"' />
         <RemoveRegistryKey Action="removeOnUninstall" Root="HKLM" Key="SOFTWARE\Classes\$(var.MailtoProgId)" />

@@ -36,7 +36,7 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
-                if (Regex.IsMatch(request.Path, "file?path=.+\\)")) {
+                if (Regex.IsMatch(request.Path, "file?path=.+")) {
                     var path = request.Path.Substring(10);
                     await SendFileResponseAsync(request, path);
                     return;
