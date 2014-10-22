@@ -107,8 +107,8 @@
             <DataTemplate x:Key="Metro.ThumbnailTemplate" DataType="paranoia:AttachmentContext">
                 <Grid Width="120"
                       Height="80"
-                      Margin="3,3,3,3"
-                      Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}">
+                      Margin="1"
+                      Background="Black">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
@@ -121,7 +121,7 @@
                                             ConverterParameter=24,
                                             Converter={StaticResource IconFinder},
                                             IsAsync=True}"
-                           Stretch="UniformToFill"
+                           Stretch="None"
                            Visibility="{Binding IsImage,
                                                 Converter={StaticResource BooleanToVisibilityConverter},
                                                 ConverterParameter=!}" />

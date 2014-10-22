@@ -116,6 +116,9 @@ namespace Crystalbyte.Paranoia {
         public bool HasCarbonCopies {
             get { return _cc.Count > 0; }
         }
+        public bool HasMultipleRecipients {
+            get { return _to.Count > 1; }
+        }
 
         public MailContactContext From {
             get { return _from; }
@@ -127,6 +130,10 @@ namespace Crystalbyte.Paranoia {
 
         public IEnumerable<MailContactContext> To {
             get { return _to; }
+        }
+
+        public IEnumerable<MailContactContext> SecondaryTo {
+            get { return _to.Skip(1); }
         }
 
         public IEnumerable<MailContactContext> Cc {

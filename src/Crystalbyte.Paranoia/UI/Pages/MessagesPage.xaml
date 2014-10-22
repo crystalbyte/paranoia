@@ -837,8 +837,8 @@
               Background="{DynamicResource Metro.Control.BackgroundBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Border Grid.Row="0"
                     Padding="0,0,0,6"
@@ -919,7 +919,39 @@
 
                 </Grid>
             </Border>
-            <Border Grid.Row="1" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ListView Grid.Row="1"
+                      Margin="0"
+                      Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
+                      BorderThickness="0"
+                      ItemTemplate="{StaticResource Metro.ThumbnailTemplate}"
+                      ItemsSource="{Binding Attachments}"
+                      Padding="0"
+                      ScrollViewer.CanContentScroll="False"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <ListView.Style>
+                    <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type ListView}">
+                        <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClicked" />
+                        <Style.Triggers>
+                            <Trigger Property="HasItems" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.Style>
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
+                        <Setter Property="UseLayoutRounding" Value="True" />
+                        <Setter Property="Margin" Value="3" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+            <Border Grid.Row="2">
                 <Grid Visibility="{Binding IsAnimating, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
                     <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <ui:HtmlControl x:Name="MessageViewer"
@@ -963,32 +995,6 @@
                     </Grid>
                 </Grid>
             </Border>
-            <ListView Grid.Row="2"
-                      Background="{DynamicResource Metro.Control.BackgroundBrush}"
-                      BorderThickness="0"
-                      ItemTemplate="{StaticResource Metro.ThumbnailTemplate}"
-                      ItemsSource="{Binding Attachments}"
-                      ScrollViewer.CanContentScroll="False"
-                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                      Visibility="{Binding IsMessageOrSmtpRequestSelected,
-                                           Converter={StaticResource BooleanToVisibilityConverter}}">
-                <ListView.Style>
-                    <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type ListView}">
-                        <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClicked" />
-                        <Style.Triggers>
-                            <Trigger Property="HasItems" Value="False">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListView.Style>
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-            </ListView>
         </Grid>
     </Grid>
 </Page>
