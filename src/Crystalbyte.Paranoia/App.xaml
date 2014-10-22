@@ -65,7 +65,6 @@
                 <core:WebPreferences CustomCSS="{x:Static paranoia:App.InspectionCss}"
                                      DefaultEncoding="utf-8"
                                      EnableGPUAcceleration="True"
-                                     Javascript="False"
                                      SmoothScrolling="True" />
             </awe:WebSessionProvider>
 

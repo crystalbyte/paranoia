@@ -340,6 +340,7 @@ namespace Crystalbyte.Paranoia {
 
             content = NormalizeHtml(content, encoding);
             content = ConvertEmbeddedSources(content, id);
+            content = RemoveJaveScript(content);
             var bytes = encoding.GetBytes(content);
             SendByteStream(request, bytes);
         }
@@ -510,6 +511,11 @@ namespace Crystalbyte.Paranoia {
 
                 return messages.Length > 0 ? messages[0].Data : new byte[0];
             }
+        }
+
+        private static string RemoveJaveScript(string content) {
+            const string htmlDropScriptsPattern = "<script.+?>.*?</script>|<script.+?/>";
+            return Regex.Replace(content, htmlDropScriptsPattern, string.Empty, RegexOptions.Singleline | RegexOptions.IgnoreCase);
         }
     }
 }
