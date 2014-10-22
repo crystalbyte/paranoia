@@ -19,6 +19,10 @@
                 d:DataContext="{d:DesignInstance paranoia:InspectionContext}"
                 mc:Ignorable="d">
     <Grid Background="{DynamicResource Metro.Control.BackgroundBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="197*"/>
+            <ColumnDefinition Width="597*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -32,7 +36,7 @@
                     Height="34"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Orientation="Horizontal">
+                    Orientation="Horizontal" Grid.ColumnSpan="2" Margin="0,0,0,42.8" Grid.RowSpan="2">
             <Image Width="20"
                    Margin="10,0"
                    VerticalAlignment="Center"
@@ -60,7 +64,7 @@
         <Grid Grid.Row="0"
               HorizontalAlignment="Right"
               VerticalAlignment="Top"
-              Panel.ZIndex="100000">
+              Panel.ZIndex="100000" Grid.Column="1" Margin="0,0,-0.4,0">
             <Grid.ColumnDefinitions>
                 <!--  help button  -->
                 <ColumnDefinition Width="Auto" />
@@ -90,8 +94,8 @@
             <Button Grid.Column="4" Style="{DynamicResource Metro.CloseButtonStyle}" />
         </Grid>
         <DockPanel Grid.Row="1"
-                   Margin="0,0,0,3"
-                   LastChildFill="True">
+                   Margin="0,0.4,-0.4,2.8"
+                   LastChildFill="True" Grid.ColumnSpan="2">
             <StackPanel Margin="6,0,6,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
@@ -190,7 +194,7 @@
         <Grid Grid.Row="2"
               Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
               Visibility="{Binding HasMultipleRecipients,
-                                   Converter={StaticResource BooleanToVisibilityConverter}}">
+                                   Converter={StaticResource BooleanToVisibilityConverter}}" Grid.ColumnSpan="2" Margin="0,0.2,-0.4,349.4" Grid.RowSpan="3">
             <ItemsControl Margin="6,3" ItemsSource="{Binding SecondaryTo}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -242,7 +246,7 @@
         <Grid Grid.Row="3"
               Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
               Visibility="{Binding HasCarbonCopies,
-                                   Converter={StaticResource BooleanToVisibilityConverter}}">
+                                   Converter={StaticResource BooleanToVisibilityConverter}}" Grid.ColumnSpan="2" Margin="0,0.2,-0.4,349.4" Grid.RowSpan="2">
             <ItemsControl Margin="6,3" ItemsSource="{Binding Cc}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -291,20 +295,20 @@
                        Foreground="{DynamicResource Metro.Control.BackgroundBrush}"
                        Text="CC" />
         </Grid>
-        <Grid Grid.Row="4" Margin="0,3,0,0">
+        <Grid Grid.Row="4" Margin="0,3.2,-0.4,0.4" Grid.ColumnSpan="2">
             <ui:HtmlControl x:Name="HtmlViewer"
                             BorderThickness="0"
                             WebSession="{Binding Source={StaticResource InspectionWebSessionProvider}}" />
         </Grid>
-        <ListView Grid.Row="5"
-                  Margin="0"
+        <ListView Grid.Row="4"
+                  Margin="0,349.2,-0.4,0.4"
                   Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                   BorderThickness="0"
                   ItemTemplate="{StaticResource Metro.ThumbnailTemplate}"
                   ItemsSource="{Binding Attachments}"
                   ScrollViewer.CanContentScroll="False"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Grid.ColumnSpan="2">
             <ListView.ItemContainerStyle>
                 <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                     <Setter Property="UseLayoutRounding" Value="True" />
@@ -327,8 +331,8 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <StatusBar Grid.Row="6"
+        <StatusBar Grid.Row="4"
                    Height="24"
-                   Background="{DynamicResource Metro.App.AccentBrush}" />
+                   Background="{DynamicResource Metro.App.AccentBrush}" Grid.ColumnSpan="2" Margin="0,349.2,-0.4,0.4" Grid.RowSpan="3" />
     </Grid>
 </ui:MetroWindow>

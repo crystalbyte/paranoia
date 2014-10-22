@@ -19,6 +19,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0"
                     Height="34"
@@ -82,11 +83,14 @@
         </Grid>
         <Frame x:Name="NavFrame"
                Grid.Row="1"
-               Margin="3"
+               Margin="0"
                Navigated="OnFrameNavigated"
-               Padding="24"
+               Padding="0"
                Source="{Binding Source,
                                 RelativeSource={RelativeSource FindAncestor,
                                                                AncestorType=paranoia:CompositionWindow}}" />
+        <StatusBar Grid.Row="2"
+                   Height="24"
+                   Background="{DynamicResource Metro.App.AccentBrush}" />
     </Grid>
 </ui:MetroWindow>
