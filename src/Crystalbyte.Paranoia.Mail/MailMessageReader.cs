@@ -28,6 +28,7 @@ namespace Crystalbyte.Paranoia.Mail {
     ///     Examples are available on the <a href="http://hpop.sourceforge.net/">project homepage</a>.
     /// </example>
     public class MailMessageReader {
+
         #region Public properties
 
         /// <summary>

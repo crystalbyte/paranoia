@@ -18,24 +18,29 @@ namespace Crystalbyte.Paranoia {
         }
 
         public ResourceResponse OnRequest(ResourceRequest request) {
+
+            var arguments = request.Url.OriginalString.ToPageArguments();
+
+            if (request.Url.Scheme == "http" || request.Url.Scheme == "https") {
+                bool suppress;
+                if (arguments.ContainsKey("suppressextermals") && bool.TryParse(arguments["suppressextermals"], out suppress)) {
+                    if (!suppress) {
+                        return null;
+                    }
+                }
+                return GetPlaceHolderResponse();
+            }
+
             if (request.Url.Scheme != "asset")
                 return null;
 
-            //TODO improve this
-            var arguments = request.Url.OriginalString.ToPageArguments();
             long messageId;
             if (arguments.ContainsKey("messageId") && long.TryParse(arguments["messageId"], out messageId)) {
                 if (arguments.ContainsKey("cid")) {
 
                     var attachment = GetAttachmentBytes(arguments["cid"], messageId);
                     if (attachment != null) {
-                        var buffer = Marshal.AllocHGlobal(attachment.Length);
-                        Marshal.Copy(attachment, 0, buffer, attachment.Length);
-
-                        var response = ResourceResponse.Create((uint)attachment.Length, buffer, "image");
-
-                        Marshal.FreeHGlobal(buffer);
-                        return response;
+                        return BytesToResourceResponce(attachment, "image");
                     }
                 }
             }
@@ -73,6 +78,26 @@ namespace Crystalbyte.Paranoia {
             }
 
             return null;
+        }
+
+        private static ResourceResponse BytesToResourceResponce(byte[] bytes, string mediaType) {
+            var buffer = Marshal.AllocHGlobal(bytes.Length);
+            Marshal.Copy(bytes, 0, buffer, bytes.Length);
+
+            var response = ResourceResponse.Create((uint)bytes.Length, buffer, mediaType);
+
+            Marshal.FreeHGlobal(buffer);
+            return response;
+        }
+
+        private static ResourceResponse GetPlaceHolderResponse() {
+            using (var stream = System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/assets/image.placeholder.png")).Stream) {
+                using (var memStream = new MemoryStream()) {
+                    stream.CopyTo(memStream);
+                    var bytes = memStream.ToArray();
+                    return BytesToResourceResponce(bytes, "image");
+                }
+            }
         }
     }
 }
