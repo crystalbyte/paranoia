@@ -23,7 +23,7 @@ namespace Crystalbyte.Paranoia {
 
             if (request.Url.Scheme == "http" || request.Url.Scheme == "https") {
                 bool suppress;
-                if (arguments.ContainsKey("suppressextermals") && bool.TryParse(arguments["suppressextermals"], out suppress)) {
+                if (arguments.ContainsKey("suppressExternals") && bool.TryParse(arguments["suppressExternals"], out suppress)) {
                     if (!suppress) {
                         return null;
                     }

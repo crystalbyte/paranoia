@@ -346,6 +346,7 @@ namespace Crystalbyte.Paranoia {
 
             content = NormalizeHtml(content, encoding);
             content = ConvertEmbeddedSources(content, id);
+            content = BlockExternalImages(content, request);
             content = RemoveJaveScript(content);
             var bytes = encoding.GetBytes(content);
             SendByteStream(request, bytes);
@@ -522,6 +523,22 @@ namespace Crystalbyte.Paranoia {
         private static string RemoveJaveScript(string content) {
             const string htmlDropScriptsPattern = "<script.+?>.*?</script>|<script.+?/>";
             return Regex.Replace(content, htmlDropScriptsPattern, string.Empty, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        }
+
+        private string BlockExternalImages(string content, DataSourceRequest request) {
+            var arguments = request.Path.ToPageArguments();
+            var block = true;
+            if (arguments.ContainsKey("suppressExternals")) {
+                bool.TryParse(arguments["suppressExternals"], out block);
+            }
+
+            const string pattern = "<img.+?src=\"(?<resource>http(s){0,1}://.+?)\".*?>";
+            return Regex.Replace(content, pattern, m => {
+                var resource = m.Groups["resource"].Value;
+                var blockedResource = string.Format(resource + "?suppressExternals={0}",
+                    block);
+                return m.Value.Replace(resource, blockedResource);
+            }, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
     }
 }
