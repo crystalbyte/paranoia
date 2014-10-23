@@ -44,31 +44,10 @@ namespace Crystalbyte.Paranoia.UI {
         public HtmlControl() {
             IsKeyboardFocusWithinChanged += (sender, e) => Debug.WriteLine(Keyboard.FocusedElement);
 
-            //WebCore.CreatedView += WebCore_CreatedView;
-
             if (!DesignerProperties.GetIsInDesignMode(this)) {
                 Source = WebCore.Configuration.HomeURL.ToString();
             }
         }
-
-        //void WebCore_CreatedView(object sender, CreatedViewEventArgs e) {
-        //    e.NewView.NativeViewInitialized += NewView_NativeViewInitialized;
-        //}
-
-        //void NewView_NativeViewInitialized(object sender, WebViewEventArgs e) {
-        //    var navigationInterceptor = ((IServiceProvider)sender).GetService(typeof(INavigationInterceptor)) as INavigationInterceptor;
-        //    navigationInterceptor.ImplicitRule = NavigationRule.Deny;
-        //    navigationInterceptor.BeginLoadingFrame += navigationInterceptor_BeginLoadingFrame;
-        //    navigationInterceptor.BeginNavigation += navigationInterceptor_BeginNavigation;
-        //}
-
-        //void navigationInterceptor_BeginLoadingFrame(object sender, BeginLoadingFrameEventArgs e) {
-        //    throw new NotImplementedException();
-        //}
-
-        //void navigationInterceptor_BeginNavigation(object sender, NavigationEventArgs e) {
-        //    var a = e.Url;
-        //}
 
         #endregion
 
@@ -174,16 +153,16 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
             if (_webControl.IsDocumentReady) {
-                _webControl.ExecuteJavascript("focusEditor();");
+                _webControl.ExecuteJavascript("Crystalbyte.Paranoia.focusEditor();");
             }
         }
 
-        private void OnWebControlWindowClose(object sender, WindowCloseEventArgs e) {
-
+        private static void OnWebControlWindowClose(object sender, WindowCloseEventArgs e) {
+            // Nada ...
         }
 
-        private void OnWebControlShowCreatedWebView(object sender, ShowCreatedWebViewEventArgs e) {
-
+        private static void OnWebControlShowCreatedWebView(object sender, ShowCreatedWebViewEventArgs e) {
+            // Nada ...
         }
 
         #endregion
@@ -295,11 +274,11 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var planeText = (string)data.GetData(DataFormats.Text);
-            if (planeText == null)
+            var plainText = (string)data.GetData(DataFormats.Text);
+            if (plainText == null)
                 return;
 
-            InsertText(planeText);
+            InsertText(plainText);
         }
 
         #endregion
