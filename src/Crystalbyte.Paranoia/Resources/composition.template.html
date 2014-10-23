@@ -9,6 +9,10 @@
             padding: 0;
             border: 0;
         }
+
+        :focus {
+            outline: 0;
+        } 
     </style>
 </head>
 <body>
@@ -42,7 +46,8 @@
             }
 
             var focusEditor = function () {
-                textarea.focus();
+                var editor = textarea.editor;
+                editor.focus();
             }
 
             var getComposition = function () {
@@ -72,10 +77,10 @@
 
             var init = function () {
                 textarea.ckeditor(Crystalbyte.Paranoia.loadContent, {
-                    toolbar: [
-                    { name: 'document', items: ['Undo', 'Redo', 'Font', 'FontSize'] },
-                    { name: 'document1', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'TextColor', 'BGColor'] },
-                    { name: 'document2', groups: ['justify', 'mode'], items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'NumberedList', 'BulletedList', '-', 'Image', 'Link', 'Table', 'Source'] }]
+                    //toolbar: [
+                    //{ name: 'document', items: ['Undo', 'Redo', 'Font', 'FontSize'] },
+                    //{ name: 'document1', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'TextColor', 'BGColor'] },
+                    //{ name: 'document2', groups: ['justify', 'mode'], items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'NumberedList', 'BulletedList', '-', 'Image', 'Link', 'Table', 'Source'] }]
                 });
             }
 

@@ -11,13 +11,14 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     width: auto;
     height: auto;
     vertical-align: baseline;
-    box-sizing: content-box;
     -moz-box-sizing: content-box;
     -webkit-box-sizing: content-box;
+    box-sizing: content-box;
     position: static;
     -webkit-transition: none;
     -moz-transition: none;
     -ms-transition: none;
+    -o-transition: none;
     transition: none;
 }
 
@@ -30,13 +31,14 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     width: auto;
     height: auto;
     vertical-align: baseline;
-    box-sizing: content-box;
     -moz-box-sizing: content-box;
     -webkit-box-sizing: content-box;
+    box-sizing: content-box;
     position: static;
     -webkit-transition: none;
     -moz-transition: none;
     -ms-transition: none;
+    -o-transition: none;
     transition: none;
     border-collapse: collapse;
     font: normal normal normal 12px Arial,Helvetica,Tahoma,Verdana,Sans-Serif;
@@ -73,20 +75,20 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     }
 
     .cke_reset_all select {
-        box-sizing: border-box;
         -moz-box-sizing: border-box;
         -webkit-box-sizing: border-box;
+        box-sizing: border-box;
     }
 
 .cke_chrome {
     display: block;
-    border: 1px solid #b6b6b6;
-    border: 0;
     padding: 0;
+    -moz-box-shadow: 0 0 3px #000000;
     -moz-box-shadow: 0 0 3px rgba(0,0,0,.15);
+    -webkit-box-shadow: 0 0 3px #000000;
     -webkit-box-shadow: 0 0 3px rgba(0,0,0,.15);
-    -webkit-box-shadow: 0 0 0 rgba(0, 0, 0, .15);
-    box-shadow: 0 0 0 rgba(0,0,0,.15);
+    -ms-box-shadow: 0 0 3px #000000;
+    box-shadow: 0 0 3px #000000;
     box-shadow: 0 0 3px rgba(0,0,0,.15);
 }
 
@@ -101,9 +103,9 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     border: 0;
 }
 
-.cke_float .cke_inner {
-    padding-bottom: 0;
-}
+    .cke_float .cke_inner {
+        padding-bottom: 0;
+    }
 
 .cke_top, .cke_contents, .cke_bottom {
     display: block;
@@ -114,20 +116,19 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     border: 1px solid #0d0d0d;
     padding: 6px 8px 2px;
     white-space: normal;
+    -moz-box-shadow: 0 1px 0 #ffffff inset;
     -moz-box-shadow: 0 1px 0 rgba(255,255,255,.15) inset;
-    /*toolbox border color*/
-    -webkit-box-shadow: 0 1px 0 rgba(30,30,30,.15) inset;
-    box-shadow: 0 1px 0 rgba(30,30,30,.15) inset;
-    -webkit-box-shadow: 0 0 0 rgba(255,255,255,.15) inset;
-    box-shadow: 0 0 0 rgba(255,255,255,.15) inset;
+    -webkit-box-shadow: 0 1px 0 #ffffff inset;
+    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.15) inset;
+    -ms-box-shadow: 0 1px 0 #ffffff inset;
+    box-shadow: 0 1px 0 #ffffff inset;
+    box-shadow: 0 1px 0 rgba(255,255,255,.15) inset;
     background: #1f1f1f;
     background-image: -webkit-gradient(linear,left top,left bottom,from(#333),to(#1f1f1f));
     background-image: -moz-linear-gradient(top,#333,#1f1f1f);
     background-image: -webkit-linear-gradient(top,#333,#1f1f1f);
     background-image: -o-linear-gradient(top,#333,#1f1f1f);
     background-image: -ms-linear-gradient(top,#333,#1f1f1f);
-    background-image: linear-gradient(top,#333,#1f1f1f);
-    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#333333',endColorstr='#1f1f1f');
 }
 
 .cke_float .cke_top {
@@ -140,6 +141,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     border-top: 1px solid #bfbfbf;
     -moz-box-shadow: 0 1px 0 #fff inset;
     -webkit-box-shadow: 0 1px 0 #fff inset;
+    -ms-box-shadow: 0 1px 0 #fff inset;
     box-shadow: 0 1px 0 #fff inset;
     background: #cfd1cf;
     background-image: -webkit-gradient(linear,left top,left bottom,from(#ebebeb),to(#cfd1cf));
@@ -147,8 +149,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     background-image: -webkit-linear-gradient(top,#ebebeb,#cfd1cf);
     background-image: -o-linear-gradient(top,#ebebeb,#cfd1cf);
     background-image: -ms-linear-gradient(top,#ebebeb,#cfd1cf);
-    background-image: linear-gradient(top,#ebebeb,#cfd1cf);
-    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#ebebeb',endColorstr='#cfd1cf');
 }
 
 .cke_browser_ios .cke_contents {
@@ -170,8 +170,12 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     vertical-align: bottom;
     margin-top: 6px;
     margin-bottom: 2px;
+    -moz-box-shadow: 0 1px 0 #ffffff;
     -moz-box-shadow: 0 1px 0 rgba(255,255,255,.3);
+    -webkit-box-shadow: 0 1px 0 #ffffff;
     -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.3);
+    -ms-box-shadow: 0 1px 0 #ffffff;
+    box-shadow: 0 1px 0 #ffffff;
     box-shadow: 0 1px 0 rgba(255,255,255,.3);
 }
 
@@ -217,11 +221,12 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     background-color: #fff;
     border: 1px solid #b6b6b6;
     border-bottom-color: #999;
-    -moz-border-radius: 0px;
-    -webkit-border-radius: 0px;
-    border-radius: 0px;
+    -moz-box-shadow: 0 0 3px #000000;
     -moz-box-shadow: 0 0 3px rgba(0,0,0,.15);
+    -webkit-box-shadow: 0 0 3px #000000;
     -webkit-box-shadow: 0 0 3px rgba(0,0,0,.15);
+    -ms-box-shadow: 0 0 3px #000000;
+    box-shadow: 0 0 3px #000000;
     box-shadow: 0 0 3px rgba(0,0,0,.15);
 }
 
@@ -267,10 +272,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
         color: inherit !important;
         text-decoration: none;
         overflow: hidden;
+        -moz-text-overflow: ellipsis;
         text-overflow: ellipsis;
-        -moz-border-radius: 0px;
-        -webkit-border-radius: 0px;
-        border-radius: 0px;
     }
 
     * html .cke_panel_listItem a {
@@ -285,16 +288,24 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     .cke_panel_listItem.cke_selected a {
         border: 1px solid #dedede;
         background-color: #f2f2f2;
+        -moz-box-shadow: 0 0 2px #000000 inset;
         -moz-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
+        -webkit-box-shadow: 0 0 2px #000000 inset;
         -webkit-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
+        -ms-box-shadow: 0 0 2px #000000 inset;
+        box-shadow: 0 0 2px #000000 inset;
         box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
     }
 
     .cke_panel_listItem a:hover, .cke_panel_listItem a:focus, .cke_panel_listItem a:active {
         border-color: #dedede;
         background-color: #f2f2f2;
+        -moz-box-shadow: 0 0 2px #000000 inset;
         -moz-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
+        -webkit-box-shadow: 0 0 2px #000000 inset;
         -webkit-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
+        -ms-box-shadow: 0 0 2px #000000 inset;
+        box-shadow: 0 0 2px #000000 inset;
         box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
     }
 
@@ -314,11 +325,16 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     margin: 0;
     padding: 4px 6px;
     color: #f2f2f2;
+    -ms-text-shadow: 0 1px 0 #000;
     text-shadow: 0 1px 0 #000;
     border: 1px solid #0d0d0d;
     border-bottom-color: #060606;
+    -moz-box-shadow: 0 1px 0 #ffffff,0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
     -moz-box-shadow: 0 1px 0 rgba(255,255,255,.1),0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
+    -webkit-box-shadow: 0 1px 0 #ffffff,0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
     -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.1),0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
+    -ms-box-shadow: 0 1px 0 #ffffff,0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
+    box-shadow: 0 1px 0 #ffffff,0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
     box-shadow: 0 1px 0 rgba(255,255,255,.1),0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
     background: #404040;
     background-image: -webkit-gradient(linear,left top,left bottom,from(#595959),to(#404040));
@@ -326,8 +342,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     background-image: -webkit-linear-gradient(top,#595959,#404040);
     background-image: -o-linear-gradient(top,#595959,#404040);
     background-image: -ms-linear-gradient(top,#595959,#404040);
-    background-image: linear-gradient(top,#595959,#404040);
-    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#595959',endColorstr='#404040');
 }
 
 .cke_panel_listItem p, .cke_panel_listItem h1, .cke_panel_listItem h2, .cke_panel_listItem h3, .cke_panel_listItem h4, .cke_panel_listItem h5, .cke_panel_listItem h6, .cke_panel_listItem pre {
@@ -399,11 +413,12 @@ a:hover.cke_colorauto, a:hover.cke_colormore, a:focus.cke_colorauto, a:focus.cke
     margin: 0 6px 5px 0;
     border: 1px solid #070707;
     border-bottom-color: #060606;
-    -moz-border-radius: 0px;
-    -webkit-border-radius: 0px;
-    border-radius: 0px;
+    -moz-box-shadow: 0 1px 0 #ffffff,0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
     -moz-box-shadow: 0 1px 0 rgba(255,255,255,.1),0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
+    -webkit-box-shadow: 0 1px 0 #ffffff,0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
     -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.1),0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
+    -ms-box-shadow: 0 1px 0 #ffffff,0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
+    box-shadow: 0 1px 0 #ffffff,0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
     box-shadow: 0 1px 0 rgba(255,255,255,.1),0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
     background: #404040;
     background-image: -webkit-gradient(linear,left top,left bottom,from(#595959),to(#404040));
@@ -411,8 +426,6 @@ a:hover.cke_colorauto, a:hover.cke_colormore, a:focus.cke_colorauto, a:focus.cke
     background-image: -webkit-linear-gradient(top,#595959,#404040);
     background-image: -o-linear-gradient(top,#595959,#404040);
     background-image: -ms-linear-gradient(top,#595959,#404040);
-    background-image: linear-gradient(top,#595959,#404040);
-    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#595959',endColorstr='#404040');
 }
 
 .cke_hc .cke_toolgroup {
@@ -437,17 +450,11 @@ a.cke_button {
     border: 0;
 }
 
-.cke_ltr .cke_button:last-child, .cke_rtl .cke_button:first-child {
-    -moz-border-radius: 0 0px 0px 0;
-    -webkit-border-radius: 0 0px 0px 0;
-    border-radius: 0 0px 0px 0;
+/*.cke_ltr .cke_button:last-child, .cke_rtl .cke_button:first-child {
 }
 
 .cke_ltr .cke_button:first-child, .cke_rtl .cke_button:last-child {
-    -moz-border-radius: 0px 0 0 0px;
-    -webkit-border-radius: 0px 0 0 0px;
-    border-radius: 0px 0 0 0px;
-}
+}*/
 
 .cke_rtl .cke_button {
     float: right;
@@ -460,8 +467,12 @@ a.cke_button {
 }
 
 .cke_button_on {
+    -moz-box-shadow: 0 0 8px #000000 inset;
     -moz-box-shadow: 0 0 8px rgba(0,0,0,.75) inset;
+    -webkit-box-shadow: 0 0 8px #000000 inset;
     -webkit-box-shadow: 0 0 8px rgba(0,0,0,.75) inset;
+    -ms-box-shadow: 0 0 8px #000000 inset;
+    box-shadow: 0 0 8px #000000 inset;
     box-shadow: 0 0 8px rgba(0,0,0,.75) inset;
     background: #4c4c4c;
     background-image: -webkit-gradient(linear,left top,left bottom,from(#262626),to(#1a1a1a));
@@ -469,8 +480,6 @@ a.cke_button {
     background-image: -webkit-linear-gradient(top,#262626,#1a1a1a);
     background-image: -o-linear-gradient(top,#262626,#1a1a1a);
     background-image: -ms-linear-gradient(top,#262626,#1a1a1a);
-    background-image: linear-gradient(top,#262626,#1a1a1a);
-    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#262626',endColorstr='#1a1a1a');
 }
 
 .cke_hc .cke_button_on, .cke_hc a.cke_button_off:hover, .cke_hc a.cke_button_off:focus, .cke_hc a.cke_button_off:active, .cke_hc a.cke_button_disabled:hover, .cke_hc a.cke_button_disabled:focus, .cke_hc a.cke_button_disabled:active {
@@ -479,22 +488,32 @@ a.cke_button {
 }
 
 .cke_button_disabled .cke_button_icon {
+    -ms-opacity: .3;
     opacity: .3;
 }
 
 .cke_hc .cke_button_disabled {
+    -ms-opacity: .5;
     opacity: .5;
 }
 
 a.cke_button_on:hover, a.cke_button_on:focus, a.cke_button_on:active {
+    -moz-box-shadow: 0 1px 6px #000000 inset,0 1px 0 #000000;
     -moz-box-shadow: 0 1px 6px rgba(0,0,0,.7) inset,0 1px 0 rgba(0,0,0,.2);
+    -webkit-box-shadow: 0 1px 6px #000000 inset,0 1px 0 #000000;
     -webkit-box-shadow: 0 1px 6px rgba(0,0,0,.7) inset,0 1px 0 rgba(0,0,0,.2);
+    -ms-box-shadow: 0 1px 6px #000000 inset,0 1px 0 #000000;
+    box-shadow: 0 1px 6px #000000 inset,0 1px 0 #000000;
     box-shadow: 0 1px 6px rgba(0,0,0,.7) inset,0 1px 0 rgba(0,0,0,.2);
 }
 
 a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_button_disabled:hover, a.cke_button_disabled:focus, a.cke_button_disabled:active {
+    -moz-box-shadow: 0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
     -moz-box-shadow: 0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
+    -webkit-box-shadow: 0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
     -webkit-box-shadow: 0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
+    -ms-box-shadow: 0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
+    box-shadow: 0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
     box-shadow: 0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
     background: #4c4c4c;
     background-image: -webkit-gradient(linear,left top,left bottom,from(#666),to(#4c4c4c));
@@ -502,8 +521,6 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_b
     background-image: -webkit-linear-gradient(top,#666,#4c4c4c);
     background-image: -o-linear-gradient(top,#666,#4c4c4c);
     background-image: -ms-linear-gradient(top,#666,#4c4c4c);
-    background-image: linear-gradient(top,#666,#4c4c4c);
-    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#666666',endColorstr='#4c4c4c');
 }
 
 .cke_button_icon {
@@ -533,6 +550,7 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_b
     float: left;
     cursor: default;
     color: #e5e5e5;
+    -ms-text-shadow: 0 1px 0 #000;
     text-shadow: 0 1px 0 #000;
 }
 
@@ -579,15 +597,23 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_b
     margin: 5px 2px 0;
     height: 18px;
     width: 1px;
+    -webkit-box-shadow: 1px 0 0 #ffffff;
     -webkit-box-shadow: 1px 0 0 rgba(255,255,255,.1);
+    -moz-box-shadow: 1px 0 0 #ffffff;
     -moz-box-shadow: 1px 0 0 rgba(255,255,255,.1);
+    -ms-box-shadow: 1px 0 0 #ffffff;
+    box-shadow: 1px 0 0 #ffffff;
     box-shadow: 1px 0 0 rgba(255,255,255,.1);
 }
 
 .cke_rtl .cke_toolbar_separator {
     float: right;
+    -webkit-box-shadow: -1px 0 0 #ffffff;
     -webkit-box-shadow: -1px 0 0 rgba(255,255,255,.1);
+    -moz-box-shadow: -1px 0 0 #ffffff;
     -moz-box-shadow: -1px 0 0 rgba(255,255,255,.1);
+    -ms-box-shadow: -1px 0 0 #ffffff;
+    box-shadow: -1px 0 0 #ffffff;
     box-shadow: -1px 0 0 rgba(255,255,255,.1);
 }
 
@@ -616,11 +642,12 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_b
     text-align: center;
     border: 1px solid #070707;
     border-bottom-color: #060606;
-    -moz-border-radius: 0px;
-    -webkit-border-radius: 0px;
-    border-radius: 0px;
+    -moz-box-shadow: 0 1px 0 #ffffff,0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
     -moz-box-shadow: 0 1px 0 rgba(255,255,255,.1),0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
+    -webkit-box-shadow: 0 1px 0 #ffffff,0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
     -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.1),0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
+    -ms-box-shadow: 0 1px 0 #ffffff,0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
+    box-shadow: 0 1px 0 #ffffff,0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
     box-shadow: 0 1px 0 rgba(255,255,255,.1),0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
     background: #404040;
     background-image: -webkit-gradient(linear,left top,left bottom,from(#595959),to(#404040));
@@ -628,8 +655,6 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_b
     background-image: -webkit-linear-gradient(top,#595959,#404040);
     background-image: -o-linear-gradient(top,#595959,#404040);
     background-image: -ms-linear-gradient(top,#595959,#404040);
-    background-image: linear-gradient(top,#595959,#404040);
-    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#595959',endColorstr='#404040');
 }
 
     .cke_toolbox_collapser.cke_toolbox_collapser_min {
@@ -712,8 +737,8 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_b
 }
 
 .cke_menubutton_disabled:hover .cke_menubutton_icon, .cke_menubutton_disabled:focus .cke_menubutton_icon, .cke_menubutton_disabled:active .cke_menubutton_icon {
+    -ms-opacity: .3;
     opacity: .3;
-    filter: alpha(opacity=30);
 }
 
 .cke_menubutton_label {
@@ -724,15 +749,19 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_b
 }
 
 .cke_menubutton_disabled .cke_menubutton_label {
+    -ms-opacity: .3;
     opacity: .3;
-    filter: alpha(opacity=30);
 }
 
 .cke_menubutton_on {
     border: 1px solid #dedede;
     background-color: #f2f2f2;
+    -moz-box-shadow: 0 0 2px #000000 inset;
     -moz-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
+    -webkit-box-shadow: 0 0 2px #000000 inset;
     -webkit-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
+    -ms-box-shadow: 0 0 2px #000000 inset;
+    box-shadow: 0 0 2px #000000 inset;
     box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
 }
 
@@ -751,7 +780,7 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_b
 .cke_menuseparator {
     background-color: #d3d3d3;
     height: 1px;
-    filter: alpha(opacity=70);
+    -ms-opacity: .70;
     opacity: .70;
 }
 
@@ -809,11 +838,12 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_b
     margin: 0 6px 5px 0;
     border: 1px solid #070707;
     border-bottom-color: #060606;
-    -moz-border-radius: 0px;
-    -webkit-border-radius: 0px;
-    border-radius: 0px;
+    -moz-box-shadow: 0 1px 0 #ffffff,0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
     -moz-box-shadow: 0 1px 0 rgba(255,255,255,.1),0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
+    -webkit-box-shadow: 0 1px 0 #ffffff,0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
     -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.1),0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
+    -ms-box-shadow: 0 1px 0 #ffffff,0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
+    box-shadow: 0 1px 0 #ffffff,0 0 2px #ffffff inset,0 1px 0 #ffffff inset;
     box-shadow: 0 1px 0 rgba(255,255,255,.1),0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
     background: #404040;
     background-image: -webkit-gradient(linear,left top,left bottom,from(#595959),to(#404040));
@@ -821,8 +851,6 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_b
     background-image: -webkit-linear-gradient(top,#595959,#404040);
     background-image: -o-linear-gradient(top,#595959,#404040);
     background-image: -ms-linear-gradient(top,#595959,#404040);
-    background-image: linear-gradient(top,#595959,#404040);
-    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#595959',endColorstr='#404040');
 }
 
 .cke_combo_off a.cke_combo_button:hover, .cke_combo_off a.cke_combo_button:focus {
@@ -832,14 +860,16 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_b
     background-image: -webkit-linear-gradient(top,#666,#4c4c4c);
     background-image: -o-linear-gradient(top,#666,#4c4c4c);
     background-image: -ms-linear-gradient(top,#666,#4c4c4c);
-    background-image: linear-gradient(top,#666,#4c4c4c);
-    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#666666',endColorstr='#4c4c4c');
     outline: 0;
 }
 
 .cke_combo_off a.cke_combo_button:active, .cke_combo_on a.cke_combo_button {
+    -moz-box-shadow: 0 0 8px #000000 inset;
     -moz-box-shadow: 0 0 8px rgba(0,0,0,.75) inset;
+    -webkit-box-shadow: 0 0 8px #000000 inset;
     -webkit-box-shadow: 0 0 8px rgba(0,0,0,.75) inset;
+    -ms-box-shadow: 0 0 8px #000000 inset;
+    box-shadow: 0 0 8px #000000 inset;
     box-shadow: 0 0 8px rgba(0,0,0,.75) inset;
     background: #1a1a1a;
     background-image: -webkit-gradient(linear,left top,left bottom,from(#262626),to(#1a1a1a));
@@ -847,13 +877,15 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_b
     background-image: -webkit-linear-gradient(top,#262626,#1a1a1a);
     background-image: -o-linear-gradient(top,#262626,#1a1a1a);
     background-image: -ms-linear-gradient(top,#262626,#1a1a1a);
-    background-image: linear-gradient(top,#262626,#1a1a1a);
-    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#262626',endColorstr='#1a1a1a');
 }
 
     .cke_combo_on a.cke_combo_button:hover, .cke_combo_on a.cke_combo_button:focus, .cke_combo_on a.cke_combo_button:active {
+        -moz-box-shadow: 0 1px 6px #000000 inset,0 1px 0 #000000;
         -moz-box-shadow: 0 1px 6px rgba(0,0,0,.7) inset,0 1px 0 rgba(0,0,0,.2);
+        -webkit-box-shadow: 0 1px 6px #000000 inset,0 1px 0 #000000;
         -webkit-box-shadow: 0 1px 6px rgba(0,0,0,.7) inset,0 1px 0 rgba(0,0,0,.2);
+        -ms-box-shadow: 0 1px 6px #000000 inset,0 1px 0 #000000;
+        box-shadow: 0 1px 6px #000000 inset,0 1px 0 #000000;
         box-shadow: 0 1px 6px rgba(0,0,0,.7) inset,0 1px 0 rgba(0,0,0,.2);
     }
 
@@ -875,11 +907,13 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_b
 .cke_combo_text {
     line-height: 26px;
     padding-left: 10px;
+    -moz-text-overflow: ellipsis;
     text-overflow: ellipsis;
     overflow: hidden;
     float: left;
     cursor: default;
     color: #e5e5e5;
+    -ms-text-shadow: 0 1px 0 #000;
     text-shadow: 0 1px 0 #000;
     width: 60px;
 }
@@ -929,6 +963,7 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_b
 }
 
 .cke_combo_disabled .cke_combo_inlinelabel, .cke_combo_disabled .cke_combo_open {
+    -ms-opacity: .3;
     opacity: .3;
 }
 
@@ -947,6 +982,7 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_b
     outline: 0;
     border: 0;
     color: #4c4c4c;
+    -ms-text-shadow: 0 1px 0 #fff;
     text-shadow: 0 1px 0 #fff;
     font-weight: bold;
     font-size: 11px;
@@ -959,12 +995,15 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_b
 a.cke_path_item:hover, a.cke_path_item:focus, a.cke_path_item:active {
     background-color: #bfbfbf;
     color: #333;
+    -ms-text-shadow: 0 1px 0 #ffffff;
+    text-shadow: 0 1px 0 #ffffff;
     text-shadow: 0 1px 0 rgba(255,255,255,.5);
-    -moz-border-radius: 0px;
-    -webkit-border-radius: 0px;
-    border-radius: 0px;
+    -moz-box-shadow: 0 0 4px #000000 inset,0 1px 0 #ffffff;
     -moz-box-shadow: 0 0 4px rgba(0,0,0,.5) inset,0 1px 0 rgba(255,255,255,.5);
+    -webkit-box-shadow: 0 0 4px #000000 inset,0 1px 0 #ffffff;
     -webkit-box-shadow: 0 0 4px rgba(0,0,0,.5) inset,0 1px 0 rgba(255,255,255,.5);
+    -ms-box-shadow: 0 0 4px #000000 inset,0 1px 0 #ffffff;
+    box-shadow: 0 0 4px #000000 inset,0 1px 0 #ffffff;
     box-shadow: 0 0 4px rgba(0,0,0,.5) inset,0 1px 0 rgba(255,255,255,.5);
 }
 
@@ -988,9 +1027,7 @@ a.cke_path_item:hover, a.cke_path_item:focus, a.cke_path_item:active {
 .cke_source {
     font-family: 'Courier New',Monospace;
     font-size: small;
-    /*background-color: #fff;     */
-    background-color: #222222;
-    color: #fff;
+    background-color: #fff;
     white-space: pre;
 }
 
@@ -1010,27 +1047,27 @@ legend.cke_voice_label {
     display: none;
 }
 
-.cke_button__about_icon {
-    background: url(icons.png) no-repeat 0 -0px !important;
+.cke_button__bold_icon {
+    background: url(icons.png) no-repeat 0 0 !important;
 }
 
-.cke_rtl .cke_button__anchor_icon, .cke_mixed_dir_content .cke_rtl .cke_button__anchor_icon {
+.cke_button__italic_icon {
     background: url(icons.png) no-repeat 0 -24px !important;
 }
 
-.cke_ltr .cke_button__anchor_icon {
+.cke_button__strike_icon {
     background: url(icons.png) no-repeat 0 -48px !important;
 }
 
-.cke_button__bgcolor_icon {
+.cke_button__subscript_icon {
     background: url(icons.png) no-repeat 0 -72px !important;
 }
 
-.cke_button__bidiltr_icon {
+.cke_button__superscript_icon {
     background: url(icons.png) no-repeat 0 -96px !important;
 }
 
-.cke_button__bidirtl_icon {
+.cke_button__underline_icon {
     background: url(icons.png) no-repeat 0 -120px !important;
 }
 
@@ -1038,811 +1075,364 @@ legend.cke_voice_label {
     background: url(icons.png) no-repeat 0 -144px !important;
 }
 
-.cke_button__bold_icon {
+.cke_rtl .cke_button__copy_icon, .cke_mixed_dir_content .cke_rtl .cke_button__copy_icon {
     background: url(icons.png) no-repeat 0 -168px !important;
 }
 
-.cke_rtl .cke_button__bulletedlist_icon, .cke_mixed_dir_content .cke_rtl .cke_button__bulletedlist_icon {
+.cke_ltr .cke_button__copy_icon {
     background: url(icons.png) no-repeat 0 -192px !important;
 }
 
-.cke_ltr .cke_button__bulletedlist_icon {
+.cke_rtl .cke_button__cut_icon, .cke_mixed_dir_content .cke_rtl .cke_button__cut_icon {
     background: url(icons.png) no-repeat 0 -216px !important;
 }
 
-.cke_button__button_icon {
+.cke_ltr .cke_button__cut_icon {
     background: url(icons.png) no-repeat 0 -240px !important;
 }
 
-.cke_button__checkbox_icon {
+.cke_rtl .cke_button__paste_icon, .cke_mixed_dir_content .cke_rtl .cke_button__paste_icon {
     background: url(icons.png) no-repeat 0 -264px !important;
 }
 
-.cke_button__codesnippet_icon {
+.cke_ltr .cke_button__paste_icon {
     background: url(icons.png) no-repeat 0 -288px !important;
 }
 
-.cke_rtl .cke_button__copy_icon, .cke_mixed_dir_content .cke_rtl .cke_button__copy_icon {
+.cke_button__horizontalrule_icon {
     background: url(icons.png) no-repeat 0 -312px !important;
 }
 
-.cke_ltr .cke_button__copy_icon {
+.cke_button__image_icon {
     background: url(icons.png) no-repeat 0 -336px !important;
 }
 
-.cke_button__creatediv_icon {
+.cke_rtl .cke_button__indent_icon, .cke_mixed_dir_content .cke_rtl .cke_button__indent_icon {
     background: url(icons.png) no-repeat 0 -360px !important;
 }
 
-.cke_rtl .cke_button__cut_icon, .cke_mixed_dir_content .cke_rtl .cke_button__cut_icon {
+.cke_ltr .cke_button__indent_icon {
     background: url(icons.png) no-repeat 0 -384px !important;
 }
 
-.cke_ltr .cke_button__cut_icon {
+.cke_rtl .cke_button__outdent_icon, .cke_mixed_dir_content .cke_rtl .cke_button__outdent_icon {
     background: url(icons.png) no-repeat 0 -408px !important;
 }
 
-.cke_rtl .cke_button__docprops_icon, .cke_mixed_dir_content .cke_rtl .cke_button__docprops_icon {
+.cke_ltr .cke_button__outdent_icon {
     background: url(icons.png) no-repeat 0 -432px !important;
 }
 
-.cke_ltr .cke_button__docprops_icon {
+.cke_rtl .cke_button__anchor_icon, .cke_mixed_dir_content .cke_rtl .cke_button__anchor_icon {
     background: url(icons.png) no-repeat 0 -456px !important;
 }
 
-.cke_rtl .cke_button__find_icon, .cke_mixed_dir_content .cke_rtl .cke_button__find_icon {
+.cke_ltr .cke_button__anchor_icon {
     background: url(icons.png) no-repeat 0 -480px !important;
 }
 
-.cke_ltr .cke_button__find_icon {
+.cke_button__link_icon {
     background: url(icons.png) no-repeat 0 -504px !important;
 }
 
-.cke_button__flash_icon {
+.cke_button__unlink_icon {
     background: url(icons.png) no-repeat 0 -528px !important;
 }
 
-.cke_button__form_icon {
+.cke_rtl .cke_button__bulletedlist_icon, .cke_mixed_dir_content .cke_rtl .cke_button__bulletedlist_icon {
     background: url(icons.png) no-repeat 0 -552px !important;
 }
 
-.cke_button__hiddenfield_icon {
+.cke_ltr .cke_button__bulletedlist_icon {
     background: url(icons.png) no-repeat 0 -576px !important;
 }
 
-.cke_button__horizontalrule_icon {
+.cke_rtl .cke_button__numberedlist_icon, .cke_mixed_dir_content .cke_rtl .cke_button__numberedlist_icon {
     background: url(icons.png) no-repeat 0 -600px !important;
 }
 
-.cke_button__iframe_icon {
+.cke_ltr .cke_button__numberedlist_icon {
     background: url(icons.png) no-repeat 0 -624px !important;
 }
 
-.cke_button__image_icon {
+.cke_rtl .cke_button__pastetext_icon, .cke_mixed_dir_content .cke_rtl .cke_button__pastetext_icon {
     background: url(icons.png) no-repeat 0 -648px !important;
 }
 
-.cke_button__imagebutton_icon {
+.cke_ltr .cke_button__pastetext_icon {
     background: url(icons.png) no-repeat 0 -672px !important;
 }
 
-.cke_rtl .cke_button__indent_icon, .cke_mixed_dir_content .cke_rtl .cke_button__indent_icon {
+.cke_button__removeformat_icon {
     background: url(icons.png) no-repeat 0 -696px !important;
 }
 
-.cke_ltr .cke_button__indent_icon {
+.cke_rtl .cke_button__source_icon, .cke_mixed_dir_content .cke_rtl .cke_button__source_icon {
     background: url(icons.png) no-repeat 0 -720px !important;
 }
 
-.cke_button__italic_icon {
+.cke_ltr .cke_button__source_icon {
     background: url(icons.png) no-repeat 0 -744px !important;
 }
 
-.cke_button__justifyblock_icon {
+.cke_button__specialchar_icon {
     background: url(icons.png) no-repeat 0 -768px !important;
 }
 
-.cke_button__justifycenter_icon {
+.cke_rtl .cke_button__redo_icon, .cke_mixed_dir_content .cke_rtl .cke_button__redo_icon {
     background: url(icons.png) no-repeat 0 -792px !important;
 }
 
-.cke_button__justifyleft_icon {
+.cke_ltr .cke_button__redo_icon {
     background: url(icons.png) no-repeat 0 -816px !important;
 }
 
-.cke_button__justifyright_icon {
+.cke_rtl .cke_button__undo_icon, .cke_mixed_dir_content .cke_rtl .cke_button__undo_icon {
     background: url(icons.png) no-repeat 0 -840px !important;
 }
 
-.cke_button__language_icon {
+.cke_ltr .cke_button__undo_icon {
     background: url(icons.png) no-repeat 0 -864px !important;
 }
 
-.cke_button__link_icon {
+.cke_button__bgcolor_icon {
     background: url(icons.png) no-repeat 0 -888px !important;
 }
 
-.cke_button__mathjax_icon {
+.cke_button__textcolor_icon {
     background: url(icons.png) no-repeat 0 -912px !important;
 }
 
-.cke_button__maximize_icon {
-    background: url(icons.png) no-repeat 0 -936px !important;
-}
-
-.cke_rtl .cke_button__newpage_icon, .cke_mixed_dir_content .cke_rtl .cke_button__newpage_icon {
-    background: url(icons.png) no-repeat 0 -960px !important;
-}
-
-.cke_ltr .cke_button__newpage_icon {
-    background: url(icons.png) no-repeat 0 -984px !important;
-}
-
-.cke_rtl .cke_button__numberedlist_icon, .cke_mixed_dir_content .cke_rtl .cke_button__numberedlist_icon {
-    background: url(icons.png) no-repeat 0 -1008px !important;
-}
-
-.cke_ltr .cke_button__numberedlist_icon {
-    background: url(icons.png) no-repeat 0 -1032px !important;
-}
-
-.cke_rtl .cke_button__outdent_icon, .cke_mixed_dir_content .cke_rtl .cke_button__outdent_icon {
-    background: url(icons.png) no-repeat 0 -1056px !important;
-}
-
-.cke_ltr .cke_button__outdent_icon {
-    background: url(icons.png) no-repeat 0 -1080px !important;
-}
-
-.cke_rtl .cke_button__pagebreak_icon, .cke_mixed_dir_content .cke_rtl .cke_button__pagebreak_icon {
-    background: url(icons.png) no-repeat 0 -1104px !important;
-}
-
-.cke_ltr .cke_button__pagebreak_icon {
-    background: url(icons.png) no-repeat 0 -1128px !important;
-}
-
-.cke_rtl .cke_button__paste_icon, .cke_mixed_dir_content .cke_rtl .cke_button__paste_icon {
-    background: url(icons.png) no-repeat 0 -1152px !important;
-}
-
-.cke_ltr .cke_button__paste_icon {
-    background: url(icons.png) no-repeat 0 -1176px !important;
-}
-
-.cke_rtl .cke_button__pastefromword_icon, .cke_mixed_dir_content .cke_rtl .cke_button__pastefromword_icon {
-    background: url(icons.png) no-repeat 0 -1200px !important;
-}
-
-.cke_ltr .cke_button__pastefromword_icon {
-    background: url(icons.png) no-repeat 0 -1224px !important;
-}
-
-.cke_rtl .cke_button__pastetext_icon, .cke_mixed_dir_content .cke_rtl .cke_button__pastetext_icon {
-    background: url(icons.png) no-repeat 0 -1248px !important;
-}
-
-.cke_ltr .cke_button__pastetext_icon {
-    background: url(icons.png) no-repeat 0 -1272px !important;
-}
-
-.cke_button__placeholder_icon {
-    background: url(icons.png) no-repeat 0 -1296px !important;
-}
-
-.cke_rtl .cke_button__preview_icon, .cke_mixed_dir_content .cke_rtl .cke_button__preview_icon {
-    background: url(icons.png) no-repeat 0 -1320px !important;
-}
-
-.cke_ltr .cke_button__preview_icon {
-    background: url(icons.png) no-repeat 0 -1344px !important;
-}
-
-.cke_button__print_icon {
-    background: url(icons.png) no-repeat 0 -1368px !important;
-}
-
-.cke_button__radio_icon {
-    background: url(icons.png) no-repeat 0 -1392px !important;
-}
-
-.cke_rtl .cke_button__redo_icon, .cke_mixed_dir_content .cke_rtl .cke_button__redo_icon {
-    background: url(icons.png) no-repeat 0 -1416px !important;
-}
-
-.cke_ltr .cke_button__redo_icon {
-    background: url(icons.png) no-repeat 0 -1440px !important;
-}
-
-.cke_button__removeformat_icon {
-    background: url(icons.png) no-repeat 0 -1464px !important;
-}
-
-.cke_button__replace_icon {
-    background: url(icons.png) no-repeat 0 -1488px !important;
-}
-
-.cke_button__save_icon {
-    background: url(icons.png) no-repeat 0 -1512px !important;
-}
-
-.cke_button__scayt_icon {
-    background: url(icons.png) no-repeat 0 -1536px !important;
-}
-
-.cke_rtl .cke_button__select_icon, .cke_mixed_dir_content .cke_rtl .cke_button__select_icon {
-    background: url(icons.png) no-repeat 0 -1560px !important;
-}
-
-.cke_ltr .cke_button__select_icon {
-    background: url(icons.png) no-repeat 0 -1584px !important;
-}
-
-.cke_button__selectall_icon {
-    background: url(icons.png) no-repeat 0 -1608px !important;
-}
-
-.cke_rtl .cke_button__showblocks_icon, .cke_mixed_dir_content .cke_rtl .cke_button__showblocks_icon {
-    background: url(icons.png) no-repeat 0 -1632px !important;
-}
-
-.cke_ltr .cke_button__showblocks_icon {
-    background: url(icons.png) no-repeat 0 -1656px !important;
-}
-
-.cke_button__smiley_icon {
-    background: url(icons.png) no-repeat 0 -1680px !important;
-}
-
-.cke_rtl .cke_button__source_icon, .cke_mixed_dir_content .cke_rtl .cke_button__source_icon {
-    background: url(icons.png) no-repeat 0 -1704px !important;
-}
-
-.cke_ltr .cke_button__source_icon {
-    background: url(icons.png) no-repeat 0 -1728px !important;
-}
-
-.cke_rtl .cke_button__sourcedialog_icon, .cke_mixed_dir_content .cke_rtl .cke_button__sourcedialog_icon {
-    background: url(icons.png) no-repeat 0 -1752px !important;
-}
-
-.cke_ltr .cke_button__sourcedialog_icon {
-    background: url(icons.png) no-repeat 0 -1776px !important;
-}
-
-.cke_button__specialchar_icon {
-    background: url(icons.png) no-repeat 0 -1800px !important;
-}
-
-.cke_button__spellchecker_icon {
-    background: url(icons.png) no-repeat 0 -1824px !important;
-}
-
-.cke_button__strike_icon {
-    background: url(icons.png) no-repeat 0 -1848px !important;
-}
-
-.cke_button__subscript_icon {
-    background: url(icons.png) no-repeat 0 -1872px !important;
-}
-
-.cke_button__superscript_icon {
-    background: url(icons.png) no-repeat 0 -1896px !important;
-}
-
-.cke_button__table_icon {
-    background: url(icons.png) no-repeat 0 -1920px !important;
-}
-
-.cke_rtl .cke_button__templates_icon, .cke_mixed_dir_content .cke_rtl .cke_button__templates_icon {
-    background: url(icons.png) no-repeat 0 -1944px !important;
-}
-
-.cke_ltr .cke_button__templates_icon {
-    background: url(icons.png) no-repeat 0 -1968px !important;
-}
-
-.cke_rtl .cke_button__textarea_icon, .cke_mixed_dir_content .cke_rtl .cke_button__textarea_icon {
-    background: url(icons.png) no-repeat 0 -1992px !important;
-}
-
-.cke_ltr .cke_button__textarea_icon {
-    background: url(icons.png) no-repeat 0 -2016px !important;
-}
-
-.cke_button__textcolor_icon {
-    background: url(icons.png) no-repeat 0 -2040px !important;
-}
-
-.cke_rtl .cke_button__textfield_icon, .cke_mixed_dir_content .cke_rtl .cke_button__textfield_icon {
-    background: url(icons.png) no-repeat 0 -2064px !important;
-}
-
-.cke_ltr .cke_button__textfield_icon {
-    background: url(icons.png) no-repeat 0 -2088px !important;
-}
-
-.cke_button__uicolor_icon {
-    background: url(icons.png) no-repeat 0 -2112px !important;
-}
-
-.cke_button__underline_icon {
-    background: url(icons.png) no-repeat 0 -2136px !important;
-}
-
-.cke_rtl .cke_button__undo_icon, .cke_mixed_dir_content .cke_rtl .cke_button__undo_icon {
-    background: url(icons.png) no-repeat 0 -2160px !important;
-}
-
-.cke_ltr .cke_button__undo_icon {
-    background: url(icons.png) no-repeat 0 -2184px !important;
-}
-
-.cke_button__unlink_icon {
-    background: url(icons.png) no-repeat 0 -2208px !important;
-}
-
-.cke_hidpi .cke_button__about_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -0px !important;
+.cke_hidpi .cke_button__bold_icon {
+    background: url(icons_hidpi.png) no-repeat 0 0 !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
-.cke_rtl.cke_hidpi .cke_button__anchor_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__anchor_icon {
+.cke_hidpi .cke_button__italic_icon {
     background: url(icons_hidpi.png) no-repeat 0 -24px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
-.cke_hidpi .cke_ltr .cke_button__anchor_icon, .cke_ltr.cke_hidpi .cke_button__anchor_icon {
+.cke_hidpi .cke_button__strike_icon {
     background: url(icons_hidpi.png) no-repeat 0 -48px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
-.cke_hidpi .cke_button__bgcolor_icon {
+.cke_hidpi .cke_button__subscript_icon {
     background: url(icons_hidpi.png) no-repeat 0 -72px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
-.cke_hidpi .cke_button__bidiltr_icon {
+.cke_hidpi .cke_button__superscript_icon {
     background: url(icons_hidpi.png) no-repeat 0 -96px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
-.cke_hidpi .cke_button__bidirtl_icon {
+.cke_hidpi .cke_button__underline_icon {
     background: url(icons_hidpi.png) no-repeat 0 -120px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
 .cke_hidpi .cke_button__blockquote_icon {
     background: url(icons_hidpi.png) no-repeat 0 -144px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__bold_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -168px !important;
-    background-size: 16px !important;
-}
-
-.cke_rtl.cke_hidpi .cke_button__bulletedlist_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__bulletedlist_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -192px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_ltr .cke_button__bulletedlist_icon, .cke_ltr.cke_hidpi .cke_button__bulletedlist_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -216px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__button_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -240px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__checkbox_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -264px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__codesnippet_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -288px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
 .cke_rtl.cke_hidpi .cke_button__copy_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__copy_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -312px !important;
+    background: url(icons_hidpi.png) no-repeat 0 -168px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
 .cke_hidpi .cke_ltr .cke_button__copy_icon, .cke_ltr.cke_hidpi .cke_button__copy_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -336px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__creatediv_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -360px !important;
+    background: url(icons_hidpi.png) no-repeat 0 -192px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
 .cke_rtl.cke_hidpi .cke_button__cut_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__cut_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -384px !important;
+    background: url(icons_hidpi.png) no-repeat 0 -216px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
 .cke_hidpi .cke_ltr .cke_button__cut_icon, .cke_ltr.cke_hidpi .cke_button__cut_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -408px !important;
-    background-size: 16px !important;
-}
-
-.cke_rtl.cke_hidpi .cke_button__docprops_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__docprops_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -432px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_ltr .cke_button__docprops_icon, .cke_ltr.cke_hidpi .cke_button__docprops_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -456px !important;
-    background-size: 16px !important;
-}
-
-.cke_rtl.cke_hidpi .cke_button__find_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__find_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -480px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_ltr .cke_button__find_icon, .cke_ltr.cke_hidpi .cke_button__find_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -504px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__flash_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -528px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__form_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -552px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__hiddenfield_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -576px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__horizontalrule_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -600px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__iframe_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -624px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__image_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -648px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__imagebutton_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -672px !important;
-    background-size: 16px !important;
-}
-
-.cke_rtl.cke_hidpi .cke_button__indent_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__indent_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -696px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_ltr .cke_button__indent_icon, .cke_ltr.cke_hidpi .cke_button__indent_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -720px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__italic_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -744px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__justifyblock_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -768px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__justifycenter_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -792px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__justifyleft_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -816px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__justifyright_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -840px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__language_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -864px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__link_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -888px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__mathjax_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -912px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__maximize_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -936px !important;
-    background-size: 16px !important;
-}
-
-.cke_rtl.cke_hidpi .cke_button__newpage_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__newpage_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -960px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_ltr .cke_button__newpage_icon, .cke_ltr.cke_hidpi .cke_button__newpage_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -984px !important;
-    background-size: 16px !important;
-}
-
-.cke_rtl.cke_hidpi .cke_button__numberedlist_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__numberedlist_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1008px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_ltr .cke_button__numberedlist_icon, .cke_ltr.cke_hidpi .cke_button__numberedlist_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1032px !important;
-    background-size: 16px !important;
-}
-
-.cke_rtl.cke_hidpi .cke_button__outdent_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__outdent_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1056px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_ltr .cke_button__outdent_icon, .cke_ltr.cke_hidpi .cke_button__outdent_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1080px !important;
-    background-size: 16px !important;
-}
-
-.cke_rtl.cke_hidpi .cke_button__pagebreak_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__pagebreak_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1104px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_ltr .cke_button__pagebreak_icon, .cke_ltr.cke_hidpi .cke_button__pagebreak_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1128px !important;
+    background: url(icons_hidpi.png) no-repeat 0 -240px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
 .cke_rtl.cke_hidpi .cke_button__paste_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__paste_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1152px !important;
+    background: url(icons_hidpi.png) no-repeat 0 -264px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
 .cke_hidpi .cke_ltr .cke_button__paste_icon, .cke_ltr.cke_hidpi .cke_button__paste_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1176px !important;
+    background: url(icons_hidpi.png) no-repeat 0 -288px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
-.cke_rtl.cke_hidpi .cke_button__pastefromword_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__pastefromword_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1200px !important;
+.cke_hidpi .cke_button__horizontalrule_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -312px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
-.cke_hidpi .cke_ltr .cke_button__pastefromword_icon, .cke_ltr.cke_hidpi .cke_button__pastefromword_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1224px !important;
+.cke_hidpi .cke_button__image_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -336px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
-.cke_rtl.cke_hidpi .cke_button__pastetext_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__pastetext_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1248px !important;
+.cke_rtl.cke_hidpi .cke_button__indent_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__indent_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -360px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
-.cke_hidpi .cke_ltr .cke_button__pastetext_icon, .cke_ltr.cke_hidpi .cke_button__pastetext_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1272px !important;
+.cke_hidpi .cke_ltr .cke_button__indent_icon, .cke_ltr.cke_hidpi .cke_button__indent_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -384px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
-.cke_hidpi .cke_button__placeholder_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1296px !important;
+.cke_rtl.cke_hidpi .cke_button__outdent_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__outdent_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -408px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
-.cke_rtl.cke_hidpi .cke_button__preview_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__preview_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1320px !important;
+.cke_hidpi .cke_ltr .cke_button__outdent_icon, .cke_ltr.cke_hidpi .cke_button__outdent_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -432px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
-.cke_hidpi .cke_ltr .cke_button__preview_icon, .cke_ltr.cke_hidpi .cke_button__preview_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1344px !important;
+.cke_rtl.cke_hidpi .cke_button__anchor_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__anchor_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -456px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
-.cke_hidpi .cke_button__print_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1368px !important;
+.cke_hidpi .cke_ltr .cke_button__anchor_icon, .cke_ltr.cke_hidpi .cke_button__anchor_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -480px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
-.cke_hidpi .cke_button__radio_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1392px !important;
-    background-size: 16px !important;
-}
-
-.cke_rtl.cke_hidpi .cke_button__redo_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__redo_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1416px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_ltr .cke_button__redo_icon, .cke_ltr.cke_hidpi .cke_button__redo_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1440px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__removeformat_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1464px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__replace_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1488px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__save_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1512px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__scayt_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1536px !important;
-    background-size: 16px !important;
-}
-
-.cke_rtl.cke_hidpi .cke_button__select_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__select_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1560px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_ltr .cke_button__select_icon, .cke_ltr.cke_hidpi .cke_button__select_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1584px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__selectall_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1608px !important;
-    background-size: 16px !important;
-}
-
-.cke_rtl.cke_hidpi .cke_button__showblocks_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__showblocks_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1632px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_ltr .cke_button__showblocks_icon, .cke_ltr.cke_hidpi .cke_button__showblocks_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1656px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__smiley_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1680px !important;
-    background-size: 16px !important;
-}
-
-.cke_rtl.cke_hidpi .cke_button__source_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__source_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1704px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_ltr .cke_button__source_icon, .cke_ltr.cke_hidpi .cke_button__source_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1728px !important;
-    background-size: 16px !important;
-}
-
-.cke_rtl.cke_hidpi .cke_button__sourcedialog_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__sourcedialog_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1752px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_ltr .cke_button__sourcedialog_icon, .cke_ltr.cke_hidpi .cke_button__sourcedialog_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1776px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__specialchar_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1800px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__spellchecker_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1824px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__strike_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1848px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__subscript_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1872px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__superscript_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1896px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__table_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1920px !important;
-    background-size: 16px !important;
-}
-
-.cke_rtl.cke_hidpi .cke_button__templates_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__templates_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1944px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_ltr .cke_button__templates_icon, .cke_ltr.cke_hidpi .cke_button__templates_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1968px !important;
-    background-size: 16px !important;
-}
-
-.cke_rtl.cke_hidpi .cke_button__textarea_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__textarea_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -1992px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_ltr .cke_button__textarea_icon, .cke_ltr.cke_hidpi .cke_button__textarea_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -2016px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__textcolor_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -2040px !important;
-    background-size: 16px !important;
-}
-
-.cke_rtl.cke_hidpi .cke_button__textfield_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__textfield_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -2064px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_ltr .cke_button__textfield_icon, .cke_ltr.cke_hidpi .cke_button__textfield_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -2088px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__uicolor_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -2112px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_button__underline_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -2136px !important;
-    background-size: 16px !important;
-}
-
-.cke_rtl.cke_hidpi .cke_button__undo_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__undo_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -2160px !important;
-    background-size: 16px !important;
-}
-
-.cke_hidpi .cke_ltr .cke_button__undo_icon, .cke_ltr.cke_hidpi .cke_button__undo_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -2184px !important;
+.cke_hidpi .cke_button__link_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -504px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
 
 .cke_hidpi .cke_button__unlink_icon {
-    background: url(icons_hidpi.png) no-repeat 0 -2208px !important;
+    background: url(icons_hidpi.png) no-repeat 0 -528px !important;
+    -ms-background-size: 16px !important;
+    background-size: 16px !important;
+}
+
+.cke_rtl.cke_hidpi .cke_button__bulletedlist_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__bulletedlist_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -552px !important;
+    -ms-background-size: 16px !important;
+    background-size: 16px !important;
+}
+
+.cke_hidpi .cke_ltr .cke_button__bulletedlist_icon, .cke_ltr.cke_hidpi .cke_button__bulletedlist_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -576px !important;
+    -ms-background-size: 16px !important;
+    background-size: 16px !important;
+}
+
+.cke_rtl.cke_hidpi .cke_button__numberedlist_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__numberedlist_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -600px !important;
+    -ms-background-size: 16px !important;
+    background-size: 16px !important;
+}
+
+.cke_hidpi .cke_ltr .cke_button__numberedlist_icon, .cke_ltr.cke_hidpi .cke_button__numberedlist_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -624px !important;
+    -ms-background-size: 16px !important;
+    background-size: 16px !important;
+}
+
+.cke_rtl.cke_hidpi .cke_button__pastetext_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__pastetext_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -648px !important;
+    -ms-background-size: 16px !important;
+    background-size: 16px !important;
+}
+
+.cke_hidpi .cke_ltr .cke_button__pastetext_icon, .cke_ltr.cke_hidpi .cke_button__pastetext_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -672px !important;
+    -ms-background-size: 16px !important;
+    background-size: 16px !important;
+}
+
+.cke_hidpi .cke_button__removeformat_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -696px !important;
+    -ms-background-size: 16px !important;
+    background-size: 16px !important;
+}
+
+.cke_rtl.cke_hidpi .cke_button__source_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__source_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -720px !important;
+    -ms-background-size: 16px !important;
+    background-size: 16px !important;
+}
+
+.cke_hidpi .cke_ltr .cke_button__source_icon, .cke_ltr.cke_hidpi .cke_button__source_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -744px !important;
+    -ms-background-size: 16px !important;
+    background-size: 16px !important;
+}
+
+.cke_hidpi .cke_button__specialchar_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -768px !important;
+    -ms-background-size: 16px !important;
+    background-size: 16px !important;
+}
+
+.cke_rtl.cke_hidpi .cke_button__redo_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__redo_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -792px !important;
+    -ms-background-size: 16px !important;
+    background-size: 16px !important;
+}
+
+.cke_hidpi .cke_ltr .cke_button__redo_icon, .cke_ltr.cke_hidpi .cke_button__redo_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -816px !important;
+    -ms-background-size: 16px !important;
+    background-size: 16px !important;
+}
+
+.cke_rtl.cke_hidpi .cke_button__undo_icon, .cke_hidpi .cke_mixed_dir_content .cke_rtl .cke_button__undo_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -840px !important;
+    -ms-background-size: 16px !important;
+    background-size: 16px !important;
+}
+
+.cke_hidpi .cke_ltr .cke_button__undo_icon, .cke_ltr.cke_hidpi .cke_button__undo_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -864px !important;
+    -ms-background-size: 16px !important;
+    background-size: 16px !important;
+}
+
+.cke_hidpi .cke_button__bgcolor_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -888px !important;
+    -ms-background-size: 16px !important;
+    background-size: 16px !important;
+}
+
+.cke_hidpi .cke_button__textcolor_icon {
+    background: url(icons_hidpi.png) no-repeat 0 -912px !important;
+    -ms-background-size: 16px !important;
     background-size: 16px !important;
 }
