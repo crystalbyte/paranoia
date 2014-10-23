@@ -528,14 +528,14 @@ namespace Crystalbyte.Paranoia {
         private string BlockExternalImages(string content, DataSourceRequest request) {
             var arguments = request.Path.ToPageArguments();
             var block = true;
-            if (arguments.ContainsKey("suppressextermals")) {
-                bool.TryParse(arguments["suppressextermals"], out block);
+            if (arguments.ContainsKey("suppressExternals")) {
+                bool.TryParse(arguments["suppressExternals"], out block);
             }
 
             const string pattern = "<img.+?src=\"(?<resource>http(s){0,1}://.+?)\".*?>";
             return Regex.Replace(content, pattern, m => {
                 var resource = m.Groups["resource"].Value;
-                var blockedResource = string.Format(resource + "?suppressextermals={0}",
+                var blockedResource = string.Format(resource + "?suppressExterals={0}",
                     block);
                 return m.Value.Replace(resource, blockedResource);
             }, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
