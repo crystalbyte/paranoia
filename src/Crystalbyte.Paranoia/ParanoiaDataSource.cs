@@ -193,7 +193,11 @@ namespace Crystalbyte.Paranoia {
 
         private void SendComposeAsResponse(DataSourceRequest request) {
             long messageId;
-            var variables = new Dictionary<string, string>();
+            var variables = new Dictionary<string, string> {
+                {"default_font_size", string.Format("{0}px", Settings.Default.HtmlDefaultFontSize)},
+                {"default_font_family", string.Format("{0}", Settings.Default.HtmlDefaultFontFamily)}
+            };
+
             var arguments = request.Url.OriginalString.ToPageArguments();
             if (arguments.ContainsKey("id") && long.TryParse(arguments["id"], out messageId)) {
                 var bodyHtml = GetBodyHtmlFromId(messageId);
@@ -225,7 +229,9 @@ namespace Crystalbyte.Paranoia {
 
         private void SendComposeAsNewResponse(DataSourceRequest request) {
             var variables = new Dictionary<string, string> {
-                {"content", string.Empty}
+                {"content", string.Empty},
+                {"default_font_size", string.Format("{0}px", Settings.Default.HtmlDefaultFontSize)},
+                {"default_font_family", string.Format("{0}", Settings.Default.HtmlDefaultFontFamily)}
             };
 
             var html = GenerateEditorHtml(variables);
@@ -460,7 +466,7 @@ namespace Crystalbyte.Paranoia {
             var wrapper = await info.Stream.ToUtf8StringAsync();
             var values = new Dictionary<string, string> {
                 {"content", plain},
-                {"subject", subject}
+                {"subject", subject},
             };
 
             return Regex.Replace(wrapper, "%.+?%", m => {

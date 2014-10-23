@@ -16,17 +16,90 @@
     </style>
 </head>
 <body>
-    <textarea id="editor1" name="editor1">%CONTENT%</textarea>
+    <textarea id="editor" name="editor"></textarea>
+    <div id="content-storage" style="display: none;">%CONTENT%</div>
+
+    <!-- ReSharper disable Html.PathError -->
     <script type="text/javascript" src="Resources/jquery/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="Resources/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="Resources/ckeditor/adapters/jquery.js"></script>
-    <script type="text/javascript" src="Resources/ckeditor.paranoia/paranoia.js"></script>
+    <!-- ReSharper restore Html.PathError -->
+
     <script type="text/javascript">
-        $(window).resize(function () {
-            resizeEditor();
-        });
+        // Module pattern: https://github.com/stevekwan/experiments/blob/master/javascript/module-pattern.html
+
+        var Crystalbyte = Crystalbyte || {};
+        Crystalbyte.Paranoia = function () {
+            var textarea = $('textarea#editor');
+
+            var loadContent = function () {
+                var storage = $('#content-storage');
+                textarea.val(storage.html());
+                storage.remove();
+            }
+
+            var resizeEditor = function () {
+                var w = $(window);
+                var height = w.height();
+                var width = w.width();
+                textarea.resize(width, height);
+            }
+
+            var focusEditor = function () {
+                textarea.focus();
+            }
+
+            var getContent = function () {
+                var editor = textarea.editor;
+                return editor.getData();
+            }
+
+            var setReadOnly = function (readOnly) {
+                var editor = textarea.editor;
+                editor.setReadOnly(readOnly);
+            }
+
+            var insertText = function (text) {
+                var editor = textarea.editor;
+                editor.insertText(text);
+            }
+
+            var insertHtml = function (html) {
+                var editor = textarea.editor;
+                editor.insertHtml(html);
+            }
+            
+            var execute = function(command) {
+                var editor = textarea.editor;
+                editor.execCommand(command);
+            }
+
+            var init = function() {
+                textarea.ckeditor(Crystalbyte.Paranoia.loadContent, {
+                    toolbar: [
+                    { name: 'document', items: ['Undo', 'Redo', 'Font', 'FontSize'] },
+                    { name: 'document1', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'TextColor', 'BGColor'] },
+                    { name: 'document2', groups: ['justify', 'mode'], items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'NumberedList', 'BulletedList', '-', 'Image', 'Link', 'Table', 'Source'] }]
+                });
+            }
+
+            return {
+                init: init,
+                execute: execute,
+                insertHtml: insertHtml,
+                insertText: insertText,
+                setReadOnly: setReadOnly,
+                getContent: getContent,
+                loadContent: loadContent,
+                resizeEditor: resizeEditor,
+                focusEditor: focusEditor,
+                defaultFontSize: "%DEFAULT_FONT_SIZE%",
+                defaultFontFamily: "%DEFAULT_FONT_FAMILY%",
+            };
+        }();
+
         $(document).ready(function () {
-            start();
+            Crystalbyte.Paranoia.init();
         });
     </script>
 </body>

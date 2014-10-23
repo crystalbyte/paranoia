@@ -11,6 +11,7 @@ using Awesomium.Core;
 using Awesomium.Windows.Controls;
 using System.Text.RegularExpressions;
 using System.IO;
+using NLog;
 
 #endregion
 
@@ -28,6 +29,8 @@ namespace Crystalbyte.Paranoia.UI {
 
         private bool _disposed;
         private WebControl _webControl;
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -158,13 +161,21 @@ namespace Crystalbyte.Paranoia.UI {
             base.OnApplyTemplate();
 
             if (_webControl != null) {
+                _webControl.GotKeyboardFocus -= OnGotKeyboardFocus;
                 _webControl.ShowCreatedWebView -= OnWebControlShowCreatedWebView;
                 _webControl.WindowClose -= OnWebControlWindowClose;
             }
 
             _webControl = (WebControl)Template.FindName(WebControlPartName, this);
+            _webControl.GotKeyboardFocus += OnGotKeyboardFocus;
             _webControl.ShowCreatedWebView += OnWebControlShowCreatedWebView;
             _webControl.WindowClose += OnWebControlWindowClose;
+        }
+
+        private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
+            if (_webControl.IsDocumentReady) {
+                _webControl.ExecuteJavascript("focusEditor();");
+            }
         }
 
         private void OnWebControlWindowClose(object sender, WindowCloseEventArgs e) {
@@ -210,26 +221,26 @@ namespace Crystalbyte.Paranoia.UI {
 
         #endregion
 
-        internal string GetEditorDocument() {
-            try {
-                var html = _webControl.ExecuteJavascriptWithResult("getEditorHtml()");
-                return html;
-            } catch (Exception ex) {
-                Debug.WriteLine("something went wrong\n" + ex);
-                return string.Empty;
+        internal string GetHtmlContent() {
+            const string function = "Crystalbyte.Paranoia.getContent();";
+            var html = _webControl.ExecuteJavascriptWithResult(function);
+            return html;
+        }
+
+        internal void InsertHtml(string html) {
+            JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
+            using (module) {
+                const string function = "insertHtml";
+                module.Invoke(function, html);
             }
         }
 
-        internal void InsertHtmlAtCurrentPosition(string html) {
-            JSObject window = _webControl.ExecuteJavascriptWithResult("window");
-
-            using (window) {
-                window.Invoke("pasteHtmlAtCurrentPosition", html);
+        internal void InsertText(string text) {
+            JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
+            using (module) {
+                const string function = "insertText";
+                module.Invoke(function, text);
             }
-        }
-
-        internal void InsertPlaneAtCurrentPosition(string planeText) {
-            _webControl.ExecuteJavascript(string.Format("pastePlaneAtCurrentPosition({0})", planeText));
         }
 
         #region PasteHandler
@@ -247,7 +258,7 @@ namespace Crystalbyte.Paranoia.UI {
             if (image != null) {
                 var file = Path.GetTempFileName() + ".jpg";
                 image.Save(file);
-                InsertHtmlAtCurrentPosition(string.Format("<img width=480 src=\"asset://tempImage/{0}\"></img>", file));
+                InsertHtml(string.Format("<img width=480 src=\"asset://tempImage/{0}\"></img>", file));
                 return;
             }
 
@@ -280,7 +291,7 @@ namespace Crystalbyte.Paranoia.UI {
                 }
 
                 html = temp;
-                InsertHtmlAtCurrentPosition(html);
+                InsertHtml(html);
                 return;
             }
 
@@ -288,7 +299,7 @@ namespace Crystalbyte.Paranoia.UI {
             if (planeText == null)
                 return;
 
-            InsertPlaneAtCurrentPosition(planeText);
+            InsertText(planeText);
         }
 
         #endregion

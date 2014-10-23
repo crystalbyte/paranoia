@@ -659,7 +659,6 @@
     <Resource Include="Assets\reply.all.png" />
     <Resource Include="Assets\arrow.right.png" />
     <Resource Include="Assets\image.placeholder.png" />
-    <Content Include="Resources\ckeditor.paranoia\paranoia.js" />
     <Content Include="Resources\ckeditor\adapters\jquery.js" />
     <Content Include="Resources\ckeditor\build-config.js" />
     <Content Include="Resources\ckeditor\ckeditor.js" />
@@ -1071,7 +1070,6 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy /s /y "$(ProjectDir)Resources\jquery\*" "$(TargetDir)Resources\jquery\"
 xcopy /s /y "$(ProjectDir)Resources\ckeditor\*" "$(TargetDir)Resources\ckeditor\"
-xcopy /s /y "$(ProjectDir)Resources\ckeditor.paranoia\*" "$(TargetDir)Resources\ckeditor.paranoia\"
 
 REM regasm.exe "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>

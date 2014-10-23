@@ -84,11 +84,11 @@ namespace Crystalbyte.Paranoia.Automation {
 
         #region Native COM Support
 
-        private const uint ClsctxInProcServer = 0x1;
+        //private const uint ClsctxInProcServer = 0x1;
         private const uint ClsctxLocalServer = 0x4;
-        private const uint RegclsSingleUse = 0x0;
+        //private const uint RegclsSingleUse = 0x0;
         private const uint RegclsMultipleUse = 0x1;
-        private const uint RegclsMultiSeparate = 0x2;
+        //private const uint RegclsMultiSeparate = 0x2;
         private const uint RegclsSuspended = 0x4;
 
         private static class NativeMethods {
