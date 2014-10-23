@@ -221,8 +221,8 @@ namespace Crystalbyte.Paranoia.UI {
 
         #endregion
 
-        internal string GetHtmlContent() {
-            const string function = "Crystalbyte.Paranoia.getContent();";
+        internal string GetComposition() {
+            const string function = "Crystalbyte.Paranoia.getComposition();";
             var html = _webControl.ExecuteJavascriptWithResult(function);
             return html;
         }

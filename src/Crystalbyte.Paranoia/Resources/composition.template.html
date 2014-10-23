@@ -9,10 +9,6 @@
             padding: 0;
             border: 0;
         }
-
-        html, body {
-            height: 100%;
-        }
     </style>
 </head>
 <body>
@@ -42,14 +38,14 @@
                 var w = $(window);
                 var height = w.height();
                 var width = w.width();
-                textarea.resize(width, height);
+                textarea.editor.resize(width, height, false);
             }
 
             var focusEditor = function () {
                 textarea.focus();
             }
 
-            var getContent = function () {
+            var getComposition = function () {
                 var editor = textarea.editor;
                 return editor.getData();
             }
@@ -68,13 +64,13 @@
                 var editor = textarea.editor;
                 editor.insertHtml(html);
             }
-            
-            var execute = function(command) {
+
+            var execute = function (command) {
                 var editor = textarea.editor;
                 editor.execCommand(command);
             }
 
-            var init = function() {
+            var init = function () {
                 textarea.ckeditor(Crystalbyte.Paranoia.loadContent, {
                     toolbar: [
                     { name: 'document', items: ['Undo', 'Redo', 'Font', 'FontSize'] },
@@ -89,15 +85,16 @@
                 insertHtml: insertHtml,
                 insertText: insertText,
                 setReadOnly: setReadOnly,
-                getContent: getContent,
                 loadContent: loadContent,
-                resizeEditor: resizeEditor,
                 focusEditor: focusEditor,
+                resizeEditor: resizeEditor,
+                getComposition: getComposition,
                 defaultFontSize: "%DEFAULT_FONT_SIZE%",
                 defaultFontFamily: "%DEFAULT_FONT_FAMILY%",
             };
         }();
 
+        $(window).resize(Crystalbyte.Paranoia.resizeEditor);
         $(document).ready(function () {
             Crystalbyte.Paranoia.init();
         });
