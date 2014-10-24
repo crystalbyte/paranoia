@@ -107,7 +107,7 @@
                 <Grid Width="120"
                       Height="80"
                       Margin="1"
-                      Background="Black">
+                      Background="Transparent">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
@@ -133,15 +133,18 @@
                            Stretch="Uniform"
                            Visibility="{Binding IsImage,
                                                 Converter={StaticResource BooleanToVisibilityConverter}}" />
-                    <Grid Grid.Row="0" VerticalAlignment="Bottom">
-                        <Rectangle HorizontalAlignment="Stretch"
-                                   VerticalAlignment="Stretch"
-                                   Fill="{DynamicResource Metro.Window.ShadowBrush}"
-                                   Opacity="{DynamicResource Metro.ShadowOpacity}" />
+                    <Grid Grid.Row="1">
+                        <!--
+                            <Rectangle HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Fill="{DynamicResource Metro.Window.ShadowBrush}"
+                            Opacity="{DynamicResource Metro.ShadowOpacity}" />
+                        -->
                         <TextBlock Margin="3"
                                    Background="Transparent"
                                    FontSize="{DynamicResource Metro.SmallFontSize}"
                                    Text="{Binding Name}"
+                                   TextAlignment="Center"
                                    TextTrimming="CharacterEllipsis"
                                    TextWrapping="NoWrap"
                                    ToolTip="{Binding FullName}" />

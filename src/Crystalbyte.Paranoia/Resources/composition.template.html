@@ -77,10 +77,8 @@
 
             var init = function () {
                 textarea.ckeditor(Crystalbyte.Paranoia.loadContent, {
-                    //toolbar: [
-                    //{ name: 'document', items: ['Undo', 'Redo', 'Font', 'FontSize'] },
-                    //{ name: 'document1', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'TextColor', 'BGColor'] },
-                    //{ name: 'document2', groups: ['justify', 'mode'], items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'NumberedList', 'BulletedList', '-', 'Image', 'Link', 'Table', 'Source'] }]
+                    font_defaultLabel: '%DEFAULT_FONT_FAMILY%',
+                    fontSize_defaultLabel: '%DEFAULT_FONT_SIZE%px',
                 });
             }
 
@@ -93,9 +91,7 @@
                 loadContent: loadContent,
                 focusEditor: focusEditor,
                 resizeEditor: resizeEditor,
-                getComposition: getComposition,
-                defaultFontSize: "%DEFAULT_FONT_SIZE%",
-                defaultFontFamily: "%DEFAULT_FONT_FAMILY%",
+                getComposition: getComposition
             };
         }();
 

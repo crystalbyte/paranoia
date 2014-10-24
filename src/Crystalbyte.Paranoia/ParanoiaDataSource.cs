@@ -230,7 +230,7 @@ namespace Crystalbyte.Paranoia {
         private void SendComposeAsNewResponse(DataSourceRequest request) {
             var variables = new Dictionary<string, string> {
                 {"content", string.Empty},
-                {"default_font_size", string.Format("{0}px", Settings.Default.HtmlDefaultFontSize)},
+                {"default_font_size", string.Format("{0}", Settings.Default.HtmlDefaultFontSize)},
                 {"default_font_family", string.Format("{0}", Settings.Default.HtmlDefaultFontFamily)}
             };
 

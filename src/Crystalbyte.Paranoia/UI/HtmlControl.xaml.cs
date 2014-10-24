@@ -133,7 +133,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
 
             e.Handled = true;
-            PasteClipboardContent();
+            PasteFromClipboard();
         }
 
         public override void OnApplyTemplate() {
@@ -152,8 +152,17 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
-            if (_webControl.IsDocumentReady) {
-                _webControl.ExecuteJavascript("Crystalbyte.Paranoia.focusEditor();");
+            if (!_webControl.IsDocumentReady) 
+                return;
+
+            FocusEditor();
+        }
+
+        private void FocusEditor() {
+            JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
+            using (module) {
+                const string function = "focusEditor";
+                module.Invoke(function);
             }
         }
 
@@ -201,9 +210,12 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         internal string GetComposition() {
-            const string function = "Crystalbyte.Paranoia.getComposition();";
-            var html = _webControl.ExecuteJavascriptWithResult(function);
-            return html;
+            JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
+            using (module) {
+                const string function = "getComposition";
+                var html = _webControl.ExecuteJavascriptWithResult(function);
+                return html;
+            }
         }
 
         internal void InsertHtml(string html) {
@@ -222,14 +234,11 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        #region PasteHandler
-
-        private void PasteClipboardContent() {
+        private void PasteFromClipboard() {
             var data = Clipboard.GetDataObject();
             if (data == null)
                 return;
 
-            // Debug stuff
             // ReSharper disable once UnusedVariable
             var formats = data.GetFormats();
 
@@ -280,7 +289,5 @@ namespace Crystalbyte.Paranoia.UI {
 
             InsertText(plainText);
         }
-
-        #endregion
     }
 }
