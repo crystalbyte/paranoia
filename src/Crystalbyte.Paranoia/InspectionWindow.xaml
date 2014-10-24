@@ -19,10 +19,6 @@
                 d:DataContext="{d:DesignInstance paranoia:InspectionContext}"
                 mc:Ignorable="d">
     <Grid Background="{DynamicResource Metro.Control.BackgroundBrush}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="197*"/>
-            <ColumnDefinition Width="597*"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -33,13 +29,15 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0"
-                    Height="34"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="2"
+                    Height="36"
+                    Margin="0,0,0,42.8"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Orientation="Horizontal" Grid.ColumnSpan="2" Margin="0,0,0,42.8" Grid.RowSpan="2">
+                    Orientation="Horizontal">
             <Image Width="20"
                    Margin="10,0"
-                   VerticalAlignment="Center"
                    DockPanel.Dock="Left"
                    RenderOptions.BitmapScalingMode="HighQuality"
                    Source="/Assets/logo.window.png" />
@@ -64,7 +62,7 @@
         <Grid Grid.Row="0"
               HorizontalAlignment="Right"
               VerticalAlignment="Top"
-              Panel.ZIndex="100000" Grid.Column="1" Margin="0,0,-0.4,0">
+              Panel.ZIndex="100000">
             <Grid.ColumnDefinitions>
                 <!--  help button  -->
                 <ColumnDefinition Width="Auto" />
@@ -93,9 +91,7 @@
                                                                         AncestorType=paranoia:InspectionWindow}}" />
             <Button Grid.Column="4" Style="{DynamicResource Metro.CloseButtonStyle}" />
         </Grid>
-        <DockPanel Grid.Row="1"
-                   Margin="0,0.4,-0.4,2.8"
-                   LastChildFill="True" Grid.ColumnSpan="2">
+        <DockPanel Grid.Row="1" LastChildFill="True">
             <StackPanel Margin="6,0,6,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
@@ -194,7 +190,7 @@
         <Grid Grid.Row="2"
               Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
               Visibility="{Binding HasMultipleRecipients,
-                                   Converter={StaticResource BooleanToVisibilityConverter}}" Grid.ColumnSpan="2" Margin="0,0.2,-0.4,349.4" Grid.RowSpan="3">
+                                   Converter={StaticResource BooleanToVisibilityConverter}}">
             <ItemsControl Margin="6,3" ItemsSource="{Binding SecondaryTo}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -244,9 +240,11 @@
                        Text="To" />
         </Grid>
         <Grid Grid.Row="3"
+              Grid.RowSpan="2"
+              Grid.ColumnSpan="2"
               Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
               Visibility="{Binding HasCarbonCopies,
-                                   Converter={StaticResource BooleanToVisibilityConverter}}" Grid.ColumnSpan="2" Margin="0,0.2,-0.4,349.4" Grid.RowSpan="2">
+                                   Converter={StaticResource BooleanToVisibilityConverter}}">
             <ItemsControl Margin="6,3" ItemsSource="{Binding Cc}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -295,20 +293,19 @@
                        Foreground="{DynamicResource Metro.Control.BackgroundBrush}"
                        Text="CC" />
         </Grid>
-        <Grid Grid.Row="4" Margin="0,3.2,-0.4,0.4" Grid.ColumnSpan="2">
+        <Grid Grid.Row="4" Margin="0,3,0,0">
             <ui:HtmlControl x:Name="HtmlViewer"
                             BorderThickness="0"
                             WebSession="{Binding Source={StaticResource InspectionWebSessionProvider}}" />
         </Grid>
-        <ListView Grid.Row="4"
-                  Margin="0,349.2,-0.4,0.4"
+        <ListView Grid.Row="5"
                   Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                   BorderThickness="0"
                   ItemTemplate="{StaticResource Metro.ThumbnailTemplate}"
                   ItemsSource="{Binding Attachments}"
                   ScrollViewer.CanContentScroll="False"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                  ScrollViewer.VerticalScrollBarVisibility="Disabled" Grid.ColumnSpan="2">
+                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <ListView.ItemContainerStyle>
                 <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                     <Setter Property="UseLayoutRounding" Value="True" />
@@ -331,8 +328,8 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <StatusBar Grid.Row="4"
+        <StatusBar Grid.Row="6"
                    Height="24"
-                   Background="{DynamicResource Metro.App.AccentBrush}" Grid.ColumnSpan="2" Margin="0,349.2,-0.4,0.4" Grid.RowSpan="3" />
+                   Background="{DynamicResource Metro.App.AccentBrush}" />
     </Grid>
 </ui:MetroWindow>

@@ -11,7 +11,7 @@
                                 ElementName=TitleBlock,
                                 Mode=OneWay}"
                 BorderBrush="{DynamicResource Metro.Window.ShadowBrush}"
-                BorderThickness="1"
+                BorderThickness="0"
                 UseLayoutRounding="True"
                 WindowStartupLocation="CenterOwner"
                 mc:Ignorable="d">
@@ -22,7 +22,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0"
-                    Height="34"
+                    Height="36"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     DataContext="{Binding Content,
@@ -31,12 +31,11 @@
                     d:DataContext="{d:DesignInstance Page}">
             <Image Width="20"
                    Margin="10,0"
-                   VerticalAlignment="Center"
                    DockPanel.Dock="Left"
                    RenderOptions.BitmapScalingMode="HighQuality"
                    Source="/Assets/logo.window.png" />
             <TextBlock x:Name="TitleBlock"
-                       Margin="0,3,0,0"
+                       Margin="0,-1,0,0"
                        VerticalAlignment="Center"
                        DataContext="{Binding DataContext}"
                        FontSize="{DynamicResource Metro.NormalFontSize}"

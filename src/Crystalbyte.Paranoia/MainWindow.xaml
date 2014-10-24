@@ -156,7 +156,7 @@
     </ui:MetroWindow.InputBindings>
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" MinHeight="32" />
+            <RowDefinition Height="36"  />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -170,11 +170,10 @@
                    d:IsLocked="True">
             <Image Width="20"
                    Margin="10,0"
-                   VerticalAlignment="Center"
                    DockPanel.Dock="Left"
                    RenderOptions.BitmapScalingMode="HighQuality"
                    Source="/Assets/logo.window.png" />
-            <TextBlock Margin="0,-2,0,0"
+            <TextBlock Margin="0,-1,0,0"
                        VerticalAlignment="Center"
                        FontSize="{DynamicResource Metro.MediumFontSize}"
                        FontWeight="Normal"
@@ -218,7 +217,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate DataType="paranoia:NavigationContext">
                             <TextBlock x:Name="TitleBlock"
-                                       Margin="6,-2,6,0"
+                                       Margin="6,-4,6,0"
                                        VerticalAlignment="Center"
                                        FontSize="{DynamicResource Metro.LargeFontSize}"
                                        FontWeight="Thin"

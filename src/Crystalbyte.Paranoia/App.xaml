@@ -104,43 +104,34 @@
             <SolidColorBrush x:Key="Metro.Scroll.BackgroundBrush" Color="{x:Static paranoia:MetroColors.ScrollBackgroundColor}" />
 
             <DataTemplate x:Key="Metro.ThumbnailTemplate" DataType="paranoia:AttachmentContext">
-                <Grid Width="120"
-                      Height="80"
-                      Margin="1"
-                      Background="Transparent">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Image Grid.Row="0"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           RenderOptions.BitmapScalingMode="HighQuality"
-                           Source="{Binding FullName,
-                                            ConverterParameter=24,
-                                            Converter={StaticResource IconFinder},
-                                            IsAsync=True}"
-                           Stretch="None"
-                           Visibility="{Binding IsImage,
-                                                Converter={StaticResource BooleanToVisibilityConverter},
-                                                ConverterParameter=!}" />
-                    <Image Grid.Row="0"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Stretch"
-                           RenderOptions.BitmapScalingMode="HighQuality"
-                           Source="{Binding Bytes,
-                                            IsAsync=True}"
-                           Stretch="Uniform"
-                           Visibility="{Binding IsImage,
-                                                Converter={StaticResource BooleanToVisibilityConverter}}" />
-                    <Grid Grid.Row="1">
-                        <!--
-                            <Rectangle HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Fill="{DynamicResource Metro.Window.ShadowBrush}"
-                            Opacity="{DynamicResource Metro.ShadowOpacity}" />
-                        -->
-                        <TextBlock Margin="3"
+                <Border Padding="3">
+                    <Grid Width="120" Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               Source="{Binding FullName,
+                                                ConverterParameter=24,
+                                                Converter={StaticResource IconFinder},
+                                                IsAsync=True}"
+                               Stretch="None"
+                               Visibility="{Binding IsImage,
+                                                    Converter={StaticResource BooleanToVisibilityConverter},
+                                                    ConverterParameter=!}" />
+                        <Image Grid.Row="0"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               Source="{Binding Bytes,
+                                                IsAsync=True}"
+                               Stretch="Uniform"
+                               Visibility="{Binding IsImage,
+                                                    Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBlock Grid.Row="1"
                                    Background="Transparent"
                                    FontSize="{DynamicResource Metro.SmallFontSize}"
                                    Text="{Binding Name}"
@@ -149,7 +140,7 @@
                                    TextWrapping="NoWrap"
                                    ToolTip="{Binding FullName}" />
                     </Grid>
-                </Grid>
+                </Border>
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

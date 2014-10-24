@@ -152,10 +152,21 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
-            if (!_webControl.IsDocumentReady) 
+            if (!_webControl.IsDocumentReady)
                 return;
 
-            FocusEditor();
+            if (CanFocusEditor) {
+                FocusEditor();    
+            }
+        }
+
+        private bool CanFocusEditor {
+            get {
+                JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
+                using (module) {
+                    return module != null;
+                }
+            }
         }
 
         private void FocusEditor() {
