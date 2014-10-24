@@ -170,7 +170,8 @@
                   Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                   ItemsSource="{Binding Accounts}"
                   SelectedIndex="0"
-                  SelectedItem="{Binding SelectedAccount}">
+                  SelectedItem="{Binding SelectedAccount}"
+                  SelectionChanged="OnAccountSelectionChanged">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>

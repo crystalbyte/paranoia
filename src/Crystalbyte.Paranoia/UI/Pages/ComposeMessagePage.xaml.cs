@@ -3,9 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Data;
@@ -26,7 +28,13 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             var context = new MailCompositionContext();
             context.DocumentTextRequested += OnDocumentTextRequested;
             context.Finished += OnFinished;
+
+            HtmlControl.DocumentReady += OnDocumentReady;
             DataContext = context;
+        }
+
+        private async void OnDocumentReady(object sender, EventArgs e) {
+            await ChangeSignatureAsync();
         }
 
         private void OnFinished(object sender, EventArgs e) {
@@ -131,7 +139,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 from = new MailContactContext(await database.MailContacts
                     .FirstAsync(x => x.Address == message.Headers.From.Address));
 
-                foreach (var cc in message.Headers.Cc.Where(y => 
+                foreach (var cc in message.Headers.Cc.Where(y =>
                     !App.Context.Accounts.Any(x => x.Address.EqualsIgnoreCase(y.Address)))) {
                     var lcc = cc;
                     var contact = new MailContactContext(await database.MailContacts
@@ -194,14 +202,17 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         public static Window GetParentWindow(DependencyObject child) {
-            var parentObject = VisualTreeHelper.GetParent(child);
+            while (true) {
+                var parentObject = VisualTreeHelper.GetParent(child);
 
-            if (parentObject == null) {
-                return null;
+                if (parentObject == null) {
+                    return null;
+                }
+
+                var parent = parentObject as Window;
+                if (parent != null) return parent;
+                child = parentObject;
             }
-
-            var parent = parentObject as Window;
-            return parent ?? GetParentWindow(parentObject);
         }
 
         #region Implementation of INavigationAware
@@ -231,5 +242,26 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         #endregion
+
+        private async Task ChangeSignatureAsync() {
+            if (!HtmlControl.IsDocumentReady) {
+                return;
+            }
+
+            var context = (MailCompositionContext)DataContext;
+            var path = context.SelectedAccount.SignaturePath;
+
+            if (string.IsNullOrEmpty(path) || !File.Exists(path)) {
+                HtmlControl.ChangeSignature(string.Empty);
+                return;
+            }
+
+            var content = await Task.Run(() => File.ReadAllText(path));
+            HtmlControl.ChangeSignature(content);
+        }
+
+        private async void OnAccountSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            await ChangeSignatureAsync();
+        }
     }
 }

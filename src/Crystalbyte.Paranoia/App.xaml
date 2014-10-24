@@ -104,7 +104,7 @@
             <SolidColorBrush x:Key="Metro.Scroll.BackgroundBrush" Color="{x:Static paranoia:MetroColors.ScrollBackgroundColor}" />
 
             <DataTemplate x:Key="Metro.ThumbnailTemplate" DataType="paranoia:AttachmentContext">
-                <Border Padding="3">
+                <Border Padding="0,3">
                     <Grid Width="120" Height="80">
                         <Grid.RowDefinitions>
                             <RowDefinition />
@@ -132,6 +132,7 @@
                                Visibility="{Binding IsImage,
                                                     Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <TextBlock Grid.Row="1"
+                                   Margin="6,0"
                                    Background="Transparent"
                                    FontSize="{DynamicResource Metro.SmallFontSize}"
                                    Text="{Binding Name}"

@@ -44,6 +44,9 @@
             <Component Id="cmpEB1E46E67FBA77143E9A0A663D39ABF5" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filA084AD8C61988DD87DCC03E72CDF1158" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-23.log" />
             </Component>
+            <Component Id="cmp1ACC3620C91E6ECD216523A8AFB7BAEB" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filF4D11B8A88C2487B5A917F069090F192" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-24.log" />
+            </Component>
             <Component Id="cmp674B4BB050DFFB66F190C0F3CE6BE914" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil5ABB649E866B9A792A8BEA0328821854" KeyPath="yes" Source="$(var.PrimaryOutputDir)\aquapool.azurewebsites.net.PublishSettings" />
             </Component>
@@ -695,6 +698,207 @@
             <Component Id="cmp4F81DD5007E4E7D1B88D1C5346F4D0F9" Directory="dir3F3718B5AA01C9BF045BD9C114EEE3BD" Guid="*">
                 <File Id="filB917101A8A2B48CD1BE018EDFFCEBDBF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\flash\images\placeholder.png" />
             </Component>
+            <Component Id="cmp7E9493343D61A14D2F08CF5DD8C8E760" Directory="dir26DA481DF26C76F0153C8FDD8C0538FF" Guid="*">
+                <File Id="fil14056A9E33F422363B5BFEBD9D03F035" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\plugin.js" />
+            </Component>
+            <Component Id="cmp57009B54DDA13BA5E800B7183219A817" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filD6428A7FB5F185DE0A6029BA7C34B303" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\af.js" />
+            </Component>
+            <Component Id="cmp171CCC770859CE74C3B97F7D46648D10" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil69F0A6E68FF2FDA2D3A43234897A66A5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ar.js" />
+            </Component>
+            <Component Id="cmp9308A1EA066BF38B42AD8AD7C83F2D7A" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil0ED5DC9A784470A050396E3199F7AF3F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\bg.js" />
+            </Component>
+            <Component Id="cmpE192B8B8D46BF0C84D83DAD4C0B66ED9" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil580FE4347DED7AE24824BC9ED9DBAE36" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\bn.js" />
+            </Component>
+            <Component Id="cmpAA7A004C99FD7FC84033A6DAB999D22E" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil4858EAE58A4D231FAF4FB05073A134E2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\bs.js" />
+            </Component>
+            <Component Id="cmp13387D8CB9AA3BBDC5D00E0BC70BCE28" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil6E493580FD659D04A3EF4BEAC3A9B321" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ca.js" />
+            </Component>
+            <Component Id="cmpA29795C7E3ADDFFADAE4063D04E84ED9" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil19980A10BA099D3B3525C9703492B652" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\cs.js" />
+            </Component>
+            <Component Id="cmpD09320C664166858E57DBD0958781A95" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil0DF826D29872162E0E0B717DA11B9DA2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\cy.js" />
+            </Component>
+            <Component Id="cmpA114C91E4C8296C535859F539524C2EF" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filF899E9CE5B49FD0B6C9B8A6C3CA13449" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\da.js" />
+            </Component>
+            <Component Id="cmp59DBC8BE85C0181881BFCB19E51F0801" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil238C3FB4FCE7A57E96155CCBDB418F23" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\de.js" />
+            </Component>
+            <Component Id="cmp0451B1702813B5C2DC2BE22E4AE81BC6" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filACE20896B9291E253AC14579EC6E5527" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\el.js" />
+            </Component>
+            <Component Id="cmp139402E4E13528B7D0E1E5F522CB400F" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil510B70DE03910410FEE86A2AD9056C04" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\en-au.js" />
+            </Component>
+            <Component Id="cmpAE1FC4D0BFD5F792B7D063458241BFE3" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil132785915F2D5F9D7007083ABD847008" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\en-ca.js" />
+            </Component>
+            <Component Id="cmp9C021F9F8C971152CE92A8FD21C0C2A9" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filCAD406DA74E6B098BECAE41DAF72319F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\en-gb.js" />
+            </Component>
+            <Component Id="cmp63CEDE22611CEC1A01BBA934A441DCA4" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filFD275AA42383F4D5EE5CF02754DE36B3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\en.js" />
+            </Component>
+            <Component Id="cmp59118D03DB9D6035059E028845CC34E1" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil3C1F2112CAC662F9A7A9A2B99FA5778A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\eo.js" />
+            </Component>
+            <Component Id="cmp8188B0FDB020249AC09302B1586BA3A6" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filEB95D0FBA19DDDDA02F9FE666C2D2EF8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\es.js" />
+            </Component>
+            <Component Id="cmp93149DEE8A703FF3E435359C7E22A198" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filDDC08903B675E9D3BA6937832E583352" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\et.js" />
+            </Component>
+            <Component Id="cmpF6CCF570080912E5496D7E992F8E0715" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil8704E2D97B16303C79DFD6C63D14E2D0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\eu.js" />
+            </Component>
+            <Component Id="cmpFC251DB617A7B4EA1C26A6BF267D2F03" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filECAA161E8E5D5F16187FB344F9D8E740" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\fa.js" />
+            </Component>
+            <Component Id="cmpDC0E12DA3A77FBB7003A70A55AFB4520" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filC7864E525E1EECD01005762CDF5778AD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\fi.js" />
+            </Component>
+            <Component Id="cmp213F9AB3BF44FA25EA0F41323336D2AE" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil1F81E78B0A068D8B93AF48606FB30670" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\fo.js" />
+            </Component>
+            <Component Id="cmpF47D8E198FA561FD6C42348890B98EC2" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil0A9AB51F66E2CF50CE8AA0DA22F19704" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\fr-ca.js" />
+            </Component>
+            <Component Id="cmp5135BBEEAF6565597DC47E8BB7E7643C" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil5B73B22A167F0C13051CADA22504AE83" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\fr.js" />
+            </Component>
+            <Component Id="cmp9193878B1A02EA6B4719EB19A44C97F4" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil64865E341940A5FB3B37BF3D6A1DB847" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\gl.js" />
+            </Component>
+            <Component Id="cmpEFA25FF05A5E3706A4BD500B654ED1D9" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil679140237120BA28350913BED18414CF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\gu.js" />
+            </Component>
+            <Component Id="cmpA29C060DBF2C3818E12FD190317134D8" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filC6B513DEE0F56A4B4FB96F7B0C89AD4C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\he.js" />
+            </Component>
+            <Component Id="cmp7719735EBC33146437DC67DDCD42E773" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filF179E7997772F283CEAD95BDDC910E2D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\hi.js" />
+            </Component>
+            <Component Id="cmp1C790323B0415056098AD9B51ACACB83" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil65F065C26E41A144057750C3679C8EB5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\hr.js" />
+            </Component>
+            <Component Id="cmp86987FCE139C19E54C2ECCD47120F5CF" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil9A17FEF338F5E61394D52D7553687B24" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\hu.js" />
+            </Component>
+            <Component Id="cmp9D6C2ABA1DA3BC4B156FD22C41BB727A" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filBC6277C40B9B79C93C8EC3B967BF3875" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\id.js" />
+            </Component>
+            <Component Id="cmpD4F90FC223B053A362CF9564945AB122" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filF0D24956B724058147C51E767BDB177E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\is.js" />
+            </Component>
+            <Component Id="cmp00E70C024F08DCE9BC6C48E66C302DE1" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil4250A081F42FB94C54A68BEA3129385F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\it.js" />
+            </Component>
+            <Component Id="cmpE7B23E2CC8BE71EB39DBF19BC8C621BC" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil0E8FC9C1FC9922EED35D0F04CF48D617" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ja.js" />
+            </Component>
+            <Component Id="cmp7AC5B9B48046682607B8CC1048C421E5" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil8C5C8A6A8784E0FB4761894D65C88F80" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ka.js" />
+            </Component>
+            <Component Id="cmp63E3C32DB1FB17EC2882E36D5105F23D" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filFFACF774D6894936EEB082027AA24696" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\km.js" />
+            </Component>
+            <Component Id="cmpDDA295F26ECFADF19B19F110620BFCC9" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil1F80E38BC0FC65CE6BFDF33C3FEA98F6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ko.js" />
+            </Component>
+            <Component Id="cmpC0700298E92FA0700A8FD79DEBC64377" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filAD7C9F41CD76D8EE24B0E4678A6BF368" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ku.js" />
+            </Component>
+            <Component Id="cmp9AB4E6253058018E211A8564434F5EBB" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil7E1047376958462075DB567A19F46B42" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\lt.js" />
+            </Component>
+            <Component Id="cmp1793D0BB6E4F5A33408351F754A3D915" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil952F41350CD023B808F0426EFA135271" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\lv.js" />
+            </Component>
+            <Component Id="cmp43926EDC4F8F711D0308F46AE5BC334F" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filB11FB50B2D04894AF764B302E63D40CC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\mk.js" />
+            </Component>
+            <Component Id="cmp8056A2B7EF5B6467D946A11173FC5AB3" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filEF23BA3445FDD010B11D718F7F3976BD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\mn.js" />
+            </Component>
+            <Component Id="cmp1933BB36A78FEFBC06148E64B9FDCC62" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filAC38D9781E878CA81A67EADE16FD7012" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ms.js" />
+            </Component>
+            <Component Id="cmp612249023B6C886B439976DD6A72F547" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil7E5368A96C90305EB446C86A77C774D6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\nb.js" />
+            </Component>
+            <Component Id="cmp484F92DCD0DABFDA5BA38351983133F6" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil989DCB9763CFC034A6996F1E21A531FD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\nl.js" />
+            </Component>
+            <Component Id="cmpF503F0CE2BFAD70FAD6B935B39E1D0E7" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil78C2A59AA5C30817AA58F2F317398EC0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\no.js" />
+            </Component>
+            <Component Id="cmp44EDE4C2F727A8B9E59364C71117E666" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil99F97C205AFF56F7E846F90095CA9A23" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\pl.js" />
+            </Component>
+            <Component Id="cmp7969674A0665F5AE35C1BC74E95B88CB" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filE32A71858ACC284F611BBB88B8A23CB6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\pt-br.js" />
+            </Component>
+            <Component Id="cmpF2EE16665C31640EB5094C075E2F39AF" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil4CE06A48AB281B24F56C4A694CAB325F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\pt.js" />
+            </Component>
+            <Component Id="cmpF6A3DD0FC71B73002FE4B0250DC4A84D" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filF2CE909DA12E82EA0667FA2BD4BEE857" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ro.js" />
+            </Component>
+            <Component Id="cmp9FEB536151E2C6DECD50980E249339F1" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filD81743FF83CFD27F915948135923BF24" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ru.js" />
+            </Component>
+            <Component Id="cmpA84A6C5038C238D667067E581991697E" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil9A7E8D5B13B5EC1234BD338255669026" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\si.js" />
+            </Component>
+            <Component Id="cmpF578E0E63FCF30012C77D7620994EA08" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filAEFCF6FFB63604FC7D8373E98B7F5342" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\sk.js" />
+            </Component>
+            <Component Id="cmpE48565CB399A097D2A7D676314A4E0B1" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filAE868505DC26432E395B0830957413D0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\sl.js" />
+            </Component>
+            <Component Id="cmp015FF2FB8A4DBEB3C0FAA5229ED3B3DE" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil8BA2B12FCF43BD86B1034F5AA2DD8B06" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\sq.js" />
+            </Component>
+            <Component Id="cmpD5505446A74704A978E44966FFEDD824" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil6F9D695E420E115A1CEE9DD3F67CA721" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\sr-latn.js" />
+            </Component>
+            <Component Id="cmpAD9F95A8FA8B215B3048EFB8DFED710E" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil912A71808B9D3E6F5180EB569FF28AB3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\sr.js" />
+            </Component>
+            <Component Id="cmp723A73F556B4B303CE15F047D048B9B8" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil51CE9D1BDDC1E17BA261D1F82FA4398C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\sv.js" />
+            </Component>
+            <Component Id="cmp69FF63079168D3CEEC1B43945ED933D4" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filEFE30855E4ABB85141C1A6FFB3D502B3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\th.js" />
+            </Component>
+            <Component Id="cmpEC8EC85E24BEAEF38519D30DDCED5318" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filB278B2F604FC5561132E59CE90886A66" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\tr.js" />
+            </Component>
+            <Component Id="cmp6DE3EA050665F23FE6B8C7D71A728623" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil6329BFAEC3EC354F31764672AE29CB97" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\tt.js" />
+            </Component>
+            <Component Id="cmpBB2792FC03D9668C82FA683CB2DDE3FF" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filF601B95CFF52A9DB6B57163FA175B534" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ug.js" />
+            </Component>
+            <Component Id="cmpB1045E93E44E6227C5B58BC802162608" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="filECA217A18AA89F52C60A67F9E91B4ED7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\uk.js" />
+            </Component>
+            <Component Id="cmpF1B71D531B12DE2284A35F7021456611" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil3710706D6188FD8B6C998C80B331E10C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\vi.js" />
+            </Component>
+            <Component Id="cmpFF6C3C91AAB3BCDB888DD1CD521059AA" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil8BCF8F3789F7A97CBEC2880086A25FD9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\zh-cn.js" />
+            </Component>
+            <Component Id="cmp6279ED9C9243BE4124C8ACDD5B3465E8" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
+                <File Id="fil5CD814EABF25120E8128647FC02CF9BC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\zh.js" />
+            </Component>
             <Component Id="cmp52ED1B7E50D5386060FC67D9F7F0F0D5" Directory="dirB336BE7C96481BFC7CB057DF228C4F3C" Guid="*">
                 <File Id="fil13CA1C91DD02E6A2F2D17DB00EC920DC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\forms\dialogs\button.js" />
             </Component>
@@ -749,8 +953,14 @@
             <Component Id="cmp75AA650075CBCB27520C63BF9D3F3FFF" Directory="dir333F003ACEC320A26141F7489074DE94" Guid="*">
                 <File Id="fil5DFC646BFBF8F6FCC258D0687D378769" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\liststyle\dialogs\liststyle.js" />
             </Component>
+            <Component Id="cmpACADCC7AEB1A5D855640344D81A33FCF" Directory="dirAD8CB76A6D91B2251DB4B9A8E76C08B5" Guid="*">
+                <File Id="fil7B7EE8E1EA91F94A6EA2F6615FD43EF7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\magicline\images\icon-rtl.png" />
+            </Component>
             <Component Id="cmpF43F435B7EB5B335F9CA6D7A39DD62D3" Directory="dirAD8CB76A6D91B2251DB4B9A8E76C08B5" Guid="*">
                 <File Id="fil922898B61E83038079766EE791464B23" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\magicline\images\icon.png" />
+            </Component>
+            <Component Id="cmpF99EEA38A591A6586605CBA0B7CEC1DA" Directory="dirB38921AB6F2E5CDB55C2A614226EA639" Guid="*">
+                <File Id="fil4E6A9A1D7FFCEAECF0A34E0E003E6C11" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\magicline\images\hidpi\icon-rtl.png" />
             </Component>
             <Component Id="cmpAED36D857A5653BC8AC2C2F79B21FCE1" Directory="dirB38921AB6F2E5CDB55C2A614226EA639" Guid="*">
                 <File Id="fil27C4F486EECC988EF916ACD7B7093DF8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\magicline\images\hidpi\icon.png" />
@@ -1514,6 +1724,11 @@
         </DirectoryRef>
     </Fragment>
     <Fragment>
+        <DirectoryRef Id="dir26DA481DF26C76F0153C8FDD8C0538FF">
+            <Directory Id="dir1B27F26CDB75D385A867655CE0176BD9" Name="lang" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
         <DirectoryRef Id="dir4106AC73DC495222BF6B5163E658F154">
             <Directory Id="dir1E552B3D137C6F28D57B5A2A24142938" Name="images" />
         </DirectoryRef>
@@ -1526,6 +1741,11 @@
     <Fragment>
         <DirectoryRef Id="dirBC4E40FE1FF2212778A0ED81CF5923CE">
             <Directory Id="dir203B84AB1FCE367D3EF72DF5E793C2BE" Name="skins" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
+            <Directory Id="dir26DA481DF26C76F0153C8FDD8C0538FF" Name="font" />
         </DirectoryRef>
     </Fragment>
     <Fragment>

@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Windows;
 using Awesomium.Core;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
@@ -7,7 +8,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Crystalbyte.Paranoia {
     public class ResourceInterceptor : IResourceInterceptor {
@@ -23,12 +23,12 @@ namespace Crystalbyte.Paranoia {
 
             if (request.Url.Scheme == "http" || request.Url.Scheme == "https") {
                 bool suppress;
-                if (arguments.ContainsKey("suppressExternals") && bool.TryParse(arguments["suppressExternals"], out suppress)) {
-                    if (!suppress) {
-                        return null;
-                    }
+                if (!arguments.ContainsKey("suppressExternals")
+                    || !bool.TryParse(arguments["suppressExternals"], out suppress)) {
+                    return GetPlaceHolderResponse();
                 }
-                return GetPlaceHolderResponse();
+
+                return !suppress ? null : GetPlaceHolderResponse();
             }
 
             if (request.Url.Scheme != "asset")
@@ -53,7 +53,7 @@ namespace Crystalbyte.Paranoia {
 
             Debug.WriteLine(request.Url.AbsolutePath);
 
-            //TODO add more resources if needed
+            // TODO: add more resources if needed
             if (!request.Url.AbsolutePath.EndsWith(".js") && !request.Url.AbsolutePath.EndsWith(".css") &&
                 !request.Url.AbsolutePath.EndsWith(".png")) return null;
 
@@ -91,7 +91,12 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static ResourceResponse GetPlaceHolderResponse() {
-            using (var stream = System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/assets/image.placeholder.png")).Stream) {
+            const string path = "pack://application:,,,/assets/image.placeholder.png";
+            var info = Application.GetResourceStream(new Uri(path));
+            if (info == null) {
+                throw new Exception(path);
+            }
+            using (var stream = info.Stream) {
                 using (var memStream = new MemoryStream()) {
                     stream.CopyTo(memStream);
                     var bytes = memStream.ToArray();

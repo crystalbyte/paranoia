@@ -59,13 +59,46 @@ namespace Crystalbyte.Paranoia.UI {
 
         #endregion
 
-        #region Event Declarations
+        #region Events
 
         public event EventHandler<PrintCompleteEventArgs> PrintSourcesCreated;
 
         protected virtual void OnPrintSourcesCreated(PrintCompleteEventArgs e) {
             var handler = PrintSourcesCreated;
             if (handler != null) handler(this, e);
+        }
+
+        public event EventHandler DocumentReady;
+
+        protected virtual void OnDocumentReady() {
+            var handler = DocumentReady;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
+        #endregion
+
+        #region Properties
+
+        public bool IsDocumentReady {
+            get {
+                return _webControl != null && _webControl.IsDocumentReady;
+            }
+        }
+
+        private bool CanFocusEditor {
+            get {
+                JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+                // ReSharper disable once HeuristicUnreachableCode
+                if (module == null) {
+                    // ReSharper disable HeuristicUnreachableCode
+                    return false;
+                    // ReSharper restore HeuristicUnreachableCode
+                }
+
+                module.Dispose();
+                return true;
+            }
         }
 
         #endregion
@@ -142,30 +175,31 @@ namespace Crystalbyte.Paranoia.UI {
             if (_webControl != null) {
                 _webControl.GotKeyboardFocus -= OnGotKeyboardFocus;
                 _webControl.ShowCreatedWebView -= OnWebControlShowCreatedWebView;
+                _webControl.DocumentReady -= OnWebControlDocumentReady;
                 _webControl.WindowClose -= OnWebControlWindowClose;
             }
 
             _webControl = (WebControl)Template.FindName(WebControlPartName, this);
+            _webControl.DocumentReady += OnWebControlDocumentReady;
             _webControl.GotKeyboardFocus += OnGotKeyboardFocus;
             _webControl.ShowCreatedWebView += OnWebControlShowCreatedWebView;
             _webControl.WindowClose += OnWebControlWindowClose;
         }
+
+        private void OnWebControlDocumentReady(object sender, UrlEventArgs e) {
+            OnDocumentReady();
+        }
+
+        #endregion
+
+        #region Methods
 
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
             if (!_webControl.IsDocumentReady)
                 return;
 
             if (CanFocusEditor) {
-                FocusEditor();    
-            }
-        }
-
-        private bool CanFocusEditor {
-            get {
-                JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
-                using (module) {
-                    return module != null;
-                }
+                FocusEditor();
             }
         }
 
@@ -185,40 +219,9 @@ namespace Crystalbyte.Paranoia.UI {
             // Nada ...
         }
 
-        #endregion
-
-        #region Methods
-
         public string GetDocument() {
             return _webControl.HTML;
         }
-
-        #endregion
-
-        #region Implementation of IDisposable
-
-        public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing) {
-            if (_disposed) {
-                return;
-            }
-
-            if (disposing) {
-                // Nothing managed to dispose here.
-            }
-
-            if (_webControl != null) {
-                _webControl.Dispose();
-            }
-
-            _disposed = true;
-        }
-
-        #endregion
 
         internal string GetComposition() {
             JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
@@ -226,6 +229,14 @@ namespace Crystalbyte.Paranoia.UI {
                 const string function = "getComposition";
                 var html = _webControl.ExecuteJavascriptWithResult(function);
                 return html;
+            }
+        }
+
+        internal void ChangeSignature(string html) {
+            JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
+            using (module) {
+                const string function = "changeSignature";
+                module.Invoke(function, html);
             }
         }
 
@@ -300,5 +311,32 @@ namespace Crystalbyte.Paranoia.UI {
 
             InsertText(plainText);
         }
+
+        #endregion
+
+        #region Implementation of IDisposable
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing) {
+            if (_disposed) {
+                return;
+            }
+
+            if (disposing) {
+                // Nothing managed to dispose here.
+            }
+
+            if (_webControl != null) {
+                _webControl.Dispose();
+            }
+
+            _disposed = true;
+        }
+
+        #endregion
     }
 }

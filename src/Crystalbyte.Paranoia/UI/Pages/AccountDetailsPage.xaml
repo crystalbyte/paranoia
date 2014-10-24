@@ -290,7 +290,7 @@
                                          Grid.Row="5"
                                          Grid.Column="0"
                                          Grid.ColumnSpan="4"
-                                         Margin="0,6,0,6"
+                                         Margin="0,6,0,12"
                                          Checked="OnUseSmtpCredentialsChecked"
                                          GroupName="Mirror">
                                 <TextBlock FontWeight="Normal" Text="{x:Static properties:Resources.SmtpRequiresOwnCredentials}" />
@@ -531,21 +531,45 @@
                     <Grid DockPanel.Dock="Top">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="24" />
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Row="0"
-                                   Grid.ColumnSpan="3"
+                                   Grid.ColumnSpan="2"
                                    Style="{DynamicResource Metro.SubtitleTextStyle}"
                                    Text="{x:Static properties:Resources.SignatureTitle}" />
-                        <StackPanel Grid.Row="1" Grid.Column="0">
+                        <StackPanel Grid.Row="1"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2">
                             <TextBlock Margin="0,0,0,12"
                                        Style="{DynamicResource Metro.DescriptionTextStyle}"
                                        Text="{x:Static properties:Resources.SignatureDescription}" />
+                        </StackPanel>
+                        <TextBlock Grid.Row="2"
+                                   Grid.Column="0"
+                                   Style="{DynamicResource Metro.LabelTextStyle}">
+                            <Run Text="{x:Static properties:Resources.Signature}" />
+                            <Run Text=":" />
+                        </TextBlock>
+                        <StackPanel Grid.Row="2"
+                                    Grid.Column="1"
+                                    Orientation="Horizontal">
+                            <TextBox Width="260"
+                                     Margin="3"
+                                     IsReadOnly="True"
+                                     Text="{Binding SignaturePath,
+                                                    Mode=OneWay,
+                                                    Converter={StaticResource NullOrEmptyFormatter}}"
+                                     TextWrapping="NoWrap" />
+                            <Button x:Name="SignatureFileBrowseButton"
+                                    Command="ui:SignatureCommands.SelectFile"
+                                    Style="{DynamicResource Metro.TextBoxSiblingButtonStyle}">
+                                <TextBlock VerticalAlignment="Center" Text="..." />
+                            </Button>
                         </StackPanel>
                     </Grid>
                 </DockPanel>

@@ -9,6 +9,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Mail;
+using Microsoft.Win32;
 
 #endregion
 
@@ -29,8 +30,20 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             CommandBindings.Add(new CommandBinding(MailboxCommands.Select, OnSelect));
             CommandBindings.Add(new CommandBinding(MailboxCommands.Commit, OnCommit, OnCanCommit));
             CommandBindings.Add(new CommandBinding(MailboxCommands.Cancel, OnCancel));
+            CommandBindings.Add(new CommandBinding(SignatureCommands.SelectFile, OnSelectFile));
 
             Loaded += OnLoaded;
+        }
+
+        private void OnSelectFile(object sender, ExecutedRoutedEventArgs e) {
+            var dialog = new OpenFileDialog();
+            var result = dialog.ShowDialog();
+            if ((result.HasValue && !result.Value) || !result.HasValue) {
+                return;
+            }
+
+            var context = (MailAccountContext) DataContext;
+            context.SignaturePath = dialog.FileNames.First();
         }
 
         private void OnCanCommit(object sender, CanExecuteRoutedEventArgs e) {
@@ -38,7 +51,6 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             var mailbox = account.Mailboxes.FirstOrDefault(x => x.IsSelectedSubtly);
             e.CanExecute = mailbox != null && mailbox.IsSelectable;
         }
-
 
         private Popup GetPopupByParameter(string param) {
             switch (param) {
@@ -74,7 +86,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             var popup = GetPopupByParameter(param);
             popup.IsOpen = false;
 
-            var account = (MailAccountContext) DataContext;
+            var account = (MailAccountContext)DataContext;
             var mailbox = account.Mailboxes.FirstOrDefault(x => x.IsSelectedSubtly);
             if (mailbox != null) {
                 SetMailboxRoleByParam(mailbox, param);
@@ -124,7 +136,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private MailboxContext GetMailboxByParameter(string param) {
-            var account = (MailAccountContext) DataContext;
+            var account = (MailAccountContext)DataContext;
             switch (param) {
                 case MailboxRoles.Sent:
                     return account.GetSentMailbox();
@@ -182,7 +194,6 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             _tracker.Stop();
 
             if (_isAccountInTransit) {
-                //account.AddSystemMailboxes();
                 await account.InsertAsync();
                 App.Context.NotifyAccountCreated(account);
             } else {
@@ -236,6 +247,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                 .WithProperty(x => x.DraftMailboxName)
                 .WithProperty(x => x.TrashMailboxName)
                 .WithProperty(x => x.JunkMailboxName)
+                .WithProperty(x => x.SignaturePath)
                 .WithProperty(x => x.UseImapCredentialsForSmtp)
                 .Start();
 
@@ -289,7 +301,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
         }
 
         private void OnAnyTreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
-            CommandManager.InvalidateRequerySuggested();            
+            CommandManager.InvalidateRequerySuggested();
         }
     }
 }

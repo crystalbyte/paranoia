@@ -51,6 +51,9 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("smtp_port")]
         public Int16 SmtpPort { get; set; }
 
+        [Column("signature_path")]
+        public string SignaturePath { get; set; }
+
         [Column("smtp_username")]
         public string SmtpUsername { get; set; }
 

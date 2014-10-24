@@ -156,7 +156,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-
         private MailMessage CreateMailMessage(MailAccountContext account, string recipient, string content) {
             var message = new MailMessage {
                 From = new MailAddress(account.Address, account.Name)
@@ -250,7 +249,6 @@ namespace Crystalbyte.Paranoia {
                 return messages;
             }
         }
-
 
         private async Task<MailMessage> EncryptMessageAsync(MailAccountContext account, IEnumerable<PublicKeyModel> keys, string recipient, string content) {
             var message = CreateMailMessage(account, recipient, content);

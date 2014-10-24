@@ -543,4 +543,7 @@ Once your password is lost you're screwed.</value>
   <data name="From" xml:space="preserve">
     <value>From</value>
   </data>
+  <data name="Signature" xml:space="preserve">
+    <value>Signature</value>
+  </data>
 </root>

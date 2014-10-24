@@ -36,6 +36,21 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
+                if (Regex.IsMatch(request.Path, "message/new")) {
+                    SendComposeAsNewResponse(request);
+                    return;
+                }
+
+                if (Regex.IsMatch(request.Path, "message/reply")) {
+                    SendReplyCompositionResponse(request);
+                    return;
+                }
+
+                if (Regex.IsMatch(request.Path, "message/forward")) {
+                    SendForwardCompositionResponse(request);
+                    return;
+                }
+
                 if (Regex.IsMatch(request.Path, "file?path=.+")) {
                     var path = request.Path.Substring(10);
                     await SendFileResponseAsync(request, path);
@@ -45,21 +60,6 @@ namespace Crystalbyte.Paranoia {
                 if (Regex.IsMatch(request.Path, "smtp-request/[0-9]+")) {
                     var id = request.Path.Split('/')[1];
                     await SendSmtpRequestResponseAsync(request, id);
-                    return;
-                }
-
-                if (Regex.IsMatch(request.Path, "message/new")) {
-                    SendComposeAsNewResponse(request);
-                    return;
-                }
-
-                if (Regex.IsMatch(request.Path, "message/reply")) {
-                    SendComposeAsReplyResponse(request);
-                    return;
-                }
-
-                if (Regex.IsMatch(request.Path, "message/forward")) {
-                    SendComposeAsForwardResponse(request);
                     return;
                 }
 
@@ -95,7 +95,9 @@ namespace Crystalbyte.Paranoia {
             var html = reader.FindFirstHtmlVersion();
             if (html == null) {
                 var plain = reader.FindFirstPlainTextVersion();
-                content = plain == null ? string.Empty : await FormatPlainText(reader.Headers.Subject, plain.GetBodyAsText());
+                content = plain == null ? string.Empty : 
+                    await FormatPlainText(reader.Headers.Subject, plain.GetBodyAsText());
+
                 encoding = Encoding.UTF8;
 
             } else {
@@ -181,28 +183,32 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void SendComposeAsForwardResponse(DataSourceRequest request) {
-            // TODO: Prefix forward header.
-            SendComposeAsResponse(request);
-        }
-
-        private void SendComposeAsReplyResponse(DataSourceRequest request) {
-            // TODO: Prefix reply header.
-            SendComposeAsResponse(request);
-        }
-
-        private void SendComposeAsResponse(DataSourceRequest request) {
-            long messageId;
+        private void SendForwardCompositionResponse(DataSourceRequest request) {
             var variables = new Dictionary<string, string> {
-                {"default_font_size", string.Format("{0}px", Settings.Default.HtmlDefaultFontSize)},
+                // TODO: Set forward response header;
+                {"header", string.Empty},
+                {"default_font_size", string.Format("{0}", Settings.Default.HtmlDefaultFontSize)},
                 {"default_font_family", string.Format("{0}", Settings.Default.HtmlDefaultFontFamily)}
             };
+            SendCompositionResponse(request, variables);
+        }
 
+        private void SendReplyCompositionResponse(DataSourceRequest request) {
+            var variables = new Dictionary<string, string> {
+                // TODO: Set reply response header;
+                {"header", string.Empty},
+                {"default_font_size", string.Format("{0}", Settings.Default.HtmlDefaultFontSize)},
+                {"default_font_family", string.Format("{0}", Settings.Default.HtmlDefaultFontFamily)}
+            };
+            SendCompositionResponse(request, variables);
+        }
+
+        private void SendCompositionResponse(DataSourceRequest request, IDictionary<string, string> variables) {
+            long messageId;
             var arguments = request.Url.OriginalString.ToPageArguments();
             if (arguments.ContainsKey("id") && long.TryParse(arguments["id"], out messageId)) {
                 var bodyHtml = GetBodyHtmlFromId(messageId);
                 bodyHtml = ConvertEmbeddedSources(bodyHtml, messageId.ToString(CultureInfo.InvariantCulture));
-                //TODO insert header here
                 variables.Add("content", bodyHtml);
             }
 
@@ -229,13 +235,13 @@ namespace Crystalbyte.Paranoia {
 
         private void SendComposeAsNewResponse(DataSourceRequest request) {
             var variables = new Dictionary<string, string> {
+                {"header", string.Empty},
                 {"content", string.Empty},
                 {"default_font_size", string.Format("{0}", Settings.Default.HtmlDefaultFontSize)},
                 {"default_font_family", string.Format("{0}", Settings.Default.HtmlDefaultFontFamily)}
             };
 
             var html = GenerateEditorHtml(variables);
-            //var escapeHtml = Uri.EscapeDataString(html);
             var bytes = Encoding.UTF8.GetBytes(html);
             SendByteStream(request, bytes);
         }
@@ -262,7 +268,6 @@ namespace Crystalbyte.Paranoia {
 
             return html;
         }
-
 
         private async Task<bool> TryDecryptAndSendMessageResponseAsync(DataSourceRequest request, MailMessageReader reader, MessagePart part, string id) {
             try {

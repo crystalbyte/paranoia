@@ -13,7 +13,6 @@ using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using Awesomium.Core;
 using Crystalbyte.Paranoia.Automation;
@@ -80,6 +79,7 @@ namespace Crystalbyte.Paranoia {
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 return "body {}";
             }
+
             var uri = new Uri(name, UriKind.Relative);
             var info = GetResourceStream(uri);
             if (info == null) {
@@ -258,12 +258,12 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 var info = new FileInfo(arguments[1]);
-                if (info.Exists) {
-                    var type = Type.GetTypeFromProgID(Automation.Application.ProgId);
-                    // TODO: Casting to IApplication fails for some reason, we therefor invoke on a dynamic object.
-                    dynamic application = Activator.CreateInstance(type);
-                    application.OpenFile(arguments[1]);
-                }
+                if (!info.Exists)
+                    return;
+
+                var type = Type.GetTypeFromProgID(Automation.Application.ProgId);
+                dynamic application = Activator.CreateInstance(type);
+                application.OpenFile(arguments[1]);
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -277,16 +277,17 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 var info = new FileInfo(arguments[1]);
-                if (info.Exists) {
-                    // Can't access the main window here directly since it is not yet created.
-                    DeferredActions.Push(() => {
-                        Current.MainWindow.Loaded += async (sender, e) => {
-                            Current.MainWindow.WindowState = WindowState.Minimized;
-                            // Cannot await anonymous method.
-                            await Context.InspectMessageAsync(info);
-                        };
-                    });
-                }
+                if (!info.Exists) 
+                    return;
+
+                // Can't access the main window here directly since it is not yet created.
+                DeferredActions.Push(() => {
+                    Current.MainWindow.Loaded += async (sender, e) => {
+                        Current.MainWindow.WindowState = WindowState.Minimized;
+                        // Cannot await anonymous method.
+                        await Context.InspectMessageAsync(info);
+                    };
+                });
             } catch (Exception ex) {
                 Logger.Error(ex);
             }

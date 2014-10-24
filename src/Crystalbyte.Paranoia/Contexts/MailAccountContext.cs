@@ -136,6 +136,17 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public string SignaturePath {
+            get { return _account.SignaturePath; }
+            set {
+                if (_account.SignaturePath == value) {
+                    return;
+                }
+                _account.SignaturePath = value;
+                RaisePropertyChanged(() => SignaturePath);
+            }
+        }
+
         public string JunkMailboxName {
             get { return _account.JunkMailboxName; }
             set {
@@ -344,7 +355,7 @@ namespace Crystalbyte.Paranoia {
                             DraftMailboxName = mailbox.Fullname;
                             context.IsSubscribed = true;
                             goto done;
-                        }    
+                        }
                     }
 
                     if (mailboxes.All(x => !x.IsSent)) {
