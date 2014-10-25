@@ -283,7 +283,7 @@ namespace Crystalbyte.Paranoia.UI {
             var html = (string)data.GetData(DataFormats.Html);
             if (html != null) {
                 var htmlRegex = new Regex("<html.*?</html>",
-                RegexOptions.Singleline);
+                RegexOptions.Singleline | RegexOptions.IgnoreCase);
                 var temp = htmlRegex.Match(html).Value;
 
                 var conditionRegex = new Regex(@"<!--\[if.*?<!\[endif]-->", RegexOptions.Singleline);
@@ -309,8 +309,10 @@ namespace Crystalbyte.Paranoia.UI {
                 }
 
                 html = temp;
-                InsertHtml(html);
-                return;
+                if (!string.IsNullOrEmpty(html)) {
+                    InsertHtml(html);
+                    return;
+                }
             }
 
             var plainText = (string)data.GetData(DataFormats.Text);
