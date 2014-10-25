@@ -47,6 +47,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _syncMailboxCommand;
         private readonly ICommand _deleteMailboxCommand;
         private readonly ICommand _createMailboxCommand;
+        private readonly ICommand _unblockMessageCommand;
         private readonly object _syncChildrenMutex = new object();
         private readonly object _syncMessagesMutex = new object();
         private bool _isSelectedSubtly;
@@ -61,9 +62,20 @@ namespace Crystalbyte.Paranoia {
             _account = account;
             _mailbox = mailbox;
             _showAllMessages = true;
+            _unblockMessageCommand = new RelayCommand(OnUnblockMessageCommand);
             _deleteMailboxCommand = new RelayCommand(OnDeleteMailbox);
             _createMailboxCommand = new RelayCommand(OnCreateMailbox);
             _syncMailboxCommand = new RelayCommand(OnSyncMailbox);
+        }
+
+        private static async void OnUnblockMessageCommand(object obj) {
+            var parameter = obj as string;
+            if (string.IsNullOrEmpty(parameter)) {
+                return;
+            }
+
+            var message = App.Context.SelectedMessage;
+            await App.Context.ViewUnblockedMessageAsync(message);
         }
 
         private async void OnSyncMailbox(object obj) {
@@ -176,6 +188,10 @@ namespace Crystalbyte.Paranoia {
                 _isSelectedSubtly = value;
                 RaisePropertyChanged(() => IsSelectedSubtly);
             }
+        }
+
+        public ICommand UnblockMessageCommand {
+            get { return _unblockMessageCommand; }
         }
 
         public ICommand CreateMailboxCommand {

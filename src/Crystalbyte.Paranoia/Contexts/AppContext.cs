@@ -819,9 +819,14 @@ namespace Crystalbyte.Paranoia {
             });
         }
 
-        private Task ViewMessageAsync(MailMessageContext message) {
-            Source = String.Format("asset://paranoia/message/{0}", message.Id);
-            return DisplayAttachmentAsync(message);
+        private async Task ViewMessageAsync(MailMessageContext message) {
+            Source = string.Format("asset://paranoia/message/{0}", message.Id);
+            await DisplayAttachmentAsync(message);
+        }
+
+        internal async Task ViewUnblockedMessageAsync(MailMessageContext message) {
+            Source = string.Format("asset://paranoia/message/{0}?blockExternals=false", message.Id);
+            await DisplayAttachmentAsync(message);
         }
 
         internal static DirectoryInfo GetKeyDirectory() {

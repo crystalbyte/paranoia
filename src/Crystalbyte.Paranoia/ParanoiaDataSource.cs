@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -17,222 +16,160 @@ using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using HtmlAgilityPack;
 using NLog;
-using Crystalbyte.Paranoia.Cryptography;
-using Crystalbyte.Paranoia.Mail.Mime;
 
 #endregion
 
 namespace Crystalbyte.Paranoia {
     internal sealed class ParanoiaDataSource : DataSource {
-
-
         private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
 
         protected override async void OnRequest(DataSourceRequest request) {
             try {
                 if (Regex.IsMatch(request.Path, "message/[0-9]+")) {
-                    var id = request.Path.Split('/')[1];
-                    await SendMessageResponseAsync(request, id);
+                    await SendMessageResponseAsync(request);
                     return;
                 }
 
                 if (Regex.IsMatch(request.Path, "message/new")) {
-                    SendComposeAsNewResponse(request);
+                    await SendBlankResponseAsync(request);
                     return;
                 }
 
                 if (Regex.IsMatch(request.Path, "message/reply")) {
-                    SendReplyCompositionResponse(request);
+                    await SendQuotedResponseAsync(request);
                     return;
                 }
 
                 if (Regex.IsMatch(request.Path, "message/forward")) {
-                    SendForwardCompositionResponse(request);
+                    await SendQuotedResponseAsync(request);
                     return;
                 }
 
                 if (Regex.IsMatch(request.Path, "file?path=.+")) {
-                    var path = request.Path.Substring(10);
-                    await SendFileResponseAsync(request, path);
+                    await SendFileResponseAsync(request);
                     return;
                 }
 
                 if (Regex.IsMatch(request.Path, "smtp-request/[0-9]+")) {
-                    var id = request.Path.Split('/')[1];
-                    await SendSmtpRequestResponseAsync(request, id);
+                    await SendSmtpResponseAsync(request);
                     return;
                 }
 
                 SendResponse(request, DataSourceResponse.Empty);
             } catch (Exception ex) {
-                //TODO: Return 793 - Zombie Apocalypse
                 Logger.Error(ex);
             }
         }
 
-        private async Task SendFileResponseAsync(DataSourceRequest request, string path) {
-            var filename = Uri.UnescapeDataString(path);
+        private async Task SendSmtpResponseAsync(DataSourceRequest request) {
+            var id = long.Parse(request.Path.Split('/')[1]);
 
-            var bytes = await Task.Run(() => File.ReadAllBytes(filename));
-            var reader = new MailMessageReader(bytes);
-
-            var parts = reader.FindAllMessagePartsWithMediaType(MediaTypes.EncryptedMime);
-            if (parts != null && parts.Count > 0) {
-                foreach (var part in parts) {
-                    var success = await TryDecryptAndSendFileResponseAsync(request, reader, part, path);
-                    if (success) {
-                        return;
-                    }
+            using (var database = new DatabaseContext()) {
+                var smtp = await database.SmtpRequests.FindAsync(id);
+                if (smtp == null) {
+                    throw new MessageNotFoundException(id);
                 }
-                return;
+
+                SendHtmlResponse(request, Encoding.UTF8.GetBytes(smtp.Mime));
             }
-            await SendFileResponseAsync(request, reader, path);
         }
 
-        private async Task SendFileResponseAsync(DataSourceRequest request, MailMessageReader reader, string path) {
-            string content;
-            Encoding encoding;
+        private async Task SendMessageResponseAsync(DataSourceRequest request) {
+            var id = long.Parse(request.Path.Split('/')[1]);
+            var arguments = request.Url.PathAndQuery.ToPageArguments();
+
+            var mime = await LoadMessageBytesAsync(id);
+            var reader = new MailMessageReader(mime);
+            var view = FindPreferredView(reader);
+
+            if (string.IsNullOrWhiteSpace(view)) {
+                SendResponse(request, DataSourceResponse.Empty);
+                return;
+            }
+
+            const string key = "blockExternals";
+            var blockExternals = !arguments.ContainsKey(key) || bool.Parse(arguments[key]);
+
+            view = NormalizeHtml(view);
+            view = ConvertEmbeddedSources(view, id);
+            view = RemoveJavaScript(view);
+
+            if (blockExternals) {
+                view = RemoveExternalSources(view);
+            }
+
+            var bytes = Encoding.UTF8.GetBytes(view);
+            SendHtmlResponse(request, bytes);
+        }
+
+        private static string RemoveExternalSources(string content) {
+            return content;
+        }
+
+        private async Task SendFileResponseAsync(DataSourceRequest request) {
+            const string key = "path";
+            var arguments = request.Path.ToPageArguments();
+            if (!arguments.ContainsKey(key)) {
+                throw new KeyNotFoundException(key);
+            }
+
+            var path = arguments[key];
+            var filename = Uri.UnescapeDataString(path);
+
+            var bytes = await LoadMessageBytesAsync(new FileInfo(filename));
+            var reader = new MailMessageReader(bytes);
+            var view = FindPreferredView(reader);
+
+            view = NormalizeHtml(view);
+            view = RemoveJavaScript(view);
+            view = ConvertEmbeddedSources(view, new FileInfo(path));
+
+            SendHtmlResponse(request, Encoding.UTF8.GetBytes(view));
+        }
+
+        private static string FindPreferredView(MailMessageReader reader) {
+            string text;
             var html = reader.FindFirstHtmlVersion();
             if (html == null) {
                 var plain = reader.FindFirstPlainTextVersion();
-                content = plain == null ? string.Empty : 
-                    await FormatPlainText(reader.Headers.Subject, plain.GetBodyAsText());
-
-                encoding = Encoding.UTF8;
-
+                text = plain != null
+                    ? FormatPlainText(reader.Headers.Subject, plain.GetBodyAsText())
+                    : string.Empty;
             } else {
-                content = html.GetBodyAsText();
-                try {
-                    encoding = Encoding.GetEncoding(html.ContentType.CharSet ?? "utf-8");
-                } catch (Exception) {
-                    encoding = Encoding.UTF8;
-                }
+                text = html.GetBodyAsText();
             }
 
-            if (string.IsNullOrWhiteSpace(content)) {
-                SendResponse(request, DataSourceResponse.Empty);
-                return;
-            }
-
-            content = NormalizeHtml(content, encoding);
-            content = ConvertEmbeddedSources(content, new FileInfo(path));
-            var bytes = encoding.GetBytes(content);
-            SendByteStream(request, bytes);
+            return text;
         }
 
-        private async Task<bool> TryDecryptAndSendFileResponseAsync(DataSourceRequest request, MailMessageReader reader, MessagePart part, string path) {
-            try {
-                var address = reader.Headers.From.Address;
-                var publicKey = reader.Headers.UnknownHeaders.Get(ParanoiaHeaderKeys.PublicKey);
-
-
-                byte[] messageBytes, nonceBytes;
-                using (var r = new BinaryReader(new MemoryStream(part.Body))) {
-                    nonceBytes = r.ReadBytes(PublicKeyCrypto.NonceSize);
-                    messageBytes = r.ReadBytes(part.Body.Length - nonceBytes.Length);
-                }
-
-                using (var database = new DatabaseContext()) {
-                    var contact = await database.MailContacts.FirstOrDefaultAsync(x => x.Address == address);
-                    if (contact == null) {
-                        throw new Exception("Contact not found exception.");
-                    }
-
-                    var keys = await database.PublicKeys.Where(x => x.ContactId == contact.Id).ToArrayAsync();
-                    if (keys.All(x => string.Compare(publicKey, x.Data, StringComparison.InvariantCulture) != 0)) {
-                        var ownKey = Convert.ToBase64String(App.Context.KeyContainer.PublicKey);
-                        if (string.Compare(ownKey, publicKey, StringComparison.Ordinal) != 0) {
-                            throw new Exception("NSA SPIED ON YOU!");
-                        }
-                    }
-                }
-
-                var keyBytes = Convert.FromBase64String(publicKey);
-                var payload = App.Context.KeyContainer.DecryptWithPrivateKey(messageBytes, keyBytes, nonceBytes);
-
-                await SendFileResponseAsync(request, new MailMessageReader(payload), path);
-                return true;
-            } catch (Exception ex) {
-                Logger.Error(ex);
-                return false;
-            }
-        }
-
-        private async Task SendSmtpRequestResponseAsync(DataSourceRequest request, string id) {
-            using (var database = new DatabaseContext()) {
-                var smtpRequest = await database.SmtpRequests.FindAsync(Int64.Parse(id));
-                if (smtpRequest == null) {
-                    throw new InvalidOperationException("SmtpRequest not found exception.");
-                }
-
-                var mime = smtpRequest.Mime;
-                var bytes = Encoding.UTF8.GetBytes(mime);
-                var reader = new MailMessageReader(bytes);
-
-                var parts = reader.FindAllMessagePartsWithMediaType(MediaTypes.EncryptedMime);
-                if (parts != null && parts.Count > 0) {
-                    foreach (var part in parts) {
-                        var success = await TryDecryptAndSendMessageResponseAsync(request, reader, part, id);
-                        if (success) {
-                            return;
-                        }
-                    }
-                    return;
-                }
-                await SendMessageResponseAsync(request, reader, id);
-            }
-        }
-
-        private void SendForwardCompositionResponse(DataSourceRequest request) {
+        private async Task SendQuotedResponseAsync(DataSourceRequest request) {
             var variables = new Dictionary<string, string> {
                 {"header", string.Empty},
                 {"default_font_size", string.Format("{0}", Settings.Default.HtmlDefaultFontSize)},
                 {"default_font_family", string.Format("{0}", Settings.Default.HtmlDefaultFontFamily)}
             };
-            SendQuotedResponse(request, variables);
-        }
 
-        private void SendReplyCompositionResponse(DataSourceRequest request) {
-            var variables = new Dictionary<string, string> {
-                {"header", string.Empty},
-                {"default_font_size", string.Format("{0}", Settings.Default.HtmlDefaultFontSize)},
-                {"default_font_family", string.Format("{0}", Settings.Default.HtmlDefaultFontFamily)}
-            };
-            SendQuotedResponse(request, variables);
-        }
-
-        private void SendQuotedResponse(DataSourceRequest request, IDictionary<string, string> variables) {
             long messageId;
             var arguments = request.Url.OriginalString.ToPageArguments();
             if (arguments.ContainsKey("id") && long.TryParse(arguments["id"], out messageId)) {
-                var content = GetContentFromId(messageId);
-                content = ConvertEmbeddedSources(content, messageId.ToString(CultureInfo.InvariantCulture));
-                content = string.Format("<hr style=\"margin:20px 0px;\"/>{0}", content);
-                variables.Add("quote", content);
+
+                var bytes = await LoadMessageBytesAsync(messageId);
+                var reader = new MailMessageReader(bytes);
+                var view = FindPreferredView(reader);
+
+                view = ConvertEmbeddedSources(view, messageId);
+                view = string.Format("<hr style=\"margin:20px 0px;\"/>{0}", view);
+                variables.Add("quote", view);
             }
 
             if (!variables.Keys.Contains("quote"))
                 variables.Add("quote", string.Empty);
 
             var html = GenerateEditorHtml(variables);
-            var bytes = Encoding.UTF8.GetBytes(html);
-            SendByteStream(request, bytes);
+            SendHtmlResponse(request, Encoding.UTF8.GetBytes(html));
         }
 
-        private static string GetContentFromId(long id) {
-            using (var database = new DatabaseContext()) {
-                var message = database.MimeMessages.FirstOrDefault(x => x.MessageId == id);
-                if (message == null) {
-                    return "no html body found";
-                }
-
-                var reader = new MailMessageReader(message.Data);
-                var body = reader.FindFirstHtmlVersion();
-                return body != null ? body.GetBodyAsText() : "no html body found";
-            }
-        }
-
-        private void SendComposeAsNewResponse(DataSourceRequest request) {
+        private async Task SendBlankResponseAsync(DataSourceRequest request) {
             var variables = new Dictionary<string, string> {
                 {"quote", string.Empty},
                 {"header", string.Empty},
@@ -240,9 +177,9 @@ namespace Crystalbyte.Paranoia {
                 {"default_font_family", string.Format("{0}", Settings.Default.HtmlDefaultFontFamily)}
             };
 
-            var html = GenerateEditorHtml(variables);
+            var html = await Task.Run(() => GenerateEditorHtml(variables));
             var bytes = Encoding.UTF8.GetBytes(html);
-            SendByteStream(request, bytes);
+            SendHtmlResponse(request, bytes);
         }
 
         private static string GenerateEditorHtml(IDictionary<string, string> variables) {
@@ -250,7 +187,7 @@ namespace Crystalbyte.Paranoia {
             var info = Application.GetResourceStream(uri);
             if (info == null) {
                 var error = string.Format(Resources.ResourceNotFoundException, uri, typeof(App).Assembly.FullName);
-                throw new Exception(error);
+                throw new ResourceNotFoundException(error);
             }
 
             string html;
@@ -268,95 +205,7 @@ namespace Crystalbyte.Paranoia {
             return html;
         }
 
-        private async Task<bool> TryDecryptAndSendMessageResponseAsync(DataSourceRequest request, MailMessageReader reader, MessagePart part, string id) {
-            try {
-                var address = reader.Headers.From.Address;
-                var publicKey = reader.Headers.UnknownHeaders.Get(ParanoiaHeaderKeys.PublicKey);
-
-
-                byte[] messageBytes, nonceBytes;
-                using (var r = new BinaryReader(new MemoryStream(part.Body))) {
-                    nonceBytes = r.ReadBytes(PublicKeyCrypto.NonceSize);
-                    messageBytes = r.ReadBytes(part.Body.Length - nonceBytes.Length);
-                }
-
-                using (var database = new DatabaseContext()) {
-                    var contact = await database.MailContacts.FirstOrDefaultAsync(x => x.Address == address);
-                    if (contact == null) {
-                        throw new Exception("Contact not found exception.");
-                    }
-
-                    var keys = await database.PublicKeys.Where(x => x.ContactId == contact.Id).ToArrayAsync();
-                    if (keys.All(x => string.Compare(publicKey, x.Data, StringComparison.InvariantCulture) != 0)) {
-                        var ownKey = Convert.ToBase64String(App.Context.KeyContainer.PublicKey);
-                        if (string.Compare(ownKey, publicKey, StringComparison.Ordinal) != 0) {
-                            throw new Exception("NSA SPIED ON YOU!");
-                        }
-                    }
-                }
-
-                var keyBytes = Convert.FromBase64String(publicKey);
-                var payload = App.Context.KeyContainer.DecryptWithPrivateKey(messageBytes, keyBytes, nonceBytes);
-
-                await SendMessageResponseAsync(request, new MailMessageReader(payload), id);
-                return true;
-            } catch (Exception ex) {
-                Logger.Error(ex);
-                return false;
-            }
-        }
-
-        private async Task SendMessageResponseAsync(DataSourceRequest request, string id) {
-            var mime = await LoadMessageContentAsync(Int64.Parse(id));
-            var reader = new MailMessageReader(mime);
-
-            var parts = reader.FindAllMessagePartsWithMediaType(MediaTypes.EncryptedMime);
-            if (parts != null && parts.Count > 0) {
-                foreach (var part in parts) {
-                    var success = await TryDecryptAndSendMessageResponseAsync(request, reader, part, id);
-                    if (success) {
-                        return;
-                    }
-                }
-
-                return;
-            }
-
-            await SendMessageResponseAsync(request, reader, id);
-        }
-
-        private async Task SendMessageResponseAsync(DataSourceRequest request, MailMessageReader reader, string id) {
-            string content;
-            Encoding encoding;
-            var html = reader.FindFirstHtmlVersion();
-            if (html == null) {
-                var plain = reader.FindFirstPlainTextVersion();
-                content = plain == null ? string.Empty : await FormatPlainText(reader.Headers.Subject, plain.GetBodyAsText());
-                encoding = Encoding.UTF8;
-
-            } else {
-                content = html.GetBodyAsText();
-                try {
-                    encoding = Encoding.GetEncoding(html.ContentType.CharSet ?? "utf-8");
-                } catch (Exception) {
-                    encoding = Encoding.UTF8;
-                }
-            }
-
-            if (string.IsNullOrWhiteSpace(content)) {
-                SendResponse(request, DataSourceResponse.Empty);
-                return;
-            }
-
-            content = NormalizeHtml(content, encoding);
-            content = ConvertEmbeddedSources(content, id);
-            content = BlockExternalImages(content, request);
-            content = RemoveJaveScript(content);
-            var bytes = encoding.GetBytes(content);
-            SendByteStream(request, bytes);
-        }
-
-        private static string NormalizeHtml(string text, Encoding encoding) {
+        private static string NormalizeHtml(string text) {
             var document = new HtmlDocument { OptionFixNestedTags = true };
             document.LoadHtml(text.Trim());
 
@@ -452,15 +301,12 @@ namespace Crystalbyte.Paranoia {
             // Add proper charset tag if missing.
             var meta = document.CreateElement("meta");
 
-            // Since we use WebKit any Windows only encodings, 
-            // such as ISO-8859-1, won't work and must be replaced by UTF8.
-            var name = encoding.WebName;
-            meta.Attributes.Add(charset, name);
+            meta.Attributes.Add(charset, "utf-8");
             head.AppendChild(meta);
             return document.DocumentNode.WriteTo();
         }
 
-        private async static Task<string> FormatPlainText(string subject, string plain) {
+        private static string FormatPlainText(string subject, string plain) {
             const string url = "/Resources/plain-text.template.html";
             var info = Application.GetResourceStream(new Uri(url, UriKind.RelativeOrAbsolute));
             if (info == null) {
@@ -468,7 +314,7 @@ namespace Crystalbyte.Paranoia {
                 throw new NullReferenceException(message);
             }
 
-            var wrapper = await info.Stream.ToUtf8StringAsync();
+            var wrapper = info.Stream.ToUtf8String();
             var values = new Dictionary<string, string> {
                 {"content", plain},
                 {"subject", subject},
@@ -480,7 +326,17 @@ namespace Crystalbyte.Paranoia {
             });
         }
 
-        private static string ConvertEmbeddedSources(string html, string id) {
+        private static string ConvertEmbeddedSources(string html, FileSystemInfo info) {
+            const string pattern = "<img.+?src=\"(?<CID>cid:.+?)\".*?>";
+            return Regex.Replace(html, pattern, m => {
+                var cid = m.Groups["CID"].Value;
+                var asset = string.Format("asset://image?cid={0}&path={1}",
+                    Uri.EscapeDataString(cid.Split(':')[1]), Uri.EscapeDataString(info.FullName));
+                return m.Value.Replace(cid, asset);
+            }, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        }
+
+        private static string ConvertEmbeddedSources(string html, long id) {
             const string pattern = "<img.+?src=\"(?<CID>cid:.+?)\".*?>";
             return Regex.Replace(html, pattern, m => {
                 var cid = m.Groups["CID"].Value;
@@ -490,17 +346,7 @@ namespace Crystalbyte.Paranoia {
             }, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
 
-        private static string ConvertEmbeddedSources(string html, FileSystemInfo info) {
-            const string pattern = "<img.+?src=\"(?<CID>cid:.+?)\".*?>";
-            return Regex.Replace(html, pattern, m => {
-                var cid = m.Groups["CID"].Value;
-                var asset = string.Format("asset://image?cid={0}&localPath={1}",
-                    Uri.EscapeDataString(cid.Split(':')[1]), Uri.EscapeDataString(info.FullName));
-                return m.Value.Replace(cid, asset);
-            }, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        }
-
-        private void SendByteStream(DataSourceRequest request, byte[] bytes) {
+        private void SendHtmlResponse(DataSourceRequest request, byte[] bytes) {
             var length = bytes.Length;
             var handle = Marshal.AllocHGlobal(length);
             Marshal.Copy(bytes, 0, handle, length);
@@ -514,7 +360,12 @@ namespace Crystalbyte.Paranoia {
             Marshal.FreeHGlobal(handle);
         }
 
-        private static async Task<byte[]> LoadMessageContentAsync(Int64 id) {
+
+        private static async Task<byte[]> LoadMessageBytesAsync(FileSystemInfo file) {
+            return await Task.Run(() => File.ReadAllBytes(file.FullName));
+        }
+
+        private static async Task<byte[]> LoadMessageBytesAsync(Int64 id) {
             using (var database = new DatabaseContext()) {
                 var messages = await database.MimeMessages
                     .Where(x => x.MessageId == id)
@@ -524,9 +375,9 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private static string RemoveJaveScript(string content) {
-            const string htmlDropScriptsPattern = "<script.+?>.*?</script>|<script.+?/>";
-            return Regex.Replace(content, htmlDropScriptsPattern, string.Empty, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        private static string RemoveJavaScript(string content) {
+            const string pattern = "<script.+?>.*?</script>|<script.+?/>";
+            return Regex.Replace(content, pattern, string.Empty, RegexOptions.Singleline | RegexOptions.IgnoreCase);
         }
 
         private string BlockExternalImages(string content, DataSourceRequest request) {

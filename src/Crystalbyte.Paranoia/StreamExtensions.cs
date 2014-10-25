@@ -16,5 +16,15 @@ namespace Crystalbyte.Paranoia {
                 return await reader.ReadToEndAsync();
             }
         }
+
+        public static string ToUtf8String(this Stream stream) {
+            if (stream.CanSeek) {
+                stream.Seek(0, SeekOrigin.Begin);
+            }
+
+            using (var reader = new StreamReader(stream)) {
+                return reader.ReadToEnd();
+            }
+        }
     }
 }

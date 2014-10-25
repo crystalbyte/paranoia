@@ -3,10 +3,13 @@
 using System;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
+using Crystalbyte.Paranoia.Mail.Mime;
 using NLog;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -117,8 +120,6 @@ namespace Crystalbyte.Paranoia {
                 OnFlaggedStatusChanged();
             }
         }
-
-     
 
         public bool IsSeen {
             get { return HasFlag(MailMessageFlags.Seen); }
@@ -274,16 +275,77 @@ namespace Crystalbyte.Paranoia {
                 var mime = await FetchMimeAsync();
                 using (var context = new DatabaseContext()) {
                     var message = await context.MailMessages.FindAsync(_message.Id);
+
                     var mimeMessage = new MimeMessageModel {
-                        Data = mime
+                        Data = await FindRelevantPartAsync(mime)
                     };
 
                     message.MimeMessages.Add(mimeMessage);
                     await context.SaveChangesAsync();
                 }
                 return mime;
+
             } finally {
                 DecrementLoad();
+            }
+        }
+
+        private static async Task<byte[]> FindRelevantPartAsync(byte[] mime) {
+            var reader = new MailMessageReader(mime);
+            var encryptedParts = reader.FindAllMessagePartsWithMediaType(MediaTypes.EncryptedMime);
+            if (encryptedParts == null || encryptedParts.Count == 0) {
+                return mime;
+            }
+
+            foreach (var part in encryptedParts) {
+                var result = await DecryptPart(reader, part);
+                if (result.IsSuccessful) {
+                    return result.Bytes;
+                }
+            }
+
+            throw new MessageDecryptionFailedException();
+        }
+
+        private static async Task<DecryptionResult> DecryptPart(MailMessageReader reader, MessagePart part) {
+            try {
+                var address = reader.Headers.From.Address;
+                var publicKey = reader.Headers.UnknownHeaders.Get(ParanoiaHeaderKeys.PublicKey);
+
+                byte[] messageBytes, nonceBytes;
+                using (var r = new BinaryReader(new MemoryStream(part.Body))) {
+                    nonceBytes = r.ReadBytes(PublicKeyCrypto.NonceSize);
+                    messageBytes = r.ReadBytes(part.Body.Length - nonceBytes.Length);
+                }
+
+                using (var database = new DatabaseContext()) {
+                    var contact = await database.MailContacts.FirstOrDefaultAsync(x => x.Address == address);
+                    if (contact == null) {
+                        throw new Exception("Contact not found exception.");
+                    }
+
+                    var keys = await database.PublicKeys.Where(x => x.ContactId == contact.Id).ToArrayAsync();
+                    if (keys.All(x => string.Compare(publicKey, x.Data, StringComparison.InvariantCulture) != 0)) {
+                        var ownKey = Convert.ToBase64String(App.Context.KeyContainer.PublicKey);
+                        if (string.Compare(ownKey, publicKey, StringComparison.Ordinal) != 0) {
+                            return new DecryptionResult {
+                                IsSuccessful = false
+                            };
+                        }
+                    }
+                }
+
+                var keyBytes = Convert.FromBase64String(publicKey);
+                return new DecryptionResult {
+                    IsSuccessful = true,
+                    Bytes = App.Context.KeyContainer.DecryptWithPrivateKey(messageBytes, keyBytes, nonceBytes)
+                };
+
+            } catch (Exception ex) {
+                Logger.Error(ex);
+                return new DecryptionResult {
+                    IsSuccessful = false
+                };
             }
         }
 

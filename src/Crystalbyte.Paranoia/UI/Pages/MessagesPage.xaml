@@ -838,6 +838,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Border Grid.Row="0"
@@ -951,7 +952,21 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>
-            <Border Grid.Row="2" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <DockPanel Grid.Row="2"
+                       Background="{DynamicResource Metro.App.FailureBrush}"
+                       DataContext="{Binding SelectedMailbox}"
+                       LastChildFill="True">
+                <Button Command="{Binding UnblockMessageCommand}"
+                        CommandParameter="always"
+                        Content="always"
+                        DockPanel.Dock="Right" />
+                <Button Command="{Binding UnblockMessageCommand}"
+                        CommandParameter="once"
+                        Content="once"
+                        DockPanel.Dock="Right" />
+                <TextBlock Text="muh" />
+            </DockPanel>
+            <Border Grid.Row="3" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid Visibility="{Binding IsAnimating, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
                     <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <ui:HtmlControl x:Name="MessageViewer"

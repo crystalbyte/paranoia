@@ -189,6 +189,7 @@
     <Compile Include="Contexts\CreateMailboxContext.cs" />
     <Compile Include="Contexts\FileInspectionContext.cs" />
     <Compile Include="Contexts\InspectionContext.cs" />
+    <Compile Include="DecryptionResult.cs" />
     <Compile Include="IMailboxCreator.cs" />
     <Compile Include="InspectionWindow.xaml.cs">
       <DependentUpon>InspectionWindow.xaml</DependentUpon>
@@ -196,7 +197,10 @@
     <Compile Include="MailboxRoles.cs" />
     <Compile Include="MediaTypes.cs" />
     <Compile Include="Contexts\MessageInspectionContext.cs" />
+    <Compile Include="MessageDecryptionFailed.cs" />
+    <Compile Include="MessageNotFoundException.cs" />
     <Compile Include="MetroColors.cs" />
+    <Compile Include="ResourceNotFoundException.cs" />
     <Compile Include="UI\Commands\MarkAsFlaggedCommand.cs" />
     <Compile Include="UI\Commands\MarkAsNotFlaggedCommand.cs" />
     <Compile Include="UI\Commands\UnblockContactsCommand.cs" />
