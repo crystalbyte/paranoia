@@ -227,16 +227,24 @@ namespace Crystalbyte.Paranoia.UI {
             JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
             using (module) {
                 const string function = "getComposition";
-                var html = _webControl.ExecuteJavascriptWithResult(function);
-                return html;
+                return module.Invoke(function);
             }
         }
 
-        internal void ChangeSignature(string html) {
+        internal void ChangeSignature(string signature) {
+            var composition = GetComposition();
+
             JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
             using (module) {
-                const string function = "changeSignature";
-                module.Invoke(function, html);
+                const string function = "setComposition";
+                const string pattern = "<div\\s+id=\"signature\"\\s*>(?<PART>.*?)</div>";
+
+                var correction = Regex.Replace(composition, pattern, m => {
+                    var part = m.Groups["PART"].Value;
+                    return m.Value.Replace(part, signature);
+                }, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+                module.Invoke(function, correction);
             }
         }
 

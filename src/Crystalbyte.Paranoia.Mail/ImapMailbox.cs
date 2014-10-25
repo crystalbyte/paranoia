@@ -235,13 +235,29 @@ namespace Crystalbyte.Paranoia.Mail {
             return headers;
         }
 
-        public bool IsIdle { get; private set; }
-        public int UidNext { get; internal set; }
-        public int Recent { get; internal set; }
-        public int Exists { get; internal set; }
-        public long UidValidity { get; internal set; }
-        public MailboxPermissions Permissions { get; internal set; }
+        public bool IsIdle {
+            get; private set;
+        }
 
+        public int UidNext {
+            get; internal set;
+        }
+
+        public int Recent {
+            get; internal set;
+        }
+
+        public int Exists {
+            get; internal set;
+        }
+
+        public long UidValidity {
+            get; internal set;
+        }
+
+        public MailboxPermissions Permissions {
+            get; internal set;
+        }
 
         public IEnumerable<string> PermanentFlags {
             get { return _permanentFlags; }

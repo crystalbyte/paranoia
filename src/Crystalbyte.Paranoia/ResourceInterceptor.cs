@@ -21,15 +21,16 @@ namespace Crystalbyte.Paranoia {
 
             var arguments = request.Url.OriginalString.ToPageArguments();
 
-            if (request.Url.Scheme == "http" || request.Url.Scheme == "https") {
-                bool suppress;
-                if (!arguments.ContainsKey("suppressExternals")
-                    || !bool.TryParse(arguments["suppressExternals"], out suppress)) {
-                    return GetPlaceHolderResponse();
-                }
+            // TODO: Outsource to DataProvider.
+            //if (request.Url.Scheme == "http" || request.Url.Scheme == "https") {
+            //    bool suppress;
+            //    if (!arguments.ContainsKey("suppressExternals")
+            //        || !bool.TryParse(arguments["suppressExternals"], out suppress)) {
+            //        return GetPlaceHolderResponse();
+            //    }
 
-                return !suppress ? null : GetPlaceHolderResponse();
-            }
+            //    return !suppress ? null : GetPlaceHolderResponse();
+            //}
 
             if (request.Url.Scheme != "asset")
                 return null;

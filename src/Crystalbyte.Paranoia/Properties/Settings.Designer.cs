@@ -37,7 +37,7 @@ namespace Crystalbyte.Paranoia.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("12")]
+        [global::System.Configuration.DefaultSettingValueAttribute("16")]
         public int HtmlDefaultFontSize {
             get {
                 return ((int)(this["HtmlDefaultFontSize"]));

@@ -185,42 +185,41 @@ namespace Crystalbyte.Paranoia {
 
         private void SendForwardCompositionResponse(DataSourceRequest request) {
             var variables = new Dictionary<string, string> {
-                // TODO: Set forward response header;
                 {"header", string.Empty},
                 {"default_font_size", string.Format("{0}", Settings.Default.HtmlDefaultFontSize)},
                 {"default_font_family", string.Format("{0}", Settings.Default.HtmlDefaultFontFamily)}
             };
-            SendCompositionResponse(request, variables);
+            SendQuotedResponse(request, variables);
         }
 
         private void SendReplyCompositionResponse(DataSourceRequest request) {
             var variables = new Dictionary<string, string> {
-                // TODO: Set reply response header;
                 {"header", string.Empty},
                 {"default_font_size", string.Format("{0}", Settings.Default.HtmlDefaultFontSize)},
                 {"default_font_family", string.Format("{0}", Settings.Default.HtmlDefaultFontFamily)}
             };
-            SendCompositionResponse(request, variables);
+            SendQuotedResponse(request, variables);
         }
 
-        private void SendCompositionResponse(DataSourceRequest request, IDictionary<string, string> variables) {
+        private void SendQuotedResponse(DataSourceRequest request, IDictionary<string, string> variables) {
             long messageId;
             var arguments = request.Url.OriginalString.ToPageArguments();
             if (arguments.ContainsKey("id") && long.TryParse(arguments["id"], out messageId)) {
-                var bodyHtml = GetBodyHtmlFromId(messageId);
-                bodyHtml = ConvertEmbeddedSources(bodyHtml, messageId.ToString(CultureInfo.InvariantCulture));
-                variables.Add("content", bodyHtml);
+                var content = GetContentFromId(messageId);
+                content = ConvertEmbeddedSources(content, messageId.ToString(CultureInfo.InvariantCulture));
+                content = string.Format("<hr style=\"margin:20px 0px;\"/>{0}", content);
+                variables.Add("quote", content);
             }
 
-            if (!variables.Keys.Contains("content"))
-                variables.Add("content", string.Empty);
+            if (!variables.Keys.Contains("quote"))
+                variables.Add("quote", string.Empty);
 
             var html = GenerateEditorHtml(variables);
             var bytes = Encoding.UTF8.GetBytes(html);
             SendByteStream(request, bytes);
         }
 
-        private static string GetBodyHtmlFromId(long id) {
+        private static string GetContentFromId(long id) {
             using (var database = new DatabaseContext()) {
                 var message = database.MimeMessages.FirstOrDefault(x => x.MessageId == id);
                 if (message == null) {
@@ -235,8 +234,8 @@ namespace Crystalbyte.Paranoia {
 
         private void SendComposeAsNewResponse(DataSourceRequest request) {
             var variables = new Dictionary<string, string> {
+                {"quote", string.Empty},
                 {"header", string.Empty},
-                {"content", string.Empty},
                 {"default_font_size", string.Format("{0}", Settings.Default.HtmlDefaultFontSize)},
                 {"default_font_family", string.Format("{0}", Settings.Default.HtmlDefaultFontFamily)}
             };

@@ -6,7 +6,7 @@
       <Value Profile="(Default)">Calibri</Value>
     </Setting>
     <Setting Name="HtmlDefaultFontSize" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">12</Value>
+      <Value Profile="(Default)">16</Value>
     </Setting>
     <Setting Name="KeyServer" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://88.198.19.85:15123</Value>
