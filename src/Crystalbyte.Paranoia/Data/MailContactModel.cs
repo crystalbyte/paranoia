@@ -29,6 +29,9 @@ namespace Crystalbyte.Paranoia.Data {
         [Collate(CollatingSequence.NoCase)]
         public string Address { get; set; }
 
+        [Column("is_trusted")]
+        public bool IsTrusted { get; set; }
+
         [Column("is_blocked")]
         public bool IsBlocked { get; set; }
 

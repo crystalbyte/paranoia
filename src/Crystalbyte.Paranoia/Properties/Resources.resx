@@ -546,4 +546,10 @@ Once your password is lost you're screwed.</value>
   <data name="Signature" xml:space="preserve">
     <value>Signature</value>
   </data>
+  <data name="BlockedContentDescription" xml:space="preserve">
+    <value>To protect your privacy all external content from this source has been blocked. </value>
+  </data>
+  <data name="Unblock" xml:space="preserve">
+    <value>Unblock</value>
+  </data>
 </root>

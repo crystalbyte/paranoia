@@ -161,7 +161,8 @@ namespace Crystalbyte.Paranoia.UI.Pages {
             if (message == null)
                 return;
 
-            var container = (Control)MessagesListView.ItemContainerGenerator.ContainerFromItem(message);
+            var container = (Control)MessagesListView
+                .ItemContainerGenerator.ContainerFromItem(message);
             if (container != null) {
                 container.Focus();
             }

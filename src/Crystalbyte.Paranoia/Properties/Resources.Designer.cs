@@ -214,6 +214,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To protect your privacy all external content from this source has been blocked. .
+        /// </summary>
+        public static string BlockedContentDescription {
+            get {
+                return ResourceManager.GetString("BlockedContentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to B.
         /// </summary>
         public static string Bold {
@@ -1276,6 +1285,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string TypeNotSupportedTemplate {
             get {
                 return ResourceManager.GetString("TypeNotSupportedTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unblock.
+        /// </summary>
+        public static string Unblock {
+            get {
+                return ResourceManager.GetString("Unblock", resourceCulture);
             }
         }
         

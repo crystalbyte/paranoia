@@ -45,6 +45,18 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public bool IsTrusted {
+            get { return _contact.IsTrusted; }
+            set {
+                if (_contact.IsTrusted == value) {
+                    return;
+                }
+
+                _contact.IsTrusted = value;
+                RaisePropertyChanged(() => IsTrusted);
+            }
+        }
+
         public SecurityMeasure Security {
             get {
                 if (HasKeys && IsVerified) {

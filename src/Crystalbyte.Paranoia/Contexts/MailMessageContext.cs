@@ -6,10 +6,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Mail.Mime;
+using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,9 +28,12 @@ namespace Crystalbyte.Paranoia {
         private bool _isLocal;
         private long _bytesReceived;
         private int _progressChanged;
+        private readonly ICommand _elevateTrustLevelCommand;
         private readonly MailboxContext _mailbox;
         private readonly MailMessageModel _message;
+
         private readonly ObservableCollection<AttachmentContext> _attachments;
+        private bool _isSourceTrusted;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -40,6 +45,16 @@ namespace Crystalbyte.Paranoia {
             _mailbox = mailbox;
             _message = message;
             _attachments = new ObservableCollection<AttachmentContext>();
+            _elevateTrustLevelCommand = new RelayCommand(OnElevateTrustCommand);
+        }
+
+        private async void OnElevateTrustCommand(object obj) {
+            try {
+                await TrustSourceAsync();
+                await App.Context.RefreshMessageSelectionAsync(this);
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         #endregion
@@ -55,6 +70,17 @@ namespace Crystalbyte.Paranoia {
 
                 _isLocal = value;
                 RaisePropertyChanged(() => IsLocallyAvailable);
+            }
+        }
+
+        public bool IsSourceTrusted {
+            get { return _isSourceTrusted; }
+            set {
+                if (_isSourceTrusted == value) {
+                    return;
+                }
+                _isSourceTrusted = value;
+                RaisePropertyChanged(() => IsSourceTrusted);
             }
         }
 
@@ -92,6 +118,10 @@ namespace Crystalbyte.Paranoia {
 
         public string FromAddress {
             get { return _message.FromAddress; }
+        }
+
+        public ICommand ElevateTrustLevelCommand {
+            get { return _elevateTrustLevelCommand; }
         }
 
         public MailboxContext Mailbox {
@@ -358,6 +388,25 @@ namespace Crystalbyte.Paranoia {
         private Task<MailboxModel> GetMailboxAsync() {
             using (var context = new DatabaseContext()) {
                 return context.Mailboxes.FindAsync(_message.MailboxId);
+            }
+        }
+
+        internal async Task TrustSourceAsync() {
+            using (var database = new DatabaseContext()) {
+                var contact = await database.MailContacts
+                    .FirstAsync(x => x.Address == FromAddress);
+
+                contact.IsTrusted = true;
+                await database.SaveChangesAsync();
+            }
+        }
+
+        internal async Task UpdateTrustLevelAsync() {
+            using (var database = new DatabaseContext()) {
+                var contact = await database.MailContacts
+                    .FirstOrDefaultAsync(x => x.Address == FromAddress);
+
+                IsSourceTrusted = contact != null && contact.IsTrusted;
             }
         }
     }

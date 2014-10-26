@@ -753,12 +753,18 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task RefreshMessageSelectionAsync(MailMessageContext message) {
+        internal async Task RefreshMessageSelectionAsync(MailMessageContext message) {
             await MarkSelectionAsSeenAsync();
             if (!await message.GetIsMimeLoadedAsync()) {
                 await message.DownloadMessageAsync();
             }
-            await ViewMessageAsync(message);
+
+            await message.UpdateTrustLevelAsync();
+            if (message.IsSourceTrusted) {
+                await ViewUnblockedMessageAsync(message);
+            } else {
+                await ViewMessageAsync(message);
+            }
         }
 
         internal Task MarkSelectionAsSeenAsync() {
@@ -824,7 +830,7 @@ namespace Crystalbyte.Paranoia {
             await DisplayAttachmentAsync(message);
         }
 
-        internal async Task ViewUnblockedMessageAsync(MailMessageContext message) {
+        private async Task ViewUnblockedMessageAsync(MailMessageContext message) {
             Source = string.Format("asset://paranoia/message/{0}?blockExternals=false", message.Id);
             await DisplayAttachmentAsync(message);
         }

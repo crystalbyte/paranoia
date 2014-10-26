@@ -47,6 +47,9 @@
             <Component Id="cmp1ACC3620C91E6ECD216523A8AFB7BAEB" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filF4D11B8A88C2487B5A917F069090F192" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-24.log" />
             </Component>
+            <Component Id="cmp497D5F021C9AA3181B67E30C4B96E5CC" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil6C81F4AB59DBECAA765231BF40B57A4A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-25.log" />
+            </Component>
             <Component Id="cmp674B4BB050DFFB66F190C0F3CE6BE914" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil5ABB649E866B9A792A8BEA0328821854" KeyPath="yes" Source="$(var.PrimaryOutputDir)\aquapool.azurewebsites.net.PublishSettings" />
             </Component>
