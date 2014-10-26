@@ -773,7 +773,7 @@
     <Content Include="Resources\ckeditor\skins\moono-dark\editor_ie8.css" />
     <Content Include="Resources\ckeditor\skins\moono-dark\editor_iequirks.css" />
     <Content Include="Resources\ckeditor\styles.js" />
-    <Content Include="Resources\inspection.js" />
+    <Resource Include="Resources\inspection.js" />
     <Content Include="Resources\jquery\jquery-2.1.1.min.js" />
     <Resource Include="Resources\plain-text.template.html" />
     <Resource Include="Resources\logo.ico" />
