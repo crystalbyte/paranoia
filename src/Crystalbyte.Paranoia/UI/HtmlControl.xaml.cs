@@ -187,6 +187,12 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnWebControlDocumentReady(object sender, UrlEventArgs e) {
+            var webControl = sender as WebControl;
+
+            if (webControl != null) {
+                SetScriptingObject(webControl);
+            }
+
             OnDocumentReady();
         }
 
@@ -201,6 +207,17 @@ namespace Crystalbyte.Paranoia.UI {
             if (CanFocusEditor) {
                 FocusEditor();
             }
+        }
+
+        private void SetScriptingObject(WebControl webcontrol) {
+            using (JSObject interop = webcontrol.CreateGlobalJavascriptObject("external")) {
+                interop.Bind("OnLinkClicked", false, OnLinkClicked);
+            }
+        }
+
+        private void OnLinkClicked(object sender, JavascriptMethodEventArgs javascriptMethodEventArgs) {
+            var href = (string)javascriptMethodEventArgs.Arguments[0];
+            Process.Start(href);
         }
 
         private void FocusEditor() {
