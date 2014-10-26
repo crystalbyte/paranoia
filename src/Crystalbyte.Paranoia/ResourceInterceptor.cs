@@ -18,22 +18,10 @@ namespace Crystalbyte.Paranoia {
         }
 
         public ResourceResponse OnRequest(ResourceRequest request) {
-
-            var arguments = request.Url.OriginalString.ToPageArguments();
-
-            // TODO: Outsource to DataProvider.
-            //if (request.Url.Scheme == "http" || request.Url.Scheme == "https") {
-            //    bool suppress;
-            //    if (!arguments.ContainsKey("suppressExternals")
-            //        || !bool.TryParse(arguments["suppressExternals"], out suppress)) {
-            //        return GetPlaceHolderResponse();
-            //    }
-
-            //    return !suppress ? null : GetPlaceHolderResponse();
-            //}
-
             if (request.Url.Scheme != "asset")
                 return null;
+
+            var arguments = request.Url.OriginalString.ToPageArguments();
 
             long messageId;
             if (arguments.ContainsKey("messageId") && long.TryParse(arguments["messageId"], out messageId)) {
@@ -89,21 +77,6 @@ namespace Crystalbyte.Paranoia {
 
             Marshal.FreeHGlobal(buffer);
             return response;
-        }
-
-        private static ResourceResponse GetPlaceHolderResponse() {
-            const string path = "pack://application:,,,/assets/image.placeholder.png";
-            var info = Application.GetResourceStream(new Uri(path));
-            if (info == null) {
-                throw new Exception(path);
-            }
-            using (var stream = info.Stream) {
-                using (var memStream = new MemoryStream()) {
-                    stream.CopyTo(memStream);
-                    var bytes = memStream.ToArray();
-                    return BytesToResourceResponce(bytes, "image");
-                }
-            }
         }
     }
 }
