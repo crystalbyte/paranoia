@@ -3,10 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using Crystalbyte.Paranoia.Mail;
-using Crystalbyte.Paranoia.Properties;
 
 #endregion
 
@@ -56,9 +54,22 @@ namespace Crystalbyte.Paranoia {
             const string pattern = "[A-Za-z0-9%\\.-]+=[A-Za-z0-9%\\.-]+";
             var matches = Regex.Matches(s, pattern, RegexOptions.IgnoreCase);
 
-            return (from Match match in matches
-                    select match.Value.Split('='))
-                .ToDictionary(x => x[0], temp => temp[1]);
+            var pairs = (from Match match in matches
+                         select match.Value.Split('='));
+
+            var dictionary = new Dictionary<string, string>();
+            foreach (var pair in pairs) {
+                var key = pair[0];
+                var value = pair[1];
+                if (dictionary.ContainsKey(key)) {
+                    dictionary[key] = value;
+                    continue;
+                }
+
+                dictionary.Add(key, value);
+            }
+
+            return dictionary;
         }
     }
 }

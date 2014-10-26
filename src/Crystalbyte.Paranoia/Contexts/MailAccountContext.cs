@@ -232,6 +232,9 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertUIThread();
 
             try {
+                if (_mailboxes.Count == 0) {
+                    await LoadMailboxesAsync();
+                }
                 await SyncMailboxesAsync();
                 var inbox = GetInbox();
                 if (inbox != null) {

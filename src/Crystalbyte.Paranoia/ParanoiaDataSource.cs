@@ -103,6 +103,13 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static string RemoveExternalSources(string content) {
+
+            const string pattern = "(\"|&quot;)(?<URL>http(s){0,1}://.+?)(\"|&quot;)";
+            content = Regex.Replace(content, pattern, m => {
+                var resource = m.Groups["URL"].Value;
+                return m.Value.Replace(resource, "");
+            }, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
             return content;
         }
 
@@ -207,7 +214,7 @@ namespace Crystalbyte.Paranoia {
 
         private static string NormalizeHtml(string text) {
             var document = new HtmlDocument { OptionFixNestedTags = true };
-            document.LoadHtml(text.Trim());
+            document.LoadHtml(text);
 
             HtmlDocument partialDocument = null;
             var html = document.DocumentNode.SelectSingleNode("//html");
@@ -378,22 +385,6 @@ namespace Crystalbyte.Paranoia {
         private static string RemoveJavaScript(string content) {
             const string pattern = "<script.+?>.*?</script>|<script.+?/>";
             return Regex.Replace(content, pattern, string.Empty, RegexOptions.Singleline | RegexOptions.IgnoreCase);
-        }
-
-        private string BlockExternalImages(string content, DataSourceRequest request) {
-            var arguments = request.Path.ToPageArguments();
-            var block = true;
-            if (arguments.ContainsKey("suppressExternals")) {
-                bool.TryParse(arguments["suppressExternals"], out block);
-            }
-
-            const string pattern = "<img.+?src=\"(?<resource>http(s){0,1}://.+?)\".*?>";
-            return Regex.Replace(content, pattern, m => {
-                var resource = m.Groups["resource"].Value;
-                var blockedResource = string.Format(resource + "?suppressExternals={0}",
-                    block);
-                return m.Value.Replace(resource, blockedResource);
-            }, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
     }
 }

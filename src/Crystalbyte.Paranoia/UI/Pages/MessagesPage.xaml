@@ -886,7 +886,7 @@
                     <StackPanel Grid.Row="1"
                                 Grid.RowSpan="2"
                                 Grid.Column="1"
-                                Margin="6,0,6,0"
+                                Margin="6"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
                                 Orientation="Horizontal"
