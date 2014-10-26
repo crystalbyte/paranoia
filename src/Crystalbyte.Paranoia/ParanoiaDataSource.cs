@@ -104,7 +104,7 @@ namespace Crystalbyte.Paranoia {
 
         private static string RemoveExternalSources(string content) {
 
-            const string pattern = "(\"|&quot;)(?<URL>http(s){0,1}://.+?)(\"|&quot;)";
+            const string pattern = "(\"|&quot;|')(?<URL>http(s){0,1}://.+?)(\"|&quot;|')";
             content = Regex.Replace(content, pattern, m => {
                 var resource = m.Groups["URL"].Value;
                 return m.Value.Replace(resource, "");
