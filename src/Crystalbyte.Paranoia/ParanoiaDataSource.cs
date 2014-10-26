@@ -93,6 +93,7 @@ namespace Crystalbyte.Paranoia {
             view = NormalizeHtml(view);
             view = ConvertEmbeddedSources(view, id);
             view = RemoveJavaScript(view);
+            view = InjectParanoiaScripts(view);
 
             if (blockExternals) {
                 view = RemoveExternalSources(view);
@@ -100,6 +101,30 @@ namespace Crystalbyte.Paranoia {
 
             var bytes = Encoding.UTF8.GetBytes(view);
             SendHtmlResponse(request, bytes);
+        }
+
+        private static string InjectParanoiaScripts(string view) {
+            var document = new HtmlDocument();
+            document.LoadHtml(view);
+
+            var body = document.DocumentNode.SelectSingleNode("//body");
+
+            var jquery = document.CreateElement("script");
+            jquery.Attributes.Add("type", "text/javascript");
+            jquery.Attributes.Add("src", "Resources/jquery/jquery-2.1.1.min.js");
+            body.AppendChild(jquery);
+
+            const string url = "pack://application:,,,/Resources/inspection.js";
+            var script = Application.GetResourceStream(new Uri(url));
+            if (script == null) {
+                throw new ResourceNotFoundException(url);
+            }
+
+            var redirect = document.CreateElement("script");
+            redirect.Attributes.Add("type", "text/javascript");
+            redirect.AppendChild(document.CreateTextNode(script.Stream.ToUtf8String()));
+            body.AppendChild(jquery);
+            return document.DocumentNode.WriteTo();
         }
 
         private static string RemoveExternalSources(string content) {
