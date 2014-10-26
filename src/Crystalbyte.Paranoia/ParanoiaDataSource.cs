@@ -123,7 +123,7 @@ namespace Crystalbyte.Paranoia {
             var redirect = document.CreateElement("script");
             redirect.Attributes.Add("type", "text/javascript");
             redirect.AppendChild(document.CreateTextNode(script.Stream.ToUtf8String()));
-            body.AppendChild(jquery);
+            body.AppendChild(redirect);
             return document.DocumentNode.WriteTo();
         }
 
