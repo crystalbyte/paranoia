@@ -943,7 +943,7 @@
                 <ListView.ItemContainerStyle>
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
                         <Setter Property="UseLayoutRounding" Value="True" />
-                        <Setter Property="Margin" Value="3" />
+                        <Setter Property="Margin" Value="0,3" />
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemsPanel>
@@ -957,11 +957,10 @@
                     DataContext="{Binding SelectedMessage}"
                     SnapsToDevicePixels="True"
                     UseLayoutRounding="True"
-                    Visibility="{Binding IsSourceTrusted,
+                    Visibility="{Binding HasExternalsAndSourceIsNotTrusted,
                                          FallbackValue=Collapsed,
                                          TargetNullValue=Collapsed,
-                                         Converter={StaticResource BooleanToVisibilityConverter},
-                                         ConverterParameter=!}">
+                                         Converter={StaticResource BooleanToVisibilityConverter}}">
                 <DockPanel LastChildFill="True">
                     <Button Margin="8,6"
                             VerticalAlignment="Center"

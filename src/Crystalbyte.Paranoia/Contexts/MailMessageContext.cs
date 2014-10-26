@@ -5,8 +5,11 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Resources;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
@@ -34,6 +37,7 @@ namespace Crystalbyte.Paranoia {
 
         private readonly ObservableCollection<AttachmentContext> _attachments;
         private bool _isSourceTrusted;
+        private bool _hasExternals;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -73,6 +77,22 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public bool HasExternalsAndSourceIsNotTrusted {
+            get { return HasExternals && !IsSourceTrusted; }
+        }
+
+        public bool HasExternals {
+            get { return _hasExternals; }
+            set {
+                if (_hasExternals == value) {
+                    return;
+                }
+                _hasExternals = value;
+                RaisePropertyChanged(() => HasExternals);
+                RaisePropertyChanged(() => HasExternalsAndSourceIsNotTrusted);
+            }
+        }
+
         public bool IsSourceTrusted {
             get { return _isSourceTrusted; }
             set {
@@ -81,6 +101,7 @@ namespace Crystalbyte.Paranoia {
                 }
                 _isSourceTrusted = value;
                 RaisePropertyChanged(() => IsSourceTrusted);
+                RaisePropertyChanged(() => HasExternalsAndSourceIsNotTrusted);
             }
         }
 
@@ -403,6 +424,23 @@ namespace Crystalbyte.Paranoia {
 
         internal async Task UpdateTrustLevelAsync() {
             using (var database = new DatabaseContext()) {
+                var mime = await database.MimeMessages.FirstAsync(x => x.MessageId == Id);
+                var reader = new MailMessageReader(mime.Data);
+
+                var part = reader.FindFirstHtmlVersion();
+                if (part == null) {
+                    return;
+                }
+
+                var text = part.GetBodyAsText();
+                const string pattern = "(href|src)\\s*=\\s*(\"|&quot;).+?(\"|&quot;)";
+                HasExternals = Regex.IsMatch(text, pattern,
+                    RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+                if (!HasExternals) {
+                    return;
+                }
+
                 var contact = await database.MailContacts
                     .FirstOrDefaultAsync(x => x.Address == FromAddress);
 
