@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="Crystalbyte.Paranoia.UI.BlockNoticeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
+    <Border Background="{DynamicResource Metro.App.AccentBrush}"
+            SnapsToDevicePixels="True"
+            UseLayoutRounding="True"
+            Visibility="{Binding HasExternalsAndSourceIsNotTrusted,
+                                 FallbackValue=Collapsed,
+                                 TargetNullValue=Collapsed,
+                                 Converter={StaticResource BooleanToVisibilityConverter}}">
+        <DockPanel LastChildFill="True">
+            <Button Margin="8,6"
+                    VerticalAlignment="Center"
+                    Command="{Binding ElevateTrustLevelCommand}"
+                    DockPanel.Dock="Right">
+                <TextBlock Margin="12,3"
+                           RenderOptions.ClearTypeHint="Enabled"
+                           Text="{x:Static properties:Resources.Unblock}" />
+            </Button>
+            <TextBlock Margin="6,0"
+                       VerticalAlignment="Center"
+                       RenderOptions.ClearTypeHint="Enabled"
+                       Text="{x:Static properties:Resources.BlockedContentDescription}"
+                       TextTrimming="CharacterEllipsis"
+                       TextWrapping="NoWrap" />
+        </DockPanel>
+    </Border>
+</UserControl>

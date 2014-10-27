@@ -952,32 +952,7 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>
-            <Border Grid.Row="2"
-                    Background="{DynamicResource Metro.App.AccentBrush}"
-                    DataContext="{Binding SelectedMessage}"
-                    SnapsToDevicePixels="True"
-                    UseLayoutRounding="True"
-                    Visibility="{Binding HasExternalsAndSourceIsNotTrusted,
-                                         FallbackValue=Collapsed,
-                                         TargetNullValue=Collapsed,
-                                         Converter={StaticResource BooleanToVisibilityConverter}}">
-                <DockPanel LastChildFill="True">
-                    <Button Margin="8,6"
-                            VerticalAlignment="Center"
-                            Command="{Binding ElevateTrustLevelCommand}"
-                            DockPanel.Dock="Right">
-                        <TextBlock Margin="12,3"
-                                   RenderOptions.ClearTypeHint="Enabled"
-                                   Text="{x:Static properties:Resources.Unblock}" />
-                    </Button>
-                    <TextBlock Margin="6,0"
-                               VerticalAlignment="Center"
-                               RenderOptions.ClearTypeHint="Enabled"
-                               Text="{x:Static properties:Resources.BlockedContentDescription}"
-                               TextTrimming="CharacterEllipsis"
-                               TextWrapping="NoWrap" />
-                </DockPanel>
-            </Border>
+            <ui:BlockNoticeControl Grid.Row="2" />
             <Border Grid.Row="3" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid Visibility="{Binding IsAnimating, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
                     <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">

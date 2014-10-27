@@ -156,6 +156,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -201,6 +202,9 @@
     <Compile Include="MessageNotFoundException.cs" />
     <Compile Include="MetroColors.cs" />
     <Compile Include="ResourceNotFoundException.cs" />
+    <Compile Include="UI\BlockNoticeControl.xaml.cs">
+      <DependentUpon>BlockNoticeControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Commands\MarkAsFlaggedCommand.cs" />
     <Compile Include="UI\Commands\MarkAsNotFlaggedCommand.cs" />
     <Compile Include="UI\Commands\UnblockContactsCommand.cs" />
@@ -351,6 +355,10 @@
     <Page Include="Themes\Metro.ScrollViewer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\BlockNoticeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\MetroCircleButton.xaml">
       <SubType>Designer</SubType>

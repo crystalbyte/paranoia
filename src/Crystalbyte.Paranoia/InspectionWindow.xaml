@@ -24,6 +24,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -91,7 +92,9 @@
                                                                         AncestorType=paranoia:InspectionWindow}}" />
             <Button Grid.Column="4" Style="{DynamicResource Metro.CloseButtonStyle}" />
         </Grid>
-        <DockPanel Grid.Row="1" LastChildFill="True">
+        <DockPanel Grid.Row="1"
+                   Margin="0,0,0,3"
+                   LastChildFill="True">
             <StackPanel Margin="6,0,6,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
@@ -157,6 +160,7 @@
                        Width="18"
                        Margin="12,0"
                        Source="/Assets/arrow.right.png" />
+
                 <StackPanel Grid.Column="2"
                             DataContext="{Binding PrimaryTo}"
                             Orientation="Horizontal">
@@ -293,12 +297,13 @@
                        Foreground="{DynamicResource Metro.Control.BackgroundBrush}"
                        Text="CC" />
         </Grid>
-        <Grid Grid.Row="4" Margin="0,3,0,0">
+        <ui:BlockNoticeControl Grid.Row="4" />
+        <Grid Grid.Row="5">
             <ui:HtmlControl x:Name="HtmlViewer"
                             BorderThickness="0"
                             WebSession="{Binding Source={StaticResource InspectionWebSessionProvider}}" />
         </Grid>
-        <ListView Grid.Row="5"
+        <ListView Grid.Row="6"
                   Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                   BorderThickness="0"
                   ItemTemplate="{StaticResource Metro.ThumbnailTemplate}"
@@ -328,7 +333,7 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <StatusBar Grid.Row="6"
+        <StatusBar Grid.Row="7"
                    Height="24"
                    Background="{DynamicResource Metro.App.AccentBrush}" />
     </Grid>
