@@ -217,6 +217,9 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnLinkClicked(object sender, JavascriptMethodEventArgs javascriptMethodEventArgs) {
             var href = (string)javascriptMethodEventArgs.Arguments[0];
+            if (string.IsNullOrEmpty(href))
+                return;
+
             Process.Start(href);
         }
 
