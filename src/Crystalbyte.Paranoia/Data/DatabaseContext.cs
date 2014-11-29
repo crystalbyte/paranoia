@@ -13,11 +13,6 @@ namespace Crystalbyte.Paranoia.Data {
             Database.SetInitializer(new SQLiteDatabaseInitializer<DatabaseContext>());
         }
 
-        public async Task<DbTransaction> BeginTransactionAsync(IsolationLevel level = IsolationLevel.Unspecified) {
-            await Database.Connection.OpenAsync();
-            return Database.Connection.BeginTransaction(level);
-        }
-
         public DbSet<MailboxModel> Mailboxes { get; set; }
         public DbSet<MailAccountModel> MailAccounts { get; set; }
         public DbSet<MailContactModel> MailContacts { get; set; }

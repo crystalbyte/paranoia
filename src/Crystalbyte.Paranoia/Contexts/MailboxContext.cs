@@ -105,29 +105,30 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task DeleteLocalAsync() {
-            using (var database = new DatabaseContext()) {
-                using (var transaction = await database.BeginTransactionAsync()) {
+            using (var context = new DatabaseContext()) {
+                await context.Database.Connection.OpenAsync();
+                using (var transaction = context.Database.Connection.BeginTransaction()) {
                     try {
-                        var messageModels = await database.MailMessages
+                        var messageModels = await context.MailMessages
                             .Where(x => x.MailboxId == Id)
                             .ToArrayAsync();
 
                         foreach (var message in messageModels) {
                             var m = message;
-                            var mimeModels = await database.MimeMessages
+                            var mimeModels = await context.MimeMessages
                                 .Where(x => x.MessageId == m.Id)
                                 .ToArrayAsync();
 
                             foreach (var mime in mimeModels) {
-                                database.MimeMessages.Remove(mime);
+                                context.MimeMessages.Remove(mime);
                             }
                         }
 
-                        database.MailMessages.RemoveRange(messageModels);
-                        database.Mailboxes.Attach(_mailbox);
-                        database.Mailboxes.Remove(_mailbox);
+                        context.MailMessages.RemoveRange(messageModels);
+                        context.Mailboxes.Attach(_mailbox);
+                        context.Mailboxes.Remove(_mailbox);
 
-                        await database.SaveChangesAsync();
+                        await context.SaveChangesAsync();
                         transaction.Commit();
                     } catch (Exception) {
                         transaction.Rollback();
@@ -341,39 +342,41 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task DeleteMessagesAsync(MailMessageContext[] messages, string trashFolder) {
+            var uids = messages.Select(x => x.Uid).ToArray();
             using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                 using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                     using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                         var mailbox = await session.SelectAsync(Name);
                         if (IsTrash) {
-                            await mailbox.DeleteMailsAsync(messages.Select(x => x.Uid));
+                            await mailbox.DeleteMailsAsync(uids);
                         } else {
-                            await mailbox.MoveMailsAsync(messages.Select(x => x.Uid).ToArray(), trashFolder);
+                            await mailbox.MoveMailsAsync(uids, trashFolder);
                         }
                     }
                 }
             }
 
-            using (var database = new DatabaseContext()) {
+            using (var context = new DatabaseContext()) {
+                await context.Database.Connection.OpenAsync();
                 foreach (var message in messages) {
                     var id = message.Id;
-                    using (var transaction = await database.BeginTransactionAsync()) {
+                    using (var transaction = context.Database.BeginTransaction()) {
                         try {
-                            var mime = await database.MimeMessages
+                            var mime = await context.MimeMessages
                                 .FirstOrDefaultAsync(x => x.MessageId == id);
 
-                            database.MimeMessages.Remove(mime);
-                            await database.SaveChangesAsync();
+                            context.MimeMessages.Remove(mime);
+                            await context.SaveChangesAsync();
 
                             var model = new MailMessageModel {
                                 Id = message.Id,
                                 MailboxId = Id
                             };
 
-                            database.MailMessages.Attach(model);
-                            database.MailMessages.Remove(model);
+                            context.MailMessages.Attach(model);
+                            context.MailMessages.Remove(model);
 
-                            await database.SaveChangesAsync();
+                            await context.SaveChangesAsync();
                             transaction.Commit();
 
                             App.Context.NotifyMessageRemoved(message);

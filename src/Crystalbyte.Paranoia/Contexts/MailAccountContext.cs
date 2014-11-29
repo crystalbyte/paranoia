@@ -985,23 +985,24 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task<bool> TryDeleteAccountAsync() {
-            using (var database = new DatabaseContext()) {
-                using (var transaction = await database.BeginTransactionAsync()) {
+            using (var context = new DatabaseContext()) {
+                await context.Database.Connection.OpenAsync();
+                using (var transaction = context.Database.Connection.BeginTransaction()) {
                     try {
 
-                        var mailboxes = await database.Mailboxes
+                        var mailboxes = await context.Mailboxes
                             .Where(x => x.AccountId == Id)
                             .ToArrayAsync();
 
                         foreach (var mailbox in mailboxes) {
                             var lMailbox = mailbox;
-                            var messages = await database.MailMessages
+                            var messages = await context.MailMessages
                                 .Where(x => x.MailboxId == lMailbox.Id)
                                 .ToArrayAsync();
 
                             foreach (var message in messages) {
                                 var lMessage = message;
-                                var mimeMessages = await database.MimeMessages
+                                var mimeMessages = await context.MimeMessages
                                     .Where(x => x.MessageId == lMessage.Id)
                                     .ToArrayAsync();
 
@@ -1009,23 +1010,23 @@ namespace Crystalbyte.Paranoia {
                                     continue;
 
                                 foreach (var mimeMessage in mimeMessages) {
-                                    database.MimeMessages.Remove(mimeMessage);
+                                    context.MimeMessages.Remove(mimeMessage);
                                 }
-                                await database.SaveChangesAsync();
+                                await context.SaveChangesAsync();
                             }
 
-                            database.MailMessages.RemoveRange(messages);
-                            await database.SaveChangesAsync();
+                            context.MailMessages.RemoveRange(messages);
+                            await context.SaveChangesAsync();
                         }
 
-                        database.Mailboxes.RemoveRange(mailboxes);
-                        await database.SaveChangesAsync();
+                        context.Mailboxes.RemoveRange(mailboxes);
+                        await context.SaveChangesAsync();
 
                         var acc = new MailAccountModel { Id = Id };
-                        database.MailAccounts.Attach(acc);
-                        database.MailAccounts.Remove(acc);
+                        context.MailAccounts.Attach(acc);
+                        context.MailAccounts.Remove(acc);
 
-                        await database.SaveChangesAsync();
+                        await context.SaveChangesAsync();
 
                         transaction.Commit();
                         return true;

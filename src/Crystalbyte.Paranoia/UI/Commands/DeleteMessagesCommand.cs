@@ -31,7 +31,6 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public bool CanExecute(object parameter) {
-
             // Group by accounts, since not all messages must necessarily be from the same account.
             var accounts = _app.SelectedMessages.GroupBy(x => x.Mailbox.Account).ToArray();
             var trashbins = accounts.Select(x => x.Key.Mailboxes.FirstOrDefault(y => y.IsTrash)).ToArray();
