@@ -1,0 +1,1002 @@
+﻿<Page x:Class="Crystalbyte.Paranoia.UI.Pages.MessagesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+      xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
+      xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+      xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+      Title="Messages"
+      d:DataContext="{d:DesignInstance paranoia:AppContext}"
+      d:DesignHeight="553.714"
+      d:DesignWidth="1072.625"
+      mc:Ignorable="d">
+    <Page.Resources>
+        <converters:BooleanToBrushConverter x:Key="SubjectBrushConverter"
+                                            BrushForFalse="{StaticResource Metro.Control.TextBrush}"
+                                            BrushForTrue="{StaticResource Metro.Control.TextBrush}" />
+        <CollectionViewSource x:Key="MessagesSource" Source="{Binding Messages}">
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription Direction="Descending" PropertyName="EntryDate" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </Page.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"
+                              MinWidth="150"
+                              MaxWidth="500" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="400"
+                              MinWidth="150"
+                              MaxWidth="800" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0" Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}">
+            <DockPanel LastChildFill="True">
+                <Border HorizontalAlignment="Stretch"
+                        BorderBrush="{DynamicResource Metro.Control.BorderBrush}"
+                        BorderThickness="0,0,0,1"
+                        DockPanel.Dock="Top"
+                        Padding="0,3"
+                        SnapsToDevicePixels="True">
+                    <Grid HorizontalAlignment="Left">
+                        <ui:MetroCircleButton Margin="12"
+                                              Command="ui:MessageCommands.Compose"
+                                              Text="{x:Static properties:Resources.ComposeMessage}">
+                            <Image Width="18" Source="/Assets/paper.png" />
+                        </ui:MetroCircleButton>
+                    </Grid>
+                </Border>
+                <DockPanel Margin="1"
+                           DockPanel.Dock="Top"
+                           LastChildFill="False">
+                    <ui:MetroCircleButton Margin="6"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Command="{Binding CreateAccountCommand}"
+                                          DockPanel.Dock="Right">
+                        <Image Width="18" Source="/Assets/add.png" />
+                    </ui:MetroCircleButton>
+                    <TextBlock Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               DockPanel.Dock="Left"
+                               FontSize="{DynamicResource Metro.ExtraLargeFontSize}"
+                               Style="{DynamicResource Metro.TitleTextStyle}"><Run Text="{x:Static properties:Resources.AccountsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{Binding Accounts, Converter={StaticResource CollectionCounter}, FallbackValue=0, Mode=OneWay, StringFormat=\{0\}}" />
+                    </TextBlock>
+                </DockPanel>
+                <TreeView Margin="0"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
+                          BorderThickness="0"
+                          ItemsSource="{Binding Accounts}"
+                          Padding="0"
+                          ScrollViewer.CanContentScroll="False"
+                          SelectedItemChanged="OnTreeViewSelectedItemChanged"
+                          VirtualizingPanel.IsVirtualizing="False"
+                          VirtualizingPanel.ScrollUnit="Pixel">
+                    <TreeView.Resources>
+                        <DataTemplate DataType="{x:Type paranoia:OutboxContext}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0"
+                                       Width="16"
+                                       Margin="0,1,6,1"
+                                       SnapsToDevicePixels="True"
+                                       Source="/Assets/folder.png" />
+                                <TextBlock x:Name="MailboxNameBlock"
+                                           Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           FontSize="{DynamicResource Metro.SmallFontSize}"
+                                           Foreground="{DynamicResource Metro.Control.TextBrush}"
+                                           Text="{x:Static properties:Resources.Outbox}" />
+                                <Border Grid.Column="2"
+                                        Margin="12,0"
+                                        Visibility="{Binding SmtpRequestCount,
+                                                             Converter={StaticResource QuantityToVisibilityConverter}}">
+                                    <TextBlock VerticalAlignment="Center"
+                                               FontSize="{DynamicResource Metro.SmallFontSize}"
+                                               FontWeight="Bold"
+                                               Text="{Binding SmtpRequestCount}">
+                                        <TextBlock.Foreground>
+                                            <Binding Path="IsSelected">
+                                                <Binding.Converter>
+                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.App.AccentBrush}" BrushForTrue="{DynamicResource Metro.Control.TextBrush}" />
+                                                </Binding.Converter>
+                                            </Binding>
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+                                </Border>
+                            </Grid>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                    <Setter TargetName="MailboxNameBlock" Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type paranoia:MailAccountContext}" ItemsSource="{Binding Children, Mode=OneWay}">
+                            <Grid>
+                                <Grid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Command="{Binding ShowUnsubscribedMailboxesCommand}" Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <MenuItem.Icon>
+                                                <Image Height="16" Source="/Assets/select.png" />
+                                            </MenuItem.Icon>
+                                            <MenuItem.Header>
+                                                <TextBlock Foreground="{StaticResource Metro.Control.TextBrush}"
+                                                           Style="{StaticResource Metro.MenuHeaderTextStyle}"
+                                                           Text="{x:Static properties:Resources.ShowUnsubscribedMailboxes}" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <MenuItem Command="{Binding HideUnsubscribedMailboxesCommand}" Visibility="{Binding IsManagingMailboxes, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <MenuItem.Icon>
+                                                <Image Height="16" Source="/Assets/ok.png" />
+                                            </MenuItem.Icon>
+                                            <MenuItem.Header>
+                                                <TextBlock Foreground="{StaticResource Metro.Control.TextBrush}"
+                                                           Style="{StaticResource Metro.MenuHeaderTextStyle}"
+                                                           Text="{x:Static properties:Resources.HideUnsubscribedMailboxes}" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <Separator Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                        <MenuItem Command="{Binding DeleteAccountCommand}" Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <MenuItem.Icon>
+                                                <Rectangle Width="16"
+                                                           Height="16"
+                                                           Fill="{DynamicResource Metro.App.FailureBrush}">
+                                                    <Rectangle.OpacityMask>
+                                                        <ImageBrush ImageSource="/Assets/delete.png" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </MenuItem.Icon>
+                                            <MenuItem.Header>
+                                                <TextBlock Foreground="{StaticResource Metro.Control.TextBrush}"
+                                                           Style="{StaticResource Metro.MenuHeaderTextStyle}"
+                                                           Text="{x:Static properties:Resources.Delete}" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <Separator Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                        <MenuItem Command="{Binding RegisterCommand}" Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <MenuItem.Icon>
+                                                <Image Height="16" Source="/Assets/paper.png" />
+                                            </MenuItem.Icon>
+                                            <MenuItem.Header>
+                                                <TextBlock Foreground="{StaticResource Metro.Control.TextBrush}"
+                                                           Style="{StaticResource Metro.MenuHeaderTextStyle}"
+                                                           Text="{x:Static properties:Resources.Register}" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <MenuItem Command="{Binding ConfigAccountCommand}" Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <MenuItem.Icon>
+                                                <Image Height="16" Source="/Assets/edit.properties.png" />
+                                            </MenuItem.Icon>
+                                            <MenuItem.Header>
+                                                <TextBlock Foreground="{StaticResource Metro.Control.TextBrush}"
+                                                           Style="{StaticResource Metro.MenuHeaderTextStyle}"
+                                                           Text="{x:Static properties:Resources.Properties}" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Row="0"
+                                       Grid.Column="0"
+                                       Width="36"
+                                       Margin="0,0,6,0"
+                                       VerticalAlignment="Center"
+                                       RenderOptions.BitmapScalingMode="Fant"
+                                       Source="{Binding Address,
+                                                        ConverterParameter=48,
+                                                        Converter={StaticResource GravatarImageConverter}}" />
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Margin="2,-2,0,0"
+                                               FontSize="{DynamicResource Metro.MediumLargeFontSize}"
+                                               FontWeight="Thin"
+                                               Foreground="{DynamicResource Metro.Control.TextBrush}"
+                                               RenderOptions.ClearTypeHint="Enabled"
+                                               Text="{Binding Name,
+                                                              ConverterParameter=...,
+                                                              Converter={StaticResource NullOrEmptyFormatter}}"
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="NoWrap" />
+                                    <TextBlock Margin="2,0,2,2"
+                                               RenderOptions.ClearTypeHint="Enabled"
+                                               Text="{Binding Address,
+                                                              Converter={StaticResource NullOrEmptyFormatter}}"
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="NoWrap">
+                                        <TextBlock.Foreground>
+                                            <Binding Mode="OneWay" Path="IsSelected">
+                                                <Binding.Converter>
+                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.Control.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.Control.TextBrush}" />
+                                                </Binding.Converter>
+                                            </Binding>
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+                        </HierarchicalDataTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type paranoia:MailboxContext}" ItemsSource="{Binding Children}">
+                            <Grid>
+                                <Grid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Command="{Binding SyncMailboxCommand}">
+                                            <MenuItem.Icon>
+                                                <Image Height="16" Source="/Assets/refresh.png" />
+                                            </MenuItem.Icon>
+                                            <MenuItem.Header>
+                                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Sync}" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <Separator />
+                                        <MenuItem Command="{Binding CreateMailboxCommand}">
+                                            <MenuItem.Icon>
+                                                <Image Height="16"
+                                                       RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                                       Source="/Assets/add.png"
+                                                       UseLayoutRounding="True" />
+                                            </MenuItem.Icon>
+                                            <MenuItem.Header>
+                                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.New}" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <MenuItem Command="{Binding DeleteMailboxCommand}">
+                                            <MenuItem.Icon>
+                                                <Image Height="16" Source="/Assets/delete.png" />
+                                            </MenuItem.Icon>
+                                            <MenuItem.Header>
+                                                <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Delete}" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
+                                <Rectangle HorizontalAlignment="Stretch"
+                                           VerticalAlignment="Stretch"
+                                           Fill="Transparent" />
+                                <DockPanel HorizontalAlignment="Stretch" LastChildFill="False">
+                                    <Border DockPanel.Dock="Left" Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <CheckBox VerticalAlignment="Center"
+                                                  IsChecked="{Binding IsSubscribed,
+                                                                      Mode=TwoWay}"
+                                                  Visibility="{Binding IsSelectable,
+                                                                       Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                    </Border>
+                                    <Image Width="16"
+                                           Margin="0,1,6,1"
+                                           DockPanel.Dock="Left"
+                                           SnapsToDevicePixels="True"
+                                           Source="/Assets/folder.png" />
+                                    <TextBlock x:Name="MailboxNameBlock"
+                                               VerticalAlignment="Center"
+                                               DockPanel.Dock="Left"
+                                               FontSize="{DynamicResource Metro.SmallFontSize}"
+                                               Text="{Binding LocalName}">
+                                        <TextBlock.Foreground>
+                                            <Binding Path="IsSubscribedAndSelectable">
+                                                <Binding.Converter>
+                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.Control.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.Control.TextBrush}" />
+                                                </Binding.Converter>
+                                            </Binding>
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+                                    <Border Margin="12,0"
+                                            DockPanel.Dock="Right"
+                                            Visibility="{Binding NotSeenCount,
+                                                                 Converter={StaticResource QuantityToVisibilityConverter}}">
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontSize="{DynamicResource Metro.SmallFontSize}"
+                                                   FontWeight="Bold"
+                                                   Text="{Binding NotSeenCount}">
+                                            <TextBlock.Foreground>
+                                                <Binding Path="IsSelected">
+                                                    <Binding.Converter>
+                                                        <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.App.AccentBrush}" BrushForTrue="{DynamicResource Metro.Control.TextBrush}" />
+                                                    </Binding.Converter>
+                                                </Binding>
+                                            </TextBlock.Foreground>
+                                        </TextBlock>
+                                    </Border>
+                                </DockPanel>
+                                <ui:MetroProgressBar x:Name="EnvelopeProgressBar"
+                                                     Height="2"
+                                                     Margin="-22,0,-2.4,-3"
+                                                     HorizontalAlignment="Stretch"
+                                                     VerticalAlignment="Bottom"
+                                                     Background="Transparent"
+                                                     Maximum="{Binding TotalEnvelopeCount}"
+                                                     Minimum="0"
+                                                     Visibility="{Binding Value,
+                                                                          Converter={StaticResource QuantityToVisibilityConverter},
+                                                                          RelativeSource={RelativeSource Self}}"
+                                                     Value="{Binding FetchedEnvelopeCount}" />
+                            </Grid>
+                            <HierarchicalDataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                    <Setter TargetName="MailboxNameBlock" Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
+                                    <Setter TargetName="EnvelopeProgressBar" Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
+                                </DataTrigger>
+                            </HierarchicalDataTemplate.Triggers>
+                        </HierarchicalDataTemplate>
+                    </TreeView.Resources>
+                    <TreeView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="{x:Type TreeViewItem}">
+                            <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                            <Setter Property="Visibility" Value="{Binding IsListed, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
+                            <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                </TreeView>
+            </DockPanel>
+        </Grid>
+        <GridSplitter Grid.Row="0" Grid.Column="1" />
+        <DockPanel Grid.Row="0"
+                   Grid.Column="2"
+                   Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
+                   LastChildFill="True"
+                   Visibility="{Binding IsOutboxSelected,
+                                        Converter={StaticResource BooleanToVisibilityConverter},
+                                        ConverterParameter=!}">
+            <Grid DockPanel.Dock="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <DockPanel LastChildFill="True">
+                    <ui:MetroCircleButton Margin="6"
+                                          VerticalAlignment="Center"
+                                          Command="{Binding SyncMailboxCommand}"
+                                          DataContext="{Binding SelectedMailbox}"
+                                          DockPanel.Dock="Right">
+                        <Image Width="18" Source="/Assets/refresh.png" />
+                    </ui:MetroCircleButton>
+                    <TextBlock Margin="12,0"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               FontSize="{DynamicResource Metro.ExtraLargeFontSize}"
+                               Style="{DynamicResource Metro.TitleTextStyle}">
+                        <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{Binding Messages, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
+                    </TextBlock>
+                </DockPanel>
+
+                <TextBox Grid.Row="1"
+                         Margin="6"
+                         Background="{DynamicResource Metro.Control.BackgroundBrush}"
+                         Text="{Binding QueryString,
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged}" />
+                <DockPanel Grid.Row="2"
+                           Margin="12,0,12,0"
+                           HorizontalAlignment="Stretch"
+                           LastChildFill="False">
+                    <RadioButton Margin="3,3,9,3"
+                                 Content="{x:Static properties:Resources.All}"
+                                 DockPanel.Dock="Left"
+                                 GroupName="Filter"
+                                 IsChecked="{Binding ShowAllMessages,
+                                                     Mode=TwoWay}"
+                                 Style="{DynamicResource Metro.TextRadioButtonStyle}" />
+                    <RadioButton Content="{x:Static properties:Resources.Unseen}"
+                                 DockPanel.Dock="Left"
+                                 GroupName="Filter"
+                                 Style="{DynamicResource Metro.TextRadioButtonStyle}" />
+                    <ToggleButton DockPanel.Dock="Right"
+                                  IsChecked="{Binding IsSortAscending,
+                                                      Mode=TwoWay}"
+                                  Style="{DynamicResource Metro.SortingToggleButtonStyle}" />
+                </DockPanel>
+            </Grid>
+            <Grid>
+                <ListView x:Name="MessagesListView"
+                          HorizontalContentAlignment="Stretch"
+                          Panel.ZIndex="0"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          KeyboardNavigation.DirectionalNavigation="Contained"
+                          KeyboardNavigation.TabNavigation="None"
+                          Padding="0"
+                          SelectionChanged="OnMessageSelectionChanged"
+                          TabIndex="4"
+                          VirtualizingPanel.IsVirtualizing="True"
+                          VirtualizingPanel.VirtualizationMode="Recycling">
+                    <ListView.Resources>
+                        <converters:BooleanToBrushConverter x:Key="SeenBrushConverter"
+                                                            BrushForFalse="{DynamicResource Metro.App.AccentBrush}"
+                                                            BrushForTrue="{DynamicResource Metro.Control.SecondaryTextBrush}" />
+                    </ListView.Resources>
+                    <ListView.ItemsSource>
+                        <Binding Source="{StaticResource MessagesSource}" />
+                    </ListView.ItemsSource>
+                    <ListView.InputBindings>
+                        <KeyBinding Key="R"
+                                    Command="ui:MessageCommands.Reply"
+                                    Modifiers="Control" />
+                        <KeyBinding Key="F"
+                                    Command="ui:MessageCommands.Forward"
+                                    Modifiers="Control" />
+                        <KeyBinding Key="Delete" Command="{Binding DeleteMessagesCommand}" />
+                        <KeyBinding Key="D"
+                                    Command="{Binding DeleteMessagesCommand}"
+                                    Modifiers="Control" />
+                    </ListView.InputBindings>
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="ui:MessageCommands.Reply" InputGestureText="Ctrl + R">
+                                <MenuItem.Icon>
+                                    <Image Height="16"
+                                           Source="/Assets/reply.png"
+                                           UseLayoutRounding="True" />
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Reply}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem Command="ui:MessageCommands.Forward" InputGestureText="Ctrl + F">
+                                <MenuItem.Icon>
+                                    <Image Height="16"
+                                           Source="/Assets/forward.png"
+                                           UseLayoutRounding="True" />
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Forward}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem Command="{Binding RestoreMessagesCommand}" InputGestureText="Ctrl + Alt + R">
+                                <MenuItem.Icon>
+                                    <Image Height="16"
+                                           Source="/Assets/message.restore.png"
+                                           UseLayoutRounding="True" />
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Restore}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator />
+                            <MenuItem Command="{Binding DeleteMessagesCommand}" InputGestureText="Entf">
+                                <MenuItem.Icon>
+                                    <Rectangle Width="16"
+                                               Height="16"
+                                               Fill="{DynamicResource Metro.App.FailureBrush}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/delete.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Delete}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator />
+                            <MenuItem>
+                                <MenuItem.Header>
+                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Advanced}" />
+                                </MenuItem.Header>
+                                <MenuItem Command="{Binding MarkAsFlaggedCommand}">
+                                    <MenuItem.Icon>
+                                        <Rectangle Width="16"
+                                                   Height="16"
+                                                   Fill="{DynamicResource Metro.App.WarningBrush}">
+                                            <Rectangle.OpacityMask>
+                                                <ImageBrush ImageSource="/Assets/star.full.png" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsFlagged}" />
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem Command="{Binding MarkAsNotFlaggedCommand}">
+                                    <MenuItem.Icon>
+                                        <Image Height="16"
+                                               Source="/Assets/star.png"
+                                               UseLayoutRounding="True" />
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsNotFlagged}" />
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Command="{Binding MarkAsSeenCommand}">
+                                    <MenuItem.Icon>
+                                        <Image Height="16"
+                                               Source="/Assets/seen.png"
+                                               UseLayoutRounding="True" />
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsSeen}" />
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem Command="{Binding MarkAsNotSeenCommand}">
+                                    <MenuItem.Icon>
+                                        <Image Height="16"
+                                               Source="/Assets/message.png"
+                                               UseLayoutRounding="True" />
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.MarkAsNotSeen}" />
+                                    </MenuItem.Header>
+                                </MenuItem>
+                            </MenuItem>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel x:Name="Mvsp" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
+                            <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                            <!--<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=OneWayToSource}" />-->
+                            <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Mvsp}" />
+                            <Setter Property="Padding" Value="6,1,6,1" />
+                            <EventSetter Event="MouseDoubleClick" Handler="OnMessageMouseDoubleClick" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate DataType="paranoia:MailMessageContext">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="24" />
+                                    <RowDefinition Height="22" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Grid.Row="0"
+                                           Grid.RowSpan="2"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="3"
+                                           Fill="Transparent" />
+                                <Image Grid.Row="0"
+                                       Grid.RowSpan="2"
+                                       Grid.Column="0"
+                                       Width="34"
+                                       Height="34"
+                                       Margin="6,0,12,0"
+                                       VerticalAlignment="Center"
+                                       Source="{Binding FromAddress,
+                                                        ConverterParameter=48,
+                                                        Converter={StaticResource GravatarImageConverter},
+                                                        IsAsync=True}" />
+
+                                <TextBlock x:Name="SubjectBlock"
+                                           Grid.Row="1"
+                                           Grid.Column="1"
+                                           Margin="0,0,6,0"
+                                           VerticalAlignment="Center"
+                                           FontSize="{DynamicResource Metro.NormalFontSize}"
+                                           Foreground="{Binding IsSeen,
+                                                                Converter={StaticResource SeenBrushConverter}}"
+                                           Text="{Binding Subject,
+                                                          ConverterParameter=...,
+                                                          Converter={StaticResource NullOrEmptyFormatter}}"
+                                           TextTrimming="CharacterEllipsis"
+                                           TextWrapping="NoWrap" />
+                                <StackPanel Grid.Row="0"
+                                            Grid.Column="2"
+                                            Margin="0,1,3,0"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                    <Rectangle Width="16"
+                                               Height="16"
+                                               Fill="{DynamicResource Metro.App.WarningBrush}"
+                                               Visibility="{Binding IsFlagged,
+                                                                    Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/star.full.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </StackPanel>
+                                <TextBlock x:Name="FromBlock"
+                                           Grid.Row="0"
+                                           Grid.Column="1"
+                                           Margin="0,0,12,0"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontSize="{DynamicResource Metro.MediumLargeFontSize}"
+                                           FontWeight="Thin"
+                                           Foreground="{Binding IsSubjectNilOrEmpty,
+                                                                Converter={StaticResource SubjectBrushConverter}}"
+                                           Text="{Binding Converter={StaticResource MailContactFormatter}}"
+                                           TextTrimming="CharacterEllipsis"
+                                           TextWrapping="NoWrap" />
+
+                                <TextBlock x:Name="DateBlock"
+                                           Grid.Row="1"
+                                           Grid.Column="2"
+                                           Margin="0,0,6,0"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           FontSize="{DynamicResource Metro.SmallFontSize}"
+                                           Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
+                                           Text="{Binding EntryDate,
+                                                          Converter={StaticResource DateFormatter}}" />
+
+                            </Grid>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                    <Setter TargetName="SubjectBlock" Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
+                                    <Setter TargetName="DateBlock" Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <ui:ProgressRing Width="30"
+                                 Height="30"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Panel.ZIndex="1"
+                                 DataContext="{Binding SelectedMailbox}"
+                                 IsActive="{Binding IsLoadingMessages,
+                                                    Mode=OneWay}"
+                                 IsLarge="False" />
+                <TextBlock Margin="12"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           FontSize="{DynamicResource Metro.MediumFontSize}"
+                           Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
+                           Text="{x:Static properties:Resources.NoMessages}"
+                           Visibility="{Binding MessageCount,
+                                                ConverterParameter=!,
+                                                Converter={StaticResource QuantityToVisibilityConverter}}" />
+            </Grid>
+        </DockPanel>
+        <DockPanel Grid.Row="0"
+                   Grid.Column="2"
+                   Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
+                   LastChildFill="True"
+                   Visibility="{Binding IsOutboxSelected,
+                                        Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid DockPanel.Dock="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <DockPanel LastChildFill="True">
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                        <ui:MetroCircleButton Margin="6"
+                                              Command="{Binding SendMessagesCommand}"
+                                              DataContext="{Binding SelectedOutbox}">
+                            <Image Width="18" Source="/Assets/upload.png" />
+                        </ui:MetroCircleButton>
+                    </StackPanel>
+                    <TextBlock Margin="12,0"
+                               VerticalAlignment="Center"
+                               DataContext="{Binding SelectedOutbox}"
+                               FontSize="{DynamicResource Metro.ExtraLargeFontSize}"
+                               Style="{DynamicResource Metro.TitleTextStyle}">
+                        <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{Binding SmtpRequests, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
+                    </TextBlock>
+                </DockPanel>
+                <TextBox Grid.Row="1"
+                         Margin="6"
+                         Background="{DynamicResource Metro.Control.BackgroundBrush}"
+                         Text="{Binding QueryString,
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+            <Grid DataContext="{Binding SelectedOutbox}">
+                <Grid.Resources>
+                    <CollectionViewSource x:Key="SmtpRequestsSource" Source="{Binding SmtpRequests}">
+                        <CollectionViewSource.SortDescriptions>
+                            <componentModel:SortDescription Direction="Descending" PropertyName="CompositionDate" />
+                        </CollectionViewSource.SortDescriptions>
+                    </CollectionViewSource>
+                </Grid.Resources>
+                <ListView x:Name="SmtpRequestsListView"
+                          HorizontalContentAlignment="Stretch"
+                          Panel.ZIndex="0"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          KeyboardNavigation.DirectionalNavigation="Contained"
+                          KeyboardNavigation.TabNavigation="None"
+                          Padding="0"
+                          SelectionChanged="OnSmtpRequestSelectionChanged"
+                          TabIndex="4"
+                          VirtualizingPanel.IsVirtualizing="True"
+                          VirtualizingPanel.VirtualizationMode="Recycling">
+                    <ListView.ItemsSource>
+                        <Binding Source="{StaticResource SmtpRequestsSource}" />
+                    </ListView.ItemsSource>
+                    <ListView.InputBindings>
+                        <KeyBinding Key="Delete" Command="ui:OutboxCommands.Delete" />
+                    </ListView.InputBindings>
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="ui:OutboxCommands.Delete" InputGestureText="Delete">
+                                <MenuItem.Icon>
+                                    <Image Height="16"
+                                           Source="/Assets/delete.png"
+                                           UseLayoutRounding="True" />
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock Style="{StaticResource Metro.MenuHeaderTextStyle}" Text="{x:Static properties:Resources.Delete}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel x:Name="Ovsp" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
+                            <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=OneWayToSource}" />
+                            <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Ovsp}" />
+                            <Setter Property="Padding" Value="6,1,6,1" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate DataType="paranoia:SmtpRequestContext">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="24" />
+                                    <RowDefinition Height="22" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Grid.Row="0"
+                                           Grid.RowSpan="2"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="3"
+                                           Fill="Transparent" />
+                                <Image Grid.Row="0"
+                                       Grid.RowSpan="2"
+                                       Grid.Column="0"
+                                       Width="34"
+                                       Height="34"
+                                       Margin="6,0,12,0"
+                                       VerticalAlignment="Center"
+                                       Source="{Binding ToAddress,
+                                                        ConverterParameter=48,
+                                                        Converter={StaticResource GravatarImageConverter},
+                                                        IsAsync=True}" />
+
+                                <TextBlock x:Name="SubjectBlock"
+                                           Grid.Row="1"
+                                           Grid.Column="1"
+                                           Margin="0,0,6,0"
+                                           VerticalAlignment="Center"
+                                           FontSize="{DynamicResource Metro.NormalFontSize}"
+                                           Foreground="{DynamicResource Metro.App.AccentBrush}"
+                                           Text="{Binding Subject,
+                                                          ConverterParameter=...,
+                                                          Converter={StaticResource NullOrEmptyFormatter}}"
+                                           TextTrimming="CharacterEllipsis"
+                                           TextWrapping="NoWrap" />
+                                <TextBlock x:Name="ToBlock"
+                                           Grid.Row="0"
+                                           Grid.Column="1"
+                                           Margin="0,0,12,0"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontSize="{DynamicResource Metro.MediumLargeFontSize}"
+                                           FontWeight="Thin"
+                                           Foreground="{Binding IsSubjectNilOrEmpty,
+                                                                Converter={StaticResource SubjectBrushConverter}}"
+                                           Text="{Binding ToNameOrAddress}"
+                                           TextTrimming="CharacterEllipsis"
+                                           TextWrapping="NoWrap" />
+                            </Grid>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                    <Setter TargetName="SubjectBlock" Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <ui:ProgressRing Width="30"
+                                 Height="30"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Panel.ZIndex="1"
+                                 IsActive="{Binding IsLoadingRequests,
+                                                    Mode=OneWay}"
+                                 IsLarge="False" />
+                <TextBlock Margin="12"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           FontSize="{DynamicResource Metro.MediumFontSize}"
+                           Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
+                           Text="{x:Static properties:Resources.NothingToSend}"
+                           Visibility="{Binding SmtpRequestCount,
+                                                ConverterParameter=!,
+                                                Converter={StaticResource QuantityToVisibilityConverter}}" />
+            </Grid>
+        </DockPanel>
+
+        <GridSplitter Grid.Row="0" Grid.Column="3" />
+        <Grid Grid.Row="0"
+              Grid.Column="4"
+              Background="{DynamicResource Metro.Control.BackgroundBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0"
+                    Padding="0,0,0,6"
+                    Visibility="{Binding IsOutboxSelected,
+                                         Converter={StaticResource BooleanToVisibilityConverter},
+                                         ConverterParameter=!}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="2"
+                               Margin="12,12,12,3"
+                               DataContext="{Binding SelectedMessage}"
+                               Style="{DynamicResource Metro.TitleTextStyle}"
+                               Text="{Binding Subject,
+                                              Converter={StaticResource NullOrEmptyFormatter},
+                                              Mode=OneWay}"
+                               TextTrimming="CharacterEllipsis"
+                               TextWrapping="NoWrap" />
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               Margin="12,0,12,0"
+                               DataContext="{Binding SelectedMessage}"
+                               FontWeight="Normal"
+                               Style="{DynamicResource Metro.SubtitleTextStyle}"
+                               Text="{Binding FromName}" />
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="0"
+                               Margin="12,0,12,0"
+                               DataContext="{Binding SelectedMessage}"
+                               FontSize="{DynamicResource Metro.SmallFontSize}"
+                               FontWeight="Normal"
+                               Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
+                               Style="{DynamicResource Metro.SubtitleTextStyle}"
+                               Text="{Binding EntryDate}" />
+                    <StackPanel Grid.Row="1"
+                                Grid.RowSpan="2"
+                                Grid.Column="1"
+                                Margin="6"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal"
+                                Visibility="{Binding SelectedMessage,
+                                                     Converter={StaticResource NullToVisibilityConverter}}">
+                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="ui:MessageCommands.Reply">
+                            <Image Width="18"
+                                   Margin="-2,2,0,0"
+                                   Source="/Assets/reply.png" />
+                        </ui:MetroCircleButton>
+                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="ui:MessageCommands.Forward">
+                            <Image Width="18"
+                                   Margin="-2,2,0,0"
+                                   Source="/Assets/forward.png" />
+                        </ui:MetroCircleButton>
+                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="{Binding DeleteMessagesCommand}">
+                            <Rectangle Width="18"
+                                       Height="16"
+                                       Fill="{DynamicResource Metro.App.FailureBrush}">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/Assets/delete.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </ui:MetroCircleButton>
+                        <ui:MetroCircleButton BorderBrush="{DynamicResource Metro.Control.TextBrush}" Command="ApplicationCommands.Print">
+                            <Image Width="18"
+                                   Margin="0,0,0,0"
+                                   Source="/Assets/print.png" />
+                        </ui:MetroCircleButton>
+                    </StackPanel>
+
+                </Grid>
+            </Border>
+            <ListView Grid.Row="1"
+                      Margin="0"
+                      Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
+                      BorderThickness="0"
+                      ItemTemplate="{StaticResource Metro.ThumbnailTemplate}"
+                      ItemsSource="{Binding Attachments}"
+                      Padding="0"
+                      ScrollViewer.CanContentScroll="False"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <ListView.Style>
+                    <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type ListView}">
+                        <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClicked" />
+                        <Style.Triggers>
+                            <Trigger Property="HasItems" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.Style>
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
+                        <Setter Property="UseLayoutRounding" Value="True" />
+                        <Setter Property="Margin" Value="0,3" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+            <ui:BlockNoticeControl Grid.Row="2" />
+            <Border Grid.Row="3" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid Visibility="{Binding IsAnimating, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
+                    <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <ui:HtmlControl x:Name="MessageViewer"
+                                        Background="{DynamicResource Metro.Control.BackgroundBrush}"
+                                        BorderThickness="0"
+                                        DataContext="{Binding DataContext,
+                                                              RelativeSource={RelativeSource FindAncestor,
+                                                                                             AncestorType=Page}}"
+                                        IsReadOnly="True"
+                                        IsTransparent="True"
+                                        SnapsToDevicePixels="True"
+                                        Source="{Binding Source,
+                                                         Mode=OneWay}"
+                                        WebSession="{Binding Source={StaticResource InspectionWebSessionProvider}}"
+                                        Zoom="{Binding Zoom,
+                                                       Mode=TwoWay}"
+                                        d:IsHidden="True" />
+                    </Grid>
+                    <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                            <ui:MetroProgressBar Height="1"
+                                                 Margin="0"
+                                                 HorizontalAlignment="Stretch"
+                                                 Background="Transparent"
+                                                 Maximum="100"
+                                                 Minimum="0"
+                                                 Value="{Binding ProgressChanged}" />
+
+
+                        </StackPanel>
+                        <TextBlock Margin="24,12"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Bottom"
+                                   Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"><Run FontSize="48"
+                                 FontWeight="Thin"
+                                 Foreground="{DynamicResource Metro.App.AccentBrush}"
+                                 Text="{Binding ProgressChanged}" /><Run Text=" " /><Run FontSize="{DynamicResource Metro.NormalFontSize}"
+                                 FontWeight="Thin"
+                                 Text="%" />
+                        </TextBlock>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

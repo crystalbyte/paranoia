@@ -86,6 +86,12 @@
             <Component Id="cmp59C45546ED7613F953A7F147244DCC60" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filA84B841B29DAD75B504FFE532A19D041" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-11-29.log" />
             </Component>
+            <Component Id="cmpD98FA71803A1557F658DEC7F7124690C" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil9AB3C8F01060624D918FD752E2420468" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-11-30.log" />
+            </Component>
+            <Component Id="cmpDB8C2C094847B3A50C5A065FEFAA3163" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil21858380EFED7DE7932041F132A31E6A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-12-01.log" />
+            </Component>
             <Component Id="cmp2DC1EDD63DD284909D9928165A68A899" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil995D18D7BCE583045E1437829B994522" KeyPath="yes" Source="$(var.PrimaryOutputDir)\9d51b258-93bc-41a4-a4bf-c37caff7d279" />
             </Component>
@@ -127,6 +133,12 @@
             </Component>
             <Component Id="cmpC678B373DB999D8A04A410FBADB2E617" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filD6CECB9D541DF660C6B52BE71E7F7452" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Mail.pdb" />
+            </Component>
+            <Component Id="cmpED7A81F05BBE06C336DE3E4C82988465" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil0250A7E3124EDDBA8D775149901A5F61" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Themes.dll" />
+            </Component>
+            <Component Id="cmpEB750E22F6770BF906BD9869BD9577A7" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil5577BD44FCFB97FA4FB8320D6F31CCD9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Themes.pdb" />
             </Component>
             <Component Id="cmpB8C81CB399A45DF0500C8CCC806D6725" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil37C5426C17BC78E76755A859E2263541" KeyPath="yes" Source="$(var.PrimaryOutputDir)\debug.log" />

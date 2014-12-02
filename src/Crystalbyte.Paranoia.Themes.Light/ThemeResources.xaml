@@ -1,0 +1,178 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
+
+    <!--  Application Scope  -->
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.AppAccentColorKey}">Violet</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.AppAccentColorKey}}" />
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.AppSuccessColorKey}">ForestGreen</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSuccessBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.AppSuccessColorKey}}" />
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.AppFailureColorKey}">Tomato</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppFailureBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.AppFailureColorKey}}" />
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.AppWarningColorKey}">Orange</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppWarningBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.AppWarningColorKey}}" />
+
+    <!--  Window Scope  -->
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundColorKey}">White</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.WindowBackgroundColorKey}}" />
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.WindowBorderColorKey}">Violet</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBorderBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.WindowBorderColorKey}}" />
+
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.WindowBorderThicknessKey}"
+               Bottom="1"
+               Left="1"
+               Right="1"
+               Top="1" />
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowColorKey}">Violet</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.WindowShadowColorKey}}" />
+
+    <!--  Flyout Scope  -->
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.FlyoutBackgroundColorKey}">Violet</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.FlyoutBackgroundColorKey}}" />
+
+    <!--  General Text Scope (Title)  -->
+
+    <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.TitleFontFamilyKey}">Segoe UI</FontFamily>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.TitleFontSizeKey}">28</system:Double>
+    <FontWeight x:Key="{x:Static themes:ThemeResourceKeys.TitleFontWeightKey}">Thin</FontWeight>
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.TitleFontColorKey}">White</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TitleFontBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.TitleFontColorKey}}" />
+
+    <!--  General Text Scope (Subtitle)  -->
+
+    <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.SubtitleFontFamilyKey}">Segoe UI</FontFamily>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.SubtitleFontSizeKey}">18</system:Double>
+    <FontWeight x:Key="{x:Static themes:ThemeResourceKeys.SubtitleFontWeightKey}">Thin</FontWeight>
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.SubtitleFontColorKey}">DimGray</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SubtitleFontBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.SubtitleFontColorKey}}" />
+
+    <!--  General Text Scope (Prose)  -->
+
+    <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.ProseFontFamilyKey}">Segoe UI</FontFamily>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.ProseFontSizeKey}">18</system:Double>
+    <FontWeight x:Key="{x:Static themes:ThemeResourceKeys.ProseFontWeightKey}">Thin</FontWeight>
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.ProseFontColorKey}">DimGray</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ProseFontBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.ProseFontColorKey}}" />
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.ProseFontDisabledColorKey}">DimGray</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ProseFontDisabledBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.ProseFontDisabledColorKey}}" />
+
+    <!--  Control Scope  -->
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.ControlBackgroundColorKey}">DimGray</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlBackgroundBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.ControlBackgroundColorKey}}" />
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.LightControlBackgroundColorKey}">#CCC</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.LightControlBackgroundBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.LightControlBackgroundColorKey}}" />
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.DarkControlBackgroundColorKey}">#333</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.DarkControlBackgroundBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.DarkControlBackgroundColorKey}}" />
+
+    <!--  Control Scope (TextBox)  -->
+
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TextBoxMarginKey}"
+               Bottom="3"
+               Left="0"
+               Right="0"
+               Top="3" />
+
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TextBoxPaddingKey}"
+               Bottom="3"
+               Left="3"
+               Right="3"
+               Top="3" />
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBackgroundColorKey}">#333</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBackgroundBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.TextBoxBackgroundColorKey}}" />
+
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBorderThicknessKey}"
+               Bottom="1"
+               Left="1"
+               Right="1"
+               Top="1" />
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBorderColorKey}">Violet</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBorderBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.TextBoxBorderColorKey}}" />
+
+    <!--  Control Scope (CheckBox)  -->
+
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.CheckBoxMarginKey}"
+               Bottom="3"
+               Left="0"
+               Right="0"
+               Top="3" />
+
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.CheckBoxPaddingKey}"
+               Bottom="3"
+               Left="3"
+               Right="3"
+               Top="3" />
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.CheckBoxBackgroundColorKey}">#333</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.CheckBoxBackgroundBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.CheckBoxBackgroundColorKey}}" />
+
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.CheckBoxBorderThicknessKey}"
+               Bottom="1"
+               Left="1"
+               Right="1"
+               Top="1" />
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.CheckBoxBorderColorKey}">Violet</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.CheckBoxBorderBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.CheckBoxBorderColorKey}}" />
+
+    <!--  Control Scope (RadioButton)  -->
+
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonMarginKey}"
+               Bottom="3"
+               Left="0"
+               Right="0"
+               Top="3" />
+
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonPaddingKey}"
+               Bottom="3"
+               Left="3"
+               Right="3"
+               Top="3" />
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonBackgroundColorKey}">#333</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonBackgroundBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.RadioButtonBackgroundColorKey}}" />
+
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonBorderThicknessKey}"
+               Bottom="1"
+               Left="1"
+               Right="1"
+               Top="1" />
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonBorderColorKey}">Violet</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonBorderBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.RadioButtonBorderColorKey}}" />
+
+    <!--  Control Scope (Menu)  -->
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.MenuBackgroundColorKey}">Gray</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.MenuBackgroundBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.MenuBackgroundColorKey}}" />
+
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.MenuBorderThicknessKey}"
+               Bottom="1"
+               Left="1"
+               Right="1"
+               Top="1" />
+
+    <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.MenuFontFamilyKey}">Segoe UI</FontFamily>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.MenuFontSizeKey}">12</system:Double>
+
+    <Color x:Key="{x:Static themes:ThemeResourceKeys.MenuBorderColorKey}">Gray</Color>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.MenuBorderBrushKey}" Color="{StaticResource {x:Static themes:ThemeResourceKeys.MenuBorderColorKey}}" />
+
+</ResourceDictionary>

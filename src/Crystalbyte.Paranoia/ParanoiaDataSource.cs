@@ -177,8 +177,8 @@ namespace Crystalbyte.Paranoia {
         private async Task SendQuotedResponseAsync(DataSourceRequest request) {
             var variables = new Dictionary<string, string> {
                 {"header", string.Empty},
-                {"default_font_size", string.Format("{0}", Settings.Default.HtmlDefaultFontSize)},
-                {"default_font_family", string.Format("{0}", Settings.Default.HtmlDefaultFontFamily)}
+                {"default_font_size", string.Format("{0}", Settings.Default.HtmlFontSize)},
+                {"default_font_family", string.Format("{0}", Settings.Default.HtmlFontFamily)}
             };
 
             long messageId;
@@ -205,8 +205,8 @@ namespace Crystalbyte.Paranoia {
             var variables = new Dictionary<string, string> {
                 {"quote", string.Empty},
                 {"header", string.Empty},
-                {"default_font_size", string.Format("{0}", Settings.Default.HtmlDefaultFontSize)},
-                {"default_font_family", string.Format("{0}", Settings.Default.HtmlDefaultFontFamily)}
+                {"default_font_size", string.Format("{0}", Settings.Default.HtmlFontSize)},
+                {"default_font_family", string.Format("{0}", Settings.Default.HtmlFontFamily)}
             };
 
             var html = await Task.Run(() => GenerateEditorHtml(variables));

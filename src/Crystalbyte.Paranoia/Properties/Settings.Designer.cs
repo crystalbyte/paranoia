@@ -26,24 +26,24 @@ namespace Crystalbyte.Paranoia.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Calibri")]
-        public string HtmlDefaultFontFamily {
+        public string HtmlFontFamily {
             get {
-                return ((string)(this["HtmlDefaultFontFamily"]));
+                return ((string)(this["HtmlFontFamily"]));
             }
             set {
-                this["HtmlDefaultFontFamily"] = value;
+                this["HtmlFontFamily"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("16")]
-        public int HtmlDefaultFontSize {
+        public int HtmlFontSize {
             get {
-                return ((int)(this["HtmlDefaultFontSize"]));
+                return ((int)(this["HtmlFontSize"]));
             }
             set {
-                this["HtmlDefaultFontSize"] = value;
+                this["HtmlFontSize"] = value;
             }
         }
         
@@ -106,28 +106,6 @@ namespace Crystalbyte.Paranoia.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
-            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" />")]
-        public global::System.Collections.Specialized.StringCollection NonWebCharsets {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["NonWebCharsets"]));
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("beach")]
-        public string CustomTheme {
-            get {
-                return ((string)(this["CustomTheme"]));
-            }
-            set {
-                this["CustomTheme"] = value;
-            }
-        }
-        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Re:")]
@@ -161,6 +139,18 @@ namespace Crystalbyte.Paranoia.Properties {
             }
             set {
                 this["IsFirstStart"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Light")]
+        public string Theme {
+            get {
+                return ((string)(this["Theme"]));
+            }
+            set {
+                this["Theme"] = value;
             }
         }
     }

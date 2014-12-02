@@ -1,6 +1,7 @@
 ﻿#region Using directives
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Composition;
@@ -8,6 +9,7 @@ using System.Composition.Hosting;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Security.AccessControl;
 using System.Security.Principal;
@@ -20,6 +22,7 @@ using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
+using Crystalbyte.Paranoia.Themes;
 using Crystalbyte.Paranoia.UI;
 using dotless.Core;
 using NLog;
@@ -54,6 +57,9 @@ namespace Crystalbyte.Paranoia {
 
         [Import]
         public static AppContext Context { get; set; }
+
+        [ImportMany]
+        public static IEnumerable<Lazy<Theme>> Themes { get; set; }
 
         internal static CompositionHost Composition { get; private set; }
 
@@ -141,7 +147,7 @@ namespace Crystalbyte.Paranoia {
             InitAwesomium();
             Compose();
 
-            InitTheme();
+            InitThemes();
             StartComServer();
 
             ProcessCommandLine();
@@ -277,7 +283,7 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 var info = new FileInfo(arguments[1]);
-                if (!info.Exists) 
+                if (!info.Exists)
                     return;
 
                 // Can't access the main window here directly since it is not yet created.
@@ -332,19 +338,18 @@ namespace Crystalbyte.Paranoia {
             Sodium.InitNativeLibrary();
         }
 
-        private static void InitTheme() {
-            var theme = Settings.Default.CustomTheme;
-            if (string.IsNullOrWhiteSpace(theme)) {
-                return;
-            }
+        private static void InitThemes() {
+            var name = Settings.Default.Theme;
 
-            var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var themePath = Path.Combine(localAppData, theme);
-            if (!Directory.Exists(themePath)) {
-                return;
-            }
+            var theme =
+                Themes.FirstOrDefault(
+                    x => string.Compare(name, x.Value.GetName(), StringComparison.InvariantCultureIgnoreCase) == 0) ??
+                Themes.First(x => x.Value is LightTheme);
 
-            ApplyCustomTheme(themePath);
+            Debug.WriteLine(theme.Value.GetThemeResources().Keys.ToString());
+
+            var resources = theme.Value.GetThemeResources();
+            Current.Resources.MergedDictionaries.Add(resources);
         }
 
         private static void InitEnvironment() {
@@ -365,23 +370,11 @@ namespace Crystalbyte.Paranoia {
             AppDomain.CurrentDomain.SetData("DataDirectory", directory);
         }
 
-        private static void ApplyCustomTheme(string path) {
-            var file = new FileInfo(Path.Combine(path, "theme.info"));
-            if (!file.Exists) {
-                return;
-            }
-
-            var lines = File.ReadLines(file.FullName);
-            foreach (var line in lines) {
-                var split = line.Split(':');
-            }
-
-            //TODO: to be continued ...
-        }
-
         private void Compose() {
             var config = new ContainerConfiguration()
-                .WithAssembly(typeof(App).Assembly);
+                .WithAssembly(typeof(App).Assembly)
+                .WithAssembly(typeof(LightTheme).Assembly)
+                .WithAssembly(typeof(DarkTheme).Assembly);
 
             Composition = config.CreateContainer();
             Composition.SatisfyImports(this);

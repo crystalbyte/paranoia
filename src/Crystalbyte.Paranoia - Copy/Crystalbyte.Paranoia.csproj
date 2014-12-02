@@ -1,0 +1,842 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A0762E18-FAC3-4624-8B65-9D1AF8E4F366}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Crystalbyte.Paranoia</RootNamespace>
+    <AssemblyName>Paranoia</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <ExpressionBlendVersion>12.0.41212.0</ExpressionBlendVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\key.debug.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Crystalbyte.Paranoia.App</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Awesomium.Core, Version=1.7.4.2, Culture=neutral, PublicKeyToken=e1a0d7c8071a5214, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>x86\Awesomium.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Awesomium.Windows.Controls, Version=1.7.4.2, Culture=neutral, PublicKeyToken=7a34e179b8b61c39, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>x86\Awesomium.Windows.Controls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="dotless.ClientOnly">
+      <HintPath>..\packages\DotlessClientOnly.1.4.1.0\lib\dotless.ClientOnly.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=3.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NLog.3.1.0.0\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Composition.AttributedModel, Version=1.0.27.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Convention, Version=1.0.27.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Convention.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Hosting, Version=1.0.27.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Runtime, Version=1.0.27.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.TypedParts, Version=1.0.27.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</HintPath>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.94.0\lib\net451\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.94.0\lib\net451\System.Data.SQLite.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="ApplicationExtensions.cs" />
+    <Compile Include="Automation\Application.cs" />
+    <Compile Include="Automation\ApplicationClassFactory.cs" />
+    <Compile Include="Automation\ComObject.cs" />
+    <Compile Include="Automation\ComServer.cs" />
+    <Compile Include="Automation\IApplication.cs" />
+    <Compile Include="Automation\IClassFactory.cs" />
+    <Compile Include="Automation\IComServer.cs" />
+    <Compile Include="CompositionWindow.xaml.cs">
+      <DependentUpon>CompositionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Contexts\AttachmentContext.cs" />
+    <Compile Include="Contexts\CreateMailboxContext.cs" />
+    <Compile Include="Contexts\FileInspectionContext.cs" />
+    <Compile Include="Contexts\InspectionContext.cs" />
+    <Compile Include="DecryptionResult.cs" />
+    <Compile Include="IMailboxCreator.cs" />
+    <Compile Include="InspectionWindow.xaml.cs">
+      <DependentUpon>InspectionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MailboxRoles.cs" />
+    <Compile Include="MediaTypes.cs" />
+    <Compile Include="Contexts\MessageInspectionContext.cs" />
+    <Compile Include="MessageDecryptionFailed.cs" />
+    <Compile Include="MessageNotFoundException.cs" />
+    <Compile Include="MetroColors.cs" />
+    <Compile Include="ResourceNotFoundException.cs" />
+    <Compile Include="UI\BlockNoticeControl.xaml.cs">
+      <DependentUpon>BlockNoticeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Commands\MarkAsFlaggedCommand.cs" />
+    <Compile Include="UI\Commands\MarkAsNotFlaggedCommand.cs" />
+    <Compile Include="UI\Commands\UnblockContactsCommand.cs" />
+    <Compile Include="UI\Commands\BlockContactsCommand.cs" />
+    <Compile Include="Contexts\CreateContactContext.cs" />
+    <Compile Include="Contexts\CreateKeyPairContext.cs" />
+    <Compile Include="Contexts\HierarchyContext.cs" />
+    <Compile Include="Contexts\NavigationContext.cs" />
+    <Compile Include="Contexts\NotificationWindowContext.cs" />
+    <Compile Include="Contexts\OutboxContext.cs" />
+    <Compile Include="Contexts\QueryContext.cs" />
+    <Compile Include="Contexts\SmtpRequestContext.cs" />
+    <Compile Include="Contexts\TestingContext.cs" />
+    <Compile Include="Data\PublicKeyModel.cs" />
+    <Compile Include="DeferredObservableCollection.cs" />
+    <Compile Include="DocumentTextRequestedEventArgs.cs" />
+    <Compile Include="Contexts\MailboxContext.cs" />
+    <Compile Include="Contexts\MailCompositionContext.cs" />
+    <Compile Include="Contexts\MailContactContext.cs" />
+    <Compile Include="Contexts\AppContext.cs" />
+    <Compile Include="Contexts\MailMessageContext.cs" />
+    <Compile Include="Contexts\MailAccountContext.cs" />
+    <Compile Include="Data\SmtpRequestModel.cs" />
+    <Compile Include="ImapEnvelopeExtensions.cs" />
+    <Compile Include="IMessageSource.cs" />
+    <Compile Include="ParanoiaHeaderKeys.cs" />
+    <Compile Include="MessageType.cs" />
+    <Compile Include="Net\AddressKeyPair.cs" />
+    <Compile Include="Net\ChallengeResponse.cs" />
+    <Compile Include="Net\KeyCollection.cs" />
+    <Compile Include="NotificationWindow.xaml.cs">
+      <DependentUpon>NotificationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ClientConfig.cs" />
+    <Compile Include="ResourceInterceptor.cs" />
+    <Compile Include="RevisionTracker.cs" />
+    <Compile Include="SecurityMeasure.cs" />
+    <Compile Include="UI\Commands\AddAttachmentCommand.cs" />
+    <Compile Include="UI\Commands\DeleteContactsCommand.cs" />
+    <Compile Include="UI\Commands\MarkAsNotSeenCommand.cs" />
+    <Compile Include="UI\Commands\MarkAsSeenCommand.cs" />
+    <Compile Include="UI\Commands\OpenAttachmentCommand.cs" />
+    <Compile Include="UI\Commands\RemoveAttachmentCommand.cs" />
+    <Compile Include="UI\Commands\RestoreMessagesCommand.cs" />
+    <Compile Include="UI\Converters\BooleanToVisibilityMultiConverter.cs" />
+    <Compile Include="UI\Converters\IconFinder.cs" />
+    <Compile Include="UI\Converters\MailContactFormatter.cs" />
+    <Compile Include="UI\Converters\PercentageFormatter.cs" />
+    <Compile Include="UI\Converters\SecurityProtocolFormatter.cs" />
+    <Compile Include="UI\Converters\NullOrEmptyFormatter.cs" />
+    <Compile Include="UI\Converters\QuantityToVisibilityConverter.cs" />
+    <Compile Include="UI\AutoCompleteBox.xaml.cs">
+      <DependentUpon>AutoCompleteBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AutoCompleteBoxCommands.cs" />
+    <Compile Include="UI\Commands\RelayCommand.cs" />
+    <Compile Include="UI\Commands\SendCommand.cs" />
+    <Compile Include="UI\Converters\SecurityToColorConverter.cs" />
+    <Compile Include="UI\DeferredActions.cs" />
+    <Compile Include="UI\HtmlControl.xaml.cs">
+      <DependentUpon>HtmlControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\IAnimationAware.cs" />
+    <Compile Include="UI\IconExtensions.cs" />
+    <Compile Include="UI\MailboxCommands.cs" />
+    <Compile Include="UI\MessageCommands.cs" />
+    <Compile Include="UI\MetroProgressBar.xaml.cs">
+      <DependentUpon>MetroProgressBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MetroScrollViewer.xaml.cs">
+      <DependentUpon>MetroScrollViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MetroTextBox.xaml.cs">
+      <DependentUpon>MetroTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\NavigationCommands.cs" />
+    <Compile Include="UI\NavigationStore.cs" />
+    <Compile Include="UI\OutboxCommands.cs" />
+    <Compile Include="UI\Pages\AccountDetailsPage.xaml.cs">
+      <DependentUpon>AccountDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\ContactsPage.xaml.cs">
+      <DependentUpon>ContactsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\CreateAccountPage.xaml.cs">
+      <DependentUpon>CreateAccountPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\CreateContactPage.xaml.cs">
+      <DependentUpon>CreateContactPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\CreateKeyPage.xaml.cs">
+      <DependentUpon>CreateKeyPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\CreateMailboxPage.xaml.cs">
+      <DependentUpon>CreateMailboxPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\MessagesPage.xaml.cs">
+      <DependentUpon>MessagesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ParanoiaDataSource.cs" />
+    <Compile Include="ParanoiaDataSourceProvider.cs" />
+    <Compile Include="UI\INavigationAware.cs" />
+    <Compile Include="UI\ItemsSourceRequestedEventArgs.cs" />
+    <Compile Include="UI\ITokenMatcher.cs" />
+    <Compile Include="UI\MailAddressTokenMatcher.cs" />
+    <Compile Include="UI\SignatureCommands.cs" />
+    <Compile Include="UI\WindowExtensions.cs" />
+    <Page Include="CompositionWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="InspectionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NotificationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Metro.CheckBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Metro.TreeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Metro.ToolTip.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Metro.Slider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Metro.RadioButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Metro.StatusBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Metro.ProgressBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Metro.ScrollViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\BlockNoticeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MetroCircleButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="UI\MetroCircleButton.xaml.cs">
+      <DependentUpon>MetroCircleButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\NavigationRequestedEventArgs.cs" />
+    <Compile Include="Contexts\QueryStringEventArgs.cs" />
+    <Compile Include="Contexts\SelectionObject.cs" />
+    <Compile Include="Data\CollatingSequence.cs" />
+    <Compile Include="Data\MailboxModel.cs" />
+    <Compile Include="Data\MailMessageModel.cs" />
+    <Compile Include="Data\MimeMessageModel.cs" />
+    <Compile Include="Data\CollateAttribute.cs" />
+    <Compile Include="Data\TypeExtensions.cs" />
+    <Compile Include="Data\SQLiteConnectionStringReader.cs" />
+    <Compile Include="Data\MailContactModel.cs" />
+    <Compile Include="Data\SQLiteDatabaseInitializer.cs" />
+    <Compile Include="Data\SQLiteModelAnalyzer.cs" />
+    <Compile Include="Data\DatabaseContext.cs" />
+    <Compile Include="Data\MailAccountModel.cs" />
+    <Compile Include="Gravatar.cs" />
+    <Compile Include="MailboxType.cs" />
+    <Compile Include="Contexts\NotificationObject.cs" />
+    <Compile Include="Pack.cs" />
+    <Compile Include="PasswordPolicyAttribute.cs" />
+    <Compile Include="PropertySupport.cs" />
+    <Compile Include="StreamExtensions.cs" />
+    <Compile Include="CollectionExtensions.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.de-DE.Designer.cs">
+      <DependentUpon>Resources.de-DE.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="StringExtensions.cs" />
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UI\Commands\DeleteMessagesCommand.cs" />
+    <Compile Include="UI\Commands\FocusSearchBoxCommand.cs" />
+    <Compile Include="UI\Commands\ForwardCommand.cs" />
+    <Compile Include="UI\Commands\MoveCommand.cs" />
+    <Compile Include="UI\Converters\BooleanToBrushConverter.cs" />
+    <Compile Include="UI\Converters\BooleanToOpacityConverter.cs" />
+    <Compile Include="UI\Converters\BooleanToStringConverter.cs" />
+    <Compile Include="UI\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="UI\Converters\CollectionCounter.cs" />
+    <Compile Include="UI\Converters\DateFormatter.cs" />
+    <Compile Include="UI\Converters\GravatarImageConverter.cs" />
+    <Compile Include="UI\Converters\MailboxLocalizer.cs" />
+    <Compile Include="UI\Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="UI\MetroWindow.xaml.cs">
+      <DependentUpon>MetroWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\BlankPage.xaml.cs">
+      <DependentUpon>BlankPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ProgressRing.xaml.cs">
+      <DependentUpon>ProgressRing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SafeWebFontProvider.cs" />
+    <Compile Include="UI\ItemsControlExtensions.cs" />
+    <Compile Include="UI\TypeExtensions.cs" />
+    <Compile Include="UI\Pages\ComposeMessagePage.xaml.cs">
+      <DependentUpon>ComposeMessagePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\RichTextBoxExtensions.cs" />
+    <Compile Include="UI\WindowCommands.cs" />
+    <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Metro.ToggleButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Metro.ComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Metro.ContextMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Metro.Button.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Metro.GridSplitter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Metro.ListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Metro.PasswordBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Metro.RichTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Metro.TextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Metro.TextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\AutoCompleteBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\HtmlControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MetroProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MetroScrollViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MetroTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\MetroWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Pages\AccountDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\BlankPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\ComposeMessagePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\ContactsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\CreateAccountPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\CreateContactPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\CreateKeyPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\CreateMailboxPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\MessagesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\ProgressRing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.de-DE.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.de-DE.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Resource Include="Assets\c2_please-answer.ogg" />
+    <None Include="..\key.debug.snk">
+      <Link>key.debug.snk</Link>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\ckeditor\plugins\icons.png" />
+    <Resource Include="Resources\ckeditor\plugins\icons_hidpi.png" />
+    <Resource Include="Resources\ckeditor\plugins\image\images\noimage.png" />
+    <Resource Include="Resources\ckeditor\plugins\link\images\anchor.png" />
+    <Resource Include="Resources\ckeditor\plugins\link\images\hidpi\anchor.png" />
+    <Resource Include="Resources\ckeditor\plugins\magicline\images\hidpi\icon-rtl.png" />
+    <Resource Include="Resources\ckeditor\plugins\magicline\images\hidpi\icon.png" />
+    <Resource Include="Resources\ckeditor\plugins\magicline\images\icon-rtl.png" />
+    <Resource Include="Resources\ckeditor\plugins\magicline\images\icon.png" />
+    <Resource Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\_translationstatus.txt" />
+    <Resource Include="Resources\ckeditor\skins\moono-dark\icons.png" />
+    <Resource Include="Resources\ckeditor\skins\moono-dark\icons_hidpi.png" />
+    <Resource Include="Resources\ckeditor\skins\moono-dark\images\arrow.png" />
+    <Resource Include="Resources\ckeditor\skins\moono-dark\images\close.png" />
+    <Resource Include="Resources\ckeditor\skins\moono-dark\images\hidpi\close.png" />
+    <Resource Include="Resources\ckeditor\skins\moono-dark\images\hidpi\lock-open.png" />
+    <Resource Include="Resources\ckeditor\skins\moono-dark\images\hidpi\lock.png" />
+    <Resource Include="Resources\ckeditor\skins\moono-dark\images\hidpi\refresh.png" />
+    <Resource Include="Resources\ckeditor\skins\moono-dark\images\lock-open.png" />
+    <Resource Include="Resources\ckeditor\skins\moono-dark\images\lock.png" />
+    <Resource Include="Resources\ckeditor\skins\moono-dark\images\refresh.png" />
+    <Resource Include="Resources\html.inspection.less" />
+    <Resource Include="Resources\html.composition.less" />
+    <None Include="Resources\ckeditor\CHANGES.md" />
+    <None Include="Resources\ckeditor\LICENSE.md" />
+    <None Include="Resources\ckeditor\README.md" />
+    <None Include="Resources\ckeditor\skins\moono-dark\readme.md" />
+    <None Include="x86\awesomium_process" />
+    <None Include="x86\inspector.pak" />
+    <Resource Include="Resources\storage.db" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Crystalbyte.Paranoia.Cryptography\Crystalbyte.Paranoia.Cryptography.csproj">
+      <Project>{fc115aed-c02e-45a6-80eb-711a1ccf14e3}</Project>
+      <Name>Crystalbyte.Paranoia.Cryptography</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Crystalbyte.Paranoia.Mail\Crystalbyte.Paranoia.Mail.csproj">
+      <Project>{0dc46336-8d08-4c35-8f65-1d1cf2fd0e11}</Project>
+      <Name>Crystalbyte.Paranoia.Mail</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\ckeditor\plugins\a11yhelp\dialogs\lang\" />
+    <Folder Include="Resources\ckeditor\plugins\about\dialogs\hidpi\" />
+    <Folder Include="Resources\ckeditor\plugins\colordialog\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\div\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\find\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\flash\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\flash\images\" />
+    <Folder Include="Resources\ckeditor\plugins\forms\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\forms\images\" />
+    <Folder Include="Resources\ckeditor\plugins\iframe\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\iframe\images\" />
+    <Folder Include="Resources\ckeditor\plugins\liststyle\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\pagebreak\images\" />
+    <Folder Include="Resources\ckeditor\plugins\pastefromword\filter\" />
+    <Folder Include="Resources\ckeditor\plugins\preview\" />
+    <Folder Include="Resources\ckeditor\plugins\scayt\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\showblocks\images\" />
+    <Folder Include="Resources\ckeditor\plugins\smiley\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\smiley\images\" />
+    <Folder Include="Resources\ckeditor\plugins\tabletools\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\table\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\templates\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\templates\templates\images\" />
+    <Folder Include="Resources\ckeditor\plugins\wsc\dialogs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\close.png" />
+    <Resource Include="Assets\help.png" />
+    <Resource Include="Assets\maximize.png" />
+    <Resource Include="Assets\minimize.png" />
+    <Resource Include="Assets\restore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\security.checked.png" />
+    <Resource Include="Assets\user.checked.png" />
+    <Resource Include="Assets\settings.png" />
+    <Resource Include="Assets\add.png" />
+    <Resource Include="Assets\select.user.png" />
+    <Resource Include="Assets\ok.png" />
+    <Resource Include="Assets\cancel.png" />
+    <Resource Include="Assets\refresh.png" />
+    <Resource Include="Assets\folder.png" />
+    <Resource Include="Assets\sunrise.jpg" />
+    <Resource Include="Assets\earth.jpg" />
+    <Resource Include="Assets\message.copy.png" />
+    <Resource Include="Assets\security.png" />
+    <Resource Include="Assets\block.png" />
+    <Resource Include="Assets\key.png" />
+    <Resource Include="Assets\unblock.png" />
+    <Resource Include="Assets\edit.properties.png" />
+    <Resource Include="Assets\select.png" />
+    <Resource Include="Assets\test.png" />
+    <Resource Include="Assets\message.restore.png" />
+    <Resource Include="Assets\star.png" />
+    <Resource Include="Assets\star.full.png" />
+    <Resource Include="Assets\paper.png" />
+    <Resource Include="Assets\attachment.png" />
+    <Resource Include="Assets\upload.png" />
+    <Resource Include="Assets\logo.window.png" />
+    <Resource Include="Assets\reply.all.png" />
+    <Resource Include="Assets\arrow.right.png" />
+    <Resource Include="Assets\image.placeholder.png" />
+    <Content Include="Resources\ckeditor\adapters\jquery.js" />
+    <Content Include="Resources\ckeditor\build-config.js" />
+    <Content Include="Resources\ckeditor\ckeditor.js" />
+    <Content Include="Resources\ckeditor\config.js" />
+    <Content Include="Resources\ckeditor\contents.css" />
+    <Content Include="Resources\ckeditor\lang\de.js" />
+    <Content Include="Resources\ckeditor\lang\en.js" />
+    <Content Include="Resources\ckeditor\plugins\clipboard\dialogs\paste.js" />
+    <Content Include="Resources\ckeditor\plugins\dialog\dialogDefinition.js" />
+    <Content Include="Resources\ckeditor\plugins\image\dialogs\image.js" />
+    <Content Include="Resources\ckeditor\plugins\link\dialogs\anchor.js" />
+    <Content Include="Resources\ckeditor\plugins\link\dialogs\link.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\ar.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\bg.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\ca.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\cs.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\cy.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\de.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\el.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\en-gb.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\en.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\eo.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\es.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\et.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\fa.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\fi.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\fr-ca.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\fr.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\gl.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\he.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\hr.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\hu.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\id.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\it.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\ja.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\km.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\ku.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\lv.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\nb.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\nl.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\no.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\pl.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\pt-br.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\pt.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\ru.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\si.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\sk.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\sl.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\sq.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\sv.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\th.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\tr.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\tt.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\ug.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\uk.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\vi.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\zh-cn.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\zh.js" />
+    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\specialchar.js" />
+    <Content Include="Resources\ckeditor\skins\moono-dark\dialog.css" />
+    <Content Include="Resources\ckeditor\skins\moono-dark\dialog_ie.css" />
+    <Content Include="Resources\ckeditor\skins\moono-dark\dialog_ie7.css" />
+    <Content Include="Resources\ckeditor\skins\moono-dark\dialog_ie8.css" />
+    <Content Include="Resources\ckeditor\skins\moono-dark\dialog_iequirks.css" />
+    <Content Include="Resources\ckeditor\skins\moono-dark\editor.css" />
+    <Content Include="Resources\ckeditor\skins\moono-dark\editor_gecko.css" />
+    <Content Include="Resources\ckeditor\skins\moono-dark\editor_ie.css" />
+    <Content Include="Resources\ckeditor\skins\moono-dark\editor_ie7.css" />
+    <Content Include="Resources\ckeditor\skins\moono-dark\editor_ie8.css" />
+    <Content Include="Resources\ckeditor\skins\moono-dark\editor_iequirks.css" />
+    <Content Include="Resources\ckeditor\styles.js" />
+    <Resource Include="Resources\inspection.js" />
+    <Content Include="Resources\jquery\jquery-2.1.1.min.js" />
+    <Resource Include="Resources\plain-text.template.html" />
+    <Resource Include="Resources\logo.ico" />
+    <Content Include="x86\avcodec-53.dll" />
+    <Content Include="x86\avformat-53.dll" />
+    <Content Include="x86\avutil-51.dll" />
+    <Content Include="x86\Awesomium.Core.dll" />
+    <Resource Include="x86\Awesomium.Core.XML" />
+    <Content Include="x86\awesomium.dll" />
+    <Content Include="x86\Awesomium.Windows.Controls.dll" />
+    <Resource Include="x86\Awesomium.Windows.Controls.XML" />
+    <Content Include="x86\Design\Awesomium.Windows.Controls.Design.dll" />
+    <Content Include="x86\Design\Awesomium.Windows.Forms.Design.dll" />
+    <Resource Include="x86\Design\README.txt" />
+    <Content Include="x86\icudt.dll" />
+    <Content Include="x86\libEGL.dll" />
+    <Content Include="x86\libGLESv2.dll" />
+    <Content Include="x86\xinput9_1_0.dll" />
+    <Resource Include="Assets\reply.png" />
+    <Resource Include="Assets\forward.png" />
+    <Resource Include="Assets\forward.small.png" />
+    <Resource Include="Assets\print.png" />
+    <Resource Include="Assets\message.png" />
+    <Resource Include="Assets\seen.png" />
+    <Resource Include="Assets\unseen.png" />
+    <Resource Include="Assets\back.png" />
+    <Resource Include="Resources\composition.template.html" />
+    <Resource Include="Assets\map.jpg" />
+    <Resource Include="Resources\cover-sheet.template.html" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /s /y "$(ProjectDir)Resources\jquery\*" "$(TargetDir)Resources\jquery\"
+xcopy /s /y "$(ProjectDir)Resources\ckeditor\*" "$(TargetDir)Resources\ckeditor\"
+
+REM regasm.exe "$(TargetPath)"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.94.0\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.94.0\build\net451\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.94.0\build\net451\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.94.0\build\net451\System.Data.SQLite.Core.targets'))" />
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

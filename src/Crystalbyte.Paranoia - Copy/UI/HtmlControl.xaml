@@ -1,0 +1,69 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:awe="http://schemas.awesomium.com/winfx"
+                    xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
+                    xmlns:core="clr-namespace:Awesomium.Core;assembly=Awesomium.Core"
+                    xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
+
+    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <awe:UrlConverter x:Key="UrlConverter" />
+
+    <awe:WebSessionProvider x:Key="WebSessionProvider">
+        <core:WebPreferences EnableGPUAcceleration="False"
+                             Javascript="False"
+                             ShrinkStandaloneImagesToFit="False"
+                             SmoothScrolling="True" />
+    </awe:WebSessionProvider>
+
+    <ui:SafeWebFonts x:Key="SafeWebFonts" />
+
+    <Style TargetType="ui:HtmlControl">
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="Local" />
+        <Setter Property="IsTransparent" Value="False" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="WebSession" Value="{Binding Source={StaticResource WebSessionProvider}}" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Metro.Control.BorderBrush}" />
+        <Setter Property="Background" Value="{DynamicResource Metro.Control.SecondaryBackgroundBrush}" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ui:HtmlControl">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        <awe:WebDialogsLayer Focusable="False">
+                            <awe:WebControl x:Name="PART_WebControl"
+                                            AdjustToDpi="True"
+                                            Background="{TemplateBinding Background}"
+                                            IsTabStop="False"
+                                            IsTransparent="{TemplateBinding IsTransparent}"
+                                            RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                            RenderOptions.EdgeMode="Aliased"
+                                            SnapsToDevicePixels="True"
+                                            Source="{Binding Source,
+                                                             RelativeSource={RelativeSource TemplatedParent},
+                                                             Converter={StaticResource UrlConverter}}"
+                                            WebSession="{TemplateBinding WebSession}"
+                                            Zoom="{Binding Zoom,
+                                                           RelativeSource={RelativeSource TemplatedParent},
+                                                           Mode=TwoWay}" />
+                        </awe:WebDialogsLayer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.56" />
+            </Trigger>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

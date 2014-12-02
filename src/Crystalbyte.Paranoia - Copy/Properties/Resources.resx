@@ -1,0 +1,555 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Accept" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="AccountName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="AllMailbox" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="AuthentificationFailed" xml:space="preserve">
+    <value>Authentification failed.</value>
+  </data>
+  <data name="Bold" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CloseCommandTooltip" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="CloseFlyOutCommandTooltip" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="ComposeMessagePageTitle" xml:space="preserve">
+    <value>Compose Message</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="ContactsTitle" xml:space="preserve">
+    <value>Contacts</value>
+  </data>
+  <data name="CrossThreadException" xml:space="preserve">
+    <value>Method was called on an invalid thread.</value>
+  </data>
+  <data name="DatabaseImageNotFound" xml:space="preserve">
+    <value>Database image not found.</value>
+  </data>
+  <data name="DeclaringTypeNull" xml:space="preserve">
+    <value>DeclaringType of table property must not be null.</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="EncryptionProtocol" xml:space="preserve">
+    <value>Protocol</value>
+  </data>
+  <data name="Explicit" xml:space="preserve">
+    <value>Explicit (TLS)</value>
+  </data>
+  <data name="ExpressionNotProperty" xml:space="preserve">
+    <value>Expression is not a property.</value>
+  </data>
+  <data name="Forward" xml:space="preserve">
+    <value>Forward</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="GeneralSettingsDescription" xml:space="preserve">
+    <value>Your name and e-mail address are public and will be shared with the people you communicate with.</value>
+  </data>
+  <data name="GeneralSettingsTitle" xml:space="preserve">
+    <value>General Information &amp; Settings</value>
+  </data>
+  <data name="ImapHost" xml:space="preserve">
+    <value>Host</value>
+  </data>
+  <data name="ImapSettingsDescription" xml:space="preserve">
+    <value>The IMAP server settings are required to establish a connection to the incoming mail server.</value>
+  </data>
+  <data name="ServerSettingsTitle" xml:space="preserve">
+    <value>Mail Server Settings</value>
+  </data>
+  <data name="Implicit" xml:space="preserve">
+    <value>Implicit (SSL)</value>
+  </data>
+  <data name="InboxMailbox" xml:space="preserve">
+    <value>Inbox</value>
+  </data>
+  <data name="MailAddress" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="MailboxAssignmentDescription" xml:space="preserve">
+    <value>The current mailbox is not assigned. 
+Please select a corresponding IMAP folder to synchronize.</value>
+  </data>
+  <data name="MarkAsNotSeen" xml:space="preserve">
+    <value>Not Seen</value>
+  </data>
+  <data name="MarkAsSeen" xml:space="preserve">
+    <value>Seen</value>
+  </data>
+  <data name="MaximizeCommandTooltip" xml:space="preserve">
+    <value>Maximize</value>
+  </data>
+  <data name="MessageDownload" xml:space="preserve">
+    <value>Loading Message ...</value>
+  </data>
+  <data name="MessagesTitle" xml:space="preserve">
+    <value>Messages</value>
+  </data>
+  <data name="MinimizeCommandTooltip" xml:space="preserve">
+    <value>Minimize</value>
+  </data>
+  <data name="MissingKeyTemplate" xml:space="preserve">
+    <value>Primary key is missing from type {0}.</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="NoConnectivity" xml:space="preserve">
+    <value>No connectivity, please check your internet connection.</value>
+  </data>
+  <data name="NotMemberAccessExpression" xml:space="preserve">
+    <value>Expression does not access a member.</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="ReadyStatus" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>Reply</value>
+  </data>
+  <data name="ResourceNotFoundException" xml:space="preserve">
+    <value>The resource '{0}' was not found in assembly '{1}'.</value>
+  </data>
+  <data name="RestoreDownCommandTooltip" xml:space="preserve">
+    <value>Restore Down</value>
+  </data>
+  <data name="Revert" xml:space="preserve">
+    <value>Revert</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="SearchBoxWatermark" xml:space="preserve">
+    <value>Quick Search (Ctrl+Q)</value>
+  </data>
+  <data name="SelectAccountTooltip" xml:space="preserve">
+    <value>Switch Accounts</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="SentMailbox" xml:space="preserve">
+    <value>Sent</value>
+  </data>
+  <data name="SmtpHost" xml:space="preserve">
+    <value>Host</value>
+  </data>
+  <data name="SmtpRequiresOwnCredentials" xml:space="preserve">
+    <value>Use different credentials for outgoing mails.</value>
+  </data>
+  <data name="SmtpSettingsDescription" xml:space="preserve">
+    <value>The SMTP server settings are required to establish a connection to the outgoing mail server.</value>
+  </data>
+  <data name="SmtpSettingsTitle" xml:space="preserve">
+    <value>Outbound Server Settings (SMTP)</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="SubjectTemplate" xml:space="preserve">
+    <value>Encrypted Message from {0}</value>
+    <comment>Used for the subject of the wrapping mime part as fallback for regular agents.</comment>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="SyncMailboxesStatus" xml:space="preserve">
+    <value>Synchronizing mailboxes ....</value>
+  </data>
+  <data name="TestingConnectivityStatus" xml:space="preserve">
+    <value>Testing connectivity ...</value>
+  </data>
+  <data name="TestingImapStatus" xml:space="preserve">
+    <value>Testing IMAP settings ...</value>
+  </data>
+  <data name="TestingSmtpStatus" xml:space="preserve">
+    <value>Testing SMTP settings ...</value>
+  </data>
+  <data name="TestsCompletedSuccessfully" xml:space="preserve">
+    <value>All tests completed successfully.</value>
+  </data>
+  <data name="TestSettings" xml:space="preserve">
+    <value>Test Settings</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="TrashMailbox" xml:space="preserve">
+    <value>Trash</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+  <data name="TypeNotSupportedTemplate" xml:space="preserve">
+    <value>The type {0} is not supported by the database.</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="UseImapCredentials" xml:space="preserve">
+    <value>Authenticate using IMAP credentials.</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>Yesterday</value>
+  </data>
+  <data name="CreateKeyTitle" xml:space="preserve">
+    <value>The First Step</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="CreateKeyPageDescription" xml:space="preserve">
+    <value>Please enter a secure password. 
+This password will then be used to encrypt all security critical data used by this application, without it you will lose all access to your encrypted data.</value>
+  </data>
+  <data name="CreateKeyPageWarning" xml:space="preserve">
+    <value>Please choose your password wisely because we will not be able to recover any lost passwords due to the simple fact that we do not store them anywhere. Furthermore, changing the password is not possible.
+Once your password is lost you're screwed.</value>
+  </data>
+  <data name="RiskStatement" xml:space="preserve">
+    <value>I understand and promise not to lose my password, ever!</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="CreateAccountTitle" xml:space="preserve">
+    <value>Create Account</value>
+  </data>
+  <data name="DetectAutomagically" xml:space="preserve">
+    <value>Detect my settings automagically.</value>
+    <comment>Account creation dialog radiobutton #1</comment>
+  </data>
+  <data name="EnterManually" xml:space="preserve">
+    <value>Don't bother, I will enter my settings manually.</value>
+  </data>
+  <data name="DetectSettings" xml:space="preserve">
+    <value>Detecting server settings ...</value>
+  </data>
+  <data name="DeleteAccountQuestion" xml:space="preserve">
+    <value>Are you sure you want to delete this account?</value>
+  </data>
+  <data name="CreateContactTitle" xml:space="preserve">
+    <value>Add Contact</value>
+  </data>
+  <data name="AccountSettingsTitle" xml:space="preserve">
+    <value>Account Settings</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Outbox" xml:space="preserve">
+    <value>Outbox</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="RegisterKeyTitle" xml:space="preserve">
+    <value>Registering Keys</value>
+  </data>
+  <data name="RefreshingPublicKeysStatus" xml:space="preserve">
+    <value>Refreshing public keys for contacts ...</value>
+  </data>
+  <data name="ShowAllMessages" xml:space="preserve">
+    <value>Do not filter by contact</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="ChallengeCorruptException" xml:space="preserve">
+    <value>The server challenge headers are missing or corrupt.</value>
+  </data>
+  <data name="BindMailbox" xml:space="preserve">
+    <value>Bind mailbox</value>
+  </data>
+  <data name="RemoveMailboxBinding" xml:space="preserve">
+    <value>Remove binding</value>
+  </data>
+  <data name="BindingNotice" xml:space="preserve">
+    <value>Mailbox is bound.</value>
+  </data>
+  <data name="AddAttachment" xml:space="preserve">
+    <value>Add attachment</value>
+  </data>
+  <data name="OpenFile" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="AccountsTitle" xml:space="preserve">
+    <value>Accounts</value>
+  </data>
+  <data name="ComposeMessage" xml:space="preserve">
+    <value>New Message</value>
+  </data>
+  <data name="HideUnsubscribedMailboxes" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="ShowUnsubscribedMailboxes" xml:space="preserve">
+    <value>Manage Subscriptions</value>
+  </data>
+  <data name="NoMessages" xml:space="preserve">
+    <value>It's lonely in here :(</value>
+  </data>
+  <data name="Ascending" xml:space="preserve">
+    <value>Ascending</value>
+  </data>
+  <data name="Descending" xml:space="preserve">
+    <value>Descending</value>
+  </data>
+  <data name="Unseen" xml:space="preserve">
+    <value>Unseen</value>
+  </data>
+  <data name="BlindCarbonCopies" xml:space="preserve">
+    <value>Bcc</value>
+  </data>
+  <data name="CarbonCopies" xml:space="preserve">
+    <value>Cc</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>Paranoia</value>
+  </data>
+  <data name="CreateMailboxDescription" xml:space="preserve">
+    <value>Please enter the name of the mailbox to create.</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Sync" xml:space="preserve">
+    <value>Sync</value>
+  </data>
+  <data name="Spam" xml:space="preserve">
+    <value>Spam</value>
+  </data>
+  <data name="MailboxSettingsCopy" xml:space="preserve">
+    <value>Store copies of sent messages inside the following mailbox.</value>
+  </data>
+  <data name="MailboxSettingsNoCopy" xml:space="preserve">
+    <value>Do not store copies of sent messages.</value>
+  </data>
+  <data name="MailboxSettingsTitle" xml:space="preserve">
+    <value>Mailbox Settings</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="ManageSentDescription" xml:space="preserve">
+    <value>Manage behavior for sent messages.</value>
+  </data>
+  <data name="DraftMailbox" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+  <data name="JunkMailbox" xml:space="preserve">
+    <value>Junk</value>
+  </data>
+  <data name="MailboxSettingsDescription" xml:space="preserve">
+    <value>Select mailboxes to be used for storing deleted messages, drafts and junk mail.</value>
+  </data>
+  <data name="MarkAsFlagged" xml:space="preserve">
+    <value>Flagged</value>
+  </data>
+  <data name="MarkAsNotFlagged" xml:space="preserve">
+    <value>Not Flagged</value>
+  </data>
+  <data name="Advanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="MessageNotFoundException" xml:space="preserve">
+    <value>The requested message could not be found.</value>
+  </data>
+  <data name="SignatureDescription" xml:space="preserve">
+    <value>Select a file containing the default signature text for this account.</value>
+  </data>
+  <data name="SignatureTitle" xml:space="preserve">
+    <value>Signature Settings</value>
+  </data>
+  <data name="NothingToSend" xml:space="preserve">
+    <value>Nothing left to do here :)</value>
+  </data>
+  <data name="AssemblyDescription" xml:space="preserve">
+    <value>Paranoia is a secure mail application.</value>
+  </data>
+  <data name="AssemblyTitle" xml:space="preserve">
+    <value>Paranoia</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logo.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ApplicationLongName" xml:space="preserve">
+    <value>Crystalbyte Paranoia</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="Signature" xml:space="preserve">
+    <value>Signature</value>
+  </data>
+  <data name="BlockedContentDescription" xml:space="preserve">
+    <value>To protect your privacy all external content from this source has been blocked. </value>
+  </data>
+  <data name="Unblock" xml:space="preserve">
+    <value>Unblock</value>
+  </data>
+</root>

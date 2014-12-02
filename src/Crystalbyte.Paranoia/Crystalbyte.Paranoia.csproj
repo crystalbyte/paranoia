@@ -623,6 +623,18 @@
       <Project>{0dc46336-8d08-4c35-8f65-1d1cf2fd0e11}</Project>
       <Name>Crystalbyte.Paranoia.Mail</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Crystalbyte.Paranoia.Themes.Dark\Crystalbyte.Paranoia.Themes.Dark.csproj">
+      <Project>{4b4368b8-6b90-42d1-ad2c-e5912246e8f1}</Project>
+      <Name>Crystalbyte.Paranoia.Themes.Dark</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Crystalbyte.Paranoia.Themes.Light\Crystalbyte.Paranoia.Themes.Light.csproj">
+      <Project>{97c747c3-afc9-49ab-b6ce-1bf27d109707}</Project>
+      <Name>Crystalbyte.Paranoia.Themes.Light</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Crystalbyte.Paranoia.Themes\Crystalbyte.Paranoia.Themes.csproj">
+      <Project>{3cd4ce93-5599-4b3f-88c4-80bf5a315112}</Project>
+      <Name>Crystalbyte.Paranoia.Themes</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\delete.png" />

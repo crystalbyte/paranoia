@@ -1,0 +1,247 @@
+﻿<Page x:Class="Crystalbyte.Paranoia.UI.Pages.ContactsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
+      xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+      xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+      Title="Contacts"
+      d:DataContext="{d:DesignInstance paranoia:AppContext}"
+      d:DesignHeight="768"
+      d:DesignWidth="1024"
+      mc:Ignorable="d">
+    <Page.Resources>
+        <CollectionViewSource x:Key="ContactsSource"
+                              IsLiveGroupingRequested="True"
+                              IsLiveSortingRequested="True"
+                              Source="{Binding Contacts}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Group" StringComparison="InvariantCultureIgnoreCase" />
+            </CollectionViewSource.GroupDescriptions>
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription Direction="Ascending" PropertyName="Group" />
+                <componentModel:SortDescription Direction="Ascending" PropertyName="Name" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </Page.Resources>
+    <DockPanel LastChildFill="True">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" MinWidth="50" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="360" MinWidth="50" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="0"
+                       Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
+                       LastChildFill="False">
+                <ItemsControl Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
+                              BorderThickness="0"
+                              DockPanel.Dock="Top"
+                              ItemsSource="{Binding Alphabet}"
+                              KeyboardNavigation.DirectionalNavigation="Contained"
+                              KeyboardNavigation.TabNavigation="None"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                              VirtualizingPanel.IsVirtualizing="True"
+                              VirtualizingPanel.VirtualizationMode="Recycling">
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Margin" Value="0" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="ContentPresenter">
+                            <Button BorderThickness="0" Command="ui:NavigationCommands.ScrollToLetter">
+                                <Grid Width="40" Height="40">
+                                    <TextBlock Margin="4,2"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="{DynamicResource Metro.LargeFontSize}"
+                                               FontWeight="Thin"
+                                               Text="{Binding}" />
+                                </Grid>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </DockPanel>
+
+            <Grid Grid.Column="1" Width="4" />
+            <DockPanel Grid.Column="2"
+                       Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
+                       LastChildFill="True">
+                <DockPanel DockPanel.Dock="Top" LastChildFill="True">
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                        <ui:MetroCircleButton VerticalAlignment="Center" Command="{Binding CreateContactCommand}">
+                            <Image Width="18" Source="/Assets/add.png" />
+                        </ui:MetroCircleButton>
+                        <ui:MetroCircleButton VerticalAlignment="Center" Command="{Binding RefreshKeysCommand}">
+                            <Image Width="18" Source="/Assets/key.png" />
+                        </ui:MetroCircleButton>
+                    </StackPanel>
+                    <TextBlock Margin="12,3,12,3"
+                               VerticalAlignment="Center"
+                               DockPanel.Dock="Top"
+                               FontSize="{DynamicResource Metro.ExtraLargeFontSize}"
+                               Style="{DynamicResource Metro.TitleTextStyle}">
+                        <Run Text="{x:Static properties:Resources.ContactsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{Binding Contacts, Converter={StaticResource CollectionCounter}, Mode=OneWay}" />
+                    </TextBlock>
+                </DockPanel>
+                <TextBox Margin="6"
+                         Background="{DynamicResource Metro.Control.BackgroundBrush}"
+                         DockPanel.Dock="Top"
+                         Text="{Binding ContactQueryString,
+                                        UpdateSourceTrigger=PropertyChanged,
+                                        Mode=TwoWay}" />
+                <ListView x:Name="ContactsList"
+                          Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
+                          BorderThickness="0"
+                          ItemsSource="{Binding Source={StaticResource ContactsSource}}"
+                          SelectionChanged="OnContactsSelectionChanged">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel x:Name="VirtualizingStackPanel" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
+                            <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=OneWayToSource}" />
+                            <Setter Property="Width" Value="{Binding ActualWidth, ElementName=VirtualizingStackPanel}" />
+                            <Setter Property="Padding" Value="6,1,6,1" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate DataType="paranoia:MailContactContext">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="40"
+                                       Height="40"
+                                       Margin="6,3,6,3"
+                                       VerticalAlignment="Center"
+                                       Source="{Binding Address,
+                                                        IsAsync=True,
+                                                        Converter={StaticResource GravatarImageConverter},
+                                                        ConverterParameter=48}" />
+                                <StackPanel Width="250" VerticalAlignment="Center">
+                                    <TextBlock Margin="0"
+                                               FontSize="{DynamicResource Metro.MediumLargeFontSize}"
+                                               Style="{DynamicResource Metro.TitleTextStyle}"
+                                               Text="{Binding Name,
+                                                              Converter={StaticResource NullOrEmptyFormatter},
+                                                              ConverterParameter=...}"
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="NoWrap" />
+                                    <TextBlock x:Name="AddressBlock"
+                                               Margin="0"
+                                               FontSize="{DynamicResource Metro.NormalFontSize}"
+                                               FontWeight="Normal"
+                                               Style="{DynamicResource Metro.SubtitleTextStyle}"
+                                               Text="{Binding Address,
+                                                              Converter={StaticResource NullOrEmptyFormatter},
+                                                              ConverterParameter=...}"
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="NoWrap" />
+                                </StackPanel>
+                                <Grid Margin="12,0" Visibility="{Binding IsBlocked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Rectangle Width="18"
+                                               Height="18"
+                                               Fill="{DynamicResource Metro.App.FailureBrush}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/block.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Grid>
+                                <Grid Margin="12,0" Visibility="{Binding HasKeys, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Rectangle Width="18"
+                                               Height="18"
+                                               Fill="{Binding Security,
+                                                              Converter={StaticResource SecurityToColorConverter}}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/security.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Grid>
+                            </StackPanel>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                    <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </DockPanel>
+            <GridSplitter Grid.Column="3" />
+            <DockPanel Grid.Column="4"
+                       Background="{DynamicResource Metro.Control.BackgroundBrush}"
+                       LastChildFill="False">
+                <Grid Margin="0,0,0,12"
+                      Background="{DynamicResource Metro.Control.BackgroundBrush}"
+                      DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="12">
+                        <Image Width="78"
+                               Height="78"
+                               HorizontalAlignment="Left"
+                               DataContext="{Binding SelectedContact}"
+                               Source="{Binding Address,
+                                                IsAsync=True,
+                                                Converter={StaticResource GravatarImageConverter},
+                                                ConverterParameter=128}" />
+                    </Border>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock DataContext="{Binding SelectedContact}"
+                                   FontSize="{StaticResource Metro.ExtraLargeFontSize}"
+                                   Style="{StaticResource Metro.TitleTextStyle}"
+                                   Text="{Binding Name}"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap" />
+                        <TextBlock DataContext="{Binding SelectedContact}"
+                                   Style="{StaticResource Metro.SubtitleTextStyle}"
+                                   Text="{Binding Address}"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap" />
+
+                    </StackPanel>
+                    <StackPanel Grid.Column="2"
+                                Margin="12"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Orientation="Horizontal">
+                        <ui:MetroCircleButton VerticalAlignment="Center"
+                                              BorderBrush="{DynamicResource Metro.Control.TextBrush}"
+                                              Command="{Binding DeleteContactsCommand}">
+                            <Image Width="18" Source="/Assets/delete.png" />
+                        </ui:MetroCircleButton>
+                        <ui:MetroCircleButton VerticalAlignment="Center"
+                                              BorderBrush="{DynamicResource Metro.Control.TextBrush}"
+                                              Command="{Binding BlockContactsCommand}">
+                            <Image Width="18" Source="/Assets/block.png" />
+                        </ui:MetroCircleButton>
+                        <ui:MetroCircleButton VerticalAlignment="Center"
+                                              BorderBrush="{DynamicResource Metro.Control.TextBrush}"
+                                              Command="{Binding UnblockContactsCommand}">
+                            <Image Width="18" Source="/Assets/unblock.png" />
+                        </ui:MetroCircleButton>
+                    </StackPanel>
+
+                </Grid>
+                <Grid />
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+</Page>
