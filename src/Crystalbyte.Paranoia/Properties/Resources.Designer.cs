@@ -187,6 +187,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mailbox is bound..
         /// </summary>
         public static string BindingNotice {
@@ -273,15 +282,6 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string CloseCommandTooltip {
             get {
                 return ResourceManager.GetString("CloseCommandTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Back.
-        /// </summary>
-        public static string CloseFlyOutCommandTooltip {
-            get {
-                return ResourceManager.GetString("CloseFlyOutCommandTooltip", resourceCulture);
             }
         }
         

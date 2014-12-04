@@ -138,7 +138,7 @@
   <data name="CloseCommandTooltip" xml:space="preserve">
     <value>Close</value>
   </data>
-  <data name="CloseFlyOutCommandTooltip" xml:space="preserve">
+  <data name="Back" xml:space="preserve">
     <value>Back</value>
   </data>
   <data name="ComposeMessagePageTitle" xml:space="preserve">

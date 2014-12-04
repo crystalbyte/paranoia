@@ -113,5 +113,7 @@
         public static string ButtonDisabledBorderThicknessKey = "ButtonDisabledBorderThicknessKey";
         public static string ButtonBorderColorKey = "ButtonBorderColorKey";
         public static string ButtonBorderBrushKey = "ButtonBorderBrushKey";
+
+        public static string StatusBarButtonFontSize = "StatusBarButtonFontSize";
     }
 }

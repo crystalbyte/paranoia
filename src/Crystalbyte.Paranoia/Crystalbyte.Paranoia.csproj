@@ -478,6 +478,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Crystalbyte.Paranoia.Controls\Crystalbyte.Paranoia.Controls.csproj">
+      <Project>{316ec301-53b0-4593-88ca-e6946a422007}</Project>
+      <Name>Crystalbyte.Paranoia.Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Crystalbyte.Paranoia.Cryptography\Crystalbyte.Paranoia.Cryptography.csproj">
       <Project>{fc115aed-c02e-45a6-80eb-711a1ccf14e3}</Project>
       <Name>Crystalbyte.Paranoia.Cryptography</Name>

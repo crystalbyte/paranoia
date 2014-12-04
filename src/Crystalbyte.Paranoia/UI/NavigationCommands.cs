@@ -11,5 +11,6 @@ namespace Crystalbyte.Paranoia.UI {
         public static RoutedCommand Continue = new RoutedUICommand(Resources.Continue, "Continue", typeof (Page));
         public static RoutedCommand Close = new RoutedUICommand(Resources.Cancel, "Close", typeof (Page));
         public static RoutedCommand ScrollToLetter = new RoutedUICommand(string.Empty, "ScrollToLetter", typeof(Page));
+        public static RoutedCommand Back = new RoutedUICommand(Resources.Back, "Back", typeof(Page));
     }
 }

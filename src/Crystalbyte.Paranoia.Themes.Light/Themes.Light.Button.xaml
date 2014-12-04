@@ -63,60 +63,9 @@
         <Setter Property="Height" Value="32" />
     </Style>
 
-    <Style x:Key="Metro.CommandButtonStyle"
-           BasedOn="{StaticResource {x:Type ButtonBase}}"
-           TargetType="ButtonBase">
-        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="VerticalAlignment" Value="Top" />
-        <Setter Property="Width" Value="32" />
-        <Setter Property="Height" Value="24" />
-    </Style>
 
-    <Style x:Key="Metro.StatusBarButtonStyle"
-           BasedOn="{StaticResource {x:Type ButtonBase}}"
-           TargetType="ButtonBase">
-        <Setter Property="VerticalAlignment" Value="Stretch" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="FontSize" Value="{DynamicResource Metro.SmallFontSize}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ButtonBase">
-                    <Border Margin="{TemplateBinding Margin}"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="{TemplateBinding Padding}">
-                        <TextBlock HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                   FontSize="{DynamicResource Metro.SmallFontSize}"
-                                   Foreground="{TemplateBinding Foreground}"
-                                   Text="{TemplateBinding Content}" />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
-            </Trigger>
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsPressed" Value="True" />
-                    <Condition Property="IsMouseOver" Value="True" />
-                </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="#66000000" />
-            </MultiTrigger>
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsMouseOver" Value="True" />
-                    <Condition Property="IsPressed" Value="False" />
-                </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="#33000000" />
-            </MultiTrigger>
-        </Style.Triggers>
 
-    </Style>
+
 
     <Style x:Key="Metro.MinimizeButtonStyle"
            BasedOn="{StaticResource Metro.CommandButtonStyle}"
@@ -134,7 +83,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="Metro.MaximizeButtonStyle"
+    <Style x:Key="MaximizeButtonStyle"
            BasedOn="{StaticResource Metro.CommandButtonStyle}"
            TargetType="ButtonBase">
         <Setter Property="Command" Value="{x:Static ui:WindowCommands.Maximize}" />
