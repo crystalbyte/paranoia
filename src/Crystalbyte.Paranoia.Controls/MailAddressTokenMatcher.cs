@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace Crystalbyte.Paranoia.UI {
     public sealed class MailAddressTokenMatcher : ITokenMatcher {
+
         #region Private Fields
 
         private readonly List<char> _triggerSymbols;

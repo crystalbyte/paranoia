@@ -11,7 +11,6 @@ using Awesomium.Core;
 using Awesomium.Windows.Controls;
 using System.Text.RegularExpressions;
 using System.IO;
-using NLog;
 
 #endregion
 
@@ -29,8 +28,6 @@ namespace Crystalbyte.Paranoia.UI {
 
         private bool _disposed;
         private WebControl _webControl;
-
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -209,13 +206,13 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        private void SetScriptingObject(WebControl webcontrol) {
+        private void SetScriptingObject(IWebView webcontrol) {
             using (JSObject interop = webcontrol.CreateGlobalJavascriptObject("external")) {
                 interop.Bind("OnLinkClicked", false, OnLinkClicked);
             }
         }
 
-        private void OnLinkClicked(object sender, JavascriptMethodEventArgs javascriptMethodEventArgs) {
+        private static void OnLinkClicked(object sender, JavascriptMethodEventArgs javascriptMethodEventArgs) {
             var href = (string)javascriptMethodEventArgs.Arguments[0];
             if (string.IsNullOrEmpty(href))
                 return;

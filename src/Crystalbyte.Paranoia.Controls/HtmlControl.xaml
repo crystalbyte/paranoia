@@ -15,18 +15,15 @@
                              SmoothScrolling="True" />
     </awe:WebSessionProvider>
 
-    <ui:SafeWebFonts x:Key="SafeWebFonts" />
-
     <Style TargetType="ui:HtmlControl">
         <Setter Property="KeyboardNavigation.TabNavigation" Value="Local" />
         <Setter Property="IsTransparent" Value="False" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="WebSession" Value="{Binding Source={StaticResource WebSessionProvider}}" />
         <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Metro.Control.BorderBrush}" />
-        <Setter Property="Background" Value="{DynamicResource Metro.Control.SecondaryBackgroundBrush}" />
+        <Setter Property="Background" Value="{x:Static SystemColors.ControlBrush}" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Template">
             <Setter.Value>

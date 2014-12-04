@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,8 +6,8 @@ using System.Windows.Media.Animation;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
-    /// A metrofied ProgressBar.
-    /// <see cref="ProgressBar"/>
+    /// A metrofied MetroProgressBar.
+    /// <see cref="MetroProgressBar"/>
     /// </summary>
     public class MetroProgressBar : ProgressBar {
         public static readonly DependencyProperty EllipseDiameterProperty =
@@ -175,7 +174,7 @@ namespace Crystalbyte.Paranoia.UI {
             EllipseOffset = 9;
         }
 
-        private double CalcContainerAnimStart(double width) {
+        private static double CalcContainerAnimStart(double width) {
             if (width <= 180)
                 return -34;
             if (width <= 280)

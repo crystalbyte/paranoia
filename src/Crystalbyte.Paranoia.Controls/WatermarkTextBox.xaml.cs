@@ -1,29 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
-    /// Interaction logic for MetroTextBox.xaml
+    /// Interaction logic for WatermarkTextBox.xaml
     /// </summary>
-    public class MetroTextBox : TextBox {
+    public class WatermarkTextBox : TextBox {
 
         #region Construction
 
-        static MetroTextBox() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(MetroTextBox),
-                new FrameworkPropertyMetadata(typeof(MetroTextBox)));
+        static WatermarkTextBox() {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(WatermarkTextBox),
+                new FrameworkPropertyMetadata(typeof(WatermarkTextBox)));
         }
 
         #endregion
@@ -37,7 +25,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty WatermarkProperty =
-            DependencyProperty.Register("Watermark", typeof(object), typeof(MetroTextBox), new PropertyMetadata(null));
+            DependencyProperty.Register("Watermark", typeof(object), typeof(WatermarkTextBox), new PropertyMetadata(null));
 
 
         public DataTemplate WatermarkTemplate {
@@ -47,7 +35,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         // Using a DependencyProperty as the backing store for WatermarkTemplate.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty WatermarkTemplateProperty =
-            DependencyProperty.Register("WatermarkTemplate", typeof(DataTemplate), typeof(MetroTextBox), new PropertyMetadata(null));
+            DependencyProperty.Register("WatermarkTemplate", typeof(DataTemplate), typeof(WatermarkTextBox), new PropertyMetadata(null));
 
         #endregion
     }

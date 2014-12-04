@@ -8,18 +8,16 @@
                    Background="Transparent"
                    Focusable="False"
                    FontStyle="Italic"
-                   Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
+                   Foreground="{x:Static SystemColors.GrayTextBrush}"
                    Text="{Binding}" />
     </DataTemplate>
 
-    <Style TargetType="ui:AutoCompleteBox">
+    <Style TargetType="ui:SuggestiveTextBox">
         <Setter Property="AcceptsReturn" Value="False" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
-        <Setter Property="FontSize" Value="{DynamicResource Metro.NormalFontSize}" />
         <Setter Property="WatermarkTemplate" Value="{StaticResource DefaultWatermarkTemplate}" />
-        <Setter Property="Background" Value="{DynamicResource Metro.Control.BackgroundBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Metro.Control.BorderBrush}" />
+        <Setter Property="Background" Value="{x:Static SystemColors.ControlLightBrush}" />
+        <Setter Property="Foreground" Value="{x:Static SystemColors.ControlTextBrush}" />
+        <Setter Property="BorderBrush" Value="{x:Static SystemColors.ControlDarkBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="0,3,0,3" />
         <Setter Property="FontFamily" Value="Calibri" />
@@ -33,9 +31,8 @@
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ui:AutoCompleteBox">
-                    <Border x:Name="border"
-                            Background="{TemplateBinding Background}"
+                <ControlTemplate TargetType="ui:SuggestiveTextBox">
+                    <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
@@ -52,20 +49,21 @@
                                               ContentTemplate="{TemplateBinding WatermarkTemplate}"
                                               IsHitTestVisible="False"
                                               Visibility="Collapsed" />
-                            <Popup x:Name="PART_AutoCompletePopup"
+                            <Popup x:Name="PART_Popup"
                                    MaxHeight="300"
                                    HorizontalOffset="-1"
                                    IsOpen="False"
                                    Placement="Bottom"
                                    PlacementTarget="{Binding ElementName=PART_ContentHost}"
                                    StaysOpen="False"
+                                   UseLayoutRounding="True"
                                    VerticalOffset="5">
-                                <Border Background="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True">
-                                    <ListView x:Name="PART_AutoCompleteHost"
+                                <Border Background="{TemplateBinding BorderBrush}">
+                                    <ListView x:Name="PART_ItemsHost"
                                               MinWidth="300"
                                               MinHeight="150"
                                               Margin="1"
-                                              Background="{DynamicResource Metro.Menu.BackgroundBrush}"
+                                              Background="{x:Static SystemColors.ControlBrush}"
                                               BorderThickness="0"
                                               Focusable="False"
                                               ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
@@ -73,10 +71,6 @@
                                               ItemsPanel="{TemplateBinding ItemsPanel}"
                                               ItemsSource="{TemplateBinding ItemsSource}"
                                               KeyboardNavigation.DirectionalNavigation="Contained">
-                                        <ListView.InputBindings>
-                                            <KeyBinding Key="Enter" Command="ui:AutoCompleteBoxCommands.Select" />
-                                            <KeyBinding Key="Tab" Command="ui:AutoCompleteBoxCommands.Select" />
-                                        </ListView.InputBindings>
                                     </ListView>
                                 </Border>
                             </Popup>
@@ -93,14 +87,14 @@
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.Control.DisabledBrush}" />
-                            <Setter Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
+                            <Setter Property="BorderBrush" Value="{x:Static SystemColors.InactiveBorderBrush}" />
+                            <Setter Property="Foreground" Value="{x:Static SystemColors.GrayTextBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.Control.BorderBrush}" />
+                            <Setter Property="BorderBrush" Value="{x:Static SystemColors.HotTrackBrush}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
+                            <Setter Property="BorderBrush" Value="{x:Static SystemColors.HotTrackBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

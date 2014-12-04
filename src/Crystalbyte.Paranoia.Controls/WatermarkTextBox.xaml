@@ -11,27 +11,24 @@
                    Background="Transparent"
                    Focusable="False"
                    FontStyle="Italic"
-                   Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
+                   Foreground="{x:Static SystemColors.GrayTextBrush}"
                    Text="{Binding}" />
     </DataTemplate>
 
-    <Style TargetType="ui:MetroTextBox">
-        <Setter Property="SelectionBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
-        <Setter Property="SelectionOpacity" Value="0.4" />
-        <Setter Property="FontSize" Value="{DynamicResource Metro.NormalFontSize}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Metro.Control.BorderBrush}" />
+    <Style TargetType="ui:WatermarkTextBox">
+        <Setter Property="BorderBrush" Value="{x:Static SystemColors.ControlDarkBrush}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Background" Value="{DynamicResource Metro.Control.BackgroundBrush}" />
+        <Setter Property="Background" Value="{x:Static SystemColors.ControlLightBrush}" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
+        <Setter Property="Foreground" Value="{x:Static SystemColors.ControlTextBrush}" />
         <Setter Property="Padding" Value="3" />
         <Setter Property="FontFamily" Value="Calibri" />
         <Setter Property="Margin" Value="0,3,0,3" />
         <Setter Property="WatermarkTemplate" Value="{StaticResource DefaultWatermarkTemplate}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ui:MetroTextBox">
-                    <Border x:Name="border"
+                <ControlTemplate TargetType="ui:WatermarkTextBox">
+                    <Border x:Name="Border"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
@@ -50,9 +47,7 @@
                                               ContentTemplate="{TemplateBinding WatermarkTemplate}"
                                               IsHitTestVisible="False"
                                               Visibility="Collapsed" />
-
                         </Grid>
-
                     </Border>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
@@ -64,16 +59,15 @@
                                 <Setter TargetName="WatermarkHost" Property="Visibility" Value="Visible" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
-
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.Control.DisabledBrush}" />
-                            <Setter Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
+                            <Setter Property="BorderBrush" Value="{x:Static SystemColors.InactiveBorderBrush}" />
+                            <Setter Property="Foreground" Value="{x:Static SystemColors.InactiveBorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.Control.BorderBrush}" />
+                            <Setter Property="BorderBrush" Value="{x:Static SystemColors.HotTrackBrush}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
+                            <Setter Property="BorderBrush" Value="{x:Static SystemColors.HotTrackBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

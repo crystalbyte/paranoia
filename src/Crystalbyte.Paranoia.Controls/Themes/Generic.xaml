@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/ProgressRing.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/HtmlControl.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/MetroWindow.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/WatermarkTextBox.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/MetroButton.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/MetroScrollViewer.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/MetroProgressBar.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/SuggestiveTextBox.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
