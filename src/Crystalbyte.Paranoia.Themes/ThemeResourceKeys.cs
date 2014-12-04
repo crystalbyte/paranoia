@@ -31,19 +31,19 @@
 
         public static string TitleFontFamilyKey = "TitleFontFamilyKey";
         public static string TitleFontSizeKey = "TitleFontSizeKey";
-        public static string TitleFontWeightKey = "TitleFontSizeKey";
+        public static string TitleFontWeightKey = "TitleFontWeightKey";
         public static string TitleFontColorKey = "TitleFontColorKey";
         public static string TitleFontBrushKey = "TitleFontBrushKey";
 
         public static string SubtitleFontFamilyKey = "SubtitleFontFamilyKey";
         public static string SubtitleFontSizeKey = "SubtitleFontSizeKey";
-        public static string SubtitleFontWeightKey = "SubtitleFontSizeKey";
+        public static string SubtitleFontWeightKey = "SubtitleFontWeightKey";
         public static string SubtitleFontColorKey = "SubtitleFontColorKey";
         public static string SubtitleFontBrushKey = "SubtitleFontBrushKey";
 
         public static string ProseFontFamilyKey = "ProseFontFamilyKey";
         public static string ProseFontSizeKey = "ProseFontSizeKey";
-        public static string ProseFontWeightKey = "ProseFontSizeKey";
+        public static string ProseFontWeightKey = "ProseFontWeightKey";
         public static string ProseFontColorKey = "ProseFontColorKey";
         public static string ProseFontBrushKey = "ProseFontBrushKey";
         public static string ProseFontDisabledColorKey = "ProseFontDisabledColorKey";
@@ -51,7 +51,7 @@
 
         public static string InputFontFamilyKey = "InputFontFamilyKey";
         public static string InputFontSizeKey = "InputFontSizeKey";
-        public static string InputFontWeightKey = "InputFontSizeKey";
+        public static string InputFontWeightKey = "InputFontWeightKey";
         public static string InputFontColorKey = "InputFontColorKey";
         public static string InputFontBrushKey = "InputFontBrushKey";
         public static string InputDisabledFontColorKey = "InputFontColorKey";
@@ -97,5 +97,21 @@
         public static string MenuFontSizeKey = "MenuFontSizeKey";
         public static string MenuBorderColorKey = "MenuBorderColorKey";
         public static string MenuBorderBrushKey = "MenuBorderBrushKey";
+
+        public static string ButtonMarginKey = "ButtonMarginKey";
+        public static string ButtonPaddingKey = "ButtonPaddingKey";
+        public static string ButtonBackgroundColorKey = "ButtonBackgroundColorKey";
+        public static string ButtonBackgroundBrushKey = "ButtonBackgroundBrushKey";
+        public static string ButtonHoverBackgroundColorKey = "ButtonHoverBackgroundColorKey";
+        public static string ButtonHoverBackgroundBrushKey = "ButtonHoverBackgroundBrushKey";
+        public static string ButtonForegroundColorKey = "ButtonForegroundColorKey";
+        public static string ButtonForegroundBrushKey = "ButtonForegroundBrushKey";
+        public static string ButtonFontWeightKey = "ButtonFontWeightKey";
+        public static string ButtonDisabledForegroundColorKey = "ButtonDisabledForegroundColorKey";
+        public static string ButtonDisabledForegroundBrushKey = "ButtonDisabledForegroundBrushKey";
+        public static string ButtonBorderThicknessKey = "ButtonBorderThicknessKey";
+        public static string ButtonDisabledBorderThicknessKey = "ButtonDisabledBorderThicknessKey";
+        public static string ButtonBorderColorKey = "ButtonBorderColorKey";
+        public static string ButtonBorderBrushKey = "ButtonBorderBrushKey";
     }
 }

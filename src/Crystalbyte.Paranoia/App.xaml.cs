@@ -342,14 +342,12 @@ namespace Crystalbyte.Paranoia {
             var name = Settings.Default.Theme;
 
             var theme =
-                Themes.FirstOrDefault(
-                    x => string.Compare(name, x.Value.GetName(), StringComparison.InvariantCultureIgnoreCase) == 0) ??
+                Themes.FirstOrDefault(x => string.Compare(name, x.Value.GetName(), 
+                        StringComparison.InvariantCultureIgnoreCase) == 0) ??
                 Themes.First(x => x.Value is LightTheme);
 
-            Debug.WriteLine(theme.Value.GetThemeResources().Keys.ToString());
-
             var resources = theme.Value.GetThemeResources();
-            Current.Resources.MergedDictionaries.Add(resources);
+            Current.Resources.MergedDictionaries.AddRange(resources);
         }
 
         private static void InitEnvironment() {

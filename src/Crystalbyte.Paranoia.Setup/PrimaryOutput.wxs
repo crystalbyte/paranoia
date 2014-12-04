@@ -20,317 +20,35 @@
     </Fragment>
     <Fragment>
         <ComponentGroup Id="PrimaryOutputComponent">
-            <Component Id="cmp9BA0FE8684436631491C52395E2191AB" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil3C119E867624637B1E351219294BE652" KeyPath="yes" Source="$(var.PrimaryOutputDir)\(no name)" />
-            </Component>
-            <Component Id="cmp340E59F6DCBE21D161C75B3D33B73B85" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filAC40CF1C9116A403B832815695A556E1" KeyPath="yes" Source="$(var.PrimaryOutputDir)\04.zip" />
-            </Component>
-            <Component Id="cmpBFD31DD43D5E660D797BE53100578CB6" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil86F09C9ACA60BA8C5EC305797C7FA080" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2011.Oktober.zip" />
-            </Component>
-            <Component Id="cmp4236AB0DCDCA583465ACA6CF6991EC2B" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filC7D21B1660C6369DE65DFF7340352FA3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-18.log" />
-            </Component>
-            <Component Id="cmpA11201BDB0AC9C4234278F4CB96CF900" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filBBCE8DEF7F0E1014F874371CDF691401" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-19.log" />
-            </Component>
-            <Component Id="cmpB4615E5FF4F4AC4752DF07F337763CD7" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil839D387E8911363EDD84FEE3A6A55034" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-20.log" />
-            </Component>
-            <Component Id="cmpB25E7DADB35C73E0ECA5256E370A2A60" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filB3859A22539BFD66DA99EF05FD7EB237" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-21.log" />
-            </Component>
-            <Component Id="cmp06CFA5F7142617A5DF3746268D4E745F" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filA72C1FC582747735A1B5EA34D5CCE4FF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-22.log" />
-            </Component>
-            <Component Id="cmpEB1E46E67FBA77143E9A0A663D39ABF5" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filA084AD8C61988DD87DCC03E72CDF1158" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-23.log" />
-            </Component>
-            <Component Id="cmp1ACC3620C91E6ECD216523A8AFB7BAEB" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filF4D11B8A88C2487B5A917F069090F192" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-24.log" />
-            </Component>
-            <Component Id="cmp497D5F021C9AA3181B67E30C4B96E5CC" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil6C81F4AB59DBECAA765231BF40B57A4A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-25.log" />
-            </Component>
-            <Component Id="cmpEFE1A7937DC74C35B5B7FF62CDEB3AC5" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil5ECED9A3211FE4FA247018F4E19E633C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-26.log" />
-            </Component>
-            <Component Id="cmp9A66587C804FF4FA6861F891673D14F2" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil7DC43A9610089B6E7B16FC71B083CBEA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-10-27.log" />
-            </Component>
-            <Component Id="cmp00F24D9FC152EED67A768A0B2CB32ED0" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil57488D1EE6BB13BC8C13510A5C72BCE6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-11-07.log" />
-            </Component>
-            <Component Id="cmp5ACECB939EA6E5EBB6F1ABE503B8D639" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil0410C78F3BB7EEBB2F93A13279D21D58" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-11-09.log" />
-            </Component>
-            <Component Id="cmp9AA184C81A57228E9D864E61F8E03518" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil2108B5AECA49F0AB70BABF0090CAA353" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-11-10.log" />
-            </Component>
-            <Component Id="cmp9690ECFAF71303CBF8F0B7F4CD33A8DE" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filC699E573B0B8827209BE792FCD9FF9D4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-11-12.log" />
-            </Component>
-            <Component Id="cmp7BA9777CE6CBB3DF2960F45023E2CC3F" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filC246BD50A7735F0E4611153B464B3374" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-11-13.log" />
-            </Component>
-            <Component Id="cmp843E28DB48BAF315FB4B8C549E78F804" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil5FC6E9F5AC4C9AC1AC3B2D01B7630684" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-11-18.log" />
-            </Component>
-            <Component Id="cmp1725BDA7A1B830862FB6B1142CC1F5EC" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filB6BD0A5B99D6E9C72BD2B53939D3E5A2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-11-27.log" />
-            </Component>
-            <Component Id="cmpB53B821CCD0DFCAA1C2E8055CCCECBEA" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filC6ABB274299DEDCC3289066731455DA0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-11-28.log" />
-            </Component>
-            <Component Id="cmp59C45546ED7613F953A7F147244DCC60" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filA84B841B29DAD75B504FFE532A19D041" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-11-29.log" />
-            </Component>
-            <Component Id="cmpD98FA71803A1557F658DEC7F7124690C" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil9AB3C8F01060624D918FD752E2420468" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-11-30.log" />
-            </Component>
-            <Component Id="cmpDB8C2C094847B3A50C5A065FEFAA3163" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil21858380EFED7DE7932041F132A31E6A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-12-01.log" />
-            </Component>
-            <Component Id="cmp2DC1EDD63DD284909D9928165A68A899" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil995D18D7BCE583045E1437829B994522" KeyPath="yes" Source="$(var.PrimaryOutputDir)\9d51b258-93bc-41a4-a4bf-c37caff7d279" />
-            </Component>
-            <Component Id="cmp18D43D47A5BF82748FFD0CB5AE473118" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil861BB878BCDB774E7BEAB8C4A7305FEC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Aesthetics- Group-Logos.zip" />
-            </Component>
-            <Component Id="cmp674B4BB050DFFB66F190C0F3CE6BE914" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil5ABB649E866B9A792A8BEA0328821854" KeyPath="yes" Source="$(var.PrimaryOutputDir)\aquapool.azurewebsites.net.PublishSettings" />
-            </Component>
-            <Component Id="cmp63E096F88C92E34035988D68897C9AC7" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil6149A3A5A64C602E7C9DA3E939C13557" KeyPath="yes" Source="$(var.PrimaryOutputDir)\avcodec-53.dll" />
-            </Component>
-            <Component Id="cmpACF53AC9CFC5AF23CC4F0838BB34C720" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil70D6E5013D25A1854D0A8D32D1B11D6D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\avformat-53.dll" />
-            </Component>
-            <Component Id="cmpDCD1B40E762AABFD6429343867C71000" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil5ADC03F3F4EE64585E9BCA123A312ECC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\avutil-51.dll" />
-            </Component>
-            <Component Id="cmp755DC6627154B72E40E39BB6C807EC9A" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil42492CD58407D7C6B52BE1ED33EC62FC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Awesomium.Core.dll" />
-            </Component>
-            <Component Id="cmpFEF6399BA3DB5CF0F70B3B716FE40D19" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil020B4D48CC299B673A8A00EA46670D5D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\awesomium.dll" />
-            </Component>
-            <Component Id="cmp81C5A5E6C47C361564E8806E5824EF9E" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filC03603877F2FA561CC372741E0833360" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Awesomium.Windows.Controls.dll" />
-            </Component>
-            <Component Id="cmp2E95087C33C3A3544A120CC0863A6E5A" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil5A557F6F8A140B24B689776AF9F37BAF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\awesomium_process" />
-            </Component>
-            <Component Id="cmpBB93EC7A80C665380BF238282CF969BE" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil086907777BDE65F42395C67BDD45DC69" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Cryptography.dll" />
-            </Component>
-            <Component Id="cmp962F1DE72C2C4F34E9AECA4680998120" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil93305EB011E57E903730FC429D935C8B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Cryptography.pdb" />
-            </Component>
-            <Component Id="cmpBD7513EEA2009883AED6E5FBE93BA65D" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil9C80EC486A251408956DF0C78E0AAD7F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Mail.dll" />
-            </Component>
-            <Component Id="cmpC678B373DB999D8A04A410FBADB2E617" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filD6CECB9D541DF660C6B52BE71E7F7452" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Mail.pdb" />
-            </Component>
-            <Component Id="cmpED7A81F05BBE06C336DE3E4C82988465" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil0250A7E3124EDDBA8D775149901A5F61" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Themes.dll" />
-            </Component>
-            <Component Id="cmpEB750E22F6770BF906BD9869BD9577A7" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil5577BD44FCFB97FA4FB8320D6F31CCD9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Themes.pdb" />
+            <Component Id="cmp1F9F4995E6C73C262FA214D7EA49F04B" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filC8026A28F1D2B1EE0A6F77F2B2B414DA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2014-12-02.log" />
             </Component>
             <Component Id="cmpB8C81CB399A45DF0500C8CCC806D6725" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil37C5426C17BC78E76755A859E2263541" KeyPath="yes" Source="$(var.PrimaryOutputDir)\debug.log" />
             </Component>
-            <Component Id="cmp9D745C95D55B544704D037E3A86C7CBF" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filD7E76EEE7754513246C4E95A16F017C3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\dotless.ClientOnly.dll" />
+            <Component Id="cmpE07E66C5E17A58D8910960EE3CE90E2F" Directory="dir54BA5EE92CB8F37BEFA5CE0F7976ACAB" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmp28D78D3D3EDE8BBE8C77853A690F1257" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil81A1C88C5B58D25765FD0E3C6BE12982" KeyPath="yes" Source="$(var.PrimaryOutputDir)\EntityFramework.dll" />
+            <Component Id="cmpBBD9D3FF07BE35AC5241A701D3F86F99" Directory="dirDE139F2B8E4F53C7894010653FA4ACF5" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmp1103AA312B68FAC6F34A8BB8288C2C04" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil8AE4AAC0688FDA0E06A2A9619271BC35" KeyPath="yes" Source="$(var.PrimaryOutputDir)\EntityFramework.SqlServer.dll" />
+            <Component Id="cmpF704D9257C45FB1EBCC5466290DDDEB2" Directory="dir3A20458C1B036229CDF551BF6D0E04E0" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmpD1608C0ADEE944AB793A8BA1E4F843AE" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filD28F2D7DEC729D0674952B2E2FD3650A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\f06a99d0-be5d-4c78-afd9-35ac2eaa6a05" />
+            <Component Id="cmpCD3061B942953E18E7D595A0204D331A" Directory="dir64D71989966D3C995252DD5EAD72204A" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmp20E1F608C7283FF06334689A52381561" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filBA8F6AEA7F781426D366D07A90AE2E2B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\guetta_ticket.png" />
+            <Component Id="cmpE7419AE588D6ABB85E801918A7DAA143" Directory="dir7ABA76C83D0AFCE97CD348E8219F4CE1" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmp399ED9264B10FDAAF97C6F536348AD50" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filD71EE51CD85B5F0EE28FA499FE15DF27" KeyPath="yes" Source="$(var.PrimaryOutputDir)\HtmlAgilityPack.dll" />
+            <Component Id="cmp1FAFAA287E3FBD564ECB0EC205E53979" Directory="dirA1C9D6EE90DA7B3D513AC1CA7D72F253" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmpAE791216F77EC2FA091A40EEA559FA1A" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filC9EB24024D78C595B3E3CEEA41D47FDC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\HtmlAgilityPack.pdb" />
+            <Component Id="cmpF9AD36EEB48C91D8E8E8B09C8A6C3D40" Directory="dir250D607B4E859FD3B153389E856E9245" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmp661571A74E0C7C9BF14C10191B5A70D4" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil64FB2D9D61BD6AA897298F9D2931B4B6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\icudt.dll" />
-            </Component>
-            <Component Id="cmpACB098D9D9CC0E1108DE175896CD9E1A" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil4113C8E7CA6EA86CBC5C1314DB599D0E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\image002.png" />
-            </Component>
-            <Component Id="cmp91925EB7ACFAF2B00D9EDD8B73F22EC4" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filAAC5FE81EC2C0A6202D5ABB62D741A73" KeyPath="yes" Source="$(var.PrimaryOutputDir)\image003.jpg" />
-            </Component>
-            <Component Id="cmp05C92C5CD2DC2243D714E3D48C4D2D13" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filB726BA904677923AF475C75DA32BEACA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\image004.png" />
-            </Component>
-            <Component Id="cmp0C024B20D365650318EEE1D9B6CFB873" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil114E4F8F31047F520DA49F44A76F516C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\image006.jpg" />
-            </Component>
-            <Component Id="cmpE7D52C43CE92849FFE748CDDC642674C" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil405D413C276F6768E6EB277CD1FFFED2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\inspector.pak" />
-            </Component>
-            <Component Id="cmpE0F06842E433B60025DB252C4DC6675F" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil8CABAF38149D4F4EAAF26380801D77FC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Ionic.Zip.dll" />
-            </Component>
-            <Component Id="cmpBFEADCB5525839C25707DC74E854F57F" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil4A06D01FFFFA8446A3FA7E7CF832EFB4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Kuendigung Herr Wieser.pdf" />
-            </Component>
-            <Component Id="cmpED1C29F8914A4A53211F619E1872ECC1" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil6FEA381F205FBC4A929B8656B60465E6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\libEGL.dll" />
-            </Component>
-            <Component Id="cmp8173820A225E77A4F1F9A1A20860A672" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filC4FD67C1E47EB7B5DD004A098216196B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\libGLESv2.dll" />
-            </Component>
-            <Component Id="cmp649A934A37C7F0DC8ADD84104468D6A4" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil62BDEBE76BBED1680D2C2094E12135B0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Microsoft.Expression.Interactions.dll" />
-            </Component>
-            <Component Id="cmp4CDF7DFD2D0E95016925C6786A10C503" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil58078AD85E0073F162CFFABD8ECDFD92" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Newtonsoft.Json.dll" />
-            </Component>
-            <Component Id="cmp459428455A80F4974712A2D278241949" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filDE9AFB8C595C5CEE318048C2DF9057E3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\NLog.dll" />
-            </Component>
-            <Component Id="cmp071DF38DAD6BC005AAF264FB52EB57F9" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil002518D3A53FB363DA522764C38C873A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\P1030414.JPG" />
-            </Component>
-            <Component Id="cmpB5ED5B54A64B18CFC9AED6049D88B6F0" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filE900DD48767027E051CFFCB9D9C7A3CC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.exe" />
-            </Component>
-            <Component Id="cmpB885E49E4D133B5B606107BA7E6CB6F5" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filBF1302F9FCD3CF2DFEBEBFA01C577BEE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.exe.config" />
-            </Component>
-            <Component Id="cmp6AD55DB8C684C408AC22C2EADEC4E91D" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filFABF4F9712DA42F63DAA3F49139A7C08" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.pdb" />
-            </Component>
-            <Component Id="cmpEE3BD8E602E0130316AC2F09538490DD" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filF32BB52DF39FEBE7FF839E31C2411DAF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.reg" />
-            </Component>
-            <Component Id="cmp4673B2952378AE5F251A876F63086932" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil67DF22028BBA4C80B2222FEA400C25FB" KeyPath="yes" Source="$(var.PrimaryOutputDir)\PKV-Analyse für Wieser, Alexander 001.pdf" />
-            </Component>
-            <Component Id="cmpDDDF3697C8A213DC617E4FCA2397BF94" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filC447EFDA1D16B18C0AD4F17F9503A1DB" KeyPath="yes" Source="$(var.PrimaryOutputDir)\price_list_invimed_2011.docx" />
-            </Component>
-            <Component Id="cmp56B87C4DFC69D84E8DF8CFDDF21E6B72" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil050D327E1531DD452AECA6E385F4772C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\price_list_invimed_2011.pdf" />
-            </Component>
-            <Component Id="cmp08C9093CA92AB322A1FD8643A8F8E9EB" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filB33C2F6608DD31FAE45B7C0513E7632E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Composition.AttributedModel.dll" />
-            </Component>
-            <Component Id="cmp49E372B22951B5E48D55A8DD783DEE88" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filF7A7609BF8421E2213649C79F776276A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Composition.Convention.dll" />
-            </Component>
-            <Component Id="cmp1FD1C2C30BF88DF39BAEADB1AE14AB73" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filCAE288DE6B8BA15301D9C5F23284974A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Composition.Hosting.dll" />
-            </Component>
-            <Component Id="cmp33DA02285050EFAD1D6C2A7F1428BE30" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil20812D98E5454961271F1084D6EFF359" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Composition.Runtime.dll" />
-            </Component>
-            <Component Id="cmpAD06BE106EC3FC9F4A4C7AC6235C5041" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filD78DD23CA05595AAF0DFB3200A4D0E81" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Composition.TypedParts.dll" />
-            </Component>
-            <Component Id="cmp33DDCE7B2996684CFA7779F51FF1104A" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil1277955C3601D1C08A41C9F079AF106E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Data.SQLite.dll" />
-            </Component>
-            <Component Id="cmp460047426D08DAAB7C367AC6EAC43D26" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filF803BE0DE9AC57C25B6F093CB4986677" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Data.SQLite.EF6.dll" />
-            </Component>
-            <Component Id="cmp13BED6C8EA8EEFC7EF027B2E79746FB8" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil5AE9F32DBAC80F00D244393269E902C8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Reactive.Core.dll" />
-            </Component>
-            <Component Id="cmp303E138DD2E109F2479CC653D35C23DA" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil0762921B4958C454B144BAB407B8BA0B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Reactive.Interfaces.dll" />
-            </Component>
-            <Component Id="cmpD58C4EFB05F48CEF996489444B6621EC" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil00A0F696DCDA0A4C068A6A0190A3432F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Reactive.Linq.dll" />
-            </Component>
-            <Component Id="cmpBFDEC9A912747DEBFFC51AC7D52EBFA6" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil5C577E849B6220E1351ABB58A1511B4B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Reactive.PlatformServices.dll" />
-            </Component>
-            <Component Id="cmpB314FFA141B7D8435C1BFC5F2F9E2A85" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil9FA7B6CCFDF3A2FAAC66357E8928EE7A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Windows.Interactivity.dll" />
-            </Component>
-            <Component Id="cmp8A4C914F9586D7594159661C9D684770" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil41A4D6C84F14A7C35FDD1B9379D226A2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\vlcsnap-2014-07-04-22h43m17s9.png" />
-            </Component>
-            <Component Id="cmp0302D797DBA009B5A8981B6389E83410" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filDBB569953E74E94A970B5ABDB2257996" KeyPath="yes" Source="$(var.PrimaryOutputDir)\vlcsnap-2014-07-04-22h43m18s9.png" />
-            </Component>
-            <Component Id="cmpD7E2BAB7165EFD94EB5C1EB1705F34BF" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil79DAD1E9EEACE0FC82446ADE73B62BEF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\vlcsnap-2014-07-04-22h43m21s10.png" />
-            </Component>
-            <Component Id="cmpFA50C5B0CB309B46D90631C726F1B106" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil0C45E133BC3BC3191270FB3A828AAE21" KeyPath="yes" Source="$(var.PrimaryOutputDir)\vlcsnap-2014-07-04-22h43m22s11.png" />
-            </Component>
-            <Component Id="cmpBDAC8E7F5611043F6CC3CF33269C1676" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil535E715F1D9055CA4336C5D9C416B700" KeyPath="yes" Source="$(var.PrimaryOutputDir)\vlcsnap-2014-07-04-22h43m30s14.png" />
-            </Component>
-            <Component Id="cmp3649D63BCF66FB7EC5AAC94870018A59" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil269FC0D0DCEBF2FF83ADACA31CBD0B0D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\vlcsnap-2014-07-04-22h43m32s15.png" />
-            </Component>
-            <Component Id="cmp0768C02B358F83145F6564F4DB45996B" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil9AB79A5FED13E1FF13ECEFB0220AEADD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\xinput9_1_0.dll" />
-            </Component>
-            <Component Id="cmpEC435F4F5BBD22B45DEF0A3670F983E5" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil5A04149DA9A5ADE88C26FB037122F25D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Zertifikat.pdf" />
-            </Component>
-            <Component Id="cmp9357CF9265775A8634976D9803788046" Directory="dir54BA5EE92CB8F37BEFA5CE0F7976ACAB" Guid="*">
-                <File Id="fil56AB3EF44EE958B3641FEEE0CBB7BF57" KeyPath="yes" Source="$(var.PrimaryOutputDir)\de\Microsoft.Expression.Interactions.resources.dll" />
-            </Component>
-            <Component Id="cmp78AEA08F8BF076F506BFBE6DFCCB6392" Directory="dir54BA5EE92CB8F37BEFA5CE0F7976ACAB" Guid="*">
-                <File Id="fil0CC841226C20AEEE2C4604BA72243881" KeyPath="yes" Source="$(var.PrimaryOutputDir)\de\System.Windows.Interactivity.resources.dll" />
-            </Component>
-            <Component Id="cmpDE7786F62EB057484A4254ED01017E77" Directory="dirDE139F2B8E4F53C7894010653FA4ACF5" Guid="*">
-                <File Id="filCA3C1BA5DE7A943594ACA3778A225EC4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\de-DE\Paranoia.resources.dll" />
-            </Component>
-            <Component Id="cmp1447D32BB20674B72E09ED512A13513F" Directory="dir3A20458C1B036229CDF551BF6D0E04E0" Guid="*">
-                <File Id="fil58E4C61E9C9736A71AE92B4800ACBE5D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\en\Microsoft.Expression.Interactions.resources.dll" />
-            </Component>
-            <Component Id="cmpF5337AF2748D9A317751361439D8D017" Directory="dir3A20458C1B036229CDF551BF6D0E04E0" Guid="*">
-                <File Id="filFEDEE2539EFB34FB9F339504599BE46E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\en\System.Windows.Interactivity.resources.dll" />
-            </Component>
-            <Component Id="cmpAC873B8D84D4B4163FB904971717B13B" Directory="dir64D71989966D3C995252DD5EAD72204A" Guid="*">
-                <File Id="fil0542B316E214C1750D719E4CC52498E9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\es\Microsoft.Expression.Interactions.resources.dll" />
-            </Component>
-            <Component Id="cmpEBFAF4581D60EC1F1B23476A77DC699B" Directory="dir64D71989966D3C995252DD5EAD72204A" Guid="*">
-                <File Id="filF71625D19421038D87EB9B4968837AFE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\es\System.Windows.Interactivity.resources.dll" />
-            </Component>
-            <Component Id="cmp90ED9FB08C4179628E1607D951457857" Directory="dir7ABA76C83D0AFCE97CD348E8219F4CE1" Guid="*">
-                <File Id="fil773CBE740421CB3AA88825A71C535CC4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\fr\Microsoft.Expression.Interactions.resources.dll" />
-            </Component>
-            <Component Id="cmp27B4C0B0F575433C63580F068FC44000" Directory="dir7ABA76C83D0AFCE97CD348E8219F4CE1" Guid="*">
-                <File Id="fil970859F6267AF5B3E5BE70595AF0D935" KeyPath="yes" Source="$(var.PrimaryOutputDir)\fr\System.Windows.Interactivity.resources.dll" />
-            </Component>
-            <Component Id="cmp6F7C56DFE81F4CB4EBD08119D0027132" Directory="dirA1C9D6EE90DA7B3D513AC1CA7D72F253" Guid="*">
-                <File Id="fil90459531777A1892244F7618AD90268C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\it\Microsoft.Expression.Interactions.resources.dll" />
-            </Component>
-            <Component Id="cmpFF6F54C131F4C248E56E80B27D552436" Directory="dirA1C9D6EE90DA7B3D513AC1CA7D72F253" Guid="*">
-                <File Id="fil7A3890B7A014AD89F8B332687CF1E2AA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\it\System.Windows.Interactivity.resources.dll" />
-            </Component>
-            <Component Id="cmpBCD42986932CF874AD5821F6E39B27FC" Directory="dir250D607B4E859FD3B153389E856E9245" Guid="*">
-                <File Id="filF691B6AD9D9DBEFE8AEFE3EE127CF77B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ja\Microsoft.Expression.Interactions.resources.dll" />
-            </Component>
-            <Component Id="cmp2A4FC60946899B628C042BED17D01F13" Directory="dir250D607B4E859FD3B153389E856E9245" Guid="*">
-                <File Id="filBC2DE0A9CDA93C440160B12912DD4044" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ja\System.Windows.Interactivity.resources.dll" />
-            </Component>
-            <Component Id="cmp4256492A31BF2FB5483DA2E50B6A2FAA" Directory="dir68BD67567308D790DAE3C9405A87DE04" Guid="*">
-                <File Id="fil79BD7A5D0E0B6AC178B066726860C974" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ko\Microsoft.Expression.Interactions.resources.dll" />
-            </Component>
-            <Component Id="cmpDC8BA138108ADF6A904C10AF05C39557" Directory="dir68BD67567308D790DAE3C9405A87DE04" Guid="*">
-                <File Id="fil0935AF9875B0958D044B790E8F6662E9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ko\System.Windows.Interactivity.resources.dll" />
+            <Component Id="cmp7839E28462BAC6A4B478780F1D23FC54" Directory="dir68BD67567308D790DAE3C9405A87DE04" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
             <Component Id="cmpAC7B0490D4585CD6CAA3F1544485B82A" Directory="dirBC4E40FE1FF2212778A0ED81CF5923CE" Guid="*">
                 <File Id="fil271FD5918575F4E151DEEBD1835C68A3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\build-config.js" />
@@ -350,9 +68,6 @@
             <Component Id="cmpA8C454E2A7E1A21E656DCA9EB7F7D3C9" Directory="dirBC4E40FE1FF2212778A0ED81CF5923CE" Guid="*">
                 <File Id="filEAC56BFF8AED1F8FE5E2D6012F894351" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\LICENSE.md" />
             </Component>
-            <Component Id="cmpD78F7B1A0BEBDE5954D99CFAED324470" Directory="dirBC4E40FE1FF2212778A0ED81CF5923CE" Guid="*">
-                <File Id="fil8AF639AA827FAFFCEDC820348DADE79E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\Neues Textdokument.txt" />
-            </Component>
             <Component Id="cmp5CB24073D01B13EDC091C9691C7B2215" Directory="dirBC4E40FE1FF2212778A0ED81CF5923CE" Guid="*">
                 <File Id="fil8626118902032986F3F0CE9FEECBCA5A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\README.md" />
             </Component>
@@ -362,203 +77,11 @@
             <Component Id="cmp35DD3ABA2053EB266608160160DD590D" Directory="dirC28B371E7B950BA6676EF1C36A8B0007" Guid="*">
                 <File Id="filA0D222849D04A294275F6A535C669EF7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\adapters\jquery.js" />
             </Component>
-            <Component Id="cmp0F9A989D85FBCF835FDF6B321AC65325" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil7B3678C85F48052A6D4AB20CCD69CF7B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\af.js" />
-            </Component>
-            <Component Id="cmpDFC8ED011F78BD702319BDB711F94918" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil359F3C9806B2E17FB1252C648A55844C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\ar.js" />
-            </Component>
-            <Component Id="cmp0EA2A56FF42B9D59288C8C3FCDBDB98E" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil5DB99E77E511B71F0B6A474D825C2DC0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\bg.js" />
-            </Component>
-            <Component Id="cmpBBFEBC25B078C05AA12D5E8084F242FD" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filAE1FFE6258B2B2A8C99D61B8166C59AD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\bn.js" />
-            </Component>
-            <Component Id="cmpC698646BA1448F6F1ED58044E0463676" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil1297825A440319315B1D0266EF350FC3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\bs.js" />
-            </Component>
-            <Component Id="cmpB58B047310F1311D4D31E8152A3B96AC" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil743516F7B82AC34E4EDB58066761126C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\ca.js" />
-            </Component>
-            <Component Id="cmpC3B9E37A5FC0683EC771BD94DA563D19" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil33B546BE819907925AE800E9420732B3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\cs.js" />
-            </Component>
-            <Component Id="cmpB54925049B1823D4A762679BFF99D193" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filAF35BB153C2949B97ECB07EA946CF82E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\cy.js" />
-            </Component>
-            <Component Id="cmp1566641F822BB9A2F0A4CAC428207BC7" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filC97F41A90468B1A28DC53E229DD8A818" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\da.js" />
-            </Component>
             <Component Id="cmpB981A309EDA5B590E78B14CD3663C8B1" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
                 <File Id="filD73BC6E0B31A071DDFF2E4C41058A688" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\de.js" />
             </Component>
-            <Component Id="cmpC97E67E47E5458DE7D7D4504C88B8469" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filE3DFB92690BC4D77A1596B5DAAB22E66" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\el.js" />
-            </Component>
-            <Component Id="cmp44AC9F2711201D053F9A89E824AE887D" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filA8CDCC45C11035D7B59FC00ACE85099A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\en-au.js" />
-            </Component>
-            <Component Id="cmp716F36C2CA1460F398432F015CC75D20" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filF0A95470E832B2927C4B1FD6670774D5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\en-ca.js" />
-            </Component>
-            <Component Id="cmp8E060C862291D252C0D9A524E7D85CEC" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil20485FB36463DE2EE3AEAE4579A78CDF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\en-gb.js" />
-            </Component>
             <Component Id="cmp5B49031075A9D5A45A5A2F6D5A127065" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
                 <File Id="fil15F88E1E0210EDF0957ABC0DC81C2FAA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\en.js" />
-            </Component>
-            <Component Id="cmpC8262F0E3288B45D933B0270FDA3FA43" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil67F9939CB8BAB9C3EC106F433FB10D52" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\eo.js" />
-            </Component>
-            <Component Id="cmp508DADEF1F49217B63149D2E5976A82C" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil8CBE5C9AAEC57A88F8DFBCC0D5333F8E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\es.js" />
-            </Component>
-            <Component Id="cmp3AA4F19F6331B0E5FC1C5DE6BC08B348" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil63614E18A0D6ADEB0D575259BCAB644D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\et.js" />
-            </Component>
-            <Component Id="cmpF91B0AEE5E9E1706656675FF102EFFDD" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil27F6163F127ED7EFD5BB7737BB6E0DFB" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\eu.js" />
-            </Component>
-            <Component Id="cmp5EE3D1E6359822F2032197137A6D02DC" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil64A46B145A5A8DB8F60EC52A1178252C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\fa.js" />
-            </Component>
-            <Component Id="cmp6CC75A874C262D2254736597DC7AF55D" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil770AB69884F9A52D92726E2DDD05BA49" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\fi.js" />
-            </Component>
-            <Component Id="cmp0238F3726A9230DFB41077510AC2362E" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil3B6E65E9832F0803672A397DE8E2FBFE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\fo.js" />
-            </Component>
-            <Component Id="cmp86DFE0A089B346942667CAC2115AC7CE" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil22F2211C6AB1DC39CA08454701819C65" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\fr-ca.js" />
-            </Component>
-            <Component Id="cmpDD891A376CE3351EF04AB40BBED2667F" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filF02EE6C037873DA9D56DED00AC4E0351" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\fr.js" />
-            </Component>
-            <Component Id="cmpCE82BE37D9B2A39429F1A5007CA91DC0" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filDBB6C48CBCC7307478730978BC110863" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\gl.js" />
-            </Component>
-            <Component Id="cmpA9A6DDC3B7AC5E752B0D18B52879C2C0" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil94FD5CC5E4485CE40E0FBF3BAD07103C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\gu.js" />
-            </Component>
-            <Component Id="cmp6E57C9B44202645E6BE043450277ADE4" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil261488D551DB9941C2E04958D983CD2D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\he.js" />
-            </Component>
-            <Component Id="cmp1EF15898D181A4CA5A5881B516F60B83" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filC44159EE12E0D153E54D0F6F38202F54" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\hi.js" />
-            </Component>
-            <Component Id="cmpE19DC411707A911A50AAECC7E619676F" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filD99FBB30BE74A02D305C799DC01C661F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\hr.js" />
-            </Component>
-            <Component Id="cmpF83EB5BC9EDEC660671B4902807698B6" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil198CC8B53AB6C65361EE8F7B33E1E66A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\hu.js" />
-            </Component>
-            <Component Id="cmpFDB52B5DBB3DD96718AED58035CABD30" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil332535E846D0A4B17E9EB5A714D4E355" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\id.js" />
-            </Component>
-            <Component Id="cmpFDE98B77F24FF1F8FCB674BB663106C5" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil0894B75476AC5B4467B417DEEAD3835C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\is.js" />
-            </Component>
-            <Component Id="cmp30EEDEC39FECC3B2AD0FD454DBB8C3E0" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filFA63443494451437D7B176F2764EE07A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\it.js" />
-            </Component>
-            <Component Id="cmpC062113A4D6AC875F6132E74330EF8C8" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil418F98EE725DCFD8A51A27963B07245A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\ja.js" />
-            </Component>
-            <Component Id="cmpC993F245DB058361DC8892052BA1A5AA" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil8682D8CF796F7EDE6E5D825F533DEB5E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\ka.js" />
-            </Component>
-            <Component Id="cmpC0F52C9CCDF971B013954AEBDAAF4633" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil43744BAB1E086BA8B987537431403068" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\km.js" />
-            </Component>
-            <Component Id="cmpC175E0F05AE6CED6DAC62A71FD639190" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filC5ED8CAB2FA26A67F17CB340E322E0A9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\ko.js" />
-            </Component>
-            <Component Id="cmpE76F0AFAD93353E709E0366076927F97" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil3B1232EFD2F3339BF149BC5FC9F6AB90" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\ku.js" />
-            </Component>
-            <Component Id="cmp32A221BEC14B19693645C308B7E00A29" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil4902AEDF8F0B75C17BEF46D857D245F2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\lt.js" />
-            </Component>
-            <Component Id="cmp2C39C26ED9FCA5FA445E67A041375DC9" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filDB3230881FC590EC349B6F54FEBE1949" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\lv.js" />
-            </Component>
-            <Component Id="cmpDDFB8792D0F7BEC83DB0436C324C22CC" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil52C0A8590983D3D60D7AE7AD0AF44D7A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\mk.js" />
-            </Component>
-            <Component Id="cmpBD58D5B3F8F76B4ECC52AA464D3318B8" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil758CEC114EF42259D7EB972129BF4B14" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\mn.js" />
-            </Component>
-            <Component Id="cmp883934B6A4534C6BDBF816658E8473F9" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil4363130AE1CDD173CA3CB07D16FFE042" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\ms.js" />
-            </Component>
-            <Component Id="cmp229729EDAAD2C661FBCD94D1593D22E2" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filAF7D159347343D88C471DC8DF133566E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\nb.js" />
-            </Component>
-            <Component Id="cmpC9321BFBE60C3F409403A29C01BA2435" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filB9A515C633CBD0EF4C65287DB659AF23" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\nl.js" />
-            </Component>
-            <Component Id="cmpD6764B7EE761ADB05EBFF29F94FF8C73" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil64EF38D6FE6A909C81E119FEE631F260" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\no.js" />
-            </Component>
-            <Component Id="cmp21B194512884F559C9177529A925D829" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil45A5D15A0BA3B1523A58626DB73D9E69" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\pl.js" />
-            </Component>
-            <Component Id="cmp604D4C905B2B7ED18403A0226C9BEBAD" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil1B723C6029843C8046D9E0A8D5704BD1" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\pt-br.js" />
-            </Component>
-            <Component Id="cmp7EF518C83CBC187B207CAB7F4700BE2A" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filBBB406AD14C668D82F4DE415321EC9A4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\pt.js" />
-            </Component>
-            <Component Id="cmpE5302B6759B97968EE35196553C99410" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filEF12A7E58F559DDC39226C7463415C87" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\ro.js" />
-            </Component>
-            <Component Id="cmpEB55B5757E3E6E0DA890025A03008CA6" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filEC6E67B5E1F7F8A894F18FEEF1B93D15" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\ru.js" />
-            </Component>
-            <Component Id="cmpA585FF88C522ACC623173041D6ADC335" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil5DEA077DF968B3276C9CCDD6693BA843" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\si.js" />
-            </Component>
-            <Component Id="cmpE4F64C9C669558F24DC89EA3E86F5B17" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filFCE163F8BCD7798147A651406F5DC7A2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\sk.js" />
-            </Component>
-            <Component Id="cmp030AD95A429D3B6132B7C466BB6C1D9B" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filB3827F84C3DB52809083383AFECBE069" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\sl.js" />
-            </Component>
-            <Component Id="cmpCA1FBE43855BB641A44C76E059580D54" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil3735785A80EB5D8540F43D1F46F13C3A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\sq.js" />
-            </Component>
-            <Component Id="cmp64EE67A4F89EC8DA52EDE6BC07EE68F6" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil7657BF7499888341757435F7DED06483" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\sr-latn.js" />
-            </Component>
-            <Component Id="cmpB9DDFC4B49761BCD6F8CB2C8744110CB" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filCF305214CDB1AF8B27E0031B4CE17C52" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\sr.js" />
-            </Component>
-            <Component Id="cmpE5A96CC35C9D2B51B2DFBFDBACECE262" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil0AD9E61312283EB934B996F96D5135EB" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\sv.js" />
-            </Component>
-            <Component Id="cmp11682CC9AE037F551039B5937FD06BF0" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil62B377CF8547C4D4AFE7681325514100" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\th.js" />
-            </Component>
-            <Component Id="cmp32C9C05C792CAE34E540EA712E4F8103" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filACE134DE69349F8E39C34A1027FF15C5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\tr.js" />
-            </Component>
-            <Component Id="cmpAB425D9E35EC2D24AA38F20532D59BD3" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil7A4F5CB62B680C4ABBE085CCA2DCD86D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\tt.js" />
-            </Component>
-            <Component Id="cmp4230D9AA1EE62FF15BAF8B53863B8087" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filAD50A6EF8A4D169CFA8A2780848787D5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\ug.js" />
-            </Component>
-            <Component Id="cmpED1D3DEBD1BD366E8F43F449B1C5F573" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filDFF0AE8B08FE120DDD6E50E48C2250C2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\uk.js" />
-            </Component>
-            <Component Id="cmp481C71F3E6EE9478A07EC7F55A8655AD" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil9D53C341D99F8E68D5EA94E79CBC3978" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\vi.js" />
-            </Component>
-            <Component Id="cmp3A1DFF7FF702BF725A2899223B36E047" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="fil655953A42B0F978647F646120D429A52" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\zh-cn.js" />
-            </Component>
-            <Component Id="cmp15D136D11DF4D811EA42E05BAF7D99C2" Directory="dir047A73D5DCC305751E966A6D13EF8D5F" Guid="*">
-                <File Id="filB6F9A4F7F3393D56D144E04FCC325C77" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\lang\zh.js" />
             </Component>
             <Component Id="cmpB7337CC298370B63D89482725B5B10BC" Directory="dir02114F12F3DCDDA0E149B22481A1122E" Guid="*">
                 <File Id="fil2FE376BAF7F656FF82A9F74F121C27BB" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\icons.png" />
@@ -566,443 +89,11 @@
             <Component Id="cmpF81CDC500C70C94F5EE6973803645CA6" Directory="dir02114F12F3DCDDA0E149B22481A1122E" Guid="*">
                 <File Id="fil496E5EDEC261BD7C7742982C8796AB4D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\icons_hidpi.png" />
             </Component>
-            <Component Id="cmp303577ABC5654FCF428605FE3D62964D" Directory="dirFBFEC713839F927E08EF1C1D7C88E586" Guid="*">
-                <File Id="fil918AF5AC149528BA88B490ED33FD6354" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\a11yhelp.js" />
-            </Component>
-            <Component Id="cmp5FFB188705E4BE1A945422699A0094EE" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil7DCBBE8B64B30DDD2C46636E5EF014E8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\ar.js" />
-            </Component>
-            <Component Id="cmpC2CAA1E15CDC8BB6277403E5D0A28DF2" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filFACECD856C4A23E35F80C5A4D7148464" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\bg.js" />
-            </Component>
-            <Component Id="cmp3E987A38ADF2CC75CB735D268BEAC2B4" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil54A77C9D767C754EDCFC35537FC7941F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\ca.js" />
-            </Component>
-            <Component Id="cmpAB30C9ADA9A85627F13DBD4FFD0B37F6" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil9A10FB76161BA540D50EF20FC85FAA76" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\cs.js" />
-            </Component>
-            <Component Id="cmp5732A66FCFE0FDA45B5095430BDB0C6C" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filA921AE05BF976AB2DE0569591B645A94" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\cy.js" />
-            </Component>
-            <Component Id="cmpE0B636D799967773257CC8C79DF037F2" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filB95E344858A75C0F6A08DFD8C456BB9D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\da.js" />
-            </Component>
-            <Component Id="cmpEDA3CDEA428439314935DC20D0C98336" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filA5C8D34FEF6BF1E5FB8A4423C1535B31" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\de.js" />
-            </Component>
-            <Component Id="cmp6B38BF8D6EC82CE8FDC675B4BD8C325D" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil2762430EBC4D777B25411315581F5064" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\el.js" />
-            </Component>
-            <Component Id="cmpE01725798D4376E07E66688AE2A0B5A7" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil66EEA7DFD35E15C1D1F98D84E76B03C2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\en-gb.js" />
-            </Component>
-            <Component Id="cmp0A95383719C5B1605426CB6A5A547011" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filB25CAD1A93123C10FD2C7A0AF8BA6A2E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\en.js" />
-            </Component>
-            <Component Id="cmp593FC7186077DDAFD613E61C16C5B257" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil34D7E3B64E9750486B4DDCD337854638" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\eo.js" />
-            </Component>
-            <Component Id="cmp9F6FCECB6F7D4054F79DCEF3A04CE600" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filB40F929693B66D75C8BEAEDA7D8FDDC1" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\es.js" />
-            </Component>
-            <Component Id="cmpCFDDB8D99B07D23228E01A1A85F014B8" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filD6E39681E69AAEF46EBD67C9C9C75713" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\et.js" />
-            </Component>
-            <Component Id="cmp46E25A02CBDB7E191C76B577B2DAE51B" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil7BA81243E385BBE06C3FD4F17C7856B2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\fa.js" />
-            </Component>
-            <Component Id="cmpB8A80A3EE1A1E244F8808F414F04771B" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil15AB14DB6638E3700FFD94ACA597D7C5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\fi.js" />
-            </Component>
-            <Component Id="cmpD2CFA3E33261DF5A14A22054FC48A8A7" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil64315A730E9BF030C32E6DE9A471CAA3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\fr-ca.js" />
-            </Component>
-            <Component Id="cmp68D81BD10E81215D9339E0E35F967CC2" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filC20A19AD1D76AABC2122706026780B40" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\fr.js" />
-            </Component>
-            <Component Id="cmp77E6B953EA11DA721EB5E0C77548500A" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil7D29293D0C747E180CE6A1E7EDE6BE47" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\gl.js" />
-            </Component>
-            <Component Id="cmp5EFFC70A5E45B412B7C8ACB9179B0F20" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil853116C7DB7FDD5CC63B5F5C752BC947" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\gu.js" />
-            </Component>
-            <Component Id="cmpE176DD1A0E58929401E3615C166A57F8" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil877C8B75D0140D3C264C141DC5B48492" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\he.js" />
-            </Component>
-            <Component Id="cmp1E1E30903EB952B17803D44094FA6B52" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filB158995A0318304D225F327D92551129" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\hi.js" />
-            </Component>
-            <Component Id="cmp6D847FB3A23E1E1DE2BB18AB42DE8EDB" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filF64FC1CBDA74E10D364F98E43C488E12" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\hr.js" />
-            </Component>
-            <Component Id="cmp590394D725D55A1959C26C7C18168E05" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filF337DAF2135C942481A4463334B956C8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\hu.js" />
-            </Component>
-            <Component Id="cmpF3AA667C99BA40E72061D417F765E059" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil36B9F7112B49BDDB45CBC74077FF592B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\id.js" />
-            </Component>
-            <Component Id="cmpC5AC05C466C935D7CA5C0E8E6A0DB544" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil738E15F3CFA6B8D6F34A5B583A5DBB6A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\it.js" />
-            </Component>
-            <Component Id="cmpCE43DB2FDFC70ABE83713AAD6F72AA31" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filF711A1B1D9E46226170E6A56537F027F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\ja.js" />
-            </Component>
-            <Component Id="cmp1BD84EB1E3CC336EB68BCB45DDB1BEF7" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil3048AB0AF82585E78AA8AEFBF6AFC8C7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\km.js" />
-            </Component>
-            <Component Id="cmp8A640583892F5BFED6AA9AE3CDB4E487" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filB1FFF7DACFA5934F42E8F40110353489" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\ko.js" />
-            </Component>
-            <Component Id="cmp4C7EB21E34C08C90EDCBE3BF0F77E62C" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filF5954378FB1D5AC81D69354722AB31B8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\ku.js" />
-            </Component>
-            <Component Id="cmp720E2517BB06790F2AC5A945C6353C81" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil724D2604AE733FA79112EA3F44D23A3F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\lt.js" />
-            </Component>
-            <Component Id="cmpFD37C269054D9B7AE00BD5DD448D5A06" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filFB3F7960498DCD2C035A1DBE35F298BD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\lv.js" />
-            </Component>
-            <Component Id="cmp6D2B4445712EA621C43A6BE96564128C" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil76890AC69CCFFACA08350D0B635A70DC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\mk.js" />
-            </Component>
-            <Component Id="cmp748BDBF6C615F097E103C310D28A4453" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil59B9525007DA8D18AEE33F122DF3D489" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\mn.js" />
-            </Component>
-            <Component Id="cmpA8104E4CBCBDEA99C7A5C134A5063147" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filA1B0426FA93E4808A181174100D18AFC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\nb.js" />
-            </Component>
-            <Component Id="cmp72588E13FBA23F164659D1E6BBE96FD0" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filD862EEA33D7016947F9C03A5159DFBC1" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\nl.js" />
-            </Component>
-            <Component Id="cmpFFCFF06AB773FFCA2E2ACD1688950EB5" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filB28406C63B1F823E4F6E8A532832EEC8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\no.js" />
-            </Component>
-            <Component Id="cmp4381336106ADD0A8C7FA3598C542FC56" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filC04E3C3B0456BCB2701BBCC699347F39" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\pl.js" />
-            </Component>
-            <Component Id="cmpC45D1C7E5C73CF3D712D6963FDE1EED4" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filA43826BA563676831510301CDDB652E0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\pt-br.js" />
-            </Component>
-            <Component Id="cmp6078572EAC12FB136AC01E443C68962C" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filCC1E01B3B85DE929C363FBD9606C3E1E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\pt.js" />
-            </Component>
-            <Component Id="cmpB8C093F72B6F57B302BCB8157E01BC5F" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil03A08E433E755B85E85283C819109726" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\ro.js" />
-            </Component>
-            <Component Id="cmp1717C714975A3C956684226C8FAD7CB9" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil50F1F9248BE6DE00C0CA2C0729FF9AD0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\ru.js" />
-            </Component>
-            <Component Id="cmp0A10AD731EC0E3BBEE6D184279B39FF8" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil326FF064ACB422C4EC6E38EDD1FAF38E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\si.js" />
-            </Component>
-            <Component Id="cmp4F729B53C0D70F4DA9A88ED98205E1B8" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filE7F1AAF2C9CDB7A4C09011079A763B5B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\sk.js" />
-            </Component>
-            <Component Id="cmpB501FF1EDD3896EA50F9BCB4F1DCBFF1" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil95ABD3104DF9D0747D8DC7DD97144744" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\sl.js" />
-            </Component>
-            <Component Id="cmpC4B502220D28A1E292677F7E614E9FC8" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil31EEEEB322754FCA1FC07FD1E0507CE9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\sq.js" />
-            </Component>
-            <Component Id="cmp52BB0E9EA5630FAF97AD05B784382E65" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filE972BF01825318E3A7CB685926EC8E4B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\sr-latn.js" />
-            </Component>
-            <Component Id="cmp54905CCB0402CB5BA298F6595F10F6FA" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil60BD2D9BF0EC2AA3B1D40CEC62E27A9F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\sr.js" />
-            </Component>
-            <Component Id="cmp49B4192AC2752C4A2B288CB6EC31D62F" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil9220B46C6AB3A17B2822DC08365E1A96" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\sv.js" />
-            </Component>
-            <Component Id="cmp2948586298794B74678FE4F8915DC653" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil350159C01E4EC3B6A7A8C949DCBBA112" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\th.js" />
-            </Component>
-            <Component Id="cmpC1F7DD25AC0F77741D68899A60192A67" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filC5058C3F20893A0908E481DCCCDC3A83" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\tr.js" />
-            </Component>
-            <Component Id="cmpCAE72C4ECE16F0E41F415058669DD2C3" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filC6E211BCC14411A992EDE95117B4B62C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\tt.js" />
-            </Component>
-            <Component Id="cmp36EF4598A5D63685E52A31873A0E6B2B" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil19FFE374930B5E6814A38CF85316952E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\ug.js" />
-            </Component>
-            <Component Id="cmp102DAE257FCC178400F23A84266458D1" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filAA2390E4DA35299A2BFA0AA059D66CFE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\uk.js" />
-            </Component>
-            <Component Id="cmpFEB6ABDBA899E7F3D70FE377B5EB68A0" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil6F18485D6E0B35A49E3A31A706C08388" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\vi.js" />
-            </Component>
-            <Component Id="cmpEBB1A70EE062D0A2C90AE755EE7824D4" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil0CDC4488AA5F0739B8006F6D0A59CEBD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\zh-cn.js" />
-            </Component>
-            <Component Id="cmp0809D2C04EC199F6556A8D55AE428F80" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="filA9049962330DA7E0E78DD8FEC2F65E63" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\zh.js" />
-            </Component>
-            <Component Id="cmp21E2C9CC60FBAAA3B34596409D8C8740" Directory="dir7276B6DE73C93A0896ECF1B1E13F7546" Guid="*">
-                <File Id="fil347873D51F25C89067895BD94F8AE63E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\a11yhelp\dialogs\lang\_translationstatus.txt" />
-            </Component>
-            <Component Id="cmp99414E9374E1AECFBA35A70992897067" Directory="dirC03C5F2CE88AAAAE062FAD14334DEAB8" Guid="*">
-                <File Id="fil4F76CE187F9938E724C1BE8BA99ABF8A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\about\dialogs\about.js" />
-            </Component>
-            <Component Id="cmp9A079F4541DB49B73220C55384DDD334" Directory="dirC03C5F2CE88AAAAE062FAD14334DEAB8" Guid="*">
-                <File Id="fil5714AE50C2BF550A55E91CC67BF25BD2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\about\dialogs\logo_ckeditor.png" />
-            </Component>
-            <Component Id="cmp6A10CBDC3A3AF912A607FE5EC8911433" Directory="dirF93E5A5A3B3A8A0C67C7CFFA5ECD055E" Guid="*">
-                <File Id="fil621E786B7BB50AE61BB0A5DF36E40218" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\about\dialogs\hidpi\logo_ckeditor.png" />
-            </Component>
             <Component Id="cmpAEDA5E2DADF2AF5A51CE27734697855A" Directory="dir2DB94AD50C87511AC2F73C69A5E30994" Guid="*">
                 <File Id="fil7E8B99B4CDF2726CE59F79F4CA75D7F0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\clipboard\dialogs\paste.js" />
             </Component>
-            <Component Id="cmpEF1CE503BD37CC24358624B20DEE5652" Directory="dirB71AEBC619260981D33BA8F5C31025CB" Guid="*">
-                <File Id="filCF4AD6EF80656E527DCF414ED1B7B13C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\colordialog\dialogs\colordialog.js" />
-            </Component>
             <Component Id="cmp8AECCD214AFAC8D4D954B930E06BA53F" Directory="dir718E62A639BB3A5767AB03E0BA00E764" Guid="*">
                 <File Id="filFF31FBE57A5D73ED351641A635EBD19F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\dialog\dialogDefinition.js" />
-            </Component>
-            <Component Id="cmpA953229817690C5857AF098E0B1DC144" Directory="dir11E71AAD0C21C1096250CE8CC64943C8" Guid="*">
-                <File Id="fil9CDF67997A4738CBF6821F477F532AD3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\div\dialogs\div.js" />
-            </Component>
-            <Component Id="cmp8503D0E271FCBB0CCC59195BE956BBFE" Directory="dirA084747233365EF8F995D4B768309ED1" Guid="*">
-                <File Id="filCA2F55B9F3DAB938E31A77859C372260" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\find\dialogs\find.js" />
-            </Component>
-            <Component Id="cmp03387268A192D4997E136E978829F73F" Directory="dir8C39E76DEBF47FB2280EA289B0C1DDFC" Guid="*">
-                <File Id="filE1EB1351C6FDD5037F8A30B4443F0707" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\flash\dialogs\flash.js" />
-            </Component>
-            <Component Id="cmp4F81DD5007E4E7D1B88D1C5346F4D0F9" Directory="dir3F3718B5AA01C9BF045BD9C114EEE3BD" Guid="*">
-                <File Id="filB917101A8A2B48CD1BE018EDFFCEBDBF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\flash\images\placeholder.png" />
-            </Component>
-            <Component Id="cmp7E9493343D61A14D2F08CF5DD8C8E760" Directory="dir26DA481DF26C76F0153C8FDD8C0538FF" Guid="*">
-                <File Id="fil14056A9E33F422363B5BFEBD9D03F035" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\plugin.js" />
-            </Component>
-            <Component Id="cmp57009B54DDA13BA5E800B7183219A817" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filD6428A7FB5F185DE0A6029BA7C34B303" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\af.js" />
-            </Component>
-            <Component Id="cmp171CCC770859CE74C3B97F7D46648D10" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil69F0A6E68FF2FDA2D3A43234897A66A5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ar.js" />
-            </Component>
-            <Component Id="cmp9308A1EA066BF38B42AD8AD7C83F2D7A" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil0ED5DC9A784470A050396E3199F7AF3F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\bg.js" />
-            </Component>
-            <Component Id="cmpE192B8B8D46BF0C84D83DAD4C0B66ED9" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil580FE4347DED7AE24824BC9ED9DBAE36" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\bn.js" />
-            </Component>
-            <Component Id="cmpAA7A004C99FD7FC84033A6DAB999D22E" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil4858EAE58A4D231FAF4FB05073A134E2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\bs.js" />
-            </Component>
-            <Component Id="cmp13387D8CB9AA3BBDC5D00E0BC70BCE28" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil6E493580FD659D04A3EF4BEAC3A9B321" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ca.js" />
-            </Component>
-            <Component Id="cmpA29795C7E3ADDFFADAE4063D04E84ED9" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil19980A10BA099D3B3525C9703492B652" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\cs.js" />
-            </Component>
-            <Component Id="cmpD09320C664166858E57DBD0958781A95" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil0DF826D29872162E0E0B717DA11B9DA2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\cy.js" />
-            </Component>
-            <Component Id="cmpA114C91E4C8296C535859F539524C2EF" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filF899E9CE5B49FD0B6C9B8A6C3CA13449" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\da.js" />
-            </Component>
-            <Component Id="cmp59DBC8BE85C0181881BFCB19E51F0801" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil238C3FB4FCE7A57E96155CCBDB418F23" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\de.js" />
-            </Component>
-            <Component Id="cmp0451B1702813B5C2DC2BE22E4AE81BC6" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filACE20896B9291E253AC14579EC6E5527" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\el.js" />
-            </Component>
-            <Component Id="cmp139402E4E13528B7D0E1E5F522CB400F" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil510B70DE03910410FEE86A2AD9056C04" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\en-au.js" />
-            </Component>
-            <Component Id="cmpAE1FC4D0BFD5F792B7D063458241BFE3" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil132785915F2D5F9D7007083ABD847008" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\en-ca.js" />
-            </Component>
-            <Component Id="cmp9C021F9F8C971152CE92A8FD21C0C2A9" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filCAD406DA74E6B098BECAE41DAF72319F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\en-gb.js" />
-            </Component>
-            <Component Id="cmp63CEDE22611CEC1A01BBA934A441DCA4" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filFD275AA42383F4D5EE5CF02754DE36B3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\en.js" />
-            </Component>
-            <Component Id="cmp59118D03DB9D6035059E028845CC34E1" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil3C1F2112CAC662F9A7A9A2B99FA5778A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\eo.js" />
-            </Component>
-            <Component Id="cmp8188B0FDB020249AC09302B1586BA3A6" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filEB95D0FBA19DDDDA02F9FE666C2D2EF8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\es.js" />
-            </Component>
-            <Component Id="cmp93149DEE8A703FF3E435359C7E22A198" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filDDC08903B675E9D3BA6937832E583352" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\et.js" />
-            </Component>
-            <Component Id="cmpF6CCF570080912E5496D7E992F8E0715" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil8704E2D97B16303C79DFD6C63D14E2D0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\eu.js" />
-            </Component>
-            <Component Id="cmpFC251DB617A7B4EA1C26A6BF267D2F03" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filECAA161E8E5D5F16187FB344F9D8E740" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\fa.js" />
-            </Component>
-            <Component Id="cmpDC0E12DA3A77FBB7003A70A55AFB4520" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filC7864E525E1EECD01005762CDF5778AD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\fi.js" />
-            </Component>
-            <Component Id="cmp213F9AB3BF44FA25EA0F41323336D2AE" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil1F81E78B0A068D8B93AF48606FB30670" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\fo.js" />
-            </Component>
-            <Component Id="cmpF47D8E198FA561FD6C42348890B98EC2" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil0A9AB51F66E2CF50CE8AA0DA22F19704" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\fr-ca.js" />
-            </Component>
-            <Component Id="cmp5135BBEEAF6565597DC47E8BB7E7643C" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil5B73B22A167F0C13051CADA22504AE83" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\fr.js" />
-            </Component>
-            <Component Id="cmp9193878B1A02EA6B4719EB19A44C97F4" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil64865E341940A5FB3B37BF3D6A1DB847" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\gl.js" />
-            </Component>
-            <Component Id="cmpEFA25FF05A5E3706A4BD500B654ED1D9" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil679140237120BA28350913BED18414CF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\gu.js" />
-            </Component>
-            <Component Id="cmpA29C060DBF2C3818E12FD190317134D8" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filC6B513DEE0F56A4B4FB96F7B0C89AD4C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\he.js" />
-            </Component>
-            <Component Id="cmp7719735EBC33146437DC67DDCD42E773" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filF179E7997772F283CEAD95BDDC910E2D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\hi.js" />
-            </Component>
-            <Component Id="cmp1C790323B0415056098AD9B51ACACB83" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil65F065C26E41A144057750C3679C8EB5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\hr.js" />
-            </Component>
-            <Component Id="cmp86987FCE139C19E54C2ECCD47120F5CF" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil9A17FEF338F5E61394D52D7553687B24" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\hu.js" />
-            </Component>
-            <Component Id="cmp9D6C2ABA1DA3BC4B156FD22C41BB727A" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filBC6277C40B9B79C93C8EC3B967BF3875" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\id.js" />
-            </Component>
-            <Component Id="cmpD4F90FC223B053A362CF9564945AB122" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filF0D24956B724058147C51E767BDB177E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\is.js" />
-            </Component>
-            <Component Id="cmp00E70C024F08DCE9BC6C48E66C302DE1" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil4250A081F42FB94C54A68BEA3129385F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\it.js" />
-            </Component>
-            <Component Id="cmpE7B23E2CC8BE71EB39DBF19BC8C621BC" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil0E8FC9C1FC9922EED35D0F04CF48D617" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ja.js" />
-            </Component>
-            <Component Id="cmp7AC5B9B48046682607B8CC1048C421E5" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil8C5C8A6A8784E0FB4761894D65C88F80" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ka.js" />
-            </Component>
-            <Component Id="cmp63E3C32DB1FB17EC2882E36D5105F23D" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filFFACF774D6894936EEB082027AA24696" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\km.js" />
-            </Component>
-            <Component Id="cmpDDA295F26ECFADF19B19F110620BFCC9" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil1F80E38BC0FC65CE6BFDF33C3FEA98F6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ko.js" />
-            </Component>
-            <Component Id="cmpC0700298E92FA0700A8FD79DEBC64377" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filAD7C9F41CD76D8EE24B0E4678A6BF368" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ku.js" />
-            </Component>
-            <Component Id="cmp9AB4E6253058018E211A8564434F5EBB" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil7E1047376958462075DB567A19F46B42" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\lt.js" />
-            </Component>
-            <Component Id="cmp1793D0BB6E4F5A33408351F754A3D915" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil952F41350CD023B808F0426EFA135271" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\lv.js" />
-            </Component>
-            <Component Id="cmp43926EDC4F8F711D0308F46AE5BC334F" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filB11FB50B2D04894AF764B302E63D40CC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\mk.js" />
-            </Component>
-            <Component Id="cmp8056A2B7EF5B6467D946A11173FC5AB3" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filEF23BA3445FDD010B11D718F7F3976BD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\mn.js" />
-            </Component>
-            <Component Id="cmp1933BB36A78FEFBC06148E64B9FDCC62" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filAC38D9781E878CA81A67EADE16FD7012" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ms.js" />
-            </Component>
-            <Component Id="cmp612249023B6C886B439976DD6A72F547" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil7E5368A96C90305EB446C86A77C774D6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\nb.js" />
-            </Component>
-            <Component Id="cmp484F92DCD0DABFDA5BA38351983133F6" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil989DCB9763CFC034A6996F1E21A531FD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\nl.js" />
-            </Component>
-            <Component Id="cmpF503F0CE2BFAD70FAD6B935B39E1D0E7" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil78C2A59AA5C30817AA58F2F317398EC0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\no.js" />
-            </Component>
-            <Component Id="cmp44EDE4C2F727A8B9E59364C71117E666" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil99F97C205AFF56F7E846F90095CA9A23" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\pl.js" />
-            </Component>
-            <Component Id="cmp7969674A0665F5AE35C1BC74E95B88CB" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filE32A71858ACC284F611BBB88B8A23CB6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\pt-br.js" />
-            </Component>
-            <Component Id="cmpF2EE16665C31640EB5094C075E2F39AF" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil4CE06A48AB281B24F56C4A694CAB325F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\pt.js" />
-            </Component>
-            <Component Id="cmpF6A3DD0FC71B73002FE4B0250DC4A84D" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filF2CE909DA12E82EA0667FA2BD4BEE857" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ro.js" />
-            </Component>
-            <Component Id="cmp9FEB536151E2C6DECD50980E249339F1" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filD81743FF83CFD27F915948135923BF24" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ru.js" />
-            </Component>
-            <Component Id="cmpA84A6C5038C238D667067E581991697E" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil9A7E8D5B13B5EC1234BD338255669026" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\si.js" />
-            </Component>
-            <Component Id="cmpF578E0E63FCF30012C77D7620994EA08" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filAEFCF6FFB63604FC7D8373E98B7F5342" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\sk.js" />
-            </Component>
-            <Component Id="cmpE48565CB399A097D2A7D676314A4E0B1" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filAE868505DC26432E395B0830957413D0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\sl.js" />
-            </Component>
-            <Component Id="cmp015FF2FB8A4DBEB3C0FAA5229ED3B3DE" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil8BA2B12FCF43BD86B1034F5AA2DD8B06" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\sq.js" />
-            </Component>
-            <Component Id="cmpD5505446A74704A978E44966FFEDD824" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil6F9D695E420E115A1CEE9DD3F67CA721" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\sr-latn.js" />
-            </Component>
-            <Component Id="cmpAD9F95A8FA8B215B3048EFB8DFED710E" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil912A71808B9D3E6F5180EB569FF28AB3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\sr.js" />
-            </Component>
-            <Component Id="cmp723A73F556B4B303CE15F047D048B9B8" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil51CE9D1BDDC1E17BA261D1F82FA4398C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\sv.js" />
-            </Component>
-            <Component Id="cmp69FF63079168D3CEEC1B43945ED933D4" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filEFE30855E4ABB85141C1A6FFB3D502B3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\th.js" />
-            </Component>
-            <Component Id="cmpEC8EC85E24BEAEF38519D30DDCED5318" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filB278B2F604FC5561132E59CE90886A66" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\tr.js" />
-            </Component>
-            <Component Id="cmp6DE3EA050665F23FE6B8C7D71A728623" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil6329BFAEC3EC354F31764672AE29CB97" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\tt.js" />
-            </Component>
-            <Component Id="cmpBB2792FC03D9668C82FA683CB2DDE3FF" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filF601B95CFF52A9DB6B57163FA175B534" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\ug.js" />
-            </Component>
-            <Component Id="cmpB1045E93E44E6227C5B58BC802162608" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="filECA217A18AA89F52C60A67F9E91B4ED7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\uk.js" />
-            </Component>
-            <Component Id="cmpF1B71D531B12DE2284A35F7021456611" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil3710706D6188FD8B6C998C80B331E10C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\vi.js" />
-            </Component>
-            <Component Id="cmpFF6C3C91AAB3BCDB888DD1CD521059AA" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil8BCF8F3789F7A97CBEC2880086A25FD9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\zh-cn.js" />
-            </Component>
-            <Component Id="cmp6279ED9C9243BE4124C8ACDD5B3465E8" Directory="dir1B27F26CDB75D385A867655CE0176BD9" Guid="*">
-                <File Id="fil5CD814EABF25120E8128647FC02CF9BC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\font\lang\zh.js" />
-            </Component>
-            <Component Id="cmp52ED1B7E50D5386060FC67D9F7F0F0D5" Directory="dirB336BE7C96481BFC7CB057DF228C4F3C" Guid="*">
-                <File Id="fil13CA1C91DD02E6A2F2D17DB00EC920DC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\forms\dialogs\button.js" />
-            </Component>
-            <Component Id="cmp71F7D8D02B89E9F12E649C50D049B43C" Directory="dirB336BE7C96481BFC7CB057DF228C4F3C" Guid="*">
-                <File Id="fil51C52BBB7FC5342AAA760FBBC5FCC9F0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\forms\dialogs\checkbox.js" />
-            </Component>
-            <Component Id="cmp47EE2D6F74B953AFE8D40178903F8000" Directory="dirB336BE7C96481BFC7CB057DF228C4F3C" Guid="*">
-                <File Id="fil88024CEC494BDE6397155C03ABA39437" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\forms\dialogs\form.js" />
-            </Component>
-            <Component Id="cmp74DAEE7E3DA61722693E9979E72A71C4" Directory="dirB336BE7C96481BFC7CB057DF228C4F3C" Guid="*">
-                <File Id="fil8B98A187621F5093DD2AD350A0B3C4D7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\forms\dialogs\hiddenfield.js" />
-            </Component>
-            <Component Id="cmpB67829150FB67D701E8D2917443270B6" Directory="dirB336BE7C96481BFC7CB057DF228C4F3C" Guid="*">
-                <File Id="filA4CC27245E20311735E0F953A4DA685A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\forms\dialogs\radio.js" />
-            </Component>
-            <Component Id="cmp088D98D6919C9AF62B9BD18F4112AA30" Directory="dirB336BE7C96481BFC7CB057DF228C4F3C" Guid="*">
-                <File Id="filE8D1672DE8B6ACC323DE1BCAAA43BB1F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\forms\dialogs\select.js" />
-            </Component>
-            <Component Id="cmpE772ABE77FB088B5862739D1BE3BDD38" Directory="dirB336BE7C96481BFC7CB057DF228C4F3C" Guid="*">
-                <File Id="fil3E2459D06A320C0DCD1D3B2CB98FF654" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\forms\dialogs\textarea.js" />
-            </Component>
-            <Component Id="cmp3D88C855DE1E41F33F6301BD6DE47A8A" Directory="dirB336BE7C96481BFC7CB057DF228C4F3C" Guid="*">
-                <File Id="filEB8B562C3E63FC698C5054DD751E82EE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\forms\dialogs\textfield.js" />
-            </Component>
-            <Component Id="cmpBAF9E2673A67FADBE62FCE6AC2BEDCE7" Directory="dirDCBBD0D87E78FCF34165BA1EA3077BA3" Guid="*">
-                <File Id="filFBED0D582B543726FAA9F5EE8202AF6D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\forms\images\hiddenfield.gif" />
-            </Component>
-            <Component Id="cmpF1769256DF7EB86C204310374DDEDF5B" Directory="dirA126F834B3AF7865D035374CFC661263" Guid="*">
-                <File Id="filAA9ADD766A06C4F62D7C545C0EEFB642" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\iframe\dialogs\iframe.js" />
-            </Component>
-            <Component Id="cmp116ECA3D07A3756BEC7E239EEA17ADF3" Directory="dirDAEB72F40983EBB8DC7C47546E798A04" Guid="*">
-                <File Id="fil064C414D1981BDC433E1E29196BCDD4E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\iframe\images\placeholder.png" />
             </Component>
             <Component Id="cmpD9318A6C82E8EEACF2A001E9B91ACBEB" Directory="dir9E5B5A3D898CDE0B1FE6E726D3569183" Guid="*">
                 <File Id="fil26D530E66DFD5ABBDC1CCFA4BA8BA081" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\image\dialogs\image.js" />
@@ -1022,9 +113,6 @@
             <Component Id="cmpAE9B0D59DEFB2012F66099F091926BA5" Directory="dirD231E5EAD7B495980C2533F7996B9FD4" Guid="*">
                 <File Id="fil21E0A4283DF4B30165E87CE23275B075" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\link\images\hidpi\anchor.png" />
             </Component>
-            <Component Id="cmp75AA650075CBCB27520C63BF9D3F3FFF" Directory="dir333F003ACEC320A26141F7489074DE94" Guid="*">
-                <File Id="fil5DFC646BFBF8F6FCC258D0687D378769" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\liststyle\dialogs\liststyle.js" />
-            </Component>
             <Component Id="cmpACADCC7AEB1A5D855640344D81A33FCF" Directory="dirAD8CB76A6D91B2251DB4B9A8E76C08B5" Guid="*">
                 <File Id="fil7B7EE8E1EA91F94A6EA2F6615FD43EF7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\magicline\images\icon-rtl.png" />
             </Component>
@@ -1036,195 +124,6 @@
             </Component>
             <Component Id="cmpAED36D857A5653BC8AC2C2F79B21FCE1" Directory="dirB38921AB6F2E5CDB55C2A614226EA639" Guid="*">
                 <File Id="fil27C4F486EECC988EF916ACD7B7093DF8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\magicline\images\hidpi\icon.png" />
-            </Component>
-            <Component Id="cmpB34CE3813557C45E796C371E653B12F7" Directory="dir084DBF989580AD0D62AE41FF11F5C901" Guid="*">
-                <File Id="fil5C2C80687185C2DD835A80BDD0936579" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\pagebreak\images\pagebreak.gif" />
-            </Component>
-            <Component Id="cmpC40D7B6E05ED851AC744FB07E4D06430" Directory="dirF1FB09EF6688D8DAF608CDDF9CCA6FA7" Guid="*">
-                <File Id="fil232F3426340F026C6C4C62A8D0D4D32D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\pastefromword\filter\default.js" />
-            </Component>
-            <Component Id="cmp0A37BD8951B5CF0CADD144322F4E1018" Directory="dirFF679AE4C64D8A10A1EB680704DF974A" Guid="*">
-                <File Id="filFF9E8B2D9C16135A34B864036009688C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\preview\preview.html" />
-            </Component>
-            <Component Id="cmp0168CA896C17077EC580D04E7531004F" Directory="dir0BA61753FFB6EDBB0CEEE68B53ADC27D" Guid="*">
-                <File Id="fil1E75893F440B1A5012FFCAFEF1291CDF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\scayt\LICENSE.md" />
-            </Component>
-            <Component Id="cmp4A8EB838788293D8AB7756389808066F" Directory="dir0BA61753FFB6EDBB0CEEE68B53ADC27D" Guid="*">
-                <File Id="fil1976289706F41BCCB4F242A964A7AB9A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\scayt\README.md" />
-            </Component>
-            <Component Id="cmp2954C0642208BA2BCFE99C93566C929B" Directory="dir6B99216B4EA00300BD509F065EC922EC" Guid="*">
-                <File Id="filDE8A63777A488A5A88B8074393D1A12E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\scayt\dialogs\options.js" />
-            </Component>
-            <Component Id="cmp25602B160EBF54A0E65AACCAABFA5383" Directory="dir6B99216B4EA00300BD509F065EC922EC" Guid="*">
-                <File Id="filC802C2DD4899E5C2E6072B3CF1605AAF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\scayt\dialogs\toolbar.css" />
-            </Component>
-            <Component Id="cmp4A7C8CFD70F2B9860E744F1BB55B8ACF" Directory="dirF191D567492A45A4E08B83565C5B8B8D" Guid="*">
-                <File Id="fil60C10E1A0603BE4294D0E2DFF7D14CBD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\showblocks\images\block_address.png" />
-            </Component>
-            <Component Id="cmp81A0D3ECA415FA3B2B530E4383201070" Directory="dirF191D567492A45A4E08B83565C5B8B8D" Guid="*">
-                <File Id="fil65F250314962790F3150F3FADDA16369" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\showblocks\images\block_blockquote.png" />
-            </Component>
-            <Component Id="cmpD7A471C7E38D08872A449B0B767FCE49" Directory="dirF191D567492A45A4E08B83565C5B8B8D" Guid="*">
-                <File Id="filAD200E34BEB1590B8A49BC290D82CC93" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\showblocks\images\block_div.png" />
-            </Component>
-            <Component Id="cmpA4C6C9781E363F456EB9FD2A0C2F750D" Directory="dirF191D567492A45A4E08B83565C5B8B8D" Guid="*">
-                <File Id="fil5FC9E72DAB395097E9D50C0ADECD6B1E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\showblocks\images\block_h1.png" />
-            </Component>
-            <Component Id="cmp83AD908F15C3AB45E30DFC407E50F90E" Directory="dirF191D567492A45A4E08B83565C5B8B8D" Guid="*">
-                <File Id="fil63E71CEB353794FB91054FFE03376FBB" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\showblocks\images\block_h2.png" />
-            </Component>
-            <Component Id="cmp3C26EB0602A20806F946DD4001BCD34D" Directory="dirF191D567492A45A4E08B83565C5B8B8D" Guid="*">
-                <File Id="filD5557891F5A5F84E20F9D40E83971052" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\showblocks\images\block_h3.png" />
-            </Component>
-            <Component Id="cmpFCD92DCB4003611869D5CBFF479713D7" Directory="dirF191D567492A45A4E08B83565C5B8B8D" Guid="*">
-                <File Id="fil40381AADA88A849F58A601C3FD65D6EF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\showblocks\images\block_h4.png" />
-            </Component>
-            <Component Id="cmp9282B9227B850A4A9473538EA1E56F6D" Directory="dirF191D567492A45A4E08B83565C5B8B8D" Guid="*">
-                <File Id="filF09B15A5A336BC5B03B9F1D603C3D6EE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\showblocks\images\block_h5.png" />
-            </Component>
-            <Component Id="cmp3190062E63C2BC1FFC59E380072C5642" Directory="dirF191D567492A45A4E08B83565C5B8B8D" Guid="*">
-                <File Id="fil8177E528FE6ACDE89A30C123C5DC9E43" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\showblocks\images\block_h6.png" />
-            </Component>
-            <Component Id="cmp3F4343F0AD4622A79112D11495778DDB" Directory="dirF191D567492A45A4E08B83565C5B8B8D" Guid="*">
-                <File Id="filF295D11F9ED65AC0CB0533108195D35B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\showblocks\images\block_p.png" />
-            </Component>
-            <Component Id="cmpA605292744CA4957D1894F388FB53078" Directory="dirF191D567492A45A4E08B83565C5B8B8D" Guid="*">
-                <File Id="filDA9DEE7268B8148BE10BBE8FBA8CCB21" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\showblocks\images\block_pre.png" />
-            </Component>
-            <Component Id="cmpA2A2C59402688C362EB79947DE191055" Directory="dir7F3D41E111F65AC987173427309213E7" Guid="*">
-                <File Id="filB1AE07F505A92DC6936CC380A5F0D5C4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\dialogs\smiley.js" />
-            </Component>
-            <Component Id="cmp8003A58B16F73785E30EC15EF64C17BD" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil5A246C9A260E349A589A2E5EC96A6E42" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\angel_smile.gif" />
-            </Component>
-            <Component Id="cmp4B654672447A63DFA209C0CDDFA7910E" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil96F61EF8C6AD7E90DF6B4D128A754A2A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\angel_smile.png" />
-            </Component>
-            <Component Id="cmpFBE9376A0B88CA06A8B82579601B2A6D" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil974B224157A2E91F9D7240D918CCD9DB" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\angry_smile.gif" />
-            </Component>
-            <Component Id="cmpC34B61C976CDFB2C52D74A8192B71FC5" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="filB17C93EEBAFF652F54D069DFECF6E564" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\angry_smile.png" />
-            </Component>
-            <Component Id="cmpD23D49CA529E2EDE2D37F608FDB916CA" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil614BC2C793AD8ED5BA505F5F5DF67715" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\broken_heart.gif" />
-            </Component>
-            <Component Id="cmp1155FB32D860DEBEE5C1FD2EF7DB2FE1" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil08FAF17A60A45FF28FA61F88772C8E90" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\broken_heart.png" />
-            </Component>
-            <Component Id="cmp36DABE01F7434E12CAD86DF1C2C14F0F" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil74C9F2E3A7C9D86447576B098EE9EDEC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\confused_smile.gif" />
-            </Component>
-            <Component Id="cmpDB391131C47E6F1519615E33AF8D5F33" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil489093313F2A047D52A5F890F95DF6D7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\confused_smile.png" />
-            </Component>
-            <Component Id="cmp24AB4818FA480D5F9987E5B06DDA2C82" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil14E7F2B42774F1EDD8CB026AACA0E811" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\cry_smile.gif" />
-            </Component>
-            <Component Id="cmpE961B97B881A32028320C48DF463F51B" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil56373B8776C75D713593C9E336F91890" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\cry_smile.png" />
-            </Component>
-            <Component Id="cmp9B43C3BD3D1B5C19F349BA9428D8F373" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil39AC376C009422BD03AAE66287A71E2C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\devil_smile.gif" />
-            </Component>
-            <Component Id="cmp52D752634F3BAC4A3CA86DAEDD3C8F63" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil376FEF8083DEBC8AFD1B694681761617" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\devil_smile.png" />
-            </Component>
-            <Component Id="cmp8EAD5E9561272FA8692BECA76C55E6AE" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil8D4167AF3E7DA239E1F6047D27E92A14" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\embaressed_smile.gif" />
-            </Component>
-            <Component Id="cmp4C92F8B6FEA54228849350D66D3AB4B4" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil5765F42C65DDC2D88143B322B17C5106" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\embarrassed_smile.gif" />
-            </Component>
-            <Component Id="cmpFD94D95D552D5F844143BAC155728475" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="filD92AB9E1BD554032FD446B620F28D3CC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\embarrassed_smile.png" />
-            </Component>
-            <Component Id="cmp7ABF808CADDB4BC0A18C163F151E9D90" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil68E36CACC7DFBB4E5E0D1DAE18F184E5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\envelope.gif" />
-            </Component>
-            <Component Id="cmp8FE05CEA7B41A4B102749CA436647DCB" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil855B7F923A912EAB5FEA3CAEED8828B9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\envelope.png" />
-            </Component>
-            <Component Id="cmp5FE71961E66C2BD10AFA6BA5F0158D94" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil483A6355216703DEB3E60F692240C8A4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\heart.gif" />
-            </Component>
-            <Component Id="cmpB823439C50BA9B58D3084CF372A930A3" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil10E3CA9100B175CA0FCE0EFBBC0643BC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\heart.png" />
-            </Component>
-            <Component Id="cmp7C3D429249A4B1CB95AAB671AF3167C8" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="filBB733E9A92B0536594155C138A1E8444" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\kiss.gif" />
-            </Component>
-            <Component Id="cmpACAEEEF08B3BCEC993885303BF15A0FE" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil10626E4F0F6851EA9EF689B473B07180" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\kiss.png" />
-            </Component>
-            <Component Id="cmp83686CA6C8332D0C2F75FD2812166EC8" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil1D7380AF45CC3736207F504FF0ED2F0B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\lightbulb.gif" />
-            </Component>
-            <Component Id="cmp615433AD94CFA95896A7A8D829A4B64B" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil14AE37A0D3ED73A84C2D8AF984CCBA04" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\lightbulb.png" />
-            </Component>
-            <Component Id="cmp23C0C1CDAEC08207582FFD764965E062" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil961A18A9B47AA8F229BED7034A12C443" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\omg_smile.gif" />
-            </Component>
-            <Component Id="cmp485B50ECED47A9ACCB57DDED191294D8" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil44E6A1E002F0F17EAD12FE4312F26B35" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\omg_smile.png" />
-            </Component>
-            <Component Id="cmp5A737B4BF1BC4CD7FEA9644AF8BE5288" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil1964EFB062728B4D4652E34B78B1D1F8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\regular_smile.gif" />
-            </Component>
-            <Component Id="cmp8C53FA60857E224EDE5B2E0BFEAB9D07" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="filA16B2F91187373CD27E3764574652A6C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\regular_smile.png" />
-            </Component>
-            <Component Id="cmpC6CD626428DCEF6428C8637631C8EC37" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="filFF7B9E8CA887B533A98A0145A0073137" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\sad_smile.gif" />
-            </Component>
-            <Component Id="cmp1A653D7480FCACCD06E75C8A9A0730FA" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="filF79001F2E1EFDD1631BB3DF12D3C3DC1" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\sad_smile.png" />
-            </Component>
-            <Component Id="cmp8224B9E4DAEBF9144ECDC52E8EE1483A" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil44635E77E7599BC35548F787AC0C4531" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\shades_smile.gif" />
-            </Component>
-            <Component Id="cmp290C23409C9410C594D44AB39C046FC2" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="filCF8C252661D0E53F0A78C80E3424AC0F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\shades_smile.png" />
-            </Component>
-            <Component Id="cmpE63050A2BE3BC1A55B18566D6169911E" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil1CC107CC6EB081BEAA21333BB7567DC8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\teeth_smile.gif" />
-            </Component>
-            <Component Id="cmp71F4A2FDBBBF6D34A5679FB10DA1479B" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil831135BDE0A6BF513381BE844694FE5B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\teeth_smile.png" />
-            </Component>
-            <Component Id="cmpC3512263D9D7B4CB143DD7C7DE7D8C94" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="filF85D916ED3F349FFDB8AFB0A37F3C284" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\thumbs_down.gif" />
-            </Component>
-            <Component Id="cmp2754C3D6E5A242E0180FD201A2D13B5A" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil57DF78341BE0363E2E6691C488245682" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\thumbs_down.png" />
-            </Component>
-            <Component Id="cmpAEB4CA0A3A6B69DE3AE84E3DAC7BA530" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil59ABD662E7BA861B2ADE2C25A547ACEA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\thumbs_up.gif" />
-            </Component>
-            <Component Id="cmp148D73EF5743B184287CF4FFEED7166C" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil3EE2C9AB08F60AE0FED0D433E6D7F65C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\thumbs_up.png" />
-            </Component>
-            <Component Id="cmpE042D0A6E5506B8D9CD03784735EB2B9" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="filACF2F94B7AC4F5422509748B6D5B7353" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\tongue_smile.gif" />
-            </Component>
-            <Component Id="cmp80B2D1E93BD05F680566E622C3B4DB05" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil646FC31680CFA67D527412D1C9FFD65E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\tongue_smile.png" />
-            </Component>
-            <Component Id="cmp4B909C3DACC21F929C4C414713D699E4" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="filDE997BCC030DA89F5F26E430A6CBEAD2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\tounge_smile.gif" />
-            </Component>
-            <Component Id="cmp37AC888BEA93948B0208935F2D1C98AD" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="filEC18CF92808263ADCF004B9CFC45DFB6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\whatchutalkingabout_smile.gif" />
-            </Component>
-            <Component Id="cmp2F24EE1688624D17179DD4889DE5C922" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="fil6A0EDC6D21275A43A4B3AE8D1751FAA2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\whatchutalkingabout_smile.png" />
-            </Component>
-            <Component Id="cmpEDC4A8C33BB1BF1E0707677DBB8AF2F6" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="filE15C0AEF99F78FE3DBCDDD9643CE6633" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\wink_smile.gif" />
-            </Component>
-            <Component Id="cmp83203115E7D8D011B47DF769990802A6" Directory="dir9E46BB42D5F75054EC8287DC4DCB0777" Guid="*">
-                <File Id="filCF7FE845555F70605A9D3FA88817C70E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\smiley\images\wink_smile.png" />
             </Component>
             <Component Id="cmp2F91074CFBD56E9EB7720B3B4AE50F77" Directory="dir902BE6BDD62D57A8ECD44E0FC997CDDB" Guid="*">
                 <File Id="fil64D309509E5EBB917EA5EED743AA06EF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\specialchar.js" />
@@ -1370,228 +269,6 @@
             <Component Id="cmp65CF7BA652192C738F83B5293A0E915C" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
                 <File Id="filFA02AED1135382B1DB0B35D94FE3DF05" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\_translationstatus.txt" />
             </Component>
-            <Component Id="cmpAD6F22B5990C8D7D35A04F7292B9B5A0" Directory="dir7D548C4D40954B0125075C27F6A36196" Guid="*">
-                <File Id="filF583228F210F76A69F558FAB327C533C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\table\dialogs\table.js" />
-            </Component>
-            <Component Id="cmpF6CEC3BC99E50211A331478E611A8333" Directory="dirD34F7CE1712D86B6DC5D91D38C16AA77" Guid="*">
-                <File Id="filEEABD3C7E4F919963AEB725D69C41458" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\tabletools\dialogs\tableCell.js" />
-            </Component>
-            <Component Id="cmp659E680473BAB29BF9B76F7C3BC4C448" Directory="dir98DD209DEDAEDEA6E0C134CA46FA433F" Guid="*">
-                <File Id="filA3786705EC672CBDBD9CF7F898B1E2F8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\templates\dialogs\templates.css" />
-            </Component>
-            <Component Id="cmp12DCB7FDBC9D5B3462A8FFDD8F9A65E7" Directory="dir98DD209DEDAEDEA6E0C134CA46FA433F" Guid="*">
-                <File Id="fil477D3E39C588A5ECBA110AF213515DD9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\templates\dialogs\templates.js" />
-            </Component>
-            <Component Id="cmp68C10F154178F43E40D2826B476A7D47" Directory="dir434790B648C981497E835388F94359A2" Guid="*">
-                <File Id="filB6E303EDC7C438F2F45823B4112FDEFB" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\templates\templates\default.js" />
-            </Component>
-            <Component Id="cmpC9FF8093230576AB53C3D266F6B2798F" Directory="dirAAD70AA72CB9CB7509474549F0841368" Guid="*">
-                <File Id="fil6C3DF39F17DF998BA915BD2A14976028" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\templates\templates\images\template1.gif" />
-            </Component>
-            <Component Id="cmp63D94FAB39D1BDD3E3B4ED3646C9F76A" Directory="dirAAD70AA72CB9CB7509474549F0841368" Guid="*">
-                <File Id="filC4A19DADD561598F1B6EDE1D0A404C77" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\templates\templates\images\template2.gif" />
-            </Component>
-            <Component Id="cmp3DE80FF2033EC4DB56E3FD3A7405D4CA" Directory="dirAAD70AA72CB9CB7509474549F0841368" Guid="*">
-                <File Id="fil08ED84C8E1117F7C1C3DFC31559E5ECB" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\templates\templates\images\template3.gif" />
-            </Component>
-            <Component Id="cmp256709B89B7D1A1CC71AF519573CC2BF" Directory="dirA68CF51C72AD64CE386AFD061B05C871" Guid="*">
-                <File Id="fil9B025C2653D50D1FBE12929C9A368C8E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\wsc\LICENSE.md" />
-            </Component>
-            <Component Id="cmp0E8F4E90520BF02814691D880E05D396" Directory="dirA68CF51C72AD64CE386AFD061B05C871" Guid="*">
-                <File Id="filE8FBA3E75CB05042BF6749C367D199AD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\wsc\README.md" />
-            </Component>
-            <Component Id="cmpEE531C1B25543E5A15BB2AC5098A8F0B" Directory="dir1FACF3E0E74BB3CDC602518651F58429" Guid="*">
-                <File Id="fil3E0408EF1E766D3B255427CCCD99D2C3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\wsc\dialogs\ciframe.html" />
-            </Component>
-            <Component Id="cmpF5FB61B63FA38252CC6B2510D7363C1A" Directory="dir1FACF3E0E74BB3CDC602518651F58429" Guid="*">
-                <File Id="fil490DDB3937D2870834B3079EB3B0FF17" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\wsc\dialogs\tmpFrameset.html" />
-            </Component>
-            <Component Id="cmp44AD5505C9A2C22DD95DCE1288E4012E" Directory="dir1FACF3E0E74BB3CDC602518651F58429" Guid="*">
-                <File Id="fil846E0465429583B22A7A00509E0EE00D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\wsc\dialogs\wsc.css" />
-            </Component>
-            <Component Id="cmp18448DB05EBF532FF41030A20BF4EEE3" Directory="dir1FACF3E0E74BB3CDC602518651F58429" Guid="*">
-                <File Id="fil67B4123407D688D758A4F4CB17040C1C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\wsc\dialogs\wsc.js" />
-            </Component>
-            <Component Id="cmp45098DAEA4866DBE5906E154197E3297" Directory="dir1FACF3E0E74BB3CDC602518651F58429" Guid="*">
-                <File Id="filB7A3D95137F3A815F7DC562D1901A170" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\wsc\dialogs\wsc_ie.js" />
-            </Component>
-            <Component Id="cmpBB2C844A298AEB5D6874C334CA7F0DA2" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="filE34C51E386E4C8B1C27B5958E86BC41D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\ajax.html" />
-            </Component>
-            <Component Id="cmp87708EC41A1DB084CABD7AE6913B7D8F" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="fil699482FB071B99F4414F9308E5590403" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\api.html" />
-            </Component>
-            <Component Id="cmp4918CCC7C51377A94E3F701BEEC30251" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="filBB17A6A5718F07EEF6FEC933A3A342CF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\appendto.html" />
-            </Component>
-            <Component Id="cmpE1C4510D8562A0900015B524E21ADF97" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="fil0119A562737EE8E3121B8DE0B153A016" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\datafiltering.html" />
-            </Component>
-            <Component Id="cmp65506BAE4B849BF3634F5B08AD078C9B" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="fil87623B64F8C522345B9E4825B142ADCB" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\divreplace.html" />
-            </Component>
-            <Component Id="cmp3D210E141303DB707B6DF56A1D728081" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="fil28E921090059353BE28E623D540AAD80" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\index.html" />
-            </Component>
-            <Component Id="cmp94F0995EB4F8F536E1019BC0D073BA7D" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="fil39504B45B6C9CA07A72BBC31E63952F8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\inlineall.html" />
-            </Component>
-            <Component Id="cmpD52E010397C9F969079E9E87B25BBA0F" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="filCEFC7E9922E6F4FB2337AC8CDB1DE235" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\inlinebycode.html" />
-            </Component>
-            <Component Id="cmpC19BA96F0A489E074E4E09D984D50356" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="filC73E907A6688E649B94EF747155FEEE8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\inlinetextarea.html" />
-            </Component>
-            <Component Id="cmp7F05E89D6567E82E4D383E26887A28F9" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="filD1845E69A538F7B5558CA8528B324D96" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\jquery.html" />
-            </Component>
-            <Component Id="cmpB55C3E74B00EBF335DB968F6D3F0BD6E" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="fil3D30F64629EFD89742E9F5FE4307D1C9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\readonly.html" />
-            </Component>
-            <Component Id="cmpF5F0260F7D0D00E11C560AA89F1C968F" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="fil3E5D6CDEEA8E4597E7944B4935E60E15" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\replacebyclass.html" />
-            </Component>
-            <Component Id="cmp34A7D80F7E979BC85AF12D5A7AD4D080" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="fil161D98611AC931527017198C41062FF7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\replacebycode.html" />
-            </Component>
-            <Component Id="cmp3F4428C575C976ACF661B5911F167C57" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="fil8F5ABDCE7787ACE139C1A8260E043309" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\sample.css" />
-            </Component>
-            <Component Id="cmpBF8107B69055AEBB8CFF66BC25EC6C02" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="fil6A1136E8C35353C9E6377AC3C21C669E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\sample.js" />
-            </Component>
-            <Component Id="cmp4D57F181E792987CF8E72E50B16F01DB" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="fil54A620A0E8B640C123751B64D2204521" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\sample_posteddata.php" />
-            </Component>
-            <Component Id="cmpB82EAFF5FBD6A93458BCB85D6804C897" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="fil5CAC8CBB31175AEF9B1230FE12D512A0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\tabindex.html" />
-            </Component>
-            <Component Id="cmp73EC7CB2C7E1513996585D95541CB293" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="fil2ABD15D3B86EAFFDC9E7B413EA2936B9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\uicolor.html" />
-            </Component>
-            <Component Id="cmp4142A9B362B6C061E0516EFCA14694F4" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="filF152BB70492158CD67B03F4646DA18D7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\uilanguages.html" />
-            </Component>
-            <Component Id="cmp826561EC2E28A32216FE33E225693F7C" Directory="dirC39E43ADB28B5D910963FC97EDACA773" Guid="*">
-                <File Id="fil52456258606E6D4759A4C95DF203746A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\xhtmlstyle.html" />
-            </Component>
-            <Component Id="cmp20A4251DADEA18E0ECE882E8F30C8BD2" Directory="dirAB1D96DBB26252DD4BDE33AC8BC1CAA9" Guid="*">
-                <File Id="filA5355261F9F9790243910172DD5945FA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\assets\posteddata.php" />
-            </Component>
-            <Component Id="cmp9C12CA04FDE5619A1E415FBA08B08C8C" Directory="dirAB1D96DBB26252DD4BDE33AC8BC1CAA9" Guid="*">
-                <File Id="filE96CDCA78D9D7462BDAEA58993775C8D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\assets\sample.jpg" />
-            </Component>
-            <Component Id="cmp26D856AEF3D500FB6081B656124BE167" Directory="dirCA1CAAD3DAA97380B2D2C8870E544508" Guid="*">
-                <File Id="fil18BD676F29A90D524D1CD820047F2BFC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\assets\inlineall\logo.png" />
-            </Component>
-            <Component Id="cmpB94FA593E463002A14D0DD0A84E3A21F" Directory="dirFE6E9C8DC7E5E8AF54D0B9835764CF14" Guid="*">
-                <File Id="fil0A01B83BC187D4330CAD8C9A84A33477" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\assets\outputxhtml\outputxhtml.css" />
-            </Component>
-            <Component Id="cmp3FB1D1CCAFD7A69E73A62197192A825D" Directory="dir61B4095A55E5EE0D86ECEFC16F536E29" Guid="*">
-                <File Id="fil30A13E4F996B59B8D859FBB7E95B304A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\assets\uilanguages\languages.js" />
-            </Component>
-            <Component Id="cmp2B71DE8A1D87CF5EE5EC20C0B57D16BF" Directory="dirB4141BC37C75DA39BF8E5950446429B5" Guid="*">
-                <File Id="fil70A432A3A9626851420DD14BED407BF4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\plugins\dialog\dialog.html" />
-            </Component>
-            <Component Id="cmp3B5E439ADFE6A326B25963DCCC33373E" Directory="dir7246D87AD22B177F4EFF02ECF0B926ED" Guid="*">
-                <File Id="filC4E615BE6ECCF9BCA92682D64DE6C3EF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\plugins\dialog\assets\my_dialog.js" />
-            </Component>
-            <Component Id="cmp373D10F4AA4B85D906DF4E6ABF9BEFE6" Directory="dir7E5D9BCE0DFC141C3AF6820700F2908C" Guid="*">
-                <File Id="filB4E6817F775114A1966430DFC664D56C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\plugins\enterkey\enterkey.html" />
-            </Component>
-            <Component Id="cmp035A83D40615092DEFFB5A5DA0D01AF6" Directory="dir059360636AD1BDAF822426E29D48BCDF" Guid="*">
-                <File Id="filD1792004B32BDFD7FD41D5891DBA139B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\plugins\htmlwriter\outputforflash.html" />
-            </Component>
-            <Component Id="cmp35032F3E87790E4C8C38AFEF497030CE" Directory="dir059360636AD1BDAF822426E29D48BCDF" Guid="*">
-                <File Id="fil3F6BD4B697385602DBE6AA53DF5A57E2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\plugins\htmlwriter\outputhtml.html" />
-            </Component>
-            <Component Id="cmp1986CE204C6D60617C1509487D16A858" Directory="dir8A9A11B3B83F1EE6A144DE1A302185F2" Guid="*">
-                <File Id="fil60498B3E390B853EC153624DA5071C65" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\plugins\htmlwriter\assets\outputforflash\outputforflash.fla" />
-            </Component>
-            <Component Id="cmpD78E095464B41308FCC5582F81F5EAEA" Directory="dir8A9A11B3B83F1EE6A144DE1A302185F2" Guid="*">
-                <File Id="fil1745DE7AA4953C55A69ECCEE1657C36F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\plugins\htmlwriter\assets\outputforflash\outputforflash.swf" />
-            </Component>
-            <Component Id="cmp5293DDC6859548413500557D4CE63BF0" Directory="dir8A9A11B3B83F1EE6A144DE1A302185F2" Guid="*">
-                <File Id="fil7300C3BD3352BFCD66E65AED374AA776" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\plugins\htmlwriter\assets\outputforflash\swfobject.js" />
-            </Component>
-            <Component Id="cmp4C6555D22891862873259AAB35F707E9" Directory="dir82B612095A654D21FBADA5DF88F0D259" Guid="*">
-                <File Id="fil968DA30DD796DC52F49F24EDDDAE6FCA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\plugins\magicline\magicline.html" />
-            </Component>
-            <Component Id="cmpC8F2EB66F8499C78D933B3829AB988CF" Directory="dir4AAC7AEC5A02838C86C983E30C378FD9" Guid="*">
-                <File Id="fil3D1F26CB5FBF4C2366F3954D420B15B3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\plugins\toolbar\toolbar.html" />
-            </Component>
-            <Component Id="cmpC8033BD95D49C71C06B94702D9243AAD" Directory="dir625BA8B1546E216A0EE4F7842FEAC9AE" Guid="*">
-                <File Id="fil3AE0681BEA95ADD081A626A1DED94866" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\samples\plugins\wysiwygarea\fullpage.html" />
-            </Component>
-            <Component Id="cmp1016F1ADC29BE0129D6DB24273F7D973" Directory="dir4106AC73DC495222BF6B5163E658F154" Guid="*">
-                <File Id="filCA3110DCF99E6583BB1E79DC2B69907E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\dialog.css" />
-            </Component>
-            <Component Id="cmpFECEE59E452E13AD9583B9F32EC7E18F" Directory="dir4106AC73DC495222BF6B5163E658F154" Guid="*">
-                <File Id="filF5A41BE2BA534BC2B6C4B90DF820AC8D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\dialog_ie.css" />
-            </Component>
-            <Component Id="cmp5CBA88203F20D41CA41D1A8FA96E1B6A" Directory="dir4106AC73DC495222BF6B5163E658F154" Guid="*">
-                <File Id="fil0A530E0A9A686C20B6F3715F8F38E3E6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\dialog_ie7.css" />
-            </Component>
-            <Component Id="cmpAEB0EF7A78B5E34951E551566E2A93CD" Directory="dir4106AC73DC495222BF6B5163E658F154" Guid="*">
-                <File Id="fil7408BD3DB1CE908C7FEB400828E93258" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\dialog_ie8.css" />
-            </Component>
-            <Component Id="cmp9C451E371013A6C7E19D716000B62BA9" Directory="dir4106AC73DC495222BF6B5163E658F154" Guid="*">
-                <File Id="fil510632E0401483713ACD0DE5C1FCD645" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\dialog_iequirks.css" />
-            </Component>
-            <Component Id="cmpE5E1AACCF5B15C1670990F0973CB7FFB" Directory="dir4106AC73DC495222BF6B5163E658F154" Guid="*">
-                <File Id="fil9C1DFD0DF773E9392F36EF0BA6243611" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\editor.css" />
-            </Component>
-            <Component Id="cmpD2286F3EE5BEA7AE510253EB2559930A" Directory="dir4106AC73DC495222BF6B5163E658F154" Guid="*">
-                <File Id="filBA09D454E200C0BEA9941289589D0145" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\editor_gecko.css" />
-            </Component>
-            <Component Id="cmp8AC01E226F23FE6A11ABE4777C27927C" Directory="dir4106AC73DC495222BF6B5163E658F154" Guid="*">
-                <File Id="fil55BF06564CD2EA80DFC952F57464FA2C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\editor_ie.css" />
-            </Component>
-            <Component Id="cmp359061202320DCD20184AA2DA28AD81B" Directory="dir4106AC73DC495222BF6B5163E658F154" Guid="*">
-                <File Id="filAC309F88C09560768A4FB908BCEBAA72" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\editor_ie7.css" />
-            </Component>
-            <Component Id="cmpC647C89D7F5652DB5110C42A03DB7AAE" Directory="dir4106AC73DC495222BF6B5163E658F154" Guid="*">
-                <File Id="fil2E49569E473E9CBFFE6B63992D5FE592" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\editor_ie8.css" />
-            </Component>
-            <Component Id="cmp14953053B6648DE5D4C0113214CA7F2D" Directory="dir4106AC73DC495222BF6B5163E658F154" Guid="*">
-                <File Id="fil7F4CC07345AC0A3D14FF4E3E7F138CC8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\editor_iequirks.css" />
-            </Component>
-            <Component Id="cmp96B2F00BF158D2BF800BD920EBB0F5CA" Directory="dir4106AC73DC495222BF6B5163E658F154" Guid="*">
-                <File Id="fil9AF2EBAF02484C08629E422861BCCE6E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\icons.png" />
-            </Component>
-            <Component Id="cmpAA16F58CA5D6E7A08D672EB4AD784D10" Directory="dir4106AC73DC495222BF6B5163E658F154" Guid="*">
-                <File Id="fil2DFFC1439386F697CF8B5DCD098D3666" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\icons_hidpi.png" />
-            </Component>
-            <Component Id="cmp1A25966B1FDA362C8981405865F0ED6D" Directory="dir4106AC73DC495222BF6B5163E658F154" Guid="*">
-                <File Id="fil71C802593846354796B82778246DFE81" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\readme.md" />
-            </Component>
-            <Component Id="cmpBC9FE52282F6F77A681DF0ED57428C34" Directory="dir1E552B3D137C6F28D57B5A2A24142938" Guid="*">
-                <File Id="fil617F46200B701D68A14AADF6BE8DC2BA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\images\arrow.png" />
-            </Component>
-            <Component Id="cmpE440DFEFE93F31085000F4597C641DE8" Directory="dir1E552B3D137C6F28D57B5A2A24142938" Guid="*">
-                <File Id="fil08ACC546769FAF209F7F663057992567" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\images\close.png" />
-            </Component>
-            <Component Id="cmp78DFD7053E90B5F90430A84A4F0A4352" Directory="dir1E552B3D137C6F28D57B5A2A24142938" Guid="*">
-                <File Id="filDB18B7141C5BED60AB4092966C3C642F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\images\lock-open.png" />
-            </Component>
-            <Component Id="cmp229552B1D9F677D1F05E77107195790F" Directory="dir1E552B3D137C6F28D57B5A2A24142938" Guid="*">
-                <File Id="filFD3916A83342811D096B442D96629A65" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\images\lock.png" />
-            </Component>
-            <Component Id="cmp0B9706E6474F6D81ABB8E189AA2DB961" Directory="dir1E552B3D137C6F28D57B5A2A24142938" Guid="*">
-                <File Id="fil8616118E159B0DD3173405C8C5EC7965" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\images\refresh.png" />
-            </Component>
-            <Component Id="cmpFAC28B91EBD752EB4879C4F1FABC279D" Directory="dir46461E7587E440D8BA942AF5EB9E0394" Guid="*">
-                <File Id="fil0BE09A2FF78D892D1E22ADBCF258DD78" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\images\hidpi\close.png" />
-            </Component>
-            <Component Id="cmp63D3F4FF9656CA4FE2DC0C85573515AD" Directory="dir46461E7587E440D8BA942AF5EB9E0394" Guid="*">
-                <File Id="fil30F4A40246E7B49434B5B8DF1C137A90" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\images\hidpi\lock-open.png" />
-            </Component>
-            <Component Id="cmpBA669B910B73B3D91BB3F093CDB41E9C" Directory="dir46461E7587E440D8BA942AF5EB9E0394" Guid="*">
-                <File Id="filCD1A1667E97B6181CBE87EB07B4BA2FE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\images\hidpi\lock.png" />
-            </Component>
-            <Component Id="cmpB94A1D40DB49295DAE605D417EBA3051" Directory="dir46461E7587E440D8BA942AF5EB9E0394" Guid="*">
-                <File Id="fil60326F9EEB4AE501EBD241623F7B4CB4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\images\hidpi\refresh.png" />
-            </Component>
             <Component Id="cmpA2A93694E04F5B2AB5D6A48B5D9AEE43" Directory="dir7FB352C6E45419FD6276F824BB46AB98" Guid="*">
                 <File Id="fil05612FA2DC039D03B5668F12FD4C2EBE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono-dark\dialog.css" />
             </Component>
@@ -1634,9 +311,6 @@
             <Component Id="cmpB9D142204462469E673E8764B2BA6316" Directory="dir7FB352C6E45419FD6276F824BB46AB98" Guid="*">
                 <File Id="fil3D7855B16AF8382E05158C54CB1635B0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono-dark\readme.md" />
             </Component>
-            <Component Id="cmp7E1114FB7940DF1D8FDD561E437ADA76" Directory="dir7FB352C6E45419FD6276F824BB46AB98" Guid="*">
-                <File Id="fil209D1B31C864924FA9751E7D56A88E93" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono-dark\skin.js" />
-            </Component>
             <Component Id="cmp8EF85513841B9FFDBF771F9BB22F2120" Directory="dirDCBF270C146BEB01289FA1443623D773" Guid="*">
                 <File Id="filAC9CE88705130912C48ADCBF086503BE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono-dark\images\arrow.png" />
             </Component>
@@ -1664,89 +338,23 @@
             <Component Id="cmpFE2EC5A183CA45041B00A937B6F62302" Directory="dirAF8B0E6A31FF7405E9079F426F9CF551" Guid="*">
                 <File Id="fil4C43577B68BE88D47C22198C77507F09" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono-dark\images\hidpi\refresh.png" />
             </Component>
-            <Component Id="cmpA912900D47AF60B5944BC97277CF3D33" Directory="dir7A62A6B35608B5A4E7DDA5BEAD04E4A7" Guid="*">
-                <File Id="filDDCC685C7A424C7A194DC2FE1603CBDC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\office2013\dialog.css" />
-            </Component>
-            <Component Id="cmp65AC6E38AA1657B7875F2EC1ECC9DB43" Directory="dir7A62A6B35608B5A4E7DDA5BEAD04E4A7" Guid="*">
-                <File Id="filDE4E795FA58E1B7A5E1FED41EF418E05" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\office2013\editor.css" />
-            </Component>
-            <Component Id="cmpC7FD40308F43E75F6C7C598CCADF65B5" Directory="dir7A62A6B35608B5A4E7DDA5BEAD04E4A7" Guid="*">
-                <File Id="fil326DB5144CC7342C299E71267AC694B9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\office2013\icons.png" />
-            </Component>
-            <Component Id="cmpA841B2429185D3DB592E9285A30EC33B" Directory="dir7A62A6B35608B5A4E7DDA5BEAD04E4A7" Guid="*">
-                <File Id="fil2DC92649BD989AAFC1E370FBACCBDC03" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\office2013\icons_hidpi.png" />
-            </Component>
-            <Component Id="cmp7F1A84BD94643DD2776234B2707E7A64" Directory="dir7A62A6B35608B5A4E7DDA5BEAD04E4A7" Guid="*">
-                <File Id="filF46B65611134A238E7FB5D33DADB5A28" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\office2013\skin.js" />
-            </Component>
-            <Component Id="cmp90CED79A044EDF6C9B9EFB9F9C974926" Directory="dir9B619137BFC75BE82E95095B5B5613C1" Guid="*">
-                <File Id="fil85F366BE486827877910B04DAC8CBDE8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\office2013\images\arrow.png" />
-            </Component>
-            <Component Id="cmp01A84815E9FB1B1951466FD357E9F5CD" Directory="dir9B619137BFC75BE82E95095B5B5613C1" Guid="*">
-                <File Id="filF6A492C9C04B87B5B72CA04FB997E62A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\office2013\images\close.png" />
-            </Component>
-            <Component Id="cmpE43C4EEA233FF35B86142CBF85ECD44A" Directory="dir9B619137BFC75BE82E95095B5B5613C1" Guid="*">
-                <File Id="fil79C8E424187E2FC71D498984CA9CAC9A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\office2013\images\lock-open.png" />
-            </Component>
-            <Component Id="cmp21434D4207BA66381566D6365AE08855" Directory="dir9B619137BFC75BE82E95095B5B5613C1" Guid="*">
-                <File Id="filA29437E4660B9A763A8ABEB5052FCE5D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\office2013\images\lock.png" />
-            </Component>
-            <Component Id="cmp0A18675FCD55A48869A53FAD0120512B" Directory="dir9B619137BFC75BE82E95095B5B5613C1" Guid="*">
-                <File Id="filDBBE8EEED47FB3A2D5C67245121C59F4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\office2013\images\refresh.png" />
-            </Component>
-            <Component Id="cmp7B0E5D4EC00B4CCB7689FB4A53BB6FE8" Directory="dir9BE8BFB5E13DCA803B6CCBE8532B6A45" Guid="*">
-                <File Id="filDAFFF1EE11B761CAF76555A54ADD0669" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\office2013\images\hidpi\close.png" />
-            </Component>
-            <Component Id="cmp3AD24BB78A37AE3AA8C6DC483CDA2E90" Directory="dir9BE8BFB5E13DCA803B6CCBE8532B6A45" Guid="*">
-                <File Id="filC6F0861DC6A51B825926A4E761D022E9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\office2013\images\hidpi\lock-open.png" />
-            </Component>
-            <Component Id="cmp633F93A33CAD0093409492D9D1088D99" Directory="dir9BE8BFB5E13DCA803B6CCBE8532B6A45" Guid="*">
-                <File Id="filB3F54824140EB574B19C3145ECDF2889" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\office2013\images\hidpi\lock.png" />
-            </Component>
-            <Component Id="cmp16DC6B3C817099D6DD268DDE19BD7522" Directory="dir9BE8BFB5E13DCA803B6CCBE8532B6A45" Guid="*">
-                <File Id="filCC1EC50E235E0331374A2B9C4BF67BAA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\office2013\images\hidpi\refresh.png" />
-            </Component>
-            <Component Id="cmp18D72818341890EF6814B691E4F29273" Directory="dirC5DBB547636441AF4CF1DAA8BA8A7FE7" Guid="*">
-                <File Id="fil01351F325EAE3ED9FD5275400A136A42" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor.paranoia\paranoia.js" />
-            </Component>
             <Component Id="cmp08393A7A3245BAF602A5BC57B1E63B9F" Directory="dir36FF6BE765C5563845DD23A3F855A9F3" Guid="*">
                 <File Id="fil4144493902F143DBFEAD231A7523C47E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\jquery\jquery-2.1.1.min.js" />
             </Component>
-            <Component Id="cmpC3992B974F68C88F60DB1D38A79F37E7" Directory="dir113445E6F89EECCCAD68A52BB70F8EF9" Guid="*">
-                <File Id="fil8F81C254B1B14C7697C9D1F68E1A3A06" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ru\Microsoft.Expression.Interactions.resources.dll" />
+            <Component Id="cmp75F0EEFF7079152C64C9AB7A45667335" Directory="dir113445E6F89EECCCAD68A52BB70F8EF9" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmpFE12B33C3ECB84200BA15D1D5EF2020B" Directory="dir113445E6F89EECCCAD68A52BB70F8EF9" Guid="*">
-                <File Id="fil07E5F4F859FC0E3D29B2F0F6A02162F0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ru\System.Windows.Interactivity.resources.dll" />
+            <Component Id="cmp0B5FDE9F0BA28E0A14E1F5358F1DE285" Directory="dir4F5F83E0389A812227380377C68B5898" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmp7B0870617F483B8427A60D3C7D063B07" Directory="dir4F5F83E0389A812227380377C68B5898" Guid="*">
-                <File Id="fil174C2091985754C145BEDF1E6BB934FE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\x64\libsodium.dll" />
+            <Component Id="cmpED12BB9D933BA8D5783582D4E4F733D5" Directory="dir0FCD9E4FEBB52846A30839CE1976306B" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmp9E6175CA3999C2D25135EDB664866D46" Directory="dir4F5F83E0389A812227380377C68B5898" Guid="*">
-                <File Id="filC0D4573AF4D68AC3E86CB310AB16B661" KeyPath="yes" Source="$(var.PrimaryOutputDir)\x64\libsodium.pdb" />
+            <Component Id="cmpD6482BB417B7E4E86A7B62AA9176EA38" Directory="dirD8D18BE0CBE3A171A18753A5B5985BB4" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmp3F33B9A829C593B4E23F58320C9D418F" Directory="dir4F5F83E0389A812227380377C68B5898" Guid="*">
-                <File Id="fil427BA3158997A772456417D40059F48D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\x64\SQLite.Interop.dll" />
-            </Component>
-            <Component Id="cmpDE0752AAD516C55AC121AA19F981840A" Directory="dir0FCD9E4FEBB52846A30839CE1976306B" Guid="*">
-                <File Id="filAEA872A0EB59DBE078DBBB3D9475DDE9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\x86\libsodium.dll" />
-            </Component>
-            <Component Id="cmpC5B3CCEA486C0333338713F7A7528FA0" Directory="dir0FCD9E4FEBB52846A30839CE1976306B" Guid="*">
-                <File Id="fil2645D356349FFD90A9CA295537BEB3D4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\x86\libsodium.pdb" />
-            </Component>
-            <Component Id="cmp04A2EB52269EB2B2ED3AD11D145EA61F" Directory="dir0FCD9E4FEBB52846A30839CE1976306B" Guid="*">
-                <File Id="fil6231896B0CC2C61965B19F857E567082" KeyPath="yes" Source="$(var.PrimaryOutputDir)\x86\SQLite.Interop.dll" />
-            </Component>
-            <Component Id="cmp5120643303F8CC54025E27D5008808F7" Directory="dirD8D18BE0CBE3A171A18753A5B5985BB4" Guid="*">
-                <File Id="fil922AE6B76E78EA5A28D7FDA9C3229AED" KeyPath="yes" Source="$(var.PrimaryOutputDir)\zh-Hans\Microsoft.Expression.Interactions.resources.dll" />
-            </Component>
-            <Component Id="cmpDAF1C30F0F3B27B096E97E38CF8345BF" Directory="dirD8D18BE0CBE3A171A18753A5B5985BB4" Guid="*">
-                <File Id="fil0072B9AE983E8769E41D99BBC24C09F4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\zh-Hans\System.Windows.Interactivity.resources.dll" />
-            </Component>
-            <Component Id="cmp11A645D213819B28F8E352A8978E3064" Directory="dir0A56E1DCE96682D4EA5091E415D1089C" Guid="*">
-                <File Id="fil807B7549C152C8E8072F4C620355990D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\zh-Hant\Microsoft.Expression.Interactions.resources.dll" />
-            </Component>
-            <Component Id="cmpD5512E7FEA616B3E9564B9DBCF486A68" Directory="dir0A56E1DCE96682D4EA5091E415D1089C" Guid="*">
-                <File Id="filC8C78402C32DB10639B16C59DFB79165" KeyPath="yes" Source="$(var.PrimaryOutputDir)\zh-Hant\System.Windows.Interactivity.resources.dll" />
+            <Component Id="cmpCAF799F00CF18598EF8B59B120AA366C" Directory="dir0A56E1DCE96682D4EA5091E415D1089C" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
         </ComponentGroup>
     </Fragment>
@@ -1761,63 +369,8 @@
         </DirectoryRef>
     </Fragment>
     <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dir050085108F7297117B10CADAE64506A5" Name="liststyle" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir82C4E2CB91CC147013F16958C692D876">
-            <Directory Id="dir059360636AD1BDAF822426E29D48BCDF" Name="htmlwriter" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir67213F66348FE69FF959F68EA31A85A4">
-            <Directory Id="dir084DBF989580AD0D62AE41FF11F5C901" Name="images" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dir09652D4187ED582FA49C21D4A6AB5641" Name="smiley" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dir0BA61753FFB6EDBB0CEEE68B53ADC27D" Name="scayt" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir1A0018F0FCD4F836DC800438683F51D2">
-            <Directory Id="dir11E71AAD0C21C1096250CE8CC64943C8" Name="dialogs" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dir1A0018F0FCD4F836DC800438683F51D2" Name="div" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir26DA481DF26C76F0153C8FDD8C0538FF">
-            <Directory Id="dir1B27F26CDB75D385A867655CE0176BD9" Name="lang" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir4106AC73DC495222BF6B5163E658F154">
-            <Directory Id="dir1E552B3D137C6F28D57B5A2A24142938" Name="images" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dirA68CF51C72AD64CE386AFD061B05C871">
-            <Directory Id="dir1FACF3E0E74BB3CDC602518651F58429" Name="dialogs" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
         <DirectoryRef Id="dirBC4E40FE1FF2212778A0ED81CF5923CE">
             <Directory Id="dir203B84AB1FCE367D3EF72DF5E793C2BE" Name="skins" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dir26DA481DF26C76F0153C8FDD8C0538FF" Name="font" />
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -1836,58 +389,8 @@
         </DirectoryRef>
     </Fragment>
     <Fragment>
-        <DirectoryRef Id="dir050085108F7297117B10CADAE64506A5">
-            <Directory Id="dir333F003ACEC320A26141F7489074DE94" Name="dialogs" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
         <DirectoryRef Id="dir708C42139DC1E69F520BAA88DF86F6F5">
             <Directory Id="dir36FF6BE765C5563845DD23A3F855A9F3" Name="jquery" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir4E1089215C073172F17684847665AC10">
-            <Directory Id="dir3F3718B5AA01C9BF045BD9C114EEE3BD" Name="images" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dir3F59A3035B732F392D993F1C611081D0" Name="templates" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir203B84AB1FCE367D3EF72DF5E793C2BE">
-            <Directory Id="dir4106AC73DC495222BF6B5163E658F154" Name="moono" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dir41B507571EFC4C740C312D355336320E" Name="showblocks" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir3F59A3035B732F392D993F1C611081D0">
-            <Directory Id="dir434790B648C981497E835388F94359A2" Name="templates" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dir445868C17AD4E7A55328747F6885ED0E" Name="colordialog" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir1E552B3D137C6F28D57B5A2A24142938">
-            <Directory Id="dir46461E7587E440D8BA942AF5EB9E0394" Name="hidpi" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir82C4E2CB91CC147013F16958C692D876">
-            <Directory Id="dir4AAC7AEC5A02838C86C983E30C378FD9" Name="toolbar" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dir4E1089215C073172F17684847665AC10" Name="flash" />
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -1901,28 +404,8 @@
         </DirectoryRef>
     </Fragment>
     <Fragment>
-        <DirectoryRef Id="dirAB1D96DBB26252DD4BDE33AC8BC1CAA9">
-            <Directory Id="dir61B4095A55E5EE0D86ECEFC16F536E29" Name="uilanguages" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir82C4E2CB91CC147013F16958C692D876">
-            <Directory Id="dir625BA8B1546E216A0EE4F7842FEAC9AE" Name="wysiwygarea" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dir67213F66348FE69FF959F68EA31A85A4" Name="pagebreak" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
         <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
             <Directory Id="dir6A2045AE0173B1F9659210FECB001D03" Name="clipboard" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir0BA61753FFB6EDBB0CEEE68B53ADC27D">
-            <Directory Id="dir6B99216B4EA00300BD509F065EC922EC" Name="dialogs" />
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -1931,53 +414,8 @@
         </DirectoryRef>
     </Fragment>
     <Fragment>
-        <DirectoryRef Id="dirB4141BC37C75DA39BF8E5950446429B5">
-            <Directory Id="dir7246D87AD22B177F4EFF02ECF0B926ED" Name="assets" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dirFBFEC713839F927E08EF1C1D7C88E586">
-            <Directory Id="dir7276B6DE73C93A0896ECF1B1E13F7546" Name="lang" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dir776B95E2CE8AC773DFFBADEED1582AD8" Name="pastefromword" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir203B84AB1FCE367D3EF72DF5E793C2BE">
-            <Directory Id="dir7A62A6B35608B5A4E7DDA5BEAD04E4A7" Name="office2013" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dirE9327E0BC3F5EAAFA72930F5067CF681">
-            <Directory Id="dir7D548C4D40954B0125075C27F6A36196" Name="dialogs" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir82C4E2CB91CC147013F16958C692D876">
-            <Directory Id="dir7E5D9BCE0DFC141C3AF6820700F2908C" Name="enterkey" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir09652D4187ED582FA49C21D4A6AB5641">
-            <Directory Id="dir7F3D41E111F65AC987173427309213E7" Name="dialogs" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
         <DirectoryRef Id="dir203B84AB1FCE367D3EF72DF5E793C2BE">
             <Directory Id="dir7FB352C6E45419FD6276F824BB46AB98" Name="moono-dark" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir82C4E2CB91CC147013F16958C692D876">
-            <Directory Id="dir82B612095A654D21FBADA5DF88F0D259" Name="magicline" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dirC39E43ADB28B5D910963FC97EDACA773">
-            <Directory Id="dir82C4E2CB91CC147013F16958C692D876" Name="plugins" />
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -1986,38 +424,8 @@
         </DirectoryRef>
     </Fragment>
     <Fragment>
-        <DirectoryRef Id="dirBB3D37E24C2739447E75096447800E49">
-            <Directory Id="dir8A9A11B3B83F1EE6A144DE1A302185F2" Name="outputforflash" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir4E1089215C073172F17684847665AC10">
-            <Directory Id="dir8C39E76DEBF47FB2280EA289B0C1DDFC" Name="dialogs" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
         <DirectoryRef Id="dir88B8BD22C0BBBAF22FAFB8A957BC96FB">
             <Directory Id="dir902BE6BDD62D57A8ECD44E0FC997CDDB" Name="dialogs" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir3F59A3035B732F392D993F1C611081D0">
-            <Directory Id="dir98DD209DEDAEDEA6E0C134CA46FA433F" Name="dialogs" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir7A62A6B35608B5A4E7DDA5BEAD04E4A7">
-            <Directory Id="dir9B619137BFC75BE82E95095B5B5613C1" Name="images" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir9B619137BFC75BE82E95095B5B5613C1">
-            <Directory Id="dir9BE8BFB5E13DCA803B6CCBE8532B6A45" Name="hidpi" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir09652D4187ED582FA49C21D4A6AB5641">
-            <Directory Id="dir9E46BB42D5F75054EC8287DC4DCB0777" Name="images" />
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -2026,43 +434,8 @@
         </DirectoryRef>
     </Fragment>
     <Fragment>
-        <DirectoryRef Id="dirADD80A0BE8742052AD4A42D01D4DD1CD">
-            <Directory Id="dirA084747233365EF8F995D4B768309ED1" Name="dialogs" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dirB06897B638CDD42732E96CD9E9BC658B">
-            <Directory Id="dirA126F834B3AF7865D035374CFC661263" Name="dialogs" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dirA4569C7BDE4B7B81DC028DF506D6ED92" Name="tabletools" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dirA68CF51C72AD64CE386AFD061B05C871" Name="wsc" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir434790B648C981497E835388F94359A2">
-            <Directory Id="dirAAD70AA72CB9CB7509474549F0841368" Name="images" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dirC39E43ADB28B5D910963FC97EDACA773">
-            <Directory Id="dirAB1D96DBB26252DD4BDE33AC8BC1CAA9" Name="assets" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
         <DirectoryRef Id="dir4E52E16327198AB5B40E01460ADDC011">
             <Directory Id="dirAD8CB76A6D91B2251DB4B9A8E76C08B5" Name="images" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dirADD80A0BE8742052AD4A42D01D4DD1CD" Name="find" />
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -2071,38 +444,8 @@
         </DirectoryRef>
     </Fragment>
     <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dirB06897B638CDD42732E96CD9E9BC658B" Name="iframe" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dirDBF8CEF8FBA25D3734FB49829E4BF301">
-            <Directory Id="dirB336BE7C96481BFC7CB057DF228C4F3C" Name="dialogs" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
         <DirectoryRef Id="dirAD8CB76A6D91B2251DB4B9A8E76C08B5">
             <Directory Id="dirB38921AB6F2E5CDB55C2A614226EA639" Name="hidpi" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir82C4E2CB91CC147013F16958C692D876">
-            <Directory Id="dirB4141BC37C75DA39BF8E5950446429B5" Name="dialog" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dirB4C47960BAAB10646F593C7B66127BD1" Name="a11yhelp" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir445868C17AD4E7A55328747F6885ED0E">
-            <Directory Id="dirB71AEBC619260981D33BA8F5C31025CB" Name="dialogs" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir059360636AD1BDAF822426E29D48BCDF">
-            <Directory Id="dirBB3D37E24C2739447E75096447800E49" Name="assets" />
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -2111,28 +454,8 @@
         </DirectoryRef>
     </Fragment>
     <Fragment>
-        <DirectoryRef Id="dirF9BE7F36AA5D4601EC00A3F0359A5397">
-            <Directory Id="dirC03C5F2CE88AAAAE062FAD14334DEAB8" Name="dialogs" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
         <DirectoryRef Id="dirBC4E40FE1FF2212778A0ED81CF5923CE">
             <Directory Id="dirC28B371E7B950BA6676EF1C36A8B0007" Name="adapters" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dirBC4E40FE1FF2212778A0ED81CF5923CE">
-            <Directory Id="dirC39E43ADB28B5D910963FC97EDACA773" Name="samples" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir708C42139DC1E69F520BAA88DF86F6F5">
-            <Directory Id="dirC5DBB547636441AF4CF1DAA8BA8A7FE7" Name="ckeditor.paranoia" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dirAB1D96DBB26252DD4BDE33AC8BC1CAA9">
-            <Directory Id="dirCA1CAAD3DAA97380B2D2C8870E544508" Name="inlineall" />
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -2141,48 +464,13 @@
         </DirectoryRef>
     </Fragment>
     <Fragment>
-        <DirectoryRef Id="dirA4569C7BDE4B7B81DC028DF506D6ED92">
-            <Directory Id="dirD34F7CE1712D86B6DC5D91D38C16AA77" Name="dialogs" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
         <DirectoryRef Id="dirF902F5191E479E9BD1FB3E66456EE99E">
             <Directory Id="dirD87E32D7BE7DC01C719817677E9B453D" Name="images" />
         </DirectoryRef>
     </Fragment>
     <Fragment>
-        <DirectoryRef Id="dirB06897B638CDD42732E96CD9E9BC658B">
-            <Directory Id="dirDAEB72F40983EBB8DC7C47546E798A04" Name="images" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dirDBF8CEF8FBA25D3734FB49829E4BF301" Name="forms" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dirDBF8CEF8FBA25D3734FB49829E4BF301">
-            <Directory Id="dirDCBBD0D87E78FCF34165BA1EA3077BA3" Name="images" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
         <DirectoryRef Id="dir7FB352C6E45419FD6276F824BB46AB98">
             <Directory Id="dirDCBF270C146BEB01289FA1443623D773" Name="images" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dirE9327E0BC3F5EAAFA72930F5067CF681" Name="table" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir41B507571EFC4C740C312D355336320E">
-            <Directory Id="dirF191D567492A45A4E08B83565C5B8B8D" Name="images" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir776B95E2CE8AC773DFFBADEED1582AD8">
-            <Directory Id="dirF1FB09EF6688D8DAF608CDDF9CCA6FA7" Name="filter" />
         </DirectoryRef>
     </Fragment>
     <Fragment>
@@ -2193,31 +481,6 @@
     <Fragment>
         <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
             <Directory Id="dirF902F5191E479E9BD1FB3E66456EE99E" Name="image" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dirC03C5F2CE88AAAAE062FAD14334DEAB8">
-            <Directory Id="dirF93E5A5A3B3A8A0C67C7CFFA5ECD055E" Name="hidpi" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dirF9BE7F36AA5D4601EC00A3F0359A5397" Name="about" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dirB4C47960BAAB10646F593C7B66127BD1">
-            <Directory Id="dirFBFEC713839F927E08EF1C1D7C88E586" Name="dialogs" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dirAB1D96DBB26252DD4BDE33AC8BC1CAA9">
-            <Directory Id="dirFE6E9C8DC7E5E8AF54D0B9835764CF14" Name="outputxhtml" />
-        </DirectoryRef>
-    </Fragment>
-    <Fragment>
-        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
-            <Directory Id="dirFF679AE4C64D8A10A1EB680704DF974A" Name="preview" />
         </DirectoryRef>
     </Fragment>
 </Wix>

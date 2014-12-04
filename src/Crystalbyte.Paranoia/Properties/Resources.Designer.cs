@@ -740,15 +740,6 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maximize.
-        /// </summary>
-        public static string MaximizeCommandTooltip {
-            get {
-                return ResourceManager.GetString("MaximizeCommandTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Loading Message ....
         /// </summary>
         public static string MessageDownload {
@@ -772,15 +763,6 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string MessagesTitle {
             get {
                 return ResourceManager.GetString("MessagesTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Minimize.
-        /// </summary>
-        public static string MinimizeCommandTooltip {
-            get {
-                return ResourceManager.GetString("MinimizeCommandTooltip", resourceCulture);
             }
         }
         
@@ -979,15 +961,6 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Restore {
             get {
                 return ResourceManager.GetString("Restore", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Restore Down.
-        /// </summary>
-        public static string RestoreDownCommandTooltip {
-            get {
-                return ResourceManager.GetString("RestoreDownCommandTooltip", resourceCulture);
             }
         }
         

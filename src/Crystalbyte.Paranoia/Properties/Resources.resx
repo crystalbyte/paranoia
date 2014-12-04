@@ -211,17 +211,11 @@ Please select a corresponding IMAP folder to synchronize.</value>
   <data name="MarkAsSeen" xml:space="preserve">
     <value>Seen</value>
   </data>
-  <data name="MaximizeCommandTooltip" xml:space="preserve">
-    <value>Maximize</value>
-  </data>
   <data name="MessageDownload" xml:space="preserve">
     <value>Loading Message ...</value>
   </data>
   <data name="MessagesTitle" xml:space="preserve">
     <value>Messages</value>
-  </data>
-  <data name="MinimizeCommandTooltip" xml:space="preserve">
-    <value>Minimize</value>
   </data>
   <data name="MissingKeyTemplate" xml:space="preserve">
     <value>Primary key is missing from type {0}.</value>
@@ -255,9 +249,6 @@ Please select a corresponding IMAP folder to synchronize.</value>
   </data>
   <data name="ResourceNotFoundException" xml:space="preserve">
     <value>The resource '{0}' was not found in assembly '{1}'.</value>
-  </data>
-  <data name="RestoreDownCommandTooltip" xml:space="preserve">
-    <value>Restore Down</value>
   </data>
   <data name="Revert" xml:space="preserve">
     <value>Revert</value>

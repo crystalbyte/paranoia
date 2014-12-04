@@ -35,6 +35,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Themes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Themes.Dark", "Crystalbyte.Paranoia.Themes.Dark\Crystalbyte.Paranoia.Themes.Dark.csproj", "{4B4368B8-6B90-42D1-AD2C-E5912246E8F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Controls", "Crystalbyte.Paranoia.Controls\Crystalbyte.Paranoia.Controls.csproj", "{316EC301-53B0-4593-88CA-E6946A422007}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Sandbox", "Crystalbyte.Paranoia.Sandbox\Crystalbyte.Paranoia.Sandbox.csproj", "{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(debug)", "(debug)", "{E6967EB9-26AB-4396-89B7-1C8629CD3A1A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -414,6 +420,76 @@ Global
 		{4B4368B8-6B90-42D1-AD2C-E5912246E8F1}.Trial|Mixed Platforms.Build.0 = Release|Any CPU
 		{4B4368B8-6B90-42D1-AD2C-E5912246E8F1}.Trial|x64.ActiveCfg = Release|Any CPU
 		{4B4368B8-6B90-42D1-AD2C-E5912246E8F1}.Trial|x86.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.MailSystem Dev|Any CPU.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.MailSystem Dev|Any CPU.Build.0 = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.MailSystem Dev|ARM.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.MailSystem Dev|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.MailSystem Dev|Mixed Platforms.Build.0 = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.MailSystem Dev|x64.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.MailSystem Dev|x86.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Release|Any CPU.Build.0 = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Release|ARM.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Release|x64.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Release|x86.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Retail|ARM.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Retail|x64.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Retail|x86.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Trial|Any CPU.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Trial|Any CPU.Build.0 = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Trial|ARM.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Trial|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Trial|Mixed Platforms.Build.0 = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Trial|x64.ActiveCfg = Release|Any CPU
+		{316EC301-53B0-4593-88CA-E6946A422007}.Trial|x86.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.MailSystem Dev|Any CPU.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.MailSystem Dev|Any CPU.Build.0 = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.MailSystem Dev|ARM.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.MailSystem Dev|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.MailSystem Dev|Mixed Platforms.Build.0 = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.MailSystem Dev|x64.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.MailSystem Dev|x86.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Release|ARM.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Release|x64.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Release|x86.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Retail|ARM.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Retail|x64.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Retail|x86.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Trial|Any CPU.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Trial|Any CPU.Build.0 = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Trial|ARM.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Trial|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Trial|Mixed Platforms.Build.0 = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Trial|x64.ActiveCfg = Release|Any CPU
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Trial|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -426,6 +502,7 @@ Global
 		{3CD4CE93-5599-4B3F-88C4-80BF5A315112} = {B14B7EB5-65F9-4CDC-B018-B08687E76F3D}
 		{97C747C3-AFC9-49AB-B6CE-1BF27D109707} = {B14B7EB5-65F9-4CDC-B018-B08687E76F3D}
 		{4B4368B8-6B90-42D1-AD2C-E5912246E8F1} = {B14B7EB5-65F9-4CDC-B018-B08687E76F3D}
+		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2} = {E6967EB9-26AB-4396-89B7-1C8629CD3A1A}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Crystalbyte.Paranoia.vsmdi
