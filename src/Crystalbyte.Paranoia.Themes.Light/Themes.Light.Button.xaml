@@ -1,0 +1,239 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
+
+    <Style TargetType="ButtonBase">
+        <Setter Property="BorderThickness" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBorderThicknessKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBorderBrushKey}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}}" />
+        <Setter Property="Margin" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonMarginKey}}" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="Padding" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonPaddingKey}}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonForegroundBrushKey}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ButtonBase">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonDisabledForegroundBrushKey}}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonDisabledBorderThicknessKey}}" />
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsPressed" Value="True" />
+                    <Condition Property="IsMouseOver" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="IsPressed" Value="False" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonHoverBackgroundBrushKey}}" />
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Type ButtonBase}}" TargetType="Button">
+        <Setter Property="FontWeight" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonFontWeightKey}}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBorderThicknessKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBorderBrushKey}}" />
+    </Style>
+
+    <Style x:Key="Metro.MenuButtonStyle"
+           BasedOn="{StaticResource {x:Type ButtonBase}}"
+           TargetType="ButtonBase">
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+        <Setter Property="Width" Value="32" />
+        <Setter Property="Height" Value="32" />
+    </Style>
+
+    <Style x:Key="Metro.CommandButtonStyle"
+           BasedOn="{StaticResource {x:Type ButtonBase}}"
+           TargetType="ButtonBase">
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Width" Value="32" />
+        <Setter Property="Height" Value="24" />
+    </Style>
+
+    <Style x:Key="Metro.StatusBarButtonStyle"
+           BasedOn="{StaticResource {x:Type ButtonBase}}"
+           TargetType="ButtonBase">
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="FontSize" Value="{DynamicResource Metro.SmallFontSize}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ButtonBase">
+                    <Border Margin="{TemplateBinding Margin}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+                        <TextBlock HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   FontSize="{DynamicResource Metro.SmallFontSize}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   Text="{TemplateBinding Content}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsPressed" Value="True" />
+                    <Condition Property="IsMouseOver" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="#66000000" />
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="IsPressed" Value="False" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="#33000000" />
+            </MultiTrigger>
+        </Style.Triggers>
+
+    </Style>
+
+    <Style x:Key="Metro.MinimizeButtonStyle"
+           BasedOn="{StaticResource Metro.CommandButtonStyle}"
+           TargetType="ButtonBase">
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Image Width="10"
+                           Height="10"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Source="/Assets/minimize.png" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Metro.MaximizeButtonStyle"
+           BasedOn="{StaticResource Metro.CommandButtonStyle}"
+           TargetType="ButtonBase">
+        <Setter Property="Command" Value="{x:Static ui:WindowCommands.Maximize}" />
+        <Setter Property="ToolTip" Value="{x:Static properties:Resources.MaximizeCommandTooltip}" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Image Width="10"
+                           Height="10"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Source="/Assets/maximize.png"
+                           Stretch="Uniform" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Metro.RestoreDownButtonStyle"
+           BasedOn="{StaticResource Metro.CommandButtonStyle}"
+           TargetType="ButtonBase">
+        <Setter Property="Command" Value="{x:Static ui:WindowCommands.RestoreDown}" />
+        <Setter Property="ToolTip" Value="{x:Static properties:Resources.RestoreDownCommandTooltip}" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Image Width="10"
+                           Height="10"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Source="/Assets/restore.png"
+                           Stretch="Uniform" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Metro.CloseButtonStyle"
+           BasedOn="{StaticResource Metro.CommandButtonStyle}"
+           TargetType="ButtonBase">
+        <Setter Property="Command" Value="{x:Static ApplicationCommands.Close}" />
+        <Setter Property="ToolTip" Value="{x:Static properties:Resources.CloseCommandTooltip}" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Image Width="10"
+                           Height="10"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Source="/Assets/close.png"
+                           Stretch="Uniform" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Metro.HelpButtonStyle"
+           BasedOn="{StaticResource Metro.CommandButtonStyle}"
+           TargetType="ButtonBase">
+        <Setter Property="Command" Value="{x:Static ApplicationCommands.Help}" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Image Height="10"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Source="/Assets/help.png"
+                           Stretch="Uniform" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Metro.ListViewButtonStyle"
+           BasedOn="{StaticResource {x:Type ButtonBase}}"
+           TargetType="ButtonBase">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Margin" Value="0,0,0,0" />
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+        <Setter Property="Padding" Value="8,1,8,1" />
+    </Style>
+
+    <Style x:Key="Metro.TextBoxSiblingButtonStyle"
+           BasedOn="{StaticResource {x:Type ButtonBase}}"
+           TargetType="ButtonBase">
+        <Setter Property="Width" Value="25" />
+        <Setter Property="Height" Value="25" />
+        <Setter Property="FontFamily" Value="Calibri" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+        <Setter Property="Padding" Value="3" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource Metro.Control.DisabledBrush}" />
+                <Setter Property="Background" Value="{DynamicResource Metro.Control.BackgroundBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

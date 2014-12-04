@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Composition;
+using System.Linq;
 using System.Windows;
 
 namespace Crystalbyte.Paranoia.Themes {
@@ -9,10 +11,33 @@ namespace Crystalbyte.Paranoia.Themes {
             return "Light";
         }
 
-        public override ResourceDictionary GetThemeResources() {
-            var url = string.Format(Pack.Relative, typeof(LightTheme).Assembly.FullName, "/ThemeResources.xaml");
-            var resource = (ResourceDictionary)Application.LoadComponent(new Uri(url, UriKind.Relative));
-            return resource;
+        public override IEnumerable<ResourceDictionary> GetThemeResources() {
+            var resources = new[] {
+                "/Themes.Light.Resources.xaml",
+                "/Themes.Light.Button.xaml",
+                "/Themes.Light.CheckBox.xaml",
+                "/Themes.Light.ComboBox.xaml",
+                "/Themes.Light.ContextMenu.xaml",
+                "/Themes.Light.GridSplitter.xaml",
+                "/Themes.Light.ListView.xaml",
+                "/Themes.Light.PasswordBox.xaml",
+                "/Themes.Light.ProgressBar.xaml",
+                "/Themes.Light.RadioButton.xaml",
+                "/Themes.Light.RichTextBox.xaml",
+                "/Themes.Light.ScrollViewer.xaml",
+                "/Themes.Light.ScrollViewer.xaml",
+                "/Themes.Light.Slider.xaml",
+                "/Themes.Light.StatusBar.xaml",
+                "/Themes.Light.TextBlock.xaml",
+                "/Themes.Light.TextBox.xaml",
+                "/Themes.Light.ToggleButton.xaml",
+                "/Themes.Light.Tooltip.xaml",
+                "/Themes.Light.TreeView.xaml"
+            };
+
+            return resources
+                .Select(x => string.Format(Pack.Relative, typeof(LightTheme).Assembly.FullName, x))
+                .Select(url => (ResourceDictionary)Application.LoadComponent(new Uri(url, UriKind.Relative)));
         }
     }
 }
