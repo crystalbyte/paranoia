@@ -43,7 +43,12 @@ namespace Crystalbyte.Paranoia {
             DataContext = App.Context;
 
             Loaded += OnLoaded;
-            CommandBindings.Add(new CommandBinding(, OnCloseFlyOut));
+            CommandBindings.Add(new CommandBinding(WindowCommands.Back, OnCloseFlyOut));
+            CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
+            CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));
+            CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoreDown));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
         }
 
         private static async void OnLoaded(object sender, RoutedEventArgs e) {

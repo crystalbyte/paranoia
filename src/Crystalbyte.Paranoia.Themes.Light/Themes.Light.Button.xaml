@@ -29,8 +29,8 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonDisabledForegroundBrushKey}}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonDisabledBorderThicknessKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledBorderBrushKey}}" />
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -44,145 +44,52 @@
                     <Condition Property="IsMouseOver" Value="True" />
                     <Condition Property="IsPressed" Value="False" />
                 </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonHoverBackgroundBrushKey}}" />
+                <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonMouseOverBackgroundBrushKey}}" />
             </MultiTrigger>
         </Style.Triggers>
     </Style>
 
-    <Style BasedOn="{StaticResource {x:Type ButtonBase}}" TargetType="Button">
+    <!--
+        <Style BasedOn="{StaticResource {x:Type ButtonBase}}" TargetType="Button">
         <Setter Property="FontWeight" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonFontWeightKey}}" />
         <Setter Property="BorderThickness" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBorderThicknessKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBorderBrushKey}}" />
-    </Style>
+        </Style>
+    -->
 
-    <Style x:Key="Metro.MenuButtonStyle"
-           BasedOn="{StaticResource {x:Type ButtonBase}}"
-           TargetType="ButtonBase">
+    <!--
+        <Style x:Key="Metro.MenuButtonStyle"
+        BasedOn="{StaticResource {x:Type ButtonBase}}"
+        TargetType="ButtonBase">
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
         <Setter Property="Width" Value="32" />
         <Setter Property="Height" Value="32" />
-    </Style>
+        </Style>
+    -->
 
-
-
-
-
-    <Style x:Key="Metro.MinimizeButtonStyle"
-           BasedOn="{StaticResource Metro.CommandButtonStyle}"
-           TargetType="ButtonBase">
-        <Setter Property="ContentTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <Image Width="10"
-                           Height="10"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Source="/Assets/minimize.png" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="MaximizeButtonStyle"
-           BasedOn="{StaticResource Metro.CommandButtonStyle}"
-           TargetType="ButtonBase">
-        <Setter Property="Command" Value="{x:Static ui:WindowCommands.Maximize}" />
-        <Setter Property="ToolTip" Value="{x:Static properties:Resources.MaximizeCommandTooltip}" />
-        <Setter Property="ContentTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <Image Width="10"
-                           Height="10"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Source="/Assets/maximize.png"
-                           Stretch="Uniform" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="Metro.RestoreDownButtonStyle"
-           BasedOn="{StaticResource Metro.CommandButtonStyle}"
-           TargetType="ButtonBase">
-        <Setter Property="Command" Value="{x:Static ui:WindowCommands.RestoreDown}" />
-        <Setter Property="ToolTip" Value="{x:Static properties:Resources.RestoreDownCommandTooltip}" />
-        <Setter Property="ContentTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <Image Width="10"
-                           Height="10"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Source="/Assets/restore.png"
-                           Stretch="Uniform" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="Metro.CloseButtonStyle"
-           BasedOn="{StaticResource Metro.CommandButtonStyle}"
-           TargetType="ButtonBase">
-        <Setter Property="Command" Value="{x:Static ApplicationCommands.Close}" />
-        <Setter Property="ToolTip" Value="{x:Static properties:Resources.CloseCommandTooltip}" />
-        <Setter Property="ContentTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <Image Width="10"
-                           Height="10"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Source="/Assets/close.png"
-                           Stretch="Uniform" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="Metro.HelpButtonStyle"
-           BasedOn="{StaticResource Metro.CommandButtonStyle}"
-           TargetType="ButtonBase">
-        <Setter Property="Command" Value="{x:Static ApplicationCommands.Help}" />
-        <Setter Property="ContentTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <Image Height="10"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Source="/Assets/help.png"
-                           Stretch="Uniform" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="Metro.ListViewButtonStyle"
-           BasedOn="{StaticResource {x:Type ButtonBase}}"
-           TargetType="ButtonBase">
+    <!--
+        <Style x:Key="Metro.ListViewButtonStyle"
+        BasedOn="{StaticResource {x:Type ButtonBase}}"
+        TargetType="ButtonBase">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Margin" Value="0,0,0,0" />
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
         <Setter Property="Padding" Value="8,1,8,1" />
-    </Style>
+        </Style>
+    -->
 
-    <Style x:Key="Metro.TextBoxSiblingButtonStyle"
-           BasedOn="{StaticResource {x:Type ButtonBase}}"
-           TargetType="ButtonBase">
+    <!--
+        <Style x:Key="BrowseButtonStyle"
+        BasedOn="{StaticResource {x:Type ButtonBase}}"
+        TargetType="ButtonBase">
         <Setter Property="Width" Value="25" />
         <Setter Property="Height" Value="25" />
         <Setter Property="FontFamily" Value="Calibri" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
         <Setter Property="Padding" Value="3" />
-        <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource Metro.Control.DisabledBrush}" />
-                <Setter Property="Background" Value="{DynamicResource Metro.Control.BackgroundBrush}" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
+        </Style>
+    -->
 </ResourceDictionary>

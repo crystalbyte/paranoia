@@ -198,7 +198,6 @@
     <Compile Include="Contexts\MessageInspectionContext.cs" />
     <Compile Include="MessageDecryptionFailed.cs" />
     <Compile Include="MessageNotFoundException.cs" />
-    <Compile Include="MetroColors.cs" />
     <Compile Include="ResourceNotFoundException.cs" />
     <Compile Include="UI\BlockNoticeControl.xaml.cs">
       <DependentUpon>BlockNoticeControl.xaml</DependentUpon>
@@ -290,6 +289,7 @@
     <Compile Include="ParanoiaDataSourceProvider.cs" />
     <Compile Include="UI\INavigationAware.cs" />
     <Compile Include="UI\SignatureCommands.cs" />
+    <Compile Include="UI\WindowCommands.cs" />
     <Compile Include="UI\WindowExtensions.cs" />
     <Page Include="CompositionWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -367,10 +367,6 @@
     </Compile>
     <Compile Include="UI\RichTextBoxExtensions.cs" />
     <Page Include="MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

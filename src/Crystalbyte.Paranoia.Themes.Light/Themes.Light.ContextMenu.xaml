@@ -1,4 +1,6 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
     <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="Separator">
         <Setter Property="Margin" Value="0,2.2,0,2.2" />
@@ -9,7 +11,7 @@
                     <Rectangle Height="1"
                                Margin="34,0,0,0"
                                HorizontalAlignment="Stretch"
-                               Fill="#333337"
+                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SeparatorForegroundBrushKey}}"
                                RenderOptions.EdgeMode="Aliased"
                                StrokeThickness="0" />
                 </ControlTemplate>
@@ -33,9 +35,9 @@
                        Placement="Bottom"
                        PopupAnimation="Fade">
                     <Border Name="SubmenuBorder"
-                            Background="{DynamicResource Metro.Menu.BackgroundBrush}"
-                            BorderBrush="{DynamicResource Metro.Control.BorderBrush}"
-                            BorderThickness="1"
+                            Background="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBackgroundBrushKey}}"
+                            BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBorderBrushKey}}"
+                            BorderThickness="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBorderThicknessKey}}"
                             SnapsToDevicePixels="True">
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                     </Border>
@@ -47,14 +49,14 @@
                 <Setter TargetName="Popup" Property="PopupAnimation" Value="None" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Metro.Control.TextBrush}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
             </Trigger>
             <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,0,0,3" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -72,11 +74,11 @@
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Metro.Control.TextBrush}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -107,8 +109,8 @@
                         Width="13"
                         Height="13"
                         Margin="6,0,6,0"
-                        Background="{DynamicResource Metro.Control.TextBrush}"
-                        BorderBrush="{DynamicResource Metro.Control.BorderBrush}"
+                        Background="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBackgroundBrushKey}}"
+                        BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBackgroundBrushKey}}"
                         BorderThickness="1"
                         Visibility="Collapsed">
                     <Path Name="CheckMark"
@@ -116,7 +118,7 @@
                           Height="7"
                           Data="M 0 0 L 7 7 M 0 7 L 7 0"
                           SnapsToDevicePixels="False"
-                          Stroke="{DynamicResource Metro.Control.DisabledBrush}"
+                          Stroke="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
                           StrokeThickness="2"
                           Visibility="Hidden" />
                 </Border>
@@ -127,10 +129,10 @@
                                   RecognizesAccessKey="True" />
                 <TextBlock x:Name="InputGestureText"
                            Grid.Column="2"
-                           Margin="5,0,0,0"
+                           Margin="6,0,0,0"
                            VerticalAlignment="Center"
                            DockPanel.Dock="Right"
-                           FontSize="{DynamicResource Metro.SmallFontSize}"
+                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontSizeKey}}"
                            RenderOptions.ClearTypeHint="Enabled"
                            Text="{TemplateBinding InputGestureText}" />
             </Grid>
@@ -147,11 +149,11 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Metro.Control.HoverBrush}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
                 <Setter TargetName="Icon" Property="Opacity" Value=".3" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -177,23 +179,6 @@
                                   Margin="3,0,6,0"
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                   ContentSource="Icon" />
-                <ContentPresenter Name="HeaderHost"
-                                  Grid.Column="1"
-                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                  ContentSource="Header"
-                                  RecognizesAccessKey="True" />
-                <TextBlock x:Name="InputGestureText"
-                           Grid.Column="2"
-                           Margin="5,0,0,0"
-                           DockPanel.Dock="Right"
-                           FontSize="{DynamicResource Metro.SmallFontSize}"
-                           RenderOptions.ClearTypeHint="Enabled"
-                           Text="{TemplateBinding InputGestureText}" />
-                <Path Grid.Column="3"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center"
-                      Data="M 0 0 L 0 7 L 4 3.5 Z"
-                      Fill="{DynamicResource Metro.Control.TextBrush}" />
                 <Popup Name="Popup"
                        Grid.Column="0"
                        AllowsTransparency="True"
@@ -203,13 +188,30 @@
                        Placement="Right"
                        PopupAnimation="Fade">
                     <Border Name="SubmenuBorder"
-                            Background="{DynamicResource Metro.Menu.BackgroundBrush}"
-                            BorderBrush="{DynamicResource Metro.Control.BorderBrush}"
+                            Background="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBackgroundBrushKey}}"
+                            BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBorderBrushKey}}"
                             BorderThickness="1"
                             SnapsToDevicePixels="True">
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                     </Border>
                 </Popup>
+                <ContentPresenter Name="HeaderHost"
+                                  Grid.Column="1"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  ContentSource="Header"
+                                  RecognizesAccessKey="True" />
+                <TextBlock x:Name="InputGestureText"
+                           Grid.Column="2"
+                           Margin="5,0,0,0"
+                           DockPanel.Dock="Right"
+                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontSizeKey}}"
+                           RenderOptions.ClearTypeHint="Enabled"
+                           Text="{TemplateBinding InputGestureText}" />
+                <Path Grid.Column="3"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Data="M 0 0 L 0 7 L 4 3.5 Z"
+                      Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
@@ -217,13 +219,13 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Metro.Control.HoverBrush}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
             </Trigger>
             <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="2" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
                 <Setter TargetName="Icon" Property="Opacity" Value=".3" />
             </Trigger>
         </ControlTemplate.Triggers>
@@ -262,9 +264,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ContextMenu">
                     <Border x:Name="Border"
-                            Background="{DynamicResource Metro.Menu.BackgroundBrush}"
-                            BorderBrush="{DynamicResource Metro.Control.BorderBrush}"
-                            BorderThickness="1">
+                            Background="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBackgroundBrushKey}}"
+                            BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBorderBrushKey}}"
+                            BorderThickness="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBorderThicknessKey}}">
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -276,6 +278,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-
 </ResourceDictionary>

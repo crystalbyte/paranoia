@@ -5,6 +5,7 @@
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
+                      xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
                       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                       x:Name="Window"
@@ -26,6 +27,95 @@
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="Width" Value="32" />
             <Setter Property="Height" Value="24" />
+        </Style>
+        <Style x:Key="MinimizeButtonStyle"
+               BasedOn="{StaticResource WindowButtonStyle}"
+               TargetType="ButtonBase">
+            <Setter Property="Command" Value="ui:WindowCommands.Minimize" />
+            <Setter Property="ToolTip" Value="{x:Static properties:Resources.Minimize}" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Image Width="10"
+                               Height="10"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Source="/Assets/minimize.png"
+                               Stretch="Uniform" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="MaximizeButtonStyle"
+               BasedOn="{StaticResource WindowButtonStyle}"
+               TargetType="ButtonBase">
+            <Setter Property="Command" Value="{x:Static ui:WindowCommands.Maximize}" />
+            <Setter Property="ToolTip" Value="{x:Static properties:Resources.Maximize}" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Image Width="10"
+                               Height="10"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Source="/Assets/maximize.png"
+                               Stretch="Uniform" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RestoreDownButtonStyle"
+               BasedOn="{StaticResource WindowButtonStyle}"
+               TargetType="ButtonBase">
+            <Setter Property="Command" Value="{x:Static ui:WindowCommands.RestoreDown}" />
+            <Setter Property="ToolTip" Value="{x:Static properties:Resources.RestoreDown}" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Image Width="10"
+                               Height="10"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Source="/Assets/restore.png"
+                               Stretch="Uniform" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="CloseButtonStyle"
+               BasedOn="{StaticResource WindowButtonStyle}"
+               TargetType="ButtonBase">
+            <Setter Property="Command" Value="{x:Static ApplicationCommands.Close}" />
+            <Setter Property="ToolTip" Value="{x:Static properties:Resources.Close}" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Image Width="10"
+                               Height="10"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Source="/Assets/close.png"
+                               Stretch="Uniform" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="HelpButtonStyle"
+               BasedOn="{StaticResource WindowButtonStyle}"
+               TargetType="ButtonBase">
+            <Setter Property="Command" Value="{x:Static ApplicationCommands.Help}" />
+            <Setter Property="ToolTip" Value="{x:Static properties:Resources.Help}" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Image Height="10"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Source="/Assets/help.png"
+                               Stretch="Uniform" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
         <Style x:Key="StatusBarButtonStyle"
                BasedOn="{StaticResource {x:Type ButtonBase}}"
@@ -169,23 +259,11 @@
         <Storyboard x:Key="MainFrameSlideOutStoryboard">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MainFrame" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="1" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
-                    <!--
-                        <EasingDoubleKeyFrame.EasingFunction>
-                        <CubicEase EasingMode="EaseIn" />
-                        </EasingDoubleKeyFrame.EasingFunction>
-                    -->
-                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MainFrame" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="-30">
-                    <!--
-                        <EasingDoubleKeyFrame.EasingFunction>
-                        <CubicEase EasingMode="EaseIn" />
-                        </EasingDoubleKeyFrame.EasingFunction>
-                    -->
-                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="-30" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <!--  ReSharper disable once Xaml.RedundantResource  -->
@@ -205,7 +283,7 @@
                     Command="ui:MessageCommands.Compose"
                     Modifiers="Control" />
         <KeyBinding Key="Print" Command="ApplicationCommands.Print" />
-        <KeyBinding Key="Escape" Command="ui:WindowCommands.CloseFlyOut" />
+        <KeyBinding Key="Escape" Command="ui:WindowCommands.Back" />
     </controls:MetroWindow.InputBindings>
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
@@ -308,21 +386,21 @@
                 <!--  close button  -->
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Style="{DynamicResource Metro.HelpButtonStyle}" />
-            <Button Grid.Column="1" Style="{DynamicResource Metro.MinimizeButtonStyle}" />
+            <Button Grid.Column="0" Style="{DynamicResource HelpButtonStyle}" />
+            <Button Grid.Column="1" Style="{DynamicResource MinimizeButtonStyle}" />
             <Button Grid.Column="2"
-                    Style="{DynamicResource Metro.MaximizeButtonStyle}"
+                    Style="{DynamicResource MaximizeButtonStyle}"
                     Visibility="{Binding IsNormalized,
                                          Converter={StaticResource BooleanToVisibilityConverter},
                                          RelativeSource={RelativeSource FindAncestor,
                                                                         AncestorType=paranoia:MainWindow}}" />
             <Button Grid.Column="3"
-                    Style="{DynamicResource Metro.RestoreDownButtonStyle}"
+                    Style="{DynamicResource RestoreDownButtonStyle}"
                     Visibility="{Binding IsMaximized,
                                          Converter={StaticResource BooleanToVisibilityConverter},
                                          RelativeSource={RelativeSource FindAncestor,
                                                                         AncestorType=paranoia:MainWindow}}" />
-            <Button Grid.Column="4" Style="{DynamicResource Metro.CloseButtonStyle}" />
+            <Button Grid.Column="4" Style="{DynamicResource CloseButtonStyle}" />
         </Grid>
 
         <Grid x:Name="Overlay"
@@ -467,7 +545,7 @@
                        RenderOptions.EdgeMode="Aliased" />
         </Grid>
         <Border Grid.Row="1"
-                BorderBrush="{DynamicResource Metro.App.AccentBrush}"
+                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                 BorderThickness="0,1,0,0">
             <Frame x:Name="MainFrame"
                    NavigationUIVisibility="Hidden"

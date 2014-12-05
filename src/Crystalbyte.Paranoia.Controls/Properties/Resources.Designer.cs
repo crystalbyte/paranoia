@@ -61,33 +61,6 @@ namespace Crystalbyte.Paranoia.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maximize.
-        /// </summary>
-        internal static string MaximizeCommand {
-            get {
-                return ResourceManager.GetString("MaximizeCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Minimize.
-        /// </summary>
-        internal static string MinimizeCommand {
-            get {
-                return ResourceManager.GetString("MinimizeCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Restore Down.
-        /// </summary>
-        internal static string RestoreDownCommand {
-            get {
-                return ResourceManager.GetString("RestoreDownCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Select.
         /// </summary>
         internal static string SelectCommand {

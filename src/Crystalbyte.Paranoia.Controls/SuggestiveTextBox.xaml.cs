@@ -50,7 +50,7 @@ namespace Crystalbyte.Paranoia.UI {
             _selectedValues = new ObservableCollection<object>();
             _tokenMatchers = new List<ITokenMatcher> { new MailAddressTokenMatcher() };
 
-            CommandBindings.Add(new CommandBinding(ControlCommands.Select, OnSelectContact));
+            CommandBindings.Add(new CommandBinding(SuggestiveTextBoxCommands.Select, OnSelectContact));
             SelectedValues = _selectedValues;
         }
 
@@ -316,8 +316,8 @@ namespace Crystalbyte.Paranoia.UI {
 
             _popup = (Popup)Template.FindName(PopupPartName, this);
             _itemsHost = (ListView)Template.FindName(HostPartName, this);
-            _itemsHost.InputBindings.Add(new KeyBinding(ControlCommands.Select, Key.Enter, ModifierKeys.None));
-            _itemsHost.InputBindings.Add(new KeyBinding(ControlCommands.Select, Key.Tab, ModifierKeys.None));
+            _itemsHost.InputBindings.Add(new KeyBinding(SuggestiveTextBoxCommands.Select, Key.Enter, ModifierKeys.None));
+            _itemsHost.InputBindings.Add(new KeyBinding(SuggestiveTextBoxCommands.Select, Key.Tab, ModifierKeys.None));
 
             InvalidateWatermark();
         }

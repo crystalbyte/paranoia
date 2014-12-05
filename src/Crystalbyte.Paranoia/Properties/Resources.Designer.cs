@@ -279,9 +279,9 @@ namespace Crystalbyte.Paranoia.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
-        public static string CloseCommandTooltip {
+        public static string Close {
             get {
-                return ResourceManager.GetString("CloseCommandTooltip", resourceCulture);
+                return ResourceManager.GetString("Close", resourceCulture);
             }
         }
         
@@ -576,6 +576,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Help.
+        /// </summary>
+        public static string Help {
+            get {
+                return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Accept.
         /// </summary>
         public static string HideUnsubscribedMailboxes {
@@ -740,6 +749,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maximize.
+        /// </summary>
+        public static string Maximize {
+            get {
+                return ResourceManager.GetString("Maximize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading Message ....
         /// </summary>
         public static string MessageDownload {
@@ -763,6 +781,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string MessagesTitle {
             get {
                 return ResourceManager.GetString("MessagesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimize.
+        /// </summary>
+        public static string Minimize {
+            get {
+                return ResourceManager.GetString("Minimize", resourceCulture);
             }
         }
         
@@ -965,6 +992,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Restore Down.
+        /// </summary>
+        public static string RestoreDown {
+            get {
+                return ResourceManager.GetString("RestoreDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Revert.
         /// </summary>
         public static string Revert {
@@ -997,15 +1033,6 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string SearchBoxWatermark {
             get {
                 return ResourceManager.GetString("SearchBoxWatermark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Switch Accounts.
-        /// </summary>
-        public static string SelectAccountTooltip {
-            get {
-                return ResourceManager.GetString("SelectAccountTooltip", resourceCulture);
             }
         }
         

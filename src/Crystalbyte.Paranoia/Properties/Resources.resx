@@ -135,7 +135,7 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="CloseCommandTooltip" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
   <data name="Back" xml:space="preserve">
@@ -258,9 +258,6 @@ Please select a corresponding IMAP folder to synchronize.</value>
   </data>
   <data name="SearchBoxWatermark" xml:space="preserve">
     <value>Quick Search (Ctrl+Q)</value>
-  </data>
-  <data name="SelectAccountTooltip" xml:space="preserve">
-    <value>Switch Accounts</value>
   </data>
   <data name="Send" xml:space="preserve">
     <value>Send</value>
@@ -542,5 +539,17 @@ Once your password is lost you're screwed.</value>
   </data>
   <data name="Unblock" xml:space="preserve">
     <value>Unblock</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Maximize" xml:space="preserve">
+    <value>Maximize</value>
+  </data>
+  <data name="Minimize" xml:space="preserve">
+    <value>Minimize</value>
+  </data>
+  <data name="RestoreDown" xml:space="preserve">
+    <value>Restore Down</value>
   </data>
 </root>

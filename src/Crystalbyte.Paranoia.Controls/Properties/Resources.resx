@@ -117,15 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MaximizeCommand" xml:space="preserve">
-    <value>Maximize</value>
-  </data>
-  <data name="MinimizeCommand" xml:space="preserve">
-    <value>Minimize</value>
-  </data>
-  <data name="RestoreDownCommand" xml:space="preserve">
-    <value>Restore Down</value>
-  </data>
   <data name="SelectCommand" xml:space="preserve">
     <value>Select</value>
   </data>
