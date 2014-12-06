@@ -54,11 +54,11 @@
 
     <!--  General Text Scope (Text)  -->
 
-    <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.TextFontFamilyKey}">Segoe UI</FontFamily>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.TextFontSizeKey}">18</system:Double>
-    <FontWeight x:Key="{x:Static themes:ThemeResourceKeys.TextFontWeightKey}">Thin</FontWeight>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}" Color="#333" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextFontDisabledBrushKey}" Color="{x:Static SystemColors.GrayTextColor}" />
+    <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.NormalTextFontFamilyKey}">Segoe UI</FontFamily>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}">18</system:Double>
+    <FontWeight x:Key="{x:Static themes:ThemeResourceKeys.NormalTextFontWeightKey}">Thin</FontWeight>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}" Color="#333" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}" Color="{x:Static SystemColors.GrayTextColor}" />
 
     <!--  Control Scope  -->
 

@@ -98,16 +98,17 @@ namespace Crystalbyte.Paranoia {
             using (var reader = new StreamReader(info.Stream)) {
                 var text = reader.ReadToEnd();
                 less = Regex.Replace(text, pattern, m => {
-                    var key = m.Value.Trim('%');
-                    string color;
-                    var success = MetroColors.TryGetColorByName(key, out color);
-                    if (!success) {
-                        return "fuchsia";
-                    }
-                    // Drop the alpha channel.
-                    return string.Format("#{0}",
-                        color.Substring(3));
-                });
+                    //var key = m.Value.Trim('%');
+                    //string color;
+                    //var success = MetroColors.TryGetColorByName(key, out color);
+                    //if (!success) {
+                    //    return "fuchsia";
+                    //}
+                    //// Drop the alpha channel.
+                    //return string.Format("#{0}",
+                    //    color.Substring(3));
+                                                        return string.Empty;
+                                                    });
             }
 
             return Less.Parse(less);
@@ -347,6 +348,8 @@ namespace Crystalbyte.Paranoia {
                 Themes.First(x => x.Value is LightTheme);
 
             var resources = theme.Value.GetThemeResources();
+
+            Current.Resources.MergedDictionaries.Clear();
             Current.Resources.MergedDictionaries.AddRange(resources);
         }
 
@@ -369,10 +372,14 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void Compose() {
+            //var config = new ContainerConfiguration()
+            //    .WithAssembly(typeof(App).Assembly)
+            //    .WithAssembly(typeof(LightTheme).Assembly)
+            //    .WithAssembly(typeof(DarkTheme).Assembly);
+
             var config = new ContainerConfiguration()
                 .WithAssembly(typeof(App).Assembly)
-                .WithAssembly(typeof(LightTheme).Assembly)
-                .WithAssembly(typeof(DarkTheme).Assembly);
+                .WithAssembly(typeof(LightTheme).Assembly);
 
             Composition = config.CreateContainer();
             Composition.SatisfyImports(this);

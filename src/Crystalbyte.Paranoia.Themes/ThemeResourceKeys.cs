@@ -31,11 +31,17 @@
         public static string SubtitleFontWeightKey = "SubtitleFontWeightKey";
         public static string SubtitleFontBrushKey = "SubtitleFontBrushKey";
 
-        public static string TextFontFamilyKey = "TextFontFamilyKey";
-        public static string TextFontSizeKey = "TextFontSizeKey";
-        public static string TextFontWeightKey = "TextFontWeightKey";
-        public static string TextForegroundBrushKey = "TextForegroundBrushKey";
-        public static string TextFontDisabledBrushKey = "TextFontDisabledBrushKey";
+        public static string NormalTextFontFamilyKey = "NormalTextFontFamilyKey";
+        
+        public static string NormalTextFontWeightKey = "NormalTextFontWeightKey";
+        public static string NormalTextForegroundBrushKey = "NormalTextForegroundBrushKey";
+        public static string NormalTextSecondaryForegroundBrushKey = "NormalTextSecondaryForegroundBrushKey";
+        public static string NormalTextFontDisabledBrushKey = "NormalTextFontDisabledBrushKey";
+        public static string NormalTextSmallFontSizeKey = "NormalTextSmallFontSizeKey";
+        public static string NormalTextMediumFontSizeKey = "NormalTextMediumFontSizeKey";
+        public static string NormalTextMediumLargeFontSizeKey = "NormalTextMediumLargeFontSizeKey";
+        public static string NormalTextLargeFontSizeKey = "NormalTextLargeFontSizeKey";
+        public static string NormalTextExtraLargeFontSizeKey = "NormalTextExtraLargeFontSizeKey";
 
         public static string InputFontFamilyKey = "InputFontFamilyKey";
         public static string InputFontSizeKey = "InputFontSizeKey";
@@ -50,6 +56,8 @@
         public static string ControlDarkBackgroundBrushKey = "ControlDarkBackgroundBrushKey";
         public static string ControlDisabledBorderBrushKey = "ControlDisabledBorderBrushKey";
         public static string ControlDisabledForegroundBrushKey = "ControlDisabledForegroundBrushKey";
+        public static string ControlOverlayBrushKey = "ControlOverlayBrushKey";
+        public static string ControlOverlayOpacityKey = "ControlOverlayOpacityKey";
 
         public static string TextBoxMarginKey = "TextBoxMarginKey";
         public static string TextBoxPaddingKey = "TextBoxPaddingKey";

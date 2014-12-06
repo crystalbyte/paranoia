@@ -240,7 +240,7 @@ namespace Crystalbyte.Paranoia.UI {
             return _webControl.HTML;
         }
 
-        internal string GetComposition() {
+        public string GetComposition() {
             JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
             using (module) {
                 const string function = "getComposition";
@@ -248,7 +248,7 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        internal void ChangeSignature(string signature) {
+        public void ChangeSignature(string signature) {
             var composition = GetComposition();
 
             JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
@@ -265,7 +265,7 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        internal void InsertHtml(string html) {
+        public void InsertHtml(string html) {
             JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
             using (module) {
                 const string function = "insertHtml";
@@ -273,7 +273,7 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        internal void InsertText(string text) {
+        public void InsertText(string text) {
             JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
             using (module) {
                 const string function = "insertText";

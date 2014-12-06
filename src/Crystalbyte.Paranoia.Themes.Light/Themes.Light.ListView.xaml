@@ -37,21 +37,21 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsSelected" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverBackground" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundBrushKey}}" />
+                            <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundBrushKey}}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="IsKeyboardFocused" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverBackground" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="IsKeyboardFocused" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverBackground" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBackgroundBrushKey}}" />
+                            <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBackgroundBrushKey}}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -63,7 +63,7 @@
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewBackgroundBrushKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewBorderBrushKey}}" />
         <Setter Property="BorderThickness" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewBorderThicknessBrushKey}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using NLog;
 
-namespace Crystalbyte.Paranoia.UI.Pages {
+namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     /// Interaction logic for MessagesPage.xaml
     /// </summary>

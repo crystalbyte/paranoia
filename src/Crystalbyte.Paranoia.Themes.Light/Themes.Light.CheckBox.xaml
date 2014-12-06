@@ -61,7 +61,7 @@
                             <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="CheckBoxBorder" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.CheckBoxHoverBackgroundBrushKey}}" />
+                            <Setter TargetName="CheckBoxBorder" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.CheckBoxMouseOverBackgroundBrushKey}}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledBorderBrushKey}}" />

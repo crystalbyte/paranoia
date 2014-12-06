@@ -13,13 +13,11 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Properties;
-using Crystalbyte.Paranoia.UI;
-using Crystalbyte.Paranoia.UI.Pages;
 using NLog;
 
 #endregion
 
-namespace Crystalbyte.Paranoia {
+namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
@@ -182,7 +180,7 @@ namespace Crystalbyte.Paranoia {
 
         private void OnFlyOutNavigationRequested(object sender, NavigationRequestedEventArgs e) {
             FlyOutFrame.Navigate(e.Target);
-            if (e.Target == typeof(BlankPage).ToPageUri()) {
+            if (e.Target == null) {
                 HideOverlay();
             } else {
                 ShowOverlay();

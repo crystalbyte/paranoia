@@ -1,6 +1,7 @@
-﻿<Page x:Class="Crystalbyte.Paranoia.UI.Pages.CreateKeyPage"
+﻿<Page x:Class="Crystalbyte.Paranoia.UI.CreateKeyPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="clr-namespace:Crystalbyte.Paranoia.UI;assembly=Crystalbyte.Paranoia.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
@@ -102,14 +103,14 @@
         <StackPanel Grid.Row="1"
                     Margin="0,36,0,0"
                     Orientation="Horizontal">
-            <ui:MetroCircleButton x:Name="AcceptButton"
+            <controls:MetroButton x:Name="AcceptButton"
                                   Command="{Binding CreateKeyPairCommand}"
                                   Text="{x:Static properties:Resources.Accept}">
                 <Image Width="18" Source="/Assets/ok.png" />
-            </ui:MetroCircleButton>
-            <ui:MetroCircleButton Command="ApplicationCommands.Close" Text="{x:Static properties:Resources.Exit}">
+            </controls:MetroButton>
+            <controls:MetroButton Command="ApplicationCommands.Close" Text="{x:Static properties:Resources.Exit}">
                 <Image Width="18" Source="/Assets/cancel.png" />
-            </ui:MetroCircleButton>
+            </controls:MetroButton>
         </StackPanel>
     </Grid>
 </Page>

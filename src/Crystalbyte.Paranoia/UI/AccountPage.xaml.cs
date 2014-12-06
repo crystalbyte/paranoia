@@ -13,16 +13,16 @@ using Microsoft.Win32;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.UI.Pages {
+namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     ///     Interaction logic for AccountDetailsPage.xaml
     /// </summary>
-    public partial class AccountDetailsPage : INavigationAware {
+    public partial class AccountPage : INavigationAware {
         private bool _discardOnClose;
         private RevisionTracker<MailAccountContext> _tracker;
         private bool _isAccountInTransit;
 
-        public AccountDetailsPage() {
+        public AccountPage() {
             InitializeComponent();
 
             CommandBindings.Add(new CommandBinding(NavigationCommands.Continue, OnContinue));

@@ -181,7 +181,7 @@
     <Compile Include="Automation\IApplication.cs" />
     <Compile Include="Automation\IClassFactory.cs" />
     <Compile Include="Automation\IComServer.cs" />
-    <Compile Include="CompositionWindow.xaml.cs">
+    <Compile Include="UI\CompositionWindow.xaml.cs">
       <DependentUpon>CompositionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Contexts\AttachmentContext.cs" />
@@ -190,7 +190,7 @@
     <Compile Include="Contexts\InspectionContext.cs" />
     <Compile Include="DecryptionResult.cs" />
     <Compile Include="IMailboxCreator.cs" />
-    <Compile Include="InspectionWindow.xaml.cs">
+    <Compile Include="UI\InspectionWindow.xaml.cs">
       <DependentUpon>InspectionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MailboxRoles.cs" />
@@ -232,7 +232,7 @@
     <Compile Include="Net\AddressKeyPair.cs" />
     <Compile Include="Net\ChallengeResponse.cs" />
     <Compile Include="Net\KeyCollection.cs" />
-    <Compile Include="NotificationWindow.xaml.cs">
+    <Compile Include="UI\NotificationWindow.xaml.cs">
       <DependentUpon>NotificationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ClientConfig.cs" />
@@ -264,25 +264,22 @@
     <Compile Include="UI\NavigationCommands.cs" />
     <Compile Include="UI\NavigationStore.cs" />
     <Compile Include="UI\OutboxCommands.cs" />
-    <Compile Include="UI\Pages\AccountDetailsPage.xaml.cs">
-      <DependentUpon>AccountDetailsPage.xaml</DependentUpon>
+    <Compile Include="UI\AccountPage.xaml.cs">
+      <DependentUpon>AccountPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pages\ContactsPage.xaml.cs">
+    <Compile Include="UI\ContactsPage.xaml.cs">
       <DependentUpon>ContactsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pages\CreateAccountPage.xaml.cs">
+    <Compile Include="UI\CreateAccountPage.xaml.cs">
       <DependentUpon>CreateAccountPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pages\CreateContactPage.xaml.cs">
-      <DependentUpon>CreateContactPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Pages\CreateKeyPage.xaml.cs">
+    <Compile Include="UI\CreateKeyPage.xaml.cs">
       <DependentUpon>CreateKeyPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pages\CreateMailboxPage.xaml.cs">
+    <Compile Include="UI\CreateMailboxPage.xaml.cs">
       <DependentUpon>CreateMailboxPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pages\MessagesPage.xaml.cs">
+    <Compile Include="UI\MessagesPage.xaml.cs">
       <DependentUpon>MessagesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ParanoiaDataSource.cs" />
@@ -291,15 +288,15 @@
     <Compile Include="UI\SignatureCommands.cs" />
     <Compile Include="UI\WindowCommands.cs" />
     <Compile Include="UI\WindowExtensions.cs" />
-    <Page Include="CompositionWindow.xaml">
+    <Page Include="UI\CompositionWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="InspectionWindow.xaml">
+    <Page Include="UI\InspectionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NotificationWindow.xaml">
+    <Page Include="UI\NotificationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -330,7 +327,7 @@
     <Compile Include="PropertySupport.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="CollectionExtensions.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="UI\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.de-DE.Designer.cs">
@@ -356,53 +353,42 @@
     <Compile Include="UI\Converters\GravatarImageConverter.cs" />
     <Compile Include="UI\Converters\MailboxLocalizer.cs" />
     <Compile Include="UI\Converters\NullToVisibilityConverter.cs" />
-    <Compile Include="UI\Pages\BlankPage.xaml.cs">
-      <DependentUpon>BlankPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\SafeWebFontProvider.cs" />
     <Compile Include="UI\ItemsControlExtensions.cs" />
     <Compile Include="UI\TypeExtensions.cs" />
-    <Compile Include="UI\Pages\ComposeMessagePage.xaml.cs">
-      <DependentUpon>ComposeMessagePage.xaml</DependentUpon>
+    <Compile Include="UI\CompositionPage.xaml.cs">
+      <DependentUpon>CompositionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\RichTextBoxExtensions.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="UI\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\AccountDetailsPage.xaml">
+    <Page Include="UI\AccountPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\BlankPage.xaml">
+    <Page Include="UI\CompositionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\ComposeMessagePage.xaml">
+    <Page Include="UI\ContactsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\ContactsPage.xaml">
+    <Page Include="UI\CreateAccountPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\CreateAccountPage.xaml">
+    <Page Include="UI\CreateKeyPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\CreateContactPage.xaml">
+    <Page Include="UI\CreateMailboxPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\CreateKeyPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Pages\CreateMailboxPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Pages\MessagesPage.xaml">
+    <Page Include="UI\MessagesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -485,10 +471,6 @@
     <ProjectReference Include="..\Crystalbyte.Paranoia.Mail\Crystalbyte.Paranoia.Mail.csproj">
       <Project>{0dc46336-8d08-4c35-8f65-1d1cf2fd0e11}</Project>
       <Name>Crystalbyte.Paranoia.Mail</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Crystalbyte.Paranoia.Themes.Dark\Crystalbyte.Paranoia.Themes.Dark.csproj">
-      <Project>{4b4368b8-6b90-42d1-ad2c-e5912246e8f1}</Project>
-      <Name>Crystalbyte.Paranoia.Themes.Dark</Name>
     </ProjectReference>
     <ProjectReference Include="..\Crystalbyte.Paranoia.Themes.Light\Crystalbyte.Paranoia.Themes.Light.csproj">
       <Project>{97c747c3-afc9-49ab-b6ce-1bf27d109707}</Project>

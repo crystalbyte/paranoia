@@ -5,8 +5,11 @@
              xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
              xmlns:core="clr-namespace:Awesomium.Core;assembly=Awesomium.Core"
              xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
+             xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+             xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
+             xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
              ShutdownMode="OnMainWindowClose"
-             StartupUri="MainWindow.xaml">
+             StartupUri="UI/MainWindow.xaml">
     <!--  Default styles: http://msdn.microsoft.com/en-us/library/aa970773.aspx  -->
     <Application.Resources>
         <ResourceDictionary>
@@ -46,7 +49,7 @@
                                      SmoothScrolling="True" />
             </awe:WebSessionProvider>
 
-            <DataTemplate x:Key="Metro.ThumbnailTemplate" DataType="paranoia:AttachmentContext">
+            <DataTemplate x:Key="ThumbnailTemplate" DataType="paranoia:AttachmentContext">
                 <Border Padding="0,3">
                     <Grid Width="120" Height="80">
                         <Grid.RowDefinitions>
@@ -86,6 +89,194 @@
                     </Grid>
                 </Border>
             </DataTemplate>
+
+            <Style x:Key="TitleTextStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TitleFontSizeKey}}" />
+                <Setter Property="FontWeight" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TitleFontWeightKey}}" />
+                <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TitleFontFamilyKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+            </Style>
+
+            <Style x:Key="SubtitleTextStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SubtitleFontSizeKey}}" />
+                <Setter Property="FontWeight" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SubtitleFontWeightKey}}" />
+                <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SubtitleFontFamilyKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" />
+            </Style>
+
+            <Style x:Key="NormalTextStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}" />
+                <Setter Property="FontWeight" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextFontWeightKey}}" />
+                <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextFontFamilyKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+            </Style>
+
+            <Style x:Key="NavigationTextStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}" />
+                <Setter Property="FontWeight" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextFontWeightKey}}" />
+                <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextFontFamilyKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+            </Style>
+
+            <Style x:Key="WindowButtonStyle"
+                   BasedOn="{StaticResource {x:Type Button}}"
+                   TargetType="Button">
+                <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="Width" Value="32" />
+                <Setter Property="Height" Value="24" />
+            </Style>
+
+            <Style x:Key="MinimizeButtonStyle"
+                   BasedOn="{StaticResource WindowButtonStyle}"
+                   TargetType="Button">
+                <Setter Property="Command" Value="ui:WindowCommands.Minimize" />
+                <Setter Property="ToolTip" Value="{x:Static properties:Resources.Minimize}" />
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Image Width="10"
+                                   Height="10"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Source="/Assets/minimize.png"
+                                   Stretch="Uniform" />
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="MaximizeButtonStyle"
+                   BasedOn="{StaticResource WindowButtonStyle}"
+                   TargetType="Button">
+                <Setter Property="Command" Value="{x:Static ui:WindowCommands.Maximize}" />
+                <Setter Property="ToolTip" Value="{x:Static properties:Resources.Maximize}" />
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Image Width="10"
+                                   Height="10"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Source="/Assets/maximize.png"
+                                   Stretch="Uniform" />
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="RestoreDownButtonStyle"
+                   BasedOn="{StaticResource WindowButtonStyle}"
+                   TargetType="Button">
+                <Setter Property="Command" Value="{x:Static ui:WindowCommands.RestoreDown}" />
+                <Setter Property="ToolTip" Value="{x:Static properties:Resources.RestoreDown}" />
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Image Width="10"
+                                   Height="10"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Source="/Assets/restore.png"
+                                   Stretch="Uniform" />
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="CloseButtonStyle"
+                   BasedOn="{StaticResource WindowButtonStyle}"
+                   TargetType="Button">
+                <Setter Property="Command" Value="{x:Static ApplicationCommands.Close}" />
+                <Setter Property="ToolTip" Value="{x:Static properties:Resources.Close}" />
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Image Width="10"
+                                   Height="10"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Source="/Assets/close.png"
+                                   Stretch="Uniform" />
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="HelpButtonStyle"
+                   BasedOn="{StaticResource WindowButtonStyle}"
+                   TargetType="Button">
+                <Setter Property="Command" Value="{x:Static ApplicationCommands.Help}" />
+                <Setter Property="ToolTip" Value="{x:Static properties:Resources.Help}" />
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Image Height="10"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Source="/Assets/help.png"
+                                   Stretch="Uniform" />
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="StatusBarButtonStyle"
+                   BasedOn="{StaticResource {x:Type Button}}"
+                   TargetType="Button">
+                <Setter Property="VerticalAlignment" Value="Stretch" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.StatusBarFontSizeKey}}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ButtonBase">
+                            <Border Margin="{TemplateBinding Margin}"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Padding="{TemplateBinding Padding}">
+                                <TextBlock HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                           FontSize="{TemplateBinding FontSize}"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           Text="{TemplateBinding Content}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonForegroundBrushKey}}" />
+                    </Trigger>
+                    <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                            <Condition Property="IsPressed" Value="True" />
+                            <Condition Property="IsMouseOver" Value="True" />
+                        </MultiTrigger.Conditions>
+                        <Setter Property="Background" Value="#66000000" />
+                    </MultiTrigger>
+                    <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                            <Condition Property="IsMouseOver" Value="True" />
+                            <Condition Property="IsPressed" Value="False" />
+                        </MultiTrigger.Conditions>
+                        <Setter Property="Background" Value="#33000000" />
+                    </MultiTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="LabelTextStyle"
+                   BasedOn="{StaticResource {x:Type TextBlock}}"
+                   TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="Margin" Value="18,3,12,3" />
+            </Style>
+
+            <Style x:Key="ReadOnlyTextBoxStyle"
+                   BasedOn="{StaticResource {x:Type TextBox}}"
+                   TargetType="TextBox">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="IsEnabled" Value="False" />
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

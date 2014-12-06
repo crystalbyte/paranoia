@@ -17,13 +17,13 @@ using Crystalbyte.Paranoia.Properties;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.UI.Pages {
+namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     ///     Interaction logic for ComposeMessagePage.xaml
     /// </summary>
-    public partial class ComposeMessagePage : INavigationAware {
+    public partial class CompositionPage : INavigationAware {
 
-        public ComposeMessagePage() {
+        public CompositionPage() {
             InitializeComponent();
 
             var context = new MailCompositionContext();
@@ -105,7 +105,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                     .ToArrayAsync();
 
                 if (!mime.Any())
-                    throw new InvalidOperationException(Properties.Resources.MessageNotFoundException);
+                    throw new InvalidOperationException();
 
                 message = new MailMessageReader(mime[0].Data);
                 from = new MailContactContext(await database.MailContacts
@@ -134,7 +134,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                     .ToArrayAsync();
 
                 if (!mime.Any())
-                    throw new InvalidOperationException(Properties.Resources.MessageNotFoundException);
+                    throw new InvalidOperationException(Paranoia.Properties.Resources.MessageNotFoundException);
 
                 message = new MailMessageReader(mime[0].Data);
                 from = new MailContactContext(await database.MailContacts
@@ -183,7 +183,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
                     .ToArrayAsync();
 
                 if (!mime.Any())
-                    throw new InvalidOperationException(Properties.Resources.MessageNotFoundException);
+                    throw new InvalidOperationException(Paranoia.Properties.Resources.MessageNotFoundException);
 
                 message = new MailMessageReader(mime[0].Data);
             }

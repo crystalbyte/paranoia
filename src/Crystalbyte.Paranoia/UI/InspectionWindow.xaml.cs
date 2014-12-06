@@ -3,10 +3,9 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Crystalbyte.Paranoia.UI;
 using NLog;
 
-namespace Crystalbyte.Paranoia {
+namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     /// Interaction logic for InspectionWindow.xaml
     /// </summary>
@@ -34,7 +33,7 @@ namespace Crystalbyte.Paranoia {
         #region Methods
 
         private void OnPrint(object sender, ExecutedRoutedEventArgs e) {
-            var html = HtmlViewer.GetDocument();
+            var html = HtmlControl.GetDocument();
             try {
                 App.Context.Print(html);
             } catch (Exception ex) {
@@ -73,7 +72,7 @@ namespace Crystalbyte.Paranoia {
             var context = new MessageInspectionContext(message);
             try {
                 DataContext = context;
-                HtmlViewer.Source = string.Format("asset://paranoia/message/{0}", message.Id);
+                HtmlControl.Source = string.Format("asset://paranoia/message/{0}", message.Id);
                 await context.InitAsync();
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -84,7 +83,7 @@ namespace Crystalbyte.Paranoia {
             var context = new FileInspectionContext(file);
             try {
                 DataContext = context;
-                HtmlViewer.Source = string.Format("asset://paranoia/file?path={0}", Uri.EscapeDataString(file.FullName));
+                HtmlControl.Source = string.Format("asset://paranoia/file?path={0}", Uri.EscapeDataString(file.FullName));
                 await context.InitAsync();
             } catch (Exception ex) {
                 Logger.Error(ex);

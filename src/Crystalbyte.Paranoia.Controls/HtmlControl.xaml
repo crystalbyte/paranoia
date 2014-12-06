@@ -58,7 +58,7 @@
                 <Setter Property="Opacity" Value="0.56" />
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" />
             </Trigger>
         </Style.Triggers>
     </Style>

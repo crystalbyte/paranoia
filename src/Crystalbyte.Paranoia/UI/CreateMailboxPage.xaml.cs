@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Crystalbyte.Paranoia.UI.Pages {
+namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     /// Interaction logic for CreateMailboxPage.xaml
     /// </summary>

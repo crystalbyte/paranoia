@@ -5,7 +5,7 @@ using System.Windows;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.UI.Pages {
+namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     ///     Interaction logic for CreateKeyPage.xaml
     /// </summary>

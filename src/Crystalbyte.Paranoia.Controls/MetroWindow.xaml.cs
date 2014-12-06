@@ -130,26 +130,26 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Event Handlers
 
-        private void OnHelp(object sender, ExecutedRoutedEventArgs e) {
+        protected void OnHelp(object sender, ExecutedRoutedEventArgs e) {
             MessageBox.Show("Not yet implemented.");
         }
 
-        private void OnMinimize(object sender, ExecutedRoutedEventArgs e) {
+        protected void OnMinimize(object sender, ExecutedRoutedEventArgs e) {
             WindowState = WindowState.Minimized;
             e.Handled = true;
         }
 
-        private void OnMaximize(object sender, RoutedEventArgs e) {
+        protected void OnMaximize(object sender, RoutedEventArgs e) {
             WindowState = WindowState.Maximized;
             e.Handled = true;
         }
 
-        private void OnClose(object sender, RoutedEventArgs e) {
+        protected void OnClose(object sender, RoutedEventArgs e) {
             Close();
             e.Handled = true;
         }
 
-        private void OnRestoreDown(object sender, RoutedEventArgs e) {
+        protected void OnRestoreDown(object sender, RoutedEventArgs e) {
             WindowState = WindowState.Normal;
             e.Handled = true;
         }

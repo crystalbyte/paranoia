@@ -1,13 +1,14 @@
-﻿<Page x:Class="Crystalbyte.Paranoia.UI.Pages.ComposeMessagePage"
+﻿<Page x:Class="Crystalbyte.Paranoia.UI.CompositionPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="clr-namespace:Crystalbyte.Paranoia.UI;assembly=Crystalbyte.Paranoia.Controls"
       xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
       xmlns:system="clr-namespace:System;assembly=mscorlib"
-      xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+      xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
       Title="{Binding Subject,
                       Mode=OneWay}"
       FocusManager.FocusedElement="{Binding ElementName=RecipientsBox}"
@@ -33,15 +34,15 @@
                                         ConverterParameter=48}"
                        Stretch="Uniform" />
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                    <TextBlock FontSize="{DynamicResource Metro.MediumFontSize}"
+                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextLargeFontSizeKey}}"
                                FontWeight="Thin"
-                               Foreground="{DynamicResource Metro.Control.TextBrush}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}"
                                Text="{Binding Name}" />
-                    <TextBlock FontSize="{DynamicResource Metro.SmallFontSize}" Text="{Binding Address}">
+                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}}" Text="{Binding Address}">
                         <TextBlock.Foreground>
                             <Binding Mode="OneWay" Path="IsSelected">
                                 <Binding.Converter>
-                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.Control.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.Control.TextBrush}" />
+                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
                                 </Binding.Converter>
                             </Binding>
                         </TextBlock.Foreground>
@@ -56,7 +57,7 @@
                            Fill="#222" />
                 <StackPanel Margin="0,0,3,0" Orientation="Horizontal">
                     <Border Background="Transparent"
-                            BorderBrush="{DynamicResource Metro.App.FailureBrush}"
+                            BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                             BorderThickness="0,0,3,0"
                             RenderOptions.EdgeMode="Aliased"
                             UseLayoutRounding="True">
@@ -70,7 +71,7 @@
                     <TextBlock Margin="2,0,2,0"
                                Background="Transparent"
                                FontWeight="Normal"
-                               Foreground="{DynamicResource Metro.Control.TextBrush}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}"
                                Text="{Binding}" />
                 </StackPanel>
             </Grid>
@@ -83,11 +84,9 @@
                 <StackPanel Margin="0,0,3,0" Orientation="Horizontal">
                     <Border Height="16"
                             Margin="0,0,4,0"
-                            Background="Transparent"
                             BorderBrush="{Binding Security,
                                                   Converter={StaticResource SecurityToColorConverter}}"
                             BorderThickness="0,0,3,0">
-
                         <Image MinWidth="16"
                                VerticalAlignment="Stretch"
                                RenderOptions.BitmapScalingMode="Linear"
@@ -97,11 +96,7 @@
                                                 ConverterParameter=32}"
                                Stretch="UniformToFill" />
                     </Border>
-                    <TextBlock Margin="2,0,2,0"
-                               Background="Transparent"
-                               FontWeight="Normal"
-                               Foreground="{DynamicResource Metro.Control.TextBrush}"
-                               Text="{Binding NameOrAddress}" />
+                    <TextBlock Margin="2,0,2,0" Text="{Binding NameOrAddress}" />
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -125,36 +120,12 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0"
-              Grid.RowSpan="2"
-              Grid.Column="3"
-              Margin="3,3,6,3">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Button Grid.Row="0"
-                    Width="60"
-                    Height="34"
-                    VerticalAlignment="Stretch"
-                    BorderBrush="{DynamicResource Metro.Control.BorderBrush}"
-                    BorderThickness="1,1,1,0"
-                    Command="{Binding AddAttachmentCommand}">
-                <Image Width="18" Source="/Assets/attachment.png" />
-            </Button>
-            <ToggleButton x:Name="CarbonCopyToggleButton"
-                          Grid.Row="1"
-                          Height="Auto">
-                <TextBlock FontSize="{DynamicResource Metro.SmallFontSize}" Foreground="{DynamicResource Metro.Control.TextBrush}">Cc / Bcc</TextBlock>
-            </ToggleButton>
-        </Grid>
         <Button Grid.Row="0"
                 Grid.RowSpan="2"
                 Grid.Column="0"
                 Width="70"
                 Margin="6,3,3,3"
                 VerticalAlignment="Stretch"
-                BorderBrush="{DynamicResource Metro.Control.BorderBrush}"
                 Command="{Binding SendCommand}"
                 TabIndex="4">
             <Image Width="18" Source="/Assets/message.png" />
@@ -167,7 +138,6 @@
                   Margin="3"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
-                  Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                   ItemsSource="{Binding Accounts}"
                   SelectedIndex="0"
                   SelectedItem="{Binding SelectedAccount}"
@@ -191,9 +161,9 @@
                                                 Converter={StaticResource GravatarImageConverter}}" />
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Margin="2,-2,0,0"
-                                       FontSize="{DynamicResource Metro.MediumLargeFontSize}"
+                                       FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumLargeFontSizeKey}}"
                                        FontWeight="Thin"
-                                       Foreground="{DynamicResource Metro.Control.TextBrush}"
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Text="{Binding Name,
                                                       ConverterParameter=...,
@@ -209,7 +179,7 @@
                                 <TextBlock.Foreground>
                                     <Binding Mode="OneWay" Path="IsSelected">
                                         <Binding.Converter>
-                                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource Metro.Control.SecondaryTextBrush}" BrushForTrue="{DynamicResource Metro.Control.TextBrush}" />
+                                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
                                         </Binding.Converter>
                                     </Binding>
                                 </TextBlock.Foreground>
@@ -219,38 +189,58 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <ui:AutoCompleteBox x:Name="RecipientsBox"
-                            Grid.Row="0"
-                            Grid.Column="2"
-                            Margin="3"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Center"
-                            Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
-                            ItemTemplate="{StaticResource ContactSuggestionTemplate}"
-                            ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
-                            SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
-                            StringTokenTemplate="{StaticResource StringTokenTemplate}"
-                            TabIndex="0"
-                            TokenTemplate="{StaticResource ContactTokenTemplate}"
-                            Watermark="{x:Static properties:Resources.To}">
-            <ui:AutoCompleteBox.ItemContainerStyle>
+        <controls:SuggestiveTextBox x:Name="RecipientsBox"
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Margin="3"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    ItemTemplate="{StaticResource ContactSuggestionTemplate}"
+                                    ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
+                                    SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
+                                    StringTokenTemplate="{StaticResource StringTokenTemplate}"
+                                    TabIndex="0"
+                                    TokenTemplate="{StaticResource ContactTokenTemplate}"
+                                    Watermark="{x:Static properties:Resources.To}">
+            <controls:SuggestiveTextBox.ItemContainerStyle>
                 <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                     <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                 </Style>
-            </ui:AutoCompleteBox.ItemContainerStyle>
-        </ui:AutoCompleteBox>
-        <ui:MetroTextBox x:Name="SubjectTextBox"
-                         Grid.Row="1"
-                         Grid.Column="2"
-                         Margin="3"
-                         VerticalAlignment="Center"
-                         Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
-                         TabIndex="1"
-                         Text="{Binding Subject,
-                                        UpdateSourceTrigger=PropertyChanged,
-                                        Mode=TwoWay}"
-                         Watermark="{x:Static properties:Resources.Subject}" />
+            </controls:SuggestiveTextBox.ItemContainerStyle>
+        </controls:SuggestiveTextBox>
+        <Grid Grid.Row="0"
+              Grid.RowSpan="2"
+              Grid.Column="3"
+              Margin="3,3,6,3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0"
+                    Width="60"
+                    Height="34"
+                    VerticalAlignment="Stretch"
+                    BorderThickness="1,1,1,0"
+                    Command="{Binding AddAttachmentCommand}">
+                <Image Width="18" Source="/Assets/attachment.png" />
+            </Button>
+            <ToggleButton x:Name="CarbonCopyToggleButton"
+                          Grid.Row="1"
+                          Height="Auto">
+                <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}}" Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}">Cc / Bcc</TextBlock>
+            </ToggleButton>
+        </Grid>
+        <controls:WatermarkTextBox x:Name="SubjectTextBox"
+                                   Grid.Row="1"
+                                   Grid.Column="2"
+                                   Margin="3"
+                                   VerticalAlignment="Center"
+                                   TabIndex="1"
+                                   Text="{Binding Subject,
+                                                  UpdateSourceTrigger=PropertyChanged,
+                                                  Mode=TwoWay}"
+                                   Watermark="{x:Static properties:Resources.Subject}" />
         <StackPanel x:Name="CarbonCopyGrid"
                     Grid.Row="2"
                     Grid.Column="0"
@@ -259,44 +249,44 @@
                     Visibility="{Binding IsChecked,
                                          ElementName=CarbonCopyToggleButton,
                                          Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ui:AutoCompleteBox x:Name="CarbonCopyBox"
-                                HorizontalAlignment="Stretch"
-                                ItemTemplate="{StaticResource ContactSuggestionTemplate}"
-                                ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
-                                SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
-                                StringTokenTemplate="{StaticResource StringTokenTemplate}"
-                                TokenTemplate="{StaticResource ContactTokenTemplate}"
-                                Visibility="{Binding IsChecked,
-                                                     ElementName=CopyButton,
-                                                     Converter={StaticResource BooleanToVisibilityConverter}}"
-                                Watermark="{x:Static properties:Resources.CarbonCopies}">
-                <ui:AutoCompleteBox.ItemContainerStyle>
+            <controls:SuggestiveTextBox x:Name="CarbonCopyBox"
+                                        HorizontalAlignment="Stretch"
+                                        ItemTemplate="{StaticResource ContactSuggestionTemplate}"
+                                        ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
+                                        SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
+                                        StringTokenTemplate="{StaticResource StringTokenTemplate}"
+                                        TokenTemplate="{StaticResource ContactTokenTemplate}"
+                                        Visibility="{Binding IsChecked,
+                                                             ElementName=CopyButton,
+                                                             Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        Watermark="{x:Static properties:Resources.CarbonCopies}">
+                <controls:SuggestiveTextBox.ItemContainerStyle>
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
 
                         <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
 
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                     </Style>
-                </ui:AutoCompleteBox.ItemContainerStyle>
-            </ui:AutoCompleteBox>
-            <ui:AutoCompleteBox x:Name="BlindCarbonCopyBox"
-                                HorizontalAlignment="Stretch"
-                                ItemTemplate="{StaticResource ContactSuggestionTemplate}"
-                                ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
-                                SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
-                                StringTokenTemplate="{StaticResource StringTokenTemplate}"
-                                TokenTemplate="{StaticResource ContactTokenTemplate}"
-                                Visibility="{Binding IsChecked,
-                                                     ElementName=CopyButton,
-                                                     Converter={StaticResource BooleanToVisibilityConverter}}"
-                                Watermark="{x:Static properties:Resources.BlindCarbonCopies}">
-                <ui:AutoCompleteBox.ItemContainerStyle>
+                </controls:SuggestiveTextBox.ItemContainerStyle>
+            </controls:SuggestiveTextBox>
+            <controls:SuggestiveTextBox x:Name="BlindCarbonCopyBox"
+                                        HorizontalAlignment="Stretch"
+                                        ItemTemplate="{StaticResource ContactSuggestionTemplate}"
+                                        ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
+                                        SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
+                                        StringTokenTemplate="{StaticResource StringTokenTemplate}"
+                                        TokenTemplate="{StaticResource ContactTokenTemplate}"
+                                        Visibility="{Binding IsChecked,
+                                                             ElementName=CopyButton,
+                                                             Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        Watermark="{x:Static properties:Resources.BlindCarbonCopies}">
+                <controls:SuggestiveTextBox.ItemContainerStyle>
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                         <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                     </Style>
-                </ui:AutoCompleteBox.ItemContainerStyle>
-            </ui:AutoCompleteBox>
+                </controls:SuggestiveTextBox.ItemContainerStyle>
+            </controls:SuggestiveTextBox>
         </StackPanel>
 
         <!--  ttt  -->
@@ -304,6 +294,7 @@
                   Grid.Column="0"
                   Grid.ColumnSpan="4"
                   Background="Transparent"
+                  ItemTemplate="{StaticResource ThumbnailTemplate}"
                   ItemsSource="{Binding Attachments}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ScrollViewer.VerticalScrollBarVisibility="Auto">
@@ -321,50 +312,27 @@
                     <WrapPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
-            <ListView.ItemTemplate>
-                <ItemContainerTemplate>
-                    <Grid Width="120" Height="20">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="20" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Margin="2,0,2,0"
-                                   VerticalAlignment="Center"
-                                   Foreground="#BADA55"
-                                   Text="{Binding Name}"
-                                   TextTrimming="CharacterEllipsis"
-                                   ToolTip="{Binding FullName}" />
-                        <!--  TODO usefull tooltip  -->
-                        <Button Grid.Column="1"
-                                Command="{Binding RemoveCommand}"
-                                Content="X"
-                                ToolTip="remove" />
-                    </Grid>
-                </ItemContainerTemplate>
-            </ListView.ItemTemplate>
         </ListView>
         <Border Grid.Row="4"
                 Grid.Column="0"
                 Grid.ColumnSpan="4"
                 Margin="0,3,0,0"
-                Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
                 BorderThickness="0"
                 Padding="0">
-            <ui:HtmlControl x:Name="HtmlControl"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            AllowDrop="True"
-                            Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}"
-                            BorderThickness="0"
-                            Drop="DropHtmlControl"
-                            IsTransparent="True"
-                            RenderTransformOrigin="0.5,0.5"
-                            Source="{Binding Source,
-                                             Mode=TwoWay}"
-                            TabIndex="3"
-                            UseLayoutRounding="True"
-                            WebSession="{Binding Source={StaticResource CompositionWebSessionProvider}}"
-                            d:IsHidden="True" />
+            <controls:HtmlControl x:Name="HtmlControl"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  AllowDrop="True"
+                                  BorderThickness="0"
+                                  Drop="DropHtmlControl"
+                                  IsTransparent="True"
+                                  RenderTransformOrigin="0.5,0.5"
+                                  Source="{Binding Source,
+                                                   Mode=TwoWay}"
+                                  TabIndex="3"
+                                  UseLayoutRounding="True"
+                                  WebSession="{Binding Source={StaticResource CompositionWebSessionProvider}}"
+                                  d:IsHidden="True" />
         </Border>
     </Grid>
 </Page>

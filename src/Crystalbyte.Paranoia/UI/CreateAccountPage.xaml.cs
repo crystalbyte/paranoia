@@ -9,7 +9,7 @@ using Crystalbyte.Paranoia.Data;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.UI.Pages {
+namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     ///     Interaction logic for CreateAccountPage.xaml
     /// </summary>
@@ -63,7 +63,7 @@ namespace Crystalbyte.Paranoia.UI.Pages {
 
             PasswordBox.PasswordChanged -= OnPasswordChanged;
             App.Context.TransitAccount = context;
-            var uri = typeof (AccountDetailsPage).ToPageUri("?mode=new");
+            var uri = typeof (AccountPage).ToPageUri("?mode=new");
             service.Navigate(uri);
         }
 

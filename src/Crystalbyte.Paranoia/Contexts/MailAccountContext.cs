@@ -19,7 +19,6 @@ using Crystalbyte.Paranoia.Net;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
-using Crystalbyte.Paranoia.UI.Pages;
 using Newtonsoft.Json;
 using NLog;
 using System.Windows;
@@ -108,7 +107,7 @@ namespace Crystalbyte.Paranoia {
 
         private void OnConfigAccount(object obj) {
             var args = string.Format("?mode=edit&id={0}", Id);
-            var uri = typeof(AccountDetailsPage).ToPageUri(args);
+            var uri = typeof(AccountPage).ToPageUri(args);
             App.Context.ConfigureAccount(uri);
         }
 

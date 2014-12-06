@@ -118,7 +118,7 @@
                           Height="7"
                           Data="M 0 0 L 7 7 M 0 7 L 7 0"
                           SnapsToDevicePixels="False"
-                          Stroke="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
+                          Stroke="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}"
                           StrokeThickness="2"
                           Visibility="Hidden" />
                 </Border>
@@ -211,7 +211,7 @@
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
                       Data="M 0 0 L 0 7 L 4 3.5 Z"
-                      Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+                      Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
             </Grid>
         </Border>
         <ControlTemplate.Triggers>

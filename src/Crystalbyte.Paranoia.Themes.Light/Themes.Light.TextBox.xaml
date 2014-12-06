@@ -7,7 +7,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxBorderBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxBackgroundBrushKey}}" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
         <Setter Property="Padding" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxPaddingKey}}" />
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontFamilyKey}}" />
         <Setter Property="Margin" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxMarginKey}}" />

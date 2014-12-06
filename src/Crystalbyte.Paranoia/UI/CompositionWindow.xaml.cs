@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Navigation;
-using Crystalbyte.Paranoia.UI;
 
-namespace Crystalbyte.Paranoia {
+namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     /// Interaction logic for CompositionWindow.xaml
     /// </summary>

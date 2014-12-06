@@ -24,7 +24,6 @@ using Crystalbyte.Paranoia.Net;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
-using Crystalbyte.Paranoia.UI.Pages;
 using Newtonsoft.Json;
 using NLog;
 
@@ -62,7 +61,6 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _blockContactsCommand;
         private readonly ICommand _unblockContactsCommand;
         private readonly ICommand _createAccountCommand;
-        private readonly ICommand _createContactCommand;
         private readonly ICommand _deleteContactsCommand;
         private readonly ICommand _deleteMessagesCommand;
         private readonly ICommand _refreshKeysCommand;
@@ -98,7 +96,6 @@ namespace Crystalbyte.Paranoia {
             _markAsNotSeenCommand = new MarkAsNotSeenCommand(this);
             _deleteContactsCommand = new DeleteContactsCommand(this);
             _createAccountCommand = new RelayCommand(OnCreateAccount);
-            _createContactCommand = new RelayCommand(OnCreateContact);
             _resetZoomCommand = new RelayCommand(p => Zoom = 100.0f);
             _unblockContactsCommand = new UnblockContactsCommand(this);
             _markAsFlaggedCommand = new MarkAsFlaggedCommand(this);
@@ -650,10 +647,6 @@ namespace Crystalbyte.Paranoia {
             get { return _refreshKeysCommand; }
         }
 
-        public ICommand CreateContactCommand {
-            get { return _createContactCommand; }
-        }
-
         public ICommand BlockContactsCommand {
             get { return _blockContactsCommand; }
         }
@@ -794,8 +787,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void ClosePopup() {
-            var uri = typeof(BlankPage).ToPageUri();
-            OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
+            OnPopupNavigationRequested(new NavigationRequestedEventArgs(null));
             IsPopupVisible = false;
         }
 
@@ -872,12 +864,6 @@ namespace Crystalbyte.Paranoia {
             IsPopupVisible = true;
         }
 
-        internal void OnCreateContact(object obj) {
-            var uri = typeof(CreateContactPage).ToPageUri();
-            OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
-            IsPopupVisible = true;
-        }
-
         internal void OnCreateKeyPair() {
             var uri = typeof(CreateKeyPage).ToPageUri();
             OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
@@ -899,9 +885,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void CloseFlyOut() {
-            var uri = typeof(BlankPage).ToPageUri();
             OnFlyOutClosing();
-            OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
+            OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(null));
             OnFlyOutClosed();
         }
 
@@ -1011,14 +996,14 @@ namespace Crystalbyte.Paranoia {
 
         internal void Reply(MailMessageContext message) {
             var url = string.Format("?action=reply&id={0}", message.Id);
-            var uri = typeof(ComposeMessagePage).ToPageUri(url);
+            var uri = typeof(CompositionPage).ToPageUri(url);
             App.Context.Compose(uri);
         }
 
         internal void Reply(FileSystemInfo file) {
             var path = Uri.EscapeDataString(file.FullName);
             var url = string.Format("?action=reply&path={0}", path);
-            var uri = typeof(ComposeMessagePage).ToPageUri(url);
+            var uri = typeof(CompositionPage).ToPageUri(url);
             App.Context.Compose(uri);
         }
 
@@ -1028,14 +1013,14 @@ namespace Crystalbyte.Paranoia {
 
         internal void Forward(MailMessageContext message) {
             var url = string.Format("?action=forward&id={0}", message.Id);
-            var uri = typeof(ComposeMessagePage).ToPageUri(url);
+            var uri = typeof(CompositionPage).ToPageUri(url);
             App.Context.Compose(uri);
         }
 
         internal void Forward(FileSystemInfo file) {
             var path = Uri.EscapeDataString(file.FullName);
             var url = string.Format("?action=forward&path={0}", path);
-            var uri = typeof(ComposeMessagePage).ToPageUri(url);
+            var uri = typeof(CompositionPage).ToPageUri(url);
             App.Context.Compose(uri);
         }
 
@@ -1045,14 +1030,14 @@ namespace Crystalbyte.Paranoia {
 
         internal void ReplyToAll(MailMessageContext message) {
             var url = string.Format("?action=reply-all&id={0}", message.Id);
-            var uri = typeof(ComposeMessagePage).ToPageUri(url);
+            var uri = typeof(CompositionPage).ToPageUri(url);
             App.Context.Compose(uri);
         }
 
         internal void ReplyToAll(FileSystemInfo file) {
             var path = Uri.EscapeDataString(file.FullName);
             var url = string.Format("?action=reply-all&path={0}", path);
-            var uri = typeof(ComposeMessagePage).ToPageUri(url);
+            var uri = typeof(CompositionPage).ToPageUri(url);
             App.Context.Compose(uri);
         }
 
@@ -1092,7 +1077,7 @@ namespace Crystalbyte.Paranoia {
             var owner = Application.Current.MainWindow;
             var window = new CompositionWindow();
             window.MimicOwnership(Application.Current.MainWindow);
-            window.Source = typeof(ComposeMessagePage).ToPageUri("?action=new");
+            window.Source = typeof(CompositionPage).ToPageUri("?action=new");
 
             if (owner.WindowState == WindowState.Maximized) {
                 window.WindowState = WindowState.Maximized;

@@ -5,11 +5,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
              xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+             xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
              d:DataContext="{d:DesignInstance paranoia:MailMessageContext}"
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
-    <Border Background="{DynamicResource Metro.App.AccentBrush}"
+    <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
             SnapsToDevicePixels="True"
             UseLayoutRounding="True"
             Visibility="{Binding HasExternalsAndSourceIsNotTrusted,

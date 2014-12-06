@@ -26,7 +26,7 @@
                 <ControlTemplate TargetType="{x:Type Separator}">
                     <Rectangle Width="1"
                                Margin="3"
-                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

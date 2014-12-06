@@ -1,7 +1,8 @@
-﻿<Window x:Class="Crystalbyte.Paranoia.NotificationWindow"
+﻿<Window x:Class="Crystalbyte.Paranoia.UI.NotificationWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+        xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
         x:Name="Window"
         Width="325"
         Height="70"
@@ -47,8 +48,8 @@
                 <TranslateTransform />
             </TransformGroup>
         </Grid.RenderTransform>
-        <Border Background="{DynamicResource Metro.Menu.BackgroundBrush}"
-                BorderBrush="{DynamicResource Metro.Control.BorderBrush}"
+        <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBorderBrushKey}}"
                 BorderThickness="2">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -74,18 +75,17 @@
                            Grid.Column="1"
                            Margin="0"
                            VerticalAlignment="Bottom"
-                           FontSize="{DynamicResource Metro.MediumLargeFontSize}"
+                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumLargeFontSizeKey}}"
                            FontWeight="Normal"
-                           Style="{DynamicResource Metro.TitleTextStyle}"
+                           Style="{StaticResource TitleTextStyle}"
                            Text="{Binding FromName}"
                            TextTrimming="CharacterEllipsis"
                            TextWrapping="NoWrap" />
                 <TextBlock Grid.Row="1"
                            Grid.Column="1"
                            VerticalAlignment="Top"
-                           FontSize="{DynamicResource Metro.NormalFontSize}"
                            FontWeight="Normal"
-                           Style="{DynamicResource Metro.SubtitleTextStyle}"
+                           Style="{StaticResource SubtitleTextStyle}"
                            Text="{Binding Subject}"
                            TextTrimming="CharacterEllipsis"
                            TextWrapping="NoWrap" />

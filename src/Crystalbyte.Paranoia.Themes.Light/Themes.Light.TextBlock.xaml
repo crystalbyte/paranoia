@@ -5,8 +5,8 @@
     <Style TargetType="TextBlock">
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontSizeKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}" />
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />

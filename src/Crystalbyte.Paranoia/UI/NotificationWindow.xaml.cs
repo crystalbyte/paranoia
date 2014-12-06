@@ -9,7 +9,7 @@ using System.Windows.Media.Animation;
 
 #endregion
 
-namespace Crystalbyte.Paranoia {
+namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     ///     Interaction logic for NotificationWindow.xaml
     /// </summary>
