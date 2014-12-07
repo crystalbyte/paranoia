@@ -50,10 +50,10 @@
                     Orientation="Horizontal">
             <controls:MetroButton x:Name="AcceptButton"
                                   Command="ui:NavigationCommands.Continue"
-                                  Text="{x:Static properties:Resources.Accept}">
+                                  ImageSource="{x:Static properties:Resources.Accept}">
                 <Image Width="18" Source="/Assets/ok.png" />
             </controls:MetroButton>
-            <controls:MetroButton Command="ui:NavigationCommands.Close" Text="{x:Static properties:Resources.Cancel}">
+            <controls:MetroButton Command="ui:NavigationCommands.Close" ImageSource="{x:Static properties:Resources.Cancel}">
                 <Image Width="18" Source="/Assets/cancel.png" />
             </controls:MetroButton>
         </StackPanel>

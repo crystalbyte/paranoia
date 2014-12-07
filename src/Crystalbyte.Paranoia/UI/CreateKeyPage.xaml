@@ -6,7 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
-      xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+      xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
       Title="{x:Static properties:Resources.CreateKeyTitle}"
       KeyboardNavigation.TabNavigation="Cycle"
       d:DataContext="{d:DesignInstance paranoia:CreateKeyPairContext}"
@@ -40,7 +40,7 @@
                        Grid.Column="0"
                        Grid.ColumnSpan="2"
                        Margin="0,0,0,12"
-                       Foreground="{DynamicResource Metro.App.AccentBrush}"
+                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                        Text="{x:Static properties:Resources.CreateKeyPageWarning}" />
             <CheckBox x:Name="RiskCheckBox"
                       Grid.Row="2"
@@ -57,7 +57,7 @@
                        Grid.Column="0"
                        IsEnabled="{Binding IsChecked,
                                            ElementName=RiskCheckBox}"
-                       Style="{DynamicResource Metro.LabelTextStyle}">
+                       Style="{StaticResource LabelTextStyle}">
                 <Run Text="{x:Static properties:Resources.Password}" />
                 <Run>:</Run>
             </TextBlock>
@@ -71,7 +71,7 @@
                        Grid.Column="0"
                        IsEnabled="{Binding IsChecked,
                                            ElementName=RiskCheckBox}"
-                       Style="{DynamicResource Metro.LabelTextStyle}">
+                       Style="{StaticResource LabelTextStyle}">
                 <Run Text="{x:Static properties:Resources.ConfirmPassword}" />
                 <Run>:</Run>
             </TextBlock>
@@ -94,7 +94,7 @@
                        Grid.ColumnSpan="2"
                        Margin="24,0,0,0"
                        FontStyle="Italic"
-                       Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}">
+                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}">
                 <Run Text="-" />
                 <Run Text="{Binding BenFranklin, Mode=OneTime}" />
 
@@ -105,10 +105,10 @@
                     Orientation="Horizontal">
             <controls:MetroButton x:Name="AcceptButton"
                                   Command="{Binding CreateKeyPairCommand}"
-                                  Text="{x:Static properties:Resources.Accept}">
+                                  ImageSource="{x:Static properties:Resources.Accept}">
                 <Image Width="18" Source="/Assets/ok.png" />
             </controls:MetroButton>
-            <controls:MetroButton Command="ApplicationCommands.Close" Text="{x:Static properties:Resources.Exit}">
+            <controls:MetroButton Command="ApplicationCommands.Close" ImageSource="{x:Static properties:Resources.Exit}">
                 <Image Width="18" Source="/Assets/cancel.png" />
             </controls:MetroButton>
         </StackPanel>

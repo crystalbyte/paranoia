@@ -291,7 +291,6 @@ namespace Crystalbyte.Paranoia {
                 DeferredActions.Push(() => {
                     Current.MainWindow.Loaded += async (sender, e) => {
                         Current.MainWindow.WindowState = WindowState.Minimized;
-                        // Cannot await anonymous method.
                         await Context.InspectMessageAsync(info);
                     };
                 });
@@ -349,8 +348,14 @@ namespace Crystalbyte.Paranoia {
 
             var resources = theme.Value.GetThemeResources();
 
+            // Add base styles.
             Current.Resources.MergedDictionaries.Clear();
             Current.Resources.MergedDictionaries.AddRange(resources);
+
+            // Derived styles need to be added after base styles.
+            var url = string.Format(Pack.Relative, typeof (App).Assembly.FullName, "/App.Styles.xaml");
+            var styles = (ResourceDictionary) LoadComponent(new Uri(url, UriKind.Relative));
+            Current.Resources.MergedDictionaries.Add(styles);
         }
 
         private static void InitEnvironment() {

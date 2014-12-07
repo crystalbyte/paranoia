@@ -11,6 +11,8 @@
         // Window Scope
 
         public static string WindowBackgroundBrushKey = "WindowBackgroundBrushKey";
+        public static string WindowTitleBackgroundBrushKey = "WindowTitleBackgroundBrushKey";
+        public static string WindowMenuBackgroundBrushKey = "WindowMenuBackgroundBrushKey";
         public static string WindowBorderBrushKey = "WindowBorderBrushKey";
         public static string WindowBorderThicknessKey = "WindowBorderThicknessKey";
         public static string WindowShadowBrushKey = "WindowShadowBrushKey";
@@ -24,12 +26,11 @@
         public static string TitleFontFamilyKey = "TitleFontFamilyKey";
         public static string TitleFontSizeKey = "TitleFontSizeKey";
         public static string TitleFontWeightKey = "TitleFontWeightKey";
-        public static string TitleFontBrushKey = "TitleFontBrushKey";
 
         public static string SubtitleFontFamilyKey = "SubtitleFontFamilyKey";
         public static string SubtitleFontSizeKey = "SubtitleFontSizeKey";
         public static string SubtitleFontWeightKey = "SubtitleFontWeightKey";
-        public static string SubtitleFontBrushKey = "SubtitleFontBrushKey";
+        public static string SubtitleForegroundBrushKey = "SubtitleForegroundBrushKey";
 
         public static string NormalTextFontFamilyKey = "NormalTextFontFamilyKey";
         
@@ -160,6 +161,7 @@
         public static string TooltipForegroundBrushKey = "TooltipForegroundBrushKey";
         public static string TooltipBorderThicknessKey = "TooltipBorderThicknessKey";
         public static string TooltipPaddingKey = "TooltipPaddingKey";
+        public static string TooltipFontSizeKey = "TooltipFontSizeKey";
 
         public static string TreeViewBackgroundBrushKey = "TreeViewBackgroundBrushKey";
         public static string TreeViewBorderBrushKey = "TreeViewBorderBrushKey";

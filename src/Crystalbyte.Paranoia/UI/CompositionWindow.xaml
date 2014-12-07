@@ -7,6 +7,7 @@
                       xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
                       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
+                      xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                       x:Name="Window"
                       Title="{Binding Text,
                                       ElementName=TitleBlock,
@@ -65,17 +66,17 @@
             <Button Grid.Column="0" Style="{StaticResource HelpButtonStyle}" />
             <Button Grid.Column="1" Style="{StaticResource MinimizeButtonStyle}" />
             <Button Grid.Column="2"
-                    Style="{DynamicResource Metro.MaximizeButtonStyle}"
+                    Style="{StaticResource MaximizeButtonStyle}"
                     Visibility="{Binding IsNormalized,
                                          Converter={StaticResource BooleanToVisibilityConverter},
                                          RelativeSource={RelativeSource FindAncestor,
-                                                                        AncestorType=paranoia:CompositionWindow}}" />
+                                                                        AncestorType=ui:CompositionWindow}}" />
             <Button Grid.Column="3"
-                    Style="{DynamicResource Metro.RestoreDownButtonStyle}"
+                    Style="{StaticResource RestoreDownButtonStyle}"
                     Visibility="{Binding IsMaximized,
                                          Converter={StaticResource BooleanToVisibilityConverter},
                                          RelativeSource={RelativeSource FindAncestor,
-                                                                        AncestorType=paranoia:CompositionWindow}}" />
+                                                                        AncestorType=ui:CompositionWindow}}" />
             <Button Grid.Column="4"
                     Click="OnCloseButtonClick"
                     Style="{StaticResource CloseButtonStyle}" />
@@ -87,7 +88,7 @@
                Padding="0"
                Source="{Binding Source,
                                 RelativeSource={RelativeSource FindAncestor,
-                                                               AncestorType=paranoia:CompositionWindow}}" />
+                                                               AncestorType=ui:CompositionWindow}}" />
         <StatusBar Grid.Row="2"
                    Height="24"
                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />

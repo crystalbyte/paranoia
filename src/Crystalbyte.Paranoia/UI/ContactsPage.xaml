@@ -78,9 +78,6 @@
             <DockPanel Grid.Column="2" LastChildFill="True">
                 <DockPanel DockPanel.Dock="Top" LastChildFill="True">
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                        <controls:MetroButton VerticalAlignment="Center" Command="{Binding CreateContactCommand}">
-                            <Image Width="18" Source="/Assets/add.png" />
-                        </controls:MetroButton>
                         <controls:MetroButton VerticalAlignment="Center" Command="{Binding RefreshKeysCommand}">
                             <Image Width="18" Source="/Assets/key.png" />
                         </controls:MetroButton>

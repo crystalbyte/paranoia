@@ -110,10 +110,10 @@
                     Orientation="Horizontal">
             <controls:MetroButton x:Name="ContinueButton"
                                   Command="ui:NavigationCommands.Continue"
-                                  Text="{x:Static properties:Resources.Continue}">
+                                  ImageSource="{x:Static properties:Resources.Continue}">
                 <Image Width="18" Source="/Assets/ok.png" />
             </controls:MetroButton>
-            <controls:MetroButton Command="ui:NavigationCommands.Close" Text="{x:Static properties:Resources.Cancel}">
+            <controls:MetroButton Command="ui:NavigationCommands.Close" ImageSource="{x:Static properties:Resources.Cancel}">
                 <Image Width="18" Source="/Assets/cancel.png" />
             </controls:MetroButton>
         </StackPanel>

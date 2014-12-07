@@ -9,6 +9,7 @@
 //------------------------------------------------------------------------------
 
 namespace Crystalbyte.Paranoia.Themes.Properties {
+    using System;
     
     
     /// <summary>
@@ -37,7 +38,7 @@ namespace Crystalbyte.Paranoia.Themes.Properties {
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
-                if ((resourceMan == null)) {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Crystalbyte.Paranoia.Themes.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }

@@ -29,38 +29,33 @@
                                          Fill="{TemplateBinding Background}"
                                          Stroke="{TemplateBinding BorderBrush}"
                                          StrokeThickness="1.4" />
-                                <ContentPresenter Name="Presenter"
-                                                  Grid.Column="0"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"
-                                                  RenderOptions.BitmapScalingMode="HighQuality" />
+                                <Rectangle Width="18"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Fill="{TemplateBinding Foreground}">
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="{TemplateBinding ImageSource}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
                             </Grid>
                             <TextBlock x:Name="TextBlock"
                                        Margin="6,0,0,0"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Foreground="{TemplateBinding Foreground}"
-                                       Text="{TemplateBinding Text}"
-                                       Visibility="{Binding Text,
+                                       RenderOptions.BitmapScalingMode="HighQuality"
+                                       Text="{TemplateBinding Content}"
+                                       Visibility="{Binding Content,
                                                             RelativeSource={RelativeSource TemplatedParent},
                                                             Converter={StaticResource NullToVisibilityConverter}}" />
                         </StackPanel>
-
-
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Presenter" Property="Opacity" Value=".2" />
                             <Setter TargetName="Ellipse" Property="Opacity" Value=".2" />
+                            <Setter TargetName="TextBlock" Property="Opacity" Value=".2" />
                             <Setter TargetName="TextBlock" Property="Foreground" Value="{x:Static SystemColors.GrayTextBrush}" />
                         </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="IsPressed" Value="False" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="Ellipse" Property="Stroke" Value="{x:Static SystemColors.HotTrackBrush}" />
-                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

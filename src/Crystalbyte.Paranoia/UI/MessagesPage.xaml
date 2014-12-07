@@ -30,15 +30,14 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="400"
                               MinWidth="150"
-                              MaxWidth="800" />
+                              MaxWidth="700" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Background="{DynamicResource Metro.Control.SecondaryBackgroundBrush}">
+        <Grid Grid.Column="0">
             <DockPanel LastChildFill="True">
                 <Border HorizontalAlignment="Stretch"
-                        BorderBrush="{DynamicResource Metro.Control.BorderBrush}"
                         BorderThickness="0,0,0,1"
                         DockPanel.Dock="Top"
                         Padding="0,3"
@@ -46,9 +45,8 @@
                     <Grid HorizontalAlignment="Left">
                         <controls:MetroButton Margin="12"
                                               Command="ui:MessageCommands.Compose"
-                                              Text="{x:Static properties:Resources.ComposeMessage}">
-                            <Image Width="18" Source="/Assets/paper.png" />
-                        </controls:MetroButton>
+                                              Content="{x:Static properties:Resources.ComposeMessage}"
+                                              ImageSource="/Assets/paper.png" />
                     </Grid>
                 </Border>
                 <DockPanel Margin="1"
@@ -58,9 +56,8 @@
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
                                           Command="{Binding CreateAccountCommand}"
-                                          DockPanel.Dock="Right">
-                        <Image Width="18" Source="/Assets/add.png" />
-                    </controls:MetroButton>
+                                          DockPanel.Dock="Right"
+                                          ImageSource="/Assets/add.png" />
                     <TextBlock Margin="12,0,0,0"
                                VerticalAlignment="Center"
                                DockPanel.Dock="Left"
@@ -71,12 +68,12 @@
                 <TreeView Margin="0"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
-                          Background="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextExtraLargeFontSizeKey}}"
                           BorderThickness="0"
                           ItemsSource="{Binding Accounts}"
                           Padding="0"
-                          ScrollViewer.CanContentScroll="False"
+                          ScrollViewer.CanContentScroll="True"
                           SelectedItemChanged="OnTreeViewSelectedItemChanged"
+                          SnapsToDevicePixels="True"
                           VirtualizingPanel.IsVirtualizing="False"
                           VirtualizingPanel.ScrollUnit="Pixel">
                     <TreeView.Resources>
@@ -87,11 +84,15 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0"
-                                       Width="16"
-                                       Margin="0,1,6,1"
-                                       SnapsToDevicePixels="True"
-                                       Source="/Assets/folder.png" />
+                                <Rectangle Grid.Column="0"
+                                           Width="16"
+                                           Margin="0,1,6,1"
+                                           Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}"
+                                           SnapsToDevicePixels="True">
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="/Assets/folder.png" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
                                 <TextBlock x:Name="MailboxNameBlock"
                                            Grid.Column="1"
                                            VerticalAlignment="Center"
@@ -128,7 +129,13 @@
                                     <ContextMenu>
                                         <MenuItem Command="{Binding ShowUnsubscribedMailboxesCommand}" Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <MenuItem.Icon>
-                                                <Image Height="16" Source="/Assets/select.png" />
+                                                <Rectangle Width="16"
+                                                           Height="16"
+                                                           Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}">
+                                                    <Rectangle.OpacityMask>
+                                                        <ImageBrush ImageSource="/Assets/select.png" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
                                             </MenuItem.Icon>
                                             <MenuItem.Header>
                                                 <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" Text="{x:Static properties:Resources.ShowUnsubscribedMailboxes}" />
@@ -190,9 +197,10 @@
                                        Source="{Binding Address,
                                                         ConverterParameter=48,
                                                         Converter={StaticResource GravatarImageConverter}}" />
-                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                    <TextBlock Margin="2,-2,0,0"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextLargeFontSizeKey}}"
+                                <StackPanel Grid.Column="1"
+                                            Margin="0,-2,0,0"
+                                            VerticalAlignment="Center">
+                                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextLargeFontSizeKey}}"
                                                FontWeight="Thin"
                                                RenderOptions.ClearTypeHint="Enabled"
                                                Text="{Binding Name,
@@ -200,7 +208,7 @@
                                                               Converter={StaticResource NullOrEmptyFormatter}}"
                                                TextTrimming="CharacterEllipsis"
                                                TextWrapping="NoWrap" />
-                                    <TextBlock Margin="2,0,2,2"
+                                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}"
                                                RenderOptions.ClearTypeHint="Enabled"
                                                Text="{Binding Address,
                                                               Converter={StaticResource NullOrEmptyFormatter}}"
@@ -209,7 +217,7 @@
                                         <TextBlock.Foreground>
                                             <Binding Mode="OneWay" Path="IsSelected">
                                                 <Binding.Converter>
-                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" BrushForTrue="GhostWhite" />
                                                 </Binding.Converter>
                                             </Binding>
                                         </TextBlock.Foreground>
@@ -262,11 +270,16 @@
                                                   Visibility="{Binding IsSelectable,
                                                                        Converter={StaticResource BooleanToVisibilityConverter}}" />
                                     </Border>
-                                    <Image Width="16"
-                                           Margin="0,1,6,1"
-                                           DockPanel.Dock="Left"
-                                           SnapsToDevicePixels="True"
-                                           Source="/Assets/folder.png" />
+                                    <Rectangle Width="16"
+                                               Height="16"
+                                               Margin="0,1,6,1"
+                                               DockPanel.Dock="Left"
+                                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}"
+                                               SnapsToDevicePixels="True">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/folder.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
                                     <TextBlock x:Name="MailboxNameBlock"
                                                VerticalAlignment="Center"
                                                DockPanel.Dock="Left"
@@ -357,7 +370,7 @@
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextExtraLargeFontSizeKey}}"
-                               Style="{StaticResource TitleTextStyle}">
+                               Style="{DynamicResource TitleTextStyle}">
                         <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{Binding Messages, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
                 </DockPanel>
@@ -670,7 +683,7 @@
                                VerticalAlignment="Center"
                                DataContext="{Binding SelectedOutbox}"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextExtraLargeFontSizeKey}}"
-                               Style="{StaticResource TitleTextStyle}">
+                               Style="{DynamicResource TitleTextStyle}">
                         <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{Binding SmtpRequests, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
                 </DockPanel>

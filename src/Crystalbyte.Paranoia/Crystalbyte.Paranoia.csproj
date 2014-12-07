@@ -288,6 +288,10 @@
     <Compile Include="UI\SignatureCommands.cs" />
     <Compile Include="UI\WindowCommands.cs" />
     <Compile Include="UI\WindowExtensions.cs" />
+    <Page Include="App.Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\CompositionWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -322,7 +326,6 @@
     <Compile Include="Gravatar.cs" />
     <Compile Include="MailboxType.cs" />
     <Compile Include="Contexts\NotificationObject.cs" />
-    <Compile Include="Pack.cs" />
     <Compile Include="PasswordPolicyAttribute.cs" />
     <Compile Include="PropertySupport.cs" />
     <Compile Include="StreamExtensions.cs" />
@@ -483,9 +486,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\delete.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

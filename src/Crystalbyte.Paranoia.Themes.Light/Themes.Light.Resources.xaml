@@ -17,16 +17,18 @@
 
     <!--  Application Scope  -->
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="Violet" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#4668C5" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSuccessBrushKey}" Color="ForestGreen" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppFailureBrushKey}" Color="Tomato" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppWarningBrushKey}" Color="Orange" />
 
     <!--  Window Scope  -->
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="White" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBorderBrushKey}" Color="Violet" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="GhostWhite" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBorderBrushKey}" Color="#4668C5" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowBrushKey}" Color="Black" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}" Color="#DDDDEE" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}" Color="#CCCCDD" />
 
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.WindowBorderThicknessKey}"
                Bottom="1"
@@ -43,21 +45,23 @@
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.TitleFontFamilyKey}">Segoe UI</FontFamily>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.TitleFontSizeKey}">28</system:Double>
     <FontWeight x:Key="{x:Static themes:ThemeResourceKeys.TitleFontWeightKey}">Thin</FontWeight>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TitleFontBrushKey}" Color="Violet" />
 
     <!--  General Text Scope (Subtitle)  -->
 
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.SubtitleFontFamilyKey}">Segoe UI</FontFamily>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.SubtitleFontSizeKey}">18</system:Double>
     <FontWeight x:Key="{x:Static themes:ThemeResourceKeys.SubtitleFontWeightKey}">Thin</FontWeight>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SubtitleFontBrushKey}" Color="DimGray" />
 
     <!--  General Text Scope (Text)  -->
 
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.NormalTextFontFamilyKey}">Segoe UI</FontFamily>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}">18</system:Double>
-    <FontWeight x:Key="{x:Static themes:ThemeResourceKeys.NormalTextFontWeightKey}">Thin</FontWeight>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.NormalTextExtraLargeFontSizeKey}">26</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.NormalTextLargeFontSizeKey}">18</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}">12</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}">10</system:Double>
+    <FontWeight x:Key="{x:Static themes:ThemeResourceKeys.NormalTextFontWeightKey}">Normal</FontWeight>
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}" Color="#333" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}" Color="#666" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}" Color="{x:Static SystemColors.GrayTextColor}" />
 
     <!--  Control Scope  -->
@@ -114,6 +118,10 @@
                Top="1" />
 
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.CheckBoxBorderBrushKey}" Color="{x:Static SystemColors.ControlDarkColor}" />
+
+    <!--  Control Scope (Button)  -->
+
+
 
     <!--  Control Scope (RadioButton)  -->
 
