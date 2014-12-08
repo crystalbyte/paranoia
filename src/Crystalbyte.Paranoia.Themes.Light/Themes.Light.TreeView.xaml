@@ -6,7 +6,7 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewBorderBrushKey}" Color="Transparent" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBackgroundBrushKey}" Color="Transparent" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBorderBrushKey}" Color="Transparent" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}" Color="#D3D3E3" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}" Color="#DDDDEE" />
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBorderThicknessKey}">0</Thickness>
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TreeViewBorderThicknessKey}">0</Thickness>
 
