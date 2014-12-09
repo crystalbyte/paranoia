@@ -4,11 +4,15 @@
 
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewBackgroundBrushKey}" Color="Transparent" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewBorderBrushKey}" Color="Transparent" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBackgroundBrushKey}" Color="Transparent" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBorderBrushKey}" Color="Transparent" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}" Color="#DDDDEE" />
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBorderThicknessKey}">0</Thickness>
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TreeViewBorderThicknessKey}">0</Thickness>
+
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemSelectedForegroundBrushKey}" Color="GhostWhite" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBackgroundBrushKey}" Color="#BBBBCC" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBackgroundBrushKey}" Color="White" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBorderBrushKey}" Color="Transparent" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}" Color="#4668C5" />
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBorderThicknessKey}">0</Thickness>
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemPaddingKey}">0,2,0,2</Thickness>
 
     <Style TargetType="TreeView">
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewBackgroundBrushKey}}" />
@@ -100,7 +104,7 @@
                     <Border>
                         <Rectangle Margin="0,0,0,0"
                                    Opacity="0"
-                                   Stroke="GhostWhite"
+                                   Stroke="#333"
                                    StrokeDashArray="1 2"
                                    StrokeThickness="5" />
                     </Border>
@@ -121,7 +125,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TreeViewItem">
-                    <Grid>
+                    <Grid Background="{TemplateBinding Background}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" MinWidth="19" />
                             <ColumnDefinition Width="*" />
@@ -154,6 +158,7 @@
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Stretch"
                                    Fill="Transparent"
+                                   Opacity=".1"
                                    RenderOptions.EdgeMode="Aliased" />
                         <Rectangle x:Name="SelectionBackground"
                                    Grid.Row="0"
@@ -173,7 +178,6 @@
                         <Border x:Name="Border"
                                 Grid.Row="0"
                                 Grid.Column="1"
-                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Padding="{TemplateBinding Padding}">

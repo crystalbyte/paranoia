@@ -4,7 +4,7 @@
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TooltipBorderBrushKey}" Color="#333" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TooltipBackgroundBrushKey}" Color="#DDD" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TooltipBackgroundBrushKey}" Color="#DDDDEE" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TooltipForegroundBrushKey}" Color="#333" />
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TooltipBorderThicknessKey}">1</Thickness>
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TooltipPaddingKey}">6,3</Thickness>

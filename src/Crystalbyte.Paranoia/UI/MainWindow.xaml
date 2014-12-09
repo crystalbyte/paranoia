@@ -119,20 +119,12 @@
                 <EasingDoubleKeyFrame KeyTime="0" Value="1" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MainFrame" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="-30" />
-            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <!--  ReSharper disable once Xaml.RedundantResource  -->
         <Storyboard x:Key="MainFrameSlideInStoryboard">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MainFrame" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1" />
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MainFrame" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="30" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </controls:MetroWindow.Resources>

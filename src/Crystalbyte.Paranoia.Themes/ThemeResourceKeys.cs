@@ -171,6 +171,7 @@
         public static string TreeViewItemPaddingKey = "TreeViewItemPaddingKey";
         public static string TreeViewItemMarginKey = "TreeViewItemMarginKey";
         public static string TreeViewItemBackgroundBrushKey = "TreeViewItemBackgroundBrushKey";
+        public static string TreeViewItemSelectedForegroundBrushKey = "TreeViewItemSelectedForegroundBrushKey";
         public static string TreeViewItemMouseOverBackgroundBrushKey = "TreeViewItemMouseOverBackgroundBrushKey";
         public static string TreeViewItemUnfocusedBackgroundBrushKey = "TreeViewItemUnfocusedBackgroundBrushKey";
         public static string TreeViewItemBorderBrushKey = "TreeViewItemBorderBrushKey";
