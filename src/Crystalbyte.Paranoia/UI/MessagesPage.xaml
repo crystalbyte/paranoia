@@ -69,8 +69,10 @@
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
                           BorderThickness="0"
+                          GotFocus="OnTreeViewGotFocus"
                           ItemsSource="{Binding Accounts}"
-                          Padding="0"
+                          LostFocus="OnTreeViewLostFocus"
+                          Padding="1"
                           ScrollViewer.CanContentScroll="False"
                           SelectedItemChanged="OnTreeViewSelectedItemChanged"
                           SnapsToDevicePixels="True"
@@ -90,7 +92,7 @@
                                        Margin="0,1,6,1"
                                        SnapsToDevicePixels="True"
                                        Source="/Assets/folder.png" />
-                                <TextBlock x:Name="MailboxNameBlock"
+                                <TextBlock x:Name="NameText"
                                            Grid.Column="1"
                                            VerticalAlignment="Center"
                                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}"
@@ -116,7 +118,7 @@
                             </Grid>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="MailboxNameBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+                                    <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -283,7 +285,7 @@
                                             </Binding>
                                         </Image.Opacity>
                                     </Image>
-                                    <TextBlock x:Name="MailboxNameBlock"
+                                    <TextBlock x:Name="NameText"
                                                VerticalAlignment="Center"
                                                DockPanel.Dock="Left"
                                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}"
@@ -300,7 +302,8 @@
                                             DockPanel.Dock="Right"
                                             Visibility="{Binding NotSeenCount,
                                                                  Converter={StaticResource QuantityToVisibilityConverter}}">
-                                        <TextBlock VerticalAlignment="Center"
+                                        <TextBlock x:Name="NotSeenCountText"
+                                                   VerticalAlignment="Center"
                                                    FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}}"
                                                    FontWeight="Bold"
                                                    Text="{Binding NotSeenCount}">
@@ -328,10 +331,21 @@
                                                            Value="{Binding FetchedEnvelopeCount}" />
                             </Grid>
                             <HierarchicalDataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="MailboxNameBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemSelectedForegroundBrushKey}}" />
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsSelected}" Value="True" />
+                                        <Condition Binding="{Binding IsKeyboardFocused}" Value="False" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter TargetName="NotSeenCountText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsSelected}" Value="True" />
+                                        <Condition Binding="{Binding IsKeyboardFocused}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemSelectedForegroundBrushKey}}" />
                                     <Setter TargetName="EnvelopeProgressBar" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
-                                </DataTrigger>
+                                </MultiDataTrigger>
                             </HierarchicalDataTemplate.Triggers>
                         </HierarchicalDataTemplate>
                     </TreeView.Resources>

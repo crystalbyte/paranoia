@@ -14,6 +14,7 @@ using System.Windows.Threading;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
+using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
 using System.Collections.Specialized;
@@ -21,16 +22,18 @@ using System.Collections.Specialized;
 #endregion
 
 namespace Crystalbyte.Paranoia {
-    public sealed class OutboxContext : HierarchyContext {
+    public sealed class OutboxContext : HierarchyContext, IKeyboardFocusAware {
         private bool _sendingMessages;
         private bool _isLoadingRequests;
         private readonly MailAccountContext _account;
         private readonly ObservableCollection<SmtpRequestContext> _smtpRequests;
         private string _queryString;
         private int _smtpRequestCount;
+        private bool _isKeyboardFocused;
         private readonly ICommand _sendMessagesCommand;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        
 
         public OutboxContext(MailAccountContext account) {
             _account = account;
@@ -251,5 +254,20 @@ namespace Crystalbyte.Paranoia {
                 return database.SaveChangesAsync();
             }
         }
+
+        #region Implementation of IKeyboardFocusAware
+
+        public bool IsKeyboardFocused {
+            get { return _isKeyboardFocused; }
+            set {
+                if (_isKeyboardFocused == value) {
+                    return;
+                }
+                _isKeyboardFocused = value;
+                RaisePropertyChanged(() => IsKeyboardFocused);
+            }
+        }
+
+        #endregion
     }
 }

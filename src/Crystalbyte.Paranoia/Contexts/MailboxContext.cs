@@ -26,7 +26,7 @@ using System.Windows.Input;
 
 namespace Crystalbyte.Paranoia {
     [DebuggerDisplay("Name = {Name}")]
-    public sealed class MailboxContext : HierarchyContext, IMessageSource, IMailboxCreator {
+    public sealed class MailboxContext : HierarchyContext, IMessageSource, IMailboxCreator, IKeyboardFocusAware {
 
         #region Private Fields
 
@@ -51,6 +51,7 @@ namespace Crystalbyte.Paranoia {
         private readonly object _syncChildrenMutex = new object();
         private readonly object _syncMessagesMutex = new object();
         private bool _isSelectedSubtly;
+        private bool _isKeyboardFocused;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -1095,5 +1096,24 @@ namespace Crystalbyte.Paranoia {
                 Logger.Error(ex);
             }
         }
+
+        #region Implementation of IKeyboardFocusAware
+
+        public bool IsKeyboardFocused {
+            get { return _isKeyboardFocused; }
+            set {
+                if (_isKeyboardFocused == value) {
+                    return;
+                }
+                _isKeyboardFocused = value;
+                RaisePropertyChanged(() => IsKeyboardFocused);
+
+                foreach (var mailbox in Children) {
+                    mailbox.IsKeyboardFocused = value;
+                }
+            }
+        }
+
+        #endregion
     }
 }

@@ -26,7 +26,7 @@ using System.Windows;
 #endregion
 
 namespace Crystalbyte.Paranoia {
-    public sealed class MailAccountContext : HierarchyContext {
+    public sealed class MailAccountContext : HierarchyContext, IKeyboardFocusAware {
 
         #region Private Fields
 
@@ -50,6 +50,7 @@ namespace Crystalbyte.Paranoia {
         private readonly OutboxContext _outbox;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
         private bool _isSyncingMailboxes;
+        private bool _isKeyboardFocused;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -1042,5 +1043,25 @@ namespace Crystalbyte.Paranoia {
         internal void NotifyMailboxRemoved(MailboxContext mailbox) {
             _mailboxes.Remove(mailbox);
         }
+
+        #region Implementation of IKeyboardFocusAware
+
+        public bool IsKeyboardFocused {
+            get { return _isKeyboardFocused; }
+            set {
+                if (_isKeyboardFocused == value) {
+                    return;
+                }
+                _isKeyboardFocused = value;
+                RaisePropertyChanged(() => IsKeyboardFocused);
+
+                Outbox.IsKeyboardFocused = value;
+                foreach (var mailbox in Mailboxes) {
+                    mailbox.IsKeyboardFocused = value;
+                }
+            }
+        }
+
+        #endregion
     }
 }

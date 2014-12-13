@@ -190,6 +190,7 @@
     <Compile Include="Contexts\InspectionContext.cs" />
     <Compile Include="DecryptionResult.cs" />
     <Compile Include="IMailboxCreator.cs" />
+    <Compile Include="UI\IKeyboardFocusAware.cs" />
     <Compile Include="UI\InspectionWindow.xaml.cs">
       <DependentUpon>InspectionWindow.xaml</DependentUpon>
     </Compile>

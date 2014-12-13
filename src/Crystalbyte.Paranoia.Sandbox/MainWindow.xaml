@@ -8,7 +8,9 @@
 
     <Grid>
         <StackPanel Margin="24">
-            <ui:MetroButton Width="200" Content="This is a Metro Button" />
+            <ui:MetroButton Width="200"
+                            Content="This is a Metro Button"
+                            ImageSource="Assets/add.png" />
             <ui:WatermarkTextBox Width="400" Watermark="This is a watermark" />
             <ui:WatermarkTextBox Width="400" Text="This is no watermark" />
             <ui:ProgressRing IsActive="True" IsLarge="False" />
