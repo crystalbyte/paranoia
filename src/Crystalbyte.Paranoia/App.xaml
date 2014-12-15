@@ -13,6 +13,11 @@
     <!--  Default styles: http://msdn.microsoft.com/en-us/library/aa970773.aspx  -->
     <Application.Resources>
         <ResourceDictionary>
+            <!--  This dictionary will be re-added after each theme switch, it was however added to keep the XAML parser happy.  -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="App.Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
             <converters:SecurityToColorConverter x:Key="SecurityToColorConverter" />
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />
             <converters:MailboxLocalizer x:Key="MailboxLocalizer" />
@@ -90,7 +95,7 @@
                 </Border>
             </DataTemplate>
 
-        
+
 
         </ResourceDictionary>
     </Application.Resources>

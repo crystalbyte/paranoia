@@ -8,8 +8,8 @@
 
     <Style TargetType="controls:MetroButton">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource themes:ThemeResourceKeys.NormalTextForegroundBrushKey}" />
-        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+        <Setter Property="FontSize" Value="18" />
         <Setter Property="FontWeight" Value="Thin" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
         <Setter Property="Template">
@@ -32,11 +32,12 @@
                                          Fill="{TemplateBinding Background}"
                                          Stroke="{TemplateBinding BorderBrush}"
                                          StrokeThickness="1.4" />
-                                <Rectangle Width="17.5"
+                                <Rectangle x:Name="Rectangle"
+                                           Width="17.5"
                                            Height="17.5"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Fill="{TemplateBinding Foreground}"
+                                           Fill="{TemplateBinding BorderBrush}"
                                            UseLayoutRounding="True">
                                     <Rectangle.OpacityMask>
                                         <ImageBrush ImageSource="{Binding ImageSource, RelativeSource={RelativeSource TemplatedParent}}" />
@@ -59,6 +60,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Ellipse" Property="Opacity" Value=".2" />
+                            <Setter TargetName="Rectangle" Property="Opacity" Value=".2" />
                             <Setter TargetName="ButtonText" Property="Opacity" Value=".2" />
                             <Setter TargetName="ButtonText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
                         </Trigger>
@@ -72,7 +74,6 @@
                     <Condition Property="IsMouseOver" Value="True" />
                     <Condition Property="IsPressed" Value="False" />
                 </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="Transparent" />
                 <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
             </MultiTrigger>
@@ -81,6 +82,7 @@
                     <Condition Property="IsMouseOver" Value="True" />
                     <Condition Property="IsPressed" Value="True" />
                 </MultiTrigger.Conditions>
+                <Setter Property="BorderBrush" Value="White" />
                 <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
             </MultiTrigger>
         </Style.Triggers>

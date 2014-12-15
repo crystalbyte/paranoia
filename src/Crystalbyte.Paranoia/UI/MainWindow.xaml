@@ -12,6 +12,7 @@
                       Width="1280"
                       Height="768"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                      BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       BorderThickness="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBorderThicknessKey}}"
                       KeyboardNavigation.TabNavigation="Local"
                       UseLayoutRounding="True"
@@ -148,22 +149,24 @@
                    Panel.ZIndex="1000"
                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}"
                    LastChildFill="False">
-            <Border Width="{Binding Height, ElementName=HeaderRow, FallbackValue=40}" Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}">
-                <Image Width="20"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       DockPanel.Dock="Left"
-                       RenderOptions.BitmapScalingMode="HighQuality"
-                       Source="/Assets/logo.window.png" />
-            </Border>
             <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}">
-                <TextBlock Margin="24,0"
+                <StackPanel Orientation="Horizontal">
+                    <Image Width="20"
+                           Margin="12,0"
+                           HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontSize="20"
-                           Style="{DynamicResource TitleTextStyle}"
-                           Text="{Binding Title,
-                                          RelativeSource={RelativeSource FindAncestor,
-                                                                         AncestorType=ui:MainWindow}}" />
+                           DockPanel.Dock="Left"
+                           RenderOptions.BitmapScalingMode="HighQuality"
+                           Source="/Assets/logo.window.png" />
+                    <TextBlock Margin="0,0,24,0"
+                               VerticalAlignment="Center"
+                               FontSize="20"
+                               Style="{DynamicResource TitleTextStyle}"
+                               Text="{Binding Title,
+                                              RelativeSource={RelativeSource FindAncestor,
+                                                                             AncestorType=ui:MainWindow}}" />
+                </StackPanel>
+
             </Border>
             <Border DockPanel.Dock="Left">
                 <ListView Margin="0"
@@ -173,7 +176,7 @@
                           ItemsSource="{Binding NavigationOptions}"
                           SelectionChanged="OnMainMenuSelectionChanged">
                     <ListView.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
+                        <Style TargetType="ListViewItem">
                             <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                             <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                             <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />

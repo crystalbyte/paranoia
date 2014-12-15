@@ -38,7 +38,8 @@
         <Grid Grid.Column="0">
             <DockPanel LastChildFill="True">
                 <Border HorizontalAlignment="Stretch"
-                        BorderThickness="0,0,0,1"
+                        Background="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlBackgroundBrushKey}}"
+                        BorderThickness="0"
                         DockPanel.Dock="Top"
                         Padding="0,3"
                         SnapsToDevicePixels="True">
