@@ -14,6 +14,7 @@ namespace Crystalbyte.Paranoia.Themes {
         public override IEnumerable<ResourceDictionary> GetThemeResources() {
             var resources = new[] {
                 "/Themes.Light.Resources.xaml",
+                "/Themes.Light.ScrollViewer.xaml",
                 "/Themes.Light.Button.xaml",
                 "/Themes.Light.CheckBox.xaml",
                 "/Themes.Light.ComboBox.xaml",
@@ -24,7 +25,6 @@ namespace Crystalbyte.Paranoia.Themes {
                 "/Themes.Light.ProgressBar.xaml",
                 "/Themes.Light.RadioButton.xaml",
                 "/Themes.Light.RichTextBox.xaml",
-                "/Themes.Light.ScrollViewer.xaml",
                 "/Themes.Light.Slider.xaml",
                 "/Themes.Light.StatusBar.xaml",
                 "/Themes.Light.TextBlock.xaml",

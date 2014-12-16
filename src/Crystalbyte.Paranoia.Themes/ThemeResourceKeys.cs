@@ -134,21 +134,21 @@
 
         public static string ScrollBarBackgroundBrushKey = "ScrollBarBackgroundBrushKey";
         public static string ScrollBarBorderBrushKey = "ScrollBarBorderBrushKey";
-        public static string ScrollBarPressedGlyphBrushKey = "ScrollBarPressedGlyphBrushKey";
-        public static string ScrollBarMouseOverGlyphBrushKey = "ScrollBarMouseOverGlyphBrushKey";
-        public static string ScrollBarDisabledGlyphBrushKey = "ScrollBarDisabledGlyphBrushKey";
-        public static string ScrollBarStaticGlyphBrushKey = "ScrollBarStaticGlyphBrushKey";
         public static string ScrollBarMouseOverBackgroundBrushKey = "ScrollBarMouseOverBackgroundBrushKey";
         public static string ScrollBarMouseOverBorderBrushKey = "ScrollBarMouseOverBorderBrushKey";
         public static string ScrollBarPressedBackgroundBrushKey = "ScrollBarPressedBackgroundBrushKey";
         public static string ScrollBarPressedBorderBrushKey = "ScrollBarPressedBorderBrushKey";
-        public static string ScrollBarMouseOverBackgroundThumbBrushKey = "ScrollBarMouseOverBackgroundThumbBrushKey";
-        public static string ScrollBarPressedBackgroundThumbBrushKey = "ScrollBarPressedBackgroundThumbBrushKey";
-        public static string ScrollBarStaticBackgroundThumbBrushKey = "ScrollBarStaticBackgroundThumbBrushKey";
+        public static string ScrollBarGlyphPressedBrushKey = "ScrollBarGlyphPressedBrushKey";
+        public static string ScrollBarGlyphMouseOverBrushKey = "ScrollBarMouseOverGlyphBrushKey";
+        public static string ScrollBarGlyphDisabledBrushKey = "ScrollBarDisabledGlyphBrushKey";
+        public static string ScrollBarGlyphBrushKey = "ScrollBarGlyphBrushKey";
+        public static string ScrollBarThumbMouseOverBackgroundBrushKey = "ScrollBarThumbMouseOverBackgroundBrushKey";
+        public static string ScrollBarThumbPressedBackgroundBrushKey = "ScrollBarThumbPressedBackgroundBrushKey";
+        public static string ScrollBarThumbBackgroundBrushKey = "ScrollBarThumbBackgroundBrushKey";
 
-        public static string SliderThumbStaticForegroundBrushKey = "SliderThumbStaticForegroundBrushKey";
-        public static string SliderThumbStaticBackgroundBrushKey = "SliderThumbStaticBackgroundBrushKey";
-        public static string SliderThumbStaticBorderBrushKey = "SliderThumbStaticBorderBrushKey";
+        public static string SliderThumbForegroundBrushKey = "SliderThumbForegroundBrushKey";
+        public static string SliderThumbBackgroundBrushKey = "SliderThumbBackgroundBrushKey";
+        public static string SliderThumbBorderBrushKey = "SliderThumbBorderBrushKey";
         public static string SliderThumbMouseOverBackgroundBrushKey = "SliderThumbMouseOverBackgroundBrushKey";
         public static string SliderThumbMouseOverBorderBrushKey = "SliderThumbMouseOverBorderBrushKey";
         public static string SliderThumbMousePressedBackgroundBrushKey = "SliderThumbMousePressedBackgroundBrushKey";
@@ -176,5 +176,8 @@
         public static string TreeViewItemUnfocusedBackgroundBrushKey = "TreeViewItemUnfocusedBackgroundBrushKey";
         public static string TreeViewItemBorderBrushKey = "TreeViewItemBorderBrushKey";
         public static string TreeViewItemBorderThicknessKey = "TreeViewItemBorderThicknessKey";
+
+        public static string ScrollBarDisabledBackgroundBrushKey = "ScrollBarDisabledBackgroundBrushKey";
+        public static string ScrollBarDisabledBorderBrushKey = "ScrollBarDisabledBorderBrushKey";
     }
 }

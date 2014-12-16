@@ -3,6 +3,18 @@
                     xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Themes.Converters"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
+    <!--
+        <SolidColorBrush x:Key="SliderThumb.Static.Foreground" Color="#FFE5E5E5" />
+        <SolidColorBrush x:Key="SliderThumb.MouseOver.Background" Color="#FFDCECFC" />
+        <SolidColorBrush x:Key="SliderThumb.MouseOver.Border" Color="#FF7Eb4EA" />
+        <SolidColorBrush x:Key="SliderThumb.Pressed.Background" Color="#FFDAECFC" />
+        <SolidColorBrush x:Key="SliderThumb.Pressed.Border" Color="#FF569DE5" />
+        <SolidColorBrush x:Key="SliderThumb.Disabled.Background" Color="#FFF0F0F0" />
+        <SolidColorBrush x:Key="SliderThumb.Disabled.Border" Color="#FFD9D9D9" />
+        <SolidColorBrush x:Key="SliderThumb.Static.Background" Color="#FFF0F0F0" />
+        <SolidColorBrush x:Key="SliderThumb.Static.Border" Color="#FFACACAC" />
+    -->
+
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
     <ControlTemplate x:Key="SliderThumbHorizontalTop" TargetType="{x:Type Thumb}">
@@ -12,10 +24,10 @@
             <Path x:Name="Grip"
                   VerticalAlignment="Center"
                   Data="M 0,6 C0,6 5.5,0 5.5,0 5.5,0 11,6 11,6 11,6 11,18 11,18 11,18 0,18 0,18 0,18 0,6 0,6 z"
-                  Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbStaticBackgroundBrushKey}}"
+                  Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbBackgroundBrushKey}}"
                   SnapsToDevicePixels="True"
                   Stretch="Fill"
-                  Stroke="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbStaticBorderBrushKey}}"
+                  Stroke="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbBorderBrushKey}}"
                   StrokeThickness="0"
                   UseLayoutRounding="True" />
         </Grid>
@@ -32,10 +44,10 @@
             <Path x:Name="Grip"
                   VerticalAlignment="Center"
                   Data="M 0,12 C0,12 5.5,18 5.5,18 5.5,18 11,12 11,12 11,12 11,0 11,0 11,0 0,0 0,0 0,0 0,12 0,12 z"
-                  Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbStaticBackgroundBrushKey}}"
+                  Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbBackgroundBrushKey}}"
                   SnapsToDevicePixels="True"
                   Stretch="Fill"
-                  Stroke="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbStaticBorderBrushKey}}"
+                  Stroke="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbBorderBrushKey}}"
                   StrokeThickness="1"
                   UseLayoutRounding="True" />
         </Grid>
@@ -54,10 +66,10 @@
             <Path x:Name="Grip"
                   VerticalAlignment="Center"
                   Data="M 0,0 C0,0 11,0 11,0 11,0 11,18 11,18 11,18 0,18 0,18 0,18 0,0 0,0 z"
-                  Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbStaticBackgroundBrushKey}}"
+                  Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbBackgroundBrushKey}}"
                   SnapsToDevicePixels="True"
                   Stretch="Fill"
-                  Stroke="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbStaticBorderBrushKey}}"
+                  Stroke="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbBorderBrushKey}}"
                   StrokeThickness="1"
                   UseLayoutRounding="True" />
         </Grid>
@@ -176,7 +188,7 @@
               UseLayoutRounding="True">
             <Path x:Name="Grip"
                   Data="M 12,11 C12,11 18,5.5 18,5.5 18,5.5 12,0 12,0 12,0 0,0 0,0 0,0 0,11 0,11 0,11 12,11 12,11 z"
-                  Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbStaticBackgroundBrushKey}}"
+                  Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbBackgroundBrushKey}}"
                   Stretch="Fill"
                   StrokeThickness="0" />
         </Grid>
@@ -192,7 +204,7 @@
               UseLayoutRounding="True">
             <Path x:Name="Grip"
                   Data="M0.5,0.5 L18.5,0.5 18.5,11.5 0.5,11.5z"
-                  Fill="{DynamicResource x:Static themes:ThemeResourceKeys.SliderThumbStaticBackgroundBrushKey}"
+                  Fill="{DynamicResource x:Static themes:ThemeResourceKeys.SliderThumbBackgroundBrushKey}"
                   Stretch="Fill"
                   StrokeThickness="0" />
         </Grid>
@@ -291,7 +303,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbStaticForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbForegroundBrushKey}}" />
         <Setter Property="Template" Value="{StaticResource SliderHorizontal}" />
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Vertical">
