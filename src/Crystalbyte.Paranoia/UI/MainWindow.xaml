@@ -160,6 +160,7 @@
                 <TextBlock Margin="0,0,24,0"
                            VerticalAlignment="Center"
                            FontSize="20"
+                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}}"
                            Style="{DynamicResource TitleTextStyle}"
                            Text="{Binding Title,
                                           RelativeSource={RelativeSource FindAncestor,
@@ -184,7 +185,9 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListViewItem">
                                         <Grid Background="{TemplateBinding Background}">
-                                            <Rectangle x:Name="HoverBackground" Fill="Transparent" />
+                                            <Rectangle x:Name="HoverBackground"
+                                                       Fill="Transparent"
+                                                       Opacity=".1" />
                                             <Rectangle x:Name="SelectionBackground"
                                                        Fill="Transparent"
                                                        Opacity=".1" />
@@ -198,7 +201,7 @@
                                                     <Condition Property="IsMouseOver" Value="True" />
                                                     <Condition Property="IsSelected" Value="False" />
                                                 </MultiTrigger.Conditions>
-                                                <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundBrushKey}}" />
+                                                <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                                             </MultiTrigger>
                                             <Trigger Property="IsSelected" Value="True">
                                                 <Setter TargetName="SelectionBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
@@ -220,6 +223,7 @@
                                        Margin="6,0"
                                        VerticalAlignment="Center"
                                        FontSize="20"
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Style="{DynamicResource TitleTextStyle}"
                                        Text="{Binding Title}" />
@@ -439,7 +443,7 @@
         <StatusBar x:Name="StatusBar"
                    Grid.Row="2"
                    Height="24"
-                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}"
                    RenderTransformOrigin="0.5,0.5"
                    UseLayoutRounding="False">
             <StatusBar.RenderTransform>

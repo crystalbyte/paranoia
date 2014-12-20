@@ -7,7 +7,9 @@
 
     <!--  Application Scope  -->
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#4668C5" />
+    <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#4668C5" />  -->
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#F27646" />
+    <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#1E90FF" />  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSuccessBrushKey}" Color="ForestGreen" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppFailureBrushKey}" Color="Tomato" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppWarningBrushKey}" Color="Orange" />
@@ -17,7 +19,8 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBorderBrushKey}" Color="#4668C5" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowBrushKey}" Color="Black" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}" Color="#DDDDEE" />
+    <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}" Color="#DDDDEE" />  -->
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}" Color="#505052" />
 
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.WindowBorderThicknessKey}"
                Bottom="1"
@@ -50,15 +53,16 @@
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.NormalTextLargeFontSizeKey}">18</system:Double>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}">10</system:Double>
     <FontWeight x:Key="{x:Static themes:ThemeResourceKeys.NormalTextFontWeightKey}">Normal</FontWeight>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}" Color="#111" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}" Color="#222" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}" Color="GhostWhite" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}" Color="#99A" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}" Color="{x:Static SystemColors.GrayTextColor}" />
 
     <!--  Control Scope  -->
 
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlBackgroundBrushKey}" Color="GhostWhite" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlLightBackgroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlDarkBackgroundBrushKey}" Color="#EEE" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}" Color="{x:Static SystemColors.GrayTextColor}" />
 
     <!--  Control Scope (TextBox)  -->
 

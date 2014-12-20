@@ -37,6 +37,7 @@
         
         public static string NormalTextFontWeightKey = "NormalTextFontWeightKey";
         public static string NormalTextForegroundBrushKey = "NormalTextForegroundBrushKey";
+        public static string NormalTextInverseForegroundBrushKey = "NormalTextInverseForegroundBrushKey";
         public static string NormalTextSecondaryForegroundBrushKey = "NormalTextSecondaryForegroundBrushKey";
         public static string NormalTextFontDisabledBrushKey = "NormalTextFontDisabledBrushKey";
         public static string NormalTextSmallFontSizeKey = "NormalTextSmallFontSizeKey";
