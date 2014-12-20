@@ -18,7 +18,6 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBorderBrushKey}" Color="#4668C5" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowBrushKey}" Color="Black" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}" Color="#DDDDEE" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}" Color="#CCCCDD" />
 
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.WindowBorderThicknessKey}"
                Bottom="1"
@@ -46,8 +45,9 @@
 
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.NormalTextFontFamilyKey}">Segoe UI</FontFamily>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.NormalTextExtraLargeFontSizeKey}">26</system:Double>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.NormalTextLargeFontSizeKey}">18</system:Double>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}">12</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.NormalTextMediumLargeFontSizeKey}">16</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.NormalTextLargeFontSizeKey}">18</system:Double>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}">10</system:Double>
     <FontWeight x:Key="{x:Static themes:ThemeResourceKeys.NormalTextFontWeightKey}">Normal</FontWeight>
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}" Color="#111" />

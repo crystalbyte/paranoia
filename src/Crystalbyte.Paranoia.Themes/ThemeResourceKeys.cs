@@ -11,7 +11,6 @@
         // Window Scope
 
         public static string WindowBackgroundBrushKey = "WindowBackgroundBrushKey";
-        public static string WindowTitleBackgroundBrushKey = "WindowTitleBackgroundBrushKey";
         public static string WindowMenuBackgroundBrushKey = "WindowMenuBackgroundBrushKey";
         public static string WindowBorderBrushKey = "WindowBorderBrushKey";
         public static string WindowBorderThicknessKey = "WindowBorderThicknessKey";
@@ -20,6 +19,8 @@
         // Flyout Scope
 
         public static string FlyoutBackgroundBrushKey = "FlyoutBackgroundBrushKey";
+        public static string FlyoutOverlayBrushKey = "FlyoutOverlayBrushKey";
+        public static string FlyoutOverlayOpacityKey = "FlyoutOverlayOpacityKey";
 
         // General Text Scope
 
@@ -57,8 +58,7 @@
         public static string ControlDarkBackgroundBrushKey = "ControlDarkBackgroundBrushKey";
         public static string ControlDisabledBorderBrushKey = "ControlDisabledBorderBrushKey";
         public static string ControlDisabledForegroundBrushKey = "ControlDisabledForegroundBrushKey";
-        public static string ControlOverlayBrushKey = "ControlOverlayBrushKey";
-        public static string ControlOverlayOpacityKey = "ControlOverlayOpacityKey";
+        
 
         public static string TextBoxMarginKey = "TextBoxMarginKey";
         public static string TextBoxPaddingKey = "TextBoxPaddingKey";

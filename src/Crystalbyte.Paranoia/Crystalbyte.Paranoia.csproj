@@ -548,8 +548,6 @@
     <Resource Include="Assets\cancel.png" />
     <Resource Include="Assets\refresh.png" />
     <Resource Include="Assets\folder.png" />
-    <Resource Include="Assets\sunrise.jpg" />
-    <Resource Include="Assets\earth.jpg" />
     <Resource Include="Assets\message.copy.png" />
     <Resource Include="Assets\security.png" />
     <Resource Include="Assets\block.png" />
@@ -652,7 +650,6 @@
     <Resource Include="Assets\unseen.png" />
     <Resource Include="Assets\back.png" />
     <Resource Include="Resources\composition.template.html" />
-    <Resource Include="Assets\map.jpg" />
     <Resource Include="Resources\cover-sheet.template.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

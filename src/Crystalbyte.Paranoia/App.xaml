@@ -5,16 +5,16 @@
              xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
              xmlns:core="clr-namespace:Awesomium.Core;assembly=Awesomium.Core"
              xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
-             xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
-             xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
-             xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
              ShutdownMode="OnMainWindowClose"
              StartupUri="UI/MainWindow.xaml">
     <!--  Default styles: http://msdn.microsoft.com/en-us/library/aa970773.aspx  -->
     <Application.Resources>
         <ResourceDictionary>
-            <!--  This dictionary will be re-added after each theme switch, it was however added to keep the XAML parser happy.  -->
+            <!--  These dictionaries will be re-added after each theme switch, they have been added to keep the XAML parser happy tho.  -->
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.Resources.xaml" />
+                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.ListView.xaml" />
+                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.TreeView.xaml" />
                 <ResourceDictionary Source="App.Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 

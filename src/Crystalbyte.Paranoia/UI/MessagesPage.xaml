@@ -38,7 +38,6 @@
         <Grid Grid.Column="0">
             <DockPanel LastChildFill="True">
                 <Border HorizontalAlignment="Stretch"
-                        Background="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlBackgroundBrushKey}}"
                         BorderThickness="0"
                         DockPanel.Dock="Top"
                         Padding="0,3"
@@ -110,7 +109,9 @@
                                         <TextBlock.Foreground>
                                             <Binding Path="IsSelected">
                                                 <Binding.Converter>
+                                                    <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
                                                     <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+                                                    <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                                                 </Binding.Converter>
                                             </Binding>
                                         </TextBlock.Foreground>
@@ -205,7 +206,9 @@
                                         <TextBlock.Foreground>
                                             <Binding Mode="OneWay" Path="IsSelected">
                                                 <Binding.Converter>
+                                                    <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
                                                     <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" BrushForTrue="GhostWhite" />
+                                                    <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                                                 </Binding.Converter>
                                             </Binding>
                                         </TextBlock.Foreground>
@@ -219,7 +222,9 @@
                                         <TextBlock.Foreground>
                                             <Binding Mode="OneWay" Path="IsSelected">
                                                 <Binding.Converter>
+                                                    <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
                                                     <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" BrushForTrue="GhostWhite" />
+                                                    <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                                                 </Binding.Converter>
                                             </Binding>
                                         </TextBlock.Foreground>
@@ -294,7 +299,9 @@
                                         <TextBlock.Foreground>
                                             <Binding Path="IsSubscribedAndSelectable">
                                                 <Binding.Converter>
+                                                    <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
                                                     <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+                                                    <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                                                 </Binding.Converter>
                                             </Binding>
                                         </TextBlock.Foreground>
@@ -311,7 +318,9 @@
                                             <TextBlock.Foreground>
                                                 <Binding Path="IsSelected">
                                                     <Binding.Converter>
+                                                        <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
                                                         <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemSelectedForegroundBrushKey}}" />
+                                                        <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                                                     </Binding.Converter>
                                                 </Binding>
                                             </TextBlock.Foreground>
@@ -365,7 +374,6 @@
         <GridSplitter Grid.Row="0" Grid.Column="1" />
         <DockPanel Grid.Row="0"
                    Grid.Column="2"
-                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}"
                    LastChildFill="True"
                    Visibility="{Binding IsOutboxSelected,
                                         Converter={StaticResource BooleanToVisibilityConverter},
@@ -381,9 +389,8 @@
                                           VerticalAlignment="Center"
                                           Command="{Binding SyncMailboxCommand}"
                                           DataContext="{Binding SelectedMailbox}"
-                                          DockPanel.Dock="Right">
-                        <Image Width="18" Source="/Assets/refresh.png" />
-                    </controls:MetroButton>
+                                          DockPanel.Dock="Right"
+                                          ImageSource="/Assets/refresh.png" />
                     <TextBlock Margin="12,0"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
@@ -408,15 +415,16 @@
                                  GroupName="Filter"
                                  IsChecked="{Binding ShowAllMessages,
                                                      Mode=TwoWay}"
-                                 Style="{DynamicResource Metro.TextRadioButtonStyle}" />
+                                 Style="{DynamicResource TextRadioButtonStyle}" />
                     <RadioButton Content="{x:Static properties:Resources.Unseen}"
                                  DockPanel.Dock="Left"
                                  GroupName="Filter"
-                                 Style="{DynamicResource Metro.TextRadioButtonStyle}" />
-                    <ToggleButton DockPanel.Dock="Right"
+                                 Style="{DynamicResource TextRadioButtonStyle}" />
+                    <ToggleButton VerticalAlignment="Center"
+                                  DockPanel.Dock="Right"
                                   IsChecked="{Binding IsSortAscending,
                                                       Mode=TwoWay}"
-                                  Style="{DynamicResource Metro.SortingToggleButtonStyle}" />
+                                  Style="{DynamicResource SortingToggleButtonStyle}" />
                 </DockPanel>
             </Grid>
             <Grid>
@@ -434,8 +442,8 @@
                           VirtualizingPanel.VirtualizationMode="Recycling">
                     <ListView.Resources>
                         <converters:BooleanToBrushConverter x:Key="SeenBrushConverter"
-                                                            BrushForFalse="{DynamicResource Metro.App.AccentBrush}"
-                                                            BrushForTrue="{DynamicResource Metro.Control.SecondaryTextBrush}" />
+                                                            BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                                                            BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" />
                     </ListView.Resources>
                     <ListView.ItemsSource>
                         <Binding Source="{StaticResource MessagesSource}" />
@@ -559,8 +567,7 @@
                     </ListView.ItemsPanel>
                     <ListView.ItemContainerStyle>
                         <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
-                            <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
-                            <!--  <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=OneWayToSource}" />  -->
+                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}" />
                             <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Mvsp}" />
                             <Setter Property="Padding" Value="6,1,6,1" />
                             <EventSetter Event="MouseDoubleClick" Handler="OnMessageMouseDoubleClick" />
@@ -570,8 +577,8 @@
                         <DataTemplate DataType="paranoia:MailMessageContext">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="24" />
                                     <RowDefinition Height="22" />
+                                    <RowDefinition Height="20" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
@@ -586,8 +593,8 @@
                                 <Image Grid.Row="0"
                                        Grid.RowSpan="2"
                                        Grid.Column="0"
-                                       Width="34"
-                                       Height="34"
+                                       Width="36"
+                                       Height="36"
                                        Margin="6,0,12,0"
                                        VerticalAlignment="Center"
                                        Source="{Binding FromAddress,
@@ -595,14 +602,13 @@
                                                         Converter={StaticResource GravatarImageConverter},
                                                         IsAsync=True}" />
 
-                                <TextBlock x:Name="FromBlock"
+                                <TextBlock x:Name="FromText"
                                            Grid.Row="0"
                                            Grid.Column="1"
                                            Margin="0,0,12,0"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource Metro.MediumLargeFontSize}"
-                                           FontWeight="Thin"
+                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumLargeFontSizeKey}}"
                                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}"
                                            Text="{Binding Converter={StaticResource MailContactFormatter}}"
                                            TextTrimming="CharacterEllipsis"
@@ -616,7 +622,7 @@
                                             Orientation="Horizontal">
                                     <Rectangle Width="16"
                                                Height="16"
-                                               Fill="{DynamicResource Metro.App.WarningBrush}"
+                                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                                Visibility="{Binding IsFlagged,
                                                                     Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <Rectangle.OpacityMask>
@@ -624,35 +630,37 @@
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
                                 </StackPanel>
-                                <TextBlock x:Name="SubjectBlock"
+                                <TextBlock x:Name="SubjectText"
                                            Grid.Row="1"
                                            Grid.Column="1"
                                            Margin="0,0,6,0"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource Metro.NormalFontSize}"
+                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}"
                                            Foreground="{Binding IsSeen,
                                                                 Converter={StaticResource SeenBrushConverter}}"
+                                           RenderOptions.ClearTypeHint="Enabled"
                                            Text="{Binding Subject,
                                                           ConverterParameter=...,
                                                           Converter={StaticResource NullOrEmptyFormatter}}"
                                            TextTrimming="CharacterEllipsis"
                                            TextWrapping="NoWrap" />
-                                <TextBlock x:Name="DateBlock"
+                                <TextBlock x:Name="DateText"
                                            Grid.Row="1"
                                            Grid.Column="2"
                                            Margin="0,0,6,0"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource Metro.SmallFontSize}"
-                                           Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
+                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}}"
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}"
                                            Text="{Binding EntryDate,
                                                           Converter={StaticResource DateFormatter}}" />
 
                             </Grid>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="SubjectBlock" Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
-                                    <Setter TargetName="DateBlock" Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
+                                    <Setter TargetName="SubjectText" Property="Foreground" Value="GhostWhite" />
+                                    <Setter TargetName="DateText" Property="Foreground" Value="GhostWhite" />
+                                    <Setter TargetName="FromText" Property="Foreground" Value="GhostWhite" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -804,7 +812,7 @@
                                            Text="{Binding ToNameOrAddress}"
                                            TextTrimming="CharacterEllipsis"
                                            TextWrapping="NoWrap" />
-                                <TextBlock x:Name="SubjectBlock"
+                                <TextBlock x:Name="SubjectText"
                                            Grid.Row="1"
                                            Grid.Column="1"
                                            Margin="0,0,6,0"
@@ -818,7 +826,7 @@
                             </Grid>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="SubjectBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+                                    <Setter TargetName="SubjectText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>

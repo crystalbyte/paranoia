@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -150,6 +151,14 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnMessageSelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (!IsLoaded) {
                 return;
+            }
+
+            foreach (var item in e.AddedItems.OfType<SelectionObject>()) {
+                item.IsSelected = true;
+            }
+
+            foreach (var item in e.RemovedItems.OfType<SelectionObject>()) {
+                item.IsSelected = false;
             }
 
             var app = App.Context;

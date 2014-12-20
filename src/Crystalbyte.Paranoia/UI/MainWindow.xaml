@@ -149,28 +149,24 @@
                    Panel.ZIndex="1000"
                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}"
                    LastChildFill="False">
-            <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}">
-                <StackPanel Orientation="Horizontal">
-                    <Image Width="20"
-                           Margin="12,0"
-                           HorizontalAlignment="Center"
+            <StackPanel Orientation="Horizontal">
+                <Image Width="20"
+                       Margin="12,0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       DockPanel.Dock="Left"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       Source="/Assets/logo.window.png" />
+                <TextBlock Margin="0,0,24,0"
                            VerticalAlignment="Center"
-                           DockPanel.Dock="Left"
-                           RenderOptions.BitmapScalingMode="HighQuality"
-                           Source="/Assets/logo.window.png" />
-                    <TextBlock Margin="0,0,24,0"
-                               VerticalAlignment="Center"
-                               FontSize="20"
-                               Style="{DynamicResource TitleTextStyle}"
-                               Text="{Binding Title,
-                                              RelativeSource={RelativeSource FindAncestor,
-                                                                             AncestorType=ui:MainWindow}}" />
-                </StackPanel>
-
-            </Border>
+                           FontSize="20"
+                           Style="{DynamicResource TitleTextStyle}"
+                           Text="{Binding Title,
+                                          RelativeSource={RelativeSource FindAncestor,
+                                                                         AncestorType=ui:MainWindow}}" />
+            </StackPanel>
             <Border DockPanel.Dock="Left">
-                <ListView Margin="0"
-                          HorizontalAlignment="Stretch"
+                <ListView HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
                           BorderThickness="0"
                           ItemsSource="{Binding NavigationOptions}"
@@ -189,7 +185,9 @@
                                     <ControlTemplate TargetType="ListViewItem">
                                         <Grid Background="{TemplateBinding Background}">
                                             <Rectangle x:Name="HoverBackground" Fill="Transparent" />
-                                            <Rectangle x:Name="SelectionBackground" Fill="Transparent" />
+                                            <Rectangle x:Name="SelectionBackground"
+                                                       Fill="Transparent"
+                                                       Opacity=".1" />
                                             <ContentPresenter Margin="{TemplateBinding Padding}"
                                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
@@ -219,7 +217,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate DataType="paranoia:NavigationContext">
                             <TextBlock x:Name="Text"
-                                       Margin="12,0"
+                                       Margin="6,0"
                                        VerticalAlignment="Center"
                                        FontSize="20"
                                        RenderOptions.ClearTypeHint="Enabled"
@@ -227,7 +225,7 @@
                                        Text="{Binding Title}" />
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="Text" Property="Foreground" Value="White" />
+                                    <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -286,8 +284,8 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid Grid.ColumnSpan="2"
-                  Background="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlOverlayBrushKey}}"
-                  Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlOverlayOpacityKey}}">
+                  Background="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayBrushKey}}"
+                  Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}}">
                 <Grid.Effect>
                     <BlurEffect />
                 </Grid.Effect>
@@ -381,8 +379,8 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Rectangle Grid.Row="0"
-                       Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlOverlayBrushKey}}"
-                       Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlOverlayOpacityKey}}"
+                       Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayBrushKey}}"
+                       Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}}"
                        RenderOptions.EdgeMode="Aliased">
                 <Rectangle.Effect>
                     <BlurEffect />
@@ -413,8 +411,8 @@
 
             </Border>
             <Rectangle Grid.Row="2"
-                       Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlOverlayBrushKey}}"
-                       Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlOverlayOpacityKey}}"
+                       Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayBrushKey}}"
+                       Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}}"
                        RenderOptions.EdgeMode="Aliased">
                 <Rectangle.Effect>
                     <BlurEffect />
