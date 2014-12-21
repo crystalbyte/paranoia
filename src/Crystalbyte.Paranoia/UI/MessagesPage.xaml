@@ -39,10 +39,10 @@
                 <Border Margin="2,0"
                         HorizontalAlignment="Stretch"
                         BorderBrush="#EEE"
-                        UseLayoutRounding="True"
                         BorderThickness="0,0,0,1"
                         DockPanel.Dock="Top"
-                        SnapsToDevicePixels="True">
+                        SnapsToDevicePixels="True"
+                        UseLayoutRounding="True">
                     <Grid HorizontalAlignment="Left">
                         <controls:MetroButton Margin="12"
                                               Command="ui:MessageCommands.Compose"
@@ -68,9 +68,7 @@
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
                           BorderThickness="0"
-                          GotFocus="OnTreeViewGotFocus"
                           ItemsSource="{Binding Accounts}"
-                          LostFocus="OnTreeViewLostFocus"
                           Padding="0"
                           ScrollViewer.CanContentScroll="False"
                           SelectedItemChanged="OnTreeViewSelectedItemChanged"
@@ -194,42 +192,36 @@
                                 <StackPanel Grid.Column="1"
                                             Margin="0,-2,0,0"
                                             VerticalAlignment="Center">
-                                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextLargeFontSizeKey}}"
+                                    <TextBlock x:Name="NameText"
+                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextLargeFontSizeKey}}"
                                                FontWeight="Thin"
+                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}"
                                                RenderOptions.ClearTypeHint="Enabled"
                                                Text="{Binding Name,
                                                               ConverterParameter=...,
                                                               Converter={StaticResource NullOrEmptyFormatter}}"
                                                TextTrimming="CharacterEllipsis"
-                                               TextWrapping="NoWrap">
-                                        <TextBlock.Foreground>
-                                            <Binding Mode="OneWay" Path="IsSelected">
-                                                <Binding.Converter>
-                                                    <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" BrushForTrue="GhostWhite" />
-                                                    <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
-                                                </Binding.Converter>
-                                            </Binding>
-                                        </TextBlock.Foreground>
-                                    </TextBlock>
-                                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}"
+                                               TextWrapping="NoWrap" />
+                                    <TextBlock x:Name="AddressText"
+                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}"
+                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}"
                                                RenderOptions.ClearTypeHint="Enabled"
                                                Text="{Binding Address,
                                                               Converter={StaticResource NullOrEmptyFormatter}}"
                                                TextTrimming="CharacterEllipsis"
-                                               TextWrapping="NoWrap">
-                                        <TextBlock.Foreground>
-                                            <Binding Mode="OneWay" Path="IsSelected">
-                                                <Binding.Converter>
-                                                    <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" BrushForTrue="GhostWhite" />
-                                                    <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
-                                                </Binding.Converter>
-                                            </Binding>
-                                        </TextBlock.Foreground>
-                                    </TextBlock>
+                                               TextWrapping="NoWrap" />
                                 </StackPanel>
                             </Grid>
+                            <HierarchicalDataTemplate.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsSelected}" Value="True" />
+                                        <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter TargetName="AddressText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}}" />
+                                    <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}}" />
+                                </MultiDataTrigger>
+                            </HierarchicalDataTemplate.Triggers>
                         </HierarchicalDataTemplate>
                         <HierarchicalDataTemplate DataType="{x:Type paranoia:MailboxContext}" ItemsSource="{Binding Children}">
                             <Grid>
@@ -343,16 +335,16 @@
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding IsSelected}" Value="True" />
-                                        <Condition Binding="{Binding IsKeyboardFocused}" Value="False" />
+                                        <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}" Value="False" />
                                     </MultiDataTrigger.Conditions>
                                     <Setter TargetName="NotSeenCountText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding IsSelected}" Value="True" />
-                                        <Condition Binding="{Binding IsKeyboardFocused}" Value="True" />
+                                        <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}" Value="True" />
                                     </MultiDataTrigger.Conditions>
-                                    <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemSelectedForegroundBrushKey}}" />
+                                    <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}}" />
                                     <Setter TargetName="EnvelopeProgressBar" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
                                 </MultiDataTrigger>
                             </HierarchicalDataTemplate.Triggers>
@@ -659,11 +651,15 @@
 
                             </Grid>
                             <DataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="SubjectText" Property="Foreground" Value="GhostWhite" />
-                                    <Setter TargetName="DateText" Property="Foreground" Value="GhostWhite" />
-                                    <Setter TargetName="FromText" Property="Foreground" Value="GhostWhite" />
-                                </DataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsSelected}" Value="True" />
+                                        <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=ListView}}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter TargetName="SubjectText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}}" />
+                                    <Setter TargetName="DateText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}}" />
+                                    <Setter TargetName="FromText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}}" />
+                                </MultiDataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
                     </ListView.ItemTemplate>

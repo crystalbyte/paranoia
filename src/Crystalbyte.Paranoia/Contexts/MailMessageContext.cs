@@ -54,8 +54,10 @@ namespace Crystalbyte.Paranoia {
 
         private async void OnElevateTrustCommand(object obj) {
             try {
-                await TrustSourceAsync();
-                await App.Context.RefreshMessageSelectionAsync(this);
+                await TrustSourceAsync()
+                    ;
+                await App.Context.RefreshMessageSelectionAsync(this)
+                    ;
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -323,7 +325,8 @@ namespace Crystalbyte.Paranoia {
         internal async Task<byte[]> DownloadMessageAsync() {
             IncrementLoad();
             try {
-                var mime = await FetchMimeAsync();
+                var mime = await FetchMimeAsync()
+                    ;
                 using (var context = new DatabaseContext()) {
                     var message = await context.MailMessages.FindAsync(_message.Id);
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -197,12 +196,12 @@ namespace Crystalbyte.Paranoia.UI {
             await App.Context.InspectMessageAsync(App.Context.SelectedMessage);
         }
 
-        private void OnTreeViewGotFocus(object sender, RoutedEventArgs e) {
-            App.Context.Accounts.ForEach(x => x.IsKeyboardFocused = true);
-        }
+        //private void OnTreeViewGotFocus(object sender, RoutedEventArgs e) {
+        //    App.Context.Accounts.ForEach(x => x.IsKeyboardFocused = true);
+        //}
 
-        private void OnTreeViewLostFocus(object sender, RoutedEventArgs e) {
-            App.Context.Accounts.ForEach(x => x.IsKeyboardFocused = false);
-        }
+        //private void OnTreeViewLostFocus(object sender, RoutedEventArgs e) {
+        //    App.Context.Accounts.ForEach(x => x.IsKeyboardFocused = false);
+        //}
     }
 }

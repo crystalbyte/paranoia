@@ -740,7 +740,8 @@ namespace Crystalbyte.Paranoia {
             }
 
             try {
-                await RefreshMessageSelectionAsync(message);
+                await RefreshMessageSelectionAsync(message)
+                    ;
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -749,7 +750,8 @@ namespace Crystalbyte.Paranoia {
         internal async Task RefreshMessageSelectionAsync(MailMessageContext message) {
             await MarkSelectionAsSeenAsync();
             if (!await message.GetIsMimeLoadedAsync()) {
-                await message.DownloadMessageAsync();
+                await message.DownloadMessageAsync()
+                    ;
             }
 
             await message.UpdateTrustLevelAsync();
