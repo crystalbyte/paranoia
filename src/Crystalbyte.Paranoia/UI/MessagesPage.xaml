@@ -34,13 +34,14 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
         <Grid Grid.Column="0">
             <DockPanel LastChildFill="True">
-                <Border HorizontalAlignment="Stretch"
-                        BorderThickness="0"
+                <Border Margin="2,0"
+                        HorizontalAlignment="Stretch"
+                        BorderBrush="#EEE"
+                        UseLayoutRounding="True"
+                        BorderThickness="0,0,0,1"
                         DockPanel.Dock="Top"
-                        Padding="0,3"
                         SnapsToDevicePixels="True">
                     <Grid HorizontalAlignment="Left">
                         <controls:MetroButton Margin="12"
@@ -49,9 +50,7 @@
                                               ImageSource="/Assets/paper.png" />
                     </Grid>
                 </Border>
-                <DockPanel Margin="1"
-                           DockPanel.Dock="Top"
-                           LastChildFill="False">
+                <DockPanel DockPanel.Dock="Top" LastChildFill="False">
                     <controls:MetroButton Margin="6"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
@@ -62,7 +61,7 @@
                                VerticalAlignment="Center"
                                DockPanel.Dock="Left"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextExtraLargeFontSizeKey}}"
-                               Style="{DynamicResource TitleTextStyle}"><Run Text="{x:Static properties:Resources.AccountsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{Binding Accounts, Converter={StaticResource CollectionCounter}, FallbackValue=0, Mode=OneWay, StringFormat=\{0\}}" />
+                               Style="{DynamicResource TitleTextStyle}"><Run Text="{x:Static properties:Resources.AccountsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Text="{Binding Accounts, Converter={StaticResource CollectionCounter}, FallbackValue=0, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
                 </DockPanel>
                 <TreeView Margin="0"
@@ -371,9 +370,12 @@
                 </TreeView>
             </DockPanel>
         </Grid>
-        <GridSplitter Grid.Row="0" Grid.Column="1" />
+        <GridSplitter Grid.Row="0"
+                      Grid.Column="1"
+                      Margin="0,2" />
         <DockPanel Grid.Row="0"
                    Grid.Column="2"
+                   Margin="0,3,0,0"
                    LastChildFill="True"
                    Visibility="{Binding IsOutboxSelected,
                                         Converter={StaticResource BooleanToVisibilityConverter},
@@ -396,7 +398,7 @@
                                VerticalAlignment="Center"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextExtraLargeFontSizeKey}}"
                                Style="{DynamicResource TitleTextStyle}">
-                        <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{Binding Messages, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
+                        <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Text="{Binding Messages, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
                 </DockPanel>
 
@@ -688,6 +690,7 @@
         </DockPanel>
         <DockPanel Grid.Row="0"
                    Grid.Column="2"
+                   Margin="0,3,0,0"
                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}"
                    LastChildFill="True"
                    Visibility="{Binding IsOutboxSelected,
@@ -851,8 +854,9 @@
                                                 Converter={StaticResource QuantityToVisibilityConverter}}" />
             </Grid>
         </DockPanel>
-
-        <GridSplitter Grid.Row="0" Grid.Column="3" />
+        <GridSplitter Grid.Row="0"
+                      Grid.Column="3"
+                      Margin="0,2" />
         <Grid Grid.Row="0" Grid.Column="4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

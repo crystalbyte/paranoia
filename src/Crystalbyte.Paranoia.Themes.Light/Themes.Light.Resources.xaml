@@ -31,6 +31,8 @@
     <!--  Flyout Scope  -->
 
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}" Color="#CCC" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutOverlayBrushKey}" Color="Black" />
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}">.4</system:Double>
 
     <!--  General Text Scope (Title)  -->
 

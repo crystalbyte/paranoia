@@ -504,6 +504,9 @@ Global
 		{4B4368B8-6B90-42D1-AD2C-E5912246E8F1} = {B14B7EB5-65F9-4CDC-B018-B08687E76F3D}
 		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2} = {E6967EB9-26AB-4396-89B7-1C8629CD3A1A}
 	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Crystalbyte.Paranoia.vsmdi
 	EndGlobalSection

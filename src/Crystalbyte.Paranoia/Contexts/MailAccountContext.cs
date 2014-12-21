@@ -420,7 +420,7 @@ namespace Crystalbyte.Paranoia {
             _mailboxes.AddRange(mailboxes
                 .Select(x => new MailboxContext(this, x)));
 
-            var tasks = _mailboxes.Select(x => x.CountNotSeenAsync());
+            var tasks = _mailboxes.Select(async x => await x.CountNotSeenAsync());
             await Task.WhenAll(tasks);
 
             var inbox = _mailboxes.FirstOrDefault(x => x.IsInbox);

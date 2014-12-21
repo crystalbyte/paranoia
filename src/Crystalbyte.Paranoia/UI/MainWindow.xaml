@@ -423,9 +423,7 @@
                 </Rectangle.Effect>
             </Rectangle>
         </Grid>
-        <Border Grid.Row="1"
-                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                BorderThickness="0,0,0,0">
+        <Border Grid.Row="1">
             <Frame x:Name="MainFrame"
                    NavigationUIVisibility="Hidden"
                    RenderTransformOrigin="0.5,0.5"
