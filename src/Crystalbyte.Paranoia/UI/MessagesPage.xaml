@@ -563,7 +563,7 @@
                         <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
                             <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}" />
                             <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Mvsp}" />
-                            <Setter Property="Padding" Value="6,1,6,1" />
+                            <Setter Property="Padding" Value="6,1" />
                             <EventSetter Event="MouseDoubleClick" Handler="OnMessageMouseDoubleClick" />
                         </Style>
                     </ListView.ItemContainerStyle>

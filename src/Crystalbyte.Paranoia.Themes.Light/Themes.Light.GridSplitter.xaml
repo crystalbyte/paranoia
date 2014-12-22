@@ -6,7 +6,9 @@
             <Rectangle Height="1"
                        HorizontalAlignment="Stretch"
                        VerticalAlignment="Center"
-                       Fill="{TemplateBinding Background}" />
+                       Fill="{TemplateBinding Background}"
+                       RenderOptions.EdgeMode="Aliased"
+                       UseLayoutRounding="True" />
         </Grid>
     </ControlTemplate>
     <ControlTemplate x:Key="VerticalGridSplitter" TargetType="GridSplitter">
@@ -15,7 +17,9 @@
             <Rectangle Width="1"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Stretch"
-                       Fill="{TemplateBinding Background}" />
+                       Fill="{TemplateBinding Background}"
+                       RenderOptions.EdgeMode="Aliased"
+                       UseLayoutRounding="True" />
         </Grid>
     </ControlTemplate>
 
