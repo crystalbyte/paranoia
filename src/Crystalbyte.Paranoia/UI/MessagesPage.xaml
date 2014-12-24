@@ -867,7 +867,7 @@
                                          ConverterParameter=!}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
@@ -880,6 +880,7 @@
                                Grid.ColumnSpan="2"
                                Margin="12,12,12,3"
                                DataContext="{Binding SelectedMessage}"
+                               FontSize="22"
                                Style="{DynamicResource TitleTextStyle}"
                                Text="{Binding Subject,
                                               Converter={StaticResource NullOrEmptyFormatter},
@@ -890,6 +891,7 @@
                                Grid.Column="0"
                                Margin="12,0,12,0"
                                DataContext="{Binding SelectedMessage}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumLargeFontSizeKey}}"
                                FontWeight="Normal"
                                Style="{DynamicResource SubtitleTextStyle}"
                                Text="{Binding FromName}" />
@@ -902,47 +904,38 @@
                                 Orientation="Horizontal"
                                 Visibility="{Binding SelectedMessage,
                                                      Converter={StaticResource NullToVisibilityConverter}}">
-                        <controls:MetroButton BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" Command="ui:MessageCommands.Reply">
-                            <Image Width="18"
-                                   Margin="-2,2,0,0"
-                                   Source="/Assets/reply.png" />
-                        </controls:MetroButton>
-                        <controls:MetroButton BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" Command="ui:MessageCommands.Forward">
-                            <Image Width="18"
-                                   Margin="-2,2,0,0"
-                                   Source="/Assets/forward.png" />
-                        </controls:MetroButton>
-                        <controls:MetroButton BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" Command="{Binding DeleteMessagesCommand}">
-                            <Rectangle Width="18"
-                                       Height="16"
-                                       Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="/Assets/delete.png" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </controls:MetroButton>
-                        <controls:MetroButton BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" Command="ApplicationCommands.Print">
-                            <Image Width="18"
-                                   Margin="0,0,0,0"
-                                   Source="/Assets/print.png" />
-                        </controls:MetroButton>
+                        <controls:MetroButton Margin="3,0"
+                                              Command="ui:MessageCommands.Reply"
+                                              ImageSource="/Assets/reply.png"
+                                              ToolTip="{x:Static properties:Resources.Reply}" />
+                        <controls:MetroButton Margin="3,0"
+                                              Command="ui:MessageCommands.Forward"
+                                              ImageSource="/Assets/forward.png"
+                                              ToolTip="{x:Static properties:Resources.Forward}" />
+                        <controls:MetroButton Margin="3,0"
+                                              Command="{Binding DeleteMessagesCommand}"
+                                              ImageSource="/Assets/delete.png"
+                                              ToolTip="{x:Static properties:Resources.Delete}" />
+                        <controls:MetroButton Margin="3,0"
+                                              Command="ApplicationCommands.Print"
+                                              ImageSource="/Assets/print.png"
+                                              ToolTip="{x:Static properties:Resources.Print}" />
                     </StackPanel>
-
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
-                               Margin="12,0,12,0"
+                               Margin="12,0"
                                DataContext="{Binding SelectedMessage}"
-                               FontSize="{DynamicResource Metro.SmallFontSize}"
+                               FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.SubtitleFontFamilyKey}}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}}"
                                FontWeight="Normal"
-                               Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
-                               Style="{DynamicResource Metro.SubtitleTextStyle}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}"
                                Text="{Binding EntryDate}" />
                 </Grid>
             </Border>
             <ListView Grid.Row="1"
                       Margin="0"
-                      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}"
-                      BorderThickness="0"
+                      BorderBrush="#EEE"
+                      BorderThickness="0,1,0,0"
                       ItemTemplate="{StaticResource ThumbnailTemplate}"
                       ItemsSource="{Binding Attachments}"
                       Padding="0"
@@ -962,7 +955,7 @@
                 <ListView.ItemContainerStyle>
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
                         <Setter Property="UseLayoutRounding" Value="True" />
-                        <Setter Property="Margin" Value="0,3" />
+                        <Setter Property="Padding" Value="1" />
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemsPanel>
@@ -972,10 +965,16 @@
                 </ListView.ItemsPanel>
             </ListView>
             <ui:BlockNoticeControl Grid.Row="2" />
-            <Border Grid.Row="3" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Border Grid.Row="3"
+                    BorderBrush="#EEE"
+                    BorderThickness="0,1,0,0"
+                    Padding="0,2,0,0"
+                    Visibility="{Binding IsMessageOrSmtpRequestSelected,
+                                         Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid Visibility="{Binding IsAnimating, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
                     <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <controls:HtmlControl x:Name="MessageViewer"
+                                              Background="Transparent"
                                               BorderThickness="0"
                                               DataContext="{Binding DataContext,
                                                                     RelativeSource={RelativeSource FindAncestor,
@@ -991,15 +990,6 @@
                                               d:IsHidden="True" />
                     </Grid>
                     <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                            <controls:MetroProgressBar Height="1"
-                                                       Margin="0"
-                                                       HorizontalAlignment="Stretch"
-                                                       Background="Transparent"
-                                                       Maximum="100"
-                                                       Minimum="0"
-                                                       Value="{Binding ProgressChanged}" />
-                        </StackPanel>
                         <TextBlock Margin="24,12"
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Bottom">

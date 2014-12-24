@@ -13,7 +13,7 @@ namespace Crystalbyte.Paranoia.UI.Converters {
             var current = DateTime.Now;
             var date = (DateTime) value;
             if (current.DayOfYear == date.DayOfYear && current.Year == date.Year) {
-                return date.TimeOfDay;
+                return string.Format("{0:t}", date);
             }
 
             return date.ToShortDateString();

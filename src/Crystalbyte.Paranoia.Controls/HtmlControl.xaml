@@ -34,10 +34,13 @@
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         <awe:WebDialogsLayer Focusable="False">
                             <awe:WebControl x:Name="PART_WebControl"
+                                            Margin="0"
                                             AdjustToDpi="True"
                                             Background="{TemplateBinding Background}"
+                                            BorderThickness="0"
                                             IsTabStop="False"
                                             IsTransparent="{TemplateBinding IsTransparent}"
+                                            Padding="0"
                                             RenderOptions.BitmapScalingMode="NearestNeighbor"
                                             RenderOptions.EdgeMode="Aliased"
                                             SnapsToDevicePixels="True"

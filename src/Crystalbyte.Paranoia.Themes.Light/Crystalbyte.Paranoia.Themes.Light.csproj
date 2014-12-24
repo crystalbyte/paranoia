@@ -116,6 +116,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes.Light.ProgressRing.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes.Light.MetroButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

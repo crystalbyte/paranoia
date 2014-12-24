@@ -16,6 +16,7 @@ using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
+using System.Windows.Media;
 using Awesomium.Core;
 using Crystalbyte.Paranoia.Automation;
 using Crystalbyte.Paranoia.Cryptography;
@@ -98,17 +99,21 @@ namespace Crystalbyte.Paranoia {
             using (var reader = new StreamReader(info.Stream)) {
                 var text = reader.ReadToEnd();
                 less = Regex.Replace(text, pattern, m => {
-                    //var key = m.Value.Trim('%');
-                    //string color;
-                    //var success = MetroColors.TryGetColorByName(key, out color);
-                    //if (!success) {
-                    //    return "fuchsia";
-                    //}
-                    //// Drop the alpha channel.
-                    //return string.Format("#{0}",
-                    //    color.Substring(3));
-                                                        return string.Empty;
-                                                    });
+                    var key = m.Value.Trim('%');
+                    var dictionary =
+                        Current.Resources.MergedDictionaries.First(
+                            x => x.Contains(key));
+                    if (dictionary == null) {
+                        return "fuchsia";
+                    }
+
+                    var resource = dictionary[key] as SolidColorBrush;
+                    if (resource == null) {
+                        return "fuchsia";
+                    }
+                    // Drop the alpha channel.
+                    return string.Format("#{0}", resource.Color.ToString().Substring(3));
+                });
             }
 
             return Less.Parse(less);
@@ -342,7 +347,7 @@ namespace Crystalbyte.Paranoia {
             var name = Settings.Default.Theme;
 
             var theme =
-                Themes.FirstOrDefault(x => string.Compare(name, x.Value.GetName(), 
+                Themes.FirstOrDefault(x => string.Compare(name, x.Value.GetName(),
                         StringComparison.InvariantCultureIgnoreCase) == 0) ??
                 Themes.First(x => x.Value is LightTheme);
 
@@ -353,8 +358,8 @@ namespace Crystalbyte.Paranoia {
             Current.Resources.MergedDictionaries.AddRange(resources);
 
             // Derived styles need to be added after base styles.
-            var url = string.Format(Pack.Relative, typeof (App).Assembly.FullName, "/App.Styles.xaml");
-            var styles = (ResourceDictionary) LoadComponent(new Uri(url, UriKind.Relative));
+            var url = string.Format(Pack.Relative, typeof(App).Assembly.FullName, "/App.Styles.xaml");
+            var styles = (ResourceDictionary)LoadComponent(new Uri(url, UriKind.Relative));
             Current.Resources.MergedDictionaries.Add(styles);
         }
 

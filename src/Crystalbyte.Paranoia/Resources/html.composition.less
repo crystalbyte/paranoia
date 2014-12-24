@@ -1,9 +1,9 @@
-﻿@accent-color: %AppAccentColor%;
-@paper-background-color: white;
-@scrollbar-thumb-hover-color: %ScrollThumbHoverColor%;
-@scrollbar-thumb-drag-color: %ScrollThumbDragColor%;
-@scrollbar-thumb-color: %ScrollThumbBackgroundColor%;
-@scrollbar-background: %ScrollBackgroundColor%;
+﻿@accent-color: %AppAccentBrushKey%;
+@background-color: %WindowBackgroundBrushKey%;
+@scrollbar-background-color: %ScrollBarBackgroundBrushKey%;
+@scrollbar-thumb-hover-color: %ScrollBarThumbMouseOverBackgroundBrushKey%;
+@scrollbar-thumb-drag-color: %ScrollBarThumbPressedBackgroundBrushKey%;
+@scrollbar-thumb-background-color: %ScrollBarThumbBackgroundBrushKey%;
 
 * {
     margin: 0;
@@ -27,7 +27,7 @@ ul, ol {
 }
 
 body {
-    background-color: @paper-background-color;
+    background-color: @background-color;
 }
 
 textarea {
@@ -40,7 +40,7 @@ pre {
 }
 
 ::-webkit-scrollbar {
-    background-color: @scrollbar-background;
+    background-color: @scrollbar-background-color;
 }
 
 ::-webkit-scrollbar-button {
@@ -48,15 +48,15 @@ pre {
 }
 
 ::-webkit-scrollbar-track {
-    background-color: @scrollbar-background;
+    background-color: @scrollbar-background-color;
 }
 
 ::-webkit-scrollbar-track-piece {
-    background-color: @scrollbar-background;
+    background-color: @scrollbar-background-color;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: @scrollbar-thumb-color;
+    background-color: @scrollbar-background-color;
 }
 
     ::-webkit-scrollbar-thumb:hover {
@@ -68,9 +68,9 @@ pre {
     }
 
 ::-webkit-scrollbar-corner {
-    background-color: @scrollbar-background;
+    background-color: @scrollbar-background-color;
 }
 
 ::-webkit-resizer {
-    background-color: @scrollbar-background;
+    background-color: @scrollbar-background-color;
 }
