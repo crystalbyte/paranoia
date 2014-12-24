@@ -443,7 +443,7 @@
                    Height="24"
                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}"
                    RenderTransformOrigin="0.5,0.5"
-                   UseLayoutRounding="False">
+                   SnapsToDevicePixels="True">
             <StatusBar.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform />
@@ -466,11 +466,18 @@
                 </ItemsPanelTemplate>
             </StatusBar.ItemsPanel>
             <StatusBarItem Grid.Column="0">
-                <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}}" Text="{Binding StatusText, Mode=OneWay}" />
+                <TextBlock Margin="3"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}"
+                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}}"
+                           Text="{Binding StatusText,
+                                          Mode=OneWay}" />
             </StatusBarItem>
             <StatusBarItem Grid.Column="2">
                 <Slider Width="150"
-                        VerticalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}}"
                         IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
                         LargeChange="25.0"
@@ -487,6 +494,7 @@
                         Content="{Binding Zoom,
                                           Mode=OneWay,
                                           Converter={StaticResource PercentageFormatter}}"
+                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}}"
                         IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
                         Style="{DynamicResource StatusBarButtonStyle}" />

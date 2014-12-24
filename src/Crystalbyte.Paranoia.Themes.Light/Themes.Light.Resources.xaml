@@ -19,7 +19,6 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBorderBrushKey}" Color="#4668C5" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowBrushKey}" Color="Black" />
-    <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}" Color="#DDDDEE" />  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}" Color="#505052" />
 
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.WindowBorderThicknessKey}"
@@ -90,6 +89,13 @@
 
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBorderBrushKey}" Color="{x:Static SystemColors.ControlDarkColor}" />
 
+    <!--  Control Scope (Button)  -->
+    <!--  Control Scope (RepeatButton)  -->
+
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}" Color="GhostWhite" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonMouseOverBackgroundBrushKey}" Color="#DDDDDE" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonBorderBrushKey}" Color="{x:Static SystemColors.ControlDarkColor}" />
+
     <!--  Control Scope (CheckBox)  -->
 
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.CheckBoxMarginKey}"
@@ -114,10 +120,6 @@
                Top="1" />
 
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.CheckBoxBorderBrushKey}" Color="{x:Static SystemColors.ControlDarkColor}" />
-
-    <!--  Control Scope (Button)  -->
-
-
 
     <!--  Control Scope (RadioButton)  -->
 

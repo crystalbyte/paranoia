@@ -16,6 +16,7 @@
     -->
 
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SliderThumbBackgroundBrushKey}">WhiteSmoke</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SliderThumbTrackBackgroundBrushKey}">#525254</SolidColorBrush>
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
@@ -119,10 +120,14 @@
                        Grid.Row="1"
                        VerticalAlignment="Center">
                     <Track.DecreaseRepeatButton>
-                        <RepeatButton Command="{x:Static Slider.DecreaseLarge}" />
+                        <RepeatButton Height="8"
+                                      VerticalAlignment="Center"
+                                      Command="{x:Static Slider.DecreaseLarge}" />
                     </Track.DecreaseRepeatButton>
                     <Track.IncreaseRepeatButton>
-                        <RepeatButton Command="{x:Static Slider.IncreaseLarge}" />
+                        <RepeatButton Height="8"
+                                      VerticalAlignment="Center"
+                                      Command="{x:Static Slider.IncreaseLarge}" />
                     </Track.IncreaseRepeatButton>
                     <Track.Thumb>
                         <Thumb x:Name="Thumb"
