@@ -120,23 +120,21 @@
                        Grid.Row="1"
                        VerticalAlignment="Center">
                     <Track.DecreaseRepeatButton>
-                        <RepeatButton Height="8"
-                                      VerticalAlignment="Center"
-                                      Command="{x:Static Slider.DecreaseLarge}" />
+                        <RepeatButton Margin="0,4" Command="{x:Static Slider.DecreaseLarge}" />
                     </Track.DecreaseRepeatButton>
                     <Track.IncreaseRepeatButton>
-                        <RepeatButton Height="8"
-                                      VerticalAlignment="Center"
-                                      Command="{x:Static Slider.IncreaseLarge}" />
+                        <RepeatButton Margin="0,4" Command="{x:Static Slider.IncreaseLarge}" />
                     </Track.IncreaseRepeatButton>
                     <Track.Thumb>
                         <Thumb x:Name="Thumb"
-                               Width="11"
+                               Width="9"
                                Height="18"
+                               Margin=".7,0"
                                VerticalAlignment="Center"
                                Focusable="False"
                                OverridesDefaultStyle="True"
                                Template="{StaticResource SliderThumbHorizontalDefault}"
+                               UseLayoutRounding="True"
                                Visibility="{TemplateBinding IsEnabled,
                                                             Converter={StaticResource BooleanToVisibilityConverter}}" />
                     </Track.Thumb>
@@ -211,7 +209,7 @@
               UseLayoutRounding="True">
             <Path x:Name="Grip"
                   Data="M0.5,0.5 L18.5,0.5 18.5,11.5 0.5,11.5z"
-                  Fill="{DynamicResource x:Static themes:ThemeResourceKeys.SliderThumbBackgroundBrushKey}"
+                  Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbBackgroundBrushKey}}"
                   Stretch="Fill"
                   StrokeThickness="0" />
         </Grid>
@@ -257,19 +255,21 @@
                 </Border>
                 <Track x:Name="PART_Track" Grid.Column="1">
                     <Track.DecreaseRepeatButton>
-                        <RepeatButton Command="{x:Static Slider.DecreaseLarge}" />
+                        <RepeatButton Margin="4,0" Command="{x:Static Slider.DecreaseLarge}" />
                     </Track.DecreaseRepeatButton>
                     <Track.IncreaseRepeatButton>
-                        <RepeatButton Command="{x:Static Slider.IncreaseLarge}" />
+                        <RepeatButton Margin="4,0" Command="{x:Static Slider.IncreaseLarge}" />
                     </Track.IncreaseRepeatButton>
                     <Track.Thumb>
                         <Thumb x:Name="Thumb"
                                Width="18"
-                               Height="11"
+                               Height="9"
+                               Margin="0,.7"
                                VerticalAlignment="Top"
                                Focusable="False"
                                OverridesDefaultStyle="True"
-                               Template="{StaticResource SliderThumbVerticalDefault}" />
+                               Template="{StaticResource SliderThumbVerticalDefault}"
+                               UseLayoutRounding="True" />
                     </Track.Thumb>
                 </Track>
                 <TickBar x:Name="BottomTick"

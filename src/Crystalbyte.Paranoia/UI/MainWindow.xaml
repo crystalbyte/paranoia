@@ -476,6 +476,7 @@
             </StatusBarItem>
             <StatusBarItem Grid.Column="2">
                 <Slider Width="150"
+                        Margin="3,0"
                         VerticalAlignment="Center"
                         Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}}"
                         IsEnabled="{Binding IsMessageSelected}"

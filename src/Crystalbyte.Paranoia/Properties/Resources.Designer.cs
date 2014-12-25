@@ -178,6 +178,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attachments.
+        /// </summary>
+        public static string Attachments {
+            get {
+                return ResourceManager.GetString("Attachments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Authentification failed..
         /// </summary>
         public static string AuthentificationFailed {
@@ -1105,6 +1114,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string SignatureTitle {
             get {
                 return ResourceManager.GetString("SignatureTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size.
+        /// </summary>
+        public static string Size {
+            get {
+                return ResourceManager.GetString("Size", resourceCulture);
             }
         }
         

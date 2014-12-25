@@ -195,13 +195,20 @@ namespace Crystalbyte.Paranoia.UI {
         private async void OnMessageMouseDoubleClick(object sender, MouseButtonEventArgs e) {
             await App.Context.InspectMessageAsync(App.Context.SelectedMessage);
         }
+      
+        private void OnSortPropertyButtonClicked(object sender, RoutedEventArgs e) {
+            SortPropertyMenu.IsOpen = true;
+        }
 
-        //private void OnTreeViewGotFocus(object sender, RoutedEventArgs e) {
-        //    App.Context.Accounts.ForEach(x => x.IsKeyboardFocused = true);
-        //}
+        private void OnSortPropertyMenuItemClicked(object sender, RoutedEventArgs e) {
+            var item = (MenuItem)sender;
+            var app = (AppContext) DataContext;
 
-        //private void OnTreeViewLostFocus(object sender, RoutedEventArgs e) {
-        //    App.Context.Accounts.ForEach(x => x.IsKeyboardFocused = false);
-        //}
+            var source = (CollectionViewSource)Resources["MessagesSource"];
+            source.SortDescriptions.Clear();
+            source.SortDescriptions.Add(new SortDescription());
+
+            throw new NotImplementedException();
+        }
     }
 }

@@ -31,6 +31,7 @@
             <converters:PercentageFormatter x:Key="PercentageFormatter" />
             <converters:SecurityProtocolFormatter x:Key="SecurityProtocolFormatter" />
             <converters:BooleanToVisibilityMultiConverter x:Key="BooleanToVisibilityMultiConverter" />
+            <converters:SortPropertyFormatter x:Key="SortPropertyFormatter" />
             <converters:IconFinder x:Key="IconFinder" />
 
             <awe:WebSessionProvider x:Key="CompositionWebSessionProvider">

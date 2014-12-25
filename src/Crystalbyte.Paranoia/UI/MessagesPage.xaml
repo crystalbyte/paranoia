@@ -419,6 +419,33 @@
                                   IsChecked="{Binding IsSortAscending,
                                                       Mode=TwoWay}"
                                   Style="{DynamicResource SortingToggleButtonStyle}" />
+                    <Button Click="OnSortPropertyButtonClicked"
+                            Content="{Binding SortProperty,
+                                              Converter={StaticResource SortPropertyFormatter}}"
+                            ContextMenuService.IsEnabled="False">
+                        <Button.ContextMenu>
+                            <ContextMenu x:Name="SortPropertyMenu">
+                                <ContextMenu.ItemContainerStyle>
+                                    <Style TargetType="MenuItem">
+                                        <EventSetter Event="Click" Handler="OnSortPropertyMenuItemClicked"></EventSetter>
+                                    </Style>
+                                </ContextMenu.ItemContainerStyle>
+                                <ContextMenu.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type paranoia:SortProperty}">
+                                        <TextBlock Text="{Binding Converter={StaticResource SortPropertyFormatter}}" />
+                                    </DataTemplate>
+                                </ContextMenu.ItemTemplate>
+                                <ContextMenu.ItemsSource>
+                                    <x:Array Type="{x:Type paranoia:SortProperty}">
+                                        <x:Static Member="paranoia:SortProperty.Date" />
+                                        <x:Static Member="paranoia:SortProperty.Subject" />
+                                        <x:Static Member="paranoia:SortProperty.Attachments" />
+                                        <x:Static Member="paranoia:SortProperty.Size" />
+                                    </x:Array>
+                                </ContextMenu.ItemsSource>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
                 </DockPanel>
             </Grid>
             <Grid>

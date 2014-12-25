@@ -67,7 +67,7 @@ namespace Crystalbyte.Paranoia {
         private bool _isSortAscending;
         private string _queryContactString;
         private bool _isAnimating;
-
+        
 
         #endregion
 
