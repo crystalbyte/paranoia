@@ -33,6 +33,7 @@
             <converters:BooleanToVisibilityMultiConverter x:Key="BooleanToVisibilityMultiConverter" />
             <converters:SortPropertyFormatter x:Key="SortPropertyFormatter" />
             <converters:IconFinder x:Key="IconFinder" />
+            <converters:BooleanToBlurEffectConverter x:Key="BooleanToBlurEffectConverter" />
 
             <awe:WebSessionProvider x:Key="CompositionWebSessionProvider">
                 <awe:WebSessionProvider.DataSources>

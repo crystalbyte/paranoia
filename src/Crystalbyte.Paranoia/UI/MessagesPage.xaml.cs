@@ -30,6 +30,15 @@ namespace Crystalbyte.Paranoia.UI {
             App.Context.SortOrderChanged += OnSortOrderChanged;
         }
 
+        public SortProperty SortProperty {
+            get { return (SortProperty)GetValue(SortPropertyProperty); }
+            set { SetValue(SortPropertyProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SortProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SortPropertyProperty =
+            DependencyProperty.Register("SortProperty", typeof(SortProperty), typeof(MessagesPage), new PropertyMetadata(SortProperty.Date));
+
         private static void OnCanInspect(object sender, CanExecuteRoutedEventArgs e) {
             e.CanExecute = App.Context.SelectedMessage != null;
         }
@@ -45,8 +54,7 @@ namespace Crystalbyte.Paranoia.UI {
         private static void OnForward(object sender, ExecutedRoutedEventArgs e) {
             try {
                 App.Context.Forward();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -95,12 +103,10 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnSortOrderChanged(object sender, EventArgs e) {
-            var source = Resources["MessagesSource"] as CollectionViewSource;
-            if (source == null)
-                return;
-
-            source.SortDescriptions.Clear();
-            source.SortDescriptions.Add(new SortDescription("EntryDate", App.Context.IsSortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending));
+            var app = App.Context;
+            app.IsSortAscending = !app.IsSortAscending;
+            var direction = app.IsSortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending;
+            Sort(SortProperty, direction);
         }
 
         private async void OnTreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
@@ -195,20 +201,43 @@ namespace Crystalbyte.Paranoia.UI {
         private async void OnMessageMouseDoubleClick(object sender, MouseButtonEventArgs e) {
             await App.Context.InspectMessageAsync(App.Context.SelectedMessage);
         }
-      
+
         private void OnSortPropertyButtonClicked(object sender, RoutedEventArgs e) {
             SortPropertyMenu.IsOpen = true;
         }
 
         private void OnSortPropertyMenuItemClicked(object sender, RoutedEventArgs e) {
             var item = (MenuItem)sender;
-            var app = (AppContext) DataContext;
+            var app = (AppContext)DataContext;
+            var direction = app.IsSortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending;
+            Sort((SortProperty)item.DataContext, direction);
+        }
 
+        private void Sort(SortProperty property, ListSortDirection direction) {
+
+            SortProperty = property;
             var source = (CollectionViewSource)Resources["MessagesSource"];
             source.SortDescriptions.Clear();
-            source.SortDescriptions.Add(new SortDescription());
 
-            throw new NotImplementedException();
+            string name;
+            switch (property) {
+                case SortProperty.Size:
+                    name = PropertySupport.ExtractPropertyName((MailMessageContext m) => m.Size);
+                    break;
+                case SortProperty.Attachments:
+                    name = PropertySupport.ExtractPropertyName((MailMessageContext m) => m.HasAttachments);
+                    break;
+                case SortProperty.Subject:
+                    name = PropertySupport.ExtractPropertyName((MailMessageContext m) => m.Subject);
+                    break;
+                case SortProperty.Date:
+                    name = PropertySupport.ExtractPropertyName((MailMessageContext m) => m.EntryDate);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("property");
+
+            }
+            source.SortDescriptions.Add(new SortDescription(name, direction));
         }
     }
 }

@@ -10,6 +10,7 @@
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+      x:Name="Page"
       Title="Messages"
       d:DataContext="{d:DesignInstance paranoia:AppContext}"
       d:DesignHeight="553.714"
@@ -38,7 +39,7 @@
             <DockPanel LastChildFill="True">
                 <Border Margin="2,0"
                         HorizontalAlignment="Stretch"
-                        BorderBrush="#EEE"
+                        BorderBrush="#DDD"
                         BorderThickness="0,0,0,1"
                         DockPanel.Dock="Top"
                         SnapsToDevicePixels="True"
@@ -414,38 +415,50 @@
                                  DockPanel.Dock="Left"
                                  GroupName="Filter"
                                  Style="{DynamicResource TextRadioButtonStyle}" />
-                    <ToggleButton VerticalAlignment="Center"
-                                  DockPanel.Dock="Right"
-                                  IsChecked="{Binding IsSortAscending,
-                                                      Mode=TwoWay}"
-                                  Style="{DynamicResource SortingToggleButtonStyle}" />
-                    <Button Click="OnSortPropertyButtonClicked"
-                            Content="{Binding SortProperty,
-                                              Converter={StaticResource SortPropertyFormatter}}"
-                            ContextMenuService.IsEnabled="False">
-                        <Button.ContextMenu>
-                            <ContextMenu x:Name="SortPropertyMenu">
-                                <ContextMenu.ItemContainerStyle>
-                                    <Style TargetType="MenuItem">
-                                        <EventSetter Event="Click" Handler="OnSortPropertyMenuItemClicked"></EventSetter>
-                                    </Style>
-                                </ContextMenu.ItemContainerStyle>
-                                <ContextMenu.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type paranoia:SortProperty}">
-                                        <TextBlock Text="{Binding Converter={StaticResource SortPropertyFormatter}}" />
-                                    </DataTemplate>
-                                </ContextMenu.ItemTemplate>
-                                <ContextMenu.ItemsSource>
-                                    <x:Array Type="{x:Type paranoia:SortProperty}">
-                                        <x:Static Member="paranoia:SortProperty.Date" />
-                                        <x:Static Member="paranoia:SortProperty.Subject" />
-                                        <x:Static Member="paranoia:SortProperty.Attachments" />
-                                        <x:Static Member="paranoia:SortProperty.Size" />
-                                    </x:Array>
-                                </ContextMenu.ItemsSource>
-                            </ContextMenu>
-                        </Button.ContextMenu>
-                    </Button>
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                        <Button VerticalAlignment="Center"
+                                Click="OnSortPropertyButtonClicked"
+                                Content="{Binding SortProperty,
+                                                  ElementName=Page,
+                                                  Converter={StaticResource SortPropertyFormatter}}"
+                                ContextMenuService.IsEnabled="False"
+                                Style="{DynamicResource SortingPropertyButtonStyle}">
+                            <Button.ContextMenu>
+                                <ContextMenu x:Name="SortPropertyMenu">
+                                    <ContextMenu.ItemContainerStyle>
+                                        <Style TargetType="MenuItem">
+                                            <EventSetter Event="Click" Handler="OnSortPropertyMenuItemClicked" />
+                                        </Style>
+                                    </ContextMenu.ItemContainerStyle>
+                                    <ContextMenu.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type paranoia:SortProperty}">
+                                            <TextBlock Text="{Binding Converter={StaticResource SortPropertyFormatter}}" />
+                                        </DataTemplate>
+                                    </ContextMenu.ItemTemplate>
+                                    <ContextMenu.ItemsSource>
+                                        <x:Array Type="{x:Type paranoia:SortProperty}">
+                                            <x:Static Member="paranoia:SortProperty.Date" />
+                                            <x:Static Member="paranoia:SortProperty.Subject" />
+                                            <x:Static Member="paranoia:SortProperty.Attachments" />
+                                            <x:Static Member="paranoia:SortProperty.Size" />
+                                        </x:Array>
+                                    </ContextMenu.ItemsSource>
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+                        <Rectangle Width="1"
+                                   Margin="0,6"
+                                   VerticalAlignment="Stretch"
+                                   Fill="#DDD"
+                                   RenderOptions.EdgeMode="Aliased"
+                                   UseLayoutRounding="True" />
+                        <ToggleButton VerticalAlignment="Center"
+                                      IsChecked="{Binding IsSortAscending,
+                                                          Mode=TwoWay}"
+                                      Style="{DynamicResource SortingToggleButtonStyle}" />
+                    </StackPanel>
+
+
                 </DockPanel>
             </Grid>
             <Grid>
@@ -961,7 +974,7 @@
             </Border>
             <ListView Grid.Row="1"
                       Margin="0"
-                      BorderBrush="#EEE"
+                      BorderBrush="#DDD"
                       BorderThickness="0,1,0,0"
                       ItemTemplate="{StaticResource ThumbnailTemplate}"
                       ItemsSource="{Binding Attachments}"
@@ -993,7 +1006,7 @@
             </ListView>
             <ui:BlockNoticeControl Grid.Row="2" />
             <Border Grid.Row="3"
-                    BorderBrush="#EEE"
+                    BorderBrush="#DDD"
                     BorderThickness="0,1,0,0"
                     Padding="0,2,0,0"
                     Visibility="{Binding IsMessageOrSmtpRequestSelected,

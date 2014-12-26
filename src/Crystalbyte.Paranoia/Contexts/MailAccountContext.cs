@@ -233,8 +233,7 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 if (_mailboxes.Count == 0) {
-                    await LoadMailboxesAsync()
-                        ;
+                    await LoadMailboxesAsync();
                 }
                 await SyncMailboxesAsync();
                 var inbox = GetInbox();
@@ -302,7 +301,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task SyncMailboxesAsync() {
-            Application.Current.AssertBackgroundThread();
+            Application.Current.AssertUIThread();
 
             if (IsSyncingMailboxes) {
                 return;

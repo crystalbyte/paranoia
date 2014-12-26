@@ -54,12 +54,12 @@
             <StackPanel Margin="0,12,0,0"
                         DockPanel.Dock="Bottom"
                         Orientation="Horizontal">
-                <controls:MetroButton Command="ui:NavigationCommands.Continue" ImageSource="{x:Static properties:Resources.Accept}">
-                    <Image Width="18" Source="/Assets/ok.png" />
-                </controls:MetroButton>
-                <controls:MetroButton Command="ui:NavigationCommands.Close" ImageSource="{x:Static properties:Resources.Cancel}">
-                    <Image Width="18" Source="/Assets/cancel.png" />
-                </controls:MetroButton>
+                <controls:MetroButton Command="ui:NavigationCommands.Continue"
+                                      Content="{x:Static properties:Resources.Accept}"
+                                      ImageSource="/Assets/ok.png" />
+                <controls:MetroButton Command="ui:NavigationCommands.Close"
+                                      Content="{x:Static properties:Resources.Cancel}"
+                                      ImageSource="/Assets/cancel.png" />
             </StackPanel>
             <controls:MetroScrollViewer HorizontalScrollBarVisibility="Disabled"
                                         Padding="2,0"
@@ -233,10 +233,9 @@
                                 <controls:MetroButton Background="{DynamicResource Metro.Control.BackgroundBrush}"
                                                       BorderBrush="{DynamicResource Metro.Control.TextBrush}"
                                                       Command="{Binding TestSettingsCommand}"
+                                                      Content="{x:Static properties:Resources.TestSettings}"
                                                       DockPanel.Dock="Right"
-                                                      ImageSource="{x:Static properties:Resources.TestSettings}">
-                                    <Image Height="18" Source="/Assets/test.png" />
-                                </controls:MetroButton>
+                                                      ImageSource="/Assets/test.png" />
                                 <TextBlock Margin="6,0"
                                            VerticalAlignment="Center"
                                            DataContext="{Binding Testing}"

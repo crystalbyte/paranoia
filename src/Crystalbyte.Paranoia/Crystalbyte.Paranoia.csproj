@@ -192,6 +192,7 @@
     <Compile Include="DecryptionResult.cs" />
     <Compile Include="IMailboxCreator.cs" />
     <Compile Include="DescriptionAttribute.cs" />
+    <Compile Include="UI\Converters\BooleanToBlurEffectConverter.cs" />
     <Compile Include="UI\Converters\SortPropertyFormatter.cs" />
     <Compile Include="UI\IKeyboardFocusAware.cs" />
     <Compile Include="UI\InspectionWindow.xaml.cs">

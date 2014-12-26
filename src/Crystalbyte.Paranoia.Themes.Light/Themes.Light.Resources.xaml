@@ -29,9 +29,9 @@
 
     <!--  Flyout Scope  -->
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}" Color="#CCC" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}" Color="#505052" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutOverlayBrushKey}" Color="Black" />
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}">.4</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}">.2</system:Double>
 
     <!--  General Text Scope (Title)  -->
 
@@ -62,7 +62,7 @@
 
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlBackgroundBrushKey}" Color="GhostWhite" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlLightBackgroundBrushKey}" Color="White" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlDarkBackgroundBrushKey}" Color="#EEE" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlDarkBackgroundBrushKey}" Color="#DDD" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}" Color="{x:Static SystemColors.GrayTextColor}" />
 
     <!--  Control Scope (TextBox)  -->

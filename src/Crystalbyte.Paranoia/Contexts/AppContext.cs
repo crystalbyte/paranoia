@@ -8,7 +8,6 @@ using System.Composition;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.NetworkInformation;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -20,11 +19,9 @@ using System.Windows.Threading;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
-using Crystalbyte.Paranoia.Net;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
-using Newtonsoft.Json;
 using NLog;
 
 #endregion
@@ -63,11 +60,10 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _createAccountCommand;
         private readonly ICommand _deleteContactsCommand;
         private readonly ICommand _deleteMessagesCommand;
-        private readonly ICommand _refreshKeysCommand;
         private bool _isSortAscending;
         private string _queryContactString;
         private bool _isAnimating;
-        
+
 
         #endregion
 
@@ -90,7 +86,6 @@ namespace Crystalbyte.Paranoia {
 
             _restoreMessagesCommand = new RestoreMessagesCommand(this);
             _markAsSeenCommand = new MarkAsSeenCommand(this);
-            _refreshKeysCommand = new RelayCommand(OnRefreshKeys);
             _blockContactsCommand = new BlockContactsCommand(this);
             _deleteMessagesCommand = new DeleteMessagesCommand(this);
             _markAsNotSeenCommand = new MarkAsNotSeenCommand(this);
@@ -102,9 +97,6 @@ namespace Crystalbyte.Paranoia {
             _markAsNotFlaggedCommand = new MarkAsNotFlaggedCommand(this);
 
             NetworkChange.NetworkAvailabilityChanged += OnNetworkAvailabilityChanged;
-
-            Observable.Timer(TimeSpan.FromHours(2))
-                .Subscribe(OnRefreshKeys);
 
             Observable.FromEventPattern(
                 action => MessageSelectionChanged += action,
@@ -147,9 +139,11 @@ namespace Crystalbyte.Paranoia {
             if (!e.IsAvailable)
                 return;
 
-            foreach (var account in Accounts) {
-                await account.TakeOnlineAsync();
-            }
+            await Application.Current.Dispatcher.InvokeAsync(async () => {
+                foreach (var account in Accounts) {
+                    await account.TakeOnlineAsync();
+                }
+            });
         }
 
         private async void OnContactQueryReceived(string query) {
@@ -160,76 +154,6 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => Messages);
             RaisePropertyChanged(() => MessageCount);
             RaisePropertyChanged(() => IsMessageOrSmtpRequestSelected);
-        }
-
-        private async void OnRefreshKeys(object obj) {
-            await RefreshKeysForAllContactsAsync();
-        }
-
-        private async void OnRefreshKeys(long obj) {
-            await RefreshKeysForAllContactsAsync();
-        }
-
-        private async Task RefreshKeysForAllContactsAsync() {
-            try {
-                StatusText = Resources.RefreshingPublicKeysStatus;
-
-                IEnumerable<MailContactModel> contacts;
-                using (var database = new DatabaseContext()) {
-                    contacts = await database.MailContacts.ToArrayAsync();
-                }
-
-                using (var client = new WebClient()) {
-                    foreach (var contact in contacts) {
-                        var entry = await DownloadKeysForContactAsync(contact, client);
-                        if (entry == null || entry.Keys == null) {
-                            continue;
-                        }
-                        await UpdateKeysInDatabaseForContactAsync(contact, entry);
-                    }
-                }
-
-                foreach (var contact in _contacts) {
-                    await contact.NotifyKeysUpdatedAsync();
-                }
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            } finally {
-                StatusText = Resources.ReadyStatus;
-            }
-        }
-
-        private static async Task UpdateKeysInDatabaseForContactAsync(MailContactModel contact, KeyCollection collection) {
-            try {
-                using (var database = new DatabaseContext()) {
-                    var keys = await database.PublicKeys.Where(x => x.ContactId == contact.Id).ToArrayAsync();
-                    var keysToBeAdded = collection.Keys.Except(keys.Select(x => x.Data));
-                    foreach (var key in keysToBeAdded) {
-                        database.PublicKeys.Add(new PublicKeyModel {
-                            ContactId = contact.Id,
-                            Data = key
-                        });
-                    }
-
-                    await database.SaveChangesAsync();
-                }
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
-
-        private static async Task<KeyCollection> DownloadKeysForContactAsync(MailContactModel contact, WebClient client) {
-            var server = Settings.Default.KeyServer;
-            var address = String.Format("{0}/keys?email={1}", server, contact.Address);
-
-            var uri = new Uri(address, UriKind.Absolute);
-            client.Headers.Add(HttpRequestHeader.UserAgent, Settings.Default.UserAgent);
-            var response = await client.OpenReadTaskAsync(uri);
-
-            using (var reader = new StreamReader(response)) {
-                var json = await reader.ReadToEndAsync();
-                return JsonConvert.DeserializeObject<KeyCollection>(json);
-            }
         }
 
         public object Alphabet {
@@ -643,10 +567,6 @@ namespace Crystalbyte.Paranoia {
             get { return _resetZoomCommand; }
         }
 
-        public ICommand RefreshKeysCommand {
-            get { return _refreshKeysCommand; }
-        }
-
         public ICommand BlockContactsCommand {
             get { return _blockContactsCommand; }
         }
@@ -838,7 +758,6 @@ namespace Crystalbyte.Paranoia {
             await LoadContactsAsync();
             await LoadAccountsAsync();
 
-            await RefreshKeysForAllContactsAsync();
             foreach (var account in Accounts) {
                 await account.TakeOnlineAsync();
             }
@@ -849,7 +768,8 @@ namespace Crystalbyte.Paranoia {
         private async Task LoadAccountsAsync() {
             using (var context = new DatabaseContext()) {
                 var accounts = await context.MailAccounts.ToArrayAsync();
-                _accounts.AddRange(accounts.Select(x => new MailAccountContext(x)));
+                await Application.Current.Dispatcher.InvokeAsync(() =>
+                    _accounts.AddRange(accounts.Select(x => new MailAccountContext(x))));
             }
 
             foreach (var account in Accounts) {

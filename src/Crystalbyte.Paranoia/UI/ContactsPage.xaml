@@ -77,17 +77,12 @@
             <Grid Grid.Column="1" Width="4" />
             <DockPanel Grid.Column="2" LastChildFill="True">
                 <DockPanel DockPanel.Dock="Top" LastChildFill="True">
-                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                        <controls:MetroButton VerticalAlignment="Center" Command="{Binding RefreshKeysCommand}">
-                            <Image Width="18" Source="/Assets/key.png" />
-                        </controls:MetroButton>
-                    </StackPanel>
                     <TextBlock Margin="12,3,12,3"
                                VerticalAlignment="Center"
                                DockPanel.Dock="Top"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextLargeFontSizeKey}}"
-                               Style="{DynamicResource Metro.TitleTextStyle}">
-                        <Run Text="{x:Static properties:Resources.ContactsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{Binding Contacts, Converter={StaticResource CollectionCounter}, Mode=OneWay}" />
+                               Style="{DynamicResource TitleTextStyle}">
+                        <Run Text="{x:Static properties:Resources.ContactsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" Text="{Binding Contacts, Converter={StaticResource CollectionCounter}, Mode=OneWay}" />
                     </TextBlock>
                 </DockPanel>
                 <TextBox Margin="6"

@@ -5,11 +5,9 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Resources;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
@@ -54,10 +52,8 @@ namespace Crystalbyte.Paranoia {
 
         private async void OnElevateTrustCommand(object obj) {
             try {
-                await TrustSourceAsync()
-                    ;
-                await App.Context.RefreshMessageSelectionAsync(this)
-                    ;
+                await TrustSourceAsync();
+                await App.Context.RefreshMessageSelectionAsync(this);
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -109,6 +105,10 @@ namespace Crystalbyte.Paranoia {
 
         public bool IsRecycled {
             get { return _message == null; }
+        }
+
+        public bool HasAttachments {
+            get { return _attachments != null && _attachments.Count > 0; }
         }
 
         public ICollection<AttachmentContext> Attachments {

@@ -148,6 +148,8 @@
                    VerticalAlignment="Stretch"
                    Panel.ZIndex="1000"
                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}"
+                   Effect="{Binding IsPopupVisible,
+                                    Converter={StaticResource BooleanToBlurEffectConverter}}"
                    LastChildFill="False">
             <StackPanel Orientation="Horizontal">
                 <Image Width="20"
@@ -166,6 +168,7 @@
                                           RelativeSource={RelativeSource FindAncestor,
                                                                          AncestorType=ui:MainWindow}}" />
             </StackPanel>
+
             <Border DockPanel.Dock="Left">
                 <ListView HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
@@ -240,7 +243,9 @@
         <Grid Grid.Row="0"
               HorizontalAlignment="Right"
               VerticalAlignment="Top"
-              Panel.ZIndex="100000">
+              Panel.ZIndex="100000"
+              Effect="{Binding IsPopupVisible,
+                               Converter={StaticResource BooleanToBlurEffectConverter}}">
             <Grid.ColumnDefinitions>
                 <!--  help button  -->
                 <ColumnDefinition Width="Auto" />
@@ -382,14 +387,12 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+
             <Rectangle Grid.Row="0"
                        Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayBrushKey}}"
                        Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}}"
-                       RenderOptions.EdgeMode="Aliased">
-                <Rectangle.Effect>
-                    <BlurEffect />
-                </Rectangle.Effect>
-            </Rectangle>
+                       RenderOptions.EdgeMode="Aliased" />
+
             <Border Grid.Row="1"
                     Background="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}}"
                     Padding="0,24,0,24">
@@ -417,14 +420,12 @@
             <Rectangle Grid.Row="2"
                        Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayBrushKey}}"
                        Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}}"
-                       RenderOptions.EdgeMode="Aliased">
-                <Rectangle.Effect>
-                    <BlurEffect />
-                </Rectangle.Effect>
-            </Rectangle>
+                       RenderOptions.EdgeMode="Aliased" />
         </Grid>
         <Border Grid.Row="1">
             <Frame x:Name="MainFrame"
+                   Effect="{Binding IsPopupVisible,
+                                    Converter={StaticResource BooleanToBlurEffectConverter}}"
                    NavigationUIVisibility="Hidden"
                    RenderTransformOrigin="0.5,0.5"
                    Source="/UI/MessagesPage.xaml">
@@ -442,6 +443,8 @@
                    Grid.Row="2"
                    Height="24"
                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}"
+                   Effect="{Binding IsPopupVisible,
+                                    Converter={StaticResource BooleanToBlurEffectConverter}}"
                    RenderTransformOrigin="0.5,0.5"
                    SnapsToDevicePixels="True">
             <StatusBar.RenderTransform>
