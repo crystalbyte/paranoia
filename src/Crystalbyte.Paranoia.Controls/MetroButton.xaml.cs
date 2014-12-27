@@ -29,6 +29,20 @@ namespace Crystalbyte.Paranoia.UI {
         public static readonly DependencyProperty ImageSourceProperty =
             DependencyProperty.Register("ImageSource", typeof(ImageSource), typeof(MetroButton), new PropertyMetadata(null));
 
+
+
+
+        public Brush ImageBrush {
+            get { return (Brush)GetValue(ImageBrushProperty); }
+            set { SetValue(ImageBrushProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ImageBrush.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ImageBrushProperty =
+            DependencyProperty.Register("ImageBrush", typeof(Brush), typeof(MetroButton), new PropertyMetadata(null));
+
+
+
         #endregion
     }
 }

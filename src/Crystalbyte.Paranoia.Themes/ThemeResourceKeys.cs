@@ -21,7 +21,10 @@
         public static string FlyoutBackgroundBrushKey = "FlyoutBackgroundBrushKey";
         public static string FlyoutOverlayBrushKey = "FlyoutOverlayBrushKey";
         public static string FlyoutOverlayOpacityKey = "FlyoutOverlayOpacityKey";
-
+        public static string FlyoutTextForegroundBrushKey = "FlyoutTextForegroundBrushKey";
+        public static string FlyoutTextBoxBackgroundBrushKey = "FlyoutTextBoxBackgroundBrushKey";
+        public static string FlyoutTextBoxBorderBrushKey = "FlyoutTextBoxBorderBrushKey";
+        
         // General Text Scope
 
         public static string TitleFontFamilyKey = "TitleFontFamilyKey";
@@ -37,7 +40,7 @@
         
         public static string NormalTextFontWeightKey = "NormalTextFontWeightKey";
         public static string NormalTextForegroundBrushKey = "NormalTextForegroundBrushKey";
-        public static string NormalTextInverseForegroundBrushKey = "NormalTextInverseForegroundBrushKey";
+        public static string NormalTextContrastForegroundBrushKey = "NormalTextContrastForegroundBrushKey";
         public static string NormalTextSecondaryForegroundBrushKey = "NormalTextSecondaryForegroundBrushKey";
         public static string NormalTextFontDisabledBrushKey = "NormalTextFontDisabledBrushKey";
         public static string NormalTextSmallFontSizeKey = "NormalTextSmallFontSizeKey";

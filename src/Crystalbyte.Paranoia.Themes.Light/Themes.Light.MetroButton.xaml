@@ -9,8 +9,9 @@
     <Style TargetType="controls:MetroButton">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
-        <Setter Property="FontSize" Value="18" />
-        <Setter Property="FontWeight" Value="Thin" />
+        <Setter Property="ImageBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -37,7 +38,7 @@
                                            Height="17.5"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Fill="{TemplateBinding BorderBrush}"
+                                           Fill="{TemplateBinding ImageBrush}"
                                            UseLayoutRounding="True">
                                     <Rectangle.OpacityMask>
                                         <ImageBrush ImageSource="{Binding ImageSource, RelativeSource={RelativeSource TemplatedParent}}" />
@@ -82,7 +83,6 @@
                     <Condition Property="IsMouseOver" Value="True" />
                     <Condition Property="IsPressed" Value="True" />
                 </MultiTrigger.Conditions>
-                <Setter Property="BorderBrush" Value="White" />
                 <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
             </MultiTrigger>
         </Style.Triggers>

@@ -6,8 +6,10 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+      xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="{x:Static properties:Resources.CreateAccountTitle}"
+      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}}"
       d:DataContext="{d:DesignInstance paranoia:MailAccountContext}"
       d:DesignHeight="300"
       d:DesignWidth="300"
@@ -32,13 +34,16 @@
                      Grid.ColumnSpan="2"
                      Margin="0,12,0,12"
                      Checked="OnAutoMagicButtonCheckedChanged"
-                     Content="{x:Static properties:Resources.DetectAutomagically}"
+                     Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
                      GroupName="method"
                      IsChecked="{Binding IsAutoDetectPreferred,
                                          Mode=TwoWay}"
-                     Unchecked="OnAutoMagicButtonCheckedChanged" />
+                     Unchecked="OnAutoMagicButtonCheckedChanged">
+            <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}" Text="{x:Static properties:Resources.DetectAutomagically}" />
+        </RadioButton>
         <TextBlock Grid.Row="1"
                    Grid.Column="0"
+                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
                    IsEnabled="{Binding IsChecked,
                                        ElementName=AutoMagicButton}"
                    Style="{StaticResource LabelTextStyle}">
@@ -50,14 +55,17 @@
                  Grid.Column="1"
                  Width="400"
                  HorizontalAlignment="Left"
+                 Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
                  IsEnabled="{Binding IsChecked,
                                      ElementName=AutoMagicButton}"
+                 Style="{DynamicResource FlyoutTextBoxStyle}"
                  Text="{Binding Name,
                                 Mode=TwoWay,
                                 UpdateSourceTrigger=PropertyChanged}"
                  TextChanged="OnNameTextChanged" />
         <TextBlock Grid.Row="2"
                    Grid.Column="0"
+                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
                    IsEnabled="{Binding IsChecked,
                                        ElementName=AutoMagicButton}"
                    Style="{StaticResource LabelTextStyle}">
@@ -68,14 +76,17 @@
                  Grid.Column="1"
                  Width="400"
                  HorizontalAlignment="Left"
+                 Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
                  IsEnabled="{Binding IsChecked,
                                      ElementName=AutoMagicButton}"
+                 Style="{DynamicResource FlyoutTextBoxStyle}"
                  Text="{Binding Address,
                                 Mode=TwoWay,
                                 UpdateSourceTrigger=PropertyChanged}"
                  TextChanged="OnAddressTextChanged" />
         <TextBlock Grid.Row="3"
                    Grid.Column="0"
+                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
                    IsEnabled="{Binding IsChecked,
                                        ElementName=AutoMagicButton}"
                    Style="{StaticResource LabelTextStyle}">
@@ -87,14 +98,17 @@
                      Grid.Column="1"
                      Width="400"
                      HorizontalAlignment="Left"
+                     Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
                      IsEnabled="{Binding IsChecked,
-                                         ElementName=AutoMagicButton}" />
+                                         ElementName=AutoMagicButton}"
+                     Style="{DynamicResource FlyoutPasswordBoxStyle}" />
         <RadioButton Grid.Row="4"
                      Grid.Column="0"
                      Grid.ColumnSpan="2"
                      Margin="0,12,0,12"
-                     Content="{x:Static properties:Resources.EnterManually}"
-                     GroupName="method" />
+                     GroupName="method">
+            <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}" Text="{x:Static properties:Resources.EnterManually}" />
+        </RadioButton>
         <StackPanel Grid.Row="5"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
@@ -109,13 +123,16 @@
                     Grid.ColumnSpan="2"
                     Orientation="Horizontal">
             <controls:MetroButton x:Name="ContinueButton"
+                                  Margin="3,0"
                                   Command="ui:NavigationCommands.Continue"
-                                  ImageSource="{x:Static properties:Resources.Continue}">
-                <Image Width="18" Source="/Assets/ok.png" />
-            </controls:MetroButton>
-            <controls:MetroButton Command="ui:NavigationCommands.Close" ImageSource="{x:Static properties:Resources.Cancel}">
-                <Image Width="18" Source="/Assets/cancel.png" />
-            </controls:MetroButton>
+                                  Content="{x:Static properties:Resources.Continue}"
+                                  ImageSource="/Assets/ok.png"
+                                  Style="{DynamicResource FlyoutMetroButtonStyle}" />
+            <controls:MetroButton Margin="3,0"
+                                  Command="ui:NavigationCommands.Close"
+                                  Content="{x:Static properties:Resources.Cancel}"
+                                  ImageSource="/Assets/cancel.png"
+                                  Style="{DynamicResource FlyoutMetroButtonStyle}" />
         </StackPanel>
     </Grid>
 </Page>

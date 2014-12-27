@@ -29,9 +29,13 @@
 
     <!--  Flyout Scope  -->
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}" Color="#505052" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}" Color="#353536" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutOverlayBrushKey}" Color="Black" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}" Color="WhiteSmoke" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextBoxBackgroundBrushKey}" Color="#2F2F30" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextBoxBorderBrushKey}" Color="#484849" />
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}">.2</system:Double>
+
 
     <!--  General Text Scope (Title)  -->
 
@@ -55,12 +59,12 @@
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}">10</system:Double>
     <FontWeight x:Key="{x:Static themes:ThemeResourceKeys.NormalTextFontWeightKey}">Normal</FontWeight>
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}" Color="#222" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}" Color="GhostWhite" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}" Color="#99A" />
 
     <!--  Control Scope  -->
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlBackgroundBrushKey}" Color="GhostWhite" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlBackgroundBrushKey}" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlLightBackgroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlDarkBackgroundBrushKey}" Color="#DDD" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}" Color="{x:Static SystemColors.GrayTextColor}" />
@@ -92,7 +96,7 @@
     <!--  Control Scope (Button)  -->
     <!--  Control Scope (RepeatButton)  -->
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}" Color="GhostWhite" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonMouseOverBackgroundBrushKey}" Color="#DDDDDE" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonBorderBrushKey}" Color="{x:Static SystemColors.ControlDarkColor}" />
 

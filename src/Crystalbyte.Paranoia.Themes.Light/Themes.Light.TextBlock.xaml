@@ -32,7 +32,7 @@
         <Setter Property="FontSize" Value="{DynamicResource Metro.MediumFontSize}" />
         </Style>
         
-        <Style x:Key="Metro.LabelTextStyle"
+        <Style x:Key="LabelTextStyle"
         BasedOn="{StaticResource {x:Type TextBlock}}"
         TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center" />

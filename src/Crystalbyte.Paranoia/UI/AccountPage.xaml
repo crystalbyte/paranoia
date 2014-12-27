@@ -11,6 +11,7 @@
       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="{x:Static properties:Resources.AccountSettingsTitle}"
+      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}}"
       d:DataContext="{d:DesignInstance paranoia:MailAccountContext}"
       d:DesignHeight="907.134"
       d:DesignWidth="833.433"
@@ -61,9 +62,9 @@
                                       Content="{x:Static properties:Resources.Cancel}"
                                       ImageSource="/Assets/cancel.png" />
             </StackPanel>
-            <controls:MetroScrollViewer HorizontalScrollBarVisibility="Disabled"
-                                        Padding="2,0"
-                                        VerticalScrollBarVisibility="Auto">
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                          Padding="2,0"
+                          VerticalScrollBarVisibility="Auto">
                 <DockPanel LastChildFill="False">
                     <Grid DockPanel.Dock="Top">
                         <Grid.RowDefinitions>
@@ -77,17 +78,18 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.ColumnSpan="2"
-                                   Style="{DynamicResource Metro.SubtitleTextStyle}"
+                                   Style="{DynamicResource SubtitleTextStyle}"
                                    Text="{x:Static properties:Resources.GeneralSettingsTitle}" />
                         <TextBlock Grid.Row="1"
                                    Grid.Column="0"
                                    Grid.ColumnSpan="2"
                                    Margin="0,0,0,12"
-                                   Style="{DynamicResource Metro.DescriptionTextStyle}"
+                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
                                    Text="{x:Static properties:Resources.GeneralSettingsDescription}" />
                         <TextBlock Grid.Row="2"
                                    Grid.Column="0"
-                                   Style="{DynamicResource Metro.LabelTextStyle}">
+                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
+                                   Style="{DynamicResource LabelTextStyle}">
                             <Run Text="{x:Static properties:Resources.AccountName}" />
                             <Run>:</Run>
                         </TextBlock>
@@ -96,12 +98,14 @@
                                  Grid.Column="1"
                                  Width="360"
                                  HorizontalAlignment="Left"
+                                 Style="{DynamicResource FlyoutTextBoxStyle}"
                                  Text="{Binding Name,
                                                 Mode=TwoWay,
                                                 UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock Grid.Row="3"
                                    Grid.Column="0"
-                                   Style="{DynamicResource Metro.LabelTextStyle}">
+                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
+                                   Style="{DynamicResource LabelTextStyle}">
                             <Run Text="{x:Static properties:Resources.MailAddress}" />
                             <Run>:</Run>
                         </TextBlock>
@@ -109,6 +113,7 @@
                                  Grid.Column="1"
                                  Width="360"
                                  HorizontalAlignment="Left"
+                                 Style="{DynamicResource FlyoutTextBoxStyle}"
                                  Text="{Binding Address,
                                                 Mode=TwoWay,
                                                 UpdateSourceTrigger=PropertyChanged}" />
@@ -149,47 +154,50 @@
                                        Grid.Column="0"
                                        Grid.ColumnSpan="4"
                                        Margin="0,0,0,12"
-                                       Style="{DynamicResource Metro.DescriptionTextStyle}"
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
                                        Text="{x:Static properties:Resources.ImapSettingsDescription}"
                                        TextTrimming="None" />
                             <TextBlock Grid.Row="2"
                                        Grid.Column="0"
                                        Grid.ColumnSpan="2"
-                                       Style="{DynamicResource Metro.LabelTextStyle}">
+                                       Style="{DynamicResource LabelTextStyle}">
                                 <Run Text="{x:Static properties:Resources.Username}" />
                                 <Run>:</Run>
                             </TextBlock>
                             <TextBox Grid.Row="2"
                                      Grid.Column="1"
                                      Grid.ColumnSpan="3"
+                                     Style="{DynamicResource FlyoutTextBoxStyle}"
                                      Text="{Binding ImapUsername,
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged}" />
                             <TextBlock Grid.Row="3"
                                        Grid.Column="0"
-                                       Style="{DynamicResource Metro.LabelTextStyle}">
+                                       Style="{DynamicResource LabelTextStyle}">
                                 <Run Text="{x:Static properties:Resources.Password}" />
                                 <Run>:</Run>
                             </TextBlock>
                             <PasswordBox x:Name="ImapPasswordBox"
                                          Grid.Row="3"
                                          Grid.Column="1"
-                                         Grid.ColumnSpan="3" />
+                                         Grid.ColumnSpan="3"
+                                         Style="{DynamicResource FlyoutPasswordBoxStyle}" />
                             <TextBlock Grid.Row="4"
                                        Grid.Column="0"
-                                       Style="{DynamicResource Metro.LabelTextStyle}">
+                                       Style="{DynamicResource LabelTextStyle}">
                                 <Run Text="{x:Static properties:Resources.ImapHost}" />
                                 <Run>:</Run>
                             </TextBlock>
                             <TextBox Grid.Row="4"
                                      Grid.Column="1"
                                      Grid.ColumnSpan="3"
+                                     Style="{DynamicResource FlyoutTextBoxStyle}"
                                      Text="{Binding ImapHost,
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged}" />
                             <TextBlock Grid.Row="5"
                                        Grid.Column="0"
-                                       Style="{DynamicResource Metro.LabelTextStyle}">
+                                       Style="{DynamicResource LabelTextStyle}">
                                 <Run Text="{x:Static properties:Resources.EncryptionProtocol}" />
                                 <Run>:</Run>
                             </TextBlock>
@@ -215,7 +223,7 @@
                             </ComboBox>
                             <TextBlock Grid.Row="5"
                                        Grid.Column="2"
-                                       Style="{DynamicResource Metro.LabelTextStyle}">
+                                       Style="{DynamicResource LabelTextStyle}">
                                 <Run Text="{x:Static properties:Resources.Port}" />
                                 <Run>:</Run>
                             </TextBlock>
@@ -275,23 +283,24 @@
                                        Grid.Column="0"
                                        Grid.ColumnSpan="4"
                                        Margin="0,0,0,12"
-                                       Style="{DynamicResource Metro.DescriptionTextStyle}"
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
                                        Text="{x:Static properties:Resources.SmtpSettingsDescription}" />
                             <TextBlock Grid.Row="2"
                                        Grid.Column="0"
-                                       Style="{DynamicResource Metro.LabelTextStyle}">
+                                       Style="{DynamicResource LabelTextStyle}">
                                 <Run Text="{x:Static properties:Resources.ImapHost}" />
                                 <Run>:</Run>
                             </TextBlock>
                             <TextBox Grid.Row="2"
                                      Grid.Column="1"
                                      Grid.ColumnSpan="3"
+                                     Style="{DynamicResource FlyoutTextBoxStyle}"
                                      Text="{Binding SmtpHost,
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged}" />
                             <TextBlock Grid.Row="3"
                                        Grid.Column="0"
-                                       Style="{DynamicResource Metro.LabelTextStyle}">
+                                       Style="{DynamicResource LabelTextStyle}">
                                 <Run Text="{x:Static properties:Resources.EncryptionProtocol}" />
                                 <Run>:</Run>
                             </TextBlock>
@@ -316,7 +325,7 @@
                             </ComboBox>
                             <TextBlock Grid.Row="3"
                                        Grid.Column="2"
-                                       Style="{DynamicResource Metro.LabelTextStyle}">
+                                       Style="{DynamicResource LabelTextStyle}">
                                 <Run Text="{x:Static properties:Resources.Port}" />
                                 <Run>:</Run>
                             </TextBlock>
@@ -348,7 +357,7 @@
                                        Grid.Column="0"
                                        IsEnabled="{Binding IsChecked,
                                                            ElementName=UseSmtpCredentialsRadioButton}"
-                                       Style="{DynamicResource Metro.LabelTextStyle}">
+                                       Style="{DynamicResource LabelTextStyle}">
                                 <Run Text="{x:Static properties:Resources.Username}" />
                                 <Run>:</Run>
                             </TextBlock>
@@ -357,6 +366,7 @@
                                      Grid.ColumnSpan="3"
                                      IsEnabled="{Binding IsChecked,
                                                          ElementName=UseSmtpCredentialsRadioButton}"
+                                     Style="{DynamicResource FlyoutTextBoxStyle}"
                                      Text="{Binding SmtpUsername,
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged}" />
@@ -364,7 +374,7 @@
                                        Grid.Column="0"
                                        IsEnabled="{Binding IsChecked,
                                                            ElementName=UseSmtpCredentialsRadioButton}"
-                                       Style="{DynamicResource Metro.LabelTextStyle}">
+                                       Style="{DynamicResource LabelTextStyle}">
                                 <Run Text="{x:Static properties:Resources.Password}" />
                                 <Run>:</Run>
                             </TextBlock>
@@ -373,7 +383,8 @@
                                          Grid.Column="1"
                                          Grid.ColumnSpan="3"
                                          IsEnabled="{Binding IsChecked,
-                                                             ElementName=UseSmtpCredentialsRadioButton}" />
+                                                             ElementName=UseSmtpCredentialsRadioButton}"
+                                         Style="{DynamicResource FlyoutPasswordBoxStyle}" />
                         </Grid>
                     </Grid>
                     <Rectangle Height="1"
@@ -414,7 +425,7 @@
                                        Text="{x:Static properties:Resources.MailboxSettingsDescription}" />
                             <TextBlock Grid.Row="1"
                                        Grid.Column="0"
-                                       Style="{DynamicResource Metro.LabelTextStyle}">
+                                       Style="{DynamicResource LabelTextStyle}">
                                 <Run Text="{x:Static properties:Resources.TrashMailbox}" />
                                 <Run Text=":" />
                             </TextBlock>
@@ -437,7 +448,7 @@
                             </StackPanel>
                             <TextBlock Grid.Row="2"
                                        Grid.Column="0"
-                                       Style="{DynamicResource Metro.LabelTextStyle}">
+                                       Style="{DynamicResource LabelTextStyle}">
                                 <Run Text="{x:Static properties:Resources.DraftMailbox}" />
                                 <Run Text=":" />
                             </TextBlock>
@@ -460,7 +471,7 @@
                             </StackPanel>
                             <TextBlock Grid.Row="3"
                                        Grid.Column="0"
-                                       Style="{DynamicResource Metro.LabelTextStyle}">
+                                       Style="{DynamicResource LabelTextStyle}">
                                 <Run Text="{x:Static properties:Resources.JunkMailbox}" />
                                 <Run Text=":" />
                             </TextBlock>
@@ -499,7 +510,7 @@
                                 <TextBlock Text="{x:Static properties:Resources.MailboxSettingsCopy}" />
                             </RadioButton>
                             <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                                <TextBlock Style="{DynamicResource Metro.LabelTextStyle}">
+                                <TextBlock Style="{DynamicResource LabelTextStyle}">
                                     <Run Text="{x:Static properties:Resources.SentMailbox}" />
                                     <Run Text=":" />
                                 </TextBlock>
@@ -551,7 +562,7 @@
                         </StackPanel>
                         <TextBlock Grid.Row="2"
                                    Grid.Column="0"
-                                   Style="{DynamicResource Metro.LabelTextStyle}">
+                                   Style="{DynamicResource LabelTextStyle}">
                             <Run Text="{x:Static properties:Resources.Signature}" />
                             <Run Text=":" />
                         </TextBlock>
@@ -573,7 +584,7 @@
                         </StackPanel>
                     </Grid>
                 </DockPanel>
-            </controls:MetroScrollViewer>
+            </ScrollViewer>
 
         </DockPanel>
         <Popup x:Name="SentMailboxSelectionPopup"

@@ -148,8 +148,6 @@
                    VerticalAlignment="Stretch"
                    Panel.ZIndex="1000"
                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}"
-                   Effect="{Binding IsPopupVisible,
-                                    Converter={StaticResource BooleanToBlurEffectConverter}}"
                    LastChildFill="False">
             <StackPanel Orientation="Horizontal">
                 <Image Width="20"
@@ -162,7 +160,7 @@
                 <TextBlock Margin="0,0,24,0"
                            VerticalAlignment="Center"
                            FontSize="20"
-                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}}"
+                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
                            Style="{DynamicResource TitleTextStyle}"
                            Text="{Binding Title,
                                           RelativeSource={RelativeSource FindAncestor,
@@ -226,7 +224,7 @@
                                        Margin="6,0"
                                        VerticalAlignment="Center"
                                        FontSize="20"
-                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}}"
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Style="{DynamicResource TitleTextStyle}"
                                        Text="{Binding Title}" />
@@ -243,9 +241,7 @@
         <Grid Grid.Row="0"
               HorizontalAlignment="Right"
               VerticalAlignment="Top"
-              Panel.ZIndex="100000"
-              Effect="{Binding IsPopupVisible,
-                               Converter={StaticResource BooleanToBlurEffectConverter}}">
+              Panel.ZIndex="100000">
             <Grid.ColumnDefinitions>
                 <!--  help button  -->
                 <ColumnDefinition Width="Auto" />
@@ -294,11 +290,7 @@
             </Grid.ColumnDefinitions>
             <Grid Grid.ColumnSpan="2"
                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayBrushKey}}"
-                  Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}}">
-                <Grid.Effect>
-                    <BlurEffect />
-                </Grid.Effect>
-            </Grid>
+                  Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}}" />
             <Border x:Name="Flyout"
                     Grid.Column="1"
                     Background="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}}"
@@ -324,7 +316,9 @@
                                               Margin="0,0,12,0"
                                               Command="ui:NavigationCommands.Back"
                                               Focusable="False"
-                                              RenderTransformOrigin="0.5,0.5">
+                                              ImageSource="/Assets/back.png"
+                                              RenderTransformOrigin="0.5,0.5"
+                                              Style="{DynamicResource FlyoutMetroButtonStyle}">
                             <Button.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform />
@@ -333,15 +327,13 @@
                                     <TranslateTransform />
                                 </TransformGroup>
                             </Button.RenderTransform>
-                            <Image Width="18"
-                                   HorizontalAlignment="Center"
-                                   Source="/Assets/back.png" />
                         </controls:MetroButton>
                         <TextBlock x:Name="TextBlock"
                                    Margin="0"
                                    VerticalAlignment="Center"
                                    DataContext="{Binding Content,
                                                          ElementName=FlyOutFrame}"
+                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
                                    Padding="0,0,0,2"
                                    RenderTransformOrigin="0.5,0.5"
                                    Style="{DynamicResource TitleTextStyle}"
@@ -377,7 +369,8 @@
                 </Grid>
             </Border>
         </Grid>
-        <Grid Grid.Row="0"
+        <Grid x:Name="PopupGrid"
+              Grid.Row="0"
               Grid.RowSpan="3"
               Visibility="{Binding IsPopupVisible,
                                    Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -422,29 +415,24 @@
                        Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}}"
                        RenderOptions.EdgeMode="Aliased" />
         </Grid>
-        <Border Grid.Row="1">
-            <Frame x:Name="MainFrame"
-                   Effect="{Binding IsPopupVisible,
-                                    Converter={StaticResource BooleanToBlurEffectConverter}}"
-                   NavigationUIVisibility="Hidden"
-                   RenderTransformOrigin="0.5,0.5"
-                   Source="/UI/MessagesPage.xaml">
-                <Frame.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform />
-                        <SkewTransform />
-                        <RotateTransform />
-                        <TranslateTransform />
-                    </TransformGroup>
-                </Frame.RenderTransform>
-            </Frame>
-        </Border>
+        <Frame x:Name="MainFrame"
+               Grid.Row="1"
+               NavigationUIVisibility="Hidden"
+               RenderTransformOrigin="0.5,0.5"
+               Source="/UI/MessagesPage.xaml">
+            <Frame.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform />
+                    <SkewTransform />
+                    <RotateTransform />
+                    <TranslateTransform />
+                </TransformGroup>
+            </Frame.RenderTransform>
+        </Frame>
         <StatusBar x:Name="StatusBar"
                    Grid.Row="2"
                    Height="24"
                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}"
-                   Effect="{Binding IsPopupVisible,
-                                    Converter={StaticResource BooleanToBlurEffectConverter}}"
                    RenderTransformOrigin="0.5,0.5"
                    SnapsToDevicePixels="True">
             <StatusBar.RenderTransform>
@@ -473,7 +461,7 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}"
-                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}}"
+                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
                            Text="{Binding StatusText,
                                           Mode=OneWay}" />
             </StatusBarItem>
@@ -481,7 +469,7 @@
                 <Slider Width="150"
                         Margin="3,0"
                         VerticalAlignment="Center"
-                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}}"
+                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
                         IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
                         LargeChange="25.0"
@@ -498,7 +486,7 @@
                         Content="{Binding Zoom,
                                           Mode=OneWay,
                                           Converter={StaticResource PercentageFormatter}}"
-                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextInverseForegroundBrushKey}}"
+                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
                         IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
                         Style="{DynamicResource StatusBarButtonStyle}" />

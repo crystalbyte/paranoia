@@ -78,8 +78,7 @@ namespace Crystalbyte.Paranoia {
 
             _attachments = new ObservableCollection<AttachmentContext>();
 
-            _navigationOptions = new ObservableCollection<NavigationContext>
-            {
+            _navigationOptions = new ObservableCollection<NavigationContext> {
                 new NavigationContext { Title = Resources.MessagesTitle, TargetUri = typeof(MessagesPage).ToPageUri(), IsSelected = true},
                 new NavigationContext { Title = Resources.ContactsTitle, TargetUri = typeof(ContactsPage).ToPageUri() }
             };
