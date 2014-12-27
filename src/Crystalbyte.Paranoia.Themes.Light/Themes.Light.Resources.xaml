@@ -34,6 +34,10 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextBoxBackgroundBrushKey}" Color="#2F2F30" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextBoxBorderBrushKey}" Color="#484849" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutComboBoxBorderBrushKey}" Color="#484849" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutComboBoxBackgroundBrushKey}" Color="#2F2F30" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutRadioButtonBackgroundBrushKey}" Color="#2F2F30" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutRadioButtonBorderBrushKey}" Color="#484849" />
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}">.2</system:Double>
 
 

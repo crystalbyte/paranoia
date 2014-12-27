@@ -14,6 +14,13 @@
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
     </Style>
 
+    <Style x:Key="FlyoutRadioButtonStyle"
+           BasedOn="{StaticResource {x:Type RadioButton}}"
+           TargetType="RadioButton">
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutRadioButtonBackgroundBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutRadioButtonBorderBrushKey}}" />
+    </Style>
+
     <Style x:Key="FlyoutTextBoxStyle"
            BasedOn="{StaticResource {x:Type TextBox}}"
            TargetType="TextBox">

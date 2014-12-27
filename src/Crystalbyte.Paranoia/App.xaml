@@ -12,8 +12,8 @@
         <ResourceDictionary>
             <!--  These dictionaries will be re-added after each theme switch, they have been added to keep the XAML parser happy tho.  -->
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.MetroButton.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.Resources.xaml" />
+                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.MetroButton.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.ListView.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.TreeView.xaml" />
                 <ResourceDictionary Source="App.Styles.xaml" />

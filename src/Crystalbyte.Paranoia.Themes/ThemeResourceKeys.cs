@@ -24,6 +24,10 @@
         public static string FlyoutTextForegroundBrushKey = "FlyoutTextForegroundBrushKey";
         public static string FlyoutTextBoxBackgroundBrushKey = "FlyoutTextBoxBackgroundBrushKey";
         public static string FlyoutTextBoxBorderBrushKey = "FlyoutTextBoxBorderBrushKey";
+        public static string FlyoutComboBoxBorderBrushKey = "FlyoutComboBoxBorderBrushKey";
+        public static string FlyoutComboBoxBackgroundBrushKey = "FlyoutComboBoxBackgroundBrushKey";
+        public static string FlyoutRadioButtonBackgroundBrushKey = "FlyoutRadioButtonBackgroundBrushKey";
+        public static string FlyoutRadioButtonBorderBrushKey = "FlyoutRadioButtonBorderBrushKey";
         
         // General Text Scope
 

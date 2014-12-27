@@ -38,6 +38,7 @@
                      GroupName="method"
                      IsChecked="{Binding IsAutoDetectPreferred,
                                          Mode=TwoWay}"
+                     Style="{DynamicResource FlyoutRadioButtonStyle}"
                      Unchecked="OnAutoMagicButtonCheckedChanged">
             <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}" Text="{x:Static properties:Resources.DetectAutomagically}" />
         </RadioButton>
@@ -106,7 +107,8 @@
                      Grid.Column="0"
                      Grid.ColumnSpan="2"
                      Margin="0,12,0,12"
-                     GroupName="method">
+                     GroupName="method"
+                     Style="{DynamicResource FlyoutRadioButtonStyle}">
             <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}" Text="{x:Static properties:Resources.EnterManually}" />
         </RadioButton>
         <StackPanel Grid.Row="5"
