@@ -98,7 +98,7 @@
                                  Grid.Column="1"
                                  Width="360"
                                  HorizontalAlignment="Left"
-                                 Style="{DynamicResource FlyoutTextBoxStyle}"
+                                 Style="{DynamicResource TextBoxFlyoutStyle}"
                                  Text="{Binding Name,
                                                 Mode=TwoWay,
                                                 UpdateSourceTrigger=PropertyChanged}" />
@@ -113,7 +113,7 @@
                                  Grid.Column="1"
                                  Width="360"
                                  HorizontalAlignment="Left"
-                                 Style="{DynamicResource FlyoutTextBoxStyle}"
+                                 Style="{DynamicResource TextBoxFlyoutStyle}"
                                  Text="{Binding Address,
                                                 Mode=TwoWay,
                                                 UpdateSourceTrigger=PropertyChanged}" />
@@ -162,7 +162,7 @@
                             <TextBox Grid.Row="2"
                                      Grid.Column="1"
                                      Grid.ColumnSpan="3"
-                                     Style="{DynamicResource FlyoutTextBoxStyle}"
+                                     Style="{DynamicResource TextBoxFlyoutStyle}"
                                      Text="{Binding ImapUsername,
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged}" />
@@ -186,7 +186,7 @@
                             <TextBox Grid.Row="4"
                                      Grid.Column="1"
                                      Grid.ColumnSpan="3"
-                                     Style="{DynamicResource FlyoutTextBoxStyle}"
+                                     Style="{DynamicResource TextBoxFlyoutStyle}"
                                      Text="{Binding ImapHost,
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged}" />
@@ -288,7 +288,7 @@
                             <TextBox Grid.Row="2"
                                      Grid.Column="1"
                                      Grid.ColumnSpan="3"
-                                     Style="{DynamicResource FlyoutTextBoxStyle}"
+                                     Style="{DynamicResource TextBoxFlyoutStyle}"
                                      Text="{Binding SmtpHost,
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged}" />
@@ -360,7 +360,7 @@
                                      Grid.ColumnSpan="3"
                                      IsEnabled="{Binding IsChecked,
                                                          ElementName=UseSmtpCredentialsRadioButton}"
-                                     Style="{DynamicResource FlyoutTextBoxStyle}"
+                                     Style="{DynamicResource TextBoxFlyoutStyle}"
                                      Text="{Binding SmtpUsername,
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged}" />

@@ -14,6 +14,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.Resources.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.GroupBox.xaml" />
+                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.ComboBox.xaml" />
+                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.PasswordBox.xaml" />
+                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.TextBox.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.MetroButton.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.ListView.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.TreeView.xaml" />

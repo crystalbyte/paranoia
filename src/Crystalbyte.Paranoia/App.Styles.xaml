@@ -21,27 +21,36 @@
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutRadioButtonBorderBrushKey}}" />
     </Style>
 
-    <Style x:Key="FlyoutComboBoxStyle"
+    <Style x:Key="ComboBoxFlyoutStyle"
            BasedOn="{StaticResource {x:Type ComboBox}}"
            TargetType="ComboBox">
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutComboBoxBackgroundBrushKey}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutComboBoxBorderBrushKey}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxFlyoutBackgroundBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxFlyoutBorderBrushKey}}" />
     </Style>
 
-    <Style x:Key="FlyoutTextBoxStyle"
+    <Style x:Key="TextBoxFlyoutStyle"
            BasedOn="{StaticResource {x:Type TextBox}}"
            TargetType="TextBox">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextBoxBackgroundBrushKey}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextBoxBorderBrushKey}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxFlyoutBackgroundBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxFlyoutBorderBrushKey}}" />
     </Style>
 
     <Style x:Key="FlyoutPasswordBoxStyle"
            BasedOn="{StaticResource {x:Type PasswordBox}}"
            TargetType="PasswordBox">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextBoxBackgroundBrushKey}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextBoxBorderBrushKey}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxFlyoutBackgroundBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxFlyoutBorderBrushKey}}" />
+    </Style>
+
+    <Style x:Key="FlyoutLabelTextStyle"
+           BasedOn="{StaticResource {x:Type TextBlock}}"
+           TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Margin" Value="18,3,12,3" />
     </Style>
 
     <Style x:Key="LabelTextStyle"

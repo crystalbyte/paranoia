@@ -22,10 +22,10 @@
         public static string FlyoutOverlayBrushKey = "FlyoutOverlayBrushKey";
         public static string FlyoutOverlayOpacityKey = "FlyoutOverlayOpacityKey";
         public static string FlyoutTextForegroundBrushKey = "FlyoutTextForegroundBrushKey";
-        public static string FlyoutTextBoxBackgroundBrushKey = "FlyoutTextBoxBackgroundBrushKey";
-        public static string FlyoutTextBoxBorderBrushKey = "FlyoutTextBoxBorderBrushKey";
-        public static string FlyoutComboBoxBorderBrushKey = "FlyoutComboBoxBorderBrushKey";
-        public static string FlyoutComboBoxBackgroundBrushKey = "FlyoutComboBoxBackgroundBrushKey";
+        public static string TextBoxFlyoutBackgroundBrushKey = "TextBoxFlyoutBackgroundBrushKey";
+        public static string TextBoxFlyoutBorderBrushKey = "TextBoxFlyoutBorderBrushKey";
+        public static string ComboBoxFlyoutBorderBrushKey = "ComboBoxFlyoutBorderBrushKey";
+        public static string ComboBoxFlyoutBackgroundBrushKey = "ComboBoxFlyoutBackgroundBrushKey";
         public static string FlyoutRadioButtonBackgroundBrushKey = "FlyoutRadioButtonBackgroundBrushKey";
         public static string FlyoutRadioButtonBorderBrushKey = "FlyoutRadioButtonBorderBrushKey";
         
@@ -114,12 +114,6 @@
 
         public static string StatusBarFontSizeKey = "StatusBarFontSizeKey";
         public static string StatusBarPaddingKey = "StatusBarPaddingKey";
-
-        public static string PopupBackgroundColorKey = "PopupBackgroundColorKey";
-        public static string PopupBackgroundBrushKey = "PopupBackgroundBrushKey";
-        public static string PopupBorderThicknessKey = "PopupBorderThicknessKey";
-        public static string PopupBorderColorKey = "PopupBorderColorKey";
-        public static string PopupBorderBrushKey = "PopupBorderBrushKey";
 
         public static string SeparatorForegroundBrushKey = "SeparatorForegroundBrushKey";
 

@@ -59,7 +59,7 @@
                  Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
                  IsEnabled="{Binding IsChecked,
                                      ElementName=AutoMagicButton}"
-                 Style="{DynamicResource FlyoutTextBoxStyle}"
+                 Style="{DynamicResource TextBoxFlyoutStyle}"
                  Text="{Binding Name,
                                 Mode=TwoWay,
                                 UpdateSourceTrigger=PropertyChanged}"
@@ -80,7 +80,7 @@
                  Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
                  IsEnabled="{Binding IsChecked,
                                      ElementName=AutoMagicButton}"
-                 Style="{DynamicResource FlyoutTextBoxStyle}"
+                 Style="{DynamicResource TextBoxFlyoutStyle}"
                  Text="{Binding Address,
                                 Mode=TwoWay,
                                 UpdateSourceTrigger=PropertyChanged}"

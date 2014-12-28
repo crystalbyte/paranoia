@@ -32,10 +32,8 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}" Color="#353536" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutOverlayBrushKey}" Color="Black" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}" Color="WhiteSmoke" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextBoxBackgroundBrushKey}" Color="#2F2F30" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextBoxBorderBrushKey}" Color="#555556" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutComboBoxBorderBrushKey}" Color="#555556" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutComboBoxBackgroundBrushKey}" Color="#2F2F30" />
+
+
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutRadioButtonBackgroundBrushKey}" Color="#2F2F30" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutRadioButtonBorderBrushKey}" Color="#555556" />
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}">.2</system:Double>
@@ -72,30 +70,6 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlLightBackgroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlDarkBackgroundBrushKey}" Color="#DDD" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}" Color="{x:Static SystemColors.GrayTextColor}" />
-
-    <!--  Control Scope (TextBox)  -->
-
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TextBoxMarginKey}"
-               Bottom="3"
-               Left="0"
-               Right="0"
-               Top="3" />
-
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TextBoxPaddingKey}"
-               Bottom="3"
-               Left="3"
-               Right="3"
-               Top="3" />
-
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBackgroundBrushKey}" Color="{x:Static SystemColors.ControlColor}" />
-
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBorderThicknessKey}"
-               Bottom="1"
-               Left="1"
-               Right="1"
-               Top="1" />
-
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBorderBrushKey}" Color="{x:Static SystemColors.ControlDarkColor}" />
 
     <!--  Control Scope (Button)  -->
     <!--  Control Scope (RepeatButton)  -->
@@ -152,19 +126,5 @@
                Top="1" />
 
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonBorderBrushKey}" Color="{x:Static SystemColors.ControlDarkColor}" />
-
-    <!--  Control Scope (Menu)  -->
-
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.MenuBackgroundBrushKey}" Color="Gray" />
-
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.MenuBorderThicknessKey}"
-               Bottom="1"
-               Left="1"
-               Right="1"
-               Top="1" />
-
-    <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.MenuFontFamilyKey}">Segoe UI</FontFamily>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.MenuFontSizeKey}">12</system:Double>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.MenuBorderBrushKey}" Color="{x:Static SystemColors.ControlDarkColor}" />
 
 </ResourceDictionary>
