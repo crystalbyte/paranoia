@@ -21,6 +21,13 @@
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutRadioButtonBorderBrushKey}}" />
     </Style>
 
+    <Style x:Key="FlyoutComboBoxStyle"
+           BasedOn="{StaticResource {x:Type ComboBox}}"
+           TargetType="ComboBox">
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutComboBoxBackgroundBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutComboBoxBorderBrushKey}}" />
+    </Style>
+
     <Style x:Key="FlyoutTextBoxStyle"
            BasedOn="{StaticResource {x:Type TextBox}}"
            TargetType="TextBox">
@@ -51,7 +58,7 @@
         <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SubtitleFontSizeKey}}" />
         <Setter Property="FontWeight" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SubtitleFontWeightKey}}" />
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SubtitleFontFamilyKey}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
     </Style>
 
     <Style x:Key="NormalTextStyle"

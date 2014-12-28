@@ -1,153 +1,38 @@
 ﻿#region Using directives
 
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Mail;
-using Microsoft.Win32;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
-    ///     Interaction logic for AccountDetailsPage.xaml
+    ///     Interaction logic for CreateAccountServerSettingsFlyoutPage.xaml
     /// </summary>
-    public partial class AccountPage : INavigationAware {
+    public partial class CreateAccountServerSettingsFlyoutPage : INavigationAware {
         private bool _discardOnClose;
         private RevisionTracker<MailAccountContext> _tracker;
 
-        public AccountPage() {
+        public CreateAccountServerSettingsFlyoutPage() {
             InitializeComponent();
 
             CommandBindings.Add(new CommandBinding(NavigationCommands.Continue, OnContinue));
             CommandBindings.Add(new CommandBinding(NavigationCommands.Close, OnClose));
-            CommandBindings.Add(new CommandBinding(MailboxSelectionCommands.Select, OnSelect));
-            CommandBindings.Add(new CommandBinding(MailboxSelectionCommands.Commit, OnCommit, OnCanCommit));
             CommandBindings.Add(new CommandBinding(MailboxSelectionCommands.Cancel, OnCancel));
-            CommandBindings.Add(new CommandBinding(SignatureCommands.SelectFile, OnSelectFile));
 
             Loaded += OnLoaded;
         }
-
-        private void OnSelectFile(object sender, ExecutedRoutedEventArgs e) {
-            var dialog = new OpenFileDialog();
-            var result = dialog.ShowDialog();
-            if ((result.HasValue && !result.Value) || !result.HasValue) {
-                return;
-            }
-
-            var context = (MailAccountContext) DataContext;
-            context.SignaturePath = dialog.FileNames.First();
-        }
-
-        private void OnCanCommit(object sender, CanExecuteRoutedEventArgs e) {
-            var account = (MailAccountContext)DataContext;
-            var mailbox = account.Mailboxes.FirstOrDefault(x => x.IsSelectedSubtly);
-            e.CanExecute = mailbox != null && mailbox.IsSelectable;
-        }
-
-        private Popup GetPopupByParameter(string param) {
-            switch (param) {
-                case MailboxRoles.Sent:
-                    return SentMailboxSelectionPopup;
-                case MailboxRoles.Trash:
-                    return TrashMailboxSelectionPopup;
-                case MailboxRoles.Junk:
-                    return JunkMailboxSelectionPopup;
-                case MailboxRoles.Draft:
-                    return DraftMailboxSelectionPopup;
-            }
-
-            throw new ArgumentOutOfRangeException(param);
-        }
-
-        private void OnCancel(object sender, ExecutedRoutedEventArgs e) {
+ 
+ private void OnCancel(object sender, ExecutedRoutedEventArgs e) {
             var param = e.Parameter as string;
             if (string.IsNullOrEmpty(param)) {
                 throw new ArgumentNullException();
             }
-
-            var popup = GetPopupByParameter(param);
-            popup.IsOpen = false;
-        }
-
-        private void OnCommit(object sender, ExecutedRoutedEventArgs e) {
-            var param = e.Parameter as string;
-            if (string.IsNullOrEmpty(param)) {
-                throw new ArgumentNullException();
-            }
-
-            var popup = GetPopupByParameter(param);
-            popup.IsOpen = false;
-
-            var account = (MailAccountContext)DataContext;
-            var mailbox = account.Mailboxes.FirstOrDefault(x => x.IsSelectedSubtly);
-            if (mailbox != null) {
-                SetMailboxRoleByParam(mailbox, param);
-            }
-        }
-
-        private void SetMailboxRoleByParam(MailboxContext mailbox, string param) {
-            var account = (MailAccountContext)DataContext;
-            switch (param) {
-                case MailboxRoles.Sent:
-                    account.SentMailboxName = mailbox.Name;
-                    break;
-                case MailboxRoles.Trash:
-                    account.TrashMailboxName = mailbox.Name;
-                    break;
-                case MailboxRoles.Junk:
-                    account.JunkMailboxName = mailbox.Name;
-                    break;
-                case MailboxRoles.Draft:
-                    account.DraftMailboxName = mailbox.Name;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(param);
-            }
-        }
-
-        private void OnSelect(object sender, ExecutedRoutedEventArgs e) {
-            var param = e.Parameter as string;
-            if (string.IsNullOrEmpty(param)) {
-                throw new ArgumentNullException();
-            }
-
-            ShowMailboxSelection(param);
-        }
-
-        private void ShowMailboxSelection(string param) {
-            var account = (MailAccountContext)DataContext;
-            account.Mailboxes.ForEach(x => x.IsSelectedSubtly = false);
-
-            var mailbox = GetMailboxByParameter(param);
-            if (mailbox != null) {
-                mailbox.IsSelectedSubtly = true;
-            }
-
-            var popup = GetPopupByParameter(param);
-            popup.IsOpen = true;
-        }
-
-        private MailboxContext GetMailboxByParameter(string param) {
-            var account = (MailAccountContext)DataContext;
-            switch (param) {
-                case MailboxRoles.Sent:
-                    return account.GetSentMailbox();
-                case MailboxRoles.Trash:
-                    return account.GetTrashMailbox();
-                case MailboxRoles.Junk:
-                    return account.GetJunkMailbox();
-                case MailboxRoles.Draft:
-                    return account.GetDraftMailbox();
-            }
-
-            throw new ArgumentOutOfRangeException(param);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
@@ -187,7 +72,6 @@ namespace Crystalbyte.Paranoia.UI {
         private async Task SaveChangesAsync(MailAccountContext account) {
             _discardOnClose = false;
             _tracker.Stop();
-
             await account.UpdateAsync();
         }
 
@@ -209,7 +93,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public void OnNavigated(NavigationEventArgs e) {
-            var account = (MailAccountContext)NavigationStore.Pop(GetType());
+            var account = (MailAccountContext) NavigationStore.Pop(GetType());
 
             _discardOnClose = true;
             _tracker = new RevisionTracker<MailAccountContext>(account)
@@ -244,9 +128,6 @@ namespace Crystalbyte.Paranoia.UI {
             UseImapCredentialsRadioButton.IsChecked = account.UseImapCredentialsForSmtp;
             UseSmtpCredentialsRadioButton.IsChecked = !account.UseImapCredentialsForSmtp;
 
-            StoreCopyRadioButton.IsChecked = account.StoreCopiesOfSentMessages;
-            DontStoreCopyRadioButton.IsChecked = !account.StoreCopiesOfSentMessages;
-
             App.Context.FlyOutClosing += OnFlyOutClosing;
             App.Context.FlyOutClosed += OnFlyOutClosed;
         }
@@ -270,20 +151,6 @@ namespace Crystalbyte.Paranoia.UI {
             if (button.IsChecked != null) {
                 account.UseImapCredentialsForSmtp = !button.IsChecked.Value;
             }
-        }
-
-        private void OnStoreCopyRadioButtonChecked(object sender, RoutedEventArgs e) {
-            var account = (MailAccountContext)DataContext;
-            account.StoreCopiesOfSentMessages = true;
-        }
-
-        private void OnDontStoreCopyRadioButtonChecked(object sender, RoutedEventArgs e) {
-            var account = (MailAccountContext)DataContext;
-            account.StoreCopiesOfSentMessages = false;
-        }
-
-        private void OnAnyTreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
-            CommandManager.InvalidateRequerySuggested();
         }
     }
 }

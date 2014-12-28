@@ -9,7 +9,7 @@
 
     <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#4668C5" />  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#F27646" />
-    <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#1E90FF" />  -->
+    <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#99B245" />  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSuccessBrushKey}" Color="ForestGreen" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppFailureBrushKey}" Color="Tomato" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppWarningBrushKey}" Color="Orange" />
@@ -33,11 +33,11 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutOverlayBrushKey}" Color="Black" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextBoxBackgroundBrushKey}" Color="#2F2F30" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextBoxBorderBrushKey}" Color="#484849" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutComboBoxBorderBrushKey}" Color="#484849" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextBoxBorderBrushKey}" Color="#555556" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutComboBoxBorderBrushKey}" Color="#555556" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutComboBoxBackgroundBrushKey}" Color="#2F2F30" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutRadioButtonBackgroundBrushKey}" Color="#2F2F30" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutRadioButtonBorderBrushKey}" Color="#484849" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutRadioButtonBorderBrushKey}" Color="#555556" />
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}">.2</system:Double>
 
 

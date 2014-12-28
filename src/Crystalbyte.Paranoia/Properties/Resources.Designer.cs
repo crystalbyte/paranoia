@@ -603,20 +603,20 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IMAP.
+        /// </summary>
+        public static string Imap {
+            get {
+                return ResourceManager.GetString("Imap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Host.
         /// </summary>
         public static string ImapHost {
             get {
                 return ResourceManager.GetString("ImapHost", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The IMAP server settings are required to establish a connection to the incoming mail server..
-        /// </summary>
-        public static string ImapSettingsDescription {
-            get {
-                return ResourceManager.GetString("ImapSettingsDescription", resourceCulture);
             }
         }
         
@@ -1064,6 +1064,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Server settings are required to access your incoming and outgoing mail servers. Access protocols are currently limited to the IMAP (Internet Message Access Protocol) and the SMTP (Simple Mail TransferProtocol) protocols..
+        /// </summary>
+        public static string ServerSettingsDescription {
+            get {
+                return ResourceManager.GetString("ServerSettingsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mail Server Settings.
         /// </summary>
         public static string ServerSettingsTitle {
@@ -1127,6 +1136,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SMTP.
+        /// </summary>
+        public static string Smtp {
+            get {
+                return ResourceManager.GetString("Smtp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Host.
         /// </summary>
         public static string SmtpHost {
@@ -1141,15 +1159,6 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string SmtpRequiresOwnCredentials {
             get {
                 return ResourceManager.GetString("SmtpRequiresOwnCredentials", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The SMTP server settings are required to establish a connection to the outgoing mail server..
-        /// </summary>
-        public static string SmtpSettingsDescription {
-            get {
-                return ResourceManager.GetString("SmtpSettingsDescription", resourceCulture);
             }
         }
         

@@ -186,9 +186,6 @@
   <data name="ImapHost" xml:space="preserve">
     <value>Host</value>
   </data>
-  <data name="ImapSettingsDescription" xml:space="preserve">
-    <value>The IMAP server settings are required to establish a connection to the incoming mail server.</value>
-  </data>
   <data name="ServerSettingsTitle" xml:space="preserve">
     <value>Mail Server Settings</value>
   </data>
@@ -270,9 +267,6 @@ Please select a corresponding IMAP folder to synchronize.</value>
   </data>
   <data name="SmtpRequiresOwnCredentials" xml:space="preserve">
     <value>Use different credentials for outgoing mails.</value>
-  </data>
-  <data name="SmtpSettingsDescription" xml:space="preserve">
-    <value>The SMTP server settings are required to establish a connection to the outgoing mail server.</value>
   </data>
   <data name="SmtpSettingsTitle" xml:space="preserve">
     <value>Outbound Server Settings (SMTP)</value>
@@ -557,5 +551,14 @@ Once your password is lost you're screwed.</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>Size</value>
+  </data>
+  <data name="Imap" xml:space="preserve">
+    <value>IMAP</value>
+  </data>
+  <data name="ServerSettingsDescription" xml:space="preserve">
+    <value>Server settings are required to access your incoming and outgoing mail servers. Access protocols are currently limited to the IMAP (Internet Message Access Protocol) and the SMTP (Simple Mail TransferProtocol) protocols.</value>
+  </data>
+  <data name="Smtp" xml:space="preserve">
+    <value>SMTP</value>
   </data>
 </root>

@@ -182,6 +182,9 @@
     <Compile Include="Automation\IClassFactory.cs" />
     <Compile Include="Automation\IComServer.cs" />
     <Compile Include="SortProperty.cs" />
+    <Compile Include="UI\CreateAccountServerSettingsFlyoutPage.xaml.cs">
+      <DependentUpon>CreateAccountServerSettingsFlyoutPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\CompositionWindow.xaml.cs">
       <DependentUpon>CompositionWindow.xaml</DependentUpon>
     </Compile>
@@ -263,7 +266,7 @@
     <Compile Include="UI\DeferredActions.cs" />
     <Compile Include="UI\IAnimationAware.cs" />
     <Compile Include="UI\IconExtensions.cs" />
-    <Compile Include="UI\MailboxCommands.cs" />
+    <Compile Include="UI\MailboxSelectionCommands.cs" />
     <Compile Include="UI\MessageCommands.cs" />
     <Compile Include="UI\NavigationCommands.cs" />
     <Compile Include="UI\NavigationStore.cs" />
@@ -274,8 +277,8 @@
     <Compile Include="UI\ContactsPage.xaml.cs">
       <DependentUpon>ContactsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\CreateAccountPage.xaml.cs">
-      <DependentUpon>CreateAccountPage.xaml</DependentUpon>
+    <Compile Include="UI\CreateAccountStartFlyoutPage.xaml.cs">
+      <DependentUpon>CreateAccountStartFlyoutPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\CreateKeyPage.xaml.cs">
       <DependentUpon>CreateKeyPage.xaml</DependentUpon>
@@ -295,6 +298,10 @@
     <Page Include="App.Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\CreateAccountServerSettingsFlyoutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\CompositionWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -383,7 +390,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\CreateAccountPage.xaml">
+    <Page Include="UI\CreateAccountStartFlyoutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

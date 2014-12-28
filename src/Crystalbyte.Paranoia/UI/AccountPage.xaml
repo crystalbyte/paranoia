@@ -13,8 +13,8 @@
       Title="{x:Static properties:Resources.AccountSettingsTitle}"
       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}}"
       d:DataContext="{d:DesignInstance paranoia:MailAccountContext}"
-      d:DesignHeight="907.134"
-      d:DesignWidth="833.433"
+      d:DesignHeight="600"
+      d:DesignWidth="1024"
       mc:Ignorable="d">
     <Page.Resources>
         <x:Array x:Key="SecurityProtocols" Type="mail:SecurityProtocol">
@@ -66,7 +66,7 @@
                           Padding="2,0"
                           VerticalScrollBarVisibility="Auto">
                 <DockPanel LastChildFill="False">
-                    <Grid DockPanel.Dock="Top">
+                    <Grid Margin="0,0,0,12" DockPanel.Dock="Top">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -118,11 +118,6 @@
                                                 Mode=TwoWay,
                                                 UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
-                    <Rectangle Height="1"
-                               Margin="0,24"
-                               DockPanel.Dock="Top"
-                               Fill="#333337"
-                               UseLayoutRounding="True" />
                     <Grid DockPanel.Dock="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition MinWidth="300" />
@@ -155,7 +150,7 @@
                                        Grid.ColumnSpan="4"
                                        Margin="0,0,0,12"
                                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
-                                       Text="{x:Static properties:Resources.ImapSettingsDescription}"
+                                       Text="{x:Static properties:Resources.ServerSettingsDescription}"
                                        TextTrimming="None" />
                             <TextBlock Grid.Row="2"
                                        Grid.Column="0"
@@ -283,8 +278,7 @@
                                        Grid.Column="0"
                                        Grid.ColumnSpan="4"
                                        Margin="0,0,0,12"
-                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
-                                       Text="{x:Static properties:Resources.SmtpSettingsDescription}" />
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}" />
                             <TextBlock Grid.Row="2"
                                        Grid.Column="0"
                                        Style="{DynamicResource LabelTextStyle}">
@@ -440,7 +434,7 @@
                                                         Converter={StaticResource NullOrEmptyFormatter}}"
                                          TextWrapping="NoWrap" />
                                 <Button x:Name="TrashMailboxSelectionButton"
-                                        Command="ui:MailboxCommands.Select"
+                                        Command="ui:MailboxSelectionCommands.Select"
                                         CommandParameter="{x:Static paranoia:MailboxRoles.Trash}"
                                         Style="{DynamicResource Metro.TextBoxSiblingButtonStyle}">
                                     <TextBlock VerticalAlignment="Center" Text="..." />
@@ -463,7 +457,7 @@
                                                         Converter={StaticResource NullOrEmptyFormatter}}"
                                          TextWrapping="NoWrap" />
                                 <Button x:Name="DraftMailboxSelectionButton"
-                                        Command="ui:MailboxCommands.Select"
+                                        Command="ui:MailboxSelectionCommands.Select"
                                         CommandParameter="{x:Static paranoia:MailboxRoles.Draft}"
                                         Style="{DynamicResource Metro.TextBoxSiblingButtonStyle}">
                                     <TextBlock VerticalAlignment="Center" Text="..." />
@@ -487,7 +481,7 @@
                                                         Converter={StaticResource NullOrEmptyFormatter}}"
                                          TextWrapping="NoWrap" />
                                 <Button x:Name="JunkMailboxSelectionButton"
-                                        Command="ui:MailboxCommands.Select"
+                                        Command="ui:MailboxSelectionCommands.Select"
                                         CommandParameter="{x:Static paranoia:MailboxRoles.Junk}"
                                         Style="{DynamicResource Metro.TextBoxSiblingButtonStyle}">
                                     <TextBlock VerticalAlignment="Center" Text="..." />
@@ -523,7 +517,7 @@
                                                         Converter={StaticResource NullOrEmptyFormatter}}"
                                          TextWrapping="NoWrap" />
                                 <Button x:Name="SentMailboxSelectionButton"
-                                        Command="ui:MailboxCommands.Select"
+                                        Command="ui:MailboxSelectionCommands.Select"
                                         CommandParameter="{x:Static paranoia:MailboxRoles.Sent}"
                                         IsEnabled="{Binding IsChecked,
                                                             ElementName=StoreCopyRadioButton,
@@ -610,7 +604,7 @@
                                               Margin="6,6,12,6"
                                               HorizontalAlignment="Right"
                                               BorderBrush="{DynamicResource Metro.Control.TextBrush}"
-                                              Command="ui:MailboxCommands.Commit"
+                                              Command="ui:MailboxSelectionCommands.Commit"
                                               CommandParameter="{x:Static paranoia:MailboxRoles.Sent}">
                             <Image Height="18" Source="/Assets/ok.png" />
                         </controls:MetroButton>
@@ -618,7 +612,7 @@
                                               Margin="12,6,6,6"
                                               HorizontalAlignment="Left"
                                               BorderBrush="{DynamicResource Metro.Control.TextBrush}"
-                                              Command="ui:MailboxCommands.Commit"
+                                              Command="ui:MailboxSelectionCommands.Commit"
                                               CommandParameter="{x:Static paranoia:MailboxRoles.Sent}">
                             <Image Height="18" Source="/Assets/cancel.png" />
                         </controls:MetroButton>
@@ -663,7 +657,7 @@
                                               Margin="6,6,12,6"
                                               HorizontalAlignment="Right"
                                               BorderBrush="{DynamicResource Metro.Control.TextBrush}"
-                                              Command="ui:MailboxCommands.Commit"
+                                              Command="ui:MailboxSelectionCommands.Commit"
                                               CommandParameter="{x:Static paranoia:MailboxRoles.Trash}">
                             <Image Height="18" Source="/Assets/ok.png" />
                         </controls:MetroButton>
@@ -671,7 +665,7 @@
                                               Margin="12,6,6,6"
                                               HorizontalAlignment="Left"
                                               BorderBrush="{DynamicResource Metro.Control.TextBrush}"
-                                              Command="ui:MailboxCommands.Commit"
+                                              Command="ui:MailboxSelectionCommands.Commit"
                                               CommandParameter="{x:Static paranoia:MailboxRoles.Trash}">
                             <Image Height="18" Source="/Assets/cancel.png" />
                         </controls:MetroButton>
@@ -716,7 +710,7 @@
                                               Margin="6,6,12,6"
                                               HorizontalAlignment="Right"
                                               BorderBrush="{DynamicResource Metro.Control.TextBrush}"
-                                              Command="ui:MailboxCommands.Commit"
+                                              Command="ui:MailboxSelectionCommands.Commit"
                                               CommandParameter="{x:Static paranoia:MailboxRoles.Junk}">
                             <Image Height="18" Source="/Assets/ok.png" />
                         </controls:MetroButton>
@@ -724,7 +718,7 @@
                                               Margin="12,6,6,6"
                                               HorizontalAlignment="Left"
                                               BorderBrush="{DynamicResource Metro.Control.TextBrush}"
-                                              Command="ui:MailboxCommands.Cancel"
+                                              Command="ui:MailboxSelectionCommands.Cancel"
                                               CommandParameter="{x:Static paranoia:MailboxRoles.Junk}">
                             <Image Height="18" Source="/Assets/cancel.png" />
                         </controls:MetroButton>
@@ -769,7 +763,7 @@
                                               Margin="6,6,12,6"
                                               HorizontalAlignment="Right"
                                               BorderBrush="{DynamicResource Metro.Control.TextBrush}"
-                                              Command="ui:MailboxCommands.Commit"
+                                              Command="ui:MailboxSelectionCommands.Commit"
                                               CommandParameter="{x:Static paranoia:MailboxRoles.Draft}">
                             <Image Height="18" Source="/Assets/ok.png" />
                         </controls:MetroButton>
@@ -777,7 +771,7 @@
                                               Margin="12,6,6,6"
                                               HorizontalAlignment="Left"
                                               BorderBrush="{DynamicResource Metro.Control.TextBrush}"
-                                              Command="ui:MailboxCommands.Cancel"
+                                              Command="ui:MailboxSelectionCommands.Cancel"
                                               CommandParameter="{x:Static paranoia:MailboxRoles.Draft}">
                             <Image Height="18" Source="/Assets/cancel.png" />
                         </controls:MetroButton>

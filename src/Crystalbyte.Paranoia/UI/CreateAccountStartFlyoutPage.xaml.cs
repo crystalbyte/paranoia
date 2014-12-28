@@ -11,10 +11,10 @@ using Crystalbyte.Paranoia.Data;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
-    ///     Interaction logic for CreateAccountPage.xaml
+    ///     Interaction logic for CreateAccountStartFlyoutPage.xaml
     /// </summary>
-    public partial class CreateAccountPage {
-        public CreateAccountPage() {
+    public partial class CreateAccountStartFlyoutPage {
+        public CreateAccountStartFlyoutPage() {
             InitializeComponent();
             DataContext = new MailAccountContext(new MailAccountModel());
 
@@ -62,8 +62,9 @@ namespace Crystalbyte.Paranoia.UI {
             }
 
             PasswordBox.PasswordChanged -= OnPasswordChanged;
-            App.Context.TransitAccount = context;
-            var uri = typeof (AccountPage).ToPageUri("?mode=new");
+
+            NavigationStore.Push(typeof(CreateAccountServerSettingsFlyoutPage), context);
+            var uri = typeof(CreateAccountServerSettingsFlyoutPage).ToPageUri();
             service.Navigate(uri);
         }
 

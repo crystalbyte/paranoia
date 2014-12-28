@@ -40,7 +40,6 @@ namespace Crystalbyte.Paranoia {
         private string _source;
         private string _statusText;
         private bool _isPopupVisible;
-        private MailAccountContext _transitAccount;
         private readonly DispatcherTimer _outboxTimer;
         private MailboxContext _selectedMailbox;
         private OutboxContext _selectedOutbox;
@@ -438,18 +437,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public MailAccountContext TransitAccount {
-            get { return _transitAccount; }
-            set {
-                if (_transitAccount == value) {
-                    return;
-                }
-
-                _transitAccount = value;
-                RaisePropertyChanged(() => TransitAccount);
-            }
-        }
-
         internal void NotifyAccountCreated(MailAccountContext account) {
             _accounts.Add(account);
         }
@@ -792,7 +779,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnCreateAccount(object obj) {
-            var uri = typeof(CreateAccountPage).ToPageUri();
+            var uri = typeof(CreateAccountStartFlyoutPage).ToPageUri();
             OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
