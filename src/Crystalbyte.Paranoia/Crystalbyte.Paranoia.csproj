@@ -182,6 +182,9 @@
     <Compile Include="Automation\IClassFactory.cs" />
     <Compile Include="Automation\IComServer.cs" />
     <Compile Include="SortProperty.cs" />
+    <Compile Include="UI\CreateAccountFinalizeFlyoutPage.xaml.cs">
+      <DependentUpon>CreateAccountFinalizeFlyoutPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\CreateAccountServerSettingsFlyoutPage.xaml.cs">
       <DependentUpon>CreateAccountServerSettingsFlyoutPage.xaml</DependentUpon>
     </Compile>
@@ -298,6 +301,10 @@
     <Page Include="App.Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\CreateAccountFinalizeFlyoutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\CreateAccountServerSettingsFlyoutPage.xaml">
       <Generator>MSBuild:Compile</Generator>

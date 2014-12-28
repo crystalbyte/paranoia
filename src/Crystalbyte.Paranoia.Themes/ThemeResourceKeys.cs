@@ -22,12 +22,6 @@
         public static string FlyoutOverlayBrushKey = "FlyoutOverlayBrushKey";
         public static string FlyoutOverlayOpacityKey = "FlyoutOverlayOpacityKey";
         public static string FlyoutTextForegroundBrushKey = "FlyoutTextForegroundBrushKey";
-        public static string TextBoxFlyoutBackgroundBrushKey = "TextBoxFlyoutBackgroundBrushKey";
-        public static string TextBoxFlyoutBorderBrushKey = "TextBoxFlyoutBorderBrushKey";
-        public static string ComboBoxFlyoutBorderBrushKey = "ComboBoxFlyoutBorderBrushKey";
-        public static string ComboBoxFlyoutBackgroundBrushKey = "ComboBoxFlyoutBackgroundBrushKey";
-        public static string FlyoutRadioButtonBackgroundBrushKey = "FlyoutRadioButtonBackgroundBrushKey";
-        public static string FlyoutRadioButtonBorderBrushKey = "FlyoutRadioButtonBorderBrushKey";
         
         // General Text Scope
 
@@ -41,7 +35,6 @@
         public static string SubtitleForegroundBrushKey = "SubtitleForegroundBrushKey";
 
         public static string NormalTextFontFamilyKey = "NormalTextFontFamilyKey";
-        
         public static string NormalTextFontWeightKey = "NormalTextFontWeightKey";
         public static string NormalTextForegroundBrushKey = "NormalTextForegroundBrushKey";
         public static string NormalTextContrastForegroundBrushKey = "NormalTextContrastForegroundBrushKey";
@@ -73,6 +66,8 @@
         public static string TextBoxBackgroundBrushKey = "TextBoxBackgroundBrushKey";
         public static string TextBoxBorderThicknessKey = "TextBoxBorderThicknessKey";
         public static string TextBoxBorderBrushKey = "TextBoxBorderBrushKey";
+        public static string TextBoxFlyoutBackgroundBrushKey = "TextBoxFlyoutBackgroundBrushKey";
+        public static string TextBoxFlyoutBorderBrushKey = "TextBoxFlyoutBorderBrushKey";
 
         public static string ComboBoxMarginKey = "ComboBoxMarginKey";
         public static string ComboBoxPaddingKey = "ComboBoxPaddingKey";
@@ -81,6 +76,8 @@
         public static string ComboBoxUnfocusedBackgroundBrushKey = "ComboBoxUnfocusedBackgroundBrushKey";
         public static string ComboBoxBorderThicknessKey = "ComboBoxBorderThicknessKey";
         public static string ComboBoxBorderBrushKey = "ComboBoxBorderBrushKey";
+        public static string ComboBoxFlyoutBorderBrushKey = "ComboBoxFlyoutBorderBrushKey";
+        public static string ComboBoxFlyoutBackgroundBrushKey = "ComboBoxFlyoutBackgroundBrushKey";
 
         public static string CheckBoxMarginKey = "CheckBoxMarginKey";
         public static string CheckBoxPaddingKey = "CheckBoxPaddingKey";
@@ -96,6 +93,8 @@
         public static string RadioButtonBackgroundBrushKey = "RadioButtonBackgroundBrushKey";
         public static string RadioButtonBorderThicknessKey = "RadioButtonBorderThicknessKey";
         public static string RadioButtonBorderBrushKey = "RadioButtonBorderBrushKey";
+        public static string RadioButtonFlyoutBackgroundBrushKey = "RadioButtonFlyoutBackgroundBrushKey";
+        public static string RadioButtonFlyoutBorderBrushKey = "RadioButtonFlyoutBorderBrushKey";
 
         public static string MenuBackgroundBrushKey = "MenuBackgroundBrushKey";
         public static string MenuBorderThicknessKey = "MenuBorderThicknessKey";
@@ -111,6 +110,7 @@
         public static string ButtonFontWeightKey = "ButtonFontWeightKey";
         public static string ButtonBorderThicknessKey = "ButtonBorderThicknessKey";
         public static string ButtonBorderBrushKey = "ButtonBorderBrushKey";
+        public static string ButtonFlyoutBackgroundBrushKey = "ButtonFlyoutBackgroundBrushKey";
 
         public static string StatusBarFontSizeKey = "StatusBarFontSizeKey";
         public static string StatusBarPaddingKey = "StatusBarPaddingKey";

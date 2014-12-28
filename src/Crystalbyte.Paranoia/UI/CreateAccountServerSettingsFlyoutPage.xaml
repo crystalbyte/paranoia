@@ -275,7 +275,7 @@
                                                      Margin="0,18,0,0"
                                                      Checked="OnUseImapCredentialsChecked"
                                                      GroupName="Mirror"
-                                                     Style="{DynamicResource FlyoutRadioButtonStyle}">
+                                                     Style="{DynamicResource RadioButtonFlyoutStyle}">
                                             <TextBlock FontWeight="Normal"
                                                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
                                                        Text="{x:Static properties:Resources.UseImapCredentials}" />
@@ -284,7 +284,7 @@
                                                      Margin="0,6,0,12"
                                                      Checked="OnUseSmtpCredentialsChecked"
                                                      GroupName="Mirror"
-                                                     Style="{DynamicResource FlyoutRadioButtonStyle}">
+                                                     Style="{DynamicResource RadioButtonFlyoutStyle}">
                                             <TextBlock FontWeight="Normal"
                                                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
                                                        Text="{x:Static properties:Resources.SmtpRequiresOwnCredentials}" />

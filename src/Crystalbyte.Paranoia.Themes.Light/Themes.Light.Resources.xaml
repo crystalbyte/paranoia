@@ -34,8 +34,8 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}" Color="WhiteSmoke" />
 
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutRadioButtonBackgroundBrushKey}" Color="#2F2F30" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutRadioButtonBorderBrushKey}" Color="#555556" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonFlyoutBackgroundBrushKey}" Color="#2F2F30" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonFlyoutBorderBrushKey}" Color="#555556" />
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}">.2</system:Double>
 
 
@@ -74,9 +74,7 @@
     <!--  Control Scope (Button)  -->
     <!--  Control Scope (RepeatButton)  -->
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}" Color="WhiteSmoke" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonMouseOverBackgroundBrushKey}" Color="#DDDDDE" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonBorderBrushKey}" Color="{x:Static SystemColors.ControlDarkColor}" />
+    
 
     <!--  Control Scope (CheckBox)  -->
 

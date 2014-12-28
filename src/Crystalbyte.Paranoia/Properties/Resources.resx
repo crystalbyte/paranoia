@@ -470,9 +470,6 @@ Once your password is lost you're screwed.</value>
   <data name="Change" xml:space="preserve">
     <value>Change</value>
   </data>
-  <data name="ManageSentDescription" xml:space="preserve">
-    <value>Manage behavior for sent messages.</value>
-  </data>
   <data name="DraftMailbox" xml:space="preserve">
     <value>Draft</value>
   </data>

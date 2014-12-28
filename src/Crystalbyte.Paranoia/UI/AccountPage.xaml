@@ -490,9 +490,7 @@
 
                         </Grid>
                         <StackPanel Grid.Row="1" Grid.Column="2">
-                            <TextBlock Margin="0,0,0,12"
-                                       Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}"
-                                       Text="{x:Static properties:Resources.ManageSentDescription}" />
+                            <TextBlock Margin="0,0,0,12" Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" />
                             <RadioButton x:Name="DontStoreCopyRadioButton"
                                          Checked="OnDontStoreCopyRadioButtonChecked"
                                          GroupName="sent">

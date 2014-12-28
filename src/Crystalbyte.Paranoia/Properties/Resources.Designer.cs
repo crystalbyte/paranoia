@@ -713,15 +713,6 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manage behavior for sent messages..
-        /// </summary>
-        public static string ManageSentDescription {
-            get {
-                return ResourceManager.GetString("ManageSentDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Flagged.
         /// </summary>
         public static string MarkAsFlagged {
