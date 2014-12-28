@@ -60,12 +60,12 @@
                                       Style="{DynamicResource FlyoutMetroButtonStyle}" />
             </StackPanel>
             <ScrollViewer>
-                <StackPanel DockPanel.Dock="Top" IsEnabled="{Binding HasMailboxes}">
+                <StackPanel>
                     <TextBlock Style="{DynamicResource SubtitleTextStyle}" Text="{x:Static properties:Resources.MailboxSettingsTitle}" />
                     <TextBlock Margin="0,0,0,12"
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
                                Text="{x:Static properties:Resources.MailboxSettingsDescription}" />
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
                         <Grid HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="70" />
@@ -185,6 +185,51 @@
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   Grid.ColumnSpan="2"
+                                   Style="{DynamicResource SubtitleTextStyle}"
+                                   Text="{x:Static properties:Resources.SignatureTitle}" />
+                        <StackPanel Grid.Row="1"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2">
+                            <TextBlock Margin="0,0,0,12"
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                       Text="{x:Static properties:Resources.SignatureDescription}" />
+                        </StackPanel>
+                        <TextBlock Grid.Row="2"
+                                   Grid.Column="0"
+                                   Style="{DynamicResource FlyoutLabelTextStyle}">
+                            <Run Text="{x:Static properties:Resources.Signature}" />
+                            <Run Text=":" />
+                        </TextBlock>
+                        <StackPanel Grid.Row="2"
+                                    Grid.Column="1"
+                                    Orientation="Horizontal">
+                            <TextBox Width="260"
+                                     Margin="3"
+                                     IsReadOnly="True"
+                                     Style="{DynamicResource TextBoxFlyoutStyle}"
+                                     Text="{Binding SignaturePath,
+                                                    Mode=OneWay,
+                                                    Converter={StaticResource NullOrEmptyFormatter}}"
+                                     TextWrapping="NoWrap" />
+                            <Button x:Name="SignatureFileBrowseButton"
+                                    Command="ui:SignatureCommands.SelectFile"
+                                    Style="{DynamicResource ButtonFlyoutStyle}">
+                                <TextBlock VerticalAlignment="Center" Text="..." />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
                 </StackPanel>
             </ScrollViewer>
         </DockPanel>
