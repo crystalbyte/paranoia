@@ -57,7 +57,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             var context = (MailAccountContext)DataContext;
 
-            NavigationStore.Push(typeof(CreateAccountFinalizeFlyoutPage), context);
+            NavigationArguments.Push(context);
             var uri = typeof(CreateAccountFinalizeFlyoutPage).ToPageUri();
             service.Navigate(uri);
         }
@@ -80,7 +80,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public void OnNavigated(NavigationEventArgs e) {
-            var account = (MailAccountContext) NavigationStore.Pop(GetType());
+            var account = (MailAccountContext) NavigationArguments.Pop();
             DataContext = account;
 
             SmtpPasswordBox.Password = account.SmtpPassword;

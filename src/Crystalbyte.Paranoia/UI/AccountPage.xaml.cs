@@ -209,7 +209,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public void OnNavigated(NavigationEventArgs e) {
-            var account = (MailAccountContext)NavigationStore.Pop(GetType());
+            var account = (MailAccountContext)NavigationArguments.Pop();
 
             _discardOnClose = true;
             _tracker = new RevisionTracker<MailAccountContext>(account)

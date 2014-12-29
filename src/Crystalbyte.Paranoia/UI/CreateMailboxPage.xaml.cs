@@ -9,7 +9,7 @@ namespace Crystalbyte.Paranoia.UI {
     public partial class CreateMailboxPage {
         public CreateMailboxPage() {
             InitializeComponent();
-            var parent = (IMailboxCreator) NavigationStore.Pop(typeof(CreateMailboxPage));
+            var parent = (IMailboxCreator) NavigationArguments.Pop();
             DataContext = new CreateMailboxContext(parent);
 
             CommandBindings.Add(new CommandBinding(NavigationCommands.Close, OnCancel));

@@ -97,9 +97,7 @@
                                     Grid.Column="2"
                                     Command="ui:MailboxSelectionCommands.Select"
                                     CommandParameter="{x:Static paranoia:MailboxRoles.Trash}"
-                                    Style="{DynamicResource ButtonFlyoutStyle}">
-                                <TextBlock VerticalAlignment="Center" Text="..." />
-                            </Button>
+                                    Style="{DynamicResource ButtonFlyoutBrowseStyle}" />
                             <TextBlock Grid.Row="1"
                                        Grid.Column="0"
                                        Style="{DynamicResource FlyoutLabelTextStyle}">
@@ -120,9 +118,7 @@
                                     Grid.Column="2"
                                     Command="ui:MailboxSelectionCommands.Select"
                                     CommandParameter="{x:Static paranoia:MailboxRoles.Draft}"
-                                    Style="{DynamicResource ButtonFlyoutStyle}">
-                                <TextBlock VerticalAlignment="Center" Text="..." />
-                            </Button>
+                                    Style="{DynamicResource ButtonFlyoutBrowseStyle}" />
                             <TextBlock Grid.Row="2"
                                        Grid.Column="0"
                                        Style="{DynamicResource FlyoutLabelTextStyle}">
@@ -143,9 +139,7 @@
                                     Grid.Column="2"
                                     Command="ui:MailboxSelectionCommands.Select"
                                     CommandParameter="{x:Static paranoia:MailboxRoles.Junk}"
-                                    Style="{DynamicResource ButtonFlyoutStyle}">
-                                <TextBlock VerticalAlignment="Center" Text="..." />
-                            </Button>
+                                    Style="{DynamicResource ButtonFlyoutBrowseStyle}" />
                         </Grid>
                         <StackPanel Margin="24,0">
                             <RadioButton x:Name="DontStoreCopyRadioButton"
@@ -161,7 +155,7 @@
                                 <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}" Text="{x:Static properties:Resources.MailboxSettingsCopy}" />
                             </RadioButton>
                             <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                                <TextBlock Style="{DynamicResource FlyoutLabelTextStyle}">
+                                <TextBlock Style="{DynamicResource FlyoutLabelTextStyle}" IsEnabled="{Binding IsChecked,ElementName=StoreCopyRadioButton}">
                                     <Run Text="{x:Static properties:Resources.SentMailbox}" />
                                     <Run Text=":" />
                                 </TextBlock>
@@ -179,9 +173,7 @@
                                         IsEnabled="{Binding IsChecked,
                                                             ElementName=StoreCopyRadioButton,
                                                             Mode=OneWay}"
-                                        Style="{DynamicResource ButtonFlyoutStyle}">
-                                    <TextBlock VerticalAlignment="Center" Text="..." />
-                                </Button>
+                                        Style="{DynamicResource ButtonFlyoutBrowseStyle}" />
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
@@ -215,8 +207,7 @@
                         <StackPanel Grid.Row="2"
                                     Grid.Column="1"
                                     Orientation="Horizontal">
-                            <TextBox Width="260"
-                                     Margin="3"
+                            <TextBox Width="340"
                                      IsReadOnly="True"
                                      Style="{DynamicResource TextBoxFlyoutStyle}"
                                      Text="{Binding SignaturePath,
@@ -225,9 +216,7 @@
                                      TextWrapping="NoWrap" />
                             <Button x:Name="SignatureFileBrowseButton"
                                     Command="ui:SignatureCommands.SelectFile"
-                                    Style="{DynamicResource ButtonFlyoutStyle}">
-                                <TextBlock VerticalAlignment="Center" Text="..." />
-                            </Button>
+                                    Style="{DynamicResource ButtonFlyoutBrowseStyle}" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>

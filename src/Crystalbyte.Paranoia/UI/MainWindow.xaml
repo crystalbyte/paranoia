@@ -134,7 +134,7 @@
                     Command="ui:MessageCommands.Compose"
                     Modifiers="Control" />
         <KeyBinding Key="Print" Command="ApplicationCommands.Print" />
-        <KeyBinding Key="Escape" Command="ui:WindowCommands.Back" />
+        <KeyBinding Key="Escape" Command="ui:NavigationCommands.Back" />
     </controls:MetroWindow.InputBindings>
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>

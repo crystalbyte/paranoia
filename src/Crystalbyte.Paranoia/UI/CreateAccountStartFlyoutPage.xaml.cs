@@ -63,7 +63,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             PasswordBox.PasswordChanged -= OnPasswordChanged;
 
-            NavigationStore.Push(typeof(CreateAccountServerSettingsFlyoutPage), context);
+            NavigationArguments.Push(context);
             var uri = typeof(CreateAccountServerSettingsFlyoutPage).ToPageUri();
             service.Navigate(uri);
         }

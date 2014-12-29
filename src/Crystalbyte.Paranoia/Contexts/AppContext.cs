@@ -765,7 +765,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void CreateMailbox(IMailboxCreator parent) {
-            NavigationStore.Push(typeof(CreateMailboxPage), parent);
+            NavigationArguments.Push(parent);
 
             var uri = typeof(CreateMailboxPage).ToPageUri();
             OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));

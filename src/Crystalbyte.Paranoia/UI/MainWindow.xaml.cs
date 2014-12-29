@@ -41,12 +41,21 @@ namespace Crystalbyte.Paranoia.UI {
             DataContext = App.Context;
 
             Loaded += OnLoaded;
-            CommandBindings.Add(new CommandBinding(WindowCommands.Back, OnCloseFlyOut));
             CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
             CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));
             CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoreDown));
+            CommandBindings.Add(new CommandBinding(NavigationCommands.Back, OnNavigateBack));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
+        }
+
+        private void OnNavigateBack(object sender, ExecutedRoutedEventArgs e) {
+            if (FlyOutFrame.NavigationService.CanGoBack) {
+                FlyOutFrame.NavigationService.GoBack();
+            } else {
+                var context = (AppContext)DataContext;
+                context.CloseFlyOut();
+            }
         }
 
         private static async void OnLoaded(object sender, RoutedEventArgs e) {
@@ -88,10 +97,6 @@ namespace Crystalbyte.Paranoia.UI {
             });
         }
 
-        private static void OnCloseFlyOut(object sender, ExecutedRoutedEventArgs e) {
-            App.Context.CloseFlyOut();
-        }
-
         #endregion
 
         #region Public Events
@@ -127,8 +132,7 @@ namespace Crystalbyte.Paranoia.UI {
                 var action = DeferredActions.Pop();
                 try {
                     action();
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     Logger.Error(ex);
                 }
             }
@@ -235,7 +239,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var view = (ListView) sender;
+            var view = (ListView)sender;
             var selection = view.SelectedValue as NavigationContext;
             if (selection == null) {
                 return;

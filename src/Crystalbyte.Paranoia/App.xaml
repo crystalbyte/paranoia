@@ -13,6 +13,7 @@
             <!--  These dictionaries will be re-added after each theme switch, they have been added to keep the XAML parser happy tho.  -->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.Resources.xaml" />
+                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.Button.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.GroupBox.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.ComboBox.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.PasswordBox.xaml" />

@@ -171,7 +171,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public void OnNavigated(NavigationEventArgs e) {
-            var account = (MailAccountContext)NavigationStore.Pop(GetType());
+            var account = (MailAccountContext)NavigationArguments.Pop();
             DataContext = account;
 
             StoreCopyRadioButton.IsChecked = account.StoreCopiesOfSentMessages;

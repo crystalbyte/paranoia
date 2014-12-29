@@ -111,6 +111,7 @@
         public static string ButtonBorderThicknessKey = "ButtonBorderThicknessKey";
         public static string ButtonBorderBrushKey = "ButtonBorderBrushKey";
         public static string ButtonFlyoutBackgroundBrushKey = "ButtonFlyoutBackgroundBrushKey";
+        public static string ButtonFlyoutBorderBrushKey = "ButtonFlyoutBorderBrushKey";
 
         public static string StatusBarFontSizeKey = "StatusBarFontSizeKey";
         public static string StatusBarPaddingKey = "StatusBarPaddingKey";

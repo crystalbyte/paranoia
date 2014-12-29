@@ -272,7 +272,7 @@
     <Compile Include="UI\MailboxSelectionCommands.cs" />
     <Compile Include="UI\MessageCommands.cs" />
     <Compile Include="UI\NavigationCommands.cs" />
-    <Compile Include="UI\NavigationStore.cs" />
+    <Compile Include="UI\NavigationArguments.cs" />
     <Compile Include="UI\OutboxCommands.cs" />
     <Compile Include="UI\AccountPage.xaml.cs">
       <DependentUpon>AccountPage.xaml</DependentUpon>
