@@ -14,6 +14,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Properties;
 using NLog;
+using NavigationCommands = Crystalbyte.Paranoia.UI.FlyoutCommands;
 
 #endregion
 
@@ -44,18 +45,21 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
             CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));
             CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoreDown));
-            CommandBindings.Add(new CommandBinding(NavigationCommands.Back, OnNavigateBack));
+            CommandBindings.Add(new CommandBinding(FlyoutCommands.Back, OnFlyoutBack));
+            CommandBindings.Add(new CommandBinding(FlyoutCommands.Close, OnFlyoutClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
         }
 
-        private void OnNavigateBack(object sender, ExecutedRoutedEventArgs e) {
-            if (FlyOutFrame.NavigationService.CanGoBack) {
-                FlyOutFrame.NavigationService.GoBack();
-            } else {
-                var context = (AppContext)DataContext;
-                context.CloseFlyOut();
-            }
+        private static void OnFlyoutClose(object sender, ExecutedRoutedEventArgs e) {
+            App.Context.CloseFlyout();
+        }
+
+        private void OnFlyoutBack(object sender, ExecutedRoutedEventArgs e) {
+            // BUG: The back command is currently broken in WPF 4.5 :/
+            // https://connect.microsoft.com/VisualStudio/feedback/details/763996/wpf-page-navigation-looses-data-bindings
+            var context = (AppContext)DataContext;
+            context.CloseFlyout();
         }
 
         private static async void OnLoaded(object sender, RoutedEventArgs e) {
@@ -101,10 +105,10 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Public Events
 
-        public event EventHandler FlyOutVisibilityChanged;
+        public event EventHandler FlyoutVisibilityChanged;
 
-        private void OnFlyOutVisibilityChanged() {
-            var handler = FlyOutVisibilityChanged;
+        private void OnFlyoutVisibilityChanged() {
+            var handler = FlyoutVisibilityChanged;
             if (handler != null) {
                 handler(this, EventArgs.Empty);
             }
@@ -118,9 +122,8 @@ namespace Crystalbyte.Paranoia.UI {
             base.OnInitialized(e);
 
             InvokeDeferredActions();
-            LoadResources();
-            HookUpEvents();
-
+            InitStoryboards();
+            HookUpNavigationRequests();
 
             if (DesignerProperties.GetIsInDesignMode(this)) {
                 MainFrame.Source = new Uri("http://www.fantasystronghold.de/news/wp-content/uploads/2014/02/MyLittlePony_splash_2048x1536_EN.jpg", UriKind.Absolute);
@@ -138,7 +141,7 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        private void LoadResources() {
+        private void InitStoryboards() {
             _slideInOverlayStoryboard = (Storyboard)Resources["FlyoutSlideInStoryboard"];
             _slideInOverlayStoryboard.Completed += OnSlideInOverlayCompleted;
 
@@ -163,7 +166,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnSlideInOverlayCompleted(object sender, EventArgs e) {
-            var page = FlyOutFrame.Content as IAnimationAware;
+            var page = FlyoutFrame.Content as IAnimationAware;
             if (page != null) {
                 page.OnAnimationFinished();
             }
@@ -173,36 +176,41 @@ namespace Crystalbyte.Paranoia.UI {
             Overlay.Visibility = Visibility.Collapsed;
         }
 
-        private void HookUpEvents() {
-            App.Context.PopupNavigationRequested += OnPopupNavigationRequested;
-            App.Context.FlyOutNavigationRequested += OnFlyOutNavigationRequested;
+        private void HookUpNavigationRequests() {
+            var app = App.Context;
+            app.FlyoutCloseRequested += OnFlyoutCloseRequested;
+            app.PopupNavigationRequested += OnPopupNavigationRequested;
+            app.FlyoutNavigationRequested += OnFlyoutNavigationRequested;
+        }
+
+        private void OnFlyoutCloseRequested(object sender, EventArgs e) {
+            if (!IsFlyoutVisible) {
+                return;
+            }
+            CloseFlyout();
         }
 
         private void OnPopupNavigationRequested(object sender, NavigationRequestedEventArgs e) {
             PopupFrame.Navigate(e.Target);
         }
 
-        private void OnFlyOutNavigationRequested(object sender, NavigationRequestedEventArgs e) {
-            FlyOutFrame.Navigate(e.Target);
-            if (e.Target == null) {
-                HideOverlay();
-            } else {
-                ShowOverlay();
-            }
+        private void OnFlyoutNavigationRequested(object sender, NavigationRequestedEventArgs e) {
+            FlyoutFrame.Navigate(e.Target);
+            ShowFlyout();
         }
 
-        private void ShowOverlay() {
-            IsFlyOutVisible = true;
+        private void ShowFlyout() {
+            IsFlyoutVisible = true;
             Overlay.Visibility = Visibility.Visible;
             _slideInOverlayStoryboard.Begin();
         }
 
-        private void HideOverlay() {
-            IsFlyOutVisible = false;
-            while (FlyOutFrame.CanGoBack) {
-                FlyOutFrame.NavigationService.RemoveBackEntry();
+        private void CloseFlyout() {
+            IsFlyoutVisible = false;
+            FlyoutFrame.Content = null;
+            while (FlyoutFrame.CanGoBack) {
+                FlyoutFrame.NavigationService.RemoveBackEntry();
             }
-
             _slideOutOverlayStoryboard.Begin();
         }
 
@@ -210,27 +218,33 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Dependency Properties
 
-        public bool IsFlyOutVisible {
-            get { return (bool)GetValue(IsFlyOutVisibleProperty); }
-            set { SetValue(IsFlyOutVisibleProperty, value); }
+        public bool IsFlyoutVisible {
+            get { return (bool)GetValue(IsFlyoutVisibleProperty); }
+            set { SetValue(IsFlyoutVisibleProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for IsOverlayVisible.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsFlyOutVisibleProperty =
-            DependencyProperty.Register("IsFlyOutVisible", typeof(bool), typeof(MainWindow),
+        public static readonly DependencyProperty IsFlyoutVisibleProperty =
+            DependencyProperty.Register("IsFlyoutVisible", typeof(bool), typeof(MainWindow),
                 new PropertyMetadata(false, OnIsOverlayChanged));
 
         #endregion
 
         private static void OnIsOverlayChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var window = (MainWindow)d;
-            window.OnFlyOutVisibilityChanged();
+            window.OnFlyoutVisibilityChanged();
         }
 
-        private void OnFlyOutFrameNavigated(object sender, NavigationEventArgs e) {
-            var page = FlyOutFrame.Content as INavigationAware;
+        private void OnFlyoutFrameNavigated(object sender, NavigationEventArgs e) {
+            var page = FlyoutFrame.Content as INavigationAware;
             if (page != null) {
                 page.OnNavigated(e);
+            }
+        }
+        private void OnFlyoutFrameNavigating(object sender, NavigatingCancelEventArgs e) {
+            var page = FlyoutFrame.Content as INavigationAware;
+            if (page != null) {
+                page.OnNavigating(e);
             }
         }
 
@@ -254,6 +268,6 @@ namespace Crystalbyte.Paranoia.UI {
             if (page != null) {
                 page.OnNavigated(e);
             }
-        }
+        }       
     }
 }

@@ -216,6 +216,27 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
+        private async Task ChangeSignatureAsync() {
+            if (!HtmlControl.IsDocumentReady) {
+                return;
+            }
+
+            var context = (MailCompositionContext)DataContext;
+            var path = context.SelectedAccount.SignaturePath;
+
+            if (string.IsNullOrEmpty(path) || !File.Exists(path)) {
+                HtmlControl.ChangeSignature(string.Empty);
+                return;
+            }
+
+            var content = await Task.Run(() => File.ReadAllText(path, Encoding.UTF8));
+            HtmlControl.ChangeSignature(content);
+        }
+
+        private async void OnAccountSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            await ChangeSignatureAsync();
+        }
+
         #region Implementation of INavigationAware
 
         public void OnNavigated(NavigationEventArgs e) {
@@ -242,27 +263,10 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
+        public void OnNavigating(NavigatingCancelEventArgs e) {
+            
+        }
+
         #endregion
-
-        private async Task ChangeSignatureAsync() {
-            if (!HtmlControl.IsDocumentReady) {
-                return;
-            }
-
-            var context = (MailCompositionContext)DataContext;
-            var path = context.SelectedAccount.SignaturePath;
-
-            if (string.IsNullOrEmpty(path) || !File.Exists(path)) {
-                HtmlControl.ChangeSignature(string.Empty);
-                return;
-            }
-
-            var content = await Task.Run(() => File.ReadAllText(path, Encoding.UTF8));
-            HtmlControl.ChangeSignature(content);
-        }
-
-        private async void OnAccountSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            await ChangeSignatureAsync();
-        }
     }
 }

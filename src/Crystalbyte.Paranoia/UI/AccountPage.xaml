@@ -55,10 +55,10 @@
             <StackPanel Margin="0,12,0,0"
                         DockPanel.Dock="Bottom"
                         Orientation="Horizontal">
-                <controls:MetroButton Command="ui:NavigationCommands.Continue"
+                <controls:MetroButton Command="ui:FlyoutCommands.Continue"
                                       Content="{x:Static properties:Resources.Accept}"
                                       ImageSource="/Assets/ok.png" />
-                <controls:MetroButton Command="ui:NavigationCommands.Close"
+                <controls:MetroButton Command="ui:FlyoutCommands.Continue"
                                       Content="{x:Static properties:Resources.Cancel}"
                                       ImageSource="/Assets/cancel.png" />
             </StackPanel>

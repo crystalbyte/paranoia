@@ -7,5 +7,6 @@ using System.Windows.Navigation;
 namespace Crystalbyte.Paranoia.UI {
     internal interface INavigationAware {
         void OnNavigated(NavigationEventArgs e);
+        void OnNavigating(NavigatingCancelEventArgs e);
     }
 }

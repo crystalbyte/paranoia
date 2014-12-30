@@ -22,9 +22,9 @@ namespace Crystalbyte.Paranoia.UI {
         public InspectionWindow() {
             InitializeComponent();
 
-            CommandBindings.Add(new CommandBinding(MessageCommands.Reply, OnReply));
-            CommandBindings.Add(new CommandBinding(MessageCommands.ReplyAll, OnReplyAll));
-            CommandBindings.Add(new CommandBinding(MessageCommands.Forward, OnForward));
+            CommandBindings.Add(new CommandBinding(MessagingCommands.Reply, OnReply));
+            CommandBindings.Add(new CommandBinding(MessagingCommands.ReplyAll, OnReplyAll));
+            CommandBindings.Add(new CommandBinding(MessagingCommands.Forward, OnForward));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint));
         }
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Crystalbyte.Paranoia.Data;
+using System.Windows.Navigation;
 
 #endregion
 
@@ -13,28 +13,19 @@ namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     ///     Interaction logic for CreateAccountStartFlyoutPage.xaml
     /// </summary>
-    public partial class CreateAccountStartFlyoutPage {
+    public partial class CreateAccountStartFlyoutPage : INavigationAware {
         public CreateAccountStartFlyoutPage() {
             InitializeComponent();
-            DataContext = new MailAccountContext(new MailAccountModel());
 
-            CommandBindings.Add(new CommandBinding(NavigationCommands.Close, OnCancel));
-            CommandBindings.Add(new CommandBinding(NavigationCommands.Continue, OnContinue));
-
-            PasswordBox.PasswordChanged += OnPasswordChanged;
-            Loaded += OnLoaded;
+            CommandBindings.Add(new CommandBinding(FlyoutCommands.Close, OnCancel));
+            CommandBindings.Add(new CommandBinding(FlyoutCommands.Continue, OnContinue));
         }
 
         private void OnPasswordChanged(object sender, RoutedEventArgs e) {
-            var box = (PasswordBox) sender;
-            var context = (MailAccountContext) DataContext;
+            var box = (PasswordBox)sender;
+            var context = (MailAccountContext)DataContext;
             context.ImapPassword = box.Password;
             context.SmtpPassword = box.Password;
-        }
-
-        private void OnLoaded(object sender, RoutedEventArgs e) {
-            NameTextBox.Focus();
-            CheckForContinuation();
         }
 
         private void OnAutoMagicButtonCheckedChanged(object sender, RoutedEventArgs e) {
@@ -42,7 +33,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void CheckForContinuation() {
-            var context = (MailAccountContext) DataContext;
+            var context = (MailAccountContext)DataContext;
 
             ContinueButton.IsEnabled =
                 (AutoMagicButton.IsChecked != null && !AutoMagicButton.IsChecked.Value)
@@ -55,26 +46,23 @@ namespace Crystalbyte.Paranoia.UI {
                 throw new NullReferenceException("NavigationService");
             }
 
-            var context = (MailAccountContext) DataContext;
-            if (context.IsAutoDetectPreferred) {
+            var account = (MailAccountContext)DataContext;
+            if (account.IsAutoDetectPreferred) {
                 ContinueButton.IsEnabled = false;
                 await DetectSettingsAsync();
             }
 
-            PasswordBox.PasswordChanged -= OnPasswordChanged;
-
-            NavigationArguments.Push(context);
             var uri = typeof(CreateAccountServerSettingsFlyoutPage).ToPageUri();
             service.Navigate(uri);
         }
 
         private async Task DetectSettingsAsync() {
-            var context = (MailAccountContext) DataContext;
-            await context.DetectSettingsAsync();
+            var account = (MailAccountContext)DataContext;
+            await account.DetectSettingsAsync();
         }
 
         private static void OnCancel(object sender, ExecutedRoutedEventArgs e) {
-            App.Context.CloseFlyOut();
+            App.Context.CloseFlyout();
         }
 
         private void OnAddressTextChanged(object sender, TextChangedEventArgs e) {
@@ -84,5 +72,27 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnNameTextChanged(object sender, TextChangedEventArgs e) {
             CheckForContinuation();
         }
+
+        #region Implementation of INavigationAware
+
+        public void OnNavigated(NavigationEventArgs e) {
+            DataContext = NavigationArguments.Pop();
+            CheckForContinuation();
+
+            PasswordBox.PasswordChanged += OnPasswordChanged;
+            NameTextBox.Focus();
+        }
+
+        public void OnNavigating(NavigatingCancelEventArgs e) {
+            var account = (MailAccountContext)DataContext;
+            switch (e.NavigationMode) {
+                case NavigationMode.New:
+                    PasswordBox.PasswordChanged -= OnPasswordChanged;
+                    NavigationArguments.Push(account);
+                    break;
+            }
+        }
+
+        #endregion
     }
 }

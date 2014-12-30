@@ -131,10 +131,10 @@
     </controls:MetroWindow.Resources>
     <controls:MetroWindow.InputBindings>
         <KeyBinding Key="N"
-                    Command="ui:MessageCommands.Compose"
+                    Command="ui:MessagingCommands.Compose"
                     Modifiers="Control" />
         <KeyBinding Key="Print" Command="ApplicationCommands.Print" />
-        <KeyBinding Key="Escape" Command="ui:NavigationCommands.Back" />
+        <KeyBinding Key="Escape" Command="ui:FlyoutCommands.Close" />
     </controls:MetroWindow.InputBindings>
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
@@ -314,11 +314,11 @@
                                 Orientation="Horizontal">
                         <controls:MetroButton x:Name="Button"
                                               Margin="0,0,12,0"
-                                              Command="ui:NavigationCommands.Back"
+                                              Command="ui:FlyoutCommands.Back"
                                               Focusable="False"
                                               ImageSource="/Assets/back.png"
                                               RenderTransformOrigin="0.5,0.5"
-                                              Style="{DynamicResource FlyoutMetroButtonStyle}">
+                                              Style="{DynamicResource MetroButtonFlyoutStyle}">
                             <Button.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform />
@@ -332,7 +332,7 @@
                                    Margin="0"
                                    VerticalAlignment="Center"
                                    DataContext="{Binding Content,
-                                                         ElementName=FlyOutFrame}"
+                                                         ElementName=FlyoutFrame}"
                                    Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
                                    Padding="0,0,0,2"
                                    RenderTransformOrigin="0.5,0.5"
@@ -349,12 +349,13 @@
                             </TextBlock.RenderTransform>
                         </TextBlock>
                     </StackPanel>
-                    <Frame x:Name="FlyOutFrame"
+                    <Frame x:Name="FlyoutFrame"
                            Grid.Row="1"
                            HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"
                            KeyboardNavigation.TabNavigation="Cycle"
-                           Navigated="OnFlyOutFrameNavigated"
+                           Navigated="OnFlyoutFrameNavigated"
+                           Navigating="OnFlyoutFrameNavigating"
                            NavigationUIVisibility="Hidden"
                            RenderTransformOrigin="0.5,0.5">
                         <Frame.RenderTransform>
@@ -369,7 +370,7 @@
                 </Grid>
             </Border>
         </Grid>
-        <Grid x:Name="PopupGrid"
+        <Grid x:Name="ModalOverlay"
               Grid.Row="0"
               Grid.RowSpan="3"
               Visibility="{Binding IsPopupVisible,

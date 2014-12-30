@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Mail;
+using NavigationCommands = Crystalbyte.Paranoia.UI.FlyoutCommands;
 
 #endregion
 
@@ -20,33 +21,17 @@ namespace Crystalbyte.Paranoia.UI {
 
             CommandBindings.Add(new CommandBinding(NavigationCommands.Continue, OnContinue));
             CommandBindings.Add(new CommandBinding(NavigationCommands.Close, OnClose));
-            CommandBindings.Add(new CommandBinding(MailboxSelectionCommands.Cancel, OnCancel));
-
-            Loaded += OnLoaded;
-        }
- 
-        private static void OnCancel(object sender, ExecutedRoutedEventArgs e) {
-            App.Context.CloseFlyOut();
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e) {
-            var context = (MailAccountContext)DataContext;
-            if (!string.IsNullOrEmpty(context.ImapHost)) {
-                ImapPasswordBox.Focus();
-            } else {
-                NameTextBox.Focus();
-            }
-        }
-
-        private void OnFlyOutClosed(object sender, EventArgs e) {
+        private void OnFlyoutClosed(object sender, EventArgs e) {
             var account = (MailAccountContext)DataContext;
             account.Testing = null;
 
-            App.Context.FlyOutClosed -= OnFlyOutClosed;
+            App.Context.FlyoutClosed -= OnFlyoutClosed;
         }
 
         private static void OnClose(object sender, ExecutedRoutedEventArgs e) {
-            App.Context.CloseFlyOut();
+            App.Context.CloseFlyout();
         }
 
         private void OnContinue(object sender, ExecutedRoutedEventArgs e) {
@@ -55,9 +40,6 @@ namespace Crystalbyte.Paranoia.UI {
                 throw new NullReferenceException("NavigationService");
             }
 
-            var context = (MailAccountContext)DataContext;
-
-            NavigationArguments.Push(context);
             var uri = typeof(CreateAccountFinalizeFlyoutPage).ToPageUri();
             service.Navigate(uri);
         }
@@ -79,28 +61,6 @@ namespace Crystalbyte.Paranoia.UI {
             account.SmtpPassword = box.Password;
         }
 
-        public void OnNavigated(NavigationEventArgs e) {
-            var account = (MailAccountContext) NavigationArguments.Pop();
-            DataContext = account;
-
-            SmtpPasswordBox.Password = account.SmtpPassword;
-            SmtpPasswordBox.PasswordChanged += OnSmtpPasswordChanged;
-
-            ImapPasswordBox.Password = account.ImapPassword;
-            ImapPasswordBox.PasswordChanged += OnImapPasswordChanged;
-
-            UseImapCredentialsRadioButton.IsChecked = account.UseImapCredentialsForSmtp;
-            UseSmtpCredentialsRadioButton.IsChecked = !account.UseImapCredentialsForSmtp;
-
-            App.Context.FlyOutClosing += OnFlyOutClosing;
-            App.Context.FlyOutClosed += OnFlyOutClosed;
-        }
-
-        private void OnFlyOutClosing(object sender, EventArgs e) {
-            SmtpPasswordBox.PasswordChanged -= OnSmtpPasswordChanged;
-            ImapPasswordBox.PasswordChanged -= OnImapPasswordChanged;
-        }
-
         private void OnUseImapCredentialsChecked(object sender, RoutedEventArgs e) {
             var account = (MailAccountContext)DataContext;
             var button = ((RadioButton)sender);
@@ -116,5 +76,50 @@ namespace Crystalbyte.Paranoia.UI {
                 account.UseImapCredentialsForSmtp = !button.IsChecked.Value;
             }
         }
+
+        private void OnFlyoutClosing(object sender, EventArgs e) {
+            SmtpPasswordBox.PasswordChanged -= OnSmtpPasswordChanged;
+            ImapPasswordBox.PasswordChanged -= OnImapPasswordChanged;
+        }
+
+        #region Implementation of INavigationAware
+
+        public void OnNavigated(NavigationEventArgs e) {
+            DataContext = NavigationArguments.Pop();
+
+            var account = (MailAccountContext)DataContext;
+
+            SmtpPasswordBox.Password = account.SmtpPassword;
+            SmtpPasswordBox.PasswordChanged += OnSmtpPasswordChanged;
+
+            ImapPasswordBox.Password = account.ImapPassword;
+            ImapPasswordBox.PasswordChanged += OnImapPasswordChanged;
+
+            UseImapCredentialsRadioButton.IsChecked = account.UseImapCredentialsForSmtp;
+            UseSmtpCredentialsRadioButton.IsChecked = !account.UseImapCredentialsForSmtp;
+
+            App.Context.FlyoutClosing += OnFlyoutClosing;
+            App.Context.FlyoutClosed += OnFlyoutClosed;
+
+            if (!string.IsNullOrEmpty(account.ImapHost)) {
+                ImapPasswordBox.Focus();
+            } else {
+                NameTextBox.Focus();
+            }
+        }
+
+        public void OnNavigating(NavigatingCancelEventArgs e) {
+            var account = (MailAccountContext)DataContext;
+            switch (e.NavigationMode) {
+                case NavigationMode.New:
+                case NavigationMode.Back:
+                    SmtpPasswordBox.PasswordChanged -= OnSmtpPasswordChanged;
+                    ImapPasswordBox.PasswordChanged -= OnImapPasswordChanged;
+                    NavigationArguments.Push(account);
+                    break;
+            }
+        }
+
+        #endregion
     }
 }

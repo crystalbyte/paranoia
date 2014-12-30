@@ -21,12 +21,12 @@ namespace Crystalbyte.Paranoia.UI {
             Unloaded += OnUnloaded;
 
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint, OnCanPrint));
-            CommandBindings.Add(new CommandBinding(MessageCommands.Compose, OnCompose));
-            CommandBindings.Add(new CommandBinding(MessageCommands.Reply, OnReply));
-            CommandBindings.Add(new CommandBinding(MessageCommands.ReplyAll, OnReplyAll));
-            CommandBindings.Add(new CommandBinding(MessageCommands.Forward, OnForward));
-            CommandBindings.Add(new CommandBinding(MessageCommands.Inspect, OnInspect, OnCanInspect));
-            CommandBindings.Add(new CommandBinding(OutboxCommands.Delete, OnDeleteSmtpRequest, OnCanDeleteSmtpRequest));
+            CommandBindings.Add(new CommandBinding(MessagingCommands.Compose, OnCompose));
+            CommandBindings.Add(new CommandBinding(MessagingCommands.Reply, OnReply));
+            CommandBindings.Add(new CommandBinding(MessagingCommands.ReplyAll, OnReplyAll));
+            CommandBindings.Add(new CommandBinding(MessagingCommands.Forward, OnForward));
+            CommandBindings.Add(new CommandBinding(MessagingCommands.Inspect, OnInspect, OnCanInspect));
+            //CommandBindings.Add(new CommandBinding(OutboxCommands.Delete, OnDeleteSmtpRequest, OnCanDeleteSmtpRequest));
             App.Context.SortOrderChanged += OnSortOrderChanged;
         }
 

@@ -123,7 +123,6 @@
         public static string ListViewBackgroundBrushKey = "ListViewBackgroundBrushKey";
         public static string ListViewMarginKey = "ListViewMarginKey";
         public static string ListViewPaddingKey = "ListViewPaddingKey";
-
         public static string ListViewItemMouseOverBackgroundBrushKey = "ListViewItemMouseOverBackgroundBrushKey";
         public static string ListViewItemUnfocusedBackgroundBrushKey = "ListViewItemUnfocusedBackgroundBrushKey";
         public static string ListViewItemBorderBrushKey = "ListViewItemBorderBrushKey";

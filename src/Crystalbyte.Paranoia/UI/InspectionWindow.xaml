@@ -97,13 +97,13 @@
                         VerticalAlignment="Center"
                         DockPanel.Dock="Right"
                         Orientation="Horizontal">
-                <controls:MetroButton Command="ui:MessageCommands.Reply">
+                <controls:MetroButton Command="ui:MessagingCommands.Reply">
                     <Image Width="18" Source="/Assets/reply.png" />
                 </controls:MetroButton>
-                <controls:MetroButton Command="ui:MessageCommands.ReplyAll">
+                <controls:MetroButton Command="ui:MessagingCommands.ReplyAll">
                     <Image Width="18" Source="/Assets/reply.all.png" />
                 </controls:MetroButton>
-                <controls:MetroButton Command="ui:MessageCommands.Forward">
+                <controls:MetroButton Command="ui:MessagingCommands.Forward">
                     <Image Width="18" Source="/Assets/forward.png" />
                 </controls:MetroButton>
                 <controls:MetroButton Command="ApplicationCommands.Print">

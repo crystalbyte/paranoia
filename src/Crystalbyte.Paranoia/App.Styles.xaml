@@ -250,7 +250,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="FlyoutMetroButtonStyle"
+    <Style x:Key="MetroButtonFlyoutStyle"
            BasedOn="{StaticResource {x:Type controls:MetroButton}}"
            TargetType="controls:MetroButton">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}" />

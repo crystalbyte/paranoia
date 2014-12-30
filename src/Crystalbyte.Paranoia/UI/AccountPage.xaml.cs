@@ -9,7 +9,9 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Mail;
+using Crystalbyte.Paranoia.UI.Commands;
 using Microsoft.Win32;
+using NavigationCommands = Crystalbyte.Paranoia.UI.FlyoutCommands;
 
 #endregion
 
@@ -26,9 +28,9 @@ namespace Crystalbyte.Paranoia.UI {
 
             CommandBindings.Add(new CommandBinding(NavigationCommands.Continue, OnContinue));
             CommandBindings.Add(new CommandBinding(NavigationCommands.Close, OnClose));
-            CommandBindings.Add(new CommandBinding(MailboxSelectionCommands.Select, OnSelect));
-            CommandBindings.Add(new CommandBinding(MailboxSelectionCommands.Commit, OnCommit, OnCanCommit));
-            CommandBindings.Add(new CommandBinding(MailboxSelectionCommands.Cancel, OnCancel));
+            //CommandBindings.Add(new CommandBinding(MailboxSelectionCommands.Select, OnSelect));
+            //CommandBindings.Add(new CommandBinding(MailboxSelectionCommands.Commit, OnCommit, OnCanCommit));
+            //CommandBindings.Add(new CommandBinding(MailboxSelectionCommands.Cancel, OnCancel));
             CommandBindings.Add(new CommandBinding(SignatureCommands.SelectFile, OnSelectFile));
 
             Loaded += OnLoaded;
@@ -159,18 +161,18 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        private void OnFlyOutClosed(object sender, EventArgs e) {
+        private void OnFlyoutClosed(object sender, EventArgs e) {
             var account = (MailAccountContext)DataContext;
             account.Testing = null;
 
-            App.Context.FlyOutClosed -= OnFlyOutClosed;
+            App.Context.FlyoutClosed -= OnFlyoutClosed;
             if (_discardOnClose) {
                 DiscardChanged();
             }
         }
 
         private static void OnClose(object sender, ExecutedRoutedEventArgs e) {
-            App.Context.CloseFlyOut();
+            App.Context.CloseFlyout();
         }
 
         private void DiscardChanged() {
@@ -181,7 +183,7 @@ namespace Crystalbyte.Paranoia.UI {
         private async void OnContinue(object sender, ExecutedRoutedEventArgs e) {
             var account = (MailAccountContext)DataContext;
             await SaveChangesAsync(account);
-            App.Context.CloseFlyOut();
+            App.Context.CloseFlyout();
         }
 
         private async Task SaveChangesAsync(MailAccountContext account) {
@@ -247,11 +249,15 @@ namespace Crystalbyte.Paranoia.UI {
             StoreCopyRadioButton.IsChecked = account.StoreCopiesOfSentMessages;
             DontStoreCopyRadioButton.IsChecked = !account.StoreCopiesOfSentMessages;
 
-            App.Context.FlyOutClosing += OnFlyOutClosing;
-            App.Context.FlyOutClosed += OnFlyOutClosed;
+            App.Context.FlyoutClosing += OnFlyoutClosing;
+            App.Context.FlyoutClosed += OnFlyoutClosed;
         }
 
-        private void OnFlyOutClosing(object sender, EventArgs e) {
+        public void OnNavigating(NavigatingCancelEventArgs e) {
+            
+        }
+
+        private void OnFlyoutClosing(object sender, EventArgs e) {
             SmtpPasswordBox.PasswordChanged -= OnSmtpPasswordChanged;
             ImapPasswordBox.PasswordChanged -= OnImapPasswordChanged;
         }

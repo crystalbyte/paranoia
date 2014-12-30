@@ -1,13 +1,16 @@
 ﻿#region Using directives
 
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Navigation;
+using Crystalbyte.Paranoia.UI.Commands;
 using Microsoft.Win32;
+using NavigationCommands = Crystalbyte.Paranoia.UI.FlyoutCommands;
 
 #endregion
 
@@ -22,9 +25,9 @@ namespace Crystalbyte.Paranoia.UI {
 
             CommandBindings.Add(new CommandBinding(NavigationCommands.Continue, OnContinue));
             CommandBindings.Add(new CommandBinding(NavigationCommands.Close, OnClose));
-            CommandBindings.Add(new CommandBinding(MailboxSelectionCommands.Select, OnSelect));
-            CommandBindings.Add(new CommandBinding(MailboxSelectionCommands.Commit, OnCommit, OnCanCommit));
-            CommandBindings.Add(new CommandBinding(MailboxSelectionCommands.Cancel, OnCancel));
+            CommandBindings.Add(new CommandBinding(MailboxCommands.Browse, OnBrowseMailboxes));
+            CommandBindings.Add(new CommandBinding(MailboxCommands.SelectRole, OnSelectRole, OnCanSelectRole));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnCloseMailboxSelection));
             CommandBindings.Add(new CommandBinding(SignatureCommands.SelectFile, OnSelectFile));
         }
 
@@ -39,7 +42,7 @@ namespace Crystalbyte.Paranoia.UI {
             context.SignaturePath = dialog.FileNames.First();
         }
 
-        private void OnCanCommit(object sender, CanExecuteRoutedEventArgs e) {
+        private void OnCanSelectRole(object sender, CanExecuteRoutedEventArgs e) {
             if (DataContext == null) {
                 e.CanExecute = false;
                 return;
@@ -65,7 +68,7 @@ namespace Crystalbyte.Paranoia.UI {
             throw new ArgumentOutOfRangeException(param);
         }
 
-        private void OnCancel(object sender, ExecutedRoutedEventArgs e) {
+        private void OnCloseMailboxSelection(object sender, ExecutedRoutedEventArgs e) {
             var param = e.Parameter as string;
             if (string.IsNullOrEmpty(param)) {
                 throw new ArgumentNullException();
@@ -75,7 +78,7 @@ namespace Crystalbyte.Paranoia.UI {
             popup.IsOpen = false;
         }
 
-        private void OnCommit(object sender, ExecutedRoutedEventArgs e) {
+        private void OnSelectRole(object sender, ExecutedRoutedEventArgs e) {
             var param = e.Parameter as string;
             if (string.IsNullOrEmpty(param)) {
                 throw new ArgumentNullException();
@@ -111,7 +114,7 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        private void OnSelect(object sender, ExecutedRoutedEventArgs e) {
+        private void OnBrowseMailboxes(object sender, ExecutedRoutedEventArgs e) {
             var param = e.Parameter as string;
             if (string.IsNullOrEmpty(param)) {
                 throw new ArgumentNullException();
@@ -149,43 +152,37 @@ namespace Crystalbyte.Paranoia.UI {
             throw new ArgumentOutOfRangeException(param);
         }
 
-        private void OnFlyOutClosed(object sender, EventArgs e) {
+        private void OnFlyoutClosed(object sender, EventArgs e) {
             var account = (MailAccountContext)DataContext;
             account.Testing = null;
 
-            App.Context.FlyOutClosed -= OnFlyOutClosed;
+            App.Context.FlyoutClosed -= OnFlyoutClosed;
         }
 
         private static void OnClose(object sender, ExecutedRoutedEventArgs e) {
-            App.Context.CloseFlyOut();
+            App.Context.CloseFlyout();
         }
 
         private async void OnContinue(object sender, ExecutedRoutedEventArgs e) {
             var account = (MailAccountContext)DataContext;
             await SaveChangesAsync(account);
-            App.Context.CloseFlyOut();
+            App.Context.CloseFlyout();
         }
 
         private static async Task SaveChangesAsync(MailAccountContext account) {
             await account.UpdateAsync();
         }
-
-        public void OnNavigated(NavigationEventArgs e) {
-            var account = (MailAccountContext)NavigationArguments.Pop();
-            DataContext = account;
-
-            StoreCopyRadioButton.IsChecked = account.StoreCopiesOfSentMessages;
-            DontStoreCopyRadioButton.IsChecked = !account.StoreCopiesOfSentMessages;
-
-            App.Context.FlyOutClosed += OnFlyOutClosed;
-        }
-
         private void OnStoreCopyRadioButtonChecked(object sender, RoutedEventArgs e) {
             var account = (MailAccountContext)DataContext;
             account.StoreCopiesOfSentMessages = true;
         }
 
         private void OnDontStoreCopyRadioButtonChecked(object sender, RoutedEventArgs e) {
+            // Why is it being called when navigating away with empty DataContext ?
+            if (DataContext == null) {
+                return;
+            }
+
             var account = (MailAccountContext)DataContext;
             account.StoreCopiesOfSentMessages = false;
         }
@@ -193,5 +190,36 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnAnyTreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
             CommandManager.InvalidateRequerySuggested();
         }
+
+        #region Implementation of INavigationAware
+
+        public async void OnNavigated(NavigationEventArgs e) {
+            DataContext = NavigationArguments.Pop();
+            var account = (MailAccountContext) DataContext;
+
+            StoreCopyRadioButton.IsChecked = account.StoreCopiesOfSentMessages;
+            DontStoreCopyRadioButton.IsChecked = !account.StoreCopiesOfSentMessages;
+
+            App.Context.FlyoutClosed += OnFlyoutClosed;
+
+            try {
+                await account.SyncMailboxesAsync();
+            }
+            catch (Exception ex) {
+                // TODO: Display error to the user.
+                Debug.WriteLine(ex);
+            }
+        }
+
+        public void OnNavigating(NavigatingCancelEventArgs e) {
+            var account = (MailAccountContext)DataContext;
+            switch (e.NavigationMode) {
+                case NavigationMode.Back:
+                    NavigationArguments.Push(account);
+                    break;
+            }
+        }
+
+        #endregion
     }
 }

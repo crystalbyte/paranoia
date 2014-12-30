@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
+using NavigationCommands = Crystalbyte.Paranoia.UI.FlyoutCommands;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
@@ -11,7 +12,7 @@ namespace Crystalbyte.Paranoia.UI {
         public ContactsPage() {
             InitializeComponent();
             DataContext = App.Context;
-            CommandBindings.Add(new CommandBinding(NavigationCommands.ScrollToLetter, OnScrollToLetter, OnCanScrollToLetter));
+            //CommandBindings.Add(new CommandBinding(FlyoutCommands.ScrollToLetter, OnScrollToLetter, OnCanScrollToLetter));
         }
 
         private static void OnCanScrollToLetter(object sender, CanExecuteRoutedEventArgs e) {

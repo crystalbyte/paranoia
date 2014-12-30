@@ -269,18 +269,18 @@ namespace Crystalbyte.Paranoia {
             await Task.Run(() => SelectedMailbox.SyncMessagesAsync());
         }
 
-        internal event EventHandler FlyOutClosing;
+        internal event EventHandler FlyoutClosing;
 
-        private void OnFlyOutClosing() {
-            var handler = FlyOutClosing;
+        private void OnFlyoutClosing() {
+            var handler = FlyoutClosing;
             if (handler != null)
                 handler(this, EventArgs.Empty);
         }
 
-        internal event EventHandler FlyOutClosed;
+        internal event EventHandler FlyoutClosed;
 
-        internal void OnFlyOutClosed() {
-            var handler = FlyOutClosed;
+        internal void OnFlyoutClosed() {
+            var handler = FlyoutClosed;
             if (handler != null)
                 handler(this, EventArgs.Empty);
         }
@@ -293,6 +293,14 @@ namespace Crystalbyte.Paranoia {
                 handler(this, EventArgs.Empty);
         }
 
+        public event EventHandler FlyoutCloseRequested;
+
+        private void OnFlyoutCloseRequested() {
+            var handler = FlyoutCloseRequested;
+            if (handler != null) 
+                handler(this, EventArgs.Empty);
+        }
+
         internal event EventHandler<NavigationRequestedEventArgs> PopupNavigationRequested;
 
         private void OnPopupNavigationRequested(NavigationRequestedEventArgs e) {
@@ -301,10 +309,10 @@ namespace Crystalbyte.Paranoia {
                 handler(this, e);
         }
 
-        internal event EventHandler<NavigationRequestedEventArgs> FlyOutNavigationRequested;
+        internal event EventHandler<NavigationRequestedEventArgs> FlyoutNavigationRequested;
 
-        private void OnFlyOutNavigationRequested(NavigationRequestedEventArgs e) {
-            var handler = FlyOutNavigationRequested;
+        private void OnFlyoutNavigationRequested(NavigationRequestedEventArgs e) {
+            var handler = FlyoutNavigationRequested;
             if (handler != null) {
                 handler(this, e);
             }
@@ -380,7 +388,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void ConfigureAccount(Uri uri) {
-            OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
+            OnFlyoutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
         public bool IsPopupVisible {
@@ -779,8 +787,11 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnCreateAccount(object obj) {
+            var account = new MailAccountContext(new MailAccountModel());
+            NavigationArguments.Push(account);
+
             var uri = typeof(CreateAccountStartFlyoutPage).ToPageUri();
-            OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(uri));
+            OnFlyoutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 
         internal async Task InitKeysAsync() {
@@ -792,10 +803,10 @@ namespace Crystalbyte.Paranoia {
             await KeyContainer.InitFromFileAsync(publicKey, privateKey);
         }
 
-        internal void CloseFlyOut() {
-            OnFlyOutClosing();
-            OnFlyOutNavigationRequested(new NavigationRequestedEventArgs(null));
-            OnFlyOutClosed();
+        internal void CloseFlyout() {
+            OnFlyoutClosing();
+            OnFlyoutCloseRequested();
+            OnFlyoutClosed();
         }
 
         internal void ClearViews() {

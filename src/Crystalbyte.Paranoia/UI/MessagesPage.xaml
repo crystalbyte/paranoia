@@ -12,6 +12,7 @@
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       x:Name="Page"
       Title="Messages"
+      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
       d:DataContext="{d:DesignInstance paranoia:AppContext}"
       d:DesignHeight="553.714"
       d:DesignWidth="1072.625"
@@ -46,7 +47,7 @@
                         UseLayoutRounding="True">
                     <Grid HorizontalAlignment="Left">
                         <controls:MetroButton Margin="12"
-                                              Command="ui:MessageCommands.Compose"
+                                              Command="ui:MessagingCommands.Compose"
                                               Content="{x:Static properties:Resources.ComposeMessage}"
                                               ImageSource="/Assets/paper.png" />
                     </Grid>
@@ -484,10 +485,10 @@
                     </ListView.ItemsSource>
                     <ListView.InputBindings>
                         <KeyBinding Key="R"
-                                    Command="ui:MessageCommands.Reply"
+                                    Command="ui:MessagingCommands.Reply"
                                     Modifiers="Control" />
                         <KeyBinding Key="F"
-                                    Command="ui:MessageCommands.Forward"
+                                    Command="ui:MessagingCommands.Forward"
                                     Modifiers="Control" />
                         <KeyBinding Key="Delete" Command="{Binding DeleteMessagesCommand}" />
                         <KeyBinding Key="D"
@@ -496,7 +497,7 @@
                     </ListView.InputBindings>
                     <ListView.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Command="ui:MessageCommands.Reply" InputGestureText="Ctrl + R">
+                            <MenuItem Command="ui:MessagingCommands.Reply" InputGestureText="Ctrl + R">
                                 <MenuItem.Icon>
                                     <Image Height="16"
                                            Source="/Assets/reply.png"
@@ -506,7 +507,7 @@
                                     <TextBlock Text="{x:Static properties:Resources.Reply}" />
                                 </MenuItem.Header>
                             </MenuItem>
-                            <MenuItem Command="ui:MessageCommands.Forward" InputGestureText="Ctrl + F">
+                            <MenuItem Command="ui:MessagingCommands.Forward" InputGestureText="Ctrl + F">
                                 <MenuItem.Icon>
                                     <Image Height="16"
                                            Source="/Assets/forward.png"
@@ -716,7 +717,8 @@
                 <TextBlock Margin="12"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
-                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextLargeFontSizeKey}}"
+                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextExtraLargeFontSizeKey}}"
+                           FontWeight="Thin"
                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}"
                            Text="{x:Static properties:Resources.NoMessages}"
                            Visibility="{Binding MessageCount,
@@ -782,11 +784,11 @@
                         <Binding Source="{StaticResource SmtpRequestsSource}" />
                     </ListView.ItemsSource>
                     <ListView.InputBindings>
-                        <KeyBinding Key="Delete" Command="ui:OutboxCommands.Delete" />
+                        <!--  <KeyBinding Key="Delete" Command="ui:OutboxCommands.Delete" />  -->
                     </ListView.InputBindings>
                     <ListView.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Command="ui:OutboxCommands.Delete" InputGestureText="Delete">
+                            <MenuItem InputGestureText="Delete">
                                 <MenuItem.Icon>
                                     <Image Height="16"
                                            Source="/Assets/delete.png"
@@ -945,11 +947,11 @@
                                 Visibility="{Binding SelectedMessage,
                                                      Converter={StaticResource NullToVisibilityConverter}}">
                         <controls:MetroButton Margin="3,0"
-                                              Command="ui:MessageCommands.Reply"
+                                              Command="ui:MessagingCommands.Reply"
                                               ImageSource="/Assets/reply.png"
                                               ToolTip="{x:Static properties:Resources.Reply}" />
                         <controls:MetroButton Margin="3,0"
-                                              Command="ui:MessageCommands.Forward"
+                                              Command="ui:MessagingCommands.Forward"
                                               ImageSource="/Assets/forward.png"
                                               ToolTip="{x:Static properties:Resources.Forward}" />
                         <controls:MetroButton Margin="3,0"
