@@ -485,8 +485,8 @@ Once your password is lost you're screwed.</value>
   <data name="MarkAsNotFlagged" xml:space="preserve">
     <value>Not Flagged</value>
   </data>
-  <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+  <data name="Flag" xml:space="preserve">
+    <value>Flag</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Register</value>
@@ -573,5 +573,23 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   </data>
   <data name="CreateMailboxTitle" xml:space="preserve">
     <value>New Mailbox</value>
+  </data>
+  <data name="DeleteGesture" xml:space="preserve">
+    <value>Entf</value>
+  </data>
+  <data name="ForwardGesture" xml:space="preserve">
+    <value>Ctrl + F</value>
+  </data>
+  <data name="NewMailboxGesture" xml:space="preserve">
+    <value>Ctrl + N</value>
+  </data>
+  <data name="RefreshGesture" xml:space="preserve">
+    <value>F5</value>
+  </data>
+  <data name="ReplyGesture" xml:space="preserve">
+    <value>Ctrl + R</value>
+  </data>
+  <data name="RestoreGesture" xml:space="preserve">
+    <value>Ctrl + Alt + R</value>
   </data>
 </root>

@@ -106,15 +106,6 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Advanced.
-        /// </summary>
-        public static string Advanced {
-            get {
-                return ResourceManager.GetString("Advanced", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string All {
@@ -459,6 +450,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entf.
+        /// </summary>
+        public static string DeleteGesture {
+            get {
+                return ResourceManager.GetString("DeleteGesture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Descending.
         /// </summary>
         public static string Descending {
@@ -558,11 +558,29 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Flag.
+        /// </summary>
+        public static string Flag {
+            get {
+                return ResourceManager.GetString("Flag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forward.
         /// </summary>
         public static string Forward {
             get {
                 return ResourceManager.GetString("Forward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ctrl + F.
+        /// </summary>
+        public static string ForwardGesture {
+            get {
+                return ResourceManager.GetString("ForwardGesture", resourceCulture);
             }
         }
         
@@ -866,6 +884,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ctrl + N.
+        /// </summary>
+        public static string NewMailboxGesture {
+            get {
+                return ResourceManager.GetString("NewMailboxGesture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No connectivity, please check your internet connection..
         /// </summary>
         public static string NoConnectivity {
@@ -965,6 +992,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to F5.
+        /// </summary>
+        public static string RefreshGesture {
+            get {
+                return ResourceManager.GetString("RefreshGesture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refreshing public keys for contacts ....
         /// </summary>
         public static string RefreshingPublicKeysStatus {
@@ -1010,6 +1046,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ctrl + R.
+        /// </summary>
+        public static string ReplyGesture {
+            get {
+                return ResourceManager.GetString("ReplyGesture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The resource &apos;{0}&apos; was not found in assembly &apos;{1}&apos;..
         /// </summary>
         public static string ResourceNotFoundException {
@@ -1033,6 +1078,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string RestoreDown {
             get {
                 return ResourceManager.GetString("RestoreDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ctrl + Alt + R.
+        /// </summary>
+        public static string RestoreGesture {
+            get {
+                return ResourceManager.GetString("RestoreGesture", resourceCulture);
             }
         }
         

@@ -145,7 +145,7 @@
                                     <ContextMenu>
                                         <MenuItem Command="{Binding ShowUnsubscribedMailboxesCommand}" Header="{x:Static properties:Resources.ShowUnsubscribedMailboxes}">
                                             <MenuItem.Icon>
-                                                <Rectangle Style="{StaticResource MenuIconRectangleStyle}">
+                                                <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
                                                     <Rectangle.OpacityMask>
                                                         <ImageBrush ImageSource="/Assets/select.png" />
                                                     </Rectangle.OpacityMask>
@@ -153,9 +153,11 @@
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <Separator />
-                                        <MenuItem Command="{Binding DeleteAccountCommand}" Header="{x:Static properties:Resources.Delete}">
+                                        <MenuItem Command="{Binding DeleteAccountCommand}"
+                                                  Header="{x:Static properties:Resources.Delete}"
+                                                  InputGestureText="{x:Static properties:Resources.DeleteGesture}">
                                             <MenuItem.Icon>
-                                                <Rectangle Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}" Style="{StaticResource MenuIconRectangleStyle}">
+                                                <Rectangle Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}" Style="{StaticResource MonoChromeIconRectangleStyle}">
                                                     <Rectangle.OpacityMask>
                                                         <ImageBrush ImageSource="/Assets/delete.png" />
                                                     </Rectangle.OpacityMask>
@@ -167,7 +169,7 @@
                                                   CommandParameter="{Binding}"
                                                   Header="{x:Static properties:Resources.Properties}">
                                             <MenuItem.Icon>
-                                                <Rectangle Style="{StaticResource MenuIconRectangleStyle}">
+                                                <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
                                                     <Rectangle.OpacityMask>
                                                         <ImageBrush ImageSource="/Assets/edit.properties.png" />
                                                     </Rectangle.OpacityMask>
@@ -220,7 +222,7 @@
                                             <ContextMenu>
                                                 <MenuItem Command="{Binding HideUnsubscribedMailboxesCommand}" Header="{x:Static properties:Resources.HideUnsubscribedMailboxes}">
                                                     <MenuItem.Icon>
-                                                        <Rectangle Style="{StaticResource MenuIconRectangleStyle}">
+                                                        <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
                                                             <Rectangle.OpacityMask>
                                                                 <ImageBrush ImageSource="/Assets/ok.png" />
                                                             </Rectangle.OpacityMask>
@@ -248,35 +250,41 @@
                                         <MenuItem Command="ui:MailboxCommands.Create"
                                                   CommandParameter="{Binding}"
                                                   Header="{x:Static properties:Resources.New}"
-                                                  InputGestureText="Ctrl+N">
+                                                  InputGestureText="{x:Static properties:Resources.NewMailboxGesture}">
                                             <MenuItem.Icon>
-                                                <Rectangle Style="{StaticResource MenuIconRectangleStyle}">
+                                                <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
                                                     <Rectangle.OpacityMask>
                                                         <ImageBrush ImageSource="/Assets/add.png" />
                                                     </Rectangle.OpacityMask>
                                                 </Rectangle>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Command="ui:MailboxCommands.Sync"
+
+                                        <Separator />
+                                        <MenuItem Command="ui:MailboxCommands.Delete"
                                                   CommandParameter="{Binding}"
-                                                  Header="{x:Static properties:Resources.Sync}"
-                                                  InputGestureText="F5">
+                                                  Header="{x:Static properties:Resources.Delete}"
+                                                  InputGestureText="{x:Static properties:Resources.Delete}">
                                             <MenuItem.Icon>
-                                                <Rectangle Style="{StaticResource MenuIconRectangleStyle}">
+                                                <Rectangle Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}" Style="{StaticResource MonoChromeIconRectangleStyle}">
                                                     <Rectangle.OpacityMask>
-                                                        <ImageBrush ImageSource="/Assets/refresh.png" />
+                                                        <ImageBrush ImageSource="/Assets/delete.png" />
                                                     </Rectangle.OpacityMask>
                                                 </Rectangle>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <Separator />
-                                        <MenuItem Command="ui:MailboxCommands.Delete" CommandParameter="{Binding}">
+                                        <MenuItem Command="ui:MailboxCommands.Sync"
+                                                  CommandParameter="{Binding}"
+                                                  Header="{x:Static properties:Resources.Sync}"
+                                                  InputGestureText="{x:Static properties:Resources.RefreshGesture}">
                                             <MenuItem.Icon>
-                                                <Image Height="16" Source="/Assets/delete.png" />
+                                                <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
+                                                    <Rectangle.OpacityMask>
+                                                        <ImageBrush ImageSource="/Assets/refresh.png" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
                                             </MenuItem.Icon>
-                                            <MenuItem.Header>
-                                                <TextBlock Text="{x:Static properties:Resources.Delete}" />
-                                            </MenuItem.Header>
                                         </MenuItem>
                                     </ContextMenu>
                                 </Grid.ContextMenu>
@@ -479,8 +487,6 @@
                                                           Mode=TwoWay}"
                                       Style="{DynamicResource SortingToggleButtonStyle}" />
                     </StackPanel>
-
-
                 </DockPanel>
             </Grid>
             <Grid>
@@ -518,7 +524,9 @@
                     </ListView.InputBindings>
                     <ListView.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Command="ui:MessagingCommands.Reply" InputGestureText="Ctrl + R">
+                            <MenuItem Command="ui:MessagingCommands.Reply"
+                                      Header="{x:Static properties:Resources.Reply}"
+                                      InputGestureText="{x:Static properties:Resources.ReplyGesture}">
                                 <MenuItem.Icon>
                                     <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
                                         <Rectangle.OpacityMask>
@@ -526,21 +534,19 @@
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
                                 </MenuItem.Icon>
-                                <MenuItem.Header>
-                                    <TextBlock Text="{x:Static properties:Resources.Reply}" />
-                                </MenuItem.Header>
                             </MenuItem>
-                            <MenuItem Command="ui:MessagingCommands.Forward" InputGestureText="Ctrl + F">
+                            <MenuItem Command="ui:MessagingCommands.Forward"
+                                      Header="{x:Static properties:Resources.Forward}"
+                                      InputGestureText="{x:Static properties:Resources.ForwardGesture}">
                                 <MenuItem.Icon>
-                                    <Image Height="16"
-                                           Source="/Assets/forward.png"
-                                           UseLayoutRounding="True" />
+                                    <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/forward.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
                                 </MenuItem.Icon>
-                                <MenuItem.Header>
-                                    <TextBlock Text="{x:Static properties:Resources.Forward}" />
-                                </MenuItem.Header>
                             </MenuItem>
-                            <MenuItem Command="{Binding RestoreMessagesCommand}" InputGestureText="Ctrl + Alt + R">
+                            <MenuItem Command="{Binding RestoreMessagesCommand}" InputGestureText="{x:Static properties:Resources.RestoreGesture}">
                                 <MenuItem.Icon>
                                     <Image Height="16"
                                            Source="/Assets/message.restore.png"
@@ -551,69 +557,55 @@
                                 </MenuItem.Header>
                             </MenuItem>
                             <Separator />
-                            <MenuItem Command="{Binding DeleteMessagesCommand}" InputGestureText="Entf">
+                            <MenuItem Command="{Binding DeleteMessagesCommand}"
+                                      Header="{x:Static properties:Resources.Delete}"
+                                      InputGestureText="{x:Static properties:Resources.DeleteGesture}">
                                 <MenuItem.Icon>
-                                    <Rectangle Width="16"
-                                               Height="16"
-                                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}">
+                                    <Rectangle Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}" Style="{DynamicResource MonoChromeIconRectangleStyle}">
                                         <Rectangle.OpacityMask>
                                             <ImageBrush ImageSource="/Assets/delete.png" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
                                 </MenuItem.Icon>
-                                <MenuItem.Header>
-                                    <TextBlock Text="{x:Static properties:Resources.Delete}" />
-                                </MenuItem.Header>
                             </MenuItem>
                             <Separator />
-                            <MenuItem>
-                                <MenuItem.Header>
-                                    <TextBlock Text="{x:Static properties:Resources.Advanced}" />
-                                </MenuItem.Header>
-                                <MenuItem Command="{Binding MarkAsFlaggedCommand}">
+                            <MenuItem Header="{x:Static properties:Resources.Flag}">
+                                <MenuItem Command="{Binding MarkAsFlaggedCommand}" Header="{x:Static properties:Resources.MarkAsFlagged}">
                                     <MenuItem.Icon>
-                                        <Rectangle Width="16"
-                                                   Height="16"
-                                                   Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppWarningBrushKey}}">
+                                        <Rectangle Style="{DynamicResource MonoChromeIconRectangleStyle}">
                                             <Rectangle.OpacityMask>
                                                 <ImageBrush ImageSource="/Assets/star.full.png" />
                                             </Rectangle.OpacityMask>
                                         </Rectangle>
                                     </MenuItem.Icon>
-                                    <MenuItem.Header>
-                                        <TextBlock Text="{x:Static properties:Resources.MarkAsFlagged}" />
-                                    </MenuItem.Header>
                                 </MenuItem>
-                                <MenuItem Command="{Binding MarkAsNotFlaggedCommand}">
+                                <MenuItem Command="{Binding MarkAsNotFlaggedCommand}" Header="{x:Static properties:Resources.MarkAsNotFlagged}">
                                     <MenuItem.Icon>
-                                        <Image Height="16"
-                                               Source="/Assets/star.png"
-                                               UseLayoutRounding="True" />
+                                        <Rectangle Style="{DynamicResource MonoChromeIconRectangleStyle}">
+                                            <Rectangle.OpacityMask>
+                                                <ImageBrush ImageSource="/Assets/star.png" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
                                     </MenuItem.Icon>
-                                    <MenuItem.Header>
-                                        <TextBlock Text="{x:Static properties:Resources.MarkAsNotFlagged}" />
-                                    </MenuItem.Header>
                                 </MenuItem>
                                 <Separator />
-                                <MenuItem Command="{Binding MarkAsSeenCommand}">
+                                <MenuItem Command="{Binding MarkAsSeenCommand}" Header="{x:Static properties:Resources.MarkAsSeen}">
                                     <MenuItem.Icon>
-                                        <Image Height="16"
-                                               Source="/Assets/seen.png"
-                                               UseLayoutRounding="True" />
+                                        <Rectangle Style="{DynamicResource MonoChromeIconRectangleStyle}">
+                                            <Rectangle.OpacityMask>
+                                                <ImageBrush ImageSource="/Assets/seen.png" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
                                     </MenuItem.Icon>
-                                    <MenuItem.Header>
-                                        <TextBlock Text="{x:Static properties:Resources.MarkAsSeen}" />
-                                    </MenuItem.Header>
                                 </MenuItem>
-                                <MenuItem Command="{Binding MarkAsNotSeenCommand}">
+                                <MenuItem Command="{Binding MarkAsNotSeenCommand}" Header="{x:Static properties:Resources.MarkAsNotSeen}">
                                     <MenuItem.Icon>
-                                        <Image Height="16"
-                                               Source="/Assets/message.png"
-                                               UseLayoutRounding="True" />
+                                        <Rectangle Style="{DynamicResource MonoChromeIconRectangleStyle}">
+                                            <Rectangle.OpacityMask>
+                                                <ImageBrush ImageSource="/Assets/message.png" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
                                     </MenuItem.Icon>
-                                    <MenuItem.Header>
-                                        <TextBlock Text="{x:Static properties:Resources.MarkAsNotSeen}" />
-                                    </MenuItem.Header>
                                 </MenuItem>
                             </MenuItem>
                         </ContextMenu>
