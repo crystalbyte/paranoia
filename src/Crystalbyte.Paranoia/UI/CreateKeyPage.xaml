@@ -94,7 +94,7 @@
                        Grid.ColumnSpan="2"
                        Margin="24,0,0,0"
                        FontStyle="Italic"
-                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}">
+                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}">
                 <Run Text="-" />
                 <Run Text="{Binding BenFranklin, Mode=OneTime}" />
 

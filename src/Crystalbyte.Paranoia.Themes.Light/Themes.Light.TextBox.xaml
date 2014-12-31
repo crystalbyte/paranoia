@@ -27,7 +27,7 @@
         <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
         <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
         <Setter Property="Padding" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxPaddingKey}}" />
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontFamilyKey}}" />
         <Setter Property="Margin" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxMarginKey}}" />
@@ -47,7 +47,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledBorderBrushKey}}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledBorderBrushKey}}" />
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputDisabledForegroundBrushKey}}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">

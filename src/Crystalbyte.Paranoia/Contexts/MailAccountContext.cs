@@ -17,7 +17,6 @@ using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Net;
 using Crystalbyte.Paranoia.Properties;
-using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
 using Newtonsoft.Json;
 using NLog;
@@ -26,7 +25,7 @@ using System.Windows;
 #endregion
 
 namespace Crystalbyte.Paranoia {
-    public sealed class MailAccountContext : HierarchyContext, IKeyboardFocusAware {
+    public sealed class MailAccountContext : HierarchyContext {
 
         #region Private Fields
 
@@ -50,7 +49,6 @@ namespace Crystalbyte.Paranoia {
         private readonly OutboxContext _outbox;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
         private bool _isSyncingMailboxes;
-        private bool _isKeyboardFocused;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -106,10 +104,8 @@ namespace Crystalbyte.Paranoia {
         }
 
 
-        private void OnConfigAccount(object obj) {
-            var args = string.Format("?mode=edit&id={0}", Id);
-            var uri = typeof(AccountPage).ToPageUri(args);
-            App.Context.ConfigureAccount(uri);
+        private static void OnConfigAccount(object obj) {
+            App.Context.ConfigureAccount(obj as MailAccountContext);
         }
 
         private void OnHideUnsubscribedMailboxes(object obj) {
@@ -304,7 +300,7 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertUIThread();
 
             if (IsSyncingMailboxes) {
-                return;
+                throw new InvalidOperationException();
             }
 
             IsSyncingMailboxes = true;
@@ -383,7 +379,7 @@ namespace Crystalbyte.Paranoia {
                     _mailboxes.Add(context);
                 }
 
-                await UpdateAsync();
+                await SaveAsync();
 
                 var inbox = _mailboxes.FirstOrDefault(x => x.IsInbox);
                 if (inbox != null) {
@@ -396,10 +392,10 @@ namespace Crystalbyte.Paranoia {
                 App.Context.ResetStatusText();
             }
 
-            IsSyncingMailboxes = true;
+            IsSyncingMailboxes = false;
         }
 
-        internal async Task UpdateAsync() {
+        internal async Task SaveAsync() {
             Application.Current.AssertUIThread();
 
             using (var database = new DatabaseContext()) {
@@ -808,7 +804,6 @@ namespace Crystalbyte.Paranoia {
 
         internal async Task InsertAsync() {
             try {
-
                 using (var database = new DatabaseContext()) {
                     database.MailAccounts.Add(_account);
                     await database.SaveChangesAsync();
@@ -1043,25 +1038,5 @@ namespace Crystalbyte.Paranoia {
         internal void NotifyMailboxRemoved(MailboxContext mailbox) {
             _mailboxes.Remove(mailbox);
         }
-
-        #region Implementation of IKeyboardFocusAware
-
-        public bool IsKeyboardFocused {
-            get { return _isKeyboardFocused; }
-            set {
-                if (_isKeyboardFocused == value) {
-                    return;
-                }
-                _isKeyboardFocused = value;
-                RaisePropertyChanged(() => IsKeyboardFocused);
-
-                Outbox.IsKeyboardFocused = value;
-                foreach (var mailbox in Mailboxes) {
-                    mailbox.IsKeyboardFocused = value;
-                }
-            }
-        }
-
-        #endregion
     }
 }

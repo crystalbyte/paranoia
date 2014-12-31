@@ -199,7 +199,7 @@
     <Compile Include="IMailboxCreator.cs" />
     <Compile Include="DescriptionAttribute.cs" />
     <Compile Include="UI\Converters\SortPropertyFormatter.cs" />
-    <Compile Include="UI\IKeyboardFocusAware.cs" />
+    <Compile Include="UI\ICancelationAware.cs" />
     <Compile Include="UI\InspectionWindow.xaml.cs">
       <DependentUpon>InspectionWindow.xaml</DependentUpon>
     </Compile>
@@ -273,8 +273,8 @@
     <Compile Include="UI\RoutedCommands\MessagingCommands.cs" />
     <Compile Include="UI\RoutedCommands\FlyoutCommands.cs" />
     <Compile Include="UI\NavigationArguments.cs" />
-    <Compile Include="UI\AccountPage.xaml.cs">
-      <DependentUpon>AccountPage.xaml</DependentUpon>
+    <Compile Include="UI\AccountPropertyFlyoutPage.xaml.cs">
+      <DependentUpon>AccountPropertyFlyoutPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\ContactsPage.xaml.cs">
       <DependentUpon>ContactsPage.xaml</DependentUpon>
@@ -384,7 +384,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\AccountPage.xaml">
+    <Page Include="UI\AccountPropertyFlyoutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

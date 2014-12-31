@@ -13,7 +13,7 @@ namespace Crystalbyte.Paranoia.UI {
             var parent = (IMailboxCreator) NavigationArguments.Pop();
             DataContext = new CreateMailboxContext(parent);
 
-            CommandBindings.Add(new CommandBinding(NavigationCommands.Close, OnCancel));
+            CommandBindings.Add(new CommandBinding(NavigationCommands.Cancel, OnCancel));
             CommandBindings.Add(new CommandBinding(NavigationCommands.Continue, OnContinue, OnCanContinue));
             NameTextBox.TextChanged += OnNameTextBoxTextChanged;
             Loaded += OnLoaded;

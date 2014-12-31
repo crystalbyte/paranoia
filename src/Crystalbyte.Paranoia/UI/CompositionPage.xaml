@@ -34,15 +34,15 @@
                                         ConverterParameter=48}"
                        Stretch="Uniform" />
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextLargeFontSizeKey}}"
+                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextLargeFontSizeKey}}"
                                FontWeight="Thin"
-                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
                                Text="{Binding Name}" />
-                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}}" Text="{Binding Address}">
+                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}" Text="{Binding Address}">
                         <TextBlock.Foreground>
                             <Binding Mode="OneWay" Path="IsSelected">
                                 <Binding.Converter>
-                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
                                 </Binding.Converter>
                             </Binding>
                         </TextBlock.Foreground>
@@ -71,7 +71,7 @@
                     <TextBlock Margin="2,0,2,0"
                                Background="Transparent"
                                FontWeight="Normal"
-                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
                                Text="{Binding}" />
                 </StackPanel>
             </Grid>
@@ -161,9 +161,9 @@
                                                 Converter={StaticResource GravatarImageConverter}}" />
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Margin="2,-2,0,0"
-                                       FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumLargeFontSizeKey}}"
+                                       FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}}"
                                        FontWeight="Thin"
-                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}"
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Text="{Binding Name,
                                                       ConverterParameter=...,
@@ -179,7 +179,7 @@
                                 <TextBlock.Foreground>
                                     <Binding Mode="OneWay" Path="IsSelected">
                                         <Binding.Converter>
-                                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+                                            <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
                                         </Binding.Converter>
                                     </Binding>
                                 </TextBlock.Foreground>
@@ -228,7 +228,7 @@
             <ToggleButton x:Name="CarbonCopyToggleButton"
                           Grid.Row="1"
                           Height="Auto">
-                <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}}" Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}">Cc / Bcc</TextBlock>
+                <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}" Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}">Cc / Bcc</TextBlock>
             </ToggleButton>
         </Grid>
         <controls:WatermarkTextBox x:Name="SubjectTextBox"

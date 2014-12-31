@@ -540,6 +540,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fetching available mailboxes ....
+        /// </summary>
+        public static string FetchingMailboxes {
+            get {
+                return ResourceManager.GetString("FetchingMailboxes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forward.
         /// </summary>
         public static string Forward {
@@ -567,6 +576,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        public static string General {
+            get {
+                return ResourceManager.GetString("General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your name and e-mail address are public and will be shared with the people you communicate with..
         /// </summary>
         public static string GeneralSettingsDescription {
@@ -576,7 +594,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to General Information &amp; Settings.
+        ///   Looks up a localized string similar to General Information.
         /// </summary>
         public static string GeneralSettingsTitle {
             get {
@@ -673,6 +691,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string MailboxAssignmentDescription {
             get {
                 return ResourceManager.GetString("MailboxAssignmentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mailboxes.
+        /// </summary>
+        public static string Mailboxes {
+            get {
+                return ResourceManager.GetString("Mailboxes", resourceCulture);
             }
         }
         
@@ -1055,7 +1082,17 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server settings are required to access your incoming and outgoing mail servers. Access protocols are currently limited to the IMAP (Internet Message Access Protocol) and the SMTP (Simple Mail TransferProtocol) protocols..
+        ///   Looks up a localized string similar to Server.
+        /// </summary>
+        public static string Server {
+            get {
+                return ResourceManager.GetString("Server", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server settings are required to access your incoming and outgoing mail servers.
+        ///Access protocols are currently limited to the IMAP (Internet Message Access Protocol) and the SMTP (Simple Mail Transfer Protocol) protocols..
         /// </summary>
         public static string ServerSettingsDescription {
             get {

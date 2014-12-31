@@ -19,6 +19,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.Resources.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.Button.xaml" />
+                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.TabControl.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.GroupBox.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.ScrollViewer.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.ComboBox.xaml" />
@@ -45,6 +46,10 @@
             <converters:BooleanToVisibilityMultiConverter x:Key="BooleanToVisibilityMultiConverter" />
             <converters:SortPropertyFormatter x:Key="SortPropertyFormatter" />
             <converters:IconFinder x:Key="IconFinder" />
+
+            <converters:BooleanToBrushConverter x:Key="SubscribedAndSelectableForegroundConverter"
+                                                BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
+                                                BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
 
             <awe:WebSessionProvider x:Key="CompositionWebSessionProvider">
                 <awe:WebSessionProvider.DataSources>
@@ -112,6 +117,49 @@
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
             </Style>
 
+            <DataTemplate x:Key="TabControlHeaderTemplate" DataType="TabItem">
+                <TextBlock x:Name="HeaderText"
+                           Margin="0,0,0,12"
+                           FontSize="20"
+                           FontWeight="Thin"
+                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TabControlHeaderForegroundBrushKey}}"
+                           Text="{Binding}" />
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=TabItem}}" Value="True">
+                        <Setter TargetName="HeaderText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                    </DataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=TabItem}}" Value="True" />
+                            <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=TabItem}}" Value="False" />
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="HeaderText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}" />
+                    </MultiDataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+            <HierarchicalDataTemplate x:Key="MailboxTemplate"
+                                      DataType="{x:Type paranoia:MailboxContext}"
+                                      ItemsSource="{Binding Children}">
+                <Grid>
+                    <Rectangle HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch"
+                               Fill="Transparent" />
+                    <DockPanel HorizontalAlignment="Stretch" LastChildFill="False">
+                        <Image Width="16"
+                               Margin="0,1,6,1"
+                               DockPanel.Dock="Left"
+                               SnapsToDevicePixels="True"
+                               Source="/Assets/folder.png" />
+                        <TextBlock x:Name="MailboxNameBlock"
+                                   VerticalAlignment="Center"
+                                   DockPanel.Dock="Left"
+                                   Foreground="{Binding IsSubscribedAndSelectable,
+                                                        Converter={StaticResource SubscribedAndSelectableForegroundConverter}}"
+                                   Text="{Binding LocalName}" />
+                    </DockPanel>
+                </Grid>
+            </HierarchicalDataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

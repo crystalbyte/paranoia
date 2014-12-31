@@ -3,14 +3,11 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Navigation;
-using Crystalbyte.Paranoia.UI.Commands;
 using Microsoft.Win32;
-using NavigationCommands = Crystalbyte.Paranoia.UI.FlyoutCommands;
 
 #endregion
 
@@ -23,8 +20,8 @@ namespace Crystalbyte.Paranoia.UI {
         public CreateAccountFinalizeFlyoutPage() {
             InitializeComponent();
 
-            CommandBindings.Add(new CommandBinding(NavigationCommands.Continue, OnContinue));
-            CommandBindings.Add(new CommandBinding(NavigationCommands.Close, OnClose));
+            CommandBindings.Add(new CommandBinding(FlyoutCommands.Continue, OnContinue));
+            CommandBindings.Add(new CommandBinding(FlyoutCommands.Cancel, OnClose));
             CommandBindings.Add(new CommandBinding(MailboxCommands.Browse, OnBrowseMailboxes));
             CommandBindings.Add(new CommandBinding(MailboxCommands.SelectRole, OnSelectRole, OnCanSelectRole));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnCloseMailboxSelection));
@@ -164,14 +161,19 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async void OnContinue(object sender, ExecutedRoutedEventArgs e) {
-            var account = (MailAccountContext)DataContext;
-            await SaveChangesAsync(account);
-            App.Context.CloseFlyout();
+            try {
+                ContinueButton.IsEnabled = false;
+                var account = (MailAccountContext)DataContext;
+                await account.InsertAsync();
+                App.Context.NotifyAccountCreated(account);
+            }
+            finally {
+                ContinueButton.IsEnabled = true;
+                App.Context.CloseFlyout();
+            }
+            
         }
-
-        private static async Task SaveChangesAsync(MailAccountContext account) {
-            await account.UpdateAsync();
-        }
+        
         private void OnStoreCopyRadioButtonChecked(object sender, RoutedEventArgs e) {
             var account = (MailAccountContext)DataContext;
             account.StoreCopiesOfSentMessages = true;

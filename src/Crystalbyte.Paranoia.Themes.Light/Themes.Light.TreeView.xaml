@@ -69,13 +69,13 @@
                               HorizontalAlignment="Left"
                               VerticalAlignment="Center"
                               Data="M 4 0 L 8 4 L 4 8 Z"
-                              Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+                              Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
                         <Path x:Name="Expanded"
                               Margin="1,1,1,1"
                               HorizontalAlignment="Left"
                               VerticalAlignment="Center"
                               Data="M 0 4 L 8 4 L 4 8 Z"
-                              Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}"
+                              Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
                               Visibility="Hidden" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CheckStates">
@@ -121,7 +121,7 @@
         <Setter Property="Margin" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemMarginKey}}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
         <Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
         <Setter Property="Template">
             <Setter.Value>

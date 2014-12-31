@@ -62,7 +62,7 @@
                     <TextBlock Margin="12,0,0,0"
                                VerticalAlignment="Center"
                                DockPanel.Dock="Left"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextExtraLargeFontSizeKey}}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextExtraLargeFontSizeKey}}"
                                Style="{DynamicResource TitleTextStyle}"><Run Text="{x:Static properties:Resources.AccountsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Text="{Binding Accounts, Converter={StaticResource CollectionCounter}, FallbackValue=0, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
                 </DockPanel>
@@ -85,31 +85,35 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0"
-                                       Width="16"
-                                       Height="16"
-                                       Margin="0,1,6,1"
-                                       SnapsToDevicePixels="True"
-                                       Source="/Assets/folder.png" />
+                                <Rectangle Width="16"
+                                           Height="16"
+                                           Margin="0,1,6,1"
+                                           DockPanel.Dock="Left"
+                                           Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppIconBrushKey}}"
+                                           SnapsToDevicePixels="True">
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="/Assets/folder.png" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
                                 <TextBlock x:Name="NameText"
                                            Grid.Column="1"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}"
+                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
                                            Text="{x:Static properties:Resources.Outbox}" />
                                 <Border Grid.Column="2"
                                         Margin="12,0"
                                         Visibility="{Binding SmtpRequestCount,
                                                              Converter={StaticResource QuantityToVisibilityConverter}}">
                                     <TextBlock VerticalAlignment="Center"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}}"
+                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}"
                                                FontWeight="Bold"
                                                Text="{Binding SmtpRequestCount}">
                                         <TextBlock.Foreground>
                                             <Binding Path="IsSelected">
                                                 <Binding.Converter>
                                                     <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
                                                     <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                                                 </Binding.Converter>
                                             </Binding>
@@ -119,7 +123,7 @@
                             </Grid>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+                                    <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -132,7 +136,7 @@
                                                 <Image Height="16" Source="/Assets/select.png" />
                                             </MenuItem.Icon>
                                             <MenuItem.Header>
-                                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" Text="{x:Static properties:Resources.ShowUnsubscribedMailboxes}" />
+                                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" Text="{x:Static properties:Resources.ShowUnsubscribedMailboxes}" />
                                             </MenuItem.Header>
                                         </MenuItem>
                                         <MenuItem Command="{Binding HideUnsubscribedMailboxesCommand}" Visibility="{Binding IsManagingMailboxes, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -140,7 +144,7 @@
                                                 <Image Height="16" Source="/Assets/ok.png" />
                                             </MenuItem.Icon>
                                             <MenuItem.Header>
-                                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" Text="{x:Static properties:Resources.HideUnsubscribedMailboxes}" />
+                                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" Text="{x:Static properties:Resources.HideUnsubscribedMailboxes}" />
                                             </MenuItem.Header>
                                         </MenuItem>
                                         <Separator Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}" />
@@ -155,24 +159,20 @@
                                                 </Rectangle>
                                             </MenuItem.Icon>
                                             <MenuItem.Header>
-                                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" Text="{x:Static properties:Resources.Delete}" />
+                                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" Text="{x:Static properties:Resources.Delete}" />
                                             </MenuItem.Header>
                                         </MenuItem>
                                         <Separator Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                        <MenuItem Command="{Binding RegisterCommand}" Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                            <MenuItem.Icon>
-                                                <Image Height="16" Source="/Assets/paper.png" />
-                                            </MenuItem.Icon>
-                                            <MenuItem.Header>
-                                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" Text="{x:Static properties:Resources.Register}" />
-                                            </MenuItem.Header>
-                                        </MenuItem>
-                                        <MenuItem Command="{Binding ConfigAccountCommand}" Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <MenuItem Command="{Binding ConfigAccountCommand}"
+                                                  CommandParameter="{Binding}"
+                                                  Visibility="{Binding IsManagingMailboxes,
+                                                                       ConverterParameter=!,
+                                                                       Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <MenuItem.Icon>
                                                 <Image Height="16" Source="/Assets/edit.properties.png" />
                                             </MenuItem.Icon>
                                             <MenuItem.Header>
-                                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" Text="{x:Static properties:Resources.Properties}" />
+                                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" Text="{x:Static properties:Resources.Properties}" />
                                             </MenuItem.Header>
                                         </MenuItem>
                                     </ContextMenu>
@@ -195,9 +195,9 @@
                                             Margin="0,-2,0,0"
                                             VerticalAlignment="Center">
                                     <TextBlock x:Name="NameText"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextLargeFontSizeKey}}"
+                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextLargeFontSizeKey}}"
                                                FontWeight="Thin"
-                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}"
+                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
                                                RenderOptions.ClearTypeHint="Enabled"
                                                Text="{Binding Name,
                                                               ConverterParameter=...,
@@ -205,8 +205,8 @@
                                                TextTrimming="CharacterEllipsis"
                                                TextWrapping="NoWrap" />
                                     <TextBlock x:Name="AddressText"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}"
-                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}"
+                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
+                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
                                                RenderOptions.ClearTypeHint="Enabled"
                                                Text="{Binding Address,
                                                               Converter={StaticResource NullOrEmptyFormatter}}"
@@ -220,8 +220,8 @@
                                         <Condition Binding="{Binding IsSelected}" Value="True" />
                                         <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}" Value="True" />
                                     </MultiDataTrigger.Conditions>
-                                    <Setter TargetName="AddressText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}" />
-                                    <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}" />
+                                    <Setter TargetName="AddressText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}" />
+                                    <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}" />
                                 </MultiDataTrigger>
                             </HierarchicalDataTemplate.Triggers>
                         </HierarchicalDataTemplate>
@@ -270,30 +270,33 @@
                                                   Visibility="{Binding IsSelectable,
                                                                        Converter={StaticResource BooleanToVisibilityConverter}}" />
                                     </Border>
-                                    <Image Width="16"
-                                           Height="16"
-                                           Margin="0,1,6,1"
-                                           DockPanel.Dock="Left"
-                                           SnapsToDevicePixels="True"
-                                           Source="/Assets/folder.png">
-                                        <Image.Opacity>
+                                    <Rectangle Width="16"
+                                               Height="16"
+                                               Margin="0,1,6,1"
+                                               DockPanel.Dock="Left"
+                                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppIconBrushKey}}"
+                                               SnapsToDevicePixels="True">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/folder.png" />
+                                        </Rectangle.OpacityMask>
+                                        <Rectangle.Opacity>
                                             <Binding Path="IsSubscribedAndSelectable">
                                                 <Binding.Converter>
                                                     <converters:BooleanToOpacityConverter OpacityForFalse=".5" OpacityForTrue="1" />
                                                 </Binding.Converter>
                                             </Binding>
-                                        </Image.Opacity>
-                                    </Image>
+                                        </Rectangle.Opacity>
+                                    </Rectangle>
                                     <TextBlock x:Name="NameText"
                                                VerticalAlignment="Center"
                                                DockPanel.Dock="Left"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}"
+                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
                                                Text="{Binding LocalName}">
                                         <TextBlock.Foreground>
                                             <Binding Path="IsSubscribedAndSelectable">
                                                 <Binding.Converter>
                                                     <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
                                                     <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                                                 </Binding.Converter>
                                             </Binding>
@@ -305,7 +308,7 @@
                                                                  Converter={StaticResource QuantityToVisibilityConverter}}">
                                         <TextBlock x:Name="NotSeenCountText"
                                                    VerticalAlignment="Center"
-                                                   FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}}"
+                                                   FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}"
                                                    FontWeight="Bold"
                                                    Text="{Binding NotSeenCount}">
                                             <TextBlock.Foreground>
@@ -346,8 +349,8 @@
                                         <Condition Binding="{Binding IsSelected}" Value="True" />
                                         <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}" Value="True" />
                                     </MultiDataTrigger.Conditions>
-                                    <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}" />
-                                    <Setter TargetName="EnvelopeProgressBar" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+                                    <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}" />
+                                    <Setter TargetName="EnvelopeProgressBar" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
                                 </MultiDataTrigger>
                             </HierarchicalDataTemplate.Triggers>
                         </HierarchicalDataTemplate>
@@ -390,7 +393,7 @@
                     <TextBlock Margin="12,0"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextExtraLargeFontSizeKey}}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextExtraLargeFontSizeKey}}"
                                Style="{DynamicResource TitleTextStyle}">
                         <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Text="{Binding Messages, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
@@ -417,8 +420,7 @@
                                  GroupName="Filter"
                                  Style="{DynamicResource TextRadioButtonStyle}" />
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                        <Button VerticalAlignment="Center"
-                                Click="OnSortPropertyButtonClicked"
+                        <Button Click="OnSortPropertyButtonClicked"
                                 Content="{Binding SortProperty,
                                                   ElementName=Page,
                                                   Converter={StaticResource SortPropertyFormatter}}"
@@ -478,7 +480,7 @@
                     <ListView.Resources>
                         <converters:BooleanToBrushConverter x:Key="SeenBrushConverter"
                                                             BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                                                            BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" />
+                                                            BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" />
                     </ListView.Resources>
                     <ListView.ItemsSource>
                         <Binding Source="{StaticResource MessagesSource}" />
@@ -643,8 +645,8 @@
                                            Margin="0,0,12,0"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumLargeFontSizeKey}}"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}"
+                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}}"
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
                                            Text="{Binding Converter={StaticResource MailContactFormatter}}"
                                            TextTrimming="CharacterEllipsis"
                                            TextWrapping="NoWrap" />
@@ -670,7 +672,7 @@
                                            Grid.Column="1"
                                            Margin="0,0,6,0"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}"
+                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
                                            Foreground="{Binding IsSeen,
                                                                 Converter={StaticResource SeenBrushConverter}}"
                                            RenderOptions.ClearTypeHint="Enabled"
@@ -685,8 +687,8 @@
                                            Margin="0,0,6,0"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}}"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}"
+                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}"
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
                                            Text="{Binding EntryDate,
                                                           Converter={StaticResource DateFormatter}}" />
 
@@ -697,9 +699,9 @@
                                         <Condition Binding="{Binding IsSelected}" Value="True" />
                                         <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=ListView}}" Value="True" />
                                     </MultiDataTrigger.Conditions>
-                                    <Setter TargetName="SubjectText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}" />
-                                    <Setter TargetName="DateText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}" />
-                                    <Setter TargetName="FromText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}" />
+                                    <Setter TargetName="SubjectText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}" />
+                                    <Setter TargetName="DateText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}" />
+                                    <Setter TargetName="FromText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}" />
                                 </MultiDataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -717,9 +719,9 @@
                 <TextBlock Margin="12"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
-                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextExtraLargeFontSizeKey}}"
+                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}}"
                            FontWeight="Thin"
-                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}"
+                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
                            Text="{x:Static properties:Resources.NoMessages}"
                            Visibility="{Binding MessageCount,
                                                 ConverterParameter=!,
@@ -729,7 +731,7 @@
         <DockPanel Grid.Row="0"
                    Grid.Column="2"
                    Margin="0,3,0,0"
-                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}"
+                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
                    LastChildFill="True"
                    Visibility="{Binding IsOutboxSelected,
                                         Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -749,9 +751,9 @@
                     <TextBlock Margin="12,0"
                                VerticalAlignment="Center"
                                DataContext="{Binding SelectedOutbox}"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextExtraLargeFontSizeKey}}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextExtraLargeFontSizeKey}}"
                                Style="{DynamicResource TitleTextStyle}">
-                        <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource Metro.Control.SecondaryTextBrush}" Text="{Binding SmtpRequests, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
+                        <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Text="{Binding SmtpRequests, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
                 </DockPanel>
                 <TextBox Grid.Row="1"
@@ -783,9 +785,6 @@
                     <ListView.ItemsSource>
                         <Binding Source="{StaticResource SmtpRequestsSource}" />
                     </ListView.ItemsSource>
-                    <ListView.InputBindings>
-                        <!--  <KeyBinding Key="Delete" Command="ui:OutboxCommands.Delete" />  -->
-                    </ListView.InputBindings>
                     <ListView.ContextMenu>
                         <ContextMenu>
                             <MenuItem InputGestureText="Delete">
@@ -848,7 +847,7 @@
                                            Margin="0,0,12,0"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumLargeFontSizeKey}}"
+                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}}"
                                            FontWeight="Thin"
                                            Text="{Binding ToNameOrAddress}"
                                            TextTrimming="CharacterEllipsis"
@@ -867,7 +866,7 @@
                             </Grid>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="SubjectText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+                                    <Setter TargetName="SubjectText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -884,8 +883,8 @@
                 <TextBlock Margin="12"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
-                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}"
-                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}"
+                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
+                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
                            Text="{x:Static properties:Resources.NothingToSend}"
                            Visibility="{Binding SmtpRequestCount,
                                                 ConverterParameter=!,
@@ -933,7 +932,7 @@
                                Grid.Column="0"
                                Margin="12,0,12,0"
                                DataContext="{Binding SelectedMessage}"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumLargeFontSizeKey}}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}}"
                                FontWeight="Normal"
                                Style="{DynamicResource SubtitleTextStyle}"
                                Text="{Binding FromName}" />
@@ -968,9 +967,9 @@
                                Margin="12,0"
                                DataContext="{Binding SelectedMessage}"
                                FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.SubtitleFontFamilyKey}}"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}"
                                FontWeight="Normal"
-                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
                                Text="{Binding EntryDate}" />
                 </Grid>
             </Border>
@@ -1038,7 +1037,7 @@
                             <Run FontSize="48"
                                  FontWeight="Thin"
                                  Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                                 Text="{Binding ProgressChanged}" /><Run Text=" " /><Run FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}"
+                                 Text="{Binding ProgressChanged}" /><Run Text=" " /><Run FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
                                  FontWeight="Thin"
                                  Text="%" />
                         </TextBlock>

@@ -42,8 +42,8 @@
                        DataContext="{Binding DataContext}"
                        d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}">
                 <Run Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
-                <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" Text=" - " />
-                <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
+                <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" Text=" - " />
+                <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
             </TextBlock>
 
         </StackPanel>

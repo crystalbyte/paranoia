@@ -181,7 +181,7 @@
     <value>Your name and e-mail address are public and will be shared with the people you communicate with.</value>
   </data>
   <data name="GeneralSettingsTitle" xml:space="preserve">
-    <value>General Information &amp; Settings</value>
+    <value>General Information</value>
   </data>
   <data name="ImapHost" xml:space="preserve">
     <value>Host</value>
@@ -553,9 +553,22 @@ Once your password is lost you're screwed.</value>
     <value>IMAP</value>
   </data>
   <data name="ServerSettingsDescription" xml:space="preserve">
-    <value>Server settings are required to access your incoming and outgoing mail servers. Access protocols are currently limited to the IMAP (Internet Message Access Protocol) and the SMTP (Simple Mail TransferProtocol) protocols.</value>
+    <value>Server settings are required to access your incoming and outgoing mail servers.
+Access protocols are currently limited to the IMAP (Internet Message Access Protocol) and the SMTP (Simple Mail Transfer Protocol) protocols.</value>
   </data>
   <data name="Smtp" xml:space="preserve">
     <value>SMTP</value>
+  </data>
+  <data name="FetchingMailboxes" xml:space="preserve">
+    <value>Fetching available mailboxes ...</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="Mailboxes" xml:space="preserve">
+    <value>Mailboxes</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>Server</value>
   </data>
 </root>

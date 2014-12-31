@@ -134,7 +134,7 @@
                     Command="ui:MessagingCommands.Compose"
                     Modifiers="Control" />
         <KeyBinding Key="Print" Command="ApplicationCommands.Print" />
-        <KeyBinding Key="Escape" Command="ui:FlyoutCommands.Close" />
+        <KeyBinding Key="Escape" Command="ui:FlyoutCommands.Cancel" />
     </controls:MetroWindow.InputBindings>
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
@@ -160,7 +160,7 @@
                 <TextBlock Margin="0,0,24,0"
                            VerticalAlignment="Center"
                            FontSize="20"
-                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
+                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
                            Style="{DynamicResource TitleTextStyle}"
                            Text="{Binding Title,
                                           RelativeSource={RelativeSource FindAncestor,
@@ -224,7 +224,7 @@
                                        Margin="6,0"
                                        VerticalAlignment="Center"
                                        FontSize="20"
-                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Style="{DynamicResource TitleTextStyle}"
                                        Text="{Binding Title}" />
@@ -333,7 +333,7 @@
                                    VerticalAlignment="Center"
                                    DataContext="{Binding Content,
                                                          ElementName=FlyoutFrame}"
-                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
+                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
                                    Padding="0,0,0,2"
                                    RenderTransformOrigin="0.5,0.5"
                                    Style="{DynamicResource TitleTextStyle}"
@@ -461,8 +461,8 @@
                 <TextBlock Margin="3"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}"
-                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
+                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
+                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
                            Text="{Binding StatusText,
                                           Mode=OneWay}" />
             </StatusBarItem>
@@ -470,7 +470,7 @@
                 <Slider Width="150"
                         Margin="3,0"
                         VerticalAlignment="Center"
-                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
+                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
                         IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
                         LargeChange="25.0"
@@ -487,7 +487,7 @@
                         Content="{Binding Zoom,
                                           Mode=OneWay,
                                           Converter={StaticResource PercentageFormatter}}"
-                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
+                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
                         IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
                         Style="{DynamicResource StatusBarButtonStyle}" />

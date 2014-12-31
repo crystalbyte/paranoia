@@ -20,14 +20,7 @@ namespace Crystalbyte.Paranoia.UI {
             InitializeComponent();
 
             CommandBindings.Add(new CommandBinding(NavigationCommands.Continue, OnContinue));
-            CommandBindings.Add(new CommandBinding(NavigationCommands.Close, OnClose));
-        }
-
-        private void OnFlyoutClosed(object sender, EventArgs e) {
-            var account = (MailAccountContext)DataContext;
-            account.Testing = null;
-
-            App.Context.FlyoutClosed -= OnFlyoutClosed;
+            CommandBindings.Add(new CommandBinding(NavigationCommands.Cancel, OnClose));
         }
 
         private static void OnClose(object sender, ExecutedRoutedEventArgs e) {
@@ -82,11 +75,23 @@ namespace Crystalbyte.Paranoia.UI {
             ImapPasswordBox.PasswordChanged -= OnImapPasswordChanged;
         }
 
-        #region Implementation of INavigationAware
+        private void OnFlyoutClosed(object sender, EventArgs e) {
+            var account = (MailAccountContext)DataContext;
+            account.Testing = null;
 
-        public void OnNavigated(NavigationEventArgs e) {
-            DataContext = NavigationArguments.Pop();
+            App.Context.FlyoutClosed -= OnFlyoutClosed;
+        }
 
+        private void SetFocus() {
+            var account = (MailAccountContext)DataContext;
+            if (!string.IsNullOrEmpty(account.ImapHost)) {
+                ImapPasswordBox.Focus();
+            } else {
+                NameTextBox.Focus();
+            }
+        }
+
+        private void HookUpChangeEvents() {
             var account = (MailAccountContext)DataContext;
 
             SmtpPasswordBox.Password = account.SmtpPassword;
@@ -100,12 +105,15 @@ namespace Crystalbyte.Paranoia.UI {
 
             App.Context.FlyoutClosing += OnFlyoutClosing;
             App.Context.FlyoutClosed += OnFlyoutClosed;
+        }
 
-            if (!string.IsNullOrEmpty(account.ImapHost)) {
-                ImapPasswordBox.Focus();
-            } else {
-                NameTextBox.Focus();
-            }
+        #region Implementation of INavigationAware
+
+        public void OnNavigated(NavigationEventArgs e) {
+            DataContext = NavigationArguments.Pop();
+
+            HookUpChangeEvents();
+            SetFocus();
         }
 
         public void OnNavigating(NavigatingCancelEventArgs e) {

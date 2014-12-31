@@ -60,7 +60,7 @@
                                     <TextBlock Margin="4,2"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextLargeFontSizeKey}}"
+                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextLargeFontSizeKey}}"
                                                FontWeight="Thin"
                                                Text="{Binding}" />
                                 </Grid>
@@ -81,9 +81,9 @@
                     <TextBlock Margin="12,3,12,3"
                                VerticalAlignment="Center"
                                DockPanel.Dock="Top"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextLargeFontSizeKey}}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextLargeFontSizeKey}}"
                                Style="{DynamicResource TitleTextStyle}">
-                        <Run Text="{x:Static properties:Resources.ContactsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" Text="{Binding Contacts, Converter={StaticResource CollectionCounter}, Mode=OneWay}" />
+                        <Run Text="{x:Static properties:Resources.ContactsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" Text="{Binding Contacts, Converter={StaticResource CollectionCounter}, Mode=OneWay}" />
                     </TextBlock>
                 </DockPanel>
                 <TextBox Margin="6"
@@ -120,7 +120,7 @@
                                                         ConverterParameter=48}" />
                                 <StackPanel Width="250" VerticalAlignment="Center">
                                     <TextBlock Margin="0"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumLargeFontSizeKey}}"
+                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}}"
                                                Style="{StaticResource TitleTextStyle}"
                                                Text="{Binding Name,
                                                               Converter={StaticResource NullOrEmptyFormatter},
@@ -129,7 +129,7 @@
                                                TextWrapping="NoWrap" />
                                     <TextBlock x:Name="AddressBlock"
                                                Margin="0"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}"
+                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
                                                FontWeight="Normal"
                                                Style="{StaticResource SubtitleTextStyle}"
                                                Text="{Binding Address,
@@ -160,7 +160,7 @@
                             </StackPanel>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+                                    <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>

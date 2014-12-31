@@ -28,7 +28,7 @@
             </Button>
             <TextBlock Margin="6,0"
                        VerticalAlignment="Center"
-                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}"
+                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
                        RenderOptions.ClearTypeHint="Enabled"
                        Text="{x:Static properties:Resources.BlockedContentDescription}"
                        TextTrimming="CharacterEllipsis"

@@ -52,8 +52,8 @@
                                     ConverterParameter=...}"
                      WindowChrome.IsHitTestVisibleInChrome="True" />
             <TextBlock Margin="1,-1,0,0" VerticalAlignment="Center">
-                <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" Text=" - " />
-                <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
+                <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" Text=" - " />
+                <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
             </TextBlock>
 
         </StackPanel>
@@ -135,7 +135,7 @@
                                             Converter={StaticResource GravatarImageConverter}}" />
                     <StackPanel VerticalAlignment="Center">
                         <TextBox Margin="2,-2,0,0"
-                                 FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumLargeFontSizeKey}}"
+                                 FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}}"
                                  FontWeight="Thin"
                                  Padding="0"
                                  Style="{StaticResource ReadOnlyTextBoxStyle}"
@@ -167,7 +167,7 @@
                                             Converter={StaticResource GravatarImageConverter}}" />
                     <StackPanel VerticalAlignment="Center">
                         <TextBox Margin="2,-2,0,0"
-                                 FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumLargeFontSizeKey}}"
+                                 FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}}"
                                  FontWeight="Thin"
                                  Padding="0"
                                  Style="{StaticResource ReadOnlyTextBoxStyle}"
@@ -210,7 +210,7 @@
                                                         ConverterParameter=...,
                                                         Converter={StaticResource NullOrEmptyFormatter}}" />
                                 <TextBox Margin="0,0,2,2"
-                                         FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}}"
+                                         FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}"
                                          FontWeight="Normal"
                                          Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                          Padding="0"
@@ -233,7 +233,7 @@
         <Grid Grid.Row="3"
               Grid.RowSpan="2"
               Grid.ColumnSpan="2"
-              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}"
+              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
               Visibility="{Binding HasCarbonCopies,
                                    Converter={StaticResource BooleanToVisibilityConverter}}">
             <ItemsControl Margin="6,3" ItemsSource="{Binding Cc}">
@@ -260,9 +260,9 @@
                                                         ConverterParameter=...,
                                                         Converter={StaticResource NullOrEmptyFormatter}}" />
                                 <TextBox Margin="0,0,2,2"
-                                         FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSmallFontSizeKey}}"
+                                         FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}"
                                          FontWeight="Normal"
-                                         Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}"
+                                         Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
                                          Padding="0"
                                          Style="{StaticResource ReadOnlyTextBoxStyle}"
                                          Text="{Binding Address,

@@ -17,7 +17,7 @@ namespace Crystalbyte.Paranoia.UI {
         public CreateAccountStartFlyoutPage() {
             InitializeComponent();
 
-            CommandBindings.Add(new CommandBinding(FlyoutCommands.Close, OnCancel));
+            CommandBindings.Add(new CommandBinding(FlyoutCommands.Cancel, OnCancel));
             CommandBindings.Add(new CommandBinding(FlyoutCommands.Continue, OnContinue));
         }
 

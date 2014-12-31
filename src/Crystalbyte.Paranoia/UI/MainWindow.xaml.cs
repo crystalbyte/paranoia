@@ -46,16 +46,29 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));
             CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoreDown));
             CommandBindings.Add(new CommandBinding(FlyoutCommands.Back, OnFlyoutBack));
-            CommandBindings.Add(new CommandBinding(FlyoutCommands.Close, OnFlyoutClose));
+            CommandBindings.Add(new CommandBinding(FlyoutCommands.Cancel, OnFlyoutClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
         }
 
-        private static void OnFlyoutClose(object sender, ExecutedRoutedEventArgs e) {
-            App.Context.CloseFlyout();
+        private void OnFlyoutClose(object sender, ExecutedRoutedEventArgs e) {
+
+            var page = FlyoutFrame.Content as ICancelationAware;
+            if (page != null) {
+                page.OnCanceled();
+            }
+
+            var context = (AppContext)DataContext;
+            context.CloseFlyout();
         }
 
         private void OnFlyoutBack(object sender, ExecutedRoutedEventArgs e) {
+
+            var page = FlyoutFrame.Content as ICancelationAware;
+            if (page != null) {
+                page.OnCanceled();
+            }
+
             // BUG: The back command is currently broken in WPF 4.5 :/
             // https://connect.microsoft.com/VisualStudio/feedback/details/763996/wpf-page-navigation-looses-data-bindings
             var context = (AppContext)DataContext;
@@ -207,6 +220,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void CloseFlyout() {
             IsFlyoutVisible = false;
+
             FlyoutFrame.Content = null;
             while (FlyoutFrame.CanGoBack) {
                 FlyoutFrame.NavigationService.RemoveBackEntry();

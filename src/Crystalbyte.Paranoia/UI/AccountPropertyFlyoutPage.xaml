@@ -1,0 +1,730 @@
+﻿<Page x:Class="Crystalbyte.Paranoia.UI.AccountPropertyFlyoutPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="clr-namespace:Crystalbyte.Paranoia.UI;assembly=Crystalbyte.Paranoia.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mail="clr-namespace:Crystalbyte.Paranoia.Mail;assembly=Crystalbyte.Paranoia.Mail"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
+      xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+      xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
+      xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+      Title="{x:Static properties:Resources.AccountSettingsTitle}"
+      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}}"
+      d:DataContext="{d:DesignInstance paranoia:MailAccountContext}"
+      d:DesignHeight="600"
+      d:DesignWidth="1024"
+      mc:Ignorable="d">
+    <Page.Resources>
+        <x:Array x:Key="SecurityProtocols" Type="mail:SecurityProtocol">
+            <x:Static Member="mail:SecurityProtocol.Implicit" />
+            <x:Static Member="mail:SecurityProtocol.Explicit" />
+        </x:Array>
+    </Page.Resources>
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+            <controls:MetroButton x:Name="ContinueButton"
+                                  Margin="12,0"
+                                  Command="ui:FlyoutCommands.Accept"
+                                  Content="{x:Static properties:Resources.Accept}"
+                                  ImageSource="/Assets/ok.png"
+                                  Style="{DynamicResource MetroButtonFlyoutStyle}" />
+            <controls:MetroButton Margin="12,0"
+                                  Command="ui:FlyoutCommands.Cancel"
+                                  Content="{x:Static properties:Resources.Cancel}"
+                                  ImageSource="/Assets/cancel.png"
+                                  Style="{DynamicResource MetroButtonFlyoutStyle}" />
+        </StackPanel>
+        <TabControl>
+            <TabItem Header="{x:Static properties:Resources.General}" HeaderTemplate="{DynamicResource TabControlHeaderTemplate}">
+                <Grid VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="2"
+                               Margin="0,0,0,12"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                               Text="{x:Static properties:Resources.GeneralSettingsDescription}" />
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                               Style="{DynamicResource FlyoutLabelTextStyle}">
+                        <Run Text="{x:Static properties:Resources.AccountName}" />
+                        <Run>:</Run>
+                    </TextBlock>
+                    <TextBox x:Name="NameTextBox"
+                             Grid.Row="1"
+                             Grid.Column="1"
+                             Width="360"
+                             HorizontalAlignment="Left"
+                             Style="{DynamicResource TextBoxFlyoutStyle}"
+                             Text="{Binding Name,
+                                            Mode=TwoWay,
+                                            UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="0"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
+                               Style="{DynamicResource FlyoutLabelTextStyle}">
+                        <Run Text="{x:Static properties:Resources.MailAddress}" />
+                        <Run>:</Run>
+                    </TextBlock>
+                    <TextBox Grid.Row="2"
+                             Grid.Column="1"
+                             Width="360"
+                             HorizontalAlignment="Left"
+                             Style="{DynamicResource TextBoxFlyoutStyle}"
+                             Text="{Binding Address,
+                                            Mode=TwoWay,
+                                            UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="{x:Static properties:Resources.Server}" HeaderTemplate="{DynamicResource TabControlHeaderTemplate}">
+                <StackPanel>
+                    <Grid Margin="0,0,0,12" HorizontalAlignment="Left">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="0"
+                                   Margin="0,0,0,12"
+                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
+                                   Text="{x:Static properties:Resources.ServerSettingsDescription}"
+                                   TextTrimming="None"
+                                   TextWrapping="Wrap" />
+                        <GroupBox Grid.Row="1" Grid.Column="0">
+                            <GroupBox.Header>
+                                <TextBlock Width="45"
+                                           Margin="0,0,12,0"
+                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextLargeFontSizeKey}}"
+                                           FontWeight="Thin"
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}"
+                                           Text="{x:Static properties:Resources.Imap}" />
+                            </GroupBox.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                           Style="{DynamicResource FlyoutLabelTextStyle}">
+                                    <Run Text="{x:Static properties:Resources.Username}" />
+                                    <Run>:</Run>
+                                </TextBlock>
+                                <TextBox Grid.Row="0"
+                                         Grid.Column="1"
+                                         MinWidth="200"
+                                         Style="{DynamicResource TextBoxFlyoutStyle}"
+                                         Text="{Binding ImapUsername,
+                                                        Mode=TwoWay,
+                                                        UpdateSourceTrigger=PropertyChanged}" />
+
+                                <TextBlock Grid.Row="0"
+                                           Grid.Column="2"
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                           Style="{DynamicResource FlyoutLabelTextStyle}">
+                                    <Run Text="{x:Static properties:Resources.ImapHost}" />
+                                    <Run>:</Run>
+                                </TextBlock>
+                                <TextBox Grid.Row="0"
+                                         Grid.Column="3"
+                                         Grid.ColumnSpan="3"
+                                         Style="{DynamicResource TextBoxFlyoutStyle}"
+                                         Text="{Binding ImapHost,
+                                                        Mode=TwoWay,
+                                                        UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBlock Grid.Row="1"
+                                           Grid.Column="0"
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                           Style="{DynamicResource FlyoutLabelTextStyle}">
+                                    <Run Text="{x:Static properties:Resources.Password}" />
+                                    <Run>:</Run>
+                                </TextBlock>
+                                <PasswordBox x:Name="ImapPasswordBox"
+                                             Grid.Row="1"
+                                             Grid.Column="1"
+                                             MinWidth="200"
+                                             Style="{DynamicResource FlyoutPasswordBoxStyle}" />
+                                <TextBlock Grid.Row="1"
+                                           Grid.Column="2"
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                           Style="{DynamicResource FlyoutLabelTextStyle}">
+                                    <Run Text="{x:Static properties:Resources.EncryptionProtocol}" />
+                                    <Run>:</Run>
+                                </TextBlock>
+                                <ComboBox Grid.Row="1"
+                                          Grid.Column="3"
+                                          MinWidth="120"
+                                          VerticalAlignment="Center"
+                                          ItemsSource="{StaticResource SecurityProtocols}"
+                                          SelectedValue="{Binding ImapSecurity,
+                                                                  Mode=TwoWay}"
+                                          SelectionChanged="OnImapSecurityProtocolSelectionChanged"
+                                          Style="{DynamicResource ComboBoxFlyoutStyle}"
+                                          Text="{Binding ImapSecurity,
+                                                         Mode=OneWay}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Margin="3,0"
+                                                       VerticalAlignment="Center"
+                                                       FontWeight="Normal"
+                                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                                       Text="{Binding Converter={StaticResource SecurityProtocolFormatter}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <TextBlock Grid.Row="1"
+                                           Grid.Column="4"
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                           Style="{DynamicResource FlyoutLabelTextStyle}">
+                                    <Run Text="{x:Static properties:Resources.Port}" />
+                                    <Run>:</Run>
+                                </TextBlock>
+                                <TextBox Grid.Row="1"
+                                         Grid.Column="5"
+                                         Width="50"
+                                         Style="{DynamicResource TextBoxFlyoutStyle}"
+                                         Text="{Binding ImapPort,
+                                                        Mode=TwoWay,
+                                                        UpdateSourceTrigger=PropertyChanged}" />
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <Grid Margin="0,0,0,24" HorizontalAlignment="Left">
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <TextBlock Width="45"
+                                           Margin="0,0,12,0"
+                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextLargeFontSizeKey}}"
+                                           FontWeight="Thin"
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}"
+                                           Text="{x:Static properties:Resources.Smtp}" />
+                            </GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Row="0"
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="2">
+                                        <RadioButton x:Name="UseImapCredentialsRadioButton"
+                                                     Margin="0,18,0,0"
+                                                     Checked="OnUseImapCredentialsChecked"
+                                                     GroupName="Mirror"
+                                                     Style="{DynamicResource RadioButtonFlyoutStyle}">
+                                            <TextBlock FontWeight="Normal"
+                                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                                       Text="{x:Static properties:Resources.UseImapCredentials}" />
+                                        </RadioButton>
+                                        <RadioButton x:Name="UseSmtpCredentialsRadioButton"
+                                                     Margin="0,6,0,12"
+                                                     Checked="OnUseSmtpCredentialsChecked"
+                                                     GroupName="Mirror"
+                                                     Style="{DynamicResource RadioButtonFlyoutStyle}">
+                                            <TextBlock FontWeight="Normal"
+                                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                                       Text="{x:Static properties:Resources.SmtpRequiresOwnCredentials}" />
+                                        </RadioButton>
+                                    </StackPanel>
+                                    <TextBlock Grid.Row="1"
+                                               Grid.Column="0"
+                                               IsEnabled="{Binding IsChecked,
+                                                                   ElementName=UseSmtpCredentialsRadioButton}"
+                                               Style="{DynamicResource FlyoutLabelTextStyle}">
+                                        <Run Text="{x:Static properties:Resources.Username}" />
+                                        <Run>:</Run>
+                                    </TextBlock>
+                                    <TextBox Grid.Row="1"
+                                             Grid.Column="1"
+                                             MinWidth="200"
+                                             IsEnabled="{Binding IsChecked,
+                                                                 ElementName=UseSmtpCredentialsRadioButton}"
+                                             Style="{DynamicResource TextBoxFlyoutStyle}"
+                                             Text="{Binding SmtpUsername,
+                                                            Mode=TwoWay,
+                                                            UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock Grid.Row="2"
+                                               Grid.Column="0"
+                                               IsEnabled="{Binding IsChecked,
+                                                                   ElementName=UseSmtpCredentialsRadioButton}"
+                                               Style="{DynamicResource FlyoutLabelTextStyle}">
+                                        <Run Text="{x:Static properties:Resources.Password}" />
+                                        <Run>:</Run>
+                                    </TextBlock>
+                                    <PasswordBox x:Name="SmtpPasswordBox"
+                                                 Grid.Row="2"
+                                                 Grid.Column="1"
+                                                 MinWidth="200"
+                                                 IsEnabled="{Binding IsChecked,
+                                                                     ElementName=UseSmtpCredentialsRadioButton}"
+                                                 Style="{DynamicResource FlyoutPasswordBoxStyle}" />
+                                </Grid>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Row="1"
+                                               Grid.Column="0"
+                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                               Style="{DynamicResource FlyoutLabelTextStyle}">
+                                        <Run Text="{x:Static properties:Resources.ImapHost}" />
+                                        <Run>:</Run>
+                                    </TextBlock>
+                                    <TextBox Grid.Row="1"
+                                             Grid.Column="1"
+                                             Grid.ColumnSpan="3"
+                                             Style="{DynamicResource TextBoxFlyoutStyle}"
+                                             Text="{Binding SmtpHost,
+                                                            Mode=TwoWay,
+                                                            UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock Grid.Row="2"
+                                               Grid.Column="0"
+                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                               Style="{DynamicResource FlyoutLabelTextStyle}">
+                                        <Run Text="{x:Static properties:Resources.EncryptionProtocol}" />
+                                        <Run>:</Run>
+                                    </TextBlock>
+                                    <ComboBox Grid.Row="2"
+                                              Grid.Column="1"
+                                              MinWidth="120"
+                                              ItemsSource="{StaticResource SecurityProtocols}"
+                                              SelectedValue="{Binding SmtpSecurity,
+                                                                      Mode=TwoWay,
+                                                                      UpdateSourceTrigger=PropertyChanged}"
+                                              SelectionChanged="OnImapSecurityProtocolSelectionChanged"
+                                              Style="{DynamicResource ComboBoxFlyoutStyle}"
+                                              Text="{Binding SmtpSecurity,
+                                                             Mode=OneWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Margin="3,0"
+                                                           VerticalAlignment="Center"
+                                                           FontWeight="Normal"
+                                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                                           Text="{Binding Converter={StaticResource SecurityProtocolFormatter}}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <TextBlock Grid.Row="2"
+                                               Grid.Column="2"
+                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
+                                               Style="{DynamicResource FlyoutLabelTextStyle}">
+                                        <Run Text="{x:Static properties:Resources.Port}" />
+                                        <Run>:</Run>
+                                    </TextBlock>
+                                    <TextBox Grid.Row="2"
+                                             Grid.Column="3"
+                                             Width="50"
+                                             Style="{DynamicResource TextBoxFlyoutStyle}"
+                                             Text="{Binding SmtpPort,
+                                                            Mode=TwoWay}" />
+
+
+
+                                </Grid>
+                            </StackPanel>
+                        </GroupBox>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="{x:Static properties:Resources.Mailboxes}" HeaderTemplate="{DynamicResource TabControlHeaderTemplate}">
+                <StackPanel>
+                    <TextBlock Margin="0,0,0,12"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                               Text="{x:Static properties:Resources.MailboxSettingsDescription}" />
+                    <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
+                        <Grid HorizontalAlignment="Left">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0"
+                                       Grid.Column="0"
+                                       IsEnabled="{Binding HasMailboxes}"
+                                       Style="{DynamicResource FlyoutLabelTextStyle}">
+                                <Run Text="{x:Static properties:Resources.TrashMailbox}" />
+                                <Run Text=":" />
+                            </TextBlock>
+                            <TextBox Grid.Row="0"
+                                     Grid.Column="1"
+                                     MinWidth="200"
+                                     IsEnabled="{Binding HasMailboxes}"
+                                     IsReadOnly="True"
+                                     Style="{DynamicResource TextBoxFlyoutStyle}"
+                                     Text="{Binding TrashMailboxName,
+                                                    Mode=OneWay,
+                                                    Converter={StaticResource NullOrEmptyFormatter}}"
+                                     TextWrapping="NoWrap" />
+                            <Button x:Name="TrashMailboxSelectionButton"
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Command="ui:MailboxCommands.Browse"
+                                    CommandParameter="{x:Static paranoia:MailboxRoles.Trash}"
+                                    IsEnabled="{Binding HasMailboxes}"
+                                    Style="{DynamicResource ButtonFlyoutBrowseStyle}" />
+                            <TextBlock Grid.Row="1"
+                                       Grid.Column="0"
+                                       IsEnabled="{Binding HasMailboxes}"
+                                       Style="{DynamicResource FlyoutLabelTextStyle}">
+                                <Run Text="{x:Static properties:Resources.DraftMailbox}" />
+                                <Run Text=":" />
+                            </TextBlock>
+                            <TextBox Grid.Row="1"
+                                     Grid.Column="1"
+                                     MinWidth="200"
+                                     IsEnabled="{Binding HasMailboxes}"
+                                     IsReadOnly="True"
+                                     Style="{DynamicResource TextBoxFlyoutStyle}"
+                                     Text="{Binding DraftMailboxName,
+                                                    Mode=OneWay,
+                                                    Converter={StaticResource NullOrEmptyFormatter}}"
+                                     TextWrapping="NoWrap" />
+                            <Button x:Name="DraftMailboxSelectionButton"
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    Command="ui:MailboxCommands.Browse"
+                                    CommandParameter="{x:Static paranoia:MailboxRoles.Draft}"
+                                    IsEnabled="{Binding HasMailboxes}"
+                                    Style="{DynamicResource ButtonFlyoutBrowseStyle}" />
+                            <TextBlock Grid.Row="2"
+                                       Grid.Column="0"
+                                       IsEnabled="{Binding HasMailboxes}"
+                                       Style="{DynamicResource FlyoutLabelTextStyle}">
+                                <Run Text="{x:Static properties:Resources.JunkMailbox}" />
+                                <Run Text=":" />
+                            </TextBlock>
+                            <TextBox Grid.Row="2"
+                                     Grid.Column="1"
+                                     MinWidth="200"
+                                     IsEnabled="{Binding HasMailboxes}"
+                                     IsReadOnly="True"
+                                     Style="{DynamicResource TextBoxFlyoutStyle}"
+                                     Text="{Binding JunkMailboxName,
+                                                    Mode=OneWay,
+                                                    Converter={StaticResource NullOrEmptyFormatter}}"
+                                     TextWrapping="NoWrap" />
+                            <Button x:Name="JunkMailboxSelectionButton"
+                                    Grid.Row="2"
+                                    Grid.Column="2"
+                                    Command="ui:MailboxCommands.Browse"
+                                    CommandParameter="{x:Static paranoia:MailboxRoles.Junk}"
+                                    IsEnabled="{Binding HasMailboxes}"
+                                    Style="{DynamicResource ButtonFlyoutBrowseStyle}" />
+                        </Grid>
+                        <StackPanel Margin="24,0" IsEnabled="{Binding HasMailboxes}">
+                            <RadioButton x:Name="DontStoreCopyRadioButton"
+                                         Checked="OnDontStoreCopyRadioButtonChecked"
+                                         GroupName="sent"
+                                         Style="{DynamicResource RadioButtonFlyoutStyle}">
+                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}" Text="{x:Static properties:Resources.MailboxSettingsNoCopy}" />
+                            </RadioButton>
+                            <RadioButton x:Name="StoreCopyRadioButton"
+                                         Checked="OnStoreCopyRadioButtonChecked"
+                                         GroupName="sent"
+                                         Style="{DynamicResource RadioButtonFlyoutStyle}">
+                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}" Text="{x:Static properties:Resources.MailboxSettingsCopy}" />
+                            </RadioButton>
+                            <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
+                                <TextBlock IsEnabled="{Binding IsChecked, ElementName=StoreCopyRadioButton}" Style="{DynamicResource FlyoutLabelTextStyle}">
+                                    <Run Text="{x:Static properties:Resources.SentMailbox}" />
+                                    <Run Text=":" />
+                                </TextBlock>
+                                <TextBox MinWidth="200"
+                                         IsEnabled="{Binding StoreCopiesOfSentMessages}"
+                                         IsReadOnly="True"
+                                         Style="{DynamicResource TextBoxFlyoutStyle}"
+                                         Text="{Binding SentMailboxName,
+                                                        Mode=OneWay,
+                                                        Converter={StaticResource NullOrEmptyFormatter}}"
+                                         TextWrapping="NoWrap" />
+                                <Button x:Name="SentMailboxSelectionButton"
+                                        Command="ui:MailboxCommands.Browse"
+                                        CommandParameter="{x:Static paranoia:MailboxRoles.Sent}"
+                                        IsEnabled="{Binding IsChecked,
+                                                            ElementName=StoreCopyRadioButton,
+                                                            Mode=OneWay}"
+                                        Style="{DynamicResource ButtonFlyoutBrowseStyle}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                    <Border Height="36" Margin="0,0,0,12">
+                        <StackPanel VerticalAlignment="Center" Visibility="{Binding IsSyncingMailboxes, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <controls:MetroProgressBar Height="4" IsIndeterminate="True" />
+                            <TextBlock Margin="0,6,0,0"
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                       Text="{x:Static properties:Resources.FetchingMailboxes}" />
+                        </StackPanel>
+                    </Border>
+                    <Popup x:Name="SentMailboxSelectionPopup"
+                           Width="300"
+                           Height="400"
+                           AllowsTransparency="False"
+                           Placement="Right"
+                           PlacementTarget="{Binding ElementName=SentMailboxSelectionButton}"
+                           PopupAnimation="Slide"
+                           StaysOpen="False"
+                           VerticalOffset="-20">
+                        <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                                BorderThickness="1">
+                            <DockPanel LastChildFill="True">
+                                <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}" DockPanel.Dock="Bottom">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <controls:MetroButton Grid.Column="0"
+                                                          Margin="6,6,12,6"
+                                                          HorizontalAlignment="Right"
+                                                          Command="ui:MailboxCommands.SelectRole"
+                                                          CommandParameter="{x:Static paranoia:MailboxRoles.Sent}"
+                                                          ImageSource="/Assets/ok.png"
+                                                          Style="{DynamicResource MetroButtonFlyoutStyle}" />
+                                    <controls:MetroButton Grid.Column="1"
+                                                          Margin="12,6,6,6"
+                                                          HorizontalAlignment="Left"
+                                                          Command="ApplicationCommands.Close"
+                                                          CommandParameter="{x:Static paranoia:MailboxRoles.Sent}"
+                                                          ImageSource="/Assets/cancel.png"
+                                                          Style="{DynamicResource MetroButtonFlyoutStyle}" />
+                                </Grid>
+                                <TreeView Background="Transparent"
+                                          BorderThickness="0"
+                                          ItemTemplate="{StaticResource MailboxTemplate}"
+                                          ItemsSource="{Binding MailboxRoots}"
+                                          SelectedItemChanged="OnAnyTreeViewSelectedItemChanged">
+                                    <TreeView.ItemContainerStyle>
+                                        <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
+                                            <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
+                                            <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                            <Setter Property="IsSelected" Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
+                                            <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
+                                        </Style>
+                                    </TreeView.ItemContainerStyle>
+                                </TreeView>
+                            </DockPanel>
+                        </Border>
+                    </Popup>
+                    <Popup x:Name="TrashMailboxSelectionPopup"
+                           Width="300"
+                           Height="400"
+                           AllowsTransparency="False"
+                           Placement="Right"
+                           PlacementTarget="{Binding ElementName=TrashMailboxSelectionButton}"
+                           PopupAnimation="Slide"
+                           StaysOpen="False"
+                           VerticalOffset="-20">
+                        <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                                BorderThickness="1">
+                            <DockPanel LastChildFill="True">
+                                <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}" DockPanel.Dock="Bottom">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <controls:MetroButton Grid.Column="0"
+                                                          Margin="6,6,12,6"
+                                                          HorizontalAlignment="Right"
+                                                          Command="ui:MailboxCommands.SelectRole"
+                                                          CommandParameter="{x:Static paranoia:MailboxRoles.Trash}"
+                                                          ImageSource="/Assets/ok.png"
+                                                          Style="{DynamicResource MetroButtonFlyoutStyle}" />
+                                    <controls:MetroButton Grid.Column="1"
+                                                          Margin="12,6,6,6"
+                                                          HorizontalAlignment="Left"
+                                                          Command="ApplicationCommands.Close"
+                                                          CommandParameter="{x:Static paranoia:MailboxRoles.Trash}"
+                                                          ImageSource="/Assets/cancel.png"
+                                                          Style="{DynamicResource MetroButtonFlyoutStyle}" />
+                                </Grid>
+                                <TreeView Background="Transparent"
+                                          BorderThickness="0"
+                                          ItemTemplate="{StaticResource MailboxTemplate}"
+                                          ItemsSource="{Binding MailboxRoots}"
+                                          SelectedItemChanged="OnAnyTreeViewSelectedItemChanged">
+                                    <TreeView.ItemContainerStyle>
+                                        <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
+                                            <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
+                                            <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                            <Setter Property="IsSelected" Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
+                                            <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
+                                        </Style>
+                                    </TreeView.ItemContainerStyle>
+                                </TreeView>
+                            </DockPanel>
+                        </Border>
+                    </Popup>
+                    <Popup x:Name="JunkMailboxSelectionPopup"
+                           Width="300"
+                           Height="400"
+                           AllowsTransparency="False"
+                           Placement="Right"
+                           PlacementTarget="{Binding ElementName=JunkMailboxSelectionButton}"
+                           PopupAnimation="Slide"
+                           StaysOpen="False"
+                           VerticalOffset="-20">
+                        <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                                BorderThickness="1">
+                            <DockPanel LastChildFill="True">
+                                <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}" DockPanel.Dock="Bottom">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <controls:MetroButton Grid.Column="0"
+                                                          Margin="6,6,12,6"
+                                                          HorizontalAlignment="Right"
+                                                          Command="ui:MailboxCommands.SelectRole"
+                                                          CommandParameter="{x:Static paranoia:MailboxRoles.Junk}"
+                                                          ImageSource="/Assets/ok.png"
+                                                          Style="{DynamicResource MetroButtonFlyoutStyle}" />
+                                    <controls:MetroButton Grid.Column="1"
+                                                          Margin="12,6,6,6"
+                                                          HorizontalAlignment="Left"
+                                                          Command="ApplicationCommands.Close"
+                                                          CommandParameter="{x:Static paranoia:MailboxRoles.Junk}"
+                                                          ImageSource="/Assets/cancel.png"
+                                                          Style="{DynamicResource MetroButtonFlyoutStyle}" />
+                                </Grid>
+                                <TreeView Background="Transparent"
+                                          BorderThickness="0"
+                                          ItemTemplate="{StaticResource MailboxTemplate}"
+                                          ItemsSource="{Binding MailboxRoots}"
+                                          SelectedItemChanged="OnAnyTreeViewSelectedItemChanged">
+                                    <TreeView.ItemContainerStyle>
+                                        <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
+                                            <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
+                                            <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                            <Setter Property="IsSelected" Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
+                                            <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
+                                        </Style>
+                                    </TreeView.ItemContainerStyle>
+                                </TreeView>
+                            </DockPanel>
+                        </Border>
+                    </Popup>
+                    <Popup x:Name="DraftMailboxSelectionPopup"
+                           Width="300"
+                           Height="400"
+                           AllowsTransparency="False"
+                           Placement="Right"
+                           PlacementTarget="{Binding ElementName=DraftMailboxSelectionButton}"
+                           PopupAnimation="Slide"
+                           StaysOpen="False"
+                           VerticalOffset="-20">
+                        <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                                BorderThickness="1">
+                            <DockPanel LastChildFill="True">
+                                <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}" DockPanel.Dock="Bottom">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <controls:MetroButton Grid.Column="0"
+                                                          Margin="6,6,12,6"
+                                                          HorizontalAlignment="Right"
+                                                          Command="ui:MailboxCommands.SelectRole"
+                                                          CommandParameter="{x:Static paranoia:MailboxRoles.Draft}"
+                                                          ImageSource="/Assets/ok.png"
+                                                          Style="{DynamicResource MetroButtonFlyoutStyle}" />
+                                    <controls:MetroButton Grid.Column="1"
+                                                          Margin="12,6,6,6"
+                                                          HorizontalAlignment="Left"
+                                                          Command="ApplicationCommands.Close"
+                                                          CommandParameter="{x:Static paranoia:MailboxRoles.Draft}"
+                                                          ImageSource="/Assets/cancel.png"
+                                                          Style="{DynamicResource MetroButtonFlyoutStyle}" />
+                                </Grid>
+                                <TreeView Background="Transparent"
+                                          BorderThickness="0"
+                                          ItemTemplate="{StaticResource MailboxTemplate}"
+                                          ItemsSource="{Binding MailboxRoots}"
+                                          SelectedItemChanged="OnAnyTreeViewSelectedItemChanged">
+                                    <TreeView.ItemContainerStyle>
+                                        <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
+                                            <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
+                                            <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                            <Setter Property="IsSelected" Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
+                                            <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
+                                        </Style>
+                                    </TreeView.ItemContainerStyle>
+                                </TreeView>
+                            </DockPanel>
+                        </Border>
+                    </Popup>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="{x:Static properties:Resources.Signature}" HeaderTemplate="{DynamicResource TabControlHeaderTemplate}">
+                <StackPanel>
+                    <TextBlock Margin="0,0,0,12"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                               Text="{x:Static properties:Resources.SignatureDescription}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{DynamicResource FlyoutLabelTextStyle}">
+                            <Run Text="{x:Static properties:Resources.Signature}" />
+                            <Run Text=":" />
+                        </TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Width="340"
+                                     IsReadOnly="True"
+                                     Style="{DynamicResource TextBoxFlyoutStyle}"
+                                     Text="{Binding SignaturePath,
+                                                    Mode=OneWay,
+                                                    Converter={StaticResource NullOrEmptyFormatter}}"
+                                     TextWrapping="NoWrap" />
+                            <Button x:Name="SignatureFileBrowseButton"
+                                    Command="ui:SignatureCommands.SelectFile"
+                                    Style="{DynamicResource ButtonFlyoutBrowseStyle}" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Page>

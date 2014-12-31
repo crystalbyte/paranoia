@@ -387,7 +387,13 @@ namespace Crystalbyte.Paranoia {
             get { return _attachments; }
         }
 
-        internal void ConfigureAccount(Uri uri) {
+        internal void ConfigureAccount(MailAccountContext account) {
+            if (account == null) {
+                throw new ArgumentNullException("account");
+            }
+
+            NavigationArguments.Push(account);
+            var uri = typeof(AccountPropertyFlyoutPage).ToPageUri();
             OnFlyoutNavigationRequested(new NavigationRequestedEventArgs(uri));
         }
 

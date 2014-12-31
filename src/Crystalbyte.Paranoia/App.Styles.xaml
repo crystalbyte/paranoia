@@ -11,7 +11,7 @@
         <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TitleFontSizeKey}}" />
         <Setter Property="FontWeight" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TitleFontWeightKey}}" />
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TitleFontFamilyKey}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
     </Style>
 
     <Style x:Key="RadioButtonFlyoutStyle"
@@ -75,7 +75,7 @@
     <Style x:Key="FlyoutLabelTextStyle"
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Margin" Value="18,3,12,3" />
@@ -98,22 +98,22 @@
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
     </Style>
 
-    <Style x:Key="NormalTextStyle"
+    <Style x:Key="TextStyle"
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}" />
-        <Setter Property="FontWeight" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextFontWeightKey}}" />
-        <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextFontFamilyKey}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}" />
+        <Setter Property="FontWeight" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontWeightKey}}" />
+        <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontFamilyKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
     </Style>
 
     <Style x:Key="NavigationTextStyle"
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}" />
-        <Setter Property="FontWeight" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextFontWeightKey}}" />
-        <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextFontFamilyKey}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}" />
+        <Setter Property="FontWeight" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontWeightKey}}" />
+        <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontFamilyKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}" />
     </Style>
 
     <Style x:Key="WindowButtonStyle" TargetType="Button">
@@ -253,9 +253,9 @@
     <Style x:Key="MetroButtonFlyoutStyle"
            BasedOn="{StaticResource {x:Type controls:MetroButton}}"
            TargetType="controls:MetroButton">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}" />
-        <Setter Property="ImageBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextContrastForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}" />
+        <Setter Property="ImageBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}" />
     </Style>
 
     <Style x:Key="StatusBarButtonStyle"
@@ -313,9 +313,9 @@
     <Style x:Key="SortingToggleButtonStyle"
            BasedOn="{StaticResource {x:Type ToggleButton}}"
            TargetType="ToggleButton">
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}" />
         <Setter Property="Content" Value="{x:Static properties:Resources.Descending}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
@@ -357,9 +357,9 @@
     <Style x:Key="SortingPropertyButtonStyle"
            BasedOn="{StaticResource {x:Type Button}}"
            TargetType="Button">
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextMediumFontSizeKey}}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}" />
         <Setter Property="Content" Value="{x:Static properties:Resources.Descending}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -383,8 +383,8 @@
     <Style x:Key="TextRadioButtonStyle"
            BasedOn="{StaticResource {x:Type RadioButton}}"
            TargetType="RadioButton">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextForegroundBrushKey}}" />
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextLargeFontSizeKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextLargeFontSizeKey}}" />
         <Setter Property="FontWeight" Value="Thin" />
         <Setter Property="Template">
             <Setter.Value>
@@ -405,7 +405,7 @@
                     <Condition Property="IsMouseOver" Value="True" />
                     <Condition Property="IsChecked" Value="False" />
                 </MultiTrigger.Conditions>
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NormalTextSecondaryForegroundBrushKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" />
             </MultiTrigger>
         </Style.Triggers>
     </Style>

@@ -3,8 +3,8 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI;assembly=Crystalbyte.Paranoia.Controls"
                 Title="MainWindow"
-                Width="525"
-                Height="350">
+                Width="1024"
+                Height="600">
 
     <Grid>
         <StackPanel Margin="24">
@@ -18,6 +18,11 @@
             <ui:MetroProgressBar Height="4" IsIndeterminate="True" />
             <ui:SuggestiveTextBox x:Name="SuggestiveTextBox" Watermark="This is a suggestive textbox" />
             <ui:MetroScrollViewer Height="80" />
+            <TabControl>
+                <TabItem Header="Cow" />
+                <TabItem Header="Dog" />
+                <TabItem Header="Cat" />
+            </TabControl>
         </StackPanel>
     </Grid>
 </ui:MetroWindow>

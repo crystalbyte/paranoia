@@ -26,7 +26,7 @@ using System.Windows.Input;
 
 namespace Crystalbyte.Paranoia {
     [DebuggerDisplay("Name = {Name}")]
-    public sealed class MailboxContext : HierarchyContext, IMessageSource, IMailboxCreator, IKeyboardFocusAware {
+    public sealed class MailboxContext : HierarchyContext, IMessageSource, IMailboxCreator {
 
         #region Private Fields
 
