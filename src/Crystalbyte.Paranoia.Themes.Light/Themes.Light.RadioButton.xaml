@@ -5,13 +5,21 @@
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonBorderBrushKey}" Color="{x:Static SystemColors.ControlDarkColor}" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonBackgroundBrushKey}" Color="{x:Static SystemColors.ControlColor}" />
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonMarginKey}">0,3</Thickness>
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonPaddingKey}">3</Thickness>
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonBorderThicknessKey}">1</Thickness>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonFlyoutBackgroundBrushKey}" Color="#2F2F30" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonFlyoutBorderBrushKey}" Color="#555556" />
+
     <Style x:Key="OptionMarkFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
                     <Rectangle Margin="14,0,0,0"
                                SnapsToDevicePixels="true"
-                               Stroke="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
+                               Stroke="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                StrokeDashArray="1 2"
                                StrokeThickness="1" />
                 </ControlTemplate>
@@ -89,45 +97,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <!--
-        <Style x:Key="Metro.TextRadioButtonStyle" TargetType="{x:Type RadioButton}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Metro.Control.BorderBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource Metro.Control.TextBrush}" />
-        <Setter Property="HorizontalContentAlignment" Value="Left" />
-        <Setter Property="FontWeight" Value="Thin" />
-        <Setter Property="FontSize" Value="{DynamicResource Metro.MediumLargeFontSize}" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Margin" Value="3,3,3,3" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Template">
-        <Setter.Value>
-        <ControlTemplate TargetType="{x:Type RadioButton}">
-        <Border Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-        <TextBlock x:Name="TextBlock"
-        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-        FontSize="{TemplateBinding FontSize}"
-        FontWeight="{TemplateBinding FontWeight}"
-        Foreground="{TemplateBinding Foreground}"
-        Text="{TemplateBinding Content}" />
-        </Border>
-        <ControlTemplate.Triggers>
-        <Trigger Property="IsChecked" Value="true">
-        <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource Metro.App.AccentBrush}" />
-        </Trigger>
-        <Trigger Property="IsMouseOver" Value="true">
-        <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource Metro.Control.SecondaryTextBrush}" />
-        </Trigger>
-        <Trigger Property="IsEnabled" Value="false">
-        <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource Metro.Control.DisabledBrush}" />
-        </Trigger>
-        </ControlTemplate.Triggers>
-        </ControlTemplate>
-        </Setter.Value>
-        </Setter>
-        </Style>
-    -->
 </ResourceDictionary>

@@ -5,6 +5,12 @@
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.CheckBoxBorderBrushKey}" Color="{x:Static SystemColors.ControlDarkColor}" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.CheckBoxBackgroundBrushKey}" Color="#333" />
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.CheckBoxPaddingKey}">3</Thickness>
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.CheckBoxBorderThicknessKey}">1</Thickness>
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.CheckBoxMarginKey}">0,3</Thickness>
+
     <Style TargetType="CheckBox">
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.CheckBoxBackgroundBrushKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.CheckBoxBorderBrushKey}}" />

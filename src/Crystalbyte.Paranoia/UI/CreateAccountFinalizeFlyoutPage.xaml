@@ -32,7 +32,7 @@
                 <StackPanel>
                     <TextBlock Style="{DynamicResource SubtitleTextStyle}" Text="{x:Static properties:Resources.MailboxSettingsTitle}" />
                     <TextBlock Margin="0,0,0,12"
-                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
                                Text="{x:Static properties:Resources.MailboxSettingsDescription}" />
                     <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
                         <Grid HorizontalAlignment="Left">
@@ -49,7 +49,7 @@
                             <TextBlock Grid.Row="0"
                                        Grid.Column="0"
                                        IsEnabled="{Binding HasMailboxes}"
-                                       Style="{DynamicResource FlyoutLabelTextStyle}">
+                                       Style="{DynamicResource TextBlockFlyoutLabelStyle}">
                                 <Run Text="{x:Static properties:Resources.TrashMailbox}" />
                                 <Run Text=":" />
                             </TextBlock>
@@ -73,7 +73,7 @@
                             <TextBlock Grid.Row="1"
                                        Grid.Column="0"
                                        IsEnabled="{Binding HasMailboxes}"
-                                       Style="{DynamicResource FlyoutLabelTextStyle}">
+                                       Style="{DynamicResource TextBlockFlyoutLabelStyle}">
                                 <Run Text="{x:Static properties:Resources.DraftMailbox}" />
                                 <Run Text=":" />
                             </TextBlock>
@@ -97,7 +97,7 @@
                             <TextBlock Grid.Row="2"
                                        Grid.Column="0"
                                        IsEnabled="{Binding HasMailboxes}"
-                                       Style="{DynamicResource FlyoutLabelTextStyle}">
+                                       Style="{DynamicResource TextBlockFlyoutLabelStyle}">
                                 <Run Text="{x:Static properties:Resources.JunkMailbox}" />
                                 <Run Text=":" />
                             </TextBlock>
@@ -124,16 +124,16 @@
                                          Checked="OnDontStoreCopyRadioButtonChecked"
                                          GroupName="sent"
                                          Style="{DynamicResource RadioButtonFlyoutStyle}">
-                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}" Text="{x:Static properties:Resources.MailboxSettingsNoCopy}" />
+                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}" Text="{x:Static properties:Resources.MailboxSettingsNoCopy}" />
                             </RadioButton>
                             <RadioButton x:Name="StoreCopyRadioButton"
                                          Checked="OnStoreCopyRadioButtonChecked"
                                          GroupName="sent"
                                          Style="{DynamicResource RadioButtonFlyoutStyle}">
-                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}" Text="{x:Static properties:Resources.MailboxSettingsCopy}" />
+                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}" Text="{x:Static properties:Resources.MailboxSettingsCopy}" />
                             </RadioButton>
                             <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                                <TextBlock IsEnabled="{Binding IsChecked, ElementName=StoreCopyRadioButton}" Style="{DynamicResource FlyoutLabelTextStyle}">
+                                <TextBlock IsEnabled="{Binding IsChecked, ElementName=StoreCopyRadioButton}" Style="{DynamicResource TextBlockFlyoutLabelStyle}">
                                     <Run Text="{x:Static properties:Resources.SentMailbox}" />
                                     <Run Text=":" />
                                 </TextBlock>
@@ -159,7 +159,7 @@
                         <StackPanel VerticalAlignment="Center" Visibility="{Binding IsSyncingMailboxes, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <controls:MetroProgressBar Height="4" IsIndeterminate="True" />
                             <TextBlock Margin="0,6,0,0"
-                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
                                        Text="{x:Static properties:Resources.FetchingMailboxes}" />
                         </StackPanel>
                     </Border>
@@ -181,12 +181,12 @@
                                     Grid.Column="0"
                                     Grid.ColumnSpan="2">
                             <TextBlock Margin="0,0,0,12"
-                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
                                        Text="{x:Static properties:Resources.SignatureDescription}" />
                         </StackPanel>
                         <TextBlock Grid.Row="2"
                                    Grid.Column="0"
-                                   Style="{DynamicResource FlyoutLabelTextStyle}">
+                                   Style="{DynamicResource TextBlockFlyoutLabelStyle}">
                             <Run Text="{x:Static properties:Resources.Signature}" />
                             <Run Text=":" />
                         </TextBlock>

@@ -186,13 +186,13 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnSlideOutOverlayCompleted(object sender, EventArgs e) {
-            Overlay.Visibility = Visibility.Collapsed;
+            FlyoutOverlay.Visibility = Visibility.Collapsed;
         }
 
         private void HookUpNavigationRequests() {
             var app = App.Context;
             app.FlyoutCloseRequested += OnFlyoutCloseRequested;
-            app.PopupNavigationRequested += OnPopupNavigationRequested;
+            app.ModalNavigationRequested += OnPopupNavigationRequested;
             app.FlyoutNavigationRequested += OnFlyoutNavigationRequested;
         }
 
@@ -214,7 +214,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void ShowFlyout() {
             IsFlyoutVisible = true;
-            Overlay.Visibility = Visibility.Visible;
+            FlyoutOverlay.Visibility = Visibility.Visible;
             _slideInOverlayStoryboard.Begin();
         }
 

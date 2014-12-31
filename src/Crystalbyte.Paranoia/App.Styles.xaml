@@ -37,7 +37,7 @@
                     <TextBlock x:Name="ContentText"
                                Margin="7,0"
                                VerticalAlignment="Center"
-                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
                                Text="{TemplateBinding Content}" />
                     <ItemContainerTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
@@ -59,7 +59,7 @@
     <Style x:Key="TextBoxFlyoutStyle"
            BasedOn="{StaticResource {x:Type TextBox}}"
            TargetType="TextBox">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxFlyoutBackgroundBrushKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxFlyoutBorderBrushKey}}" />
     </Style>
@@ -67,12 +67,12 @@
     <Style x:Key="FlyoutPasswordBoxStyle"
            BasedOn="{StaticResource {x:Type PasswordBox}}"
            TargetType="PasswordBox">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxFlyoutBackgroundBrushKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxFlyoutBorderBrushKey}}" />
     </Style>
 
-    <Style x:Key="FlyoutLabelTextStyle"
+    <Style x:Key="TextBlockFlyoutLabelStyle"
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}" />
@@ -305,7 +305,6 @@
     <Style x:Key="ReadOnlyTextBoxStyle"
            BasedOn="{StaticResource {x:Type TextBox}}"
            TargetType="TextBox">
-        <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="IsEnabled" Value="False" />
     </Style>

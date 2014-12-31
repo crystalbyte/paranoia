@@ -301,10 +301,10 @@ namespace Crystalbyte.Paranoia {
                 handler(this, EventArgs.Empty);
         }
 
-        internal event EventHandler<NavigationRequestedEventArgs> PopupNavigationRequested;
+        internal event EventHandler<NavigationRequestedEventArgs> ModalNavigationRequested;
 
-        private void OnPopupNavigationRequested(NavigationRequestedEventArgs e) {
-            var handler = PopupNavigationRequested;
+        private void OnModalNavigationRequested(NavigationRequestedEventArgs e) {
+            var handler = ModalNavigationRequested;
             if (handler != null)
                 handler(this, e);
         }
@@ -709,7 +709,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void ClosePopup() {
-            OnPopupNavigationRequested(new NavigationRequestedEventArgs(null));
+            OnModalNavigationRequested(new NavigationRequestedEventArgs(null));
             IsPopupVisible = false;
         }
 
@@ -781,14 +781,14 @@ namespace Crystalbyte.Paranoia {
         internal void CreateMailbox(IMailboxCreator parent) {
             NavigationArguments.Push(parent);
 
-            var uri = typeof(CreateMailboxPage).ToPageUri();
-            OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
+            var uri = typeof(CreateMailboxModalPage).ToPageUri();
+            OnModalNavigationRequested(new NavigationRequestedEventArgs(uri));
             IsPopupVisible = true;
         }
 
         internal void OnCreateKeyPair() {
             var uri = typeof(CreateKeyPage).ToPageUri();
-            OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
+            OnModalNavigationRequested(new NavigationRequestedEventArgs(uri));
             IsPopupVisible = true;
         }
 

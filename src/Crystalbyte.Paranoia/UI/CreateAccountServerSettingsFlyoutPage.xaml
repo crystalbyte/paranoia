@@ -77,12 +77,12 @@
                                    Grid.Column="0"
                                    Grid.ColumnSpan="2"
                                    Margin="0,0,0,12"
-                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
                                    Text="{x:Static properties:Resources.GeneralSettingsDescription}" />
                         <TextBlock Grid.Row="2"
                                    Grid.Column="0"
-                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
-                                   Style="{DynamicResource FlyoutLabelTextStyle}">
+                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
+                                   Style="{DynamicResource TextBlockFlyoutLabelStyle}">
                             <Run Text="{x:Static properties:Resources.AccountName}" />
                             <Run>:</Run>
                         </TextBlock>
@@ -98,7 +98,7 @@
                         <TextBlock Grid.Row="3"
                                    Grid.Column="0"
                                    Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
-                                   Style="{DynamicResource FlyoutLabelTextStyle}">
+                                   Style="{DynamicResource TextBlockFlyoutLabelStyle}">
                             <Run Text="{x:Static properties:Resources.MailAddress}" />
                             <Run>:</Run>
                         </TextBlock>
@@ -156,8 +156,8 @@
                                 <TextBlock Grid.Row="0"
                                            Grid.Column="0"
                                            Grid.ColumnSpan="2"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
-                                           Style="{DynamicResource FlyoutLabelTextStyle}">
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
+                                           Style="{DynamicResource TextBlockFlyoutLabelStyle}">
                                     <Run Text="{x:Static properties:Resources.Username}" />
                                     <Run>:</Run>
                                 </TextBlock>
@@ -171,8 +171,8 @@
 
                                 <TextBlock Grid.Row="0"
                                            Grid.Column="2"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
-                                           Style="{DynamicResource FlyoutLabelTextStyle}">
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
+                                           Style="{DynamicResource TextBlockFlyoutLabelStyle}">
                                     <Run Text="{x:Static properties:Resources.ImapHost}" />
                                     <Run>:</Run>
                                 </TextBlock>
@@ -185,8 +185,8 @@
                                                         UpdateSourceTrigger=PropertyChanged}" />
                                 <TextBlock Grid.Row="1"
                                            Grid.Column="0"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
-                                           Style="{DynamicResource FlyoutLabelTextStyle}">
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
+                                           Style="{DynamicResource TextBlockFlyoutLabelStyle}">
                                     <Run Text="{x:Static properties:Resources.Password}" />
                                     <Run>:</Run>
                                 </TextBlock>
@@ -197,8 +197,8 @@
                                              Style="{DynamicResource FlyoutPasswordBoxStyle}" />
                                 <TextBlock Grid.Row="1"
                                            Grid.Column="2"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
-                                           Style="{DynamicResource FlyoutLabelTextStyle}">
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
+                                           Style="{DynamicResource TextBlockFlyoutLabelStyle}">
                                     <Run Text="{x:Static properties:Resources.EncryptionProtocol}" />
                                     <Run>:</Run>
                                 </TextBlock>
@@ -218,15 +218,15 @@
                                             <TextBlock Margin="3,0"
                                                        VerticalAlignment="Center"
                                                        FontWeight="Normal"
-                                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
                                                        Text="{Binding Converter={StaticResource SecurityProtocolFormatter}}" />
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
                                 <TextBlock Grid.Row="1"
                                            Grid.Column="4"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
-                                           Style="{DynamicResource FlyoutLabelTextStyle}">
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
+                                           Style="{DynamicResource TextBlockFlyoutLabelStyle}">
                                     <Run Text="{x:Static properties:Resources.Port}" />
                                     <Run>:</Run>
                                 </TextBlock>
@@ -270,7 +270,7 @@
                                                      GroupName="Mirror"
                                                      Style="{DynamicResource RadioButtonFlyoutStyle}">
                                             <TextBlock FontWeight="Normal"
-                                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
                                                        Text="{x:Static properties:Resources.UseImapCredentials}" />
                                         </RadioButton>
                                         <RadioButton x:Name="UseSmtpCredentialsRadioButton"
@@ -279,7 +279,7 @@
                                                      GroupName="Mirror"
                                                      Style="{DynamicResource RadioButtonFlyoutStyle}">
                                             <TextBlock FontWeight="Normal"
-                                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
                                                        Text="{x:Static properties:Resources.SmtpRequiresOwnCredentials}" />
                                         </RadioButton>
                                     </StackPanel>
@@ -287,7 +287,7 @@
                                                Grid.Column="0"
                                                IsEnabled="{Binding IsChecked,
                                                                    ElementName=UseSmtpCredentialsRadioButton}"
-                                               Style="{DynamicResource FlyoutLabelTextStyle}">
+                                               Style="{DynamicResource TextBlockFlyoutLabelStyle}">
                                         <Run Text="{x:Static properties:Resources.Username}" />
                                         <Run>:</Run>
                                     </TextBlock>
@@ -304,7 +304,7 @@
                                                Grid.Column="0"
                                                IsEnabled="{Binding IsChecked,
                                                                    ElementName=UseSmtpCredentialsRadioButton}"
-                                               Style="{DynamicResource FlyoutLabelTextStyle}">
+                                               Style="{DynamicResource TextBlockFlyoutLabelStyle}">
                                         <Run Text="{x:Static properties:Resources.Password}" />
                                         <Run>:</Run>
                                     </TextBlock>
@@ -330,8 +330,8 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="1"
                                                Grid.Column="0"
-                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
-                                               Style="{DynamicResource FlyoutLabelTextStyle}">
+                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
+                                               Style="{DynamicResource TextBlockFlyoutLabelStyle}">
                                         <Run Text="{x:Static properties:Resources.ImapHost}" />
                                         <Run>:</Run>
                                     </TextBlock>
@@ -344,8 +344,8 @@
                                                             UpdateSourceTrigger=PropertyChanged}" />
                                     <TextBlock Grid.Row="2"
                                                Grid.Column="0"
-                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
-                                               Style="{DynamicResource FlyoutLabelTextStyle}">
+                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
+                                               Style="{DynamicResource TextBlockFlyoutLabelStyle}">
                                         <Run Text="{x:Static properties:Resources.EncryptionProtocol}" />
                                         <Run>:</Run>
                                     </TextBlock>
@@ -365,7 +365,7 @@
                                                 <TextBlock Margin="3,0"
                                                            VerticalAlignment="Center"
                                                            FontWeight="Normal"
-                                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
                                                            Text="{Binding Converter={StaticResource SecurityProtocolFormatter}}" />
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>
@@ -373,7 +373,7 @@
                                     <TextBlock Grid.Row="2"
                                                Grid.Column="2"
                                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
-                                               Style="{DynamicResource FlyoutLabelTextStyle}">
+                                               Style="{DynamicResource TextBlockFlyoutLabelStyle}">
                                         <Run Text="{x:Static properties:Resources.Port}" />
                                         <Run>:</Run>
                                     </TextBlock>
@@ -406,7 +406,7 @@
                         <TextBlock MinHeight="30"
                                    Margin="12"
                                    DataContext="{Binding Testing}"
-                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutTextForegroundBrushKey}}"
+                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
                                    Text="{Binding Message}" />
 
                     </StackPanel>

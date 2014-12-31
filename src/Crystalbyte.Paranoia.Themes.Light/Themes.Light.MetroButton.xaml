@@ -6,13 +6,16 @@
 
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.MetroButtonBorderBrushKey}" Color="#4D4D4E" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.MetroButtonIconBrushKey}" Color="#4D4D4E" />
+
     <Style TargetType="controls:MetroButton">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
-        <Setter Property="ImageBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+        <Setter Property="ImageBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.MetroButtonIconBrushKey}}" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.MetroButtonBorderBrushKey}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:MetroButton">

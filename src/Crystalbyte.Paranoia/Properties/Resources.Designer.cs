@@ -396,6 +396,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New Mailbox.
+        /// </summary>
+        public static string CreateMailboxTitle {
+            get {
+                return ResourceManager.GetString("CreateMailboxTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Method was called on an invalid thread..
         /// </summary>
         public static string CrossThreadException {

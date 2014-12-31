@@ -66,7 +66,8 @@
                                Style="{DynamicResource TitleTextStyle}"><Run Text="{x:Static properties:Resources.AccountsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Text="{Binding Accounts, Converter={StaticResource CollectionCounter}, FallbackValue=0, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
                 </DockPanel>
-                <TreeView Margin="0"
+                <TreeView x:Name="AccountsTreeView"
+                          Margin="0"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
                           BorderThickness="0"
@@ -77,6 +78,21 @@
                           SnapsToDevicePixels="True"
                           VirtualizingPanel.IsVirtualizing="False"
                           VirtualizingPanel.ScrollUnit="Pixel">
+                    <TreeView.InputBindings>
+                        <KeyBinding Key="N"
+                                    Command="ui:MailboxCommands.Create"
+                                    CommandParameter="{Binding SelectedItem,
+                                                               ElementName=AccountsTreeView}"
+                                    Modifiers="Control" />
+                        <KeyBinding Key="F5"
+                                    Command="ui:MailboxCommands.Sync"
+                                    CommandParameter="{Binding SelectedItem,
+                                                               ElementName=AccountsTreeView}" />
+                        <KeyBinding Key="Delete"
+                                    Command="ui:MailboxCommands.Delete"
+                                    CommandParameter="{Binding SelectedItem,
+                                                               ElementName=AccountsTreeView}" />
+                    </TreeView.InputBindings>
                     <TreeView.Resources>
                         <DataTemplate DataType="{x:Type paranoia:OutboxContext}">
                             <Grid>
@@ -85,16 +101,12 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Rectangle Width="16"
-                                           Height="16"
-                                           Margin="0,1,6,1"
-                                           DockPanel.Dock="Left"
-                                           Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppIconBrushKey}}"
-                                           SnapsToDevicePixels="True">
-                                    <Rectangle.OpacityMask>
-                                        <ImageBrush ImageSource="/Assets/folder.png" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
+                                <Image Width="16"
+                                       Height="16"
+                                       Margin="0,1,6,1"
+                                       DockPanel.Dock="Left"
+                                       SnapsToDevicePixels="True"
+                                       Source="/Assets/folder.png" />
                                 <TextBlock x:Name="NameText"
                                            Grid.Column="1"
                                            VerticalAlignment="Center"
@@ -128,52 +140,39 @@
                             </DataTemplate.Triggers>
                         </DataTemplate>
                         <HierarchicalDataTemplate DataType="{x:Type paranoia:MailAccountContext}" ItemsSource="{Binding Children, Mode=OneWay}">
-                            <Grid>
+                            <Grid x:Name="LayoutRoot">
                                 <Grid.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Command="{Binding ShowUnsubscribedMailboxesCommand}" Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <MenuItem Command="{Binding ShowUnsubscribedMailboxesCommand}" Header="{x:Static properties:Resources.ShowUnsubscribedMailboxes}">
                                             <MenuItem.Icon>
-                                                <Image Height="16" Source="/Assets/select.png" />
+                                                <Rectangle Style="{StaticResource MenuIconRectangleStyle}">
+                                                    <Rectangle.OpacityMask>
+                                                        <ImageBrush ImageSource="/Assets/select.png" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
                                             </MenuItem.Icon>
-                                            <MenuItem.Header>
-                                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" Text="{x:Static properties:Resources.ShowUnsubscribedMailboxes}" />
-                                            </MenuItem.Header>
                                         </MenuItem>
-                                        <MenuItem Command="{Binding HideUnsubscribedMailboxesCommand}" Visibility="{Binding IsManagingMailboxes, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Separator />
+                                        <MenuItem Command="{Binding DeleteAccountCommand}" Header="{x:Static properties:Resources.Delete}">
                                             <MenuItem.Icon>
-                                                <Image Height="16" Source="/Assets/ok.png" />
-                                            </MenuItem.Icon>
-                                            <MenuItem.Header>
-                                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" Text="{x:Static properties:Resources.HideUnsubscribedMailboxes}" />
-                                            </MenuItem.Header>
-                                        </MenuItem>
-                                        <Separator Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                        <MenuItem Command="{Binding DeleteAccountCommand}" Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                            <MenuItem.Icon>
-                                                <Rectangle Width="16"
-                                                           Height="16"
-                                                           Fill="{DynamicResource Metro.App.FailureBrush}">
+                                                <Rectangle Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}" Style="{StaticResource MenuIconRectangleStyle}">
                                                     <Rectangle.OpacityMask>
                                                         <ImageBrush ImageSource="/Assets/delete.png" />
                                                     </Rectangle.OpacityMask>
                                                 </Rectangle>
                                             </MenuItem.Icon>
-                                            <MenuItem.Header>
-                                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" Text="{x:Static properties:Resources.Delete}" />
-                                            </MenuItem.Header>
                                         </MenuItem>
-                                        <Separator Visibility="{Binding IsManagingMailboxes, ConverterParameter=!, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                        <Separator />
                                         <MenuItem Command="{Binding ConfigAccountCommand}"
                                                   CommandParameter="{Binding}"
-                                                  Visibility="{Binding IsManagingMailboxes,
-                                                                       ConverterParameter=!,
-                                                                       Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                  Header="{x:Static properties:Resources.Properties}">
                                             <MenuItem.Icon>
-                                                <Image Height="16" Source="/Assets/edit.properties.png" />
+                                                <Rectangle Style="{StaticResource MenuIconRectangleStyle}">
+                                                    <Rectangle.OpacityMask>
+                                                        <ImageBrush ImageSource="/Assets/edit.properties.png" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
                                             </MenuItem.Icon>
-                                            <MenuItem.Header>
-                                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" Text="{x:Static properties:Resources.Properties}" />
-                                            </MenuItem.Header>
                                         </MenuItem>
                                     </ContextMenu>
                                 </Grid.ContextMenu>
@@ -215,6 +214,23 @@
                                 </StackPanel>
                             </Grid>
                             <HierarchicalDataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsManagingMailboxes}" Value="True">
+                                    <Setter TargetName="LayoutRoot" Property="ContextMenu">
+                                        <Setter.Value>
+                                            <ContextMenu>
+                                                <MenuItem Command="{Binding HideUnsubscribedMailboxesCommand}" Header="{x:Static properties:Resources.HideUnsubscribedMailboxes}">
+                                                    <MenuItem.Icon>
+                                                        <Rectangle Style="{StaticResource MenuIconRectangleStyle}">
+                                                            <Rectangle.OpacityMask>
+                                                                <ImageBrush ImageSource="/Assets/ok.png" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                            </ContextMenu>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding IsSelected}" Value="True" />
@@ -229,27 +245,32 @@
                             <Grid>
                                 <Grid.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Command="{Binding SyncMailboxCommand}">
+                                        <MenuItem Command="ui:MailboxCommands.Create"
+                                                  CommandParameter="{Binding}"
+                                                  Header="{x:Static properties:Resources.New}"
+                                                  InputGestureText="Ctrl+N">
                                             <MenuItem.Icon>
-                                                <Image Height="16" Source="/Assets/refresh.png" />
+                                                <Rectangle Style="{StaticResource MenuIconRectangleStyle}">
+                                                    <Rectangle.OpacityMask>
+                                                        <ImageBrush ImageSource="/Assets/add.png" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
                                             </MenuItem.Icon>
-                                            <MenuItem.Header>
-                                                <TextBlock Text="{x:Static properties:Resources.Sync}" />
-                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <MenuItem Command="ui:MailboxCommands.Sync"
+                                                  CommandParameter="{Binding}"
+                                                  Header="{x:Static properties:Resources.Sync}"
+                                                  InputGestureText="F5">
+                                            <MenuItem.Icon>
+                                                <Rectangle Style="{StaticResource MenuIconRectangleStyle}">
+                                                    <Rectangle.OpacityMask>
+                                                        <ImageBrush ImageSource="/Assets/refresh.png" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </MenuItem.Icon>
                                         </MenuItem>
                                         <Separator />
-                                        <MenuItem Command="{Binding CreateMailboxCommand}">
-                                            <MenuItem.Icon>
-                                                <Image Height="16"
-                                                       RenderOptions.BitmapScalingMode="NearestNeighbor"
-                                                       Source="/Assets/add.png"
-                                                       UseLayoutRounding="True" />
-                                            </MenuItem.Icon>
-                                            <MenuItem.Header>
-                                                <TextBlock Text="{x:Static properties:Resources.New}" />
-                                            </MenuItem.Header>
-                                        </MenuItem>
-                                        <MenuItem Command="{Binding DeleteMailboxCommand}">
+                                        <MenuItem Command="ui:MailboxCommands.Delete" CommandParameter="{Binding}">
                                             <MenuItem.Icon>
                                                 <Image Height="16" Source="/Assets/delete.png" />
                                             </MenuItem.Icon>
@@ -270,23 +291,20 @@
                                                   Visibility="{Binding IsSelectable,
                                                                        Converter={StaticResource BooleanToVisibilityConverter}}" />
                                     </Border>
-                                    <Rectangle Width="16"
-                                               Height="16"
-                                               Margin="0,1,6,1"
-                                               DockPanel.Dock="Left"
-                                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppIconBrushKey}}"
-                                               SnapsToDevicePixels="True">
-                                        <Rectangle.OpacityMask>
-                                            <ImageBrush ImageSource="/Assets/folder.png" />
-                                        </Rectangle.OpacityMask>
-                                        <Rectangle.Opacity>
+                                    <Image Width="16"
+                                           Height="16"
+                                           Margin="0,1,6,1"
+                                           DockPanel.Dock="Left"
+                                           SnapsToDevicePixels="True"
+                                           Source="/Assets/folder.png">
+                                        <Image.Opacity>
                                             <Binding Path="IsSubscribedAndSelectable">
                                                 <Binding.Converter>
                                                     <converters:BooleanToOpacityConverter OpacityForFalse=".5" OpacityForTrue="1" />
                                                 </Binding.Converter>
                                             </Binding>
-                                        </Rectangle.Opacity>
-                                    </Rectangle>
+                                        </Image.Opacity>
+                                    </Image>
                                     <TextBlock x:Name="NameText"
                                                VerticalAlignment="Center"
                                                DockPanel.Dock="Left"
@@ -386,8 +404,8 @@
                 <DockPanel LastChildFill="True">
                     <controls:MetroButton Margin="6"
                                           VerticalAlignment="Center"
-                                          Command="{Binding SyncMailboxCommand}"
-                                          DataContext="{Binding SelectedMailbox}"
+                                          Command="ui:MailboxCommands.Sync"
+                                          CommandParameter="{Binding SelectedMailbox}"
                                           DockPanel.Dock="Right"
                                           ImageSource="/Assets/refresh.png" />
                     <TextBlock Margin="12,0"
@@ -408,14 +426,15 @@
                            Margin="12,0,12,0"
                            HorizontalAlignment="Stretch"
                            LastChildFill="False">
-                    <RadioButton Margin="3,3,9,3"
+                    <RadioButton Margin="3,3,6,3"
                                  Content="{x:Static properties:Resources.All}"
                                  DockPanel.Dock="Left"
                                  GroupName="Filter"
                                  IsChecked="{Binding ShowAllMessages,
                                                      Mode=TwoWay}"
                                  Style="{DynamicResource TextRadioButtonStyle}" />
-                    <RadioButton Content="{x:Static properties:Resources.Unseen}"
+                    <RadioButton Margin="3"
+                                 Content="{x:Static properties:Resources.Unseen}"
                                  DockPanel.Dock="Left"
                                  GroupName="Filter"
                                  Style="{DynamicResource TextRadioButtonStyle}" />
@@ -501,9 +520,11 @@
                         <ContextMenu>
                             <MenuItem Command="ui:MessagingCommands.Reply" InputGestureText="Ctrl + R">
                                 <MenuItem.Icon>
-                                    <Image Height="16"
-                                           Source="/Assets/reply.png"
-                                           UseLayoutRounding="True" />
+                                    <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/reply.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
                                 </MenuItem.Icon>
                                 <MenuItem.Header>
                                     <TextBlock Text="{x:Static properties:Resources.Reply}" />
@@ -656,17 +677,7 @@
                                             Margin="0,1,3,0"
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
-                                            Orientation="Horizontal">
-                                    <Rectangle Width="16"
-                                               Height="16"
-                                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                                               Visibility="{Binding IsFlagged,
-                                                                    Converter={StaticResource BooleanToVisibilityConverter}}">
-                                        <Rectangle.OpacityMask>
-                                            <ImageBrush ImageSource="/Assets/star.full.png" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </StackPanel>
+                                            Orientation="Horizontal" />
                                 <TextBlock x:Name="SubjectText"
                                            Grid.Row="1"
                                            Grid.Column="1"

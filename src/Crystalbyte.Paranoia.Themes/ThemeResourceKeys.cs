@@ -13,7 +13,6 @@
 
         public static string WindowBackgroundBrushKey = "WindowBackgroundBrushKey";
         public static string WindowMenuBackgroundBrushKey = "WindowMenuBackgroundBrushKey";
-        public static string WindowBorderBrushKey = "WindowBorderBrushKey";
         public static string WindowBorderThicknessKey = "WindowBorderThicknessKey";
         public static string WindowShadowBrushKey = "WindowShadowBrushKey";
 
@@ -22,7 +21,7 @@
         public static string FlyoutBackgroundBrushKey = "FlyoutBackgroundBrushKey";
         public static string FlyoutOverlayBrushKey = "FlyoutOverlayBrushKey";
         public static string FlyoutOverlayOpacityKey = "FlyoutOverlayOpacityKey";
-        public static string FlyoutTextForegroundBrushKey = "FlyoutTextForegroundBrushKey";
+        
         
         // General Text Scope
 
@@ -46,6 +45,7 @@
         public static string TextMediumLargeFontSizeKey = "TextMediumLargeFontSizeKey";
         public static string TextLargeFontSizeKey = "TextLargeFontSizeKey";
         public static string TextExtraLargeFontSizeKey = "TextExtraLargeFontSizeKey";
+        public static string TextFlyoutForegroundBrushKey = "TextFlyoutForegroundBrushKey";
 
         public static string InputFontFamilyKey = "InputFontFamilyKey";
         public static string InputFontSizeKey = "InputFontSizeKey";
@@ -111,6 +111,8 @@
 
         public static string MenuBackgroundBrushKey = "MenuBackgroundBrushKey";
         public static string MenuBorderThicknessKey = "MenuBorderThicknessKey";
+        public static string MenuGlyphBrushKey = "MenuGlyphBrushKey";
+        public static string MenuSeparatorBrushKey = "MenuSeparatorBrushKey";
         public static string MenuBorderBrushKey = "MenuBorderBrushKey";
         public static string MenuIconBrushKey = "MenuIconBrushKey";
 
@@ -212,5 +214,10 @@
 
         public static string ScrollBarDisabledBackgroundBrushKey = "ScrollBarDisabledBackgroundBrushKey";
         public static string ScrollBarDisabledBorderBrushKey = "ScrollBarDisabledBorderBrushKey";
+        
+        // MetroButton Scope
+        
+        public static string MetroButtonBorderBrushKey = "MetroButtonBorderBrushKey";
+        public static string MetroButtonIconBrushKey = "MetroButtonIconBrushKey";
     }
 }

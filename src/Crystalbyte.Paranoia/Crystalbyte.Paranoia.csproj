@@ -285,8 +285,8 @@
     <Compile Include="UI\CreateKeyPage.xaml.cs">
       <DependentUpon>CreateKeyPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\CreateMailboxPage.xaml.cs">
-      <DependentUpon>CreateMailboxPage.xaml</DependentUpon>
+    <Compile Include="UI\CreateMailboxModalPage.xaml.cs">
+      <DependentUpon>CreateMailboxModalPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\MessagesPage.xaml.cs">
       <DependentUpon>MessagesPage.xaml</DependentUpon>
@@ -404,7 +404,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\CreateMailboxPage.xaml">
+    <Page Include="UI\CreateMailboxModalPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -582,6 +582,8 @@
     <Resource Include="Assets\reply.all.png" />
     <Resource Include="Assets\arrow.right.png" />
     <Resource Include="Assets\image.placeholder.png" />
+    <Resource Include="Assets\copy.png" />
+    <Resource Include="Assets\cut.png" />
     <Content Include="Resources\ckeditor\adapters\jquery.js" />
     <Content Include="Resources\ckeditor\build-config.js" />
     <Content Include="Resources\ckeditor\ckeditor.js" />

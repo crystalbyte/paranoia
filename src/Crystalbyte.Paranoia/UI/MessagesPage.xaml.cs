@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -26,8 +28,67 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(MessagingCommands.ReplyAll, OnReplyAll));
             CommandBindings.Add(new CommandBinding(MessagingCommands.Forward, OnForward));
             CommandBindings.Add(new CommandBinding(MessagingCommands.Inspect, OnInspect, OnCanInspect));
-            //CommandBindings.Add(new CommandBinding(OutboxCommands.Delete, OnDeleteSmtpRequest, OnCanDeleteSmtpRequest));
+            CommandBindings.Add(new CommandBinding(MailboxCommands.Create, OnCreateMailbox, OnCanCreateMailbox));
+            CommandBindings.Add(new CommandBinding(MailboxCommands.Delete, OnDeleteMailbox, OnCanDeleteMailbox));
+            CommandBindings.Add(new CommandBinding(MailboxCommands.Sync, OnSyncMailbox, OnCanSyncMailbox));
+
             App.Context.SortOrderChanged += OnSortOrderChanged;
+            NetworkChange.NetworkAvailabilityChanged += (sender, e) => CommandManager.InvalidateRequerySuggested();
+        }
+
+        private static void OnCanSyncMailbox(object sender, CanExecuteRoutedEventArgs e) {
+            try {
+                e.CanExecute = NetworkInterface.GetIsNetworkAvailable();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private static async void OnSyncMailbox(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                var mailbox = (MailboxContext)e.Parameter;
+                await mailbox.SyncMessagesAsync();
+                await mailbox.SyncMailboxesAsync();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private static void OnCanDeleteMailbox(object sender, CanExecuteRoutedEventArgs e) {
+            try {
+                var mailbox = (MailboxContext)e.Parameter;
+                e.CanExecute = mailbox != null && mailbox.IsSelectable;
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private static async void OnDeleteMailbox(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                var mailbox = (MailboxContext)e.Parameter;
+                await mailbox.DeleteAsync();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private static void OnCreateMailbox(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                var parent = (IMailboxCreator)e.Parameter;
+                App.Context.CreateMailbox(parent);
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private static void OnCanCreateMailbox(object sender, CanExecuteRoutedEventArgs e) {
+            try {
+                var parent = (IMailboxCreator)e.Parameter;
+                e.CanExecute = parent.CanHaveChildren;
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         public SortProperty SortProperty {
@@ -120,6 +181,8 @@ namespace Crystalbyte.Paranoia.UI {
             App.Context.SelectedOutbox = value as OutboxContext;
             App.Context.SelectedMailbox = value as MailboxContext;
 
+            RequeryRoutedCommands();
+
             var account = value as MailAccountContext;
             if (account == null)
                 return;
@@ -127,6 +190,10 @@ namespace Crystalbyte.Paranoia.UI {
             if (account.TakeOnlineHint) {
                 await account.TakeOnlineAsync();
             }
+        }
+
+        private static void RequeryRoutedCommands() {
+            CommandManager.InvalidateRequerySuggested();
         }
 
         private void OnSmtpRequestSelectionChanged(object sender, SelectionChangedEventArgs e) {

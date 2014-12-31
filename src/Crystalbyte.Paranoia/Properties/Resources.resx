@@ -571,4 +571,7 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="Server" xml:space="preserve">
     <value>Server</value>
   </data>
+  <data name="CreateMailboxTitle" xml:space="preserve">
+    <value>New Mailbox</value>
+  </data>
 </root>

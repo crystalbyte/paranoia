@@ -16,11 +16,9 @@ using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Net;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
-using Crystalbyte.Paranoia.UI.Commands;
 using Newtonsoft.Json;
 using NLog;
 using System.Text.RegularExpressions;
-using System.Windows.Input;
 
 #endregion
 
@@ -45,13 +43,9 @@ namespace Crystalbyte.Paranoia {
         private int _fetchedEnvelopeCount;
         private bool _isSyncedInitially;
         private bool _showAllMessages;
-        private readonly ICommand _syncMailboxCommand;
-        private readonly ICommand _deleteMailboxCommand;
-        private readonly ICommand _createMailboxCommand;
         private readonly object _syncChildrenMutex = new object();
         private readonly object _syncMessagesMutex = new object();
         private bool _isSelectedSubtly;
-        private bool _isKeyboardFocused;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -63,37 +57,9 @@ namespace Crystalbyte.Paranoia {
             _account = account;
             _mailbox = mailbox;
             _showAllMessages = true;
-            _deleteMailboxCommand = new RelayCommand(OnDeleteMailbox);
-            _createMailboxCommand = new RelayCommand(OnCreateMailbox);
-            _syncMailboxCommand = new RelayCommand(OnSyncMailbox);
         }
 
-        private async void OnSyncMailbox(object obj) {
-            try {
-                await Task.Run(() => SyncMailboxesAsync());
-                await Task.Run(() => SyncMessagesAsync());
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
-
-        private void OnCreateMailbox(object obj) {
-            try {
-                App.Context.CreateMailbox(this);
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
-
-        private async void OnDeleteMailbox(object obj) {
-            try {
-                await DeleteAsync();
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
-
-        private async Task DeleteAsync() {
+        internal async Task DeleteAsync() {
             using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                 using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                     using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
@@ -181,18 +147,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public ICommand CreateMailboxCommand {
-            get { return _createMailboxCommand; }
-        }
-
-        public ICommand SyncMailboxCommand {
-            get { return _syncMailboxCommand; }
-        }
-
-        public ICommand DeleteMailboxCommand {
-            get { return _deleteMailboxCommand; }
-        }
-
         public bool HasListedChildren {
             get { return HasChildren && Children.Any(x => x.IsListed); }
         }
@@ -238,7 +192,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task SyncMailboxesAsync() {
+        internal async Task SyncMailboxesAsync() {
             Application.Current.AssertBackgroundThread();
 
             lock (_syncChildrenMutex) {
@@ -511,6 +465,10 @@ namespace Crystalbyte.Paranoia {
 
         public bool CanHaveChildren {
             get { return !_mailbox.Flags.ContainsIgnoreCase(MailboxFlags.NoChildren); }
+        }
+
+        public bool CheckForValidName(string name) {
+            return Children.All(x => string.Compare(name, x.LocalName, StringComparison.OrdinalIgnoreCase) != 0);
         }
 
         private async Task SubscribeAsync() {
@@ -1096,24 +1054,5 @@ namespace Crystalbyte.Paranoia {
                 Logger.Error(ex);
             }
         }
-
-        #region Implementation of IKeyboardFocusAware
-
-        public bool IsKeyboardFocused {
-            get { return _isKeyboardFocused; }
-            set {
-                if (_isKeyboardFocused == value) {
-                    return;
-                }
-                _isKeyboardFocused = value;
-                RaisePropertyChanged(() => IsKeyboardFocused);
-
-                foreach (var mailbox in Children) {
-                    mailbox.IsKeyboardFocused = value;
-                }
-            }
-        }
-
-        #endregion
     }
 }

@@ -48,9 +48,7 @@
                 <TranslateTransform />
             </TransformGroup>
         </Grid.RenderTransform>
-        <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBorderBrushKey}}"
-                BorderThickness="2">
+        <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}" BorderThickness="0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -81,14 +79,6 @@
                            Text="{Binding FromName}"
                            TextTrimming="CharacterEllipsis"
                            TextWrapping="NoWrap" />
-                <TextBlock Grid.Row="1"
-                           Grid.Column="1"
-                           VerticalAlignment="Top"
-                           FontWeight="Normal"
-                           Style="{StaticResource SubtitleTextStyle}"
-                           Text="{Binding Subject}"
-                           TextTrimming="CharacterEllipsis"
-                           TextWrapping="NoWrap" />
                 <Button Grid.Row="0"
                         Grid.Column="2"
                         Width="26"
@@ -103,6 +93,14 @@
                            VerticalAlignment="Center"
                            Source="/Assets/close.png" />
                 </Button>
+                <TextBlock Grid.Row="1"
+                           Grid.Column="1"
+                           VerticalAlignment="Top"
+                           FontWeight="Normal"
+                           Style="{StaticResource SubtitleTextStyle}"
+                           Text="{Binding Subject}"
+                           TextTrimming="CharacterEllipsis"
+                           TextWrapping="NoWrap" />
             </Grid>
         </Border>
     </Grid>

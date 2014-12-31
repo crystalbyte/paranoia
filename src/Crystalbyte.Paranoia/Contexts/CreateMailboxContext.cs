@@ -38,6 +38,10 @@ namespace Crystalbyte.Paranoia {
 
         #region Method Declarations
 
+        public bool IsValid {
+            get { return !string.IsNullOrWhiteSpace(Name) && _creator.CheckForValidName(Name); }
+        }
+
         internal async Task CommitAsync() {
             try {
                 await _creator.CreateMailboxAsync(Name);

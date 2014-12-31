@@ -21,7 +21,7 @@ namespace Crystalbyte.Paranoia.Themes {
                 "/Themes.Light.RepeatButton.xaml",
                 "/Themes.Light.CheckBox.xaml",
                 "/Themes.Light.ComboBox.xaml",
-                "/Themes.Light.ContextMenu.xaml",
+                "/Themes.Light.Menu.xaml",
                 "/Themes.Light.GridSplitter.xaml",
                 "/Themes.Light.ListView.xaml",
                 "/Themes.Light.PasswordBox.xaml",
