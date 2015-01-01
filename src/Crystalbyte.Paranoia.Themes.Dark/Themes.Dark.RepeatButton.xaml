@@ -2,51 +2,32 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}" Color="WhiteSmoke" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonFlyoutBackgroundBrushKey}" Color="#2F2F30" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonFlyoutBorderBrushKey}" Color="#555556" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonMouseOverBackgroundBrushKey}" Color="#DDDDDE" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonBorderBrushKey}" Color="{x:Static SystemColors.ControlDarkColor}" />
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.ButtonPaddingKey}">5</Thickness>
-
-    <Style TargetType="Button">
+    <Style TargetType="RepeatButton">
         <Setter Property="BorderThickness" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBorderThicknessKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBorderBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}}" />
         <Setter Property="Margin" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonMarginKey}}" />
-        <Setter Property="MinWidth" Value="16" />
-        <Setter Property="MinHeight" Value="16" />
         <Setter Property="Width" Value="Auto" />
+        <Setter Property="MinWidth" Value="40" />
         <Setter Property="Height" Value="Auto" />
+        <Setter Property="MinHeight" Value="20" />
         <Setter Property="Padding" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonPaddingKey}}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonForegroundBrushKey}}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ButtonBase">
-                    <Border Background="{TemplateBinding Background}"
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid>
-                            <Rectangle x:Name="HoverBackground"
-                                       Fill="Transparent"
-                                       Opacity=".1" />
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </Grid>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Border>
-                    <ControlTemplate.Triggers>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="IsPressed" Value="False" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-                        </MultiTrigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -61,6 +42,13 @@
                     <Condition Property="IsMouseOver" Value="True" />
                 </MultiTrigger.Conditions>
                 <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="IsPressed" Value="False" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonMouseOverBackgroundBrushKey}}" />
             </MultiTrigger>
         </Style.Triggers>
     </Style>

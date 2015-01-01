@@ -348,16 +348,7 @@ namespace Crystalbyte.Paranoia {
                         StringComparison.InvariantCultureIgnoreCase) == 0) ??
                 Context.Themes.First(x => x is LightTheme);
 
-            var resources = theme.GetThemeResources();
-
-            // Add base styles.
-            Current.Resources.MergedDictionaries.Clear();
-            Current.Resources.MergedDictionaries.AddRange(resources);
-
-            // Derived styles need to be added after base styles.
-            var url = string.Format(Pack.Relative, typeof(App).Assembly.FullName, "/App.Styles.xaml");
-            var styles = (ResourceDictionary)LoadComponent(new Uri(url, UriKind.Relative));
-            Current.Resources.MergedDictionaries.Add(styles);
+            ChangeTheme(theme);
         }
 
         private static void InitEnvironment() {
@@ -381,6 +372,7 @@ namespace Crystalbyte.Paranoia {
         private void Compose() {
             var config = new ContainerConfiguration()
                 .WithAssembly(typeof(App).Assembly)
+                .WithAssembly(typeof(DarkTheme).Assembly)
                 .WithAssembly(typeof(LightTheme).Assembly);
 
             Composition = config.CreateContainer();
@@ -388,7 +380,19 @@ namespace Crystalbyte.Paranoia {
         }
 
         public static void ChangeTheme(Theme theme) {
-               
+            var resources = theme.GetThemeResources();
+
+            // Add base styles.
+            Current.Resources.MergedDictionaries.Clear();
+            Current.Resources.MergedDictionaries.AddRange(resources);
+
+            // Derived styles need to be added after base styles.
+            var url = string.Format(Pack.Relative, typeof(App).Assembly.FullName, "/App.Styles.xaml");
+            var styles = (ResourceDictionary)LoadComponent(new Uri(url, UriKind.Relative));
+            Current.Resources.MergedDictionaries.Add(styles);
+
+            Settings.Default.Theme = theme.Name;
+            Settings.Default.Save();
         }
 
         public static void ChangeAccent(Color color) {

@@ -14,25 +14,27 @@ namespace Crystalbyte.Paranoia.Themes {
         public override IEnumerable<ResourceDictionary> GetThemeResources() {
             var resources = new[] {
                 "/Themes.Dark.Resources.xaml",
+                "/Themes.Dark.GroupBox.xaml",
+                "/Themes.Dark.ScrollViewer.xaml",
+                "/Themes.Dark.TabControl.xaml",
                 "/Themes.Dark.Button.xaml",
+                "/Themes.Dark.RepeatButton.xaml",
                 "/Themes.Dark.CheckBox.xaml",
                 "/Themes.Dark.ComboBox.xaml",
-                "/Themes.Dark.ContextMenu.xaml",
+                "/Themes.Dark.Menu.xaml",
                 "/Themes.Dark.GridSplitter.xaml",
                 "/Themes.Dark.ListView.xaml",
                 "/Themes.Dark.PasswordBox.xaml",
                 "/Themes.Dark.ProgressBar.xaml",
                 "/Themes.Dark.RadioButton.xaml",
-                "/Themes.Dark.RichTextBox.xaml",
-                "/Themes.Dark.ScrollViewer.xaml",
-                "/Themes.Dark.ScrollViewer.xaml",
                 "/Themes.Dark.Slider.xaml",
                 "/Themes.Dark.StatusBar.xaml",
                 "/Themes.Dark.TextBlock.xaml",
                 "/Themes.Dark.TextBox.xaml",
                 "/Themes.Dark.ToggleButton.xaml",
                 "/Themes.Dark.Tooltip.xaml",
-                "/Themes.Dark.TreeView.xaml"
+                "/Themes.Dark.TreeView.xaml",
+                "/Themes.Dark.MetroButton.xaml"
             };
 
             return resources

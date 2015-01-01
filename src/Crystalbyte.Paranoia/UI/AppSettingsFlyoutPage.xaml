@@ -31,14 +31,15 @@
                             <Run Text=":" />
                         </TextBlock>
                         <ComboBox x:Name="ThemeComboBox"
-                                  Width="180"
+                                  Width="140"
                                   ItemsSource="{Binding Themes}"
                                   SelectionChanged="OnThemeSelectionChanged"
                                   Style="{StaticResource ComboBoxFlyoutStyle}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate DataType="themes:Theme">
                                     <Border>
-                                        <TextBlock VerticalAlignment="Center"
+                                        <TextBlock Margin="3,0,0,0"
+                                                   VerticalAlignment="Center"
                                                    Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
                                                    Text="{Binding Name}" />
                                     </Border>

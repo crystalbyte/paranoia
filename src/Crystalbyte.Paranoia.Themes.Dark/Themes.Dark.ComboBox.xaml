@@ -2,8 +2,16 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                    xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
+                    xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
                     mc:Ignorable="d">
+
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.ComboBoxPaddingKey}">5</Thickness>
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.ComboBoxBorderThicknessKey}">1</Thickness>
+    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.ComboBoxMarginKey}">0,3,0,3</Thickness>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ComboBoxMouseOverBackgroundBrushKey}" Color="#777778" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ComboBoxBackgroundBrushKey}" Color="{x:Static SystemColors.ControlColor}" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ComboBoxFlyoutBackgroundBrushKey}" Color="#2F2F30" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ComboBoxFlyoutBorderBrushKey}" Color="#555556" />
 
     <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
         <Grid>
@@ -11,62 +19,39 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="20" />
             </Grid.ColumnDefinitions>
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="MouseOver">
-                        <Storyboard>
-                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-                                <EasingColorKeyFrame KeyTime="0" Value="{x:Static paranoia:MetroColors.ControlHoverColor}" />
-                            </ColorAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </VisualState>
-                    <VisualState x:Name="Pressed" />
-                    <VisualState x:Name="Disabled">
-                        <Storyboard>
-                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Arrow" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
-                                <EasingColorKeyFrame KeyTime="0" Value="{x:Static paranoia:MetroColors.ControlDisabledColor}" />
-                            </ColorAnimationUsingKeyFrames>
-                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
-                                <EasingColorKeyFrame KeyTime="0" Value="{x:Static paranoia:MetroColors.ControlDisabledColor}" />
-                            </ColorAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </VisualState>
-                </VisualStateGroup>
-                <VisualStateGroup x:Name="CheckStates">
-                    <VisualState x:Name="Checked" />
-                    <VisualState x:Name="Unchecked" />
-                    <VisualState x:Name="Indeterminate" />
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
             <Border x:Name="Border"
                     Grid.ColumnSpan="2"
                     Background="Transparent"
                     BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="1" />
+                    BorderThickness="{TemplateBinding BorderThickness}" />
             <Path x:Name="Arrow"
                   Grid.Column="1"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
-                  Data="M 0 0 L 4 4 L 8 0 Z">
-                <Path.Fill>
-                    <SolidColorBrush Color="{x:Static paranoia:MetroColors.ControlSecondaryTextColor}" />
-                </Path.Fill>
-            </Path>
+                  Data="M 0 0 L 4 4 L 8 0 Z"
+                  Fill="{TemplateBinding BorderBrush}" />
         </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
 
     <Style TargetType="{x:Type ComboBox}">
-        <Setter Property="Margin" Value="3,3,0,3" />
+        <Setter Property="Padding" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxPaddingKey}}" />
+        <Setter Property="Margin" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxMarginKey}}" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxBorderBrushKey}}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxBorderThicknessKey}}" />
         <Setter Property="Focusable" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
-        <Setter Property="Background" Value="{DynamicResource Metro.Control.BackgroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxBackgroundBrushKey}}" />
         <Setter Property="MinWidth" Value="50" />
-        <Setter Property="MinHeight" Value="20" />
+        <Setter Property="MinHeight" Value="24" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
@@ -75,13 +60,7 @@
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="MouseOver" />
-                                <VisualState x:Name="Disabled">
-                                    <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_EditableTextBox" Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)">
-                                            <EasingColorKeyFrame KeyTime="0" Value="{x:Static paranoia:MetroColors.ControlDisabledColor}" />
-                                        </ColorAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
+                                <VisualState x:Name="Disabled" />
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="EditStates">
                                 <VisualState x:Name="Editable">
@@ -98,20 +77,24 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <ToggleButton x:Name="ToggleButton"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
                                       ClickMode="Press"
                                       Focusable="False"
                                       IsChecked="{Binding IsDropDownOpen,
                                                           Mode=TwoWay,
                                                           RelativeSource={RelativeSource TemplatedParent}}"
                                       Template="{StaticResource ComboBoxToggleButton}" />
-                        <ContentPresenter x:Name="ContentSite"
-                                          Margin="3,0,23,0"
-                                          HorizontalAlignment="Left"
-                                          VerticalAlignment="Stretch"
-                                          Content="{TemplateBinding SelectionBoxItem}"
-                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                          IsHitTestVisible="False" />
+                        <Border Padding="{TemplateBinding Padding}">
+                            <ContentPresenter x:Name="ContentSite"
+                                              Margin="3,0,23,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Stretch"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              IsHitTestVisible="False" />
+                        </Border>
                         <TextBox x:Name="PART_EditableTextBox"
                                  Margin="3,0,23,0"
                                  HorizontalAlignment="Left"
@@ -137,23 +120,20 @@
                                   MinWidth="{TemplateBinding ActualWidth}"
                                   MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                   SnapsToDevicePixels="True">
-                                <Border x:Name="DropDownBorder" BorderThickness="1">
-                                    <Border.BorderBrush>
-                                        <SolidColorBrush Color="{x:Static paranoia:MetroColors.ControlBorderColor}" />
-                                    </Border.BorderBrush>
-                                    <Border.Background>
-                                        <SolidColorBrush Color="{x:Static paranoia:MetroColors.MenuBackgroundColor}" />
-                                    </Border.Background>
+                                <Border x:Name="DropDownBorder"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ScrollViewer SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
                                 </Border>
-                                <ScrollViewer Margin="3" SnapsToDevicePixels="True">
-                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
-                                </ScrollViewer>
                             </Grid>
                         </Popup>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsKeyboardFocusWithin" Value="true">
-                            <Setter TargetName="ToggleButton" Property="BorderBrush" Value="{DynamicResource Metro.App.AccentBrush}" />
+                            <Setter TargetName="ToggleButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </Trigger>
                         <Trigger Property="HasItems" Value="false">
                             <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />
@@ -164,6 +144,9 @@
                         <Trigger SourceName="Popup" Property="AllowsTransparency" Value="true">
                             <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0" />
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PART_EditableTextBox" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -173,38 +156,33 @@
     <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="MinHeight" Value="24" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBoxItem}">
                     <Border x:Name="Border"
                             Background="{TemplateBinding Background}"
-                            Padding="2"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="true">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="SelectionStates">
                                 <VisualState x:Name="Unselected" />
-                                <VisualState x:Name="Selected">
-                                    <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-                                            <EasingColorKeyFrame KeyTime="0" Value="{x:Static paranoia:MetroColors.AppAccentColor}" />
-                                        </ColorAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="SelectedUnfocused">
-                                    <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-                                            <EasingColorKeyFrame KeyTime="0" Value="{x:Static paranoia:MetroColors.ControlSelectedUnfocusedColor}" />
-                                        </ColorAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
+                                <VisualState x:Name="Selected" />
+                                <VisualState x:Name="SelectedUnfocused" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <ContentPresenter />
+                        <Grid>
+                            <Rectangle x:Name="HoverBackground"
+                                       Fill="Transparent"
+                                       Opacity=".1" />
+                            <ContentPresenter />
+                        </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Metro.Control.HoverBrush}" />
+                            <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

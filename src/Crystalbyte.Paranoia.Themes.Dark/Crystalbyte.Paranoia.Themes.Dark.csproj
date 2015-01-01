@@ -9,12 +9,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Crystalbyte.Paranoia.Themes</RootNamespace>
     <AssemblyName>Crystalbyte.Paranoia.Themes.Dark</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -71,6 +72,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="DarkTheme.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -97,6 +100,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Crystalbyte.Paranoia.Controls\Crystalbyte.Paranoia.Controls.csproj">
+      <Project>{316ec301-53b0-4593-88ca-e6946a422007}</Project>
+      <Name>Crystalbyte.Paranoia.Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Crystalbyte.Paranoia.Themes\Crystalbyte.Paranoia.Themes.csproj">
       <Project>{3cd4ce93-5599-4b3f-88c4-80bf5a315112}</Project>
       <Name>Crystalbyte.Paranoia.Themes</Name>
@@ -110,6 +117,22 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes.Dark.Button.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes.Dark.GroupBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes.Dark.MetroButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes.Dark.RepeatButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes.Dark.TabControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -127,7 +150,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Themes.Dark.ContextMenu.xaml">
+    <Page Include="Themes.Dark.Menu.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -158,12 +181,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes.Dark.RadioButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Themes.Dark.RichTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -215,6 +232,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\copy.png" />
+    <Resource Include="Assets\cut.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

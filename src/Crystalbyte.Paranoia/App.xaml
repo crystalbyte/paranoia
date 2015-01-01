@@ -113,6 +113,10 @@
                 </Border>
             </DataTemplate>
 
+            <Style TargetType="ui:ProgressRing">
+              <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+            </Style>
+
             <Style TargetType="ui:MetroProgressBar">
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
             </Style>
