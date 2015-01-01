@@ -76,6 +76,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\externals\awesomium\Awesomium.Windows.Controls.dll</HintPath>
     </Reference>
+    <Reference Include="ColorWheel.Controls">
+      <HintPath>..\packages\ColorWheel.Controls.1.7.14.51712\lib\net40\ColorWheel.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="ColorWheel.Core">
+      <HintPath>..\packages\ColorWheel.Controls.1.7.14.51712\lib\net40\ColorWheel.Core.dll</HintPath>
+    </Reference>
     <Reference Include="dotless.ClientOnly">
       <HintPath>..\packages\DotlessClientOnly.1.4.1.0\lib\dotless.ClientOnly.dll</HintPath>
     </Reference>
@@ -182,6 +188,10 @@
     <Compile Include="Automation\IClassFactory.cs" />
     <Compile Include="Automation\IComServer.cs" />
     <Compile Include="SortProperty.cs" />
+    <Compile Include="UI\AppSettingsFlyoutPage.xaml.cs">
+      <DependentUpon>AppSettingsFlyoutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ColorExtensions.cs" />
     <Compile Include="UI\CreateAccountFinalizeFlyoutPage.xaml.cs">
       <DependentUpon>CreateAccountFinalizeFlyoutPage.xaml</DependentUpon>
     </Compile>
@@ -269,6 +279,7 @@
     <Compile Include="UI\DeferredActions.cs" />
     <Compile Include="UI\IAnimationAware.cs" />
     <Compile Include="UI\IconExtensions.cs" />
+    <Compile Include="UI\RoutedCommands\AppCommands.cs" />
     <Compile Include="UI\RoutedCommands\MailboxCommands.cs" />
     <Compile Include="UI\RoutedCommands\MessagingCommands.cs" />
     <Compile Include="UI\RoutedCommands\FlyoutCommands.cs" />
@@ -300,6 +311,10 @@
     <Page Include="App.Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\AppSettingsFlyoutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\CreateAccountFinalizeFlyoutPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -581,7 +596,6 @@
     <Resource Include="Assets\logo.window.png" />
     <Resource Include="Assets\reply.all.png" />
     <Resource Include="Assets\arrow.right.png" />
-    <Resource Include="Assets\image.placeholder.png" />
     <Resource Include="Assets\copy.png" />
     <Resource Include="Assets\cut.png" />
     <Content Include="Resources\ckeditor\adapters\jquery.js" />

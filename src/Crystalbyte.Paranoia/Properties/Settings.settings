@@ -42,5 +42,8 @@
     <Setting Name="Theme" Type="System.String" Scope="User">
       <Value Profile="(Default)">Light</Value>
     </Setting>
+    <Setting Name="Accent" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#5299EA</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundBrushKey}" Color="#DCDCDD" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundBrushKey}" Color="#DDDDDE" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBackgroundBrushKey}" Color="#DDDDDE" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewBackgroundBrushKey}" Color="Transparent" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewBorderBrushKey}" Color="Transparent" />
@@ -20,7 +20,7 @@
                     <Grid Background="{TemplateBinding Background}">
                         <Rectangle x:Name="HoverBackground"
                                    Fill="Transparent"
-                                   Opacity=".3"
+                                   Opacity=".7"
                                    RenderOptions.EdgeMode="Aliased"
                                    UseLayoutRounding="True" />
                         <Rectangle x:Name="SelectionBackground"
@@ -37,7 +37,7 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsSelected" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundBrushKey}}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

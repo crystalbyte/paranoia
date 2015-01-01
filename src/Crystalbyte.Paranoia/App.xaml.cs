@@ -59,9 +59,6 @@ namespace Crystalbyte.Paranoia {
         [Import]
         public static AppContext Context { get; set; }
 
-        [ImportMany]
-        public static IEnumerable<Lazy<Theme>> Themes { get; set; }
-
         internal static CompositionHost Composition { get; private set; }
 
         public static string InspectionCss {
@@ -347,11 +344,11 @@ namespace Crystalbyte.Paranoia {
             var name = Settings.Default.Theme;
 
             var theme =
-                Themes.FirstOrDefault(x => string.Compare(name, x.Value.GetName(),
+                Context.Themes.FirstOrDefault(x => string.Compare(name, x.GetName(),
                         StringComparison.InvariantCultureIgnoreCase) == 0) ??
-                Themes.First(x => x.Value is LightTheme);
+                Context.Themes.First(x => x is LightTheme);
 
-            var resources = theme.Value.GetThemeResources();
+            var resources = theme.GetThemeResources();
 
             // Add base styles.
             Current.Resources.MergedDictionaries.Clear();
@@ -382,17 +379,22 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void Compose() {
-            //var config = new ContainerConfiguration()
-            //    .WithAssembly(typeof(App).Assembly)
-            //    .WithAssembly(typeof(LightTheme).Assembly)
-            //    .WithAssembly(typeof(DarkTheme).Assembly);
-
             var config = new ContainerConfiguration()
                 .WithAssembly(typeof(App).Assembly)
                 .WithAssembly(typeof(LightTheme).Assembly);
 
             Composition = config.CreateContainer();
             Composition.SatisfyImports(this);
+        }
+
+        public static void ChangeTheme(Theme theme) {
+               
+        }
+
+        public static void ChangeAccent(Color color) {
+            Current.Resources[ThemeResourceKeys.AppAccentBrushKey] = new SolidColorBrush(color);
+            Settings.Default.Accent = color.ToHex(false);
+            Settings.Default.Save();
         }
     }
 }

@@ -31,6 +31,8 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}" Color="#505052" />
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.WindowBorderThicknessKey}">1</Thickness>
 
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.InputFontSizeKey}">12</system:Double>
+
     <!--  Flyout Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}" Color="#353536" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutOverlayBrushKey}" Color="Black" />

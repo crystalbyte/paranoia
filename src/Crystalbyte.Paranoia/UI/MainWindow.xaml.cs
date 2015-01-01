@@ -42,6 +42,7 @@ namespace Crystalbyte.Paranoia.UI {
             DataContext = App.Context;
 
             Loaded += OnLoaded;
+            CommandBindings.Add(new CommandBinding(AppCommands.Settings, OnSettings));
             CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
             CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));
             CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoreDown));
@@ -49,6 +50,12 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(FlyoutCommands.Cancel, OnFlyoutClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
+        }
+
+        private void OnSettings(object sender, ExecutedRoutedEventArgs e) {
+            var url = typeof (AppSettingsFlyoutPage).ToPageUri();
+            FlyoutFrame.Navigate(url);
+            ShowFlyout();
         }
 
         private void OnFlyoutClose(object sender, ExecutedRoutedEventArgs e) {
@@ -63,7 +70,6 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnFlyoutBack(object sender, ExecutedRoutedEventArgs e) {
-
             var page = FlyoutFrame.Content as ICancelationAware;
             if (page != null) {
                 page.OnCanceled();

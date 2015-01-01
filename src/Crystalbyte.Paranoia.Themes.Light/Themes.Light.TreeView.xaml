@@ -10,7 +10,7 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBackgroundBrushKey}" Color="#DDDDDE" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBackgroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBorderBrushKey}" Color="Transparent" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}" Color="WhiteSmoke" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}" Color="#DDDDDE" />
 
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBorderThicknessKey}">0</Thickness>
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemPaddingKey}">0,2,0,2</Thickness>
@@ -159,7 +159,7 @@
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Stretch"
                                    Fill="Transparent"
-                                   Opacity=".3"
+                                   Opacity=".7"
                                    RenderOptions.EdgeMode="Aliased" />
                         <Rectangle x:Name="SelectionBackground"
                                    Grid.Row="0"
@@ -200,7 +200,7 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsSelected" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

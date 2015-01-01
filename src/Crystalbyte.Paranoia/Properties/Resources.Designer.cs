@@ -61,6 +61,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Accent.
+        /// </summary>
+        public static string Accent {
+            get {
+                return ResourceManager.GetString("Accent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Accept.
         /// </summary>
         public static string Accept {
@@ -120,6 +129,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string AllMailbox {
             get {
                 return ResourceManager.GetString("AllMailbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Appearence.
+        /// </summary>
+        public static string Appearence {
+            get {
+                return ResourceManager.GetString("Appearence", resourceCulture);
             }
         }
         
@@ -1173,6 +1191,24 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string SettingsTitle {
+            get {
+                return ResourceManager.GetString("SettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do not filter by contact.
         /// </summary>
         public static string ShowAllMessages {
@@ -1358,6 +1394,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string TestSettings {
             get {
                 return ResourceManager.GetString("TestSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Theme.
+        /// </summary>
+        public static string Theme {
+            get {
+                return ResourceManager.GetString("Theme", resourceCulture);
             }
         }
         

@@ -20,6 +20,7 @@ using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
+using Crystalbyte.Paranoia.Themes;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
@@ -375,6 +376,9 @@ namespace Crystalbyte.Paranoia {
 
         #region Property Declarations
 
+        [ImportMany]
+        public IEnumerable<Theme> Themes { get; set; }
+
         public IEnumerable<NavigationContext> NavigationOptions {
             get { return _navigationOptions; }
         }
@@ -660,8 +664,7 @@ namespace Crystalbyte.Paranoia {
             }
 
             try {
-                await RefreshMessageSelectionAsync(message)
-                    ;
+                await RefreshMessageSelectionAsync(message);
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -670,8 +673,7 @@ namespace Crystalbyte.Paranoia {
         internal async Task RefreshMessageSelectionAsync(MailMessageContext message) {
             await MarkSelectionAsSeenAsync();
             if (!await message.GetIsMimeLoadedAsync()) {
-                await message.DownloadMessageAsync()
-                    ;
+                await message.DownloadMessageAsync();
             }
 
             await message.UpdateTrustLevelAsync();

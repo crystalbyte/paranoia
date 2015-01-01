@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace Crystalbyte.Paranoia {
     public static class CollectionExtensions {
+
         public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source, int count) {
             return source
                 .Select((x, i) => new {Index = i, Value = x})

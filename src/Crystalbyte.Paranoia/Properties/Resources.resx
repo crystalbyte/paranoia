@@ -592,4 +592,19 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="RestoreGesture" xml:space="preserve">
     <value>Ctrl + Alt + R</value>
   </data>
+  <data name="Accent" xml:space="preserve">
+    <value>Accent</value>
+  </data>
+  <data name="Appearence" xml:space="preserve">
+    <value>Appearence</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SettingsTitle" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
 </root>

@@ -138,7 +138,7 @@
     </controls:MetroWindow.InputBindings>
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="HeaderRow" Height="40" />
+            <RowDefinition x:Name="HeaderRow" Height="38" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -149,24 +149,31 @@
                    Panel.ZIndex="1000"
                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}"
                    LastChildFill="False">
-            <StackPanel Orientation="Horizontal">
-                <Image Width="20"
-                       Margin="12,0"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       DockPanel.Dock="Left"
-                       RenderOptions.BitmapScalingMode="HighQuality"
-                       Source="/Assets/logo.window.png" />
-                <TextBlock Margin="0,0,24,0"
+            <Button Margin="0"
+                    VerticalAlignment="Stretch"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="ui:AppCommands.Settings"
+                    Padding="0"
+                    WindowChrome.IsHitTestVisibleInChrome="True">
+                <StackPanel Orientation="Horizontal">
+                    <Image Width="18"
+                           Margin="12,0"
+                           HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontSize="20"
-                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
-                           Style="{DynamicResource TitleTextStyle}"
-                           Text="{Binding Title,
-                                          RelativeSource={RelativeSource FindAncestor,
-                                                                         AncestorType=ui:MainWindow}}" />
-            </StackPanel>
-
+                           DockPanel.Dock="Left"
+                           RenderOptions.BitmapScalingMode="HighQuality"
+                           Source="/Assets/logo.window.png" />
+                    <TextBlock Margin="0,0,24,0"
+                               VerticalAlignment="Center"
+                               FontSize="20"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
+                               Style="{DynamicResource TitleTextStyle}"
+                               Text="{Binding Title,
+                                              RelativeSource={RelativeSource FindAncestor,
+                                                                             AncestorType=ui:MainWindow}}" />
+                </StackPanel>
+            </Button>
             <Border DockPanel.Dock="Left">
                 <ListView HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
@@ -191,7 +198,7 @@
                                                        Opacity=".1" />
                                             <Rectangle x:Name="SelectionBackground"
                                                        Fill="Transparent"
-                                                       Opacity=".1" />
+                                                       Opacity=".2" />
                                             <ContentPresenter Margin="{TemplateBinding Padding}"
                                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
@@ -243,6 +250,8 @@
               VerticalAlignment="Top"
               Panel.ZIndex="100000">
             <Grid.ColumnDefinitions>
+                <!--  settings button  -->
+                <ColumnDefinition Width="Auto" />
                 <!--  help button  -->
                 <ColumnDefinition Width="Auto" />
                 <!--  minimize button  -->
@@ -254,21 +263,21 @@
                 <!--  close button  -->
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Style="{DynamicResource HelpButtonStyle}" />
-            <Button Grid.Column="1" Style="{DynamicResource MinimizeButtonStyle}" />
-            <Button Grid.Column="2"
+            <Button Grid.Column="1" Style="{DynamicResource HelpButtonStyle}" />
+            <Button Grid.Column="2" Style="{DynamicResource MinimizeButtonStyle}" />
+            <Button Grid.Column="3"
                     Style="{DynamicResource MaximizeButtonStyle}"
                     Visibility="{Binding IsNormalized,
                                          Converter={StaticResource BooleanToVisibilityConverter},
                                          RelativeSource={RelativeSource FindAncestor,
                                                                         AncestorType=ui:MainWindow}}" />
-            <Button Grid.Column="3"
+            <Button Grid.Column="4"
                     Style="{DynamicResource RestoreDownButtonStyle}"
                     Visibility="{Binding IsMaximized,
                                          Converter={StaticResource BooleanToVisibilityConverter},
                                          RelativeSource={RelativeSource FindAncestor,
                                                                         AncestorType=ui:MainWindow}}" />
-            <Button Grid.Column="4" Style="{DynamicResource CloseButtonStyle}" />
+            <Button Grid.Column="5" Style="{DynamicResource CloseButtonStyle}" />
         </Grid>
         <Grid x:Name="FlyoutOverlay"
               Grid.Row="0"
