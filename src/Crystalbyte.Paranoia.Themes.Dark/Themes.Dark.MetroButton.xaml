@@ -6,8 +6,8 @@
 
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.MetroButtonBorderBrushKey}" Color="#4D4D4E" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.MetroButtonIconBrushKey}" Color="#4D4D4E" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.MetroButtonBorderBrushKey}" Color="WhiteSmoke" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.MetroButtonIconBrushKey}" Color="WhiteSmoke" />
 
     <Style TargetType="controls:MetroButton">
         <Setter Property="Background" Value="Transparent" />

@@ -1,7 +1,6 @@
 ﻿#region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Composition;
@@ -349,6 +348,11 @@ namespace Crystalbyte.Paranoia {
                 Context.Themes.First(x => x is LightTheme);
 
             ChangeTheme(theme);
+
+            var color = ColorConverter.ConvertFromString(Settings.Default.Accent);
+            if (color != null) {
+                ChangeAccent((Color)color);
+            }
         }
 
         private static void InitEnvironment() {

@@ -16,8 +16,8 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarGlyphDisabledBrushKey}" Color="#BFBFBF" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarGlyphBrushKey}" Color="#9999AA" />
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarThumbBackgroundBrushKey}" Color="#CDCDCE" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarThumbPressedBackgroundBrushKey}" Color="#606061" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarThumbBackgroundBrushKey}" Color="#606061" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarThumbPressedBackgroundBrushKey}" Color="#CDCDCE" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarThumbMouseOverBackgroundBrushKey}" Color="#A6A6A7" />
 
     <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">

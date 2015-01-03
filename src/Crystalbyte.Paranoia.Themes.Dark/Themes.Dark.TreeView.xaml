@@ -7,10 +7,10 @@
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TreeViewBorderThicknessKey}">0</Thickness>
 
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemSelectedForegroundBrushKey}" Color="WhiteSmoke" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBackgroundBrushKey}" Color="#DDDDDE" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBackgroundBrushKey}" Color="White" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBackgroundBrushKey}" Color="#686869" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBackgroundBrushKey}" Color="#252526" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBorderBrushKey}" Color="Transparent" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}" Color="#DDDDDE" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}" Color="#49494A" />
 
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBorderThicknessKey}">0</Thickness>
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemPaddingKey}">0,2,0,2</Thickness>

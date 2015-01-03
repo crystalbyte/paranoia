@@ -19,6 +19,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.Resources.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.Button.xaml" />
+                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.GridSplitter.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.TabControl.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.GroupBox.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.ScrollViewer.xaml" />
@@ -114,7 +115,7 @@
             </DataTemplate>
 
             <Style TargetType="ui:ProgressRing">
-              <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
             </Style>
 
             <Style TargetType="ui:MetroProgressBar">

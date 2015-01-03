@@ -70,10 +70,11 @@
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
                             <Color>#5299EA</Color>
-                            <Color>#3581EC</Color>
                             <Color>#E86C43</Color>
-                            <Color>#E52458</Color>
-                            <Color>#D24726</Color>
+                            <Color>#A4C400</Color>
+                            <Color>#F0A30A</Color>
+                            <Color>#6D8764</Color>
+                            <Color>#D80073</Color>
                         </ListView>
                     </StackPanel>
                 </StackPanel>

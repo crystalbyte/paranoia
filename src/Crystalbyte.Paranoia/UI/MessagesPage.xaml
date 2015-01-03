@@ -40,7 +40,7 @@
             <DockPanel LastChildFill="True">
                 <Border Margin="2,0"
                         HorizontalAlignment="Stretch"
-                        BorderBrush="#DDD"
+                        BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.GridSplitterBackgroundBrushKey}}"
                         BorderThickness="0,0,0,1"
                         DockPanel.Dock="Top"
                         SnapsToDevicePixels="True"
@@ -477,9 +477,9 @@
                             </Button.ContextMenu>
                         </Button>
                         <Rectangle Width="1"
-                                   Margin="0,6"
+                                   Margin="4,8"
                                    VerticalAlignment="Stretch"
-                                   Fill="#DDD"
+                                   Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.GridSplitterBackgroundBrushKey}}"
                                    RenderOptions.EdgeMode="Aliased"
                                    UseLayoutRounding="True" />
                         <ToggleButton VerticalAlignment="Center"
@@ -978,11 +978,11 @@
             </Border>
             <ListView Grid.Row="1"
                       Margin="0"
-                      BorderBrush="#DDD"
+                      BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.GridSplitterBackgroundBrushKey}}"
                       BorderThickness="0,1,0,0"
                       ItemTemplate="{StaticResource ThumbnailTemplate}"
                       ItemsSource="{Binding Attachments}"
-                      Padding="0"
+                      Padding="0,2"
                       ScrollViewer.CanContentScroll="False"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled">
@@ -1008,13 +1008,11 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>
-            <ui:BlockNoticeControl Grid.Row="2" />
-            <Border Grid.Row="3"
-                    BorderBrush="#DDD"
-                    BorderThickness="0,1,0,0"
-                    Padding="0,2,0,0"
-                    Visibility="{Binding IsMessageOrSmtpRequestSelected,
-                                         Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ui:BlockNoticeControl Grid.Row="2"
+                                   BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.GridSplitterBackgroundBrushKey}}"
+                                   BorderThickness="0,1,0,0"
+                                   Padding="0,2,0,0" />
+            <Border Grid.Row="3" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid Visibility="{Binding IsAnimating, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
                     <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <controls:HtmlControl x:Name="MessageViewer"

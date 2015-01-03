@@ -165,7 +165,6 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnSortOrderChanged(object sender, EventArgs e) {
             var app = App.Context;
-            app.IsSortAscending = !app.IsSortAscending;
             var direction = app.IsSortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending;
             Sort(SortProperty, direction);
         }

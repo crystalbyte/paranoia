@@ -2,7 +2,6 @@
     public static class ThemeResourceKeys {
 
         // Application Scope
-
         public static string AppAccentBrushKey = "AppAccentBrushKey";
         public static string AppSuccessBrushKey = "AppSuccessBrushKey";
         public static string AppFailureBrushKey = "AppFailureBrushKey";
@@ -10,21 +9,18 @@
         public static string AppIconBrushKey = "AppIconBrushKey";
 
         // Window Scope
-
         public static string WindowBackgroundBrushKey = "WindowBackgroundBrushKey";
         public static string WindowMenuBackgroundBrushKey = "WindowMenuBackgroundBrushKey";
         public static string WindowBorderThicknessKey = "WindowBorderThicknessKey";
         public static string WindowShadowBrushKey = "WindowShadowBrushKey";
 
         // Flyout Scope
-
         public static string FlyoutBackgroundBrushKey = "FlyoutBackgroundBrushKey";
         public static string FlyoutOverlayBrushKey = "FlyoutOverlayBrushKey";
         public static string FlyoutOverlayOpacityKey = "FlyoutOverlayOpacityKey";
         
         
         // General Text Scope
-
         public static string TitleFontFamilyKey = "TitleFontFamilyKey";
         public static string TitleFontSizeKey = "TitleFontSizeKey";
         public static string TitleFontWeightKey = "TitleFontWeightKey";
@@ -54,18 +50,15 @@
         public static string InputDisabledForegroundBrushKey = "InputDisabledForegroundBrushKey";
 
         // Control Scope
-
         public static string ControlDisabledBorderBrushKey = "ControlDisabledBorderBrushKey";
         public static string ControlDisabledForegroundBrushKey = "ControlDisabledForegroundBrushKey";
 
         // TabControl Scope
-
         public static string TabControlHeaderForegroundBrushKey = "TabControlHeaderForegroundBrushKey";
         public static string TabControlMouseOverForegroundBrushKey = "TabControlMouseOverForegroundBrushKey";
         public static string TabControlSelectedForegroundBrushKey = "TabControlSelectedForegroundBrushKey";
 
         // TextBox Scope
-
         public static string TextBoxMarginKey = "TextBoxMarginKey";
         public static string TextBoxPaddingKey = "TextBoxPaddingKey";
         public static string TextBoxBackgroundBrushKey = "TextBoxBackgroundBrushKey";
@@ -75,7 +68,6 @@
         public static string TextBoxFlyoutBorderBrushKey = "TextBoxFlyoutBorderBrushKey";
 
         // ComboBox Scope
-
         public static string ComboBoxMarginKey = "ComboBoxMarginKey";
         public static string ComboBoxPaddingKey = "ComboBoxPaddingKey";
         public static string ComboBoxBackgroundBrushKey = "ComboBoxBackgroundBrushKey";
@@ -87,7 +79,6 @@
         public static string ComboBoxFlyoutBackgroundBrushKey = "ComboBoxFlyoutBackgroundBrushKey";
 
         // CheckBox Scope
-
         public static string CheckBoxMarginKey = "CheckBoxMarginKey";
         public static string CheckBoxPaddingKey = "CheckBoxPaddingKey";
         public static string CheckBoxBackgroundBrushKey = "CheckBoxBackgroundBrushKey";
@@ -97,7 +88,6 @@
         public static string CheckBoxBorderBrushKey = "CheckBoxBorderBrushKey";
 
         // RadioButton Scope
-
         public static string RadioButtonMarginKey = "RadioButtonMarginKey";
         public static string RadioButtonPaddingKey = "RadioButtonPaddingKey";
         public static string RadioButtonMouseOverBackgroundBrushKey = "RadioButtonMouseOverBackgroundBrushKey";
@@ -108,7 +98,6 @@
         public static string RadioButtonFlyoutBorderBrushKey = "RadioButtonFlyoutBorderBrushKey";
 
         // Menu Scope
-
         public static string MenuBackgroundBrushKey = "MenuBackgroundBrushKey";
         public static string MenuBorderThicknessKey = "MenuBorderThicknessKey";
         public static string MenuGlyphBrushKey = "MenuGlyphBrushKey";
@@ -117,7 +106,6 @@
         public static string MenuIconBrushKey = "MenuIconBrushKey";
 
         // Button Scope
-
         public static string ButtonMarginKey = "ButtonMarginKey";
         public static string ButtonPaddingKey = "ButtonPaddingKey";
         public static string ButtonBackgroundBrushKey = "ButtonBackgroundBrushKey";
@@ -130,16 +118,13 @@
         public static string ButtonFlyoutBorderBrushKey = "ButtonFlyoutBorderBrushKey";
 
         // StatusBar Scope
-
         public static string StatusBarFontSizeKey = "StatusBarFontSizeKey";
         public static string StatusBarPaddingKey = "StatusBarPaddingKey";
 
         // Separator Scope
-
         public static string SeparatorForegroundBrushKey = "SeparatorForegroundBrushKey";
 
         // ListView Scope
-
         public static string ListViewBorderBrushKey = "ListViewBorderBrushKey";
         public static string ListViewBorderThicknessBrushKey = "ListViewBorderThicknessBrushKey";
         public static string ListViewBackgroundBrushKey = "ListViewBackgroundBrushKey";
@@ -153,13 +138,11 @@
         public static string ListViewItemPaddingKey = "ListViewItemPaddingKey";
 
         // ProgressBar Scope
-
         public static string ProgressBarBackgroundBrushKey = "ProgressBarBackgroundBrushKey";
         public static string ProgressBarBorderThicknessKey = "ProgressBarBorderThicknessKey";
         public static string ProgressBarBorderBrushKey = "ProgressBarBorderThicknessKey";
 
         // ScrollBar Scope
-
         public static string ScrollBarBackgroundBrushKey = "ScrollBarBackgroundBrushKey";
         public static string ScrollBarBorderBrushKey = "ScrollBarBorderBrushKey";
         public static string ScrollBarMouseOverBackgroundBrushKey = "ScrollBarMouseOverBackgroundBrushKey";
@@ -175,7 +158,6 @@
         public static string ScrollBarThumbBackgroundBrushKey = "ScrollBarThumbBackgroundBrushKey";
 
         // Slider Scope
-
         public static string SliderThumbForegroundBrushKey = "SliderThumbForegroundBrushKey";
         public static string SliderThumbBackgroundBrushKey = "SliderThumbBackgroundBrushKey";
         public static string SliderThumbBorderBrushKey = "SliderThumbBorderBrushKey";
@@ -187,7 +169,6 @@
         public static string SliderThumbTrackBackgroundBrushKey = "SliderThumbTrackBackgroundBrushKey";
 
         // Tooltip Scope
-
         public static string TooltipBackgroundBrushKey = "TooltipBackgroundBrushKey";
         public static string TooltipBorderBrushKey = "TooltipBorderBrushKey";
         public static string TooltipForegroundBrushKey = "TooltipForegroundBrushKey";
@@ -196,7 +177,6 @@
         public static string TooltipFontSizeKey = "TooltipFontSizeKey";
 
         // TreeView Scope
-
         public static string TreeViewBackgroundBrushKey = "TreeViewBackgroundBrushKey";
         public static string TreeViewBorderBrushKey = "TreeViewBorderBrushKey";
         public static string TreeViewBorderThicknessKey = "TreeViewBorderThicknessKey";
@@ -211,13 +191,14 @@
         public static string TreeViewItemBorderThicknessKey = "TreeViewItemBorderThicknessKey";
 
         // ScrollBar Scope
-
         public static string ScrollBarDisabledBackgroundBrushKey = "ScrollBarDisabledBackgroundBrushKey";
         public static string ScrollBarDisabledBorderBrushKey = "ScrollBarDisabledBorderBrushKey";
         
         // MetroButton Scope
-        
         public static string MetroButtonBorderBrushKey = "MetroButtonBorderBrushKey";
         public static string MetroButtonIconBrushKey = "MetroButtonIconBrushKey";
+
+        // GridSplitter Scope
+        public static string GridSplitterBackgroundBrushKey = "GridSplitterBackgroundBrushKey";
     }
 }

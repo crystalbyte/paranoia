@@ -4,13 +4,13 @@
 
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TextBoxPaddingKey}">5</Thickness>
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.InputFontFamilyKey}">Calibri</FontFamily>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBorderBrushKey}" Color="{x:Static SystemColors.ControlDarkColor}" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBorderBrushKey}" Color="#555556" />
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TextBoxMarginKey}"
                Bottom="3"
                Left="0"
                Right="0"
                Top="3" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBackgroundBrushKey}" Color="{x:Static SystemColors.ControlColor}" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBackgroundBrushKey}" Color="#2F2F30" />
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBorderThicknessKey}"
                Bottom="1"
                Left="1"
