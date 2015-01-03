@@ -117,26 +117,23 @@
                                         Margin="12,0"
                                         Visibility="{Binding SmtpRequestCount,
                                                              Converter={StaticResource QuantityToVisibilityConverter}}">
-                                    <TextBlock VerticalAlignment="Center"
+                                    <TextBlock x:Name="NotSeenCountText"
+                                               VerticalAlignment="Center"
                                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}"
                                                FontWeight="Bold"
-                                               Text="{Binding SmtpRequestCount}">
-                                        <TextBlock.Foreground>
-                                            <Binding Path="IsSelected">
-                                                <Binding.Converter>
-                                                    <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
-                                                    <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
-                                                </Binding.Converter>
-                                            </Binding>
-                                        </TextBlock.Foreground>
-                                    </TextBlock>
+                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                                               Text="{Binding SmtpRequestCount}" />
                                 </Border>
                             </Grid>
                             <DataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsSelected}" Value="True" />
+                                        <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource AncestorType=ListView}}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
                                     <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
-                                </DataTrigger>
+                                    <Setter TargetName="NotSeenCountText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+                                </MultiDataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
                         <HierarchicalDataTemplate DataType="{x:Type paranoia:MailAccountContext}" ItemsSource="{Binding Children, Mode=OneWay}">
@@ -259,7 +256,6 @@
                                                 </Rectangle>
                                             </MenuItem.Icon>
                                         </MenuItem>
-
                                         <Separator />
                                         <MenuItem Command="ui:MailboxCommands.Delete"
                                                   CommandParameter="{Binding}"
@@ -317,17 +313,8 @@
                                                VerticalAlignment="Center"
                                                DockPanel.Dock="Left"
                                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
-                                               Text="{Binding LocalName}">
-                                        <TextBlock.Foreground>
-                                            <Binding Path="IsSubscribedAndSelectable">
-                                                <Binding.Converter>
-                                                    <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                                    <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
-                                                    <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
-                                                </Binding.Converter>
-                                            </Binding>
-                                        </TextBlock.Foreground>
-                                    </TextBlock>
+                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
+                                               Text="{Binding LocalName}" />
                                     <Border Margin="12,0"
                                             DockPanel.Dock="Right"
                                             Visibility="{Binding NotSeenCount,
@@ -336,17 +323,8 @@
                                                    VerticalAlignment="Center"
                                                    FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}"
                                                    FontWeight="Bold"
-                                                   Text="{Binding NotSeenCount}">
-                                            <TextBlock.Foreground>
-                                                <Binding Path="IsSelected">
-                                                    <Binding.Converter>
-                                                        <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                                        <converters:BooleanToBrushConverter BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemSelectedForegroundBrushKey}}" />
-                                                        <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
-                                                    </Binding.Converter>
-                                                </Binding>
-                                            </TextBlock.Foreground>
-                                        </TextBlock>
+                                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                                                   Text="{Binding NotSeenCount}" />
                                     </Border>
                                 </DockPanel>
                                 <controls:MetroProgressBar x:Name="EnvelopeProgressBar"
@@ -363,6 +341,9 @@
                                                            Value="{Binding FetchedEnvelopeCount}" />
                             </Grid>
                             <HierarchicalDataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsSubscribedAndSelectable}" Value="False">
+                                    <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
+                                </DataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding IsSelected}" Value="True" />
@@ -377,6 +358,7 @@
                                     </MultiDataTrigger.Conditions>
                                     <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}" />
                                     <Setter TargetName="EnvelopeProgressBar" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+                                    <Setter TargetName="NotSeenCountText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}" />
                                 </MultiDataTrigger>
                             </HierarchicalDataTemplate.Triggers>
                         </HierarchicalDataTemplate>
@@ -502,11 +484,6 @@
                           TabIndex="4"
                           VirtualizingPanel.IsVirtualizing="True"
                           VirtualizingPanel.VirtualizationMode="Recycling">
-                    <ListView.Resources>
-                        <converters:BooleanToBrushConverter x:Key="SeenBrushConverter"
-                                                            BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                                                            BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" />
-                    </ListView.Resources>
                     <ListView.ItemsSource>
                         <Binding Source="{StaticResource MessagesSource}" />
                     </ListView.ItemsSource>
@@ -676,8 +653,7 @@
                                            Margin="0,0,6,0"
                                            VerticalAlignment="Center"
                                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
-                                           Foreground="{Binding IsSeen,
-                                                                Converter={StaticResource SeenBrushConverter}}"
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                            RenderOptions.ClearTypeHint="Enabled"
                                            Text="{Binding Subject,
                                                           ConverterParameter=...,
@@ -697,6 +673,9 @@
 
                             </Grid>
                             <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsSeen}" Value="True">
+                                    <Setter TargetName="SubjectText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" />
+                                </DataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding IsSelected}" Value="True" />

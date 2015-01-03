@@ -6,18 +6,18 @@
         <Setter Property="BorderThickness" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBorderThicknessKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBorderBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}}" />
-        <Setter Property="Margin" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonMarginKey}}" />
+        <Setter Property="Margin" Value="0" />
         <Setter Property="Width" Value="Auto" />
         <Setter Property="MinWidth" Value="40" />
         <Setter Property="Height" Value="Auto" />
         <Setter Property="MinHeight" Value="20" />
-        <Setter Property="Padding" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonPaddingKey}}" />
+        <Setter Property="Padding" Value="5" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RepeatButton">

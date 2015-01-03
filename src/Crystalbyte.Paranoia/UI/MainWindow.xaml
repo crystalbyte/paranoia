@@ -11,6 +11,7 @@
                       Title="Paranoia"
                       Width="1280"
                       Height="768"
+                      AccentBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
                       BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       BorderThickness="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBorderThicknessKey}}"
@@ -493,6 +494,7 @@
             </StatusBarItem>
             <StatusBarItem Grid.Column="3" Padding="0">
                 <Button Width="50"
+                        BorderThickness="0"
                         Command="{Binding ResetZoomCommand}"
                         Content="{Binding Zoom,
                                           Mode=OneWay,

@@ -83,7 +83,6 @@
         public static string CheckBoxPaddingKey = "CheckBoxPaddingKey";
         public static string CheckBoxBackgroundBrushKey = "CheckBoxBackgroundBrushKey";
         public static string CheckBoxMouseOverBackgroundBrushKey = "CheckBoxMouseOverBackgroundBrushKey";
-        public static string CheckBoxForegroundBrushKey = "CheckBoxForegroundBrushKey";
         public static string CheckBoxBorderThicknessKey = "CheckBoxBorderThicknessKey";
         public static string CheckBoxBorderBrushKey = "CheckBoxBorderBrushKey";
 
@@ -106,11 +105,8 @@
         public static string MenuIconBrushKey = "MenuIconBrushKey";
 
         // Button Scope
-        public static string ButtonMarginKey = "ButtonMarginKey";
-        public static string ButtonPaddingKey = "ButtonPaddingKey";
         public static string ButtonBackgroundBrushKey = "ButtonBackgroundBrushKey";
         public static string ButtonMouseOverBackgroundBrushKey = "ButtonMouseOverBackgroundBrushKey";
-        public static string ButtonForegroundBrushKey = "ButtonForegroundBrushKey";
         public static string ButtonFontWeightKey = "ButtonFontWeightKey";
         public static string ButtonBorderThicknessKey = "ButtonBorderThicknessKey";
         public static string ButtonBorderBrushKey = "ButtonBorderBrushKey";

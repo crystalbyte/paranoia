@@ -14,7 +14,7 @@
     <Style TargetType="CheckBox">
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.CheckBoxBackgroundBrushKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.CheckBoxBorderBrushKey}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.CheckBoxForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Margin" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.CheckBoxMarginKey}}" />

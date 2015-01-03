@@ -12,10 +12,10 @@ namespace Crystalbyte.Paranoia.UI {
         public ContactsPage() {
             InitializeComponent();
             DataContext = App.Context;
-            //CommandBindings.Add(new CommandBinding(FlyoutCommands.ScrollToLetter, OnScrollToLetter, OnCanScrollToLetter));
+            CommandBindings.Add(new CommandBinding(AppCommands.JumpToContact, OnJumpToContact, OnCanJumpToContact));
         }
 
-        private static void OnCanScrollToLetter(object sender, CanExecuteRoutedEventArgs e) {
+        private static void OnCanJumpToContact(object sender, CanExecuteRoutedEventArgs e) {
             var button = e.OriginalSource as Button;
             if (button == null) {
                 return;
@@ -27,7 +27,7 @@ namespace Crystalbyte.Paranoia.UI {
             e.CanExecute = contact != null;
         }
 
-        private void OnScrollToLetter(object sender, ExecutedRoutedEventArgs e) {
+        private void OnJumpToContact(object sender, ExecutedRoutedEventArgs e) {
             var button = e.OriginalSource as Button;
             if (button == null) {
                 return;
