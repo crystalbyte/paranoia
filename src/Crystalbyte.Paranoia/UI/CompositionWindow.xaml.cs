@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Navigation;
 
 namespace Crystalbyte.Paranoia.UI {
@@ -9,6 +10,12 @@ namespace Crystalbyte.Paranoia.UI {
     public partial class CompositionWindow {
         public CompositionWindow() {
             InitializeComponent();
+            
+            CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
+            CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));
+            CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoreDown));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
         }
 
         public Uri Source {

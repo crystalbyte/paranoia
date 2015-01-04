@@ -12,6 +12,7 @@
                       Title="{Binding Text,
                                       ElementName=TitleBlock,
                                       Mode=OneWay}"
+                      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
                       BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       BorderThickness="1"
                       UseLayoutRounding="True"
@@ -23,30 +24,31 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0"
-                    Height="36"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    DataContext="{Binding Content,
-                                          ElementName=NavFrame}"
-                    Orientation="Horizontal"
-                    d:DataContext="{d:DesignInstance Page}">
-            <Image Width="20"
-                   Margin="10,0"
-                   DockPanel.Dock="Left"
-                   RenderOptions.BitmapScalingMode="HighQuality"
-                   Source="/Assets/logo.window.png" />
-            <TextBlock x:Name="TitleBlock"
-                       Margin="0,-1,0,0"
-                       VerticalAlignment="Center"
-                       DataContext="{Binding DataContext}"
-                       d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}">
-                <Run Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
-                <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" Text=" - " />
-                <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
-            </TextBlock>
+        <Grid Grid.Row="0" Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}">
+            <StackPanel Height="36"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        DataContext="{Binding Content,
+                                              ElementName=NavFrame}"
+                        Orientation="Horizontal"
+                        d:DataContext="{d:DesignInstance Page}">
+                <Image Width="20"
+                       Margin="10,0"
+                       DockPanel.Dock="Left"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       Source="/Assets/logo.window.png" />
+                <TextBlock x:Name="TitleBlock"
+                           Margin="0,-1,0,0"
+                           VerticalAlignment="Center"
+                           DataContext="{Binding DataContext}"
+                           d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}">
+                    <Run Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
+                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" Text=" - " />
+                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
+                </TextBlock>
+            </StackPanel>
+        </Grid>
 
-        </StackPanel>
         <Grid Grid.Row="0"
               HorizontalAlignment="Right"
               VerticalAlignment="Top"
@@ -91,6 +93,6 @@
                                                                AncestorType=ui:CompositionWindow}}" />
         <StatusBar Grid.Row="2"
                    Height="24"
-                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}" />
     </Grid>
 </controls:MetroWindow>
