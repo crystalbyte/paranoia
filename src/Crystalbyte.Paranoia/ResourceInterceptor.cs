@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Windows;
 using Awesomium.Core;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;

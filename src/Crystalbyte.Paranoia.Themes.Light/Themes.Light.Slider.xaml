@@ -15,6 +15,7 @@
         <SolidColorBrush x:Key="SliderThumb.Static.Border" Color="#FFACACAC" />
     -->
 
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SliderThumbBorderBrushKey}">WhiteSmoke</SolidColorBrush>
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SliderThumbBackgroundBrushKey}">WhiteSmoke</SolidColorBrush>
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SliderThumbTrackBackgroundBrushKey}">#525254</SolidColorBrush>
 
