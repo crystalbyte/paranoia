@@ -221,7 +221,7 @@
                     BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                     BorderThickness="1">
                 <DockPanel LastChildFill="True">
-                    <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}" DockPanel.Dock="Bottom">
+                    <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}" DockPanel.Dock="Bottom">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -271,7 +271,7 @@
                     BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                     BorderThickness="1">
                 <DockPanel LastChildFill="True">
-                    <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}" DockPanel.Dock="Bottom">
+                    <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}" DockPanel.Dock="Bottom">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -321,7 +321,7 @@
                     BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                     BorderThickness="1">
                 <DockPanel LastChildFill="True">
-                    <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}" DockPanel.Dock="Bottom">
+                    <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}" DockPanel.Dock="Bottom">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -371,7 +371,7 @@
                     BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                     BorderThickness="1">
                 <DockPanel LastChildFill="True">
-                    <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}" DockPanel.Dock="Bottom">
+                    <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}" DockPanel.Dock="Bottom">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />

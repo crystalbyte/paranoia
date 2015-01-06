@@ -41,15 +41,6 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Dependency Properties
 
-        public Color ShadowColor {
-            get { return (Color)GetValue(ShadowColorProperty); }
-            set { SetValue(ShadowColorProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for ShadowColor.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ShadowColorProperty =
-            DependencyProperty.Register("ShadowColor", typeof(Color), typeof(MetroWindow), new PropertyMetadata(Color.FromArgb(0, 0, 0, 0)));
-
         public Thickness ActualFramePadding {
             get { return (Thickness)GetValue(ActualFramePaddingProperty); }
             set { SetValue(ActualFramePaddingProperty, value); }
@@ -97,34 +88,6 @@ namespace Crystalbyte.Paranoia.UI {
         // Using a DependencyProperty as the backing store for IsMaximized.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsMaximizedProperty =
             DependencyProperty.Register("IsMaximized", typeof(bool), typeof(MetroWindow), new PropertyMetadata(false));
-
-        public Brush AccentBrush {
-            get { return (Brush)GetValue(AccentBrushProperty); }
-            set { SetValue(AccentBrushProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for AccentBrush.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty AccentBrushProperty =
-            DependencyProperty.Register("AccentBrush", typeof(Brush), typeof(MetroWindow), new PropertyMetadata(null));
-
-        public Brush HoverBrush {
-            get { return (Brush)GetValue(HoverBrushProperty); }
-            set { SetValue(HoverBrushProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for HoverBrush.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty HoverBrushProperty =
-            DependencyProperty.Register("HoverBrush", typeof(Brush), typeof(MetroWindow), new PropertyMetadata(null));
-
-        public string SearchText {
-            get { return (string)GetValue(SearchTextProperty); }
-            set { SetValue(SearchTextProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for SearchText.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SearchTextProperty =
-            DependencyProperty.Register("SearchText", typeof(string), typeof(MetroWindow),
-                new PropertyMetadata(string.Empty));
 
         #endregion
 

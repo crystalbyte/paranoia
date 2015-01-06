@@ -24,7 +24,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}">
+        <Grid Grid.Row="0" Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}">
             <StackPanel Height="36"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
@@ -93,6 +93,6 @@
                                                                AncestorType=ui:CompositionWindow}}" />
         <StatusBar Grid.Row="2"
                    Height="24"
-                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}" />
+                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}" />
     </Grid>
 </controls:MetroWindow>

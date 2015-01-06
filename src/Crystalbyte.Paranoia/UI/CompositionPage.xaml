@@ -10,7 +10,7 @@
       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
       Title="{Binding Subject,
                       Mode=OneWay}"
-      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}"
+      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}"
       FocusManager.FocusedElement="{Binding ElementName=RecipientsBox}"
       d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}"
       d:DesignHeight="480"

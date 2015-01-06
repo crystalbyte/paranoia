@@ -28,7 +28,7 @@
     <!--  Window Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="#252526" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowBrushKey}" Color="Black" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}" Color="#3E3E42" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}" Color="#3E3E42" />
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.WindowBorderThicknessKey}">1</Thickness>
 
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.InputFontSizeKey}">12</system:Double>

@@ -10,7 +10,7 @@
 
         // Window Scope
         public static string WindowBackgroundBrushKey = "WindowBackgroundBrushKey";
-        public static string WindowMenuBackgroundBrushKey = "WindowMenuBackgroundBrushKey";
+        public static string WindowTitleBackgroundBrushKey = "WindowTitleBackgroundBrushKey";
         public static string WindowBorderThicknessKey = "WindowBorderThicknessKey";
         public static string WindowShadowBrushKey = "WindowShadowBrushKey";
 

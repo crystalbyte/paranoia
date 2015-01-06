@@ -11,9 +11,7 @@
                       Title="Paranoia"
                       Width="1280"
                       Height="768"
-                      AccentBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                      BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       BorderThickness="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBorderThicknessKey}}"
                       KeyboardNavigation.TabNavigation="Local"
                       UseLayoutRounding="True"
@@ -148,7 +146,7 @@
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
                    Panel.ZIndex="1000"
-                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}"
+                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}"
                    LastChildFill="False">
             <Button Margin="0"
                     VerticalAlignment="Stretch"
@@ -188,7 +186,7 @@
                             <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
                             <Setter Property="VerticalContentAlignment" Value="Center" />
-                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}" />
+                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}" />
                             <Setter Property="SnapsToDevicePixels" Value="true" />
                             <Setter Property="Template">
                                 <Setter.Value>
@@ -444,7 +442,7 @@
         <StatusBar x:Name="StatusBar"
                    Grid.Row="2"
                    Height="24"
-                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowMenuBackgroundBrushKey}}"
+                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}"
                    RenderTransformOrigin="0.5,0.5"
                    SnapsToDevicePixels="True">
             <StatusBar.RenderTransform>

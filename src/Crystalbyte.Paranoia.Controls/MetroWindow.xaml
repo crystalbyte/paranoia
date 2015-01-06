@@ -10,9 +10,7 @@
     </Style>
 
     <Style TargetType="ui:MetroWindow">
-        <Setter Property="HoverBrush" Value="{x:Static SystemColors.HotTrackBrush}" />
-        <Setter Property="AccentBrush" Value="{x:Static SystemColors.HotTrackBrush}" />
-        <Setter Property="ShadowColor" Value="Black" />
+        <Setter Property="BorderBrush" Value="{x:Static SystemColors.InactiveBorderBrush}" />
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="FramePadding" Value="4" />
@@ -40,15 +38,14 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Padding="{TemplateBinding Padding}">
                             <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" Color="{TemplateBinding ShadowColor}" />
+                                <DropShadowEffect ShadowDepth="0" Color="Black" />
                             </Border.Effect>
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <!--  window command bar  -->
-                                    <RowDefinition Height="*" />
                                     <!--  window content  -->
-                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
                                     <!--  Status bar  -->
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <ContentPresenter Grid.Row="0"
                                                   Grid.RowSpan="2"
@@ -67,5 +64,10 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsActive" Value="False">
+                <Setter Property="BorderBrush" Value="{x:Static SystemColors.ActiveBorderBrush}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>
