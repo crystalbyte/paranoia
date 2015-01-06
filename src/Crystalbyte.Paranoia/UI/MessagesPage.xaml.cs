@@ -8,6 +8,11 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using NLog;
+using System.Windows.Documents;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Crystalbyte.Paranoia.Data;
+using System.IO;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
@@ -85,8 +90,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 var parent = (IMailboxCreator)e.Parameter;
                 e.CanExecute = parent.CanHaveChildren;
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -305,5 +309,73 @@ namespace Crystalbyte.Paranoia.UI {
             }
             source.SortDescriptions.Add(new SortDescription(name, direction));
         }
+
+        //TODO improve me please
+        #region Drag and Drop
+
+        private Point MousePosition;
+        private void OnPreviewMouseLeftButtonDownMessagesListView(object sender, MouseButtonEventArgs e) {
+            MousePosition = e.GetPosition(null);
+        }
+
+        private void OnMouseMoveMessagesListView(object sender, MouseEventArgs e) {
+            var mpos = e.GetPosition(null);
+            var diff = MousePosition - mpos;
+
+            if (e.LeftButton == MouseButtonState.Pressed &&
+                Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance &&
+                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance) {
+                if (MessagesListView.SelectedItems.Count == 0)
+                    return;
+
+                var files = new List<string>();
+                foreach (MailMessageContext item in MessagesListView.SelectedItems) {
+                    files.Add(SafeOnDisk(item));
+                }
+
+                var dataFormat = DataFormats.FileDrop;
+                var dataObject = new DataObject(dataFormat, files.ToArray());
+                DragDrop.DoDragDrop(MessagesListView, dataObject, DragDropEffects.Copy);
+            }
+        }
+
+        private string SafeOnDisk(MailMessageContext context) {
+            var tempDir = Path.GetTempPath() + "Paranoia" + "\\";
+            if (!Directory.Exists(tempDir))
+                Directory.CreateDirectory(tempDir);
+            var fileName = context.Subject + "{0}";
+
+            foreach (char c in System.IO.Path.GetInvalidFileNameChars()) {
+                fileName = fileName.Replace(c, '_');
+            }
+
+            var placeholder = "";
+            int counter = 0;
+            while (File.Exists(tempDir + string.Format(fileName, placeholder) + ".eml")) {
+                int dontUse;
+                if (int.TryParse(placeholder, out dontUse)) {
+                    placeholder = (counter++).ToString();
+                } else {
+                    placeholder = "1";
+                }
+            }
+
+            var entireFilePath = tempDir + string.Format(fileName, placeholder) + ".eml";
+            var bytes = LoadMessageBytes(context.Id);
+            File.WriteAllBytes(entireFilePath, bytes);
+
+            return entireFilePath;
+        }
+
+        private byte[] LoadMessageBytes(Int64 id) {
+            using (var database = new DatabaseContext()) {
+                var messages = database.MimeMessages
+                    .Where(x => x.MessageId == id);
+
+                return messages.Any() ? messages.First().Data : new byte[0];
+            }
+        }
+
+        #endregion
     }
 }
