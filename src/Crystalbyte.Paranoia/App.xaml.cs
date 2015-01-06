@@ -397,12 +397,22 @@ namespace Crystalbyte.Paranoia {
 
             Settings.Default.Theme = theme.Name;
             Settings.Default.Save();
+
+            var window =  Current.MainWindow as MainWindow;
+            if (window != null) {
+                window.NotifyThemeChanged();
+            }
         }
 
         public static void ChangeAccent(Color color) {
             Current.Resources[ThemeResourceKeys.AppAccentBrushKey] = new SolidColorBrush(color);
             Settings.Default.Accent = color.ToHex(false);
             Settings.Default.Save();
+
+            var window = Current.MainWindow as MainWindow;
+            if (window != null) {
+                window.NotifyThemeChanged();
+            }
         }
     }
 }

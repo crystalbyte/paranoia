@@ -35,7 +35,7 @@
                     <Border Padding="{TemplateBinding ActualFramePadding}">
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderThickness="{TemplateBinding ActualBorderThickness}"
                                 Padding="{TemplateBinding Padding}">
                             <Border.Effect>
                                 <DropShadowEffect ShadowDepth="0" Color="Black" />

@@ -19,7 +19,6 @@
         public static string FlyoutOverlayBrushKey = "FlyoutOverlayBrushKey";
         public static string FlyoutOverlayOpacityKey = "FlyoutOverlayOpacityKey";
         
-        
         // General Text Scope
         public static string TitleFontFamilyKey = "TitleFontFamilyKey";
         public static string TitleFontSizeKey = "TitleFontSizeKey";

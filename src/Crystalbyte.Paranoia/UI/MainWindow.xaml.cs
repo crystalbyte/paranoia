@@ -64,6 +64,12 @@ namespace Crystalbyte.Paranoia.UI {
             BorderBrush = (Brush) Application.Current.Resources[ThemeResourceKeys.AppAccentBrushKey];
         }
 
+        internal void NotifyThemeChanged() {
+            if (IsActive) {
+                BorderBrush = (Brush)Application.Current.Resources[ThemeResourceKeys.AppAccentBrushKey];
+            }
+        }
+
         private void OnSettings(object sender, ExecutedRoutedEventArgs e) {
             var url = typeof (AppSettingsFlyoutPage).ToPageUri();
             FlyoutFrame.Navigate(url);
@@ -148,6 +154,14 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         #region Class Overrides
+
+        protected override void OnStateChanged(EventArgs e) {
+            base.OnStateChanged(e);
+
+            if (WindowState == WindowState.Maximized) {
+                
+            }
+        }
 
         protected override void OnInitialized(EventArgs e) {
             base.OnInitialized(e);

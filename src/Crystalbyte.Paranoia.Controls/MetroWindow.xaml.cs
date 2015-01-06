@@ -41,6 +41,15 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Dependency Properties
 
+        public Thickness ActualBorderThickness {
+            get { return (Thickness)GetValue(ActualBorderThicknessProperty); }
+            set { SetValue(ActualBorderThicknessProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ActualFrameMargin.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ActualBorderThicknessProperty =
+            DependencyProperty.Register("ActualBorderThickness", typeof(Thickness), typeof(MetroWindow), new PropertyMetadata(new Thickness(0)));
+
         public Thickness ActualFramePadding {
             get { return (Thickness)GetValue(ActualFramePaddingProperty); }
             set { SetValue(ActualFramePaddingProperty, value); }
@@ -129,10 +138,20 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Class Overrides
 
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e) {
+            base.OnPropertyChanged(e);
+
+            if (e.Property == BorderThicknessProperty) {
+                ActualBorderThickness = (Thickness) e.NewValue;
+            }
+        }
+
         protected override void OnStateChanged(EventArgs e) {
             base.OnStateChanged(e);
 
             UpdateWindowStates();
+
+            ActualBorderThickness = IsMaximized ? new Thickness(0) : BorderThickness;
             ActualFramePadding = IsMaximized ? new Thickness(0) : FramePadding;
         }
 
