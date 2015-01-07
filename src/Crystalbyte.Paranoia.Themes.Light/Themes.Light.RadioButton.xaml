@@ -2,6 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Themes.Converters"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Themes.Light.Common.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
@@ -10,8 +13,6 @@
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonMarginKey}">0,3</Thickness>
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonPaddingKey}">3</Thickness>
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonBorderThicknessKey}">1</Thickness>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonFlyoutBackgroundBrushKey}" Color="#2F2F30" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonFlyoutBorderBrushKey}" Color="#555556" />
 
     <Style x:Key="OptionMarkFocusVisual">
         <Setter Property="Control.Template">

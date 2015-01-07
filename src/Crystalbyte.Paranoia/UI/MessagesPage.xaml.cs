@@ -1,16 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Net;
 using System.Net.NetworkInformation;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using NLog;
-using System.Windows.Documents;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Crystalbyte.Paranoia.Data;
 using System.IO;
 
@@ -106,14 +103,6 @@ namespace Crystalbyte.Paranoia.UI {
 
         private static void OnCanInspect(object sender, CanExecuteRoutedEventArgs e) {
             e.CanExecute = App.Context.SelectedMessage != null;
-        }
-
-        private void OnCanDeleteSmtpRequest(object sender, CanExecuteRoutedEventArgs e) {
-
-        }
-
-        private void OnDeleteSmtpRequest(object sender, ExecutedRoutedEventArgs e) {
-
         }
 
         private static void OnForward(object sender, ExecutedRoutedEventArgs e) {

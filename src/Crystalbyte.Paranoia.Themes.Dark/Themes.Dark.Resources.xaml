@@ -5,21 +5,7 @@
 
     <!--  Application Scope  -->
 
-    <!--  Orange  -->
-    <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#E86C43" />  -->
-
-    <!--  Blue  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#5299EA" />
-
-    <!--  Light Blue  -->
-    <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#3581EC" />  -->
-
-    <!--  Cherry  -->
-    <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#E52458" />  -->
-
-    <!--  Dark Orange  -->
-    <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#D24726" />  -->
-
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSuccessBrushKey}" Color="ForestGreen" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppFailureBrushKey}" Color="Tomato" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppWarningBrushKey}" Color="Orange" />
@@ -28,38 +14,20 @@
     <!--  Window Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="#252526" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowBrushKey}" Color="Black" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}" Color="#3E3E42" />
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.WindowBorderThicknessKey}">1</Thickness>
-
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.InputFontSizeKey}">12</system:Double>
-
-    <!--  Flyout Scope  -->
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}" Color="#353536" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutOverlayBrushKey}" Color="Black" />
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}">.5</system:Double>
-
-    <!--  General Text Scope (Title)  -->
-    <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.TitleFontFamilyKey}">Segoe UI</FontFamily>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.TitleFontSizeKey}">28</system:Double>
-    <FontWeight x:Key="{x:Static themes:ThemeResourceKeys.TitleFontWeightKey}">Thin</FontWeight>
-
-    <!--  General Text Scope (Subtitle)  -->
-    <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.SubtitleFontFamilyKey}">Segoe UI</FontFamily>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.SubtitleFontSizeKey}">18</system:Double>
-    <FontWeight x:Key="{x:Static themes:ThemeResourceKeys.SubtitleFontWeightKey}">Thin</FontWeight>
 
     <!--  General Text Scope (Text)  -->
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.TextFontFamilyKey}">Segoe UI</FontFamily>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.TextExtraLargeFontSizeKey}">26</system:Double>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}">12</system:Double>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}">16</system:Double>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.TextLargeFontSizeKey}">18</system:Double>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}">10</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}">26</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}">12</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}">16</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}">18</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}">10</system:Double>
     <FontWeight x:Key="{x:Static themes:ThemeResourceKeys.TextFontWeightKey}">Normal</FontWeight>
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}" Color="#7F7F7F" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}" Color="WhiteSmoke" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}" Color="WhiteSmoke" />
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.InputFontSizeKey}">12</system:Double>
 
     <!--  General Control Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}" Color="{x:Static SystemColors.GrayTextColor}" />

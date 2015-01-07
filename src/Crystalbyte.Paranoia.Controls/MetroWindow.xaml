@@ -5,11 +5,8 @@
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
-    <Style x:Key="WindowTitleStyle" TargetType="TextBlock">
-        <Setter Property="FontSize" Value="14" />
-    </Style>
-
     <Style TargetType="ui:MetroWindow">
+        <Setter Property="AccentBrush" Value="{x:Static SystemColors.ActiveBorderBrush}" />
         <Setter Property="BorderBrush" Value="{x:Static SystemColors.InactiveBorderBrush}" />
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -64,10 +61,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsActive" Value="False">
-                <Setter Property="BorderBrush" Value="{x:Static SystemColors.ActiveBorderBrush}" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
 </ResourceDictionary>

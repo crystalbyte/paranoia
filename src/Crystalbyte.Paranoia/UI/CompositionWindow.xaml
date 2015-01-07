@@ -13,7 +13,6 @@
                                       ElementName=TitleBlock,
                                       Mode=OneWay}"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                      BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       BorderThickness="1"
                       UseLayoutRounding="True"
                       WindowStartupLocation="CenterOwner"
@@ -24,7 +23,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}">
+        <Grid Grid.Row="0" Background="{DynamicResource WindowTitleBackgroundBrushKey}">
             <StackPanel Height="36"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
@@ -93,6 +92,6 @@
                                                                AncestorType=ui:CompositionWindow}}" />
         <StatusBar Grid.Row="2"
                    Height="24"
-                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}" />
+                   Background="{DynamicResource WindowTitleBackgroundBrushKey}" />
     </Grid>
 </controls:MetroWindow>

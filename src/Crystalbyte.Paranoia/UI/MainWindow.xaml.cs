@@ -51,23 +51,6 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(FlyoutCommands.Cancel, OnFlyoutClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
-
-            Activated += OnActivated;
-            Deactivated += OnDeactivated;
-        }
-
-        private void OnDeactivated(object sender, EventArgs e) {
-            BorderBrush = (Brush)Application.Current.Resources[SystemColors.InactiveBorderBrush];
-        }
-
-        private void OnActivated(object sender, EventArgs e) {
-            BorderBrush = (Brush) Application.Current.Resources[ThemeResourceKeys.AppAccentBrushKey];
-        }
-
-        internal void NotifyThemeChanged() {
-            if (IsActive) {
-                BorderBrush = (Brush)Application.Current.Resources[ThemeResourceKeys.AppAccentBrushKey];
-            }
         }
 
         private void OnSettings(object sender, ExecutedRoutedEventArgs e) {

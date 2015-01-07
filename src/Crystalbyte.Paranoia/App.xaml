@@ -104,7 +104,7 @@
                         <TextBlock Grid.Row="1"
                                    Margin="6,0"
                                    Background="Transparent"
-                                   FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}"
+                                   FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
                                    Text="{Binding Name}"
                                    TextAlignment="Center"
                                    TextTrimming="CharacterEllipsis"
@@ -121,27 +121,6 @@
             <Style TargetType="ui:MetroProgressBar">
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
             </Style>
-
-            <DataTemplate x:Key="TabControlHeaderTemplate" DataType="TabItem">
-                <TextBlock x:Name="HeaderText"
-                           Margin="0,0,0,12"
-                           FontSize="20"
-                           FontWeight="Thin"
-                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TabControlHeaderForegroundBrushKey}}"
-                           Text="{Binding}" />
-                <DataTemplate.Triggers>
-                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=TabItem}}" Value="True">
-                        <Setter TargetName="HeaderText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-                    </DataTrigger>
-                    <MultiDataTrigger>
-                        <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=TabItem}}" Value="True" />
-                            <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=TabItem}}" Value="False" />
-                        </MultiDataTrigger.Conditions>
-                        <Setter TargetName="HeaderText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}" />
-                    </MultiDataTrigger>
-                </DataTemplate.Triggers>
-            </DataTemplate>
 
             <HierarchicalDataTemplate x:Key="MailboxTemplate"
                                       DataType="{x:Type paranoia:MailboxContext}"

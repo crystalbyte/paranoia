@@ -10,7 +10,7 @@
       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
       Title="{Binding Subject,
                       Mode=OneWay}"
-      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}"
+      Background="{DynamicResource WindowTitleBackgroundBrushKey}"
       FocusManager.FocusedElement="{Binding ElementName=RecipientsBox}"
       d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}"
       d:DesignHeight="480"
@@ -34,12 +34,12 @@
                                         ConverterParameter=48}"
                        Stretch="Uniform" />
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextLargeFontSizeKey}}"
+                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}}"
                                FontWeight="Thin"
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
                                Text="{Binding Name}" />
                     <TextBlock x:Name="AddressBlock"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
                                Text="{Binding Address}" />
                 </StackPanel>
@@ -160,7 +160,7 @@
                                                 Converter={StaticResource GravatarImageConverter}}" />
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Margin="2,-2,0,0"
-                                       FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}}"
+                                       FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                        FontWeight="Thin"
                                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
                                        RenderOptions.ClearTypeHint="Enabled"
@@ -225,13 +225,13 @@
             <ToggleButton x:Name="CarbonCopyToggleButton"
                           Grid.Row="1"
                           Height="Auto">
-                <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}" Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}">Cc / Bcc</TextBlock>
+                <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}" Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}">Cc / Bcc</TextBlock>
             </ToggleButton>
         </Grid>
         <controls:WatermarkTextBox x:Name="SubjectTextBox"
                                    Grid.Row="1"
                                    Grid.Column="2"
-                                   Style="{DynamicResource TextBoxFlyoutStyle}"
+                                   Style="{DynamicResource FlyoutTextBoxStyle}"
                                    TabIndex="1"
                                    Text="{Binding Subject,
                                                   UpdateSourceTrigger=PropertyChanged,

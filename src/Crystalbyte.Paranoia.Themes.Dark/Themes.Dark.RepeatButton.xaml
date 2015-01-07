@@ -2,10 +2,15 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
+    <SolidColorBrush x:Key="ButtonBackgroundBrushKey" Color="#2F2F30" />
+    <SolidColorBrush x:Key="ButtonMouseOverBackgroundBrushKey" Color="#555556" />
+    <SolidColorBrush x:Key="ButtonBorderBrushKey" Color="#555556" />
+    <Thickness x:Key="ButtonBorderThicknessKey">0</Thickness>
+
     <Style TargetType="RepeatButton">
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBorderBrushKey}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ButtonBorderThicknessKey}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrushKey}" />
+        <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrushKey}" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Width" Value="Auto" />
         <Setter Property="MinWidth" Value="40" />
@@ -48,7 +53,7 @@
                     <Condition Property="IsMouseOver" Value="True" />
                     <Condition Property="IsPressed" Value="False" />
                 </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonMouseOverBackgroundBrushKey}}" />
+                <Setter Property="Background" Value="{StaticResource ButtonMouseOverBackgroundBrushKey}" />
             </MultiTrigger>
         </Style.Triggers>
     </Style>

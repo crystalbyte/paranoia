@@ -62,8 +62,8 @@
                     <TextBlock Margin="12,0,0,0"
                                VerticalAlignment="Center"
                                DockPanel.Dock="Left"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextExtraLargeFontSizeKey}}"
-                               Style="{DynamicResource TitleTextStyle}"><Run Text="{x:Static properties:Resources.AccountsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Text="{Binding Accounts, Converter={StaticResource CollectionCounter}, FallbackValue=0, Mode=OneWay, StringFormat=\{0\}}" />
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}"
+                               Style="{DynamicResource WindowTitleTextStyle}"><Run Text="{x:Static properties:Resources.AccountsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Text="{Binding Accounts, Converter={StaticResource CollectionCounter}, FallbackValue=0, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
                 </DockPanel>
                 <TreeView x:Name="AccountsTreeView"
@@ -110,7 +110,7 @@
                                 <TextBlock x:Name="NameText"
                                            Grid.Column="1"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
+                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
                                            Text="{x:Static properties:Resources.Outbox}" />
                                 <Border Grid.Column="2"
@@ -119,7 +119,7 @@
                                                              Converter={StaticResource QuantityToVisibilityConverter}}">
                                     <TextBlock x:Name="NotSeenCountText"
                                                VerticalAlignment="Center"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}"
+                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
                                                FontWeight="Bold"
                                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                                Text="{Binding SmtpRequestCount}" />
@@ -193,7 +193,7 @@
                                             Margin="0,-2,0,0"
                                             VerticalAlignment="Center">
                                     <TextBlock x:Name="NameText"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextLargeFontSizeKey}}"
+                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}"
                                                FontWeight="Thin"
                                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
                                                RenderOptions.ClearTypeHint="Enabled"
@@ -203,7 +203,7 @@
                                                TextTrimming="CharacterEllipsis"
                                                TextWrapping="NoWrap" />
                                     <TextBlock x:Name="AddressText"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
+                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
                                                RenderOptions.ClearTypeHint="Enabled"
                                                Text="{Binding Address,
@@ -312,7 +312,7 @@
                                     <TextBlock x:Name="NameText"
                                                VerticalAlignment="Center"
                                                DockPanel.Dock="Left"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
+                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
                                                Text="{Binding LocalName}" />
                                     <Border Margin="12,0"
@@ -321,7 +321,7 @@
                                                                  Converter={StaticResource QuantityToVisibilityConverter}}">
                                         <TextBlock x:Name="NotSeenCountText"
                                                    VerticalAlignment="Center"
-                                                   FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}"
+                                                   FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
                                                    FontWeight="Bold"
                                                    Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                                    Text="{Binding NotSeenCount}" />
@@ -401,8 +401,8 @@
                     <TextBlock Margin="12,0"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextExtraLargeFontSizeKey}}"
-                               Style="{DynamicResource TitleTextStyle}">
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}"
+                               Style="{DynamicResource WindowTitleTextStyle}">
                         <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Text="{Binding Messages, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
                 </DockPanel>
@@ -422,12 +422,12 @@
                                  GroupName="Filter"
                                  IsChecked="{Binding ShowAllMessages,
                                                      Mode=TwoWay}"
-                                 Style="{DynamicResource TextRadioButtonStyle}" />
+                                 Style="{DynamicResource RadioButtonTextStyle}" />
                     <RadioButton Margin="3"
                                  Content="{x:Static properties:Resources.Unseen}"
                                  DockPanel.Dock="Left"
                                  GroupName="Filter"
-                                 Style="{DynamicResource TextRadioButtonStyle}" />
+                                 Style="{DynamicResource RadioButtonTextStyle}" />
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                         <Button Click="OnSortPropertyButtonClicked"
                                 Content="{Binding SortProperty,
@@ -637,7 +637,7 @@
                                            Margin="0,0,12,0"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}}"
+                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
                                            Text="{Binding Converter={StaticResource MailContactFormatter}}"
                                            TextTrimming="CharacterEllipsis"
@@ -654,7 +654,7 @@
                                            Grid.Column="1"
                                            Margin="0,0,6,0"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
+                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                            RenderOptions.ClearTypeHint="Enabled"
                                            Text="{Binding Subject,
@@ -668,7 +668,7 @@
                                            Margin="0,0,6,0"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}"
+                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
                                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
                                            Text="{Binding EntryDate,
                                                           Converter={StaticResource DateFormatter}}" />
@@ -703,7 +703,7 @@
                 <TextBlock Margin="12"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
-                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}}"
+                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                            FontWeight="Thin"
                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
                            Text="{x:Static properties:Resources.NoMessages}"
@@ -735,8 +735,8 @@
                     <TextBlock Margin="12,0"
                                VerticalAlignment="Center"
                                DataContext="{Binding SelectedOutbox}"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextExtraLargeFontSizeKey}}"
-                               Style="{DynamicResource TitleTextStyle}">
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}"
+                               Style="{DynamicResource WindowTitleTextStyle}">
                         <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Text="{Binding SmtpRequests, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
                 </DockPanel>
@@ -831,7 +831,7 @@
                                            Margin="0,0,12,0"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
-                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}}"
+                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                            FontWeight="Thin"
                                            Text="{Binding ToNameOrAddress}"
                                            TextTrimming="CharacterEllipsis"
@@ -867,7 +867,7 @@
                 <TextBlock Margin="12"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
-                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
+                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
                            Text="{x:Static properties:Resources.NothingToSend}"
                            Visibility="{Binding SmtpRequestCount,
@@ -906,7 +906,7 @@
                                Margin="12,12,12,3"
                                DataContext="{Binding SelectedMessage}"
                                FontSize="22"
-                               Style="{DynamicResource TitleTextStyle}"
+                               Style="{DynamicResource WindowTitleTextStyle}"
                                Text="{Binding Subject,
                                               Converter={StaticResource NullOrEmptyFormatter},
                                               Mode=OneWay}"
@@ -916,7 +916,7 @@
                                Grid.Column="0"
                                Margin="12,0,12,0"
                                DataContext="{Binding SelectedMessage}"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                FontWeight="Normal"
                                Style="{DynamicResource SubtitleTextStyle}"
                                Text="{Binding FromName}" />
@@ -950,8 +950,8 @@
                                Grid.Column="0"
                                Margin="12,0"
                                DataContext="{Binding SelectedMessage}"
-                               FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.SubtitleFontFamilyKey}}"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}"
+                               FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.SubWindowTitleFontFamilyKey}}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
                                FontWeight="Normal"
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
                                Text="{Binding EntryDate}" />
@@ -1019,7 +1019,7 @@
                             <Run FontSize="48"
                                  FontWeight="Thin"
                                  Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                                 Text="{Binding ProgressChanged}" /><Run Text=" " /><Run FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
+                                 Text="{Binding ProgressChanged}" /><Run Text=" " /><Run FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                                  FontWeight="Thin"
                                  Text="%" />
                         </TextBlock>

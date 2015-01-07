@@ -2,13 +2,19 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
+
+    <SolidColorBrush x:Key="ButtonBackgroundBrushKey" Color="WhiteSmoke" />
+    <SolidColorBrush x:Key="ButtonMouseOverBackgroundBrushKey" Color="#DDDDDE" />
+    <SolidColorBrush x:Key="ButtonBorderBrushKey" Color="#555556" />
+    <Thickness x:Key="ButtonBorderThicknessKey">1</Thickness>
+
     <Style TargetType="ToggleButton">
+        <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrushKey}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrushKey}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ButtonBorderThicknessKey}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBorderBrushKey}}" />
         <Setter Property="Padding" Value="5" />
-        <Setter Property="BorderThickness" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBorderThicknessKey}}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
@@ -35,7 +41,7 @@
                     <Condition Property="IsChecked" Value="False" />
                     <Condition Property="IsMouseOver" Value="True" />
                 </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonMouseOverBackgroundBrushKey}}" />
+                <Setter Property="Background" Value="{StaticResource ButtonMouseOverBackgroundBrushKey}" />
             </MultiTrigger>
         </Style.Triggers>
     </Style>

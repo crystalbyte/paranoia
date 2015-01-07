@@ -31,6 +31,8 @@ namespace Crystalbyte.Paranoia.UI {
         public MetroWindow() {
             Loaded += OnLoaded;
             SourceInitialized += OnSourceInitialized;
+            Activated += OnActivated;
+            Deactivated += OnDeactivated;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
@@ -40,6 +42,15 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         #region Dependency Properties
+
+        public Brush AccentBrush {
+            get { return (Brush)GetValue(AccentBrushProperty); }
+            set { SetValue(AccentBrushProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for AccentBrush.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AccentBrushProperty =
+            DependencyProperty.Register("AccentBrush", typeof(Brush), typeof(MetroWindow), new PropertyMetadata(null));
 
         public Thickness ActualBorderThickness {
             get { return (Thickness)GetValue(ActualBorderThicknessProperty); }
@@ -158,6 +169,14 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         #region Methods
+
+        private void OnDeactivated(object sender, EventArgs e) {
+            BorderBrush = (Brush)Application.Current.Resources[SystemColors.InactiveBorderBrush];
+        }
+
+        private void OnActivated(object sender, EventArgs e) {
+            BorderBrush = AccentBrush;
+        }
 
         private void UpdateWindowStates() {
             IsNormalized = WindowState == WindowState.Normal;

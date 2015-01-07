@@ -10,8 +10,8 @@
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonMarginKey}">0,3</Thickness>
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonPaddingKey}">3</Thickness>
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonBorderThicknessKey}">1</Thickness>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonFlyoutBackgroundBrushKey}" Color="#2F2F30" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonFlyoutBorderBrushKey}" Color="#555556" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutRadioButtonBackgroundBrushKey}" Color="#2F2F30" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutRadioButtonBorderBrushKey}" Color="#555556" />
 
     <Style x:Key="OptionMarkFocusVisual">
         <Setter Property="Control.Template">

@@ -59,7 +59,7 @@
                                     <TextBlock Margin="4,2"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextLargeFontSizeKey}}"
+                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}"
                                                FontWeight="Thin"
                                                Text="{Binding}" />
                                 </Grid>
@@ -80,8 +80,8 @@
                     <TextBlock Margin="12,3,12,3"
                                VerticalAlignment="Center"
                                DockPanel.Dock="Top"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextLargeFontSizeKey}}"
-                               Style="{DynamicResource TitleTextStyle}">
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}"
+                               Style="{DynamicResource WindowTitleTextStyle}">
                         <Run Text="{x:Static properties:Resources.ContactsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" Text="{Binding Contacts, Converter={StaticResource CollectionCounter}, Mode=OneWay}" />
                     </TextBlock>
                 </DockPanel>
@@ -119,8 +119,8 @@
                                                         ConverterParameter=48}" />
                                 <StackPanel Width="250" VerticalAlignment="Center">
                                     <TextBlock Margin="0"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}}"
-                                               Style="{StaticResource TitleTextStyle}"
+                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                                               Style="{StaticResource WindowTitleTextStyle}"
                                                Text="{Binding Name,
                                                               Converter={StaticResource NullOrEmptyFormatter},
                                                               ConverterParameter=...}"
@@ -128,7 +128,7 @@
                                                TextWrapping="NoWrap" />
                                     <TextBlock x:Name="AddressBlock"
                                                Margin="0"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
+                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                                                FontWeight="Normal"
                                                Style="{StaticResource SubtitleTextStyle}"
                                                Text="{Binding Address,
@@ -188,7 +188,7 @@
                     </Border>
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
                         <TextBlock DataContext="{Binding SelectedContact}"
-                                   Style="{StaticResource TitleTextStyle}"
+                                   Style="{StaticResource WindowTitleTextStyle}"
                                    Text="{Binding Name}"
                                    TextTrimming="CharacterEllipsis"
                                    TextWrapping="NoWrap" />

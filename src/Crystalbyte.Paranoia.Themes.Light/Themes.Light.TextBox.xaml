@@ -16,8 +16,8 @@
                Left="1"
                Right="1"
                Top="1" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextBoxFlyoutBackgroundBrushKey}" Color="#2F2F30" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextBoxFlyoutBorderBrushKey}" Color="#555556" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextBoxBackgroundBrushKey}" Color="#2F2F30" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextBoxBorderBrushKey}" Color="#555556" />
 
     <Style x:Key="MonoChromeIconRectangleStyle" TargetType="Rectangle">
         <Setter Property="Width" Value="16" />
@@ -26,6 +26,34 @@
         <Setter Property="Height" Value="16" />
         <Setter Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuIconBrushKey}}" />
     </Style>
+
+    <ContextMenu x:Key="TextBoxContextMenu">
+        <MenuItem Command="ApplicationCommands.Cut"
+                  FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontFamilyKey}}"
+                  FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}">
+            <MenuItem.Icon>
+                <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
+                    <Rectangle.OpacityMask>
+                        <ImageBrush ImageSource="/Crystalbyte.Paranoia.Themes.Light;component/Assets/cut.png" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Command="ApplicationCommands.Copy"
+                  FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontFamilyKey}}"
+                  FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}">
+            <MenuItem.Icon>
+                <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
+                    <Rectangle.OpacityMask>
+                        <ImageBrush ImageSource="/Crystalbyte.Paranoia.Themes.Light;component/Assets/copy.png" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Command="ApplicationCommands.Paste"
+                  FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontFamilyKey}}"
+                  FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" />
+    </ContextMenu>
 
     <Style TargetType="TextBox">
         <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontSizeKey}}" />
@@ -39,37 +67,7 @@
         <Setter Property="Padding" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxPaddingKey}}" />
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontFamilyKey}}" />
         <Setter Property="Margin" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxMarginKey}}" />
-        <Setter Property="ContextMenu">
-            <Setter.Value>
-                <ContextMenu>
-                    <MenuItem Command="ApplicationCommands.Copy"
-                              FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontFamilyKey}}"
-                              FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}">
-                        <MenuItem.Icon>
-                            <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="/Assets/copy.png" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Command="ApplicationCommands.Cut"
-                              FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontFamilyKey}}"
-                              FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}">
-                        <MenuItem.Icon>
-                            <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush ImageSource="/Assets/cut.png" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Command="ApplicationCommands.Paste"
-                              FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontFamilyKey}}"
-                              FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}" />
-                </ContextMenu>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ContextMenu" Value="{StaticResource TextBoxContextMenu}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">

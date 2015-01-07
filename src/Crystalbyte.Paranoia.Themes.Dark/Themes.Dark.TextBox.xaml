@@ -16,8 +16,6 @@
                Left="1"
                Right="1"
                Top="1" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextBoxFlyoutBackgroundBrushKey}" Color="#2F2F30" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextBoxFlyoutBorderBrushKey}" Color="#555556" />
 
     <Style x:Key="MonoChromeIconRectangleStyle" TargetType="Rectangle">
         <Setter Property="Width" Value="16" />
@@ -44,7 +42,7 @@
                 <ContextMenu>
                     <MenuItem Command="ApplicationCommands.Copy"
                               FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontFamilyKey}}"
-                              FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}">
+                              FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}">
                         <MenuItem.Icon>
                             <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
                                 <Rectangle.OpacityMask>
@@ -55,7 +53,7 @@
                     </MenuItem>
                     <MenuItem Command="ApplicationCommands.Cut"
                               FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontFamilyKey}}"
-                              FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}">
+                              FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}">
                         <MenuItem.Icon>
                             <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
                                 <Rectangle.OpacityMask>
@@ -66,7 +64,7 @@
                     </MenuItem>
                     <MenuItem Command="ApplicationCommands.Paste"
                               FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontFamilyKey}}"
-                              FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}" />
+                              FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" />
                 </ContextMenu>
             </Setter.Value>
         </Setter>

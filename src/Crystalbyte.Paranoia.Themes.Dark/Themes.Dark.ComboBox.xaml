@@ -10,8 +10,8 @@
     <Thickness x:Key="{x:Static themes:ThemeResourceKeys.ComboBoxMarginKey}">0,3,0,3</Thickness>
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ComboBoxMouseOverBackgroundBrushKey}" Color="#777778" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ComboBoxBackgroundBrushKey}" Color="{x:Static SystemColors.ControlColor}" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ComboBoxFlyoutBackgroundBrushKey}" Color="#2F2F30" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ComboBoxFlyoutBorderBrushKey}" Color="#555556" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutComboBoxBackgroundBrushKey}" Color="#2F2F30" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutComboBoxBorderBrushKey}" Color="#555556" />
 
     <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
         <Grid>

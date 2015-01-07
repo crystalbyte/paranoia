@@ -1,12 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Themes.Light.Common.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundBrushKey}" Color="#DDDDDE" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBackgroundBrushKey}" Color="#DDDDDE" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewBackgroundBrushKey}" Color="Transparent" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewBorderBrushKey}" Color="Transparent" />
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.ListViewBorderThicknessBrushKey}">0</Thickness>
+    <SolidColorBrush x:Key="ListViewItemMouseOverBackgroundBrushKey" Color="#DDDDDE" />
+    <SolidColorBrush x:Key="ListViewItemUnfocusedBackgroundBrushKey" Color="#DDDDDE" />
 
     <Style TargetType="ListViewItem">
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
@@ -37,7 +37,7 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsSelected" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundBrushKey}}" />
+                            <Setter TargetName="HoverBackground" Property="Fill" Value="{StaticResource ListViewItemMouseOverBackgroundBrushKey}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -51,7 +51,7 @@
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="Selector.IsSelectionActive" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="SelectionBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBackgroundBrushKey}}" />
+                            <Setter TargetName="SelectionBackground" Property="Fill" Value="{StaticResource ListViewItemUnfocusedBackgroundBrushKey}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -60,10 +60,10 @@
     </Style>
 
     <Style TargetType="ListView">
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewBackgroundBrushKey}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewBorderBrushKey}}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewBorderThicknessBrushKey}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource AppForegroundBrushKey}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />

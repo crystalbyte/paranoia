@@ -73,9 +73,9 @@
                            Grid.Column="1"
                            Margin="0"
                            VerticalAlignment="Bottom"
-                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}}"
+                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                            FontWeight="Normal"
-                           Style="{StaticResource TitleTextStyle}"
+                           Style="{StaticResource WindowTitleTextStyle}"
                            Text="{Binding FromName}"
                            TextTrimming="CharacterEllipsis"
                            TextWrapping="NoWrap" />

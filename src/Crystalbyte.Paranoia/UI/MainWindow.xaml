@@ -9,10 +9,11 @@
                       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                       x:Name="Window"
                       Title="Paranoia"
-                      Width="1280"
-                      Height="768"
+                      Width="1000"
+                      Height="600"
+                      AccentBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                      BorderThickness="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBorderThicknessKey}}"
+                      BorderThickness="1"
                       KeyboardNavigation.TabNavigation="Local"
                       UseLayoutRounding="True"
                       WindowStartupLocation="CenterScreen"
@@ -146,7 +147,7 @@
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
                    Panel.ZIndex="1000"
-                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}"
+                   Background="{DynamicResource WindowTitleBackgroundBrushKey}"
                    LastChildFill="False">
             <Button Margin="0"
                     VerticalAlignment="Stretch"
@@ -167,7 +168,7 @@
                                VerticalAlignment="Center"
                                FontSize="20"
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
-                               Style="{DynamicResource TitleTextStyle}"
+                               Style="{DynamicResource WindowTitleTextStyle}"
                                Text="{Binding Title,
                                               RelativeSource={RelativeSource FindAncestor,
                                                                              AncestorType=ui:MainWindow}}" />
@@ -232,7 +233,7 @@
                                        FontSize="20"
                                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
                                        RenderOptions.ClearTypeHint="Enabled"
-                                       Style="{DynamicResource TitleTextStyle}"
+                                       Style="{DynamicResource WindowTitleTextStyle}"
                                        Text="{Binding Title}" />
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
@@ -297,11 +298,11 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid Grid.ColumnSpan="2"
-                  Background="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayBrushKey}}"
-                  Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}}" />
+                  Background="{StaticResource FlyoutOverlayBrushKey}"
+                  Opacity="{StaticResource FlyoutOverlayOpacityKey}" />
             <Border x:Name="Flyout"
                     Grid.Column="1"
-                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}}"
+                    Background="{StaticResource FlyoutBackgroundBrushKey}"
                     Padding="24">
                 <Border.RenderTransform>
                     <TransformGroup>
@@ -326,7 +327,7 @@
                                               Focusable="False"
                                               ImageSource="/Assets/back.png"
                                               RenderTransformOrigin="0.5,0.5"
-                                              Style="{DynamicResource MetroButtonFlyoutStyle}">
+                                              Style="{DynamicResource FlyoutMetroButtonStyle}">
                             <Button.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform />
@@ -344,7 +345,7 @@
                                    Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
                                    Padding="0,0,0,2"
                                    RenderTransformOrigin="0.5,0.5"
-                                   Style="{DynamicResource TitleTextStyle}"
+                                   Style="{DynamicResource WindowTitleTextStyle}"
                                    Text="{Binding Title}"
                                    d:DataContext="{d:DesignInstance Page}">
                             <TextBlock.RenderTransform>
@@ -391,12 +392,12 @@
             </Grid.RowDefinitions>
 
             <Rectangle Grid.Row="0"
-                       Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayBrushKey}}"
-                       Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}}"
+                       Fill="{StaticResource FlyoutOverlayBrushKey}"
+                       Opacity="{StaticResource FlyoutOverlayOpacityKey}"
                        RenderOptions.EdgeMode="Aliased" />
 
             <Border Grid.Row="1"
-                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}}"
+                    Background="{StaticResource FlyoutBackgroundBrushKey}"
                     Padding="0,24,0,24">
                 <Grid Width="600" HorizontalAlignment="Center">
                     <Grid.RowDefinitions>
@@ -407,9 +408,9 @@
                                VerticalAlignment="Center"
                                DataContext="{Binding Content,
                                                      ElementName=PopupFrame}"
-                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
                                Padding="0,0,0,2"
-                               Style="{DynamicResource TitleTextStyle}"
+                               Style="{DynamicResource WindowTitleTextStyle}"
                                Text="{Binding Title}"
                                d:DataContext="{d:DesignInstance Page}" />
                     <Frame x:Name="PopupFrame"
@@ -421,8 +422,8 @@
 
             </Border>
             <Rectangle Grid.Row="2"
-                       Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayBrushKey}}"
-                       Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutOverlayOpacityKey}}"
+                       Fill="{StaticResource FlyoutOverlayBrushKey}"
+                       Opacity="{StaticResource FlyoutOverlayOpacityKey}"
                        RenderOptions.EdgeMode="Aliased" />
         </Grid>
         <Frame x:Name="MainFrame"
@@ -470,7 +471,7 @@
                 <TextBlock Margin="3"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumFontSizeKey}}"
+                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
                            Text="{Binding StatusText,
                                           Mode=OneWay}" />

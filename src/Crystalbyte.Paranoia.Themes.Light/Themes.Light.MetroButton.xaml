@@ -3,19 +3,22 @@
                     xmlns:controls="clr-namespace:Crystalbyte.Paranoia.UI;assembly=Crystalbyte.Paranoia.Controls"
                     xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Themes.Converters"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Themes.Light.Common.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.MetroButtonBorderBrushKey}" Color="#4D4D4E" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.MetroButtonIconBrushKey}" Color="#4D4D4E" />
+    <SolidColorBrush x:Key="MetroButtonBorderBrushKey" Color="#4D4D4E" />
+    <SolidColorBrush x:Key="MetroButtonIconBrushKey" Color="#4D4D4E" />
 
     <Style TargetType="controls:MetroButton">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
-        <Setter Property="ImageBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.MetroButtonIconBrushKey}}" />
+        <Setter Property="Foreground" Value="{StaticResource AppForegroundBrushKey}" />
+        <Setter Property="ImageBrush" Value="{StaticResource MetroButtonIconBrushKey}" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.MetroButtonBorderBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{StaticResource MetroButtonBorderBrushKey}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:MetroButton">
@@ -78,6 +81,7 @@
                     <Condition Property="IsMouseOver" Value="True" />
                     <Condition Property="IsPressed" Value="False" />
                 </MultiTrigger.Conditions>
+                <Setter Property="ImageBrush" Value="WhiteSmoke" />
                 <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
             </MultiTrigger>

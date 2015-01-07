@@ -135,7 +135,7 @@
                                             Converter={StaticResource GravatarImageConverter}}" />
                     <StackPanel VerticalAlignment="Center">
                         <TextBox Margin="2,-2,0,0"
-                                 FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}}"
+                                 FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                  FontWeight="Thin"
                                  Padding="0"
                                  Style="{StaticResource ReadOnlyTextBoxStyle}"
@@ -167,7 +167,7 @@
                                             Converter={StaticResource GravatarImageConverter}}" />
                     <StackPanel VerticalAlignment="Center">
                         <TextBox Margin="2,-2,0,0"
-                                 FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextMediumLargeFontSizeKey}}"
+                                 FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                  FontWeight="Thin"
                                  Padding="0"
                                  Style="{StaticResource ReadOnlyTextBoxStyle}"
@@ -210,7 +210,7 @@
                                                         ConverterParameter=...,
                                                         Converter={StaticResource NullOrEmptyFormatter}}" />
                                 <TextBox Margin="0,0,2,2"
-                                         FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}"
+                                         FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
                                          FontWeight="Normal"
                                          Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                          Padding="0"
@@ -260,7 +260,7 @@
                                                         ConverterParameter=...,
                                                         Converter={StaticResource NullOrEmptyFormatter}}" />
                                 <TextBox Margin="0,0,2,2"
-                                         FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSmallFontSizeKey}}"
+                                         FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
                                          FontWeight="Normal"
                                          Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
                                          Padding="0"

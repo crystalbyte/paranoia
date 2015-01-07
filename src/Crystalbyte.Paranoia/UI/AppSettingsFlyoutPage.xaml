@@ -9,7 +9,7 @@
       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="{x:Static properties:Resources.SettingsTitle}"
-      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutBackgroundBrushKey}}"
+      Background="{DynamicResource FlyoutBackgroundBrushKey}"
       d:DataContext="{d:DesignInstance paranoia:AppContext}"
       d:DesignHeight="600"
       d:DesignWidth="1024"
@@ -20,13 +20,13 @@
                                   Command="ui:FlyoutCommands.Cancel"
                                   Content="{x:Static properties:Resources.Close}"
                                   ImageSource="/Assets/cancel.png"
-                                  Style="{DynamicResource MetroButtonFlyoutStyle}" />
+                                  Style="{DynamicResource FlyoutMetroButtonStyle}" />
         </StackPanel>
         <TabControl>
-            <TabItem Header="{x:Static properties:Resources.Appearence}" HeaderTemplate="{DynamicResource TabControlHeaderTemplate}">
+            <TabItem Header="{x:Static properties:Resources.Appearence}" HeaderTemplate="{DynamicResource FlyoutTabControlHeaderTemplate}">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Style="{StaticResource TextBlockFlyoutLabelStyle}">
+                        <TextBlock Style="{StaticResource FlyoutTextBlockLabelStyle}">
                             <Run Text="{x:Static properties:Resources.Theme}" />
                             <Run Text=":" />
                         </TextBlock>
@@ -34,13 +34,13 @@
                                   Width="140"
                                   ItemsSource="{Binding Themes}"
                                   SelectionChanged="OnThemeSelectionChanged"
-                                  Style="{StaticResource ComboBoxFlyoutStyle}">
+                                  Style="{StaticResource FlyoutComboBoxStyle}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate DataType="themes:Theme">
                                     <Border>
                                         <TextBlock Margin="3,0,0,0"
                                                    VerticalAlignment="Center"
-                                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFlyoutForegroundBrushKey}}"
+                                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
                                                    Text="{Binding Name}" />
                                     </Border>
                                 </DataTemplate>
@@ -48,7 +48,7 @@
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Style="{StaticResource TextBlockFlyoutLabelStyle}">
+                        <TextBlock Style="{StaticResource FlyoutTextBlockLabelStyle}">
                             <Run Text="{x:Static properties:Resources.Accent}" />
                             <Run Text=":" />
                         </TextBlock>
