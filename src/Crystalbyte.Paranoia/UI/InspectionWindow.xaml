@@ -52,8 +52,8 @@
                                     ConverterParameter=...}"
                      WindowChrome.IsHitTestVisibleInChrome="True" />
             <TextBlock Margin="1,-1,0,0" VerticalAlignment="Center">
-                <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" Text=" - " />
-                <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
+                <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text=" - " />
+                <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
             </TextBlock>
 
         </StackPanel>
@@ -73,21 +73,21 @@
                 <!--  close button  -->
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Style="{StaticResource HelpButtonStyle}" />
-            <Button Grid.Column="1" Style="{StaticResource MinimizeButtonStyle}" />
+            <Button Grid.Column="0" Style="{DynamicResource HelpButtonStyle}" />
+            <Button Grid.Column="1" Style="{DynamicResource MinimizeButtonStyle}" />
             <Button Grid.Column="2"
-                    Style="{StaticResource MaximizeButtonStyle}"
+                    Style="{DynamicResource MaximizeButtonStyle}"
                     Visibility="{Binding IsNormalized,
                                          Converter={StaticResource BooleanToVisibilityConverter},
                                          RelativeSource={RelativeSource FindAncestor,
                                                                         AncestorType=ui:InspectionWindow}}" />
             <Button Grid.Column="3"
-                    Style="{StaticResource RestoreDownButtonStyle}"
+                    Style="{DynamicResource RestoreDownButtonStyle}"
                     Visibility="{Binding IsMaximized,
                                          Converter={StaticResource BooleanToVisibilityConverter},
                                          RelativeSource={RelativeSource FindAncestor,
                                                                         AncestorType=ui:InspectionWindow}}" />
-            <Button Grid.Column="4" Style="{StaticResource CloseButtonStyle}" />
+            <Button Grid.Column="4" Style="{DynamicResource CloseButtonStyle}" />
         </Grid>
         <DockPanel Grid.Row="1"
                    Margin="0,0,0,3"
@@ -114,7 +114,7 @@
                         DockPanel.Dock="Right"
                         Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center"
-                           Style="{StaticResource SubtitleTextStyle}"
+                           Style="{DynamicResource SubtitleTextStyle}"
                            Text="{Binding Date}" />
             </StackPanel>
             <Grid Margin="6,0">
@@ -138,14 +138,14 @@
                                  FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                  FontWeight="Thin"
                                  Padding="0"
-                                 Style="{StaticResource ReadOnlyTextBoxStyle}"
+                                 Style="{DynamicResource ReadOnlyTextBoxStyle}"
                                  Text="{Binding Name,
                                                 ConverterParameter=...,
                                                 Converter={StaticResource NullOrEmptyFormatter}}" />
                         <TextBox Margin="2,0,2,2"
                                  Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                  Padding="0"
-                                 Style="{StaticResource ReadOnlyTextBoxStyle}"
+                                 Style="{DynamicResource ReadOnlyTextBoxStyle}"
                                  Text="{Binding Address,
                                                 Converter={StaticResource NullOrEmptyFormatter}}" />
                     </StackPanel>
@@ -170,14 +170,14 @@
                                  FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                  FontWeight="Thin"
                                  Padding="0"
-                                 Style="{StaticResource ReadOnlyTextBoxStyle}"
+                                 Style="{DynamicResource ReadOnlyTextBoxStyle}"
                                  Text="{Binding Name,
                                                 ConverterParameter=...,
                                                 Converter={StaticResource NullOrEmptyFormatter}}" />
                         <TextBox Margin="2,0,2,2"
                                  Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                  Padding="0"
-                                 Style="{StaticResource ReadOnlyTextBoxStyle}"
+                                 Style="{DynamicResource ReadOnlyTextBoxStyle}"
                                  Text="{Binding Address,
                                                 Converter={StaticResource NullOrEmptyFormatter}}" />
                     </StackPanel>
@@ -205,7 +205,7 @@
                                 <TextBox Margin="0,-2,0,0"
                                          FontWeight="Normal"
                                          Padding="0"
-                                         Style="{StaticResource ReadOnlyTextBoxStyle}"
+                                         Style="{DynamicResource ReadOnlyTextBoxStyle}"
                                          Text="{Binding Name,
                                                         ConverterParameter=...,
                                                         Converter={StaticResource NullOrEmptyFormatter}}" />
@@ -214,7 +214,7 @@
                                          FontWeight="Normal"
                                          Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                          Padding="0"
-                                         Style="{StaticResource ReadOnlyTextBoxStyle}"
+                                         Style="{DynamicResource ReadOnlyTextBoxStyle}"
                                          Text="{Binding Address,
                                                         Converter={StaticResource NullOrEmptyFormatter}}" />
                             </StackPanel>
@@ -233,7 +233,7 @@
         <Grid Grid.Row="3"
               Grid.RowSpan="2"
               Grid.ColumnSpan="2"
-              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
+              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
               Visibility="{Binding HasCarbonCopies,
                                    Converter={StaticResource BooleanToVisibilityConverter}}">
             <ItemsControl Margin="6,3" ItemsSource="{Binding Cc}">
@@ -255,16 +255,16 @@
                             <StackPanel VerticalAlignment="Center">
                                 <TextBox Margin="0,-2,0,0"
                                          Padding="0"
-                                         Style="{StaticResource ReadOnlyTextBoxStyle}"
+                                         Style="{DynamicResource ReadOnlyTextBoxStyle}"
                                          Text="{Binding Name,
                                                         ConverterParameter=...,
                                                         Converter={StaticResource NullOrEmptyFormatter}}" />
                                 <TextBox Margin="0,0,2,2"
                                          FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
                                          FontWeight="Normal"
-                                         Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
+                                         Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
                                          Padding="0"
-                                         Style="{StaticResource ReadOnlyTextBoxStyle}"
+                                         Style="{DynamicResource ReadOnlyTextBoxStyle}"
                                          Text="{Binding Address,
                                                         Converter={StaticResource NullOrEmptyFormatter}}" />
                             </StackPanel>

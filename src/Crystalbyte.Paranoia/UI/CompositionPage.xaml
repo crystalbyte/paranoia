@@ -36,17 +36,17 @@
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}}"
                                FontWeight="Thin"
-                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                                Text="{Binding Name}" />
                     <TextBlock x:Name="AddressBlock"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
-                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
                                Text="{Binding Address}" />
                 </StackPanel>
             </Grid>
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                    <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+                    <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
                 </DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
@@ -71,7 +71,7 @@
                     <TextBlock Margin="2,0,2,0"
                                Background="Transparent"
                                FontWeight="Normal"
-                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                                Text="{Binding}" />
                 </StackPanel>
             </Grid>
@@ -162,7 +162,7 @@
                             <TextBlock Margin="2,-2,0,0"
                                        FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                        FontWeight="Thin"
-                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Text="{Binding Name,
                                                       ConverterParameter=...,
@@ -171,7 +171,7 @@
                                        TextWrapping="NoWrap" />
                             <TextBlock x:Name="AddressBlock"
                                        Margin="2,0,2,2"
-                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Text="{Binding Address,
                                                       Converter={StaticResource NullOrEmptyFormatter}}"
@@ -181,7 +181,7 @@
                     </Grid>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                            <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+                            <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
                         </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>
@@ -225,13 +225,13 @@
             <ToggleButton x:Name="CarbonCopyToggleButton"
                           Grid.Row="1"
                           Height="Auto">
-                <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}" Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}">Cc / Bcc</TextBlock>
+                <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}" Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}">Cc / Bcc</TextBlock>
             </ToggleButton>
         </Grid>
         <controls:WatermarkTextBox x:Name="SubjectTextBox"
                                    Grid.Row="1"
                                    Grid.Column="2"
-                                   Style="{DynamicResource FlyoutTextBoxStyle}"
+                                   Style="{StaticResource FlyoutTextBoxStyle}"
                                    TabIndex="1"
                                    Text="{Binding Subject,
                                                   UpdateSourceTrigger=PropertyChanged,

@@ -2,18 +2,19 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
+
     <SolidColorBrush x:Key="ButtonBackgroundBrushKey" Color="#2F2F30" />
-    <SolidColorBrush x:Key="ButtonMouseOverBackgroundBrushKey" Color="#555556" />
+    <SolidColorBrush x:Key="ButtonMouseOverBackgroundBrushKey" Color="#444445" />
     <SolidColorBrush x:Key="ButtonBorderBrushKey" Color="#555556" />
     <Thickness x:Key="ButtonBorderThicknessKey">1</Thickness>
 
     <Style TargetType="ToggleButton">
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrushKey}" />
         <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrushKey}" />
-        <Setter Property="Padding" Value="5" />
         <Setter Property="BorderThickness" Value="{StaticResource ButtonBorderThicknessKey}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="5" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">

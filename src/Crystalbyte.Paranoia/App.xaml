@@ -6,7 +6,6 @@
              xmlns:core="clr-namespace:Awesomium.Core;assembly=Awesomium.Core"
              xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
              xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
-             xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI;assembly=Crystalbyte.Paranoia.Controls"
              ShutdownMode="OnMainWindowClose"
              StartupUri="UI/MainWindow.xaml">
     <!--  Default styles: http://msdn.microsoft.com/en-us/library/aa970773.aspx  -->
@@ -49,8 +48,8 @@
             <converters:IconFinder x:Key="IconFinder" />
 
             <converters:BooleanToBrushConverter x:Key="SubscribedAndSelectableForegroundConverter"
-                                                BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}"
-                                                BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+                                                BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+                                                BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
 
             <awe:WebSessionProvider x:Key="CompositionWebSessionProvider">
                 <awe:WebSessionProvider.DataSources>
@@ -114,13 +113,7 @@
                 </Border>
             </DataTemplate>
 
-            <Style TargetType="ui:ProgressRing">
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-            </Style>
 
-            <Style TargetType="ui:MetroProgressBar">
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-            </Style>
 
             <HierarchicalDataTemplate x:Key="MailboxTemplate"
                                       DataType="{x:Type paranoia:MailboxContext}"

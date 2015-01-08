@@ -71,8 +71,8 @@
                             <Setter TargetName="CheckBoxBorder" Property="Background" Value="{StaticResource CheckBoxMouseOverBackgroundBrushKey}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledBorderBrushKey}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
+                            <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

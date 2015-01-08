@@ -3,34 +3,26 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
-    <!--  Application Scope  -->
+    <!--  App  -->
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}">26</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}">18</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}">16</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}">12</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}">10</system:Double>
 
+    <!--  Application Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#5299EA" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSuccessBrushKey}" Color="ForestGreen" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppFailureBrushKey}" Color="Tomato" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppWarningBrushKey}" Color="Orange" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppIconBrushKey}" Color="#505052" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}" Color="WhiteSmoke" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}">Gray</SolidColorBrush>
+    <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.AppFontFamilyKey}">Segoe UI</FontFamily>
 
     <!--  Window Scope  -->
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="#252526" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="#2D2D2D" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowBrushKey}" Color="Black" />
 
-    <!--  General Text Scope (Text)  -->
-    <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.TextFontFamilyKey}">Segoe UI</FontFamily>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}">26</system:Double>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}">12</system:Double>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}">16</system:Double>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}">18</system:Double>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}">10</system:Double>
-    <FontWeight x:Key="{x:Static themes:ThemeResourceKeys.TextFontWeightKey}">Normal</FontWeight>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}" Color="WhiteSmoke" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}" Color="WhiteSmoke" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}" Color="#7F7F7F" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}" Color="WhiteSmoke" />
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.InputFontSizeKey}">12</system:Double>
-
-    <!--  General Control Scope  -->
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}" Color="{x:Static SystemColors.GrayTextColor}" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ControlDisabledBorderBrushKey}" Color="{x:Static SystemColors.GrayTextColor}" />
+    <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.InputFontFamilyKey}">Calibri</FontFamily>
 
 </ResourceDictionary>

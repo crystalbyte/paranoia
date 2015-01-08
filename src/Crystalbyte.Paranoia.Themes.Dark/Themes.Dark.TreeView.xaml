@@ -2,24 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewBackgroundBrushKey}" Color="Transparent" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewBorderBrushKey}" Color="Transparent" />
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TreeViewBorderThicknessKey}">0</Thickness>
-
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemSelectedForegroundBrushKey}" Color="WhiteSmoke" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBackgroundBrushKey}" Color="#686869" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBackgroundBrushKey}" Color="#252526" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBorderBrushKey}" Color="Transparent" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}" Color="#49494A" />
-
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBorderThicknessKey}">0</Thickness>
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemPaddingKey}">0,2,0,2</Thickness>
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMarginKey}">0</Thickness>
+    <SolidColorBrush x:Key="TreeViewItemUnfocusedBackgroundBrushKey" Color="#3E3E42" />
+    <SolidColorBrush x:Key="TreeViewItemBackgroundBrushKey" Color="Transparent" />
+    <SolidColorBrush x:Key="TreeViewItemMouseOverBackgroundBrushKey" Color="#3E3E42" />
 
     <Style TargetType="TreeView">
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewBackgroundBrushKey}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewBorderBrushKey}}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewBorderThicknessKey}}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
@@ -41,7 +31,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledBorderBrushKey}}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource SystemColors.GrayTextBrushKey}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -69,13 +59,13 @@
                               HorizontalAlignment="Left"
                               VerticalAlignment="Center"
                               Data="M 4 0 L 8 4 L 4 8 Z"
-                              Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+                              Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
                         <Path x:Name="Expanded"
                               Margin="1,1,1,1"
                               HorizontalAlignment="Left"
                               VerticalAlignment="Center"
                               Data="M 0 4 L 8 4 L 4 8 Z"
-                              Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}"
+                              Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                               Visibility="Hidden" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CheckStates">
@@ -116,12 +106,12 @@
 
 
     <Style TargetType="TreeViewItem">
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemBackgroundBrushKey}}" />
-        <Setter Property="Padding" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemPaddingKey}}" />
-        <Setter Property="Margin" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemMarginKey}}" />
+        <Setter Property="Background" Value="{StaticResource TreeViewItemBackgroundBrushKey}" />
+        <Setter Property="Padding" Value="0,2" />
+        <Setter Property="Margin" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
         <Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -200,7 +190,7 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsSelected" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}}" />
+                            <Setter TargetName="HoverBackground" Property="Fill" Value="{StaticResource TreeViewItemMouseOverBackgroundBrushKey}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -214,7 +204,7 @@
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="IsKeyboardFocused" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="SelectionBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBackgroundBrushKey}}" />
+                            <Setter TargetName="SelectionBackground" Property="Fill" Value="{StaticResource TreeViewItemUnfocusedBackgroundBrushKey}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

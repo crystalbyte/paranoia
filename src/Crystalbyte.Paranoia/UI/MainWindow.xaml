@@ -15,7 +15,8 @@
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
                       BorderThickness="1"
                       KeyboardNavigation.TabNavigation="Local"
-                      UseLayoutRounding="True"
+                      SnapsToDevicePixels="False"
+                      UseLayoutRounding="False"
                       WindowStartupLocation="CenterScreen"
                       d:DataContext="{d:DesignInstance paranoia:AppContext}"
                       mc:Ignorable="d">
@@ -167,8 +168,8 @@
                     <TextBlock Margin="0,0,24,0"
                                VerticalAlignment="Center"
                                FontSize="20"
-                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
-                               Style="{DynamicResource WindowTitleTextStyle}"
+                               Foreground="WhiteSmoke"
+                               Style="{DynamicResource TitleTextStyle}"
                                Text="{Binding Title,
                                               RelativeSource={RelativeSource FindAncestor,
                                                                              AncestorType=ui:MainWindow}}" />
@@ -187,7 +188,7 @@
                             <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
                             <Setter Property="VerticalContentAlignment" Value="Center" />
-                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}" />
+                            <Setter Property="Background" Value="{DynamicResource WindowTitleBackgroundBrushKey}" />
                             <Setter Property="SnapsToDevicePixels" Value="true" />
                             <Setter Property="Template">
                                 <Setter.Value>
@@ -231,9 +232,9 @@
                                        Margin="6,0"
                                        VerticalAlignment="Center"
                                        FontSize="20"
-                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
+                                       Foreground="WhiteSmoke"
                                        RenderOptions.ClearTypeHint="Enabled"
-                                       Style="{DynamicResource WindowTitleTextStyle}"
+                                       Style="{DynamicResource TitleTextStyle}"
                                        Text="{Binding Title}" />
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
@@ -327,7 +328,7 @@
                                               Focusable="False"
                                               ImageSource="/Assets/back.png"
                                               RenderTransformOrigin="0.5,0.5"
-                                              Style="{DynamicResource FlyoutMetroButtonStyle}">
+                                              Style="{StaticResource FlyoutMetroButtonStyle}">
                             <Button.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform />
@@ -342,10 +343,10 @@
                                    VerticalAlignment="Center"
                                    DataContext="{Binding Content,
                                                          ElementName=FlyoutFrame}"
-                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
+                                   Foreground="WhiteSmoke"
                                    Padding="0,0,0,2"
                                    RenderTransformOrigin="0.5,0.5"
-                                   Style="{DynamicResource WindowTitleTextStyle}"
+                                   Style="{DynamicResource TitleTextStyle}"
                                    Text="{Binding Title}"
                                    d:DataContext="{d:DesignInstance Page}">
                             <TextBlock.RenderTransform>
@@ -408,9 +409,9 @@
                                VerticalAlignment="Center"
                                DataContext="{Binding Content,
                                                      ElementName=PopupFrame}"
-                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
+                               Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                Padding="0,0,0,2"
-                               Style="{DynamicResource WindowTitleTextStyle}"
+                               Style="{DynamicResource TitleTextStyle}"
                                Text="{Binding Title}"
                                d:DataContext="{d:DesignInstance Page}" />
                     <Frame x:Name="PopupFrame"
@@ -443,7 +444,7 @@
         <StatusBar x:Name="StatusBar"
                    Grid.Row="2"
                    Height="24"
-                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}"
+                   Background="{DynamicResource WindowTitleBackgroundBrushKey}"
                    RenderTransformOrigin="0.5,0.5"
                    SnapsToDevicePixels="True">
             <StatusBar.RenderTransform>
@@ -472,7 +473,7 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
-                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
+                           Foreground="WhiteSmoke"
                            Text="{Binding StatusText,
                                           Mode=OneWay}" />
             </StatusBarItem>
@@ -480,7 +481,7 @@
                 <Slider Width="150"
                         Margin="3,0"
                         VerticalAlignment="Center"
-                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
+                        Foreground="WhiteSmoke"
                         IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
                         LargeChange="25.0"
@@ -498,7 +499,7 @@
                         Content="{Binding Zoom,
                                           Mode=OneWay,
                                           Converter={StaticResource PercentageFormatter}}"
-                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextContrastForegroundBrushKey}}"
+                        Foreground="WhiteSmoke"
                         IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
                         Style="{DynamicResource StatusBarButtonStyle}" />

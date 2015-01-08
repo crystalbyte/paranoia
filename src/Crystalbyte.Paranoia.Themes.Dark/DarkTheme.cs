@@ -25,7 +25,6 @@ namespace Crystalbyte.Paranoia.Themes {
                 "/Themes.Dark.GridSplitter.xaml",
                 "/Themes.Dark.ListView.xaml",
                 "/Themes.Dark.PasswordBox.xaml",
-                "/Themes.Dark.ProgressBar.xaml",
                 "/Themes.Dark.RadioButton.xaml",
                 "/Themes.Dark.Slider.xaml",
                 "/Themes.Dark.StatusBar.xaml",
@@ -34,6 +33,8 @@ namespace Crystalbyte.Paranoia.Themes {
                 "/Themes.Dark.ToggleButton.xaml",
                 "/Themes.Dark.Tooltip.xaml",
                 "/Themes.Dark.TreeView.xaml",
+                "/Themes.Dark.MetroProgressBar.xaml",
+                "/Themes.Dark.MetroProgressRing.xaml",
                 "/Themes.Dark.MetroButton.xaml"
             };
 

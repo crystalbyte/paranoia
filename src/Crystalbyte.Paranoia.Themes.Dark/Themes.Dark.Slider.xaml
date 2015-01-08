@@ -3,20 +3,9 @@
                     xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Themes.Converters"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
-    <!--
-        <SolidColorBrush x:Key="SliderThumb.Static.Foreground" Color="#FFE5E5E5" />
-        <SolidColorBrush x:Key="SliderThumb.MouseOver.Background" Color="#FFDCECFC" />
-        <SolidColorBrush x:Key="SliderThumb.MouseOver.Border" Color="#FF7Eb4EA" />
-        <SolidColorBrush x:Key="SliderThumb.Pressed.Background" Color="#FFDAECFC" />
-        <SolidColorBrush x:Key="SliderThumb.Pressed.Border" Color="#FF569DE5" />
-        <SolidColorBrush x:Key="SliderThumb.Disabled.Background" Color="#FFF0F0F0" />
-        <SolidColorBrush x:Key="SliderThumb.Disabled.Border" Color="#FFD9D9D9" />
-        <SolidColorBrush x:Key="SliderThumb.Static.Background" Color="#FFF0F0F0" />
-        <SolidColorBrush x:Key="SliderThumb.Static.Border" Color="#FFACACAC" />
-    -->
-
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SliderThumbBackgroundBrushKey}">WhiteSmoke</SolidColorBrush>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SliderThumbTrackBackgroundBrushKey}">#525254</SolidColorBrush>
+    <SolidColorBrush x:Key="SliderThumbBorderBrushKey">WhiteSmoke</SolidColorBrush>
+    <SolidColorBrush x:Key="SliderThumbBackgroundBrushKey">#525254</SolidColorBrush>
+    <SolidColorBrush x:Key="SliderThumbTrackBackgroundBrushKey">#525254</SolidColorBrush>
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
@@ -27,16 +16,16 @@
             <Path x:Name="Grip"
                   VerticalAlignment="Center"
                   Data="M 0,6 C0,6 5.5,0 5.5,0 5.5,0 11,6 11,6 11,6 11,18 11,18 11,18 0,18 0,18 0,18 0,6 0,6 z"
-                  Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbBackgroundBrushKey}}"
+                  Fill="{StaticResource SliderThumbBackgroundBrushKey}"
                   SnapsToDevicePixels="True"
                   Stretch="Fill"
-                  Stroke="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbBorderBrushKey}}"
+                  Stroke="{StaticResource SliderThumbBorderBrushKey}"
                   StrokeThickness="0"
                   UseLayoutRounding="True" />
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter TargetName="Grip" Property="Stroke" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledBorderBrushKey}}" />
+                <Setter TargetName="Grip" Property="Stroke" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -47,17 +36,17 @@
             <Path x:Name="Grip"
                   VerticalAlignment="Center"
                   Data="M 0,12 C0,12 5.5,18 5.5,18 5.5,18 11,12 11,12 11,12 11,0 11,0 11,0 0,0 0,0 0,0 0,12 0,12 z"
-                  Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbBackgroundBrushKey}}"
+                  Fill="{DynamicResource SliderThumbBackgroundBrushKey}"
                   SnapsToDevicePixels="True"
                   Stretch="Fill"
-                  Stroke="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbBorderBrushKey}}"
+                  Stroke="{DynamicResource SliderThumbBorderBrushKey}"
                   StrokeThickness="1"
                   UseLayoutRounding="True" />
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter TargetName="Grip" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
-                <Setter TargetName="Grip" Property="Stroke" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledBorderBrushKey}}" />
+                <Setter TargetName="Grip" Property="Fill" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                <Setter TargetName="Grip" Property="Stroke" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -69,16 +58,16 @@
             <Path x:Name="Grip"
                   VerticalAlignment="Center"
                   Data="M 0,0 C0,0 11,0 11,0 11,0 11,18 11,18 11,18 0,18 0,18 0,18 0,0 0,0 z"
-                  Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbBackgroundBrushKey}}"
+                  Fill="{DynamicResource SliderThumbBackgroundBrushKey}"
                   SnapsToDevicePixels="True"
                   Stretch="Fill"
-                  Stroke="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbBorderBrushKey}}"
+                  Stroke="{DynamicResource SliderThumbBorderBrushKey}"
                   StrokeThickness="1"
                   UseLayoutRounding="True" />
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter TargetName="Grip" Property="Stroke" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledBorderBrushKey}}" />
+                <Setter TargetName="Grip" Property="Stroke" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -106,8 +95,8 @@
                         Height="4.0"
                         Margin="5,0"
                         VerticalAlignment="center"
-                        Background="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbTrackBackgroundBrushKey}}"
-                        BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbTrackBackgroundBrushKey}}"
+                        Background="{StaticResource SliderThumbTrackBackgroundBrushKey}"
+                        BorderBrush="Transparent"
                         BorderThickness="0">
                     <Canvas Margin="-6,-1">
                         <Rectangle x:Name="PART_SelectionRange"
@@ -183,7 +172,7 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter TargetName="Grip" Property="Stroke" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledBorderBrushKey}}" />
+                <Setter TargetName="Grip" Property="Stroke" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -193,13 +182,13 @@
               UseLayoutRounding="True">
             <Path x:Name="Grip"
                   Data="M 12,11 C12,11 18,5.5 18,5.5 18,5.5 12,0 12,0 12,0 0,0 0,0 0,0 0,11 0,11 0,11 12,11 12,11 z"
-                  Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbBackgroundBrushKey}}"
+                  Fill="{StaticResource SliderThumbBackgroundBrushKey}"
                   Stretch="Fill"
                   StrokeThickness="0" />
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter TargetName="Grip" Property="Stroke" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledBorderBrushKey}}" />
+                <Setter TargetName="Grip" Property="Stroke" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -209,13 +198,13 @@
               UseLayoutRounding="True">
             <Path x:Name="Grip"
                   Data="M0.5,0.5 L18.5,0.5 18.5,11.5 0.5,11.5z"
-                  Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbBackgroundBrushKey}}"
+                  Fill="{StaticResource SliderThumbBackgroundBrushKey}"
                   Stretch="Fill"
                   StrokeThickness="0" />
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter TargetName="Grip" Property="Stroke" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledBorderBrushKey}}" />
+                <Setter TargetName="Grip" Property="Stroke" Value="{StaticResource {x:Static SystemColors.GrayTextBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -243,9 +232,9 @@
                         Width="4.0"
                         Margin="0,5"
                         HorizontalAlignment="center"
-                        Background="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbTrackBackgroundBrushKey}}"
-                        BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbTrackBorderBrushKey}}"
-                        BorderThickness="1">
+                        Background="{StaticResource SliderThumbTrackBackgroundBrushKey}"
+                        BorderBrush="Transparent"
+                        BorderThickness="0">
                     <Canvas Margin="-1,-6">
                         <Rectangle x:Name="PART_SelectionRange"
                                    Width="4.0"
@@ -310,7 +299,6 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SliderThumbForegroundBrushKey}}" />
         <Setter Property="Template" Value="{StaticResource SliderHorizontal}" />
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Vertical">

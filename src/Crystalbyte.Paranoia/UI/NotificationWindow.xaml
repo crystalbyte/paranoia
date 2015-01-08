@@ -75,7 +75,7 @@
                            VerticalAlignment="Bottom"
                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                            FontWeight="Normal"
-                           Style="{StaticResource WindowTitleTextStyle}"
+                           Style="{StaticResource TitleTextStyle}"
                            Text="{Binding FromName}"
                            TextTrimming="CharacterEllipsis"
                            TextWrapping="NoWrap" />

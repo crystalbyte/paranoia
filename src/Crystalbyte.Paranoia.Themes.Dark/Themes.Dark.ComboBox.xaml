@@ -5,13 +5,12 @@
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
                     mc:Ignorable="d">
 
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.ComboBoxPaddingKey}">5</Thickness>
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.ComboBoxBorderThicknessKey}">1</Thickness>
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.ComboBoxMarginKey}">0,3,0,3</Thickness>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ComboBoxMouseOverBackgroundBrushKey}" Color="#777778" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ComboBoxBackgroundBrushKey}" Color="{x:Static SystemColors.ControlColor}" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutComboBoxBackgroundBrushKey}" Color="#2F2F30" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutComboBoxBorderBrushKey}" Color="#555556" />
+    <Thickness x:Key="ComboBoxPaddingKey">5</Thickness>
+    <Thickness x:Key="ComboBoxMarginKey">3</Thickness>
+    <Thickness x:Key="ComboBoxBorderThicknessKey">1</Thickness>
+    <SolidColorBrush x:Key="ComboBoxMouseOverBackgroundBrushKey" Color="#444445" />
+    <SolidColorBrush x:Key="ComboBoxBackgroundBrushKey" Color="#2F2F30" />
+    <SolidColorBrush x:Key="ComboBoxBorderBrushKey" Color="#555556" />
 
     <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
         <Grid>
@@ -39,17 +38,17 @@
     </ControlTemplate>
 
     <Style TargetType="{x:Type ComboBox}">
-        <Setter Property="Padding" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxPaddingKey}}" />
-        <Setter Property="Margin" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxMarginKey}}" />
+        <Setter Property="Padding" Value="{StaticResource ComboBoxPaddingKey}" />
+        <Setter Property="Margin" Value="{StaticResource ComboBoxMarginKey}" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxBorderBrushKey}}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxBorderThicknessKey}}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ComboBoxBorderBrushKey}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ComboBoxBorderThicknessKey}" />
         <Setter Property="Focusable" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxBackgroundBrushKey}}" />
+        <Setter Property="Background" Value="{DynamicResource ComboBoxBackgroundBrushKey}" />
         <Setter Property="MinWidth" Value="50" />
         <Setter Property="MinHeight" Value="24" />
         <Setter Property="Template">
@@ -145,7 +144,7 @@
                             <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="PART_EditableTextBox" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
+                            <Setter TargetName="PART_EditableTextBox" Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

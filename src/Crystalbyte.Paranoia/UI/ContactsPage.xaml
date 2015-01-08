@@ -59,7 +59,7 @@
                                     <TextBlock Margin="4,2"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}"
+                                               FontSize="{DynamicResource AppExtraLargeFontSizeKey}"
                                                FontWeight="Thin"
                                                Text="{Binding}" />
                                 </Grid>
@@ -80,9 +80,9 @@
                     <TextBlock Margin="12,3,12,3"
                                VerticalAlignment="Center"
                                DockPanel.Dock="Top"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}"
-                               Style="{DynamicResource WindowTitleTextStyle}">
-                        <Run Text="{x:Static properties:Resources.ContactsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}" Text="{Binding Contacts, Converter={StaticResource CollectionCounter}, Mode=OneWay}" />
+                               FontSize="{DynamicResource AppExtraLargeFontSizeKey}"
+                               Style="{DynamicResource TitleTextStyle}">
+                        <Run Text="{x:Static properties:Resources.ContactsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{Binding Contacts, Converter={StaticResource CollectionCounter}, Mode=OneWay}" />
                     </TextBlock>
                 </DockPanel>
                 <TextBox Margin="6"
@@ -120,7 +120,7 @@
                                 <StackPanel Width="250" VerticalAlignment="Center">
                                     <TextBlock Margin="0"
                                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
-                                               Style="{StaticResource WindowTitleTextStyle}"
+                                               Style="{DynamicResource TitleTextStyle}"
                                                Text="{Binding Name,
                                                               Converter={StaticResource NullOrEmptyFormatter},
                                                               ConverterParameter=...}"
@@ -159,7 +159,7 @@
                             </StackPanel>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+                                    <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -188,7 +188,7 @@
                     </Border>
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
                         <TextBlock DataContext="{Binding SelectedContact}"
-                                   Style="{StaticResource WindowTitleTextStyle}"
+                                   Style="{DynamicResource TitleTextStyle}"
                                    Text="{Binding Name}"
                                    TextTrimming="CharacterEllipsis"
                                    TextWrapping="NoWrap" />

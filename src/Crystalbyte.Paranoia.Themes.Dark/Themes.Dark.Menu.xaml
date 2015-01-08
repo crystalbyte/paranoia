@@ -2,15 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.MenuIconBrushKey}" Color="WhiteSmoke" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.MenuBackgroundBrushKey}" Color="#1B1B1C" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.MenuBorderBrushKey}" Color="#333337" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.MenuGlyphBrushKey}" Color="#CCCCCC" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.MenuSeparatorBrushKey}" Color="#333337" />
+    <SolidColorBrush x:Key="MenuIconBrushKey" Color="WhiteSmoke" />
+    <SolidColorBrush x:Key="MenuBackgroundBrushKey" Color="#1B1B1C" />
+    <SolidColorBrush x:Key="MenuBorderBrushKey" Color="#333337" />
+    <SolidColorBrush x:Key="MenuGlyphBrushKey" Color="#CCCCCC" />
+    <SolidColorBrush x:Key="MenuSeparatorBrushKey" Color="#333337" />
 
     <SolidColorBrush x:Key="MenuMouseOverBrushKey" Color="#333334" />
     <Thickness x:Key="MenuBorderThicknessKey">1</Thickness>
-    <Thickness x:Key="MenuPaddingKey">2</Thickness>
 
     <MenuScrollingVisibilityConverter x:Key="MenuScrollingVisibilityConverter" />
     <Geometry x:Key="DownArrow">M 0,0 L 3.5,4 L 7,0 Z</Geometry>
@@ -21,14 +20,12 @@
     <Style TargetType="Menu">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Padding" Value="{StaticResource MenuPaddingKey}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Menu}">
-                    <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBackgroundBrushKey}}"
-                            BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBorderBrushKey}}"
-                            BorderThickness="{StaticResource MenuBorderThicknessKey}"
-                            Padding="{TemplateBinding Padding}">
+                    <Border Background="{StaticResource MenuBackgroundBrushKey}"
+                            BorderBrush="{StaticResource MenuBorderBrushKey}"
+                            BorderThickness="{StaticResource MenuBorderThicknessKey}">
                         <StackPanel ClipToBounds="True"
                                     IsItemsHost="True"
                                     Orientation="Horizontal" />
@@ -44,17 +41,21 @@
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Grid.IsSharedSizeScope" Value="true" />
-        <Setter Property="Padding" Value="{StaticResource MenuPaddingKey}" />
         <Setter Property="HasDropShadow" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContextMenu}">
-                    <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBackgroundBrushKey}}"
-                            BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBorderBrushKey}}"
-                            BorderThickness="{StaticResource MenuBorderThicknessKey}"
-                            Padding="{TemplateBinding Padding}">
+                    <Border Name="Border"
+                            Background="{StaticResource MenuBackgroundBrushKey}"
+                            BorderBrush="{StaticResource MenuBorderBrushKey}"
+                            BorderThickness="{StaticResource MenuBorderThicknessKey}">
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasDropShadow" Value="true">
+                            <Setter TargetName="Border" Property="Padding" Value="0,3,0,3" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -64,11 +65,11 @@
     <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="Separator">
         <Setter Property="Height" Value="1" />
         <Setter Property="UseLayoutRounding" Value="True" />
-        <Setter Property="Margin" Value="2" />
+        <Setter Property="Margin" Value="2,3" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Separator}">
-                    <Border BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuSeparatorBrushKey}}" BorderThickness="1" />
+                    <Border BorderBrush="{StaticResource MenuSeparatorBrushKey}" BorderThickness="1" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -201,10 +202,9 @@
                        Placement="Bottom"
                        PopupAnimation="Fade">
                     <Border Name="SubmenuBorder"
-                            Background="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBackgroundBrushKey}}"
-                            BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBorderBrushKey}}"
+                            Background="{StaticResource MenuBackgroundBrushKey}"
+                            BorderBrush="{StaticResource MenuBorderBrushKey}"
                             BorderThickness="{StaticResource MenuBorderThicknessKey}"
-                            Padding="{StaticResource MenuPaddingKey}"
                             SnapsToDevicePixels="True">
                         <ScrollViewer CanContentScroll="True" Style="{StaticResource MenuScrollViewer}">
                             <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
@@ -218,7 +218,7 @@
                 <Setter TargetName="Popup" Property="PopupAnimation" Value="None" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource MenuMouseOverBrushKey}" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
             </Trigger>
             <!--  Snippettoplevelheader  -->
@@ -228,7 +228,7 @@
             </Trigger>
             <!--  /Snippettoplevelheader  -->
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -236,7 +236,9 @@
     <!--  TopLevelItem  -->
     <ControlTemplate x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" TargetType="{x:Type MenuItem}">
         <Grid>
-            <Rectangle x:Name="HoverBackground" Fill="Transparent" />
+            <Rectangle x:Name="HoverBackground"
+                       Fill="Transparent"
+                       Opacity=".2" />
             <ContentPresenter Margin="6,3,6,3"
                               VerticalAlignment="Center"
                               ContentSource="Header"
@@ -244,10 +246,10 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="HoverBackground" Property="Fill" Value="{StaticResource MenuMouseOverBrushKey}" />
+                <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -264,10 +266,11 @@
                 </Grid.ColumnDefinitions>
                 <Rectangle x:Name="HoverBackground"
                            Grid.ColumnSpan="4"
-                           Fill="Transparent" />
+                           Fill="Transparent"
+                           Opacity=".2" />
                 <ContentPresenter Name="Icon"
                                   Grid.Column="0"
-                                  Margin="6,3,6,3"
+                                  Margin="6,0,6,0"
                                   VerticalAlignment="Center"
                                   ContentSource="Icon" />
                 <Border Name="Check"
@@ -284,7 +287,7 @@
                           Height="7"
                           Data="M 0 0 L 7 7 M 0 7 L 7 0"
                           SnapsToDevicePixels="False"
-                          Stroke="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuGlyphBrushKey}}"
+                          Stroke="{StaticResource MenuGlyphBrushKey}"
                           StrokeThickness="2"
                           Visibility="Hidden" />
                 </Border>
@@ -313,10 +316,10 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="HoverBackground" Property="Fill" Value="{StaticResource MenuMouseOverBrushKey}" />
+                <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                 <Setter TargetName="Icon" Property="Opacity" Value=".3" />
             </Trigger>
         </ControlTemplate.Triggers>
@@ -334,10 +337,11 @@
                 </Grid.ColumnDefinitions>
                 <Rectangle x:Name="HoverBackground"
                            Grid.ColumnSpan="4"
-                           Fill="Transparent" />
+                           Fill="Transparent"
+                           Opacity=".2" />
                 <ContentPresenter Name="Icon"
                                   Grid.Column="0"
-                                  Margin="6,3,6,3"
+                                  Margin="6,0,6,0"
                                   VerticalAlignment="Center"
                                   ContentSource="Icon" />
                 <Popup Name="Popup"
@@ -349,10 +353,9 @@
                        Placement="Right"
                        PopupAnimation="Fade">
                     <Border Name="SubmenuBorder"
-                            Background="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBackgroundBrushKey}}"
-                            BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBorderBrushKey}}"
+                            Background="{StaticResource MenuBackgroundBrushKey}"
+                            BorderBrush="{StaticResource MenuBorderBrushKey}"
                             BorderThickness="{StaticResource MenuBorderThicknessKey}"
-                            Padding="{StaticResource MenuPaddingKey}"
                             SnapsToDevicePixels="True">
                         <ScrollViewer CanContentScroll="True" Style="{StaticResource MenuScrollViewer}">
                             <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
@@ -373,7 +376,7 @@
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
                       Data="M 0 0 L 0 7 L 4 3.5 Z"
-                      Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuGlyphBrushKey}}" />
+                      Fill="{StaticResource MenuGlyphBrushKey}" />
             </Grid>
         </Border>
 
@@ -384,8 +387,11 @@
             <Trigger Property="IsHighlighted" Value="true">
                 <Setter TargetName="HoverBackground" Property="Fill" Value="{StaticResource MenuMouseOverBrushKey}" />
             </Trigger>
+            <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
+                <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3" />
+            </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                 <Setter TargetName="Icon" Property="Opacity" Value=".3" />
             </Trigger>
         </ControlTemplate.Triggers>
@@ -393,10 +399,9 @@
 
     <!--  MenuItem Style  -->
     <Style TargetType="MenuItem">
-        <Setter Property="UseLayoutRounding" Value="True" />
-        <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontFamilyKey}}" />
+        <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}" />
         <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Style.Triggers>
             <Trigger Property="Role" Value="TopLevelHeader">

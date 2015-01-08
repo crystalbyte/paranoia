@@ -10,7 +10,7 @@
       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="{x:Static properties:Resources.AccountSettingsTitle}"
-      Background="{DynamicResource FlyoutBackgroundBrushKey}"
+      Background="{StaticResource FlyoutBackgroundBrushKey}"
       d:DataContext="{d:DesignInstance paranoia:MailAccountContext}"
       d:DesignHeight="600"
       d:DesignWidth="1024"
@@ -50,12 +50,12 @@
                                       Command="ui:FlyoutCommands.Continue"
                                       Content="{x:Static properties:Resources.Continue}"
                                       ImageSource="/Assets/ok.png"
-                                      Style="{DynamicResource FlyoutMetroButtonStyle}" />
+                                      Style="{StaticResource FlyoutMetroButtonStyle}" />
                 <controls:MetroButton Margin="12,0"
                                       Command="ui:FlyoutCommands.Cancel"
                                       Content="{x:Static properties:Resources.Cancel}"
                                       ImageSource="/Assets/cancel.png"
-                                      Style="{DynamicResource FlyoutMetroButtonStyle}" />
+                                      Style="{StaticResource FlyoutMetroButtonStyle}" />
             </StackPanel>
             <ScrollViewer>
                 <StackPanel>
@@ -77,12 +77,12 @@
                                    Grid.Column="0"
                                    Grid.ColumnSpan="2"
                                    Margin="0,0,0,12"
-                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
+                                   Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                    Text="{x:Static properties:Resources.GeneralSettingsDescription}" />
                         <TextBlock Grid.Row="2"
                                    Grid.Column="0"
-                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
-                                   Style="{DynamicResource FlyoutTextBlockLabelStyle}">
+                                   Foreground="{StaticResource FlyoutForegroundBrushKey}"
+                                   Style="{StaticResource FlyoutTextBlockLabelStyle}">
                             <Run Text="{x:Static properties:Resources.AccountName}" />
                             <Run>:</Run>
                         </TextBlock>
@@ -91,14 +91,14 @@
                                  Grid.Column="1"
                                  Width="360"
                                  HorizontalAlignment="Left"
-                                 Style="{DynamicResource FlyoutTextBoxStyle}"
+                                 Style="{StaticResource FlyoutTextBoxStyle}"
                                  Text="{Binding Name,
                                                 Mode=TwoWay,
                                                 UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock Grid.Row="3"
                                    Grid.Column="0"
-                                   Foreground="{DynamicResource FlyoutForegroundBrushKey}"
-                                   Style="{DynamicResource FlyoutTextBlockLabelStyle}">
+                                   Foreground="{StaticResource FlyoutForegroundBrushKey}"
+                                   Style="{StaticResource FlyoutTextBlockLabelStyle}">
                             <Run Text="{x:Static properties:Resources.MailAddress}" />
                             <Run>:</Run>
                         </TextBlock>
@@ -106,7 +106,7 @@
                                  Grid.Column="1"
                                  Width="360"
                                  HorizontalAlignment="Left"
-                                 Style="{DynamicResource FlyoutTextBoxStyle}"
+                                 Style="{StaticResource FlyoutTextBoxStyle}"
                                  Text="{Binding Address,
                                                 Mode=TwoWay,
                                                 UpdateSourceTrigger=PropertyChanged}" />
@@ -127,7 +127,7 @@
                         <TextBlock Grid.Row="1"
                                    Grid.Column="0"
                                    Margin="0,0,0,12"
-                                   Foreground="{DynamicResource FlyoutForegroundBrushKey}"
+                                   Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                    Text="{x:Static properties:Resources.ServerSettingsDescription}"
                                    TextTrimming="None"
                                    TextWrapping="Wrap" />
@@ -137,7 +137,7 @@
                                            Margin="0,0,12,0"
                                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}}"
                                            FontWeight="Thin"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}"
+                                           Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
                                            Text="{x:Static properties:Resources.Imap}" />
                             </GroupBox.Header>
                             <Grid>
@@ -156,37 +156,37 @@
                                 <TextBlock Grid.Row="0"
                                            Grid.Column="0"
                                            Grid.ColumnSpan="2"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
-                                           Style="{DynamicResource FlyoutTextBlockLabelStyle}">
+                                           Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
+                                           Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                     <Run Text="{x:Static properties:Resources.Username}" />
                                     <Run>:</Run>
                                 </TextBlock>
                                 <TextBox Grid.Row="0"
                                          Grid.Column="1"
                                          MinWidth="200"
-                                         Style="{DynamicResource FlyoutTextBoxStyle}"
+                                         Style="{StaticResource FlyoutTextBoxStyle}"
                                          Text="{Binding ImapUsername,
                                                         Mode=TwoWay,
                                                         UpdateSourceTrigger=PropertyChanged}" />
 
                                 <TextBlock Grid.Row="0"
                                            Grid.Column="2"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
-                                           Style="{DynamicResource FlyoutTextBlockLabelStyle}">
+                                           Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
+                                           Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                     <Run Text="{x:Static properties:Resources.ImapHost}" />
                                     <Run>:</Run>
                                 </TextBlock>
                                 <TextBox Grid.Row="0"
                                          Grid.Column="3"
                                          Grid.ColumnSpan="3"
-                                         Style="{DynamicResource FlyoutTextBoxStyle}"
+                                         Style="{StaticResource FlyoutTextBoxStyle}"
                                          Text="{Binding ImapHost,
                                                         Mode=TwoWay,
                                                         UpdateSourceTrigger=PropertyChanged}" />
                                 <TextBlock Grid.Row="1"
                                            Grid.Column="0"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
-                                           Style="{DynamicResource FlyoutTextBlockLabelStyle}">
+                                           Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
+                                           Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                     <Run Text="{x:Static properties:Resources.Password}" />
                                     <Run>:</Run>
                                 </TextBlock>
@@ -194,11 +194,11 @@
                                              Grid.Row="1"
                                              Grid.Column="1"
                                              MinWidth="200"
-                                             Style="{DynamicResource FlyoutPasswordBoxStyle}" />
+                                             Style="{StaticResource FlyoutPasswordBoxStyle}" />
                                 <TextBlock Grid.Row="1"
                                            Grid.Column="2"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
-                                           Style="{DynamicResource FlyoutTextBlockLabelStyle}">
+                                           Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
+                                           Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                     <Run Text="{x:Static properties:Resources.EncryptionProtocol}" />
                                     <Run>:</Run>
                                 </TextBlock>
@@ -210,7 +210,7 @@
                                           SelectedValue="{Binding ImapSecurity,
                                                                   Mode=TwoWay}"
                                           SelectionChanged="OnImapSecurityProtocolSelectionChanged"
-                                          Style="{DynamicResource FlyoutComboBoxStyle}"
+                                          Style="{StaticResource FlyoutComboBoxStyle}"
                                           Text="{Binding ImapSecurity,
                                                          Mode=OneWay}">
                                     <ComboBox.ItemTemplate>
@@ -218,22 +218,22 @@
                                             <TextBlock Margin="3,0"
                                                        VerticalAlignment="Center"
                                                        FontWeight="Normal"
-                                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
+                                                       Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
                                                        Text="{Binding Converter={StaticResource SecurityProtocolFormatter}}" />
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
                                 <TextBlock Grid.Row="1"
                                            Grid.Column="4"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
-                                           Style="{DynamicResource FlyoutTextBlockLabelStyle}">
+                                           Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
+                                           Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                     <Run Text="{x:Static properties:Resources.Port}" />
                                     <Run>:</Run>
                                 </TextBlock>
                                 <TextBox Grid.Row="1"
                                          Grid.Column="5"
                                          Width="50"
-                                         Style="{DynamicResource FlyoutTextBoxStyle}"
+                                         Style="{StaticResource FlyoutTextBoxStyle}"
                                          Text="{Binding ImapPort,
                                                         Mode=TwoWay,
                                                         UpdateSourceTrigger=PropertyChanged}" />
@@ -247,7 +247,7 @@
                                            Margin="0,0,12,0"
                                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}}"
                                            FontWeight="Thin"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}"
+                                           Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
                                            Text="{x:Static properties:Resources.Smtp}" />
                             </GroupBox.Header>
                             <StackPanel Orientation="Horizontal">
@@ -268,18 +268,18 @@
                                                      Margin="0,18,0,0"
                                                      Checked="OnUseImapCredentialsChecked"
                                                      GroupName="Mirror"
-                                                     Style="{DynamicResource FlyoutRadioButtonStyle}">
+                                                     Style="{StaticResource FlyoutRadioButtonStyle}">
                                             <TextBlock FontWeight="Normal"
-                                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
+                                                       Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                                        Text="{x:Static properties:Resources.UseImapCredentials}" />
                                         </RadioButton>
                                         <RadioButton x:Name="UseSmtpCredentialsRadioButton"
                                                      Margin="0,6,0,12"
                                                      Checked="OnUseSmtpCredentialsChecked"
                                                      GroupName="Mirror"
-                                                     Style="{DynamicResource FlyoutRadioButtonStyle}">
+                                                     Style="{StaticResource FlyoutRadioButtonStyle}">
                                             <TextBlock FontWeight="Normal"
-                                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
+                                                       Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                                        Text="{x:Static properties:Resources.SmtpRequiresOwnCredentials}" />
                                         </RadioButton>
                                     </StackPanel>
@@ -287,7 +287,7 @@
                                                Grid.Column="0"
                                                IsEnabled="{Binding IsChecked,
                                                                    ElementName=UseSmtpCredentialsRadioButton}"
-                                               Style="{DynamicResource FlyoutTextBlockLabelStyle}">
+                                               Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                         <Run Text="{x:Static properties:Resources.Username}" />
                                         <Run>:</Run>
                                     </TextBlock>
@@ -296,7 +296,7 @@
                                              MinWidth="200"
                                              IsEnabled="{Binding IsChecked,
                                                                  ElementName=UseSmtpCredentialsRadioButton}"
-                                             Style="{DynamicResource FlyoutTextBoxStyle}"
+                                             Style="{StaticResource FlyoutTextBoxStyle}"
                                              Text="{Binding SmtpUsername,
                                                             Mode=TwoWay,
                                                             UpdateSourceTrigger=PropertyChanged}" />
@@ -304,7 +304,7 @@
                                                Grid.Column="0"
                                                IsEnabled="{Binding IsChecked,
                                                                    ElementName=UseSmtpCredentialsRadioButton}"
-                                               Style="{DynamicResource FlyoutTextBlockLabelStyle}">
+                                               Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                         <Run Text="{x:Static properties:Resources.Password}" />
                                         <Run>:</Run>
                                     </TextBlock>
@@ -314,7 +314,7 @@
                                                  MinWidth="200"
                                                  IsEnabled="{Binding IsChecked,
                                                                      ElementName=UseSmtpCredentialsRadioButton}"
-                                                 Style="{DynamicResource FlyoutPasswordBoxStyle}" />
+                                                 Style="{StaticResource FlyoutPasswordBoxStyle}" />
                                 </Grid>
                                 <Grid>
                                     <Grid.RowDefinitions>
@@ -330,22 +330,22 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="1"
                                                Grid.Column="0"
-                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
-                                               Style="{DynamicResource FlyoutTextBlockLabelStyle}">
+                                               Foreground="{StaticResource FlyoutForegroundBrushKey}"
+                                               Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                         <Run Text="{x:Static properties:Resources.ImapHost}" />
                                         <Run>:</Run>
                                     </TextBlock>
                                     <TextBox Grid.Row="1"
                                              Grid.Column="1"
                                              Grid.ColumnSpan="3"
-                                             Style="{DynamicResource FlyoutTextBoxStyle}"
+                                             Style="{StaticResource FlyoutTextBoxStyle}"
                                              Text="{Binding SmtpHost,
                                                             Mode=TwoWay,
                                                             UpdateSourceTrigger=PropertyChanged}" />
                                     <TextBlock Grid.Row="2"
                                                Grid.Column="0"
-                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
-                                               Style="{DynamicResource FlyoutTextBlockLabelStyle}">
+                                               Foreground="{StaticResource FlyoutForegroundBrushKey}"
+                                               Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                         <Run Text="{x:Static properties:Resources.EncryptionProtocol}" />
                                         <Run>:</Run>
                                     </TextBlock>
@@ -357,7 +357,7 @@
                                                                       Mode=TwoWay,
                                                                       UpdateSourceTrigger=PropertyChanged}"
                                               SelectionChanged="OnImapSecurityProtocolSelectionChanged"
-                                              Style="{DynamicResource FlyoutComboBoxStyle}"
+                                              Style="{StaticResource FlyoutComboBoxStyle}"
                                               Text="{Binding SmtpSecurity,
                                                              Mode=OneWay}">
                                         <ComboBox.ItemTemplate>
@@ -365,22 +365,22 @@
                                                 <TextBlock Margin="3,0"
                                                            VerticalAlignment="Center"
                                                            FontWeight="Normal"
-                                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
+                                                           Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                                            Text="{Binding Converter={StaticResource SecurityProtocolFormatter}}" />
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>
                                     </ComboBox>
                                     <TextBlock Grid.Row="2"
                                                Grid.Column="2"
-                                               Foreground="{DynamicResource FlyoutForegroundBrushKey}"
-                                               Style="{DynamicResource FlyoutTextBlockLabelStyle}">
+                                               Foreground="{StaticResource FlyoutForegroundBrushKey}"
+                                               Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                         <Run Text="{x:Static properties:Resources.Port}" />
                                         <Run>:</Run>
                                     </TextBlock>
                                     <TextBox Grid.Row="2"
                                              Grid.Column="3"
                                              Width="50"
-                                             Style="{DynamicResource FlyoutTextBoxStyle}"
+                                             Style="{StaticResource FlyoutTextBoxStyle}"
                                              Text="{Binding SmtpPort,
                                                             Mode=TwoWay}" />
 
@@ -396,7 +396,7 @@
                                               Command="{Binding TestSettingsCommand}"
                                               Content="{x:Static properties:Resources.TestSettings}"
                                               ImageSource="/Assets/test.png"
-                                              Style="{DynamicResource FlyoutMetroButtonStyle}" />
+                                              Style="{StaticResource FlyoutMetroButtonStyle}" />
                         <Border Height="4">
                             <controls:MetroProgressBar Height="4"
                                                        IsIndeterminate="True"
@@ -406,7 +406,7 @@
                         <TextBlock MinHeight="30"
                                    Margin="12"
                                    DataContext="{Binding Testing}"
-                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
+                                   Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                    Text="{Binding Message}" />
 
                     </StackPanel>

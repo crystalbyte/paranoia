@@ -2,17 +2,15 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Themes.Converters"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Themes.Light.Common.xaml" />
-    </ResourceDictionary.MergedDictionaries>
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonBorderBrushKey}" Color="{x:Static SystemColors.ControlDarkColor}" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonBackgroundBrushKey}" Color="{x:Static SystemColors.ControlColor}" />
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonMarginKey}">0,3</Thickness>
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonPaddingKey}">3</Thickness>
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.RadioButtonBorderThicknessKey}">1</Thickness>
+    <SolidColorBrush x:Key="RadioButtonBorderBrushKey" Color="{x:Static SystemColors.ControlDarkColor}" />
+    <SolidColorBrush x:Key="RadioButtonBackgroundBrushKey" Color="{x:Static SystemColors.ControlColor}" />
+    <SolidColorBrush x:Key="RadioButtonMouseOverBackgroundBrushKey" Color="{x:Static SystemColors.ControlColor}" />
+    <Thickness x:Key="RadioButtonMarginKey">3</Thickness>
+    <Thickness x:Key="RadioButtonPaddingKey">3</Thickness>
+    <Thickness x:Key="RadioButtonBorderThicknessKey">1</Thickness>
 
     <Style x:Key="OptionMarkFocusVisual">
         <Setter Property="Control.Template">
@@ -30,14 +28,14 @@
 
     <Style TargetType="{x:Type RadioButton}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.RadioButtonBackgroundBrushKey}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.RadioButtonBorderBrushKey}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+        <Setter Property="Background" Value="{StaticResource RadioButtonBackgroundBrushKey}" />
+        <Setter Property="BorderBrush" Value="{StaticResource RadioButtonBorderBrushKey}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Margin" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.RadioButtonMarginKey}}" />
-        <Setter Property="Padding" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.RadioButtonPaddingKey}}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.RadioButtonBorderThicknessKey}}" />
+        <Setter Property="Margin" Value="{StaticResource RadioButtonMarginKey}" />
+        <Setter Property="Padding" Value="{StaticResource RadioButtonPaddingKey}" />
+        <Setter Property="BorderThickness" Value="{StaticResource RadioButtonBorderThicknessKey}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
@@ -88,10 +86,10 @@
                             <Setter TargetName="RadioButtonBorder" Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="RadioButtonBorder" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.RadioButtonMouseOverBackgroundBrushKey}}" />
+                            <Setter TargetName="RadioButtonBorder" Property="Background" Value="{StaticResource RadioButtonMouseOverBackgroundBrushKey}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="RadioButtonBorder" Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledBorderBrushKey}}" />
+                            <Setter TargetName="RadioButtonBorder" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

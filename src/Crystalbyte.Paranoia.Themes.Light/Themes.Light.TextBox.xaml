@@ -2,34 +2,20 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TextBoxPaddingKey}">5</Thickness>
-    <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.InputFontFamilyKey}">Calibri</FontFamily>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBorderBrushKey}" Color="{x:Static SystemColors.ControlDarkColor}" />
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TextBoxMarginKey}"
-               Bottom="3"
-               Left="0"
-               Right="0"
-               Top="3" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBackgroundBrushKey}" Color="{x:Static SystemColors.ControlColor}" />
-    <Thickness x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBorderThicknessKey}"
-               Bottom="1"
-               Left="1"
-               Right="1"
-               Top="1" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextBoxBackgroundBrushKey}" Color="#2F2F30" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.FlyoutTextBoxBorderBrushKey}" Color="#555556" />
+    <SolidColorBrush x:Key="TextBoxBorderBrushKey" Color="{x:Static SystemColors.ControlDarkColor}" />
+    <SolidColorBrush x:Key="TextBoxBackgroundBrushKey" Color="{x:Static SystemColors.ControlColor}" />
 
     <Style x:Key="MonoChromeIconRectangleStyle" TargetType="Rectangle">
         <Setter Property="Width" Value="16" />
         <Setter Property="Margin" Value="0,1,0,0" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Height" Value="16" />
-        <Setter Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuIconBrushKey}}" />
+        <Setter Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
     </Style>
 
     <ContextMenu x:Key="TextBoxContextMenu">
         <MenuItem Command="ApplicationCommands.Cut"
-                  FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontFamilyKey}}"
+                  FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}"
                   FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}">
             <MenuItem.Icon>
                 <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
@@ -40,7 +26,7 @@
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Command="ApplicationCommands.Copy"
-                  FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontFamilyKey}}"
+                  FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}"
                   FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}">
             <MenuItem.Icon>
                 <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
@@ -51,22 +37,23 @@
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Command="ApplicationCommands.Paste"
-                  FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.TextFontFamilyKey}}"
+                  FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}"
                   FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" />
     </ContextMenu>
 
     <Style TargetType="TextBox">
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontSizeKey}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxBorderBrushKey}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxBackgroundBrushKey}}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" />
+        <Setter Property="BorderBrush" Value="{StaticResource TextBoxBorderBrushKey}" />
+        <Setter Property="Background" Value="{StaticResource TextBoxBackgroundBrushKey}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
         <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
-        <Setter Property="Padding" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxPaddingKey}}" />
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontFamilyKey}}" />
-        <Setter Property="Margin" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxMarginKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="Margin" Value="3" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="ContextMenu" Value="{StaticResource TextBoxContextMenu}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -84,8 +71,8 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledBorderBrushKey}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputDisabledForegroundBrushKey}}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
                             <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />

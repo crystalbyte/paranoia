@@ -9,7 +9,7 @@
       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="{x:Static properties:Resources.SettingsTitle}"
-      Background="{DynamicResource FlyoutBackgroundBrushKey}"
+      Background="{StaticResource FlyoutBackgroundBrushKey}"
       d:DataContext="{d:DesignInstance paranoia:AppContext}"
       d:DesignHeight="600"
       d:DesignWidth="1024"
@@ -20,10 +20,10 @@
                                   Command="ui:FlyoutCommands.Cancel"
                                   Content="{x:Static properties:Resources.Close}"
                                   ImageSource="/Assets/cancel.png"
-                                  Style="{DynamicResource FlyoutMetroButtonStyle}" />
+                                  Style="{StaticResource FlyoutMetroButtonStyle}" />
         </StackPanel>
         <TabControl>
-            <TabItem Header="{x:Static properties:Resources.Appearence}" HeaderTemplate="{DynamicResource FlyoutTabControlHeaderTemplate}">
+            <TabItem Header="{x:Static properties:Resources.Appearence}" HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource FlyoutTextBlockLabelStyle}">
@@ -40,7 +40,7 @@
                                     <Border>
                                         <TextBlock Margin="3,0,0,0"
                                                    VerticalAlignment="Center"
-                                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.FlyoutForegroundBrushKey}}"
+                                                   Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                                    Text="{Binding Name}" />
                                     </Border>
                                 </DataTemplate>

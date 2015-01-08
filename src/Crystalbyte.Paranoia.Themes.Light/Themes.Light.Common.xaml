@@ -1,7 +1,0 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib">
-    <SolidColorBrush x:Key="AppForegroundBrushKey" Color="#222222" />
-    <FontFamily x:Key="AppFontFamilyKey">Segoe UI</FontFamily>
-    <system:Double x:Key="AppFontSizeKey">12</system:Double>
-</ResourceDictionary>

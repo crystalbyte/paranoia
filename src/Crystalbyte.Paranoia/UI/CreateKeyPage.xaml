@@ -94,7 +94,7 @@
                        Grid.ColumnSpan="2"
                        Margin="24,0,0,0"
                        FontStyle="Italic"
-                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TextSecondaryForegroundBrushKey}}">
+                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}">
                 <Run Text="-" />
                 <Run Text="{Binding BenFranklin, Mode=OneTime}" />
 
@@ -105,12 +105,11 @@
                     Orientation="Horizontal">
             <controls:MetroButton x:Name="AcceptButton"
                                   Command="{Binding CreateKeyPairCommand}"
-                                  ImageSource="{x:Static properties:Resources.Accept}">
-                <Image Width="18" Source="/Assets/ok.png" />
-            </controls:MetroButton>
-            <controls:MetroButton Command="ApplicationCommands.Close" ImageSource="{x:Static properties:Resources.Exit}">
-                <Image Width="18" Source="/Assets/cancel.png" />
-            </controls:MetroButton>
+                                  Content="{x:Static properties:Resources.Accept}"
+                                  ImageSource="/Assets/ok.png" />
+            <controls:MetroButton Command="ApplicationCommands.Close"
+                                  Content="{x:Static properties:Resources.Exit}"
+                                  ImageSource="/Assets/cancel.png" />
         </StackPanel>
     </Grid>
 </Page>

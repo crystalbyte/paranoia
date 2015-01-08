@@ -6,53 +6,33 @@
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI">
 
-    <!--  App  -->
-
-    <system:Double x:Key="AppExtraLargeFontSizeKey">26</system:Double>
-    <system:Double x:Key="AppLargeFontSizeKey">18</system:Double>
-    <system:Double x:Key="AppMediumLargeFontSizeKey">16</system:Double>
-    <system:Double x:Key="AppMediumFontSizeKey">12</system:Double>
-    <system:Double x:Key="AppSmallFontSizeKey">10</system:Double>
-
-    <FontFamily x:Key="AppFontFamilyKey">Segoe UI</FontFamily>
-
     <!--  Flyout  -->
     <SolidColorBrush x:Key="FlyoutBackgroundBrushKey" Color="#353536" />
     <SolidColorBrush x:Key="FlyoutForegroundBrushKey" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="FlyoutOverlayBrushKey" Color="Black" />
-
     <SolidColorBrush x:Key="FlyoutButtonBackgroundBrushKey" Color="#2F2F30" />
     <SolidColorBrush x:Key="FlyoutButtonBorderBrushKey" Color="#555556" />
-
     <SolidColorBrush x:Key="FlyoutRadioButtonBackgroundBrushKey" Color="#2F2F30" />
     <SolidColorBrush x:Key="FlyoutRadioButtonBorderBrushKey" Color="#555556" />
-
     <SolidColorBrush x:Key="FlyoutComboBoxBackgroundBrushKey" Color="#2F2F30" />
     <SolidColorBrush x:Key="FlyoutComboBoxBorderBrushKey" Color="#555556" />
-
     <SolidColorBrush x:Key="FlyoutTextBoxBackgroundBrushKey" Color="#2F2F30" />
     <SolidColorBrush x:Key="FlyoutTextBoxBorderBrushKey" Color="#555556" />
-
     <system:Double x:Key="FlyoutOverlayOpacityKey">.5</system:Double>
-
-    <!--  Window Title  -->
-    <FontFamily x:Key="WindowTitleFontFamilyKey">Segoe UI</FontFamily>
-    <system:Double x:Key="WindowTitleFontSizeKey">28</system:Double>
-    <FontWeight x:Key="WindowTitleFontWeightKey">Thin</FontWeight>
-    <SolidColorBrush x:Key="WindowTitleForegroundBrushKey" Color="Black" />
 
     <!--  Window Subtitle  -->
     <FontFamily x:Key="SubtitleFontFamilyKey">Segoe UI</FontFamily>
     <system:Double x:Key="SubtitleFontSizeKey">18</system:Double>
     <FontWeight x:Key="SubtitleFontWeightKey">Thin</FontWeight>
 
-    <Style x:Key="WindowTitleTextStyle"
+    <SolidColorBrush x:Key="WindowTitleBackgroundBrushKey" Color="#333334" />
+
+    <Style x:Key="TitleTextStyle"
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
-        <Setter Property="FontSize" Value="{StaticResource WindowTitleFontSizeKey}" />
-        <Setter Property="FontWeight" Value="{StaticResource WindowTitleFontWeightKey}" />
-        <Setter Property="FontFamily" Value="{StaticResource WindowTitleFontFamilyKey}" />
-        <Setter Property="Foreground" Value="{StaticResource WindowTitleForegroundBrushKey}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}" />
+        <Setter Property="FontWeight" Value="Thin" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
     </Style>
 
     <Style x:Key="FlyoutRadioButtonStyle"
@@ -81,7 +61,7 @@
                                Text="{TemplateBinding Content}" />
                     <ItemContainerTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="ContentText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
+                            <Setter TargetName="ContentText" Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
                     </ItemContainerTemplate.Triggers>
                 </ItemContainerTemplate>
@@ -141,9 +121,9 @@
     <Style x:Key="NavigationTextStyle"
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
-        <Setter Property="FontSize" Value="{StaticResource AppMediumFontSizeKey}" />
-        <Setter Property="FontFamily" Value="{StaticResource AppFontFamilyKey}" />
-        <Setter Property="Foreground" Value="{StaticResource WindowTitleForegroundBrushKey}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" />
+        <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
     </Style>
 
     <Style x:Key="WindowButtonStyle" TargetType="Button">
@@ -283,7 +263,7 @@
                    Margin="0,0,0,12"
                    FontSize="20"
                    FontWeight="Thin"
-                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.TabControlHeaderForegroundBrushKey}}"
+                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
                    Text="{Binding}" />
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=TabItem}}" Value="True">
@@ -312,7 +292,7 @@
            TargetType="Button">
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.StatusBarFontSizeKey}}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
@@ -332,7 +312,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -354,14 +334,17 @@
     <Style x:Key="ReadOnlyTextBoxStyle"
            BasedOn="{StaticResource {x:Type TextBox}}"
            TargetType="TextBox">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="IsEnabled" Value="False" />
+        <Setter Property="IsReadOnly" Value="False" />
     </Style>
 
     <Style x:Key="SortingToggleButtonStyle"
            BasedOn="{StaticResource {x:Type ToggleButton}}"
            TargetType="ToggleButton">
-        <Setter Property="FontSize" Value="{StaticResource AppMediumFontSizeKey}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" />
         <Setter Property="Content" Value="{x:Static properties:Resources.Descending}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -404,7 +387,7 @@
     <Style x:Key="SortingPropertyButtonStyle"
            BasedOn="{StaticResource {x:Type Button}}"
            TargetType="Button">
-        <Setter Property="FontSize" Value="{StaticResource AppMediumFontSizeKey}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" />
         <Setter Property="Content" Value="{x:Static properties:Resources.Descending}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -429,7 +412,7 @@
     <Style x:Key="RadioButtonTextStyle"
            BasedOn="{StaticResource {x:Type RadioButton}}"
            TargetType="RadioButton">
-        <Setter Property="FontSize" Value="{StaticResource AppLargeFontSizeKey}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}}" />
         <Setter Property="FontWeight" Value="Thin" />
         <Setter Property="Template">
             <Setter.Value>

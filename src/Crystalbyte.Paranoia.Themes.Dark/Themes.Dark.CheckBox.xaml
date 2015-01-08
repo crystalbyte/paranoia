@@ -5,20 +5,21 @@
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
-    <SolidColorBrush x:Key="CheckBoxBorderBrushKey" Color="{x:Static SystemColors.ControlDarkColor}" />
-    <SolidColorBrush x:Key="CheckBoxBackgroundBrushKey" Color="#333" />
+    <SolidColorBrush x:Key="CheckBoxBorderBrushKey" Color="#555556" />
+    <SolidColorBrush x:Key="CheckBoxBackgroundBrushKey" Color="#2F2F30" />
+    <SolidColorBrush x:Key="CheckBoxMouseOverBackgroundBrushKey" Color="#444445" />
     <Thickness x:Key="CheckBoxPaddingKey">3</Thickness>
     <Thickness x:Key="CheckBoxBorderThicknessKey">1</Thickness>
     <Thickness x:Key="CheckBoxMarginKey">0,3</Thickness>
 
     <Style TargetType="CheckBox">
-        <Setter Property="Background" Value="{DynamicResource CheckBoxBackgroundBrushKey}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource CheckBoxBorderBrushKey}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextForegroundBrushKey}}" />
+        <Setter Property="Background" Value="{StaticResource CheckBoxBackgroundBrushKey}" />
+        <Setter Property="BorderBrush" Value="{StaticResource CheckBoxBorderBrushKey}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrushKey}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Margin" Value="{DynamicResource CheckBoxMarginKey}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource CheckBoxBorderThicknessKey}" />
+        <Setter Property="Margin" Value="{StaticResource CheckBoxMarginKey}" />
+        <Setter Property="BorderThickness" Value="{StaticResource CheckBoxBorderThicknessKey}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="CheckBox">
@@ -46,7 +47,7 @@
                                 <Rectangle x:Name="optionMark"
                                            HorizontalAlignment="Stretch"
                                            VerticalAlignment="Stretch"
-                                           Fill="{DynamicResource Metro.App.AccentBrush}"
+                                           Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                            RenderOptions.EdgeMode="Aliased"
                                            Visibility="{Binding IsChecked,
                                                                 RelativeSource={RelativeSource TemplatedParent},
@@ -67,11 +68,11 @@
                             <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="CheckBoxBorder" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.CheckBoxMouseOverBackgroundBrushKey}}" />
+                            <Setter TargetName="CheckBoxBorder" Property="Background" Value="{StaticResource CheckBoxMouseOverBackgroundBrushKey}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledBorderBrushKey}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ControlDisabledForegroundBrushKey}}" />
+                            <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
