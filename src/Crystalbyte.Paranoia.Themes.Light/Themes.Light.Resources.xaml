@@ -5,7 +5,7 @@
 
     <!--  App  -->
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}">28</system:Double>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}">18</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}">22</system:Double>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}">16</system:Double>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}">12</system:Double>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}">10</system:Double>

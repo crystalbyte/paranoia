@@ -193,8 +193,7 @@
                                             Margin="0,-2,0,0"
                                             VerticalAlignment="Center">
                                     <TextBlock x:Name="NameText"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}"
-                                               FontWeight="Thin"
+                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                                                RenderOptions.ClearTypeHint="Enabled"
                                                Text="{Binding Name,
