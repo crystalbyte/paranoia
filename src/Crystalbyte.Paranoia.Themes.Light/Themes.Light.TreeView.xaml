@@ -106,13 +106,13 @@
 
 
     <Style TargetType="TreeViewItem">
-        <Setter Property="Background" Value="{StaticResource TreeViewItemBackgroundBrushKey}" />
+        <Setter Property="Background" Value="{DynamicResource TreeViewItemBackgroundBrushKey}" />
         <Setter Property="Padding" Value="0,2" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
-        <Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource TreeViewItemFocusVisual}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TreeViewItem">
@@ -190,7 +190,7 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsSelected" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverBackground" Property="Fill" Value="{StaticResource TreeViewItemMouseOverBackgroundBrushKey}" />
+                            <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource TreeViewItemMouseOverBackgroundBrushKey}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -204,7 +204,7 @@
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="IsKeyboardFocused" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="SelectionBackground" Property="Fill" Value="{StaticResource TreeViewItemUnfocusedBackgroundBrushKey}" />
+                            <Setter TargetName="SelectionBackground" Property="Fill" Value="{DynamicResource TreeViewItemUnfocusedBackgroundBrushKey}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

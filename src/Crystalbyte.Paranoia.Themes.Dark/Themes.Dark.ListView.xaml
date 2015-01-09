@@ -34,7 +34,7 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsSelected" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverBackground" Property="Fill" Value="{StaticResource ListViewItemMouseOverBackgroundBrushKey}" />
+                            <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource ListViewItemMouseOverBackgroundBrushKey}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -48,7 +48,7 @@
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="Selector.IsSelectionActive" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="SelectionBackground" Property="Fill" Value="{StaticResource ListViewItemUnfocusedBackgroundBrushKey}" />
+                            <Setter TargetName="SelectionBackground" Property="Fill" Value="{DynamicResource ListViewItemUnfocusedBackgroundBrushKey}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
