@@ -309,6 +309,7 @@
     <Compile Include="UI\RoutedCommands\SignatureCommands.cs" />
     <Compile Include="UI\RoutedCommands\WindowCommands.cs" />
     <Compile Include="UI\WindowExtensions.cs" />
+    <Compile Include="VirtualFileDataObject.cs" />
     <Page Include="App.Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
