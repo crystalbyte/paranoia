@@ -17,8 +17,10 @@
 
     <Style TargetType="ui:HtmlControl">
         <Setter Property="KeyboardNavigation.TabNavigation" Value="Local" />
-        <Setter Property="IsTransparent" Value="False" />
+        <Setter Property="IsTransparent" Value="True" />
         <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="WebSession" Value="{Binding Source={StaticResource WebSessionProvider}}" />
@@ -42,8 +44,6 @@
                                             IsTransparent="{TemplateBinding IsTransparent}"
                                             Padding="0"
                                             RenderOptions.BitmapScalingMode="NearestNeighbor"
-                                            RenderOptions.EdgeMode="Aliased"
-                                            SnapsToDevicePixels="True"
                                             Source="{Binding Source,
                                                              RelativeSource={RelativeSource TemplatedParent},
                                                              Converter={StaticResource UrlConverter}}"

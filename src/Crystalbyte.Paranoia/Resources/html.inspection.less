@@ -1,10 +1,6 @@
 ﻿@accent-color: %AppAccentBrushKey%;
 @background-color: %WindowBackgroundBrushKey%;
 @foreground-color: %AppForegroundBrushKey%;
-/*@scrollbar-background-color: %ScrollBarBackgroundBrushKey%;
-@scrollbar-thumb-hover-color: %ScrollBarThumbMouseOverBackgroundBrushKey%;
-@scrollbar-thumb-drag-color: %ScrollBarThumbPressedBackgroundBrushKey%;
-@scrollbar-thumb-background-color: %ScrollBarThumbBackgroundBrushKey%;*/
 
 * {
     margin: 0;
@@ -19,10 +15,8 @@ a {
 html {
     font-family: Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif; 
     font-size: large;
-    /*color: @foreground-color;*/
-    /*background-color: @background-color;*/
-    color: #333333;
-    background-color: white;
+    color: @foreground-color;
+    background-color: @background-color;
 }
 
 ul, ol {
@@ -40,38 +34,6 @@ body {
     padding: 24px;
 }
 
-::-webkit-scrollbar {
-    background-color: @scrollbar-background-color;
-}
-
 ::-webkit-scrollbar-button {
     display: none;
-}
-
-::-webkit-scrollbar-track {
-    background-color: @scrollbar-background-color;
-}
-
-::-webkit-scrollbar-track-piece {
-    background-color: @scrollbar-background-color;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: @scrollbar-thumb-background-color;
-}
-
-    ::-webkit-scrollbar-thumb:hover {
-        background-color: @scrollbar-thumb-hover-color;
-    }
-
-    ::-webkit-scrollbar-thumb:active {
-        background-color: @scrollbar-thumb-drag-color;
-    }
-
-::-webkit-scrollbar-corner {
-    background-color: @background-color;
-}
-
-::-webkit-resizer {
-    background-color: @background-color;
 }

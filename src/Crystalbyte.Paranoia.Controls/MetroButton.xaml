@@ -7,6 +7,7 @@
 
     <Style TargetType="ui:MetroButton">
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="AccentBrush" Value="{x:Static SystemColors.HotTrackBrush}" />
         <Setter Property="ImageBrush" Value="{x:Static SystemColors.ControlTextBrush}" />
         <Setter Property="Foreground" Value="{x:Static SystemColors.ControlTextBrush}" />
         <Setter Property="BorderBrush" Value="{x:Static SystemColors.ControlDarkDarkBrush}" />
@@ -30,7 +31,8 @@
                                          Fill="{TemplateBinding Background}"
                                          Stroke="{TemplateBinding BorderBrush}"
                                          StrokeThickness="1.4" />
-                                <Rectangle Width="17.5"
+                                <Rectangle x:Name="Icon"
+                                           Width="17.5"
                                            Height="17.5"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
@@ -56,31 +58,29 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Icon" Property="Opacity" Value=".2" />
                             <Setter TargetName="Ellipse" Property="Opacity" Value=".2" />
                             <Setter TargetName="ButtonText" Property="Opacity" Value=".2" />
                             <Setter TargetName="ButtonText" Property="Foreground" Value="{x:Static SystemColors.GrayTextBrush}" />
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsPressed" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Ellipse" Property="Stroke" Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="ButtonText" Property="Foreground" Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsPressed" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Ellipse" Property="Fill" Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsMouseOver" Value="True" />
-                    <Condition Property="IsPressed" Value="False" />
-                </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="Transparent" />
-                <Setter Property="BorderBrush" Value="{x:Static SystemColors.HotTrackBrush}" />
-                <Setter Property="Foreground" Value="{x:Static SystemColors.HotTrackBrush}" />
-            </MultiTrigger>
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsMouseOver" Value="True" />
-                    <Condition Property="IsPressed" Value="True" />
-                </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="{x:Static SystemColors.HotTrackBrush}" />
-            </MultiTrigger>
-        </Style.Triggers>
     </Style>
 </ResourceDictionary>

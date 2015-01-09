@@ -20,6 +20,13 @@
 
         // Window Scope
         public static string WindowBackgroundBrushKey = "WindowBackgroundBrushKey";
+        public static string WindowHeaderBackgroundBrushKey = "WindowHeaderBackgroundBrushKey";
+        public static string WindowHeaderForegroundBrushKey = "WindowHeaderForegroundBrushKey";
+        public static string WindowHeaderMouseOverBackgroundBrushKey = "WindowHeaderMouseOverBackgroundBrushKey";
         public static string WindowShadowBrushKey = "WindowShadowBrushKey";
+
+        public static string SplitterForegroundBrushKey = "SplitterForegroundBrushKey";
+
+
     }
 }

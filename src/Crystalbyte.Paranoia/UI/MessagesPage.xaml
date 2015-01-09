@@ -40,7 +40,7 @@
             <DockPanel LastChildFill="True">
                 <Border Margin="2,0"
                         HorizontalAlignment="Stretch"
-                        BorderBrush="Gray"
+                        BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
                         BorderThickness="0,0,0,1"
                         DockPanel.Dock="Top"
                         SnapsToDevicePixels="True"
@@ -460,7 +460,7 @@
                         <Rectangle Width="1"
                                    Margin="4,8"
                                    VerticalAlignment="Stretch"
-                                   Fill="WhiteSmoke"
+                                   Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
                                    RenderOptions.EdgeMode="Aliased"
                                    UseLayoutRounding="True" />
                         <ToggleButton VerticalAlignment="Center"
@@ -938,6 +938,7 @@
                                               ToolTip="{x:Static properties:Resources.Forward}" />
                         <controls:MetroButton Margin="3,0"
                                               Command="{Binding DeleteMessagesCommand}"
+                                              ImageBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}"
                                               ImageSource="/Assets/delete.png"
                                               ToolTip="{x:Static properties:Resources.Delete}" />
                         <controls:MetroButton Margin="3,0"
@@ -957,11 +958,10 @@
             </Border>
             <ListView Grid.Row="1"
                       Margin="0"
-                      BorderBrush="Gray"
-                      BorderThickness="0,1,0,0"
+                      BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                      BorderThickness="0,1,0,1"
                       ItemTemplate="{StaticResource ThumbnailTemplate}"
                       ItemsSource="{Binding Attachments}"
-                      Padding="0,2"
                       ScrollViewer.CanContentScroll="False"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled">
@@ -987,10 +987,7 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>
-            <ui:BlockNoticeControl Grid.Row="2"
-                                   BorderBrush="Gray"
-                                   BorderThickness="0,1,0,0"
-                                   Padding="0,2,0,0" />
+            <ui:BlockNoticeControl Grid.Row="2" />
             <Border Grid.Row="3" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid Visibility="{Binding IsAnimating, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
                     <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">

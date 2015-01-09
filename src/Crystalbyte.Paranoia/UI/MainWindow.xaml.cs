@@ -136,14 +136,6 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Class Overrides
 
-        protected override void OnStateChanged(EventArgs e) {
-            base.OnStateChanged(e);
-
-            if (WindowState == WindowState.Maximized) {
-                
-            }
-        }
-
         protected override void OnInitialized(EventArgs e) {
             base.OnInitialized(e);
 

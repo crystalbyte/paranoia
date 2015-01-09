@@ -9,8 +9,8 @@
                       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                       x:Name="Window"
                       Title="Paranoia"
-                      Width="1000"
-                      Height="600"
+                      Width="1280"
+                      Height="768"
                       AccentBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
                       BorderThickness="1"
@@ -148,15 +148,16 @@
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
                    Panel.ZIndex="1000"
-                   Background="{DynamicResource WindowTitleBackgroundBrushKey}"
+                   Background="{DynamicResource WindowHeaderBackgroundBrushKey}"
                    LastChildFill="False">
-            <Button Margin="0"
+            <Button Width="Auto"
+                    Height="Auto"
+                    Margin="0"
                     VerticalAlignment="Stretch"
-                    Background="Transparent"
-                    BorderThickness="0"
                     Command="ui:AppCommands.Settings"
                     Padding="0"
-                    WindowChrome.IsHitTestVisibleInChrome="True">
+                    SnapsToDevicePixels="True"
+                    Style="{StaticResource WindowButtonStyle}">
                 <StackPanel Orientation="Horizontal">
                     <Image Width="20"
                            Margin="12,0"
@@ -188,18 +189,13 @@
                             <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
                             <Setter Property="VerticalContentAlignment" Value="Center" />
-                            <Setter Property="Background" Value="{DynamicResource WindowTitleBackgroundBrushKey}" />
+                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}" />
                             <Setter Property="SnapsToDevicePixels" Value="true" />
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListViewItem">
                                         <Grid Background="{TemplateBinding Background}">
-                                            <Rectangle x:Name="HoverBackground"
-                                                       Fill="Transparent"
-                                                       Opacity=".1" />
-                                            <Rectangle x:Name="SelectionBackground"
-                                                       Fill="Transparent"
-                                                       Opacity=".2" />
+                                            <Rectangle x:Name="HoverBackground" Fill="Transparent" />
                                             <ContentPresenter Margin="{TemplateBinding Padding}"
                                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
@@ -210,11 +206,8 @@
                                                     <Condition Property="IsMouseOver" Value="True" />
                                                     <Condition Property="IsSelected" Value="False" />
                                                 </MultiTrigger.Conditions>
-                                                <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                                                <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}}" />
                                             </MultiTrigger>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter TargetName="SelectionBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-                                            </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
                                 </Setter.Value>
@@ -232,7 +225,7 @@
                                        Margin="6,0"
                                        VerticalAlignment="Center"
                                        FontSize="20"
-                                       Foreground="WhiteSmoke"
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Style="{DynamicResource TitleTextStyle}"
                                        Text="{Binding Title}" />
@@ -444,7 +437,7 @@
         <StatusBar x:Name="StatusBar"
                    Grid.Row="2"
                    Height="24"
-                   Background="{DynamicResource WindowTitleBackgroundBrushKey}"
+                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}"
                    RenderTransformOrigin="0.5,0.5"
                    SnapsToDevicePixels="True">
             <StatusBar.RenderTransform>
@@ -473,7 +466,7 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
-                           Foreground="WhiteSmoke"
+                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                            Text="{Binding StatusText,
                                           Mode=OneWay}" />
             </StatusBarItem>
@@ -481,7 +474,7 @@
                 <Slider Width="150"
                         Margin="3,0"
                         VerticalAlignment="Center"
-                        Foreground="WhiteSmoke"
+                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                         IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
                         LargeChange="25.0"
@@ -499,7 +492,7 @@
                         Content="{Binding Zoom,
                                           Mode=OneWay,
                                           Converter={StaticResource PercentageFormatter}}"
-                        Foreground="WhiteSmoke"
+                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                         IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
                         Style="{DynamicResource StatusBarButtonStyle}" />

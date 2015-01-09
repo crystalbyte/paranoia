@@ -62,7 +62,7 @@
                   SnapsToDevicePixels="True"
                   Stretch="Fill"
                   Stroke="{DynamicResource SliderThumbBorderBrushKey}"
-                  StrokeThickness="1"
+                  StrokeThickness="0"
                   UseLayoutRounding="True" />
         </Grid>
         <ControlTemplate.Triggers>

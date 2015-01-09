@@ -5,7 +5,7 @@
     <SolidColorBrush x:Key="ButtonBackgroundBrushKey" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="ButtonMouseOverBackgroundBrushKey" Color="#DDDDDE" />
     <SolidColorBrush x:Key="ButtonBorderBrushKey" Color="#555556" />
-    <Thickness x:Key="ButtonBorderThicknessKey">1</Thickness>
+    <Thickness x:Key="ButtonBorderThicknessKey">0</Thickness>
 
     <Style TargetType="RepeatButton">
         <Setter Property="BorderThickness" Value="{StaticResource ButtonBorderThicknessKey}" />
