@@ -36,6 +36,8 @@ namespace Crystalbyte.Paranoia.UI {
 
             App.Context.SortOrderChanged += OnSortOrderChanged;
             NetworkChange.NetworkAvailabilityChanged += (sender, e) => CommandManager.InvalidateRequerySuggested();
+
+            //MessagesListView.MouseLeave += OnMouseLeaveMessagesListView;
         }
 
         private static void OnCanSyncMailbox(object sender, CanExecuteRoutedEventArgs e) {
@@ -302,12 +304,22 @@ namespace Crystalbyte.Paranoia.UI {
         //TODO improve me please
         #region Drag and Drop
 
+        private bool _mouseLeft;
         private Point MousePosition;
+
         private void OnPreviewMouseLeftButtonDownMessagesListView(object sender, MouseButtonEventArgs e) {
             MousePosition = e.GetPosition(null);
+            _mouseLeft = false;
+        }
+
+        private void OnMouseLeaveMessagesListView(object sender, MouseEventArgs e) {
+            _mouseLeft = true;
         }
 
         private void OnMouseMoveMessagesListView(object sender, MouseEventArgs e) {
+            if (_mouseLeft)
+                return;
+
             var mpos = e.GetPosition(null);
             var diff = MousePosition - mpos;
 

@@ -475,6 +475,7 @@
                           HorizontalContentAlignment="Stretch"
                           Panel.ZIndex="0"
                           Background="Transparent"
+                          MouseLeave="OnMouseLeaveMessagesListView"
                           BorderThickness="0"
                           KeyboardNavigation.DirectionalNavigation="Contained"
                           KeyboardNavigation.TabNavigation="None"
