@@ -19,12 +19,13 @@
         <Setter Property="KeyboardNavigation.TabNavigation" Value="Local" />
         <Setter Property="IsTransparent" Value="True" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="UseLayoutRounding" Value="True" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="False" />
+        <Setter Property="SnapsToDevicePixels" Value="False" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="WebSession" Value="{Binding Source={StaticResource WebSessionProvider}}" />
         <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="AdjustToDpi" Value="True" />
         <Setter Property="Background" Value="{x:Static SystemColors.ControlBrush}" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Template">
@@ -37,7 +38,7 @@
                         <awe:WebDialogsLayer Focusable="False">
                             <awe:WebControl x:Name="PART_WebControl"
                                             Margin="0"
-                                            AdjustToDpi="True"
+                                            AdjustToDpi="{TemplateBinding AdjustToDpi}"
                                             Background="{TemplateBinding Background}"
                                             BorderThickness="0"
                                             IsTabStop="False"

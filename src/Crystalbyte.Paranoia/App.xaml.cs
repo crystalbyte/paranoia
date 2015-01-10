@@ -17,6 +17,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using Awesomium.Core;
+using Awesomium.Windows.Controls;
 using Crystalbyte.Paranoia.Automation;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
@@ -78,12 +79,12 @@ namespace Crystalbyte.Paranoia {
             Settings.Default.Save();
         }
 
-        public static string GetCssResource(string name) {
+        public static string GetCssResource(string path) {
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
                 return "body {}";
             }
 
-            var uri = new Uri(name, UriKind.Relative);
+            var uri = new Uri(path, UriKind.Relative);
             var info = GetResourceStream(uri);
             if (info == null) {
                 var error = string.Format(Paranoia.Properties.Resources.ResourceNotFoundException, uri, typeof(App).Assembly.FullName);
@@ -339,7 +340,7 @@ namespace Crystalbyte.Paranoia {
             Sodium.InitNativeLibrary();
         }
 
-        private static void InitThemes() {
+        private void InitThemes() {
             var name = Settings.Default.Theme;
 
             var theme =
@@ -382,8 +383,8 @@ namespace Crystalbyte.Paranoia {
             Composition = config.CreateContainer();
             Composition.SatisfyImports(this);
         }
-
-        public static void ChangeTheme(Theme theme) {
+     
+        public void ChangeTheme(Theme theme) {
             var resources = theme.GetThemeResources();
 
             // Add base styles.
@@ -399,7 +400,7 @@ namespace Crystalbyte.Paranoia {
             Settings.Default.Save();
         }
 
-        public static void ChangeAccent(Color color) {
+        public void ChangeAccent(Color color) {
             Current.Resources[ThemeResourceKeys.AppAccentBrushKey] = new SolidColorBrush(color);
             Settings.Default.Accent = color.ToHex(false);
             Settings.Default.Save();

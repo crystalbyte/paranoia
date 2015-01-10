@@ -2,6 +2,7 @@
 
 using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -59,7 +60,7 @@ namespace Crystalbyte.Paranoia.UI {
             var theme = (Theme)view.SelectedValue;
             if (string.Compare(Settings.Default.Theme,
                 theme.Name, StringComparison.InvariantCultureIgnoreCase) != 0) {
-                App.ChangeTheme(theme);
+                ((App)Application.Current).ChangeTheme(theme);
             }
         }
 
@@ -68,7 +69,7 @@ namespace Crystalbyte.Paranoia.UI {
             var color = (Color)view.SelectedItem;
             if (string.Compare(Settings.Default.Accent,
                 color.ToHex(false), StringComparison.InvariantCultureIgnoreCase) != 0) {
-                App.ChangeAccent(color);
+                ((App)Application.Current).ChangeAccent(color);
             }
         }
     }

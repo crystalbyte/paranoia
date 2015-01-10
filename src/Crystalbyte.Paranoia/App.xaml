@@ -55,21 +55,14 @@
                 <awe:WebSessionProvider.DataSources>
                     <paranoia:ParanoiaDataSourceProvider x:Key="paranoia" />
                 </awe:WebSessionProvider.DataSources>
-                <core:WebPreferences CustomCSS="{x:Static paranoia:App.CompositionCss}"
-                                     DefaultEncoding="utf-8"
-                                     EnableGPUAcceleration="True"
-                                     Javascript="True"
-                                     SmoothScrolling="True" />
+                <core:WebPreferences Javascript="True" SmoothScrolling="True" />
             </awe:WebSessionProvider>
 
             <awe:WebSessionProvider x:Key="InspectionWebSessionProvider">
                 <awe:WebSessionProvider.DataSources>
                     <paranoia:ParanoiaDataSourceProvider x:Key="paranoia" />
                 </awe:WebSessionProvider.DataSources>
-                <core:WebPreferences CustomCSS="{x:Static paranoia:App.InspectionCss}"
-                                     DefaultEncoding="utf-8"
-                                     EnableGPUAcceleration="True"
-                                     SmoothScrolling="True" />
+                <core:WebPreferences SmoothScrolling="True" />
             </awe:WebSessionProvider>
 
             <DataTemplate x:Key="ThumbnailTemplate" DataType="paranoia:AttachmentContext">

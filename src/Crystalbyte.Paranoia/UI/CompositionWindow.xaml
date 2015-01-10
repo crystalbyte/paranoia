@@ -14,7 +14,7 @@
                                       Mode=OneWay}"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
                       BorderThickness="1"
-                      UseLayoutRounding="True"
+                      UseLayoutRounding="False"
                       WindowStartupLocation="CenterOwner"
                       mc:Ignorable="d">
     <Grid>
@@ -23,7 +23,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="{DynamicResource WindowTitleBackgroundBrushKey}">
+        <Grid Grid.Row="0" Background="{DynamicResource WindowHeaderBackgroundBrushKey}">
             <StackPanel Height="36"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
@@ -41,7 +41,7 @@
                            VerticalAlignment="Center"
                            DataContext="{Binding DataContext}"
                            d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}">
-                    <Run Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
+                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}" Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
                     <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text=" - " />
                     <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
                 </TextBlock>
@@ -92,6 +92,6 @@
                                                                AncestorType=ui:CompositionWindow}}" />
         <StatusBar Grid.Row="2"
                    Height="24"
-                   Background="{DynamicResource WindowTitleBackgroundBrushKey}" />
+                   Background="{DynamicResource WindowHeaderBackgroundBrushKey}" />
     </Grid>
 </controls:MetroWindow>

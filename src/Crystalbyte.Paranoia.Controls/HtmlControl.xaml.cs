@@ -102,6 +102,15 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Dependency Properties
 
+        public bool AdjustToDpi {
+            get { return (bool)GetValue(AdjustToDpiProperty); }
+            set { SetValue(AdjustToDpiProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for AdjustToDpi.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AdjustToDpiProperty =
+            DependencyProperty.Register("AdjustToDpi", typeof(bool), typeof(HtmlControl), new PropertyMetadata(false));
+
         public WebSession WebSession {
             get { return (WebSession)GetValue(WebSessionProperty); }
             set { SetValue(WebSessionProperty, value); }

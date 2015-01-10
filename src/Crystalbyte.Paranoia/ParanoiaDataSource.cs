@@ -10,10 +10,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using Awesomium.Core.Data;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
+using dotless.Core;
 using HtmlAgilityPack;
 using NLog;
 
@@ -205,6 +207,7 @@ namespace Crystalbyte.Paranoia {
             var variables = new Dictionary<string, string> {
                 {"quote", string.Empty},
                 {"header", string.Empty},
+                {"style", App.GetCssResource("/Resources/html.composition.less")},
                 {"default_font_size", string.Format("{0}", Settings.Default.HtmlFontSize)},
                 {"default_font_family", string.Format("{0}", Settings.Default.HtmlFontFamily)}
             };

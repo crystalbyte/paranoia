@@ -52,7 +52,9 @@
                             <Run Text="{x:Static properties:Resources.Accent}" />
                             <Run Text=":" />
                         </TextBlock>
-                        <ListView x:Name="AccentListView" SelectionChanged="OnAccentSelectionChanged">
+                        <ListView x:Name="AccentListView"
+                                  Margin="3"
+                                  SelectionChanged="OnAccentSelectionChanged">
                             <ListView.ItemTemplate>
                                 <DataTemplate DataType="Color">
                                     <Rectangle Width="22"
@@ -70,6 +72,7 @@
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
                             <Color>#5299EA</Color>
+                            <Color>#0066CC</Color>
                             <Color>#E86C43</Color>
                             <Color>#A4C400</Color>
                             <Color>#F0A30A</Color>

@@ -10,7 +10,7 @@
       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
       Title="{Binding Subject,
                       Mode=OneWay}"
-      Background="{DynamicResource WindowTitleBackgroundBrushKey}"
+      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
       FocusManager.FocusedElement="{Binding ElementName=RecipientsBox}"
       d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}"
       d:DesignHeight="480"
@@ -124,7 +124,7 @@
                 Grid.RowSpan="2"
                 Grid.Column="0"
                 Width="70"
-                Margin="3"
+                Margin="6"
                 VerticalAlignment="Stretch"
                 Command="{Binding SendCommand}"
                 TabIndex="4">
@@ -135,6 +135,7 @@
                   Grid.RowSpan="2"
                   Grid.Column="1"
                   Width="220"
+                  Margin="0,6"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
                   ItemsSource="{Binding Accounts}"
@@ -190,8 +191,9 @@
         <controls:SuggestiveTextBox x:Name="RecipientsBox"
                                     Grid.Row="0"
                                     Grid.Column="2"
+                                    Margin="6,6,6,0"
                                     HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
+                                    VerticalAlignment="Top"
                                     ItemTemplate="{StaticResource ContactSuggestionTemplate}"
                                     ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
                                     SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
@@ -209,7 +211,7 @@
         <Grid Grid.Row="0"
               Grid.RowSpan="2"
               Grid.Column="3"
-              Margin="3,3,6,3">
+              Margin="0,6">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -231,7 +233,8 @@
         <controls:WatermarkTextBox x:Name="SubjectTextBox"
                                    Grid.Row="1"
                                    Grid.Column="2"
-                                   Style="{StaticResource FlyoutTextBoxStyle}"
+                                   Margin="6,0,6,6"
+                                   VerticalAlignment="Bottom"
                                    TabIndex="1"
                                    Text="{Binding Subject,
                                                   UpdateSourceTrigger=PropertyChanged,
@@ -309,27 +312,21 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <Border Grid.Row="4"
-                Grid.Column="0"
-                Grid.ColumnSpan="4"
-                Margin="0,3,0,0"
-                Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                BorderThickness="0"
-                Padding="0">
-            <controls:HtmlControl x:Name="HtmlControl"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  AllowDrop="True"
-                                  BorderThickness="0"
-                                  Drop="DropHtmlControl"
-                                  IsTransparent="True"
-                                  RenderTransformOrigin="0.5,0.5"
-                                  Source="{Binding Source,
-                                                   Mode=TwoWay}"
-                                  TabIndex="3"
-                                  UseLayoutRounding="True"
-                                  WebSession="{Binding Source={StaticResource CompositionWebSessionProvider}}"
-                                  d:IsHidden="True" />
-        </Border>
+        <controls:HtmlControl x:Name="HtmlControl"
+                              Grid.Row="4"
+                              Grid.Column="0"
+                              Grid.ColumnSpan="4"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              AllowDrop="True"
+                              BorderThickness="0"
+                              Drop="DropHtmlControl"
+                              IsTransparent="True"
+                              Source="{Binding Source,
+                                               Mode=TwoWay}"
+                              TabIndex="3"
+                              UseLayoutRounding="True"
+                              WebSession="{Binding Source={StaticResource CompositionWebSessionProvider}}"
+                              d:IsHidden="True" />
     </Grid>
 </Page>
