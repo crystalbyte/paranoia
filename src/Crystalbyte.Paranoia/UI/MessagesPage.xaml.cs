@@ -36,6 +36,8 @@ namespace Crystalbyte.Paranoia.UI {
 
             App.Context.SortOrderChanged += OnSortOrderChanged;
             NetworkChange.NetworkAvailabilityChanged += (sender, e) => CommandManager.InvalidateRequerySuggested();
+
+            //MessagesListView.MouseLeave += OnMouseLeaveMessagesListView;
         }
 
         private static void OnCanSyncMailbox(object sender, CanExecuteRoutedEventArgs e) {
@@ -302,12 +304,22 @@ namespace Crystalbyte.Paranoia.UI {
         //TODO improve me please
         #region Drag and Drop
 
+        private bool _mouseLeft;
         private Point MousePosition;
+
         private void OnPreviewMouseLeftButtonDownMessagesListView(object sender, MouseButtonEventArgs e) {
             MousePosition = e.GetPosition(null);
+            _mouseLeft = false;
+        }
+
+        private void OnMouseLeaveMessagesListView(object sender, MouseEventArgs e) {
+            _mouseLeft = true;
         }
 
         private void OnMouseMoveMessagesListView(object sender, MouseEventArgs e) {
+            if (_mouseLeft)
+                return;
+
             var mpos = e.GetPosition(null);
             var diff = MousePosition - mpos;
 
@@ -317,44 +329,33 @@ namespace Crystalbyte.Paranoia.UI {
                 if (MessagesListView.SelectedItems.Count == 0)
                     return;
 
-                var files = new List<string>();
+                var virtualFileObject = new VirtualFileDataObject();
+                var files = new List<VirtualFileDataObject.FileDescriptor>();
                 foreach (MailMessageContext item in MessagesListView.SelectedItems) {
-                    files.Add(SafeOnDisk(item));
+                    var file = new VirtualFileDataObject.FileDescriptor();
+                    file.Name = GetValidFileName(item.Subject) + ".eml";
+                    file.Length = item.Size;
+                    file.ChangeTimeUtc = DateTime.Now;
+                    file.StreamContents = stream => {
+                        var bytes = LoadMessageBytes(item.Id);
+                        stream.Write(bytes, 0, bytes.Length);
+                    };
+
+                    files.Add(file);
                 }
 
-                var dataFormat = DataFormats.FileDrop;
-                var dataObject = new DataObject(dataFormat, files.ToArray());
-                DragDrop.DoDragDrop(MessagesListView, dataObject, DragDropEffects.Copy);
+                virtualFileObject.SetData(files.ToArray());
+                VirtualFileDataObject.DoDragDrop(sender as DependencyObject, virtualFileObject, DragDropEffects.Copy);
             }
         }
 
-        private string SafeOnDisk(MailMessageContext context) {
-            var tempDir = Path.GetTempPath() + "Paranoia" + "\\";
-            if (!Directory.Exists(tempDir))
-                Directory.CreateDirectory(tempDir);
-            var fileName = context.Subject + "{0}";
-
+        private string GetValidFileName(string name) {
             foreach (char c in System.IO.Path.GetInvalidFileNameChars()) {
-                fileName = fileName.Replace(c, '_');
+                name = name.Replace(c, '_');
             }
-
-            var placeholder = "";
-            int counter = 0;
-            while (File.Exists(tempDir + string.Format(fileName, placeholder) + ".eml")) {
-                int dontUse;
-                if (int.TryParse(placeholder, out dontUse)) {
-                    placeholder = (counter++).ToString();
-                } else {
-                    placeholder = "1";
-                }
-            }
-
-            var entireFilePath = tempDir + string.Format(fileName, placeholder) + ".eml";
-            var bytes = LoadMessageBytes(context.Id);
-            File.WriteAllBytes(entireFilePath, bytes);
-
-            return entireFilePath;
+            return name;
         }
+
 
         private byte[] LoadMessageBytes(Int64 id) {
             using (var database = new DatabaseContext()) {
