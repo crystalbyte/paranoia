@@ -3,17 +3,20 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
+using NLog;
 
 #endregion
 
@@ -23,6 +26,12 @@ namespace Crystalbyte.Paranoia.UI {
     /// </summary>
     public partial class CompositionPage : INavigationAware {
 
+        #region Private Fields
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
+
         public CompositionPage() {
             InitializeComponent();
 
@@ -30,8 +39,13 @@ namespace Crystalbyte.Paranoia.UI {
             context.DocumentTextRequested += OnDocumentTextRequested;
             context.Finished += OnFinished;
 
+            HtmlControl.ScriptingFailure += OnEditorScriptingFailure;
             HtmlControl.DocumentReady += OnDocumentReady;
             DataContext = context;
+        }
+
+        private static void OnEditorScriptingFailure(object sender, ScriptingFailureEventArgs e) {
+            Logger.Error(e.Exception);
         }
 
         private async void OnDocumentReady(object sender, EventArgs e) {
@@ -56,11 +70,13 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async void OnRecipientsBoxItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
-            RecipientsBox.ItemsSource = await QueryContactsAsync(e.Text);
+            var contacts = await QueryContactsAsync(e.Text);
+            await Application.Current.Dispatcher.InvokeAsync(() => {
+                e.ItemsSource = contacts;
+            });
         }
 
         public async Task<MailContactContext[]> QueryContactsAsync(string text) {
-
             using (var database = new DatabaseContext()) {
                 var candidates = await database.MailContacts
                     .Where(x => x.Address.StartsWith(text)
@@ -264,7 +280,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public void OnNavigating(NavigatingCancelEventArgs e) {
-            
+
         }
 
         #endregion

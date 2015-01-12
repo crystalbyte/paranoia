@@ -12,6 +12,7 @@
                       Title="{Binding Text,
                                       ElementName=TitleBlock,
                                       Mode=OneWay}"
+                      AccentBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
                       BorderThickness="1"
                       UseLayoutRounding="False"

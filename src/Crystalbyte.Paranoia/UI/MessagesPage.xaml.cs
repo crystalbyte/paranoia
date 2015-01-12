@@ -9,7 +9,6 @@ using System.Windows.Input;
 using NLog;
 using System.Collections.Generic;
 using Crystalbyte.Paranoia.Data;
-using System.IO;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
@@ -305,10 +304,10 @@ namespace Crystalbyte.Paranoia.UI {
         #region Drag and Drop
 
         private bool _mouseLeft;
-        private Point MousePosition;
+        private Point _mousePosition;
 
         private void OnPreviewMouseLeftButtonDownMessagesListView(object sender, MouseButtonEventArgs e) {
-            MousePosition = e.GetPosition(null);
+            _mousePosition = e.GetPosition(null);
             _mouseLeft = false;
         }
 
@@ -321,7 +320,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
 
             var mpos = e.GetPosition(null);
-            var diff = MousePosition - mpos;
+            var diff = _mousePosition - mpos;
 
             if (e.LeftButton == MouseButtonState.Pressed &&
                 Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance &&

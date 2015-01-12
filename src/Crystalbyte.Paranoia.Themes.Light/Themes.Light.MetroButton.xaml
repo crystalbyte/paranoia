@@ -9,16 +9,15 @@
     <SolidColorBrush x:Key="MetroButtonBorderBrushKey" Color="#4D4D4E" />
     <SolidColorBrush x:Key="MetroButtonIconBrushKey" Color="#4D4D4E" />
     <SolidColorBrush x:Key="MetroButtonForegroundBrushKey" Color="#4D4D4E" />
-    <SolidColorBrush x:Key="MetroButtonMouseOverBackgroundBrushKey" Color="#DFDFDF" />
 
     <Style TargetType="controls:MetroButton">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource MetroButtonForegroundBrushKey}" />
+        <Setter Property="Foreground" Value="{DynamicResource MetroButtonForegroundBrushKey}" />
         <Setter Property="AccentBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-        <Setter Property="ImageBrush" Value="{StaticResource MetroButtonIconBrushKey}" />
+        <Setter Property="ImageBrush" Value="{DynamicResource MetroButtonIconBrushKey}" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="BorderBrush" Value="{StaticResource MetroButtonBorderBrushKey}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource MetroButtonBorderBrushKey}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:MetroButton">

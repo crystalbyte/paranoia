@@ -31,6 +31,8 @@ namespace Crystalbyte.Paranoia.Themes {
                 "/Themes.Light.TextBlock.xaml",
                 "/Themes.Light.TextBox.xaml",
                 "/Themes.Light.ToggleButton.xaml",
+                "/Themes.Light.SuggestiveTextBox.xaml",
+                "/Themes.Light.WatermarkTextBox.xaml",
                 "/Themes.Light.Tooltip.xaml",
                 "/Themes.Light.TreeView.xaml",
                 "/Themes.Light.MetroProgressBar.xaml",

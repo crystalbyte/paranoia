@@ -8,7 +8,7 @@
     <Thickness x:Key="ComboBoxPaddingKey">5</Thickness>
     <Thickness x:Key="ComboBoxMarginKey">3</Thickness>
     <Thickness x:Key="ComboBoxBorderThicknessKey">1</Thickness>
-    <SolidColorBrush x:Key="ComboBoxMouseOverBackgroundBrushKey" Color="#777778" />
+    <SolidColorBrush x:Key="ComboBoxMouseOverBackgroundBrushKey" Color="#DDDDDE" />
     <SolidColorBrush x:Key="ComboBoxBackgroundBrushKey" Color="{x:Static SystemColors.ControlColor}" />
     <SolidColorBrush x:Key="ComboBoxBorderBrushKey" Color="{x:Static SystemColors.ControlDarkColor}" />
 
@@ -173,15 +173,13 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Grid>
-                            <Rectangle x:Name="HoverBackground"
-                                       Fill="Transparent"
-                                       Opacity=".1" />
+                            <Rectangle x:Name="HoverBackground" Fill="Transparent" />
                             <ContentPresenter />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource ComboBoxMouseOverBackgroundBrushKey}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

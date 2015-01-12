@@ -15,12 +15,21 @@
                              SmoothScrolling="True" />
     </awe:WebSessionProvider>
 
+    <Style x:Key="ImageMaskStyle" TargetType="Rectangle">
+        <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />
+        <Setter Property="Margin" Value="4.5" />
+        <Setter Property="Width" Value="12" />
+        <Setter Property="Height" Value="12" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
     <Style TargetType="ui:HtmlControl">
         <Setter Property="KeyboardNavigation.TabNavigation" Value="Local" />
-        <Setter Property="IsTransparent" Value="True" />
+        <Setter Property="IsTransparent" Value="False" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="UseLayoutRounding" Value="False" />
-        <Setter Property="SnapsToDevicePixels" Value="False" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="WebSession" Value="{Binding Source={StaticResource WebSessionProvider}}" />
@@ -35,24 +44,29 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                        <awe:WebDialogsLayer Focusable="False">
-                            <awe:WebControl x:Name="PART_WebControl"
-                                            Margin="0"
-                                            AdjustToDpi="{TemplateBinding AdjustToDpi}"
-                                            Background="{TemplateBinding Background}"
-                                            BorderThickness="0"
-                                            IsTabStop="False"
-                                            IsTransparent="{TemplateBinding IsTransparent}"
-                                            Padding="0"
-                                            RenderOptions.BitmapScalingMode="NearestNeighbor"
-                                            Source="{Binding Source,
-                                                             RelativeSource={RelativeSource TemplatedParent},
-                                                             Converter={StaticResource UrlConverter}}"
-                                            WebSession="{TemplateBinding WebSession}"
-                                            Zoom="{Binding Zoom,
-                                                           RelativeSource={RelativeSource TemplatedParent},
-                                                           Mode=TwoWay}" />
-                        </awe:WebDialogsLayer>
+                        <Grid>
+                            <awe:WebDialogsLayer Focusable="False">
+                                <awe:WebControl x:Name="PART_WebControl"
+                                                Margin="0"
+                                                AdjustToDpi="{TemplateBinding AdjustToDpi}"
+                                                Background="{TemplateBinding Background}"
+                                                BorderThickness="0"
+                                                IsTabStop="False"
+                                                IsTransparent="{TemplateBinding IsTransparent}"
+                                                Padding="0"
+                                                RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                Source="{Binding Source,
+                                                                 RelativeSource={RelativeSource TemplatedParent},
+                                                                 Converter={StaticResource UrlConverter}}"
+                                                UseLayoutRounding="{TemplateBinding UseLayoutRounding}"
+                                                ViewType="Offscreen"
+                                                WebSession="{TemplateBinding WebSession}"
+                                                Zoom="{Binding Zoom,
+                                                               RelativeSource={RelativeSource TemplatedParent},
+                                                               Mode=TwoWay}" />
+                            </awe:WebDialogsLayer>
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

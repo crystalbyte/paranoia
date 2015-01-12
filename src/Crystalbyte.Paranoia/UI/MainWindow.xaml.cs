@@ -10,9 +10,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Properties;
+using Crystalbyte.Paranoia.Themes;
 using NLog;
 
 #endregion
@@ -21,7 +23,7 @@ namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow {
+    public partial class MainWindow : IAccentAware {
 
         #region Private Fields
 
@@ -287,6 +289,14 @@ namespace Crystalbyte.Paranoia.UI {
             if (page != null) {
                 page.OnNavigated(e);
             }
-        }       
+        }
+
+        #region Implementation of OnAccentChanged
+
+        public void OnAccentChanged() {
+            BorderBrush = Application.Current.Resources[ThemeResourceKeys.AppAccentBrushKey] as Brush;
+        }
+
+        #endregion
     }
 }

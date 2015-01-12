@@ -17,7 +17,6 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using Awesomium.Core;
-using Awesomium.Windows.Controls;
 using Crystalbyte.Paranoia.Automation;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
@@ -124,7 +123,6 @@ namespace Crystalbyte.Paranoia {
             base.OnStartup(e);
 
 #if DEBUG
-
             var commands = Environment.CommandLine;
             var message = string.Format("Arguments: {0}{1}{1}Pid: {2}{1}{1}Continue?", commands, Environment.NewLine, Process.GetCurrentProcess().Id);
             var result = MessageBox.Show(message, "Command Line Arguments", MessageBoxButton.YesNo);
@@ -404,6 +402,10 @@ namespace Crystalbyte.Paranoia {
             Current.Resources[ThemeResourceKeys.AppAccentBrushKey] = new SolidColorBrush(color);
             Settings.Default.Accent = color.ToHex(false);
             Settings.Default.Save();
+
+            // BUG: BorderBrushes do not update after Resource change.
+            // https://connect.microsoft.com/VisualStudio/feedback/details/589898/wpf-border-borderbrush-does-not-see-changes-in-dynamic-resource
+            Current.Windows.OfType<IAccentAware>().ForEach(x => x.OnAccentChanged());
         }
     }
 }

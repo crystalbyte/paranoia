@@ -2,9 +2,6 @@
 <html>
 <head>
     <title>Composition</title>
-    <style>
-        %STYLE%
-    </style>
 </head>
 <body>
     <textarea id="editor" name="editor"></textarea>
@@ -32,6 +29,8 @@
                 var storage = $('#content-storage');
                 textarea.val(storage.html());
                 storage.remove();
+
+                resizeEditor();
             }
 
             var resizeEditor = function () {
@@ -69,6 +68,16 @@
                 textarea.val(html);
             }
 
+            var canUndo = function() {
+                var editor = textarea.editor;
+                return editor.plugins.undo.UndoManager.undoable();
+            }
+
+            var canRedo = function () {
+                var editor = textarea.editor;
+                return editor.plugins.undo.UndoManager.redoable();
+            }
+
             var execute = function (command) {
                 var editor = textarea.editor;
                 editor.execCommand(command);
@@ -77,8 +86,11 @@
             var init = function () {
                 textarea.ckeditor(Crystalbyte.Paranoia.loadContent, {
                     font_defaultLabel: '%DEFAULT_FONT_FAMILY%',
-                    fontSize_defaultLabel: '%DEFAULT_FONT_SIZE%'
+                    fontSize_defaultLabel: '%DEFAULT_FONT_SIZE%',
                 });
+
+                var editor = textarea.editor;
+                editor.on("change", external.OnContentChanged);
             }
 
             return {
@@ -91,7 +103,7 @@
                 focusEditor: focusEditor,
                 resizeEditor: resizeEditor,
                 getComposition: getComposition,
-                setComposition: setComposition
+                setComposition: setComposition,
             };
         }();
 

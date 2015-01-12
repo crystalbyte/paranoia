@@ -57,9 +57,11 @@
                                   SelectionChanged="OnAccentSelectionChanged">
                             <ListView.ItemTemplate>
                                 <DataTemplate DataType="Color">
-                                    <Rectangle Width="22"
-                                               Height="22"
-                                               Margin="2.4">
+                                    <Rectangle Width="32"
+                                               Height="32"
+                                               Margin="3"
+                                               RenderOptions.EdgeMode="Aliased"
+                                               UseLayoutRounding="True">
                                         <Rectangle.Fill>
                                             <SolidColorBrush Color="{Binding}" />
                                         </Rectangle.Fill>

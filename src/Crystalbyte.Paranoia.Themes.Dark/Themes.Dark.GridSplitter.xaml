@@ -4,7 +4,9 @@
 
     <ControlTemplate x:Key="HorizontalGridSplitter" TargetType="GridSplitter">
         <Grid>
-            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Rectangle HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch"
+                       Fill="Transparent" />
             <Rectangle Height="1"
                        HorizontalAlignment="Stretch"
                        VerticalAlignment="Center"
@@ -15,7 +17,9 @@
     </ControlTemplate>
     <ControlTemplate x:Key="VerticalGridSplitter" TargetType="GridSplitter">
         <Grid>
-            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Rectangle HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch"
+                       Fill="Transparent" />
             <Rectangle Width="1"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Stretch"

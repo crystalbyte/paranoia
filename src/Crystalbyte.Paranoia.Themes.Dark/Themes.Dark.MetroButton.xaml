@@ -8,13 +8,87 @@
 
     <SolidColorBrush x:Key="MetroButtonBorderBrushKey" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="MetroButtonIconBrushKey" Color="WhiteSmoke" />
+    <SolidColorBrush x:Key="MetroButtonForegroundBrushKey" Color="WhiteSmoke" />
 
     <Style TargetType="controls:MetroButton">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
-        <Setter Property="ImageBrush" Value="{StaticResource MetroButtonIconBrushKey}" />
+        <Setter Property="Foreground" Value="{DynamicResource MetroButtonForegroundBrushKey}" />
+        <Setter Property="AccentBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+        <Setter Property="ImageBrush" Value="{DynamicResource MetroButtonIconBrushKey}" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="BorderBrush" Value="{StaticResource MetroButtonBorderBrushKey}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource MetroButtonBorderBrushKey}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:MetroButton">
+                    <Grid>
+                        <Rectangle Grid.Row="0"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Stretch"
+                                   Fill="Transparent" />
+                        <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+                            <Grid>
+                                <Ellipse x:Name="Ellipse"
+                                         Width="32"
+                                         Height="32"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Fill="{TemplateBinding Background}"
+                                         Stroke="{TemplateBinding BorderBrush}"
+                                         StrokeThickness="1.4" />
+                                <Rectangle x:Name="Icon"
+                                           Width="17.5"
+                                           Height="17.5"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Fill="{TemplateBinding ImageBrush}"
+                                           UseLayoutRounding="True">
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="{Binding ImageSource, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Grid>
+                            <TextBlock x:Name="ButtonText"
+                                       Margin="6,0,0,0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       Foreground="{TemplateBinding Foreground}"
+                                       RenderOptions.BitmapScalingMode="HighQuality"
+                                       Text="{TemplateBinding Content}"
+                                       Visibility="{Binding Content,
+                                                            RelativeSource={RelativeSource TemplatedParent},
+                                                            Converter={StaticResource NullToVisibilityConverter}}" />
+                        </StackPanel>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Icon" Property="Opacity" Value=".2" />
+                            <Setter TargetName="Ellipse" Property="Opacity" Value=".2" />
+                            <Setter TargetName="ButtonText" Property="Opacity" Value=".2" />
+                            <Setter TargetName="ButtonText" Property="Foreground" Value="{x:Static SystemColors.GrayTextBrush}" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsPressed" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Ellipse" Property="Stroke" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsPressed" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Ellipse" Property="Stroke" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="Ellipse" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="Icon" Property="Fill" Value="WhiteSmoke" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

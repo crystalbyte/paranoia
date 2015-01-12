@@ -376,7 +376,8 @@
         </Grid>
         <GridSplitter Grid.Row="0"
                       Grid.Column="1"
-                      Margin="0,2" />
+                      Margin="0,2"
+                      Background="Transparent" />
         <DockPanel Grid.Row="0"
                    Grid.Column="2"
                    Margin="0,3,0,0"
@@ -475,10 +476,10 @@
                           HorizontalContentAlignment="Stretch"
                           Panel.ZIndex="0"
                           Background="Transparent"
-                          MouseLeave="OnMouseLeaveMessagesListView"
                           BorderThickness="0"
                           KeyboardNavigation.DirectionalNavigation="Contained"
                           KeyboardNavigation.TabNavigation="None"
+                          MouseLeave="OnMouseLeaveMessagesListView"
                           MouseMove="OnMouseMoveMessagesListView"
                           Padding="0"
                           PreviewMouseLeftButtonDown="OnPreviewMouseLeftButtonDownMessagesListView"
@@ -877,7 +878,8 @@
         </DockPanel>
         <GridSplitter Grid.Row="0"
                       Grid.Column="3"
-                      Margin="0,2" />
+                      Margin="0,2"
+                      Background="Transparent" />
         <Grid Grid.Row="0" Grid.Column="4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -993,7 +995,7 @@
                 <Grid Visibility="{Binding IsAnimating, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
                     <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <controls:HtmlControl x:Name="MessageViewer"
-                                              Background="Transparent"
+                                              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
                                               BorderThickness="0"
                                               DataContext="{Binding DataContext,
                                                                     RelativeSource={RelativeSource FindAncestor,

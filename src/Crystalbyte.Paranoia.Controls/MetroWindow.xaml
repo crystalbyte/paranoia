@@ -30,7 +30,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ui:MetroWindow">
                     <Border Padding="{TemplateBinding ActualFramePadding}">
-                        <Border Background="{TemplateBinding Background}"
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding ActualBorderThickness}"
                                 Padding="{TemplateBinding Padding}">

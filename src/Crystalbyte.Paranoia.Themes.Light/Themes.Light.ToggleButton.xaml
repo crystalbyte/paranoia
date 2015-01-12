@@ -5,7 +5,7 @@
 
     <SolidColorBrush x:Key="ButtonBackgroundBrushKey" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="ButtonMouseOverBackgroundBrushKey" Color="#DDDDDE" />
-    <SolidColorBrush x:Key="ButtonBorderBrushKey" Color="#555556" />
+    <SolidColorBrush x:Key="ButtonBorderBrushKey" Color="{x:Static SystemColors.ControlDarkColor}" />
     <Thickness x:Key="ButtonBorderThicknessKey">1</Thickness>
 
     <Style TargetType="ToggleButton">

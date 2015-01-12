@@ -1,16 +1,28 @@
 ﻿<ui:MetroWindow x:Class="Crystalbyte.Paranoia.Sandbox.MainWindow"
                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:awe="http://schemas.awesomium.com/winfx"
+                xmlns:core="clr-namespace:Awesomium.Core;assembly=Awesomium.Core"
                 xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI;assembly=Crystalbyte.Paranoia.Controls"
                 Title="MainWindow"
-                Width="1024"
-                Height="600">
-
+                Width="1280"
+                Height="768">
+    <ui:MetroWindow.Resources>
+        <awe:WebSessionProvider x:Key="WebSessionProvider">
+            <core:WebPreferences EnableGPUAcceleration="False"
+                                 Javascript="True"
+                                 ShrinkStandaloneImagesToFit="False"
+                                 SmoothScrolling="True" />
+        </awe:WebSessionProvider>
+    </ui:MetroWindow.Resources>
     <Grid>
+
         <StackPanel Margin="24">
+
             <ui:MetroButton Width="200"
                             Content="This is a Metro Button"
                             ImageSource="Assets/add.png" />
+
             <ui:WatermarkTextBox Width="400" Watermark="This is a watermark" />
             <ui:WatermarkTextBox Width="400" Text="This is no watermark" />
             <ui:ProgressRing IsActive="True" IsLarge="False" />
@@ -23,6 +35,15 @@
                 <TabItem Header="Dog" />
                 <TabItem Header="Cat" />
             </TabControl>
+
+
         </StackPanel>
+
+        <!--
+            <ui:HtmlControl VerticalAlignment="Stretch"
+            BorderThickness="0"
+            WebSession="{Binding Source={StaticResource WebSessionProvider}}"
+            Zoom="1" />
+        -->
     </Grid>
 </ui:MetroWindow>

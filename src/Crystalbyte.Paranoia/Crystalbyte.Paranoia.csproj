@@ -44,6 +44,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -75,12 +76,6 @@
     <Reference Include="Awesomium.Windows.Controls, Version=1.7.4.2, Culture=neutral, PublicKeyToken=7a34e179b8b61c39, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\externals\awesomium\Awesomium.Windows.Controls.dll</HintPath>
-    </Reference>
-    <Reference Include="ColorWheel.Controls">
-      <HintPath>..\packages\ColorWheel.Controls.1.7.14.51712\lib\net40\ColorWheel.Controls.dll</HintPath>
-    </Reference>
-    <Reference Include="ColorWheel.Core">
-      <HintPath>..\packages\ColorWheel.Controls.1.7.14.51712\lib\net40\ColorWheel.Core.dll</HintPath>
     </Reference>
     <Reference Include="dotless.ClientOnly">
       <HintPath>..\packages\DotlessClientOnly.1.4.1.0\lib\dotless.ClientOnly.dll</HintPath>
@@ -187,7 +182,7 @@
     <Compile Include="Automation\IApplication.cs" />
     <Compile Include="Automation\IClassFactory.cs" />
     <Compile Include="Automation\IComServer.cs" />
-    <Compile Include="BindingProxy.cs" />
+    <Compile Include="IAccentAware.cs" />
     <Compile Include="SortProperty.cs" />
     <Compile Include="UI\AppSettingsFlyoutPage.xaml.cs">
       <DependentUpon>AppSettingsFlyoutPage.xaml</DependentUpon>

@@ -61,6 +61,15 @@ namespace Crystalbyte.Paranoia.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid scripting result..
+        /// </summary>
+        internal static string InvalidScriptingResult {
+            get {
+                return ResourceManager.GetString("InvalidScriptingResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select.
         /// </summary>
         internal static string SelectCommand {

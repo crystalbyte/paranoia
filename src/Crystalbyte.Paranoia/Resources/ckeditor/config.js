@@ -13,16 +13,16 @@ CKEDITOR.editorConfig = function (config) {
 		//{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
 	    { name: 'undo' },
 		//{ name: 'editing', groups: ['find', 'selection', 'spellchecker'] },
-        { name: 'styles' },
-        { name: 'others' },
+        //{ name: 'styles' },
+        //{ name: 'others' },
         { name: 'colors' },
         { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
 		{ name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'] },
 		{ name: 'links' },
-		{ name: 'insert' },
-		{ name: 'forms' },
-		{ name: 'tools' },
-		{ name: 'document', groups: ['mode', 'document', 'doctools'] },
+		//{ name: 'insert' },
+		//{ name: 'forms' },
+		//{ name: 'tools' },
+		//{ name: 'document', groups: ['mode', 'document', 'doctools'] },
 		{ name: 'about' }
     ];
 

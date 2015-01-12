@@ -1,0 +1,107 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
+                    xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI;assembly=Crystalbyte.Paranoia.Controls">
+
+    <DataTemplate x:Key="DefaultWatermarkTemplate">
+        <TextBlock Margin="3,0,0,0"
+                   VerticalAlignment="Center"
+                   Background="Transparent"
+                   Focusable="False"
+                   FontStyle="Italic"
+                   Foreground="{x:Static SystemColors.GrayTextBrush}"
+                   Text="{Binding}" />
+    </DataTemplate>
+
+    <Style TargetType="ui:SuggestiveTextBox">
+        <Setter Property="AcceptsReturn" Value="False" />
+        <Setter Property="WatermarkTemplate" Value="{StaticResource DefaultWatermarkTemplate}" />
+        <Setter Property="Background" Value="{x:Static SystemColors.ControlLightBrush}" />
+        <Setter Property="Foreground" Value="{x:Static SystemColors.ControlTextBrush}" />
+        <Setter Property="BorderBrush" Value="{x:Static SystemColors.ControlDarkBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="0,3,0,3" />
+        <Setter Property="FontFamily" Value="Calibri" />
+        <Setter Property="Margin" Value="0,3,0,3" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ui:SuggestiveTextBox">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="True">
+                        <Grid>
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          Focusable="False"
+                                          HorizontalScrollBarVisibility="Hidden"
+                                          VerticalScrollBarVisibility="Hidden" />
+                            <ContentPresenter x:Name="WatermarkHost"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding Watermark}"
+                                              ContentTemplate="{TemplateBinding WatermarkTemplate}"
+                                              IsHitTestVisible="False"
+                                              Visibility="Collapsed" />
+                            <Popup x:Name="PART_Popup"
+                                   MaxHeight="300"
+                                   HorizontalOffset="-1"
+                                   IsOpen="False"
+                                   Placement="Bottom"
+                                   PlacementTarget="{Binding ElementName=PART_ContentHost}"
+                                   StaysOpen="False"
+                                   UseLayoutRounding="True"
+                                   VerticalOffset="5">
+                                <Border Background="{TemplateBinding BorderBrush}">
+                                    <ListView x:Name="PART_ItemsHost"
+                                              MinWidth="300"
+                                              MinHeight="150"
+                                              Margin="1"
+                                              Background="{x:Static SystemColors.ControlBrush}"
+                                              BorderThickness="0"
+                                              Focusable="False"
+                                              ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+                                              ItemTemplate="{TemplateBinding ItemTemplate}"
+                                              ItemsPanel="{TemplateBinding ItemsPanel}"
+                                              ItemsSource="{TemplateBinding ItemsSource}"
+                                              KeyboardNavigation.DirectionalNavigation="Contained" />
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsFocused" Value="False" />
+                                <Condition Property="IsWatermarkVisible" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="WatermarkHost" Property="Visibility" Value="Visible" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="BorderBrush" Value="{x:Static SystemColors.InactiveBorderBrush}" />
+                            <Setter Property="Foreground" Value="{x:Static SystemColors.GrayTextBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

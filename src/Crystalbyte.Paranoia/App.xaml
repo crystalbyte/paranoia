@@ -18,6 +18,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.Resources.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.Button.xaml" />
+                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.ToggleButton.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.GridSplitter.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.TabControl.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.GroupBox.xaml" />
@@ -25,6 +26,7 @@
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.ComboBox.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.PasswordBox.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.TextBox.xaml" />
+                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.WatermarkTextBox.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.MetroButton.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.ListView.xaml" />
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.TreeView.xaml" />
@@ -55,14 +57,18 @@
                 <awe:WebSessionProvider.DataSources>
                     <paranoia:ParanoiaDataSourceProvider x:Key="paranoia" />
                 </awe:WebSessionProvider.DataSources>
-                <core:WebPreferences Javascript="True" SmoothScrolling="True" />
+                <core:WebPreferences CustomCSS="{x:Static paranoia:App.CompositionCss}"
+                                     Javascript="True"
+                                     SmoothScrolling="True" />
             </awe:WebSessionProvider>
 
             <awe:WebSessionProvider x:Key="InspectionWebSessionProvider">
                 <awe:WebSessionProvider.DataSources>
                     <paranoia:ParanoiaDataSourceProvider x:Key="paranoia" />
                 </awe:WebSessionProvider.DataSources>
-                <core:WebPreferences SmoothScrolling="True" />
+                <core:WebPreferences CustomCSS="{x:Static paranoia:App.InspectionCss}"
+                                     EnableGPUAcceleration="True"
+                                     SmoothScrolling="True" />
             </awe:WebSessionProvider>
 
             <DataTemplate x:Key="ThumbnailTemplate" DataType="paranoia:AttachmentContext">

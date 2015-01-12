@@ -4,7 +4,7 @@
 
     <SolidColorBrush x:Key="ButtonBackgroundBrushKey" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="ButtonMouseOverBackgroundBrushKey" Color="#DDDDDE" />
-    <SolidColorBrush x:Key="ButtonBorderBrushKey" Color="#555556" />
+    <SolidColorBrush x:Key="ButtonBorderBrushKey" Color="{x:Static SystemColors.ControlDarkColor}" />
     <Thickness x:Key="ButtonBorderThicknessKey">1</Thickness>
 
     <Style TargetType="Button">
@@ -31,10 +31,15 @@
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <Rectangle x:Name="HoverBackground" Fill="Transparent" />
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="ContentPresenter" Property="Opacity" Value=".2" />
+                        </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />

@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Navigation;
+using Crystalbyte.Paranoia.Themes;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     /// Interaction logic for CompositionWindow.xaml
     /// </summary>
-    public partial class CompositionWindow {
+    public partial class CompositionWindow : IAccentAware {
         public CompositionWindow() {
             InitializeComponent();
             
@@ -37,5 +39,13 @@ namespace Crystalbyte.Paranoia.UI {
                 page.OnNavigated(e);
             }
         }
+
+        #region Implementation of OnAccentChanged
+
+        public void OnAccentChanged() {
+            BorderBrush = Application.Current.Resources[ThemeResourceKeys.AppAccentBrushKey] as Brush;
+        }
+
+        #endregion
     }
 }

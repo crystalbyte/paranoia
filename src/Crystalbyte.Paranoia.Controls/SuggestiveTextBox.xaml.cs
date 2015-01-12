@@ -104,7 +104,6 @@ namespace Crystalbyte.Paranoia.UI {
             DependencyProperty.Register("IsWatermarkVisible", typeof(bool), typeof(SuggestiveTextBox), new PropertyMetadata(false));
 
 
-
         public object Watermark {
             get { return GetValue(WatermarkProperty); }
             set { SetValue(WatermarkProperty, value); }
@@ -252,6 +251,10 @@ namespace Crystalbyte.Paranoia.UI {
         protected override void OnInitialized(EventArgs e) {
             base.OnInitialized(e);
 
+            if (DesignerProperties.GetIsInDesignMode(this)) {
+                return;
+            }
+
             Observable.FromEventPattern<TextChangedEventHandler, TextChangedEventArgs>(
                 action => TextChanged += action,
                 action => TextChanged -= action)
@@ -318,6 +321,10 @@ namespace Crystalbyte.Paranoia.UI {
             _itemsHost = (ListView)Template.FindName(HostPartName, this);
             _itemsHost.InputBindings.Add(new KeyBinding(SuggestiveTextBoxCommands.Select, Key.Enter, ModifierKeys.None));
             _itemsHost.InputBindings.Add(new KeyBinding(SuggestiveTextBoxCommands.Select, Key.Tab, ModifierKeys.None));
+
+            if (DesignerProperties.GetIsInDesignMode(this)) {
+                return;
+            }
 
             InvalidateWatermark();
         }

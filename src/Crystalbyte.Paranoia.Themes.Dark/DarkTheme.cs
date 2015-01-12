@@ -33,6 +33,8 @@ namespace Crystalbyte.Paranoia.Themes {
                 "/Themes.Dark.ToggleButton.xaml",
                 "/Themes.Dark.Tooltip.xaml",
                 "/Themes.Dark.TreeView.xaml",
+                "/Themes.Dark.SuggestiveTextBox.xaml",
+                "/Themes.Dark.WatermarkTextBox.xaml",
                 "/Themes.Dark.MetroProgressBar.xaml",
                 "/Themes.Dark.MetroProgressRing.xaml",
                 "/Themes.Dark.MetroButton.xaml"

@@ -84,6 +84,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ScriptingException.cs" />
+    <Compile Include="ScriptingFailureEventArgs.cs" />
     <Compile Include="SuggestiveTextBox.xaml.cs">
       <DependentUpon>SuggestiveTextBox.xaml</DependentUpon>
     </Compile>
@@ -177,7 +179,10 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Assets\redo.png" />
+    <Resource Include="Assets\undo.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

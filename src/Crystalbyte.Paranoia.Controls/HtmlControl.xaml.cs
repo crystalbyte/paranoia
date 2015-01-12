@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -39,11 +40,15 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public HtmlControl() {
-            IsKeyboardFocusWithinChanged += (sender, e) => Debug.WriteLine(Keyboard.FocusedElement);
+            if (DesignerProperties.GetIsInDesignMode(this))
+                return;
 
-            if (!DesignerProperties.GetIsInDesignMode(this)) {
-                Source = WebCore.Configuration.HomeURL.ToString();
+            var url = WebCore.Configuration.HomeURL;
+            if (url == null) {
+                return;
             }
+
+            Source = WebCore.Configuration.HomeURL.ToString();
         }
 
         #endregion
@@ -72,6 +77,22 @@ namespace Crystalbyte.Paranoia.UI {
             if (handler != null) handler(this, EventArgs.Empty);
         }
 
+        public event EventHandler EditorContentChanged;
+
+        protected virtual void OnEditorContentChanged() {
+            var handler = EditorContentChanged;
+            if (handler != null) 
+                handler(this, EventArgs.Empty);
+        }
+
+        public event EventHandler<ScriptingFailureEventArgs> ScriptingFailure;
+
+        protected virtual void OnScriptingFailure(ScriptingFailureEventArgs e) {
+            var handler = ScriptingFailure;
+            if (handler != null) 
+                handler(this, e);
+        }
+
         #endregion
 
         #region Properties
@@ -82,8 +103,16 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        private bool CanFocusEditor {
+        private bool CanExecuteCommands {
             get {
+                if (_webControl == null) {
+                    return false;
+                }
+
+                if (!_webControl.IsJavascriptEnabled || !_webControl.IsDocumentReady) {
+                    return false;
+                }
+
                 JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
                 // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 // ReSharper disable once HeuristicUnreachableCode
@@ -200,33 +229,44 @@ namespace Crystalbyte.Paranoia.UI {
             }
 
             OnDocumentReady();
+            
+            CommandManager.InvalidateRequerySuggested();
         }
 
         #endregion
 
         #region Methods
-
+     
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
             if (!_webControl.IsDocumentReady)
                 return;
 
-            if (CanFocusEditor) {
+            if (CanExecuteCommands) {
                 FocusEditor();
             }
         }
 
-        private void SetScriptingObject(IWebView webcontrol) {
+        private static void SetScriptingObject(IWebView webcontrol) {
             using (JSObject interop = webcontrol.CreateGlobalJavascriptObject("external")) {
                 interop.Bind("OnLinkClicked", false, OnLinkClicked);
             }
         }
 
-        private static void OnLinkClicked(object sender, JavascriptMethodEventArgs javascriptMethodEventArgs) {
-            var href = (string)javascriptMethodEventArgs.Arguments[0];
+        private static void OnLinkClicked(object sender, JavascriptMethodEventArgs e) {
+            var href = (string)e.Arguments[0];
             if (string.IsNullOrEmpty(href))
                 return;
 
             Process.Start(href);
+        }
+
+        public void ExecuteEditCommand(params object[] arguments) {
+            JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
+            using (module) {
+                var function = string.Format("execute");
+                var parameters = arguments.ToJsValues().ToArray();
+                module.Invoke(function, parameters);
+            }
         }
 
         private void FocusEditor() {
@@ -367,6 +407,10 @@ namespace Crystalbyte.Paranoia.UI {
             }
 
             if (_webControl != null) {
+                // BUG: Dispose called on the wrong thread.
+                if (!_webControl.CheckAccess()) {
+                    return;
+                }
                 _webControl.Dispose();
             }
 
