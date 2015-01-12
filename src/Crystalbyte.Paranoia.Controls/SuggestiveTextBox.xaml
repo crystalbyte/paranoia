@@ -19,9 +19,9 @@
         <Setter Property="Foreground" Value="{x:Static SystemColors.ControlTextBrush}" />
         <Setter Property="BorderBrush" Value="{x:Static SystemColors.ControlDarkBrush}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Padding" Value="0,3,0,3" />
+        <Setter Property="Padding" Value="3" />
         <Setter Property="FontFamily" Value="Calibri" />
-        <Setter Property="Margin" Value="0,3,0,3" />
+        <Setter Property="Margin" Value="3" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -70,8 +70,7 @@
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
                                               ItemsPanel="{TemplateBinding ItemsPanel}"
                                               ItemsSource="{TemplateBinding ItemsSource}"
-                                              KeyboardNavigation.DirectionalNavigation="Contained">
-                                    </ListView>
+                                              KeyboardNavigation.DirectionalNavigation="Contained" />
                                 </Border>
                             </Popup>
                         </Grid>

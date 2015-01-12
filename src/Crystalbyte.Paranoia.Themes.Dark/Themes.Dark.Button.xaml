@@ -11,7 +11,7 @@
         <Setter Property="BorderThickness" Value="{StaticResource ButtonBorderThicknessKey}" />
         <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrushKey}" />
         <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrushKey}" />
-        <Setter Property="Margin" Value="0" />
+        <Setter Property="Margin" Value="3" />
         <Setter Property="MinWidth" Value="16" />
         <Setter Property="MinHeight" Value="16" />
         <Setter Property="Width" Value="Auto" />

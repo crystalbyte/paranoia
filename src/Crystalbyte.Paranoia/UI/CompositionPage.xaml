@@ -114,8 +114,8 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="32" />
-            <RowDefinition Height="32" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -141,7 +141,7 @@
                   Grid.RowSpan="2"
                   Grid.Column="1"
                   Width="220"
-                  Margin="0,6"
+                  Margin="0,6,3,6"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
                   ItemsSource="{Binding Accounts}"
@@ -159,7 +159,6 @@
                         <Image Grid.Row="0"
                                Grid.Column="0"
                                Width="42"
-                               Margin="6,0,6,0"
                                VerticalAlignment="Center"
                                RenderOptions.BitmapScalingMode="Fant"
                                Source="{Binding Address,
@@ -197,9 +196,8 @@
         <controls:SuggestiveTextBox x:Name="RecipientsBox"
                                     Grid.Row="0"
                                     Grid.Column="2"
-                                    Margin="6,6,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Top"
+                                    Height="24"
+                                    Margin="3,6,3,3"
                                     ItemTemplate="{StaticResource ContactSuggestionTemplate}"
                                     ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
                                     Padding="3"
@@ -226,6 +224,7 @@
             <Button Grid.Row="0"
                     Width="60"
                     Height="34"
+                    Margin="0"
                     VerticalAlignment="Stretch"
                     BorderThickness="1,1,1,0"
                     Command="{Binding AddAttachmentCommand}">
@@ -240,7 +239,8 @@
             <ToggleButton x:Name="CarbonCopyToggleButton"
                           Grid.Row="1"
                           Padding="0">
-                <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
+                <TextBlock Margin="0,1,0,0"
+                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                            Padding="0">
                     Cc / Bcc
@@ -250,8 +250,8 @@
         <controls:WatermarkTextBox x:Name="SubjectTextBox"
                                    Grid.Row="1"
                                    Grid.Column="2"
-                                   Margin="6,0,0,6"
-                                   VerticalAlignment="Bottom"
+                                   Height="24"
+                                   Margin="3,3,3,6"
                                    Padding="3"
                                    TabIndex="1"
                                    Text="{Binding Subject,
@@ -266,7 +266,8 @@
                                          ElementName=CarbonCopyToggleButton,
                                          Converter={StaticResource BooleanToVisibilityConverter}}">
             <controls:SuggestiveTextBox x:Name="CarbonCopyBox"
-                                        Margin="6,0,6,3"
+                                        Height="24"
+                                        Margin="6,0,6,6"
                                         HorizontalAlignment="Stretch"
                                         ItemTemplate="{StaticResource ContactSuggestionTemplate}"
                                         ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
@@ -286,7 +287,8 @@
                 </controls:SuggestiveTextBox.ItemContainerStyle>
             </controls:SuggestiveTextBox>
             <controls:SuggestiveTextBox x:Name="BlindCarbonCopyBox"
-                                        Margin="6,3,6,6"
+                                        Height="24"
+                                        Margin="6,0,6,6"
                                         HorizontalAlignment="Stretch"
                                         ItemTemplate="{StaticResource ContactSuggestionTemplate}"
                                         ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"

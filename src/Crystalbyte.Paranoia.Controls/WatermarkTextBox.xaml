@@ -21,9 +21,11 @@
         <Setter Property="Background" Value="{x:Static SystemColors.ControlLightBrush}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Foreground" Value="{x:Static SystemColors.ControlTextBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="3" />
         <Setter Property="FontFamily" Value="Calibri" />
-        <Setter Property="Margin" Value="0,3,0,3" />
+        <Setter Property="Margin" Value="3" />
         <Setter Property="WatermarkTemplate" Value="{StaticResource DefaultWatermarkTemplate}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -35,6 +37,8 @@
                             SnapsToDevicePixels="True">
                         <Grid>
                             <ScrollViewer x:Name="PART_ContentHost"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           Focusable="False"
                                           Foreground="{TemplateBinding Foreground}"
                                           HorizontalScrollBarVisibility="Hidden"
