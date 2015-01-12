@@ -25,7 +25,8 @@
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0"
                        Width="32"
-                       Margin="2,2,6,2"
+                       Height="32"
+                       Margin="3"
                        HorizontalAlignment="Stretch"
                        RenderOptions.BitmapScalingMode="Fant"
                        Source="{Binding Address,
@@ -34,8 +35,7 @@
                                         ConverterParameter=48}"
                        Stretch="Uniform" />
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}}"
-                               FontWeight="Thin"
+                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                                Text="{Binding Name}" />
                     <TextBlock x:Name="AddressBlock"
@@ -80,7 +80,7 @@
             <Grid RenderOptions.EdgeMode="Aliased" SnapsToDevicePixels="True">
                 <Rectangle HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"
-                           Fill="#222" />
+                           Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}" />
                 <StackPanel Margin="0,0,3,0" Orientation="Horizontal">
                     <Border Height="16"
                             Margin="0,0,4,0"
@@ -96,7 +96,9 @@
                                                 ConverterParameter=32}"
                                Stretch="UniformToFill" />
                     </Border>
-                    <TextBlock Margin="2,0,2,0" Text="{Binding NameOrAddress}" />
+                    <TextBlock Margin="2,0,2,0"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
+                               Text="{Binding NameOrAddress}" />
                 </StackPanel>
             </Grid>
         </DataTemplate>

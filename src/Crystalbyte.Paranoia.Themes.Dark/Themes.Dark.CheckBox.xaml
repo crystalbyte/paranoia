@@ -7,7 +7,7 @@
 
     <SolidColorBrush x:Key="CheckBoxBorderBrushKey" Color="#555556" />
     <SolidColorBrush x:Key="CheckBoxBackgroundBrushKey" Color="#2F2F30" />
-    <SolidColorBrush x:Key="CheckBoxMouseOverBackgroundBrushKey" Color="#444445" />
+    <SolidColorBrush x:Key="CheckBoxMouseOverBackgroundBrushKey" Color="#3E3E42" />
     <Thickness x:Key="CheckBoxPaddingKey">3</Thickness>
     <Thickness x:Key="CheckBoxBorderThicknessKey">1</Thickness>
     <Thickness x:Key="CheckBoxMarginKey">0,3</Thickness>

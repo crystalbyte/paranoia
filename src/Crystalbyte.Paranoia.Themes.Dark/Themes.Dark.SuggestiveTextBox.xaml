@@ -85,20 +85,18 @@
                                    StaysOpen="False"
                                    UseLayoutRounding="True"
                                    VerticalOffset="5">
-                                <Border Background="{TemplateBinding BorderBrush}">
-                                    <ListView x:Name="PART_ItemsHost"
-                                              MinWidth="300"
-                                              MinHeight="150"
-                                              Margin="1"
-                                              Background="{x:Static SystemColors.ControlBrush}"
-                                              BorderThickness="0"
-                                              Focusable="False"
-                                              ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
-                                              ItemTemplate="{TemplateBinding ItemTemplate}"
-                                              ItemsPanel="{TemplateBinding ItemsPanel}"
-                                              ItemsSource="{TemplateBinding ItemsSource}"
-                                              KeyboardNavigation.DirectionalNavigation="Contained" />
-                                </Border>
+                                <ListView x:Name="PART_ItemsHost"
+                                          MinWidth="300"
+                                          MinHeight="150"
+                                          Margin="1"
+                                          Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                                          BorderThickness="0"
+                                          Focusable="False"
+                                          ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+                                          ItemTemplate="{TemplateBinding ItemTemplate}"
+                                          ItemsPanel="{TemplateBinding ItemsPanel}"
+                                          ItemsSource="{TemplateBinding ItemsSource}"
+                                          KeyboardNavigation.DirectionalNavigation="Contained" />
                             </Popup>
                         </Grid>
                     </Border>

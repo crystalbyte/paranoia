@@ -8,7 +8,7 @@
     <Thickness x:Key="ComboBoxPaddingKey">5</Thickness>
     <Thickness x:Key="ComboBoxMarginKey">3</Thickness>
     <Thickness x:Key="ComboBoxBorderThicknessKey">1</Thickness>
-    <SolidColorBrush x:Key="ComboBoxMouseOverBackgroundBrushKey" Color="#444445" />
+    <SolidColorBrush x:Key="ComboBoxMouseOverBackgroundBrushKey" Color="#3E3E42" />
     <SolidColorBrush x:Key="ComboBoxBackgroundBrushKey" Color="#2F2F30" />
     <SolidColorBrush x:Key="ComboBoxBorderBrushKey" Color="#555556" />
 
@@ -120,10 +120,10 @@
                                   MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                   SnapsToDevicePixels="True">
                                 <Border x:Name="DropDownBorder"
-                                        Background="{TemplateBinding Background}"
+                                        Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}">
-                                    <ScrollViewer SnapsToDevicePixels="True">
+                                    <ScrollViewer Padding="6" SnapsToDevicePixels="True">
                                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                     </ScrollViewer>
                                 </Border>
@@ -173,15 +173,13 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Grid>
-                            <Rectangle x:Name="HoverBackground"
-                                       Fill="Transparent"
-                                       Opacity=".1" />
+                            <Rectangle x:Name="HoverBackground" Fill="Transparent" />
                             <ContentPresenter />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource ComboBoxMouseOverBackgroundBrushKey}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
