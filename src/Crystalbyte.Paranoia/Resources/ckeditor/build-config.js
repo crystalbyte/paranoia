@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -13,10 +13,10 @@
  * (1) http://ckeditor.com/builder
  *     Visit online builder to build CKEditor from scratch.
  *
- * (2) http://ckeditor.com/builder/52384b773014123496c3cd34de0a21af
+ * (2) http://ckeditor.com/builder/6e0f8f62572f4a136dbd31ed645f99a5
  *     Visit online builder to build CKEditor, starting with the same setup as before.
  *
- * (3) http://ckeditor.com/builder/download/52384b773014123496c3cd34de0a21af
+ * (3) http://ckeditor.com/builder/download/6e0f8f62572f4a136dbd31ed645f99a5
  *     Straight download link to the latest version of CKEditor (Optimized) with the same setup as before.
  *
  * NOTE:
@@ -26,7 +26,7 @@
 
 var CKBUILDER_CONFIG = {
 	skin: 'moono-dark',
-	preset: 'standard',
+	preset: 'full',
 	ignore: [
 		'.bender',
 		'bender.js',
@@ -36,7 +36,7 @@ var CKBUILDER_CONFIG = {
 		'.DS_Store',
 		'.gitattributes',
 		'.gitignore',
-		'Gruntfile.js',
+		'gruntfile.js',
 		'.idea',
 		'.jscsrc',
 		'.jshintignore',
@@ -50,30 +50,20 @@ var CKBUILDER_CONFIG = {
 	plugins : {
 		'basicstyles' : 1,
 		'blockquote' : 1,
-		'clipboard' : 1,
 		'colorbutton' : 1,
+		'colordialog' : 1,
 		'contextmenu' : 1,
-		'elementspath' : 1,
 		'enterkey' : 1,
-		'filebrowser' : 1,
 		'font' : 1,
-		'format' : 1,
-		'horizontalrule' : 1,
-		'htmlwriter' : 1,
-		'image' : 1,
+		'indentblock' : 1,
 		'indentlist' : 1,
+		'justify' : 1,
+		'language' : 1,
 		'link' : 1,
 		'list' : 1,
-		'magicline' : 1,
-		'pastetext' : 1,
+		'pagebreak' : 1,
 		'removeformat' : 1,
-		'sourcearea' : 1,
-		'specialchar' : 1,
-		'stylescombo' : 1,
-		'tab' : 1,
-		'toolbar' : 1,
-		'undo' : 1,
-		'wysiwygarea' : 1
+		'undo' : 1
 	},
 	languages : {
 		'de' : 1,

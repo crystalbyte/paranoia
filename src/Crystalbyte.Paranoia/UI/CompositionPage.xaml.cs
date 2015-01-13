@@ -3,14 +3,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Data;
@@ -42,6 +40,11 @@ namespace Crystalbyte.Paranoia.UI {
             HtmlControl.ScriptingFailure += OnEditorScriptingFailure;
             HtmlControl.DocumentReady += OnDocumentReady;
             DataContext = context;
+        }
+
+        private void OnHtmlControlInitialized(object sender, EventArgs e) {
+            var control = (HtmlControl) sender;
+            control.WebSession.ClearCache();
         }
 
         private static void OnEditorScriptingFailure(object sender, ScriptingFailureEventArgs e) {

@@ -1015,25 +1015,25 @@ namespace Crystalbyte.Paranoia {
 
         internal async Task InspectMessageAsync(FileInfo file) {
             var owner = Application.Current.MainWindow;
-            var inspector = new InspectionWindow {
-                WindowState =
-                    owner.WindowState == WindowState.Maximized
-                    ? WindowState.Maximized
-                    : WindowState.Normal
-            };
+            var inspector = new InspectionWindow ();
             inspector.MimicOwnership(owner);
+
+            if (owner.WindowState == WindowState.Maximized) {
+                inspector.WindowState = WindowState.Maximized;
+            }
+
             await inspector.InitWithFileAsync(file);
             inspector.Show();
         }
         internal async Task InspectMessageAsync(MailMessageContext message) {
             var owner = Application.Current.MainWindow;
-            var inspector = new InspectionWindow {
-                WindowState =
-                    owner.WindowState == WindowState.Maximized
-                    ? WindowState.Maximized
-                    : WindowState.Normal
-            };
+            var inspector = new InspectionWindow ();
             inspector.MimicOwnership(owner);
+
+            if (owner.WindowState == WindowState.Maximized) {
+                inspector.WindowState = WindowState.Maximized;
+            }
+
             await inspector.InitWithMessageAsync(message);
             inspector.Show();
         }

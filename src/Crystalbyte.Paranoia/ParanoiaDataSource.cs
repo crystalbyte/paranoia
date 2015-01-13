@@ -223,11 +223,11 @@ namespace Crystalbyte.Paranoia {
             }
 
             string html;
-            const string pattern = "%.+?%";
+            const string pattern = "{{.+?}}";
             using (var reader = new StreamReader(info.Stream)) {
                 var text = reader.ReadToEnd();
                 html = Regex.Replace(text, pattern, m => {
-                    var key = m.Value.Trim('%').ToLower();
+                    var key = m.Value.Trim('{','}').ToLower();
                     return variables.ContainsKey(key)
                         ? variables[key]
                         : string.Empty;

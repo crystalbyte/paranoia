@@ -447,6 +447,11 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Resources\ckeditor\CHANGES.md" />
+    <None Include="Resources\ckeditor\LICENSE.md" />
+    <None Include="Resources\ckeditor\README.md" />
+    <None Include="Resources\ckeditor\skins\moono-dark\readme.md" />
+    <None Include="Resources\ckeditor\skins\moono\readme.md" />
     <Resource Include="Assets\c2_please-answer.ogg" />
     <None Include="..\key.debug.snk">
       <Link>key.debug.snk</Link>
@@ -459,14 +464,8 @@
     <AppDesigner Include="Properties\" />
     <Resource Include="Resources\ckeditor\plugins\icons.png" />
     <Resource Include="Resources\ckeditor\plugins\icons_hidpi.png" />
-    <Resource Include="Resources\ckeditor\plugins\image\images\noimage.png" />
     <Resource Include="Resources\ckeditor\plugins\link\images\anchor.png" />
     <Resource Include="Resources\ckeditor\plugins\link\images\hidpi\anchor.png" />
-    <Resource Include="Resources\ckeditor\plugins\magicline\images\hidpi\icon-rtl.png" />
-    <Resource Include="Resources\ckeditor\plugins\magicline\images\hidpi\icon.png" />
-    <Resource Include="Resources\ckeditor\plugins\magicline\images\icon-rtl.png" />
-    <Resource Include="Resources\ckeditor\plugins\magicline\images\icon.png" />
-    <Resource Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\_translationstatus.txt" />
     <Resource Include="Resources\ckeditor\skins\moono-dark\icons.png" />
     <Resource Include="Resources\ckeditor\skins\moono-dark\icons_hidpi.png" />
     <Resource Include="Resources\ckeditor\skins\moono-dark\images\arrow.png" />
@@ -480,10 +479,6 @@
     <Resource Include="Resources\ckeditor\skins\moono-dark\images\refresh.png" />
     <Resource Include="Resources\html.inspection.less" />
     <Resource Include="Resources\html.composition.less" />
-    <None Include="Resources\ckeditor\CHANGES.md" />
-    <None Include="Resources\ckeditor\LICENSE.md" />
-    <None Include="Resources\ckeditor\README.md" />
-    <None Include="Resources\ckeditor\skins\moono-dark\readme.md" />
     <Resource Include="Resources\storage.db" />
   </ItemGroup>
   <ItemGroup>
@@ -537,32 +532,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\ckeditor\plugins\a11yhelp\dialogs\lang\" />
-    <Folder Include="Resources\ckeditor\plugins\about\dialogs\hidpi\" />
-    <Folder Include="Resources\ckeditor\plugins\colordialog\dialogs\" />
-    <Folder Include="Resources\ckeditor\plugins\div\dialogs\" />
-    <Folder Include="Resources\ckeditor\plugins\find\dialogs\" />
-    <Folder Include="Resources\ckeditor\plugins\flash\dialogs\" />
-    <Folder Include="Resources\ckeditor\plugins\flash\images\" />
-    <Folder Include="Resources\ckeditor\plugins\forms\dialogs\" />
-    <Folder Include="Resources\ckeditor\plugins\forms\images\" />
-    <Folder Include="Resources\ckeditor\plugins\iframe\dialogs\" />
-    <Folder Include="Resources\ckeditor\plugins\iframe\images\" />
-    <Folder Include="Resources\ckeditor\plugins\liststyle\dialogs\" />
-    <Folder Include="Resources\ckeditor\plugins\pagebreak\images\" />
-    <Folder Include="Resources\ckeditor\plugins\pastefromword\filter\" />
-    <Folder Include="Resources\ckeditor\plugins\preview\" />
-    <Folder Include="Resources\ckeditor\plugins\scayt\dialogs\" />
-    <Folder Include="Resources\ckeditor\plugins\showblocks\images\" />
-    <Folder Include="Resources\ckeditor\plugins\smiley\dialogs\" />
-    <Folder Include="Resources\ckeditor\plugins\smiley\images\" />
-    <Folder Include="Resources\ckeditor\plugins\tabletools\dialogs\" />
-    <Folder Include="Resources\ckeditor\plugins\table\dialogs\" />
-    <Folder Include="Resources\ckeditor\plugins\templates\dialogs\" />
-    <Folder Include="Resources\ckeditor\plugins\templates\templates\images\" />
-    <Folder Include="Resources\ckeditor\plugins\wsc\dialogs\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Assets\close.png" />
     <Resource Include="Assets\help.png" />
@@ -599,6 +569,7 @@
     <Resource Include="Assets\arrow.right.png" />
     <Resource Include="Assets\copy.png" />
     <Resource Include="Assets\cut.png" />
+    <Resource Include="Resources\inspection.js" />
     <Content Include="Resources\ckeditor\adapters\jquery.js" />
     <Content Include="Resources\ckeditor\build-config.js" />
     <Content Include="Resources\ckeditor\ckeditor.js" />
@@ -606,58 +577,39 @@
     <Content Include="Resources\ckeditor\contents.css" />
     <Content Include="Resources\ckeditor\lang\de.js" />
     <Content Include="Resources\ckeditor\lang\en.js" />
-    <Content Include="Resources\ckeditor\plugins\clipboard\dialogs\paste.js" />
+    <Content Include="Resources\ckeditor\plugins\colordialog\dialogs\colordialog.js" />
     <Content Include="Resources\ckeditor\plugins\dialog\dialogDefinition.js" />
-    <Content Include="Resources\ckeditor\plugins\image\dialogs\image.js" />
     <Content Include="Resources\ckeditor\plugins\link\dialogs\anchor.js" />
     <Content Include="Resources\ckeditor\plugins\link\dialogs\link.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\ar.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\bg.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\ca.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\cs.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\cy.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\de.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\el.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\en-gb.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\en.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\eo.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\es.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\et.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\fa.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\fi.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\fr-ca.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\fr.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\gl.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\he.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\hr.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\hu.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\id.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\it.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\ja.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\km.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\ku.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\lv.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\nb.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\nl.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\no.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\pl.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\pt-br.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\pt.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\ru.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\si.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\sk.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\sl.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\sq.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\sv.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\th.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\tr.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\tt.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\ug.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\uk.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\vi.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\zh-cn.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\lang\zh.js" />
-    <Content Include="Resources\ckeditor\plugins\specialchar\dialogs\specialchar.js" />
+    <Resource Include="Resources\ckeditor\plugins\pagebreak\images\pagebreak.gif" />
+    <Content Include="Resources\ckeditor\samples\ajax.html" />
+    <Content Include="Resources\ckeditor\samples\api.html" />
+    <Content Include="Resources\ckeditor\samples\appendto.html" />
+    <Resource Include="Resources\ckeditor\samples\assets\inlineall\logo.png" />
+    <Content Include="Resources\ckeditor\samples\assets\outputxhtml\outputxhtml.css" />
+    <Content Include="Resources\ckeditor\samples\assets\posteddata.php" />
+    <Resource Include="Resources\ckeditor\samples\assets\sample.jpg" />
+    <Content Include="Resources\ckeditor\samples\assets\uilanguages\languages.js" />
+    <Content Include="Resources\ckeditor\samples\datafiltering.html" />
+    <Content Include="Resources\ckeditor\samples\divreplace.html" />
+    <Content Include="Resources\ckeditor\samples\index.html" />
+    <Content Include="Resources\ckeditor\samples\inlineall.html" />
+    <Content Include="Resources\ckeditor\samples\inlinebycode.html" />
+    <Content Include="Resources\ckeditor\samples\inlinetextarea.html" />
+    <Content Include="Resources\ckeditor\samples\jquery.html" />
+    <Content Include="Resources\ckeditor\samples\plugins\dialog\assets\my_dialog.js" />
+    <Content Include="Resources\ckeditor\samples\plugins\dialog\dialog.html" />
+    <Content Include="Resources\ckeditor\samples\plugins\enterkey\enterkey.html" />
+    <Content Include="Resources\ckeditor\samples\readonly.html" />
+    <Content Include="Resources\ckeditor\samples\replacebyclass.html" />
+    <Content Include="Resources\ckeditor\samples\replacebycode.html" />
+    <Content Include="Resources\ckeditor\samples\sample.css" />
+    <Content Include="Resources\ckeditor\samples\sample.js" />
+    <Content Include="Resources\ckeditor\samples\sample_posteddata.php" />
+    <Content Include="Resources\ckeditor\samples\tabindex.html" />
+    <Content Include="Resources\ckeditor\samples\uicolor.html" />
+    <Content Include="Resources\ckeditor\samples\uilanguages.html" />
+    <Content Include="Resources\ckeditor\samples\xhtmlstyle.html" />
     <Content Include="Resources\ckeditor\skins\moono-dark\dialog.css" />
     <Content Include="Resources\ckeditor\skins\moono-dark\dialog_ie.css" />
     <Content Include="Resources\ckeditor\skins\moono-dark\dialog_ie7.css" />
@@ -669,8 +621,29 @@
     <Content Include="Resources\ckeditor\skins\moono-dark\editor_ie7.css" />
     <Content Include="Resources\ckeditor\skins\moono-dark\editor_ie8.css" />
     <Content Include="Resources\ckeditor\skins\moono-dark\editor_iequirks.css" />
+    <Content Include="Resources\ckeditor\skins\moono\dialog.css" />
+    <Content Include="Resources\ckeditor\skins\moono\dialog_ie.css" />
+    <Content Include="Resources\ckeditor\skins\moono\dialog_ie7.css" />
+    <Content Include="Resources\ckeditor\skins\moono\dialog_ie8.css" />
+    <Content Include="Resources\ckeditor\skins\moono\dialog_iequirks.css" />
+    <Content Include="Resources\ckeditor\skins\moono\editor.css" />
+    <Content Include="Resources\ckeditor\skins\moono\editor_gecko.css" />
+    <Content Include="Resources\ckeditor\skins\moono\editor_ie.css" />
+    <Content Include="Resources\ckeditor\skins\moono\editor_ie7.css" />
+    <Content Include="Resources\ckeditor\skins\moono\editor_ie8.css" />
+    <Content Include="Resources\ckeditor\skins\moono\editor_iequirks.css" />
+    <Resource Include="Resources\ckeditor\skins\moono\icons.png" />
+    <Resource Include="Resources\ckeditor\skins\moono\icons_hidpi.png" />
+    <Resource Include="Resources\ckeditor\skins\moono\images\arrow.png" />
+    <Resource Include="Resources\ckeditor\skins\moono\images\close.png" />
+    <Resource Include="Resources\ckeditor\skins\moono\images\hidpi\close.png" />
+    <Resource Include="Resources\ckeditor\skins\moono\images\hidpi\lock-open.png" />
+    <Resource Include="Resources\ckeditor\skins\moono\images\hidpi\lock.png" />
+    <Resource Include="Resources\ckeditor\skins\moono\images\hidpi\refresh.png" />
+    <Resource Include="Resources\ckeditor\skins\moono\images\lock-open.png" />
+    <Resource Include="Resources\ckeditor\skins\moono\images\lock.png" />
+    <Resource Include="Resources\ckeditor\skins\moono\images\refresh.png" />
     <Content Include="Resources\ckeditor\styles.js" />
-    <Resource Include="Resources\inspection.js" />
     <Content Include="Resources\jquery\jquery-2.1.1.min.js" />
     <Resource Include="Resources\plain-text.template.html" />
     <Resource Include="Resources\logo.ico" />

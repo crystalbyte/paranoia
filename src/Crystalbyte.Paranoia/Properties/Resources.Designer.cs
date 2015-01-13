@@ -1064,6 +1064,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reply All.
+        /// </summary>
+        public static string ReplyAll {
+            get {
+                return ResourceManager.GetString("ReplyAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ctrl + R.
         /// </summary>
         public static string ReplyGesture {

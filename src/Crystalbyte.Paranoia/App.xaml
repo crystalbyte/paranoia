@@ -53,16 +53,17 @@
                                                 BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
                                                 BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
 
-            <awe:WebSessionProvider x:Key="CompositionWebSessionProvider">
+            <awe:WebSessionProvider x:Key="CompositionWebSessionProvider" DataPath="{x:Null}">
                 <awe:WebSessionProvider.DataSources>
                     <paranoia:ParanoiaDataSourceProvider x:Key="paranoia" />
                 </awe:WebSessionProvider.DataSources>
                 <core:WebPreferences CustomCSS="{x:Static paranoia:App.CompositionCss}"
+                                     EnableGPUAcceleration="True"
                                      Javascript="True"
                                      SmoothScrolling="True" />
             </awe:WebSessionProvider>
 
-            <awe:WebSessionProvider x:Key="InspectionWebSessionProvider">
+            <awe:WebSessionProvider x:Key="InspectionWebSessionProvider" DataPath="{x:Null}">
                 <awe:WebSessionProvider.DataSources>
                     <paranoia:ParanoiaDataSourceProvider x:Key="paranoia" />
                 </awe:WebSessionProvider.DataSources>

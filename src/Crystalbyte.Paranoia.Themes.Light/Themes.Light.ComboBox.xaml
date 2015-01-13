@@ -8,7 +8,7 @@
     <Thickness x:Key="ComboBoxPaddingKey">5</Thickness>
     <Thickness x:Key="ComboBoxMarginKey">3</Thickness>
     <Thickness x:Key="ComboBoxBorderThicknessKey">1</Thickness>
-    <SolidColorBrush x:Key="ComboBoxMouseOverBackgroundBrushKey" Color="#DDDDDE" />
+    <SolidColorBrush x:Key="ComboBoxMouseOverBackgroundBrushKey" Color="#7F7F7F" />
     <SolidColorBrush x:Key="ComboBoxBackgroundBrushKey" Color="{x:Static SystemColors.ControlColor}" />
     <SolidColorBrush x:Key="ComboBoxBorderBrushKey" Color="{x:Static SystemColors.ControlDarkColor}" />
 
@@ -123,7 +123,7 @@
                                         Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}">
-                                    <ScrollViewer SnapsToDevicePixels="True">
+                                    <ScrollViewer Padding="6" SnapsToDevicePixels="True">
                                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                     </ScrollViewer>
                                 </Border>

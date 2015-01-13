@@ -22,7 +22,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="{DynamicResource WindowHeaderBackgroundBrushKey}">
             <StackPanel Height="36"
@@ -91,8 +90,5 @@
                Source="{Binding Source,
                                 RelativeSource={RelativeSource FindAncestor,
                                                                AncestorType=ui:CompositionWindow}}" />
-        <StatusBar Grid.Row="2"
-                   Height="24"
-                   Background="{DynamicResource WindowHeaderBackgroundBrushKey}" />
     </Grid>
 </controls:MetroWindow>

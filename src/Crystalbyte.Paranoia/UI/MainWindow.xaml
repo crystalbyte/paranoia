@@ -320,7 +320,6 @@
                                               Command="ui:FlyoutCommands.Back"
                                               Focusable="False"
                                               ImageSource="/Assets/back.png"
-                                              RenderTransformOrigin="0.5,0.5"
                                               Style="{StaticResource FlyoutMetroButtonStyle}">
                             <Button.RenderTransform>
                                 <TransformGroup>
@@ -336,9 +335,8 @@
                                    VerticalAlignment="Center"
                                    DataContext="{Binding Content,
                                                          ElementName=FlyoutFrame}"
-                                   Foreground="WhiteSmoke"
+                                   Foreground="{DynamicResource FlyoutForegroundBrushKey}"
                                    Padding="0,0,0,2"
-                                   RenderTransformOrigin="0.5,0.5"
                                    Style="{DynamicResource TitleTextStyle}"
                                    Text="{Binding Title}"
                                    d:DataContext="{d:DesignInstance Page}">
@@ -486,15 +484,12 @@
                                         Mode=TwoWay}" />
             </StatusBarItem>
             <StatusBarItem Grid.Column="3" Padding="0">
-                <Button Width="50"
-                        BorderThickness="0"
-                        Command="{Binding ResetZoomCommand}"
+                <Button Command="{Binding ResetZoomCommand}"
                         Content="{Binding Zoom,
                                           Mode=OneWay,
                                           Converter={StaticResource PercentageFormatter}}"
                         Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                         IsEnabled="{Binding IsMessageSelected}"
-                        IsTabStop="False"
                         Style="{DynamicResource StatusBarButtonStyle}" />
             </StatusBarItem>
         </StatusBar>

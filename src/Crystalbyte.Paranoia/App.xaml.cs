@@ -317,7 +317,6 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static void InitAwesomium() {
-
             WebCore.Initialized += (sender, e) => {
                 WebCore.ResourceInterceptor = new ResourceInterceptor();
             };
@@ -328,8 +327,8 @@ namespace Crystalbyte.Paranoia {
                 WebCore.Initialize(new WebConfig {
                     RemoteDebuggingPort = 1337,
                     HomeURL = "http://www.awesomium.com".ToUri(),
-                    LogPath = @".\starter.log",
-                    LogLevel = LogLevel.Verbose
+                    LogLevel = LogLevel.None,
+                    ReduceMemoryUsageOnNavigation = true
                 });
             }
         }

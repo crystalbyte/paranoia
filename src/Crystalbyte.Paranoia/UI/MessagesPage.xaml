@@ -458,11 +458,12 @@
                                 </ContextMenu>
                             </Button.ContextMenu>
                         </Button>
-                        <Rectangle Width="1"
+                        <Rectangle Width="1.2"
                                    Margin="4,8"
                                    VerticalAlignment="Stretch"
                                    Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
                                    RenderOptions.EdgeMode="Aliased"
+                                   SnapsToDevicePixels="True"
                                    UseLayoutRounding="True" />
                         <ToggleButton VerticalAlignment="Center"
                                       IsChecked="{Binding IsSortAscending,

@@ -6,10 +6,10 @@
 <body>
     <textarea id="editor" name="editor"></textarea>
     <div id="content-storage" style="display: none;">
-        <p style="font-family: %DEFAULT_FONT_FAMILY%; font-size: %DEFAULT_FONT_SIZE%px;"></p>
+        <p />
         <div id="signature"></div>
-        %HEADER%
-        %QUOTE%
+        {{HEADER}}
+        {{QUOTE}}
     </div>
 
     <!-- ReSharper disable Html.PathError -->
@@ -27,6 +27,8 @@
 
             var loadContent = function () {
                 var storage = $('#content-storage');
+                storage.show();
+
                 textarea.val(storage.html());
                 storage.remove();
 
@@ -68,16 +70,6 @@
                 textarea.val(html);
             }
 
-            var canUndo = function() {
-                var editor = textarea.editor;
-                return editor.plugins.undo.UndoManager.undoable();
-            }
-
-            var canRedo = function () {
-                var editor = textarea.editor;
-                return editor.plugins.undo.UndoManager.redoable();
-            }
-
             var execute = function (command) {
                 var editor = textarea.editor;
                 editor.execCommand(command);
@@ -85,12 +77,9 @@
 
             var init = function () {
                 textarea.ckeditor(Crystalbyte.Paranoia.loadContent, {
-                    font_defaultLabel: '%DEFAULT_FONT_FAMILY%',
-                    fontSize_defaultLabel: '%DEFAULT_FONT_SIZE%',
+                    font_defaultLabel: '{{DEFAULT_FONT_FAMILY}}',
+                    fontSize_defaultLabel: '{{DEFAULT_FONT_SIZE}}',
                 });
-
-                var editor = textarea.editor;
-                editor.on("change", external.OnContentChanged);
             }
 
             return {

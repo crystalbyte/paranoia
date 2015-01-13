@@ -607,4 +607,7 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="Theme" xml:space="preserve">
     <value>Theme</value>
   </data>
+  <data name="ReplyAll" xml:space="preserve">
+    <value>Reply All</value>
+  </data>
 </root>

@@ -73,6 +73,7 @@
            TargetType="ComboBox">
         <Setter Property="Background" Value="{StaticResource FlyoutComboBoxBackgroundBrushKey}" />
         <Setter Property="BorderBrush" Value="{StaticResource FlyoutComboBoxBorderBrushKey}" />
+        <Setter Property="Foreground" Value="{StaticResource FlyoutForegroundBrushKey}" />
     </Style>
 
     <Style x:Key="FlyoutTextBoxStyle"
@@ -289,6 +290,9 @@
     <Style x:Key="StatusBarButtonStyle"
            BasedOn="{StaticResource {x:Type Button}}"
            TargetType="Button">
+        <Setter Property="MinWidth" Value="50" />
+        <Setter Property="IsTabStop" Value="True" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent" />

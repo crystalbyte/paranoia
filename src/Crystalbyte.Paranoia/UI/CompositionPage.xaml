@@ -39,7 +39,7 @@
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                                Text="{Binding Name}" />
                     <TextBlock x:Name="AddressBlock"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
                                Text="{Binding Address}" />
                 </StackPanel>
@@ -346,6 +346,7 @@
                               BorderThickness="0"
                               Drop="DropHtmlControl"
                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
+                              Initialized="OnHtmlControlInitialized"
                               IsTransparent="True"
                               Source="{Binding Source,
                                                Mode=TwoWay}"

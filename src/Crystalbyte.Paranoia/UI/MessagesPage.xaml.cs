@@ -255,11 +255,13 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private static async void OnInspect(object sender, ExecutedRoutedEventArgs e) {
-            await App.Context.InspectMessageAsync(App.Context.SelectedMessage);
+            var message = ((Control)sender).DataContext as MailMessageContext;
+            await App.Context.InspectMessageAsync(message);
         }
 
         private async void OnMessageMouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            await App.Context.InspectMessageAsync(App.Context.SelectedMessage);
+            var message = ((Control) sender).DataContext as MailMessageContext;
+            await App.Context.InspectMessageAsync(message);
         }
 
         private void OnSortPropertyButtonClicked(object sender, RoutedEventArgs e) {
