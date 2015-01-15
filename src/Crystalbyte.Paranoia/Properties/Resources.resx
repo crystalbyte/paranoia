@@ -610,4 +610,7 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="ReplyAll" xml:space="preserve">
     <value>Reply All</value>
   </data>
+  <data name="MissingMimeTemplate" xml:space="preserve">
+    <value>No mime data for id '{0}' has been found.</value>
+  </data>
 </root>

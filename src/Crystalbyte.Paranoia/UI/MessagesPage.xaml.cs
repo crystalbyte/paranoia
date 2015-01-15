@@ -6,8 +6,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using NLog;
-using System.Collections.Generic;
 using Crystalbyte.Paranoia.Data;
 
 namespace Crystalbyte.Paranoia.UI {
@@ -260,7 +260,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async void OnMessageMouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            var message = ((Control) sender).DataContext as MailMessageContext;
+            var message = ((Control)sender).DataContext as MailMessageContext;
             await App.Context.InspectMessageAsync(message);
         }
 
@@ -302,68 +302,77 @@ namespace Crystalbyte.Paranoia.UI {
             source.SortDescriptions.Add(new SortDescription(name, direction));
         }
 
-        //TODO improve me please
-        #region Drag and Drop
+        #region Drag & Drop Support
 
-        private bool _mouseLeft;
         private Point _mousePosition;
+        private DependencyObject _activeDragSource;
 
         private void OnPreviewMouseLeftButtonDownMessagesListView(object sender, MouseButtonEventArgs e) {
-            _mousePosition = e.GetPosition(null);
-            _mouseLeft = false;
+            var list = (ListView)sender;
+
+            _mousePosition = e.GetPosition(list);
+            VisualTreeHelper.HitTest(list, OnHitTestFilter, OnHitTestResult, 
+                new PointHitTestParameters(_mousePosition));
+        }
+
+        private static HitTestResultBehavior OnHitTestResult(HitTestResult result) {
+            return HitTestResultBehavior.Stop;
+        }
+
+        private HitTestFilterBehavior OnHitTestFilter(DependencyObject target) {
+            if (!(target is ListViewItem)) 
+                return HitTestFilterBehavior.Continue;
+
+            _activeDragSource = target;
+            return HitTestFilterBehavior.Stop;
         }
 
         private void OnMouseLeaveMessagesListView(object sender, MouseEventArgs e) {
-            _mouseLeft = true;
+            _activeDragSource = null;
         }
 
         private void OnMouseMoveMessagesListView(object sender, MouseEventArgs e) {
-            if (_mouseLeft)
+            var list = (ListView)sender;
+            if (_activeDragSource == null)
                 return;
 
-            var mpos = e.GetPosition(null);
-            var diff = _mousePosition - mpos;
+            var position = e.GetPosition(list);
+            var diff = _mousePosition - position;
 
-            if (e.LeftButton == MouseButtonState.Pressed &&
-                Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance &&
-                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance) {
-                if (MessagesListView.SelectedItems.Count == 0)
-                    return;
+            if (e.LeftButton != MouseButtonState.Pressed ||
+                !(Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance) ||
+                !(Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))
+                return;
 
-                var virtualFileObject = new VirtualFileDataObject();
-                var files = new List<VirtualFileDataObject.FileDescriptor>();
-                foreach (MailMessageContext item in MessagesListView.SelectedItems) {
-                    var file = new VirtualFileDataObject.FileDescriptor();
-                    file.Name = GetValidFileName(item.Subject) + ".eml";
-                    file.Length = item.Size;
-                    file.ChangeTimeUtc = DateTime.Now;
-                    file.StreamContents = stream => {
-                        var bytes = LoadMessageBytes(item.Id);
-                        stream.Write(bytes, 0, bytes.Length);
-                    };
+            if (MessagesListView.SelectedItems.Count == 0)
+                return;
 
-                    files.Add(file);
-                }
+            var virtualFileObject = new VirtualFileDataObject();
 
-                virtualFileObject.SetData(files.ToArray());
-                VirtualFileDataObject.DoDragDrop(sender as DependencyObject, virtualFileObject, DragDropEffects.Copy);
-            }
+            virtualFileObject.SetData((from MailMessageContext item in MessagesListView.SelectedItems
+                                       select new VirtualFileDataObject.FileDescriptor {
+                                           Name = GetValidFileName(item.Subject) + ".eml", Length = item.Size, ChangeTimeUtc = DateTime.Now, StreamContents = stream => {
+                                               var bytes = LoadMessageBytes(item.Id);
+                                               stream.Write(bytes, 0, bytes.Length);
+                                           }
+                                       }).ToArray());
+            VirtualFileDataObject.DoDragDrop(sender as DependencyObject, virtualFileObject, DragDropEffects.Copy);
         }
 
-        private string GetValidFileName(string name) {
-            foreach (char c in System.IO.Path.GetInvalidFileNameChars()) {
-                name = name.Replace(c, '_');
-            }
-            return name;
+        private static string GetValidFileName(string name) {
+            return System.IO.Path.GetInvalidFileNameChars().Aggregate(name, (current, c) => current.Replace(c, '_'));
         }
 
-
-        private byte[] LoadMessageBytes(Int64 id) {
+        private static byte[] LoadMessageBytes(Int64 id) {
             using (var database = new DatabaseContext()) {
-                var messages = database.MimeMessages
-                    .Where(x => x.MessageId == id);
+                var message = database.MimeMessages
+                    .FirstOrDefault(x => x.MessageId == id);
 
-                return messages.Any() ? messages.First().Data : new byte[0];
+                if (message != null)
+                    return message.Data;
+
+                var text = string.Format(Paranoia.Properties.Resources.MissingMimeTemplate, id);
+                throw new InvalidOperationException(text);
             }
         }
 

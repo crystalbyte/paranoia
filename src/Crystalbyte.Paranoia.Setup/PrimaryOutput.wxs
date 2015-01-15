@@ -119,6 +119,15 @@
             <Component Id="cmp055534DC8ECCA076E5F996A779901154" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filCD929856430821143F18A1B4C95B49DA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-12.log" />
             </Component>
+            <Component Id="cmp4FFB7171D71902A6C0C50B3FDDCDE687" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil56F814CF0A2D167F15E80D7BA9C6C614" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-13.log" />
+            </Component>
+            <Component Id="cmp4DD1190FFFFB75D792D975335C8BA467" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filAF3A86F164A32AA504E8F74E5F42A857" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-14.log" />
+            </Component>
+            <Component Id="cmp3FEF051FB5427C0A7178D1F2A4FA3191" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil4341636CB7CF537B3CBA43AA5A737119" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-15.log" />
+            </Component>
             <Component Id="cmp18D43D47A5BF82748FFD0CB5AE473118" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil861BB878BCDB774E7BEAB8C4A7305FEC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Aesthetics- Group-Logos.zip" />
             </Component>
@@ -175,6 +184,9 @@
             </Component>
             <Component Id="cmp367DB37D0B6F2CD7216378F6B74FCB75" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filE2D30392827C1B5EBDA516894D423D32" KeyPath="yes" Source="$(var.PrimaryOutputDir)\error_.png" />
+            </Component>
+            <Component Id="cmp07BDC01705BEA884FDD3204E2B9271AA" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filA5D7439D04C34C49AA4C36CE9EB174D3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\fun13.jpg" />
             </Component>
             <Component Id="cmp399ED9264B10FDAAF97C6F536348AD50" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filD71EE51CD85B5F0EE28FA499FE15DF27" KeyPath="yes" Source="$(var.PrimaryOutputDir)\HtmlAgilityPack.dll" />
@@ -256,6 +268,9 @@
             </Component>
             <Component Id="cmp4052638A844527DC3B55F0E2908236C2" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil7F057AABBD2378CA8CF21CDAB66DE25E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ueb04.pdf" />
+            </Component>
+            <Component Id="cmp41B62A99E54F9FE4A32EF085DF8AFB8A" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil432F44E004B78DBB9FEFB21AE0B7F15A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\verpackung_crm.pdf" />
             </Component>
             <Component Id="cmp9357CF9265775A8634976D9803788046" Directory="dir54BA5EE92CB8F37BEFA5CE0F7976ACAB" Guid="*">
                 <File Id="fil56AB3EF44EE958B3641FEEE0CBB7BF57" KeyPath="yes" Source="$(var.PrimaryOutputDir)\de\Microsoft.Expression.Interactions.resources.dll" />

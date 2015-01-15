@@ -875,6 +875,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No mime data for id &apos;{0}&apos; has been found..
+        /// </summary>
+        public static string MissingMimeTemplate {
+            get {
+                return ResourceManager.GetString("MissingMimeTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monday.
         /// </summary>
         public static string Monday {
