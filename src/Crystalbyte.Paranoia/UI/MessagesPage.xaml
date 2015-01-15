@@ -492,6 +492,9 @@
                         <Binding Source="{StaticResource MessagesSource}" />
                     </ListView.ItemsSource>
                     <ListView.InputBindings>
+                        <KeyBinding Key="Enter"
+                                    Command="ui:MessagingCommands.Inspect"
+                                    CommandParameter="{Binding SelectedMessage}" />
                         <KeyBinding Key="R"
                                     Command="ui:MessagingCommands.Reply"
                                     Modifiers="Control" />

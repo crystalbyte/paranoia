@@ -35,8 +35,6 @@ namespace Crystalbyte.Paranoia.UI {
 
             App.Context.SortOrderChanged += OnSortOrderChanged;
             NetworkChange.NetworkAvailabilityChanged += (sender, e) => CommandManager.InvalidateRequerySuggested();
-
-            //MessagesListView.MouseLeave += OnMouseLeaveMessagesListView;
         }
 
         private static void OnCanSyncMailbox(object sender, CanExecuteRoutedEventArgs e) {
@@ -255,13 +253,30 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private static async void OnInspect(object sender, ExecutedRoutedEventArgs e) {
-            var message = ((Control)sender).DataContext as MailMessageContext;
+            var message = e.Parameter as MailMessageContext;
+            if (message == null) {
+                return;
+            }
+
             await App.Context.InspectMessageAsync(message);
         }
 
-        private async void OnMessageMouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            var message = ((Control)sender).DataContext as MailMessageContext;
-            await App.Context.InspectMessageAsync(message);
+        private void OnMessageMouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            var item = sender as ListViewItem;
+            if (item == null) {
+                return;
+            }
+
+            var message = item.DataContext as MailMessageContext;
+            if (message == null) {
+                return;
+            }
+
+            // Need to invoke to let event handler finish, before opening a window.
+            // http://stackoverflow.com/questions/14055794/wpf-treeview-restores-its-focus-after-double-click
+            Dispatcher.InvokeAsync(async () => {
+                await App.Context.InspectMessageAsync(message);
+            });
         }
 
         private void OnSortPropertyButtonClicked(object sender, RoutedEventArgs e) {
@@ -311,7 +326,7 @@ namespace Crystalbyte.Paranoia.UI {
             var list = (ListView)sender;
 
             _mousePosition = e.GetPosition(list);
-            VisualTreeHelper.HitTest(list, OnHitTestFilter, OnHitTestResult, 
+            VisualTreeHelper.HitTest(list, OnHitTestFilter, OnHitTestResult,
                 new PointHitTestParameters(_mousePosition));
         }
 
@@ -320,7 +335,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private HitTestFilterBehavior OnHitTestFilter(DependencyObject target) {
-            if (!(target is ListViewItem)) 
+            if (!(target is ListViewItem))
                 return HitTestFilterBehavior.Continue;
 
             _activeDragSource = target;

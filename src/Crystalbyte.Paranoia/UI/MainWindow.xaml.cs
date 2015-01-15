@@ -2,6 +2,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
@@ -51,6 +52,8 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(FlyoutCommands.Cancel, OnFlyoutClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
+
+            Activated += (sender, e) => Debug.WriteLine(Environment.StackTrace);
         }
 
         private void OnSettings(object sender, ExecutedRoutedEventArgs e) {

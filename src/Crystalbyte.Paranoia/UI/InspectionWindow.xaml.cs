@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -37,6 +38,7 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint));
 
             Loaded += (sender, e) => HtmlControl.Focus();
+            Deactivated += (sender, e) => Debug.WriteLine("deactivated");
         }
 
         #endregion
