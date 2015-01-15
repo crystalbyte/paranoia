@@ -8,7 +8,7 @@
     <SolidColorBrush x:Key="MenuGlyphBrushKey" Color="#5D5D5E" />
     <SolidColorBrush x:Key="MenuSeparatorBrushKey" Color="#CCCCCC" />
 
-    <SolidColorBrush x:Key="MenuMouseOverBrushKey" Color="#BBBBBC" />
+    <SolidColorBrush x:Key="MenuMouseOverBrushKey" Color="#DDDDDE" />
     <Thickness x:Key="MenuBorderThicknessKey">1</Thickness>
 
     <MenuScrollingVisibilityConverter x:Key="MenuScrollingVisibilityConverter" />
@@ -189,7 +189,7 @@
 
     <!--  TopLevelHeader  -->
     <ControlTemplate x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
-        <Border Name="Border">
+        <Border Name="Border" Padding="3,0">
             <Grid>
                 <ContentPresenter Margin="6,3,6,3"
                                   VerticalAlignment="Center"
@@ -236,9 +236,7 @@
     <!--  TopLevelItem  -->
     <ControlTemplate x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" TargetType="{x:Type MenuItem}">
         <Grid>
-            <Rectangle x:Name="HoverBackground"
-                       Fill="Transparent"
-                       Opacity=".2" />
+            <Rectangle x:Name="HoverBackground" Fill="Transparent" />
             <ContentPresenter Margin="6,3,6,3"
                               VerticalAlignment="Center"
                               ContentSource="Header"
@@ -246,7 +244,7 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource MenuMouseOverBrushKey}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
@@ -256,7 +254,7 @@
 
     <!--  SubmenuItem  -->
     <ControlTemplate x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}" TargetType="{x:Type MenuItem}">
-        <Border Name="Border">
+        <Border Name="Border" Padding="3,0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Icon" />
@@ -266,8 +264,7 @@
                 </Grid.ColumnDefinitions>
                 <Rectangle x:Name="HoverBackground"
                            Grid.ColumnSpan="4"
-                           Fill="Transparent"
-                           Opacity=".2" />
+                           Fill="Transparent" />
                 <ContentPresenter Name="Icon"
                                   Grid.Column="0"
                                   Margin="6,0,6,0"
@@ -316,7 +313,7 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource MenuMouseOverBrushKey}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
@@ -327,7 +324,7 @@
 
     <!--  SubmenuHeader  -->
     <ControlTemplate x:Key="{x:Static MenuItem.SubmenuHeaderTemplateKey}" TargetType="MenuItem">
-        <Border Name="Border">
+        <Border Name="Border" Padding="3,0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Icon" />
@@ -337,8 +334,7 @@
                 </Grid.ColumnDefinitions>
                 <Rectangle x:Name="HoverBackground"
                            Grid.ColumnSpan="4"
-                           Fill="Transparent"
-                           Opacity=".2" />
+                           Fill="Transparent" />
                 <ContentPresenter Name="Icon"
                                   Grid.Column="0"
                                   Margin="6,0,6,0"

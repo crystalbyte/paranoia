@@ -8,6 +8,7 @@
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Maximum" Value="100" />
+        <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />
         <Setter Property="MinHeight" Value="1" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="VerticalAlignment" Value="Center" />

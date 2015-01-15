@@ -14,6 +14,7 @@
 
     <Style TargetType="ui:SuggestiveTextBox">
         <Setter Property="AcceptsReturn" Value="False" />
+        <Setter Property="SpellCheck.IsEnabled" Value="False" />
         <Setter Property="WatermarkTemplate" Value="{StaticResource DefaultWatermarkTemplate}" />
         <Setter Property="Background" Value="{x:Static SystemColors.ControlLightBrush}" />
         <Setter Property="Foreground" Value="{x:Static SystemColors.ControlTextBrush}" />

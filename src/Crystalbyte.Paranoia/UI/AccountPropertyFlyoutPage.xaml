@@ -55,7 +55,6 @@
                                Text="{x:Static properties:Resources.GeneralSettingsDescription}" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
-                               Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                Style="{StaticResource FlyoutTextBlockLabelStyle}">
                         <Run Text="{x:Static properties:Resources.AccountName}" />
                         <Run>:</Run>
@@ -71,7 +70,6 @@
                                             UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
-                               Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                Style="{StaticResource FlyoutTextBlockLabelStyle}">
                         <Run Text="{x:Static properties:Resources.MailAddress}" />
                         <Run>:</Run>
@@ -105,7 +103,7 @@
                                    TextWrapping="Wrap" />
                         <GroupBox Grid.Row="1" Grid.Column="0">
                             <GroupBox.Header>
-                                <TextBlock Width="45"
+                                <TextBlock Width="55"
                                            Margin="0,0,12,0"
                                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}}"
                                            FontWeight="Thin"
@@ -128,7 +126,6 @@
                                 <TextBlock Grid.Row="0"
                                            Grid.Column="0"
                                            Grid.ColumnSpan="2"
-                                           Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                            Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                     <Run Text="{x:Static properties:Resources.Username}" />
                                     <Run>:</Run>
@@ -143,7 +140,6 @@
 
                                 <TextBlock Grid.Row="0"
                                            Grid.Column="2"
-                                           Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                            Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                     <Run Text="{x:Static properties:Resources.ImapHost}" />
                                     <Run>:</Run>
@@ -157,7 +153,6 @@
                                                         UpdateSourceTrigger=PropertyChanged}" />
                                 <TextBlock Grid.Row="1"
                                            Grid.Column="0"
-                                           Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                            Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                     <Run Text="{x:Static properties:Resources.Password}" />
                                     <Run>:</Run>
@@ -169,7 +164,6 @@
                                              Style="{StaticResource FlyoutPasswordBoxStyle}" />
                                 <TextBlock Grid.Row="1"
                                            Grid.Column="2"
-                                           Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                            Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                     <Run Text="{x:Static properties:Resources.EncryptionProtocol}" />
                                     <Run>:</Run>
@@ -197,14 +191,13 @@
                                 </ComboBox>
                                 <TextBlock Grid.Row="1"
                                            Grid.Column="4"
-                                           Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                            Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                     <Run Text="{x:Static properties:Resources.Port}" />
                                     <Run>:</Run>
                                 </TextBlock>
                                 <TextBox Grid.Row="1"
                                          Grid.Column="5"
-                                         Width="50"
+                                         Width="55"
                                          Style="{StaticResource FlyoutTextBoxStyle}"
                                          Text="{Binding ImapPort,
                                                         Mode=TwoWay,
@@ -215,7 +208,7 @@
                     <Grid Margin="0,0,0,24" HorizontalAlignment="Left">
                         <GroupBox>
                             <GroupBox.Header>
-                                <TextBlock Width="45"
+                                <TextBlock Width="55"
                                            Margin="0,0,12,0"
                                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}}"
                                            FontWeight="Thin"
@@ -302,7 +295,6 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="1"
                                                Grid.Column="0"
-                                               Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                                Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                         <Run Text="{x:Static properties:Resources.ImapHost}" />
                                         <Run>:</Run>
@@ -316,7 +308,6 @@
                                                             UpdateSourceTrigger=PropertyChanged}" />
                                     <TextBlock Grid.Row="2"
                                                Grid.Column="0"
-                                               Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                                Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                         <Run Text="{x:Static properties:Resources.EncryptionProtocol}" />
                                         <Run>:</Run>
@@ -344,7 +335,6 @@
                                     </ComboBox>
                                     <TextBlock Grid.Row="2"
                                                Grid.Column="2"
-                                               Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                                Style="{StaticResource FlyoutTextBlockLabelStyle}">
                                         <Run Text="{x:Static properties:Resources.Port}" />
                                         <Run>:</Run>
@@ -511,7 +501,7 @@
                                 BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                 BorderThickness="1">
                             <DockPanel LastChildFill="True">
-                                <Grid Background="{DynamicResource WindowTitleBackgroundBrushKey}" DockPanel.Dock="Bottom">
+                                <Grid DockPanel.Dock="Bottom">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
@@ -561,7 +551,7 @@
                                 BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                 BorderThickness="1">
                             <DockPanel LastChildFill="True">
-                                <Grid Background="{DynamicResource WindowTitleBackgroundBrushKey}" DockPanel.Dock="Bottom">
+                                <Grid DockPanel.Dock="Bottom">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
@@ -611,7 +601,7 @@
                                 BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                 BorderThickness="1">
                             <DockPanel LastChildFill="True">
-                                <Grid Background="{DynamicResource WindowTitleBackgroundBrushKey}" DockPanel.Dock="Bottom">
+                                <Grid DockPanel.Dock="Bottom">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
@@ -661,7 +651,7 @@
                                 BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                 BorderThickness="1">
                             <DockPanel LastChildFill="True">
-                                <Grid Background="{DynamicResource WindowTitleBackgroundBrushKey}" DockPanel.Dock="Bottom">
+                                <Grid DockPanel.Dock="Bottom">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />

@@ -17,6 +17,7 @@
     </DataTemplate>
 
     <Style TargetType="ui:WatermarkTextBox">
+        <Setter Property="SpellCheck.IsEnabled" Value="False" />
         <Setter Property="BorderBrush" Value="{x:Static SystemColors.ControlDarkBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Background" Value="{x:Static SystemColors.ControlLightBrush}" />

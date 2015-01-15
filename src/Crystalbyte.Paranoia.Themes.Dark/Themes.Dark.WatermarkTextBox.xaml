@@ -20,6 +20,7 @@
     </DataTemplate>
 
     <Style TargetType="ui:WatermarkTextBox">
+        <Setter Property="SpellCheck.IsEnabled" Value="False" />
         <Setter Property="BorderBrush" Value="{StaticResource TextBoxBorderBrushKey}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Background" Value="{StaticResource TextBoxBackgroundBrushKey}" />

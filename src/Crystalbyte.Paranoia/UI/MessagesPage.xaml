@@ -286,7 +286,7 @@
                                 <Rectangle HorizontalAlignment="Stretch"
                                            VerticalAlignment="Stretch"
                                            Fill="Transparent" />
-                                <DockPanel HorizontalAlignment="Stretch" LastChildFill="False">
+                                <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
                                     <Border DockPanel.Dock="Left" Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <CheckBox VerticalAlignment="Center"
                                                   IsChecked="{Binding IsSubscribed,
@@ -325,19 +325,19 @@
                                                    Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                                    Text="{Binding NotSeenCount}" />
                                     </Border>
+                                    <controls:MetroProgressBar x:Name="EnvelopeProgressBar"
+                                                               Height="2"
+                                                               Margin="12,0"
+                                                               HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Center"
+                                                               Background="Transparent"
+                                                               Maximum="{Binding TotalEnvelopeCount}"
+                                                               Minimum="0"
+                                                               Visibility="{Binding Value,
+                                                                                    Converter={StaticResource QuantityToVisibilityConverter},
+                                                                                    RelativeSource={RelativeSource Self}}"
+                                                               Value="{Binding FetchedEnvelopeCount}" />
                                 </DockPanel>
-                                <controls:MetroProgressBar x:Name="EnvelopeProgressBar"
-                                                           Height="2"
-                                                           Margin="-22,0,-2.4,-3"
-                                                           HorizontalAlignment="Stretch"
-                                                           VerticalAlignment="Bottom"
-                                                           Background="Transparent"
-                                                           Maximum="{Binding TotalEnvelopeCount}"
-                                                           Minimum="0"
-                                                           Visibility="{Binding Value,
-                                                                                Converter={StaticResource QuantityToVisibilityConverter},
-                                                                                RelativeSource={RelativeSource Self}}"
-                                                           Value="{Binding FetchedEnvelopeCount}" />
                             </Grid>
                             <HierarchicalDataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSubscribedAndSelectable}" Value="False">
@@ -458,8 +458,8 @@
                                 </ContextMenu>
                             </Button.ContextMenu>
                         </Button>
-                        <Rectangle Width="1.2"
-                                   Margin="4,8"
+                        <Rectangle Width="1"
+                                   Margin="4,10"
                                    VerticalAlignment="Stretch"
                                    Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
                                    RenderOptions.EdgeMode="Aliased"
@@ -906,7 +906,7 @@
                     <TextBlock Grid.Row="0"
                                Grid.Column="0"
                                Grid.ColumnSpan="2"
-                               Margin="12,12,12,3"
+                               Margin="6,6,6,3"
                                DataContext="{Binding SelectedMessage}"
                                FontSize="22"
                                Style="{DynamicResource TitleTextStyle}"
@@ -917,7 +917,7 @@
                                TextWrapping="NoWrap" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
-                               Margin="12,0,12,0"
+                               Margin="6,0,6,0"
                                DataContext="{Binding SelectedMessage}"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                FontWeight="Normal"
@@ -952,7 +952,7 @@
                     </StackPanel>
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
-                               Margin="12,0"
+                               Margin="6,0"
                                DataContext="{Binding SelectedMessage}"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
                                FontWeight="Normal"

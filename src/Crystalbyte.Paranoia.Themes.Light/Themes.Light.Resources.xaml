@@ -4,7 +4,7 @@
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
     <!--  App  -->
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}">28</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}">26</system:Double>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}">22</system:Double>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}">16</system:Double>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}">12</system:Double>

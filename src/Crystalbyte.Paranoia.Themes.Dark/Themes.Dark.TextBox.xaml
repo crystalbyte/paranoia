@@ -42,6 +42,7 @@
     </ContextMenu>
 
     <Style TargetType="TextBox">
+        <Setter Property="SpellCheck.IsEnabled" Value="False" />
         <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" />
         <Setter Property="BorderBrush" Value="{StaticResource TextBoxBorderBrushKey}" />
         <Setter Property="Background" Value="{StaticResource TextBoxBackgroundBrushKey}" />
