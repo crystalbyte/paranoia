@@ -3,8 +3,8 @@
                     xmlns:converters="clr-namespace:Crystalbyte.Paranoia.Themes.Converters"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
-    <SolidColorBrush x:Key="SliderThumbBorderBrushKey">#525254</SolidColorBrush>
-    <SolidColorBrush x:Key="SliderThumbBackgroundBrushKey">#525254</SolidColorBrush>
+    <SolidColorBrush x:Key="SliderThumbBorderBrushKey">WhiteSmoke</SolidColorBrush>
+    <SolidColorBrush x:Key="SliderThumbBackgroundBrushKey">WhiteSmoke</SolidColorBrush>
     <SolidColorBrush x:Key="SliderThumbTrackBackgroundBrushKey">#525254</SolidColorBrush>
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />

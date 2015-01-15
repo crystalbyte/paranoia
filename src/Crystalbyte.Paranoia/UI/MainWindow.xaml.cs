@@ -60,7 +60,6 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnFlyoutClose(object sender, ExecutedRoutedEventArgs e) {
-
             var page = FlyoutFrame.Content as ICancelationAware;
             if (page != null) {
                 page.OnCanceled();

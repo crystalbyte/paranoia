@@ -2,10 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
-    <SolidColorBrush x:Key="ButtonBackgroundBrushKey" Color="#2F2F30" />
+    <SolidColorBrush x:Key="ButtonBackgroundBrushKey" Color="#555556" />
     <SolidColorBrush x:Key="ButtonMouseOverBackgroundBrushKey" Color="#444445" />
     <SolidColorBrush x:Key="ButtonBorderBrushKey" Color="#555556" />
-    <Thickness x:Key="ButtonBorderThicknessKey">1</Thickness>
+    <Thickness x:Key="ButtonBorderThicknessKey">0</Thickness>
 
     <Style TargetType="RepeatButton">
         <Setter Property="BorderThickness" Value="{StaticResource ButtonBorderThicknessKey}" />
@@ -21,7 +21,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
         <Setter Property="Template">
             <Setter.Value>
