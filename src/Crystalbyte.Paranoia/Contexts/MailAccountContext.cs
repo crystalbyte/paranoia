@@ -11,7 +11,6 @@ using System.Net.Mail;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Threading;
 using System.Xml.Serialization;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;

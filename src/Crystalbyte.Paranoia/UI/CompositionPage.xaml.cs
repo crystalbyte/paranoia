@@ -42,7 +42,7 @@ namespace Crystalbyte.Paranoia.UI {
             DataContext = context;
         }
         private void OnHtmlControlInitialized(object sender, EventArgs e) {
-            var control = (HtmlControl) sender;
+            var control = (HtmlControl)sender;
             control.WebSession.ClearCache();
         }
 
@@ -53,8 +53,7 @@ namespace Crystalbyte.Paranoia.UI {
         private async void OnDocumentReady(object sender, EventArgs e) {
             try {
                 await ChangeSignatureAsync();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -117,7 +116,7 @@ namespace Crystalbyte.Paranoia.UI {
             context.Source = "asset://paranoia/message/new";
         }
 
-        private async void PrepareAsReply(IReadOnlyDictionary<string, string> arguments) {
+        private async Task PrepareAsReplyAsync(IReadOnlyDictionary<string, string> arguments) {
             MailContactContext from;
             MailMessageReader message;
             var id = Int64.Parse(arguments["id"]);
@@ -139,12 +138,12 @@ namespace Crystalbyte.Paranoia.UI {
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
             context.Source = string.Format("asset://paranoia/message/reply?id={0}", id);
 
-            await from.CheckSecurityStateAsync();
-
             RecipientsBox.Preset(new[] { from });
+
+            await Task.Run(async () => { await from.CheckSecurityStateAsync(); });
         }
 
-        private async void PrepareAsReplyAll(IReadOnlyDictionary<string, string> arguments) {
+        private async Task PrepareAsReplyAllAsync(IReadOnlyDictionary<string, string> arguments) {
             MailContactContext from;
             var carbonCopies = new List<MailContactContext>();
             var blindCarbonCopies = new List<MailContactContext>();
@@ -196,7 +195,7 @@ namespace Crystalbyte.Paranoia.UI {
             BlindCarbonCopyBox.Preset(blindCarbonCopies);
         }
 
-        private async void PrepareAsForward(IReadOnlyDictionary<string, string> arguments) {
+        private async Task PrepareAsForwardAsync(IReadOnlyDictionary<string, string> arguments) {
             MailMessageReader message;
             var id = Int64.Parse(arguments["id"]);
 
@@ -262,7 +261,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Implementation of INavigationAware
 
-        public void OnNavigated(NavigationEventArgs e) {
+        public async void OnNavigated(NavigationEventArgs e) {
             Reset();
 
             var arguments = e.Uri.OriginalString.ToPageArguments();
@@ -272,17 +271,17 @@ namespace Crystalbyte.Paranoia.UI {
             }
 
             if (arguments.ContainsKey("action") && arguments["action"] == "reply") {
-                PrepareAsReply(arguments);
+                await PrepareAsReplyAsync(arguments);
                 return;
             }
 
             if (arguments.ContainsKey("action") && arguments["action"] == "reply-all") {
-                PrepareAsReplyAll(arguments);
+                await PrepareAsReplyAllAsync(arguments);
                 return;
             }
 
             if (arguments.ContainsKey("action") && arguments["action"] == "forward") {
-                PrepareAsForward(arguments);
+                await PrepareAsForwardAsync(arguments);
             }
         }
 

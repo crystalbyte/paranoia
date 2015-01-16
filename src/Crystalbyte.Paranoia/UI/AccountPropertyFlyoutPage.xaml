@@ -103,7 +103,7 @@
                                    TextWrapping="Wrap" />
                         <GroupBox Grid.Row="1" Grid.Column="0">
                             <GroupBox.Header>
-                                <TextBlock Width="55"
+                                <TextBlock Width="60"
                                            Margin="0,0,12,0"
                                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}}"
                                            FontWeight="Thin"
@@ -208,7 +208,7 @@
                     <Grid Margin="0,0,0,24" HorizontalAlignment="Left">
                         <GroupBox>
                             <GroupBox.Header>
-                                <TextBlock Width="55"
+                                <TextBlock Width="60"
                                            Margin="0,0,12,0"
                                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}}"
                                            FontWeight="Thin"
