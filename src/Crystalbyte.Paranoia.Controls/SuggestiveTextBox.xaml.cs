@@ -437,11 +437,9 @@ namespace Crystalbyte.Paranoia.UI {
             AppendContainer(token);
         }
 
-        private async void OnTextChangeConfirmed(string text) {
+        private void OnTextChangeConfirmed(string text) {
             var e = new ItemsSourceRequestedEventArgs(text);
-            await Task.Run(() => OnItemsSourceRequested(e));
-            await Application.Current.Dispatcher.InvokeAsync(
-                () => ItemsSource = e.ItemsSource);
+            OnItemsSourceRequested(e);
         }
 
         private void RecognizeMatches() {

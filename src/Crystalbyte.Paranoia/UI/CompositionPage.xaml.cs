@@ -76,9 +76,10 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async void OnRecipientsBoxItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
+            var control = (SuggestiveTextBox)sender;
             var contacts = await QueryContactsAsync(e.Text);
             await Application.Current.Dispatcher.InvokeAsync(() => {
-                e.ItemsSource = contacts;
+                control.ItemsSource = contacts;
             });
         }
 
@@ -90,21 +91,23 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        public async Task<MailContactContext[]> QueryContactsAsync(string text) {
-            using (var database = new DatabaseContext()) {
-                var candidates = await database.MailContacts
-                    .Where(x => x.Address.StartsWith(text)
-                                || x.Name.StartsWith(text))
-                    .Take(20)
-                    .ToArrayAsync();
+        public Task<MailContactContext[]> QueryContactsAsync(string text) {
+            return Task.Run(async () => {
+                using (var database = new DatabaseContext()) {
+                    var candidates = await database.MailContacts
+                        .Where(x => x.Address.StartsWith(text)
+                                    || x.Name.StartsWith(text))
+                        .Take(20)
+                        .ToArrayAsync();
 
-                var contexts = candidates.Select(x => new MailContactContext(x)).ToArray();
-                foreach (var context in contexts) {
-                    await context.CheckSecurityStateAsync();
+                    var contexts = candidates.Select(x => new MailContactContext(x)).ToArray();
+                    foreach (var context in contexts) {
+                        await context.CheckSecurityStateAsync();
+                    }
+
+                    return contexts;
                 }
-
-                return contexts;
-            }
+            });
         }
 
         private void OnRecipientsBoxSelectionChanged(object sender, EventArgs e) {

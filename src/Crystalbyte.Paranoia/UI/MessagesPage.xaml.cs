@@ -54,11 +54,11 @@ namespace Crystalbyte.Paranoia.UI {
 
                 var mailbox = (MailboxContext)e.Parameter;
                 if (!mailbox.IsSyncingMessages) {
-                    await mailbox.SyncMessagesAsync();    
+                    await mailbox.SyncMessagesAsync();
                 }
 
                 if (!mailbox.IsSyncingMailboxes) {
-                    await mailbox.SyncMailboxesAsync();    
+                    await mailbox.SyncMailboxesAsync();
                 }
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -345,11 +345,13 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private HitTestFilterBehavior OnHitTestFilter(DependencyObject target) {
-            if (!(target is ListViewItem))
-                return HitTestFilterBehavior.Continue;
+            if (target is ListViewItem) {
+                _activeDragSource = target;
+                return HitTestFilterBehavior.Stop;
+            }
 
-            _activeDragSource = target;
-            return HitTestFilterBehavior.Stop;
+            _activeDragSource = null;
+            return HitTestFilterBehavior.Continue;
         }
 
         private void OnMouseLeaveMessagesListView(object sender, MouseEventArgs e) {
@@ -376,7 +378,10 @@ namespace Crystalbyte.Paranoia.UI {
 
             virtualFileObject.SetData((from MailMessageContext item in MessagesListView.SelectedItems
                                        select new VirtualFileDataObject.FileDescriptor {
-                                           Name = GetValidFileName(item.Subject) + ".eml", Length = item.Size, ChangeTimeUtc = DateTime.Now, StreamContents = stream => {
+                                           Name = GetValidFileName(item.Subject) + ".eml",
+                                           Length = item.Size,
+                                           ChangeTimeUtc = DateTime.UtcNow,
+                                           StreamContents = stream => {
                                                var bytes = LoadMessageBytes(item.Id);
                                                stream.Write(bytes, 0, bytes.Length);
                                            }
