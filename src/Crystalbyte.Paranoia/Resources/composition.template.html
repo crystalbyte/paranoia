@@ -6,6 +6,7 @@
 <body>
     <textarea id="editor" name="editor"></textarea>
     <div id="content-storage" style="display: none;">
+        <div><p /></div>
         <div id="signature"></div>
         {{HEADER}}
         {{QUOTE}}
@@ -78,6 +79,7 @@
                 textarea.ckeditor(loadContent, {
                     font_defaultLabel: '{{DEFAULT_FONT_FAMILY}}',
                     fontSize_defaultLabel: '{{DEFAULT_FONT_SIZE}}',
+                    skin: '{{CKEDITOR_THEME}}'
                 });
             }
 

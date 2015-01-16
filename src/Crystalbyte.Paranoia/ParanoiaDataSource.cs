@@ -31,7 +31,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 if (Regex.IsMatch(request.Path, "message/new")) {
-                    await SendBlankResponseAsync(request);
+                    SendBlankResponse(request);
                     return;
                 }
 
@@ -178,7 +178,8 @@ namespace Crystalbyte.Paranoia {
             var variables = new Dictionary<string, string> {
                 {"header", string.Empty},
                 {"default_font_size", string.Format("{0}", Settings.Default.HtmlFontSize)},
-                {"default_font_family", string.Format("{0}", Settings.Default.HtmlFontFamily)}
+                {"default_font_family", string.Format("{0}", Settings.Default.HtmlFontFamily)},
+                {"ckeditor_theme", string.Compare(Settings.Default.Theme, "light", StringComparison.InvariantCultureIgnoreCase) == 0 ? "moono" : "moono-dark"}
             };
 
             long messageId;
@@ -201,15 +202,16 @@ namespace Crystalbyte.Paranoia {
             SendHtmlResponse(request, Encoding.UTF8.GetBytes(html));
         }
 
-        private async Task SendBlankResponseAsync(DataSourceRequest request) {
+        private void SendBlankResponse(DataSourceRequest request) {
             var variables = new Dictionary<string, string> {
                 {"quote", string.Empty},
                 {"header", string.Empty},
                 {"default_font_size", string.Format("{0}", Settings.Default.HtmlFontSize)},
-                {"default_font_family", string.Format("{0}", Settings.Default.HtmlFontFamily)}
+                {"default_font_family", string.Format("{0}", Settings.Default.HtmlFontFamily)},
+                {"ckeditor_theme", string.Compare(Settings.Default.Theme, "light", StringComparison.InvariantCultureIgnoreCase) == 0 ? "moono" : "moono-dark"}
             };
 
-            var html = await Task.Run(() => GenerateEditorHtml(variables));
+            var html = GenerateEditorHtml(variables);
             var bytes = Encoding.UTF8.GetBytes(html);
             SendHtmlResponse(request, bytes);
         }
