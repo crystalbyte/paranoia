@@ -272,8 +272,8 @@ namespace Crystalbyte.Paranoia.UI {
         private void FocusEditor() {
             JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
             using (module) {
-                const string function = "focusEditor";
-                module.Invoke(function);
+                const string focus = "focusEditor";
+                module.Invoke(focus);
             }
         }
 

@@ -82,6 +82,14 @@ namespace Crystalbyte.Paranoia.UI {
             });
         }
 
+        private void FocusOnPageLoad(Func<Control> controlDelegate) {
+            if (IsLoaded) {
+                controlDelegate().Focus();
+            } else {
+                Loaded += (sender, e) => controlDelegate().Focus();
+            }
+        }
+
         public async Task<MailContactContext[]> QueryContactsAsync(string text) {
             using (var database = new DatabaseContext()) {
                 var candidates = await database.MailContacts
@@ -114,33 +122,38 @@ namespace Crystalbyte.Paranoia.UI {
         private void PrepareAsNew() {
             var context = (MailCompositionContext)DataContext;
             context.Source = "asset://paranoia/message/new";
+
+            FocusOnPageLoad(() => RecipientsBox);
         }
 
         private async Task PrepareAsReplyAsync(IReadOnlyDictionary<string, string> arguments) {
-            MailContactContext from;
-            MailMessageReader message;
+            MailContactContext from = null;
+            MailMessageReader message = null;
             var id = Int64.Parse(arguments["id"]);
 
-            using (var database = new DatabaseContext()) {
-                var mime = await database.MimeMessages
-                    .Where(x => x.MessageId == id)
-                    .ToArrayAsync();
+            await Task.Run(async () => {
+                using (var database = new DatabaseContext()) {
+                    var mime = await database.MimeMessages
+                        .Where(x => x.MessageId == id)
+                        .ToArrayAsync();
 
-                if (!mime.Any())
-                    throw new InvalidOperationException();
+                    if (!mime.Any())
+                        throw new InvalidOperationException();
 
-                message = new MailMessageReader(mime[0].Data);
-                from = new MailContactContext(await database.MailContacts
-                    .FirstAsync(x => x.Address == message.Headers.From.Address));
-            }
+                    message = new MailMessageReader(mime[0].Data);
+                    from = new MailContactContext(await database.MailContacts
+                        .FirstAsync(x => x.Address == message.Headers.From.Address));
+                }
+            });
 
             var context = (MailCompositionContext)DataContext;
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
             context.Source = string.Format("asset://paranoia/message/reply?id={0}", id);
 
+            await Task.Run(async () => await @from.CheckSecurityStateAsync());
             RecipientsBox.Preset(new[] { from });
 
-            await Task.Run(async () => { await from.CheckSecurityStateAsync(); });
+            FocusOnPageLoad(() => HtmlControl);
         }
 
         private async Task PrepareAsReplyAllAsync(IReadOnlyDictionary<string, string> arguments) {
@@ -193,6 +206,8 @@ namespace Crystalbyte.Paranoia.UI {
 
             CarbonCopyBox.Preset(carbonCopies);
             BlindCarbonCopyBox.Preset(blindCarbonCopies);
+
+            FocusOnPageLoad(() => HtmlControl);
         }
 
         private async Task PrepareAsForwardAsync(IReadOnlyDictionary<string, string> arguments) {
@@ -213,6 +228,8 @@ namespace Crystalbyte.Paranoia.UI {
             var context = (MailCompositionContext)DataContext;
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForForwarding, message.Headers.Subject);
             context.Source = string.Format("asset://paranoia/message/forward?id={0}", id);
+
+            FocusOnPageLoad(() => HtmlControl);
         }
 
         private void DropHtmlControl(object sender, DragEventArgs e) {

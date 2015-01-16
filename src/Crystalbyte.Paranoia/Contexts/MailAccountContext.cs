@@ -220,7 +220,9 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 await Application.Current.Dispatcher.InvokeAsync(async () => {
-                    await SyncMailboxesAsync();
+                    if (!IsSyncingMailboxes) {
+                        await SyncMailboxesAsync();
+                    }
                     var inbox = GetInbox();
                     if (inbox != null) {
                         await inbox.IdleAsync();

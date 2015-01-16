@@ -30,8 +30,8 @@ namespace Crystalbyte.Paranoia {
         private bool _isListingMailboxes;
         private readonly MailboxModel _mailbox;
         private readonly MailAccountContext _account;
-        private bool _isLoadingChildren;
-        private bool _isSyncingChildren;
+        private bool _isLoadingMailboxes;
+        private bool _isSyncingMailboxes;
         private int _totalEnvelopeCount;
         private int _fetchedEnvelopeCount;
         private bool _isSyncedInitially;
@@ -176,7 +176,9 @@ namespace Crystalbyte.Paranoia {
                 if (_isSyncedInitially)
                     return;
 
-                await SyncMailboxesAsync();
+                if (!IsSyncingMailboxes) {
+                    await SyncMailboxesAsync();
+                }
 
                 _isSyncedInitially = true;
             } catch (Exception ex) {
@@ -187,11 +189,11 @@ namespace Crystalbyte.Paranoia {
         internal async Task SyncMailboxesAsync() {
             Application.Current.AssertUIThread();
 
-            if (IsSyncingChildren) {
+            if (IsSyncingMailboxes) {
                 throw new InvalidOperationException("IsSyncingChildren");
             }
 
-            IsSyncingChildren = true;
+            IsSyncingMailboxes = true;
 
             await Task.Run(async () => {
                 try {
@@ -224,28 +226,28 @@ namespace Crystalbyte.Paranoia {
                 }
             });
 
-            IsSyncingChildren = false;
+            IsSyncingMailboxes = false;
         }
 
         public bool IsLoadingChildren {
-            get { return _isLoadingChildren; }
+            get { return _isLoadingMailboxes; }
             set {
-                if (_isLoadingChildren == value) {
+                if (_isLoadingMailboxes == value) {
                     return;
                 }
-                _isLoadingChildren = value;
+                _isLoadingMailboxes = value;
                 RaisePropertyChanged(() => IsLoadingChildren);
             }
         }
 
-        public bool IsSyncingChildren {
-            get { return _isSyncingChildren; }
+        public bool IsSyncingMailboxes {
+            get { return _isSyncingMailboxes; }
             set {
-                if (_isSyncingChildren == value) {
+                if (_isSyncingMailboxes == value) {
                     return;
                 }
-                _isSyncingChildren = value;
-                RaisePropertyChanged(() => IsSyncingChildren);
+                _isSyncingMailboxes = value;
+                RaisePropertyChanged(() => IsSyncingMailboxes);
             }
         }
 
@@ -768,6 +770,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task IdleAsync() {
+            Application.Current.AssertUIThread();
+
             IsIdling = true;
 
             await Task.Run(async () => {
@@ -798,17 +802,25 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnChangeNotificationReceived(object sender, EventArgs e) {
-            try {
-                var messages = await SyncMessagesAsync();
-                if (messages.Count <= 0)
-                    return;
+            Application.Current.AssertBackgroundThread();
 
-                var notification = new NotificationWindow(messages);
-                notification.Show();
+            await Application.Current.Dispatcher.InvokeAsync(async () => {
+                try {
+                    if (!IsSyncingMessages) {
+                        return;
+                    }
 
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
+                    var messages = await SyncMessagesAsync();
+                    if (messages.Count <= 0)
+                        return;
+
+                    var notification = new NotificationWindow(messages);
+                    notification.Show();
+
+                } catch (Exception ex) {
+                    Logger.Error(ex);
+                }
+            });
         }
 
         public bool HasChildren {

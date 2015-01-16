@@ -273,7 +273,9 @@ namespace Crystalbyte.Paranoia {
 
         private async Task RefreshViewForSelectedMailboxAsync() {
             await RequestMessagesAsync(SelectedMailbox);
-            await SelectedMailbox.SyncMessagesAsync();
+            if (!SelectedMailbox.IsSyncingMessages) {
+                await SelectedMailbox.SyncMessagesAsync();    
+            }
         }
 
         internal event EventHandler FlyoutClosing;
@@ -367,10 +369,16 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task RefreshViewChangedQueryString(string query) {
+            Application.Current.AssertUIThread();
+
+            if (SelectedMailbox == null) {
+                return;
+            }
+
             if (String.IsNullOrWhiteSpace(query)) {
-                await Task.Run(() => RequestMessagesAsync(SelectedMailbox));
+                await RequestMessagesAsync(SelectedMailbox);
             } else {
-                await Task.Run(() => RequestMessagesAsync(new QueryContext(query)));
+                await RequestMessagesAsync(new QueryContext(query));
             }
         }
 
@@ -509,13 +517,18 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnMessageFilterChanged() {
-            var mailbox = SelectedMailbox;
-            if (mailbox == null) {
-                return;
-            }
+            try {
+                var mailbox = SelectedMailbox;
+                if (mailbox == null) {
+                    return;
+                }
 
-            mailbox.ShowAllMessages = ShowAllMessages;
-            await Task.Run(() => RequestMessagesAsync(mailbox));
+                mailbox.ShowAllMessages = ShowAllMessages;
+                await RequestMessagesAsync(mailbox);    
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         public string QueryString {

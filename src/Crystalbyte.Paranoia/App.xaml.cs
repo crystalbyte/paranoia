@@ -402,7 +402,7 @@ namespace Crystalbyte.Paranoia {
             Settings.Default.Accent = color.ToHex(false);
             Settings.Default.Save();
 
-            // BUG: BorderBrushes do not update after Resource change.
+            // BUG: Some BorderBrushes do not update after Resource change.
             // https://connect.microsoft.com/VisualStudio/feedback/details/589898/wpf-border-borderbrush-does-not-see-changes-in-dynamic-resource
             Current.Windows.OfType<IAccentAware>().ForEach(x => x.OnAccentChanged());
         }

@@ -202,7 +202,6 @@
     <Compile Include="Contexts\CreateMailboxContext.cs" />
     <Compile Include="Contexts\FileInspectionContext.cs" />
     <Compile Include="Contexts\InspectionContext.cs" />
-    <Compile Include="DecryptionResult.cs" />
     <Compile Include="IMailboxCreator.cs" />
     <Compile Include="DescriptionAttribute.cs" />
     <Compile Include="UI\Converters\SortPropertyFormatter.cs" />
@@ -525,7 +524,24 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Resources\ckeditor\plugins\colordialog\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\div\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\find\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\forms\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\forms\images\" />
+    <Folder Include="Resources\ckeditor\plugins\iframe\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\iframe\images\" />
+    <Folder Include="Resources\ckeditor\plugins\liststyle\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\pagebreak\images\" />
+    <Folder Include="Resources\ckeditor\plugins\scayt\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\showblocks\images\" />
+    <Folder Include="Resources\ckeditor\plugins\smiley\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\smiley\images\" />
+    <Folder Include="Resources\ckeditor\plugins\templates\dialogs\" />
+    <Folder Include="Resources\ckeditor\plugins\templates\templates\images\" />
+    <Folder Include="Resources\ckeditor\plugins\wsc\dialogs\" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\close.png" />
     <Resource Include="Assets\help.png" />
@@ -570,39 +586,11 @@
     <Content Include="Resources\ckeditor\contents.css" />
     <Content Include="Resources\ckeditor\lang\de.js" />
     <Content Include="Resources\ckeditor\lang\en.js" />
-    <Content Include="Resources\ckeditor\plugins\colordialog\dialogs\colordialog.js" />
     <Content Include="Resources\ckeditor\plugins\dialog\dialogDefinition.js" />
+    <Content Include="Resources\ckeditor\plugins\image\dialogs\image.js" />
+    <Resource Include="Resources\ckeditor\plugins\image\images\noimage.png" />
     <Content Include="Resources\ckeditor\plugins\link\dialogs\anchor.js" />
     <Content Include="Resources\ckeditor\plugins\link\dialogs\link.js" />
-    <Resource Include="Resources\ckeditor\plugins\pagebreak\images\pagebreak.gif" />
-    <Content Include="Resources\ckeditor\samples\ajax.html" />
-    <Content Include="Resources\ckeditor\samples\api.html" />
-    <Content Include="Resources\ckeditor\samples\appendto.html" />
-    <Resource Include="Resources\ckeditor\samples\assets\inlineall\logo.png" />
-    <Content Include="Resources\ckeditor\samples\assets\outputxhtml\outputxhtml.css" />
-    <Content Include="Resources\ckeditor\samples\assets\posteddata.php" />
-    <Resource Include="Resources\ckeditor\samples\assets\sample.jpg" />
-    <Content Include="Resources\ckeditor\samples\assets\uilanguages\languages.js" />
-    <Content Include="Resources\ckeditor\samples\datafiltering.html" />
-    <Content Include="Resources\ckeditor\samples\divreplace.html" />
-    <Content Include="Resources\ckeditor\samples\index.html" />
-    <Content Include="Resources\ckeditor\samples\inlineall.html" />
-    <Content Include="Resources\ckeditor\samples\inlinebycode.html" />
-    <Content Include="Resources\ckeditor\samples\inlinetextarea.html" />
-    <Content Include="Resources\ckeditor\samples\jquery.html" />
-    <Content Include="Resources\ckeditor\samples\plugins\dialog\assets\my_dialog.js" />
-    <Content Include="Resources\ckeditor\samples\plugins\dialog\dialog.html" />
-    <Content Include="Resources\ckeditor\samples\plugins\enterkey\enterkey.html" />
-    <Content Include="Resources\ckeditor\samples\readonly.html" />
-    <Content Include="Resources\ckeditor\samples\replacebyclass.html" />
-    <Content Include="Resources\ckeditor\samples\replacebycode.html" />
-    <Content Include="Resources\ckeditor\samples\sample.css" />
-    <Content Include="Resources\ckeditor\samples\sample.js" />
-    <Content Include="Resources\ckeditor\samples\sample_posteddata.php" />
-    <Content Include="Resources\ckeditor\samples\tabindex.html" />
-    <Content Include="Resources\ckeditor\samples\uicolor.html" />
-    <Content Include="Resources\ckeditor\samples\uilanguages.html" />
-    <Content Include="Resources\ckeditor\samples\xhtmlstyle.html" />
     <Content Include="Resources\ckeditor\skins\moono-dark\dialog.css" />
     <Content Include="Resources\ckeditor\skins\moono-dark\dialog_ie.css" />
     <Content Include="Resources\ckeditor\skins\moono-dark\dialog_ie7.css" />
@@ -653,8 +641,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>REM xcopy /s /y "$(ProjectDir)Resources\jquery\*" "$(TargetDir)Resources\jquery\"
-REM xcopy /s /y "$(ProjectDir)Resources\ckeditor\*" "$(TargetDir)Resources\ckeditor\"
+    <PostBuildEvent>xcopy /s /y "$(ProjectDir)Resources\jquery\*" "$(TargetDir)Resources\jquery\"
+xcopy /s /y "$(ProjectDir)Resources\ckeditor\*" "$(TargetDir)Resources\ckeditor\"
 
 REM regasm.exe "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>

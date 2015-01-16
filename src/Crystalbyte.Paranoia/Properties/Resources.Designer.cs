@@ -938,7 +938,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nothing left to do here :).
+        ///   Looks up a localized string similar to Nothing to send ....
         /// </summary>
         public static string NothingToSend {
             get {

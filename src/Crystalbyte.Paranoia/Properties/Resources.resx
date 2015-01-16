@@ -501,7 +501,7 @@ Once your password is lost you're screwed.</value>
     <value>Signature Settings</value>
   </data>
   <data name="NothingToSend" xml:space="preserve">
-    <value>Nothing left to do here :)</value>
+    <value>Nothing to send ...</value>
   </data>
   <data name="AssemblyDescription" xml:space="preserve">
     <value>Paranoia is a secure mail application.</value>

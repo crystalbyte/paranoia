@@ -317,14 +317,14 @@ namespace Crystalbyte.Paranoia.UI {
         public override void OnApplyTemplate() {
             base.OnApplyTemplate();
 
+            if (DesignerProperties.GetIsInDesignMode(this)) {
+                return;
+            }
+
             _popup = (Popup)Template.FindName(PopupPartName, this);
             _itemsHost = (ListView)Template.FindName(HostPartName, this);
             _itemsHost.InputBindings.Add(new KeyBinding(SuggestiveTextBoxCommands.Select, Key.Enter, ModifierKeys.None));
             _itemsHost.InputBindings.Add(new KeyBinding(SuggestiveTextBoxCommands.Select, Key.Tab, ModifierKeys.None));
-
-            if (DesignerProperties.GetIsInDesignMode(this)) {
-                return;
-            }
 
             InvalidateWatermark();
         }

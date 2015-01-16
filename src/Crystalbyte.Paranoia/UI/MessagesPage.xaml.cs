@@ -48,9 +48,18 @@ namespace Crystalbyte.Paranoia.UI {
 
         private static async void OnSyncMailbox(object sender, ExecutedRoutedEventArgs e) {
             try {
+                if (e.Parameter == null) {
+                    return;
+                }
+
                 var mailbox = (MailboxContext)e.Parameter;
-                await mailbox.SyncMessagesAsync();
-                await mailbox.SyncMailboxesAsync();
+                if (!mailbox.IsSyncingMessages) {
+                    await mailbox.SyncMessagesAsync();    
+                }
+
+                if (!mailbox.IsSyncingMailboxes) {
+                    await mailbox.SyncMailboxesAsync();    
+                }
             } catch (Exception ex) {
                 Logger.Error(ex);
             }

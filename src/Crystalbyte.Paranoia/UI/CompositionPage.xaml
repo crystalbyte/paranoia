@@ -11,7 +11,6 @@
       Title="{Binding Subject,
                       Mode=OneWay}"
       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-      FocusManager.FocusedElement="{Binding ElementName=RecipientsBox}"
       d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}"
       d:DesignHeight="480"
       d:DesignWidth="768"
@@ -278,7 +277,7 @@
                                         StringTokenTemplate="{StaticResource StringTokenTemplate}"
                                         TokenTemplate="{StaticResource ContactTokenTemplate}"
                                         Visibility="{Binding IsChecked,
-                                                             ElementName=CopyButton,
+                                                             ElementName=CarbonCopyToggleButton,
                                                              Converter={StaticResource BooleanToVisibilityConverter}}"
                                         Watermark="{x:Static properties:Resources.CarbonCopies}">
                 <controls:SuggestiveTextBox.ItemContainerStyle>
@@ -299,7 +298,7 @@
                                         StringTokenTemplate="{StaticResource StringTokenTemplate}"
                                         TokenTemplate="{StaticResource ContactTokenTemplate}"
                                         Visibility="{Binding IsChecked,
-                                                             ElementName=CopyButton,
+                                                             ElementName=CarbonCopyToggleButton,
                                                              Converter={StaticResource BooleanToVisibilityConverter}}"
                                         Watermark="{x:Static properties:Resources.BlindCarbonCopies}">
                 <controls:SuggestiveTextBox.ItemContainerStyle>

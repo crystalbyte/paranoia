@@ -6,7 +6,6 @@
 <body>
     <textarea id="editor" name="editor"></textarea>
     <div id="content-storage" style="display: none;">
-        <p />
         <div id="signature"></div>
         {{HEADER}}
         {{QUOTE}}
@@ -66,7 +65,7 @@
                 editor.insertHtml(html);
             }
 
-            var setComposition = function(html) {
+            var setComposition = function (html) {
                 textarea.val(html);
             }
 
@@ -76,7 +75,7 @@
             }
 
             var init = function () {
-                textarea.ckeditor(Crystalbyte.Paranoia.loadContent, {
+                textarea.ckeditor(loadContent, {
                     font_defaultLabel: '{{DEFAULT_FONT_FAMILY}}',
                     fontSize_defaultLabel: '{{DEFAULT_FONT_SIZE}}',
                 });
