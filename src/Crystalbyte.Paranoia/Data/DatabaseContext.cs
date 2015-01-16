@@ -13,6 +13,7 @@ namespace Crystalbyte.Paranoia.Data {
             Database.SetInitializer(new SQLiteDatabaseInitializer<DatabaseContext>());
         }
 
+        public DbSet<KeyPairModel> KeyPairs { get; set; }
         public DbSet<MailboxModel> Mailboxes { get; set; }
         public DbSet<MailAccountModel> MailAccounts { get; set; }
         public DbSet<MailContactModel> MailContacts { get; set; }

@@ -60,7 +60,7 @@ namespace Crystalbyte.Paranoia.UI {
             var theme = (Theme)view.SelectedValue;
             if (string.Compare(Settings.Default.Theme,
                 theme.Name, StringComparison.InvariantCultureIgnoreCase) != 0) {
-                ((App)Application.Current).ChangeTheme(theme);
+                ((App)Application.Current).ApplyTheme(theme);
             }
         }
 
@@ -69,7 +69,7 @@ namespace Crystalbyte.Paranoia.UI {
             var color = (Color)view.SelectedItem;
             if (string.Compare(Settings.Default.Accent,
                 color.ToHex(false), StringComparison.InvariantCultureIgnoreCase) != 0) {
-                ((App)Application.Current).ChangeAccent(color);
+                ((App)Application.Current).ApplyAccent(color);
             }
         }
     }

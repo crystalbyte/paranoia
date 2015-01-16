@@ -55,7 +55,6 @@
                  Grid.Column="1"
                  Width="400"
                  HorizontalAlignment="Left"
-                 Foreground="{StaticResource FlyoutForegroundBrushKey}"
                  IsEnabled="{Binding IsChecked,
                                      ElementName=AutoMagicButton}"
                  Style="{StaticResource FlyoutTextBoxStyle}"
@@ -76,7 +75,6 @@
                  Grid.Column="1"
                  Width="400"
                  HorizontalAlignment="Left"
-                 Foreground="{StaticResource FlyoutForegroundBrushKey}"
                  IsEnabled="{Binding IsChecked,
                                      ElementName=AutoMagicButton}"
                  Style="{StaticResource FlyoutTextBoxStyle}"
@@ -98,7 +96,6 @@
                      Grid.Column="1"
                      Width="400"
                      HorizontalAlignment="Left"
-                     Foreground="{StaticResource FlyoutForegroundBrushKey}"
                      IsEnabled="{Binding IsChecked,
                                          ElementName=AutoMagicButton}"
                      Style="{StaticResource FlyoutPasswordBoxStyle}" />

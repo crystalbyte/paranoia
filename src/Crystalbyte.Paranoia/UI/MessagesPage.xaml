@@ -17,6 +17,11 @@
       d:DesignHeight="553.714"
       d:DesignWidth="1072.625"
       mc:Ignorable="d">
+    <Page.InputBindings>
+        <KeyBinding Key="N"
+                    Command="ui:MessagingCommands.Compose"
+                    Modifiers="Control" />
+    </Page.InputBindings>
     <Page.Resources>
         <CollectionViewSource x:Key="MessagesSource" Source="{Binding Messages}">
             <CollectionViewSource.SortDescriptions>

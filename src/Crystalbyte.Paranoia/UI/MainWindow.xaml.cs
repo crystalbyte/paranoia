@@ -2,11 +2,7 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Security.AccessControl;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,7 +10,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
-using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.Themes;
 using NLog;
 
@@ -42,8 +37,8 @@ namespace Crystalbyte.Paranoia.UI {
         public MainWindow() {
             InitializeComponent();
             DataContext = App.Context;
-
             Loaded += OnLoaded;
+
             CommandBindings.Add(new CommandBinding(AppCommands.Settings, OnSettings));
             CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
             CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));
@@ -52,8 +47,10 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(FlyoutCommands.Cancel, OnFlyoutClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
+        }
 
-            Activated += (sender, e) => Debug.WriteLine(Environment.StackTrace);
+        private static async void OnLoaded(object sender, RoutedEventArgs e) {
+            await Task.Run(async () => await App.Context.RunAsync());
         }
 
         private void OnSettings(object sender, ExecutedRoutedEventArgs e) {
@@ -82,45 +79,6 @@ namespace Crystalbyte.Paranoia.UI {
             // https://connect.microsoft.com/VisualStudio/feedback/details/763996/wpf-page-navigation-looses-data-bindings
             var context = (AppContext)DataContext;
             context.CloseFlyout();
-        }
-
-        private static async void OnLoaded(object sender, RoutedEventArgs e) {
-            await EnsureKeyExistenceAsync();
-        }
-
-        private static async Task EnsureKeyExistenceAsync() {
-            var keyDir = AppContext.GetKeyDirectory();
-            if (!keyDir.Exists) {
-                await CreateKeyDirectoryAsync(keyDir);
-            }
-
-            var publicKey = keyDir.GetFiles(Settings.Default.PublicKeyFile).FirstOrDefault();
-            var privateKey = keyDir.GetFiles(Settings.Default.PrivateKeyFile).FirstOrDefault();
-
-            if (publicKey == null || privateKey == null) {
-                App.Context.OnCreateKeyPair();
-            } else {
-                await App.Context.InitKeysAsync();
-                await App.Context.RunAsync();
-            }
-        }
-
-        private static Task CreateKeyDirectoryAsync(DirectoryInfo keyDir) {
-            return Task.Factory.StartNew(() => {
-                var identity = new NTAccount(Environment.UserDomainName,
-                    Environment.UserName);
-                var security = new DirectorySecurity();
-                security.PurgeAccessRules(identity);
-
-                security.AddAccessRule(new FileSystemAccessRule(identity,
-                    FileSystemRights.Read, AccessControlType.Allow));
-                security.AddAccessRule(new FileSystemAccessRule(identity,
-                    FileSystemRights.Write, AccessControlType.Allow));
-                security.AddAccessRule(new FileSystemAccessRule(identity,
-                    FileSystemRights.Modify, AccessControlType.Allow));
-
-                keyDir.Create(security);
-            });
         }
 
         #endregion

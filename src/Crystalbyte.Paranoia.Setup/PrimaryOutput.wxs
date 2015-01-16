@@ -128,6 +128,9 @@
             <Component Id="cmp3FEF051FB5427C0A7178D1F2A4FA3191" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil4341636CB7CF537B3CBA43AA5A737119" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-15.log" />
             </Component>
+            <Component Id="cmp58519036CFE407641CABE51A4DF9D543" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil17065478A547525B4E29FE84B86FB79D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-16.log" />
+            </Component>
             <Component Id="cmp18D43D47A5BF82748FFD0CB5AE473118" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil861BB878BCDB774E7BEAB8C4A7305FEC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Aesthetics- Group-Logos.zip" />
             </Component>

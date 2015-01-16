@@ -5,20 +5,13 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
-using Crystalbyte.Paranoia.Net;
-using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
-using Newtonsoft.Json;
 using NLog;
-using System.Text.RegularExpressions;
 
 #endregion
 
@@ -43,8 +36,6 @@ namespace Crystalbyte.Paranoia {
         private int _fetchedEnvelopeCount;
         private bool _isSyncedInitially;
         private bool _showAllMessages;
-        private readonly object _syncChildrenMutex = new object();
-        private readonly object _syncMessagesMutex = new object();
         private bool _isSelectedSubtly;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -185,7 +176,8 @@ namespace Crystalbyte.Paranoia {
                 if (_isSyncedInitially)
                     return;
 
-                await Task.Run(() => SyncMailboxesAsync());
+                await SyncMailboxesAsync();
+
                 _isSyncedInitially = true;
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -193,45 +185,46 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task SyncMailboxesAsync() {
-            Application.Current.AssertBackgroundThread();
+            Application.Current.AssertUIThread();
 
-            lock (_syncChildrenMutex) {
-                if (IsSyncingChildren) {
-                    return;
-                }
-
-                IsSyncingChildren = true;
+            if (IsSyncingChildren) {
+                throw new InvalidOperationException("IsSyncingChildren");
             }
 
-            try {
-                var pattern = string.Format("{0}{1}%", Name, Delimiter);
-                var children = await _account.ListMailboxesAsync(pattern);
-                var subscribed = await _account.ListSubscribedMailboxesAsync(pattern);
+            IsSyncingChildren = true;
 
-                using (var database = new DatabaseContext()) {
-                    foreach (var child in children) {
-                        var c = child;
-                        var mailbox = await database.Mailboxes.FirstOrDefaultAsync(x => x.Name == c.Fullname);
-                        if (mailbox != null) {
-                            continue;
+            await Task.Run(async () => {
+                try {
+                    var pattern = string.Format("{0}{1}%", Name, Delimiter);
+                    var children = await _account.ListMailboxesAsync(pattern);
+                    var subscribed = await _account.ListSubscribedMailboxesAsync(pattern);
+
+                    using (var database = new DatabaseContext()) {
+                        foreach (var child in children) {
+                            var c = child;
+                            var mailbox = await database.Mailboxes
+                                .FirstOrDefaultAsync(x => x.Name == c.Fullname);
+                            if (mailbox != null) {
+                                continue;
+                            }
+
+                            var context = new MailboxContext(_account, new MailboxModel {
+                                AccountId = _account.Id
+                            });
+
+                            await context.InsertAsync();
+                            await context.BindMailboxAsync(child, subscribed);
+
+                            await Application.Current.Dispatcher
+                                .InvokeAsync(() => _account.NotifyMailboxAdded(context));
                         }
-
-                        var context = new MailboxContext(_account, new MailboxModel {
-                            AccountId = _account.Id
-                        });
-
-                        await context.InsertAsync();
-                        await context.BindMailboxAsync(child, subscribed);
-
-                        await Application.Current.Dispatcher
-                            .InvokeAsync(() => _account.NotifyMailboxAdded(context));
                     }
+                } catch (Exception ex) {
+                    Logger.Error(ex);
                 }
-            } finally {
-                lock (_syncChildrenMutex) {
-                    IsSyncingChildren = false;
-                }
-            }
+            });
+
+            IsSyncingChildren = false;
         }
 
         public bool IsLoadingChildren {
@@ -510,62 +503,51 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task<ICollection<MailMessageContext>> SyncMessagesAsync() {
-            ICollection<MailMessageContext> contexts;
+            Application.Current.AssertUIThread();
 
-            lock (_syncMessagesMutex) {
-                if (IsSyncingMessages) {
-                    return new MailMessageContext[0];
-                }
-
-                IsSyncingMessages = true;
+            if (IsSyncingMessages) {
+                throw new InvalidOperationException("IsSyncingMessages");
             }
 
-            try {
+            IsSyncingMessages = true;
+
+            var collection = await Task.Run(async () => {
                 var name = _mailbox.Name;
                 var maxUid = await GetMaxUidAsync();
                 var account = await GetAccountAsync();
                 var messages = new List<MailMessageModel>();
 
-                using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
+                using (var connection = new ImapConnection {
+                    Security = account.ImapSecurity
+                }) {
                     using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
                         using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
                             var mailbox = await session.SelectAsync(name);
-
-                            messages.AddRange(await SyncChallengesAsync(mailbox, maxUid));
-                            messages.AddRange(await SyncNonChallengesAsync(mailbox, maxUid));
+                            messages.AddRange(
+                                await SyncNonChallengesAsync(mailbox, maxUid));
                         }
                     }
                 }
 
                 if (messages.Count == 0) {
-                    FetchedEnvelopeCount = 0;
-
-                    lock (_syncMessagesMutex) {
-                        IsSyncingMessages = false;
-                    }
-
                     return new MailMessageContext[0];
                 }
 
                 await SaveContactsAsync(messages);
                 await SaveMessagesAsync(messages);
 
-                contexts = messages.Where(x => x.Type == MailType.Message)
+                return messages.Where(x => x.Type == MailType.Message)
                     .Select(x => new MailMessageContext(this, x)).ToArray();
+            });
 
-                FetchedEnvelopeCount = 0;
+            App.Context.NotifyMessagesAdded(collection);
 
-                await Application.Current.Dispatcher
-                    .InvokeAsync(() => App.Context.NotifyMessagesAdded(contexts));
+            FetchedEnvelopeCount = 0;
+            await CountNotSeenAsync();
 
-                await CountNotSeenAsync();
-            } finally {
-                lock (_syncMessagesMutex) {
-                    IsSyncingMessages = false;
-                }
-            }
+            IsSyncingMessages = false;
 
-            return contexts;
+            return collection;
         }
 
         public int TotalEnvelopeCount {
@@ -577,7 +559,7 @@ namespace Crystalbyte.Paranoia {
                 _totalEnvelopeCount = value;
                 RaisePropertyChanged(() => TotalEnvelopeCount);
             }
-             
+
         }
 
         public int FetchedEnvelopeCount {
@@ -629,113 +611,10 @@ namespace Crystalbyte.Paranoia {
             FetchedEnvelopeCount++;
         }
 
-        private static async Task<IEnumerable<MailMessageModel>> SyncChallengesAsync(ImapMailbox mailbox, long uid) {
-            var criteria = string.Format("{0}:* HEADER \"{1}\" \"{2}\"", uid, ParanoiaHeaderKeys.Type, MailType.Challenge);
-            var uids = await mailbox.SearchAsync(criteria);
-            if (!uids.Any()) {
-                return new MailMessageModel[0];
-            }
-
-            var envelopes = (await mailbox.FetchEnvelopesAsync(uids)).ToArray();
-            if (envelopes.Length == 0) {
-                return new MailMessageModel[0];
-            }
-
-            if (envelopes.Length == 1 && envelopes.First().Uid == uid) {
-                return new MailMessageModel[0];
-            }
-
-            var now = DateTime.Now;
-            foreach (var envelope in envelopes.Where(x => x.InternalDate.HasValue
-                && now.Subtract(x.InternalDate.Value) < TimeSpan.FromHours(1))) {
-                try {
-                    await ProcessChallengeAsync(envelope, mailbox);
-                } catch (Exception ex) {
-                    Logger.Error(ex);
-                }
-            }
-
-            var messages = new List<MailMessageModel>();
-            foreach (var envelope in envelopes) {
-                try {
-                    var message = envelope.ToMailMessage(MailType.Challenge);
-                    messages.Add(message);
-                } catch (Exception ex) {
-                    Logger.Error(ex);
-                }
-            }
-            return messages;
-        }
-
-        private static async Task ProcessChallengeAsync(ImapEnvelope envelope, ImapMailbox mailbox) {
-            var bytes = await mailbox.FetchMessageBodyAsync(envelope.Uid);
-            var message = new MailMessageReader(bytes);
-
-            var token = string.Empty;
-            var nonce = string.Empty;
-            var publicKey = string.Empty;
-
-            const string pattern = @"\s|\t|\n|\r";
-
-            var xHeaders = message.Headers.UnknownHeaders;
-            for (var i = 0; i < xHeaders.Keys.Count; i++) {
-                var key = xHeaders.Keys[i];
-
-                var values = xHeaders.GetValues(i);
-                if (values == null) {
-                    throw new NullReferenceException(Resources.ChallengeCorruptException);
-                }
-
-                if (string.Compare(key, ParanoiaHeaderKeys.Token, StringComparison.InvariantCultureIgnoreCase) == 0) {
-                    token = values.FirstOrDefault() ?? string.Empty;
-                    token = Regex.Replace(token, pattern, string.Empty);
-                    continue;
-                }
-
-                if (string.Compare(key, ParanoiaHeaderKeys.Nonce, StringComparison.InvariantCultureIgnoreCase) == 0) {
-                    nonce = values.FirstOrDefault() ?? string.Empty;
-                    nonce = Regex.Replace(nonce, pattern, string.Empty);
-                    continue;
-                }
-
-                if (string.Compare(key, ParanoiaHeaderKeys.PublicKey, StringComparison.InvariantCultureIgnoreCase) == 0) {
-                    publicKey = values.FirstOrDefault() ?? string.Empty;
-                    publicKey = Regex.Replace(publicKey, pattern, string.Empty);
-                }
-            }
-
-            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(nonce) || string.IsNullOrEmpty(publicKey)) {
-                throw new InvalidDataException(Resources.ChallengeCorruptException);
-            }
-
-
-            var data = App.Context.KeyContainer.DecryptWithPrivateKey(
-                Convert.FromBase64String(token),
-                Convert.FromBase64String(publicKey),
-                Convert.FromBase64String(nonce));
-
-            await RespondToChallengeAsync(Encoding.UTF8.GetString(data));
-        }
-
-        private static async Task RespondToChallengeAsync(string challenge) {
-            var response = JsonConvert.SerializeObject(new ChallengeResponse {
-                Token = challenge
-            });
-
-            using (var client = new WebClient()) {
-                client.Headers.Add(HttpRequestHeader.UserAgent, Settings.Default.UserAgent);
-
-                var address = string.Format("{0}/verify", Settings.Default.KeyServer);
-                var stream = await client.OpenWriteTaskAsync(new Uri(address, UriKind.Absolute));
-
-                using (var writer = new StreamWriter(stream)) {
-                    await writer.WriteAsync(response);
-                }
-            }
-        }
-
         private static async Task SaveContactsAsync(IEnumerable<MailMessageModel> messages) {
             try {
+                Application.Current.AssertBackgroundThread();
+
                 var groups = messages.GroupBy(x => x.FromAddress).ToArray();
 
                 using (var database = new DatabaseContext()) {
@@ -889,34 +768,38 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task IdleAsync() {
-            try {
-                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
-                    connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
-                    using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
-                        using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
-                            if (!connection.CanIdle) {
-                                return;
-                            }
-                            var mailbox = await session.SelectAsync(Name);
-                            try {
-                                IsIdling = true;
-                                mailbox.ChangeNotificationReceived += OnChangeNotificationReceived;
-                                await mailbox.IdleAsync();
-                            } finally {
-                                mailbox.ChangeNotificationReceived -= OnChangeNotificationReceived;
-                                IsIdling = false;
+            IsIdling = true;
+
+            await Task.Run(async () => {
+                try {
+                    using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+                        connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
+                        using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+                            using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+                                if (!connection.CanIdle) {
+                                    return;
+                                }
+                                var mailbox = await session.SelectAsync(Name);
+                                try {
+                                    mailbox.ChangeNotificationReceived += OnChangeNotificationReceived;
+                                    await mailbox.IdleAsync();
+                                } finally {
+                                    mailbox.ChangeNotificationReceived -= OnChangeNotificationReceived;
+                                }
                             }
                         }
                     }
+                } catch (Exception ex) {
+                    Logger.Error(ex);
                 }
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
+            });
+
+            IsIdling = false;
         }
 
         private async void OnChangeNotificationReceived(object sender, EventArgs e) {
             try {
-                var messages = await Task.Run(() => SyncMessagesAsync());
+                var messages = await SyncMessagesAsync();
                 if (messages.Count <= 0)
                     return;
 

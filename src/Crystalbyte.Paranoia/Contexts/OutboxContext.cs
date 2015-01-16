@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
-using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -31,7 +30,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _sendMessagesCommand;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        
+
 
         public OutboxContext(MailAccountContext account) {
             _account = account;
@@ -98,11 +97,16 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task CountSmtpRequestsAsync() {
+            int count;
             using (var context = new DatabaseContext()) {
-                SmtpRequestCount = await context.SmtpRequests
-                    .Where(x => x.AccountId == _account.Id)
-                    .CountAsync();
+                count = await context.SmtpRequests
+                   .Where(x => x.AccountId == _account.Id)
+                   .CountAsync();
             }
+
+            await Application.Current.Dispatcher.InvokeAsync(() => {
+                SmtpRequestCount = count;
+            });
         }
 
         public event EventHandler SmtpRequestSelectionChanged;
@@ -189,19 +193,6 @@ namespace Crystalbyte.Paranoia {
 
         public IEnumerable<SmtpRequestContext> SmtpRequests {
             get { return _smtpRequests; }
-        }
-
-        private static Task<string> GetHtmlCoverSheetAsync() {
-            const string name = "/Resources/cover.sheet.template.html";
-            var info = Application.GetResourceStream(new Uri(name, UriKind.Relative));
-            if (info == null) {
-                var message = string.Format(Resources.ResourceNotFoundException, name, typeof(App).Name);
-                throw new Exception(message);
-            }
-
-            using (var reader = new StreamReader(info.Stream)) {
-                return reader.ReadToEndAsync();
-            }
         }
 
         private Task<SmtpRequestModel[]> GetPendingSmtpRequestsAsync() {

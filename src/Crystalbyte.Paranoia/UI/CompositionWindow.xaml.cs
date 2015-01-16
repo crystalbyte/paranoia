@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Themes;
 
@@ -10,6 +11,9 @@ namespace Crystalbyte.Paranoia.UI {
     /// Interaction logic for CompositionWindow.xaml
     /// </summary>
     public partial class CompositionWindow : IAccentAware {
+
+        #region Construction
+
         public CompositionWindow() {
             InitializeComponent();
             
@@ -20,14 +24,14 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
         }
 
-        public Uri Source {
-            get { return (Uri)GetValue(SourceProperty); }
-            set { SetValue(SourceProperty, value); }
-        }
+        #endregion
 
-        // Using a DependencyProperty as the backing store for Source.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.Register("Source", typeof(Uri), typeof(CompositionWindow), new PropertyMetadata(null));
+        #region Methods
+
+        public void StartSendingAnimation() {
+            var storyboard = (Storyboard) Resources["FlyOutStoryboard"];
+            storyboard.Begin();
+        }
 
         private void OnCloseButtonClick(object sender, RoutedEventArgs e) {
             Close();
@@ -39,6 +43,22 @@ namespace Crystalbyte.Paranoia.UI {
                 page.OnNavigated(e);
             }
         }
+
+        #endregion
+
+
+        #region Dependency Properties
+
+        public Uri Source {
+            get { return (Uri)GetValue(SourceProperty); }
+            set { SetValue(SourceProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Source.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SourceProperty =
+            DependencyProperty.Register("Source", typeof(Uri), typeof(CompositionWindow), new PropertyMetadata(null));
+
+        #endregion
 
         #region Implementation of OnAccentChanged
 

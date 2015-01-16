@@ -4,6 +4,7 @@ using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using Crystalbyte.Paranoia.Data;
 
 #endregion
@@ -150,11 +151,18 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task CheckSecurityStateAsync() {
+            Application.Current.AssertBackgroundThread();
+
+            bool hasKeys;
             using (var database = new DatabaseContext()) {
-                HasKeys = (await database.PublicKeys
+                hasKeys = (await database.PublicKeys
                     .Where(x => x.ContactId == _contact.Id)
                     .CountAsync()) > 0;
             }
+
+            await Application.Current.Dispatcher.InvokeAsync(() => {
+                HasKeys = hasKeys;
+            });
         }
     }
 }

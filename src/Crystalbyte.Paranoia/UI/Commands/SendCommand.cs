@@ -28,8 +28,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public async void Execute(object parameter) {
-            _composition.Finish();
-            await _composition.PushToOutboxAsync();
+            await _composition.SendAsync();
         }
     }
 }

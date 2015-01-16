@@ -131,9 +131,6 @@
         </Storyboard>
     </controls:MetroWindow.Resources>
     <controls:MetroWindow.InputBindings>
-        <KeyBinding Key="N"
-                    Command="ui:MessagingCommands.Compose"
-                    Modifiers="Control" />
         <KeyBinding Key="Print" Command="ApplicationCommands.Print" />
         <KeyBinding Key="Escape" Command="ui:FlyoutCommands.Cancel" />
     </controls:MetroWindow.InputBindings>

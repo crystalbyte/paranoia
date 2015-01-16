@@ -11,12 +11,12 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
@@ -63,7 +63,6 @@ namespace Crystalbyte.Paranoia {
         private bool _isSortAscending;
         private string _queryContactString;
         private bool _isAnimating;
-
 
         #endregion
 
@@ -164,31 +163,39 @@ namespace Crystalbyte.Paranoia {
 
 
         internal async Task FilterContactsAsync(string query) {
+            Application.Current.AssertUIThread();
+
             _contacts.Clear();
 
             if (String.IsNullOrWhiteSpace(query)) {
-                await LoadContactsAsync();
+                await Task.Run(async () => await LoadContactsAsync());
                 return;
             }
 
-            IEnumerable<MailContactModel> contacts;
-            using (var database = new DatabaseContext()) {
-                contacts = await database.MailContacts
-                    .Where(x => x.Name.Contains(query)
-                        || x.Address.Contains(query))
-                    .ToArrayAsync();
-            }
+            var contacts = await Task.Run(async () => {
+                using (var database = new DatabaseContext()) {
+                    return await database.MailContacts
+                        .Where(x => x.Name.Contains(query)
+                                    || x.Address.Contains(query))
+                        .ToArrayAsync();
+                }
+            });
 
-            _contacts.AddRange(contacts.Select(x => new MailContactContext(x)));
+            await Application.Current.Dispatcher.InvokeAsync(() => _contacts
+                .AddRange(contacts.Select(x => new MailContactContext(x))));
         }
 
         internal async Task LoadContactsAsync() {
+            Application.Current.AssertBackgroundThread();
+
             IEnumerable<MailContactModel> contacts;
             using (var database = new DatabaseContext()) {
                 contacts = await database.MailContacts.ToArrayAsync();
             }
 
-            _contacts.AddRange(contacts.Select(x => new MailContactContext(x)));
+            await Application.Current.Dispatcher.InvokeAsync(() =>
+                _contacts.AddRange(contacts.Select(x => new MailContactContext(x))));
+
             foreach (var contact in _contacts) {
                 await contact.CheckSecurityStateAsync();
             }
@@ -200,17 +207,16 @@ namespace Crystalbyte.Paranoia {
         /// <param name="source">The message source to query.</param>
         /// <returns>Returns a task object.</returns>
         private async Task RequestMessagesAsync(IMessageSource source) {
-            Application.Current.AssertBackgroundThread();
+            Application.Current.AssertUIThread();
 
-            await Application.Current.Dispatcher.InvokeAsync(() => _messages.Clear());
+            _messages.Clear();
+
             var messages = await source.GetMessagesAsync();
-            await Application.Current.Dispatcher.InvokeAsync(() => {
-                _messages.DeferNotifications = true;
-                _messages.AddRange(messages);
-                _messages.DeferNotifications = false;
-                _messages.NotifyCollectionChanged();
-            });
 
+            _messages.DeferNotifications = true;
+            _messages.AddRange(messages);
+            _messages.DeferNotifications = false;
+            _messages.NotifyCollectionChanged();
         }
 
         #endregion
@@ -266,8 +272,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task RefreshViewForSelectedMailboxAsync() {
-            await Task.Run(() => RequestMessagesAsync(SelectedMailbox));
-            await Task.Run(() => SelectedMailbox.SyncMessagesAsync());
+            await RequestMessagesAsync(SelectedMailbox);
+            await SelectedMailbox.SyncMessagesAsync();
         }
 
         internal event EventHandler FlyoutClosing;
@@ -298,7 +304,7 @@ namespace Crystalbyte.Paranoia {
 
         private void OnFlyoutCloseRequested() {
             var handler = FlyoutCloseRequested;
-            if (handler != null) 
+            if (handler != null)
                 handler(this, EventArgs.Empty);
         }
 
@@ -611,11 +617,6 @@ namespace Crystalbyte.Paranoia {
             get { return _createAccountCommand; }
         }
 
-        public PublicKeyCrypto KeyContainer {
-            get;
-            private set;
-        }
-
         public IEnumerable<MailMessageContext> SelectedMessages {
             get { return _messages.Where(x => x.IsSelected).ToArray(); }
         }
@@ -751,14 +752,13 @@ namespace Crystalbyte.Paranoia {
             await DisplayAttachmentAsync(message);
         }
 
-        internal static DirectoryInfo GetKeyDirectory() {
-            var dataDir = (string)AppDomain.CurrentDomain.GetData("DataDirectory");
-            return new DirectoryInfo(Path.Combine(dataDir, "keys"));
-        }
-
         public async Task RunAsync() {
+            Application.Current.AssertBackgroundThread();
+
             await LoadContactsAsync();
             await LoadAccountsAsync();
+
+            Thread.Sleep(10000);
 
             foreach (var account in Accounts) {
                 await account.TakeOnlineAsync();
@@ -768,15 +768,19 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task LoadAccountsAsync() {
+            Application.Current.AssertBackgroundThread();
+
+            IEnumerable<MailAccountModel> accounts;
             using (var context = new DatabaseContext()) {
-                var accounts = await context.MailAccounts.ToArrayAsync();
-                await Application.Current.Dispatcher.InvokeAsync(() =>
-                    _accounts.AddRange(accounts.Select(x => new MailAccountContext(x))));
+                accounts = await context.MailAccounts.ToArrayAsync();
             }
+
+            await Application.Current.Dispatcher.InvokeAsync(() =>
+                    _accounts.AddRange(accounts.Select(x => new MailAccountContext(x))));
 
             foreach (var account in Accounts) {
                 await account.LoadMailboxesAsync();
-                await account.Outbox.LoadSmtpRequestsAsync();
+                await account.Outbox.CountSmtpRequestsAsync();
             }
         }
 
@@ -788,27 +792,12 @@ namespace Crystalbyte.Paranoia {
             IsPopupVisible = true;
         }
 
-        internal void OnCreateKeyPair() {
-            var uri = typeof(CreateKeyPage).ToPageUri();
-            OnModalNavigationRequested(new NavigationRequestedEventArgs(uri));
-            IsPopupVisible = true;
-        }
-
         private void OnCreateAccount(object obj) {
             var account = new MailAccountContext(new MailAccountModel());
             NavigationArguments.Push(account);
 
             var uri = typeof(CreateAccountStartFlyoutPage).ToPageUri();
             OnFlyoutNavigationRequested(new NavigationRequestedEventArgs(uri));
-        }
-
-        internal async Task InitKeysAsync() {
-            var info = GetKeyDirectory();
-            var publicKey = Path.Combine(info.FullName, Settings.Default.PublicKeyFile);
-            var privateKey = Path.Combine(info.FullName, Settings.Default.PrivateKeyFile);
-
-            KeyContainer = new PublicKeyCrypto();
-            await KeyContainer.InitFromFileAsync(publicKey, privateKey);
         }
 
         internal void CloseFlyout() {
@@ -1015,7 +1004,7 @@ namespace Crystalbyte.Paranoia {
 
         internal async Task InspectMessageAsync(FileInfo file) {
             var owner = Application.Current.MainWindow;
-            var inspector = new InspectionWindow ();
+            var inspector = new InspectionWindow();
             inspector.MimicOwnership(owner);
 
             if (owner.WindowState == WindowState.Maximized) {
@@ -1027,7 +1016,7 @@ namespace Crystalbyte.Paranoia {
         }
         internal async Task InspectMessageAsync(MailMessageContext message) {
             var owner = Application.Current.MainWindow;
-            var inspector = new InspectionWindow ();
+            var inspector = new InspectionWindow();
             inspector.MimicOwnership(owner);
 
             if (owner.WindowState == WindowState.Maximized) {

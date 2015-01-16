@@ -182,6 +182,7 @@
     <Compile Include="Automation\IApplication.cs" />
     <Compile Include="Automation\IClassFactory.cs" />
     <Compile Include="Automation\IComServer.cs" />
+    <Compile Include="Data\KeyPairModel.cs" />
     <Compile Include="IAccentAware.cs" />
     <Compile Include="SortProperty.cs" />
     <Compile Include="UI\AppSettingsFlyoutPage.xaml.cs">
@@ -223,7 +224,6 @@
     <Compile Include="UI\Commands\UnblockContactsCommand.cs" />
     <Compile Include="UI\Commands\BlockContactsCommand.cs" />
     <Compile Include="Contexts\CreateContactContext.cs" />
-    <Compile Include="Contexts\CreateKeyPairContext.cs" />
     <Compile Include="Contexts\HierarchyContext.cs" />
     <Compile Include="Contexts\NavigationContext.cs" />
     <Compile Include="Contexts\NotificationWindowContext.cs" />
@@ -288,9 +288,6 @@
     </Compile>
     <Compile Include="UI\CreateAccountStartFlyoutPage.xaml.cs">
       <DependentUpon>CreateAccountStartFlyoutPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\CreateKeyPage.xaml.cs">
-      <DependentUpon>CreateKeyPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\CreateMailboxModalPage.xaml.cs">
       <DependentUpon>CreateMailboxModalPage.xaml</DependentUpon>
@@ -409,10 +406,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\CreateAccountStartFlyoutPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\CreateKeyPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

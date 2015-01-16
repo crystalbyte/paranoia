@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
@@ -12,11 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Crystalbyte.Paranoia.Data;
-using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
-using Crystalbyte.Paranoia.Cryptography;
 using System.Text.RegularExpressions;
 
 #endregion
@@ -88,7 +84,7 @@ namespace Crystalbyte.Paranoia {
         public ICollection<AttachmentContext> Attachments {
             get { return _attachments; }
         }
-        
+
         public IEnumerable<MailAccountContext> Accounts {
             get { return _accounts; }
         }
@@ -141,14 +137,16 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal void Finish() {
+        internal async Task SendAsync() {
             OnFinished();
+            //OnSmtpRequestCommitted();
+            await PushToOutboxAsync();
         }
 
         public async Task PushToOutboxAsync() {
             try {
                 var account = SelectedAccount;
-                var messages = await CreateSmtpMessagesAsync(account);
+                var messages = CreateSmtpMessages(account);
                 await account.SaveSmtpRequestsAsync(messages);
                 await App.Context.NotifyOutboxNotEmpty();
             } catch (Exception ex) {
@@ -156,12 +154,12 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private MailMessage CreateMailMessage(MailAccountContext account, string recipient, string content) {
+        private MailMessage CreateMailMessage(MailAccountContext account, string address, string content) {
             var message = new MailMessage {
                 From = new MailAddress(account.Address, account.Name)
             };
 
-            message.To.Add(new MailAddress(recipient));
+            message.To.Add(new MailAddress(address));
             message.IsBodyHtml = true;
             message.Subject = Subject;
             message.BodyEncoding = Encoding.UTF8;
@@ -216,69 +214,12 @@ namespace Crystalbyte.Paranoia {
             return message;
         }
 
-        private async Task<IEnumerable<MailMessage>> CreateSmtpMessagesAsync(MailAccountContext account) {
+        private IEnumerable<MailMessage> CreateSmtpMessages(MailAccountContext account) {
             var e = new DocumentTextRequestedEventArgs();
             OnDocumentTextRequested(e);
-
-            var messages = new List<MailMessage>();
-            using (var database = new DatabaseContext()) {
-                foreach (var recipient in Recipients) {
-                    if (string.IsNullOrEmpty(recipient)) {
-                        continue;
-                    }
-
-                    var rec = recipient;
-                    var contact = await database.MailContacts.FirstOrDefaultAsync(x => x.Address == rec);
-                    if (contact == null) {
-                        var message = CreateMailMessage(account, recipient, e.Document);
-                        messages.Add(message);
-                        continue;
-                    }
-
-                    var keys = await database.PublicKeys.Where(x => x.ContactId == contact.Id).ToArrayAsync();
-                    if (keys == null || keys.Length == 0) {
-                        var message = CreateMailMessage(account, recipient, e.Document);
-                        messages.Add(message);
-                        continue;
-                    }
-
-                    var cryptMessage = await EncryptMessageAsync(account, keys, recipient, e.Document);
-                    messages.Add(cryptMessage);
-                }
-
-                return messages;
-            }
-        }
-
-        private async Task<MailMessage> EncryptMessageAsync(MailAccountContext account, IEnumerable<PublicKeyModel> keys, string recipient, string content) {
-            var message = CreateMailMessage(account, recipient, content);
-            var mime = await message.ToMimeAsync();
-
-            var bytes = Encoding.UTF8.GetBytes(mime);
-
-            var wrapper = CreateMailMessage(account, recipient, "blubbi");
-            var publicKey = Convert.ToBase64String(App.Context.KeyContainer.PublicKey);
-            wrapper.Headers.Add(ParanoiaHeaderKeys.PublicKey, publicKey);
-
-            foreach (var key in keys) {
-                var keyBytes = Convert.FromBase64String(key.Data);
-                var nonceBytes = PublicKeyCrypto.GenerateNonce();
-
-                var encryptedBytes = await Task.Factory.StartNew(() =>
-                App.Context.KeyContainer.EncryptWithPublicKey(bytes, keyBytes, nonceBytes));
-
-                var writer = new BinaryWriter(new MemoryStream());
-                writer.Write(nonceBytes);
-                writer.Write(encryptedBytes);
-                writer.Flush();
-
-                writer.BaseStream.Seek(0, SeekOrigin.Begin);
-
-                var view = new AlternateView(writer.BaseStream, new ContentType("application/x-setolicious"));
-                wrapper.AlternateViews.Add(view);
-            }
-
-            return wrapper;
+            return (from recipient in Recipients
+                    where !string.IsNullOrEmpty(recipient)
+                    select CreateMailMessage(account, recipient, e.Document)).ToList();
         }
     }
 }

@@ -41,7 +41,6 @@ namespace Crystalbyte.Paranoia.UI {
             HtmlControl.DocumentReady += OnDocumentReady;
             DataContext = context;
         }
-
         private void OnHtmlControlInitialized(object sender, EventArgs e) {
             var control = (HtmlControl) sender;
             control.WebSession.ClearCache();
@@ -52,7 +51,12 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async void OnDocumentReady(object sender, EventArgs e) {
-            await ChangeSignatureAsync();
+            try {
+                await ChangeSignatureAsync();
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private void OnFinished(object sender, EventArgs e) {
@@ -283,7 +287,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public void OnNavigating(NavigatingCancelEventArgs e) {
-
+            // Nothing ...
         }
 
         #endregion

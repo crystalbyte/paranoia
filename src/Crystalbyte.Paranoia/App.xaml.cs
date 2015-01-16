@@ -345,11 +345,11 @@ namespace Crystalbyte.Paranoia {
                         StringComparison.InvariantCultureIgnoreCase) == 0) ??
                 Context.Themes.First(x => x is LightTheme);
 
-            ChangeTheme(theme);
+            ApplyTheme(theme);
 
             var color = ColorConverter.ConvertFromString(Settings.Default.Accent);
             if (color != null) {
-                ChangeAccent((Color)color);
+                ApplyAccent((Color)color);
             }
         }
 
@@ -381,7 +381,7 @@ namespace Crystalbyte.Paranoia {
             Composition.SatisfyImports(this);
         }
      
-        public void ChangeTheme(Theme theme) {
+        public void ApplyTheme(Theme theme) {
             var resources = theme.GetThemeResources();
 
             // Add base styles.
@@ -397,7 +397,7 @@ namespace Crystalbyte.Paranoia {
             Settings.Default.Save();
         }
 
-        public void ChangeAccent(Color color) {
+        public void ApplyAccent(Color color) {
             Current.Resources[ThemeResourceKeys.AppAccentBrushKey] = new SolidColorBrush(color);
             Settings.Default.Accent = color.ToHex(false);
             Settings.Default.Save();
