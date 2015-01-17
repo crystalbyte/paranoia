@@ -18,7 +18,7 @@ namespace Crystalbyte.Paranoia {
                     foreach (var b in bytes) {
                         writer.Write(b.ToString("x2"));
                     }
-                    return string.Format("http://www.gravatar.com/avatar/{0}?s={1}&d=mm", writer, size);
+                    return string.Format("https://www.gravatar.com/avatar/{0}?s={1}&d=mm", writer, size);
                 }
             }
         }

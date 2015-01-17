@@ -771,8 +771,6 @@ namespace Crystalbyte.Paranoia {
             await LoadContactsAsync();
             await LoadAccountsAsync();
 
-            Thread.Sleep(10000);
-
             foreach (var account in Accounts) {
                 await account.TakeOnlineAsync();
             }
