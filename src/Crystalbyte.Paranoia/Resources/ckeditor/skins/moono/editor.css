@@ -82,7 +82,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 .cke_chrome {
     display: block;
-    /*border: 1px solid #b6b6b6;*/
+    border-top: 1px solid #b6b6b6;
     padding: 0;
     -moz-box-shadow: 0 0 3px #000000;
     -moz-box-shadow: 0 0 3px rgba(0,0,0,.15);

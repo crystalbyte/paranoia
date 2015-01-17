@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
@@ -48,13 +49,23 @@ namespace Crystalbyte.Paranoia {
 
         public bool IsImage {
             get {
+                if (File.Exists(_fullname)) {
+                    return Regex.IsMatch(FullName, ".jpg|.png|.jpeg|.tiff|.gif", RegexOptions.IgnoreCase);
+                }
+
+                if (_part == null) {
+                    return false;
+                }
+
                 return _part.ContentType.MediaType.Contains("image")
                     || Regex.IsMatch(_part.FileName, ".jpg|.png|.jpeg|.tiff|.gif", RegexOptions.IgnoreCase);
             }
         }
 
         public byte[] Bytes {
-            get { return _part.Body; }
+            get {
+                return File.Exists(FullName) ? File.ReadAllBytes(FullName) : _part.Body;
+            }
         }
 
         public ICommand RemoveCommand {

@@ -273,7 +273,6 @@
     <Compile Include="UI\Converters\SecurityToColorConverter.cs" />
     <Compile Include="UI\DeferredActions.cs" />
     <Compile Include="UI\IAnimationAware.cs" />
-    <Compile Include="UI\IconExtensions.cs" />
     <Compile Include="UI\RoutedCommands\AppCommands.cs" />
     <Compile Include="UI\RoutedCommands\MailboxCommands.cs" />
     <Compile Include="UI\RoutedCommands\MessagingCommands.cs" />

@@ -50,6 +50,7 @@
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="BorderThickness" Value="0,1,1,1" />
         <Setter Property="Content" Value="..." />
+        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <ItemContainerTemplate>

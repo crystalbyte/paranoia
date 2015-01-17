@@ -269,7 +269,8 @@
                        Text="CC" />
         </Grid>
         <ListView Grid.Row="4"
-                  BorderThickness="0"
+                  Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}"
+                  BorderThickness="0,1,0,1"
                   ItemTemplate="{StaticResource ThumbnailTemplate}"
                   ItemsSource="{Binding Attachments}"
                   ScrollViewer.CanContentScroll="False"
