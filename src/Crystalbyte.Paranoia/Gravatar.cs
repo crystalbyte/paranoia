@@ -10,7 +10,7 @@ namespace Crystalbyte.Paranoia {
     internal static class Gravatar {
         public static string CreateImageUrl(string address, int size = 200) {
             if (string.IsNullOrWhiteSpace(address)) {
-                address = "criminals@nsa.gov";
+                address = "we.the.people@anonymous.com";
             }
             using (var md5 = MD5.Create()) {
                 var bytes = md5.ComputeHash(Encoding.UTF8.GetBytes(address.Trim()));

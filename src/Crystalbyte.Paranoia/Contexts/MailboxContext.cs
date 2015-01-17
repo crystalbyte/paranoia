@@ -810,7 +810,7 @@ namespace Crystalbyte.Paranoia {
 
             await Application.Current.Dispatcher.InvokeAsync(async () => {
                 try {
-                    if (!IsSyncingMessages) {
+                    if (IsSyncingMessages) {
                         return;
                     }
 
