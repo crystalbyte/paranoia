@@ -8,26 +8,18 @@ CKEDITOR.editorConfig = function (config) {
     // For complete reference see:
     // http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
-    // The toolbar groups arrangement, optimized for two toolbar rows.
-    config.toolbarGroups = [
-	    { name: 'undo' },
-        { name: 'colors' },
-        { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
-		{ name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'] }
+    config.toolbar = [
+        { name: 'undo', items: ['Undo', 'Redo'] },
+        { name: 'styles', items: ['Format', 'Font', 'FontSize'] },
+        { name: 'colors', items: ['TextColor', 'BGColor'] },
+        { name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
+        { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
     ];
 
-    config.entities = false;
-    config.entities_latin = false;
-    config.removePlugins = 'elementspath,magicline';
     config.extraAllowedContent = 'div[id];p[id];*{*}';
 
-    // Remove some buttons provided by the standard plugins, which are
-    // not needed in the Standard(s) toolbar.
-    //config.removeButtons = 'Underline,Subscript,Superscript';
+    config.removePlugins = "magicline,elementspath";
 
     // Set the most common block elements.
     config.format_tags = 'p;h1;h2;h3;pre;div';
-
-    // Simplify the dialog windows.
-    config.removeDialogTabs = 'image:advanced;link:advanced';
 };

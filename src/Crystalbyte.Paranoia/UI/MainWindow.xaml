@@ -167,7 +167,7 @@
                     <TextBlock Margin="0,0,24,0"
                                VerticalAlignment="Center"
                                FontSize="20"
-                               Foreground="WhiteSmoke"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                Style="{DynamicResource TitleTextStyle}"
                                Text="{Binding Title,
                                               RelativeSource={RelativeSource FindAncestor,

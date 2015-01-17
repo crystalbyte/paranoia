@@ -31,7 +31,7 @@
            TargetType="TextBlock">
         <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}" />
         <Setter Property="FontWeight" Value="Thin" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}" />
     </Style>
 
     <Style x:Key="FlyoutRadioButtonStyle"
@@ -172,12 +172,16 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Image Width="10"
-                           Height="10"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Source="/Assets/minimize.png"
-                           Stretch="Uniform" />
+                    <Rectangle Width="10"
+                               Height="10"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
+                               Stretch="Uniform">
+                        <Rectangle.OpacityMask>
+                            <ImageBrush ImageSource="/Assets/minimize.png" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -191,12 +195,16 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Image Width="10"
-                           Height="10"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Source="/Assets/maximize.png"
-                           Stretch="Uniform" />
+                    <Rectangle Width="10"
+                               Height="10"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
+                               Stretch="Uniform">
+                        <Rectangle.OpacityMask>
+                            <ImageBrush ImageSource="/Assets/maximize.png" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -210,12 +218,16 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Image Width="10"
-                           Height="10"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Source="/Assets/restore.png"
-                           Stretch="Uniform" />
+                    <Rectangle Width="10"
+                               Height="10"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
+                               Stretch="Uniform">
+                        <Rectangle.OpacityMask>
+                            <ImageBrush ImageSource="/Assets/restore.png" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -229,12 +241,16 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Image Width="10"
-                           Height="10"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Source="/Assets/close.png"
-                           Stretch="Uniform" />
+                    <Rectangle Width="10"
+                               Height="10"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
+                               Stretch="Uniform">
+                        <Rectangle.OpacityMask>
+                            <ImageBrush ImageSource="/Assets/close.png" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -248,11 +264,16 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Image Height="10"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Source="/Assets/help.png"
-                           Stretch="Uniform" />
+                    <Rectangle Width="10"
+                               Height="10"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
+                               Stretch="Uniform">
+                        <Rectangle.OpacityMask>
+                            <ImageBrush ImageSource="/Assets/help.png" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
                 </DataTemplate>
             </Setter.Value>
         </Setter>

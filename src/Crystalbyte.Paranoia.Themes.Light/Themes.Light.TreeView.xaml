@@ -108,6 +108,8 @@
     <Style TargetType="TreeViewItem">
         <Setter Property="Background" Value="{DynamicResource TreeViewItemBackgroundBrushKey}" />
         <Setter Property="Padding" Value="0,2" />
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
