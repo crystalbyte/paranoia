@@ -48,7 +48,9 @@
                                 <ContentPresenter Grid.Row="0"
                                                   Grid.RowSpan="2"
                                                   Panel.ZIndex="400" />
-                                <ResizeGrip Grid.Row="1"
+
+                                <ResizeGrip x:Name="ResizeGrip"
+                                            Grid.Row="1"
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Bottom"
                                             Panel.ZIndex="500"
@@ -56,9 +58,15 @@
                                                                  RelativeSource={RelativeSource TemplatedParent},
                                                                  Converter={StaticResource BooleanToVisibilityConverter}}"
                                             WindowChrome.ResizeGripDirection="BottomRight" />
+
                             </Grid>
                         </Border>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ResizeMode" Value="NoResize">
+                            <Setter TargetName="ResizeGrip" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

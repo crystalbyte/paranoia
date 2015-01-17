@@ -20,7 +20,7 @@
                       ShowActivated="True"
                       UseLayoutRounding="True"
                       WindowStartupLocation="CenterOwner"
-                      d:DataContext="{d:DesignInstance paranoia:InspectionContext}"
+                      d:DataContext="{d:DesignInstance paranoia:MessageInspectionContext}"
                       mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -298,7 +298,7 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <ui:BlockNoticeControl Grid.Row="5" />
+        <ui:BlockNoticeControl Grid.Row="5" DataContext="{Binding Message}" />
         <Grid Grid.Row="6">
             <controls:HtmlControl x:Name="HtmlControl" WebSession="{Binding Source={StaticResource InspectionWebSessionProvider}}" />
         </Grid>

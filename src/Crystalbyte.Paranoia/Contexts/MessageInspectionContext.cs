@@ -42,5 +42,13 @@ namespace Crystalbyte.Paranoia {
         }
 
         #endregion
+
+        #region Properties
+
+        public MailMessageContext Message {
+            get { return _message; }
+        }
+
+        #endregion
     }
 }

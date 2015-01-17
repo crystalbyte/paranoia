@@ -160,6 +160,7 @@
                         <Image Grid.Row="0"
                                Grid.Column="0"
                                Width="42"
+                               Margin="0,0,4,0"
                                VerticalAlignment="Center"
                                RenderOptions.BitmapScalingMode="Fant"
                                Source="{Binding Address,
@@ -187,7 +188,7 @@
                         </StackPanel>
                     </Grid>
                     <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ComboBoxItem}}" Value="True">
                             <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
                         </DataTrigger>
                     </DataTemplate.Triggers>

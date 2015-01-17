@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -177,6 +178,7 @@ namespace Crystalbyte.Paranoia {
         private async Task SendQuotedResponseAsync(DataSourceRequest request) {
             var variables = new Dictionary<string, string> {
                 {"header", string.Empty},
+                {"culture", CultureInfo.CurrentUICulture.TwoLetterISOLanguageName},
                 {"default_font_size", string.Format("{0}", Settings.Default.HtmlFontSize)},
                 {"default_font_family", string.Format("{0}", Settings.Default.HtmlFontFamily)},
                 {"ckeditor_theme", string.Compare(Settings.Default.Theme, "light", StringComparison.InvariantCultureIgnoreCase) == 0 ? "moono" : "moono-dark"}
@@ -206,6 +208,7 @@ namespace Crystalbyte.Paranoia {
             var variables = new Dictionary<string, string> {
                 {"quote", string.Empty},
                 {"header", string.Empty},
+                {"culture", CultureInfo.CurrentUICulture.TwoLetterISOLanguageName},
                 {"default_font_size", string.Format("{0}", Settings.Default.HtmlFontSize)},
                 {"default_font_family", string.Format("{0}", Settings.Default.HtmlFontFamily)},
                 {"ckeditor_theme", string.Compare(Settings.Default.Theme, "light", StringComparison.InvariantCultureIgnoreCase) == 0 ? "moono" : "moono-dark"}

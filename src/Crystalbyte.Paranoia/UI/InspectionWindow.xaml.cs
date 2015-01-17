@@ -97,7 +97,10 @@ namespace Crystalbyte.Paranoia.UI {
             var context = new MessageInspectionContext(message);
             try {
                 DataContext = context;
-                HtmlControl.Source = string.Format("asset://paranoia/message/{0}", message.Id);
+                HtmlControl.Source = string.Format(message.IsSourceTrusted 
+                    ? "asset://paranoia/message/{0}?blockExternals=false" 
+                    : "asset://paranoia/message/{0}", message.Id);
+
                 await context.InitAsync();
             } catch (Exception ex) {
                 Logger.Error(ex);

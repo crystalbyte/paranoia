@@ -542,11 +542,15 @@ namespace Crystalbyte.Paranoia {
                     .Select(x => new MailMessageContext(this, x)).ToArray();
             });
 
-            App.Context.NotifyMessagesAdded(collection);
+            if (collection.Length > 0) {
+                var notifier = new NotificationWindow(collection) { ShowActivated = false };
+                notifier.Show();
+
+                App.Context.NotifyMessagesAdded(collection);
+                await CountNotSeenAsync();    
+            }
 
             FetchedEnvelopeCount = 0;
-            await CountNotSeenAsync();
-
             IsSyncingMessages = false;
 
             return collection;

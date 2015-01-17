@@ -998,7 +998,7 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>
-            <ui:BlockNoticeControl Grid.Row="2" />
+            <ui:BlockNoticeControl Grid.Row="2" DataContext="{Binding SelectedMessage}" />
             <Border Grid.Row="3" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid Visibility="{Binding IsAnimating, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
                     <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">

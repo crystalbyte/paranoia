@@ -22,7 +22,7 @@
     <!--  Window Scope  -->
 
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="White" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}" Color="#F1F1F1" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}" Color="#F1F1F2" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}" Color="#6C6C6C" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}" Color="#E1E1E1" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowBrushKey}" Color="Black" />

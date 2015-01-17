@@ -20,7 +20,9 @@
         <DockPanel LastChildFill="True">
             <Button Margin="8,6"
                     VerticalAlignment="Center"
-                    Command="{Binding ElevateTrustLevelCommand}"
+                    Command="{Binding ElevateTrustLevelCommand,
+                                      FallbackValue=ui:AppCommands.NoOperation,
+                                      TargetNullValue=ui:AppCommands.NoOperation}"
                     DockPanel.Dock="Right">
                 <TextBlock Margin="12,3"
                            RenderOptions.ClearTypeHint="Enabled"

@@ -33,7 +33,7 @@ namespace Crystalbyte.Paranoia.UI {
         protected override void OnInitialized(EventArgs e) {
             base.OnInitialized(e);
 
-            Left = SystemParameters.WorkArea.Width - Width;
+            Left = SystemParameters.WorkArea.Width - Width - 20;
             Top = SystemParameters.WorkArea.Top + 20;
 
             _entryStoryboard = (Storyboard)Resources["EntryAnimation"];
