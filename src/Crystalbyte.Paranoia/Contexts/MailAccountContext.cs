@@ -398,11 +398,6 @@ namespace Crystalbyte.Paranoia {
             IsSyncingMailboxes = false;
         }
 
-        private async Task AddMailBoxAsync(MailboxContext context, ImapMailboxInfo mailbox, IEnumerable<ImapMailboxInfo> subscribed) {
-            await context.BindMailboxAsync(mailbox, subscribed);
-            await Application.Current.Dispatcher.InvokeAsync(() => _mailboxes.Add(context));
-        }
-
         internal async Task SaveAsync() {
             Application.Current.AssertBackgroundThread();
 
