@@ -5,7 +5,7 @@
 
     <SolidColorBrush x:Key="SliderThumbBorderBrushKey">WhiteSmoke</SolidColorBrush>
     <SolidColorBrush x:Key="SliderThumbBackgroundBrushKey">WhiteSmoke</SolidColorBrush>
-    <SolidColorBrush x:Key="SliderThumbTrackBackgroundBrushKey">#525254</SolidColorBrush>
+    <SolidColorBrush x:Key="SliderThumbTrackBackgroundBrushKey" Color="Transparent" />
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 

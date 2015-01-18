@@ -177,29 +177,9 @@ namespace Crystalbyte.Paranoia {
                 };
 
                 database.MailAccounts.Add(account);
-
-                account = new MailAccountModel {
-                    Name = "So much Spam!",
-                    Address = "osemc_test@organice.de",
-                    ImapUsername = "osemc_test",
-                    ImapPassword = "dreissig",
-                    ImapHost = "mail.organice.de",
-                    ImapPort = 993,
-                    ImapSecurity = SecurityProtocol.Implicit,
-                    SmtpHost = "mail.organice.de",
-                    SmtpPort = 25,
-                    SmtpUsername = "osemc_test",
-                    SmtpPassword = "dreissig",
-                    SmtpSecurity = SecurityProtocol.Explicit,
-                    UseImapCredentialsForSmtp = true,
-                    SmtpRequiresAuthentication = true,
-                };
+                await database.SaveChangesAsync();
 
                 Settings.Default.AcceptUntrustedCertificates = true;
-
-                database.MailAccounts.Add(account);
-
-                await database.SaveChangesAsync();
             }
 #endif
         }

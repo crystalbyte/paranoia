@@ -2,9 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
-    <SolidColorBrush x:Key="ButtonBackgroundBrushKey" Color="WhiteSmoke" />
-    <SolidColorBrush x:Key="ButtonMouseOverBackgroundBrushKey" Color="#DDDDDE" />
-    <SolidColorBrush x:Key="ButtonBorderBrushKey" Color="#555556" />
+    <SolidColorBrush x:Key="ButtonBackgroundBrushKey" Color="#7F7F7F" />
+    <SolidColorBrush x:Key="ButtonMouseOverBackgroundBrushKey" Color="#6F6F70" />
+    <SolidColorBrush x:Key="ButtonBorderBrushKey" Color="{x:Static SystemColors.ControlDarkColor}" />
     <Thickness x:Key="ButtonBorderThicknessKey">0</Thickness>
 
     <Style TargetType="RepeatButton">

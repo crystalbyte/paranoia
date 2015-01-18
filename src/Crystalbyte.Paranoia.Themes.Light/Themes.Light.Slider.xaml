@@ -4,8 +4,8 @@
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
     <SolidColorBrush x:Key="SliderThumbBorderBrushKey">WhiteSmoke</SolidColorBrush>
-    <SolidColorBrush x:Key="SliderThumbBackgroundBrushKey">WhiteSmoke</SolidColorBrush>
-    <SolidColorBrush x:Key="SliderThumbTrackBackgroundBrushKey">#525254</SolidColorBrush>
+    <SolidColorBrush x:Key="SliderThumbBackgroundBrushKey" Color="#7F7F7F" />
+    <SolidColorBrush x:Key="SliderThumbTrackBackgroundBrushKey" Color="Transparent" />
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
