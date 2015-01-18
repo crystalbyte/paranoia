@@ -16,9 +16,9 @@ CKEDITOR.editorConfig = function (config) {
         { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
     ];
 
-    config.extraAllowedContent = 'div[id];p[id];*{*}';
+    config.extraAllowedContent = 'div[id];p[id];img[!src,alt,width,height];a[!href];table th tr td;';
 
-    config.removePlugins = "magicline,elementspath";
+    config.removePlugins = 'magicline,elementspath,contextmenu';
 
     // Set the most common block elements.
     config.format_tags = 'p;h1;h2;h3;pre;div';

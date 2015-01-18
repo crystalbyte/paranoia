@@ -400,7 +400,7 @@ namespace Crystalbyte.Paranoia {
             IsSyncingMailboxes = false;
         }
 
-        private async void AddMailBox(MailboxContext context, ImapMailboxInfo mailbox, List<ImapMailboxInfo> subscribed) {
+        private async void AddMailBox(MailboxContext context, ImapMailboxInfo mailbox, IEnumerable<ImapMailboxInfo> subscribed) {
             await context.BindMailboxAsync(mailbox, subscribed);
             await Application.Current.Dispatcher.InvokeAsync(() => _mailboxes.Add(context));
         }
