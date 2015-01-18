@@ -332,19 +332,22 @@ namespace Crystalbyte.Paranoia {
 
                         if (mailbox.IsGmailAll) {
                             context.IsSubscribed = true;
-                            goto done;
+                            AddMailBox(context, mailbox, subscribed);
+                            continue;
                         }
 
                         if (mailbox.IsGmailImportant) {
                             context.IsSubscribed = true;
-                            goto done;
+                            AddMailBox(context, mailbox, subscribed);
+                            continue;
                         }
 
                         if (mailboxes.All(x => !x.IsJunk)) {
                             if (mailbox.IsGmailJunk || mailbox.Name.ContainsIgnoreCase("junk")) {
                                 JunkMailboxName = mailbox.Fullname;
                                 context.IsSubscribed = true;
-                                goto done;
+                                AddMailBox(context, mailbox, subscribed);
+                                continue;
                             }
                         }
 
@@ -353,7 +356,8 @@ namespace Crystalbyte.Paranoia {
                                 mailbox.Name.ContainsIgnoreCase("draft")) {
                                 DraftMailboxName = mailbox.Fullname;
                                 context.IsSubscribed = true;
-                                goto done;
+                                AddMailBox(context, mailbox, subscribed);
+                                continue;
                             }
                         }
 
@@ -361,7 +365,8 @@ namespace Crystalbyte.Paranoia {
                             if (mailbox.IsGmailSent || mailbox.Name.ContainsIgnoreCase("sent")) {
                                 SentMailboxName = mailbox.Fullname;
                                 context.IsSubscribed = true;
-                                goto done;
+                                AddMailBox(context, mailbox, subscribed);
+                                continue;
                             }
                         }
 
@@ -373,9 +378,6 @@ namespace Crystalbyte.Paranoia {
                             }
                         }
 
-                    done:
-                        await context.BindMailboxAsync(mailbox, subscribed);
-                        await Application.Current.Dispatcher.InvokeAsync(() => _mailboxes.Add(context));
                     }
 
                     await SaveAsync();
@@ -396,6 +398,11 @@ namespace Crystalbyte.Paranoia {
             App.Context.ResetStatusText();
 
             IsSyncingMailboxes = false;
+        }
+
+        private async void AddMailBox(MailboxContext context, ImapMailboxInfo mailbox, List<ImapMailboxInfo> subscribed) {
+            await context.BindMailboxAsync(mailbox, subscribed);
+            await Application.Current.Dispatcher.InvokeAsync(() => _mailboxes.Add(context));
         }
 
         internal async Task SaveAsync() {
