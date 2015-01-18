@@ -153,16 +153,16 @@ namespace Crystalbyte.Paranoia {
         }
 
         public bool IsFlagged {
-            get { return HasFlag(MailMessageFlags.Flagged); }
+            get { return _message.HasFlag(MailMessageFlags.Flagged); }
             set {
-                if (HasFlag(MailMessageFlags.Flagged) == value) {
+                if (_message.HasFlag(MailMessageFlags.Flagged) == value) {
                     return;
                 }
 
                 if (value) {
-                    WriteFlag(MailMessageFlags.Flagged);
+                    _message.WriteFlag(MailMessageFlags.Flagged);
                 } else {
-                    DropFlag(MailMessageFlags.Flagged);
+                    _message.DropFlag(MailMessageFlags.Flagged);
                 }
 
                 RaisePropertyChanged(() => IsFlagged);
@@ -172,16 +172,16 @@ namespace Crystalbyte.Paranoia {
         }
 
         public bool IsSeen {
-            get { return HasFlag(MailMessageFlags.Seen); }
+            get { return _message.HasFlag(MailMessageFlags.Seen); }
             set {
-                if (HasFlag(MailMessageFlags.Seen) == value) {
+                if (_message.HasFlag(MailMessageFlags.Seen) == value) {
                     return;
                 }
 
                 if (value) {
-                    WriteFlag(MailMessageFlags.Seen);
+                    _message.WriteFlag(MailMessageFlags.Seen);
                 } else {
-                    DropFlag(MailMessageFlags.Seen);
+                    _message.DropFlag(MailMessageFlags.Seen);
                 }
 
                 RaisePropertyChanged(() => IsSeen);
@@ -220,23 +220,7 @@ namespace Crystalbyte.Paranoia {
             get { return !IsFlagged; }
         }
 
-        private void DropFlag(string flag) {
-            var flags = _message.Flags.Split(';').ToList();
-            flags.RemoveAll(x => x.Equals(flag, StringComparison.InvariantCultureIgnoreCase));
-
-            _message.Flags = string.Join(";", flags);
-        }
-
-        private void WriteFlag(string flag) {
-            var flags = _message.Flags.Split(';').ToList();
-            flags.Add(flag);
-
-            _message.Flags = string.Join(";", flags);
-        }
-
-        private bool HasFlag(string flag) {
-            return _message.Flags.ContainsIgnoreCase(flag);
-        }
+     
 
         public bool IsLoading {
             get { return _load > 0; }

@@ -511,85 +511,130 @@ namespace Crystalbyte.Paranoia {
                 throw new InvalidOperationException("IsSyncingMessages");
             }
 
-            IsSyncingMessages = true;
+            try {
+                IsSyncingMessages = true;
 
-            var results = await Task.Run(async () => {
-                var name = _mailbox.Name;
-                var maxUid = await GetMaxUidAsync();
-                var account = await GetAccountAsync();
+                var results = await Task.Run(async () => {
+                    var name = _mailbox.Name;
+                    var maxUid = await GetMaxUidAsync();
+                    var account = await GetAccountAsync();
 
-                long[] seenUids;
-                long[] unseenUids;
-                MailMessageModel[] messages;
+                    long[] seenUids;
+                    long[] unseenUids;
+                    MailMessageModel[] messages;
 
-                using (var connection = new ImapConnection {
-                    Security = account.ImapSecurity
-                }) {
-                    using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
-                        using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
-                            var mailbox = await session.SelectAsync(name);
+                    using (var connection = new ImapConnection {
+                        Security = account.ImapSecurity
+                    }) {
+                        using (
+                            var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
+                            using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
+                                var mailbox = await session.SelectAsync(name);
 
-                            messages = (await FetchRecentEnvelopesAsync(mailbox, maxUid)).ToArray();
-                            seenUids = (await mailbox.SearchAsync("1:* SEEN")).ToArray();
-                            unseenUids = (await mailbox.SearchAsync("1:* NOT SEEN")).ToArray();
+                                messages = (await FetchRecentEnvelopesAsync(mailbox, maxUid)).ToArray();
+                                seenUids = (await mailbox.SearchAsync("1:* SEEN")).ToArray();
+                                unseenUids = (await mailbox.SearchAsync("1:* NOT SEEN")).ToArray();
+                            }
                         }
                     }
+
+                    if (messages.Length > 0) {
+                        await SaveContactsAsync(messages);
+                        await SaveMessagesAsync(messages);
+                    }
+
+                    return new SyncResults {
+                        Messages =
+                            messages.Select(x => new MailMessageContext(this, x))
+                                .ToArray(),
+                        UidsForSeen = new HashSet<long>(seenUids),
+                        UidsForUnseen = new HashSet<long>(unseenUids)
+                    };
+                });
+
+                if (results.Messages.Length > 0) {
+                    App.Context.NotifyMessagesAdded(results.Messages);
                 }
 
-                if (messages.Length > 0) {
-                    await SaveContactsAsync(messages);
-                    await SaveMessagesAsync(messages);
-                }
+                await DetectAndDropDeletedMessagesAsync(results);
+                await DetectAndChangeSeenStatesAsync(results);
+                await CountNotSeenAsync();
 
-                return new SyncResults {
-                    Messages = messages.Select(x => new MailMessageContext(this, x)).ToArray(),
-                    UidsForSeen = new HashSet<long>(seenUids),
-                    UidsForUnseen = new HashSet<long>(unseenUids)
-                };
-            });
+                return results.Messages;
 
-            if (results.Messages.Length > 0) {
-                App.Context.NotifyMessagesAdded(results.Messages);
+            } finally {
+                FetchedEnvelopeCount = 0;
+                IsSyncingMessages = false;
             }
-
-            await SyncLocalMessagesAsync(results);
-
-
-            FetchedEnvelopeCount = 0;
-            IsSyncingMessages = false;
-
-            return results.Messages;
         }
 
-        private async Task SyncLocalMessagesAsync(SyncResults results) {
-            var uids = new HashSet<long>(results.UidsForSeen.Concat(results.UidsForUnseen).Distinct());
-            using (var context = new DatabaseContext()) {
-                var messages = await context.MailMessages.Where(x => x.MailboxId == Id).ToArrayAsync();
-                var deletedMessages = messages.Where(x => !uids.Contains(x.Uid)).ToArray();
-
-                await context.Database.Connection.OpenAsync();
-                using (var transaction = context.Database.Connection.BeginTransaction()) {
-                    try {
-                        foreach (var deletedMessage in deletedMessages) {
-                            var message = deletedMessage;
-                            var mime = await context.MimeMessages.FirstOrDefaultAsync(x => x.MessageId == message.Id);
-                            if (mime != null) {
-                                context.MimeMessages.Remove(mime);
+        private async Task DetectAndChangeSeenStatesAsync(SyncResults results) {
+            try {
+                var models = await Task.Run(async () => {
+                    using (var context = new DatabaseContext()) {
+                        var messages = await context.MailMessages.Where(x => x.MailboxId == Id).ToArrayAsync();
+                        foreach (var message in messages) {
+                            var isSeen = results.UidsForSeen.Contains(message.Uid);
+                            if (message.HasFlag(MailMessageFlags.Seen) == isSeen) {
+                                continue;
                             }
 
-                            context.MailMessages.Remove(deletedMessage);
+                            if (isSeen) {
+                                message.WriteFlag(MailMessageFlags.Seen);
+                            } else {
+                                message.DropFlag(MailMessageFlags.Seen);
+                            }
                         }
-
                         await context.SaveChangesAsync();
-                        transaction.Commit();
-                    } catch (Exception) {
-                        transaction.Rollback();
+                        return messages;
                     }
-                }
+                });
 
-                await context.SaveChangesAsync();
+                var dictionary = models.ToDictionary(model => model.Id);
+                App.Context.NotifySeenStatesChanged(dictionary);
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private async Task DetectAndDropDeletedMessagesAsync(SyncResults results) {
+            var uids = new HashSet<long>(results.UidsForSeen.Concat(results.UidsForUnseen).Distinct());
+            if (uids.Count == 0) {
+                return;
             }
 
+            var deletedIds = await Task.Run(async () => {
+                using (var context = new DatabaseContext()) {
+                    var messages = await context.MailMessages.Where(x => x.MailboxId == Id).ToArrayAsync();
+                    var deletedMessages = messages.Where(x => !uids.Contains(x.Uid)).ToArray();
+
+                    await context.Database.Connection.OpenAsync();
+                    using (var transaction = context.Database.Connection.BeginTransaction()) {
+                        try {
+                            foreach (var deletedMessage in deletedMessages) {
+                                var message = deletedMessage;
+                                var mime = await context.MimeMessages.FirstOrDefaultAsync(x => x.MessageId == message.Id);
+                                if (mime != null) {
+                                    context.MimeMessages.Remove(mime);
+                                }
+
+                                context.MailMessages.Remove(deletedMessage);
+                            }
+
+                            await context.SaveChangesAsync();
+                            transaction.Commit();
+                        } catch (Exception) {
+                            transaction.Rollback();
+                        }
+                    }
+
+                    return deletedMessages.Select(x => x.Id).ToArray();
+                }
+            });
+
+            if (deletedIds.Length > 0 && App.Context.SelectedMailbox == this) {
+                App.Context.NotifyMessagesRemoved(deletedIds);
+            }
         }
 
         public int TotalEnvelopeCount {

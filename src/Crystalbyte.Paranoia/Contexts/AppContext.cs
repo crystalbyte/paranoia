@@ -274,7 +274,7 @@ namespace Crystalbyte.Paranoia {
         private async Task RefreshViewForSelectedMailboxAsync() {
             await RequestMessagesAsync(SelectedMailbox);
             if (!SelectedMailbox.IsSyncingMessages) {
-                await SelectedMailbox.SyncMessagesAsync();    
+                await SelectedMailbox.SyncMessagesAsync();
             }
         }
 
@@ -524,9 +524,8 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 mailbox.ShowAllMessages = ShowAllMessages;
-                await RequestMessagesAsync(mailbox);    
-            }
-            catch (Exception ex) {
+                await RequestMessagesAsync(mailbox);
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -1047,6 +1046,12 @@ namespace Crystalbyte.Paranoia {
             message.IsSelected = true;
         }
 
+        internal void NotifyMessagesRemoved(IEnumerable<long> ids) {
+            foreach (var message in ids.Select(id => _messages.FirstOrDefault(x => x.Id == id)).Where(message => message != null)) {
+                _messages.Remove(message);
+            }
+        }
+
         internal void NotifyMessagesRemoved(IEnumerable<MailMessageContext> messages) {
             messages.ForEach(x => _messages.Remove(x));
         }
@@ -1130,6 +1135,12 @@ namespace Crystalbyte.Paranoia {
 
                 Task.WhenAll(tasks);
             });
+        }
+
+        public void NotifySeenStatesChanged(IDictionary<long, MailMessageModel> messages) {
+            foreach (var message in _messages) {
+                message.IsSeen = messages[message.Id].HasFlag(MailMessageFlags.Seen);
+            }
         }
     }
 }
