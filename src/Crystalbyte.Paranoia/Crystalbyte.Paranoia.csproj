@@ -243,7 +243,6 @@
     <Compile Include="ImapEnvelopeExtensions.cs" />
     <Compile Include="IMessageSource.cs" />
     <Compile Include="ParanoiaHeaderKeys.cs" />
-    <Compile Include="MessageType.cs" />
     <Compile Include="Net\AddressKeyPair.cs" />
     <Compile Include="Net\ChallengeResponse.cs" />
     <Compile Include="Net\KeyCollection.cs" />

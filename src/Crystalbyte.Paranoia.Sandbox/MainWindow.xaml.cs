@@ -26,9 +26,8 @@ namespace Crystalbyte.Paranoia.Sandbox {
             SuggestiveTextBox.ItemsSourceRequested += OnItemsSourceRequested;
         }
 
-        private static void OnItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
-            Thread.Sleep(1000);
-            e.ItemsSource = new[] { "Alexander Wieser", "Marvin Schluch", "Sebastian Thobe" };
+        private void OnItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
+            SuggestiveTextBox.ItemsSource = new[] { "Alexander Wieser", "Marvin Schluch", "Sebastian Thobe" };
         }
     }
 }

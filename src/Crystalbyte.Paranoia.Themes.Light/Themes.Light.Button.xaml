@@ -3,7 +3,7 @@
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
     <SolidColorBrush x:Key="ButtonBackgroundBrushKey" Color="{x:Static SystemColors.ControlLightColor}" />
-    <SolidColorBrush x:Key="ButtonMouseOverBackgroundBrushKey" Color="#DDDDDE" />
+    <SolidColorBrush x:Key="ButtonMouseOverBackgroundBrushKey" Color="{x:Static SystemColors.ControlColor}" />
     <SolidColorBrush x:Key="ButtonBorderBrushKey" Color="{x:Static SystemColors.ControlDarkColor}" />
     <Thickness x:Key="ButtonBorderThicknessKey">1</Thickness>
 

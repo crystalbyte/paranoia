@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Crystalbyte.Paranoia {
     public static class ImapEnvelopeExtensions {
-        public static MailMessageModel ToMailMessage(this ImapEnvelope envelope, MailType type) {
+        public static MailMessageModel ToMailMessage(this ImapEnvelope envelope) {
             return new MailMessageModel {
                 EntryDate = envelope.InternalDate.HasValue
                     ? envelope.InternalDate.Value
@@ -20,8 +20,7 @@ namespace Crystalbyte.Paranoia {
                     : string.Empty,
                 FromName = envelope.From.Any()
                     ? envelope.From.First().DisplayName
-                    : string.Empty,
-                Type = type
+                    : string.Empty
             };
         }
     }

@@ -6,6 +6,7 @@
              xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
              xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
              xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
+             xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
              d:DataContext="{d:DesignInstance paranoia:MailMessageContext}"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -14,15 +15,15 @@
             SnapsToDevicePixels="True"
             UseLayoutRounding="True"
             Visibility="{Binding HasExternalsAndSourceIsNotTrusted,
-                                 FallbackValue=Collapsed,
-                                 TargetNullValue=Collapsed,
+                                 FallbackValue={x:Static Visibility.Collapsed},
+                                 TargetNullValue={x:Static Visibility.Collapsed},
                                  Converter={StaticResource BooleanToVisibilityConverter}}">
         <DockPanel LastChildFill="True">
             <Button Margin="8,6"
                     VerticalAlignment="Center"
                     Command="{Binding ElevateTrustLevelCommand,
-                                      FallbackValue=ui:AppCommands.NoOperation,
-                                      TargetNullValue=ui:AppCommands.NoOperation}"
+                                      FallbackValue={x:Static ui:AppCommands.NoOperation},
+                                      TargetNullValue={x:Static ui:AppCommands.NoOperation}}"
                     DockPanel.Dock="Right">
                 <TextBlock Margin="12,3"
                            RenderOptions.ClearTypeHint="Enabled"

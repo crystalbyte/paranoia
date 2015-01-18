@@ -513,11 +513,14 @@ namespace Crystalbyte.Paranoia {
 
             IsSyncingMessages = true;
 
-            var collection = await Task.Run(async () => {
+            var results = await Task.Run(async () => {
                 var name = _mailbox.Name;
                 var maxUid = await GetMaxUidAsync();
                 var account = await GetAccountAsync();
-                var messages = new List<MailMessageModel>();
+
+                long[] seenUids;
+                long[] unseenUids;
+                MailMessageModel[] messages;
 
                 using (var connection = new ImapConnection {
                     Security = account.ImapSecurity
@@ -525,32 +528,68 @@ namespace Crystalbyte.Paranoia {
                     using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
                         using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
                             var mailbox = await session.SelectAsync(name);
-                            messages.AddRange(
-                                await SyncNonChallengesAsync(mailbox, maxUid));
+
+                            messages = (await FetchRecentEnvelopesAsync(mailbox, maxUid)).ToArray();
+                            seenUids = (await mailbox.SearchAsync("1:* SEEN")).ToArray();
+                            unseenUids = (await mailbox.SearchAsync("1:* NOT SEEN")).ToArray();
                         }
                     }
                 }
 
-                if (messages.Count == 0) {
-                    return new MailMessageContext[0];
+                if (messages.Length > 0) {
+                    await SaveContactsAsync(messages);
+                    await SaveMessagesAsync(messages);
                 }
 
-                await SaveContactsAsync(messages);
-                await SaveMessagesAsync(messages);
-
-                return messages.Where(x => x.Type == MailType.Message)
-                    .Select(x => new MailMessageContext(this, x)).ToArray();
+                return new SyncResults {
+                    Messages = messages.Select(x => new MailMessageContext(this, x)).ToArray(),
+                    UidsForSeen = new HashSet<long>(seenUids),
+                    UidsForUnseen = new HashSet<long>(unseenUids)
+                };
             });
 
-            if (collection.Length > 0) {
-                App.Context.NotifyMessagesAdded(collection);
-                await CountNotSeenAsync();
+            if (results.Messages.Length > 0) {
+                App.Context.NotifyMessagesAdded(results.Messages);
             }
+
+            await SyncLocalMessagesAsync(results);
+
 
             FetchedEnvelopeCount = 0;
             IsSyncingMessages = false;
 
-            return collection;
+            return results.Messages;
+        }
+
+        private async Task SyncLocalMessagesAsync(SyncResults results) {
+            var uids = new HashSet<long>(results.UidsForSeen.Concat(results.UidsForUnseen).Distinct());
+            using (var context = new DatabaseContext()) {
+                var messages = await context.MailMessages.Where(x => x.MailboxId == Id).ToArrayAsync();
+                var deletedMessages = messages.Where(x => !uids.Contains(x.Uid)).ToArray();
+
+                await context.Database.Connection.OpenAsync();
+                using (var transaction = context.Database.Connection.BeginTransaction()) {
+                    try {
+                        foreach (var deletedMessage in deletedMessages) {
+                            var message = deletedMessage;
+                            var mime = await context.MimeMessages.FirstOrDefaultAsync(x => x.MessageId == message.Id);
+                            if (mime != null) {
+                                context.MimeMessages.Remove(mime);
+                            }
+
+                            context.MailMessages.Remove(deletedMessage);
+                        }
+
+                        await context.SaveChangesAsync();
+                        transaction.Commit();
+                    } catch (Exception) {
+                        transaction.Rollback();
+                    }
+                }
+
+                await context.SaveChangesAsync();
+            }
+
         }
 
         public int TotalEnvelopeCount {
@@ -575,8 +614,8 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task<IEnumerable<MailMessageModel>> SyncNonChallengesAsync(ImapMailbox mailbox, long uid) {
-            var criteria = string.Format("{0}:* NOT HEADER \"{1}\" \"{2}\"", uid, ParanoiaHeaderKeys.Type, MailType.Challenge);
+        private async Task<IEnumerable<MailMessageModel>> FetchRecentEnvelopesAsync(ImapMailbox mailbox, long uid) {
+            var criteria = string.Format("{0}:*", uid);
             var uids = await mailbox.SearchAsync(criteria);
 
             if (!uids.Any()) {
@@ -600,7 +639,7 @@ namespace Crystalbyte.Paranoia {
             var messages = new List<MailMessageModel>();
             foreach (var envelope in envelopes) {
                 try {
-                    var message = envelope.ToMailMessage(MailType.Message);
+                    var message = envelope.ToMailMessage();
                     messages.Add(message);
                 } catch (Exception ex) {
                     Logger.Error(ex);
@@ -704,7 +743,6 @@ namespace Crystalbyte.Paranoia {
         internal async Task CountNotSeenAsync() {
             using (var context = new DatabaseContext()) {
                 NotSeenCount = await context.MailMessages
-                    .Where(x => x.Type == MailType.Message)
                     .Where(x => x.MailboxId == _mailbox.Id)
                     .Where(x => !x.Flags.Contains(MailMessageFlags.Seen))
                     .CountAsync();
@@ -851,12 +889,10 @@ namespace Crystalbyte.Paranoia {
             using (var context = new DatabaseContext()) {
                 if (ShowAllMessages) {
                     messages = await context.MailMessages
-                        .Where(x => x.Type == MailType.Message)
                         .Where(x => x.MailboxId == _mailbox.Id)
                         .ToArrayAsync();
                 } else {
                     messages = await context.MailMessages
-                        .Where(x => x.Type == MailType.Message)
                         .Where(x => !x.Flags.Contains(MailMessageFlags.Seen))
                         .Where(x => x.MailboxId == _mailbox.Id)
                         .ToArrayAsync();
@@ -952,5 +988,15 @@ namespace Crystalbyte.Paranoia {
                 Logger.Error(ex);
             }
         }
+
+        #region Nested Structures
+
+        private struct SyncResults {
+            public MailMessageContext[] Messages { get; set; }
+            public HashSet<long> UidsForSeen { get; set; }
+            public HashSet<long> UidsForUnseen { get; set; }
+        }
+
+        #endregion
     }
 }

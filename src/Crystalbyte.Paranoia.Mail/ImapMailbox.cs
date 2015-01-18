@@ -67,7 +67,7 @@ namespace Crystalbyte.Paranoia.Mail {
         /// </summary>
         /// <param name="criteria"> The search criteria. </param>
         /// <returns> The uids of messages matching the given criteria. </returns>
-        public async Task<IList<int>> SearchAsync(string criteria) {
+        public async Task<IList<long>> SearchAsync(string criteria) {
             var command = String.Format("UID SEARCH UID {0}", criteria);
             var id = await _connection.WriteCommandAsync(command);
             return await ReadSearchResponseAsync(id);
@@ -180,8 +180,8 @@ namespace Crystalbyte.Paranoia.Mail {
             IsIdle = false;
         }
 
-        private async Task<IList<int>> ReadSearchResponseAsync(string commandId) {
-            var list = new List<int>();
+        private async Task<IList<long>> ReadSearchResponseAsync(string commandId) {
+            var list = new List<long>();
             while (true) {
                 var line = await _connection.ReadAsync();
                 if (line.TerminatesCommand(commandId)) {
@@ -194,7 +194,7 @@ namespace Crystalbyte.Paranoia.Mail {
 
                 const string pattern = @"[0-9]+";
                 var matches = Regex.Matches(line.Text, pattern, RegexOptions.CultureInvariant);
-                list.AddRange(from Match match in matches select Int32.Parse(match.Value));
+                list.AddRange(from Match match in matches select Int64.Parse(match.Value));
             }
 
             return list;
@@ -353,7 +353,7 @@ namespace Crystalbyte.Paranoia.Mail {
             return headers;
         }
 
-        public async Task<IEnumerable<ImapEnvelope>> FetchEnvelopesAsync(ICollection<int> uids) {
+        public async Task<IEnumerable<ImapEnvelope>> FetchEnvelopesAsync(ICollection<long> uids) {
 
             var envelopes = new List<ImapEnvelope>();
 
