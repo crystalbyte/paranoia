@@ -9,7 +9,7 @@
     <Thickness x:Key="ComboBoxMarginKey">3</Thickness>
     <Thickness x:Key="ComboBoxBorderThicknessKey">1</Thickness>
     <SolidColorBrush x:Key="ComboBoxMouseOverBackgroundBrushKey" Color="#7F7F7F" />
-    <SolidColorBrush x:Key="ComboBoxBackgroundBrushKey" Color="#2F2F30" />
+    <SolidColorBrush x:Key="ComboBoxBackgroundBrushKey" Color="#262627" />
     <SolidColorBrush x:Key="ComboBoxBorderBrushKey" Color="#555556" />
 
     <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">

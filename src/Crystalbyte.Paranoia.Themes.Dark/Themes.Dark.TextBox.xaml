@@ -3,7 +3,7 @@
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
     <SolidColorBrush x:Key="TextBoxBorderBrushKey" Color="#555556" />
-    <SolidColorBrush x:Key="TextBoxBackgroundBrushKey" Color="#2F2F30" />
+    <SolidColorBrush x:Key="TextBoxBackgroundBrushKey" Color="#262627" />
 
     <Style x:Key="MonoChromeIconRectangleStyle" TargetType="Rectangle">
         <Setter Property="Width" Value="16" />

@@ -223,6 +223,7 @@ namespace Crystalbyte.Paranoia {
                     if (!IsSyncingMailboxes) {
                         await SyncMailboxesAsync();
                     }
+
                     var inbox = GetInbox();
                     if (inbox != null) {
                         await inbox.IdleAsync();

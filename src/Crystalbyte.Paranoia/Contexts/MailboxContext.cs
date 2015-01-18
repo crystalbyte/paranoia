@@ -543,11 +543,8 @@ namespace Crystalbyte.Paranoia {
             });
 
             if (collection.Length > 0) {
-                var notifier = new NotificationWindow(collection) { ShowActivated = false };
-                notifier.Show();
-
                 App.Context.NotifyMessagesAdded(collection);
-                await CountNotSeenAsync();    
+                await CountNotSeenAsync();
             }
 
             FetchedEnvelopeCount = 0;
@@ -565,7 +562,6 @@ namespace Crystalbyte.Paranoia {
                 _totalEnvelopeCount = value;
                 RaisePropertyChanged(() => TotalEnvelopeCount);
             }
-
         }
 
         public int FetchedEnvelopeCount {
@@ -818,7 +814,10 @@ namespace Crystalbyte.Paranoia {
                     if (messages.Count <= 0)
                         return;
 
-                    var notification = new NotificationWindow(messages);
+                    var notification = new NotificationWindow(messages) {
+                        ShowActivated = false
+                    };
+
                     notification.Show();
 
                 } catch (Exception ex) {

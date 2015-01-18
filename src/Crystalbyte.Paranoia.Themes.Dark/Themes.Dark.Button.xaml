@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
-    <SolidColorBrush x:Key="ButtonBackgroundBrushKey" Color="#2F2F30" />
+    <SolidColorBrush x:Key="ButtonBackgroundBrushKey" Color="#262627" />
     <SolidColorBrush x:Key="ButtonMouseOverBackgroundBrushKey" Color="#444445" />
     <SolidColorBrush x:Key="ButtonBorderBrushKey" Color="#555556" />
     <Thickness x:Key="ButtonBorderThicknessKey">1</Thickness>

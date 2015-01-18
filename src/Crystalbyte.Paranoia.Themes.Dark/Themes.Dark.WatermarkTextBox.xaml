@@ -7,7 +7,7 @@
                     mc:Ignorable="d">
 
     <SolidColorBrush x:Key="TextBoxBorderBrushKey" Color="#555556" />
-    <SolidColorBrush x:Key="TextBoxBackgroundBrushKey" Color="#2F2F30" />
+    <SolidColorBrush x:Key="TextBoxBackgroundBrushKey" Color="#262627" />
 
     <DataTemplate x:Key="DefaultWatermarkTemplate">
         <TextBlock Margin="3,0,0,0"
