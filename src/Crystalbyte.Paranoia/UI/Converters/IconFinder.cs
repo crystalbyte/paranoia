@@ -222,6 +222,8 @@ namespace Crystalbyte.Paranoia.UI.Converters {
             public string szTypeName;
         };
 
+#pragma warning disable 0649
+
         // ReSharper disable UnusedField.Compiler
         private struct IMAGELISTDRAWPARAMS {
             public int cbSize;
@@ -242,6 +244,8 @@ namespace Crystalbyte.Paranoia.UI.Converters {
             public int Frame;
             public int crEffect;
         }
+
+#pragma warning restore 0649
 
         [StructLayout(LayoutKind.Sequential)]
         private struct RECT {

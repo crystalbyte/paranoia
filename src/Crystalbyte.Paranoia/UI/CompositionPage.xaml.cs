@@ -41,6 +41,7 @@ namespace Crystalbyte.Paranoia.UI {
             HtmlControl.DocumentReady += OnDocumentReady;
             DataContext = context;
         }
+
         private void OnHtmlControlInitialized(object sender, EventArgs e) {
             var control = (HtmlControl)sender;
             control.WebSession.ClearCache();
@@ -85,10 +86,15 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void FocusOnPageLoad(Func<Control> controlDelegate) {
             if (IsLoaded) {
-                controlDelegate().Focus();
+                FocusByDelegate(controlDelegate);
             } else {
-                Loaded += (sender, e) => controlDelegate().Focus();
+                Loaded += (sender, e) => FocusByDelegate(controlDelegate);
             }
+        }
+
+        private static void FocusByDelegate(Func<Control> controlDelegate) {
+            var control = controlDelegate();
+            control.Focus();
         }
 
         public Task<MailContactContext[]> QueryContactsAsync(string text) {

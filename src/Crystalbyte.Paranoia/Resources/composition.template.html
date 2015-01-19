@@ -6,8 +6,10 @@
 <body>
     <textarea id="editor" name="editor"></textarea>
     <div id="content-storage" style="display: none;">
-        <div><p /></div>
-        <div id="signature"></div>
+        <div style="margin-top: 12px; background: green;">
+            <p id="start"></p>
+        </div>
+        <div id="signature" style="margin-top: 12px; background: red;"></div>
         {{HEADER}}
         {{QUOTE}}
     </div>
@@ -43,8 +45,7 @@
             }
 
             var focusEditor = function () {
-                var editor = textarea.editor;
-                editor.focus();
+                $('#start').focus();
             }
 
             var getComposition = function () {
@@ -70,6 +71,15 @@
                 textarea.val(html);
             }
 
+            var setSignature = function (signature) {
+                var paragraph = $('#signature');
+                if (paragraph.length === 0) {
+                    alert("signature not found");
+                }
+
+                $('#signature').val(signature);
+            }
+
             var execute = function (command) {
                 var editor = textarea.editor;
                 editor.execCommand(command);
@@ -92,6 +102,7 @@
                 setReadOnly: setReadOnly,
                 loadContent: loadContent,
                 focusEditor: focusEditor,
+                setSignature: setSignature,
                 resizeEditor: resizeEditor,
                 getComposition: getComposition,
                 setComposition: setComposition,

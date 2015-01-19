@@ -381,6 +381,7 @@
                             <TextBox Grid.Row="0"
                                      Grid.Column="1"
                                      MinWidth="200"
+                                     Margin="3,3,0,3"
                                      IsEnabled="{Binding HasMailboxes}"
                                      IsReadOnly="True"
                                      Style="{StaticResource FlyoutTextBoxStyle}"
@@ -405,6 +406,7 @@
                             <TextBox Grid.Row="1"
                                      Grid.Column="1"
                                      MinWidth="200"
+                                     Margin="3,3,0,3"
                                      IsEnabled="{Binding HasMailboxes}"
                                      IsReadOnly="True"
                                      Style="{StaticResource FlyoutTextBoxStyle}"
@@ -429,6 +431,7 @@
                             <TextBox Grid.Row="2"
                                      Grid.Column="1"
                                      MinWidth="200"
+                                     Margin="3,3,0,3"
                                      IsEnabled="{Binding HasMailboxes}"
                                      IsReadOnly="True"
                                      Style="{StaticResource FlyoutTextBoxStyle}"
@@ -463,6 +466,7 @@
                                     <Run Text=":" />
                                 </TextBlock>
                                 <TextBox MinWidth="200"
+                                         Margin="3,3,0,3"
                                          IsEnabled="{Binding StoreCopiesOfSentMessages}"
                                          IsReadOnly="True"
                                          Style="{StaticResource FlyoutTextBoxStyle}"
@@ -702,6 +706,7 @@
                         </TextBlock>
                         <StackPanel Orientation="Horizontal">
                             <TextBox Width="340"
+                                     Margin="3,3,0,3"
                                      IsReadOnly="True"
                                      Style="{StaticResource FlyoutTextBoxStyle}"
                                      Text="{Binding SignaturePath,

@@ -81,7 +81,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         protected virtual void OnEditorContentChanged() {
             var handler = EditorContentChanged;
-            if (handler != null) 
+            if (handler != null)
                 handler(this, EventArgs.Empty);
         }
 
@@ -89,7 +89,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         protected virtual void OnScriptingFailure(ScriptingFailureEventArgs e) {
             var handler = ScriptingFailure;
-            if (handler != null) 
+            if (handler != null)
                 handler(this, e);
         }
 
@@ -229,14 +229,14 @@ namespace Crystalbyte.Paranoia.UI {
             }
 
             OnDocumentReady();
-            
+
             CommandManager.InvalidateRequerySuggested();
         }
 
         #endregion
 
         #region Methods
-     
+
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
             if (!_webControl.IsDocumentReady)
                 return;
@@ -298,19 +298,10 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public void ChangeSignature(string signature) {
-            var composition = GetComposition();
-
             JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
             using (module) {
-                const string function = "setComposition";
-                const string pattern = "<div\\s+id=\"signature\"\\s*>(?<PART>.*?)</div>";
-
-                var correction = Regex.Replace(composition, pattern, m => {
-                    var part = m.Groups["PART"].Value;
-                    return m.Value.Replace(part, signature);
-                }, RegexOptions.Singleline | RegexOptions.IgnoreCase);
-
-                module.Invoke(function, correction);
+                const string function = "setSignature";
+                module.Invoke(function, new[] { new JSValue(signature) });
             }
         }
 
