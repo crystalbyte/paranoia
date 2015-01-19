@@ -1138,7 +1138,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public void NotifySeenStatesChanged(IDictionary<long, MailMessageModel> messages) {
-            foreach (var message in _messages) {
+            foreach (var message in from message in _messages let hasKey = messages.ContainsKey(message.Id) where hasKey select message) {
                 message.IsSeen = messages[message.Id].HasFlag(MailMessageFlags.Seen);
             }
         }
