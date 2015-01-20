@@ -30,6 +30,8 @@ namespace Crystalbyte.Paranoia.UI {
 
         #endregion
 
+        #region Construction
+
         public CompositionPage() {
             InitializeComponent();
 
@@ -38,8 +40,33 @@ namespace Crystalbyte.Paranoia.UI {
             context.Finished += OnFinished;
 
             HtmlControl.ScriptingFailure += OnEditorScriptingFailure;
-            HtmlControl.DocumentReady += OnDocumentReady;
+            HtmlControl.EditorContentLoaded += OnEditorContentLoaded;
             DataContext = context;
+        }
+
+        #endregion
+
+        #region Dependency Properties
+
+        public bool IsEditorContentLoaded {
+            get { return (bool)GetValue(IsEditorContentLoadedProperty); }
+            set { SetValue(IsEditorContentLoadedProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsEditorContentLoaded.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsEditorContentLoadedProperty =
+            DependencyProperty.Register("IsEditorContentLoaded", typeof(bool), typeof(CompositionPage), new PropertyMetadata(false));
+
+        #endregion
+
+        private async void OnEditorContentLoaded(object sender, EditorContentLoadedEventArgs e) {
+            IsEditorContentLoaded = true;
+
+            await Task.Run(async () => {
+                await Application.Current.Dispatcher.InvokeAsync(async () => {
+                    await ChangeSignatureAsync();
+                });
+            });
         }
 
         private void OnHtmlControlInitialized(object sender, EventArgs e) {
@@ -49,14 +76,6 @@ namespace Crystalbyte.Paranoia.UI {
 
         private static void OnEditorScriptingFailure(object sender, ScriptingFailureEventArgs e) {
             Logger.Error(e.Exception);
-        }
-
-        private async void OnDocumentReady(object sender, EventArgs e) {
-            try {
-                await ChangeSignatureAsync();
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
         }
 
         private void OnFinished(object sender, EventArgs e) {
@@ -161,8 +180,6 @@ namespace Crystalbyte.Paranoia.UI {
 
             await Task.Run(async () => await @from.CheckSecurityStateAsync());
             RecipientsBox.Preset(new[] { from });
-
-            FocusOnPageLoad(() => HtmlControl);
         }
 
         private async Task PrepareAsReplyAllAsync(IReadOnlyDictionary<string, string> arguments) {
@@ -215,8 +232,6 @@ namespace Crystalbyte.Paranoia.UI {
 
             CarbonCopyBox.Preset(carbonCopies);
             BlindCarbonCopyBox.Preset(blindCarbonCopies);
-
-            FocusOnPageLoad(() => HtmlControl);
         }
 
         private async Task PrepareAsForwardAsync(IReadOnlyDictionary<string, string> arguments) {
@@ -237,8 +252,6 @@ namespace Crystalbyte.Paranoia.UI {
             var context = (MailCompositionContext)DataContext;
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForForwarding, message.Headers.Subject);
             context.Source = string.Format("asset://paranoia/message/forward?id={0}", id);
-
-            FocusOnPageLoad(() => HtmlControl);
         }
 
         private void DropHtmlControl(object sender, DragEventArgs e) {
@@ -282,7 +295,9 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async void OnAccountSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            await ChangeSignatureAsync();
+            if (IsEditorContentLoaded) {
+                await ChangeSignatureAsync();
+            }
         }
 
         #region Implementation of INavigationAware

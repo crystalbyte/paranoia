@@ -84,6 +84,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditorContentLoadedEventArgs.cs" />
     <Compile Include="ScriptingException.cs" />
     <Compile Include="ScriptingFailureEventArgs.cs" />
     <Compile Include="SuggestiveTextBox.xaml.cs">

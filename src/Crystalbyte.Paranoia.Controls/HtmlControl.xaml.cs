@@ -77,12 +77,12 @@ namespace Crystalbyte.Paranoia.UI {
             if (handler != null) handler(this, EventArgs.Empty);
         }
 
-        public event EventHandler EditorContentChanged;
+        public event EventHandler<EditorContentLoadedEventArgs> EditorContentLoaded;
 
-        protected virtual void OnEditorContentChanged() {
-            var handler = EditorContentChanged;
+        protected virtual void OnEditorContentLoaded(EditorContentLoadedEventArgs e) {
+            var handler = EditorContentLoaded;
             if (handler != null)
-                handler(this, EventArgs.Empty);
+                handler(this, e);
         }
 
         public event EventHandler<ScriptingFailureEventArgs> ScriptingFailure;
@@ -208,7 +208,6 @@ namespace Crystalbyte.Paranoia.UI {
             base.OnApplyTemplate();
 
             if (_webControl != null) {
-                _webControl.GotKeyboardFocus -= OnGotKeyboardFocus;
                 _webControl.ShowCreatedWebView -= OnWebControlShowCreatedWebView;
                 _webControl.DocumentReady -= OnWebControlDocumentReady;
                 _webControl.WindowClose -= OnWebControlWindowClose;
@@ -216,7 +215,6 @@ namespace Crystalbyte.Paranoia.UI {
 
             _webControl = (WebControl)Template.FindName(WebControlPartName, this);
             _webControl.DocumentReady += OnWebControlDocumentReady;
-            _webControl.GotKeyboardFocus += OnGotKeyboardFocus;
             _webControl.ShowCreatedWebView += OnWebControlShowCreatedWebView;
             _webControl.WindowClose += OnWebControlWindowClose;
         }
@@ -229,27 +227,22 @@ namespace Crystalbyte.Paranoia.UI {
             }
 
             OnDocumentReady();
-
-            CommandManager.InvalidateRequerySuggested();
         }
 
         #endregion
 
         #region Methods
 
-        private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
-            if (!_webControl.IsDocumentReady)
-                return;
-
-            if (CanExecuteCommands) {
-                FocusEditor();
+        private void SetScriptingObject(IWebView webcontrol) {
+            using (JSObject interop = webcontrol.CreateGlobalJavascriptObject("external")) {
+                interop.Bind("onLinkClicked", false, OnLinkClicked);
+                interop.Bind("onContentLoaded", false, OnContentLoaded);
             }
         }
 
-        private static void SetScriptingObject(IWebView webcontrol) {
-            using (JSObject interop = webcontrol.CreateGlobalJavascriptObject("external")) {
-                interop.Bind("OnLinkClicked", false, OnLinkClicked);
-            }
+        private void OnContentLoaded(object sender, JavascriptMethodEventArgs e) {
+            var html = e.Arguments.Length > 0 && e.Arguments[0].IsString ? e.Arguments[0].ToString() : string.Empty;
+            OnEditorContentLoaded(new EditorContentLoadedEventArgs(html));
         }
 
         private static void OnLinkClicked(object sender, JavascriptMethodEventArgs e) {
@@ -266,14 +259,6 @@ namespace Crystalbyte.Paranoia.UI {
                 var function = string.Format("execute");
                 var parameters = arguments.ToJsValues().ToArray();
                 module.Invoke(function, parameters);
-            }
-        }
-
-        private void FocusEditor() {
-            JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
-            using (module) {
-                const string focus = "focusEditor";
-                module.Invoke(focus);
             }
         }
 
@@ -300,8 +285,17 @@ namespace Crystalbyte.Paranoia.UI {
         public void ChangeSignature(string signature) {
             JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
             using (module) {
-                const string function = "setSignature";
-                module.Invoke(function, new[] { new JSValue(signature) });
+
+                var composition = module.Invoke("getComposition");
+                const string function = "setComposition";
+                const string pattern = "<div\\s+id=\"signature\".*>(?<PART>.*?)</div>";
+
+                var correction = Regex.Replace(composition, pattern, m => {
+                    var part = m.Groups["PART"].Value;
+                    return m.Value.Replace(part, signature);
+                }, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+                module.Invoke(function, correction);
             }
         }
 

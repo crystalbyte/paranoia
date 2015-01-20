@@ -133,7 +133,7 @@ namespace Crystalbyte.Paranoia {
             }
 
 
-            System.Windows.Automation.Automation.AddAutomationFocusChangedEventHandler(OnFocusChanged);
+            //System.Windows.Automation.Automation.AddAutomationFocusChangedEventHandler(OnFocusChanged);
 #endif
             var success = TryCallingLiveProcess();
             if (success) {
@@ -187,9 +187,9 @@ namespace Crystalbyte.Paranoia {
         }
 
 #if DEBUG
-        private static void OnFocusChanged(object sender, AutomationFocusChangedEventArgs e) {
-            Debug.WriteLine(AutomationElement.FocusedElement.Current.ClassName);
-        }
+        //private static void OnFocusChanged(object sender, AutomationFocusChangedEventArgs e) {
+        //    Debug.WriteLine(AutomationElement.FocusedElement.Current.ClassName);
+        //}
 #endif
 
         private void StartComServer() {

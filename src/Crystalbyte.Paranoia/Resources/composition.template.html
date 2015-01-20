@@ -20,11 +20,14 @@
     <script type="text/javascript" src="Resources/ckeditor/adapters/jquery.js"></script>
     <!-- ReSharper restore Html.PathError -->
 
-    <script type="text/javascript">
+    <script type="text/javascript" id=" ">
         // Module pattern: https://github.com/stevekwan/experiments/blob/master/javascript/module-pattern.html
 
         var Crystalbyte = Crystalbyte || {};
         Crystalbyte.Paranoia = function () {
+
+            var noEditorMessage = "Editor not found.";
+
             var textarea = $('textarea#editor');
 
             var loadContent = function () {
@@ -35,6 +38,9 @@
                 storage.remove();
 
                 resizeEditor();
+                if (external) {
+                    external.onContentLoaded(textarea.val());
+                }
             }
 
             var resizeEditor = function () {
@@ -54,16 +60,29 @@
 
             var setReadOnly = function (readOnly) {
                 var editor = textarea.editor;
+                if (!editor) {
+                    alert(noEditorMessage);
+                    return;
+                }
                 editor.setReadOnly(readOnly);
             }
 
             var insertText = function (text) {
                 var editor = textarea.editor;
+                if (!editor) {
+                    alert(noEditorMessage);
+                    return;
+                }
                 editor.insertText(text);
             }
 
             var insertHtml = function (html) {
                 var editor = textarea.editor;
+                if (editor === null || editor === undefined) {
+                    alert(noEditorMessage);
+                    return;
+                }
+
                 editor.insertHtml(html);
             }
 
@@ -71,17 +90,13 @@
                 textarea.val(html);
             }
 
-            var setSignature = function (signature) {
-                var paragraph = $('#signature');
-                if (paragraph.length === 0) {
-                    alert("signature not found");
-                }
-
-                $('#signature').val(signature);
-            }
-
             var execute = function (command) {
                 var editor = textarea.editor;
+                if (editor === null || editor === undefined) {
+                    alert(noEditorMessage);
+                    return;
+                }
+
                 editor.execCommand(command);
             }
 
@@ -89,6 +104,7 @@
                 textarea.ckeditor(loadContent, {
                     font_defaultLabel: '{{DEFAULT_FONT_FAMILY}}',
                     fontSize_defaultLabel: '{{DEFAULT_FONT_SIZE}}',
+                    startupFocus: true,
                     language: '{{CULTURE}}',
                     skin: '{{CKEDITOR_THEME}}'
                 });
@@ -102,7 +118,6 @@
                 setReadOnly: setReadOnly,
                 loadContent: loadContent,
                 focusEditor: focusEditor,
-                setSignature: setSignature,
                 resizeEditor: resizeEditor,
                 getComposition: getComposition,
                 setComposition: setComposition,

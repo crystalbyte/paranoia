@@ -29,6 +29,9 @@
             <Component Id="cmp8739C49F522E90EE5301E0E3AC692D44" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil33890A49446E903D865CE96454F0C9ED" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-19.log" />
             </Component>
+            <Component Id="cmp8538BEC3A07CB75A2BC0BFFC0BB66F3C" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil38A6A3316481C6F887D08A2F26E7C709" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-20.log" />
+            </Component>
             <Component Id="cmp91CA3875C12ED483FBE43FEE2E22FC4B" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filC2CB1E6148BC20F3613B30E09AB25FBC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Android-Figure.pdf" />
             </Component>
