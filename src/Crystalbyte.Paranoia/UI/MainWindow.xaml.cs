@@ -3,7 +3,6 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -50,7 +49,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private static async void OnLoaded(object sender, RoutedEventArgs e) {
-            await Task.Run(async () => await App.Context.RunAsync());
+            await App.Context.RunAsync();
         }
 
         private void OnSettings(object sender, ExecutedRoutedEventArgs e) {

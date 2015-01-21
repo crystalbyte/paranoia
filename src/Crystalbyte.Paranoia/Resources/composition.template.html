@@ -24,7 +24,7 @@
 
         var Crystalbyte = Crystalbyte || {};
         Crystalbyte.Paranoia = function () {
-
+            alert("");
             var noEditorMessage = "Editor not found.";
 
             var textarea = $('textarea#editor');
@@ -37,9 +37,7 @@
                 storage.remove();
 
                 resizeEditor();
-                if (external) {
-                    external.onContentLoaded(textarea.val());
-                }
+                external.onContentLoaded(textarea.val());
             }
 
             var resizeEditor = function () {

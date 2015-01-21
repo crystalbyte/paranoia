@@ -666,6 +666,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The server does not support the IDLE extension..
+        /// </summary>
+        public static string IdleCommandNotSupported {
+            get {
+                return ResourceManager.GetString("IdleCommandNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IMAP.
         /// </summary>
         public static string Imap {

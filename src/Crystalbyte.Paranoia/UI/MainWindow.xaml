@@ -147,7 +147,7 @@
                    Panel.ZIndex="1000"
                    Background="{DynamicResource WindowHeaderBackgroundBrushKey}"
                    LastChildFill="False"
-                   UseLayoutRounding="True">
+                   SnapsToDevicePixels="True">
             <Button Width="Auto"
                     Height="Auto"
                     Margin="0"

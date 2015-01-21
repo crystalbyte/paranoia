@@ -23,9 +23,6 @@ namespace Crystalbyte.Paranoia.Mail {
         private const string UidPattern = @"UID \d+";
         private static readonly Regex UidRegex = new Regex(UidPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        //private const string HeaderPattern = @"BODY\[HEADER\]\s+\{\d+\}(.|(\r\n.+))+\r\n\r\n";
-        //private static readonly Regex HeaderRegex = new Regex(HeaderPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
         public ImapMailbox(ImapSession session, string name) {
             _name = name;
             _connection = session.Authenticator.Connection;
@@ -353,7 +350,7 @@ namespace Crystalbyte.Paranoia.Mail {
             return headers;
         }
 
-        public async Task<IEnumerable<ImapEnvelope>> FetchEnvelopesAsync(ICollection<long> uids) {
+        public async Task<List<ImapEnvelope>> FetchEnvelopesAsync(ICollection<long> uids) {
 
             var envelopes = new List<ImapEnvelope>();
 

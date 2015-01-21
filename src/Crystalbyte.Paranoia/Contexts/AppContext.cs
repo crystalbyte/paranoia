@@ -11,7 +11,6 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -211,7 +210,14 @@ namespace Crystalbyte.Paranoia {
 
             _messages.Clear();
 
-            var messages = await source.GetMessagesAsync();
+            source.IsLoadingMessages = true;
+            var messages = await Task.Run(() => source.GetMessagesAsync());
+            source.IsLoadingMessages = false;
+
+            // User might have switched to a different mailbox by now.
+            if (SelectedMailbox != source) {
+                return;
+            }
 
             _messages.DeferNotifications = true;
             _messages.AddRange(messages);
@@ -765,10 +771,12 @@ namespace Crystalbyte.Paranoia {
         }
 
         public async Task RunAsync() {
-            Application.Current.AssertBackgroundThread();
+            Application.Current.AssertUIThread();
 
-            await LoadContactsAsync();
-            await LoadAccountsAsync();
+            await Task.Run(async () => {
+                await LoadContactsAsync();
+                await LoadAccountsAsync();
+            });
 
             foreach (var account in Accounts) {
                 await account.TakeOnlineAsync();

@@ -27,7 +27,6 @@ namespace Crystalbyte.Paranoia {
         #region Private Fields
 
         private bool _isTesting;
-        private bool _takeOnlineHint;
         private bool _isAutoDetectPreferred;
         private bool _isDetectingSettings;
         private TestingContext _testing;
@@ -55,7 +54,6 @@ namespace Crystalbyte.Paranoia {
         internal MailAccountContext(MailAccountModel account) {
             _account = account;
             _appContext = App.Context;
-            _takeOnlineHint = true;
             _outbox = new OutboxContext(this);
             _listMailboxesCommand = new RelayCommand(OnListMailboxes);
             _testSettingsCommand = new RelayCommand(OnTestSettings);
@@ -212,23 +210,21 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task TakeOnlineAsync() {
-            Application.Current.AssertBackgroundThread();
+            Application.Current.AssertUIThread();
 
             try {
                 if (_mailboxes.Count == 0) {
-                    await LoadMailboxesAsync();
+                    await Task.Run(() => LoadMailboxesAsync());
                 }
 
-                await Application.Current.Dispatcher.InvokeAsync(async () => {
-                    if (!IsSyncingMailboxes) {
-                        await SyncMailboxesAsync();
-                    }
+                if (!IsSyncingMailboxes) {
+                    await SyncMailboxesAsync();
+                }
 
-                    var inbox = GetInbox();
-                    if (inbox != null) {
-                        await inbox.IdleAsync();
-                    }
-                });
+                var inbox = GetInbox();
+                if (inbox != null && !inbox.IsIdling) {
+                    await inbox.IdleAsync();
+                }
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -468,17 +464,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool TakeOnlineHint {
-            get { return _takeOnlineHint; }
-            set {
-                if (_takeOnlineHint == value) {
-                    return;
-                }
-
-                _takeOnlineHint = value;
-                RaisePropertyChanged(() => TakeOnlineHint);
-            }
-        }
 
         public OutboxContext Outbox {
             get { return _outbox; }
@@ -702,9 +687,11 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task TestSettingsAsync() {
+            Application.Current.AssertUIThread();
+
             IsTesting = true;
 
-            await TestConnectivityAsync();
+            TestConnectivity();
             if (Testing != null && Testing.IsFaulted) {
                 IsTesting = false;
                 return;
@@ -772,14 +759,12 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task TestConnectivityAsync() {
+        private void TestConnectivity() {
             Testing = new TestingContext {
                 Message = Resources.TestingConnectivityStatus
             };
 
-            var available = false;
-            await Task.Factory.StartNew(() => { available = NetworkInterface.GetIsNetworkAvailable(); });
-
+            var available = NetworkInterface.GetIsNetworkAvailable();
             if (!available) {
                 Testing = new TestingContext {
                     Message = Resources.TestingConnectivityStatus,

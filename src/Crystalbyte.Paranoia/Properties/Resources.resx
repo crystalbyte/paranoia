@@ -613,4 +613,7 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="MissingMimeTemplate" xml:space="preserve">
     <value>No mime data for id '{0}' has been found.</value>
   </data>
+  <data name="IdleCommandNotSupported" xml:space="preserve">
+    <value>The server does not support the IDLE extension.</value>
+  </data>
 </root>

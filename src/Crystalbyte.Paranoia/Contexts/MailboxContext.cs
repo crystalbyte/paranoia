@@ -521,7 +521,7 @@ namespace Crystalbyte.Paranoia {
 
                     long[] seenUids;
                     long[] unseenUids;
-                    MailMessageModel[] messages;
+                    List<MailMessageModel> messages;
 
                     using (var connection = new ImapConnection {
                         Security = account.ImapSecurity
@@ -531,14 +531,14 @@ namespace Crystalbyte.Paranoia {
                             using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
                                 var mailbox = await session.SelectAsync(name);
 
-                                messages = (await FetchRecentEnvelopesAsync(mailbox, maxUid)).ToArray();
+                                messages = (await FetchRecentEnvelopesAsync(mailbox, maxUid)).ToList();
                                 seenUids = (await mailbox.SearchAsync("1:* SEEN")).ToArray();
                                 unseenUids = (await mailbox.SearchAsync("1:* NOT SEEN")).ToArray();
                             }
                         }
                     }
 
-                    if (messages.Length > 0) {
+                    if (messages.Count > 0) {
                         await SaveContactsAsync(messages);
                         await SaveMessagesAsync(messages);
                     }
@@ -671,14 +671,12 @@ namespace Crystalbyte.Paranoia {
             TotalEnvelopeCount = uids.Count;
 
             mailbox.EnvelopeFetched += OnEnvelopeFetched;
-            var envelopes = (await mailbox.FetchEnvelopesAsync(uids)).ToArray();
-            if (envelopes.Length == 0) {
-                return new MailMessageModel[0];
-            }
+            var envelopes = await mailbox.FetchEnvelopesAsync(uids);
             mailbox.EnvelopeFetched -= OnEnvelopeFetched;
 
-            if (envelopes.Length == 1 && envelopes.First().Uid == uid) {
-                return new MailMessageModel[0];
+            var duplicate = envelopes.FirstOrDefault(x => x.Uid == uid);
+            if (duplicate != null) {
+                envelopes.Remove(duplicate);
             }
 
             var messages = new List<MailMessageModel>();
@@ -769,7 +767,6 @@ namespace Crystalbyte.Paranoia {
                 var uids = messages.Select(x => x.Uid).ToArray();
 
                 using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
-                    connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                     using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                         using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                             var folder = await session.SelectAsync(Name);
@@ -860,10 +857,10 @@ namespace Crystalbyte.Paranoia {
             await Task.Run(async () => {
                 try {
                     using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
-                        connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                         using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                             using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                                 if (!connection.CanIdle) {
+                                    Logger.Info(Properties.Resources.IdleCommandNotSupported);
                                     return;
                                 }
                                 var mailbox = await session.SelectAsync(Name);
@@ -928,34 +925,24 @@ namespace Crystalbyte.Paranoia {
         #region Implementation of IMessageSource
 
         public async Task<IEnumerable<MailMessageContext>> GetMessagesAsync() {
-            Application.Current.AssertUIThread();
+            Application.Current.AssertBackgroundThread();
 
-            IsLoadingMessages = true;
+            MailMessageModel[] messages;
 
-            var messages = await Task.Run(async () => {
-                using (var context = new DatabaseContext()) {
-                    if (ShowAllMessages) {
-                        return await context.MailMessages
-                            .Where(x => x.MailboxId == _mailbox.Id)
-                            .ToArrayAsync();
-                    }
-
-                    return await context.MailMessages
-                        .Where(x => !x.Flags.Contains(MailMessageFlags.Seen))
+            using (var context = new DatabaseContext()) {
+                if (ShowAllMessages) {
+                    messages = await context.MailMessages
                         .Where(x => x.MailboxId == _mailbox.Id)
                         .ToArrayAsync();
+                } else {
+                    messages = await context.MailMessages
+                    .Where(x => !x.Flags.Contains(MailMessageFlags.Seen))
+                    .Where(x => x.MailboxId == _mailbox.Id)
+                    .ToArrayAsync();
                 }
-            });
+            }
 
-            MailMessageContext[] contexts = null;
-            await Task.Run(() => {
-                contexts = messages
-                    .Select(x => new MailMessageContext(this, x))
-                    .ToArray();
-            });
-
-            IsLoadingMessages = false;
-            return contexts;
+            return messages.Select(x => new MailMessageContext(this, x)).ToArray();
         }
 
         #endregion
@@ -1021,7 +1008,6 @@ namespace Crystalbyte.Paranoia {
                 var uids = messages.Select(x => x.Uid).ToArray();
 
                 using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
-                    connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                     using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                         using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                             var folder = await session.SelectAsync(Name);

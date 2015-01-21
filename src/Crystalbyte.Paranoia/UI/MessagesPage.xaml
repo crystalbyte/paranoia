@@ -338,6 +338,7 @@
                                                                Background="Transparent"
                                                                Maximum="{Binding TotalEnvelopeCount}"
                                                                Minimum="0"
+                                                               UseLayoutRounding="True"
                                                                Visibility="{Binding Value,
                                                                                     Converter={StaticResource QuantityToVisibilityConverter},
                                                                                     RelativeSource={RelativeSource Self}}"

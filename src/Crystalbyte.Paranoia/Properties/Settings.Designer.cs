@@ -37,40 +37,13 @@ namespace Crystalbyte.Paranoia.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("16")]
+        [global::System.Configuration.DefaultSettingValueAttribute("12")]
         public int HtmlFontSize {
             get {
                 return ((int)(this["HtmlFontSize"]));
             }
             set {
                 this["HtmlFontSize"] = value;
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://88.198.19.85:15123")]
-        public string KeyServer {
-            get {
-                return ((string)(this["KeyServer"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("paranoia_ecc.pub")]
-        public string PublicKeyFile {
-            get {
-                return ((string)(this["PublicKeyFile"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("paranoia_ecc")]
-        public string PrivateKeyFile {
-            get {
-                return ((string)(this["PrivateKeyFile"]));
             }
         }
         

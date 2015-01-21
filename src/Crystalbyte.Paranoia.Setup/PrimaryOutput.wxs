@@ -20,6 +20,9 @@
     </Fragment>
     <Fragment>
         <ComponentGroup Id="PrimaryOutputComponent">
+            <Component Id="cmp9BA0FE8684436631491C52395E2191AB" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil3C119E867624637B1E351219294BE652" KeyPath="yes" Source="$(var.PrimaryOutputDir)\(no name)" />
+            </Component>
             <Component Id="cmp51A59D7EB680A8498F09C509BEE59EDB" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filCDAAE2DA9E6425FFC0C5AA93C328D1C5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-17.log" />
             </Component>

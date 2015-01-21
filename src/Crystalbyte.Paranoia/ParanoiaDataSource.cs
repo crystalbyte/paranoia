@@ -47,7 +47,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 if (Regex.IsMatch(request.Path, "file?path=.+")) {
-                    await SendFileResponseAsync(request);
+                    SendFileResponse(request);
                     return;
                 }
 
@@ -138,7 +138,7 @@ namespace Crystalbyte.Paranoia {
             return content;
         }
 
-        private async Task SendFileResponseAsync(DataSourceRequest request) {
+        private void SendFileResponse(DataSourceRequest request) {
             const string key = "path";
             var arguments = request.Path.ToPageArguments();
             if (!arguments.ContainsKey(key)) {
@@ -148,7 +148,7 @@ namespace Crystalbyte.Paranoia {
             var path = arguments[key];
             var filename = Uri.UnescapeDataString(path);
 
-            var bytes = await LoadMessageBytesAsync(new FileInfo(filename));
+            var bytes = LoadMessageBytes(new FileInfo(filename));
             var reader = new MailMessageReader(bytes);
 
             var text = GetSupportedBody(reader);
@@ -167,7 +167,7 @@ namespace Crystalbyte.Paranoia {
                 text = plain != null
                     ? FormatPlainText(reader.Headers.Subject, plain.GetBodyAsText())
                     : string.Empty;
-                
+
             } else {
                 text = html.GetBodyAsText();
             }
@@ -233,7 +233,7 @@ namespace Crystalbyte.Paranoia {
             using (var reader = new StreamReader(info.Stream)) {
                 var text = reader.ReadToEnd();
                 html = Regex.Replace(text, pattern, m => {
-                    var key = m.Value.Trim('{','}').ToLower();
+                    var key = m.Value.Trim('{', '}').ToLower();
                     return variables.ContainsKey(key)
                         ? variables[key]
                         : string.Empty;
@@ -310,7 +310,7 @@ namespace Crystalbyte.Paranoia {
             const string contentType = "content-type";
 
             var nodes = document.DocumentNode.SelectNodes("//head/meta");
-            var metaCharsetNode = nodes.FirstOrDefault(x => {
+            var metaCharsetNode = nodes == null ? null : nodes.FirstOrDefault(x => {
                 // Check if any attributes are present.
                 if (!x.HasAttributes) {
                     return false;
@@ -404,9 +404,8 @@ namespace Crystalbyte.Paranoia {
             Marshal.FreeHGlobal(handle);
         }
 
-
-        private static async Task<byte[]> LoadMessageBytesAsync(FileSystemInfo file) {
-            return await Task.Run(() => File.ReadAllBytes(file.FullName));
+        private static byte[] LoadMessageBytes(FileSystemInfo file) {
+            return File.ReadAllBytes(file.FullName);
         }
 
         private static async Task<byte[]> LoadMessageBytesAsync(Int64 id) {

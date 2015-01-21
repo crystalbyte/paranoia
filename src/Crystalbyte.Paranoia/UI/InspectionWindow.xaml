@@ -172,8 +172,11 @@
                 </StackPanel>
             </Grid>
         </DockPanel>
-        <Grid Grid.Row="2" Visibility="{Binding HasMultipleRecipients, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ItemsControl Margin="6,3" ItemsSource="{Binding SecondaryTo}">
+        <Grid Grid.Row="2"
+              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}"
+              Visibility="{Binding HasMultipleRecipients,
+                                   Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ItemsControl Margin="6" ItemsSource="{Binding SecondaryTo}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" />
@@ -190,21 +193,8 @@
                                                     ConverterParameter=48,
                                                     Converter={StaticResource GravatarImageConverter}}" />
                             <StackPanel VerticalAlignment="Center">
-                                <TextBox Margin="0,-2,0,0"
-                                         FontWeight="Normal"
-                                         Padding="0"
-                                         Style="{DynamicResource ReadOnlyTextBoxStyle}"
-                                         Text="{Binding Name,
-                                                        ConverterParameter=...,
-                                                        Converter={StaticResource NullOrEmptyFormatter}}" />
-                                <TextBox Margin="0,0,2,2"
-                                         FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
-                                         FontWeight="Normal"
-                                         Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                                         Padding="0"
-                                         Style="{DynamicResource ReadOnlyTextBoxStyle}"
-                                         Text="{Binding Address,
-                                                        Converter={StaticResource NullOrEmptyFormatter}}" />
+                                <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}" Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
+                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
@@ -221,10 +211,10 @@
         <Grid Grid.Row="3"
               Grid.RowSpan="2"
               Grid.ColumnSpan="2"
-              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}"
               Visibility="{Binding HasCarbonCopies,
                                    Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ItemsControl Margin="6,3" ItemsSource="{Binding Cc}">
+            <ItemsControl Margin="6" ItemsSource="{Binding Cc}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" />
@@ -234,27 +224,15 @@
                     <DataTemplate DataType="paranoia:MailContactContext">
                         <StackPanel Orientation="Horizontal">
                             <Image Width="32"
-                                   Margin="0,0,3,0"
+                                   Margin="0,0,6,0"
                                    VerticalAlignment="Center"
                                    RenderOptions.BitmapScalingMode="Fant"
                                    Source="{Binding Address,
                                                     ConverterParameter=48,
                                                     Converter={StaticResource GravatarImageConverter}}" />
                             <StackPanel VerticalAlignment="Center">
-                                <TextBox Margin="0,-2,0,0"
-                                         Padding="0"
-                                         Style="{DynamicResource ReadOnlyTextBoxStyle}"
-                                         Text="{Binding Name,
-                                                        ConverterParameter=...,
-                                                        Converter={StaticResource NullOrEmptyFormatter}}" />
-                                <TextBox Margin="0,0,2,2"
-                                         FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
-                                         FontWeight="Normal"
-                                         Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
-                                         Padding="0"
-                                         Style="{DynamicResource ReadOnlyTextBoxStyle}"
-                                         Text="{Binding Address,
-                                                        Converter={StaticResource NullOrEmptyFormatter}}" />
+                                <TextBlock Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
+                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
@@ -266,6 +244,7 @@
                        FontSize="34"
                        FontStyle="Italic"
                        FontWeight="Thin"
+                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
                        Text="CC" />
         </Grid>
         <ListView Grid.Row="4"

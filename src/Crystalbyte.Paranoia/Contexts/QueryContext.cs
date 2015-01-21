@@ -28,7 +28,7 @@ namespace Crystalbyte.Paranoia {
 
         public bool IsLoadingMessages {
             get { return _isLoadingMessages; }
-            private set {
+            set {
                 if (_isLoadingMessages == value) {
                     return;
                 }
@@ -42,31 +42,19 @@ namespace Crystalbyte.Paranoia {
         #region Implementation of IMessageSource
 
         public async Task<IEnumerable<MailMessageContext>> GetMessagesAsync() {
-            Application.Current.AssertUIThread();
-
-            if (IsLoadingMessages) {
-                throw new InvalidOperationException();
-            }
-
-            IsLoadingMessages = true;
+            Application.Current.AssertBackgroundThread();
 
             var mailbox = App.Context.SelectedMailbox;
-            var messages = await Task.Run(() => {
-                using (var database = new DatabaseContext()) {
-                    return database.MailMessages
-                        .Where(x => x.MailboxId == mailbox.Id)
-                        .Where(x => x.Subject.Contains(_query)
-                            || x.FromAddress.Contains(_query)
-                            || x.FromName.Contains(_query))
-                        .ToArrayAsync();
-                }
-            });
+            using (var database = new DatabaseContext()) {
+                var messages = await database.MailMessages
+                    .Where(x => x.MailboxId == mailbox.Id)
+                    .Where(x => x.Subject.Contains(_query)
+                        || x.FromAddress.Contains(_query)
+                        || x.FromName.Contains(_query))
+                    .ToArrayAsync();
 
-            var contexts = messages.Select(x => new MailMessageContext(mailbox, x));
-
-            IsLoadingMessages = true;
-
-            return contexts;
+                return messages.Select(x => new MailMessageContext(mailbox, x));
+            }
         }
 
         #endregion

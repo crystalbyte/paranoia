@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Net.NetworkInformation;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -188,8 +187,8 @@ namespace Crystalbyte.Paranoia.UI {
             if (account == null)
                 return;
 
-            if (account.TakeOnlineHint) {
-                await Task.Run(async () => await account.TakeOnlineAsync());
+            if (NetworkInterface.GetIsNetworkAvailable()) {
+                await account.TakeOnlineAsync();
             }
         }
 

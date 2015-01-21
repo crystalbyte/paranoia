@@ -226,7 +226,7 @@ namespace Crystalbyte.Paranoia.UI {
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
             context.Source = string.Format("asset://paranoia/message/reply?id={0}", id);
 
-            await from.CheckSecurityStateAsync();
+            await Task.Run(() => from.CheckSecurityStateAsync());
 
             RecipientsBox.Preset(new[] { from });
 
@@ -235,22 +235,24 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async Task PrepareAsForwardAsync(IReadOnlyDictionary<string, string> arguments) {
-            MailMessageReader message;
+
             var id = Int64.Parse(arguments["id"]);
 
-            using (var database = new DatabaseContext()) {
-                var mime = await database.MimeMessages
-                    .Where(x => x.MessageId == id)
-                    .ToArrayAsync();
+            var reader = await Task.Run(async () => {
+                using (var database = new DatabaseContext()) {
+                    var mime = await database.MimeMessages
+                        .Where(x => x.MessageId == id)
+                        .ToArrayAsync();
 
-                if (!mime.Any())
-                    throw new InvalidOperationException(Paranoia.Properties.Resources.MessageNotFoundException);
+                    if (!mime.Any())
+                        throw new InvalidOperationException(Paranoia.Properties.Resources.MessageNotFoundException);
 
-                message = new MailMessageReader(mime[0].Data);
-            }
+                    return new MailMessageReader(mime[0].Data);
+                }
+            });
 
             var context = (MailCompositionContext)DataContext;
-            context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForForwarding, message.Headers.Subject);
+            context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForForwarding, reader.Headers.Subject);
             context.Source = string.Format("asset://paranoia/message/forward?id={0}", id);
         }
 
