@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Automation;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 using Awesomium.Core;
 using Crystalbyte.Paranoia.Automation;

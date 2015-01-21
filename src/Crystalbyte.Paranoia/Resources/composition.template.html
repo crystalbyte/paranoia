@@ -7,7 +7,7 @@
 <body>
     <textarea id="editor" name="editor"></textarea>
     <div id="content-storage" style="display: none;">
-        <p id="start"></p>
+        <p id="message"></p>
         <div id="signature" style="margin-top: 20px;"></div>
         {{HEADER}}
         {{QUOTE}}
@@ -50,7 +50,12 @@
             }
 
             var focusEditor = function () {
-                $('#start').focus();
+                var editor = textarea.editor;
+                if (!editor) {
+                    alert(noEditorMessage);
+                    return;
+                }
+                editor.focus();
             }
 
             var getComposition = function () {

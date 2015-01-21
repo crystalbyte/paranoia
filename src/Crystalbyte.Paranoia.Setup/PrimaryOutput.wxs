@@ -32,6 +32,12 @@
             <Component Id="cmp8538BEC3A07CB75A2BC0BFFC0BB66F3C" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil38A6A3316481C6F887D08A2F26E7C709" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-20.log" />
             </Component>
+            <Component Id="cmp2499AED4A8793D07D1FA455C4F33CE45" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil125D47598215A2BCB7FDD9CE390E7C1A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-21.log" />
+            </Component>
+            <Component Id="cmp594DB0D8DFF9B8192A47B997D7BBF29F" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filA5A87B3ABACEB1BEACB6951205F4825D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Aesthetic Med - Voruntersuchungen.doc" />
+            </Component>
             <Component Id="cmp91CA3875C12ED483FBE43FEE2E22FC4B" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filC2CB1E6148BC20F3613B30E09AB25FBC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Android-Figure.pdf" />
             </Component>
@@ -106,6 +112,9 @@
             </Component>
             <Component Id="cmp6AD55DB8C684C408AC22C2EADEC4E91D" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filFABF4F9712DA42F63DAA3F49139A7C08" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.pdb" />
+            </Component>
+            <Component Id="cmpED7128ED33A9C942FB92937984862AF0" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil3ACBBDBC6A798AC11F2FC5188B77DD4B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Regeneris Text.pdf" />
             </Component>
             <Component Id="cmp08C9093CA92AB322A1FD8643A8F8E9EB" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filB33C2F6608DD31FAE45B7C0513E7632E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Composition.AttributedModel.dll" />

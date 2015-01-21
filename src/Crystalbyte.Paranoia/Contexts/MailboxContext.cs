@@ -928,21 +928,24 @@ namespace Crystalbyte.Paranoia {
         #region Implementation of IMessageSource
 
         public async Task<IEnumerable<MailMessageContext>> GetMessagesAsync() {
+            Application.Current.AssertUIThread();
+
             IsLoadingMessages = true;
 
-            IEnumerable<MailMessageModel> messages;
-            using (var context = new DatabaseContext()) {
-                if (ShowAllMessages) {
-                    messages = await context.MailMessages
-                        .Where(x => x.MailboxId == _mailbox.Id)
-                        .ToArrayAsync();
-                } else {
-                    messages = await context.MailMessages
+            var messages = await Task.Run(async () => {
+                using (var context = new DatabaseContext()) {
+                    if (ShowAllMessages) {
+                        return await context.MailMessages
+                            .Where(x => x.MailboxId == _mailbox.Id)
+                            .ToArrayAsync();
+                    }
+
+                    return await context.MailMessages
                         .Where(x => !x.Flags.Contains(MailMessageFlags.Seen))
                         .Where(x => x.MailboxId == _mailbox.Id)
                         .ToArrayAsync();
                 }
-            }
+            });
 
             MailMessageContext[] contexts = null;
             await Task.Run(() => {
