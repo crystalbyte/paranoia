@@ -705,7 +705,7 @@
                             <Run Text=":" />
                         </TextBlock>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Width="340"
+                            <TextBox Width="341"
                                      Margin="3,3,0,3"
                                      IsReadOnly="True"
                                      Style="{StaticResource FlyoutTextBoxStyle}"

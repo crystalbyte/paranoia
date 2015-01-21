@@ -16,7 +16,7 @@ CKEDITOR.editorConfig = function (config) {
         { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] }
     ];
 
-    config.extraAllowedContent = 'div[id,style];p[id];img[!src,alt,width,height];a[!href];table;th;tr;td;*{*}';
+    config.extraAllowedContent = 'div[id,style];p[id,style];img[!src,alt,width,height,style];a[!href];table;th;tr;td;*{*}';
 
     config.removePlugins = 'magicline,elementspath,contextmenu';
 

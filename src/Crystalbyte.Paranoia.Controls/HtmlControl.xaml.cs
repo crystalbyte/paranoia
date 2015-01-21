@@ -103,30 +103,6 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        private bool CanExecuteCommands {
-            get {
-                if (_webControl == null) {
-                    return false;
-                }
-
-                if (!_webControl.IsJavascriptEnabled || !_webControl.IsDocumentReady) {
-                    return false;
-                }
-
-                JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
-                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-                // ReSharper disable once HeuristicUnreachableCode
-                if (module == null) {
-                    // ReSharper disable HeuristicUnreachableCode
-                    return false;
-                    // ReSharper restore HeuristicUnreachableCode
-                }
-
-                module.Dispose();
-                return true;
-            }
-        }
-
         #endregion
 
         #region Dependency Properties
@@ -288,12 +264,12 @@ namespace Crystalbyte.Paranoia.UI {
 
                 var composition = module.Invoke("getComposition");
                 const string function = "setComposition";
-                const string pattern = "<div\\s+id=\"signature\".*>(?<PART>.*?)</div>";
+                const string pattern = "<div\\s+id=\"signature\".+?>(?<PART>.*?)</div>";
 
                 var correction = Regex.Replace(composition, pattern, m => {
                     var part = m.Groups["PART"].Value;
                     return m.Value.Replace(part, signature);
-                }, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+                }, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
                 module.Invoke(function, correction);
             }

@@ -25,7 +25,6 @@
     <system:Double x:Key="SubtitleFontSizeKey">16</system:Double>
     <FontWeight x:Key="SubtitleFontWeightKey">Thin</FontWeight>
 
-
     <Style x:Key="TitleTextStyle"
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
@@ -47,16 +46,15 @@
         <Setter Property="Margin" Value="0,3" />
         <Setter Property="Background" Value="{StaticResource FlyoutButtonBackgroundBrushKey}" />
         <Setter Property="BorderBrush" Value="{StaticResource FlyoutButtonBorderBrushKey}" />
-        <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="BorderThickness" Value="0,1,1,1" />
         <Setter Property="Content" Value="..." />
-        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <ItemContainerTemplate>
                     <TextBlock x:Name="ContentText"
-                               Margin="7,0"
+                               Margin="7,4.2,7,4.2"
                                VerticalAlignment="Center"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                                Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                Text="{TemplateBinding Content}" />
                     <ItemContainerTemplate.Triggers>

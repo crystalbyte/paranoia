@@ -226,10 +226,12 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async Task SaveChanges() {
+            Application.Current.AssertUIThread();
+
             try {
                 ContinueButton.IsEnabled = false;
                 var account = (MailAccountContext)DataContext;
-                await account.SaveAsync();
+                await Task.Run(async () => await account.SaveAsync());
             } catch (Exception ex) {
                 Logger.Error(ex);
             } finally {
@@ -293,6 +295,7 @@ namespace Crystalbyte.Paranoia.UI {
                     .WithProperty(x => x.JunkMailboxName)
                     .WithProperty(x => x.SentMailboxName)
                     .WithProperty(x => x.DraftMailboxName)
+                    .WithProperty(x => x.SignaturePath)
                     .WithProperty(x => x.StoreCopiesOfSentMessages);
             _tracker.Start();
         }
