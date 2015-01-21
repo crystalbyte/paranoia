@@ -29,7 +29,7 @@ namespace Crystalbyte.Paranoia.UI.Converters {
                     return DefaultIcon;
                 }
 
-                return FindLargeFromPath(name, true, true);
+                return FindLargeFromPath(name, true, false);
             }
             catch (Exception ex) {
                 Logger.Error(ex);
@@ -64,6 +64,11 @@ namespace Crystalbyte.Paranoia.UI.Converters {
             if (!checkDisk) // This does not seem to work. If I try it, a folder icon is always returned.
                 flags |= SHGFI_USEFILEATTRIBUTES;
 
+            var info = new FileInfo(fileName);
+            if (!info.Exists) {
+                fileName = string.Format("{0}", info.Extension);
+            }
+            
             var res = NativeMethods.SHGetFileInfo(fileName, FILE_ATTRIBUTE_NORMAL, ref shinfo, Marshal.SizeOf(shinfo), flags);
 
             if (res == 0)

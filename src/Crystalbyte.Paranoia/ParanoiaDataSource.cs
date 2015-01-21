@@ -81,9 +81,9 @@ namespace Crystalbyte.Paranoia {
 
             var mime = await LoadMessageBytesAsync(id);
             var reader = new MailMessageReader(mime);
-            var view = FindPreferredView(reader);
+            var text = GetSupportedBody(reader);
 
-            if (string.IsNullOrWhiteSpace(view)) {
+            if (string.IsNullOrWhiteSpace(text)) {
                 SendResponse(request, DataSourceResponse.Empty);
                 return;
             }
@@ -91,16 +91,16 @@ namespace Crystalbyte.Paranoia {
             const string key = "blockExternals";
             var blockExternals = !arguments.ContainsKey(key) || bool.Parse(arguments[key]);
 
-            view = NormalizeHtml(view);
-            view = ConvertEmbeddedSources(view, id);
-            view = RemoveJavaScript(view);
-            view = InjectParanoiaScripts(view);
+            text = NormalizeHtml(text);
+            text = ConvertEmbeddedSources(text, id);
+            text = RemoveJavaScript(text);
+            text = InjectParanoiaScripts(text);
 
             if (blockExternals) {
-                view = RemoveExternalSources(view);
+                text = RemoveExternalSources(text);
             }
 
-            var bytes = Encoding.UTF8.GetBytes(view);
+            var bytes = Encoding.UTF8.GetBytes(text);
             SendHtmlResponse(request, bytes);
         }
 
@@ -129,7 +129,6 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static string RemoveExternalSources(string content) {
-
             const string pattern = "(\"|&quot;|')(?<URL>http(s){0,1}://.+?)(\"|&quot;|')";
             content = Regex.Replace(content, pattern, m => {
                 var resource = m.Groups["URL"].Value;
@@ -151,16 +150,16 @@ namespace Crystalbyte.Paranoia {
 
             var bytes = await LoadMessageBytesAsync(new FileInfo(filename));
             var reader = new MailMessageReader(bytes);
-            var view = FindPreferredView(reader);
 
-            view = NormalizeHtml(view);
-            view = RemoveJavaScript(view);
-            view = ConvertEmbeddedSources(view, new FileInfo(path));
+            var text = GetSupportedBody(reader);
+            text = NormalizeHtml(text);
+            text = RemoveJavaScript(text);
+            text = ConvertEmbeddedSources(text, new FileInfo(path));
 
-            SendHtmlResponse(request, Encoding.UTF8.GetBytes(view));
+            SendHtmlResponse(request, Encoding.UTF8.GetBytes(text));
         }
 
-        private static string FindPreferredView(MailMessageReader reader) {
+        private static string GetSupportedBody(MailMessageReader reader) {
             string text;
             var html = reader.FindFirstHtmlVersion();
             if (html == null) {
@@ -168,6 +167,7 @@ namespace Crystalbyte.Paranoia {
                 text = plain != null
                     ? FormatPlainText(reader.Headers.Subject, plain.GetBodyAsText())
                     : string.Empty;
+                
             } else {
                 text = html.GetBodyAsText();
             }
@@ -190,11 +190,12 @@ namespace Crystalbyte.Paranoia {
 
                 var bytes = await LoadMessageBytesAsync(messageId);
                 var reader = new MailMessageReader(bytes);
-                var view = FindPreferredView(reader);
 
-                view = ConvertEmbeddedSources(view, messageId);
-                view = string.Format("<hr style=\"margin:20px 0px;\"/>{0}", view);
-                variables.Add("quote", view);
+                var text = GetSupportedBody(reader);
+
+                text = ConvertEmbeddedSources(text, messageId);
+                text = string.Format("<hr style=\"margin:20px 0px;\"/>{0}", text);
+                variables.Add("quote", text);
             }
 
             if (!variables.Keys.Contains("quote"))
@@ -242,6 +243,11 @@ namespace Crystalbyte.Paranoia {
             return html;
         }
 
+        /// <summary>
+        /// This method will attempt to repair any malformed html and adjust the charset to UTF8.
+        /// </summary>
+        /// <param name="text">Source text to be normalized.</param>
+        /// <returns>Normalized HTML document.</returns>
         private static string NormalizeHtml(string text) {
             var document = new HtmlDocument { OptionFixNestedTags = true };
             document.LoadHtml(text);
@@ -304,7 +310,7 @@ namespace Crystalbyte.Paranoia {
             const string contentType = "content-type";
 
             var nodes = document.DocumentNode.SelectNodes("//head/meta");
-            var hasCharset = nodes != null && nodes.Any(x => {
+            var metaCharsetNode = nodes.FirstOrDefault(x => {
                 // Check if any attributes are present.
                 if (!x.HasAttributes) {
                     return false;
@@ -331,11 +337,12 @@ namespace Crystalbyte.Paranoia {
                 return false;
             });
 
-            if (hasCharset) {
-                return document.DocumentNode.WriteTo();
+            // Drop previous charset tags, since all bytes have been converted to UTF-8.
+            if (metaCharsetNode != null) {
+                metaCharsetNode.Remove();
             }
 
-            // Add proper charset tag if missing.
+            // Add UTF-8 charset meta tag.
             var meta = document.CreateElement("meta");
 
             meta.Attributes.Add(charset, "utf-8");

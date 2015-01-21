@@ -412,11 +412,10 @@ namespace Crystalbyte.Paranoia.Mail {
         private Task<byte[]> ReadMessageBodyResponseAsync(string id) {
             return Task.Run(() => {
                 var byteCount = 0;
-                var encoding = Encoding.GetEncoding(CodePages.Latin1);
 
                 var stream = new MemoryStream();
                 OnByteCountChanged(byteCount);
-                using (var writer = new BinaryWriter(stream, encoding, true)) {
+                using (var writer = new BinaryWriter(stream, Encoding.Default, true)) {
                     using (var reader = new BinaryReader(_connection.SecureStream, Encoding.Default, true)) {
                         while (true) {
 
