@@ -249,7 +249,6 @@
         </Grid>
         <ListView Grid.Row="4"
                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}"
-                  BorderThickness="0,1,0,1"
                   ItemTemplate="{StaticResource ThumbnailTemplate}"
                   ItemsSource="{Binding Attachments}"
                   ScrollViewer.CanContentScroll="False"
@@ -258,7 +257,7 @@
             <ListView.ItemContainerStyle>
                 <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                     <Setter Property="UseLayoutRounding" Value="True" />
-                    <Setter Property="Margin" Value="3" />
+                    <Setter Property="Margin" Value="0" />
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.Style>

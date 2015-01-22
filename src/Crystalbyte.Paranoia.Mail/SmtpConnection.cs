@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Net.Mail;
 using System.Net.Security;
 using System.Net.Sockets;
@@ -179,11 +180,22 @@ namespace Crystalbyte.Paranoia.Mail {
             OnEncryptionProtocolNegotiated(_secureStream.SslProtocol, _secureStream.CipherStrength);
         }
 
-        private void OnEncryptionProtocolNegotiated(SslProtocols protocol, int strength) { }
+        private void OnEncryptionProtocolNegotiated(SslProtocols protocol, int strength) {
+            var handler = EncryptionProtocolNegotiated;
+            if (handler == null)
+                return;
+
+            var e = new EncryptionProtocolNegotiatedEventArgs(protocol, strength);
+            handler(this, e);
+        }
 
         private bool OnRemoteCertificateValidationCallback(object sender, X509Certificate cert, X509Chain chain,
-            SslPolicyErrors error) {
-            return error == SslPolicyErrors.None || OnRemoteCertificateValidationFailed(cert, chain, error);
+          SslPolicyErrors error) {
+            return error == SslPolicyErrors.None
+
+                || (ServicePointManager.ServerCertificateValidationCallback != null
+                    && ServicePointManager.ServerCertificateValidationCallback(sender, cert, chain, error))
+                || OnRemoteCertificateValidationFailed(cert, chain, error);
         }
 
         public void Dispose() {

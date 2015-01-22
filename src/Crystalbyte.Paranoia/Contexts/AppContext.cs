@@ -215,7 +215,7 @@ namespace Crystalbyte.Paranoia {
             source.IsLoadingMessages = false;
 
             // User might have switched to a different mailbox by now.
-            if (SelectedMailbox != source) {
+            if (SelectedMailbox != source && !(source is QueryContext)) {
                 return;
             }
 

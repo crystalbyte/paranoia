@@ -215,7 +215,16 @@ namespace Crystalbyte.Paranoia {
                 try {
                     using (var connection = new SmtpConnection { Security = _account.SmtpSecurity }) {
                         using (var auth = await connection.ConnectAsync(_account.SmtpHost, _account.SmtpPort)) {
-                            using (var session = await auth.LoginAsync(_account.SmtpUsername, _account.SmtpPassword)) {
+
+                            var username = _account.UseImapCredentialsForSmtp
+                                ? _account.ImapUsername
+                                : _account.SmtpUsername;
+
+                            var password = _account.UseImapCredentialsForSmtp
+                                ? _account.ImapPassword
+                                : _account.SmtpPassword;
+
+                            using (var session = await auth.LoginAsync(username, password)) {
                                 await session.SendAsync(request.Mime);
                             }
                         }
