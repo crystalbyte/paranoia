@@ -48,7 +48,7 @@
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
                 <controls:MetroButton Margin="12,0"
                                       Command="ui:FlyoutCommands.Continue"
-                                      Content="{x:Static properties:Resources.Continue}"
+                                      Content="{x:Static properties:Resources.Accept}"
                                       ImageSource="/Assets/ok.png"
                                       Style="{StaticResource FlyoutMetroButtonStyle}" />
                 <controls:MetroButton Margin="12,0"
@@ -212,7 +212,7 @@
                                             <TextBlock Margin="3,0"
                                                        VerticalAlignment="Center"
                                                        FontWeight="Normal"
-                                                       Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
+                                                       Foreground="{DynamicResource FlyoutForegroundBrushKey}"
                                                        Text="{Binding Converter={StaticResource SecurityProtocolFormatter}}" />
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>

@@ -316,8 +316,10 @@ namespace Crystalbyte.Paranoia {
                             var mime = await context.MimeMessages
                                 .FirstOrDefaultAsync(x => x.MessageId == id);
 
-                            context.MimeMessages.Remove(mime);
-                            await context.SaveChangesAsync();
+                            if (mime != null) {
+                                context.MimeMessages.Remove(mime);
+                                await context.SaveChangesAsync();    
+                            }
 
                             var model = new MailMessageModel {
                                 Id = message.Id,

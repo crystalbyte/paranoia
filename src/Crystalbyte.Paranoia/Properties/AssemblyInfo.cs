@@ -1,6 +1,4 @@
-﻿using Crystalbyte.Paranoia.Properties;
-
-#region Using directives
+﻿#region Using directives
 
 using System.Runtime.CompilerServices;
 

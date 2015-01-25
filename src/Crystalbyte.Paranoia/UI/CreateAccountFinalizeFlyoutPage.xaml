@@ -19,13 +19,8 @@
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
                 <controls:MetroButton Margin="12,0"
                                       Command="ui:FlyoutCommands.Continue"
-                                      Content="{x:Static properties:Resources.Continue}"
+                                      Content="{x:Static properties:Resources.Close}"
                                       ImageSource="/Assets/ok.png"
-                                      Style="{StaticResource FlyoutMetroButtonStyle}" />
-                <controls:MetroButton Margin="12,0"
-                                      Command="ui:FlyoutCommands.Cancel"
-                                      Content="{x:Static properties:Resources.Cancel}"
-                                      ImageSource="/Assets/cancel.png"
                                       Style="{StaticResource FlyoutMetroButtonStyle}" />
             </StackPanel>
             <ScrollViewer>
@@ -56,6 +51,7 @@
                             <TextBox Grid.Row="0"
                                      Grid.Column="1"
                                      MinWidth="200"
+                                     Margin="3,3,0,3"
                                      IsEnabled="{Binding HasMailboxes}"
                                      IsReadOnly="True"
                                      Style="{StaticResource FlyoutTextBoxStyle}"
@@ -80,6 +76,7 @@
                             <TextBox Grid.Row="1"
                                      Grid.Column="1"
                                      MinWidth="200"
+                                     Margin="3,3,0,3"
                                      IsEnabled="{Binding HasMailboxes}"
                                      IsReadOnly="True"
                                      Style="{StaticResource FlyoutTextBoxStyle}"
@@ -104,6 +101,7 @@
                             <TextBox Grid.Row="2"
                                      Grid.Column="1"
                                      MinWidth="200"
+                                     Margin="3,3,0,3"
                                      IsEnabled="{Binding HasMailboxes}"
                                      IsReadOnly="True"
                                      Style="{StaticResource FlyoutTextBoxStyle}"
@@ -138,6 +136,7 @@
                                     <Run Text=":" />
                                 </TextBlock>
                                 <TextBox MinWidth="200"
+                                         Margin="3,3,0,3"
                                          IsEnabled="{Binding StoreCopiesOfSentMessages}"
                                          IsReadOnly="True"
                                          Style="{StaticResource FlyoutTextBoxStyle}"
@@ -194,6 +193,7 @@
                                     Grid.Column="1"
                                     Orientation="Horizontal">
                             <TextBox Width="340"
+                                     Margin="3,3,0,3"
                                      IsReadOnly="True"
                                      Style="{StaticResource FlyoutTextBoxStyle}"
                                      Text="{Binding SignaturePath,
@@ -221,7 +221,7 @@
                     BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                     BorderThickness="1">
                 <DockPanel LastChildFill="True">
-                    <Grid Background="{DynamicResource WindowTitleBackgroundBrushKey}" DockPanel.Dock="Bottom">
+                    <Grid Background="{DynamicResource WindowHeaderBackgroundBrushKey}" DockPanel.Dock="Bottom">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -271,7 +271,7 @@
                     BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                     BorderThickness="1">
                 <DockPanel LastChildFill="True">
-                    <Grid Background="{DynamicResource WindowTitleBackgroundBrushKey}" DockPanel.Dock="Bottom">
+                    <Grid Background="{DynamicResource WindowHeaderBackgroundBrushKey}" DockPanel.Dock="Bottom">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />

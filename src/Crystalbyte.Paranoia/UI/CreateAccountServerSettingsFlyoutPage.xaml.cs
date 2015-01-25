@@ -1,11 +1,13 @@
 ﻿#region Using directives
 
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Mail;
+using NLog;
 using NavigationCommands = Crystalbyte.Paranoia.UI.FlyoutCommands;
 
 #endregion
@@ -15,6 +17,8 @@ namespace Crystalbyte.Paranoia.UI {
     ///     Interaction logic for CreateAccountServerSettingsFlyoutPage.xaml
     /// </summary>
     public partial class CreateAccountServerSettingsFlyoutPage : INavigationAware {
+
+        private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
 
         public CreateAccountServerSettingsFlyoutPage() {
             InitializeComponent();
@@ -27,10 +31,17 @@ namespace Crystalbyte.Paranoia.UI {
             App.Context.CloseFlyout();
         }
 
-        private void OnContinue(object sender, ExecutedRoutedEventArgs e) {
+        private async void OnContinue(object sender, ExecutedRoutedEventArgs e) {
             var service = NavigationService;
             if (service == null) {
                 throw new NullReferenceException("NavigationService");
+            }
+
+            try {
+                var account = (MailAccountContext)DataContext;
+                await Task.Run(() => account.SaveAsync());
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
 
             var uri = typeof(CreateAccountFinalizeFlyoutPage).ToPageUri();

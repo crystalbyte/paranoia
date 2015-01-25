@@ -78,17 +78,22 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
                 App.Context.NotifyAccountDeleted(this);
-                await Task.Run((Action)OnDeleteAccountAsync);
+                await DeleteAccountAsync();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
 
-        private async void OnDeleteAccountAsync() {
-            var success = await TryDeleteAccountAsync();
-            if (!success) {
-                Application.Current.Dispatcher.Invoke(
-                    () => App.Context.NotifyAccountCreated(this));
+        private async Task DeleteAccountAsync() {
+            try {
+                var success = await Task.Run(() => TryDeleteAccountAsync());
+                if (!success) {
+                    Application.Current.Dispatcher.Invoke(
+                        () => App.Context.NotifyAccountCreated(this));
+                }
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
             }
         }
 
@@ -398,8 +403,13 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertBackgroundThread();
 
             using (var database = new DatabaseContext()) {
-                database.MailAccounts.Attach(_account);
-                database.Entry(_account).State = EntityState.Modified;
+                if (_account.Id == 0) {
+                    database.MailAccounts.Add(_account);
+                }
+                else {
+                    database.MailAccounts.Attach(_account);
+                    database.Entry(_account).State = EntityState.Modified;
+                }
                 await database.SaveChangesAsync();
             }
         }
@@ -956,6 +966,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task<bool> TryDeleteAccountAsync() {
+            Application.Current.AssertBackgroundThread();
+
             using (var context = new DatabaseContext()) {
                 await context.Database.Connection.OpenAsync();
                 using (var transaction = context.Database.Connection.BeginTransaction()) {
@@ -983,15 +995,12 @@ namespace Crystalbyte.Paranoia {
                                 foreach (var mimeMessage in mimeMessages) {
                                     context.MimeMessages.Remove(mimeMessage);
                                 }
-                                await context.SaveChangesAsync();
                             }
 
                             context.MailMessages.RemoveRange(messages);
-                            await context.SaveChangesAsync();
                         }
 
                         context.Mailboxes.RemoveRange(mailboxes);
-                        await context.SaveChangesAsync();
 
                         var acc = new MailAccountModel { Id = Id };
                         context.MailAccounts.Attach(acc);
