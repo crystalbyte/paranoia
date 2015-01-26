@@ -3,6 +3,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -164,16 +165,14 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 ContinueButton.IsEnabled = false;
                 var account = (MailAccountContext)DataContext;
-                await account.InsertAsync();
-                App.Context.NotifyAccountCreated(account);
-            }
-            finally {
+                await Task.Run(() => account.SaveAsync());
+            } finally {
                 ContinueButton.IsEnabled = true;
                 App.Context.CloseFlyout();
             }
-            
+
         }
-        
+
         private void OnStoreCopyRadioButtonChecked(object sender, RoutedEventArgs e) {
             var account = (MailAccountContext)DataContext;
             account.StoreCopiesOfSentMessages = true;
@@ -197,7 +196,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         public async void OnNavigated(NavigationEventArgs e) {
             DataContext = NavigationArguments.Pop();
-            var account = (MailAccountContext) DataContext;
+            var account = (MailAccountContext)DataContext;
 
             StoreCopyRadioButton.IsChecked = account.StoreCopiesOfSentMessages;
             DontStoreCopyRadioButton.IsChecked = !account.StoreCopiesOfSentMessages;
@@ -206,8 +205,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             try {
                 await account.SyncMailboxesAsync();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 // TODO: Display error to the user.
                 Debug.WriteLine(ex);
             }
