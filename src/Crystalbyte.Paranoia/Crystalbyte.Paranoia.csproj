@@ -190,6 +190,7 @@
     <Compile Include="Contexts\CreateMailboxContext.cs" />
     <Compile Include="Contexts\FileInspectionContext.cs" />
     <Compile Include="Contexts\InspectionContext.cs" />
+    <Compile Include="Contexts\UnlockKeyPairContext.cs" />
     <Compile Include="DecryptionResult.cs" />
     <Compile Include="IMailboxCreator.cs" />
     <Compile Include="InspectionWindow.xaml.cs">
@@ -310,6 +311,9 @@
     <Compile Include="UI\ItemsSourceRequestedEventArgs.cs" />
     <Compile Include="UI\ITokenMatcher.cs" />
     <Compile Include="UI\MailAddressTokenMatcher.cs" />
+    <Compile Include="UI\Pages\UnlockKeyPage.xaml.cs">
+      <DependentUpon>UnlockKeyPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\SignatureCommands.cs" />
     <Compile Include="UI\WindowExtensions.cs" />
     <Page Include="CompositionWindow.xaml">
@@ -538,6 +542,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Pages\MessagesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\UnlockKeyPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

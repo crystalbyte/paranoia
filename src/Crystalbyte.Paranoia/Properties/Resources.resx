@@ -552,4 +552,10 @@ Once your password is lost you're screwed.</value>
   <data name="Unblock" xml:space="preserve">
     <value>Unblock</value>
   </data>
+  <data name="UnlockKeyTitle" xml:space="preserve">
+    <value>Enter your password or release the kraken!</value>
+  </data>
+  <data name="Kraken" xml:space="preserve">
+    <value>Kraken</value>
+  </data>
 </root>

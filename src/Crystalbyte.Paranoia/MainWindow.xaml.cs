@@ -62,6 +62,7 @@ namespace Crystalbyte.Paranoia {
             if (publicKey == null || privateKey == null) {
                 App.Context.OnCreateKeyPair();
             } else {
+                App.Context.OnUnlockKeyPair();
                 await App.Context.InitKeysAsync();
                 await App.Context.RunAsync();
             }

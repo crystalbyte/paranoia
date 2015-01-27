@@ -630,6 +630,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kraken.
+        /// </summary>
+        public static string Kraken {
+            get {
+                return ResourceManager.GetString("Kraken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         public static System.Drawing.Icon logo {
@@ -1294,6 +1303,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Unblock {
             get {
                 return ResourceManager.GetString("Unblock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your password or release the kraken!.
+        /// </summary>
+        public static string UnlockKeyTitle {
+            get {
+                return ResourceManager.GetString("UnlockKeyTitle", resourceCulture);
             }
         }
         

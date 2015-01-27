@@ -877,7 +877,11 @@ namespace Crystalbyte.Paranoia {
             OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
             IsPopupVisible = true;
         }
-
+        internal void OnUnlockKeyPair() {
+            var uri = typeof(UnlockKeyPage).ToPageUri();
+            OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
+            IsPopupVisible = true;
+        }
         internal void OnCreateKeyPair() {
             var uri = typeof(CreateKeyPage).ToPageUri();
             OnPopupNavigationRequested(new NavigationRequestedEventArgs(uri));
