@@ -42,6 +42,9 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("imap_password")]
         public string ImapPassword { get; set; }
 
+        [Column("is_default_time")]
+        public DateTime IsDefaultTime { get; set; }
+
         [Column("imap_security")]
         public SecurityProtocol ImapSecurity { get; set; }
 

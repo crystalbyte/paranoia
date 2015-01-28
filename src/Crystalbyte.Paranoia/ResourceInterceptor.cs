@@ -13,8 +13,6 @@ namespace Crystalbyte.Paranoia {
         public bool OnFilterNavigation(NavigationRequest request) {
             return false;
         }
-        internal void SetCurrentMessage() {
-        }
 
         public ResourceResponse OnRequest(ResourceRequest request) {
             if (request.Url.Scheme != "asset")
@@ -28,7 +26,7 @@ namespace Crystalbyte.Paranoia {
 
                     var attachment = GetAttachmentBytes(arguments["cid"], messageId);
                     if (attachment != null) {
-                        return BytesToResourceResponce(attachment, "image");
+                        return BytesToResourceResponse(attachment, "image");
                     }
                 }
             }
@@ -68,7 +66,7 @@ namespace Crystalbyte.Paranoia {
             return null;
         }
 
-        private static ResourceResponse BytesToResourceResponce(byte[] bytes, string mediaType) {
+        private static ResourceResponse BytesToResourceResponse(byte[] bytes, string mediaType) {
             var buffer = Marshal.AllocHGlobal(bytes.Length);
             Marshal.Copy(bytes, 0, buffer, bytes.Length);
 

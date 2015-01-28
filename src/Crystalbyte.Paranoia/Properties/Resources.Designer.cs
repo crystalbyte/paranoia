@@ -666,6 +666,24 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Font.
+        /// </summary>
+        public static string HtmlFontFamilyLabel {
+            get {
+                return ResourceManager.GetString("HtmlFontFamilyLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size.
+        /// </summary>
+        public static string HtmlFontSizeLabel {
+            get {
+                return ResourceManager.GetString("HtmlFontSizeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The server does not support the IDLE extension..
         /// </summary>
         public static string IdleCommandNotSupported {
@@ -707,6 +725,24 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string InboxMailbox {
             get {
                 return ResourceManager.GetString("InboxMailbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is now your default account..
+        /// </summary>
+        public static string IsDefaultAccount {
+            get {
+                return ResourceManager.GetString("IsDefaultAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set as default..
+        /// </summary>
+        public static string IsNotDefaultAccount {
+            get {
+                return ResourceManager.GetString("IsNotDefaultAccount", resourceCulture);
             }
         }
         

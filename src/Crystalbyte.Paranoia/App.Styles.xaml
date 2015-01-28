@@ -83,6 +83,14 @@
         <Setter Property="BorderBrush" Value="{StaticResource FlyoutTextBoxBorderBrushKey}" />
     </Style>
 
+    <Style x:Key="FlyoutCheckBoxStyle"
+           BasedOn="{StaticResource {x:Type CheckBox}}"
+           TargetType="CheckBox">
+        <Setter Property="Foreground" Value="{StaticResource FlyoutForegroundBrushKey}" />
+        <Setter Property="Background" Value="{StaticResource FlyoutTextBoxBackgroundBrushKey}" />
+        <Setter Property="BorderBrush" Value="{StaticResource FlyoutTextBoxBorderBrushKey}" />
+    </Style>
+
     <Style x:Key="FlyoutPasswordBoxStyle"
            BasedOn="{StaticResource {x:Type PasswordBox}}"
            TargetType="PasswordBox">

@@ -95,25 +95,17 @@ namespace Crystalbyte.Paranoia.UI {
             await composition.ResetAsync();
         }
 
+        private void OnAccountComboboxDataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
+            var context = (MailCompositionContext)DataContext;
+            AccountComboBox.SelectedValue = context.Accounts.OrderByDescending(x => x.IsDefaultTime).FirstOrDefault();
+        }
+
         private async void OnRecipientsBoxItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
             var control = (SuggestiveTextBox)sender;
             var contacts = await QueryContactsAsync(e.Text);
             await Application.Current.Dispatcher.InvokeAsync(() => {
                 control.ItemsSource = contacts;
             });
-        }
-
-        private void FocusOnPageLoad(Func<Control> controlDelegate) {
-            if (IsLoaded) {
-                FocusByDelegate(controlDelegate);
-            } else {
-                Loaded += (sender, e) => FocusByDelegate(controlDelegate);
-            }
-        }
-
-        private static void FocusByDelegate(Func<Control> controlDelegate) {
-            var control = controlDelegate();
-            control.Focus();
         }
 
         public Task<MailContactContext[]> QueryContactsAsync(string text) {
@@ -149,9 +141,16 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void PrepareAsNew() {
             var context = (MailCompositionContext)DataContext;
+            Loaded += OnLoadedAsNew;
             context.Source = "asset://paranoia/message/new";
 
-            FocusOnPageLoad(() => RecipientsBox);
+        }
+
+        private void OnLoadedAsNew(object sender, RoutedEventArgs e) {
+            Application.Current.Dispatcher.Invoke(() => {
+                RecipientsBox.Focus();
+                Loaded -= OnLoadedAsNew;
+            });
         }
 
         private async Task PrepareAsReplyAsync(IReadOnlyDictionary<string, string> arguments) {

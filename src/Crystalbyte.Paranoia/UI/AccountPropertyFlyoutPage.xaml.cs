@@ -1,6 +1,7 @@
 ﻿#region Using directives
 
 using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -8,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Navigation;
+using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Microsoft.Win32;
 using NLog;
@@ -256,8 +258,14 @@ namespace Crystalbyte.Paranoia.UI {
             ImapPasswordBox.PasswordChanged -= OnImapPasswordChanged;
         }
 
-        private void HookUpChangeEvents() {
+        private async Task InitializeUnbindablesAsync() {
             var account = (MailAccountContext)DataContext;
+
+            var defaultId = Task.Run(() => {
+                using (var context = new DatabaseContext()) {
+                    return context.MailAccounts.OrderByDescending(x => x.IsDefaultTime).Select(x => x.Id).FirstOrDefaultAsync();
+                }
+            });
 
             SmtpPasswordBox.Password = account.SmtpPassword;
             SmtpPasswordBox.PasswordChanged += OnSmtpPasswordChanged;
@@ -270,6 +278,8 @@ namespace Crystalbyte.Paranoia.UI {
 
             StoreCopyRadioButton.IsChecked = account.StoreCopiesOfSentMessages;
             DontStoreCopyRadioButton.IsChecked = !account.StoreCopiesOfSentMessages;
+
+            IsDefaultComboBox.IsChecked = account.Id == await defaultId;
 
             App.Context.FlyoutClosing += OnFlyoutClosing;
             App.Context.FlyoutClosed += OnFlyoutClosed;
@@ -302,9 +312,9 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Implementation of INavigationAware
 
-        public void OnNavigated(NavigationEventArgs e) {
+        public async void OnNavigated(NavigationEventArgs e) {
             DataContext = NavigationArguments.Pop();
-            HookUpChangeEvents();
+            await InitializeUnbindablesAsync();
             StartTracking();
         }
 
@@ -321,5 +331,10 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         #endregion
+
+        private void OnIsDefaultComboBoxChecked(object sender, RoutedEventArgs e) {
+            var context = (MailAccountContext)DataContext;
+            context.IsDefaultTime = DateTime.Now;
+        }
     }
 }

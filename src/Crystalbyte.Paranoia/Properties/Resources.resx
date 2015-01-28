@@ -616,4 +616,16 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="IdleCommandNotSupported" xml:space="preserve">
     <value>The server does not support the IDLE extension.</value>
   </data>
+  <data name="IsDefaultAccount" xml:space="preserve">
+    <value>This is now your default account.</value>
+  </data>
+  <data name="IsNotDefaultAccount" xml:space="preserve">
+    <value>Set as default.</value>
+  </data>
+  <data name="HtmlFontFamilyLabel" xml:space="preserve">
+    <value>Font</value>
+  </data>
+  <data name="HtmlFontSizeLabel" xml:space="preserve">
+    <value>Size</value>
+  </data>
 </root>

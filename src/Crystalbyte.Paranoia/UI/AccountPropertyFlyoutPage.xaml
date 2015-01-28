@@ -46,6 +46,7 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0"
                                Grid.Column="0"
@@ -82,6 +83,21 @@
                              Text="{Binding Address,
                                             Mode=TwoWay,
                                             UpdateSourceTrigger=PropertyChanged}" />
+                    <CheckBox x:Name="IsDefaultComboBox"
+                              Grid.Row="3"
+                              Grid.Column="0"
+                              Grid.ColumnSpan="2"
+                              Margin="18,12"
+                              Checked="OnIsDefaultComboBoxChecked"
+                              IsEnabled="{Binding IsChecked,
+                                                  RelativeSource={RelativeSource Self},
+                                                  Converter={StaticResource BooleanInverter}}"
+                              Style="{DynamicResource FlyoutCheckBoxStyle}">
+                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                            <TextBlock Text="{x:Static properties:Resources.IsDefaultAccount}" Visibility="{Binding IsChecked, ElementName=IsDefaultComboBox, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <TextBlock Text="{x:Static properties:Resources.IsNotDefaultAccount}" Visibility="{Binding IsChecked, ElementName=IsDefaultComboBox, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}" />
+                        </StackPanel>
+                    </CheckBox>
                 </Grid>
             </TabItem>
             <TabItem Header="{x:Static properties:Resources.Server}" HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">

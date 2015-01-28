@@ -38,6 +38,30 @@
             <Component Id="cmp2499AED4A8793D07D1FA455C4F33CE45" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil125D47598215A2BCB7FDD9CE390E7C1A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-21.log" />
             </Component>
+            <Component Id="cmpD51B0B538979A477A8D7E26FD140317A" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil26A7298739D7E3176006F3EDB631AB63" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-22.log" />
+            </Component>
+            <Component Id="cmp6E77EDAE7BE75F47E0082D5E58C40018" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil7B7E3AB4BD129990E8532111096119ED" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-23.log" />
+            </Component>
+            <Component Id="cmp0762AA9430259D47F167CE9A8367BE81" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filEA60C267147FA7C78407B97008127EAB" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-25.log" />
+            </Component>
+            <Component Id="cmp7024E91DDE2888FD575046982EAE03C4" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filA95B46F5A86EAFCB154587F639C17D1B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-26.log" />
+            </Component>
+            <Component Id="cmp73E233FE2665A005B60C28A14A141F52" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil3D695BD77CCD5840228103E47776DC5F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-27.log" />
+            </Component>
+            <Component Id="cmpE91873732F9F6761554C7CA8D35CBC49" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil536A0614D73F226CAF292E2FFD031AD5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-28.log" />
+            </Component>
+            <Component Id="cmp306EE5D296E8EE9C2477DD6B5BE29679" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filBA1D15C235226A98F70413A296554D31" KeyPath="yes" Source="$(var.PrimaryOutputDir)\64 orgAnice Oktober 2014 Zeiten - Sheet1.pdf" />
+            </Component>
+            <Component Id="cmp880CC66187106EA220E56364D6FCAD2C" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filF30948E7DAEFCF819FAC29B9EE014E0F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\65 orgAnice Oktober 2014 Zeiten - Sheet1.pdf" />
+            </Component>
             <Component Id="cmp594DB0D8DFF9B8192A47B997D7BBF29F" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filA5A87B3ABACEB1BEACB6951205F4825D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Aesthetic Med - Voruntersuchungen.doc" />
             </Component>
@@ -98,6 +122,72 @@
             <Component Id="cmpE0F06842E433B60025DB252C4DC6675F" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil8CABAF38149D4F4EAAF26380801D77FC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Ionic.Zip.dll" />
             </Component>
+            <Component Id="cmp6297F41AB610710079AF16DE7615B557" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filE0B8A94E2ACEC5EE8B52BCC00A2330CE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika.jpg" />
+            </Component>
+            <Component Id="cmp93AC3A0669B7BFEC1DF3F0B106DBA44A" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filC3EE14D1E2FD5BA48252CE952C2CC35C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika1.jpg" />
+            </Component>
+            <Component Id="cmpFE755EDC7D5183F8642CA5C244416F90" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil3664EC756B3286C62C5CA565947A9069" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika10.jpg" />
+            </Component>
+            <Component Id="cmp8BB74018C471865FF4F627A63450BE0B" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filB8CD3A0D9DD3D516326DCA3AAC5DF90D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika11.jpg" />
+            </Component>
+            <Component Id="cmp69DFD6673E2DF23489DA0092E1F3740A" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil970FABAD5FF6D3EB74DC8AAA9169D36C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika12.jpg" />
+            </Component>
+            <Component Id="cmp0D953BEDBE73B51E5130E7E5B365826B" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil62003CF143C3B1BF1BEE755A55320FAE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika14.jpg" />
+            </Component>
+            <Component Id="cmp42F0A36EA56D461986B13EE16A44C7E7" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filD4E21C2487494BEFFDBCD49FAA8534AA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika15.jpg" />
+            </Component>
+            <Component Id="cmpCE11D5040FCC935A20B93CCE4C1F8E93" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filD55490CD6FC1AACA4A8CD6004D2E5D10" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika18.jpg" />
+            </Component>
+            <Component Id="cmp88CC67AAE10463EC952968F53DC25201" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filC6202691F4BCDF002066DCE0F52C7946" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika20.jpg" />
+            </Component>
+            <Component Id="cmp32674BA6F4C82A81F0AE629E0C05DE5B" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil9D1C3D64370B00779AF774AD6936FBB1" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika21.jpg" />
+            </Component>
+            <Component Id="cmpA565A5568A57AC0C58DF948419B5F707" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filCCE954563972358DA2115DE8509235F4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika22.jpg" />
+            </Component>
+            <Component Id="cmp07385C476BBDF9D5C46091C7D2604F69" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil904F1C19FBBAB991FFE821EF92AAFBBE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika4.jpg" />
+            </Component>
+            <Component Id="cmpEDB49D728401ACF78B54E569EB323A7A" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil762CC89C12C37FDF55276AA7C232DD2F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika5.jpg" />
+            </Component>
+            <Component Id="cmp1CFE09F5BF3EC17D80FE2399D4F1602F" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filF7D60EB91C49546AA764D2EEA2BDAD08" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika6.jpg" />
+            </Component>
+            <Component Id="cmpA21CF6BF60125CCF0D172DC88F26710D" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil01E0DF90719F6FE1339D62859FF03FB2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika7.jpg" />
+            </Component>
+            <Component Id="cmp635CD32DD694F52424EF9262EE80DAA1" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil917BC4BBAE0648F8F84B1F237A5ADAAB" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika8.jpg" />
+            </Component>
+            <Component Id="cmpC3179E572FD3EEFE2EACBBCFE75CC1DF" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil514F390348888079D802F4FA69A95FF7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika9.jpg" />
+            </Component>
+            <Component Id="cmpBCCCEDA662E33853EEE92E62D59885A4" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil2E1352B0D6E6750E72D767DABBE5F3DF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinka16.jpg" />
+            </Component>
+            <Component Id="cmp4C32B35B3220455336F88CBA28B950C6" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil9910F0305F8D857EAA5790541DC20BCA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinkia19.jpg" />
+            </Component>
+            <Component Id="cmp306694E34B59C37B1E755C3AC0538415" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filD3C57BD27CD1946E8155222456393BF8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinuka2.jpg" />
+            </Component>
+            <Component Id="cmp649B9CA89B40F3CDA9F1F73DA3F121E4" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filB22C2706D568C1A2D9DFAE97FFF3415B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Margit wünsch Forderung der abgewiesenen Lastschrift - Beauftragte Anwaltschaft.zip" />
+            </Component>
+            <Component Id="cmpCCF262A093EA3F20DF82648D66B5A25B" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filC2CE7FFC3C1922FADEEC2D0BA0CEFC16" KeyPath="yes" Source="$(var.PrimaryOutputDir)\MeineRechnungenAXA.pdf" />
+            </Component>
             <Component Id="cmp649A934A37C7F0DC8ADD84104468D6A4" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil62BDEBE76BBED1680D2C2094E12135B0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Microsoft.Expression.Interactions.dll" />
             </Component>
@@ -106,6 +196,18 @@
             </Component>
             <Component Id="cmp459428455A80F4974712A2D278241949" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filDE9AFB8C595C5CEE318048C2DF9057E3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\NLog.dll" />
+            </Component>
+            <Component Id="cmpF8B2D7C55ABA083E1162B7754E429D33" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil1340559E401FE268EA56CE2B338EAB2D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\P1020368.JPG" />
+            </Component>
+            <Component Id="cmpD76549E734FA30CEE590FCDB5BD54800" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil3FBCFC5FAE4EE6504A276F5FC3083E56" KeyPath="yes" Source="$(var.PrimaryOutputDir)\P1020790.JPG" />
+            </Component>
+            <Component Id="cmp33455EA9A3E03CE43C5C659023A6FDD3" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filB4FFD744EFD5197C925A3A987416E6A0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\P1030559.JPG" />
+            </Component>
+            <Component Id="cmp4BB207AE6F97AAB74E7E45F60ABA6B75" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil9C40643F550A98257B2262F1235EC023" KeyPath="yes" Source="$(var.PrimaryOutputDir)\P1030608.JPG" />
             </Component>
             <Component Id="cmpB5ED5B54A64B18CFC9AED6049D88B6F0" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filE900DD48767027E051CFFCB9D9C7A3CC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.exe" />
@@ -116,8 +218,14 @@
             <Component Id="cmp6AD55DB8C684C408AC22C2EADEC4E91D" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filFABF4F9712DA42F63DAA3F49139A7C08" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.pdb" />
             </Component>
+            <Component Id="cmp56B87C4DFC69D84E8DF8CFDDF21E6B72" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil050D327E1531DD452AECA6E385F4772C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\price_list_invimed_2011.pdf" />
+            </Component>
             <Component Id="cmpED7128ED33A9C942FB92937984862AF0" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil3ACBBDBC6A798AC11F2FC5188B77DD4B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Regeneris Text.pdf" />
+            </Component>
+            <Component Id="cmp4AA2166B754242EED74C0DCA76AAAF08" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filACE07E8FA21C2E3D99581ADD4B6E5051" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ruderboot.jpg" />
             </Component>
             <Component Id="cmp08C9093CA92AB322A1FD8643A8F8E9EB" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filB33C2F6608DD31FAE45B7C0513E7632E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Composition.AttributedModel.dll" />

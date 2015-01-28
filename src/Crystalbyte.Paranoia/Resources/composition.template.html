@@ -9,8 +9,6 @@
     <div id="content-storage" style="display: none;">
         <p id="message"></p>
         <div id="signature" style="margin-top: 20px;"></div>
-        {{HEADER}}
-        {{QUOTE}}
     </div>
 
     <!-- ReSharper disable Html.PathError -->
@@ -19,12 +17,11 @@
     <script type="text/javascript" src="Resources/ckeditor/adapters/jquery.js"></script>
     <!-- ReSharper restore Html.PathError -->
 
-    <script type="text/javascript" id=" ">
+    <script type="text/javascript">
         // Module pattern: https://github.com/stevekwan/experiments/blob/master/javascript/module-pattern.html
 
         var Crystalbyte = Crystalbyte || {};
         Crystalbyte.Paranoia = function () {
-            alert("");
             var noEditorMessage = "Editor not found.";
 
             var textarea = $('textarea#editor');
@@ -104,11 +101,9 @@
 
             var init = function () {
                 textarea.ckeditor(loadContent, {
-                    font_defaultLabel: '{{DEFAULT_FONT_FAMILY}}',
-                    fontSize_defaultLabel: '{{DEFAULT_FONT_SIZE}}',
                     startupFocus: true,
                     language: '{{CULTURE}}',
-                    skin: '{{CKEDITOR_THEME}}'
+                    skin: '{{CKEDITOR_THEME}}',
                 });
             }
 
@@ -118,7 +113,6 @@
                 insertHtml: insertHtml,
                 insertText: insertText,
                 setReadOnly: setReadOnly,
-                loadContent: loadContent,
                 focusEditor: focusEditor,
                 resizeEditor: resizeEditor,
                 getComposition: getComposition,
@@ -128,7 +122,8 @@
 
         $(window).resize(Crystalbyte.Paranoia.resizeEditor);
         $(document).ready(function () {
-            Crystalbyte.Paranoia.init();
+            var paranoia = Crystalbyte.Paranoia;
+            paranoia.init();
         });
     </script>
 </body>

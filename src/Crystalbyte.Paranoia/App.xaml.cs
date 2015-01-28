@@ -99,18 +99,15 @@ namespace Crystalbyte.Paranoia {
                 less = Regex.Replace(text, pattern, m => {
                     var key = m.Value.Trim('%');
                     var dictionary =
-                        Current.Resources.MergedDictionaries.First(
-                            x => x.Contains(key));
-                    if (dictionary == null) {
-                        return "fuchsia";
+                        Current.Resources.MergedDictionaries.FirstOrDefault(
+                            x => x.Contains(key)) ?? Current.Resources;
+
+                    var resource = dictionary[key];
+                    if (resource is SolidColorBrush) {
+                        return string.Format("#{0}", (resource as SolidColorBrush).Color.ToString().Substring(3));
                     }
 
-                    var resource = dictionary[key] as SolidColorBrush;
-                    if (resource == null) {
-                        return "fuchsia";
-                    }
-                    // Drop the alpha channel.
-                    return string.Format("#{0}", resource.Color.ToString().Substring(3));
+                    return resource != null ? resource.ToString() : "fuchsia";
                 });
             }
 
@@ -358,6 +355,9 @@ namespace Crystalbyte.Paranoia {
 
             var directory = Environment.ExpandEnvironmentVariables(location);
             AppDomain.CurrentDomain.SetData("DataDirectory", directory);
+
+            Current.Resources[HtmlResourceKeys.HtmlFontFamilyKey] = Settings.Default.HtmlFontFamily;
+            Current.Resources[HtmlResourceKeys.HtmlFontSizeKey] = Settings.Default.HtmlFontSize;
         }
 
         private void Compose() {
@@ -369,7 +369,7 @@ namespace Crystalbyte.Paranoia {
             Composition = config.CreateContainer();
             Composition.SatisfyImports(this);
         }
-     
+
         public void ApplyTheme(Theme theme) {
             var resources = theme.GetThemeResources();
 

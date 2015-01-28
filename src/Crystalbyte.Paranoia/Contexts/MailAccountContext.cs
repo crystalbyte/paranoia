@@ -30,6 +30,7 @@ namespace Crystalbyte.Paranoia {
         private bool _isAutoDetectPreferred;
         private bool _isDetectingSettings;
         private TestingContext _testing;
+        private bool _isSyncingMailboxes;
         private bool _isManagingMailboxes;
         private bool _isMailboxSelectionAvailable;
 
@@ -43,7 +44,6 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _hideUnsubscribedMailboxesCommand;
         private readonly OutboxContext _outbox;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
-        private bool _isSyncingMailboxes;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -127,6 +127,17 @@ namespace Crystalbyte.Paranoia {
                 }
                 _account.TrashMailboxName = value;
                 RaisePropertyChanged(() => TrashMailboxName);
+            }
+        }
+
+        public DateTime IsDefaultTime {
+            get { return _account.IsDefaultTime; }
+            set {
+                if (_account.IsDefaultTime == value) {
+                    return;
+                }
+                _account.IsDefaultTime = value;
+                RaisePropertyChanged(() => IsDefaultTime);
             }
         }
 

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Awesomium.Core.Data;
@@ -32,22 +33,22 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 if (Regex.IsMatch(request.Path, "message/new")) {
-                    SendBlankResponse(request);
+                    SendBlankCompositionResponse(request);
                     return;
                 }
 
                 if (Regex.IsMatch(request.Path, "message/reply")) {
-                    await SendQuotedResponseAsync(request);
+                    await SendQuotedCompositionResponseAsync(request);
                     return;
                 }
 
                 if (Regex.IsMatch(request.Path, "message/forward")) {
-                    await SendQuotedResponseAsync(request);
+                    await SendQuotedCompositionResponseAsync(request);
                     return;
                 }
 
                 if (Regex.IsMatch(request.Path, "file?path=.+")) {
-                    SendFileResponse(request);
+                    SendFileCompositionResponse(request);
                     return;
                 }
 
@@ -61,7 +62,7 @@ namespace Crystalbyte.Paranoia {
                 Logger.Error(ex);
             }
         }
-
+     
         private async Task SendSmtpResponseAsync(DataSourceRequest request) {
             var id = long.Parse(request.Path.Split('/')[1]);
 
@@ -79,7 +80,7 @@ namespace Crystalbyte.Paranoia {
             var id = long.Parse(request.Path.Split('/')[1]);
             var arguments = request.Url.PathAndQuery.ToPageArguments();
 
-            var mime = await LoadMessageBytesAsync(id);
+            var mime = await LoadMessageAsync(id);
             var reader = new MailMessageReader(mime);
             var text = GetSupportedBody(reader);
 
@@ -138,7 +139,7 @@ namespace Crystalbyte.Paranoia {
             return content;
         }
 
-        private void SendFileResponse(DataSourceRequest request) {
+        private void SendFileCompositionResponse(DataSourceRequest request) {
             const string key = "path";
             var arguments = request.Path.ToPageArguments();
             if (!arguments.ContainsKey(key)) {
@@ -175,7 +176,7 @@ namespace Crystalbyte.Paranoia {
             return text;
         }
 
-        private async Task SendQuotedResponseAsync(DataSourceRequest request) {
+        private async Task SendQuotedCompositionResponseAsync(DataSourceRequest request) {
             var variables = new Dictionary<string, string> {
                 {"header", string.Empty},
                 {"culture", CultureInfo.CurrentUICulture.TwoLetterISOLanguageName},
@@ -188,8 +189,8 @@ namespace Crystalbyte.Paranoia {
             var arguments = request.Url.OriginalString.ToPageArguments();
             if (arguments.ContainsKey("id") && long.TryParse(arguments["id"], out messageId)) {
 
-                var bytes = await LoadMessageBytesAsync(messageId);
-                var reader = new MailMessageReader(bytes);
+                var message = await LoadMessageAsync(messageId);
+                var reader = new MailMessageReader(message);
 
                 var text = GetSupportedBody(reader);
 
@@ -202,10 +203,11 @@ namespace Crystalbyte.Paranoia {
                 variables.Add("quote", string.Empty);
 
             var html = GenerateEditorHtml(variables);
-            SendHtmlResponse(request, Encoding.UTF8.GetBytes(html));
+            var bytes = Encoding.UTF8.GetBytes(html);
+            SendHtmlResponse(request, bytes);
         }
 
-        private void SendBlankResponse(DataSourceRequest request) {
+        private void SendBlankCompositionResponse(DataSourceRequest request) {
             var variables = new Dictionary<string, string> {
                 {"quote", string.Empty},
                 {"header", string.Empty},
@@ -408,7 +410,7 @@ namespace Crystalbyte.Paranoia {
             return File.ReadAllBytes(file.FullName);
         }
 
-        private static async Task<byte[]> LoadMessageBytesAsync(Int64 id) {
+        private static async Task<byte[]> LoadMessageAsync(Int64 id) {
             using (var database = new DatabaseContext()) {
                 var messages = await database.MimeMessages
                     .Where(x => x.MessageId == id)

@@ -144,6 +144,7 @@
                   Width="220"
                   Margin="0,6,3,6"
                   HorizontalAlignment="Stretch"
+                  DataContextChanged="OnAccountComboboxDataContextChanged"
                   VerticalAlignment="Stretch"
                   ItemsSource="{Binding Accounts}"
                   SelectedIndex="0"

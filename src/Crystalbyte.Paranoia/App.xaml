@@ -34,6 +34,7 @@
                 <ResourceDictionary Source="App.Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <converters:BooleanInverter x:Key="BooleanInverter" />
             <converters:SecurityToColorConverter x:Key="SecurityToColorConverter" />
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />
             <converters:MailboxLocalizer x:Key="MailboxLocalizer" />
@@ -72,6 +73,7 @@
                 <core:WebPreferences CustomCSS="{x:Static paranoia:App.InspectionCss}"
                                      DefaultEncoding="utf-8"
                                      EnableGPUAcceleration="True"
+                                     Javascript="True"
                                      SmoothScrolling="True" />
             </awe:WebSessionProvider>
 
@@ -125,8 +127,6 @@
                     </Grid>
                 </Border>
             </DataTemplate>
-
-
 
             <HierarchicalDataTemplate x:Key="MailboxTemplate"
                                       DataType="{x:Type paranoia:MailboxContext}"

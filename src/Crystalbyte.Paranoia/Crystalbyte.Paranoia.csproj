@@ -192,6 +192,7 @@
       <DependentUpon>AppSettingsFlyoutPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\ColorExtensions.cs" />
+    <Compile Include="UI\Converters\BooleanInverter.cs" />
     <Compile Include="UI\CreateAccountFinalizeFlyoutPage.xaml.cs">
       <DependentUpon>CreateAccountFinalizeFlyoutPage.xaml</DependentUpon>
     </Compile>
@@ -208,6 +209,7 @@
     <Compile Include="IMailboxCreator.cs" />
     <Compile Include="DescriptionAttribute.cs" />
     <Compile Include="UI\Converters\SortPropertyFormatter.cs" />
+    <Compile Include="UI\HtmlResourceKeys.cs" />
     <Compile Include="UI\ICancelationAware.cs" />
     <Compile Include="UI\InspectionWindow.xaml.cs">
       <DependentUpon>InspectionWindow.xaml</DependentUpon>

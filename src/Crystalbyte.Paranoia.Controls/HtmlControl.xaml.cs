@@ -70,13 +70,6 @@ namespace Crystalbyte.Paranoia.UI {
             if (handler != null) handler(this, e);
         }
 
-        public event EventHandler DocumentReady;
-
-        protected virtual void OnDocumentReady() {
-            var handler = DocumentReady;
-            if (handler != null) handler(this, EventArgs.Empty);
-        }
-
         public event EventHandler<EditorContentLoadedEventArgs> EditorContentLoaded;
 
         protected virtual void OnEditorContentLoaded(EditorContentLoadedEventArgs e) {
@@ -185,24 +178,22 @@ namespace Crystalbyte.Paranoia.UI {
 
             if (_webControl != null) {
                 _webControl.ShowCreatedWebView -= OnWebControlShowCreatedWebView;
-                _webControl.DocumentReady -= OnWebControlDocumentReady;
+                _webControl.LoadingFrameComplete -= OnWebControlLoadingFrameComplete;
                 _webControl.WindowClose -= OnWebControlWindowClose;
             }
 
             _webControl = (WebControl)Template.FindName(WebControlPartName, this);
-            _webControl.DocumentReady += OnWebControlDocumentReady;
+            _webControl.LoadingFrameComplete += OnWebControlLoadingFrameComplete;
             _webControl.ShowCreatedWebView += OnWebControlShowCreatedWebView;
             _webControl.WindowClose += OnWebControlWindowClose;
         }
 
-        private void OnWebControlDocumentReady(object sender, UrlEventArgs e) {
+        private void OnWebControlLoadingFrameComplete(object sender, UrlEventArgs e) {
             var webControl = sender as WebControl;
 
             if (webControl != null) {
                 SetScriptingObject(webControl);
             }
-
-            OnDocumentReady();
         }
 
         #endregion
@@ -266,10 +257,11 @@ namespace Crystalbyte.Paranoia.UI {
                 const string function = "setComposition";
                 const string pattern = "<div\\s+id=\"signature\".+?>(?<PART>.*?)</div>";
 
-                var correction = Regex.Replace(composition, pattern, m => {
+                var regex = new Regex(pattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+                var correction = regex.Replace(composition, m => {
                     var part = m.Groups["PART"].Value;
                     return m.Value.Replace(part, signature);
-                }, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                }, 1);
 
                 module.Invoke(function, correction);
             }
