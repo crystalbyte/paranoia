@@ -14,7 +14,9 @@
     </Style>
 
     <ContextMenu x:Key="TextBoxContextMenu">
-        <MenuItem Command="ApplicationCommands.Cut">
+        <MenuItem Command="ApplicationCommands.Cut"
+                  FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}"
+                  FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}">
             <MenuItem.Icon>
                 <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
                     <Rectangle.OpacityMask>
@@ -23,7 +25,9 @@
                 </Rectangle>
             </MenuItem.Icon>
         </MenuItem>
-        <MenuItem Command="ApplicationCommands.Copy">
+        <MenuItem Command="ApplicationCommands.Copy"
+                  FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}"
+                  FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}">
             <MenuItem.Icon>
                 <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
                     <Rectangle.OpacityMask>
@@ -32,9 +36,13 @@
                 </Rectangle>
             </MenuItem.Icon>
         </MenuItem>
-        <MenuItem Command="ApplicationCommands.Paste" />
+        <MenuItem Command="ApplicationCommands.Paste"
+                  FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}"
+                  FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" />
         <Separator />
-        <MenuItem Command="ApplicationCommands.SelectAll" />
+        <MenuItem Command="ApplicationCommands.SelectAll"
+                  FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}"
+                  FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" />
     </ContextMenu>
 
     <Style TargetType="TextBox">

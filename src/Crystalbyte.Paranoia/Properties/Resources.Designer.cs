@@ -223,15 +223,6 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bind mailbox.
-        /// </summary>
-        public static string BindMailbox {
-            get {
-                return ResourceManager.GetString("BindMailbox", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Bcc.
         /// </summary>
         public static string BlindCarbonCopies {
@@ -576,7 +567,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Flag.
+        ///   Looks up a localized string similar to Markings.
         /// </summary>
         public static string Flag {
             get {
@@ -812,7 +803,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Flagged.
+        ///   Looks up a localized string similar to Star message(s).
         /// </summary>
         public static string MarkAsFlagged {
             get {
@@ -821,7 +812,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not Flagged.
+        ///   Looks up a localized string similar to Remove star from message(s).
         /// </summary>
         public static string MarkAsNotFlagged {
             get {
@@ -830,7 +821,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not Seen.
+        ///   Looks up a localized string similar to Mark message(s) as unread.
         /// </summary>
         public static string MarkAsNotSeen {
             get {
@@ -839,7 +830,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Seen.
+        ///   Looks up a localized string similar to Read message(s).
         /// </summary>
         public static string MarkAsSeen {
             get {

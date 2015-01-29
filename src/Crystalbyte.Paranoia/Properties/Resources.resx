@@ -203,10 +203,10 @@
 Please select a corresponding IMAP folder to synchronize.</value>
   </data>
   <data name="MarkAsNotSeen" xml:space="preserve">
-    <value>Not Seen</value>
+    <value>Mark message(s) as unread</value>
   </data>
   <data name="MarkAsSeen" xml:space="preserve">
-    <value>Seen</value>
+    <value>Read message(s)</value>
   </data>
   <data name="MessageDownload" xml:space="preserve">
     <value>Loading Message ...</value>
@@ -395,9 +395,6 @@ Once your password is lost you're screwed.</value>
   <data name="ChallengeCorruptException" xml:space="preserve">
     <value>The server challenge headers are missing or corrupt.</value>
   </data>
-  <data name="BindMailbox" xml:space="preserve">
-    <value>Bind mailbox</value>
-  </data>
   <data name="RemoveMailboxBinding" xml:space="preserve">
     <value>Remove binding</value>
   </data>
@@ -480,13 +477,13 @@ Once your password is lost you're screwed.</value>
     <value>Select mailboxes to be used for storing deleted messages, drafts and junk mail.</value>
   </data>
   <data name="MarkAsFlagged" xml:space="preserve">
-    <value>Flagged</value>
+    <value>Star message(s)</value>
   </data>
   <data name="MarkAsNotFlagged" xml:space="preserve">
-    <value>Not Flagged</value>
+    <value>Remove star from message(s)</value>
   </data>
   <data name="Flag" xml:space="preserve">
-    <value>Flag</value>
+    <value>Markings</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Register</value>

@@ -912,7 +912,6 @@ namespace Crystalbyte.Paranoia {
             get { return Children.Any(); }
         }
 
-
         public bool IsLoadingMessages {
             get { return _isLoadingMessages; }
             set {

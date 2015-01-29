@@ -154,7 +154,6 @@
                                                 </Rectangle>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <Separator />
                                         <MenuItem Command="{Binding DeleteAccountCommand}"
                                                   Header="{x:Static properties:Resources.Delete}"
                                                   InputGestureText="{x:Static properties:Resources.DeleteGesture}">
@@ -537,16 +536,9 @@
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator />
-                            <MenuItem Command="{Binding RestoreMessagesCommand}" InputGestureText="{x:Static properties:Resources.RestoreGesture}">
-                                <MenuItem.Icon>
-                                    <Image Height="16"
-                                           Source="/Assets/message.restore.png"
-                                           UseLayoutRounding="True" />
-                                </MenuItem.Icon>
-                                <MenuItem.Header>
-                                    <TextBlock Text="{x:Static properties:Resources.Restore}" />
-                                </MenuItem.Header>
-                            </MenuItem>
+                            <MenuItem Command="{Binding RestoreMessagesCommand}"
+                                      Header="{x:Static properties:Resources.Restore}"
+                                      InputGestureText="{x:Static properties:Resources.RestoreGesture}" />
                             <MenuItem Command="{Binding DeleteMessagesCommand}"
                                       Header="{x:Static properties:Resources.Delete}"
                                       InputGestureText="{x:Static properties:Resources.DeleteGesture}">
@@ -560,25 +552,6 @@
                             </MenuItem>
                             <Separator />
                             <MenuItem Header="{x:Static properties:Resources.Flag}">
-                                <MenuItem Command="{Binding MarkAsFlaggedCommand}" Header="{x:Static properties:Resources.MarkAsFlagged}">
-                                    <MenuItem.Icon>
-                                        <Rectangle Style="{DynamicResource MonoChromeIconRectangleStyle}">
-                                            <Rectangle.OpacityMask>
-                                                <ImageBrush ImageSource="/Assets/star.full.png" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem Command="{Binding MarkAsNotFlaggedCommand}" Header="{x:Static properties:Resources.MarkAsNotFlagged}">
-                                    <MenuItem.Icon>
-                                        <Rectangle Style="{DynamicResource MonoChromeIconRectangleStyle}">
-                                            <Rectangle.OpacityMask>
-                                                <ImageBrush ImageSource="/Assets/star.png" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <Separator />
                                 <MenuItem Command="{Binding MarkAsSeenCommand}" Header="{x:Static properties:Resources.MarkAsSeen}">
                                     <MenuItem.Icon>
                                         <Rectangle Style="{DynamicResource MonoChromeIconRectangleStyle}">
@@ -593,6 +566,25 @@
                                         <Rectangle Style="{DynamicResource MonoChromeIconRectangleStyle}">
                                             <Rectangle.OpacityMask>
                                                 <ImageBrush ImageSource="/Assets/message.png" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Command="{Binding MarkAsFlaggedCommand}" Header="{x:Static properties:Resources.MarkAsFlagged}">
+                                    <MenuItem.Icon>
+                                        <Rectangle Style="{DynamicResource MonoChromeIconRectangleStyle}">
+                                            <Rectangle.OpacityMask>
+                                                <ImageBrush ImageSource="/Assets/star.full.png" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Command="{Binding MarkAsNotFlaggedCommand}" Header="{x:Static properties:Resources.MarkAsNotFlagged}">
+                                    <MenuItem.Icon>
+                                        <Rectangle Style="{DynamicResource MonoChromeIconRectangleStyle}">
+                                            <Rectangle.OpacityMask>
+                                                <ImageBrush ImageSource="/Assets/star.png" />
                                             </Rectangle.OpacityMask>
                                         </Rectangle>
                                     </MenuItem.Icon>
@@ -659,7 +651,17 @@
                                             Margin="0,1,3,0"
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
-                                            Orientation="Horizontal" />
+                                            Orientation="Horizontal">
+                                    <Rectangle x:Name="StarIcon"
+                                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                                               Style="{StaticResource MonoChromeIconRectangleStyle}"
+                                               Visibility="{Binding IsFlagged,
+                                                                    Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/star.full.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </StackPanel>
                                 <TextBlock x:Name="SubjectText"
                                            Grid.Row="1"
                                            Grid.Column="1"
@@ -694,6 +696,7 @@
                                         <Condition Binding="{Binding IsSelected}" Value="True" />
                                         <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=ListView}}" Value="True" />
                                     </MultiDataTrigger.Conditions>
+                                    <Setter TargetName="StarIcon" Property="Fill" Value="WhiteSmoke" />
                                     <Setter TargetName="SubjectText" Property="Foreground" Value="WhiteSmoke" />
                                     <Setter TargetName="DateText" Property="Foreground" Value="WhiteSmoke" />
                                     <Setter TargetName="FromText" Property="Foreground" Value="WhiteSmoke" />

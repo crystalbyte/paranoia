@@ -378,6 +378,7 @@
                 <ContentPresenter Name="HeaderHost"
                                   Grid.Column="1"
                                   MinWidth="50"
+                                  VerticalAlignment="Center"
                                   ContentSource="Header"
                                   RecognizesAccessKey="True" />
                 <TextBlock x:Name="InputGestureText"
