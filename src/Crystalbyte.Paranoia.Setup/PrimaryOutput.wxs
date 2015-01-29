@@ -104,6 +104,9 @@
             <Component Id="cmpEB750E22F6770BF906BD9869BD9577A7" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil5577BD44FCFB97FA4FB8320D6F31CCD9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Themes.pdb" />
             </Component>
+            <Component Id="cmpB8C81CB399A45DF0500C8CCC806D6725" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil37C5426C17BC78E76755A859E2263541" KeyPath="yes" Source="$(var.PrimaryOutputDir)\debug.log" />
+            </Component>
             <Component Id="cmp9D745C95D55B544704D037E3A86C7CBF" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filD7E76EEE7754513246C4E95A16F017C3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\dotless.ClientOnly.dll" />
             </Component>
@@ -349,6 +352,9 @@
             </Component>
             <Component Id="cmpF81CDC500C70C94F5EE6973803645CA6" Directory="dir02114F12F3DCDDA0E149B22481A1122E" Guid="*">
                 <File Id="fil496E5EDEC261BD7C7742982C8796AB4D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\icons_hidpi.png" />
+            </Component>
+            <Component Id="cmpAEDA5E2DADF2AF5A51CE27734697855A" Directory="dir2DB94AD50C87511AC2F73C69A5E30994" Guid="*">
+                <File Id="fil7E8B99B4CDF2726CE59F79F4CA75D7F0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\clipboard\dialogs\paste.js" />
             </Component>
             <Component Id="cmp8AECCD214AFAC8D4D954B930E06BA53F" Directory="dir718E62A639BB3A5767AB03E0BA00E764" Guid="*">
                 <File Id="filFF31FBE57A5D73ED351641A635EBD19F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\dialog\dialogDefinition.js" />
@@ -740,6 +746,150 @@
             <Component Id="cmpCF8FE905FD8E8A5CA609BAC856776E1F" Directory="dir44BF3327B9B050075903EC05B8C95D70" Guid="*">
                 <File Id="filB93806291BCAA1F3BB50D401E2F6DEB4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\magicline\samples\magicline.html" />
             </Component>
+            <Component Id="cmp2F91074CFBD56E9EB7720B3B4AE50F77" Directory="dir902BE6BDD62D57A8ECD44E0FC997CDDB" Guid="*">
+                <File Id="fil64D309509E5EBB917EA5EED743AA06EF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\specialchar.js" />
+            </Component>
+            <Component Id="cmpD32DC33F15761C8C8AF59237A0BD7540" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="filCC28A84412D00BF6B17364518AB7EEFA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\ar.js" />
+            </Component>
+            <Component Id="cmp8BA3D8A4E76C4E73EA13A22D0312F7F2" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil409699DB187E0F0F37AAD00B55D32F02" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\bg.js" />
+            </Component>
+            <Component Id="cmp62456EF46584099573A45D92DF27B5AF" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil05F026FF7054A439F047126AF7DD5D34" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\ca.js" />
+            </Component>
+            <Component Id="cmpC6706C78B4D9E3B8A1D3620646E976A4" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil7ECC0ADE7F66EFB235B5A49B331A65AA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\cs.js" />
+            </Component>
+            <Component Id="cmp45523AB498FE7DFE2E139FCDC0F52527" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil84699F370696C2A244DE3940E8E94C01" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\cy.js" />
+            </Component>
+            <Component Id="cmp4D1CA6FADFB818F8D2CC975569197D94" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil9C73CF574E9B4AD849DADA4855B6A2B7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\de.js" />
+            </Component>
+            <Component Id="cmpB622CE984FE34A2EC4504F7E1F602250" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil94D76EA9F7305E7EB1D579377F2E02DE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\el.js" />
+            </Component>
+            <Component Id="cmpACFDAAE84A15E437C3B4C5A76DE1AA5D" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil705D6F28E8CC8313D4DB24FF5ADE897A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\en-gb.js" />
+            </Component>
+            <Component Id="cmpEBAA21094AF546CE4F4F05A92AB737F7" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil0270552867D976F31866D511FB6DA30E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\en.js" />
+            </Component>
+            <Component Id="cmp96418900AC01F14609C92F8685F2303A" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil327F70B44CD2E7BFE1AA87FC564CE4BF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\eo.js" />
+            </Component>
+            <Component Id="cmp4BCC48F548D5DC22CDE3D7AB3D064BDB" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil8BC280AAB426F5F002F69951CC81A27C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\es.js" />
+            </Component>
+            <Component Id="cmp68736B0E40DF11DC5B51702E310CD1EB" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil76A8A78979ABF7EA7BD3A542834C6CDD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\et.js" />
+            </Component>
+            <Component Id="cmpCDD9E03B226EC7B72B63FD9BBC1D6C73" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil462194F7AABA55C90E7AA2DEA310626D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\fa.js" />
+            </Component>
+            <Component Id="cmp0D794ED2E6BB2D116A17309E5FA95FEC" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil8EA9D4F16086AF7D97F894A56A58D0D9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\fi.js" />
+            </Component>
+            <Component Id="cmp355E54756CE7E84566DE616B02C9AAAA" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil0AC504F9CC7F88B7CAB6F5C6667482C4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\fr-ca.js" />
+            </Component>
+            <Component Id="cmp74BEE87FAECA06AA9A8F21CAC34A17DC" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="filFD18AE425535773CD8556A4DAB0703AB" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\fr.js" />
+            </Component>
+            <Component Id="cmp63D4E8AF2C6894146E3CE19239D27DD7" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil45429C2C90289762BFC48A1B0512AEB9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\gl.js" />
+            </Component>
+            <Component Id="cmpF414F4B654E804AE9F22E88F864AC146" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="filEE98DAD7565DE4A43540E0660A08E59A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\he.js" />
+            </Component>
+            <Component Id="cmp34481327C66F951AFF573083CE875608" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil1BFE3AE6090A24DA60F40EA0AC996916" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\hr.js" />
+            </Component>
+            <Component Id="cmpDFFCD7197C2FCE6DF2C13F6A9F3D5860" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="filF761769B61F7F436A429E6B7065D3AAD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\hu.js" />
+            </Component>
+            <Component Id="cmp0EFF779C6A3478EC82011FCF5E6D1951" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil71DD8B730AA69C5E04B9E10C884AE7E3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\id.js" />
+            </Component>
+            <Component Id="cmpE84787F6D6E68F1531AF1ECBAF4CDF48" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil1AD23E2D899AC7F3935D24D0E7A31889" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\it.js" />
+            </Component>
+            <Component Id="cmpAA192B89EF9A1682217FB782F580E42A" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil4B9C3C4435885D2F61FA2554CAD29FE5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\ja.js" />
+            </Component>
+            <Component Id="cmpFB46B1054EF0DE307A07809CE8F7C311" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil2B7B0347E1BFCAFB56347995D1C83198" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\km.js" />
+            </Component>
+            <Component Id="cmp598F5649AE5AC8CA3EBFE596F9D38C5D" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="filAB7F6AED1D89DADF4334C97A1AA4AF88" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\ku.js" />
+            </Component>
+            <Component Id="cmp641373560B1FC8DCC412CCFB62AA8030" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil8F7C6465280024BA099F83D4C71700ED" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\lv.js" />
+            </Component>
+            <Component Id="cmp20943A7B048C3FDF7C0D58C9F2C5AA17" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil73F25C3D58AB0D364CBCDB105B5C3C23" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\nb.js" />
+            </Component>
+            <Component Id="cmpB748104AC21A66E017B8F2943AAF1E07" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="filE2473B3088065FFDC60628C279CC4C6D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\nl.js" />
+            </Component>
+            <Component Id="cmp28FB89D054D778CEACA5A5E5959154E4" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil22AF9D1019B8FB15BA4E25D2AEDF4A2B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\no.js" />
+            </Component>
+            <Component Id="cmp43F51BD8618853DE35896D4CB1DA00B1" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil02C714C42A9AC414FA7B1A562FB105EE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\pl.js" />
+            </Component>
+            <Component Id="cmpBCA133BE3EF3322E770F4CF2B2D7BCBB" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil325CA446F45858B75D154E07D477B9E7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\pt-br.js" />
+            </Component>
+            <Component Id="cmp23C9AD78783B7D6A2D2FF6A4E8EC2067" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil6A9CFE4C08F7BA110758800925CBC4DE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\pt.js" />
+            </Component>
+            <Component Id="cmp112877DCF7CDB36487979C159C97505D" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil4AACB36B6B5CDDBD5D28E6EB140EDA48" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\ru.js" />
+            </Component>
+            <Component Id="cmpA830681305D6C9354E2677973BEA37BC" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="filA420B6D198EAE3D8EDA92BD768C3C4A3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\si.js" />
+            </Component>
+            <Component Id="cmp42C74400C432D9E8C9E308F7FB60FB93" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil88204F64A66D6F04D1F26B93389986BA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\sk.js" />
+            </Component>
+            <Component Id="cmp52E56C0E129FA12956D6338F18AF4256" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil8DE6A950462008D36AB26A274B9EBD71" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\sl.js" />
+            </Component>
+            <Component Id="cmp614084170C22E01F7C37AC82D4EB980A" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil62C9C830F96DD2DC7CDAD9869BA37D03" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\sq.js" />
+            </Component>
+            <Component Id="cmp06DA164AAAAB7669E8DFC80F7C630176" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="filB42E9490FC03A62AA972C0858C12CC6C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\sv.js" />
+            </Component>
+            <Component Id="cmp6ECEABAE57C5F829148E4FE7A595AEA2" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil5C5B60F598CBDB868D8BD82B79ADCAC8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\th.js" />
+            </Component>
+            <Component Id="cmpD49C22B84A7B9B4AAF4C6F48B03FA20F" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="filB0D40503CA2194497ECB94AFE15713ED" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\tr.js" />
+            </Component>
+            <Component Id="cmp45E9D9AB2F346F8DE85DA32E13052422" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil22DFA81BE38E3A7BF606F093A1D5ADCF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\tt.js" />
+            </Component>
+            <Component Id="cmpD87BE781BBD021744A9B8B9D20B8C976" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="filF25874F70C80E471E0D09F37D25369D4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\ug.js" />
+            </Component>
+            <Component Id="cmp074DFBA8AF6393DC4FEA8B9FAADC79E1" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="filB89CCE025053BBF13F7C2C6A0E42C80D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\uk.js" />
+            </Component>
+            <Component Id="cmp72060A861DD4A58B60CC17581D514402" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="fil32FA48B23E3DEB3ABA6CEFB15659A351" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\vi.js" />
+            </Component>
+            <Component Id="cmp9EB5D1820CAD63529158F114CF1C1DFA" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="filEA1956E3734979EEF5C2EE358A52D674" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\zh-cn.js" />
+            </Component>
+            <Component Id="cmpB40E1E9A0483F1D17C94E28BA434FE9F" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="filA62CACD215AF919D711F00D9BB115558" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\zh.js" />
+            </Component>
+            <Component Id="cmp65CF7BA652192C738F83B5293A0E915C" Directory="dir2DD6BA3376A5A53F45DA07933499037C" Guid="*">
+                <File Id="filFA02AED1135382B1DB0B35D94FE3DF05" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\plugins\specialchar\dialogs\lang\_translationstatus.txt" />
+            </Component>
             <Component Id="cmp1016F1ADC29BE0129D6DB24273F7D973" Directory="dir4106AC73DC495222BF6B5163E658F154" Guid="*">
                 <File Id="filCA3110DCF99E6583BB1E79DC2B69907E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\skins\moono\dialog.css" />
             </Component>
@@ -967,6 +1117,16 @@
         </DirectoryRef>
     </Fragment>
     <Fragment>
+        <DirectoryRef Id="dir6A2045AE0173B1F9659210FECB001D03">
+            <Directory Id="dir2DB94AD50C87511AC2F73C69A5E30994" Name="dialogs" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir902BE6BDD62D57A8ECD44E0FC997CDDB">
+            <Directory Id="dir2DD6BA3376A5A53F45DA07933499037C" Name="lang" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
         <DirectoryRef Id="dir5DEA96ABF4E57D53F87E41E8E89052BC">
             <Directory Id="dir330FDBC7B7ACF682E8ECD2C56ED4FAFA" Name="images" />
         </DirectoryRef>
@@ -1003,12 +1163,27 @@
     </Fragment>
     <Fragment>
         <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
+            <Directory Id="dir6A2045AE0173B1F9659210FECB001D03" Name="clipboard" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
             <Directory Id="dir718E62A639BB3A5767AB03E0BA00E764" Name="dialog" />
         </DirectoryRef>
     </Fragment>
     <Fragment>
         <DirectoryRef Id="dir203B84AB1FCE367D3EF72DF5E793C2BE">
             <Directory Id="dir7FB352C6E45419FD6276F824BB46AB98" Name="moono-dark" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir02114F12F3DCDDA0E149B22481A1122E">
+            <Directory Id="dir88B8BD22C0BBBAF22FAFB8A957BC96FB" Name="specialchar" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir88B8BD22C0BBBAF22FAFB8A957BC96FB">
+            <Directory Id="dir902BE6BDD62D57A8ECD44E0FC997CDDB" Name="dialogs" />
         </DirectoryRef>
     </Fragment>
     <Fragment>

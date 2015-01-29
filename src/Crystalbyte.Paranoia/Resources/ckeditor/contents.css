@@ -6,16 +6,16 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 body {
     /* Font */
     font-family: sans-serif, Calibri, Arial, Verdana, "Trebuchet MS";
-    font-size: 12px;
+    font-size: 13pt;
     /* Text color */
     color: #333;
     /* Remove the background color to make it transparent */
-    background-color: #fff; 
+    background-color: #fff;
     margin: 20px;
 }
 
 .cke_editable {
-    font-size: 13px;
+    font-size: 13pt;
     line-height: 1.6;
 }
 
@@ -103,7 +103,7 @@ figure {
     display: inline-block;
 }
 
-figure > figcaption {
+    figure > figcaption {
         text-align: center;
         display: block; /* For IE8 */
     }

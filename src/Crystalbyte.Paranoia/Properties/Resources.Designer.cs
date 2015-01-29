@@ -666,24 +666,6 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Font.
-        /// </summary>
-        public static string HtmlFontFamilyLabel {
-            get {
-                return ResourceManager.GetString("HtmlFontFamilyLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Size.
-        /// </summary>
-        public static string HtmlFontSizeLabel {
-            get {
-                return ResourceManager.GetString("HtmlFontSizeLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The server does not support the IDLE extension..
         /// </summary>
         public static string IdleCommandNotSupported {

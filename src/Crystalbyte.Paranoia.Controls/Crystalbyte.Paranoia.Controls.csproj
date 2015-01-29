@@ -85,6 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EditorContentLoadedEventArgs.cs" />
+    <Compile Include="HtmlViewer.xaml.cs">
+      <DependentUpon>HtmlViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ScriptingException.cs" />
     <Compile Include="ScriptingFailureEventArgs.cs" />
     <Compile Include="SuggestiveTextBox.xaml.cs">
@@ -143,6 +146,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="HtmlViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SuggestiveTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -183,6 +190,12 @@
   <ItemGroup>
     <Resource Include="Assets\redo.png" />
     <Resource Include="Assets\undo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\print.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\copy.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

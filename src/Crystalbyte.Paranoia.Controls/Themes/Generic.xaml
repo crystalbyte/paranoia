@@ -2,6 +2,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/ProgressRing.xaml" />
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/HtmlControl.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/HtmlViewer.xaml" />
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/MetroWindow.xaml" />
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/WatermarkTextBox.xaml" />
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/MetroButton.xaml" />

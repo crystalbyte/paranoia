@@ -36,7 +36,6 @@
     </Style>
 
     <!--  SimpleStyles: ContextMenu  -->
-
     <Style TargetType="ContextMenu">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -290,7 +289,6 @@
                 </Border>
                 <ContentPresenter Name="HeaderHost"
                                   Grid.Column="1"
-                                  MinWidth="50"
                                   VerticalAlignment="Center"
                                   ContentSource="Header"
                                   RecognizesAccessKey="True" />
@@ -360,7 +358,6 @@
                 </Popup>
                 <ContentPresenter Name="HeaderHost"
                                   Grid.Column="1"
-                                  MinWidth="50"
                                   ContentSource="Header"
                                   RecognizesAccessKey="True" />
                 <TextBlock x:Name="InputGestureText"

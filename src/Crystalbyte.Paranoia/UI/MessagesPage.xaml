@@ -362,7 +362,7 @@
                                         <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}" Value="True" />
                                     </MultiDataTrigger.Conditions>
                                     <Setter TargetName="NameText" Property="Foreground" Value="WhiteSmoke" />
-                                    <Setter TargetName="EnvelopeProgressBar" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+                                    <Setter TargetName="EnvelopeProgressBar" Property="Foreground" Value="WhiteSmoke" />
                                     <Setter TargetName="NotSeenCountText" Property="Foreground" Value="WhiteSmoke" />
                                 </MultiDataTrigger>
                             </HierarchicalDataTemplate.Triggers>
@@ -536,6 +536,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
+                            <Separator />
                             <MenuItem Command="{Binding RestoreMessagesCommand}" InputGestureText="{x:Static properties:Resources.RestoreGesture}">
                                 <MenuItem.Icon>
                                     <Image Height="16"
@@ -546,7 +547,6 @@
                                     <TextBlock Text="{x:Static properties:Resources.Restore}" />
                                 </MenuItem.Header>
                             </MenuItem>
-                            <Separator />
                             <MenuItem Command="{Binding DeleteMessagesCommand}"
                                       Header="{x:Static properties:Resources.Delete}"
                                       InputGestureText="{x:Static properties:Resources.DeleteGesture}">
@@ -1000,23 +1000,21 @@
             </ListView>
             <ui:BlockNoticeControl Grid.Row="2" DataContext="{Binding SelectedMessage}" />
             <Border Grid.Row="3" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid Visibility="{Binding IsAnimating, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
+                <Grid>
                     <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <controls:HtmlControl x:Name="MessageViewer"
-                                              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                                              BorderThickness="0"
-                                              DataContext="{Binding DataContext,
-                                                                    RelativeSource={RelativeSource FindAncestor,
-                                                                                                   AncestorType=Page}}"
-                                              IsReadOnly="True"
-                                              IsTransparent="True"
-                                              SnapsToDevicePixels="True"
-                                              Source="{Binding Source,
-                                                               Mode=OneWay}"
-                                              WebSession="{Binding Source={StaticResource InspectionWebSessionProvider}}"
-                                              Zoom="{Binding Zoom,
-                                                             Mode=TwoWay}"
-                                              d:IsHidden="True" />
+                        <controls:HtmlViewer x:Name="MessageViewer"
+                                             Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                                             BorderThickness="0"
+                                             DataContext="{Binding DataContext,
+                                                                   RelativeSource={RelativeSource FindAncestor,
+                                                                                                  AncestorType=Page}}"
+                                             SnapsToDevicePixels="True"
+                                             Source="{Binding Source,
+                                                              Mode=OneWay}"
+                                             WebSession="{Binding Source={StaticResource InspectionWebSessionProvider}}"
+                                             Zoom="{Binding Zoom,
+                                                            Mode=TwoWay}"
+                                             d:IsHidden="True" />
                     </Grid>
                     <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                         <TextBlock Margin="24,12"

@@ -622,10 +622,4 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="IsNotDefaultAccount" xml:space="preserve">
     <value>Set as default.</value>
   </data>
-  <data name="HtmlFontFamilyLabel" xml:space="preserve">
-    <value>Font</value>
-  </data>
-  <data name="HtmlFontSizeLabel" xml:space="preserve">
-    <value>Size</value>
-  </data>
 </root>

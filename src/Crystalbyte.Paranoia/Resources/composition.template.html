@@ -8,7 +8,9 @@
     <textarea id="editor" name="editor"></textarea>
     <div id="content-storage" style="display: none;">
         <p id="message"></p>
-        <div id="signature" style="margin-top: 20px;"></div>
+        <p id="signature"></p>
+        {{HEADER}}
+        {{QUOTE}}
     </div>
 
     <!-- ReSharper disable Html.PathError -->
@@ -41,7 +43,12 @@
                 var w = $(window);
                 var height = w.height();
                 var width = w.width();
-                textarea.editor.resize(width, height, false);
+                var editor = textarea.editor;
+                if (editor === null || editor === undefined) {
+                    return;
+                }
+
+                editor.resize(width, height, false);
             }
 
             var focusEditor = function () {
@@ -121,10 +128,6 @@
         }();
 
         $(window).resize(Crystalbyte.Paranoia.resizeEditor);
-        $(document).ready(function () {
-            var paranoia = Crystalbyte.Paranoia;
-            paranoia.init();
-        });
     </script>
 </body>
 </html>

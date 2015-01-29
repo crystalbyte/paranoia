@@ -179,20 +179,34 @@ namespace Crystalbyte.Paranoia.UI {
             if (_webControl != null) {
                 _webControl.ShowCreatedWebView -= OnWebControlShowCreatedWebView;
                 _webControl.LoadingFrameComplete -= OnWebControlLoadingFrameComplete;
+                _webControl.DocumentReady -= OnWebControlDocumentReady;
+                _webControl.ConsoleMessage -= OnConsoleMessage;
                 _webControl.WindowClose -= OnWebControlWindowClose;
             }
 
             _webControl = (WebControl)Template.FindName(WebControlPartName, this);
             _webControl.LoadingFrameComplete += OnWebControlLoadingFrameComplete;
             _webControl.ShowCreatedWebView += OnWebControlShowCreatedWebView;
+            _webControl.DocumentReady += OnWebControlDocumentReady;
+            _webControl.ConsoleMessage += OnConsoleMessage;
             _webControl.WindowClose += OnWebControlWindowClose;
+        }
+
+        private void OnWebControlDocumentReady(object sender, UrlEventArgs e) {
+            using (JSObject interop = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia")) {
+                interop.Invoke("init");
+            }
+        }
+
+        private static void OnConsoleMessage(object sender, ConsoleMessageEventArgs e) {
+            Debug.WriteLine("JavaScript:{0}:{1}:{2}", e.LineNumber, e.Source, e.Message);
         }
 
         private void OnWebControlLoadingFrameComplete(object sender, UrlEventArgs e) {
             var webControl = sender as WebControl;
 
             if (webControl != null) {
-                SetScriptingObject(webControl);
+                InitializeEditor(webControl);
             }
         }
 
@@ -200,7 +214,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Methods
 
-        private void SetScriptingObject(IWebView webcontrol) {
+        private void InitializeEditor(IWebView webcontrol) {
             using (JSObject interop = webcontrol.CreateGlobalJavascriptObject("external")) {
                 interop.Bind("onLinkClicked", false, OnLinkClicked);
                 interop.Bind("onContentLoaded", false, OnContentLoaded);
@@ -234,7 +248,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private static void OnWebControlShowCreatedWebView(object sender, ShowCreatedWebViewEventArgs e) {
-            // Nada ...
+            e.Cancel = true;
         }
 
         public string GetDocument() {
@@ -254,8 +268,7 @@ namespace Crystalbyte.Paranoia.UI {
             using (module) {
 
                 var composition = module.Invoke("getComposition");
-                const string function = "setComposition";
-                const string pattern = "<div\\s+id=\"signature\".+?>(?<PART>.*?)</div>";
+                const string pattern = "<p\\s+id=\"signature\".+?>(?<PART>.*?)</div>";
 
                 var regex = new Regex(pattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
                 var correction = regex.Replace(composition, m => {
@@ -263,7 +276,7 @@ namespace Crystalbyte.Paranoia.UI {
                     return m.Value.Replace(part, signature);
                 }, 1);
 
-                module.Invoke(function, correction);
+                module.Invoke("setComposition", correction);
             }
         }
 

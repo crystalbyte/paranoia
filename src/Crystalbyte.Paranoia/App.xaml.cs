@@ -355,9 +355,6 @@ namespace Crystalbyte.Paranoia {
 
             var directory = Environment.ExpandEnvironmentVariables(location);
             AppDomain.CurrentDomain.SetData("DataDirectory", directory);
-
-            Current.Resources[HtmlResourceKeys.HtmlFontFamilyKey] = Settings.Default.HtmlFontFamily;
-            Current.Resources[HtmlResourceKeys.HtmlFontSizeKey] = Settings.Default.HtmlFontSize;
         }
 
         private void Compose() {

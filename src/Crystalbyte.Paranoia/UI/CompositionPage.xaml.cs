@@ -71,7 +71,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnHtmlControlInitialized(object sender, EventArgs e) {
             var control = (HtmlControl)sender;
-            control.WebSession.ClearCache();
+            //control.WebSession.ClearCache();
         }
 
         private static void OnEditorScriptingFailure(object sender, ScriptingFailureEventArgs e) {
