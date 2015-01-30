@@ -184,7 +184,7 @@
     <Compile Include="Automation\IApplication.cs" />
     <Compile Include="Automation\IClassFactory.cs" />
     <Compile Include="Automation\IComServer.cs" />
-    <Compile Include="ItemSelectionRequestedEventArgs.cs" />
+    <Compile Include="UI\ItemSelectionRequestedEventArgs.cs" />
     <Compile Include="Data\KeyPairModel.cs" />
     <Compile Include="Data\MailMessageModelExtensions.cs" />
     <Compile Include="IAccentAware.cs" />
@@ -303,6 +303,7 @@
     <Compile Include="UI\INavigationAware.cs" />
     <Compile Include="UI\RoutedCommands\SignatureCommands.cs" />
     <Compile Include="UI\RoutedCommands\WindowCommands.cs" />
+    <Compile Include="UI\SelectionPosition.cs" />
     <Compile Include="UI\WindowExtensions.cs" />
     <Compile Include="VirtualFileDataObject.cs" />
     <Page Include="App.Styles.xaml">

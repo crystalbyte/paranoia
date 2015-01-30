@@ -222,6 +222,9 @@ namespace Crystalbyte.Paranoia {
             _messages.AddRange(messages);
             _messages.DeferNotifications = false;
             _messages.NotifyCollectionChanged();
+
+            await Task.Run(() => Application.Current.Dispatcher.Invoke(
+                () => OnItemSelectionRequested(new ItemSelectionRequestedEventArgs(SelectionPosition.First))));
         }
 
         #endregion
@@ -307,7 +310,7 @@ namespace Crystalbyte.Paranoia {
 
         private void OnItemSelectionRequested(ItemSelectionRequestedEventArgs e) {
             var handler = ItemSelectionRequested;
-            if (handler != null) 
+            if (handler != null)
                 handler(this, e);
         }
 
@@ -1086,7 +1089,7 @@ namespace Crystalbyte.Paranoia {
 
         internal void NotifyMessagesRemoved(IEnumerable<MailMessageContext> messages) {
             var collection = messages as MailMessageContext[] ?? messages.ToArray();
-            OnItemSelectionRequested(new ItemSelectionRequestedEventArgs(collection));
+            OnItemSelectionRequested(new ItemSelectionRequestedEventArgs(SelectionPosition.Next, collection));
             collection.ForEach(x => _messages.Remove(x));
         }
 

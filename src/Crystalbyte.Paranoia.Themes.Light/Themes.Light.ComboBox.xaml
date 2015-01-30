@@ -8,7 +8,7 @@
     <Thickness x:Key="ComboBoxPaddingKey">5</Thickness>
     <Thickness x:Key="ComboBoxMarginKey">3</Thickness>
     <Thickness x:Key="ComboBoxBorderThicknessKey">1</Thickness>
-    <SolidColorBrush x:Key="ComboBoxMouseOverBackgroundBrushKey" Color="{x:Static SystemColors.ControlColor}" />
+    <SolidColorBrush x:Key="ComboBoxMouseOverBackgroundBrushKey" Color="#7F7F7F" />
     <SolidColorBrush x:Key="ComboBoxBackgroundBrushKey" Color="{x:Static SystemColors.ControlLightColor}" />
     <SolidColorBrush x:Key="ComboBoxBorderBrushKey" Color="{x:Static SystemColors.ControlDarkColor}" />
 
