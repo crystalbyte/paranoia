@@ -923,31 +923,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        #region Implementation of IMessageSource
-
-        public async Task<IEnumerable<MailMessageContext>> GetMessagesAsync() {
-            Application.Current.AssertBackgroundThread();
-
-            MailMessageModel[] messages;
-
-            using (var context = new DatabaseContext()) {
-                if (ShowAllMessages) {
-                    messages = await context.MailMessages
-                        .Where(x => x.MailboxId == _mailbox.Id)
-                        .ToArrayAsync();
-                } else {
-                    messages = await context.MailMessages
-                    .Where(x => !x.Flags.Contains(MailMessageFlags.Seen))
-                    .Where(x => x.MailboxId == _mailbox.Id)
-                    .ToArrayAsync();
-                }
-            }
-
-            return messages.Select(x => new MailMessageContext(this, x)).ToArray();
-        }
-
-        #endregion
-
         /// <summary>
         /// Moves messages from the trash mailbox back to the inbox.
         /// </summary>
@@ -1030,6 +1005,31 @@ namespace Crystalbyte.Paranoia {
             public MailMessageContext[] Messages { get; set; }
             public HashSet<long> UidsForSeen { get; set; }
             public HashSet<long> UidsForUnseen { get; set; }
+        }
+
+        #endregion
+
+        #region Implementation of IMessageSource
+
+        public async Task<IEnumerable<MailMessageContext>> GetMessagesAsync() {
+            Application.Current.AssertBackgroundThread();
+
+            MailMessageModel[] messages;
+
+            using (var context = new DatabaseContext()) {
+                if (ShowAllMessages) {
+                    messages = await context.MailMessages
+                        .Where(x => x.MailboxId == _mailbox.Id)
+                        .ToArrayAsync();
+                } else {
+                    messages = await context.MailMessages
+                    .Where(x => !x.Flags.Contains(MailMessageFlags.Seen))
+                    .Where(x => x.MailboxId == _mailbox.Id)
+                    .ToArrayAsync();
+                }
+            }
+
+            return messages.Select(x => new MailMessageContext(this, x)).ToArray();
         }
 
         #endregion

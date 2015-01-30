@@ -12,6 +12,7 @@
 
     <!--  Application Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#5299EA" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSuccessBrushKey}" Color="ForestGreen" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppFailureBrushKey}" Color="Tomato" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppWarningBrushKey}" Color="Orange" />

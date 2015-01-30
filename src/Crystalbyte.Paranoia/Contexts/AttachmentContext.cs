@@ -2,9 +2,12 @@
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Mail.Mime;
 using Crystalbyte.Paranoia.UI.Commands;
+using Microsoft.Win32;
+using NLog;
 
 namespace Crystalbyte.Paranoia {
     public class AttachmentContext {
@@ -14,13 +17,31 @@ namespace Crystalbyte.Paranoia {
         private readonly MessagePart _part;
         private readonly RemoveAttachmentCommand _removeCommand;
         private readonly OpenAttachmentCommand _openCommand;
-        private readonly MailCompositionContext _context;
+        private readonly RelayCommand _saveCommand;
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public AttachmentContext(MailCompositionContext context, string fullname) {
-            _context = context;
             _fullname = fullname;
             _name = fullname.Split('\\').Last();
+            _saveCommand = new RelayCommand(OnSave);
             _removeCommand = new RemoveAttachmentCommand(context, this);
+        }
+
+        private async void OnSave(object obj) {
+            var dialog = new SaveFileDialog { FileName = _fullname };
+            var result = dialog.ShowDialog();
+            if (!result.HasValue || !result.Value) {
+                return;
+            }
+
+            await Task.Run(() => {
+                try {
+                    File.WriteAllBytes(dialog.FileName, Bytes);
+                } catch (Exception ex) {
+                    Logger.Error(ex);
+                }
+            });
         }
 
         public AttachmentContext(MessagePart part) {
@@ -74,6 +95,10 @@ namespace Crystalbyte.Paranoia {
 
         public ICommand OpenCommand {
             get { return _openCommand; }
+        }
+
+        public ICommand SaveCommand {
+            get { return _saveCommand; }
         }
     }
 }

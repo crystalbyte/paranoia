@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
@@ -23,12 +24,11 @@ namespace Crystalbyte.Paranoia {
         #region Private Fields
 
         private int _load;
-        private bool _isLocal;
         private long _bytesReceived;
         private int _progressChanged;
+        private readonly MailMessageModel _message;
         private readonly ICommand _elevateTrustLevelCommand;
         private readonly MailboxContext _mailbox;
-        private readonly MailMessageModel _message;
 
         private readonly ObservableCollection<AttachmentContext> _attachments;
         private bool _isSourceTrusted;
@@ -49,7 +49,9 @@ namespace Crystalbyte.Paranoia {
 
         private async void OnElevateTrustCommand(object obj) {
             try {
-                await TrustSourceAsync();
+                await Task.Run(async () => {
+                    await TrustSourceAsync();
+                });
                 await App.Context.RefreshMessageSelectionAsync(this);
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -59,18 +61,6 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         #region Properties
-
-        public bool IsLocallyAvailable {
-            get { return _isLocal; }
-            set {
-                if (_isLocal == value) {
-                    return;
-                }
-
-                _isLocal = value;
-                RaisePropertyChanged(() => IsLocallyAvailable);
-            }
-        }
 
         public bool HasExternalsAndSourceIsNotTrusted {
             get { return HasExternals && !IsSourceTrusted; }
@@ -104,12 +94,12 @@ namespace Crystalbyte.Paranoia {
             get { return _message == null; }
         }
 
-        public bool HasAttachments {
-            get { return _attachments != null && _attachments.Count > 0; }
-        }
-
         public ICollection<AttachmentContext> Attachments {
             get { return _attachments; }
+        }
+
+        public bool HasAttachments {
+            get { return _message.HasAttachments; }
         }
 
         public long Id {
@@ -220,8 +210,6 @@ namespace Crystalbyte.Paranoia {
             get { return !IsFlagged; }
         }
 
-     
-
         public bool IsLoading {
             get { return _load > 0; }
         }
@@ -304,17 +292,23 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task<byte[]> DownloadMessageAsync() {
-            IncrementLoad();
+            Application.Current.AssertBackgroundThread();
+
             try {
+                IncrementLoad();
+
                 var mime = await FetchMimeAsync();
                 using (var context = new DatabaseContext()) {
                     var message = await context.MailMessages.FindAsync(_message.Id);
-
                     var mimeMessage = new MimeMessageModel {
                         Data = mime
                     };
 
                     message.MimeMessages.Add(mimeMessage);
+                    var reader = new MailMessageReader(mime);
+                    message.HasAttachments = reader.FindAllAttachments().Count > 0;
+                    _message.HasAttachments = message.HasAttachments;
+
                     await context.SaveChangesAsync();
                 }
                 return mime;
@@ -325,12 +319,16 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal Task<bool> GetIsMimeLoadedAsync() {
+            Application.Current.AssertBackgroundThread();
+
             using (var database = new DatabaseContext()) {
                 return database.MimeMessages.Where(x => x.MessageId == Id).AnyAsync();
             }
         }
 
         private Task<MailboxModel> GetMailboxAsync() {
+            Application.Current.AssertBackgroundThread();
+
             using (var context = new DatabaseContext()) {
                 return context.Mailboxes.FindAsync(_message.MailboxId);
             }
@@ -370,6 +368,13 @@ namespace Crystalbyte.Paranoia {
 
                 IsSourceTrusted = contact != null && contact.IsTrusted;
             }
+        }
+
+        internal void InvalidateBindings() {
+            Application.Current.AssertUIThread();
+
+            RaisePropertyChanged(() => HasAttachments);
+            RaisePropertyChanged(() => IsSourceTrusted);
         }
     }
 }

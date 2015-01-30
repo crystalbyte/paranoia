@@ -1172,6 +1172,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save As ....
+        /// </summary>
+        public static string SaveFile {
+            get {
+                return ResourceManager.GetString("SaveFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quick Search (Ctrl+Q).
         /// </summary>
         public static string SearchBoxWatermark {

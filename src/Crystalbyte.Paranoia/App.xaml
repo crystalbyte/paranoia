@@ -5,6 +5,7 @@
              xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
              xmlns:core="clr-namespace:Awesomium.Core;assembly=Awesomium.Core"
              xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
+             xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
              xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
              ShutdownMode="OnMainWindowClose"
              StartupUri="UI/MainWindow.xaml">
@@ -79,6 +80,28 @@
 
             <DataTemplate x:Key="ThumbnailTemplate" DataType="paranoia:AttachmentContext">
                 <Border Padding="0,3">
+                    <Border.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="{Binding OpenCommand}" Header="{x:Static properties:Resources.OpenFile}">
+                                <MenuItem.Icon>
+                                    <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/open.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Command="{Binding SaveCommand}" Header="{x:Static properties:Resources.SaveFile}">
+                                <MenuItem.Icon>
+                                    <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/save.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Border.ContextMenu>
                     <Grid Width="120" Height="80">
                         <Grid.RowDefinitions>
                             <RowDefinition />

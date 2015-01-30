@@ -448,7 +448,6 @@
     <None Include="Resources\ckeditor\skins\moono-dark\readme.md" />
     <None Include="Resources\ckeditor\skins\moono\dev\locations.json" />
     <None Include="Resources\ckeditor\skins\moono\readme.md" />
-    <Resource Include="Assets\c2_please-answer.ogg" />
     <None Include="..\key.debug.snk">
       <Link>key.debug.snk</Link>
     </None>
@@ -557,9 +556,7 @@
     <Resource Include="Assets\folder.png" />
     <Resource Include="Assets\message.copy.png" />
     <Resource Include="Assets\security.png" />
-    <Resource Include="Assets\block.png" />
     <Resource Include="Assets\key.png" />
-    <Resource Include="Assets\unblock.png" />
     <Resource Include="Assets\edit.properties.png" />
     <Resource Include="Assets\select.png" />
     <Resource Include="Assets\test.png" />
@@ -569,12 +566,14 @@
     <Resource Include="Assets\paper.png" />
     <Resource Include="Assets\attachment.png" />
     <Resource Include="Assets\upload.png" />
-    <Resource Include="Assets\logo.window.png" />
     <Resource Include="Assets\reply.all.png" />
     <Resource Include="Assets\arrow.right.png" />
     <Resource Include="Assets\copy.png" />
     <Resource Include="Assets\cut.png" />
     <Resource Include="Resources\inspection.js" />
+    <Resource Include="Assets\open.png" />
+    <Resource Include="Assets\logo.window.png" />
+    <Resource Include="Assets\save.png" />
     <Content Include="Resources\ckeditor\adapters\jquery.js" />
     <Content Include="Resources\ckeditor\ckeditor.js" />
     <Content Include="Resources\ckeditor\config.js" />

@@ -274,10 +274,14 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task RefreshViewForSelectedOutbox() {
+            Application.Current.AssertUIThread();
+
             await RequestOutboxContentAsync(SelectedOutbox);
         }
 
         private async Task RefreshViewForSelectedMailboxAsync() {
+            Application.Current.AssertUIThread();
+
             await RequestMessagesAsync(SelectedMailbox);
             if (!SelectedMailbox.IsSyncingMessages) {
                 await SelectedMailbox.SyncMessagesAsync();
@@ -475,8 +479,9 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal void NotifyAccountCreated(MailAccountContext account) {
+        internal async Task PublishAccountAsync(MailAccountContext account) {
             _accounts.Add(account);
+            await account.TakeOnlineAsync();
         }
 
         public IEnumerable<MailAccountContext> Accounts {
@@ -690,12 +695,18 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task RefreshMessageSelectionAsync(MailMessageContext message) {
-            await MarkSelectionAsSeenAsync();
-            if (!await message.GetIsMimeLoadedAsync()) {
-                await message.DownloadMessageAsync();
-            }
+            Application.Current.AssertUIThread();
 
-            await message.UpdateTrustLevelAsync();
+            await MarkSelectionAsSeenAsync();
+            await Task.Run(async () => {
+                if (!await message.GetIsMimeLoadedAsync()) {
+                    await message.DownloadMessageAsync();
+                }
+                await message.UpdateTrustLevelAsync();
+            });
+
+            message.InvalidateBindings();
+
             if (message.IsSourceTrusted) {
                 await ViewUnblockedMessageAsync(message);
             } else {
@@ -742,22 +753,25 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task DisplayAttachmentAsync(MailMessageContext message) {
+            Application.Current.AssertUIThread();
+
             var attachmentContexts = new List<AttachmentContext>();
-            using (var context = new DatabaseContext()) {
-                var mimeMessage = await context.MimeMessages.FirstOrDefaultAsync(x => x.MessageId == message.Id);
-                if (mimeMessage == null)
-                    return;
+            await Task.Run(async () => {
+                using (var context = new DatabaseContext()) {
+                    var mimeMessage = await context.MimeMessages.FirstOrDefaultAsync(x => x.MessageId == message.Id);
+                    if (mimeMessage == null)
+                        return;
 
-                var reader = new MailMessageReader(mimeMessage.Data);
-                var attachments = reader.FindAllAttachments();
+                    var reader = new MailMessageReader(mimeMessage.Data);
+                    var attachments = reader.FindAllAttachments();
 
-                attachments.Where(x => x.ContentId == null)
-                    .ForEach(y => attachmentContexts.Add(new AttachmentContext(y)));
-            }
-            Application.Current.Dispatcher.Invoke(() => {
-                Attachments.Clear();
-                Attachments.AddRange(attachmentContexts);
+                    attachments.Where(x => x.ContentId == null)
+                        .ForEach(y => attachmentContexts.Add(new AttachmentContext(y)));
+                }
             });
+
+            Attachments.Clear();
+            Attachments.AddRange(attachmentContexts);
         }
 
         private async Task ViewMessageAsync(MailMessageContext message) {

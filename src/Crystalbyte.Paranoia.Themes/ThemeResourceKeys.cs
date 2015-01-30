@@ -9,6 +9,7 @@
         public static string AppWarningBrushKey = "AppWarningBrushKey";
         public static string AppForegroundBrushKey = "AppForegroundBrushKey";
         public static string AppSecondaryForegroundBrushKey = "AppSecondaryForegroundBrushKey";
+        public static string AppAccentForegroundBrushKey = "AppAccentForegroundBrushKey";
 
         public static string InputFontFamilyKey = "InputFontFamilyKey";
 

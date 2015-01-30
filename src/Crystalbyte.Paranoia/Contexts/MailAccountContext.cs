@@ -85,14 +85,14 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task DeleteAccountAsync() {
+            Application.Current.AssertUIThread();
+
             try {
                 var success = await Task.Run(() => TryDeleteAccountAsync());
                 if (!success) {
-                    Application.Current.Dispatcher.Invoke(
-                        () => App.Context.NotifyAccountCreated(this));
+                    await App.Context.PublishAccountAsync(this);
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -416,8 +416,7 @@ namespace Crystalbyte.Paranoia {
             using (var database = new DatabaseContext()) {
                 if (_account.Id == 0) {
                     database.MailAccounts.Add(_account);
-                }
-                else {
+                } else {
                     database.MailAccounts.Attach(_account);
                     database.Entry(_account).State = EntityState.Modified;
                 }
