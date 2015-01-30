@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Mail.Mime;
+using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
 using Microsoft.Win32;
 using NLog;
@@ -29,7 +30,13 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnSave(object obj) {
-            var dialog = new SaveFileDialog { FileName = _fullname };
+            var extension = _fullname.Split('.').LastOrDefault() ?? string.Empty;
+            var dialog = new SaveFileDialog {
+                FileName = _fullname,
+                DefaultExt = extension,
+                Filter = string.Format("{0} (*.*)|*.*", Resources.AllFilesFilter)
+            };
+
             var result = dialog.ShowDialog();
             if (!result.HasValue || !result.Value) {
                 return;
@@ -51,6 +58,7 @@ namespace Crystalbyte.Paranoia {
 
             _name = part.FileName;
             _fullname = part.FileName;
+            _saveCommand = new RelayCommand(OnSave);
             _openCommand = new OpenAttachmentCommand(part);
         }
 
