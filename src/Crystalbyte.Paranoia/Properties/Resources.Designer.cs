@@ -911,6 +911,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is no trash folder defined..
+        /// </summary>
+        public static string MissingTrashFolderException {
+            get {
+                return ResourceManager.GetString("MissingTrashFolderException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monday.
         /// </summary>
         public static string Monday {

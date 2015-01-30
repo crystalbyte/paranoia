@@ -292,53 +292,58 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task DeleteMessagesAsync(MailMessageContext[] messages, string trashFolder) {
+        internal Task DeleteMessagesAsync(MailMessageContext[] messages, string trashFolder) {
+            Application.Current.AssertUIThread();
+
+            App.Context.NotifyMessagesRemoved(messages);
+
             var uids = messages.Select(x => x.Uid).ToArray();
-            using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
-                using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
-                    using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
-                        var mailbox = await session.SelectAsync(Name);
-                        if (IsTrash) {
-                            await mailbox.DeleteMailsAsync(uids);
-                        } else {
-                            await mailbox.MoveMailsAsync(uids, trashFolder);
-                        }
-                    }
-                }
-            }
 
-            using (var context = new DatabaseContext()) {
-                await context.Database.Connection.OpenAsync();
-                foreach (var message in messages) {
-                    var id = message.Id;
-                    using (var transaction = context.Database.BeginTransaction()) {
-                        try {
-                            var mime = await context.MimeMessages
-                                .FirstOrDefaultAsync(x => x.MessageId == id);
-
-                            if (mime != null) {
-                                context.MimeMessages.Remove(mime);
-                                await context.SaveChangesAsync();    
+            return Task.Run(async () => {
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+                    using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+                        using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+                            var mailbox = await session.SelectAsync(Name);
+                            if (IsTrash) {
+                                await mailbox.DeleteMailsAsync(uids);
+                            } else {
+                                await mailbox.MoveMailsAsync(uids, trashFolder);
                             }
-
-                            var model = new MailMessageModel {
-                                Id = message.Id,
-                                MailboxId = Id
-                            };
-
-                            context.MailMessages.Attach(model);
-                            context.MailMessages.Remove(model);
-
-                            await context.SaveChangesAsync();
-                            transaction.Commit();
-
-                            App.Context.NotifyMessageRemoved(message);
-                        } catch (Exception) {
-                            transaction.Rollback();
                         }
                     }
                 }
-            }
+
+                using (var context = new DatabaseContext()) {
+                    await context.Database.Connection.OpenAsync();
+                    foreach (var message in messages) {
+                        var id = message.Id;
+                        using (var transaction = context.Database.BeginTransaction()) {
+                            try {
+                                var mime = await context.MimeMessages
+                                    .FirstOrDefaultAsync(x => x.MessageId == id);
+
+                                if (mime != null) {
+                                    context.MimeMessages.Remove(mime);
+                                    await context.SaveChangesAsync();
+                                }
+
+                                var model = new MailMessageModel {
+                                    Id = message.Id,
+                                    MailboxId = Id
+                                };
+
+                                context.MailMessages.Attach(model);
+                                context.MailMessages.Remove(model);
+
+                                await context.SaveChangesAsync();
+                                transaction.Commit();
+                            } catch (Exception) {
+                                transaction.Rollback();
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         public bool IsSubscribedAndSelectable {

@@ -184,6 +184,7 @@
     <Compile Include="Automation\IApplication.cs" />
     <Compile Include="Automation\IClassFactory.cs" />
     <Compile Include="Automation\IComServer.cs" />
+    <Compile Include="ItemSelectionRequestedEventArgs.cs" />
     <Compile Include="Data\KeyPairModel.cs" />
     <Compile Include="Data\MailMessageModelExtensions.cs" />
     <Compile Include="IAccentAware.cs" />

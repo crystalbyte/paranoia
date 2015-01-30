@@ -160,7 +160,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-
         internal async Task FilterContactsAsync(string query) {
             Application.Current.AssertUIThread();
 
@@ -302,6 +301,14 @@ namespace Crystalbyte.Paranoia {
             var handler = FlyoutClosed;
             if (handler != null)
                 handler(this, EventArgs.Empty);
+        }
+
+        public event EventHandler<ItemSelectionRequestedEventArgs> ItemSelectionRequested;
+
+        private void OnItemSelectionRequested(ItemSelectionRequestedEventArgs e) {
+            var handler = ItemSelectionRequested;
+            if (handler != null) 
+                handler(this, e);
         }
 
         public event EventHandler SortOrderChanged;
@@ -856,13 +863,16 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task DeleteSelectedMessagesAsync() {
+            Application.Current.AssertUIThread();
+
+            var messages = SelectedMessages.ToArray();
+
             try {
-                var messages = SelectedMessages.ToArray();
                 var accountGroups = messages.GroupBy(x => x.Mailbox.Account).ToArray();
                 foreach (var accountGroup in accountGroups) {
                     var trash = accountGroup.Key.GetTrashMailbox();
                     if (trash == null) {
-                        throw new InvalidOperationException("trash must not be null.");
+                        throw new InvalidOperationException(Resources.MissingTrashFolderException);
                     }
 
                     var mailboxGroups = accountGroup.GroupBy(x => x.Mailbox).ToArray();
@@ -1075,7 +1085,9 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void NotifyMessagesRemoved(IEnumerable<MailMessageContext> messages) {
-            messages.ForEach(x => _messages.Remove(x));
+            var collection = messages as MailMessageContext[] ?? messages.ToArray();
+            OnItemSelectionRequested(new ItemSelectionRequestedEventArgs(collection));
+            collection.ForEach(x => _messages.Remove(x));
         }
 
         internal void NotifyMessageRemoved(MailMessageContext message) {

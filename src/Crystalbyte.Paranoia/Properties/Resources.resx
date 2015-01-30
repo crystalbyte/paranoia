@@ -622,6 +622,9 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="AllFilesFilter" xml:space="preserve">
     <value>All files</value>
   </data>
+  <data name="MissingTrashFolderException" xml:space="preserve">
+    <value>There is no trash folder defined.</value>
+  </data>
   <data name="SaveFile" xml:space="preserve">
     <value>Save As ...</value>
   </data>

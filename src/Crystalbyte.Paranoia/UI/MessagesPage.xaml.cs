@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -16,12 +17,12 @@ namespace Crystalbyte.Paranoia.UI {
     /// </summary>
     public partial class MessagesPage {
 
+        private CollectionViewSource _messageViewSource;
         private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
 
         public MessagesPage() {
             InitializeComponent();
             DataContext = App.Context;
-            Unloaded += OnUnloaded;
 
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint, OnCanPrint));
             CommandBindings.Add(new CommandBinding(MessagingCommands.Compose, OnCompose));
@@ -33,8 +34,30 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(MailboxCommands.Delete, OnDeleteMailbox, OnCanDeleteMailbox));
             CommandBindings.Add(new CommandBinding(MailboxCommands.Sync, OnSyncMailbox, OnCanSyncMailbox));
 
-            App.Context.SortOrderChanged += OnSortOrderChanged;
-            NetworkChange.NetworkAvailabilityChanged += (sender, e) => CommandManager.InvalidateRequerySuggested();
+            var context = App.Context;
+            context.SortOrderChanged += OnSortOrderChanged;
+            context.ItemSelectionRequested += OnItemSelectionRequested;
+
+            Unloaded += OnUnloaded;
+            NetworkChange.NetworkAvailabilityChanged +=
+                (sender, e) => CommandManager.InvalidateRequerySuggested();
+
+            _messageViewSource = (CollectionViewSource)Resources["MessagesSource"];
+        }
+
+        private void OnItemSelectionRequested(object sender, ItemSelectionRequestedEventArgs e) {
+            try {
+                var source = _messageViewSource.View.Cast<object>().ToList();
+                var index = e.PivotElements.GroupBy(source.IndexOf).Max(x => x.Key) + 1;
+                var next = MessagesListView.ItemContainerGenerator.ContainerFromIndex(index) as ListViewItem;
+                if (next != null) {
+                    next.IsSelected = true;
+                }
+                
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private static void OnCanSyncMailbox(object sender, CanExecuteRoutedEventArgs e) {
