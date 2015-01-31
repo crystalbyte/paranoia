@@ -97,8 +97,8 @@
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
-    <Compile Include="HtmlControl.xaml.cs">
-      <DependentUpon>HtmlControl.xaml</DependentUpon>
+    <Compile Include="HtmlEditor.xaml.cs">
+      <DependentUpon>HtmlEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="ItemsSourceRequestedEventArgs.cs" />
     <Compile Include="ITokenMatcher.cs" />
@@ -154,7 +154,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="HtmlControl.xaml">
+    <Page Include="HtmlEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

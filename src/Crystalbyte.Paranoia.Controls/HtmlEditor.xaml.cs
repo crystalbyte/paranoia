@@ -17,7 +17,7 @@ using System.IO;
 
 namespace Crystalbyte.Paranoia.UI {
     [TemplatePart(Name = WebControlPartName, Type = typeof(WebControl))]
-    public class HtmlControl : Control {
+    public class HtmlEditor : Control {
 
         #region Xaml Support
 
@@ -34,12 +34,12 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Construction
 
-        static HtmlControl() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(HtmlControl),
-                new FrameworkPropertyMetadata(typeof(HtmlControl)));
+        static HtmlEditor() {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(HtmlEditor),
+                new FrameworkPropertyMetadata(typeof(HtmlEditor)));
         }
 
-        public HtmlControl() {
+        public HtmlEditor() {
             if (DesignerProperties.GetIsInDesignMode(this))
                 return;
 
@@ -55,7 +55,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Destruction
 
-        ~HtmlControl() {
+        ~HtmlEditor() {
             Dispose(false);
         }
 
@@ -107,7 +107,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         // Using a DependencyProperty as the backing store for AdjustToDpi.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AdjustToDpiProperty =
-            DependencyProperty.Register("AdjustToDpi", typeof(bool), typeof(HtmlControl), new PropertyMetadata(false));
+            DependencyProperty.Register("AdjustToDpi", typeof(bool), typeof(HtmlEditor), new PropertyMetadata(false));
 
         public WebSession WebSession {
             get { return (WebSession)GetValue(WebSessionProperty); }
@@ -116,7 +116,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         // Using a DependencyProperty as the backing store for WebSession.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty WebSessionProperty =
-            DependencyProperty.Register("WebSession", typeof(WebSession), typeof(HtmlControl), new PropertyMetadata(null));
+            DependencyProperty.Register("WebSession", typeof(WebSession), typeof(HtmlEditor), new PropertyMetadata(null));
 
         public float Zoom {
             get { return (float)GetValue(ZoomProperty); }
@@ -125,7 +125,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         // Using a DependencyProperty as the backing store for Zoom.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ZoomProperty =
-            DependencyProperty.Register("Zoom", typeof(float), typeof(HtmlControl), new PropertyMetadata(1.45f));
+            DependencyProperty.Register("Zoom", typeof(float), typeof(HtmlEditor), new PropertyMetadata(1.45f));
 
         public bool IsTransparent {
             get { return (bool)GetValue(IsTransparentProperty); }
@@ -134,7 +134,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         // Using a DependencyProperty as the backing store for IsTransparent.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsTransparentProperty =
-            DependencyProperty.Register("IsTransparent", typeof(bool), typeof(HtmlControl),
+            DependencyProperty.Register("IsTransparent", typeof(bool), typeof(HtmlEditor),
                 new PropertyMetadata(false));
 
         // This will be set to the target URL, when this window does not
@@ -147,7 +147,7 @@ namespace Crystalbyte.Paranoia.UI {
         // Identifies the <see cref="Source"/> dependency property.
         public static readonly DependencyProperty SourceProperty =
             DependencyProperty.Register("Source",
-                typeof(string), typeof(HtmlControl),
+                typeof(string), typeof(HtmlEditor),
                 new FrameworkPropertyMetadata(string.Empty));
 
         public bool IsReadOnly {
@@ -157,7 +157,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         // Using a DependencyProperty as the backing store for IsReadOnly.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsReadOnlyProperty =
-            DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(HtmlControl), new PropertyMetadata(false));
+            DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(HtmlEditor), new PropertyMetadata(false));
 
         #endregion
 

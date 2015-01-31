@@ -144,8 +144,8 @@
                   Width="220"
                   Margin="0,6,3,6"
                   HorizontalAlignment="Stretch"
-                  DataContextChanged="OnAccountComboboxDataContextChanged"
                   VerticalAlignment="Stretch"
+                  DataContextChanged="OnAccountComboboxDataContextChanged"
                   ItemsSource="{Binding Accounts}"
                   SelectedIndex="0"
                   SelectedItem="{Binding SelectedAccount}"
@@ -337,24 +337,24 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <controls:HtmlControl x:Name="HtmlControl"
-                              Grid.Row="4"
-                              Grid.Column="0"
-                              Grid.ColumnSpan="4"
-                              HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch"
-                              AllowDrop="True"
-                              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                              BorderThickness="0"
-                              Drop="DropHtmlControl"
-                              Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
-                              Initialized="OnHtmlControlInitialized"
-                              IsTransparent="True"
-                              Source="{Binding Source,
-                                               Mode=TwoWay}"
-                              TabIndex="3"
-                              UseLayoutRounding="True"
-                              WebSession="{Binding Source={StaticResource CompositionWebSessionProvider}}"
-                              d:IsHidden="True" />
+        <controls:HtmlEditor x:Name="HtmlControl"
+                             Grid.Row="4"
+                             Grid.Column="0"
+                             Grid.ColumnSpan="4"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"
+                             AllowDrop="True"
+                             Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                             BorderThickness="0"
+                             Drop="DropHtmlControl"
+                             Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
+                             Initialized="OnHtmlControlInitialized"
+                             IsTransparent="True"
+                             Source="{Binding Source,
+                                              Mode=TwoWay}"
+                             TabIndex="3"
+                             UseLayoutRounding="True"
+                             WebSession="{Binding Source={StaticResource CompositionWebSessionProvider}}"
+                             d:IsHidden="True" />
     </Grid>
 </Page>

@@ -181,7 +181,8 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Rectangle Width="10"
+                    <Rectangle x:Name="Icon"
+                               Width="10"
                                Height="10"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
@@ -191,6 +192,11 @@
                             <ImageBrush ImageSource="/Assets/minimize.png" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}}" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -204,7 +210,8 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Rectangle Width="10"
+                    <Rectangle x:Name="Icon"
+                               Width="10"
                                Height="10"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
@@ -214,6 +221,11 @@
                             <ImageBrush ImageSource="/Assets/maximize.png" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}}" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -227,7 +239,8 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Rectangle Width="10"
+                    <Rectangle x:Name="Icon"
+                               Width="10"
                                Height="10"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
@@ -237,6 +250,11 @@
                             <ImageBrush ImageSource="/Assets/restore.png" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}}" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -250,7 +268,8 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Rectangle Width="10"
+                    <Rectangle x:Name="Icon"
+                               Width="10"
                                Height="10"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
@@ -260,6 +279,11 @@
                             <ImageBrush ImageSource="/Assets/close.png" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}}" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -273,7 +297,8 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Rectangle Width="10"
+                    <Rectangle x:Name="Icon"
+                               Width="10"
                                Height="10"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
@@ -283,6 +308,11 @@
                             <ImageBrush ImageSource="/Assets/help.png" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}}" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </Setter.Value>
         </Setter>

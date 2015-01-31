@@ -70,7 +70,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnHtmlControlInitialized(object sender, EventArgs e) {
-            var control = (HtmlControl)sender;
+            //var control = (HtmlEditor)sender;
             //control.WebSession.ClearCache();
         }
 

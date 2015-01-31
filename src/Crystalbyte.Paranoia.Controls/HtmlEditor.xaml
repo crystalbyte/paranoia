@@ -24,7 +24,7 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
-    <Style TargetType="ui:HtmlControl">
+    <Style TargetType="ui:HtmlEditor">
         <Setter Property="KeyboardNavigation.TabNavigation" Value="Local" />
         <Setter Property="IsTransparent" Value="False" />
         <Setter Property="BorderThickness" Value="0" />
@@ -39,7 +39,7 @@
         <Setter Property="Margin" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ui:HtmlControl">
+                <ControlTemplate TargetType="ui:HtmlEditor">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"

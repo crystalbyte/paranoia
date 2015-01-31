@@ -154,7 +154,6 @@
                     VerticalAlignment="Stretch"
                     Command="ui:AppCommands.Settings"
                     Padding="0"
-                    SnapsToDevicePixels="True"
                     Style="{StaticResource WindowButtonStyle}">
                 <StackPanel Orientation="Horizontal">
                     <Image Width="20"
@@ -193,20 +192,10 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListViewItem">
                                         <Grid Background="{TemplateBinding Background}">
-                                            <Rectangle x:Name="HoverBackground" Fill="Transparent" />
                                             <ContentPresenter Margin="{TemplateBinding Padding}"
                                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                         </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <MultiTrigger>
-                                                <MultiTrigger.Conditions>
-                                                    <Condition Property="IsMouseOver" Value="True" />
-                                                    <Condition Property="IsSelected" Value="False" />
-                                                </MultiTrigger.Conditions>
-                                                <Setter TargetName="HoverBackground" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}}" />
-                                            </MultiTrigger>
-                                        </ControlTemplate.Triggers>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
@@ -231,6 +220,13 @@
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                     <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                                 </DataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="True" />
+                                        <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="False" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                                </MultiDataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
                     </ListView.ItemTemplate>
