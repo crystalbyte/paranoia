@@ -292,6 +292,7 @@
     <Style x:Key="HelpButtonStyle"
            BasedOn="{StaticResource WindowButtonStyle}"
            TargetType="Button">
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Command" Value="{x:Static ApplicationCommands.Help}" />
         <Setter Property="ToolTip" Value="{x:Static properties:Resources.Help}" />
         <Setter Property="ContentTemplate">

@@ -37,11 +37,16 @@ namespace Crystalbyte.Paranoia.UI {
             context.SortOrderChanged += OnSortOrderChanged;
             context.ItemSelectionRequested += OnItemSelectionRequested;
 
+            Loaded += OnLoaded;
             Unloaded += OnUnloaded;
             NetworkChange.NetworkAvailabilityChanged +=
                 (sender, e) => CommandManager.InvalidateRequerySuggested();
 
             _messageViewSource = (CollectionViewSource)Resources["MessagesSource"];
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e) {
+            AccountsTreeView.Focus();
         }
 
         private void OnItemSelectionRequested(object sender, ItemSelectionRequestedEventArgs e) {

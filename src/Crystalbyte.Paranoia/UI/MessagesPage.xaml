@@ -54,7 +54,8 @@
                         <controls:MetroButton Margin="12"
                                               Command="ui:MessagingCommands.Compose"
                                               Content="{x:Static properties:Resources.ComposeMessage}"
-                                              ImageSource="/Assets/paper.png" />
+                                              ImageSource="/Assets/paper.png"
+                                              IsTabStop="False" />
                     </Grid>
                 </Border>
                 <DockPanel DockPanel.Dock="Top" LastChildFill="False">
@@ -63,7 +64,8 @@
                                           VerticalAlignment="Center"
                                           Command="{Binding CreateAccountCommand}"
                                           DockPanel.Dock="Right"
-                                          ImageSource="/Assets/add.png" />
+                                          ImageSource="/Assets/add.png"
+                                          IsTabStop="False" />
                     <TextBlock Margin="12,0,0,0"
                                VerticalAlignment="Center"
                                DockPanel.Dock="Left"
@@ -76,7 +78,10 @@
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
                           BorderThickness="0"
+                          FocusManager.FocusedElement="{Binding ElementName=AccountsTreeView}"
                           ItemsSource="{Binding Accounts}"
+                          KeyboardNavigation.DirectionalNavigation="Contained"
+                          KeyboardNavigation.TabNavigation="Once"
                           Padding="0"
                           ScrollViewer.CanContentScroll="False"
                           SelectedItemChanged="OnTreeViewSelectedItemChanged"
@@ -88,7 +93,7 @@
                                     Command="ui:MailboxCommands.Create"
                                     CommandParameter="{Binding SelectedItem,
                                                                ElementName=AccountsTreeView}"
-                                    Modifiers="Control" />
+                                    Modifiers="Control+Shift" />
                         <KeyBinding Key="F5"
                                     Command="ui:MailboxCommands.Sync"
                                     CommandParameter="{Binding SelectedItem,
@@ -381,7 +386,8 @@
         <GridSplitter Grid.Row="0"
                       Grid.Column="1"
                       Margin="0,2"
-                      Background="Transparent" />
+                      Background="Transparent"
+                      IsTabStop="False" />
         <DockPanel Grid.Row="0"
                    Grid.Column="2"
                    Margin="0,3,0,0"
@@ -401,7 +407,8 @@
                                           Command="ui:MailboxCommands.Sync"
                                           CommandParameter="{Binding SelectedMailbox}"
                                           DockPanel.Dock="Right"
-                                          ImageSource="/Assets/refresh.png" />
+                                          ImageSource="/Assets/refresh.png"
+                                          IsTabStop="False" />
                     <TextBlock Margin="12,0"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
@@ -413,6 +420,7 @@
 
                 <TextBox Grid.Row="1"
                          Margin="6"
+                         IsTabStop="False"
                          Text="{Binding QueryString,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged}" />
@@ -426,11 +434,13 @@
                                  GroupName="Filter"
                                  IsChecked="{Binding ShowAllMessages,
                                                      Mode=TwoWay}"
+                                 IsTabStop="False"
                                  Style="{DynamicResource RadioButtonTextStyle}" />
                     <RadioButton Margin="3"
                                  Content="{x:Static properties:Resources.Unseen}"
                                  DockPanel.Dock="Left"
                                  GroupName="Filter"
+                                 IsTabStop="False"
                                  Style="{DynamicResource RadioButtonTextStyle}" />
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                         <Button Click="OnSortPropertyButtonClicked"
@@ -438,6 +448,7 @@
                                                   ElementName=Page,
                                                   Converter={StaticResource SortPropertyFormatter}}"
                                 ContextMenuService.IsEnabled="False"
+                                IsTabStop="False"
                                 Style="{DynamicResource SortingPropertyButtonStyle}">
                             <Button.ContextMenu>
                                 <ContextMenu x:Name="SortPropertyMenu">
@@ -472,6 +483,7 @@
                         <ToggleButton VerticalAlignment="Center"
                                       IsChecked="{Binding IsSortAscending,
                                                           Mode=TwoWay}"
+                                      IsTabStop="False"
                                       Style="{DynamicResource SortingToggleButtonStyle}" />
                     </StackPanel>
                 </DockPanel>
@@ -483,7 +495,7 @@
                           Background="Transparent"
                           BorderThickness="0"
                           KeyboardNavigation.DirectionalNavigation="Contained"
-                          KeyboardNavigation.TabNavigation="None"
+                          KeyboardNavigation.TabNavigation="Continue"
                           MouseLeave="OnMouseLeaveMessagesListView"
                           MouseMove="OnMouseMoveMessagesListView"
                           Padding="0"
@@ -902,7 +914,8 @@
         <GridSplitter Grid.Row="0"
                       Grid.Column="3"
                       Margin="0,2"
-                      Background="Transparent" />
+                      Background="Transparent"
+                      IsTabStop="False" />
         <Grid Grid.Row="0" Grid.Column="4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -957,19 +970,23 @@
                         <controls:MetroButton Margin="3,0"
                                               Command="ui:MessagingCommands.Reply"
                                               ImageSource="/Assets/reply.png"
+                                              IsTabStop="False"
                                               ToolTip="{x:Static properties:Resources.Reply}" />
                         <controls:MetroButton Margin="3,0"
                                               Command="ui:MessagingCommands.Forward"
                                               ImageSource="/Assets/forward.png"
+                                              IsTabStop="False"
                                               ToolTip="{x:Static properties:Resources.Forward}" />
                         <controls:MetroButton Margin="3,0"
                                               Command="{Binding DeleteMessagesCommand}"
                                               ImageBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}"
                                               ImageSource="/Assets/delete.png"
+                                              IsTabStop="False"
                                               ToolTip="{x:Static properties:Resources.Delete}" />
                         <controls:MetroButton Margin="3,0"
                                               Command="ApplicationCommands.Print"
                                               ImageSource="/Assets/print.png"
+                                              IsTabStop="False"
                                               ToolTip="{x:Static properties:Resources.Print}" />
                     </StackPanel>
                     <TextBlock Grid.Row="2"
@@ -1022,6 +1039,8 @@
                                              DataContext="{Binding DataContext,
                                                                    RelativeSource={RelativeSource FindAncestor,
                                                                                                   AncestorType=Page}}"
+                                             KeyboardNavigation.DirectionalNavigation="None"
+                                             KeyboardNavigation.TabNavigation="Once"
                                              SnapsToDevicePixels="True"
                                              Source="{Binding Source,
                                                               Mode=OneWay}"

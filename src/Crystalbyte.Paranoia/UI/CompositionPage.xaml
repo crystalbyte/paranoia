@@ -76,7 +76,9 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="ContactTokenTemplate" DataType="paranoia:MailContactContext">
-            <Grid RenderOptions.EdgeMode="Aliased" SnapsToDevicePixels="True">
+            <Grid MaxWidth="180"
+                  RenderOptions.EdgeMode="Aliased"
+                  SnapsToDevicePixels="True">
                 <Rectangle HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"
                            Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}" />
@@ -97,7 +99,9 @@
                     </Border>
                     <TextBlock Margin="2,0,2,0"
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
-                               Text="{Binding NameOrAddress}" />
+                               Text="{Binding NameOrAddress}"
+                               TextTrimming="CharacterEllipsis"
+                               TextWrapping="NoWrap" />
                 </StackPanel>
             </Grid>
         </DataTemplate>

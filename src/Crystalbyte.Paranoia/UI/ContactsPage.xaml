@@ -140,11 +140,7 @@
                                 <Grid Margin="12,0" Visibility="{Binding IsBlocked, Converter={StaticResource BooleanToVisibilityConverter}}">
                                     <Rectangle Width="18"
                                                Height="18"
-                                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}">
-                                        <Rectangle.OpacityMask>
-                                            <ImageBrush ImageSource="/Assets/block.png" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
+                                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}" />
                                 </Grid>
                                 <Grid Margin="12,0" Visibility="{Binding HasKeys, Converter={StaticResource BooleanToVisibilityConverter}}">
                                     <Rectangle Width="18"
@@ -205,12 +201,6 @@
                                 Orientation="Horizontal">
                         <controls:MetroButton VerticalAlignment="Center" Command="{Binding DeleteContactsCommand}">
                             <Image Width="18" Source="/Assets/delete.png" />
-                        </controls:MetroButton>
-                        <controls:MetroButton VerticalAlignment="Center" Command="{Binding BlockContactsCommand}">
-                            <Image Width="18" Source="/Assets/block.png" />
-                        </controls:MetroButton>
-                        <controls:MetroButton VerticalAlignment="Center" Command="{Binding UnblockContactsCommand}">
-                            <Image Width="18" Source="/Assets/unblock.png" />
                         </controls:MetroButton>
                     </StackPanel>
                 </Grid>

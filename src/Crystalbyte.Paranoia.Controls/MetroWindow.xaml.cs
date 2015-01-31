@@ -37,6 +37,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
             UpdateWindowStates();
+            UpdateFrameBorder();
         }
 
         #endregion
@@ -161,7 +162,10 @@ namespace Crystalbyte.Paranoia.UI {
             base.OnStateChanged(e);
 
             UpdateWindowStates();
+            UpdateFrameBorder();
+        }
 
+        private void UpdateFrameBorder() {
             ActualBorderThickness = IsMaximized ? new Thickness(0) : BorderThickness;
             ActualFramePadding = IsMaximized ? new Thickness(0) : FramePadding;
         }

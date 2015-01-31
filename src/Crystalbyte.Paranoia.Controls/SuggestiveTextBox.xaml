@@ -62,7 +62,6 @@
                                 <Border Background="{TemplateBinding BorderBrush}">
                                     <ListView x:Name="PART_ItemsHost"
                                               MinWidth="300"
-                                              MinHeight="150"
                                               Margin="1"
                                               Background="{x:Static SystemColors.ControlBrush}"
                                               BorderThickness="0"

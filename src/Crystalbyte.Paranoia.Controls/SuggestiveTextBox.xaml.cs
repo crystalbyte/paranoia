@@ -263,7 +263,7 @@ namespace Crystalbyte.Paranoia.UI {
                     var text = ((SuggestiveTextBox)x.Sender).Text;
                     return !string.IsNullOrWhiteSpace(text) && text.Length > 1;
                 })
-                .Throttle(TimeSpan.FromMilliseconds(250))
+                .Throttle(TimeSpan.FromMilliseconds(30))
                 .Select(x => ((SuggestiveTextBox)x.Sender).Text)
                 .Subscribe(OnTextChangeConfirmed);
 

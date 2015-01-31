@@ -559,7 +559,7 @@ namespace Crystalbyte.Paranoia {
                     };
                 });
 
-                if (results.Messages.Length > 0) {
+                if (results.Messages.Length > 0 && App.Context.SelectedMailbox == this) {
                     App.Context.NotifyMessagesAdded(results.Messages);
                 }
 
