@@ -911,6 +911,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Signature with path &apos;{0}&apos; was not found..
+        /// </summary>
+        public static string MissingSignatureTemplate {
+            get {
+                return ResourceManager.GetString("MissingSignatureTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is no trash folder defined..
         /// </summary>
         public static string MissingTrashFolderException {

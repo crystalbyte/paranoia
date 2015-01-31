@@ -9,7 +9,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Awesomium.Core.Data;
@@ -153,6 +152,7 @@ namespace Crystalbyte.Paranoia {
             var reader = new MailMessageReader(bytes);
 
             var text = GetSupportedBody(reader);
+            text = DropBodyStyles(text);
             text = NormalizeHtml(text);
             text = RemoveJavaScript(text);
             text = ConvertEmbeddedSources(text, new FileInfo(path));
@@ -191,7 +191,7 @@ namespace Crystalbyte.Paranoia {
                 var reader = new MailMessageReader(message);
 
                 var text = GetSupportedBody(reader);
-
+                text = DropBodyStyles(text);
                 text = ConvertEmbeddedSources(text, messageId);
                 text = string.Format("<hr style=\"margin:20px 0px;\"/>{0}", text);
                 variables.Add("quote", text);
@@ -203,6 +203,18 @@ namespace Crystalbyte.Paranoia {
             var html = GenerateEditorHtml(variables);
             var bytes = Encoding.UTF8.GetBytes(html);
             SendHtmlResponse(request, bytes);
+        }
+
+        private static string DropBodyStyles(string text) {
+            var document = new HtmlDocument();
+            document.LoadHtml(text);
+
+            var nodes = document.DocumentNode.SelectNodes("//style");
+            if (nodes != null) {
+                nodes.ForEach(x => x.Remove());
+            }
+            
+            return document.DocumentNode.WriteTo();
         }
 
         private void SendBlankCompositionResponse(DataSourceRequest request) {

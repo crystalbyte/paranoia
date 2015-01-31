@@ -628,4 +628,7 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="SaveFile" xml:space="preserve">
     <value>Save As ...</value>
   </data>
+  <data name="MissingSignatureTemplate" xml:space="preserve">
+    <value>Signature with path '{0}' was not found.</value>
+  </data>
 </root>

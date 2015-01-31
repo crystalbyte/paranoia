@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
+using HtmlAgilityPack;
 using NLog;
 
 #endregion
@@ -39,8 +40,8 @@ namespace Crystalbyte.Paranoia.UI {
             context.DocumentTextRequested += OnDocumentTextRequested;
             context.Finished += OnFinished;
 
-            HtmlControl.ScriptingFailure += OnEditorScriptingFailure;
-            HtmlControl.EditorContentLoaded += OnEditorContentLoaded;
+            HtmlEditor.ScriptingFailure += OnEditorScriptingFailure;
+            HtmlEditor.EditorContentLoaded += OnEditorContentLoaded;
             DataContext = context;
         }
 
@@ -69,11 +70,6 @@ namespace Crystalbyte.Paranoia.UI {
             });
         }
 
-        private void OnHtmlControlInitialized(object sender, EventArgs e) {
-            //var control = (HtmlEditor)sender;
-            //control.WebSession.ClearCache();
-        }
-
         private static void OnEditorScriptingFailure(object sender, ScriptingFailureEventArgs e) {
             Logger.Error(e.Exception);
         }
@@ -86,8 +82,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnDocumentTextRequested(object sender, DocumentTextRequestedEventArgs e) {
-            var html = HtmlControl.GetComposition();
-            e.Document = html;
+            e.Document = HtmlEditor.Composition;
         }
 
         private async void Reset() {
@@ -141,15 +136,14 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void PrepareAsNew() {
             var context = (MailCompositionContext)DataContext;
-            Loaded += OnLoadedAsNew;
             context.Source = "asset://paranoia/message/new";
-
+            Loaded += OnLoaded;
         }
 
-        private void OnLoadedAsNew(object sender, RoutedEventArgs e) {
+        private void OnLoaded(object sender, RoutedEventArgs e) {
             Application.Current.Dispatcher.Invoke(() => {
                 RecipientsBox.Focus();
-                Loaded -= OnLoadedAsNew;
+                Loaded -= OnLoaded;
             });
         }
 
@@ -234,9 +228,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async Task PrepareAsForwardAsync(IReadOnlyDictionary<string, string> arguments) {
-
             var id = Int64.Parse(arguments["id"]);
-
             var reader = await Task.Run(async () => {
                 using (var database = new DatabaseContext()) {
                     var mime = await database.MimeMessages
@@ -253,6 +245,7 @@ namespace Crystalbyte.Paranoia.UI {
             var context = (MailCompositionContext)DataContext;
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForForwarding, reader.Headers.Subject);
             context.Source = string.Format("asset://paranoia/message/forward?id={0}", id);
+            Loaded += OnLoaded;
         }
 
         private void DropHtmlControl(object sender, DragEventArgs e) {
@@ -279,25 +272,41 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async Task ChangeSignatureAsync() {
-            if (!HtmlControl.IsDocumentReady) {
+            if (!HtmlEditor.IsDocumentReady) {
                 return;
             }
 
             var context = (MailCompositionContext)DataContext;
             var path = context.SelectedAccount.SignaturePath;
 
+            string signature;
             if (string.IsNullOrEmpty(path) || !File.Exists(path)) {
-                HtmlControl.ChangeSignature(string.Empty);
-                return;
+                signature = string.Empty;
+                var warning = string.Format(Paranoia.Properties.Resources.MissingSignatureTemplate, path);
+                Logger.Warn(warning);
+            } else {
+                signature = await Task.Run(() => File.ReadAllText(path, Encoding.UTF8));    
             }
 
-            var content = await Task.Run(() => File.ReadAllText(path, Encoding.UTF8));
-            HtmlControl.ChangeSignature(content);
+            var composition = HtmlEditor.Composition;
+            var document = new HtmlDocument();
+            document.LoadHtml(composition);
+
+            var node = document.DocumentNode.SelectSingleNode("//div[@id='signature']");
+            node.RemoveAllChildren();
+            node.InnerHtml = signature;
+
+            HtmlEditor.Composition = document.DocumentNode.WriteTo();
         }
 
         private async void OnAccountSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (IsEditorContentLoaded) {
-                await ChangeSignatureAsync();
+            try {
+                if (IsEditorContentLoaded) {
+                    await ChangeSignatureAsync();
+                }
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
             }
         }
 

@@ -90,6 +90,27 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Properties
 
+        public string Document {
+            get { return _webControl.HTML; }
+        }
+
+        public string Composition {
+            get {
+                JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
+                using (module) {
+                    const string function = "getComposition";
+                    return module.Invoke(function);
+                }
+            }
+            set {
+                JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
+                using (module) {
+                    const string function = "setComposition";
+                    module.Invoke(function, new JSValue(value));
+                }
+            }
+        }
+
         public bool IsDocumentReady {
             get {
                 return _webControl != null && _webControl.IsDocumentReady;
@@ -150,15 +171,6 @@ namespace Crystalbyte.Paranoia.UI {
                 typeof(string), typeof(HtmlEditor),
                 new FrameworkPropertyMetadata(string.Empty));
 
-        public bool IsReadOnly {
-            get { return (bool)GetValue(IsReadOnlyProperty); }
-            set { SetValue(IsReadOnlyProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for IsReadOnly.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsReadOnlyProperty =
-            DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(HtmlEditor), new PropertyMetadata(false));
-
         #endregion
 
         #region Class Overrides
@@ -178,14 +190,12 @@ namespace Crystalbyte.Paranoia.UI {
 
             if (_webControl != null) {
                 _webControl.ShowCreatedWebView -= OnWebControlShowCreatedWebView;
-                _webControl.LoadingFrameComplete -= OnWebControlLoadingFrameComplete;
                 _webControl.DocumentReady -= OnWebControlDocumentReady;
                 _webControl.ConsoleMessage -= OnConsoleMessage;
                 _webControl.WindowClose -= OnWebControlWindowClose;
             }
 
             _webControl = (WebControl)Template.FindName(WebControlPartName, this);
-            _webControl.LoadingFrameComplete += OnWebControlLoadingFrameComplete;
             _webControl.ShowCreatedWebView += OnWebControlShowCreatedWebView;
             _webControl.DocumentReady += OnWebControlDocumentReady;
             _webControl.ConsoleMessage += OnConsoleMessage;
@@ -193,6 +203,10 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnWebControlDocumentReady(object sender, UrlEventArgs e) {
+            using (JSObject interop = _webControl.CreateGlobalJavascriptObject("external")) {
+                interop.Bind("onLinkClicked", false, OnLinkClicked);
+                interop.Bind("onContentLoaded", false, OnContentLoaded);
+            }
             using (JSObject interop = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia")) {
                 interop.Invoke("init");
             }
@@ -202,24 +216,9 @@ namespace Crystalbyte.Paranoia.UI {
             Debug.WriteLine("JavaScript:{0}:{1}:{2}", e.LineNumber, e.Source, e.Message);
         }
 
-        private void OnWebControlLoadingFrameComplete(object sender, UrlEventArgs e) {
-            var webControl = sender as WebControl;
-
-            if (webControl != null) {
-                InitializeEditor(webControl);
-            }
-        }
-
         #endregion
 
         #region Methods
-
-        private void InitializeEditor(IWebView webcontrol) {
-            using (JSObject interop = webcontrol.CreateGlobalJavascriptObject("external")) {
-                interop.Bind("onLinkClicked", false, OnLinkClicked);
-                interop.Bind("onContentLoaded", false, OnContentLoaded);
-            }
-        }
 
         private void OnContentLoaded(object sender, JavascriptMethodEventArgs e) {
             var html = e.Arguments.Length > 0 && e.Arguments[0].IsString ? e.Arguments[0].ToString() : string.Empty;
@@ -249,35 +248,6 @@ namespace Crystalbyte.Paranoia.UI {
 
         private static void OnWebControlShowCreatedWebView(object sender, ShowCreatedWebViewEventArgs e) {
             e.Cancel = true;
-        }
-
-        public string GetDocument() {
-            return _webControl.HTML;
-        }
-
-        public string GetComposition() {
-            JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
-            using (module) {
-                const string function = "getComposition";
-                return module.Invoke(function);
-            }
-        }
-
-        public void ChangeSignature(string signature) {
-            JSObject module = _webControl.ExecuteJavascriptWithResult("Crystalbyte.Paranoia");
-            using (module) {
-
-                var composition = module.Invoke("getComposition");
-                const string pattern = "<p\\s+id=\"signature\".+?>(?<PART>.*?)</div>";
-
-                var regex = new Regex(pattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
-                var correction = regex.Replace(composition, m => {
-                    var part = m.Groups["PART"].Value;
-                    return m.Value.Replace(part, signature);
-                }, 1);
-
-                module.Invoke("setComposition", correction);
-            }
         }
 
         public void FocusEditor() {

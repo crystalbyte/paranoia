@@ -189,7 +189,7 @@
                         </StackPanel>
                     </Grid>
                     <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ComboBoxItem}}" Value="True">
+                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ComboBoxItem}, FallbackValue=False, TargetNullValue=False}" Value="True">
                             <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
                         </DataTrigger>
                     </DataTemplate.Triggers>
@@ -337,7 +337,7 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <controls:HtmlEditor x:Name="HtmlControl"
+        <controls:HtmlEditor x:Name="HtmlEditor"
                              Grid.Row="4"
                              Grid.Column="0"
                              Grid.ColumnSpan="4"
@@ -348,8 +348,6 @@
                              BorderThickness="0"
                              Drop="DropHtmlControl"
                              Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
-                             Initialized="OnHtmlControlInitialized"
-                             IsTransparent="True"
                              Source="{Binding Source,
                                               Mode=TwoWay}"
                              TabIndex="3"
