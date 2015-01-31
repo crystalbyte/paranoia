@@ -40,6 +40,7 @@
                            Margin="0,-1,0,0"
                            VerticalAlignment="Center"
                            DataContext="{Binding DataContext}"
+                           WindowChrome.IsHitTestVisibleInChrome="False"
                            d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}">
                     <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}" Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
                     <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text=" - " />
