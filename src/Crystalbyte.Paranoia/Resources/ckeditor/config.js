@@ -16,7 +16,7 @@ CKEDITOR.editorConfig = function (config) {
     ];
 
     config.allowedContent = true;
-    config.extraAllowedContent = 'div[id];p[id];img[!src,alt,width,height];a[!href];table;th;tr;td;*{*}';
+    config.extraAllowedContent = 'div[id];p[id];hr;img[!src,alt,width,height];a[!href];table;th;tr;td;*{*}';
 
     config.removePlugins = 'magicline,elementspath,contextmenu';
 

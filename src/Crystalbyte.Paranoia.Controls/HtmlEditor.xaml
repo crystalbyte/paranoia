@@ -51,6 +51,7 @@
                                                 AdjustToDpi="{TemplateBinding AdjustToDpi}"
                                                 Background="{TemplateBinding Background}"
                                                 BorderThickness="0"
+                                                Focusable="False"
                                                 IsTabStop="False"
                                                 IsTransparent="{TemplateBinding IsTransparent}"
                                                 Padding="0"
@@ -60,7 +61,6 @@
                                                                  RelativeSource={RelativeSource TemplatedParent},
                                                                  Converter={StaticResource UrlConverter}}"
                                                 UseLayoutRounding="{TemplateBinding UseLayoutRounding}"
-                                                ViewType="Offscreen"
                                                 WebSession="{TemplateBinding WebSession}"
                                                 Zoom="{Binding Zoom,
                                                                RelativeSource={RelativeSource TemplatedParent},

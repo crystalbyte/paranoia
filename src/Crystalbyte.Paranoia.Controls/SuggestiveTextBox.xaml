@@ -51,6 +51,7 @@
                                               IsHitTestVisible="False"
                                               Visibility="Collapsed" />
                             <Popup x:Name="PART_Popup"
+                                   MinHeight="0"
                                    MaxHeight="300"
                                    HorizontalOffset="-1"
                                    IsOpen="False"
@@ -62,15 +63,17 @@
                                 <Border Background="{TemplateBinding BorderBrush}">
                                     <ListView x:Name="PART_ItemsHost"
                                               MinWidth="300"
+                                              MinHeight="0"
                                               Margin="1"
                                               Background="{x:Static SystemColors.ControlBrush}"
                                               BorderThickness="0"
-                                              Focusable="False"
                                               ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
                                               ItemsPanel="{TemplateBinding ItemsPanel}"
                                               ItemsSource="{TemplateBinding ItemsSource}"
-                                              KeyboardNavigation.DirectionalNavigation="Contained" />
+                                              KeyboardNavigation.ControlTabNavigation="None"
+                                              KeyboardNavigation.DirectionalNavigation="Contained"
+                                              KeyboardNavigation.TabNavigation="None" />
                                 </Border>
                             </Popup>
                         </Grid>

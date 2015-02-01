@@ -178,11 +178,23 @@ namespace Crystalbyte.Paranoia.UI {
         protected override void OnPreviewKeyDown(KeyEventArgs e) {
             base.OnPreviewKeyDown(e);
 
-            if (e.Key != Key.V || (Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.Control)
-                return;
+            switch (e.Key) {
+                case Key.Tab:
+                    if ((Keyboard.Modifiers & ModifierKeys.Shift) != ModifierKeys.Shift)
+                        return;
 
-            e.Handled = true;
-            PasteFromClipboard();
+                    var request = new TraversalRequest(FocusNavigationDirection.Previous);
+                    MoveFocus(request);
+                    e.Handled = true;
+                    return;
+                case Key.V:
+                    if ((Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.Control)
+                        return;
+
+                    PasteFromClipboard();
+                    e.Handled = true;
+                    return;
+            }
         }
 
         public override void OnApplyTemplate() {

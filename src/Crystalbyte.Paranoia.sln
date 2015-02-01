@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(solution)", "(solution)", 
 	ProjectSection(SolutionItems) = preProject
 		Crystalbyte.Paranoia.vsmdi = Crystalbyte.Paranoia.vsmdi
 		key.debug.snk = key.debug.snk
+		licenses.txt = licenses.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(tests)", "(tests)", "{8DEACA7E-BA38-4B1E-A2A7-D5A0A3E0577F}"
