@@ -40,7 +40,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
                 _part.Save(new FileInfo(tempPath +  fileName));
                 var process = new Process { StartInfo = new ProcessStartInfo(tempPath + fileName) };
                 process.Start();
-                process.Exited += (sender, e) => File.Delete(fileName);
+                process.Exited += (sender, e) => File.Delete(tempPath + fileName);
             } catch (Exception ex) {
                 MessageBox.Show("something went wrong\n" + ex);
             }
