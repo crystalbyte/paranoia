@@ -31,15 +31,16 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         public void Execute(object parameter) {
             try {
                 var tempPath = Path.GetTempPath();
-                const int a = 1;
+                var a = 1;
                 var fileName = _part.FileName;
                 while (File.Exists(tempPath + fileName)) {
                     fileName = _part.FileName.Insert(_part.FileName.LastIndexOf(".", StringComparison.Ordinal) - 1, string.Format("{0}", a));
+                    a++;
                 }
-                _part.Save(new FileInfo(fileName));
-                var process = new Process {StartInfo = new ProcessStartInfo(fileName)};
+                _part.Save(new FileInfo(tempPath +  fileName));
+                var process = new Process { StartInfo = new ProcessStartInfo(tempPath + fileName) };
                 process.Start();
-                process.Exited += (sender, e) => File.Delete(fileName);
+                process.Exited += (sender, e) => File.Delete(tempPath + fileName);
             } catch (Exception ex) {
                 MessageBox.Show("something went wrong\n" + ex);
             }
