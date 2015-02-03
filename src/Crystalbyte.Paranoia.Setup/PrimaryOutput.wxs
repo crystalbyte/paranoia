@@ -62,6 +62,9 @@
             <Component Id="cmp8506BD21D7316A06F717149D4B582890" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil69EFB7CAC9450047A6C6F7A137F5A63F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-30.log" />
             </Component>
+            <Component Id="cmpD87A51A52C004234D131035D620354DD" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil39699564E658086B4534E46E59EB492A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-01-31.log" />
+            </Component>
             <Component Id="cmp306EE5D296E8EE9C2477DD6B5BE29679" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filBA1D15C235226A98F70413A296554D31" KeyPath="yes" Source="$(var.PrimaryOutputDir)\64 orgAnice Oktober 2014 Zeiten - Sheet1.pdf" />
             </Component>
@@ -73,6 +76,9 @@
             </Component>
             <Component Id="cmp91CA3875C12ED483FBE43FEE2E22FC4B" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filC2CB1E6148BC20F3613B30E09AB25FBC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Android-Figure.pdf" />
+            </Component>
+            <Component Id="cmp39D23BE5EB17B021B181FE66EB34B11F" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filD2C02FB7220AFAA8BF7BF68BEF92A508" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Angebot_BMW_1er-Reihe_Alexander.pdf" />
             </Component>
             <Component Id="cmpE5A4F54321410AD6F3A102C27DC925A0" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil5BE4A91B06944365DA75B12F37BE22C4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\August2011.zip" />
@@ -239,6 +245,9 @@
             <Component Id="cmpED7128ED33A9C942FB92937984862AF0" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil3ACBBDBC6A798AC11F2FC5188B77DD4B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Regeneris Text.pdf" />
             </Component>
+            <Component Id="cmpFECE155558A21FD41FF4F6EC17125F9C" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filC905BE26A7530544EC870A4DE66FE909" KeyPath="yes" Source="$(var.PrimaryOutputDir)\RG150174469329.pdf" />
+            </Component>
             <Component Id="cmp4AA2166B754242EED74C0DCA76AAAF08" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filACE07E8FA21C2E3D99581ADD4B6E5051" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ruderboot.jpg" />
             </Component>
@@ -283,6 +292,9 @@
             </Component>
             <Component Id="cmp4052638A844527DC3B55F0E2908236C2" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil7F057AABBD2378CA8CF21CDAB66DE25E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ueb04.pdf" />
+            </Component>
+            <Component Id="cmpC6D21B3F321D6A8E57AD5D38EA6621F3" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil20A6C43818E166DFE803B84B71F497FF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Virtual Camera Module.docx" />
             </Component>
             <Component Id="cmp9357CF9265775A8634976D9803788046" Directory="dir54BA5EE92CB8F37BEFA5CE0F7976ACAB" Guid="*">
                 <File Id="fil56AB3EF44EE958B3641FEEE0CBB7BF57" KeyPath="yes" Source="$(var.PrimaryOutputDir)\de\Microsoft.Expression.Interactions.resources.dll" />
