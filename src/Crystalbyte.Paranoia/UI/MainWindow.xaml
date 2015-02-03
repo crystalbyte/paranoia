@@ -23,6 +23,7 @@
     <controls:MetroWindow.Resources>
         <!--  ReSharper disable once Xaml.RedundantResource  -->
         <Storyboard x:Key="FlyoutSlideInStoryboard">
+
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FlyoutOverlay" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1">
@@ -31,6 +32,7 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
+
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Flyout" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="100" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
@@ -70,6 +72,7 @@
         </Storyboard>
         <!--  ReSharper disable once Xaml.RedundantResource  -->
         <Storyboard x:Key="FlyoutSlideOutStoryboard">
+
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FlyoutOverlay" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="1" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
@@ -78,6 +81,7 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
+
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Flyout" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="100">

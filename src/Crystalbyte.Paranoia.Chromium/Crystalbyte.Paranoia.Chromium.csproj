@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1081BA38-A5AE-4BA3-8222-6283AB225CAC}</ProjectGuid>
+    <ProjectGuid>{71F6920B-537B-4287-969B-488D0EFF5CFE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Crystalbyte.Paranoia.Automation</RootNamespace>
-    <AssemblyName>Crystalbyte.Paranoia.Automation</AssemblyName>
+    <RootNamespace>Crystalbyte.Paranoia</RootNamespace>
+    <AssemblyName>Crystalbyte.Paranoia.Chromium</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Crystalbyte.Paranoia.Automation")]
+[assembly: AssemblyTitle("Crystalbyte.Paranoia.Chromium")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Crystalbyte.Paranoia.Automation")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyProduct("Crystalbyte.Paranoia.Chromium")]
+[assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b1c62274-ca7e-4b40-9cae-3935e38ee4d5")]
+[assembly: Guid("72c4f1c8-13db-49b0-a71e-bf276d3b4874")]
 
 // Version information for an assembly consists of the following four values:
 //
