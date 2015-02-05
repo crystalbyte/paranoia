@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia", "Crystalbyte.Paranoia\Crystalbyte.Paranoia.csproj", "{A0762E18-FAC3-4624-8B65-9D1AF8E4F366}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C} = {6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C}
+		{23EE5140-2C2C-4B53-A954-10B08DCA6BD6} = {23EE5140-2C2C-4B53-A954-10B08DCA6BD6}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Cryptography", "Crystalbyte.Paranoia.Cryptography\Crystalbyte.Paranoia.Cryptography.csproj", "{FC115AED-C02E-45A6-80EB-711A1CCF14E3}"
 EndProject
