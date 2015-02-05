@@ -1033,21 +1033,23 @@
             <Border Grid.Row="3" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid>
                     <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <controls:HtmlViewer x:Name="MessageViewer"
-                                             Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                                             BorderThickness="0"
-                                             DataContext="{Binding DataContext,
-                                                                   RelativeSource={RelativeSource FindAncestor,
-                                                                                                  AncestorType=Page}}"
-                                             KeyboardNavigation.DirectionalNavigation="None"
-                                             KeyboardNavigation.TabNavigation="Once"
-                                             SnapsToDevicePixels="True"
-                                             Source="{Binding Source,
-                                                              Mode=OneWay}"
-                                             WebSession="{Binding Source={StaticResource InspectionWebSessionProvider}}"
-                                             Zoom="{Binding Zoom,
-                                                            Mode=TwoWay}"
-                                             d:IsHidden="True" />
+                        <!--
+                            <controls:HtmlViewer x:Name="MessageViewer"
+                            Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                            BorderThickness="0"
+                            DataContext="{Binding DataContext,
+                            RelativeSource={RelativeSource FindAncestor,
+                            AncestorType=Page}}"
+                            KeyboardNavigation.DirectionalNavigation="None"
+                            KeyboardNavigation.TabNavigation="Once"
+                            SnapsToDevicePixels="True"
+                            Source="{Binding Source,
+                            Mode=OneWay}"
+                            WebSession="{Binding Source={StaticResource InspectionWebSessionProvider}}"
+                            Zoom="{Binding Zoom,
+                            Mode=TwoWay}"
+                            d:IsHidden="True" />
+                        -->
                     </Grid>
                     <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                         <TextBlock Margin="24,12"

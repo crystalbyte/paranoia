@@ -191,11 +191,11 @@ namespace Crystalbyte.Paranoia {
                     if (!long.TryParse(arguments["messageId"], out incommingMessageId))
                         continue;
 
-                    var bytes = ResourceInterceptor.GetAttachmentBytes(incommingCid, incommingMessageId);
+                    //var bytes = ResourceInterceptor.GetAttachmentBytes(incommingCid, incommingMessageId);
 
-                    name = "image.jpg";
-                    var stream = new MemoryStream(bytes);
-                    attachment = new Attachment(stream, name) { ContentId = (name + "@" + Guid.NewGuid()).Replace(" ", "") };
+                    //name = "image.jpg";
+                    //var stream = new MemoryStream(bytes);
+                    //attachment = new Attachment(stream, name) { ContentId = (name + "@" + Guid.NewGuid()).Replace(" ", "") };
 
                 } else {
                     var uri = new Uri(result, UriKind.RelativeOrAbsolute);
@@ -206,8 +206,8 @@ namespace Crystalbyte.Paranoia {
                     attachment = new Attachment(result) { ContentId = (name + "@" + Guid.NewGuid()).Replace(" ", "") };
                 }
 
-                message.Attachments.Add(attachment);
-                body = body.Replace(match.Value, string.Format("src=\"cid:{0}\"", attachment.ContentId));
+                //message.Attachments.Add(attachment);
+                //body = body.Replace(match.Value, string.Format("src=\"cid:{0}\"", attachment.ContentId));
             }
             message.Body = body;
 

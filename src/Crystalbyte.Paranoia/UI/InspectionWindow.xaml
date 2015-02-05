@@ -277,8 +277,6 @@
             </ListView.ItemsPanel>
         </ListView>
         <ui:BlockNoticeControl Grid.Row="5" DataContext="{Binding Message}" />
-        <Grid Grid.Row="6">
-            <controls:HtmlViewer x:Name="HtmlControl" WebSession="{Binding Source={StaticResource InspectionWebSessionProvider}}" />
-        </Grid>
+        <Grid Grid.Row="6" />
     </Grid>
 </controls:MetroWindow>

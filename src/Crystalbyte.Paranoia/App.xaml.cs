@@ -18,7 +18,6 @@ using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
-using Awesomium.Core;
 using Crystalbyte.Paranoia.Automation;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
@@ -28,7 +27,6 @@ using Crystalbyte.Paranoia.Themes;
 using Crystalbyte.Paranoia.UI;
 using dotless.Core;
 using NLog;
-using LogLevel = Awesomium.Core.LogLevel;
 using WinApp = System.Windows.Application;
 
 #endregion
@@ -146,7 +144,6 @@ namespace Crystalbyte.Paranoia {
             InitEnvironment();
 
             InitSodium();
-            InitAwesomium();
             Compose();
 
             InitThemes();
@@ -290,9 +287,6 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 StopComServer();
-                // Make sure we shutdown the core last.
-                if (WebCore.IsInitialized)
-                    WebCore.Shutdown();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -300,23 +294,6 @@ namespace Crystalbyte.Paranoia {
 
         private void StopComServer() {
             _server.Stop();
-        }
-
-        private static void InitAwesomium() {
-            WebCore.Initialized += (sender, e) => {
-                WebCore.ResourceInterceptor = new ResourceInterceptor();
-            };
-
-            // Initialization must be performed here,
-            // before creating a WebControl.
-            if (!WebCore.IsInitialized) {
-                WebCore.Initialize(new WebConfig {
-                    RemoteDebuggingPort = 1337,
-                    HomeURL = "http://www.awesomium.com".ToUri(),
-                    LogLevel = LogLevel.None,
-                    ReduceMemoryUsageOnNavigation = true
-                });
-            }
         }
 
         private static void InitSodium() {

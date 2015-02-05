@@ -83,65 +83,11 @@
             <Component Id="cmpE5A4F54321410AD6F3A102C27DC925A0" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil5BE4A91B06944365DA75B12F37BE22C4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\August2011.zip" />
             </Component>
-            <Component Id="cmpC7FA0FE66C82FC68FBA7A45637E933DD" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil62F2EE0A0866FB99BE482EA476064795" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Controls.dll" />
-            </Component>
-            <Component Id="cmp7CC70A1DC1EDC2581D9FB390472C8B0F" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil76C84EFB3C7D36192289C466194D9002" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Controls.pdb" />
-            </Component>
-            <Component Id="cmpBB93EC7A80C665380BF238282CF969BE" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil086907777BDE65F42395C67BDD45DC69" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Cryptography.dll" />
-            </Component>
-            <Component Id="cmp962F1DE72C2C4F34E9AECA4680998120" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil93305EB011E57E903730FC429D935C8B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Cryptography.pdb" />
-            </Component>
-            <Component Id="cmpBD7513EEA2009883AED6E5FBE93BA65D" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil9C80EC486A251408956DF0C78E0AAD7F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Mail.dll" />
-            </Component>
-            <Component Id="cmpC678B373DB999D8A04A410FBADB2E617" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filD6CECB9D541DF660C6B52BE71E7F7452" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Mail.pdb" />
-            </Component>
-            <Component Id="cmpCB46C91EF8E794EBD3EC74AD9FAC5A5C" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil0722AE60E3F0C13CEFE1B88F44E120DA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Themes.Dark.dll" />
-            </Component>
-            <Component Id="cmpC181CBAAD9D556FD23A29E390B5E35CF" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filEB384DD984D7B4F74930DEA8B6783033" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Themes.Dark.pdb" />
-            </Component>
-            <Component Id="cmpED7A81F05BBE06C336DE3E4C82988465" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil0250A7E3124EDDBA8D775149901A5F61" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Themes.dll" />
-            </Component>
-            <Component Id="cmp99CF09E9544AC50F578A0BE814E9DE25" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filECA54D14922D660E7A383BC5D7019C19" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Themes.Light.dll" />
-            </Component>
-            <Component Id="cmp87BA8A8893CD0407EDD55380B6EA474B" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filE5D242D754B35E1EE0CCD649392B000B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Themes.Light.pdb" />
-            </Component>
-            <Component Id="cmpEB750E22F6770BF906BD9869BD9577A7" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil5577BD44FCFB97FA4FB8320D6F31CCD9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Themes.pdb" />
-            </Component>
             <Component Id="cmpB8C81CB399A45DF0500C8CCC806D6725" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil37C5426C17BC78E76755A859E2263541" KeyPath="yes" Source="$(var.PrimaryOutputDir)\debug.log" />
             </Component>
             <Component Id="cmp31F8B0BEE7AE8F615C0C5C6F25FAE03D" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filBBDD63756359C554B6C663A8FAC468AD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\deckblatt.txt" />
-            </Component>
-            <Component Id="cmp9D745C95D55B544704D037E3A86C7CBF" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filD7E76EEE7754513246C4E95A16F017C3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\dotless.ClientOnly.dll" />
-            </Component>
-            <Component Id="cmp28D78D3D3EDE8BBE8C77853A690F1257" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil81A1C88C5B58D25765FD0E3C6BE12982" KeyPath="yes" Source="$(var.PrimaryOutputDir)\EntityFramework.dll" />
-            </Component>
-            <Component Id="cmp1103AA312B68FAC6F34A8BB8288C2C04" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil8AE4AAC0688FDA0E06A2A9619271BC35" KeyPath="yes" Source="$(var.PrimaryOutputDir)\EntityFramework.SqlServer.dll" />
-            </Component>
-            <Component Id="cmp399ED9264B10FDAAF97C6F536348AD50" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filD71EE51CD85B5F0EE28FA499FE15DF27" KeyPath="yes" Source="$(var.PrimaryOutputDir)\HtmlAgilityPack.dll" />
-            </Component>
-            <Component Id="cmpAE791216F77EC2FA091A40EEA559FA1A" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filC9EB24024D78C595B3E3CEEA41D47FDC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\HtmlAgilityPack.pdb" />
-            </Component>
-            <Component Id="cmpE0F06842E433B60025DB252C4DC6675F" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil8CABAF38149D4F4EAAF26380801D77FC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Ionic.Zip.dll" />
             </Component>
             <Component Id="cmp6297F41AB610710079AF16DE7615B557" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filE0B8A94E2ACEC5EE8B52BCC00A2330CE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\klinika.jpg" />
@@ -209,15 +155,6 @@
             <Component Id="cmpCCF262A093EA3F20DF82648D66B5A25B" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filC2CE7FFC3C1922FADEEC2D0BA0CEFC16" KeyPath="yes" Source="$(var.PrimaryOutputDir)\MeineRechnungenAXA.pdf" />
             </Component>
-            <Component Id="cmp649A934A37C7F0DC8ADD84104468D6A4" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil62BDEBE76BBED1680D2C2094E12135B0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Microsoft.Expression.Interactions.dll" />
-            </Component>
-            <Component Id="cmp4CDF7DFD2D0E95016925C6786A10C503" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil58078AD85E0073F162CFFABD8ECDFD92" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Newtonsoft.Json.dll" />
-            </Component>
-            <Component Id="cmp459428455A80F4974712A2D278241949" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filDE9AFB8C595C5CEE318048C2DF9057E3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\NLog.dll" />
-            </Component>
             <Component Id="cmpF8B2D7C55ABA083E1162B7754E429D33" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil1340559E401FE268EA56CE2B338EAB2D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\P1020368.JPG" />
             </Component>
@@ -229,15 +166,6 @@
             </Component>
             <Component Id="cmp4BB207AE6F97AAB74E7E45F60ABA6B75" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil9C40643F550A98257B2262F1235EC023" KeyPath="yes" Source="$(var.PrimaryOutputDir)\P1030608.JPG" />
-            </Component>
-            <Component Id="cmpB5ED5B54A64B18CFC9AED6049D88B6F0" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filE900DD48767027E051CFFCB9D9C7A3CC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.exe" />
-            </Component>
-            <Component Id="cmpB885E49E4D133B5B606107BA7E6CB6F5" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filBF1302F9FCD3CF2DFEBEBFA01C577BEE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.exe.config" />
-            </Component>
-            <Component Id="cmp6AD55DB8C684C408AC22C2EADEC4E91D" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filFABF4F9712DA42F63DAA3F49139A7C08" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.pdb" />
             </Component>
             <Component Id="cmp56B87C4DFC69D84E8DF8CFDDF21E6B72" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil050D327E1531DD452AECA6E385F4772C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\price_list_invimed_2011.pdf" />
@@ -254,92 +182,35 @@
             <Component Id="cmp0200318B13E15D0CF17ED0C557E899D4" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil9B18C20A08E0CFE06F9690BBBFB9B9EE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\stemo.zip" />
             </Component>
-            <Component Id="cmp08C9093CA92AB322A1FD8643A8F8E9EB" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filB33C2F6608DD31FAE45B7C0513E7632E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Composition.AttributedModel.dll" />
-            </Component>
-            <Component Id="cmp49E372B22951B5E48D55A8DD783DEE88" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filF7A7609BF8421E2213649C79F776276A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Composition.Convention.dll" />
-            </Component>
-            <Component Id="cmp1FD1C2C30BF88DF39BAEADB1AE14AB73" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filCAE288DE6B8BA15301D9C5F23284974A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Composition.Hosting.dll" />
-            </Component>
-            <Component Id="cmp33DA02285050EFAD1D6C2A7F1428BE30" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil20812D98E5454961271F1084D6EFF359" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Composition.Runtime.dll" />
-            </Component>
-            <Component Id="cmpAD06BE106EC3FC9F4A4C7AC6235C5041" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filD78DD23CA05595AAF0DFB3200A4D0E81" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Composition.TypedParts.dll" />
-            </Component>
-            <Component Id="cmp33DDCE7B2996684CFA7779F51FF1104A" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil1277955C3601D1C08A41C9F079AF106E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Data.SQLite.dll" />
-            </Component>
-            <Component Id="cmp460047426D08DAAB7C367AC6EAC43D26" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="filF803BE0DE9AC57C25B6F093CB4986677" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Data.SQLite.EF6.dll" />
-            </Component>
-            <Component Id="cmp13BED6C8EA8EEFC7EF027B2E79746FB8" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil5AE9F32DBAC80F00D244393269E902C8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Reactive.Core.dll" />
-            </Component>
-            <Component Id="cmp303E138DD2E109F2479CC653D35C23DA" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil0762921B4958C454B144BAB407B8BA0B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Reactive.Interfaces.dll" />
-            </Component>
-            <Component Id="cmpD58C4EFB05F48CEF996489444B6621EC" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil00A0F696DCDA0A4C068A6A0190A3432F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Reactive.Linq.dll" />
-            </Component>
-            <Component Id="cmpBFDEC9A912747DEBFFC51AC7D52EBFA6" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil5C577E849B6220E1351ABB58A1511B4B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Reactive.PlatformServices.dll" />
-            </Component>
-            <Component Id="cmpB314FFA141B7D8435C1BFC5F2F9E2A85" Directory="APPLICATIONFOLDER" Guid="*">
-                <File Id="fil9FA7B6CCFDF3A2FAAC66357E8928EE7A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Windows.Interactivity.dll" />
-            </Component>
             <Component Id="cmp4052638A844527DC3B55F0E2908236C2" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil7F057AABBD2378CA8CF21CDAB66DE25E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ueb04.pdf" />
             </Component>
             <Component Id="cmpC6D21B3F321D6A8E57AD5D38EA6621F3" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil20A6C43818E166DFE803B84B71F497FF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Virtual Camera Module.docx" />
             </Component>
-            <Component Id="cmp9357CF9265775A8634976D9803788046" Directory="dir54BA5EE92CB8F37BEFA5CE0F7976ACAB" Guid="*">
-                <File Id="fil56AB3EF44EE958B3641FEEE0CBB7BF57" KeyPath="yes" Source="$(var.PrimaryOutputDir)\de\Microsoft.Expression.Interactions.resources.dll" />
+            <Component Id="cmpE07E66C5E17A58D8910960EE3CE90E2F" Directory="dir54BA5EE92CB8F37BEFA5CE0F7976ACAB" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmp78AEA08F8BF076F506BFBE6DFCCB6392" Directory="dir54BA5EE92CB8F37BEFA5CE0F7976ACAB" Guid="*">
-                <File Id="fil0CC841226C20AEEE2C4604BA72243881" KeyPath="yes" Source="$(var.PrimaryOutputDir)\de\System.Windows.Interactivity.resources.dll" />
+            <Component Id="cmpBBD9D3FF07BE35AC5241A701D3F86F99" Directory="dirDE139F2B8E4F53C7894010653FA4ACF5" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmpDE7786F62EB057484A4254ED01017E77" Directory="dirDE139F2B8E4F53C7894010653FA4ACF5" Guid="*">
-                <File Id="filCA3C1BA5DE7A943594ACA3778A225EC4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\de-DE\Paranoia.resources.dll" />
+            <Component Id="cmpF704D9257C45FB1EBCC5466290DDDEB2" Directory="dir3A20458C1B036229CDF551BF6D0E04E0" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmp1447D32BB20674B72E09ED512A13513F" Directory="dir3A20458C1B036229CDF551BF6D0E04E0" Guid="*">
-                <File Id="fil58E4C61E9C9736A71AE92B4800ACBE5D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\en\Microsoft.Expression.Interactions.resources.dll" />
+            <Component Id="cmpCD3061B942953E18E7D595A0204D331A" Directory="dir64D71989966D3C995252DD5EAD72204A" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmpF5337AF2748D9A317751361439D8D017" Directory="dir3A20458C1B036229CDF551BF6D0E04E0" Guid="*">
-                <File Id="filFEDEE2539EFB34FB9F339504599BE46E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\en\System.Windows.Interactivity.resources.dll" />
+            <Component Id="cmpE7419AE588D6ABB85E801918A7DAA143" Directory="dir7ABA76C83D0AFCE97CD348E8219F4CE1" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmpAC873B8D84D4B4163FB904971717B13B" Directory="dir64D71989966D3C995252DD5EAD72204A" Guid="*">
-                <File Id="fil0542B316E214C1750D719E4CC52498E9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\es\Microsoft.Expression.Interactions.resources.dll" />
+            <Component Id="cmp1FAFAA287E3FBD564ECB0EC205E53979" Directory="dirA1C9D6EE90DA7B3D513AC1CA7D72F253" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmpEBFAF4581D60EC1F1B23476A77DC699B" Directory="dir64D71989966D3C995252DD5EAD72204A" Guid="*">
-                <File Id="filF71625D19421038D87EB9B4968837AFE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\es\System.Windows.Interactivity.resources.dll" />
+            <Component Id="cmpF9AD36EEB48C91D8E8E8B09C8A6C3D40" Directory="dir250D607B4E859FD3B153389E856E9245" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmp90ED9FB08C4179628E1607D951457857" Directory="dir7ABA76C83D0AFCE97CD348E8219F4CE1" Guid="*">
-                <File Id="fil773CBE740421CB3AA88825A71C535CC4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\fr\Microsoft.Expression.Interactions.resources.dll" />
-            </Component>
-            <Component Id="cmp27B4C0B0F575433C63580F068FC44000" Directory="dir7ABA76C83D0AFCE97CD348E8219F4CE1" Guid="*">
-                <File Id="fil970859F6267AF5B3E5BE70595AF0D935" KeyPath="yes" Source="$(var.PrimaryOutputDir)\fr\System.Windows.Interactivity.resources.dll" />
-            </Component>
-            <Component Id="cmp6F7C56DFE81F4CB4EBD08119D0027132" Directory="dirA1C9D6EE90DA7B3D513AC1CA7D72F253" Guid="*">
-                <File Id="fil90459531777A1892244F7618AD90268C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\it\Microsoft.Expression.Interactions.resources.dll" />
-            </Component>
-            <Component Id="cmpFF6F54C131F4C248E56E80B27D552436" Directory="dirA1C9D6EE90DA7B3D513AC1CA7D72F253" Guid="*">
-                <File Id="fil7A3890B7A014AD89F8B332687CF1E2AA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\it\System.Windows.Interactivity.resources.dll" />
-            </Component>
-            <Component Id="cmpBCD42986932CF874AD5821F6E39B27FC" Directory="dir250D607B4E859FD3B153389E856E9245" Guid="*">
-                <File Id="filF691B6AD9D9DBEFE8AEFE3EE127CF77B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ja\Microsoft.Expression.Interactions.resources.dll" />
-            </Component>
-            <Component Id="cmp2A4FC60946899B628C042BED17D01F13" Directory="dir250D607B4E859FD3B153389E856E9245" Guid="*">
-                <File Id="filBC2DE0A9CDA93C440160B12912DD4044" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ja\System.Windows.Interactivity.resources.dll" />
-            </Component>
-            <Component Id="cmp4256492A31BF2FB5483DA2E50B6A2FAA" Directory="dir68BD67567308D790DAE3C9405A87DE04" Guid="*">
-                <File Id="fil79BD7A5D0E0B6AC178B066726860C974" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ko\Microsoft.Expression.Interactions.resources.dll" />
-            </Component>
-            <Component Id="cmpDC8BA138108ADF6A904C10AF05C39557" Directory="dir68BD67567308D790DAE3C9405A87DE04" Guid="*">
-                <File Id="fil0935AF9875B0958D044B790E8F6662E9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ko\System.Windows.Interactivity.resources.dll" />
+            <Component Id="cmp7839E28462BAC6A4B478780F1D23FC54" Directory="dir68BD67567308D790DAE3C9405A87DE04" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
             <Component Id="cmpAC7B0490D4585CD6CAA3F1544485B82A" Directory="dirBC4E40FE1FF2212778A0ED81CF5923CE" Guid="*">
                 <File Id="fil271FD5918575F4E151DEEBD1835C68A3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\ckeditor\build-config.js" />
@@ -1070,41 +941,20 @@
             <Component Id="cmp08393A7A3245BAF602A5BC57B1E63B9F" Directory="dir36FF6BE765C5563845DD23A3F855A9F3" Guid="*">
                 <File Id="fil4144493902F143DBFEAD231A7523C47E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Resources\jquery\jquery-2.1.1.min.js" />
             </Component>
-            <Component Id="cmpC3992B974F68C88F60DB1D38A79F37E7" Directory="dir113445E6F89EECCCAD68A52BB70F8EF9" Guid="*">
-                <File Id="fil8F81C254B1B14C7697C9D1F68E1A3A06" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ru\Microsoft.Expression.Interactions.resources.dll" />
+            <Component Id="cmp75F0EEFF7079152C64C9AB7A45667335" Directory="dir113445E6F89EECCCAD68A52BB70F8EF9" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmpFE12B33C3ECB84200BA15D1D5EF2020B" Directory="dir113445E6F89EECCCAD68A52BB70F8EF9" Guid="*">
-                <File Id="fil07E5F4F859FC0E3D29B2F0F6A02162F0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ru\System.Windows.Interactivity.resources.dll" />
+            <Component Id="cmp0B5FDE9F0BA28E0A14E1F5358F1DE285" Directory="dir4F5F83E0389A812227380377C68B5898" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmp7B0870617F483B8427A60D3C7D063B07" Directory="dir4F5F83E0389A812227380377C68B5898" Guid="*">
-                <File Id="fil174C2091985754C145BEDF1E6BB934FE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\x64\libsodium.dll" />
+            <Component Id="cmpED12BB9D933BA8D5783582D4E4F733D5" Directory="dir0FCD9E4FEBB52846A30839CE1976306B" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmp9E6175CA3999C2D25135EDB664866D46" Directory="dir4F5F83E0389A812227380377C68B5898" Guid="*">
-                <File Id="filC0D4573AF4D68AC3E86CB310AB16B661" KeyPath="yes" Source="$(var.PrimaryOutputDir)\x64\libsodium.pdb" />
+            <Component Id="cmpD6482BB417B7E4E86A7B62AA9176EA38" Directory="dirD8D18BE0CBE3A171A18753A5B5985BB4" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
-            <Component Id="cmp3F33B9A829C593B4E23F58320C9D418F" Directory="dir4F5F83E0389A812227380377C68B5898" Guid="*">
-                <File Id="fil427BA3158997A772456417D40059F48D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\x64\SQLite.Interop.dll" />
-            </Component>
-            <Component Id="cmpDE0752AAD516C55AC121AA19F981840A" Directory="dir0FCD9E4FEBB52846A30839CE1976306B" Guid="*">
-                <File Id="filAEA872A0EB59DBE078DBBB3D9475DDE9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\x86\libsodium.dll" />
-            </Component>
-            <Component Id="cmpC5B3CCEA486C0333338713F7A7528FA0" Directory="dir0FCD9E4FEBB52846A30839CE1976306B" Guid="*">
-                <File Id="fil2645D356349FFD90A9CA295537BEB3D4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\x86\libsodium.pdb" />
-            </Component>
-            <Component Id="cmp04A2EB52269EB2B2ED3AD11D145EA61F" Directory="dir0FCD9E4FEBB52846A30839CE1976306B" Guid="*">
-                <File Id="fil6231896B0CC2C61965B19F857E567082" KeyPath="yes" Source="$(var.PrimaryOutputDir)\x86\SQLite.Interop.dll" />
-            </Component>
-            <Component Id="cmp5120643303F8CC54025E27D5008808F7" Directory="dirD8D18BE0CBE3A171A18753A5B5985BB4" Guid="*">
-                <File Id="fil922AE6B76E78EA5A28D7FDA9C3229AED" KeyPath="yes" Source="$(var.PrimaryOutputDir)\zh-Hans\Microsoft.Expression.Interactions.resources.dll" />
-            </Component>
-            <Component Id="cmpDAF1C30F0F3B27B096E97E38CF8345BF" Directory="dirD8D18BE0CBE3A171A18753A5B5985BB4" Guid="*">
-                <File Id="fil0072B9AE983E8769E41D99BBC24C09F4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\zh-Hans\System.Windows.Interactivity.resources.dll" />
-            </Component>
-            <Component Id="cmp11A645D213819B28F8E352A8978E3064" Directory="dir0A56E1DCE96682D4EA5091E415D1089C" Guid="*">
-                <File Id="fil807B7549C152C8E8072F4C620355990D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\zh-Hant\Microsoft.Expression.Interactions.resources.dll" />
-            </Component>
-            <Component Id="cmpD5512E7FEA616B3E9564B9DBCF486A68" Directory="dir0A56E1DCE96682D4EA5091E415D1089C" Guid="*">
-                <File Id="filC8C78402C32DB10639B16C59DFB79165" KeyPath="yes" Source="$(var.PrimaryOutputDir)\zh-Hant\System.Windows.Interactivity.resources.dll" />
+            <Component Id="cmpCAF799F00CF18598EF8B59B120AA366C" Directory="dir0A56E1DCE96682D4EA5091E415D1089C" Guid="*" KeyPath="yes">
+                <CreateFolder />
             </Component>
         </ComponentGroup>
     </Fragment>

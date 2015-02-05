@@ -1,9 +1,7 @@
 ﻿<Application x:Class="Crystalbyte.Paranoia.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:awe="http://schemas.awesomium.com/winfx"
              xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
-             xmlns:core="clr-namespace:Awesomium.Core;assembly=Awesomium.Core"
              xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
              xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
              xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
@@ -55,28 +53,6 @@
             <converters:BooleanToBrushConverter x:Key="SubscribedAndSelectableForegroundConverter"
                                                 BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
                                                 BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
-
-            <awe:WebSessionProvider x:Key="CompositionWebSessionProvider" DataPath="{x:Null}">
-                <awe:WebSessionProvider.DataSources>
-                    <paranoia:ParanoiaDataSourceProvider x:Key="paranoia" />
-                </awe:WebSessionProvider.DataSources>
-                <core:WebPreferences CustomCSS="{x:Static paranoia:App.CompositionCss}"
-                                     DefaultEncoding="utf-8"
-                                     EnableGPUAcceleration="True"
-                                     Javascript="True"
-                                     SmoothScrolling="True" />
-            </awe:WebSessionProvider>
-
-            <awe:WebSessionProvider x:Key="InspectionWebSessionProvider" DataPath="{x:Null}">
-                <awe:WebSessionProvider.DataSources>
-                    <paranoia:ParanoiaDataSourceProvider x:Key="paranoia" />
-                </awe:WebSessionProvider.DataSources>
-                <core:WebPreferences CustomCSS="{x:Static paranoia:App.InspectionCss}"
-                                     DefaultEncoding="utf-8"
-                                     EnableGPUAcceleration="True"
-                                     Javascript="True"
-                                     SmoothScrolling="True" />
-            </awe:WebSessionProvider>
 
             <DataTemplate x:Key="ThumbnailTemplate" DataType="paranoia:AttachmentContext">
                 <Border Padding="0,3">

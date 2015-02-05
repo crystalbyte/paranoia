@@ -3,36 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Awesomium.Core;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.UI {
     internal static class CollectionExtensions {
-        public static IEnumerable<JSValue> ToJsValues(this IEnumerable<object> source) {
-            foreach (var item in source) {
-                if (item is int) {
-                    yield return new JSValue((int)item);
-                    continue;
-                }
-
-                if (item is bool) {
-                    yield return new JSValue((bool)item);
-                    continue;
-                }
-
-                if (item is double) {
-                    yield return new JSValue((double)item);
-                    continue;
-                }
-
-                var s = item as string;
-                if (s == null) 
-                    throw new InvalidOperationException();
-
-                yield return new JSValue(s);
-            }
-        }
 
         public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source, int count) {
             return source

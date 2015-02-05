@@ -32,9 +32,10 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>bd700f3b</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -69,14 +70,6 @@
     <StartupObject>Crystalbyte.Paranoia.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Awesomium.Core, Version=1.7.4.2, Culture=neutral, PublicKeyToken=e1a0d7c8071a5214, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\externals\awesomium\Awesomium.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Awesomium.Windows.Controls, Version=1.7.4.2, Culture=neutral, PublicKeyToken=7a34e179b8b61c39, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\externals\awesomium\Awesomium.Windows.Controls.dll</HintPath>
-    </Reference>
     <Reference Include="dotless.ClientOnly">
       <HintPath>..\packages\DotlessClientOnly.1.4.1.0\lib\dotless.ClientOnly.dll</HintPath>
     </Reference>
@@ -249,14 +242,10 @@
     <Compile Include="ImapEnvelopeExtensions.cs" />
     <Compile Include="IMessageSource.cs" />
     <Compile Include="ParanoiaHeaderKeys.cs" />
-    <Compile Include="Net\AddressKeyPair.cs" />
-    <Compile Include="Net\ChallengeResponse.cs" />
-    <Compile Include="Net\KeyCollection.cs" />
     <Compile Include="UI\NotificationWindow.xaml.cs">
       <DependentUpon>NotificationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ClientConfig.cs" />
-    <Compile Include="ResourceInterceptor.cs" />
     <Compile Include="RevisionTracker.cs" />
     <Compile Include="SecurityMeasure.cs" />
     <Compile Include="UI\Commands\AddAttachmentCommand.cs" />
@@ -298,8 +287,6 @@
     <Compile Include="UI\MessagesPage.xaml.cs">
       <DependentUpon>MessagesPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ParanoiaDataSource.cs" />
-    <Compile Include="ParanoiaDataSourceProvider.cs" />
     <Compile Include="UI\INavigationAware.cs" />
     <Compile Include="UI\RoutedCommands\SignatureCommands.cs" />
     <Compile Include="UI\RoutedCommands\WindowCommands.cs" />
@@ -694,8 +681,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /s /y "$(ProjectDir)Resources\jquery\*" "$(TargetDir)Resources\jquery\"
-xcopy /s /y "$(ProjectDir)Resources\ckeditor\*" "$(TargetDir)Resources\ckeditor\"
+    <PostBuildEvent>REM xcopy /s /y "$(ProjectDir)Resources\jquery\*" "$(TargetDir)Resources\jquery\"
+REM xcopy /s /y "$(ProjectDir)Resources\ckeditor\*" "$(TargetDir)Resources\ckeditor\"
 
 REM regasm.exe "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>

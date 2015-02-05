@@ -40,8 +40,8 @@ namespace Crystalbyte.Paranoia.UI {
             context.DocumentTextRequested += OnDocumentTextRequested;
             context.Finished += OnFinished;
 
-            HtmlEditor.ScriptingFailure += OnEditorScriptingFailure;
-            HtmlEditor.EditorContentLoaded += OnEditorContentLoaded;
+            //HtmlEditor.ScriptingFailure += OnEditorScriptingFailure;
+            //HtmlEditor.EditorContentLoaded += OnEditorContentLoaded;
             DataContext = context;
         }
 
@@ -82,7 +82,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnDocumentTextRequested(object sender, DocumentTextRequestedEventArgs e) {
-            e.Document = HtmlEditor.Composition;
+            //e.Document = HtmlEditor.Composition;
         }
 
         private async void Reset() {
@@ -272,10 +272,11 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async Task ChangeSignatureAsync() {
-            if (!HtmlEditor.IsDocumentReady) {
-                return;
-            }
+            //if (!HtmlEditor.IsDocumentReady) {
+            //    return;
+            //}
 
+            return;
             var context = (MailCompositionContext)DataContext;
             var path = context.SelectedAccount.SignaturePath;
 
@@ -288,15 +289,15 @@ namespace Crystalbyte.Paranoia.UI {
                 signature = await Task.Run(() => File.ReadAllText(path, Encoding.UTF8));    
             }
 
-            var composition = HtmlEditor.Composition;
-            var document = new HtmlDocument();
-            document.LoadHtml(composition);
+            //var composition = HtmlEditor.Composition;
+            //var document = new HtmlDocument();
+            //document.LoadHtml(composition);
 
-            var node = document.DocumentNode.SelectSingleNode("//div[@id='signature']");
-            node.RemoveAllChildren();
-            node.InnerHtml = signature;
+            //var node = document.DocumentNode.SelectSingleNode("//div[@id='signature']");
+            //node.RemoveAllChildren();
+            //node.InnerHtml = signature;
 
-            HtmlEditor.Composition = document.DocumentNode.WriteTo();
+            //HtmlEditor.Composition = document.DocumentNode.WriteTo();
         }
 
         private async void OnAccountSelectionChanged(object sender, SelectionChangedEventArgs e) {
