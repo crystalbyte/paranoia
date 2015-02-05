@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using Awesomium.Core;
 using Crystalbyte.Paranoia.UI;
 using System.ComponentModel;
 
@@ -12,11 +11,11 @@ namespace Crystalbyte.Paranoia.Sandbox {
         public MainWindow() {
             // Initialization must be performed here,
             // before creating a WebControl.
-            if (!WebCore.IsInitialized) {
-                WebCore.Initialize(new WebConfig {
-                    HomeURL = "http://www.awesomium.com".ToUri(),
-                });
-            }
+            //if (!WebCore.IsInitialized) {
+            //    WebCore.Initialize(new WebConfig {
+            //        HomeURL = "http://www.awesomium.com".ToUri(),
+            //    });
+            //}
 
             InitializeComponent();
             if (DesignerProperties.GetIsInDesignMode(this)) {
