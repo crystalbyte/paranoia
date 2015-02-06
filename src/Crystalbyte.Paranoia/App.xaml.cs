@@ -7,6 +7,7 @@ using System.Composition;
 using System.Composition.Hosting;
 using System.Configuration;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -18,6 +19,7 @@ using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
+using CefSharp;
 using Crystalbyte.Paranoia.Automation;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
@@ -141,14 +143,14 @@ namespace Crystalbyte.Paranoia {
                 RunFirstStartProcedure();
             }
 
-            InitEnvironment();
-
-            InitSodium();
             Compose();
 
+            InitEnvironment();
+            InitSodium();
+            InitChromium();
             InitThemes();
+            
             StartComServer();
-
             ProcessCommandLine();
 #if DEBUG
             using (var database = new DatabaseContext()) {
@@ -290,6 +292,20 @@ namespace Crystalbyte.Paranoia {
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
+        }
+
+        private static void InitChromium() {
+            var settings = new CefSettings {
+                Locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName
+            };
+
+            settings.RegisterScheme(new CefCustomScheme {
+                SchemeName = "store",
+                IsStandard = true,
+                SchemeHandlerFactory = new AssetSchemeHandlerFactory()
+            });
+
+            Cef.Initialize(settings);
         }
 
         private void StopComServer() {

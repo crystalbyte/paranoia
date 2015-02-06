@@ -199,6 +199,11 @@
     <Compile Include="Automation\IApplication.cs" />
     <Compile Include="Automation\IClassFactory.cs" />
     <Compile Include="Automation\IComServer.cs" />
+    <Compile Include="AssetSchemeHandler.cs" />
+    <Compile Include="AssetSchemeHandlerFactory.cs" />
+    <Compile Include="UI\HtmlViewer.xaml.cs">
+      <DependentUpon>HtmlViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\ItemSelectionRequestedEventArgs.cs" />
     <Compile Include="Data\KeyPairModel.cs" />
     <Compile Include="Data\MailMessageModelExtensions.cs" />
@@ -319,6 +324,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\AppSettingsFlyoutPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -334,6 +343,10 @@
     <Page Include="UI\CompositionWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\HtmlViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\InspectionWindow.xaml">
       <SubType>Designer</SubType>

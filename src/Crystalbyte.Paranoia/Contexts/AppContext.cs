@@ -785,12 +785,12 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task ViewMessageAsync(MailMessageContext message) {
-            Source = string.Format("asset://paranoia/message/{0}", message.Id);
+            Source = string.Format("asset://message/{0}", message.Id);
             await DisplayAttachmentAsync(message);
         }
 
         private async Task ViewUnblockedMessageAsync(MailMessageContext message) {
-            Source = string.Format("asset://paranoia/message/{0}?blockExternals=false", message.Id);
+            Source = string.Format("asset://message/{0}?blockExternals=false", message.Id);
             await DisplayAttachmentAsync(message);
         }
 
