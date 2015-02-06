@@ -300,7 +300,7 @@ namespace Crystalbyte.Paranoia {
             };
 
             settings.RegisterScheme(new CefCustomScheme {
-                SchemeName = "store",
+                SchemeName = "asset",
                 IsStandard = true,
                 SchemeHandlerFactory = new AssetSchemeHandlerFactory()
             });

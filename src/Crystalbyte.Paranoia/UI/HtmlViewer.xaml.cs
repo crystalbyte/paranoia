@@ -39,15 +39,15 @@ namespace Crystalbyte.Paranoia.UI {
 
             _browser = (ChromiumWebBrowser)Template.FindName(WebBrowserTemplatePart, this);
             _browser.BrowserSettings = new BrowserSettings {
-                ApplicationCacheDisabled = true,
-                JavaDisabled = true,
-                WebSecurityDisabled = true,
-                WebGlDisabled = true,
-                UniversalAccessFromFileUrlsAllowed = false,
-                PluginsDisabled = true,
-                JavaScriptOpenWindowsDisabled = true,
-                JavaScriptCloseWindowsDisabled = true,
-                JavascriptDisabled = true
+                //ApplicationCacheDisabled = true,
+                //JavaDisabled = true,
+                //WebSecurityDisabled = true,
+                //WebGlDisabled = true,
+                //UniversalAccessFromFileUrlsAllowed = false,
+                //PluginsDisabled = true,
+                //JavaScriptOpenWindowsDisabled = true,
+                //JavaScriptCloseWindowsDisabled = true,
+                //JavascriptDisabled = true
             };
         }
 
