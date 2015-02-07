@@ -114,7 +114,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void ComposeResourceResponse(ISchemeHandlerResponse response, byte[] bytes, string mimeType) {
+        private static void ComposeResourceResponse(ISchemeHandlerResponse response, byte[] bytes, string mimeType) {
             response.MimeType = mimeType;
             response.ContentLength = bytes.Length;
             response.ResponseStream = new MemoryStream(bytes);
