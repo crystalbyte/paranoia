@@ -82,11 +82,56 @@ namespace Crystalbyte.Paranoia {
                     return true;
                 }
 
+                if (Regex.IsMatch(request.Url, "image/?")) {
+                    Task.Run(() => {
+                        ComposeCidImageResponse(request, response);
+                        requestCompletedCallback();
+                    });
+                    return true;
+                }
+
                 return false;
             } catch (Exception ex) {
                 Logger.Error(ex);
                 return false;
             }
+        }
+
+        private void ComposeCidImageResponse(IRequest request, ISchemeHandlerResponse response) {
+            var arguments = request.Url.ToPageArguments();
+
+            long messageId;
+            if (arguments.ContainsKey("messageId") && long.TryParse(arguments["messageId"], out messageId)) {
+                if (arguments.ContainsKey("cid")) {
+
+                    var attachment = GetAttachmentBytes(arguments["cid"], messageId);
+                    if (attachment != null) {
+                        ComposeResourceResponse(response, attachment, "image");
+                    }
+                }
+            }
+        }
+
+        private void ComposeResourceResponse(ISchemeHandlerResponse response, byte[] bytes, string mimeType) {
+            response.MimeType = mimeType;
+            response.ContentLength = bytes.Length;
+            response.ResponseStream = new MemoryStream(bytes);
+        }
+
+        private static byte[] GetAttachmentBytes(string cid, long messageId) {
+            using (var database = new DatabaseContext()) {
+                var message = database.MimeMessages.FirstOrDefault(x => x.MessageId == messageId);
+
+                if (message != null) {
+                    var reader = new MailMessageReader(message.Data);
+                    var attachments = reader.FindAllAttachments();
+                    var attachment = attachments.FirstOrDefault(x => x.ContentId == Uri.UnescapeDataString(cid));
+                    if (attachment != null)
+                        return attachment.Body;
+                }
+            }
+
+            return null;
         }
 
         private static void ComposeCompositionResponse(IRequest request, ISchemeHandlerResponse response) {
@@ -452,7 +497,6 @@ namespace Crystalbyte.Paranoia {
 
         private static void ComposeHtmlResponse(ISchemeHandlerResponse response, byte[] bytes) {
             response.MimeType = "text/html";
-            response.StatusCode = 200;
             response.ContentLength = bytes.Length;
             response.ResponseStream = new MemoryStream(bytes);
         }
