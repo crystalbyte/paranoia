@@ -1,7 +1,6 @@
 ﻿<Page x:Class="Crystalbyte.Paranoia.UI.MessagesPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
       xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
       xmlns:controls="clr-namespace:Crystalbyte.Paranoia.UI;assembly=Crystalbyte.Paranoia.Controls"
       xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
@@ -925,10 +924,12 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Border Grid.Row="0"
+                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}"
                     Padding="0,0,0,6"
-                    Visibility="{Binding IsOutboxSelected,
+                    Visibility="{Binding IsMessageOrSmtpRequestSelected,
                                          Converter={StaticResource BooleanToVisibilityConverter},
-                                         ConverterParameter=!}">
+                                         FallbackValue={x:Static Visibility.Collapsed},
+                                         TargetNullValue={x:Static Visibility.Collapsed}}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
@@ -942,7 +943,7 @@
                     <TextBlock Grid.Row="0"
                                Grid.Column="0"
                                Grid.ColumnSpan="2"
-                               Margin="6,6,6,3"
+                               Margin="12,6,6,3"
                                DataContext="{Binding SelectedMessage}"
                                FontSize="22"
                                Style="{DynamicResource TitleTextStyle}"
@@ -953,7 +954,7 @@
                                TextWrapping="NoWrap" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
-                               Margin="6,0,6,0"
+                               Margin="12,0,6,0"
                                DataContext="{Binding SelectedMessage}"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                FontWeight="Normal"
@@ -992,7 +993,7 @@
                     </StackPanel>
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
-                               Margin="6,0"
+                               Margin="12,0"
                                DataContext="{Binding SelectedMessage}"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
                                FontWeight="Normal"
@@ -1031,38 +1032,36 @@
                 </ListView.ItemsPanel>
             </ListView>
             <ui:BlockNoticeControl Grid.Row="2" DataContext="{Binding SelectedMessage}" />
-            <Border Grid.Row="3" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid>
-                    <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <ui:HtmlViewer x:Name="MessageViewer"
-                                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                                       BorderThickness="0"
-                                       DataContext="{Binding DataContext,
-                                                             RelativeSource={RelativeSource FindAncestor,
-                                                                                            AncestorType=Page}}"
-                                       KeyboardNavigation.DirectionalNavigation="None"
-                                       KeyboardNavigation.TabNavigation="Once"
-                                       SnapsToDevicePixels="True"
-                                       Source="{Binding Source,
-                                                        Mode=OneWay}"
-                                       Zoom="{Binding Zoom,
-                                                      Mode=TwoWay}"
-                                       d:IsHidden="True" />
-                    </Grid>
-                    <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                        <TextBlock Margin="24,12"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Bottom">
-                            <Run FontSize="48"
-                                 FontWeight="Thin"
-                                 Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                                 Text="{Binding ProgressChanged}" /><Run Text=" " /><Run FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
-                                 FontWeight="Thin"
-                                 Text="%" />
-                        </TextBlock>
-                    </Grid>
+            <Grid Grid.Row="3" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <ui:HtmlViewer x:Name="MessageViewer"
+                                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                                   BorderThickness="0"
+                                   DataContext="{Binding DataContext,
+                                                         RelativeSource={RelativeSource FindAncestor,
+                                                                                        AncestorType=Page}}"
+                                   KeyboardNavigation.DirectionalNavigation="None"
+                                   KeyboardNavigation.TabNavigation="Once"
+                                   SnapsToDevicePixels="True"
+                                   Source="{Binding Source,
+                                                    Mode=OneWay}"
+                                   Zoom="{Binding Zoom,
+                                                  Mode=TwoWay}"
+                                   d:IsHidden="True" />
                 </Grid>
-            </Border>
+                <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                    <TextBlock Margin="24,12"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Bottom">
+                        <Run FontSize="48"
+                             FontWeight="Thin"
+                             Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                             Text="{Binding ProgressChanged}" /><Run Text=" " /><Run FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
+                             FontWeight="Thin"
+                             Text="%" />
+                    </TextBlock>
+                </Grid>
+            </Grid>
         </Grid>
     </Grid>
 </Page>

@@ -1,7 +1,6 @@
 ﻿#region Using directives
 
 using System;
-using System.ComponentModel;
 using System.Data.Entity;
 using System.Composition;
 using System.Composition.Hosting;
@@ -13,7 +12,6 @@ using System.Linq;
 using System.Net;
 using System.Security.AccessControl;
 using System.Security.Principal;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
@@ -25,7 +23,6 @@ using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.Themes;
 using Crystalbyte.Paranoia.UI;
-using dotless.Core;
 using NLog;
 using WinApp = System.Windows.Application;
 
@@ -60,14 +57,6 @@ namespace Crystalbyte.Paranoia {
 
         internal static CompositionHost Composition { get; private set; }
 
-        public static string InspectionCss {
-            get { return GetCssResource("/Resources/html.inspection.less"); }
-        }
-
-        public static string CompositionCss {
-            get { return GetCssResource("/Resources/html.composition.less"); }
-        }
-
         #endregion
 
         private static void RunFirstStartProcedure() {
@@ -76,40 +65,6 @@ namespace Crystalbyte.Paranoia {
 
             Settings.Default.IsFirstStart = false;
             Settings.Default.Save();
-        }
-
-        public static string GetCssResource(string path) {
-            if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
-                return "body {}";
-            }
-
-            var uri = new Uri(path, UriKind.Relative);
-            var info = GetResourceStream(uri);
-            if (info == null) {
-                var error = string.Format(Paranoia.Properties.Resources.ResourceNotFoundException, uri, typeof(App).Assembly.FullName);
-                throw new Exception(error);
-            }
-
-            string less;
-            const string pattern = "%.+?%";
-            using (var reader = new StreamReader(info.Stream)) {
-                var text = reader.ReadToEnd();
-                less = Regex.Replace(text, pattern, m => {
-                    var key = m.Value.Trim('%');
-                    var dictionary =
-                        Current.Resources.MergedDictionaries.FirstOrDefault(
-                            x => x.Contains(key)) ?? Current.Resources;
-
-                    var resource = dictionary[key];
-                    if (resource is SolidColorBrush) {
-                        return string.Format("#{0}", (resource as SolidColorBrush).Color.ToString().Substring(3));
-                    }
-
-                    return resource != null ? resource.ToString() : "fuchsia";
-                });
-            }
-
-            return Less.Parse(less);
         }
 
 #if DEBUG

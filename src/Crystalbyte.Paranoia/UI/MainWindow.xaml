@@ -477,7 +477,7 @@
                         IsTabStop="False"
                         LargeChange="25.0"
                         Maximum="400.0"
-                        Minimum="100.0"
+                        Minimum="50"
                         SmallChange="5.0"
                         TickPlacement="None"
                         Value="{Binding Zoom,

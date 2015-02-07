@@ -7,10 +7,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using CefSharp;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
+using dotless.Core;
 using HtmlAgilityPack;
 using NLog;
 
@@ -164,8 +166,6 @@ namespace Crystalbyte.Paranoia {
             ComposeHtmlResponse(response, b);
         }
 
-
-
         private static string RemoveJavaScript(string content) {
             const string pattern = "<script.+?>.*?</script>|<script.+?/>";
             return Regex.Replace(content, pattern, string.Empty, RegexOptions.Singleline | RegexOptions.IgnoreCase);
@@ -303,6 +303,12 @@ namespace Crystalbyte.Paranoia {
                 document.DocumentNode.AppendChild(html);
             }
 
+            // Find first existing style tag.
+            var style = document.DocumentNode.SelectSingleNode("//head/style");
+
+            // In order to minmize visual issues a wellformed document must be present.
+            // The document should contain exactly one head and one body.
+            // The base style sheet must be placed inside the head as the fist style element.
             var body = document.DocumentNode.SelectSingleNode("//body");
             var head = document.DocumentNode.SelectSingleNode("//head");
             if (head == null) {
@@ -349,6 +355,7 @@ namespace Crystalbyte.Paranoia {
             const string httpEquiv = "http-equiv";
             const string contentType = "content-type";
 
+            // Check for any existing charset settings.
             var nodes = document.DocumentNode.SelectNodes("//head/meta");
             var metaCharsetNode = nodes == null
                 ? null
@@ -384,9 +391,15 @@ namespace Crystalbyte.Paranoia {
                 metaCharsetNode.Remove();
             }
 
+            // Add CSS base style.
+            var css = GetCssResource("/Resources/html.inspection.less");
+            var node = document.CreateTextNode(css);
+            var baseStyle = document.CreateElement("style");
+            baseStyle.AppendChild(node);
+            head.InsertBefore(baseStyle, style);
+
             // Add UTF-8 charset meta tag.
             var meta = document.CreateElement("meta");
-
             meta.Attributes.Add(charset, "utf-8");
             head.AppendChild(meta);
             return document.DocumentNode.WriteTo();
@@ -401,8 +414,7 @@ namespace Crystalbyte.Paranoia {
             }
 
             var wrapper = info.Stream.ToUtf8String();
-            var values = new Dictionary<string, string>
-            {
+            var values = new Dictionary<string, string> {
                 {"content", plain},
                 {"subject", subject},
             };
@@ -411,6 +423,36 @@ namespace Crystalbyte.Paranoia {
                 var key = m.Value.Trim('%');
                 return values[key];
             });
+        }
+
+        public static string GetCssResource(string path) {
+            var uri = new Uri(path, UriKind.Relative);
+            var info = Application.GetResourceStream(uri);
+            if (info == null) {
+                var error = string.Format(Resources.ResourceNotFoundException, uri, typeof(App).Assembly.FullName);
+                throw new Exception(error);
+            }
+
+            string less;
+            const string pattern = "%.+?%";
+            using (var reader = new StreamReader(info.Stream)) {
+                var text = reader.ReadToEnd();
+                less = Regex.Replace(text, pattern, m => {
+                    var key = m.Value.Trim('%');
+                    var dictionary =
+                        Application.Current.Resources.MergedDictionaries.FirstOrDefault(
+                            x => x.Contains(key)) ?? Application.Current.Resources;
+
+                    var resource = dictionary[key];
+                    if (resource is SolidColorBrush) {
+                        return string.Format("#{0}", (resource as SolidColorBrush).Color.ToString().Substring(3));
+                    }
+
+                    return resource != null ? resource.ToString() : "fuchsia";
+                });
+            }
+
+            return Less.Parse(less);
         }
 
         private static string ConvertEmbeddedSources(string html, FileSystemInfo info) {

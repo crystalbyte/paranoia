@@ -19,7 +19,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Construction
 
-        public HtmlViewer() {
+        static HtmlViewer() {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(HtmlViewer),
                 new FrameworkPropertyMetadata(typeof(HtmlViewer)));
         }
@@ -44,6 +44,7 @@ namespace Crystalbyte.Paranoia.UI {
                 WebSecurityDisabled = true,
                 WebGlDisabled = true,
                 UniversalAccessFromFileUrlsAllowed = true,
+                FileAccessFromFileUrlsAllowed = true,
                 PluginsDisabled = true,
                 JavaScriptOpenWindowsDisabled = true,
                 JavaScriptCloseWindowsDisabled = true,
@@ -86,7 +87,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private static void OnZoomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var viewer = (HtmlViewer)d;
-            var change = (double) e.NewValue/100.0d - 1;
+            var change = (double) e.NewValue/100.0d;
             viewer.ChangeZoom(change);
         }
 
@@ -95,7 +96,7 @@ namespace Crystalbyte.Paranoia.UI {
         #region Methods
 
         private void ChangeZoom(double level) {
-            if (_browser == null) {
+            if (_browser == null || _browser.WebBrowser == null) {
                 return;
             }
 
@@ -104,7 +105,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void Navigate(Uri uri) {
-            if (_browser == null) {
+            if (_browser == null || _browser.WebBrowser == null) {
                 return;
             }
 
