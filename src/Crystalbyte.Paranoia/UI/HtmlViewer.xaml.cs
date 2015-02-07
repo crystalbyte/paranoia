@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using CefSharp;
@@ -39,6 +40,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             _browser = (ChromiumWebBrowser)Template.FindName(WebBrowserTemplatePart, this);
             _browser.BrowserSettings = new BrowserSettings {
+                DefaultEncoding = Encoding.UTF8.WebName,
                 ApplicationCacheDisabled = true,
                 JavaDisabled = true,
                 WebSecurityDisabled = true,

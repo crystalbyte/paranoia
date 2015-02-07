@@ -12,7 +12,7 @@ namespace Crystalbyte.Paranoia.UI.Converters {
         #region Implementation of IValueConverter
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            var i = (float) value;
+            var i = ((float) value) + 100;
             return string.Format("{0:F0}%", i);
         }
 

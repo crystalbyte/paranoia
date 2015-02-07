@@ -88,7 +88,7 @@ namespace Crystalbyte.Paranoia {
             _markAsNotSeenCommand = new MarkAsNotSeenCommand(this);
             _deleteContactsCommand = new DeleteContactsCommand(this);
             _createAccountCommand = new RelayCommand(OnCreateAccount);
-            _resetZoomCommand = new RelayCommand(p => Zoom = 100.0f);
+            _resetZoomCommand = new RelayCommand(p => Zoom = 0.0f);
             _unblockContactsCommand = new UnblockContactsCommand(this);
             _markAsFlaggedCommand = new MarkAsFlaggedCommand(this);
             _markAsNotFlaggedCommand = new MarkAsNotFlaggedCommand(this);
@@ -128,7 +128,7 @@ namespace Crystalbyte.Paranoia {
             _contacts = new ObservableCollection<MailContactContext>();
             _contacts.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Contacts);
 
-            _zoom = 100.0f;
+            _zoom = 0.0f;
             _showAllMessages = true;
         }
 
