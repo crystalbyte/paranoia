@@ -44,8 +44,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Sandbo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(debug)", "(debug)", "{E6967EB9-26AB-4396-89B7-1C8629CD3A1A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(cef)", "(cef)", "{6B50257B-75BD-4655-9A3A-1A2EF2175316}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

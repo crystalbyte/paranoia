@@ -16,8 +16,6 @@ using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
-using System.Windows.Automation;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 using CefSharp;
 using Crystalbyte.Paranoia.Automation;
@@ -296,7 +294,7 @@ namespace Crystalbyte.Paranoia {
 
         private static void InitChromium() {
             var settings = new CefSettings {
-                Locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName
+                Locale = CultureInfo.CurrentUICulture.Name,
             };
 
             settings.RegisterScheme(new CefCustomScheme {

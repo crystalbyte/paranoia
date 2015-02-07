@@ -128,7 +128,7 @@ namespace Crystalbyte.Paranoia {
             _contacts = new ObservableCollection<MailContactContext>();
             _contacts.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Contacts);
 
-            _zoom = 1.0f;
+            _zoom = 100.0f;
             _showAllMessages = true;
         }
 

@@ -39,15 +39,15 @@ namespace Crystalbyte.Paranoia.UI {
 
             _browser = (ChromiumWebBrowser)Template.FindName(WebBrowserTemplatePart, this);
             _browser.BrowserSettings = new BrowserSettings {
-                //ApplicationCacheDisabled = true,
-                //JavaDisabled = true,
-                //WebSecurityDisabled = true,
-                //WebGlDisabled = true,
-                //UniversalAccessFromFileUrlsAllowed = false,
-                //PluginsDisabled = true,
-                //JavaScriptOpenWindowsDisabled = true,
-                //JavaScriptCloseWindowsDisabled = true,
-                //JavascriptDisabled = true
+                ApplicationCacheDisabled = true,
+                JavaDisabled = true,
+                WebSecurityDisabled = true,
+                WebGlDisabled = true,
+                UniversalAccessFromFileUrlsAllowed = true,
+                PluginsDisabled = true,
+                JavaScriptOpenWindowsDisabled = true,
+                JavaScriptCloseWindowsDisabled = true,
+                JavascriptDisabled = true
             };
         }
 
@@ -82,11 +82,12 @@ namespace Crystalbyte.Paranoia.UI {
 
         // Using a DependencyProperty as the backing store for Zoom.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ZoomProperty =
-            DependencyProperty.Register("Zoom", typeof(double), typeof(HtmlViewer), new PropertyMetadata(1.0d, OnZoomChanged));
+            DependencyProperty.Register("Zoom", typeof(double), typeof(HtmlViewer), new PropertyMetadata(0.0d, OnZoomChanged));
 
         private static void OnZoomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var viewer = (HtmlViewer)d;
-            viewer.ChangeZoom((double)e.NewValue);
+            var change = (double) e.NewValue/100.0d - 1;
+            viewer.ChangeZoom(change);
         }
 
         #endregion
@@ -98,7 +99,8 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            _browser.WebBrowser.ZoomLevel = level;
+            _browser.ZoomLevel = level;
+            _browser.Reload(false);
         }
 
         private void Navigate(Uri uri) {

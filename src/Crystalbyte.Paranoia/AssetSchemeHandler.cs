@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using CefSharp;
 using Crystalbyte.Paranoia.Data;
@@ -18,7 +19,7 @@ namespace Crystalbyte.Paranoia {
 
         #region Private Fields
 
-        private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -26,36 +27,61 @@ namespace Crystalbyte.Paranoia {
             OnRequestCompletedHandler requestCompletedCallback) {
             try {
                 if (Regex.IsMatch(request.Url, "message/[0-9]+")) {
-                    SendMessageResponse(request, response);
+                    Task.Run(() => {
+                        ComposeMessageResponse(request, response);
+                        requestCompletedCallback();
+                    });
+
                     return true;
                 }
 
                 if (Regex.IsMatch(request.Url, "message/new")) {
-                    SendBlankCompositionResponse(response);
+                    Task.Run(() => {
+                        // Implicitly captured closure is fine.
+                        ComposeBlankCompositionResponse(response);
+                        requestCompletedCallback();
+                    });
+
                     return true;
                 }
 
                 if (Regex.IsMatch(request.Url, "message/reply")) {
-                    SendQuotedCompositionResponse(request, response);
+                    Task.Run(() => {
+                        // Implicitly captured closure is fine.
+                        ComposeQuotedCompositionResponse(request, response);
+                        requestCompletedCallback();
+                    });
+
                     return true;
                 }
 
                 if (Regex.IsMatch(request.Url, "message/forward")) {
-                    SendQuotedCompositionResponse(request, response);
+                    Task.Run(() => {
+                        ComposeQuotedCompositionResponse(request, response);
+                        requestCompletedCallback();
+                    });
+
                     return true;
                 }
 
                 if (Regex.IsMatch(request.Url, "file?path=.+")) {
-                    SendFileCompositionResponse(request, response);
+                    Task.Run(() => {
+                        ComposeFileCompositionResponse(request, response);
+                        requestCompletedCallback();
+                    });
+
                     return true;
                 }
 
                 if (Regex.IsMatch(request.Url, "composition/[0-9]+")) {
-                    SendCompositionResponse(request, response);
+                    Task.Run(() => {
+                        ComposeCompositionResponse(request, response);
+                        requestCompletedCallback();
+                    });
+
                     return true;
                 }
 
-                SendErrorResponse(response, null);
                 return false;
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -63,10 +89,10 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void SendCompositionResponse(IRequest request, ISchemeHandlerResponse response) {
+        private static void ComposeCompositionResponse(IRequest request, ISchemeHandlerResponse response) {
             var uri = new Uri(request.Url);
             var id = long.Parse(uri.LocalPath.Split('/')[1]);
-            
+
             using (var database = new DatabaseContext()) {
                 var smtp = database.SmtpRequests.Find(id);
                 if (smtp == null) {
@@ -74,15 +100,21 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 var bytes = Encoding.UTF8.GetBytes(smtp.Mime);
-                SendHtmlResponse(response, bytes);
+                ComposeHtmlResponse(response, bytes);
             }
         }
 
-        private void SendQuotedCompositionResponse(IRequest request, ISchemeHandlerResponse response) {
-            var variables = new Dictionary<string, string> {
+        private static void ComposeQuotedCompositionResponse(IRequest request, ISchemeHandlerResponse response) {
+            var variables = new Dictionary<string, string>
+            {
                 {"header", string.Empty},
                 {"culture", CultureInfo.CurrentUICulture.TwoLetterISOLanguageName},
-                {"ckeditor_theme", string.Compare(Settings.Default.Theme, "light", StringComparison.InvariantCultureIgnoreCase) == 0 ? "moono" : "moono-dark"}
+                {
+                    "ckeditor_theme",
+                    string.Compare(Settings.Default.Theme, "light", StringComparison.InvariantCultureIgnoreCase) == 0
+                        ? "moono"
+                        : "moono-dark"
+                }
             };
 
             long messageId;
@@ -105,10 +137,10 @@ namespace Crystalbyte.Paranoia {
 
             var html = GenerateEditorHtml(variables);
             var bytes = Encoding.UTF8.GetBytes(html);
-            SendHtmlResponse(response, bytes);
+            ComposeHtmlResponse(response, bytes);
         }
 
-        private void SendFileCompositionResponse(IRequest request, ISchemeHandlerResponse response) {
+        private static void ComposeFileCompositionResponse(IRequest request, ISchemeHandlerResponse response) {
             const string key = "path";
             var uri = new Uri(request.Url);
             var arguments = uri.PathAndQuery.ToPageArguments();
@@ -129,10 +161,10 @@ namespace Crystalbyte.Paranoia {
             text = ConvertEmbeddedSources(text, new FileInfo(path));
 
             var b = Encoding.UTF8.GetBytes(text);
-            SendHtmlResponse(response, b);
+            ComposeHtmlResponse(response, b);
         }
 
-   
+
 
         private static string RemoveJavaScript(string content) {
             const string pattern = "<script.+?>.*?</script>|<script.+?/>";
@@ -160,7 +192,8 @@ namespace Crystalbyte.Paranoia {
             content = Regex.Replace(content, pattern, m => {
                 var resource = m.Groups["URL"].Value;
                 return m.Value.Replace(resource, "");
-            }, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            },
+                RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
             return content;
         }
@@ -177,9 +210,10 @@ namespace Crystalbyte.Paranoia {
             return document.DocumentNode.WriteTo();
         }
 
-        private void SendMessageResponse(IRequest request, ISchemeHandlerResponse response) {
-            var id = long.Parse(request.Url.Split('/')[1]);
+        private static void ComposeMessageResponse(IRequest request, ISchemeHandlerResponse response) {
             var uri = new Uri(request.Url);
+            var id = long.Parse(uri.Segments[1]);
+
             var arguments = uri.PathAndQuery.ToPageArguments();
 
             var mime = GetMessageBytes(id);
@@ -187,7 +221,7 @@ namespace Crystalbyte.Paranoia {
             var text = GetSupportedBody(reader);
 
             if (string.IsNullOrWhiteSpace(text)) {
-                SendHtmlResponse(response, null);
+                ComposeHtmlResponse(response, null);
                 return;
             }
 
@@ -204,20 +238,26 @@ namespace Crystalbyte.Paranoia {
             }
 
             var bytes = Encoding.UTF8.GetBytes(text);
-            SendHtmlResponse(response, bytes);
+            ComposeHtmlResponse(response, bytes);
         }
 
-        private void SendBlankCompositionResponse(ISchemeHandlerResponse response) {
-            var variables = new Dictionary<string, string> {
+        private static void ComposeBlankCompositionResponse(ISchemeHandlerResponse response) {
+            var variables = new Dictionary<string, string>
+            {
                 {"quote", string.Empty},
                 {"header", string.Empty},
                 {"culture", CultureInfo.CurrentUICulture.TwoLetterISOLanguageName},
-                {"ckeditor_theme", string.Compare(Settings.Default.Theme, "light", StringComparison.InvariantCultureIgnoreCase) == 0 ? "moono" : "moono-dark"}
+                {
+                    "ckeditor_theme",
+                    string.Compare(Settings.Default.Theme, "light", StringComparison.InvariantCultureIgnoreCase) == 0
+                        ? "moono"
+                        : "moono-dark"
+                }
             };
 
             var html = GenerateEditorHtml(variables);
             var bytes = Encoding.UTF8.GetBytes(html);
-            SendHtmlResponse(response, bytes);
+            ComposeHtmlResponse(response, bytes);
         }
 
         private static string GenerateEditorHtml(IDictionary<string, string> variables) {
@@ -310,32 +350,34 @@ namespace Crystalbyte.Paranoia {
             const string contentType = "content-type";
 
             var nodes = document.DocumentNode.SelectNodes("//head/meta");
-            var metaCharsetNode = nodes == null ? null : nodes.FirstOrDefault(x => {
-                // Check if any attributes are present.
-                if (!x.HasAttributes) {
+            var metaCharsetNode = nodes == null
+                ? null
+                : nodes.FirstOrDefault(x => {
+                    // Check if any attributes are present.
+                    if (!x.HasAttributes) {
+                        return false;
+                    }
+
+                    // Check if the <meta charset="..."> element is present.
+                    var attribute =
+                        x.Attributes.AttributesWithName(charset)
+                            .FirstOrDefault();
+                    if (attribute != null) {
+                        return true;
+                    }
+
+                    // Check if the <meta http-equiv="content-type" ... > element is present.
+                    attribute =
+                        x.Attributes.AttributesWithName(httpEquiv)
+                            .FirstOrDefault();
+                    if (attribute != null &&
+                        attribute.Value.ContainsIgnoreCase(contentType)) {
+
+                        attribute = x.Attributes.AttributesWithName("content").FirstOrDefault();
+                        return attribute != null;
+                    }
                     return false;
-                }
-
-                // Check if the <meta charset="..."> element is present.
-                var attribute =
-                    x.Attributes.AttributesWithName(charset)
-                        .FirstOrDefault();
-                if (attribute != null) {
-                    return true;
-                }
-
-                // Check if the <meta http-equiv="content-type" ... > element is present.
-                attribute =
-                    x.Attributes.AttributesWithName(httpEquiv)
-                        .FirstOrDefault();
-                if (attribute != null &&
-                    attribute.Value.ContainsIgnoreCase(contentType)) {
-
-                    attribute = x.Attributes.AttributesWithName("content").FirstOrDefault();
-                    return attribute != null;
-                }
-                return false;
-            });
+                });
 
             // Drop previous charset tags, since all bytes have been converted to UTF-8.
             if (metaCharsetNode != null) {
@@ -359,7 +401,8 @@ namespace Crystalbyte.Paranoia {
             }
 
             var wrapper = info.Stream.ToUtf8String();
-            var values = new Dictionary<string, string> {
+            var values = new Dictionary<string, string>
+            {
                 {"content", plain},
                 {"subject", subject},
             };
@@ -375,9 +418,11 @@ namespace Crystalbyte.Paranoia {
             return Regex.Replace(html, pattern, m => {
                 var cid = m.Groups["CID"].Value;
                 var asset = string.Format("asset://image?cid={0}&path={1}",
-                    Uri.EscapeDataString(cid.Split(':')[1]), Uri.EscapeDataString(info.FullName));
+                    Uri.EscapeDataString(cid.Split(':')[1]),
+                    Uri.EscapeDataString(info.FullName));
                 return m.Value.Replace(cid, asset);
-            }, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            },
+                RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
 
         private static string ConvertEmbeddedSources(string html, long id) {
@@ -387,7 +432,8 @@ namespace Crystalbyte.Paranoia {
                 var asset = string.Format("asset://image?cid={0}&messageId={1}",
                     Uri.EscapeDataString(cid.Split(':')[1]), id);
                 return m.Value.Replace(cid, asset);
-            }, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            },
+                RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
 
         private static byte[] GetFileBytes(FileSystemInfo file) {
@@ -404,12 +450,11 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void SendHtmlResponse(ISchemeHandlerResponse response, byte[] bytes) {
-
-        }
-
-        private void SendErrorResponse(ISchemeHandlerResponse response, string message) {
-
+        private static void ComposeHtmlResponse(ISchemeHandlerResponse response, byte[] bytes) {
+            response.MimeType = "text/html";
+            response.StatusCode = 200;
+            response.ContentLength = bytes.Length;
+            response.ResponseStream = new MemoryStream(bytes);
         }
     }
 }
