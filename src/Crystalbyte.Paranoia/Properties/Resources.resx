@@ -631,4 +631,28 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="MissingSignatureTemplate" xml:space="preserve">
     <value>Signature with path '{0}' was not found.</value>
   </data>
+  <data name="CertificateErrorTemplate" xml:space="preserve">
+    <value>The page certificate for domain '{0}' is not valid.</value>
+  </data>
+  <data name="NavigationInfoTemplate" xml:space="preserve">
+    <value>Navigating to '{0}'.</value>
+  </data>
+  <data name="NotSupportedSchemeTemplate" xml:space="preserve">
+    <value>The '{0}' scheme is not supported.</value>
+  </data>
+  <data name="RenderProcessTerminatedTemplate" xml:space="preserve">
+    <value>Render process has terminated with status code '{0}'.</value>
+  </data>
+  <data name="ResourceRequestTemplate" xml:space="preserve">
+    <value>Requesting '{0}'.</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
 </root>

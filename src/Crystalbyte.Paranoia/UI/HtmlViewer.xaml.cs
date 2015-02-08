@@ -2,8 +2,10 @@
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using CefSharp;
 using CefSharp.Wpf;
+using NLog;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
@@ -15,6 +17,7 @@ namespace Crystalbyte.Paranoia.UI {
         #region Xaml Support
 
         private const string WebBrowserTemplatePart = "PART_WebBrowser";
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -23,6 +26,40 @@ namespace Crystalbyte.Paranoia.UI {
         static HtmlViewer() {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(HtmlViewer),
                 new FrameworkPropertyMetadata(typeof(HtmlViewer)));
+        }
+
+        public HtmlViewer() {
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, OnCopy));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.SelectAll, OnSelectAll));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint));
+        }
+
+        private void OnSelectAll(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                _browser.SelectAll();        
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private async void OnPrint(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                var html = await _browser.GetSourceAsync();
+                App.Context.Print(html);
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private void OnCopy(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                _browser.Copy();
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         #endregion
@@ -39,6 +76,7 @@ namespace Crystalbyte.Paranoia.UI {
             base.OnApplyTemplate();
 
             _browser = (ChromiumWebBrowser)Template.FindName(WebBrowserTemplatePart, this);
+            _browser.RequestHandler = new HtmlRequestHandler(this);
             _browser.BrowserSettings = new BrowserSettings {
                 DefaultEncoding = Encoding.UTF8.WebName,
                 ApplicationCacheDisabled = true,

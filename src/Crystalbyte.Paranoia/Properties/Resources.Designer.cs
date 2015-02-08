@@ -277,6 +277,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The page certificate for domain &apos;{0}&apos; is not valid..
+        /// </summary>
+        public static string CertificateErrorTemplate {
+            get {
+                return ResourceManager.GetString("CertificateErrorTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The server challenge headers are missing or corrupt..
         /// </summary>
         public static string ChallengeCorruptException {
@@ -345,6 +354,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Continue {
             get {
                 return ResourceManager.GetString("Continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        public static string Copy {
+            get {
+                return ResourceManager.GetString("Copy", resourceCulture);
             }
         }
         
@@ -419,6 +437,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string CrossThreadException {
             get {
                 return ResourceManager.GetString("CrossThreadException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cut.
+        /// </summary>
+        public static string Cut {
+            get {
+                return ResourceManager.GetString("Cut", resourceCulture);
             }
         }
         
@@ -947,6 +974,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Navigating to &apos;{0}&apos;..
+        /// </summary>
+        public static string NavigationInfoTemplate {
+            get {
+                return ResourceManager.GetString("NavigationInfoTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New.
         /// </summary>
         public static string New {
@@ -1001,6 +1037,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The &apos;{0}&apos; scheme is not supported..
+        /// </summary>
+        public static string NotSupportedSchemeTemplate {
+            get {
+                return ResourceManager.GetString("NotSupportedSchemeTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open.
         /// </summary>
         public static string OpenFile {
@@ -1024,6 +1069,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste.
+        /// </summary>
+        public static string Paste {
+            get {
+                return ResourceManager.GetString("Paste", resourceCulture);
             }
         }
         
@@ -1109,6 +1163,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Render process has terminated with status code &apos;{0}&apos;..
+        /// </summary>
+        public static string RenderProcessTerminatedTemplate {
+            get {
+                return ResourceManager.GetString("RenderProcessTerminatedTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reply.
         /// </summary>
         public static string Reply {
@@ -1141,6 +1204,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string ResourceNotFoundException {
             get {
                 return ResourceManager.GetString("ResourceNotFoundException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requesting &apos;{0}&apos;..
+        /// </summary>
+        public static string ResourceRequestTemplate {
+            get {
+                return ResourceManager.GetString("ResourceRequestTemplate", resourceCulture);
             }
         }
         

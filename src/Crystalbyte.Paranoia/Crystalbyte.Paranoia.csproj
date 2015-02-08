@@ -76,7 +76,7 @@
     <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <ErrorReport>prompt</ErrorReport>
@@ -203,6 +203,7 @@
     <Compile Include="Automation\IComServer.cs" />
     <Compile Include="AssetSchemeHandler.cs" />
     <Compile Include="AssetSchemeHandlerFactory.cs" />
+    <Compile Include="UI\HtmlRequestHandler.cs" />
     <Compile Include="UI\HtmlViewer.xaml.cs">
       <DependentUpon>HtmlViewer.xaml</DependentUpon>
     </Compile>
