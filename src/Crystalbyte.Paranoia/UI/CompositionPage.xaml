@@ -8,6 +8,7 @@
       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
       xmlns:system="clr-namespace:System;assembly=mscorlib"
       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
+      xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="{Binding Subject,
                       Mode=OneWay}"
       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
@@ -341,24 +342,23 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <!--
-            <controls:HtmlEditor x:Name="HtmlEditor"
-            Grid.Row="4"
-            Grid.Column="0"
-            Grid.ColumnSpan="4"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            AllowDrop="True"
-            Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-            BorderThickness="0"
-            Drop="DropHtmlControl"
-            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
-            Source="{Binding Source,
-            Mode=TwoWay}"
-            TabIndex="3"
-            UseLayoutRounding="True"
-            WebSession="{Binding Source={StaticResource CompositionWebSessionProvider}}"
-            d:IsHidden="True" />
-        -->
+
+        <ui:HtmlEditor x:Name="HtmlEditor"
+                       Grid.Row="4"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="4"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch"
+                       AllowDrop="True"
+                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                       BorderThickness="0"
+                       Drop="DropHtmlControl"
+                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
+                       Source="{Binding Source,
+                                        Mode=TwoWay}"
+                       TabIndex="3"
+                       UseLayoutRounding="True"
+                       d:IsHidden="True" />
+
     </Grid>
 </Page>

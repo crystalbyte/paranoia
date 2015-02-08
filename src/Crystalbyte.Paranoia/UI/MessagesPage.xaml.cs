@@ -174,9 +174,8 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        private void OnPrint(object sender, ExecutedRoutedEventArgs e) {
-            //var html = MessageViewer.GetDocument();
-            //App.Context.Print(html);
+        private async void OnPrint(object sender, ExecutedRoutedEventArgs e) {
+            await MessageViewer.PrintAsync();
         }
 
         private void OnCanPrint(object sender, CanExecuteRoutedEventArgs e) {
@@ -185,9 +184,8 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnUnloaded(object sender, RoutedEventArgs e) {
             try {
-                //App.Context.SortOrderChanged -= OnSortOrderChanged;
-                //DataContext = null;
-                //MessageViewer.Dispose();
+                App.Context.SortOrderChanged -= OnSortOrderChanged;
+                DataContext = null;
             } catch (Exception ex) {
                 Logger.Error(ex);
             }

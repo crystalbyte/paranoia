@@ -3,7 +3,6 @@
                     xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                    xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                     mc:Ignorable="d">
     <Style TargetType="ui:HtmlViewer">
@@ -16,9 +15,10 @@
                         <FrameworkElement.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Command="Copy" />
-                                <MenuItem Command="SelectAll" />
                                 <Separator />
                                 <MenuItem Command="Print" />
+                                <Separator />
+                                <MenuItem Command="SelectAll" />
                             </ContextMenu>
                         </FrameworkElement.ContextMenu>
                         <cef:ChromiumWebBrowser x:Name="PART_WebBrowser" />

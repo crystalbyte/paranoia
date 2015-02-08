@@ -1019,21 +1019,6 @@ namespace Crystalbyte.Paranoia {
             window.Show();
         }
 
-        internal void Print(string html) {
-            var browser = new WebBrowser();
-            browser.Navigated += (x, y) => {
-                try {
-                    dynamic document = browser.Document;
-                    document.execCommand("print", true, null);
-                } catch (Exception ex) {
-                    Logger.Error(ex);
-                } finally {
-                    browser.Dispose();
-                }
-            };
-            browser.NavigateToString(html);
-        }
-
         internal void Compose() {
             var owner = Application.Current.MainWindow;
             var window = new CompositionWindow();

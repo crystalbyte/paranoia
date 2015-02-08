@@ -9,14 +9,14 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Private Fields
 
-        private readonly HtmlViewer _viewer;
+        private readonly IRequestAware _viewer;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
         #region Construction
 
-        public HtmlRequestHandler(HtmlViewer viewer) {
+        public HtmlRequestHandler(IRequestAware viewer) {
             _viewer = viewer;
         }
 

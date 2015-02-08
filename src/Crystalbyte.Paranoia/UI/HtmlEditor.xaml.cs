@@ -1,19 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 using CefSharp;
 using CefSharp.Wpf;
 using NLog;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
-    /// Interaction logic for HtmlViewer.xaml
+    /// Interaction logic for HtmlEditor.xaml
     /// </summary>
-    [TemplatePart(Name = WebBrowserTemplatePart, Type = typeof(ChromiumWebBrowser))]
-    public class HtmlViewer : Control, IRequestAware {
+    public class HtmlEditor : Control, IRequestAware {
 
         #region Xaml Support
 
@@ -30,12 +37,12 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Construction
 
-        static HtmlViewer() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(HtmlViewer),
-                new FrameworkPropertyMetadata(typeof(HtmlViewer)));
+        static HtmlEditor() {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(HtmlEditor),
+                new FrameworkPropertyMetadata(typeof(HtmlEditor)));
         }
 
-        public HtmlViewer() {
+        public HtmlEditor() {
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, OnCopy));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.SelectAll, OnSelectAll));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint));
@@ -45,44 +52,16 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Methods
 
-        internal async Task PrintAsync() {
-            var browser = new WebBrowser();
-            browser.Navigated += (x, y) => {
-                try {
-                    dynamic document = browser.Document;
-                    document.execCommand("print", true, null);
-                } catch (Exception ex) {
-                    Logger.Error(ex);
-                } finally {
-                    browser.Dispose();
-                }
-            };
-            var html = await _browser.GetSourceAsync();
-            browser.NavigateToString(html);
+        private void OnCopy(object sender, ExecutedRoutedEventArgs e) {
+            throw new NotImplementedException();
         }
 
         private void OnSelectAll(object sender, ExecutedRoutedEventArgs e) {
-            try {
-                _browser.SelectAll();
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
+            throw new NotImplementedException();
         }
 
-        private async void OnPrint(object sender, ExecutedRoutedEventArgs e) {
-            try {
-                await PrintAsync();
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
-
-        private void OnCopy(object sender, ExecutedRoutedEventArgs e) {
-            try {
-                _browser.Copy();
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
+        private void OnPrint(object sender, ExecutedRoutedEventArgs e) {
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -107,6 +86,8 @@ namespace Crystalbyte.Paranoia.UI {
                 JavaScriptCloseWindowsDisabled = true,
                 JavascriptDisabled = true
             };
+
+            _browser.Load(Source);
         }
 
         #endregion
@@ -120,10 +101,10 @@ namespace Crystalbyte.Paranoia.UI {
 
         // Using a DependencyProperty as the backing store for Source.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.Register("Source", typeof(string), typeof(HtmlViewer), new PropertyMetadata(OnSourcePropertyChanged));
+            DependencyProperty.Register("Source", typeof(string), typeof(HtmlEditor), new PropertyMetadata(OnSourcePropertyChanged));
 
         private static void OnSourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var viewer = (HtmlViewer)d;
+            var viewer = (HtmlEditor)d;
 
             var url = (string)e.NewValue;
             if (string.IsNullOrEmpty(url)) {
@@ -140,11 +121,11 @@ namespace Crystalbyte.Paranoia.UI {
 
         // Using a DependencyProperty as the backing store for Zoom.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ZoomProperty =
-            DependencyProperty.Register("Zoom", typeof(double), typeof(HtmlViewer), new PropertyMetadata(0.0d, OnZoomChanged));
+            DependencyProperty.Register("Zoom", typeof(double), typeof(HtmlEditor), new PropertyMetadata(0.0d, OnZoomChanged));
 
         private static void OnZoomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var viewer = (HtmlViewer)d;
-            var change = (double) e.NewValue/100.0d;
+            var viewer = (HtmlEditor)d;
+            var change = (double)e.NewValue / 100.0d;
             viewer.ChangeZoom(change);
         }
 

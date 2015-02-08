@@ -203,6 +203,10 @@
     <Compile Include="Automation\IComServer.cs" />
     <Compile Include="AssetSchemeHandler.cs" />
     <Compile Include="AssetSchemeHandlerFactory.cs" />
+    <Compile Include="IRequestAware.cs" />
+    <Compile Include="UI\HtmlEditor.xaml.cs">
+      <DependentUpon>HtmlEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\HtmlRequestHandler.cs" />
     <Compile Include="UI\HtmlViewer.xaml.cs">
       <DependentUpon>HtmlViewer.xaml</DependentUpon>
@@ -346,6 +350,10 @@
     <Page Include="UI\CompositionWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\HtmlEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\HtmlViewer.xaml">
       <SubType>Designer</SubType>
