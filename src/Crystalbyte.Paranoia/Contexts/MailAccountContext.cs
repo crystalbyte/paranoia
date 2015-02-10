@@ -29,10 +29,10 @@ namespace Crystalbyte.Paranoia {
         private bool _isTesting;
         private bool _isAutoDetectPreferred;
         private bool _isDetectingSettings;
-        private TestingContext _testing;
         private bool _isSyncingMailboxes;
         private bool _isManagingMailboxes;
         private bool _isMailboxSelectionAvailable;
+        private TestingContext _testing;
 
         private readonly AppContext _appContext;
         private readonly MailAccountModel _account;
@@ -314,9 +314,9 @@ namespace Crystalbyte.Paranoia {
 
             await Task.Run(async () => {
                 try {
+                    Debug.WriteLine("Syncing mailboxes for account '{0}'.", Name);
                     App.Context.StatusText = Resources.SyncMailboxesStatus;
-
-                    Debug.WriteLine("**sync**");
+                    
                     var remoteMailboxes = await ListMailboxesAsync();
                     var subscribed = await ListSubscribedMailboxesAsync();
 

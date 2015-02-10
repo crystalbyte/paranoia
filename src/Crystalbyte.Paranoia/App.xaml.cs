@@ -250,12 +250,31 @@ namespace Crystalbyte.Paranoia {
         private static void InitChromium() {
             var settings = new CefSettings {
                 Locale = CultureInfo.CurrentUICulture.Name,
+                LogFile = "./cef.log"
             };
 
             settings.RegisterScheme(new CefCustomScheme {
-                SchemeName = "asset",
-                IsStandard = true,
-                SchemeHandlerFactory = new AssetSchemeHandlerFactory()
+                SchemeName = "file",
+                IsStandard = false,
+                SchemeHandlerFactory = new SchemeHandlerFactory<FileSchemeHandler>()
+            });
+
+            settings.RegisterScheme(new CefCustomScheme {
+                SchemeName = "message",
+                IsStandard = false,
+                SchemeHandlerFactory = new SchemeHandlerFactory<MessageSchemeHandler>()
+            });
+
+            settings.RegisterScheme(new CefCustomScheme {
+                SchemeName = "resource",
+                IsStandard = false,
+                SchemeHandlerFactory = new SchemeHandlerFactory<ResourceSchemeHandler>()
+            });
+
+            settings.RegisterScheme(new CefCustomScheme {
+                SchemeName = "composition",
+                IsStandard = false,
+                SchemeHandlerFactory = new SchemeHandlerFactory<CompositionSchemeHandler>()
             });
 
             Cef.Initialize(settings);

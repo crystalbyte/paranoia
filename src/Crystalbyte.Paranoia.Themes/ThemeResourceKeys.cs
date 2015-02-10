@@ -22,9 +22,8 @@
         // Window Scope
         public static string WindowBackgroundBrushKey = "WindowBackgroundBrushKey";
         public static string WindowSecondaryBackgroundBrushKey = "WindowSecondaryBackgroundBrushKey";
-        public static string WindowHeaderBackgroundBrushKey = "WindowHeaderBackgroundBrushKey";
-        public static string WindowHeaderForegroundBrushKey = "WindowHeaderForegroundBrushKey";
-        public static string WindowHeaderMouseOverBackgroundBrushKey = "WindowHeaderMouseOverBackgroundBrushKey";
+        public static string WindowSecondaryForegroundBrushKey = "WindowSecondaryForegroundBrushKey";
+        public static string WindowMenuMouseOverBackgroundBrushKey = "WindowMenuMouseOverBackgroundBrushKey";
         public static string WindowShadowBrushKey = "WindowShadowBrushKey";
 
         public static string SplitterForegroundBrushKey = "SplitterForegroundBrushKey";

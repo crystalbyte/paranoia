@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using CefSharp;
 using CefSharp.Wpf;
 using NLog;
@@ -44,24 +36,79 @@ namespace Crystalbyte.Paranoia.UI {
 
         public HtmlEditor() {
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, OnCopy));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Cut, OnCut));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, OnPaste));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.SelectAll, OnSelectAll));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint));
+            CommandBindings.Add(new CommandBinding(HtmlCommands.ViewSource, OnViewSource));
+        }
+
+        private void OnViewSource(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                _browser.ViewSource();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private void OnPaste(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                _browser.Paste();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private void OnCut(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                _browser.Cut();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         #endregion
 
         #region Methods
 
+        internal async Task PrintAsync() {
+            var browser = new WebBrowser();
+            browser.Navigated += (x, y) => {
+                try {
+                    dynamic document = browser.Document;
+                    document.execCommand("print", true, null);
+                } catch (Exception ex) {
+                    Logger.Error(ex);
+                } finally {
+                    browser.Dispose();
+                }
+            };
+            var html = await _browser.GetSourceAsync();
+            browser.NavigateToString(html);
+        }
+
         private void OnCopy(object sender, ExecutedRoutedEventArgs e) {
-            throw new NotImplementedException();
+            try {
+                _browser.Copy();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private void OnSelectAll(object sender, ExecutedRoutedEventArgs e) {
-            throw new NotImplementedException();
+            try {
+                _browser.SelectAll();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
-        private void OnPrint(object sender, ExecutedRoutedEventArgs e) {
-            throw new NotImplementedException();
+        private async void OnPrint(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                await PrintAsync();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         #endregion
@@ -82,11 +129,13 @@ namespace Crystalbyte.Paranoia.UI {
                 UniversalAccessFromFileUrlsAllowed = true,
                 FileAccessFromFileUrlsAllowed = true,
                 PluginsDisabled = true,
-                JavaScriptOpenWindowsDisabled = true,
-                JavaScriptCloseWindowsDisabled = true,
-                JavascriptDisabled = true
+                JavaScriptOpenWindowsDisabled = false,
+                JavaScriptCloseWindowsDisabled = false,
+                JavascriptDisabled = false,
+                TextAreaResizeDisabled = true
             };
 
+            _browser.RegisterJsObject("extern", new ScriptingObject(this));
             _browser.Load(Source);
         }
 

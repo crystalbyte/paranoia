@@ -19,7 +19,7 @@
       mc:Ignorable="d">
     <Page.InputBindings>
         <KeyBinding Key="N"
-                    Command="ui:MessagingCommands.Compose"
+                    Command="ui:MessageCommands.Compose"
                     Modifiers="Control" />
     </Page.InputBindings>
     <Page.Resources>
@@ -52,7 +52,7 @@
                         UseLayoutRounding="True">
                     <Grid HorizontalAlignment="Left">
                         <controls:MetroButton Margin="12"
-                                              Command="ui:MessagingCommands.Compose"
+                                              Command="ui:MessageCommands.Compose"
                                               Content="{x:Static properties:Resources.ComposeMessage}"
                                               ImageSource="/Assets/paper.png"
                                               IsTabStop="False" />
@@ -509,13 +509,13 @@
                     </ListView.ItemsSource>
                     <ListView.InputBindings>
                         <KeyBinding Key="Enter"
-                                    Command="ui:MessagingCommands.Inspect"
+                                    Command="ui:MessageCommands.Inspect"
                                     CommandParameter="{Binding SelectedMessage}" />
                         <KeyBinding Key="R"
-                                    Command="ui:MessagingCommands.Reply"
+                                    Command="ui:MessageCommands.Reply"
                                     Modifiers="Control" />
                         <KeyBinding Key="F"
-                                    Command="ui:MessagingCommands.Forward"
+                                    Command="ui:MessageCommands.Forward"
                                     Modifiers="Control" />
                         <KeyBinding Key="Delete" Command="{Binding DeleteMessagesCommand}" />
                         <KeyBinding Key="D"
@@ -524,7 +524,7 @@
                     </ListView.InputBindings>
                     <ListView.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Command="ui:MessagingCommands.Reply"
+                            <MenuItem Command="ui:MessageCommands.Reply"
                                       Header="{x:Static properties:Resources.Reply}"
                                       InputGestureText="{x:Static properties:Resources.ReplyGesture}">
                                 <MenuItem.Icon>
@@ -535,7 +535,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Command="ui:MessagingCommands.Forward"
+                            <MenuItem Command="ui:MessageCommands.Forward"
                                       Header="{x:Static properties:Resources.Forward}"
                                       InputGestureText="{x:Static properties:Resources.ForwardGesture}">
                                 <MenuItem.Icon>
@@ -970,12 +970,12 @@
                                 Visibility="{Binding SelectedMessage,
                                                      Converter={StaticResource NullToVisibilityConverter}}">
                         <controls:MetroButton Margin="3,0"
-                                              Command="ui:MessagingCommands.Reply"
+                                              Command="ui:MessageCommands.Reply"
                                               ImageSource="/Assets/reply.png"
                                               IsTabStop="False"
                                               ToolTip="{x:Static properties:Resources.Reply}" />
                         <controls:MetroButton Margin="3,0"
-                                              Command="ui:MessagingCommands.Forward"
+                                              Command="ui:MessageCommands.Forward"
                                               ImageSource="/Assets/forward.png"
                                               IsTabStop="False"
                                               ToolTip="{x:Static properties:Resources.Forward}" />
@@ -1003,7 +1003,7 @@
             </Border>
             <ListView Grid.Row="1"
                       Margin="0"
-                      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}"
+                      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}"
                       ItemTemplate="{StaticResource ThumbnailTemplate}"
                       ItemsSource="{Binding Attachments}"
                       ScrollViewer.CanContentScroll="False"

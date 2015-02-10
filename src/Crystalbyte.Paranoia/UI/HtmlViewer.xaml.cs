@@ -38,7 +38,16 @@ namespace Crystalbyte.Paranoia.UI {
         public HtmlViewer() {
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, OnCopy));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.SelectAll, OnSelectAll));
+            CommandBindings.Add(new CommandBinding(HtmlCommands.ViewSource, OnViewSource));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint));
+        }
+
+        private void OnViewSource(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                _browser.ViewSource();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         #endregion
@@ -54,6 +63,7 @@ namespace Crystalbyte.Paranoia.UI {
                 } catch (Exception ex) {
                     Logger.Error(ex);
                 } finally {
+                    //browser.Navigate("about:blank");
                     browser.Dispose();
                 }
             };
@@ -107,6 +117,8 @@ namespace Crystalbyte.Paranoia.UI {
                 JavaScriptCloseWindowsDisabled = true,
                 JavascriptDisabled = true
             };
+
+            _browser.Load(Source);
         }
 
         #endregion

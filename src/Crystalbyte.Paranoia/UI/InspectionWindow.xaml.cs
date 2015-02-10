@@ -32,12 +32,11 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
 
-            CommandBindings.Add(new CommandBinding(MessagingCommands.Reply, OnReply));
-            CommandBindings.Add(new CommandBinding(MessagingCommands.ReplyAll, OnReplyAll));
-            CommandBindings.Add(new CommandBinding(MessagingCommands.Forward, OnForward));
+            CommandBindings.Add(new CommandBinding(MessageCommands.Reply, OnReply));
+            CommandBindings.Add(new CommandBinding(MessageCommands.ReplyAll, OnReplyAll));
+            CommandBindings.Add(new CommandBinding(MessageCommands.Forward, OnForward));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint));
 
-            //Loaded += (sender, e) => HtmlControl.Focus();
             Deactivated += (sender, e) => Debug.WriteLine("deactivated");
         }
 
@@ -57,13 +56,12 @@ namespace Crystalbyte.Paranoia.UI {
             attachment.Open();
         }
 
-        private void OnPrint(object sender, ExecutedRoutedEventArgs e) {
-            //var html = HtmlControl.GetDocument();
-            //try {
-            //    App.Context.Print(html);
-            //} catch (Exception ex) {
-            //    Logger.Error(ex);
-            //}
+        private async void OnPrint(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                await HtmlViewer.PrintAsync();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private void OnForward(object sender, ExecutedRoutedEventArgs e) {
@@ -97,9 +95,9 @@ namespace Crystalbyte.Paranoia.UI {
             var context = new MessageInspectionContext(message);
             try {
                 DataContext = context;
-                //HtmlControl.Source = string.Format(message.IsSourceTrusted 
-                //    ? "asset://paranoia/message/{0}?blockExternals=false" 
-                //    : "asset://paranoia/message/{0}", message.Id);
+                HtmlViewer.Source = string.Format(message.IsSourceTrusted
+                    ? "message:///{0}?blockExternals=false"
+                    : "message:///{0}", message.Id);
 
                 await context.InitAsync();
             } catch (Exception ex) {
@@ -111,7 +109,7 @@ namespace Crystalbyte.Paranoia.UI {
             var context = new FileInspectionContext(file);
             try {
                 DataContext = context;
-                //HtmlControl.Source = string.Format("asset://paranoia/file?path={0}", Uri.EscapeDataString(file.FullName));
+                HtmlViewer.Source = string.Format("file:///local?path={0}", Uri.EscapeDataString(file.FullName));
                 await context.InitAsync();
             } catch (Exception ex) {
                 Logger.Error(ex);

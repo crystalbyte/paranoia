@@ -36,12 +36,6 @@ namespace Crystalbyte.Paranoia.UI {
                     Process.Start(uri.AbsoluteUri);
                     return true;
                 }
-
-                var isAsset = string.Compare(uri.Scheme, "asset", StringComparison.OrdinalIgnoreCase) == 0;
-                if (!isAsset) {
-                    Logger.Info(Resources.NotSupportedSchemeTemplate, uri.AbsoluteUri);
-                    return false;
-                }
             }
             catch (Exception ex) {
                 Logger.Error(ex);

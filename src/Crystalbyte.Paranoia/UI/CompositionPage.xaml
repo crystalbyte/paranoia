@@ -123,7 +123,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Button Grid.Row="0"
@@ -316,12 +315,10 @@
                 </controls:SuggestiveTextBox.ItemContainerStyle>
             </controls:SuggestiveTextBox>
         </StackPanel>
-
-
         <ListView Grid.Row="2"
                   Grid.Column="0"
                   Grid.ColumnSpan="4"
-                  Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}"
+                  Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}"
                   BorderThickness="0"
                   ItemTemplate="{StaticResource ThumbnailTemplate}"
                   ItemsSource="{Binding Attachments}"
@@ -342,23 +339,17 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-
-        <ui:HtmlEditor x:Name="HtmlEditor"
-                       Grid.Row="4"
-                       Grid.Column="0"
-                       Grid.ColumnSpan="4"
-                       HorizontalAlignment="Stretch"
-                       VerticalAlignment="Stretch"
-                       AllowDrop="True"
-                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                       BorderThickness="0"
-                       Drop="DropHtmlControl"
-                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
-                       Source="{Binding Source,
-                                        Mode=TwoWay}"
-                       TabIndex="3"
-                       UseLayoutRounding="True"
-                       d:IsHidden="True" />
-
+        <Grid Grid.Row="3"
+              Grid.Column="0"
+              Grid.ColumnSpan="4">
+            <ui:HtmlEditor x:Name="HtmlEditor"
+                           AllowDrop="True"
+                           Drop="OnHtmlSurfaceDrop"
+                           Source="{Binding Source,
+                                            Mode=TwoWay}"
+                           TabIndex="3"
+                           UseLayoutRounding="True"
+                           d:IsHidden="True" />
+        </Grid>
     </Grid>
 </Page>

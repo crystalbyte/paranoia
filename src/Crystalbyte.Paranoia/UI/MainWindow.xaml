@@ -149,7 +149,7 @@
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
                    Panel.ZIndex="1000"
-                   Background="{DynamicResource WindowHeaderBackgroundBrushKey}"
+                   Background="{DynamicResource WindowSecondaryBackgroundBrushKey}"
                    LastChildFill="False"
                    SnapsToDevicePixels="True">
             <Button Width="Auto"
@@ -170,7 +170,7 @@
                     <TextBlock Margin="0,0,24,0"
                                VerticalAlignment="Center"
                                FontSize="20"
-                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
                                Style="{DynamicResource TitleTextStyle}"
                                Text="{Binding Title,
                                               RelativeSource={RelativeSource FindAncestor,
@@ -192,7 +192,7 @@
                             <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
                             <Setter Property="VerticalContentAlignment" Value="Center" />
-                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}" />
+                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}" />
                             <Setter Property="SnapsToDevicePixels" Value="true" />
                             <Setter Property="Template">
                                 <Setter.Value>
@@ -218,7 +218,7 @@
                                        Margin="6,0"
                                        VerticalAlignment="Center"
                                        FontSize="20"
-                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Style="{DynamicResource TitleTextStyle}"
                                        Text="{Binding Title}" />
@@ -435,7 +435,7 @@
         <StatusBar x:Name="StatusBar"
                    Grid.Row="2"
                    Height="24"
-                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}"
+                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}"
                    RenderTransformOrigin="0.5,0.5"
                    SnapsToDevicePixels="True">
             <StatusBar.RenderTransform>
@@ -464,7 +464,7 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
-                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
+                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
                            Text="{Binding StatusText,
                                           Mode=OneWay}" />
             </StatusBarItem>
@@ -472,7 +472,7 @@
                 <Slider Width="150"
                         Margin="3,0"
                         VerticalAlignment="Center"
-                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
+                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
                         IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
                         LargeChange="25.0"
@@ -488,7 +488,7 @@
                         Content="{Binding Zoom,
                                           Mode=OneWay,
                                           Converter={StaticResource PercentageFormatter}}"
-                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
+                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
                         IsEnabled="{Binding IsMessageSelected}"
                         Style="{DynamicResource StatusBarButtonStyle}" />
             </StatusBarItem>

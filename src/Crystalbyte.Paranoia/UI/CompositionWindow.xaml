@@ -23,7 +23,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="{DynamicResource WindowHeaderBackgroundBrushKey}">
+        <Grid Grid.Row="0" Background="{DynamicResource WindowSecondaryBackgroundBrushKey}">
             <StackPanel Height="36"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
@@ -42,7 +42,7 @@
                            DataContext="{Binding DataContext}"
                            WindowChrome.IsHitTestVisibleInChrome="False"
                            d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}">
-                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}" Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
+                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}" Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
                     <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text=" - " />
                     <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
                 </TextBlock>

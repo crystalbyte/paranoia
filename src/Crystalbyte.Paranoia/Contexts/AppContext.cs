@@ -13,7 +13,6 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Crystalbyte.Paranoia.Data;
@@ -40,14 +39,13 @@ namespace Crystalbyte.Paranoia {
         private string _source;
         private string _statusText;
         private bool _isPopupVisible;
-        private readonly DispatcherTimer _outboxTimer;
+        private bool _isSortAscending;
+        private string _queryContactString;
+        private bool _isAnimating;
         private MailboxContext _selectedMailbox;
         private OutboxContext _selectedOutbox;
-        private readonly ObservableCollection<AttachmentContext> _attachments;
-        private readonly DeferredObservableCollection<MailMessageContext> _messages;
-        private readonly ObservableCollection<MailAccountContext> _accounts;
-        private readonly ObservableCollection<MailContactContext> _contacts;
-        private readonly ObservableCollection<NavigationContext> _navigationOptions;
+
+        private readonly DispatcherTimer _outboxTimer;
         private readonly ICommand _resetZoomCommand;
         private readonly ICommand _restoreMessagesCommand;
         private readonly ICommand _markAsSeenCommand;
@@ -59,9 +57,11 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _createAccountCommand;
         private readonly ICommand _deleteContactsCommand;
         private readonly ICommand _deleteMessagesCommand;
-        private bool _isSortAscending;
-        private string _queryContactString;
-        private bool _isAnimating;
+        private readonly ObservableCollection<AttachmentContext> _attachments;
+        private readonly DeferredObservableCollection<MailMessageContext> _messages;
+        private readonly ObservableCollection<MailAccountContext> _accounts;
+        private readonly ObservableCollection<MailContactContext> _contacts;
+        private readonly ObservableCollection<NavigationContext> _navigationOptions;
 
         #endregion
 
@@ -785,12 +785,12 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task ViewMessageAsync(MailMessageContext message) {
-            Source = string.Format("asset://message/{0}", message.Id);
+            Source = string.Format("message:///{0}", message.Id);
             await DisplayAttachmentAsync(message);
         }
 
         private async Task ViewUnblockedMessageAsync(MailMessageContext message) {
-            Source = string.Format("asset://message/{0}?blockExternals=false", message.Id);
+            Source = string.Format("message:///{0}?blockExternals=false", message.Id);
             await DisplayAttachmentAsync(message);
         }
 

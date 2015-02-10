@@ -136,7 +136,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void PrepareAsNew() {
             var context = (MailCompositionContext)DataContext;
-            context.Source = "asset://message/new";
+            context.Source = "message:///new";
             Loaded += OnLoaded;
         }
 
@@ -169,7 +169,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             var context = (MailCompositionContext)DataContext;
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
-            context.Source = string.Format("asset://message/reply?id={0}", id);
+            context.Source = string.Format("message:///reply?id={0}", id);
 
             await Task.Run(async () => await @from.CheckSecurityStateAsync());
             RecipientsBox.Preset(new[] { from });
@@ -217,7 +217,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             var context = (MailCompositionContext)DataContext;
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
-            context.Source = string.Format("asset://message/reply?id={0}", id);
+            context.Source = string.Format("message:///reply?id={0}", id);
 
             await Task.Run(() => from.CheckSecurityStateAsync());
 
@@ -244,11 +244,11 @@ namespace Crystalbyte.Paranoia.UI {
 
             var context = (MailCompositionContext)DataContext;
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForForwarding, reader.Headers.Subject);
-            context.Source = string.Format("asset://message/forward?id={0}", id);
+            context.Source = string.Format("message:///forward?id={0}", id);
             Loaded += OnLoaded;
         }
 
-        private void DropHtmlControl(object sender, DragEventArgs e) {
+        private void OnHtmlSurfaceDrop(object sender, DragEventArgs e) {
             var files = (string[])e.Data.GetData(DataFormats.FileDrop);
             var context = DataContext as MailCompositionContext;
             if (files == null | context == null)

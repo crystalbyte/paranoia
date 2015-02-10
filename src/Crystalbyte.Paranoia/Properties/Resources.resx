@@ -655,4 +655,7 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="Paste" xml:space="preserve">
     <value>Paste</value>
   </data>
+  <data name="Source" xml:space="preserve">
+    <value>Source</value>
+  </data>
 </root>

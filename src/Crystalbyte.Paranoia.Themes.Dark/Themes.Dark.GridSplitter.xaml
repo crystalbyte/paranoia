@@ -2,8 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}" Color="#444444" />
-
     <ControlTemplate x:Key="HorizontalGridSplitter" TargetType="GridSplitter">
         <Grid>
             <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />

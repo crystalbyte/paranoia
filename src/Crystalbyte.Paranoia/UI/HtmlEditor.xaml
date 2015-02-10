@@ -2,26 +2,23 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+                    xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                     xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
                     mc:Ignorable="d">
-    <Style x:Key="ButtonGroupStyle" TargetType="StackPanel">
-        <Setter Property="Orientation" Value="Horizontal" />
-        <Setter Property="Margin" Value="6" />
+
+    <Style x:Key="MonoChromeIconRectangleStyle" TargetType="Rectangle">
+        <Setter Property="Width" Value="15" />
+        <Setter Property="Margin" Value="0,1,0,0" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Height" Value="15" />
+        <Setter Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
     </Style>
-    <Style x:Key="GroupButtonLeftStyle" TargetType="Button">
-        <Setter Property="BorderThickness" Value="1,1,0,1" />
-        <Setter Property="Margin" Value="0" />
-    </Style>
-    <Style x:Key="GroupButtonCenterStyle" TargetType="Button">
-        <Setter Property="BorderThickness" Value="0,1" />
-        <Setter Property="Margin" Value="0" />
-    </Style>
-    <Style x:Key="GroupButtonRightStyle" TargetType="Button">
-        <Setter Property="BorderThickness" Value="0,1,1,1" />
-        <Setter Property="Margin" Value="0" />
-    </Style>
+
     <Style TargetType="ui:HtmlEditor">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:HtmlEditor">
@@ -35,20 +32,30 @@
                                 <MenuItem Command="Paste" />
                                 <Separator />
                                 <MenuItem Command="Print" />
+                                <MenuItem Command="ui:HtmlCommands.ViewSource" Header="{x:Static properties:Resources.Source}" />
                                 <Separator />
                                 <MenuItem Command="SelectAll" />
                             </ContextMenu>
                         </FrameworkElement.ContextMenu>
-                        <DockPanel LastChildFill="True">
-                            <WrapPanel DockPanel.Dock="Top">
-                                <StackPanel Style="{StaticResource ButtonGroupStyle}">
-                                    <Button Style="{StaticResource GroupButtonLeftStyle}" />
-                                    <Button Style="{StaticResource GroupButtonRightStyle}" />
-                                </StackPanel>
+                        <DockPanel Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}" LastChildFill="True">
+                            <WrapPanel Margin="6,0" DockPanel.Dock="Top">
+                                <Button Style="{DynamicResource EditorButtonStyle}">
+                                    <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/undo.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+                                <Button Style="{DynamicResource EditorButtonStyle}">
+                                    <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/redo.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
                             </WrapPanel>
                             <wpf:ChromiumWebBrowser x:Name="PART_WebBrowser" />
                         </DockPanel>
-
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

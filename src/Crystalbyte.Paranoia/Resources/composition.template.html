@@ -3,131 +3,26 @@
 <head>
     <title>Composition</title>
     <meta charset="utf-8" />
+    <link href="resource:///html.composition.less" type="text/css" rel="stylesheet">
 </head>
 <body>
-    <textarea id="editor" name="editor"></textarea>
-    <div id="content-storage">
-        <div id="content"></div>
-        <div id="signature"></div>
-        {{HEADER}}
-        {{QUOTE}}
-    </div>
-
-    <!-- ReSharper disable Html.PathError -->
-    <script type="text/javascript" src="Resources/jquery/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="Resources/ckeditor/ckeditor.js"></script>
-    <script type="text/javascript" src="Resources/ckeditor/adapters/jquery.js"></script>
-    <!-- ReSharper restore Html.PathError -->
-
+    <textarea id="editor"></textarea>
+    <script type="text/javascript" src="resource:///composition.js.zip/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="resource:///composition.js.zip/quill.js"></script>
     <script type="text/javascript">
-        // Module pattern: https://github.com/stevekwan/experiments/blob/master/javascript/module-pattern.html
+        var quill = new Quill('#editor');
+        var resizeEditor = function () {
+            var width = window.window;
+            var height = window.height;
+            editor.height(height);
+            editor.width(width);
+        };
 
-        var Crystalbyte = Crystalbyte || {};
-        Crystalbyte.Paranoia = function () {
-            var noEditorMessage = "Editor not found.";
-
-            var textarea = $('textarea#editor');
-
-            var loadContent = function () {
-                var storage = $('#content-storage');
-                storage.show();
-
-                textarea.val(storage.html());
-                storage.remove();
-
-                resizeEditor();
-                external.onContentLoaded(textarea.val());
-            }
-
-            var resizeEditor = function () {
-                var w = $(window);
-                var height = w.height();
-                var width = w.width();
-                var editor = textarea.editor;
-                if (editor === null || editor === undefined) {
-                    return;
-                }
-
-                editor.resize(width, height, false);
-            }
-
-            var focusEditor = function () {
-                var editor = textarea.editor;
-                if (!editor) {
-                    alert(noEditorMessage);
-                    return;
-                }
-                editor.focus();
-            }
-
-            var getComposition = function () {
-                return textarea.val();
-            }
-
-            var setReadOnly = function (readOnly) {
-                var editor = textarea.editor;
-                if (!editor) {
-                    alert(noEditorMessage);
-                    return;
-                }
-                editor.setReadOnly(readOnly);
-            }
-
-            var insertText = function (text) {
-                var editor = textarea.editor;
-                if (!editor) {
-                    alert(noEditorMessage);
-                    return;
-                }
-                editor.insertText(text);
-            }
-
-            var insertHtml = function (html) {
-                var editor = textarea.editor;
-                if (editor === null || editor === undefined) {
-                    alert(noEditorMessage);
-                    return;
-                }
-
-                editor.insertHtml(html);
-            }
-
-            var setComposition = function (html) {
-                textarea.val(html);
-            }
-
-            var execute = function (command) {
-                var editor = textarea.editor;
-                if (editor === null || editor === undefined) {
-                    alert(noEditorMessage);
-                    return;
-                }
-
-                editor.execCommand(command);
-            }
-
-            var init = function () {
-                textarea.ckeditor(loadContent, {
-                    startupFocus: true,
-                    language: '{{CULTURE}}',
-                    skin: '{{CKEDITOR_THEME}}',
-                });
-            }
-
-            return {
-                init: init,
-                execute: execute,
-                insertHtml: insertHtml,
-                insertText: insertText,
-                setReadOnly: setReadOnly,
-                focusEditor: focusEditor,
-                resizeEditor: resizeEditor,
-                getComposition: getComposition,
-                setComposition: setComposition,
-            };
-        }();
-
-        $(window).resize(Crystalbyte.Paranoia.resizeEditor);
+        var editor = $('#editor');
+        $(window).resize(resizeEditor);
+        $(document).ready(function () {
+            resizeEditor();
+        });
     </script>
 </body>
 </html>

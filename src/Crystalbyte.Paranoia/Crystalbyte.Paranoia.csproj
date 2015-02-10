@@ -76,7 +76,7 @@
     <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <ErrorReport>prompt</ErrorReport>
@@ -93,6 +93,26 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="dotless.ClientOnly">
       <HintPath>..\packages\DotlessClientOnly.1.4.1.0\lib\dotless.ClientOnly.dll</HintPath>
@@ -108,8 +128,8 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -194,6 +214,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationExtensions.cs" />
+    <Compile Include="CompositionSchemeHandler.cs" />
+    <Compile Include="FileSchemeHandler.cs" />
+    <Compile Include="ScriptingObject.cs" />
+    <Compile Include="UI\RoutedCommands\HtmlCommands.cs" />
+    <Compile Include="HtmlSupport.cs" />
+    <Compile Include="MessageSchemeHandler.cs" />
     <Compile Include="Automation\Application.cs" />
     <Compile Include="Automation\ApplicationClassFactory.cs" />
     <Compile Include="Automation\ComObject.cs" />
@@ -201,8 +227,7 @@
     <Compile Include="Automation\IApplication.cs" />
     <Compile Include="Automation\IClassFactory.cs" />
     <Compile Include="Automation\IComServer.cs" />
-    <Compile Include="AssetSchemeHandler.cs" />
-    <Compile Include="AssetSchemeHandlerFactory.cs" />
+    <Compile Include="SchemeHandlerFactory.cs" />
     <Compile Include="IRequestAware.cs" />
     <Compile Include="UI\HtmlEditor.xaml.cs">
       <DependentUpon>HtmlEditor.xaml</DependentUpon>
@@ -303,7 +328,7 @@
     <Compile Include="UI\IAnimationAware.cs" />
     <Compile Include="UI\RoutedCommands\AppCommands.cs" />
     <Compile Include="UI\RoutedCommands\MailboxCommands.cs" />
-    <Compile Include="UI\RoutedCommands\MessagingCommands.cs" />
+    <Compile Include="UI\RoutedCommands\MessageCommands.cs" />
     <Compile Include="UI\RoutedCommands\FlyoutCommands.cs" />
     <Compile Include="UI\NavigationArguments.cs" />
     <Compile Include="UI\AccountPropertyFlyoutPage.xaml.cs">
@@ -327,6 +352,7 @@
     <Compile Include="UI\SelectionPosition.cs" />
     <Compile Include="UI\WindowExtensions.cs" />
     <Compile Include="VirtualFileDataObject.cs" />
+    <Compile Include="ResourceSchemeHandler.cs" />
     <Page Include="App.Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -477,12 +503,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Resources\ckeditor\CHANGES.md" />
-    <None Include="Resources\ckeditor\LICENSE.md" />
-    <None Include="Resources\ckeditor\README.md" />
-    <None Include="Resources\ckeditor\skins\moono-dark\readme.md" />
-    <None Include="Resources\ckeditor\skins\moono\dev\locations.json" />
-    <None Include="Resources\ckeditor\skins\moono\readme.md" />
     <None Include="..\key.debug.snk">
       <Link>key.debug.snk</Link>
     </None>
@@ -494,31 +514,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <Resource Include="Resources\ckeditor\plugins\icons.png" />
-    <Resource Include="Resources\ckeditor\plugins\icons_hidpi.png" />
-    <Resource Include="Resources\ckeditor\skins\moono-dark\icons.png" />
-    <Resource Include="Resources\ckeditor\skins\moono-dark\icons_hidpi.png" />
-    <Resource Include="Resources\ckeditor\skins\moono-dark\images\arrow.png" />
-    <Resource Include="Resources\ckeditor\skins\moono-dark\images\close.png" />
-    <Resource Include="Resources\ckeditor\skins\moono-dark\images\hidpi\close.png" />
-    <Resource Include="Resources\ckeditor\skins\moono-dark\images\hidpi\lock-open.png" />
-    <Resource Include="Resources\ckeditor\skins\moono-dark\images\hidpi\lock.png" />
-    <Resource Include="Resources\ckeditor\skins\moono-dark\images\hidpi\refresh.png" />
-    <Resource Include="Resources\ckeditor\skins\moono-dark\images\lock-open.png" />
-    <Resource Include="Resources\ckeditor\skins\moono-dark\images\lock.png" />
-    <Resource Include="Resources\ckeditor\skins\moono-dark\images\refresh.png" />
-    <Resource Include="Resources\ckeditor\skins\moono\images\arrow.png" />
-    <Resource Include="Resources\ckeditor\skins\moono\images\close.png" />
-    <Resource Include="Resources\ckeditor\skins\moono\images\hidpi\close.png" />
-    <Resource Include="Resources\ckeditor\skins\moono\images\hidpi\lock-open.png" />
-    <Resource Include="Resources\ckeditor\skins\moono\images\hidpi\lock.png" />
-    <Resource Include="Resources\ckeditor\skins\moono\images\hidpi\refresh.png" />
-    <Resource Include="Resources\ckeditor\skins\moono\images\lock-open.png" />
-    <Resource Include="Resources\ckeditor\skins\moono\images\lock.png" />
-    <Resource Include="Resources\ckeditor\skins\moono\images\refresh.png" />
+    <Resource Include="Resources\composition.js.zip" />
     <Resource Include="Resources\html.inspection.less" />
     <Resource Include="Resources\html.composition.less" />
-    <Resource Include="Resources\storage.db" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -572,7 +570,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\ckeditor\plugins\colordialog\dialogs\" />
+    <Resource Include="Assets\redo.png" />
+    <Resource Include="Assets\undo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\close.png" />
@@ -607,114 +606,10 @@
     <Resource Include="Assets\arrow.right.png" />
     <Resource Include="Assets\copy.png" />
     <Resource Include="Assets\cut.png" />
-    <Resource Include="Resources\inspection.js" />
     <Resource Include="Assets\open.png" />
     <Resource Include="Assets\logo.window.png" />
     <Resource Include="Assets\save.png" />
-    <Content Include="Resources\ckeditor\adapters\jquery.js" />
-    <Content Include="Resources\ckeditor\ckeditor.js" />
-    <Content Include="Resources\ckeditor\config.js" />
-    <Content Include="Resources\ckeditor\contents.css" />
-    <Content Include="Resources\ckeditor\lang\de.js" />
-    <Content Include="Resources\ckeditor\lang\en.js" />
-    <Content Include="Resources\ckeditor\plugins\dialog\dialogDefinition.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\af.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\ar.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\bg.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\bn.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\bs.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\ca.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\cs.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\cy.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\da.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\de.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\el.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\en-au.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\en-ca.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\en-gb.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\en.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\eo.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\es.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\et.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\eu.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\fa.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\fi.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\fo.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\fr-ca.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\fr.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\gl.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\gu.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\he.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\hi.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\hr.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\hu.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\id.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\is.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\it.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\ja.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\ka.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\km.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\ko.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\ku.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\lt.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\lv.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\mk.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\mn.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\ms.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\nb.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\nl.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\no.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\pl.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\pt-br.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\pt.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\ro.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\ru.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\si.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\sk.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\sl.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\sq.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\sr-latn.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\sr.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\sv.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\th.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\tr.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\tt.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\ug.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\uk.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\vi.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\zh-cn.js" />
-    <Content Include="Resources\ckeditor\plugins\font\lang\zh.js" />
-    <Content Include="Resources\ckeditor\plugins\font\plugin.js" />
-    <Content Include="Resources\ckeditor\skins\moono-dark\dialog.css" />
-    <Content Include="Resources\ckeditor\skins\moono-dark\dialog_ie.css" />
-    <Content Include="Resources\ckeditor\skins\moono-dark\dialog_ie7.css" />
-    <Content Include="Resources\ckeditor\skins\moono-dark\dialog_ie8.css" />
-    <Content Include="Resources\ckeditor\skins\moono-dark\dialog_iequirks.css" />
-    <Content Include="Resources\ckeditor\skins\moono-dark\editor.css" />
-    <Content Include="Resources\ckeditor\skins\moono-dark\editor_gecko.css" />
-    <Content Include="Resources\ckeditor\skins\moono-dark\editor_ie.css" />
-    <Content Include="Resources\ckeditor\skins\moono-dark\editor_ie7.css" />
-    <Content Include="Resources\ckeditor\skins\moono-dark\editor_ie8.css" />
-    <Content Include="Resources\ckeditor\skins\moono-dark\editor_iequirks.css" />
-    <Resource Include="Resources\ckeditor\skins\moono\dev\icons16.png" />
-    <Content Include="Resources\ckeditor\skins\moono\dev\icons16.svg" />
-    <Resource Include="Resources\ckeditor\skins\moono\dev\icons32.png" />
-    <Content Include="Resources\ckeditor\skins\moono\dev\icons32.svg" />
-    <Content Include="Resources\ckeditor\skins\moono\dialog.css" />
-    <Content Include="Resources\ckeditor\skins\moono\dialog_ie.css" />
-    <Content Include="Resources\ckeditor\skins\moono\dialog_ie7.css" />
-    <Content Include="Resources\ckeditor\skins\moono\dialog_ie8.css" />
-    <Content Include="Resources\ckeditor\skins\moono\dialog_iequirks.css" />
-    <Content Include="Resources\ckeditor\skins\moono\editor.css" />
-    <Content Include="Resources\ckeditor\skins\moono\editor_gecko.css" />
-    <Content Include="Resources\ckeditor\skins\moono\editor_ie.css" />
-    <Content Include="Resources\ckeditor\skins\moono\editor_ie7.css" />
-    <Content Include="Resources\ckeditor\skins\moono\editor_ie8.css" />
-    <Content Include="Resources\ckeditor\skins\moono\editor_iequirks.css" />
-    <Content Include="Resources\ckeditor\skins\moono\skin.js" />
-    <Content Include="Resources\ckeditor\styles.js" />
-    <Content Include="Resources\jquery\jquery-2.1.1.min.js" />
-    <Resource Include="Resources\plain-text.template.html" />
+    <Resource Include="Resources\text.template.html" />
     <Resource Include="Resources\logo.ico" />
     <Resource Include="Assets\reply.png" />
     <Resource Include="Assets\forward.png" />
@@ -725,7 +620,7 @@
     <Resource Include="Assets\unseen.png" />
     <Resource Include="Assets\back.png" />
     <Resource Include="Resources\composition.template.html" />
-    <Resource Include="Resources\cover-sheet.template.html" />
+    <Resource Include="Resources\cover.template.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

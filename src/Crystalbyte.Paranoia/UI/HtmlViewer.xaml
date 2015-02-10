@@ -3,8 +3,19 @@
                     xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+                    xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                     mc:Ignorable="d">
+
+    <Style x:Key="MonoChromeIconRectangleStyle" TargetType="Rectangle">
+        <Setter Property="Width" Value="15" />
+        <Setter Property="Margin" Value="0,1,0,0" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Height" Value="15" />
+        <Setter Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+    </Style>
+
     <Style TargetType="ui:HtmlViewer">
         <Setter Property="Template">
             <Setter.Value>
@@ -14,11 +25,28 @@
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <FrameworkElement.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Command="Copy" />
+                                <MenuItem Command="ApplicationCommands.Copy">
+                                    <MenuItem.Icon>
+                                        <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
+                                            <Rectangle.OpacityMask>
+                                                <ImageBrush ImageSource="/Assets/copy.png" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </MenuItem.Icon>
+                                </MenuItem>
                                 <Separator />
-                                <MenuItem Command="Print" />
+                                <MenuItem Command="ApplicationCommands.Print">
+                                    <MenuItem.Icon>
+                                        <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
+                                            <Rectangle.OpacityMask>
+                                                <ImageBrush ImageSource="/Assets/print.png" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Command="ui:HtmlCommands.ViewSource" Header="{x:Static properties:Resources.Source}" />
                                 <Separator />
-                                <MenuItem Command="SelectAll" />
+                                <MenuItem Command="ApplicationCommands.SelectAll" />
                             </ContextMenu>
                         </FrameworkElement.ContextMenu>
                         <cef:ChromiumWebBrowser x:Name="PART_WebBrowser" />
