@@ -71,7 +71,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.ColumnSpan="2"
-                                   Style="{DynamicResource SubtitleTextStyle}"
+                                   Style="{DynamicResource SubtitleTextBlockStyle}"
                                    Text="{x:Static properties:Resources.GeneralSettingsTitle}" />
                         <TextBlock Grid.Row="1"
                                    Grid.Column="0"
@@ -120,7 +120,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Row="0"
                                    Grid.Column="0"
-                                   Style="{DynamicResource SubtitleTextStyle}"
+                                   Style="{DynamicResource SubtitleTextBlockStyle}"
                                    Text="{x:Static properties:Resources.ServerSettingsTitle}" />
                         <TextBlock Grid.Row="1"
                                    Grid.Column="0"

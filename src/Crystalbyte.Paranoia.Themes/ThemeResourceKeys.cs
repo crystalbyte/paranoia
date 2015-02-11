@@ -11,13 +11,14 @@
         public static string AppSecondaryForegroundBrushKey = "AppSecondaryForegroundBrushKey";
         public static string AppAccentForegroundBrushKey = "AppAccentForegroundBrushKey";
 
-        public static string InputFontFamilyKey = "InputFontFamilyKey";
-
         public static string AppSmallFontSizeKey = "AppSmallFontSizeKey";
         public static string AppMediumFontSizeKey = "AppMediumFontSizeKey";
         public static string AppMediumLargeFontSizeKey = "AppMediumLargeFontSizeKey";
         public static string AppLargeFontSizeKey = "AppLargeFontSizeKey";
         public static string AppExtraLargeFontSizeKey = "AppExtraLargeFontSizeKey";
+
+        public static string InputFontFamilyKey = "InputFontFamilyKey";
+        public static string InputForegroundBrushKey = "InputForegroundBrushKey";
 
         // Window Scope
         public static string WindowBackgroundBrushKey = "WindowBackgroundBrushKey";
@@ -25,9 +26,88 @@
         public static string WindowSecondaryForegroundBrushKey = "WindowSecondaryForegroundBrushKey";
         public static string WindowMenuMouseOverBackgroundBrushKey = "WindowMenuMouseOverBackgroundBrushKey";
         public static string WindowShadowBrushKey = "WindowShadowBrushKey";
-
         public static string SplitterForegroundBrushKey = "SplitterForegroundBrushKey";
 
+        // Button Scope
+        public static string ButtonBackgroundBrushKey = "ButtonBackgroundBrushKey";
+        public static string ButtonBorderBrushKey = "ButtonBorderBrushKey";
 
+        // CheckBox Scope
+        public static string CheckBoxBackgroundBrushKey = "CheckBoxBackgroundBrushKey";
+        public static string CheckBoxBorderBrushKey = "CheckBoxBorderBrushKey";
+
+        // ComboBox Scope
+        public static string ComboBoxBackgroundBrushKey = "ComboBoxBackgroundBrushKey";
+        public static string ComboBoxBorderBrushKey = "ComboBoxBorderBrushKey";
+
+        // RadioButton Scope
+        public static string RadioButtonBackgroundBrushKey = "RadioButtonBackgroundBrushKey";
+        public static string RadioButtonBorderBrushKey = "RadioButtonBorderBrushKey";
+
+        // ListView Scope
+        public static string ListViewBackgroundBrushKey = "ListViewBackgroundBrushKey";
+        public static string ListViewBorderBrushKey = "ListViewBorderBrushKey";
+
+        // ListViewItem Scope
+        public static string ListViewItemBackgroundBrushKey = "ListViewItemBackgroundBrushKey";
+        public static string ListViewItemBorderBrushKey = "ListViewItemBorderBrushKey";
+        public static string ListViewItemUnfocusedBackgroundBrushKey = "ListViewItemUnfocusedBackgroundBrushKey";
+        public static string ListViewItemUnfocusedBorderBrushKey = "ListViewItemUnfocusedBorderBrushKey";
+
+        // Menu Scope
+        public static string MenuIconForegroundBrushKey = "MenuIconForegroundBrushKey";
+        public static string MenuBackgroundBrushKey = "MenuBackgroundBrushKey";
+        public static string MenuBorderBrushKey= "MenuBorderBrushKey";
+        public static string MenuGlyphForegroundBrushKey = "MenuGlyphForegroundBrushKey";
+        public static string MenuSeparatorForegroundBrushKey = "MenuSeparatorForegroundBrushKey";
+        public static string MenuMouseOverBackgroundBrushKey = "MenuMouseOverBackgroundBrushKey";
+
+        // MetroButton Scope
+        public static string MetroButtonBorderBrushKey = "MetroButtonBorderBrushKey";
+        public static string MetroButtonForegroundBrushKey = "MetroButtonForegroundBrushKey";
+        public static string MetroButtonIconBrushKey = "MetroButtonIconBrushKey";
+
+        // PasswordBox Scope
+        public static string PasswordBoxBackgroundBrushKey = "PasswordBoxBackgroundBrushKey";
+        public static string PasswordBoxBorderBrushKey = "PasswordBoxBorderBrushKey";
+
+        // RepeatButton Scope
+        public static string RepeatButtonBackgroundBrushKey = "RepeatButtonBackgroundBrushKey";
+        public static string RepeatButtonBorderBrushKey = "RepeatButtonBorderBrushKey";
+        public static string RepeatButtonMouseOverBackgroundBrushKey = "RepeatButtonMouseOverBackgroundBrushKey";
+
+        // Slider Scope
+        public static string SliderThumbBorderBrushKey = "SliderThumbBorderBrushKey";
+        public static string SliderThumbBackgroundBrushKey = "SliderThumbBackgroundBrushKey";
+        public static string SliderThumbTrackBackgroundBrushKey = "SliderThumbTrackBackgroundBrushKey";
+
+        // SuggestionBox Scope
+        public static string SuggestionBoxBackgroundBrushKey = "SuggestionBoxBackgroundBrushKey";
+        public static string SuggestionBoxBorderBrushKey = "SuggestionBoxBorderBrushKey";
+
+        // TextBox Scope
+        public static string TextBoxBackgroundBrushKey = "TextBoxBackgroundBrushKey";
+        public static string TextBoxBorderBrushKey = "TextBoxBorderBrushKey";
+
+        // ToggleButton Scope
+        public static string ToggleButtonBackgroundBrushKey = "ToggleButtonBackgroundBrushKey";
+        public static string ToggleButtonBorderBrushKey = "ToggleButtonBorderBrushKey";
+
+        // Tooltip Scope 
+        public static string TooltipBackgroundBrushKey = "TooltipBackgroundBrushKey";
+
+        // TreeView Scope
+        public static string TreeViewBackgroundBrushKey = "TreeViewBackgroundBrushKey";
+        public static string TreeViewBorderBrushKey = "TreeViewBorderBrushKey";
+
+        // TreeViewItem Scope
+        public static string TreeViewItemBackgroundBrushKey = "TreeViewItemBackgroundBrushKey";
+        public static string TreeViewItemBorderBrushKey = "TreeViewItemBorderBrushKey";
+        public static string TreeViewItemUnfocusedBackgroundBrushKey = "TreeViewItemUnfocusedBackgroundBrushKey";
+        public static string TreeViewItemUnfocusedBorderBrushKey = "TreeViewItemUnfocusedBorderBrushKey";
+
+        // WatermarkTextBox Scope
+        public static string WatermarkTextBoxBackgroundBrushKey = "WatermarkTextBoxBackgroundBrushKey";
+        public static string WatermarkTextBoxBorderBrushKey = "WatermarkTextBoxBorderBrushKey";
     }
 }

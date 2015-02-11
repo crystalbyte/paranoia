@@ -27,7 +27,7 @@ namespace Crystalbyte.Paranoia {
                     requestCompletedCallback();
                 });
 
-                return false;
+                return true;
             } catch (Exception ex) {
                 Logger.Error(ex);
                 return false;

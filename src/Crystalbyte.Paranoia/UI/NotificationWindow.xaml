@@ -83,7 +83,7 @@
                                TextWrapping="NoWrap" />
 
                     <TextBlock FontWeight="Normal"
-                               Style="{StaticResource SubtitleTextStyle}"
+                               Style="{StaticResource SubtitleTextBlockStyle}"
                                Text="{Binding Subject}"
                                TextTrimming="CharacterEllipsis"
                                TextWrapping="NoWrap" />

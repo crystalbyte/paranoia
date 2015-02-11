@@ -6,6 +6,6 @@
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/MetroButton.xaml" />
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/MetroScrollViewer.xaml" />
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/MetroProgressBar.xaml" />
-        <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/SuggestiveTextBox.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/SuggestionBox.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

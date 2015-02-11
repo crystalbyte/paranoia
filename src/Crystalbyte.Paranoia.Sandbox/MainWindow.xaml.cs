@@ -22,11 +22,11 @@ namespace Crystalbyte.Paranoia.Sandbox {
                 return;
             }
             
-            SuggestiveTextBox.ItemsSourceRequested += OnItemsSourceRequested;
+            SuggestionBox.ItemsSourceRequested += OnItemsSourceRequested;
         }
 
         private void OnItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
-            SuggestiveTextBox.ItemsSource = new[] { "Alexander Wieser", "Marvin Schluch", "Sebastian Thobe" };
+            SuggestionBox.ItemsSource = new[] { "Alexander Wieser", "Marvin Schluch", "Sebastian Thobe" };
         }
     }
 }

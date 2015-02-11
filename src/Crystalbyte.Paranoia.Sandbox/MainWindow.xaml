@@ -19,7 +19,7 @@
             <ui:ProgressRing IsActive="True" IsLarge="False" />
             <ui:MetroProgressBar IsIndeterminate="False" Value="44" />
             <ui:MetroProgressBar Height="4" IsIndeterminate="True" />
-            <ui:SuggestiveTextBox x:Name="SuggestiveTextBox" Watermark="This is a suggestive textbox" />
+            <ui:SuggestionBox x:Name="SuggestionBox" Watermark="This is a suggestive textbox" />
             <ui:MetroScrollViewer Height="80" />
             <TabControl>
                 <TabItem Header="Cow" />

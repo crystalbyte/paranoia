@@ -10,6 +10,6 @@ namespace Crystalbyte.Paranoia.Themes {
 
         public abstract string GetName();
 
-        public abstract IEnumerable<ResourceDictionary> GetThemeResources();
+        public abstract ResourceDictionary GetThemeResources();
     }
 }

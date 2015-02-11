@@ -46,7 +46,7 @@
                    Foreground="{StaticResource FlyoutForegroundBrushKey}"
                    IsEnabled="{Binding IsChecked,
                                        ElementName=AutoMagicButton}"
-                   Style="{StaticResource LabelTextStyle}">
+                   Style="{StaticResource LabelTextBlockStyle}">
             <Run Text="{x:Static properties:Resources.AccountName}" />
             <Run>:</Run>
         </TextBlock>
@@ -67,7 +67,7 @@
                    Foreground="{StaticResource FlyoutForegroundBrushKey}"
                    IsEnabled="{Binding IsChecked,
                                        ElementName=AutoMagicButton}"
-                   Style="{StaticResource LabelTextStyle}">
+                   Style="{StaticResource LabelTextBlockStyle}">
             <Run Text="{x:Static properties:Resources.MailAddress}" />
             <Run>:</Run>
         </TextBlock>
@@ -87,7 +87,7 @@
                    Foreground="{StaticResource FlyoutForegroundBrushKey}"
                    IsEnabled="{Binding IsChecked,
                                        ElementName=AutoMagicButton}"
-                   Style="{StaticResource LabelTextStyle}">
+                   Style="{StaticResource LabelTextBlockStyle}">
             <Run Text="{x:Static properties:Resources.Password}" />
             <Run>:</Run>
         </TextBlock>

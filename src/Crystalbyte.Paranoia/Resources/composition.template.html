@@ -3,7 +3,7 @@
 <head>
     <title>Composition</title>
     <meta charset="utf-8" />
-    <link href="resource:///html.composition.less" type="text/css" rel="stylesheet">
+    <link href="resource:///composition.template.less" type="text/css" rel="stylesheet">
 </head>
 <body>
     <textarea id="editor"></textarea>
@@ -11,18 +11,6 @@
     <script type="text/javascript" src="resource:///composition.js.zip/quill.js"></script>
     <script type="text/javascript">
         var quill = new Quill('#editor');
-        var resizeEditor = function () {
-            var width = window.window;
-            var height = window.height;
-            editor.height(height);
-            editor.width(width);
-        };
-
-        var editor = $('#editor');
-        $(window).resize(resizeEditor);
-        $(document).ready(function () {
-            resizeEditor();
-        });
     </script>
 </body>
 </html>

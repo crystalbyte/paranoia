@@ -958,7 +958,7 @@
                                DataContext="{Binding SelectedMessage}"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                FontWeight="Normal"
-                               Style="{DynamicResource SubtitleTextStyle}"
+                               Style="{DynamicResource SubtitleTextBlockStyle}"
                                Text="{Binding FromName}" />
                     <StackPanel Grid.Row="1"
                                 Grid.RowSpan="2"

@@ -96,7 +96,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async void OnRecipientsBoxItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
-            var control = (SuggestiveTextBox)sender;
+            var control = (SuggestionBox)sender;
             var contacts = await QueryContactsAsync(e.Text);
             await Application.Current.Dispatcher.InvokeAsync(() => {
                 control.ItemsSource = contacts;

@@ -250,6 +250,7 @@ namespace Crystalbyte.Paranoia {
         private static void InitChromium() {
             var settings = new CefSettings {
                 Locale = CultureInfo.CurrentUICulture.Name,
+                RemoteDebuggingPort = 1337,
                 LogFile = "./cef.log"
             };
 
@@ -335,14 +336,9 @@ namespace Crystalbyte.Paranoia {
         public void ApplyTheme(Theme theme) {
             var resources = theme.GetThemeResources();
 
-            // Add base styles.
-            Current.Resources.MergedDictionaries.Clear();
-            Current.Resources.MergedDictionaries.AddRange(resources);
-
-            // Derived styles need to be added after base styles.
-            var url = string.Format(Pack.Relative, typeof(App).Assembly.FullName, "/App.Styles.xaml");
-            var styles = (ResourceDictionary)LoadComponent(new Uri(url, UriKind.Relative));
-            Current.Resources.MergedDictionaries.Add(styles);
+            // Insert new theme styles.
+            Current.Resources.MergedDictionaries.Insert(0, resources);
+            Current.Resources.MergedDictionaries.RemoveAt(1);
 
             Settings.Default.Theme = theme.Name;
             Settings.Default.Save();

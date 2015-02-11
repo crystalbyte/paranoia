@@ -130,7 +130,7 @@
                                                Margin="0"
                                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                                                FontWeight="Normal"
-                                               Style="{StaticResource SubtitleTextStyle}"
+                                               Style="{StaticResource SubtitleTextBlockStyle}"
                                                Text="{Binding Address,
                                                               Converter={StaticResource NullOrEmptyFormatter},
                                                               ConverterParameter=...}"
@@ -189,7 +189,7 @@
                                    TextTrimming="CharacterEllipsis"
                                    TextWrapping="NoWrap" />
                         <TextBlock DataContext="{Binding SelectedContact}"
-                                   Style="{StaticResource SubtitleTextStyle}"
+                                   Style="{StaticResource SubtitleTextBlockStyle}"
                                    Text="{Binding Address}"
                                    TextTrimming="CharacterEllipsis"
                                    TextWrapping="NoWrap" />

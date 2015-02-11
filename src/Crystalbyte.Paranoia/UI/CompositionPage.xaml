@@ -200,7 +200,7 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <controls:SuggestiveTextBox x:Name="RecipientsBox"
+        <controls:SuggestionBox x:Name="RecipientsBox"
                                     Grid.Row="0"
                                     Grid.Column="2"
                                     Height="24"
@@ -213,13 +213,13 @@
                                     TabIndex="0"
                                     TokenTemplate="{StaticResource ContactTokenTemplate}"
                                     Watermark="{x:Static properties:Resources.To}">
-            <controls:SuggestiveTextBox.ItemContainerStyle>
+            <controls:SuggestionBox.ItemContainerStyle>
                 <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                     <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                 </Style>
-            </controls:SuggestiveTextBox.ItemContainerStyle>
-        </controls:SuggestiveTextBox>
+            </controls:SuggestionBox.ItemContainerStyle>
+        </controls:SuggestionBox>
         <Grid Grid.Row="0"
               Grid.RowSpan="2"
               Grid.Column="3"
@@ -272,7 +272,7 @@
                     Visibility="{Binding IsChecked,
                                          ElementName=CarbonCopyToggleButton,
                                          Converter={StaticResource BooleanToVisibilityConverter}}">
-            <controls:SuggestiveTextBox x:Name="CarbonCopyBox"
+            <controls:SuggestionBox x:Name="CarbonCopyBox"
                                         Height="24"
                                         Margin="6,0,6,6"
                                         HorizontalAlignment="Stretch"
@@ -286,14 +286,14 @@
                                                              ElementName=CarbonCopyToggleButton,
                                                              Converter={StaticResource BooleanToVisibilityConverter}}"
                                         Watermark="{x:Static properties:Resources.CarbonCopies}">
-                <controls:SuggestiveTextBox.ItemContainerStyle>
+                <controls:SuggestionBox.ItemContainerStyle>
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                         <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                     </Style>
-                </controls:SuggestiveTextBox.ItemContainerStyle>
-            </controls:SuggestiveTextBox>
-            <controls:SuggestiveTextBox x:Name="BlindCarbonCopyBox"
+                </controls:SuggestionBox.ItemContainerStyle>
+            </controls:SuggestionBox>
+            <controls:SuggestionBox x:Name="BlindCarbonCopyBox"
                                         Height="24"
                                         Margin="6,0,6,6"
                                         HorizontalAlignment="Stretch"
@@ -307,13 +307,13 @@
                                                              ElementName=CarbonCopyToggleButton,
                                                              Converter={StaticResource BooleanToVisibilityConverter}}"
                                         Watermark="{x:Static properties:Resources.BlindCarbonCopies}">
-                <controls:SuggestiveTextBox.ItemContainerStyle>
+                <controls:SuggestionBox.ItemContainerStyle>
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                         <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                     </Style>
-                </controls:SuggestiveTextBox.ItemContainerStyle>
-            </controls:SuggestiveTextBox>
+                </controls:SuggestionBox.ItemContainerStyle>
+            </controls:SuggestionBox>
         </StackPanel>
         <ListView Grid.Row="2"
                   Grid.Column="0"

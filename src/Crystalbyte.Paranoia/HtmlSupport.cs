@@ -222,7 +222,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public static string FormatPlainText(string subject, string plain) {
-            const string url = "/Resources/plain-text.template.html";
+            const string url = "/Resources/text.template.html";
             var info = Application.GetResourceStream(new Uri(url, UriKind.RelativeOrAbsolute));
             if (info == null) {
                 var message = string.Format(Resources.ResourceNotFoundException, url, typeof(App).Assembly.FullName);

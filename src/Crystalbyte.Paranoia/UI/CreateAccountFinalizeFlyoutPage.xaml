@@ -25,7 +25,7 @@
             </StackPanel>
             <ScrollViewer>
                 <StackPanel>
-                    <TextBlock Style="{DynamicResource SubtitleTextStyle}" Text="{x:Static properties:Resources.MailboxSettingsTitle}" />
+                    <TextBlock Style="{DynamicResource SubtitleTextBlockStyle}" Text="{x:Static properties:Resources.MailboxSettingsTitle}" />
                     <TextBlock Margin="0,0,0,12"
                                Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                Text="{x:Static properties:Resources.MailboxSettingsDescription}" />
@@ -174,7 +174,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Row="0"
                                    Grid.ColumnSpan="2"
-                                   Style="{DynamicResource SubtitleTextStyle}"
+                                   Style="{DynamicResource SubtitleTextBlockStyle}"
                                    Text="{x:Static properties:Resources.SignatureTitle}" />
                         <StackPanel Grid.Row="1"
                                     Grid.Column="0"

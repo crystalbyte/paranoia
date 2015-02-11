@@ -79,10 +79,10 @@
     <Compile Include="EditorContentLoadedEventArgs.cs" />
     <Compile Include="ScriptingException.cs" />
     <Compile Include="ScriptingFailureEventArgs.cs" />
-    <Compile Include="SuggestiveTextBox.xaml.cs">
-      <DependentUpon>SuggestiveTextBox.xaml</DependentUpon>
+    <Compile Include="SuggestionBox.xaml.cs">
+      <DependentUpon>SuggestionBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SuggestiveTextBoxCommands.cs" />
+    <Compile Include="SuggestionBoxCommands.cs" />
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
@@ -132,7 +132,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="SuggestiveTextBox.xaml">
+    <Page Include="SuggestionBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

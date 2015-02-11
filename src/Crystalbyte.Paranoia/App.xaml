@@ -4,35 +4,42 @@
              xmlns:converters="clr-namespace:Crystalbyte.Paranoia.UI.Converters"
              xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
              xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
              ShutdownMode="OnMainWindowClose"
              StartupUri="UI/MainWindow.xaml">
     <!--  Default styles: http://msdn.microsoft.com/en-us/library/aa970773.aspx  -->
     <Application.Resources>
         <ResourceDictionary>
-            <!--
-                These dictionaries will be re-added after each theme switch, they have been added to
-                keep the XAML parser happy and correctly display the themed (light) controls inside the visual designer.
-            -->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.Resources.xaml" />
-                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.Button.xaml" />
-                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.ToggleButton.xaml" />
-                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.GridSplitter.xaml" />
-                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.TabControl.xaml" />
-                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.GroupBox.xaml" />
-                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.ScrollViewer.xaml" />
-                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.ComboBox.xaml" />
-                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.PasswordBox.xaml" />
-                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.TextBox.xaml" />
-                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.WatermarkTextBox.xaml" />
-                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.SuggestiveTextBox.xaml" />
-                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.MetroButton.xaml" />
-                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.ListView.xaml" />
-                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.TreeView.xaml" />
-                <ResourceDictionary Source="App.Styles.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.Button.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.CheckBox.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.ComboBox.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.GridSplitter.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.GroupBox.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.ListView.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.Menu.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.MetroButton.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.MetroProgressBar.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.MetroProgressRing.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.PasswordBox.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.RadioButton.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.RepeatButton.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.ScrollViewer.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.Slider.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.StatusBar.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.SuggestionBox.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.TabControl.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.TextBlock.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.TextBox.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.ToggleButton.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.ToolTip.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.TreeView.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.WatermarkTextBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <!--  Converters  -->
             <converters:BooleanInverter x:Key="BooleanInverter" />
             <converters:SecurityToColorConverter x:Key="SecurityToColorConverter" />
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />
@@ -49,10 +56,28 @@
             <converters:BooleanToVisibilityMultiConverter x:Key="BooleanToVisibilityMultiConverter" />
             <converters:SortPropertyFormatter x:Key="SortPropertyFormatter" />
             <converters:IconFinder x:Key="IconFinder" />
-
             <converters:BooleanToBrushConverter x:Key="SubscribedAndSelectableForegroundConverter"
                                                 BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
                                                 BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+
+            <!--  Flyout  -->
+            <SolidColorBrush x:Key="FlyoutBackgroundBrushKey" Color="#353536" />
+            <SolidColorBrush x:Key="FlyoutForegroundBrushKey" Color="WhiteSmoke" />
+            <SolidColorBrush x:Key="FlyoutOverlayBrushKey" Color="Black" />
+            <SolidColorBrush x:Key="FlyoutButtonBackgroundBrushKey" Color="#2F2F30" />
+            <SolidColorBrush x:Key="FlyoutButtonBorderBrushKey" Color="#555556" />
+            <SolidColorBrush x:Key="FlyoutRadioButtonBackgroundBrushKey" Color="#2F2F30" />
+            <SolidColorBrush x:Key="FlyoutRadioButtonBorderBrushKey" Color="#555556" />
+            <SolidColorBrush x:Key="FlyoutComboBoxBackgroundBrushKey" Color="#2F2F30" />
+            <SolidColorBrush x:Key="FlyoutComboBoxBorderBrushKey" Color="#555556" />
+            <SolidColorBrush x:Key="FlyoutTextBoxBackgroundBrushKey" Color="#2F2F30" />
+            <SolidColorBrush x:Key="FlyoutTextBoxBorderBrushKey" Color="#555556" />
+            <system:Double x:Key="FlyoutOverlayOpacityKey">.5</system:Double>
+
+            <!--  Window Subtitle  -->
+            <FontFamily x:Key="SubtitleFontFamilyKey">Segoe UI</FontFamily>
+            <system:Double x:Key="SubtitleFontSizeKey">16</system:Double>
+            <FontWeight x:Key="SubtitleFontWeightKey">Thin</FontWeight>
 
             <DataTemplate x:Key="ThumbnailTemplate" DataType="paranoia:AttachmentContext">
                 <Border Padding="0,3">
@@ -149,14 +174,6 @@
                     </DockPanel>
                 </Grid>
             </HierarchicalDataTemplate>
-
-            <Style x:Key="SmallIconImageStyle" TargetType="Image">
-                <Setter Property="Width" Value="16" />
-                <Setter Property="Height" Value="16" />
-                <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="SnapsToDevicePixels" Value="True" />
-                <Setter Property="UseLayoutRounding" Value="True" />
-            </Style>
 
         </ResourceDictionary>
     </Application.Resources>
