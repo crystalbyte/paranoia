@@ -11,7 +11,7 @@
                       Title="Paranoia"
                       Width="1280"
                       Height="768"
-                      AccentBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                      AccentBrush="#333"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
                       BorderThickness="1"
                       KeyboardNavigation.TabNavigation="Local"
@@ -140,105 +140,106 @@
     </controls:MetroWindow.InputBindings>
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="HeaderRow" Height="38" />
+            <RowDefinition x:Name="HeaderRow"
+                           Height="Auto"
+                           MinHeight="38" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0"
-                   Grid.Column="0"
-                   HorizontalAlignment="Stretch"
-                   VerticalAlignment="Stretch"
-                   Panel.ZIndex="1000"
-                   Background="{DynamicResource WindowSecondaryBackgroundBrushKey}"
-                   LastChildFill="False"
-                   SnapsToDevicePixels="True">
-            <Button Width="Auto"
-                    Height="Auto"
-                    Margin="0"
-                    VerticalAlignment="Stretch"
-                    Command="ui:AppCommands.Settings"
-                    Padding="0"
-                    Style="{StaticResource WindowButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                    <Image Width="20"
-                           Margin="12,0"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           DockPanel.Dock="Left"
-                           RenderOptions.BitmapScalingMode="HighQuality"
-                           Source="/Assets/logo.window.png" />
-                    <TextBlock Margin="0,0,24,0"
+        <Border Grid.Row="0"
+                Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}"
+                BorderBrush="#AAAAAA"
+                BorderThickness="0,0,0,6"
+                Padding="0,4">
+            <DockPanel Panel.ZIndex="1000"
+                       LastChildFill="False"
+                       SnapsToDevicePixels="True">
+                <Button Width="Auto"
+                        Height="Auto"
+                        Margin="0"
+                        VerticalAlignment="Stretch"
+                        Command="ui:AppCommands.Settings"
+                        Padding="0"
+                        Style="{StaticResource WindowButtonStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="20"
+                               Margin="12,0"
+                               HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontSize="20"
-                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
-                               Style="{DynamicResource TitleTextStyle}"
-                               Text="{Binding Title,
-                                              RelativeSource={RelativeSource FindAncestor,
-                                                                             AncestorType=ui:MainWindow}}" />
-                </StackPanel>
-            </Button>
-            <Border DockPanel.Dock="Left">
-                <ListView HorizontalAlignment="Stretch"
-                          VerticalAlignment="Stretch"
-                          BorderThickness="0"
-                          ItemsSource="{Binding NavigationOptions}"
-                          KeyboardNavigation.ControlTabNavigation="None"
-                          KeyboardNavigation.DirectionalNavigation="Contained"
-                          SelectionChanged="OnMainMenuSelectionChanged">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
-                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
-                            <Setter Property="HorizontalContentAlignment" Value="Center" />
-                            <Setter Property="VerticalContentAlignment" Value="Center" />
-                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}" />
-                            <Setter Property="SnapsToDevicePixels" Value="true" />
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListViewItem">
-                                        <Grid Background="{TemplateBinding Background}">
-                                            <ContentPresenter Margin="{TemplateBinding Padding}"
-                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                        </Grid>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    <ListView.ItemTemplate>
-                        <DataTemplate DataType="paranoia:NavigationContext">
-                            <TextBlock x:Name="Text"
-                                       Margin="6,0"
-                                       VerticalAlignment="Center"
-                                       FontSize="20"
-                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
-                                       RenderOptions.ClearTypeHint="Enabled"
-                                       Style="{DynamicResource TitleTextStyle}"
-                                       Text="{Binding Title}" />
-                            <DataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-                                </DataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="True" />
-                                        <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="False" />
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-                                </MultiDataTrigger>
-                            </DataTemplate.Triggers>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Border>
-        </DockPanel>
+                               DockPanel.Dock="Left"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               Source="/Assets/logo.window.png" />
+                        <TextBlock Margin="0,0,24,0"
+                                   VerticalAlignment="Center"
+                                   FontSize="20"
+                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
+                                   Style="{DynamicResource TitleTextStyle}"
+                                   Text="{Binding Title,
+                                                  RelativeSource={RelativeSource FindAncestor,
+                                                                                 AncestorType=ui:MainWindow}}" />
+                    </StackPanel>
+                </Button>
+                <Border DockPanel.Dock="Left">
+                    <ListView HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              BorderThickness="0"
+                              ItemsSource="{Binding NavigationOptions}"
+                              KeyboardNavigation.ControlTabNavigation="None"
+                              KeyboardNavigation.DirectionalNavigation="Contained"
+                              SelectionChanged="OnMainMenuSelectionChanged">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                                <Setter Property="SnapsToDevicePixels" Value="True" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListViewItem">
+                                            <Grid Background="{TemplateBinding Background}">
+                                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplate>
+                            <DataTemplate DataType="paranoia:NavigationContext">
+                                <TextBlock x:Name="Text"
+                                           Margin="6,0"
+                                           VerticalAlignment="Center"
+                                           FontSize="20"
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
+                                           Style="{DynamicResource TitleTextStyle}"
+                                           Text="{Binding Title}" />
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                        <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                                    </DataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="True" />
+                                            <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="False" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                                    </MultiDataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Border>
+            </DockPanel>
+        </Border>
         <Grid Grid.Row="0"
               HorizontalAlignment="Right"
               VerticalAlignment="Top"
@@ -435,9 +436,10 @@
         <StatusBar x:Name="StatusBar"
                    Grid.Row="2"
                    Height="24"
-                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}"
+                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                    RenderTransformOrigin="0.5,0.5"
-                   SnapsToDevicePixels="True">
+                   SnapsToDevicePixels="True"
+                   Visibility="Collapsed">
             <StatusBar.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform />

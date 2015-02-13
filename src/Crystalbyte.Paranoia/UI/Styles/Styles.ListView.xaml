@@ -16,9 +16,7 @@
                     <Grid Background="{TemplateBinding Background}">
                         <Rectangle x:Name="HoverArea"
                                    Fill="Transparent"
-                                   Opacity=".2"
-                                   RenderOptions.EdgeMode="Aliased"
-                                   UseLayoutRounding="True" />
+                                   RenderOptions.EdgeMode="Aliased" />
                         <ContentPresenter Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
@@ -29,17 +27,14 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsSelected" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundBrushKey}}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="Selector.IsSelectionActive" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverArea" Property="Opacity" Value=".5" />
                             <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -47,7 +42,6 @@
                                 <Condition Property="Selector.IsSelectionActive" Value="False" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBackgroundBrushKey}}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBackgroundBrushKey}}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

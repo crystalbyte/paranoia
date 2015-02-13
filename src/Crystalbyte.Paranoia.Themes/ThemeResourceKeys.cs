@@ -22,6 +22,7 @@
 
         // Window Scope
         public static string WindowBackgroundBrushKey = "WindowBackgroundBrushKey";
+        public static string WindowHeaderBackgroundBrushKey = "WindowHeaderBackgroundBrushKey";
         public static string WindowSecondaryBackgroundBrushKey = "WindowSecondaryBackgroundBrushKey";
         public static string WindowSecondaryForegroundBrushKey = "WindowSecondaryForegroundBrushKey";
         public static string WindowMenuMouseOverBackgroundBrushKey = "WindowMenuMouseOverBackgroundBrushKey";
@@ -53,6 +54,7 @@
         public static string ListViewItemBorderBrushKey = "ListViewItemBorderBrushKey";
         public static string ListViewItemUnfocusedBackgroundBrushKey = "ListViewItemUnfocusedBackgroundBrushKey";
         public static string ListViewItemUnfocusedBorderBrushKey = "ListViewItemUnfocusedBorderBrushKey";
+        public static string ListViewItemMouseOverBackgroundBrushKey = "ListViewItemMouseOverBackgroundBrushKey";
 
         // Menu Scope
         public static string MenuIconForegroundBrushKey = "MenuIconForegroundBrushKey";
@@ -105,6 +107,7 @@
         public static string TreeViewItemBorderBrushKey = "TreeViewItemBorderBrushKey";
         public static string TreeViewItemUnfocusedBackgroundBrushKey = "TreeViewItemUnfocusedBackgroundBrushKey";
         public static string TreeViewItemUnfocusedBorderBrushKey = "TreeViewItemUnfocusedBorderBrushKey";
+        public static string TreeViewItemMouseOverBackgroundBrushKey = "TreeViewItemMouseOverBackgroundBrushKey";
 
         // WatermarkTextBox Scope
         public static string WatermarkTextBoxBackgroundBrushKey = "WatermarkTextBoxBackgroundBrushKey";

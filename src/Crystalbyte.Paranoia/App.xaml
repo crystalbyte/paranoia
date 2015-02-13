@@ -13,6 +13,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.Resources.xaml" />
+                <ResourceDictionary Source="/UI/Styles/Styles.Flyout.xaml" />
                 <ResourceDictionary Source="/UI/Styles/Styles.Button.xaml" />
                 <ResourceDictionary Source="/UI/Styles/Styles.CheckBox.xaml" />
                 <ResourceDictionary Source="/UI/Styles/Styles.ComboBox.xaml" />
@@ -59,20 +60,6 @@
             <converters:BooleanToBrushConverter x:Key="SubscribedAndSelectableForegroundConverter"
                                                 BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
                                                 BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
-
-            <!--  Flyout  -->
-            <SolidColorBrush x:Key="FlyoutBackgroundBrushKey" Color="#353536" />
-            <SolidColorBrush x:Key="FlyoutForegroundBrushKey" Color="WhiteSmoke" />
-            <SolidColorBrush x:Key="FlyoutOverlayBrushKey" Color="Black" />
-            <SolidColorBrush x:Key="FlyoutButtonBackgroundBrushKey" Color="#2F2F30" />
-            <SolidColorBrush x:Key="FlyoutButtonBorderBrushKey" Color="#555556" />
-            <SolidColorBrush x:Key="FlyoutRadioButtonBackgroundBrushKey" Color="#2F2F30" />
-            <SolidColorBrush x:Key="FlyoutRadioButtonBorderBrushKey" Color="#555556" />
-            <SolidColorBrush x:Key="FlyoutComboBoxBackgroundBrushKey" Color="#2F2F30" />
-            <SolidColorBrush x:Key="FlyoutComboBoxBorderBrushKey" Color="#555556" />
-            <SolidColorBrush x:Key="FlyoutTextBoxBackgroundBrushKey" Color="#2F2F30" />
-            <SolidColorBrush x:Key="FlyoutTextBoxBorderBrushKey" Color="#555556" />
-            <system:Double x:Key="FlyoutOverlayOpacityKey">.5</system:Double>
 
             <!--  Window Subtitle  -->
             <FontFamily x:Key="SubtitleFontFamilyKey">Segoe UI</FontFamily>

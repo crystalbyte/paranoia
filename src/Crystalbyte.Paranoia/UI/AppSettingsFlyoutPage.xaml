@@ -21,6 +21,7 @@
                                   Content="{x:Static properties:Resources.Close}"
                                   ImageSource="/Assets/cancel.png"
                                   Style="{StaticResource FlyoutMetroButtonStyle}" />
+
         </StackPanel>
         <TabControl>
             <TabItem Header="{x:Static properties:Resources.Appearence}" HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">

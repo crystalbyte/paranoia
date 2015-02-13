@@ -3,33 +3,25 @@
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
     <ControlTemplate x:Key="HorizontalGridSplitter" TargetType="GridSplitter">
-        <Grid>
-            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <Rectangle Height="1"
-                       HorizontalAlignment="Stretch"
-                       VerticalAlignment="Center"
-                       Fill="{TemplateBinding Background}"
-                       RenderOptions.EdgeMode="Aliased"
-                       UseLayoutRounding="True" />
-        </Grid>
+        <Rectangle Height="{TemplateBinding Height}"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Center"
+                   Fill="{TemplateBinding Background}"
+                   RenderOptions.EdgeMode="Aliased"
+                   UseLayoutRounding="True" />
     </ControlTemplate>
     <ControlTemplate x:Key="VerticalGridSplitter" TargetType="GridSplitter">
-        <Grid>
-            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <Rectangle Width="1"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Stretch"
-                       Fill="{TemplateBinding Background}"
-                       RenderOptions.EdgeMode="Aliased"
-                       UseLayoutRounding="True" />
-        </Grid>
+        <Rectangle Width="{TemplateBinding Width}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Stretch"
+                   Fill="{TemplateBinding Background}"
+                   RenderOptions.EdgeMode="Aliased"
+                   UseLayoutRounding="True" />
     </ControlTemplate>
 
     <Style TargetType="GridSplitter">
         <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />
         <Setter Property="Width" Value="4" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}" />
         <Setter Property="Cursor" Value="SizeWE" />
         <Setter Property="Template" Value="{StaticResource VerticalGridSplitter}" />
@@ -37,6 +29,7 @@
             <Trigger Property="HorizontalAlignment" Value="Stretch">
                 <Setter Property="Template" Value="{StaticResource HorizontalGridSplitter}" />
                 <Setter Property="Cursor" Value="SizeNS" />
+                <Setter Property="Height" Value="4" />
             </Trigger>
         </Style.Triggers>
     </Style>
