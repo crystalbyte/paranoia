@@ -31,18 +31,14 @@
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="320"
-                              MinWidth="150"
-                              MaxWidth="500" />
+            <ColumnDefinition Width=".24*" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="400"
-                              MinWidth="150"
-                              MaxWidth="700" />
+            <ColumnDefinition Width=".3*" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width=".46*" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
-            <Rectangle Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Opacity=".03" />
+            <!--  <Rectangle Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Opacity=".03" />  -->
             <DockPanel LastChildFill="True">
                 <Border Margin="2,0"
                         HorizontalAlignment="Stretch"
@@ -75,7 +71,7 @@
                     </TextBlock>
                 </DockPanel>
                 <TreeView x:Name="AccountsTreeView"
-                          Margin="0"
+                          Margin="2,0,0,0"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
                           BorderThickness="0"
@@ -114,7 +110,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Image Width="16"
                                        Height="16"
-                                       Margin="0,1,6,1"
+                                       Margin="0,3,6,3"
                                        DockPanel.Dock="Left"
                                        SnapsToDevicePixels="True"
                                        Source="/Assets/folder.png" />
@@ -193,7 +189,7 @@
                                 <Image Grid.Row="0"
                                        Grid.Column="0"
                                        Width="36"
-                                       Margin="0,2,6,2"
+                                       Margin="2,2,6,2"
                                        VerticalAlignment="Center"
                                        RenderOptions.BitmapScalingMode="Fant"
                                        Source="{Binding Address,
@@ -305,7 +301,7 @@
                                     </Border>
                                     <Image Width="16"
                                            Height="16"
-                                           Margin="0,1,6,1"
+                                           Margin="0,3,6,3"
                                            DockPanel.Dock="Left"
                                            SnapsToDevicePixels="True"
                                            Source="/Assets/folder.png">
@@ -365,9 +361,9 @@
                                         <Condition Binding="{Binding IsSelected}" Value="True" />
                                         <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}" Value="True" />
                                     </MultiDataTrigger.Conditions>
-                                    <Setter TargetName="NameText" Property="Foreground" Value="WhiteSmoke" />
-                                    <Setter TargetName="EnvelopeProgressBar" Property="Foreground" Value="WhiteSmoke" />
-                                    <Setter TargetName="NotSeenCountText" Property="Foreground" Value="WhiteSmoke" />
+                                    <!--  <Setter TargetName="NameText" Property="Foreground" Value="WhiteSmoke" />  -->
+                                    <!--  <Setter TargetName="EnvelopeProgressBar" Property="Foreground" Value="WhiteSmoke" />  -->
+                                    <!--  <Setter TargetName="NotSeenCountText" Property="Foreground" Value="WhiteSmoke" />  -->
                                 </MultiDataTrigger>
                             </HierarchicalDataTemplate.Triggers>
                         </HierarchicalDataTemplate>
@@ -386,8 +382,8 @@
         </Grid>
         <GridSplitter Grid.Row="0"
                       Grid.Column="1"
-                      Margin="0,2"
-                      Background="Transparent"
+                      Width="4"
+                      HorizontalAlignment="Stretch"
                       IsTabStop="False" />
         <DockPanel Grid.Row="0"
                    Grid.Column="2"
@@ -628,11 +624,13 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Rectangle Grid.Row="0"
-                                           Grid.RowSpan="2"
-                                           Grid.Column="0"
-                                           Grid.ColumnSpan="3"
-                                           Fill="Transparent" />
+                                <!--
+                                    <Rectangle Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="3"
+                                    Fill="Transparent" />
+                                -->
                                 <Image Grid.Row="0"
                                        Grid.RowSpan="2"
                                        Grid.Column="0"
@@ -913,8 +911,8 @@
         </DockPanel>
         <GridSplitter Grid.Row="0"
                       Grid.Column="3"
-                      Margin="0,2"
-                      Background="Transparent"
+                      Width="4"
+                      HorizontalAlignment="Stretch"
                       IsTabStop="False" />
         <Grid Grid.Row="0" Grid.Column="4">
             <Grid.RowDefinitions>
@@ -924,7 +922,9 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Border Grid.Row="0"
-                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}"
+                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppHtmlBackgroundBrushKey}}"
+                    BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                    BorderThickness="0,0,0,1"
                     Padding="0,0,0,6"
                     Visibility="{Binding IsMessageOrSmtpRequestSelected,
                                          Converter={StaticResource BooleanToVisibilityConverter},
@@ -959,7 +959,9 @@
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                FontWeight="Normal"
                                Style="{DynamicResource SubtitleTextBlockStyle}"
-                               Text="{Binding FromName}" />
+                               Text="{Binding FromName}"
+                               TextTrimming="CharacterEllipsis"
+                               TextWrapping="NoWrap" />
                     <StackPanel Grid.Row="1"
                                 Grid.RowSpan="2"
                                 Grid.Column="1"
@@ -1003,15 +1005,19 @@
             </Border>
             <ListView Grid.Row="1"
                       Margin="0"
-                      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}"
+                      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAttachmentBackgroundBrushKey}}"
+                      BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                      BorderThickness="0,0,0,1"
                       ItemTemplate="{StaticResource ThumbnailTemplate}"
                       ItemsSource="{Binding Attachments}"
                       ScrollViewer.CanContentScroll="False"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                      UseLayoutRounding="True">
                 <ListView.Style>
                     <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type ListView}">
                         <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClicked" />
+                        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAttachmentBackgroundBrushKey}}" />
                         <Style.Triggers>
                             <Trigger Property="HasItems" Value="False">
                                 <Setter Property="Visibility" Value="Collapsed" />
@@ -1021,6 +1027,7 @@
                 </ListView.Style>
                 <ListView.ItemContainerStyle>
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
+                        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAttachmentBackgroundBrushKey}}" />
                         <Setter Property="UseLayoutRounding" Value="True" />
                         <Setter Property="Padding" Value="1" />
                     </Style>
@@ -1032,10 +1039,12 @@
                 </ListView.ItemsPanel>
             </ListView>
             <ui:BlockNoticeControl Grid.Row="2" DataContext="{Binding SelectedMessage}" />
-            <Grid Grid.Row="3" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid Grid.Row="3"
+                  Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppHtmlBackgroundBrushKey}}"
+                  Visibility="{Binding IsMessageOrSmtpRequestSelected,
+                                       Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <ui:HtmlViewer x:Name="MessageViewer"
-                                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
                                    BorderThickness="0"
                                    DataContext="{Binding DataContext,
                                                          RelativeSource={RelativeSource FindAncestor,

@@ -43,7 +43,7 @@
                             BorderThickness="{StaticResource MenuBorderThicknessKey}"
                             Padding="0,3">
                         <Border.Effect>
-                            <DropShadowEffect ShadowDepth="2" Color="Black" />
+                            <DropShadowEffect ShadowDepth="1" Color="Black" />
                         </Border.Effect>
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                     </Border>
@@ -206,7 +206,7 @@
                             BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBorderBrushKey}}"
                             BorderThickness="{StaticResource MenuBorderThicknessKey}">
                         <Border.Effect>
-                            <DropShadowEffect ShadowDepth="2" Color="Black" />
+                            <DropShadowEffect ShadowDepth="1" Color="Black" />
                         </Border.Effect>
                         <ScrollViewer CanContentScroll="True" Style="{StaticResource MenuScrollViewer}">
                             <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
@@ -246,7 +246,7 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource MenuMouseOverBrushKey}" />
+                <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuMouseOverBackgroundBrushKey}}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
@@ -317,7 +317,7 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource MenuMouseOverBrushKey}" />
+                <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuMouseOverBackgroundBrushKey}}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
@@ -361,7 +361,7 @@
                             BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBorderBrushKey}}"
                             BorderThickness="{StaticResource MenuBorderThicknessKey}">
                         <Border.Effect>
-                            <DropShadowEffect ShadowDepth="2" Color="Black" />
+                            <DropShadowEffect ShadowDepth="1" Color="Black" />
                         </Border.Effect>
                         <ScrollViewer CanContentScroll="True" Style="{StaticResource MenuScrollViewer}">
                             <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />

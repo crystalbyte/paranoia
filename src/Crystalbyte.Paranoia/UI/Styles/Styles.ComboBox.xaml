@@ -7,7 +7,6 @@
 
     <Thickness x:Key="ComboBoxPaddingKey">5</Thickness>
     <Thickness x:Key="ComboBoxMarginKey">3</Thickness>
-    <Thickness x:Key="ComboBoxBorderThicknessKey">1</Thickness>
 
     <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
         <Grid>
@@ -17,9 +16,13 @@
             </Grid.ColumnDefinitions>
             <Border x:Name="Border"
                     Grid.ColumnSpan="2"
-                    Background="Transparent"
                     BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}" />
+                    BorderThickness="{TemplateBinding BorderThickness}">
+                <Rectangle x:Name="HoverArea"
+                           Fill="Transparent"
+                           Opacity=".2"
+                           RenderOptions.EdgeMode="Aliased" />
+            </Border>
             <Path x:Name="Arrow"
                   Grid.Column="1"
                   HorizontalAlignment="Center"
@@ -30,6 +33,8 @@
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -37,14 +42,12 @@
     <Style TargetType="{x:Type ComboBox}">
         <Setter Property="Padding" Value="{StaticResource ComboBoxPaddingKey}" />
         <Setter Property="Margin" Value="{StaticResource ComboBoxMarginKey}" />
-        <Setter Property="SnapsToDevicePixels" Value="true" />
-        <Setter Property="BorderThickness" Value="{StaticResource ComboBoxBorderThicknessKey}" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Focusable" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
-        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxBorderBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxBackgroundBrushKey}}" />
         <Setter Property="MinWidth" Value="50" />
@@ -81,19 +84,17 @@
                                       IsChecked="{Binding IsDropDownOpen,
                                                           Mode=TwoWay,
                                                           RelativeSource={RelativeSource TemplatedParent}}"
-                                      Template="{StaticResource ComboBoxToggleButton}" />
+                                      Template="{StaticResource ComboBoxToggleButton}"
+                                      UseLayoutRounding="True" />
                         <Border Padding="{TemplateBinding Padding}">
-                            <Grid>
-                                <Rectangle Fill="Transparent" />
-                                <ContentPresenter x:Name="ContentSite"
-                                                  Margin="3,0,23,0"
-                                                  HorizontalAlignment="Left"
-                                                  VerticalAlignment="Stretch"
-                                                  Content="{TemplateBinding SelectionBoxItem}"
-                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                                  ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                                  IsHitTestVisible="False" />
-                            </Grid>
+                            <ContentPresenter x:Name="ContentSite"
+                                              Margin="3,0,23,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Stretch"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              IsHitTestVisible="False" />
                         </Border>
                         <TextBox x:Name="PART_EditableTextBox"
                                  Margin="3,0,23,0"
@@ -113,8 +114,6 @@
                                IsOpen="{TemplateBinding IsDropDownOpen}"
                                Placement="Bottom"
                                PopupAnimation="Slide"
-                               SnapsToDevicePixels="True"
-                               UseLayoutRounding="True"
                                VerticalOffset="2">
                             <Grid x:Name="DropDown"
                                   MinWidth="{TemplateBinding ActualWidth}"
@@ -184,7 +183,8 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource ComboBoxMouseOverBackgroundBrushKey}" />
+                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

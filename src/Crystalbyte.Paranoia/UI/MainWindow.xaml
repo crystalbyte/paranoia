@@ -11,7 +11,7 @@
                       Title="Paranoia"
                       Width="1280"
                       Height="768"
-                      AccentBrush="#333"
+                      AccentBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
                       BorderThickness="1"
                       KeyboardNavigation.TabNavigation="Local"
@@ -142,15 +142,14 @@
         <Grid.RowDefinitions>
             <RowDefinition x:Name="HeaderRow"
                            Height="Auto"
-                           MinHeight="38" />
+                           MinHeight="36" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Border Grid.Row="0"
                 Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}"
-                BorderBrush="#AAAAAA"
-                BorderThickness="0,0,0,6"
-                Padding="0,4">
+                BorderThickness="0"
+                UseLayoutRounding="True">
             <DockPanel Panel.ZIndex="1000"
                        LastChildFill="False"
                        SnapsToDevicePixels="True">
@@ -172,7 +171,7 @@
                         <TextBlock Margin="0,0,24,0"
                                    VerticalAlignment="Center"
                                    FontSize="20"
-                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
+                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                    Style="{DynamicResource TitleTextStyle}"
                                    Text="{Binding Title,
                                                   RelativeSource={RelativeSource FindAncestor,
@@ -191,6 +190,7 @@
                             <Style TargetType="ListViewItem">
                                 <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                 <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}" />
                                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
                                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                                 <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -219,7 +219,7 @@
                                            Margin="6,0"
                                            VerticalAlignment="Center"
                                            FontSize="20"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                            Style="{DynamicResource TitleTextStyle}"
                                            Text="{Binding Title}" />
                                 <DataTemplate.Triggers>

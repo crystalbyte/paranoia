@@ -17,15 +17,20 @@
         public static string AppLargeFontSizeKey = "AppLargeFontSizeKey";
         public static string AppExtraLargeFontSizeKey = "AppExtraLargeFontSizeKey";
 
+        public static string AppAttachmentBackgroundBrushKey = "AppAttachmentBackgroundBrushKey";
+        public static string AppHtmlBackgroundBrushKey = "AppHtmlBackgroundBrushKey";
+
         public static string InputFontFamilyKey = "InputFontFamilyKey";
         public static string InputForegroundBrushKey = "InputForegroundBrushKey";
 
         // Window Scope
         public static string WindowBackgroundBrushKey = "WindowBackgroundBrushKey";
         public static string WindowHeaderBackgroundBrushKey = "WindowHeaderBackgroundBrushKey";
+        public static string WindowHeaderForegroundBrushKey = "WindowHeaderForegroundBrushKey";
         public static string WindowSecondaryBackgroundBrushKey = "WindowSecondaryBackgroundBrushKey";
         public static string WindowSecondaryForegroundBrushKey = "WindowSecondaryForegroundBrushKey";
         public static string WindowMenuMouseOverBackgroundBrushKey = "WindowMenuMouseOverBackgroundBrushKey";
+        public static string WindowMenuPressedForegroundBrushKey = "WindowMenuPressedForegroundBrushKey";
         public static string WindowShadowBrushKey = "WindowShadowBrushKey";
         public static string SplitterForegroundBrushKey = "SplitterForegroundBrushKey";
 
@@ -55,6 +60,7 @@
         public static string ListViewItemUnfocusedBackgroundBrushKey = "ListViewItemUnfocusedBackgroundBrushKey";
         public static string ListViewItemUnfocusedBorderBrushKey = "ListViewItemUnfocusedBorderBrushKey";
         public static string ListViewItemMouseOverBackgroundBrushKey = "ListViewItemMouseOverBackgroundBrushKey";
+        public static string ListViewItemMouseOverBackgroundOpacityBrushKey = "ListViewItemMouseOverBackgroundOpacityBrushKey";
 
         // Menu Scope
         public static string MenuIconForegroundBrushKey = "MenuIconForegroundBrushKey";
@@ -108,6 +114,7 @@
         public static string TreeViewItemUnfocusedBackgroundBrushKey = "TreeViewItemUnfocusedBackgroundBrushKey";
         public static string TreeViewItemUnfocusedBorderBrushKey = "TreeViewItemUnfocusedBorderBrushKey";
         public static string TreeViewItemMouseOverBackgroundBrushKey = "TreeViewItemMouseOverBackgroundBrushKey";
+        public static string TreeViewItemMouseOverBackgroundOpacityKey = "TreeViewItemMouseOverBackgroundOpacityKey";
 
         // WatermarkTextBox Scope
         public static string WatermarkTextBoxBackgroundBrushKey = "WatermarkTextBoxBackgroundBrushKey";

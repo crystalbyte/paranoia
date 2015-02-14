@@ -103,8 +103,7 @@
     <Style TargetType="TreeViewItem">
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemBackgroundBrushKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemBorderBrushKey}}" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="0,2" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
         <Setter Property="Margin" Value="0" />
@@ -116,9 +115,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TreeViewItem">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border Background="{TemplateBinding Background}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="SelectionStates">
                                 <VisualState x:Name="Selected" />
@@ -138,34 +135,47 @@
                         </VisualStateManager.VisualStateGroups>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" MinWidth="20" />
+                                <ColumnDefinition Width="Auto"
+                                                  MinWidth="20"
+                                                  SharedSizeGroup="ex" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
+                            <Border Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"
+                                                          MinWidth="20"
+                                                          SharedSizeGroup="ex" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle x:Name="HoverArea"
+                                               Grid.Column="0"
+                                               Grid.ColumnSpan="2"
+                                               Fill="Transparent"
+                                               Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundOpacityKey}}" />
+                                    <ToggleButton x:Name="Expander"
+                                                  Grid.Row="0"
+                                                  Grid.Column="0"
+                                                  ClickMode="Press"
+                                                  IsChecked="{Binding IsExpanded,
+                                                                      RelativeSource={RelativeSource TemplatedParent}}"
+                                                  Style="{StaticResource ExpandCollapseToggleStyle}" />
+                                    <Border x:Name="Border"
+                                            Grid.Row="0"
+                                            Grid.Column="1">
+                                        <ContentPresenter x:Name="PART_Header"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          ContentSource="Header" />
 
-                            <Rectangle x:Name="HoverArea"
-                                       Grid.Row="0"
-                                       Grid.Column="0"
-                                       Grid.ColumnSpan="2"
-                                       Fill="Transparent"
-                                       RenderOptions.EdgeMode="Aliased" />
-                            <ToggleButton x:Name="Expander"
-                                          Grid.Row="0"
-                                          Grid.Column="0"
-                                          ClickMode="Press"
-                                          IsChecked="{Binding IsExpanded,
-                                                              RelativeSource={RelativeSource TemplatedParent}}"
-                                          Style="{StaticResource ExpandCollapseToggleStyle}" />
-                            <Border x:Name="Border"
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    Padding="{TemplateBinding Padding}">
-                                <ContentPresenter x:Name="PART_Header"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  ContentSource="Header" />
+                                    </Border>
+                                </Grid>
                             </Border>
                             <ItemsPresenter x:Name="ItemsHost"
                                             Grid.Row="1"
@@ -183,6 +193,7 @@
                                 <Condition Property="IsSelected" Value="False" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -190,6 +201,7 @@
                                 <Condition Property="IsKeyboardFocused" Value="True" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -197,6 +209,8 @@
                                 <Condition Property="IsKeyboardFocused" Value="False" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBackgroundBrushKey}}" />
+                            <Setter TargetName="HoverArea" Property="Opacity" Value=".5" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
