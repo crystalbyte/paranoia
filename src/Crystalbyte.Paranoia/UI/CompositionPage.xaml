@@ -120,8 +120,8 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="33" />
+            <RowDefinition Height="33" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -133,11 +133,11 @@
                 VerticalAlignment="Stretch"
                 Command="{Binding SendCommand}"
                 TabIndex="4">
-            <Rectangle Width="18"
-                       Height="18"
+            <Rectangle Width="20"
+                       Height="20"
                        Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}">
                 <Rectangle.OpacityMask>
-                    <ImageBrush ImageSource="/Assets/message.png" />
+                    <ImageBrush ImageSource="/Assets/send.png" />
                 </Rectangle.OpacityMask>
             </Rectangle>
         </Button>
@@ -146,7 +146,7 @@
                   Grid.RowSpan="2"
                   Grid.Column="1"
                   Width="220"
-                  Margin="0,6,3,6"
+                  Margin="0,6,3,6.2"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
                   DataContextChanged="OnAccountComboboxDataContextChanged"
@@ -164,8 +164,8 @@
                         </Grid.ColumnDefinitions>
                         <Image Grid.Row="0"
                                Grid.Column="0"
-                               Width="42"
-                               Margin="0,0,4,0"
+                               Width="38"
+                               Margin="1,1,4,1"
                                VerticalAlignment="Center"
                                RenderOptions.BitmapScalingMode="Fant"
                                Source="{Binding Address,
@@ -174,7 +174,6 @@
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Margin="2,-2,0,0"
                                        FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
-                                       FontWeight="Thin"
                                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                                        RenderOptions.ClearTypeHint="Enabled"
                                        Text="{Binding Name,
@@ -201,18 +200,18 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <controls:SuggestionBox x:Name="RecipientsBox"
-                                    Grid.Row="0"
-                                    Grid.Column="2"
-                                    Height="24"
-                                    Margin="3,6,3,3"
-                                    ItemTemplate="{StaticResource ContactSuggestionTemplate}"
-                                    ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
-                                    Padding="3"
-                                    SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
-                                    StringTokenTemplate="{StaticResource StringTokenTemplate}"
-                                    TabIndex="0"
-                                    TokenTemplate="{StaticResource ContactTokenTemplate}"
-                                    Watermark="{x:Static properties:Resources.To}">
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Height="24"
+                                Margin="3,6,3,3"
+                                ItemTemplate="{StaticResource ContactSuggestionTemplate}"
+                                ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
+                                Padding="3"
+                                SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
+                                StringTokenTemplate="{StaticResource StringTokenTemplate}"
+                                TabIndex="0"
+                                TokenTemplate="{StaticResource ContactTokenTemplate}"
+                                Watermark="{x:Static properties:Resources.To}">
             <controls:SuggestionBox.ItemContainerStyle>
                 <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                     <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
@@ -273,19 +272,19 @@
                                          ElementName=CarbonCopyToggleButton,
                                          Converter={StaticResource BooleanToVisibilityConverter}}">
             <controls:SuggestionBox x:Name="CarbonCopyBox"
-                                        Height="24"
-                                        Margin="6,0,6,6"
-                                        HorizontalAlignment="Stretch"
-                                        ItemTemplate="{StaticResource ContactSuggestionTemplate}"
-                                        ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
-                                        Padding="3"
-                                        SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
-                                        StringTokenTemplate="{StaticResource StringTokenTemplate}"
-                                        TokenTemplate="{StaticResource ContactTokenTemplate}"
-                                        Visibility="{Binding IsChecked,
-                                                             ElementName=CarbonCopyToggleButton,
-                                                             Converter={StaticResource BooleanToVisibilityConverter}}"
-                                        Watermark="{x:Static properties:Resources.CarbonCopies}">
+                                    Height="24"
+                                    Margin="6,0,6,6"
+                                    HorizontalAlignment="Stretch"
+                                    ItemTemplate="{StaticResource ContactSuggestionTemplate}"
+                                    ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
+                                    Padding="3"
+                                    SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
+                                    StringTokenTemplate="{StaticResource StringTokenTemplate}"
+                                    TokenTemplate="{StaticResource ContactTokenTemplate}"
+                                    Visibility="{Binding IsChecked,
+                                                         ElementName=CarbonCopyToggleButton,
+                                                         Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    Watermark="{x:Static properties:Resources.CarbonCopies}">
                 <controls:SuggestionBox.ItemContainerStyle>
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                         <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
@@ -294,19 +293,19 @@
                 </controls:SuggestionBox.ItemContainerStyle>
             </controls:SuggestionBox>
             <controls:SuggestionBox x:Name="BlindCarbonCopyBox"
-                                        Height="24"
-                                        Margin="6,0,6,6"
-                                        HorizontalAlignment="Stretch"
-                                        ItemTemplate="{StaticResource ContactSuggestionTemplate}"
-                                        ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
-                                        Padding="3"
-                                        SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
-                                        StringTokenTemplate="{StaticResource StringTokenTemplate}"
-                                        TokenTemplate="{StaticResource ContactTokenTemplate}"
-                                        Visibility="{Binding IsChecked,
-                                                             ElementName=CarbonCopyToggleButton,
-                                                             Converter={StaticResource BooleanToVisibilityConverter}}"
-                                        Watermark="{x:Static properties:Resources.BlindCarbonCopies}">
+                                    Height="24"
+                                    Margin="6,0,6,6"
+                                    HorizontalAlignment="Stretch"
+                                    ItemTemplate="{StaticResource ContactSuggestionTemplate}"
+                                    ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
+                                    Padding="3"
+                                    SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
+                                    StringTokenTemplate="{StaticResource StringTokenTemplate}"
+                                    TokenTemplate="{StaticResource ContactTokenTemplate}"
+                                    Visibility="{Binding IsChecked,
+                                                         ElementName=CarbonCopyToggleButton,
+                                                         Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    Watermark="{x:Static properties:Resources.BlindCarbonCopies}">
                 <controls:SuggestionBox.ItemContainerStyle>
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                         <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
@@ -318,7 +317,7 @@
         <ListView Grid.Row="2"
                   Grid.Column="0"
                   Grid.ColumnSpan="4"
-                  Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}"
+                  Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentBackgroundBrushKey}}"
                   BorderThickness="0"
                   ItemTemplate="{StaticResource ThumbnailTemplate}"
                   ItemsSource="{Binding Attachments}"
@@ -348,8 +347,7 @@
                            Source="{Binding Source,
                                             Mode=TwoWay}"
                            TabIndex="3"
-                           UseLayoutRounding="True"
-                           d:IsHidden="True" />
+                           UseLayoutRounding="True" />
         </Grid>
     </Grid>
 </Page>

@@ -42,6 +42,7 @@
 
             <!--  Converters  -->
             <converters:BooleanInverter x:Key="BooleanInverter" />
+            <converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
             <converters:SecurityToColorConverter x:Key="SecurityToColorConverter" />
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />
             <converters:MailboxLocalizer x:Key="MailboxLocalizer" />

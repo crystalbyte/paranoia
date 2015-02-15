@@ -215,8 +215,10 @@
     </ApplicationDefinition>
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="CompositionSchemeHandler.cs" />
+    <Compile Include="Contexts\HtmlEditorCommandContext.cs" />
     <Compile Include="FileSchemeHandler.cs" />
     <Compile Include="ScriptingObject.cs" />
+    <Compile Include="UI\Converters\ColorToBrushConverter.cs" />
     <Compile Include="UI\RoutedCommands\HtmlCommands.cs" />
     <Compile Include="HtmlSupport.cs" />
     <Compile Include="MessageSchemeHandler.cs" />
@@ -488,9 +490,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Styles\Styles.Dummy.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="UI\Styles\Styles.ColorPicker.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Styles\Styles.Flyout.xaml">
       <SubType>Designer</SubType>
@@ -725,6 +727,9 @@
     <Resource Include="Assets\back.png" />
     <Resource Include="Resources\composition.template.html" />
     <Resource Include="Resources\cover.template.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\send.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

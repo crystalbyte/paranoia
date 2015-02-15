@@ -76,7 +76,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="EditorContentLoadedEventArgs.cs" />
+    <Compile Include="ColorPicker.xaml.cs">
+      <DependentUpon>ColorPicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ScriptingException.cs" />
     <Compile Include="ScriptingFailureEventArgs.cs" />
     <Compile Include="SuggestionBox.xaml.cs">
@@ -132,6 +136,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ColorPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SuggestionBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

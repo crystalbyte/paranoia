@@ -17,8 +17,8 @@
         public static string AppLargeFontSizeKey = "AppLargeFontSizeKey";
         public static string AppExtraLargeFontSizeKey = "AppExtraLargeFontSizeKey";
 
-        public static string AppAttachmentBackgroundBrushKey = "AppAttachmentBackgroundBrushKey";
-        public static string AppHtmlBackgroundBrushKey = "AppHtmlBackgroundBrushKey";
+        public static string AttachmentBackgroundBrushKey = "AttachmentBackgroundBrushKey";
+        public static string HtmlBackgroundBrushKey = "HtmlBackgroundBrushKey";
 
         public static string InputFontFamilyKey = "InputFontFamilyKey";
         public static string InputForegroundBrushKey = "InputForegroundBrushKey";
@@ -33,6 +33,10 @@
         public static string WindowMenuPressedForegroundBrushKey = "WindowMenuPressedForegroundBrushKey";
         public static string WindowShadowBrushKey = "WindowShadowBrushKey";
         public static string SplitterForegroundBrushKey = "SplitterForegroundBrushKey";
+
+        // Composition Scope
+        public static string CompositionEditorBackgroundBrushKey = "CompositionEditorBackgroundBrushKey";
+        public static string CompositionEditorBorderBrushKey = "CompositionEditorBorderBrushKey";
 
         // Button Scope
         public static string ButtonBackgroundBrushKey = "ButtonBackgroundBrushKey";

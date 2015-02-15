@@ -1118,6 +1118,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Redo.
+        /// </summary>
+        public static string Redo {
+            get {
+                return ResourceManager.GetString("Redo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to F5.
         /// </summary>
         public static string RefreshGesture {
@@ -1610,6 +1619,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Unblock {
             get {
                 return ResourceManager.GetString("Unblock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Undo.
+        /// </summary>
+        public static string Undo {
+            get {
+                return ResourceManager.GetString("Undo", resourceCulture);
             }
         }
         

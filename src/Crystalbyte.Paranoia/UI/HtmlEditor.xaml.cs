@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using CefSharp;
 using CefSharp.Wpf;
 using NLog;
@@ -12,11 +16,14 @@ namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     /// Interaction logic for HtmlEditor.xaml
     /// </summary>
+    [TemplatePart(Name = WebBrowserTemplatePart, Type = typeof(ChromiumWebBrowser))]
+    [TemplatePart(Name = EditorMenuBorderTemplatePart, Type = typeof(Border))]
     public class HtmlEditor : Control, IRequestAware {
 
         #region Xaml Support
 
         private const string WebBrowserTemplatePart = "PART_WebBrowser";
+        private const string EditorMenuBorderTemplatePart = "PART_EditorMenuBorder";
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
@@ -24,6 +31,7 @@ namespace Crystalbyte.Paranoia.UI {
         #region Private Fields
 
         private ChromiumWebBrowser _browser;
+        private Border _editorBorder;
 
         #endregion
 
@@ -36,11 +44,29 @@ namespace Crystalbyte.Paranoia.UI {
 
         public HtmlEditor() {
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, OnCopy));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Undo, OnUndo));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Redo, OnRedo));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Cut, OnCut));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, OnPaste));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.SelectAll, OnSelectAll));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint));
             CommandBindings.Add(new CommandBinding(HtmlCommands.ViewSource, OnViewSource));
+        }
+
+        private void OnRedo(object sender, ExecutedRoutedEventArgs e) {
+            if (_browser == null) {
+                return;
+            }
+
+            _browser.Redo();
+        }
+
+        private void OnUndo(object sender, ExecutedRoutedEventArgs e) {
+            if (_browser == null) {
+                return;
+            }
+
+            _browser.Undo();
         }
 
         private void OnViewSource(object sender, ExecutedRoutedEventArgs e) {
@@ -118,21 +144,24 @@ namespace Crystalbyte.Paranoia.UI {
         public override void OnApplyTemplate() {
             base.OnApplyTemplate();
 
+            _editorBorder = (Border)Template.FindName(EditorMenuBorderTemplatePart, this);
+            _editorBorder.DataContext = new HtmlEditorCommandContext(this);
+
             _browser = (ChromiumWebBrowser)Template.FindName(WebBrowserTemplatePart, this);
             _browser.RequestHandler = new HtmlRequestHandler(this);
             _browser.BrowserSettings = new BrowserSettings {
                 DefaultEncoding = Encoding.UTF8.WebName,
-                //ApplicationCacheDisabled = true,
-                //JavaDisabled = true,
-                //WebSecurityDisabled = true,
-                //WebGlDisabled = true,
-                //UniversalAccessFromFileUrlsAllowed = true,
-                //FileAccessFromFileUrlsAllowed = true,
-                //PluginsDisabled = true,
-                //JavaScriptOpenWindowsDisabled = false,
-                //JavaScriptCloseWindowsDisabled = false,
-                //JavascriptDisabled = false,
-                //TextAreaResizeDisabled = true
+                ApplicationCacheDisabled = true,
+                JavaDisabled = true,
+                WebSecurityDisabled = true,
+                WebGlDisabled = true,
+                UniversalAccessFromFileUrlsAllowed = true,
+                FileAccessFromFileUrlsAllowed = true,
+                PluginsDisabled = true,
+                JavaScriptOpenWindowsDisabled = false,
+                JavaScriptCloseWindowsDisabled = false,
+                JavascriptDisabled = false,
+                TextAreaResizeDisabled = true
             };
 
             _browser.RegisterJsObject("extern", new ScriptingObject(this));

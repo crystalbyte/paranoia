@@ -7,5 +7,6 @@
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/MetroScrollViewer.xaml" />
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/MetroProgressBar.xaml" />
         <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/SuggestionBox.xaml" />
+        <ResourceDictionary Source="/Crystalbyte.Paranoia.Controls;component/ColorPicker.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

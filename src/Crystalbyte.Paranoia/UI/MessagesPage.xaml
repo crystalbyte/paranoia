@@ -110,7 +110,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Image Width="16"
                                        Height="16"
-                                       Margin="0,3,6,3"
+                                       Margin="0,2,6,2"
                                        DockPanel.Dock="Left"
                                        SnapsToDevicePixels="True"
                                        Source="/Assets/folder.png" />
@@ -301,7 +301,7 @@
                                     </Border>
                                     <Image Width="16"
                                            Height="16"
-                                           Margin="0,3,6,3"
+                                           Margin="0,2,6,2"
                                            DockPanel.Dock="Left"
                                            SnapsToDevicePixels="True"
                                            Source="/Assets/folder.png">
@@ -922,7 +922,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Border Grid.Row="0"
-                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppHtmlBackgroundBrushKey}}"
+                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}"
                     BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
                     BorderThickness="0,0,0,1"
                     Padding="0,0,0,6"
@@ -1005,7 +1005,7 @@
             </Border>
             <ListView Grid.Row="1"
                       Margin="0"
-                      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAttachmentBackgroundBrushKey}}"
+                      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentBackgroundBrushKey}}"
                       BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
                       BorderThickness="0,0,0,1"
                       ItemTemplate="{StaticResource ThumbnailTemplate}"
@@ -1017,7 +1017,7 @@
                 <ListView.Style>
                     <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type ListView}">
                         <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClicked" />
-                        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAttachmentBackgroundBrushKey}}" />
+                        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentBackgroundBrushKey}}" />
                         <Style.Triggers>
                             <Trigger Property="HasItems" Value="False">
                                 <Setter Property="Visibility" Value="Collapsed" />
@@ -1027,7 +1027,7 @@
                 </ListView.Style>
                 <ListView.ItemContainerStyle>
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
-                        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAttachmentBackgroundBrushKey}}" />
+                        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentBackgroundBrushKey}}" />
                         <Setter Property="UseLayoutRounding" Value="True" />
                         <Setter Property="Padding" Value="1" />
                     </Style>
@@ -1040,7 +1040,7 @@
             </ListView>
             <ui:BlockNoticeControl Grid.Row="2" DataContext="{Binding SelectedMessage}" />
             <Grid Grid.Row="3"
-                  Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppHtmlBackgroundBrushKey}}"
+                  Background="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}"
                   Visibility="{Binding IsMessageOrSmtpRequestSelected,
                                        Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">

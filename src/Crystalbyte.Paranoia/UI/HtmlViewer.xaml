@@ -17,7 +17,7 @@
     </Style>
 
     <Style TargetType="ui:HtmlViewer">
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppHtmlBackgroundBrushKey}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:HtmlViewer">

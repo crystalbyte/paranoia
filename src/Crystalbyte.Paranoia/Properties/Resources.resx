@@ -658,4 +658,10 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="Source" xml:space="preserve">
     <value>Source</value>
   </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
 </root>

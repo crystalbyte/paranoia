@@ -63,7 +63,6 @@ namespace Crystalbyte.Paranoia.UI {
                 } catch (Exception ex) {
                     Logger.Error(ex);
                 } finally {
-                    //browser.Navigate("about:blank");
                     browser.Dispose();
                 }
             };

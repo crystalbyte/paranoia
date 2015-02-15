@@ -23,8 +23,8 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppWarningBrushKey}" Color="Orange" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}" Color="#121212" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}">Gray</SolidColorBrush>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAttachmentBackgroundBrushKey}">#F6F4F7</SolidColorBrush>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppHtmlBackgroundBrushKey}">White</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AttachmentBackgroundBrushKey}">#F3F3F5</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}">White</SolidColorBrush>
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.AppFontFamilyKey}">Segoe UI</FontFamily>
 
     <!--  Window Scope  -->
@@ -124,5 +124,10 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBorderBrushKey}" Color="{StaticResource ControlBackgroundColorKey}" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}" Color="{StaticResource ItemMouseOverBackgroundColorKey}" />
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundOpacityKey}">.2</system:Double>
+
+    <!--  Composition Scope  -->
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.CompositionEditorBackgroundBrushKey}" Color="{StaticResource ControlBackgroundColorKey}" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.CompositionEditorBorderBrushKey}" Color="{StaticResource ControlBorderColorKey}" />
+
 
 </ResourceDictionary>

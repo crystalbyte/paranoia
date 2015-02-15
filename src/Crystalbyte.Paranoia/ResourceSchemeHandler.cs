@@ -38,6 +38,7 @@ namespace Crystalbyte.Paranoia {
             var uri = new Uri(request.Url);
             var name = uri.Segments[1].Trim('/');
             var resource = new Uri(string.Format("/Resources/{0}", name), UriKind.RelativeOrAbsolute);
+            // BUG: Throws ExecutionEngineException sometimes .. ?
             var info = Application.GetResourceStream(resource);
             if (info == null) {
                 throw new ResourceNotFoundException(resource.AbsoluteUri);

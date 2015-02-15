@@ -351,10 +351,16 @@
            BasedOn="{StaticResource {x:Type Button}}"
            TargetType="Button">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Height" Value="32" />
-        <Setter Property="Width" Value="32" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Height" Value="26" />
+        <Setter Property="Width" Value="26" />
         <Setter Property="Margin" Value="0" />
+    </Style>
+
+    <Style x:Key="LastEditorButtonStyle"
+           BasedOn="{StaticResource EditorButtonStyle}"
+           TargetType="Button">
+        <Setter Property="Margin" Value="0,0,6,0" />
     </Style>
 
 </ResourceDictionary>

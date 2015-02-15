@@ -53,6 +53,7 @@
                             <Popup x:Name="PART_Popup"
                                    MinHeight="0"
                                    MaxHeight="300"
+                                   Focusable="False"
                                    HorizontalOffset="-1"
                                    IsOpen="False"
                                    Placement="Bottom"
@@ -60,13 +61,15 @@
                                    StaysOpen="False"
                                    UseLayoutRounding="True"
                                    VerticalOffset="5">
-                                <Border Background="{TemplateBinding BorderBrush}">
+                                <Border Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
                                     <ListView x:Name="PART_ItemsHost"
                                               MinWidth="300"
                                               MinHeight="0"
-                                              Margin="1"
-                                              Background="{x:Static SystemColors.ControlBrush}"
+                                              Background="Transparent"
                                               BorderThickness="0"
+                                              Focusable="False"
                                               ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
                                               ItemsPanel="{TemplateBinding ItemsPanel}"
@@ -91,12 +94,6 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="BorderBrush" Value="{x:Static SystemColors.InactiveBorderBrush}" />
                             <Setter Property="Foreground" Value="{x:Static SystemColors.GrayTextBrush}" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="BorderBrush" Value="{x:Static SystemColors.HotTrackBrush}" />
-                        </Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter Property="BorderBrush" Value="{x:Static SystemColors.HotTrackBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
