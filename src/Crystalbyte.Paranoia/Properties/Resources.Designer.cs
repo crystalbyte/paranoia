@@ -250,11 +250,20 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to B.
+        ///   Looks up a localized string similar to Bold.
         /// </summary>
         public static string Bold {
             get {
                 return ResourceManager.GetString("Bold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to B.
+        /// </summary>
+        public static string BoldGlyph {
+            get {
+                return ResourceManager.GetString("BoldGlyph", resourceCulture);
             }
         }
         
@@ -693,6 +702,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Highlighting Color.
+        /// </summary>
+        public static string HighlightingColor {
+            get {
+                return ResourceManager.GetString("HighlightingColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The server does not support the IDLE extension..
         /// </summary>
         public static string IdleCommandNotSupported {
@@ -756,11 +774,29 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Italic.
+        /// </summary>
+        public static string Italic {
+            get {
+                return ResourceManager.GetString("Italic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Junk.
         /// </summary>
         public static string JunkMailbox {
             get {
                 return ResourceManager.GetString("JunkMailbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Link.
+        /// </summary>
+        public static string Link {
+            get {
+                return ResourceManager.GetString("Link", resourceCulture);
             }
         }
         
@@ -1078,6 +1114,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Paste {
             get {
                 return ResourceManager.GetString("Paste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Picture.
+        /// </summary>
+        public static string Picture {
+            get {
+                return ResourceManager.GetString("Picture", resourceCulture);
             }
         }
         
@@ -1470,6 +1515,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Strikethrough.
+        /// </summary>
+        public static string Strikethrough {
+            get {
+                return ResourceManager.GetString("Strikethrough", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Subject.
         /// </summary>
         public static string Subject {
@@ -1560,6 +1614,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Text Color.
+        /// </summary>
+        public static string TextColor {
+            get {
+                return ResourceManager.GetString("TextColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Theme.
         /// </summary>
         public static string Theme {
@@ -1619,6 +1682,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Unblock {
             get {
                 return ResourceManager.GetString("Unblock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Underline.
+        /// </summary>
+        public static string Underline {
+            get {
+                return ResourceManager.GetString("Underline", resourceCulture);
             }
         }
         

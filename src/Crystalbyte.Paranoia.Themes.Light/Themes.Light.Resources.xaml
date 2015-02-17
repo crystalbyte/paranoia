@@ -17,7 +17,7 @@
 
     <!--  Application Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#5299EA" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}" Color="#121212" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}" Color="#202020" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSuccessBrushKey}" Color="ForestGreen" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppFailureBrushKey}" Color="Tomato" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppWarningBrushKey}" Color="Orange" />
@@ -29,7 +29,7 @@
 
     <!--  Window Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}" Color="#FFF8F8F9" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}" Color="#333333" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}" Color="#181818" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="#FFF8F8F9" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}" Color="#F8F8F9" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}" Color="#5C5C5C" />

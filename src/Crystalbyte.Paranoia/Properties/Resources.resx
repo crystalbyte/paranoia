@@ -130,7 +130,7 @@
     <value>Authentification failed.</value>
   </data>
   <data name="Bold" xml:space="preserve">
-    <value>B</value>
+    <value>Bold</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
@@ -663,5 +663,29 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   </data>
   <data name="Undo" xml:space="preserve">
     <value>Undo</value>
+  </data>
+  <data name="BoldGlyph" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="HighlightingColor" xml:space="preserve">
+    <value>Highlighting Color</value>
+  </data>
+  <data name="Italic" xml:space="preserve">
+    <value>Italic</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="Picture" xml:space="preserve">
+    <value>Picture</value>
+  </data>
+  <data name="Strikethrough" xml:space="preserve">
+    <value>Strikethrough</value>
+  </data>
+  <data name="TextColor" xml:space="preserve">
+    <value>Text Color</value>
+  </data>
+  <data name="Underline" xml:space="preserve">
+    <value>Underline</value>
   </data>
 </root>

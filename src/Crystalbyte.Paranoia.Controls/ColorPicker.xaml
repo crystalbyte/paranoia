@@ -6,39 +6,38 @@
     <converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
 
     <Style TargetType="ui:ColorPicker">
-        <Setter Property="Background" Value="{x:Static SystemColors.ControlBrush}" />
         <Setter Property="PopupBackground" Value="{x:Static SystemColors.ControlBrush}" />
+        <Setter Property="Background" Value="{x:Static SystemColors.ControlBrush}" />
         <Setter Property="PopupBorderBrush" Value="{x:Static SystemColors.ControlDarkBrush}" />
         <Setter Property="BorderBrush" Value="{x:Static SystemColors.ControlDarkBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:ColorPicker">
                     <Grid>
-                        <ToggleButton x:Name="Button"
-                                      Background="{TemplateBinding Background}"
+                        <ToggleButton x:Name="PART_Button"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                       BorderBrush="{TemplateBinding BorderBrush}"
                                       BorderThickness="{TemplateBinding BorderThickness}"
                                       Content="{TemplateBinding Content}"
                                       ContentTemplate="{TemplateBinding ContentTemplate}" />
-                        <Popup IsOpen="{Binding IsChecked, ElementName=Button, Mode=TwoWay}" StaysOpen="False">
+                        <Popup IsOpen="{Binding IsChecked, ElementName=PART_Button, Mode=TwoWay}" StaysOpen="False">
                             <Border Background="{TemplateBinding PopupBackground}"
                                     BorderBrush="{TemplateBinding PopupBorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}">
-                                <ListView x:Name="PART_ColorSource" Background="Transparent" ItemsSource="{TemplateBinding AvailableColors}">
+                                <ListView x:Name="PART_ColorSelector"
+                                          Background="Transparent"
+                                          ItemTemplate="{TemplateBinding ColorTemplate}"
+                                          ItemsSource="{TemplateBinding AvailableColors}"
+                                          Padding="1">
                                     <ListView.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <WrapPanel Width="300" />
+                                            <WrapPanel Width="144" />
                                         </ItemsPanelTemplate>
                                     </ListView.ItemsPanel>
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate DataType="Color">
-                                            <Rectangle Width="16"
-                                                       Height="16"
-                                                       Margin="2"
-                                                       Fill="{Binding Converter={StaticResource ColorToBrushConverter}}" />
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
                                 </ListView>
                             </Border>
                         </Popup>

@@ -77,9 +77,7 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="ContactTokenTemplate" DataType="paranoia:MailContactContext">
-            <Grid MaxWidth="180"
-                  RenderOptions.EdgeMode="Aliased"
-                  SnapsToDevicePixels="True">
+            <Grid MaxWidth="180" SnapsToDevicePixels="True">
                 <Rectangle HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"
                            Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}" />
@@ -120,8 +118,8 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="33" />
-            <RowDefinition Height="33" />
+            <RowDefinition Height="32" />
+            <RowDefinition Height="32" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -146,7 +144,7 @@
                   Grid.RowSpan="2"
                   Grid.Column="1"
                   Width="220"
-                  Margin="0,6,3,6.2"
+                  Margin="0,6"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
                   DataContextChanged="OnAccountComboboxDataContextChanged"
@@ -202,15 +200,15 @@
         <controls:SuggestionBox x:Name="RecipientsBox"
                                 Grid.Row="0"
                                 Grid.Column="2"
-                                Height="24"
-                                Margin="3,6,3,3"
+                                Margin="3"
+                                VerticalAlignment="Center"
                                 ItemTemplate="{StaticResource ContactSuggestionTemplate}"
                                 ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
-                                Padding="3"
                                 SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
                                 StringTokenTemplate="{StaticResource StringTokenTemplate}"
                                 TabIndex="0"
                                 TokenTemplate="{StaticResource ContactTokenTemplate}"
+                                Visibility="Collapsed"
                                 Watermark="{x:Static properties:Resources.To}">
             <controls:SuggestionBox.ItemContainerStyle>
                 <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
@@ -223,42 +221,18 @@
               Grid.RowSpan="2"
               Grid.Column="3"
               Margin="6">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Button Grid.Row="0"
-                    Width="60"
-                    Height="34"
-                    Margin="0"
-                    VerticalAlignment="Stretch"
-                    BorderThickness="1,1,1,0"
-                    Command="{Binding AddAttachmentCommand}">
-                <Rectangle Width="18"
-                           Height="18"
-                           Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}">
-                    <Rectangle.OpacityMask>
-                        <ImageBrush ImageSource="/Assets/attachment.png" />
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </Button>
-            <ToggleButton x:Name="CarbonCopyToggleButton"
-                          Grid.Row="1"
-                          Padding="0">
-                <TextBlock Margin="0,1,0,0"
-                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
+            <ToggleButton x:Name="CarbonCopyToggleButton" Padding="0">
+                <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
-                           Padding="0">
-                    Cc / Bcc
+                           Padding="3,0">
+                    Cc
                 </TextBlock>
             </ToggleButton>
         </Grid>
         <controls:WatermarkTextBox x:Name="SubjectTextBox"
                                    Grid.Row="1"
                                    Grid.Column="2"
-                                   Height="24"
-                                   Margin="3,3,3,6"
-                                   Padding="3"
+                                   Background="Red"
                                    TabIndex="1"
                                    Text="{Binding Subject,
                                                   UpdateSourceTrigger=PropertyChanged,

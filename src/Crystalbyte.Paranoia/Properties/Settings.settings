@@ -27,5 +27,79 @@
     <Setting Name="Accent" Type="System.String" Scope="User">
       <Value Profile="(Default)">#5299EA</Value>
     </Setting>
+    <Setting Name="TextFontColors" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;#FF0000&lt;/string&gt;
+  &lt;string&gt;#00FFFF&lt;/string&gt;
+  &lt;string&gt;#0000FF&lt;/string&gt;
+  &lt;string&gt;#0000A0&lt;/string&gt;
+  &lt;string&gt;#ADD8E6&lt;/string&gt;
+  &lt;string&gt;#800080&lt;/string&gt;
+  &lt;string&gt;#FFFF00&lt;/string&gt;
+  &lt;string&gt;#00FF00&lt;/string&gt;
+  &lt;string&gt;#FF00FF&lt;/string&gt;
+  &lt;string&gt;#C0C0C0&lt;/string&gt;
+  &lt;string&gt;#808080&lt;/string&gt;
+  &lt;string&gt;#000000&lt;/string&gt;
+  &lt;string&gt;#FFA500&lt;/string&gt;
+  &lt;string&gt;#A52A2A&lt;/string&gt;
+  &lt;string&gt;#800000&lt;/string&gt;
+  &lt;string&gt;#008000&lt;/string&gt;
+  &lt;string&gt;#808000&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="BackgroundFontColors" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;#FF0000&lt;/string&gt;
+  &lt;string&gt;#00FFFF&lt;/string&gt;
+  &lt;string&gt;#0000FF&lt;/string&gt;
+  &lt;string&gt;#0000A0&lt;/string&gt;
+  &lt;string&gt;#ADD8E6&lt;/string&gt;
+  &lt;string&gt;#800080&lt;/string&gt;
+  &lt;string&gt;#FFFF00&lt;/string&gt;
+  &lt;string&gt;#00FF00&lt;/string&gt;
+  &lt;string&gt;#FF00FF&lt;/string&gt;
+  &lt;string&gt;#C0C0C0&lt;/string&gt;
+  &lt;string&gt;#808080&lt;/string&gt;
+  &lt;string&gt;#FFFFFF&lt;/string&gt;
+  &lt;string&gt;#FFA500&lt;/string&gt;
+  &lt;string&gt;#A52A2A&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="WebFonts" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;Arial&lt;/string&gt;
+  &lt;string&gt;Georgia&lt;/string&gt;
+  &lt;string&gt;Times New Roman&lt;/string&gt;
+  &lt;string&gt;Trebuchet MS&lt;/string&gt;
+  &lt;string&gt;Verdana&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="DefaultWebFont" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Trebuchet MS</Value>
+    </Setting>
+    <Setting Name="DefaultWebFontSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">13</Value>
+    </Setting>
+    <Setting Name="WebFontSizes" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;10&lt;/string&gt;
+  &lt;string&gt;11&lt;/string&gt;
+  &lt;string&gt;12&lt;/string&gt;
+  &lt;string&gt;13&lt;/string&gt;
+  &lt;string&gt;15&lt;/string&gt;
+  &lt;string&gt;17&lt;/string&gt;
+  &lt;string&gt;20&lt;/string&gt;
+  &lt;string&gt;23&lt;/string&gt;
+  &lt;string&gt;26&lt;/string&gt;
+  &lt;string&gt;30&lt;/string&gt;
+  &lt;string&gt;34&lt;/string&gt;
+  &lt;string&gt;38&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -490,10 +490,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Styles\Styles.ColorPicker.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UI\Styles\Styles.Flyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -730,6 +726,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\send.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\link.png" />
+    <Resource Include="Assets\picture.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

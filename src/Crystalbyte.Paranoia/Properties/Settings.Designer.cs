@@ -105,5 +105,121 @@ namespace Crystalbyte.Paranoia.Properties {
                 this["Accent"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>#FF0000</string>
+  <string>#00FFFF</string>
+  <string>#0000FF</string>
+  <string>#0000A0</string>
+  <string>#ADD8E6</string>
+  <string>#800080</string>
+  <string>#FFFF00</string>
+  <string>#00FF00</string>
+  <string>#FF00FF</string>
+  <string>#C0C0C0</string>
+  <string>#808080</string>
+  <string>#000000</string>
+  <string>#FFA500</string>
+  <string>#A52A2A</string>
+  <string>#800000</string>
+  <string>#008000</string>
+  <string>#808000</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection TextFontColors {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TextFontColors"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>#FF0000</string>
+  <string>#00FFFF</string>
+  <string>#0000FF</string>
+  <string>#0000A0</string>
+  <string>#ADD8E6</string>
+  <string>#800080</string>
+  <string>#FFFF00</string>
+  <string>#00FF00</string>
+  <string>#FF00FF</string>
+  <string>#C0C0C0</string>
+  <string>#808080</string>
+  <string>#FFFFFF</string>
+  <string>#FFA500</string>
+  <string>#A52A2A</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection BackgroundFontColors {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["BackgroundFontColors"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>Arial</string>
+  <string>Georgia</string>
+  <string>Times New Roman</string>
+  <string>Trebuchet MS</string>
+  <string>Verdana</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection WebFonts {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["WebFonts"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Trebuchet MS")]
+        public string DefaultWebFont {
+            get {
+                return ((string)(this["DefaultWebFont"]));
+            }
+            set {
+                this["DefaultWebFont"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("13")]
+        public string DefaultWebFontSize {
+            get {
+                return ((string)(this["DefaultWebFontSize"]));
+            }
+            set {
+                this["DefaultWebFontSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>10</string>
+  <string>11</string>
+  <string>12</string>
+  <string>13</string>
+  <string>15</string>
+  <string>17</string>
+  <string>20</string>
+  <string>23</string>
+  <string>26</string>
+  <string>30</string>
+  <string>34</string>
+  <string>38</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection WebFontSizes {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["WebFontSizes"]));
+            }
+        }
     }
 }

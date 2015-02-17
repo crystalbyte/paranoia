@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Resources;
 using CefSharp;
 using dotless.Core;
 using ICSharpCode.SharpZipLib.Zip;
@@ -14,6 +15,7 @@ namespace Crystalbyte.Paranoia {
         #region Private Fields
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly object Mutex = new object();
 
         #endregion
 
@@ -38,10 +40,14 @@ namespace Crystalbyte.Paranoia {
             var uri = new Uri(request.Url);
             var name = uri.Segments[1].Trim('/');
             var resource = new Uri(string.Format("/Resources/{0}", name), UriKind.RelativeOrAbsolute);
-            // BUG: Throws ExecutionEngineException sometimes .. ?
-            var info = Application.GetResourceStream(resource);
-            if (info == null) {
-                throw new ResourceNotFoundException(resource.AbsoluteUri);
+
+            // BUG: Occasionally throws ExecutionEngineException if not locked, so sad ... :(
+            StreamResourceInfo info;
+            lock (Mutex) {
+                info = Application.GetResourceStream(resource);
+                if (info == null) {
+                    throw new ResourceNotFoundException(resource.AbsoluteUri);
+                }
             }
 
             response.CloseStream = true;

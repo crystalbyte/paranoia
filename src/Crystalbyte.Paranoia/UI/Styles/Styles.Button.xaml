@@ -23,7 +23,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
-                    <Border Background="{TemplateBinding Background}"
+                    <Border x:Name="OuterBorder"
+                            Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
@@ -45,8 +46,13 @@
                                 <Condition Property="IsPressed" Value="False" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </MultiTrigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="HoverArea" Property="Opacity" Value=".5" />
+                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -138,7 +144,7 @@
                                Height="10"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
+                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                Stretch="Uniform">
                         <Rectangle.OpacityMask>
                             <ImageBrush ImageSource="/Assets/minimize.png" />
@@ -167,7 +173,7 @@
                                Height="10"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
+                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                Stretch="Uniform">
                         <Rectangle.OpacityMask>
                             <ImageBrush ImageSource="/Assets/maximize.png" />
@@ -196,7 +202,7 @@
                                Height="10"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
+                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                Stretch="Uniform">
                         <Rectangle.OpacityMask>
                             <ImageBrush ImageSource="/Assets/restore.png" />
@@ -225,7 +231,7 @@
                                Height="10"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
+                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                Stretch="Uniform">
                         <Rectangle.OpacityMask>
                             <ImageBrush ImageSource="/Assets/close.png" />
@@ -255,7 +261,7 @@
                                Height="10"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
+                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                Stretch="Uniform">
                         <Rectangle.OpacityMask>
                             <ImageBrush ImageSource="/Assets/help.png" />
@@ -355,12 +361,6 @@
         <Setter Property="Height" Value="26" />
         <Setter Property="Width" Value="26" />
         <Setter Property="Margin" Value="0" />
-    </Style>
-
-    <Style x:Key="LastEditorButtonStyle"
-           BasedOn="{StaticResource EditorButtonStyle}"
-           TargetType="Button">
-        <Setter Property="Margin" Value="0,0,6,0" />
     </Style>
 
 </ResourceDictionary>

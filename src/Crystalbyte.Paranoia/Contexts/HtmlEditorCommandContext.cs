@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using System.Text;
 using System.Windows;
-using System.Windows.Automation.Text;
-using System.Windows.Input;
 using System.Windows.Media;
+using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
 
@@ -29,6 +28,11 @@ namespace Crystalbyte.Paranoia {
             BulletCommand = new RelayCommand(OnCanBullet, OnBullet);
             LinkCommand = new RelayCommand(OnCanLink, OnLink);
             ImageCommand = new RelayCommand(OnCanImage, OnImage);
+
+            TextColor = Colors.Black;
+            BackgroundColor = Colors.Transparent;
+            FontFamily = new FontFamily(Settings.Default.DefaultWebFont);
+            FontSize = int.Parse(Settings.Default.DefaultWebFontSize);
         }
 
         private bool OnCanImage(object obj) {
@@ -36,11 +40,11 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnImage(object obj) {
-            
+
         }
 
         private void OnLink(object obj) {
-            
+
         }
 
         private bool OnCanLink(object obj) {
@@ -79,11 +83,30 @@ namespace Crystalbyte.Paranoia {
             return true;
         }
 
-        public IEnumerable<Color> Colors {
+        public IEnumerable<Color> TextColors {
             get {
-                var colorType = typeof(System.Drawing.Color);
-                var propInfoList = colorType.GetProperties(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.Public);
-                return propInfoList.Select(c => ColorConverter.ConvertFromString(c.Name)).Where(color => color != null).Cast<Color>();
+                var colors = Settings.Default.TextFontColors.OfType<string>().OrderBy(x => x);
+                return colors.Select(ColorConverter.ConvertFromString).Where(color => color != null).Cast<Color>();
+            }
+        }
+
+        public IEnumerable<Color> BackgroundColors {
+            get {
+                var colors = Settings.Default.BackgroundFontColors.OfType<string>().Concat(new[] { "Transparent" }).OrderByDescending(x => x);
+                return colors.Select(ColorConverter.ConvertFromString).Where(color => color != null).Cast<Color>();
+            }
+        }
+
+        public IEnumerable<FontFamily> FontFamilies {
+            get {
+                var families = Settings.Default.WebFonts.OfType<string>().OrderBy(x => x);
+                return families.Select(x => new FontFamily(x));
+            }
+        }
+
+        public IEnumerable<int> FontSizes {
+            get {
+                return Settings.Default.WebFontSizes.OfType<string>().Select(int.Parse);
             }
         }
 
