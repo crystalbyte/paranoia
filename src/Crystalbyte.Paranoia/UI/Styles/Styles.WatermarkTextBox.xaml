@@ -6,80 +6,13 @@
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI;assembly=Crystalbyte.Paranoia.Controls"
                     mc:Ignorable="d">
 
-    <DataTemplate x:Key="DefaultWatermarkTemplate">
-        <TextBlock Margin="3,0,0,0"
-                   VerticalAlignment="Center"
-                   Background="Transparent"
-                   Focusable="False"
-                   FontStyle="Italic"
-                   Foreground="{x:Static SystemColors.GrayTextBrush}"
-                   Text="{Binding}" />
-    </DataTemplate>
-
     <Style TargetType="ui:WatermarkTextBox">
-        <Setter Property="SpellCheck.IsEnabled" Value="False" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="AccentBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WatermarkTextBoxBorderBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WatermarkTextBoxBackgroundBrushKey}}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputForegroundBrushKey}}" />
-        <Setter Property="Padding" Value="5" />
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontFamilyKey}}" />
-        <Setter Property="HorizontalContentAlignment" Value="Left" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" />
-        <Setter Property="Margin" Value="33" />
-        <Setter Property="WatermarkTemplate" Value="{StaticResource DefaultWatermarkTemplate}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ui:WatermarkTextBox">
-                    <Border x:Name="Border"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            SnapsToDevicePixels="True">
-                        <Grid>
-                            <ScrollViewer x:Name="PART_ContentHost"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          Focusable="False"
-                                          Foreground="{TemplateBinding Foreground}"
-                                          HorizontalScrollBarVisibility="Hidden"
-                                          VerticalScrollBarVisibility="Hidden" />
-                            <ContentPresenter x:Name="WatermarkHost"
-                                              Margin="{TemplateBinding Padding}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              Content="{TemplateBinding Watermark}"
-                                              ContentTemplate="{TemplateBinding WatermarkTemplate}"
-                                              IsHitTestVisible="False"
-                                              Visibility="Collapsed" />
-                        </Grid>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsFocused" Value="False" />
-                                <Condition Property="Text" Value="" />
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter TargetName="WatermarkHost" Property="Visibility" Value="Visible" />
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="BorderBrush" Value="{x:Static SystemColors.InactiveBorderBrush}" />
-                            <Setter Property="Foreground" Value="{x:Static SystemColors.InactiveBorderBrush}" />
-                        </Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="True">
-                <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
-            </Trigger>
-        </Style.Triggers>
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontSizeKey}}" />
     </Style>
+
 </ResourceDictionary>

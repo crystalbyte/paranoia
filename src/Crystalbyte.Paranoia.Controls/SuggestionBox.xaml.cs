@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 
 #endregion
 
@@ -92,6 +93,15 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         #region Dependency Properties
+
+        public Brush AccentBrush {
+            get { return (Brush)GetValue(AccentBrushProperty); }
+            set { SetValue(AccentBrushProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for AccentBrush.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AccentBrushProperty =
+            DependencyProperty.Register("AccentBrush", typeof(Brush), typeof(SuggestionBox), new PropertyMetadata(null));
 
         public bool IsWatermarkVisible {
             get { return (bool)GetValue(IsWatermarkVisibleProperty); }

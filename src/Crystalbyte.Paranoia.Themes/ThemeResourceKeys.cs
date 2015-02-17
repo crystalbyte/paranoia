@@ -22,6 +22,7 @@
 
         public static string InputFontFamilyKey = "InputFontFamilyKey";
         public static string InputForegroundBrushKey = "InputForegroundBrushKey";
+        public static string InputFontSizeKey = "InputFontSizeKey";
 
         // Window Scope
         public static string WindowBackgroundBrushKey = "WindowBackgroundBrushKey";

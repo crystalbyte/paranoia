@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
@@ -36,6 +37,15 @@ namespace Crystalbyte.Paranoia.UI {
         // Using a DependencyProperty as the backing store for WatermarkTemplate.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty WatermarkTemplateProperty =
             DependencyProperty.Register("WatermarkTemplate", typeof(DataTemplate), typeof(WatermarkTextBox), new PropertyMetadata(null));
+
+        public Brush AccentBrush {
+            get { return (Brush)GetValue(AccentBrushProperty); }
+            set { SetValue(AccentBrushProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for AccentBrush.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AccentBrushProperty =
+            DependencyProperty.Register("AccentBrush", typeof(Brush), typeof(WatermarkTextBox), new PropertyMetadata(null));
 
         #endregion
     }

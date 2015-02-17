@@ -18,6 +18,7 @@
         <Setter Property="WatermarkTemplate" Value="{StaticResource DefaultWatermarkTemplate}" />
         <Setter Property="Background" Value="{x:Static SystemColors.ControlLightBrush}" />
         <Setter Property="Foreground" Value="{x:Static SystemColors.ControlTextBrush}" />
+        <Setter Property="AccentBrush" Value="{x:Static SystemColors.HotTrackBrush}" />
         <Setter Property="BorderBrush" Value="{x:Static SystemColors.ControlDarkBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="3" />
@@ -33,7 +34,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:SuggestionBox">
-                    <Border Background="{TemplateBinding Background}"
+                    <Border x:Name="OuterBorder"
+                            Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
@@ -54,7 +56,9 @@
                                               IsHitTestVisible="False"
                                               Visibility="Collapsed" />
                             <Popup x:Name="PART_Popup"
+                                   MinWidth="80"
                                    MinHeight="0"
+                                   MaxWidth="500"
                                    MaxHeight="300"
                                    Focusable="False"
                                    HorizontalOffset="-1"
@@ -66,10 +70,9 @@
                                    VerticalOffset="5">
                                 <Border Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        Padding="2">
                                     <ListView x:Name="PART_ItemsHost"
-                                              MinWidth="300"
-                                              MinHeight="0"
                                               Background="Transparent"
                                               BorderThickness="0"
                                               Focusable="False"
@@ -85,9 +88,12 @@
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsFocused" Value="False" />
+                                <Condition Property="IsKeyboardFocused" Value="False" />
                                 <Condition Property="IsWatermarkVisible" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>

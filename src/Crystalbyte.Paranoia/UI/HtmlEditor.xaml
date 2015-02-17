@@ -86,6 +86,7 @@
                                     BorderThickness="0,1"
                                     DataContext="{x:Null}"
                                     DockPanel.Dock="Top"
+                                    UseLayoutRounding="True"
                                     d:DataContext="{d:DesignInstance paranoia:HtmlEditorCommandContext}">
                                 <WrapPanel Margin="5.8">
                                     <Button Command="{Binding UndoCommand}"

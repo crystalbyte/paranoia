@@ -42,7 +42,7 @@
         <Setter Property="SpellCheck.IsEnabled" Value="False" />
         <Setter Property="MinHeight" Value="20" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontSizeKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxBorderBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxBackgroundBrushKey}}" />
         <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />

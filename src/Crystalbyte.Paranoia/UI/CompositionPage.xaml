@@ -118,8 +118,8 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="32" />
-            <RowDefinition Height="32" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -127,7 +127,7 @@
                 Grid.RowSpan="2"
                 Grid.Column="0"
                 Width="70"
-                Margin="6"
+                Margin="6,6,3,6"
                 VerticalAlignment="Stretch"
                 Command="{Binding SendCommand}"
                 TabIndex="4">
@@ -200,7 +200,7 @@
         <controls:SuggestionBox x:Name="RecipientsBox"
                                 Grid.Row="0"
                                 Grid.Column="2"
-                                Margin="3"
+                                Margin="3,6,3,3"
                                 VerticalAlignment="Center"
                                 ItemTemplate="{StaticResource ContactSuggestionTemplate}"
                                 ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
@@ -208,7 +208,6 @@
                                 StringTokenTemplate="{StaticResource StringTokenTemplate}"
                                 TabIndex="0"
                                 TokenTemplate="{StaticResource ContactTokenTemplate}"
-                                Visibility="Collapsed"
                                 Watermark="{x:Static properties:Resources.To}">
             <controls:SuggestionBox.ItemContainerStyle>
                 <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
@@ -220,11 +219,11 @@
         <Grid Grid.Row="0"
               Grid.RowSpan="2"
               Grid.Column="3"
-              Margin="6">
+              Margin="3,6,6,6">
             <ToggleButton x:Name="CarbonCopyToggleButton" Padding="0">
                 <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
-                           Padding="3,0">
+                           Padding="6,0">
                     Cc
                 </TextBlock>
             </ToggleButton>
@@ -232,11 +231,12 @@
         <controls:WatermarkTextBox x:Name="SubjectTextBox"
                                    Grid.Row="1"
                                    Grid.Column="2"
-                                   Background="Red"
+                                   Margin="3,3,3,6"
                                    TabIndex="1"
                                    Text="{Binding Subject,
                                                   UpdateSourceTrigger=PropertyChanged,
                                                   Mode=TwoWay}"
+                                   Visibility="Visible"
                                    Watermark="{x:Static properties:Resources.Subject}" />
         <StackPanel x:Name="CarbonCopyGrid"
                     Grid.Row="2"

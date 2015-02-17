@@ -17,6 +17,7 @@
 
     <Style TargetType="ui:WatermarkTextBox">
         <Setter Property="BorderBrush" Value="{x:Static SystemColors.ControlDarkBrush}" />
+        <Setter Property="AccentBrush" Value="{x:Static SystemColors.HotTrackBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Background" Value="{x:Static SystemColors.ControlLightBrush}" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -30,7 +31,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:WatermarkTextBox">
-                    <Border x:Name="Border"
+                    <Border x:Name="OuterBorder"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
@@ -56,7 +57,7 @@
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsFocused" Value="False" />
+                                <Condition Property="IsKeyboardFocused" Value="False" />
                                 <Condition Property="Text" Value="" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
@@ -64,14 +65,11 @@
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="BorderBrush" Value="{x:Static SystemColors.InactiveBorderBrush}" />
+                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{x:Static SystemColors.InactiveBorderBrush}" />
                             <Setter Property="Foreground" Value="{x:Static SystemColors.InactiveBorderBrush}" />
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="BorderBrush" Value="{x:Static SystemColors.HotTrackBrush}" />
-                        </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter Property="BorderBrush" Value="{x:Static SystemColors.HotTrackBrush}" />
+                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

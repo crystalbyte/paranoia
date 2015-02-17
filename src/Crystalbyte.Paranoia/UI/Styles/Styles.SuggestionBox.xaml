@@ -6,5 +6,7 @@
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SuggestionBoxBackgroundBrushKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SuggestionBoxBorderBrushKey}}" />
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontFamilyKey}}" />
+        <Setter Property="AccentBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontSizeKey}}" />
     </Style>
 </ResourceDictionary>

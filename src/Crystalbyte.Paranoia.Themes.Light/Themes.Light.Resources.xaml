@@ -37,6 +37,7 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowMenuPressedForegroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowBrushKey}" Color="Black" />
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.InputFontFamilyKey}">Calibri</FontFamily>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.InputFontSizeKey}">13</system:Double>
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}" Color="{x:Static SystemColors.ControlLightColor}" />
 
     <!--  Button Scope  -->
