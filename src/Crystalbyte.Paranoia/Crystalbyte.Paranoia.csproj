@@ -622,6 +622,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\storage.db" />
     <Resource Include="Resources\html.inspection.less" />
     <Resource Include="Resources\composition.template.less" />
   </ItemGroup>
