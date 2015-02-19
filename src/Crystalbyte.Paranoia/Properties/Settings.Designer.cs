@@ -189,36 +189,13 @@ namespace Crystalbyte.Paranoia.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("13")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
         public string DefaultWebFontSize {
             get {
                 return ((string)(this["DefaultWebFontSize"]));
             }
             set {
                 this["DefaultWebFontSize"] = value;
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>10</string>
-  <string>11</string>
-  <string>12</string>
-  <string>13</string>
-  <string>15</string>
-  <string>17</string>
-  <string>20</string>
-  <string>23</string>
-  <string>26</string>
-  <string>30</string>
-  <string>34</string>
-  <string>38</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection WebFontSizes {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["WebFontSizes"]));
             }
         }
     }

@@ -86,9 +86,9 @@
                                     BorderThickness="0,1"
                                     DataContext="{x:Null}"
                                     DockPanel.Dock="Top"
-                                    UseLayoutRounding="True"
+                                    SnapsToDevicePixels="True"
                                     d:DataContext="{d:DesignInstance paranoia:HtmlEditorCommandContext}">
-                                <WrapPanel Margin="5.8">
+                                <WrapPanel Margin="3">
                                     <Button Command="{Binding UndoCommand}"
                                             Style="{DynamicResource EditorButtonStyle}"
                                             ToolTip="{x:Static properties:Resources.Undo}">
@@ -111,6 +111,7 @@
                                     <ComboBox x:Name="FontFamilyComboBox"
                                               Width="140"
                                               Margin="0"
+                                              BorderBrush="Transparent"
                                               ItemsSource="{Binding FontFamilies}"
                                               SelectedValue="{Binding FontFamily,
                                                                       Mode=TwoWay}">
@@ -126,8 +127,9 @@
                                         </ComboBox.ItemTemplate>
                                     </ComboBox>
                                     <ComboBox x:Name="FontSizeComboBox"
-                                              Width="70"
+                                              Width="80"
                                               Margin="3,0,0,0"
+                                              BorderBrush="Transparent"
                                               FontSize="12"
                                               ItemsSource="{Binding FontSizes}"
                                               SelectedValue="{Binding FontSize,
@@ -139,7 +141,7 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="12"
                                                            Padding="0"
-                                                           Text="{Binding StringFormat={}{0}pt}" />
+                                                           Text="{Binding}" />
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>
                                     </ComboBox>
@@ -237,6 +239,18 @@
                                                    Style="{StaticResource MonoChromeIconRectangleStyle}">
                                             <Rectangle.OpacityMask>
                                                 <ImageBrush ImageSource="/Paranoia;component/Assets/picture.png" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </Button>
+                                    <Rectangle Style="{StaticResource EditorSplitterRectangleStyle}" />
+                                    <Button Command="ui:EditorCommands.AddAttachment"
+                                            Style="{DynamicResource EditorButtonStyle}"
+                                            ToolTip="{x:Static properties:Resources.Attachment}">
+                                        <Rectangle Width="14"
+                                                   Height="14"
+                                                   Style="{StaticResource MonoChromeIconRectangleStyle}">
+                                            <Rectangle.OpacityMask>
+                                                <ImageBrush ImageSource="/Paranoia;component/Assets/attachment.png" />
                                             </Rectangle.OpacityMask>
                                         </Rectangle>
                                     </Button>

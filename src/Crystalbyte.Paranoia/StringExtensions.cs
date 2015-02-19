@@ -11,11 +11,11 @@ using Crystalbyte.Paranoia.Mail;
 namespace Crystalbyte.Paranoia {
     public static class StringExtensions {
         public static bool ContainsIgnoreCase(this string text, string value) {
-            return text.IndexOf(value, StringComparison.InvariantCultureIgnoreCase) > -1;
+            return text.IndexOf(value, StringComparison.OrdinalIgnoreCase) > -1;
         }
 
         public static bool EqualsIgnoreCase(this string text, string value) {
-            return string.Compare(text, value, StringComparison.InvariantCultureIgnoreCase) == 0;
+            return string.Compare(text, value, StringComparison.OrdinalIgnoreCase) == 0;
         }
 
         public static SecurityProtocol ToSecurityPolicy(this string text) {

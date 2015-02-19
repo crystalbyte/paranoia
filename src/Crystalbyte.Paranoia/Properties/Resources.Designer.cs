@@ -106,15 +106,6 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add attachment.
-        /// </summary>
-        public static string AddAttachment {
-            get {
-                return ResourceManager.GetString("AddAttachment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string All {
@@ -129,6 +120,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string AllFilesFilter {
             get {
                 return ResourceManager.GetString("AllFilesFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Images.
+        /// </summary>
+        public static string AllImages {
+            get {
+                return ResourceManager.GetString("AllImages", resourceCulture);
             }
         }
         
@@ -192,6 +192,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string AssemblyTitle {
             get {
                 return ResourceManager.GetString("AssemblyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attachment.
+        /// </summary>
+        public static string Attachment {
+            get {
+                return ResourceManager.GetString("Attachment", resourceCulture);
             }
         }
         
@@ -684,6 +693,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GIF Files.
+        /// </summary>
+        public static string GifFiles {
+            get {
+                return ResourceManager.GetString("GifFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string Help {
@@ -779,6 +797,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Italic {
             get {
                 return ResourceManager.GetString("Italic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to JPG Files.
+        /// </summary>
+        public static string JpgFiles {
+            get {
+                return ResourceManager.GetString("JpgFiles", resourceCulture);
             }
         }
         
@@ -1123,6 +1150,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Picture {
             get {
                 return ResourceManager.GetString("Picture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PNG Files.
+        /// </summary>
+        public static string PngFiles {
+            get {
+                return ResourceManager.GetString("PngFiles", resourceCulture);
             }
         }
         

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Data;
@@ -43,6 +44,11 @@ namespace Crystalbyte.Paranoia.UI {
             //HtmlEditor.ScriptingFailure += OnEditorScriptingFailure;
             //HtmlEditor.EditorContentLoaded += OnEditorContentLoaded;
             DataContext = context;
+            CommandBindings.Add(new CommandBinding(EditorCommands.AddAttachment, OnAttachment));
+        }
+
+        private void OnAttachment(object sender, ExecutedRoutedEventArgs e) {
+            
         }
 
         #endregion

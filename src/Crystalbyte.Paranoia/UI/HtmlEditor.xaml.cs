@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using CefSharp;
 using CefSharp.Wpf;
+using Crystalbyte.Paranoia.Properties;
+using Microsoft.Win32;
+using Newtonsoft.Json;
 using NLog;
 
 namespace Crystalbyte.Paranoia.UI {
@@ -49,6 +54,143 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(HtmlCommands.ViewSource, OnViewSource));
         }
 
+        #endregion
+
+        #region Events
+
+        public event EventHandler ContentChanged;
+
+        protected virtual void OnContentChanged() {
+            var handler = ContentChanged;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
+
+        #endregion
+
+        #region Quill Interop
+
+        public void Undo() {
+            const string script = "(function() { quill.modules['undo-manager'].undo(); })();";
+            _browser.ExecuteScriptAsync(script);
+            _browser.Focus();
+        }
+
+        public void Redo() {
+            const string script = "(function() { quill.modules['undo-manager'].redo(); })();";
+            _browser.ExecuteScriptAsync(script);
+            _browser.Focus();
+        }
+
+        public void SetText(string text) {
+            var script = string.Format("(function() {{ return quill.setText('{0}'); }})();", text);
+            _browser.ExecuteScriptAsync(script);
+            _browser.Focus();
+        }
+
+        public void SetHtml(string html) {
+            var script = string.Format("(function() {{ return quill.setHtml('{0}'); }})();", html);
+            _browser.ExecuteScriptAsync(script);
+            _browser.Focus();
+        }
+
+        public void SetContents(string content) {
+            var script = string.Format("(function() {{ return quill.setContent('{0}'); }})();", content);
+            _browser.ExecuteScriptAsync(script);
+            _browser.Focus();
+        }
+
+        public void InsertText(int index, string text) {
+            var script = string.Format("(function() {{ quill.insertText({0}, '{1}'); }})();", index, text);
+            _browser.ExecuteScriptAsync(script);
+            _browser.Focus();
+        }
+
+        public void InsertEmbed(int index, string type, string url) {
+            var script = string.Format("(function() {{ quill.insertEmbed({0}, '{1}', '{2}'); }})();", index, type, url);
+            _browser.ExecuteScriptAsync(script);
+            _browser.Focus();
+        }
+
+        private void FormatText(int start, int end, string name, string value) {
+            var script = string.Format("(function() {{ quill.focus(); quill.formatText({0}, {1}, '{2}', '{3}'); }})();", start, end, name, value);
+            _browser.ExecuteScriptAsync(script);
+            _browser.Focus();
+        }
+
+        private void PrepareFormat(string format, string value) {
+            var script = string.Format("(function() {{ quill.focus(); quill.prepareFormat('{0}', '{1}'); }})();", format, value);
+            _browser.ExecuteScriptAsync(script);
+            _browser.Focus();
+        }
+
+        public void InsertHtml(int index, string text) {
+            var script = string.Format("(function() {{ return quill.insertHtml({0}, '{1}'); }})();", index, text);
+            _browser.ExecuteScriptAsync(script);
+            _browser.Focus();
+        }
+
+        public async Task<int> GetLengthAsync() {
+            const string script = "(function() { return quill.getLength(); })();";
+            var response = await _browser.EvaluateScriptAsync(script);
+
+            if (!response.Success) {
+                throw new ScriptingException(response.Message);
+            }
+
+            return (int)response.Result;
+        }
+
+        public async Task<TextRange> GetSelectionAsync() {
+            const string script = "(function() { var s = quill.getSelection(); return JSON.stringify(s); })();";
+            var response = await _browser.EvaluateScriptAsync(script);
+
+            if (!response.Success) {
+                return TextRange.FromPosition(0);
+            }
+
+            var json = response.Result as string;
+            return string.IsNullOrEmpty(json) || string.Compare("null", json, StringComparison.OrdinalIgnoreCase) == 0
+                ? TextRange.FromPosition(0)
+                : JsonConvert.DeserializeObject<TextRange>(json);
+        }
+
+        public async Task<string> GetHtmlAsync() {
+            const string script = "(function() { return quill.getHTML(); })();";
+            var response = await _browser.EvaluateScriptAsync(script);
+
+            if (!response.Success) {
+                throw new ScriptingException(response.Message);
+            }
+
+            return response.Result as string;
+        }
+
+        public async Task<string> GetContentsAsync() {
+            const string script = "(function() { return quill.getContents(); })();";
+            var response = await _browser.EvaluateScriptAsync(script);
+
+            if (!response.Success) {
+                throw new ScriptingException(response.Message);
+            }
+
+            return response.Result as string;
+        }
+
+        public async Task<string> GetTextAsync() {
+            const string script = "(function() { return quill.getText(); })();";
+            var response = await _browser.EvaluateScriptAsync(script);
+
+            if (!response.Success) {
+                throw new ScriptingException(response.Message);
+            }
+
+            return response.Result as string;
+        }
+
+        #endregion
+
+        #region Methods
         private void OnRedo(object sender, ExecutedRoutedEventArgs e) {
             if (_browser == null) {
                 return;
@@ -89,9 +231,9 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        #endregion
-
-        #region Methods
+        public async Task UpdateSelectionAsync() {
+            Selection = await GetSelectionAsync();
+        }
 
         internal async Task PrintAsync() {
             var browser = new WebBrowser();
@@ -160,13 +302,41 @@ namespace Crystalbyte.Paranoia.UI {
                 TextAreaResizeDisabled = true
             };
 
+            _browser.MouseLeftButtonUp += (sender, e) => _browser.Focus();
+            _browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
             _browser.RegisterJsObject("extern", new ScriptingObject(this));
             _browser.Load(Source);
+        }
+
+        private void OnIsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e) {
+            var context = (HtmlEditorCommandContext)_editorBorder.DataContext;
+            context.TextColor = Colors.Black;
+            context.BackgroundColor = Colors.Transparent;
+            context.FontFamily = new FontFamily(Settings.Default.DefaultWebFont);
+            context.FontSize = (HtmlFontSize)Enum.Parse(typeof(HtmlFontSize), Settings.Default.DefaultWebFontSize);
         }
 
         #endregion
 
         #region Dependency Property
+
+        public string Content {
+            get { return (string)GetValue(ContentProperty); }
+            set { SetValue(ContentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Content.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ContentProperty =
+            DependencyProperty.Register("Content", typeof(string), typeof(HtmlEditor), new PropertyMetadata(string.Empty));
+
+        public TextRange? Selection {
+            get { return (TextRange?)GetValue(SelectionProperty); }
+            set { SetValue(SelectionProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Selection.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectionProperty =
+            DependencyProperty.Register("Selection", typeof(TextRange?), typeof(HtmlEditor), new PropertyMetadata(null));
 
         public string Source {
             get { return (string)GetValue(SourceProperty); }
@@ -225,5 +395,65 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         #endregion
+
+        public async Task InsertImageAsync() {
+            try {
+                var dialog = new OpenFileDialog {
+                    DefaultExt = ".png",
+                    Filter = string.Format("{0}|*.jpeg;*.png;*.jpg;*.gif|" +
+                                           "{1}|*.png|" +
+                                           "{2}|*.jpeg;*.jpg|" +
+                                           "{3}|*.gif",
+                                           Paranoia.Properties.Resources.AllImages,
+                                           Paranoia.Properties.Resources.PngFiles,
+                                           Paranoia.Properties.Resources.JpgFiles,
+                                           Paranoia.Properties.Resources.GifFiles)
+                };
+
+                // Display OpenFileDialog by calling ShowDialog method 
+                var result = dialog.ShowDialog();
+                if (!(result.HasValue && result.Value)) {
+                    return;
+                }
+
+                if (!Selection.HasValue) {
+                    var length = await GetLengthAsync();
+                    Selection = TextRange.FromPosition(length - 1);
+                }
+
+
+                var url = string.Format("file:///{0}", WebUtility.UrlEncode(dialog.FileName));
+                InsertEmbed(Selection.Value.Start, "image", url);
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        public async Task ChangeFontSizeAsync(HtmlFontSize size) {
+            var range = await GetSelectionAsync();
+            if (range.IsPosition) {
+                PrepareFormat("size", size.ToString());
+            } else {
+                FormatText(range.Start, range.End, "size", size.ToString());
+            }
+        }
+
+        public async Task ChangeFontFamilyAsync(FontFamily family) {
+            var range = await GetSelectionAsync();
+            if (range.IsPosition) {
+                PrepareFormat("font", family.Source);
+            } else {
+                FormatText(range.Start, range.End, "font", family.Source);
+            }
+        }
+
+        public async Task SetBold(bool bold) {
+            var range = await GetSelectionAsync();
+            if (range.IsPosition) {
+                PrepareFormat("bold", bold.ToString());
+            } else {
+                FormatText(range.Start, range.End, "bold", bold.ToString());
+            }
+        }
     }
 }

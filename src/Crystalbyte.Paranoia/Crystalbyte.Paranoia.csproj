@@ -216,9 +216,14 @@
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="CompositionSchemeHandler.cs" />
     <Compile Include="Contexts\HtmlEditorCommandContext.cs" />
+    <Compile Include="EmlSchemeHandler.cs" />
     <Compile Include="FileSchemeHandler.cs" />
-    <Compile Include="ScriptingObject.cs" />
+    <Compile Include="HtmlFontSize.cs" />
+    <Compile Include="TextRange.cs" />
+    <Compile Include="ScriptingException.cs" />
     <Compile Include="UI\Converters\ColorToBrushConverter.cs" />
+    <Compile Include="FormatChangedEventArgs.cs" />
+    <Compile Include="UI\RoutedCommands\EditorCommands.cs" />
     <Compile Include="UI\RoutedCommands\HtmlCommands.cs" />
     <Compile Include="HtmlSupport.cs" />
     <Compile Include="MessageSchemeHandler.cs" />
@@ -351,6 +356,7 @@
     <Compile Include="UI\INavigationAware.cs" />
     <Compile Include="UI\RoutedCommands\SignatureCommands.cs" />
     <Compile Include="UI\RoutedCommands\WindowCommands.cs" />
+    <Compile Include="ScriptingObject.cs" />
     <Compile Include="UI\SelectionPosition.cs" />
     <Compile Include="UI\WindowExtensions.cs" />
     <Compile Include="VirtualFileDataObject.cs" />
@@ -616,7 +622,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <Resource Include="Resources\composition.js.zip" />
     <Resource Include="Resources\html.inspection.less" />
     <Resource Include="Resources\composition.template.less" />
   </ItemGroup>
@@ -730,6 +735,15 @@
   <ItemGroup>
     <Resource Include="Assets\link.png" />
     <Resource Include="Assets\picture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\jquery-2.1.1.min.js" />
+    <Resource Include="Resources\quill.base.css" />
+    <Resource Include="Resources\quill.js" />
+    <Resource Include="Resources\quill.snow.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\lodash-3.2.0.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -6,9 +7,16 @@ using System.Windows.Media;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
+using Microsoft.Win32;
+using NLog;
 
 namespace Crystalbyte.Paranoia {
     public sealed class HtmlEditorCommandContext : NotificationObject {
+
+        #region Private Fields
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private readonly HtmlEditor _editor;
         private bool _isBold;
         private bool _isItalic;
@@ -17,8 +25,10 @@ namespace Crystalbyte.Paranoia {
         private Color _textColor;
         private Color _backgroundColor;
         private FontFamily _fontFamily;
-        private int _fontSize;
+        private HtmlFontSize _fontSize;
         private TextAlignment _textAlignment;
+
+        #endregion
 
         public HtmlEditorCommandContext(HtmlEditor editor) {
             _editor = editor;
@@ -28,19 +38,14 @@ namespace Crystalbyte.Paranoia {
             BulletCommand = new RelayCommand(OnCanBullet, OnBullet);
             LinkCommand = new RelayCommand(OnCanLink, OnLink);
             ImageCommand = new RelayCommand(OnCanImage, OnImage);
-
-            TextColor = Colors.Black;
-            BackgroundColor = Colors.Transparent;
-            FontFamily = new FontFamily(Settings.Default.DefaultWebFont);
-            FontSize = int.Parse(Settings.Default.DefaultWebFontSize);
         }
 
         private bool OnCanImage(object obj) {
             return true;
         }
 
-        private void OnImage(object obj) {
-
+        private async void OnImage(object obj) {
+            await _editor.InsertImageAsync();
         }
 
         private void OnLink(object obj) {
@@ -68,7 +73,11 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnRedo(object obj) {
-
+            try {
+                _editor.Redo();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private bool OnCanRedo(object obj) {
@@ -76,7 +85,15 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnUndo(object obj) {
+            try {
+                _editor.Undo();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
 
+        private async void OnFontFamilyChanged() {
+            await _editor.ChangeFontFamilyAsync(FontFamily);
         }
 
         private bool OnCanUndo(object obj) {
@@ -104,10 +121,8 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public IEnumerable<int> FontSizes {
-            get {
-                return Settings.Default.WebFontSizes.OfType<string>().Select(int.Parse);
-            }
+        public IEnumerable<HtmlFontSize> FontSizes {
+            get { return new[] { HtmlFontSize.Small, HtmlFontSize.Normal, HtmlFontSize.Large, HtmlFontSize.Huge }; }
         }
 
         public bool IsBold {
@@ -118,7 +133,12 @@ namespace Crystalbyte.Paranoia {
                 }
                 _isBold = value;
                 RaisePropertyChanged(() => IsBold);
+                OnBoldChanged();
             }
+        }
+
+        private async void OnBoldChanged() {
+            await _editor.SetBold(IsBold);
         }
 
         public bool IsItalic {
@@ -184,10 +204,11 @@ namespace Crystalbyte.Paranoia {
                 }
                 _fontFamily = value;
                 RaisePropertyChanged(() => FontFamily);
+                OnFontFamilyChanged();
             }
         }
 
-        public int FontSize {
+        public HtmlFontSize FontSize {
             get { return _fontSize; }
             set {
                 if (_fontSize == value) {
@@ -195,7 +216,12 @@ namespace Crystalbyte.Paranoia {
                 }
                 _fontSize = value;
                 RaisePropertyChanged(() => FontSize);
+                OnFontSizeChanged();
             }
+        }
+
+        private async void OnFontSizeChanged() {
+            await _editor.ChangeFontSizeAsync(FontSize);
         }
 
         public TextAlignment TextAlignment {

@@ -255,6 +255,12 @@ namespace Crystalbyte.Paranoia {
             };
 
             settings.RegisterScheme(new CefCustomScheme {
+                SchemeName = "eml",
+                IsStandard = false,
+                SchemeHandlerFactory = new SchemeHandlerFactory<EmlSchemeHandler>()
+            });
+
+            settings.RegisterScheme(new CefCustomScheme {
                 SchemeName = "file",
                 IsStandard = false,
                 SchemeHandlerFactory = new SchemeHandlerFactory<FileSchemeHandler>()

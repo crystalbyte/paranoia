@@ -401,8 +401,8 @@ Once your password is lost you're screwed.</value>
   <data name="BindingNotice" xml:space="preserve">
     <value>Mailbox is bound.</value>
   </data>
-  <data name="AddAttachment" xml:space="preserve">
-    <value>Add attachment</value>
+  <data name="Attachment" xml:space="preserve">
+    <value>Attachment</value>
   </data>
   <data name="OpenFile" xml:space="preserve">
     <value>Open</value>
@@ -687,5 +687,17 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   </data>
   <data name="Underline" xml:space="preserve">
     <value>Underline</value>
+  </data>
+  <data name="AllImages" xml:space="preserve">
+    <value>All Images</value>
+  </data>
+  <data name="GifFiles" xml:space="preserve">
+    <value>GIF Files</value>
+  </data>
+  <data name="JpgFiles" xml:space="preserve">
+    <value>JPG Files</value>
+  </data>
+  <data name="PngFiles" xml:space="preserve">
+    <value>PNG Files</value>
   </data>
 </root>

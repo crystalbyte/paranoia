@@ -5,12 +5,30 @@
     <meta charset="utf-8" />
     <link href="resource:///composition.template.less" type="text/css" rel="stylesheet">
 </head>
-<body>
-    <textarea id="editor"></textarea>
-    <script type="text/javascript" src="resource:///composition.js.zip/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="resource:///composition.js.zip/quill.js"></script>
-    <script type="text/javascript">
-        var quill = new Quill('#editor');
-    </script>
-</body>
+    <body>
+        <div id="editor-container"></div>
+        <script type="text/javascript" src="resource:///jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="resource:///lodash-3.2.0.min.js"></script>
+        <script type="text/javascript" src="resource:///quill.js"></script>
+        <!-- ReSharper disable UseOfImplicitGlobalInFunctionScope -->
+        <script type="text/javascript">
+            var quill = new Quill('#editor-container');
+            quill.on("text-change", function (delta, source) {
+                // Extern is defined outside this document ...        
+                var json = JSON.stringify(delta);
+                extern.notifyTextChanged(source, json);
+            });
+            quill.on("selection-change", function (range) {
+                // Extern is defined outside this document ...        
+                var json = JSON.stringify(range);
+                extern.notifySelectionChanged(json);
+            });
+            $(window).resize(function () {
+                var editor = $("#editor");
+                editor.css("width", "100%");
+                editor.css("height", "100%");
+            });
+        </script>
+        <!-- ReSharper restore UseOfImplicitGlobalInFunctionScope -->
+    </body>
 </html>
