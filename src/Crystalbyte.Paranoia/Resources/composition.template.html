@@ -4,6 +4,16 @@
     <title>Composition</title>
     <meta charset="utf-8" />
     <link href="resource:///composition.template.less" type="text/css" rel="stylesheet">
+    <style>
+        #editor-container {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: burlywood;
+        }
+    </style>
 </head>
     <body>
         <div id="editor-container"></div>
@@ -18,13 +28,14 @@
                 var json = JSON.stringify(delta);
                 extern.notifyTextChanged(source, json);
             });
+
             quill.on("selection-change", function (range) {
                 // Extern is defined outside this document ...        
                 var json = JSON.stringify(range);
                 extern.notifySelectionChanged(json);
             });
             $(window).resize(function () {
-                var editor = $("#editor");
+                var editor = $("#editor-container");
                 editor.css("width", "100%");
                 editor.css("height", "100%");
             });

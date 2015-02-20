@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
-using Microsoft.Win32;
 using NLog;
 
 namespace Crystalbyte.Paranoia {
@@ -21,7 +20,7 @@ namespace Crystalbyte.Paranoia {
         private bool _isBold;
         private bool _isItalic;
         private bool _isUnderlined;
-        private bool _isStrikedThrough;
+        private bool _isStrikethrough;
         private Color _textColor;
         private Color _backgroundColor;
         private FontFamily _fontFamily;
@@ -80,7 +79,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private bool OnCanRedo(object obj) {
+        private static bool OnCanRedo(object obj) {
             return true;
         }
 
@@ -93,10 +92,10 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnFontFamilyChanged() {
-            await _editor.ChangeFontFamilyAsync(FontFamily);
+            await _editor.SetFontFamilyAsync(FontFamily);
         }
 
-        private bool OnCanUndo(object obj) {
+        private static bool OnCanUndo(object obj) {
             return true;
         }
 
@@ -138,7 +137,10 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnBoldChanged() {
-            await _editor.SetBold(IsBold);
+            if (IsEditorBold) {
+                return;
+            }
+            await _editor.SetBoldAsync(IsBold);
         }
 
         public bool IsItalic {
@@ -149,7 +151,12 @@ namespace Crystalbyte.Paranoia {
                 }
                 _isItalic = value;
                 RaisePropertyChanged(() => IsItalic);
+                OnItalicChanged();
             }
+        }
+
+        private async void OnItalicChanged() {
+            await _editor.SetItalicAsync(IsItalic);
         }
 
         public bool IsUnderlined {
@@ -160,18 +167,31 @@ namespace Crystalbyte.Paranoia {
                 }
                 _isUnderlined = value;
                 RaisePropertyChanged(() => IsUnderlined);
+                OnUnderlineChanged();
             }
         }
 
-        public bool IsStrikedThrough {
-            get { return _isStrikedThrough; }
+        private async void OnUnderlineChanged() {
+            await _editor.SetUnderline(IsUnderlined);
+        }
+
+        public bool IsStrikethrough {
+            get { return _isStrikethrough; }
             set {
-                if (_isStrikedThrough == value) {
+                if (_isStrikethrough == value) {
                     return;
                 }
-                _isStrikedThrough = value;
-                RaisePropertyChanged(() => IsStrikedThrough);
+                _isStrikethrough = value;
+                RaisePropertyChanged(() => IsStrikethrough);
+                OnStrikethroughChanged();
             }
+        }
+
+        private async void OnStrikethroughChanged() {
+            if (IsEditorStrikethrough) {
+                return;
+            }
+            await _editor.SetStrikethrough(IsStrikethrough);
         }
 
         public Color TextColor {
@@ -182,7 +202,12 @@ namespace Crystalbyte.Paranoia {
                 }
                 _textColor = value;
                 RaisePropertyChanged(() => TextColor);
+                OnTextColorChanged();
             }
+        }
+
+        private async void OnTextColorChanged() {
+            await _editor.SetTextColorAsync(TextColor);
         }
 
         public Color BackgroundColor {
@@ -193,7 +218,12 @@ namespace Crystalbyte.Paranoia {
                 }
                 _backgroundColor = value;
                 RaisePropertyChanged(() => BackgroundColor);
+                OnBackgroundColorChanged();
             }
+        }
+
+        private async void OnBackgroundColorChanged() {
+            await _editor.SetBackgroundColorAsync(BackgroundColor);
         }
 
         public FontFamily FontFamily {
@@ -221,7 +251,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnFontSizeChanged() {
-            await _editor.ChangeFontSizeAsync(FontSize);
+            await _editor.SetFontSizeAsync(FontSize);
         }
 
         public TextAlignment TextAlignment {
@@ -235,6 +265,8 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+
+
         public RelayCommand UndoCommand { get; private set; }
 
         public RelayCommand RedoCommand { get; private set; }
@@ -246,5 +278,125 @@ namespace Crystalbyte.Paranoia {
         public RelayCommand LinkCommand { get; private set; }
 
         public RelayCommand ImageCommand { get; private set; }
+
+        public bool IsEditorBold {
+            get {
+                return Attributes.ContainsKey("bold") && (bool)Attributes["bold"];
+            }
+        }
+
+        public bool IsEditorItalic {
+            get {
+                return Attributes.ContainsKey("italic") && (bool) Attributes["italic"];
+            }
+        }
+
+        public bool IsEditorStrikethrough {
+            get {
+                return Attributes.ContainsKey("strike") && (bool)Attributes["strike"];
+            }
+        }
+
+        public bool IsEditorUnderline {
+            get {
+                return Attributes.ContainsKey("underline") && (bool)Attributes["underline"];
+            }
+        }
+
+        public async Task InvalidateAsync() {
+            await UpdateAttributesAsync();
+
+            UndoCommand.OnCanExecuteChanged();
+            RedoCommand.OnCanExecuteChanged();
+
+            _isBold = Attributes.ContainsKey("bold") && (bool)Attributes["bold"];
+            RaisePropertyChanged(() => IsBold);
+
+            _isItalic = Attributes.ContainsKey("italic") && (bool)Attributes["italic"];
+            RaisePropertyChanged(() => IsItalic);
+
+            _isStrikethrough = Attributes.ContainsKey("strike") && (bool)Attributes["strike"];
+            RaisePropertyChanged(() => IsStrikethrough);
+
+            _isUnderlined = Attributes.ContainsKey("underline") && (bool)Attributes["underline"];
+            RaisePropertyChanged(() => IsUnderlined);
+
+            if (Attributes.ContainsKey("font")) {
+                var name = Attributes["font"] as string;
+                if (!string.IsNullOrEmpty(name)) {
+                    _fontFamily = new FontFamily(name.Trim('\''));
+                }
+            } else {
+                _fontFamily = new FontFamily(Settings.Default.DefaultWebFont);
+            }
+            RaisePropertyChanged(() => FontFamily);
+
+            if (Attributes.ContainsKey("size")) {
+                _fontSize = (HtmlFontSize)Enum.Parse(typeof(HtmlFontSize), (string)Attributes["size"], true);
+            } else {
+                _fontSize = (HtmlFontSize)Enum.Parse(typeof(HtmlFontSize), Settings.Default.DefaultWebFontSize, true);
+            } 
+            RaisePropertyChanged(() => FontSize);
+
+
+            if (Attributes.ContainsKey("color")) {
+                var color = (string)Attributes["color"];
+                var conversion = ColorConverter.ConvertFromString(color);
+                if (conversion != null) {
+                    _textColor = (Color)conversion;
+                } else {
+                    _textColor = Colors.Black;
+                }
+            } else {
+                _textColor = Colors.Black;
+            }
+            RaisePropertyChanged(() => TextColor);
+
+            if (Attributes.ContainsKey("background")) {
+                var color = (string)Attributes["background"];
+                var conversion = ColorConverter.ConvertFromString(color);
+                if (conversion != null) {
+                    _backgroundColor = (Color)conversion;
+                } else {
+                    _backgroundColor = Colors.Transparent;
+                }
+            } else {
+                _backgroundColor = Colors.Transparent;
+            }
+            RaisePropertyChanged(() => BackgroundColor);
+        }
+
+        public IDictionary<string, object> Attributes { get; set; }
+
+        public async Task UpdateAttributesAsync() {
+            var range = await _editor.GetSelectionAsync();
+            if (range.IsPosition) {
+                // Make it a range to capture deltas.
+                range.End = range.End + 1;
+            }
+            var contents = await _editor.GetContentsAsync(range.Start, range.End);
+
+            Attributes = new Dictionary<string, object>();
+            if (!contents.ContainsKey("ops")) {
+                return;
+            }
+
+            var ops = contents["ops"] as object[];
+            if (ops == null) {
+                return;
+            }
+
+            if (ops.Length == 0) {
+                return;
+            }
+
+            var operations = ops[0] as IDictionary<string, object>;
+            if (operations == null || !operations.ContainsKey("attributes")) {
+                return;
+            }
+
+            Attributes = (operations["attributes"] as IDictionary<string, object>)
+                ?? new Dictionary<string, object>();
+        }
     }
 }

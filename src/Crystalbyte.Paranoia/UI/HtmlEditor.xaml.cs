@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,9 +10,11 @@ using System.Windows.Media;
 using CefSharp;
 using CefSharp.Wpf;
 using Crystalbyte.Paranoia.Properties;
-using Microsoft.Win32;
 using Newtonsoft.Json;
 using NLog;
+using Control = System.Windows.Controls.Control;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using WebBrowser = System.Windows.Controls.WebBrowser;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
@@ -70,6 +73,11 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Quill Interop
 
+        /// <summary>
+        /// Wrapper methods for the Quill editor, see http://quilljs.com/docs/api/.
+        /// Check formats: http://quilljs.com/docs/formats/
+        /// </summary>
+
         public void Undo() {
             const string script = "(function() { quill.modules['undo-manager'].undo(); })();";
             _browser.ExecuteScriptAsync(script);
@@ -80,6 +88,47 @@ namespace Crystalbyte.Paranoia.UI {
             const string script = "(function() { quill.modules['undo-manager'].redo(); })();";
             _browser.ExecuteScriptAsync(script);
             _browser.Focus();
+        }
+
+        public async Task SetStrikethrough(bool strike) {
+            await SetFormatAsync("strike", strike);
+        }
+
+        public async Task SetUnderline(bool underline) {
+            await SetFormatAsync("underline", underline);
+        }
+
+        public async Task SetTextColorAsync(Color color) {
+            await SetFormatAsync("color", color.ToHex(false));
+        }
+
+        public async Task SetBackgroundColorAsync(Color color) {
+            await SetFormatAsync("background", color.ToHex(false));
+        }
+
+        public async Task SetBoldAsync(bool bold) {
+            await SetFormatAsync("bold", bold);
+        }
+
+        public async Task SetItalicAsync(bool italic) {
+            await SetFormatAsync("italic", italic);
+        }
+
+        public async Task SetFontSizeAsync(HtmlFontSize size) {
+            await SetFormatAsync("size", size.ToString());
+        }
+
+        public async Task SetFontFamilyAsync(FontFamily family) {
+            await SetFormatAsync("font", family.Source);
+        }
+
+        public async Task SetFormatAsync(string format, object value) {
+            var range = await GetSelectionAsync();
+            if (range.IsPosition) {
+                PrepareFormat(format, value);
+            } else {
+                FormatText(range.Start, range.End, format, value);
+            }
         }
 
         public void SetText(string text) {
@@ -112,14 +161,24 @@ namespace Crystalbyte.Paranoia.UI {
             _browser.Focus();
         }
 
-        private void FormatText(int start, int end, string name, string value) {
-            var script = string.Format("(function() {{ quill.focus(); quill.formatText({0}, {1}, '{2}', '{3}'); }})();", start, end, name, value);
+        private void FormatText(int start, int end, string name, object value) {
+            if (value is string) {
+                value = string.Format("'{0}'", value.ToString().ToLower());
+            } else {
+                value = value.ToString().ToLower();
+            }
+            var script = string.Format("(function() {{ quill.formatText({0}, {1}, '{2}', {3}); }})();", start, end, name, value);
             _browser.ExecuteScriptAsync(script);
             _browser.Focus();
         }
 
-        private void PrepareFormat(string format, string value) {
-            var script = string.Format("(function() {{ quill.focus(); quill.prepareFormat('{0}', '{1}'); }})();", format, value);
+        private void PrepareFormat(string format, object value) {
+            if (value is string) {
+                value = string.Format("'{0}'", value);
+            } else {
+                value = value.ToString().ToLower();
+            }
+            var script = string.Format("(function() {{ quill.prepareFormat('{0}', {1}); }})();", format, value);
             _browser.ExecuteScriptAsync(script);
             _browser.Focus();
         }
@@ -177,6 +236,17 @@ namespace Crystalbyte.Paranoia.UI {
             return response.Result as string;
         }
 
+        public async Task<IDictionary<string, object>> GetContentsAsync(int start, int end) {
+            var script = string.Format("(function() {{ return quill.getContents({0}, {1}); }})();", start, end);
+            var response = await _browser.EvaluateScriptAsync(script);
+
+            if (!response.Success) {
+                throw new ScriptingException(response.Message);
+            }
+
+            return response.Result as IDictionary<string, object>;
+        }
+
         public async Task<string> GetTextAsync() {
             const string script = "(function() { return quill.getText(); })();";
             var response = await _browser.EvaluateScriptAsync(script);
@@ -191,6 +261,57 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         #region Methods
+
+
+        private void ChangeZoom(double level) {
+            if (_browser == null || _browser.WebBrowser == null) {
+                return;
+            }
+
+            _browser.ZoomLevel = level;
+            _browser.Reload(false);
+        }
+
+        private void Navigate(Uri uri) {
+            if (_browser == null || _browser.WebBrowser == null) {
+                return;
+            }
+
+            _browser.Load(uri.AbsoluteUri);
+        }
+
+        public async Task InsertImageAsync() {
+            try {
+                var dialog = new OpenFileDialog {
+                    DefaultExt = ".png",
+                    Filter = string.Format("{0}|*.jpeg;*.png;*.jpg;*.gif|" +
+                                           "{1}|*.png|" +
+                                           "{2}|*.jpeg;*.jpg|" +
+                                           "{3}|*.gif",
+                                           Paranoia.Properties.Resources.AllImages,
+                                           Paranoia.Properties.Resources.PngFiles,
+                                           Paranoia.Properties.Resources.JpgFiles,
+                                           Paranoia.Properties.Resources.GifFiles)
+                };
+
+                // Display OpenFileDialog by calling ShowDialog method 
+                var result = dialog.ShowDialog();
+                if (!(result.HasValue && result.Value)) {
+                    return;
+                }
+
+                if (!Selection.HasValue) {
+                    var length = await GetLengthAsync();
+                    Selection = TextRange.FromPosition(length - 1);
+                }
+
+                var url = string.Format("file:///{0}", WebUtility.UrlEncode(dialog.FileName));
+                InsertEmbed(Selection.Value.Start, "image", url);
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
         private void OnRedo(object sender, ExecutedRoutedEventArgs e) {
             if (_browser == null) {
                 return;
@@ -302,7 +423,6 @@ namespace Crystalbyte.Paranoia.UI {
                 TextAreaResizeDisabled = true
             };
 
-            _browser.MouseLeftButtonUp += (sender, e) => _browser.Focus();
             _browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
             _browser.RegisterJsObject("extern", new ScriptingObject(this));
             _browser.Load(Source);
@@ -310,6 +430,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnIsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e) {
             var context = (HtmlEditorCommandContext)_editorBorder.DataContext;
+
             context.TextColor = Colors.Black;
             context.BackgroundColor = Colors.Transparent;
             context.FontFamily = new FontFamily(Settings.Default.DefaultWebFont);
@@ -375,85 +496,9 @@ namespace Crystalbyte.Paranoia.UI {
 
         #endregion
 
-        #region Methods
-
-        private void ChangeZoom(double level) {
-            if (_browser == null || _browser.WebBrowser == null) {
-                return;
-            }
-
-            _browser.ZoomLevel = level;
-            _browser.Reload(false);
-        }
-
-        private void Navigate(Uri uri) {
-            if (_browser == null || _browser.WebBrowser == null) {
-                return;
-            }
-
-            _browser.Load(uri.AbsoluteUri);
-        }
-
-        #endregion
-
-        public async Task InsertImageAsync() {
-            try {
-                var dialog = new OpenFileDialog {
-                    DefaultExt = ".png",
-                    Filter = string.Format("{0}|*.jpeg;*.png;*.jpg;*.gif|" +
-                                           "{1}|*.png|" +
-                                           "{2}|*.jpeg;*.jpg|" +
-                                           "{3}|*.gif",
-                                           Paranoia.Properties.Resources.AllImages,
-                                           Paranoia.Properties.Resources.PngFiles,
-                                           Paranoia.Properties.Resources.JpgFiles,
-                                           Paranoia.Properties.Resources.GifFiles)
-                };
-
-                // Display OpenFileDialog by calling ShowDialog method 
-                var result = dialog.ShowDialog();
-                if (!(result.HasValue && result.Value)) {
-                    return;
-                }
-
-                if (!Selection.HasValue) {
-                    var length = await GetLengthAsync();
-                    Selection = TextRange.FromPosition(length - 1);
-                }
-
-
-                var url = string.Format("file:///{0}", WebUtility.UrlEncode(dialog.FileName));
-                InsertEmbed(Selection.Value.Start, "image", url);
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
-
-        public async Task ChangeFontSizeAsync(HtmlFontSize size) {
-            var range = await GetSelectionAsync();
-            if (range.IsPosition) {
-                PrepareFormat("size", size.ToString());
-            } else {
-                FormatText(range.Start, range.End, "size", size.ToString());
-            }
-        }
-
-        public async Task ChangeFontFamilyAsync(FontFamily family) {
-            var range = await GetSelectionAsync();
-            if (range.IsPosition) {
-                PrepareFormat("font", family.Source);
-            } else {
-                FormatText(range.Start, range.End, "font", family.Source);
-            }
-        }
-
-        public async Task SetBold(bool bold) {
-            var range = await GetSelectionAsync();
-            if (range.IsPosition) {
-                PrepareFormat("bold", bold.ToString());
-            } else {
-                FormatText(range.Start, range.End, "bold", bold.ToString());
-            }
+        public async Task InvalidateCommandsAsync() {
+            var context = (HtmlEditorCommandContext) _editorBorder.DataContext;
+            await context.InvalidateAsync();
         }
     }
 }

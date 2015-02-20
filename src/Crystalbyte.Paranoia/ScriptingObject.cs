@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows;
 using Crystalbyte.Paranoia.UI;
 using Newtonsoft.Json;
-using NLog;
 
 namespace Crystalbyte.Paranoia {
     internal sealed class ScriptingObject {
@@ -18,12 +16,13 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
             var range = JsonConvert.DeserializeObject<TextRange>(json);
-            Application.Current.Dispatcher.Invoke(() => {
+            Application.Current.Dispatcher.Invoke(async () => {
                 _editor.Selection = range;
+                await _editor.InvalidateCommandsAsync();
             });
         }
 
-        public void NotifyTextChanged(string source, string json) {
+        public void NotifyTextChanged(string source, string delta) {
             Application.Current.Dispatcher.Invoke(async () => {
                 _editor.Content = await _editor.GetHtmlAsync();
                 await _editor.UpdateSelectionAsync();
