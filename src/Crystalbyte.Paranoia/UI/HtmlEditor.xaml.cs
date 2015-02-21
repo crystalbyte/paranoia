@@ -135,21 +135,26 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public void SetText(string text) {
-            var script = string.Format("(function() {{ return quill.setText('{0}'); }})();", text);
+            var script = string.Format("(function() {{ quill.setText('{0}'); }})();", text);
             _browser.ExecuteScriptAsync(script);
             _browser.Focus();
         }
 
         public void SetHtml(string html) {
-            var script = string.Format("(function() {{ return quill.setHtml('{0}'); }})();", html);
+            var script = string.Format("(function() {{ quill.setHtml('{0}'); }})();", html);
             _browser.ExecuteScriptAsync(script);
             _browser.Focus();
         }
 
         public void SetContents(string content) {
-            var script = string.Format("(function() {{ return quill.setContent('{0}'); }})();", content);
+            var script = string.Format("(function() {{ quill.setContent('{0}'); }})();", content);
             _browser.ExecuteScriptAsync(script);
             _browser.Focus();
+        }
+
+        private void SetFocus() {
+            var script = string.Format("(function() {{ quill.focus(); }})();");
+            _browser.ExecuteScriptAsync(script);
         }
 
         public void InsertText(int index, string text) {
@@ -264,7 +269,6 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         #region Methods
-
 
         private void ChangeZoom(double level) {
             if (_browser == null || _browser.WebBrowser == null) {
@@ -403,6 +407,12 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Class Overrides
 
+        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e) {
+            base.OnGotKeyboardFocus(e);
+
+            _browser.Focus();
+        }
+
         public override void OnApplyTemplate() {
             base.OnApplyTemplate();
 
@@ -426,6 +436,7 @@ namespace Crystalbyte.Paranoia.UI {
                 TextAreaResizeDisabled = true
             };
 
+            _browser.GotKeyboardFocus += (sender, e) => SetFocus();
             _browser.RegisterJsObject("extern", new ScriptingObject(this));
             _browser.Load(Source);
         }

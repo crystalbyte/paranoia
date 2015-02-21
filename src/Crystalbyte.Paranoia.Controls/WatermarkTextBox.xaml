@@ -12,6 +12,7 @@
                    Focusable="False"
                    FontStyle="Italic"
                    Foreground="{x:Static SystemColors.GrayTextBrush}"
+                   IsHitTestVisible="False"
                    Text="{Binding}" />
     </DataTemplate>
 
@@ -58,7 +59,7 @@
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsKeyboardFocused" Value="False" />
-                                <Condition Property="Text" Value="" />
+                                <Condition Property="IsWatermarkVisible" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter TargetName="WatermarkHost" Property="Visibility" Value="Visible" />

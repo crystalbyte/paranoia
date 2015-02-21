@@ -38,6 +38,7 @@
         <Setter Property="Width" Value="26" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Margin" Value="0" />
+        <Setter Property="IsTabStop" Value="False" />
     </Style>
 
     <Style x:Key="GlyphTextBlockStyle" TargetType="TextBlock">
@@ -59,7 +60,9 @@
     </Style>
 
     <Style TargetType="ui:HtmlEditor">
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="Continue" />
         <Setter Property="Margin" Value="0" />
+        <Setter Property="Focusable" Value="False" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
@@ -86,6 +89,8 @@
                                     BorderThickness="0,1"
                                     DataContext="{x:Null}"
                                     DockPanel.Dock="Top"
+                                    KeyboardNavigation.DirectionalNavigation="None"
+                                    KeyboardNavigation.TabNavigation="None"
                                     SnapsToDevicePixels="True"
                                     d:DataContext="{d:DesignInstance paranoia:HtmlEditorCommandContext}">
                                 <WrapPanel Margin="3">
@@ -258,7 +263,11 @@
                                     </Button>
                                 </WrapPanel>
                             </Border>
-                            <wpf:ChromiumWebBrowser x:Name="PART_WebBrowser" d:IsHidden="True" />
+                            <wpf:ChromiumWebBrowser x:Name="PART_WebBrowser"
+                                                    Focusable="False"
+                                                    IsTabStop="True"
+                                                    TabIndex="0"
+                                                    d:IsHidden="True" />
                         </DockPanel>
                     </Border>
                 </ControlTemplate>

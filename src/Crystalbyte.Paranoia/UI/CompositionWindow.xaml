@@ -16,6 +16,8 @@
                       AccentBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
                       BorderThickness="1"
+                      KeyboardNavigation.ControlTabNavigation="Contained"
+                      KeyboardNavigation.DirectionalNavigation="None"
                       UseLayoutRounding="False"
                       WindowStartupLocation="CenterOwner"
                       d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}"
@@ -120,10 +122,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Rectangle Grid.Row="0"
-                   Grid.RowSpan="2"
-                   Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                   Opacity=".05" />
         <Grid Grid.Row="0">
             <StackPanel Height="36"
                         HorizontalAlignment="Left"
@@ -186,6 +184,8 @@
         <Grid x:Name="ModalOverlay"
               Grid.Row="0"
               Grid.RowSpan="2"
+              KeyboardNavigation.DirectionalNavigation="Contained"
+              KeyboardNavigation.TabNavigation="Contained"
               Visibility="Collapsed"
               ZIndex="100000">
             <Grid.RowDefinitions>
@@ -193,7 +193,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-
             <Rectangle Grid.Row="0"
                        Fill="{StaticResource FlyoutOverlayBrushKey}"
                        Opacity="{StaticResource FlyoutOverlayOpacityKey}"
@@ -249,7 +248,7 @@
                         Margin="6,6,3,6"
                         VerticalAlignment="Stretch"
                         Command="{Binding SendCommand}"
-                        TabIndex="4">
+                        IsTabStop="False">
                     <Rectangle Width="20"
                                Height="20"
                                Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}">
@@ -267,6 +266,7 @@
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
                           DataContextChanged="OnAccountComboboxDataContextChanged"
+                          IsTabStop="False"
                           ItemsSource="{Binding Accounts}"
                           SelectedIndex="0"
                           SelectedItem="{Binding SelectedAccount}"
@@ -325,7 +325,6 @@
                                         ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
                                         SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
                                         StringTokenTemplate="{StaticResource StringTokenTemplate}"
-                                        TabIndex="0"
                                         TokenTemplate="{StaticResource ContactTokenTemplate}"
                                         Watermark="{x:Static properties:Resources.To}">
                     <controls:SuggestionBox.ItemContainerStyle>
@@ -339,7 +338,9 @@
                       Grid.RowSpan="2"
                       Grid.Column="3"
                       Margin="3,6,6,6">
-                    <ToggleButton x:Name="CarbonCopyToggleButton" Padding="0">
+                    <ToggleButton x:Name="CarbonCopyToggleButton"
+                                  IsTabStop="False"
+                                  Padding="0">
                         <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
                                    Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                                    Padding="6,0">
@@ -347,16 +348,24 @@
                         </TextBlock>
                     </ToggleButton>
                 </Grid>
-                <controls:WatermarkTextBox x:Name="SubjectTextBox"
-                                           Grid.Row="1"
-                                           Grid.Column="2"
-                                           Margin="3,3,3,6"
-                                           TabIndex="1"
-                                           Text="{Binding Subject,
-                                                          UpdateSourceTrigger=PropertyChanged,
-                                                          Mode=TwoWay}"
-                                           Visibility="Visible"
-                                           Watermark="{x:Static properties:Resources.Subject}" />
+                <TextBox Grid.Row="1"
+                         Grid.Column="2"
+                         Margin="3,3,3,6"
+                         Text="{Binding Subject,
+                                        UpdateSourceTrigger=PropertyChanged,
+                                        Mode=TwoWay}" />
+                <!--
+                    <controls:WatermarkTextBox x:Name="SubjectTextBox"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Margin="3,3,3,6"
+                    VerticalAlignment="Center"
+                    TabIndex="1"
+                    Text="{Binding Subject,
+                    UpdateSourceTrigger=PropertyChanged,
+                    Mode=TwoWay}"
+                    Watermark="{x:Static properties:Resources.Subject}" />
+                -->
                 <StackPanel x:Name="CarbonCopyGrid"
                             Grid.Row="2"
                             Grid.Column="0"
@@ -368,9 +377,9 @@
                                             Height="24"
                                             Margin="6,0,6,6"
                                             HorizontalAlignment="Stretch"
+                                            IsTabStop="False"
                                             ItemTemplate="{StaticResource ContactSuggestionTemplate}"
                                             ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
-                                            Padding="3"
                                             SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
                                             StringTokenTemplate="{StaticResource StringTokenTemplate}"
                                             TokenTemplate="{StaticResource ContactTokenTemplate}"
@@ -389,11 +398,12 @@
                                             Height="24"
                                             Margin="6,0,6,6"
                                             HorizontalAlignment="Stretch"
+                                            IsTabStop="False"
                                             ItemTemplate="{StaticResource ContactSuggestionTemplate}"
                                             ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
-                                            Padding="3"
                                             SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
                                             StringTokenTemplate="{StaticResource StringTokenTemplate}"
+                                            TabIndex="3"
                                             TokenTemplate="{StaticResource ContactTokenTemplate}"
                                             Visibility="{Binding IsChecked,
                                                                  ElementName=CarbonCopyToggleButton,
@@ -412,6 +422,7 @@
                           Grid.ColumnSpan="4"
                           Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentBackgroundBrushKey}}"
                           BorderThickness="0"
+                          IsTabStop="False"
                           ItemTemplate="{StaticResource ThumbnailTemplate}"
                           ItemsSource="{Binding Attachments}"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -439,7 +450,6 @@
                                    Drop="OnHtmlSurfaceDrop"
                                    Source="{Binding Source,
                                                     Mode=TwoWay}"
-                                   TabIndex="3"
                                    UseLayoutRounding="True" />
                 </Grid>
             </Grid>

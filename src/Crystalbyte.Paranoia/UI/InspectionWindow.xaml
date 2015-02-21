@@ -249,6 +249,8 @@
         </Grid>
         <ListView Grid.Row="4"
                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentBackgroundBrushKey}}"
+                  BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                  BorderThickness="0,1,0,0"
                   ItemTemplate="{StaticResource ThumbnailTemplate}"
                   ItemsSource="{Binding Attachments}"
                   ScrollViewer.CanContentScroll="False"
@@ -278,7 +280,10 @@
         </ListView>
         <ui:BlockNoticeControl Grid.Row="5" DataContext="{Binding Message}" />
         <Grid Grid.Row="6">
-            <ui:HtmlViewer x:Name="HtmlViewer" />
+            <ui:HtmlViewer x:Name="HtmlViewer"
+                           Margin="0"
+                           BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                           BorderThickness="0,1,0,0" />
         </Grid>
     </Grid>
 </controls:MetroWindow>

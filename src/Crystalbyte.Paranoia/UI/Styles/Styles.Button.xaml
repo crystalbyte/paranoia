@@ -134,6 +134,7 @@
     <Style x:Key="MinimizeButtonStyle"
            BasedOn="{StaticResource WindowButtonStyle}"
            TargetType="Button">
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Command" Value="ui:WindowCommands.Minimize" />
         <Setter Property="ToolTip" Value="{x:Static properties:Resources.Minimize}" />
         <Setter Property="ContentTemplate">
@@ -163,6 +164,7 @@
     <Style x:Key="MaximizeButtonStyle"
            BasedOn="{StaticResource WindowButtonStyle}"
            TargetType="Button">
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Command" Value="{x:Static ui:WindowCommands.Maximize}" />
         <Setter Property="ToolTip" Value="{x:Static properties:Resources.Maximize}" />
         <Setter Property="ContentTemplate">
@@ -192,6 +194,7 @@
     <Style x:Key="RestoreDownButtonStyle"
            BasedOn="{StaticResource WindowButtonStyle}"
            TargetType="Button">
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Command" Value="{x:Static ui:WindowCommands.RestoreDown}" />
         <Setter Property="ToolTip" Value="{x:Static properties:Resources.RestoreDown}" />
         <Setter Property="ContentTemplate">
@@ -221,6 +224,7 @@
     <Style x:Key="CloseButtonStyle"
            BasedOn="{StaticResource WindowButtonStyle}"
            TargetType="Button">
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Command" Value="{x:Static ApplicationCommands.Close}" />
         <Setter Property="ToolTip" Value="{x:Static properties:Resources.Close}" />
         <Setter Property="ContentTemplate">
@@ -281,7 +285,6 @@
            BasedOn="{StaticResource {x:Type Button}}"
            TargetType="Button">
         <Setter Property="MinWidth" Value="50" />
-        <Setter Property="IsTabStop" Value="True" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -361,6 +364,7 @@
         <Setter Property="Height" Value="26" />
         <Setter Property="Width" Value="26" />
         <Setter Property="Margin" Value="0" />
+        <Setter Property="IsTabStop" Value="False" />
     </Style>
 
 </ResourceDictionary>
