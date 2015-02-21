@@ -700,4 +700,10 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="PngFiles" xml:space="preserve">
     <value>PNG Files</value>
   </data>
+  <data name="InsertLinkDescription" xml:space="preserve">
+    <value>Please enter the address of the link to insert.</value>
+  </data>
+  <data name="InsertLinkTitle" xml:space="preserve">
+    <value>Insert Link</value>
+  </data>
 </root>

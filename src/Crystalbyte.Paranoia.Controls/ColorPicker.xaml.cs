@@ -1,5 +1,6 @@
 ﻿#region Using directives
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -35,6 +36,17 @@ namespace Crystalbyte.Paranoia.UI {
 
         #endregion
 
+        #region Public Events
+
+        public event EventHandler SelectedColorChanged;
+
+        private void OnSelectedColorChanged() {
+            var handler = SelectedColorChanged;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
+        #endregion
+
         #region Class Override
 
         public override void OnApplyTemplate() {
@@ -47,6 +59,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnColorSourceSelectionChanged(object sender, SelectionChangedEventArgs e) {
             SelectedColor = (Color)_colorSelector.SelectedValue;
+            OnSelectedColorChanged();
             _button.IsChecked = false;
         }
 

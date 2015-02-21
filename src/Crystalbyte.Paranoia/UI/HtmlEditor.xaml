@@ -141,7 +141,7 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="12"
                                                            Padding="0"
-                                                           Text="{Binding}" />
+                                                           Text="{Binding StringFormat={}{0}px}" />
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>
                                     </ComboBox>
@@ -165,7 +165,7 @@
                                                    TextDecorations="Underline"
                                                    ToolTip="{x:Static properties:Resources.Underline}" />
                                     </ToggleButton>
-                                    <ToggleButton IsChecked="{Binding IsStrikedThrough}" Style="{DynamicResource EditorToggleButtonStyle}">
+                                    <ToggleButton IsChecked="{Binding IsStrikethrough}" Style="{DynamicResource EditorToggleButtonStyle}">
                                         <TextBlock Margin="-1,0,0,0"
                                                    Style="{StaticResource GlyphTextBlockStyle}"
                                                    Text="T"
@@ -178,7 +178,8 @@
                                                           AvailableColors="{Binding TextColors}"
                                                           ColorTemplate="{StaticResource ColorTemplate}"
                                                           Content="A"
-                                                          SelectedColor="{Binding TextColor}"
+                                                          SelectedColor="{Binding TextColor,
+                                                                                  Mode=TwoWay}"
                                                           Style="{StaticResource EditorColorPickerStyle}"
                                                           ToolTip="{x:Static properties:Resources.TextColor}">
                                         <controls:ColorPicker.ContentTemplate>
@@ -203,13 +204,14 @@
                                                           AvailableColors="{Binding BackgroundColors}"
                                                           ColorTemplate="{StaticResource ColorTemplate}"
                                                           Content="A"
-                                                          SelectedColor="{Binding BackgroundColor}"
+                                                          SelectedColor="{Binding BackgroundColor,
+                                                                                  Mode=TwoWay}"
                                                           Style="{StaticResource EditorColorPickerStyle}"
                                                           ToolTip="{x:Static properties:Resources.HighlightingColor}">
                                         <controls:ColorPicker.ContentTemplate>
                                             <DataTemplate>
                                                 <Border Background="{Binding SelectedColor,
-                                                                             Converter={StaticResource ColorToBrushConverter},
+                                                                             Mode=TwoWay,
                                                                              RelativeSource={RelativeSource FindAncestor,
                                                                                                             AncestorType=controls:ColorPicker}}"
                                                         BorderThickness="0"
@@ -222,7 +224,7 @@
                                         </controls:ColorPicker.ContentTemplate>
                                     </controls:ColorPicker>
                                     <Rectangle Style="{StaticResource EditorSplitterRectangleStyle}" />
-                                    <Button Command="{Binding LinkCommand}"
+                                    <Button Command="ui:CompositionCommands.Link"
                                             Style="{DynamicResource EditorButtonStyle}"
                                             ToolTip="{x:Static properties:Resources.Link}">
                                         <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
@@ -243,7 +245,7 @@
                                         </Rectangle>
                                     </Button>
                                     <Rectangle Style="{StaticResource EditorSplitterRectangleStyle}" />
-                                    <Button Command="ui:EditorCommands.AddAttachment"
+                                    <Button Command="ui:CompositionCommands.Attachment"
                                             Style="{DynamicResource EditorButtonStyle}"
                                             ToolTip="{x:Static properties:Resources.Attachment}">
                                         <Rectangle Width="14"

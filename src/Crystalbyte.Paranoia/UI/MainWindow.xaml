@@ -137,6 +137,9 @@
     <controls:MetroWindow.InputBindings>
         <KeyBinding Key="Print" Command="ApplicationCommands.Print" />
         <KeyBinding Key="Escape" Command="ui:FlyoutCommands.Cancel" />
+        <KeyBinding Key="N"
+                    Command="ui:MessageCommands.Compose"
+                    Modifiers="Control" />
     </controls:MetroWindow.InputBindings>
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>

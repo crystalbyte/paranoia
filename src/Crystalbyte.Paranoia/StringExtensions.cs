@@ -4,12 +4,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Media;
 using Crystalbyte.Paranoia.Mail;
 
 #endregion
 
 namespace Crystalbyte.Paranoia {
     public static class StringExtensions {
+        public static Color ToColor(this string text) {
+            var matches = Regex.Matches(text, @"\d+");
+            var r = byte.Parse(matches[0].Value);
+            var g = byte.Parse(matches[1].Value);
+            var b = byte.Parse(matches[2].Value);
+            return Color.FromRgb(r, g, b);
+        }
+
         public static bool ContainsIgnoreCase(this string text, string value) {
             return text.IndexOf(value, StringComparison.OrdinalIgnoreCase) > -1;
         }

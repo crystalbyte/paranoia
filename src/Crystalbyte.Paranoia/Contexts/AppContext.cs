@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Composition;
 using System.Data.Entity;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -951,65 +952,17 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => Messages);
         }
 
-        internal void Reply() {
-            Reply(SelectedMessage);
+        internal Task ReplyAsync() {
+            return ReplyAsync(SelectedMessage);
         }
 
-        internal void Reply(MailMessageContext message) {
-            var url = string.Format("?action=reply&id={0}", message.Id);
-            var uri = typeof(CompositionPage).ToPageUri(url);
-            App.Context.Compose(uri);
-        }
-
-        internal void Reply(FileSystemInfo file) {
-            var path = Uri.EscapeDataString(file.FullName);
-            var url = string.Format("?action=reply&path={0}", path);
-            var uri = typeof(CompositionPage).ToPageUri(url);
-            App.Context.Compose(uri);
-        }
-
-        internal void Forward() {
-            Forward(SelectedMessage);
-        }
-
-        internal void Forward(MailMessageContext message) {
-            var url = string.Format("?action=forward&id={0}", message.Id);
-            var uri = typeof(CompositionPage).ToPageUri(url);
-            App.Context.Compose(uri);
-        }
-
-        internal void Forward(FileSystemInfo file) {
-            var path = Uri.EscapeDataString(file.FullName);
-            var url = string.Format("?action=forward&path={0}", path);
-            var uri = typeof(CompositionPage).ToPageUri(url);
-            App.Context.Compose(uri);
-        }
-
-        internal void ReplyToAll() {
-            ReplyToAll(SelectedMessage);
-        }
-
-        internal void ReplyToAll(MailMessageContext message) {
-            var url = string.Format("?action=reply-all&id={0}", message.Id);
-            var uri = typeof(CompositionPage).ToPageUri(url);
-            App.Context.Compose(uri);
-        }
-
-        internal void ReplyToAll(FileSystemInfo file) {
-            var path = Uri.EscapeDataString(file.FullName);
-            var url = string.Format("?action=reply-all&path={0}", path);
-            var uri = typeof(CompositionPage).ToPageUri(url);
-            App.Context.Compose(uri);
-        }
-
-        internal void Compose(Uri uri) {
-            var message = App.Context.SelectedMessage;
-            if (message == null) {
-                throw new InvalidOperationException();
-            }
-
+        internal async Task ReplyAsync(MailMessageContext message) {
+            var id = message.Id.ToString(CultureInfo.InvariantCulture);
             var owner = Application.Current.MainWindow;
-            var window = new CompositionWindow { Source = uri };
+            var window = new CompositionWindow();
+            await window.PrepareAsReplyAsync(new Dictionary<string, string> {
+                { "id", id }
+            });
             window.MimicOwnership(owner);
 
             if (owner.WindowState == WindowState.Maximized) {
@@ -1019,11 +972,102 @@ namespace Crystalbyte.Paranoia {
             window.Show();
         }
 
+        internal async Task ReplyAsync(FileSystemInfo file) {
+            var path = Uri.EscapeDataString(file.FullName);
+            var owner = Application.Current.MainWindow;
+            var window = new CompositionWindow();
+            await window.PrepareAsReplyAsync(new Dictionary<string, string> {
+                { "path", path }
+            });
+            window.MimicOwnership(owner);
+
+            if (owner.WindowState == WindowState.Maximized) {
+                window.WindowState = WindowState.Maximized;
+            }
+
+            window.Show();
+            
+        }
+
+        internal Task ForwardAsync() {
+            return ForwardAsync(SelectedMessage);
+        }
+
+        internal async Task ForwardAsync(MailMessageContext message) {
+            var id = message.Id.ToString(CultureInfo.InvariantCulture);
+            var owner = Application.Current.MainWindow;
+            var window = new CompositionWindow();
+            await window.PrepareAsForwardAsync(new Dictionary<string, string> {
+                { "id", id }
+            });
+            window.MimicOwnership(owner);
+
+            if (owner.WindowState == WindowState.Maximized) {
+                window.WindowState = WindowState.Maximized;
+            }
+
+            window.Show();
+        }
+
+        internal async Task ForwardAsync(FileSystemInfo file) {
+            var path = Uri.EscapeDataString(file.FullName);
+            var owner = Application.Current.MainWindow;
+            var window = new CompositionWindow();
+            await window.PrepareAsForwardAsync(new Dictionary<string, string> {
+                { "path", path }
+            });
+            window.MimicOwnership(owner);
+
+            if (owner.WindowState == WindowState.Maximized) {
+                window.WindowState = WindowState.Maximized;
+            }
+
+            window.Show();
+        }
+
+        internal Task ReplyToAllAsync() {
+            return ReplyToAllAsync(SelectedMessage);
+        }
+
+        internal async Task ReplyToAllAsync(MailMessageContext message) {
+            var id = message.Id.ToString(CultureInfo.InvariantCulture);
+            var owner = Application.Current.MainWindow;
+            var window = new CompositionWindow();
+            await window.PrepareAsReplyAllAsync(new Dictionary<string, string> {
+                { "id", id }
+            });
+            window.MimicOwnership(owner);
+
+            if (owner.WindowState == WindowState.Maximized) {
+                window.WindowState = WindowState.Maximized;
+            }
+
+            window.Show();
+        }
+
+        internal async Task ReplyToAllAsync(FileSystemInfo file) {
+            var path = Uri.EscapeDataString(file.FullName);
+
+            var owner = Application.Current.MainWindow;
+            var window = new CompositionWindow();
+            await window.PrepareAsReplyAllAsync(new Dictionary<string, string> {
+                { "path", path }
+            });
+            window.MimicOwnership(owner);
+
+            if (owner.WindowState == WindowState.Maximized) {
+                window.WindowState = WindowState.Maximized;
+            }
+
+            window.Show();
+        }
+
+
         internal void Compose() {
             var owner = Application.Current.MainWindow;
             var window = new CompositionWindow();
             window.MimicOwnership(Application.Current.MainWindow);
-            window.Source = typeof(CompositionPage).ToPageUri("?action=new");
+            window.PrepareAsNew();
 
             if (owner.WindowState == WindowState.Maximized) {
                 window.WindowState = WindowState.Maximized;

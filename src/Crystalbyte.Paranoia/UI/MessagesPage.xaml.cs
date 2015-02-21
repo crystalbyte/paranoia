@@ -144,7 +144,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private static void OnForward(object sender, ExecutedRoutedEventArgs e) {
             try {
-                App.Context.Forward();
+                App.Context.ForwardAsync();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -152,7 +152,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private static void OnReply(object sender, ExecutedRoutedEventArgs e) {
             try {
-                App.Context.Reply();
+                App.Context.ReplyAsync();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -160,7 +160,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private static void OnReplyAll(object sender, ExecutedRoutedEventArgs e) {
             try {
-                App.Context.ReplyToAll();
+                App.Context.ReplyToAllAsync();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }

@@ -216,14 +216,17 @@
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="CompositionSchemeHandler.cs" />
     <Compile Include="Contexts\HtmlEditorCommandContext.cs" />
+    <Compile Include="Contexts\InsertLinkContext.cs" />
     <Compile Include="EmlSchemeHandler.cs" />
     <Compile Include="FileSchemeHandler.cs" />
-    <Compile Include="HtmlFontSize.cs" />
     <Compile Include="TextRange.cs" />
     <Compile Include="ScriptingException.cs" />
     <Compile Include="UI\Converters\ColorToBrushConverter.cs" />
     <Compile Include="FormatChangedEventArgs.cs" />
-    <Compile Include="UI\RoutedCommands\EditorCommands.cs" />
+    <Compile Include="UI\InsertLinkModalPage.xaml.cs">
+      <DependentUpon>InsertLinkModalPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\RoutedCommands\CompositionCommands.cs" />
     <Compile Include="UI\RoutedCommands\HtmlCommands.cs" />
     <Compile Include="HtmlSupport.cs" />
     <Compile Include="MessageSchemeHandler.cs" />
@@ -381,6 +384,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\InsertLinkModalPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\HtmlEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -452,19 +459,12 @@
     <Compile Include="UI\SafeWebFontProvider.cs" />
     <Compile Include="UI\ItemsControlExtensions.cs" />
     <Compile Include="UI\TypeExtensions.cs" />
-    <Compile Include="UI\CompositionPage.xaml.cs">
-      <DependentUpon>CompositionPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\RichTextBoxExtensions.cs" />
     <Page Include="UI\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\AccountPropertyFlyoutPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\CompositionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

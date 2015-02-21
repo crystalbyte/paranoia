@@ -11,7 +11,7 @@
             right: 0;
             top: 0;
             bottom: 0;
-            background: burlywood;
+            background: white;
         }
     </style>
 </head>
@@ -22,7 +22,22 @@
         <script type="text/javascript" src="resource:///quill.js"></script>
         <!-- ReSharper disable UseOfImplicitGlobalInFunctionScope -->
         <script type="text/javascript">
-            var quill = new Quill('#editor-container');
+            
+            $(window).resize(function () {
+                var editor = $("#editor-container");
+                editor.css("width", "100%");
+                editor.css("height", "100%");
+            });
+
+            var quill = new Quill('#editor-container', {
+                'styles': {
+                    '.ql-editor': {
+                        'font-family': "'Trebuchet MS', sans-serif",
+                        'font-size': '16px',
+                    }
+                }
+            });
+
             quill.on("text-change", function (delta, source) {
                 // Extern is defined outside this document ...        
                 var json = JSON.stringify(delta);
@@ -34,11 +49,7 @@
                 var json = JSON.stringify(range);
                 extern.notifySelectionChanged(json);
             });
-            $(window).resize(function () {
-                var editor = $("#editor-container");
-                editor.css("width", "100%");
-                editor.css("height", "100%");
-            });
+
         </script>
         <!-- ReSharper restore UseOfImplicitGlobalInFunctionScope -->
     </body>

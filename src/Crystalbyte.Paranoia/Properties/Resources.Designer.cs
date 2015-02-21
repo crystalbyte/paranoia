@@ -774,6 +774,24 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter the address of the link to insert..
+        /// </summary>
+        public static string InsertLinkDescription {
+            get {
+                return ResourceManager.GetString("InsertLinkDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insert Link.
+        /// </summary>
+        public static string InsertLinkTitle {
+            get {
+                return ResourceManager.GetString("InsertLinkTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is now your default account..
         /// </summary>
         public static string IsDefaultAccount {

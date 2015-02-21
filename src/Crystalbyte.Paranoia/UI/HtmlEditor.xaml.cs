@@ -9,7 +9,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using CefSharp;
 using CefSharp.Wpf;
-using Crystalbyte.Paranoia.Properties;
 using Newtonsoft.Json;
 using NLog;
 using Control = System.Windows.Controls.Control;
@@ -114,12 +113,16 @@ namespace Crystalbyte.Paranoia.UI {
             await SetFormatAsync("italic", italic);
         }
 
-        public async Task SetFontSizeAsync(HtmlFontSize size) {
-            await SetFormatAsync("size", size.ToString());
+        public async Task SetFontSizeAsync(int size) {
+            await SetFormatAsync("size", string.Format("{0}px", size));
         }
 
         public async Task SetFontFamilyAsync(FontFamily family) {
             await SetFormatAsync("font", family.Source);
+        }
+
+        public async Task SetLinkAsync(string url) {
+            await SetFormatAsync("link", url);
         }
 
         public async Task SetFormatAsync(string format, object value) {
@@ -174,7 +177,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void PrepareFormat(string format, object value) {
             if (value is string) {
-                value = string.Format("'{0}'", value);
+                value = string.Format("'{0}'", value.ToString().ToLower());
             } else {
                 value = value.ToString().ToLower();
             }
@@ -423,18 +426,8 @@ namespace Crystalbyte.Paranoia.UI {
                 TextAreaResizeDisabled = true
             };
 
-            _browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
             _browser.RegisterJsObject("extern", new ScriptingObject(this));
             _browser.Load(Source);
-        }
-
-        private void OnIsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e) {
-            var context = (HtmlEditorCommandContext)_editorBorder.DataContext;
-
-            context.TextColor = Colors.Black;
-            context.BackgroundColor = Colors.Transparent;
-            context.FontFamily = new FontFamily(Settings.Default.DefaultWebFont);
-            context.FontSize = (HtmlFontSize)Enum.Parse(typeof(HtmlFontSize), Settings.Default.DefaultWebFontSize);
         }
 
         #endregion

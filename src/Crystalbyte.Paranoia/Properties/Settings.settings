@@ -81,8 +81,8 @@
     <Setting Name="DefaultWebFont" Type="System.String" Scope="User">
       <Value Profile="(Default)">Trebuchet MS</Value>
     </Setting>
-    <Setting Name="DefaultWebFontSize" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Normal</Value>
+    <Setting Name="DefaultWebFontSize" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">16</Value>
     </Setting>
   </Settings>
 </SettingsFile>

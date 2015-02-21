@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,7 +25,7 @@ namespace Crystalbyte.Paranoia {
         private Color _textColor;
         private Color _backgroundColor;
         private FontFamily _fontFamily;
-        private HtmlFontSize _fontSize;
+        private int _fontSize;
         private TextAlignment _textAlignment;
 
         #endregion
@@ -37,6 +38,9 @@ namespace Crystalbyte.Paranoia {
             BulletCommand = new RelayCommand(OnCanBullet, OnBullet);
             LinkCommand = new RelayCommand(OnCanLink, OnLink);
             ImageCommand = new RelayCommand(OnCanImage, OnImage);
+
+            _fontSize = Settings.Default.DefaultWebFontSize;
+            _fontFamily = new FontFamily(Settings.Default.DefaultWebFont);
         }
 
         private bool OnCanImage(object obj) {
@@ -120,8 +124,9 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public IEnumerable<HtmlFontSize> FontSizes {
-            get { return new[] { HtmlFontSize.Small, HtmlFontSize.Normal, HtmlFontSize.Large, HtmlFontSize.Huge }; }
+        public IEnumerable<int> FontSizes {
+            // "10px", "13px", "16px", "18px", "24px", "32px", "48px"
+            get { return new[] { 10, 13, 16, 24, 48 }; }
         }
 
         public bool IsBold {
@@ -137,9 +142,6 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnBoldChanged() {
-            if (IsEditorBold) {
-                return;
-            }
             await _editor.SetBoldAsync(IsBold);
         }
 
@@ -238,7 +240,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public HtmlFontSize FontSize {
+        public int FontSize {
             get { return _fontSize; }
             set {
                 if (_fontSize == value) {
@@ -265,8 +267,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-
-
         public RelayCommand UndoCommand { get; private set; }
 
         public RelayCommand RedoCommand { get; private set; }
@@ -287,7 +287,7 @@ namespace Crystalbyte.Paranoia {
 
         public bool IsEditorItalic {
             get {
-                return Attributes.ContainsKey("italic") && (bool) Attributes["italic"];
+                return Attributes.ContainsKey("italic") && (bool)Attributes["italic"];
             }
         }
 
@@ -321,45 +321,42 @@ namespace Crystalbyte.Paranoia {
             _isUnderlined = Attributes.ContainsKey("underline") && (bool)Attributes["underline"];
             RaisePropertyChanged(() => IsUnderlined);
 
+            var info = CultureInfo.InvariantCulture.TextInfo;
+            
             if (Attributes.ContainsKey("font")) {
                 var name = Attributes["font"] as string;
                 if (!string.IsNullOrEmpty(name)) {
-                    _fontFamily = new FontFamily(name.Trim('\''));
+                    
+                    _fontFamily = new FontFamily(info.ToTitleCase(name.Trim('\'')));
                 }
             } else {
-                _fontFamily = new FontFamily(Settings.Default.DefaultWebFont);
+                _fontFamily = new FontFamily(info.ToTitleCase(Settings.Default.DefaultWebFont));
             }
             RaisePropertyChanged(() => FontFamily);
 
             if (Attributes.ContainsKey("size")) {
-                _fontSize = (HtmlFontSize)Enum.Parse(typeof(HtmlFontSize), (string)Attributes["size"], true);
-            } else {
-                _fontSize = (HtmlFontSize)Enum.Parse(typeof(HtmlFontSize), Settings.Default.DefaultWebFontSize, true);
-            } 
+                var pixels = Attributes["size"] as string;
+                _fontSize = string.IsNullOrEmpty(pixels) 
+                    ? Settings.Default.DefaultWebFontSize 
+                    : int.Parse(pixels.Replace("px", string.Empty));
+            }
+            else {
+                _fontSize = Settings.Default.DefaultWebFontSize;
+            }
             RaisePropertyChanged(() => FontSize);
 
 
             if (Attributes.ContainsKey("color")) {
-                var color = (string)Attributes["color"];
-                var conversion = ColorConverter.ConvertFromString(color);
-                if (conversion != null) {
-                    _textColor = (Color)conversion;
-                } else {
-                    _textColor = Colors.Black;
-                }
+                var value = (string)Attributes["color"];
+                _textColor = value.ToColor();
             } else {
                 _textColor = Colors.Black;
             }
             RaisePropertyChanged(() => TextColor);
 
             if (Attributes.ContainsKey("background")) {
-                var color = (string)Attributes["background"];
-                var conversion = ColorConverter.ConvertFromString(color);
-                if (conversion != null) {
-                    _backgroundColor = (Color)conversion;
-                } else {
-                    _backgroundColor = Colors.Transparent;
-                }
+                var value = (string)Attributes["background"];
+                _backgroundColor = value.ToColor();
             } else {
                 _backgroundColor = Colors.Transparent;
             }

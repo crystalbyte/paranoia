@@ -189,10 +189,10 @@ namespace Crystalbyte.Paranoia.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
-        public string DefaultWebFontSize {
+        [global::System.Configuration.DefaultSettingValueAttribute("16")]
+        public int DefaultWebFontSize {
             get {
-                return ((string)(this["DefaultWebFontSize"]));
+                return ((int)(this["DefaultWebFontSize"]));
             }
             set {
                 this["DefaultWebFontSize"] = value;

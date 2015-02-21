@@ -30,15 +30,15 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal override void Reply() {
-            App.Context.Reply(_message);
+            App.Context.ReplyAsync(_message);
         }
 
         internal override void ReplyAll() {
-            App.Context.ReplyToAll(_message);
+            App.Context.ReplyToAllAsync(_message);
         }
 
         internal override void Forward() {
-            App.Context.Forward(_message);
+            App.Context.ForwardAsync(_message);
         }
 
         #endregion
