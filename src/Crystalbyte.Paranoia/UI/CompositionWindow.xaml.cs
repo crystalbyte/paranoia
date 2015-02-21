@@ -38,8 +38,8 @@ namespace Crystalbyte.Paranoia.UI {
             context.Finished += OnFinished;
 
             DataContext = context;
-            CommandBindings.Add(new CommandBinding(CompositionCommands.Attachment, OnAttachment));
-            CommandBindings.Add(new CommandBinding(CompositionCommands.Link, OnLink));
+            CommandBindings.Add(new CommandBinding(EditingCommands.InsertAttachment, OnAttachment));
+            CommandBindings.Add(new CommandBinding(EditingCommands.InsertLink, OnLink));
             CommandBindings.Add(new CommandBinding(FlyoutCommands.Cancel, OnCancel));
             CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
             CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));

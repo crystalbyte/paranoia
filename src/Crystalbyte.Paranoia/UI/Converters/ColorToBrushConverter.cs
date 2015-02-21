@@ -17,7 +17,8 @@ namespace Crystalbyte.Paranoia.UI.Converters {
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
-            return Binding.DoNothing;
+            var brush = value as SolidColorBrush;
+            return brush == null ? Colors.Transparent : brush.Color;
         }
     }
 }

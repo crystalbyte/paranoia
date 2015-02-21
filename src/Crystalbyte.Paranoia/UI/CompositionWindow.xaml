@@ -126,8 +126,6 @@
             <StackPanel Height="36"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        DataContext="{Binding Content,
-                                              ElementName=NavFrame}"
                         Orientation="Horizontal"
                         d:DataContext="{d:DesignInstance Page}">
                 <Image Width="20"
@@ -309,7 +307,7 @@
                                 </StackPanel>
                             </Grid>
                             <DataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ComboBoxItem}, FallbackValue=False, TargetNullValue=False}" Value="True">
+                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ComboBoxItem}}" Value="True">
                                     <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
@@ -348,24 +346,13 @@
                         </TextBlock>
                     </ToggleButton>
                 </Grid>
-                <TextBox Grid.Row="1"
-                         Grid.Column="2"
-                         Margin="3,3,3,6"
-                         Text="{Binding Subject,
-                                        UpdateSourceTrigger=PropertyChanged,
-                                        Mode=TwoWay}" />
-                <!--
-                    <controls:WatermarkTextBox x:Name="SubjectTextBox"
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    Margin="3,3,3,6"
-                    VerticalAlignment="Center"
-                    TabIndex="1"
-                    Text="{Binding Subject,
-                    UpdateSourceTrigger=PropertyChanged,
-                    Mode=TwoWay}"
-                    Watermark="{x:Static properties:Resources.Subject}" />
-                -->
+                <controls:WatermarkTextBox Grid.Row="1"
+                                           Grid.Column="2"
+                                           Margin="3,3,3,6"
+                                           Text="{Binding Subject,
+                                                          UpdateSourceTrigger=PropertyChanged,
+                                                          Mode=TwoWay}"
+                                           Watermark="{x:Static properties:Resources.Subject}" />
                 <StackPanel x:Name="CarbonCopyGrid"
                             Grid.Row="2"
                             Grid.Column="0"

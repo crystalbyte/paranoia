@@ -63,6 +63,7 @@
         <Setter Property="KeyboardNavigation.TabNavigation" Value="Continue" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
@@ -70,6 +71,20 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border.InputBindings>
+                            <KeyBinding Key="I"
+                                        Command="ToggleItalic"
+                                        Modifiers="Control" />
+                            <KeyBinding Key="B"
+                                        Command="ToggleBold"
+                                        Modifiers="Control" />
+                            <KeyBinding Key="U"
+                                        Command="ToggleUnderline"
+                                        Modifiers="Control" />
+                            <KeyBinding Key="T"
+                                        Command="ui:EditingCommands.ToggleStrikethrough"
+                                        Modifiers="Control" />
+                        </Border.InputBindings>
                         <FrameworkElement.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Command="Copy" />
@@ -89,8 +104,6 @@
                                     BorderThickness="0,1"
                                     DataContext="{x:Null}"
                                     DockPanel.Dock="Top"
-                                    KeyboardNavigation.DirectionalNavigation="None"
-                                    KeyboardNavigation.TabNavigation="None"
                                     SnapsToDevicePixels="True"
                                     d:DataContext="{d:DesignInstance paranoia:HtmlEditorCommandContext}">
                                 <WrapPanel Margin="3">
@@ -117,6 +130,7 @@
                                               Width="140"
                                               Margin="0"
                                               BorderBrush="Transparent"
+                                              IsTabStop="False"
                                               ItemsSource="{Binding FontFamilies}"
                                               SelectedValue="{Binding FontFamily,
                                                                       Mode=TwoWay}">
@@ -136,6 +150,7 @@
                                               Margin="3,0,0,0"
                                               BorderBrush="Transparent"
                                               FontSize="12"
+                                              IsTabStop="False"
                                               ItemsSource="{Binding FontSizes}"
                                               SelectedValue="{Binding FontSize,
                                                                       Mode=TwoWay}">
@@ -216,7 +231,7 @@
                                         <controls:ColorPicker.ContentTemplate>
                                             <DataTemplate>
                                                 <Border Background="{Binding SelectedColor,
-                                                                             Mode=TwoWay,
+                                                                             Converter={StaticResource ColorToBrushConverter},
                                                                              RelativeSource={RelativeSource FindAncestor,
                                                                                                             AncestorType=controls:ColorPicker}}"
                                                         BorderThickness="0"
@@ -229,7 +244,7 @@
                                         </controls:ColorPicker.ContentTemplate>
                                     </controls:ColorPicker>
                                     <Rectangle Style="{StaticResource EditorSplitterRectangleStyle}" />
-                                    <Button Command="ui:CompositionCommands.Link"
+                                    <Button Command="ui:EditingCommands.InsertLink"
                                             Style="{DynamicResource EditorButtonStyle}"
                                             ToolTip="{x:Static properties:Resources.Link}">
                                         <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
@@ -250,7 +265,7 @@
                                         </Rectangle>
                                     </Button>
                                     <Rectangle Style="{StaticResource EditorSplitterRectangleStyle}" />
-                                    <Button Command="ui:CompositionCommands.Attachment"
+                                    <Button Command="ui:EditingCommands.InsertAttachment"
                                             Style="{DynamicResource EditorButtonStyle}"
                                             ToolTip="{x:Static properties:Resources.Attachment}">
                                         <Rectangle Width="14"
@@ -264,9 +279,8 @@
                                 </WrapPanel>
                             </Border>
                             <wpf:ChromiumWebBrowser x:Name="PART_WebBrowser"
-                                                    Focusable="False"
+                                                    Focusable="True"
                                                     IsTabStop="True"
-                                                    TabIndex="0"
                                                     d:IsHidden="True" />
                         </DockPanel>
                     </Border>

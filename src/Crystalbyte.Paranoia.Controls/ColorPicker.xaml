@@ -23,7 +23,8 @@
                                       BorderBrush="{TemplateBinding BorderBrush}"
                                       BorderThickness="{TemplateBinding BorderThickness}"
                                       Content="{TemplateBinding Content}"
-                                      ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      IsTabStop="{TemplateBinding IsTabStop}" />
                         <Popup IsOpen="{Binding IsChecked, ElementName=PART_Button, Mode=TwoWay}" StaysOpen="False">
                             <Border Background="{TemplateBinding PopupBackground}"
                                     BorderBrush="{TemplateBinding PopupBorderBrush}"

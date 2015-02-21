@@ -407,12 +407,6 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Class Overrides
 
-        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e) {
-            base.OnGotKeyboardFocus(e);
-
-            _browser.Focus();
-        }
-
         public override void OnApplyTemplate() {
             base.OnApplyTemplate();
 
