@@ -248,18 +248,17 @@
                        Text="CC" />
         </Grid>
         <ListView Grid.Row="4"
-                  Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentBackgroundBrushKey}}"
-                  BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
                   BorderThickness="0,1,0,0"
                   ItemTemplate="{StaticResource ThumbnailTemplate}"
                   ItemsSource="{Binding Attachments}"
+                  Padding="1.6"
                   ScrollViewer.CanContentScroll="False"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                   ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <ListView.ItemContainerStyle>
                 <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
-                    <Setter Property="UseLayoutRounding" Value="True" />
-                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewBackgroundBrushKey}}" />
+                    <Setter Property="BorderBrush" Value="Transparent" />
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.Style>
@@ -282,7 +281,7 @@
         <Grid Grid.Row="6">
             <ui:HtmlViewer x:Name="HtmlViewer"
                            Margin="0"
-                           BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                           BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewBorderBrushKey}}"
                            BorderThickness="0,1,0,0" />
         </Grid>
     </Grid>

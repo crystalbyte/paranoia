@@ -17,7 +17,6 @@
         public static string AppLargeFontSizeKey = "AppLargeFontSizeKey";
         public static string AppExtraLargeFontSizeKey = "AppExtraLargeFontSizeKey";
 
-        public static string AttachmentBackgroundBrushKey = "AttachmentBackgroundBrushKey";
         public static string HtmlBackgroundBrushKey = "HtmlBackgroundBrushKey";
 
         public static string InputFontFamilyKey = "InputFontFamilyKey";

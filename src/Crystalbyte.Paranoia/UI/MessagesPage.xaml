@@ -624,13 +624,6 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <!--
-                                    <Rectangle Grid.Row="0"
-                                    Grid.RowSpan="2"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="3"
-                                    Fill="Transparent" />
-                                -->
                                 <Image Grid.Row="0"
                                        Grid.RowSpan="2"
                                        Grid.Column="0"
@@ -923,7 +916,7 @@
             </Grid.RowDefinitions>
             <Border Grid.Row="0"
                     Background="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}"
-                    BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                    BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewBorderBrushKey}}"
                     BorderThickness="0,0,0,1"
                     Padding="0,0,0,6"
                     Visibility="{Binding IsMessageOrSmtpRequestSelected,
@@ -1005,19 +998,16 @@
             </Border>
             <ListView Grid.Row="1"
                       Margin="0"
-                      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentBackgroundBrushKey}}"
-                      BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
                       BorderThickness="0,0,0,1"
                       ItemTemplate="{StaticResource ThumbnailTemplate}"
                       ItemsSource="{Binding Attachments}"
+                      Padding="1,1.6"
                       ScrollViewer.CanContentScroll="False"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                      UseLayoutRounding="True">
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
                 <ListView.Style>
                     <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type ListView}">
                         <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClicked" />
-                        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentBackgroundBrushKey}}" />
                         <Style.Triggers>
                             <Trigger Property="HasItems" Value="False">
                                 <Setter Property="Visibility" Value="Collapsed" />
@@ -1026,10 +1016,9 @@
                     </Style>
                 </ListView.Style>
                 <ListView.ItemContainerStyle>
-                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
-                        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentBackgroundBrushKey}}" />
-                        <Setter Property="UseLayoutRounding" Value="True" />
-                        <Setter Property="Padding" Value="1" />
+                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
+                        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemsPanel>

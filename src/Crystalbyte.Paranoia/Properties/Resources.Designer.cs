@@ -115,11 +115,11 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All files.
+        ///   Looks up a localized string similar to All Files.
         /// </summary>
-        public static string AllFilesFilter {
+        public static string AllFiles {
             get {
-                return ResourceManager.GetString("AllFilesFilter", resourceCulture);
+                return ResourceManager.GetString("AllFiles", resourceCulture);
             }
         }
         

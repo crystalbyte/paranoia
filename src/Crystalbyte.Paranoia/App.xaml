@@ -68,7 +68,7 @@
             <FontWeight x:Key="SubtitleFontWeightKey">Thin</FontWeight>
 
             <DataTemplate x:Key="ThumbnailTemplate" DataType="paranoia:AttachmentContext">
-                <Border Padding="0,3">
+                <Border ToolTip="{Binding Name}">
                     <Border.ContextMenu>
                         <ContextMenu>
                             <MenuItem Command="{Binding OpenCommand}" Header="{x:Static properties:Resources.OpenFile}">
@@ -97,6 +97,63 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Image Grid.Row="0"
+                               Margin="3,3,3,0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               Source="{Binding Name,
+                                                Converter={StaticResource IconFinder},
+                                                IsAsync=True}"
+                               Stretch="Uniform"
+                               Visibility="{Binding IsImage,
+                                                    Converter={StaticResource BooleanToVisibilityConverter},
+                                                    ConverterParameter=!}" />
+
+                        <Image Grid.Row="0"
+                               Margin="3,3,3,0"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               Source="{Binding Bytes,
+                                                IsAsync=True}"
+                               Stretch="Uniform"
+                               UseLayoutRounding="True"
+                               Visibility="{Binding IsImage,
+                                                    Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                        <TextBlock Grid.Row="1"
+                                   Margin="3"
+                                   FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
+                                   Text="{Binding Name}"
+                                   TextAlignment="Center"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap" />
+                    </Grid>
+                </Border>
+            </DataTemplate>
+
+            <DataTemplate x:Key="FileThumbnailTemplate" DataType="paranoia:FileAttachmentContext">
+                <Border ToolTip="{Binding FullName}">
+                    <Border.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="{Binding OpenCommand}" Header="{x:Static properties:Resources.OpenFile}">
+                                <MenuItem.Icon>
+                                    <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/open.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Border.ContextMenu>
+                    <Grid Width="120" Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0"
+                               Margin="3,3,3,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                RenderOptions.BitmapScalingMode="HighQuality"
@@ -107,35 +164,24 @@
                                Visibility="{Binding IsImage,
                                                     Converter={StaticResource BooleanToVisibilityConverter},
                                                     ConverterParameter=!}" />
-                        <Grid Grid.Row="0" Visibility="{Binding IsImage, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <Image HorizontalAlignment="Stretch"
-                                   VerticalAlignment="Stretch"
-                                   RenderOptions.BitmapScalingMode="HighQuality"
-                                   Source="{Binding Bytes,
-                                                    IsAsync=True}"
-                                   Stretch="Uniform"
-                                   UseLayoutRounding="True" />
-                            <Image Width="20"
-                                   Height="20"
-                                   Margin="0,0,2,-2"
-                                   HorizontalAlignment="Right"
-                                   VerticalAlignment="Bottom"
-                                   RenderOptions.BitmapScalingMode="HighQuality"
-                                   Source="{Binding FullName,
-                                                    Converter={StaticResource IconFinder},
-                                                    IsAsync=True}"
-                                   Stretch="Uniform" />
-
-                        </Grid>
+                        <Image Grid.Row="0"
+                               Margin="3,3,3,0"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               Source="{Binding Bytes,
+                                                IsAsync=True}"
+                               Stretch="Uniform"
+                               UseLayoutRounding="True"
+                               Visibility="{Binding IsImage,
+                                                    Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <TextBlock Grid.Row="1"
-                                   Margin="6,0"
-                                   Background="Transparent"
+                                   Margin="3"
                                    FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
                                    Text="{Binding Name}"
                                    TextAlignment="Center"
                                    TextTrimming="CharacterEllipsis"
-                                   TextWrapping="NoWrap"
-                                   ToolTip="{Binding FullName}" />
+                                   TextWrapping="NoWrap" />
                     </Grid>
                 </Border>
             </DataTemplate>

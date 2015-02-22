@@ -215,6 +215,7 @@
     </ApplicationDefinition>
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="CompositionSchemeHandler.cs" />
+    <Compile Include="Contexts\FileAttachmentContext.cs" />
     <Compile Include="Contexts\HtmlEditorCommandContext.cs" />
     <Compile Include="Contexts\InsertLinkContext.cs" />
     <Compile Include="EmlSchemeHandler.cs" />
@@ -226,7 +227,7 @@
     <Compile Include="UI\InsertLinkModalPage.xaml.cs">
       <DependentUpon>InsertLinkModalPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\RoutedCommands\CompositionCommands.cs" />
+    <Compile Include="UI\RoutedCommands\EditingCommands.cs" />
     <Compile Include="UI\RoutedCommands\HtmlCommands.cs" />
     <Compile Include="HtmlSupport.cs" />
     <Compile Include="MessageSchemeHandler.cs" />
@@ -317,12 +318,10 @@
     <Compile Include="ClientConfig.cs" />
     <Compile Include="RevisionTracker.cs" />
     <Compile Include="SecurityMeasure.cs" />
-    <Compile Include="UI\Commands\AddAttachmentCommand.cs" />
     <Compile Include="UI\Commands\DeleteContactsCommand.cs" />
     <Compile Include="UI\Commands\MarkAsNotSeenCommand.cs" />
     <Compile Include="UI\Commands\MarkAsSeenCommand.cs" />
     <Compile Include="UI\Commands\OpenAttachmentCommand.cs" />
-    <Compile Include="UI\Commands\RemoveAttachmentCommand.cs" />
     <Compile Include="UI\Commands\RestoreMessagesCommand.cs" />
     <Compile Include="UI\Converters\BooleanToVisibilityMultiConverter.cs" />
     <Compile Include="UI\Converters\IconFinder.cs" />
@@ -745,6 +744,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\lodash-3.2.0.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\align.center.png" />
+    <Resource Include="Assets\align.justify.png" />
+    <Resource Include="Assets\align.left.png" />
+    <Resource Include="Assets\align.right.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

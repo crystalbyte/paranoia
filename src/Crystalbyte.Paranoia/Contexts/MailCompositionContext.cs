@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.UI.Commands;
+using Microsoft.Win32;
 using NLog;
 using System.Text.RegularExpressions;
 
@@ -26,9 +27,9 @@ namespace Crystalbyte.Paranoia {
         private string _subject;
         private readonly IEnumerable<MailAccountContext> _accounts;
         private readonly ObservableCollection<string> _recipients;
-        private readonly ObservableCollection<AttachmentContext> _attachments;
+        private readonly ObservableCollection<FileAttachmentContext> _attachments;
         private readonly ICommand _sendCommand;
-        private readonly ICommand _addAttachmentCommand;
+        private readonly ICommand _insertAttachmentCommand;
         private MailAccountContext _selectedAccount;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -41,8 +42,12 @@ namespace Crystalbyte.Paranoia {
             _selectedAccount = _accounts.FirstOrDefault();
             _recipients = new ObservableCollection<string>();
             _sendCommand = new SendCommand(this);
-            _addAttachmentCommand = new AddAttachmentCommand(this);
-            _attachments = new ObservableCollection<AttachmentContext>();
+            _insertAttachmentCommand = new RelayCommand(OnInsertAttachment);
+            _attachments = new ObservableCollection<FileAttachmentContext>();
+        }
+
+        private void OnInsertAttachment(object obj) {
+            InsertAttachments();
         }
 
         #endregion
@@ -74,14 +79,14 @@ namespace Crystalbyte.Paranoia {
         }
 
         public ICommand AddAttachmentCommand {
-            get { return _addAttachmentCommand; }
+            get { return _insertAttachmentCommand; }
         }
 
         public ICollection<string> Recipients {
             get { return _recipients; }
         }
 
-        public ICollection<AttachmentContext> Attachments {
+        public ICollection<FileAttachmentContext> Attachments {
             get { return _attachments; }
         }
 
@@ -169,6 +174,28 @@ namespace Crystalbyte.Paranoia {
             _attachments.ForEach(x => message.Attachments.Add(new Attachment(x.FullName)));
 
             return message;
+        }
+
+        internal void InsertAttachments() {
+                 try {
+                var dialog = new OpenFileDialog {
+                    Multiselect = true,
+                    Filter = string.Format("{0} (*.*)|*.*", Properties.Resources.AllFiles)
+                };
+
+                // Display OpenFileDialog by calling ShowDialog method 
+                var result = dialog.ShowDialog();
+                if (!(result.HasValue && result.Value)) {
+                    return;
+                }
+
+                _attachments.AddRange(dialog.FileNames
+                    .Select(name => new FileInfo(name))
+                    .Where(x => x.Exists)
+                    .Select(x => new FileAttachmentContext(x.FullName)));
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private static MailMessage HandleEmbeddedImages(MailMessage message, string content) {

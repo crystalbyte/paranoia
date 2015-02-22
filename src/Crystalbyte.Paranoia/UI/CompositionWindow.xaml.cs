@@ -14,6 +14,7 @@ using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.Themes;
+using Microsoft.Win32;
 using NLog;
 
 namespace Crystalbyte.Paranoia.UI {
@@ -91,7 +92,8 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnAttachment(object sender, ExecutedRoutedEventArgs e) {
-
+            var context = (MailCompositionContext) DataContext;
+            context.InsertAttachments();
         }
 
         public void StartSendingAnimation() {
@@ -254,7 +256,7 @@ namespace Crystalbyte.Paranoia.UI {
             if (files == null | context == null)
                 return;
 
-            files.ToList().ForEach(x => context.Attachments.Add(new AttachmentContext(context, x)));
+            files.ToList().ForEach(x => context.Attachments.Add(new FileAttachmentContext(x)));
         }
 
         public static Window GetParentWindow(DependencyObject child) {

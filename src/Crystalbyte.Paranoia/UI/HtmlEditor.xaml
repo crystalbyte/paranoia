@@ -84,6 +84,15 @@
                             <KeyBinding Key="T"
                                         Command="ui:EditingCommands.ToggleStrikethrough"
                                         Modifiers="Control" />
+                            <KeyBinding Key="H"
+                                        Command="ui:EditingCommands.InsertLink"
+                                        Modifiers="Control" />
+                            <KeyBinding Key="P"
+                                        Command="ui:EditingCommands.InsertPicture"
+                                        Modifiers="Control" />
+                            <KeyBinding Key="M"
+                                        Command="ui:EditingCommands.InsertAttachment"
+                                        Modifiers="Control" />
                         </Border.InputBindings>
                         <FrameworkElement.ContextMenu>
                             <ContextMenu>

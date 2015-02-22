@@ -85,7 +85,7 @@ namespace Crystalbyte.Paranoia {
             }
 
 
-            System.Windows.Automation.Automation.AddAutomationFocusChangedEventHandler(OnFocusChanged);
+            //System.Windows.Automation.Automation.AddAutomationFocusChangedEventHandler(OnFocusChanged);
 #endif
             var success = TryCallingLiveProcess();
             if (success) {

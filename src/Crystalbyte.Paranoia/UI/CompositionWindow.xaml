@@ -134,9 +134,8 @@
                        RenderOptions.BitmapScalingMode="HighQuality"
                        Source="/Assets/logo.window.png" />
                 <TextBlock x:Name="TitleBlock"
-                           Margin="0,-1,0,0"
+                           Margin="0"
                            VerticalAlignment="Center"
-                           DataContext="{Binding DataContext}"
                            WindowChrome.IsHitTestVisibleInChrome="False"
                            d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}">
                     <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}" Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
@@ -234,6 +233,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -404,16 +404,17 @@
                         </controls:SuggestionBox.ItemContainerStyle>
                     </controls:SuggestionBox>
                 </StackPanel>
-                <ListView Grid.Row="2"
+                <ListView Grid.Row="3"
                           Grid.Column="0"
                           Grid.ColumnSpan="4"
-                          Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentBackgroundBrushKey}}"
-                          BorderThickness="0"
+                          BorderThickness="0,1,0,0"
                           IsTabStop="False"
-                          ItemTemplate="{StaticResource ThumbnailTemplate}"
+                          ItemTemplate="{StaticResource FileThumbnailTemplate}"
                           ItemsSource="{Binding Attachments}"
+                          Padding="1.6"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                          ScrollViewer.VerticalScrollBarVisibility="Auto">
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          UseLayoutRounding="True">
                     <ListView.Style>
                         <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="ListView">
                             <Style.Triggers>
@@ -423,13 +424,19 @@
                             </Style.Triggers>
                         </Style>
                     </ListView.Style>
+                    <ListView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
+                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewBackgroundBrushKey}}" />
+                            <Setter Property="BorderBrush" Value="Transparent" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                 </ListView>
-                <Grid Grid.Row="3"
+                <Grid Grid.Row="4"
                       Grid.Column="0"
                       Grid.ColumnSpan="4">
                     <ui:HtmlEditor x:Name="HtmlEditor"

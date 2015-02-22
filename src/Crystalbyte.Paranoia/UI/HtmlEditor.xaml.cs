@@ -54,6 +54,7 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(ApplicationCommands.SelectAll, OnSelectAll));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint));
             CommandBindings.Add(new CommandBinding(HtmlCommands.ViewSource, OnViewSource));
+            CommandBindings.Add(new CommandBinding(EditingCommands.ToggleStrikethrough, OnToggleStrikethrough));
         }
 
         #endregion
@@ -269,6 +270,10 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         #region Methods
+
+        private void OnToggleStrikethrough(object sender, ExecutedRoutedEventArgs e) {
+            ToggleStrikethrough();
+        }
 
         private void ChangeZoom(double level) {
             if (_browser == null || _browser.WebBrowser == null) {
@@ -497,6 +502,11 @@ namespace Crystalbyte.Paranoia.UI {
         public async Task InvalidateCommandsAsync() {
             var context = (HtmlEditorCommandContext) _editorBorder.DataContext;
             await context.InvalidateAsync();
+        }
+
+        public void ToggleStrikethrough() {
+            var context = (HtmlEditorCommandContext)_editorBorder.DataContext;
+            context.IsStrikethrough = !context.IsStrikethrough;
         }
     }
 }

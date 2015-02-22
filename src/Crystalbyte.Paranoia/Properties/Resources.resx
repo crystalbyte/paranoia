@@ -619,9 +619,6 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="IsNotDefaultAccount" xml:space="preserve">
     <value>Set as default.</value>
   </data>
-  <data name="AllFilesFilter" xml:space="preserve">
-    <value>All files</value>
-  </data>
   <data name="MissingTrashFolderException" xml:space="preserve">
     <value>There is no trash folder defined.</value>
   </data>
@@ -705,5 +702,8 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   </data>
   <data name="InsertLinkTitle" xml:space="preserve">
     <value>Insert Link</value>
+  </data>
+  <data name="AllFiles" xml:space="preserve">
+    <value>All Files</value>
   </data>
 </root>

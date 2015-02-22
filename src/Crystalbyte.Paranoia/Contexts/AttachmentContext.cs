@@ -14,27 +14,18 @@ namespace Crystalbyte.Paranoia {
     public class AttachmentContext {
 
         private readonly string _name;
-        private readonly string _fullname;
         private readonly MessagePart _part;
-        private readonly RemoveAttachmentCommand _removeCommand;
         private readonly OpenAttachmentCommand _openCommand;
         private readonly RelayCommand _saveCommand;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public AttachmentContext(MailCompositionContext context, string fullname) {
-            _fullname = fullname;
-            _name = fullname.Split('\\').Last();
-            _saveCommand = new RelayCommand(OnSave);
-            _removeCommand = new RemoveAttachmentCommand(context, this);
-        }
-
         private async void OnSave(object obj) {
-            var extension = _fullname.Split('.').LastOrDefault() ?? string.Empty;
+            var extension = _name.Split('.').LastOrDefault() ?? string.Empty;
             var dialog = new SaveFileDialog {
-                FileName = _fullname,
+                FileName = _name,
                 DefaultExt = extension,
-                Filter = string.Format("{0} (*.*)|*.*", Resources.AllFilesFilter)
+                Filter = string.Format("{0} (*.*)|*.*", Resources.AllFiles)
             };
 
             var result = dialog.ShowDialog();
@@ -57,7 +48,6 @@ namespace Crystalbyte.Paranoia {
                 throw new InvalidOperationException("part must be an attachment");
 
             _name = part.FileName;
-            _fullname = part.FileName;
             _saveCommand = new RelayCommand(OnSave);
             _openCommand = new OpenAttachmentCommand(part);
         }
@@ -72,16 +62,8 @@ namespace Crystalbyte.Paranoia {
             get { return _name; }
         }
 
-        public string FullName {
-            get { return _fullname; }
-        }
-
         public bool IsImage {
             get {
-                if (File.Exists(_fullname)) {
-                    return Regex.IsMatch(FullName, ".jpg|.png|.jpeg|.tiff|.gif", RegexOptions.IgnoreCase);
-                }
-
                 if (_part == null) {
                     return false;
                 }
@@ -92,14 +74,9 @@ namespace Crystalbyte.Paranoia {
         }
 
         public byte[] Bytes {
-            get {
-                return File.Exists(FullName) ? File.ReadAllBytes(FullName) : _part.Body;
-            }
+            get { return _part.Body; }
         }
 
-        public ICommand RemoveCommand {
-            get { return _removeCommand; }
-        }
 
         public ICommand OpenCommand {
             get { return _openCommand; }
