@@ -23,6 +23,9 @@
         public static string InputForegroundBrushKey = "InputForegroundBrushKey";
         public static string InputFontSizeKey = "InputFontSizeKey";
 
+        // Popup Scope
+        public static string PopupBackgroundBrushKey = "PopupBackgroundBrushKey";
+
         // Window Scope
         public static string WindowBackgroundBrushKey = "WindowBackgroundBrushKey";
         public static string WindowHeaderBackgroundBrushKey = "WindowHeaderBackgroundBrushKey";

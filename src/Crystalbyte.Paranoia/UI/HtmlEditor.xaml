@@ -90,9 +90,6 @@
                             <KeyBinding Key="P"
                                         Command="ui:EditingCommands.InsertPicture"
                                         Modifiers="Control" />
-                            <KeyBinding Key="M"
-                                        Command="ui:EditingCommands.InsertAttachment"
-                                        Modifiers="Control" />
                         </Border.InputBindings>
                         <FrameworkElement.ContextMenu>
                             <ContextMenu>
@@ -113,7 +110,7 @@
                                     BorderThickness="0,1"
                                     DataContext="{x:Null}"
                                     DockPanel.Dock="Top"
-                                    SnapsToDevicePixels="True"
+                                    UseLayoutRounding="True"
                                     d:DataContext="{d:DesignInstance paranoia:HtmlEditorCommandContext}">
                                 <WrapPanel Margin="3">
                                     <Button Command="{Binding UndoCommand}"
@@ -138,6 +135,7 @@
                                     <ComboBox x:Name="FontFamilyComboBox"
                                               Width="140"
                                               Margin="0"
+                                              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.CompositionEditorBackgroundBrushKey}}"
                                               BorderBrush="Transparent"
                                               IsTabStop="False"
                                               ItemsSource="{Binding FontFamilies}"
@@ -157,6 +155,7 @@
                                     <ComboBox x:Name="FontSizeComboBox"
                                               Width="80"
                                               Margin="3,0,0,0"
+                                              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.CompositionEditorBackgroundBrushKey}}"
                                               BorderBrush="Transparent"
                                               FontSize="12"
                                               IsTabStop="False"

@@ -29,8 +29,8 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal override void Reply() {
-            App.Context.ReplyAsync(_message);
+        internal async override void Reply() {
+            await App.Context.ReplyAsync(_message);
         }
 
         internal override void ReplyAll() {

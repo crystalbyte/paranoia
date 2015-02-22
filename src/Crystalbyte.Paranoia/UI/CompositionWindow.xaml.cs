@@ -14,7 +14,6 @@ using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.Themes;
-using Microsoft.Win32;
 using NLog;
 
 namespace Crystalbyte.Paranoia.UI {
@@ -87,17 +86,17 @@ namespace Crystalbyte.Paranoia.UI {
             ModalOverlay.Visibility = Visibility.Visible;
 
             NavigationArguments.Push(HtmlEditor);
-            var uri = typeof (InsertLinkModalPage).ToPageUri();
+            var uri = typeof(InsertLinkModalPage).ToPageUri();
             PopupFrame.Navigate(uri);
         }
 
         private void OnAttachment(object sender, ExecutedRoutedEventArgs e) {
-            var context = (MailCompositionContext) DataContext;
+            var context = (MailCompositionContext)DataContext;
             context.InsertAttachments();
         }
 
         public void StartSendingAnimation() {
-            var storyboard = (Storyboard) Resources["FlyOutStoryboard"];
+            var storyboard = (Storyboard)Resources["FlyOutStoryboard"];
             storyboard.Begin();
         }
 
@@ -319,5 +318,19 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         #endregion
+
+        private void OnAttachmentMouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            var item = (ListViewItem)sender;
+            var attachment = (FileAttachmentContext)item.DataContext;
+            attachment.Open();
+        }
+
+        private void OnAttachmentsDelete(object sender, ExecutedRoutedEventArgs e) {
+            var composition = (MailCompositionContext)DataContext;
+            var listView = (ListView)sender;
+            foreach (var item in listView.SelectedItems.OfType<FileAttachmentContext>().ToArray()) {
+                composition.Attachments.Remove(item);
+            }
+        }
     }
 }

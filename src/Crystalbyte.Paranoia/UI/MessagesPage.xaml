@@ -235,14 +235,6 @@
                                         </Setter.Value>
                                     </Setter>
                                 </DataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsSelected}" Value="True" />
-                                        <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}" Value="True" />
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter TargetName="AddressText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}}" />
-                                    <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}}" />
-                                </MultiDataTrigger>
                             </HierarchicalDataTemplate.Triggers>
                         </HierarchicalDataTemplate>
                         <HierarchicalDataTemplate DataType="{x:Type paranoia:MailboxContext}" ItemsSource="{Binding Children}">
@@ -704,17 +696,6 @@
                                 <DataTrigger Binding="{Binding IsSeen}" Value="True">
                                     <Setter TargetName="SubjectText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" />
                                 </DataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsSelected}" Value="True" />
-                                        <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=ListView}}" Value="True" />
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter TargetName="StarIcon" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}}" />
-                                    <Setter TargetName="AttachmentIcon" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}}" />
-                                    <Setter TargetName="SubjectText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}}" />
-                                    <Setter TargetName="DateText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}}" />
-                                    <Setter TargetName="FromText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}}" />
-                                </MultiDataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
                     </ListView.ItemTemplate>

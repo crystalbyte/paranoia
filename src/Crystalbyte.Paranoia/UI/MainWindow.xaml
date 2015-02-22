@@ -15,8 +15,7 @@
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
                       BorderThickness="1"
                       KeyboardNavigation.TabNavigation="Local"
-                      SnapsToDevicePixels="False"
-                      UseLayoutRounding="False"
+                      UseLayoutRounding="True"
                       WindowStartupLocation="CenterScreen"
                       d:DataContext="{d:DesignInstance paranoia:AppContext}"
                       mc:Ignorable="d">
