@@ -109,7 +109,7 @@
         <Setter Property="Margin" Value="0" />
         <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
-        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
@@ -117,7 +117,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TreeViewItem">
-                    <Border Background="{TemplateBinding Background}">
+                    <Grid>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="SelectionStates">
                                 <VisualState x:Name="Selected" />
@@ -135,60 +135,56 @@
                                 <VisualState x:Name="Collapsed" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"
-                                                  MinWidth="20"
-                                                  SharedSizeGroup="ex" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Border Grid.Column="0"
-                                    Grid.ColumnSpan="2"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                    UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"
-                                                          MinWidth="20"
-                                                          SharedSizeGroup="ex" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Rectangle x:Name="HoverArea"
-                                               Grid.Column="0"
-                                               Grid.ColumnSpan="2"
-                                               Margin="0,0,0,0"
-                                               Fill="Transparent"
-                                               Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundOpacityKey}}"
-                                               RenderOptions.EdgeMode="Aliased" />
-                                    <ToggleButton x:Name="Expander"
-                                                  Grid.Row="0"
-                                                  Grid.Column="0"
-                                                  ClickMode="Press"
-                                                  IsChecked="{Binding IsExpanded,
-                                                                      RelativeSource={RelativeSource TemplatedParent}}"
-                                                  Style="{StaticResource ExpandCollapseToggleStyle}" />
-                                    <Border x:Name="Border"
-                                            Grid.Row="0"
-                                            Grid.Column="1">
-                                        <ContentPresenter x:Name="PART_Header"
-                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                          ContentSource="Header" />
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"
+                                              MinWidth="20"
+                                              SharedSizeGroup="ex" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Border Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"
+                                                      MinWidth="20"
+                                                      SharedSizeGroup="ex" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <ToggleButton x:Name="Expander"
+                                              Grid.Row="0"
+                                              Grid.Column="0"
+                                              ClickMode="Press"
+                                              IsChecked="{Binding IsExpanded,
+                                                                  RelativeSource={RelativeSource TemplatedParent}}"
+                                              Style="{StaticResource ExpandCollapseToggleStyle}" />
+                                <Rectangle x:Name="HoverArea"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                           Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundOpacityKey}}"
+                                           SnapsToDevicePixels="True"
+                                           UseLayoutRounding="True" />
+                                <Border Grid.Row="0" Grid.Column="1">
+                                    <ContentPresenter x:Name="PART_Header"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      ContentSource="Header" />
 
-                                    </Border>
-                                </Grid>
-                            </Border>
-                            <ItemsPresenter x:Name="ItemsHost"
-                                            Grid.Row="1"
-                                            Grid.Column="1"
-                                            Visibility="Collapsed" />
-                        </Grid>
-                    </Border>
+                                </Border>
+                            </Grid>
+                        </Border>
+                        <ItemsPresenter x:Name="ItemsHost"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Visibility="Collapsed" />
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasItems" Value="false">
                             <Setter TargetName="Expander" Property="Visibility" Value="Hidden" />

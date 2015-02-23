@@ -27,7 +27,7 @@
                 <ResourceDictionary Source="/UI/Styles/Styles.PasswordBox.xaml" />
                 <ResourceDictionary Source="/UI/Styles/Styles.RadioButton.xaml" />
                 <ResourceDictionary Source="/UI/Styles/Styles.RepeatButton.xaml" />
-                <ResourceDictionary Source="/UI/Styles/Styles.ScrollViewer.xaml" />
+                <!--  <ResourceDictionary Source="/UI/Styles/Styles.ScrollViewer.xaml" />  -->
                 <ResourceDictionary Source="/UI/Styles/Styles.Slider.xaml" />
                 <ResourceDictionary Source="/UI/Styles/Styles.StatusBar.xaml" />
                 <ResourceDictionary Source="/UI/Styles/Styles.SuggestionBox.xaml" />

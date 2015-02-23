@@ -77,10 +77,9 @@
                           ItemsSource="{Binding Accounts}"
                           KeyboardNavigation.DirectionalNavigation="Contained"
                           KeyboardNavigation.TabNavigation="Once"
-                          Padding="1,0"
+                          Padding="2,0"
                           ScrollViewer.CanContentScroll="False"
                           SelectedItemChanged="OnTreeViewSelectedItemChanged"
-                          SnapsToDevicePixels="True"
                           VirtualizingPanel.IsVirtualizing="False"
                           VirtualizingPanel.ScrollUnit="Pixel">
                     <TreeView.InputBindings>
