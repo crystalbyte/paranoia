@@ -29,16 +29,16 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async override void Reply() {
+        internal async override Task ReplyAsync() {
             await App.Context.ReplyAsync(_message);
         }
 
-        internal override void ReplyAll() {
-            App.Context.ReplyToAllAsync(_message);
+        internal async override Task ReplyAll() {
+            await App.Context.ReplyToAllAsync(_message);
         }
 
-        internal override void Forward() {
-            App.Context.ForwardAsync(_message);
+        internal async override Task Forward() {
+            await App.Context.ForwardAsync(_message);
         }
 
         #endregion

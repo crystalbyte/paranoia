@@ -34,7 +34,7 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0"
               Grid.ColumnSpan="2"
-              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}">
+              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}">
             <StackPanel Height="36"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
@@ -48,7 +48,7 @@
                            Background="Transparent"
                            FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}"
                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
-                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
+                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                            Text="{Binding Subject,
                                           Mode=OneWay,
                                           Converter={StaticResource NullOrEmptyFormatter},
@@ -150,7 +150,7 @@
                            Width="18"
                            Height="18"
                            Margin="12,0"
-                           Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}">
+                           Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}">
                     <Rectangle.OpacityMask>
                         <ImageBrush ImageSource="/Assets/arrow.right.png" />
                     </Rectangle.OpacityMask>
@@ -173,7 +173,7 @@
             </Grid>
         </DockPanel>
         <Grid Grid.Row="2"
-              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}"
+              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
               Visibility="{Binding HasMultipleRecipients,
                                    Converter={StaticResource BooleanToVisibilityConverter}}">
             <ItemsControl Margin="6" ItemsSource="{Binding SecondaryTo}">
@@ -211,7 +211,7 @@
         <Grid Grid.Row="3"
               Grid.RowSpan="2"
               Grid.ColumnSpan="2"
-              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}"
+              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
               Visibility="{Binding HasCarbonCopies,
                                    Converter={StaticResource BooleanToVisibilityConverter}}">
             <ItemsControl Margin="6" ItemsSource="{Binding Cc}">

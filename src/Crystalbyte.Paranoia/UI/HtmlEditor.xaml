@@ -103,7 +103,7 @@
                                 <MenuItem Command="SelectAll" />
                             </ContextMenu>
                         </FrameworkElement.ContextMenu>
-                        <DockPanel Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}" LastChildFill="True">
+                        <DockPanel Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}" LastChildFill="True">
                             <Border x:Name="PART_EditorMenuBorder"
                                     Background="{DynamicResource {x:Static themes:ThemeResourceKeys.CompositionEditorBackgroundBrushKey}}"
                                     BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.CompositionEditorBorderBrushKey}}"

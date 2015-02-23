@@ -150,7 +150,8 @@
         </Grid.RowDefinitions>
         <Border Grid.Row="0"
                 Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}"
-                BorderThickness="0"
+                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                BorderThickness="0,0,0,1"
                 UseLayoutRounding="True">
             <DockPanel Panel.ZIndex="1000"
                        LastChildFill="False"
@@ -468,7 +469,7 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
-                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
+                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                            Text="{Binding StatusText,
                                           Mode=OneWay}" />
             </StatusBarItem>
@@ -476,7 +477,7 @@
                 <Slider Width="150"
                         Margin="3,0"
                         VerticalAlignment="Center"
-                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
+                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                         IsEnabled="{Binding IsMessageSelected}"
                         IsTabStop="False"
                         LargeChange="25.0"
@@ -492,7 +493,7 @@
                         Content="{Binding Zoom,
                                           Mode=OneWay,
                                           Converter={StaticResource PercentageFormatter}}"
-                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}"
+                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                         IsEnabled="{Binding IsMessageSelected}"
                         Style="{DynamicResource StatusBarButtonStyle}" />
             </StatusBarItem>

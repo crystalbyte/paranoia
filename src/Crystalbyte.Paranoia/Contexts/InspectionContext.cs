@@ -36,11 +36,11 @@ namespace Crystalbyte.Paranoia {
 
         #region Methods
 
-        internal abstract void Reply();
+        internal abstract Task ReplyAsync();
 
-        internal abstract void ReplyAll();
+        internal abstract Task ReplyAll();
 
-        internal abstract void Forward();
+        internal abstract Task Forward();
 
         protected internal abstract Task<MailMessageReader> GetMailMessageReaderAsync();
 

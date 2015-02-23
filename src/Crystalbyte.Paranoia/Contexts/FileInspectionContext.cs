@@ -12,15 +12,15 @@ namespace Crystalbyte.Paranoia {
 
         #region Implementation of InspectionContext
 
-        internal override void Reply() {
+        internal override Task ReplyAsync() {
             throw new System.NotImplementedException();
         }
 
-        internal override void ReplyAll() {
+        internal override Task ReplyAll() {
             throw new System.NotImplementedException();
         }
 
-        internal override void Forward() {
+        internal override Task Forward() {
             throw new System.NotImplementedException();
         }
 

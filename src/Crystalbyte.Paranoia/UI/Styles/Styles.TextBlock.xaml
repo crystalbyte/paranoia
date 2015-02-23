@@ -19,7 +19,7 @@
            TargetType="TextBlock">
         <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}" />
         <Setter Property="FontWeight" Value="Thin" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
     </Style>
 
     <Style x:Key="FlyoutTextBlockLabelStyle"

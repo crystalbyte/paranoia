@@ -30,10 +30,8 @@
         public static string WindowBackgroundBrushKey = "WindowBackgroundBrushKey";
         public static string WindowHeaderBackgroundBrushKey = "WindowHeaderBackgroundBrushKey";
         public static string WindowHeaderForegroundBrushKey = "WindowHeaderForegroundBrushKey";
-        public static string WindowSecondaryBackgroundBrushKey = "WindowSecondaryBackgroundBrushKey";
-        public static string WindowSecondaryForegroundBrushKey = "WindowSecondaryForegroundBrushKey";
-        public static string WindowMenuMouseOverBackgroundBrushKey = "WindowMenuMouseOverBackgroundBrushKey";
-        public static string WindowMenuPressedForegroundBrushKey = "WindowMenuPressedForegroundBrushKey";
+        public static string WindowHeaderMouseOverBackgroundBrushKey = "WindowHeaderMouseOverBackgroundBrushKey";
+        public static string WindowHeaderPressedForegroundBrushKey = "WindowHeaderPressedForegroundBrushKey";
         public static string WindowShadowBrushKey = "WindowShadowBrushKey";
         public static string SplitterForegroundBrushKey = "SplitterForegroundBrushKey";
 

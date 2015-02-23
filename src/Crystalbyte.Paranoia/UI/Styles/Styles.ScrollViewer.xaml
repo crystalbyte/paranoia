@@ -187,7 +187,7 @@
     <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
         <Setter Property="Background" Value="{StaticResource ScrollBarBackgroundBrushKey}" />
         <Setter Property="BorderBrush" Value="{StaticResource ScrollBarBorderBrushKey}" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="0,1" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Style.Triggers>

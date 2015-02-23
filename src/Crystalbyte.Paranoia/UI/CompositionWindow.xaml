@@ -182,7 +182,7 @@
                            VerticalAlignment="Center"
                            WindowChrome.IsHitTestVisibleInChrome="False"
                            d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}">
-                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryForegroundBrushKey}}" Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
+                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
                     <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text=" - " />
                     <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
                 </TextBlock>

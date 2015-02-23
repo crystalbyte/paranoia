@@ -76,7 +76,7 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnReply(object sender, ExecutedRoutedEventArgs e) {
             try {
                 var context = (InspectionContext)DataContext;
-                context.Reply();
+                context.ReplyAsync();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
