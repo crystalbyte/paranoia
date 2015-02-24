@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using CefSharp;
@@ -39,6 +40,8 @@ namespace Crystalbyte.Paranoia {
 
                 if (Regex.IsMatch(uri.AbsolutePath, "new")) {
                     Task.Run(() => {
+                        // TODO: Responding too quickly seems to break the editor on some machines.
+                        Thread.Sleep(50);
                         ComposeBlankCompositionResponse(response);
                         requestCompletedCallback();
                     });

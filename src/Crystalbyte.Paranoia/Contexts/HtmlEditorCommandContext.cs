@@ -32,15 +32,16 @@ namespace Crystalbyte.Paranoia {
 
         public HtmlEditorCommandContext(HtmlEditor editor) {
             _editor = editor;
+            _fontSize = Settings.Default.DefaultWebFontSize;
+            _fontFamily = new FontFamily(Settings.Default.DefaultWebFont);
+
+            Attributes = new Dictionary<string, object>();
             UndoCommand = new RelayCommand(OnCanUndo, OnUndo);
             RedoCommand = new RelayCommand(OnCanRedo, OnRedo);
             ListCommand = new RelayCommand(OnCanList, OnList);
             BulletCommand = new RelayCommand(OnCanBullet, OnBullet);
             LinkCommand = new RelayCommand(OnCanLink, OnLink);
             ImageCommand = new RelayCommand(OnCanImage, OnImage);
-
-            _fontSize = Settings.Default.DefaultWebFontSize;
-            _fontFamily = new FontFamily(Settings.Default.DefaultWebFont);
         }
 
         private bool OnCanImage(object obj) {

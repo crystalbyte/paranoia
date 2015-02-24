@@ -8,6 +8,7 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Margin" Value="0" />
+        <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -19,9 +20,10 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
+                            RenderOptions.EdgeMode="{TemplateBinding RenderOptions.EdgeMode}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                             UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
-                        <Grid>
+                        <Grid RenderOptions.EdgeMode="Unspecified">
                             <Rectangle x:Name="HoverArea"
                                        HorizontalAlignment="Stretch"
                                        Fill="Transparent"

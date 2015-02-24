@@ -34,7 +34,7 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0"
               Grid.ColumnSpan="2"
-              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}">
+              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}">
             <StackPanel Height="36"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
@@ -48,12 +48,12 @@
                            Background="Transparent"
                            FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}"
                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
-                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
+                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                            Text="{Binding Subject,
                                           Mode=OneWay,
                                           Converter={StaticResource NullOrEmptyFormatter},
                                           ConverterParameter=...}"
-                           WindowChrome.IsHitTestVisibleInChrome="True" />
+                           WindowChrome.IsHitTestVisibleInChrome="False" />
                 <TextBlock Margin="1,-1,0,0" VerticalAlignment="Center">
                     <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text=" - " />
                     <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />

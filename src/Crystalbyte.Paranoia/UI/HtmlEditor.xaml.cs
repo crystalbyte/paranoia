@@ -435,9 +435,14 @@ namespace Crystalbyte.Paranoia.UI {
                 TextAreaResizeDisabled = true
             };
 
+            _browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
             _browser.GotKeyboardFocus += (sender, e) => SetFocus();
             _browser.RegisterJsObject("extern", new ScriptingObject(this));
             _browser.Load(Source);
+        }
+
+        private void OnIsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e) {
+            Logger.Info("IsBrowserInitialized => True");
         }
 
         #endregion

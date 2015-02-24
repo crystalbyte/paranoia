@@ -40,7 +40,7 @@
         <Grid Grid.Column="0">
             <!--  <Rectangle Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Opacity=".03" />  -->
             <DockPanel LastChildFill="True">
-                <Border Margin="2,0"
+                <Border Margin="4,0"
                         HorizontalAlignment="Stretch"
                         BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
                         BorderThickness="0,0,0,1"
@@ -48,7 +48,7 @@
                         SnapsToDevicePixels="True"
                         UseLayoutRounding="True">
                     <Grid HorizontalAlignment="Left">
-                        <controls:MetroButton Margin="12"
+                        <controls:MetroButton Margin="10"
                                               Command="ui:MessageCommands.Compose"
                                               Content="{x:Static properties:Resources.ComposeMessage}"
                                               ImageSource="/Assets/paper.png"
@@ -411,6 +411,7 @@
                         UseLayoutRounding="True">
                     <controls:WatermarkTextBox Margin="0"
                                                BorderThickness="0"
+                                               FontSize="14"
                                                IsTabStop="False"
                                                Padding="5"
                                                RenderOptions.EdgeMode="Unspecified"
@@ -908,6 +909,7 @@
                     BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
                     BorderThickness="0,0,0,1"
                     Padding="0,0,0,6"
+                    UseLayoutRounding="True"
                     Visibility="{Binding IsMessageOrSmtpRequestSelected,
                                          Converter={StaticResource BooleanToVisibilityConverter},
                                          FallbackValue={x:Static Visibility.Collapsed},
@@ -947,7 +949,7 @@
                     <StackPanel Grid.Row="1"
                                 Grid.RowSpan="2"
                                 Grid.Column="1"
-                                Margin="6"
+                                Margin="6,0"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
                                 Orientation="Horizontal"
@@ -990,7 +992,7 @@
                       BorderThickness="0,0,0,1"
                       ItemTemplate="{StaticResource ThumbnailTemplate}"
                       ItemsSource="{Binding Attachments}"
-                      Padding="1,1.6"
+                      Padding="2"
                       ScrollViewer.CanContentScroll="False"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled">
@@ -1008,6 +1010,7 @@
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}" />
                         <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="SnapsToDevicePixels" Value="True" />
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemsPanel>

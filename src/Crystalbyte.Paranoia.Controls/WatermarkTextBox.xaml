@@ -10,6 +10,8 @@
                    VerticalAlignment="Center"
                    Background="Transparent"
                    Focusable="False"
+                   FontSize="{Binding FontSize,
+                                      RelativeSource={RelativeSource AncestorType=ui:WatermarkTextBox}}"
                    FontStyle="Italic"
                    Foreground="{x:Static SystemColors.GrayTextBrush}"
                    IsHitTestVisible="False"
