@@ -3,11 +3,11 @@
 <head>
     <title>Composition</title>
     <meta charset="utf-8" />
-    <link href="resource:///composition.template.less" type="text/css" rel="stylesheet">
+    <link href="resource:///composition.less" type="text/css" rel="stylesheet">
     <style>
         #editor-container {
-            position: absolute;
-            left: 0;
+            min-height: 300px;
+            margin: 20px;
             right: 0;
             top: 0;
             bottom: 0;
@@ -16,7 +16,11 @@
     </style>
 </head>
     <body>
+        
         <div id="editor-container"></div>
+        <iframe id="editor-content">
+            {{quote}}
+        </iframe>
         <script type="text/javascript" src="resource:///jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="resource:///lodash-3.2.0.min.js"></script>
         <script type="text/javascript" src="resource:///quill.js"></script>

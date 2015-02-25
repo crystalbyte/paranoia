@@ -178,7 +178,7 @@ namespace Crystalbyte.Paranoia {
             }
 
             // Add CSS base style.
-            var css = GetCssResource("/Resources/html.inspection.less");
+            var css = GetCssResource("/Resources/inspection.less");
             var node = document.CreateTextNode(css);
             var baseStyle = document.CreateElement("style");
             baseStyle.AppendChild(node);
@@ -219,7 +219,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public static string FormatPlainText(string subject, string plain) {
-            const string url = "/Resources/text.template.html";
+            const string url = "/Resources/plain-text.html";
             var info = Application.GetResourceStream(new Uri(url, UriKind.RelativeOrAbsolute));
             if (info == null) {
                 var message = string.Format(Resources.ResourceNotFoundException, url, typeof(App).Assembly.FullName);

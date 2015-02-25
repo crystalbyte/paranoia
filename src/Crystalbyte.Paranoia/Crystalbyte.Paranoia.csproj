@@ -622,8 +622,8 @@
     </None>
     <AppDesigner Include="Properties\" />
     <Resource Include="Resources\storage.db" />
-    <Resource Include="Resources\html.inspection.less" />
-    <Resource Include="Resources\composition.template.less" />
+    <Resource Include="Resources\inspection.less" />
+    <Resource Include="Resources\composition.less" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -716,7 +716,7 @@
     <Resource Include="Assets\open.png" />
     <Resource Include="Assets\logo.window.png" />
     <Resource Include="Assets\save.png" />
-    <Resource Include="Resources\text.template.html" />
+    <Resource Include="Resources\plain-text.html" />
     <Resource Include="Resources\logo.ico" />
     <Resource Include="Assets\reply.png" />
     <Resource Include="Assets\forward.png" />
@@ -726,8 +726,8 @@
     <Resource Include="Assets\seen.png" />
     <Resource Include="Assets\unseen.png" />
     <Resource Include="Assets\back.png" />
-    <Resource Include="Resources\composition.template.html" />
-    <Resource Include="Resources\cover.template.html" />
+    <Resource Include="Resources\composition.html" />
+    <Resource Include="Resources\cover.html" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\send.png" />

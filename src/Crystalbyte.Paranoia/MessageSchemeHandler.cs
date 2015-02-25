@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using CefSharp;
@@ -31,8 +30,12 @@ namespace Crystalbyte.Paranoia {
 
                 if (Regex.IsMatch(uri.AbsolutePath, "[0-9]+")) {
                     Task.Run(() => {
-                        ComposeMessageResponse(request, response);
-                        requestCompletedCallback();
+                        try {
+                            ComposeInspectionResponse(request, response);
+                            requestCompletedCallback();
+                        } catch (Exception ex) {
+                            Logger.Error(ex);
+                        }
                     });
 
                     return true;
@@ -40,10 +43,12 @@ namespace Crystalbyte.Paranoia {
 
                 if (Regex.IsMatch(uri.AbsolutePath, "new")) {
                     Task.Run(() => {
-                        // TODO: Responding too quickly seems to break the editor on some machines.
-                        Thread.Sleep(50);
-                        ComposeBlankCompositionResponse(response);
-                        requestCompletedCallback();
+                        try {
+                            ComposeBlankCompositionResponse(response);
+                            requestCompletedCallback();
+                        } catch (Exception ex) {
+                            Logger.Error(ex);
+                        }
                     });
 
                     return true;
@@ -51,8 +56,12 @@ namespace Crystalbyte.Paranoia {
 
                 if (Regex.IsMatch(uri.AbsolutePath, "reply")) {
                     Task.Run(() => {
-                        ComposeQuotedCompositionResponse(request, response);
-                        requestCompletedCallback();
+                        try {
+                            ComposeQuotedCompositionResponse(request, response);
+                            requestCompletedCallback();
+                        } catch (Exception ex) {
+                            Logger.Error(ex);
+                        }
                     });
 
                     return true;
@@ -60,8 +69,12 @@ namespace Crystalbyte.Paranoia {
 
                 if (Regex.IsMatch(uri.AbsolutePath, "forward")) {
                     Task.Run(() => {
-                        ComposeQuotedCompositionResponse(request, response);
-                        requestCompletedCallback();
+                        try {
+                            ComposeQuotedCompositionResponse(request, response);
+                            requestCompletedCallback();
+                        } catch (Exception ex) {
+                            Logger.Error(ex);
+                        }
                     });
 
                     return true;
@@ -69,8 +82,12 @@ namespace Crystalbyte.Paranoia {
 
                 if (Regex.IsMatch(uri.AbsolutePath, "part")) {
                     Task.Run(() => {
-                        ComposeCidImageResponse(request, response);
-                        requestCompletedCallback();
+                        try {
+                            ComposeCidImageResponse(request, response);
+                            requestCompletedCallback();
+                        } catch (Exception ex) {
+                            Logger.Error(ex);
+                        }
                     });
 
                     return true;
@@ -153,7 +170,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static string RemoveExternalSources(string content) {
-            const string pattern = "(\"|&quot;|')(?<URL>http(s){0,1}://.+?)(\"|&quot;|')";
+            const string pattern = "src=(\"|')(?<URL>http(s){0,1}://.+?)(\"|')";
             content = Regex.Replace(content, pattern, m => {
                 var resource = m.Groups["URL"].Value;
                 return m.Value.Replace(resource, "");
@@ -163,7 +180,7 @@ namespace Crystalbyte.Paranoia {
             return content;
         }
 
-        private static void ComposeMessageResponse(IRequest request, ISchemeHandlerResponse response) {
+        private static void ComposeInspectionResponse(IRequest request, ISchemeHandlerResponse response) {
             var uri = new Uri(request.Url);
             var id = long.Parse(uri.Segments[1]);
 
@@ -181,7 +198,7 @@ namespace Crystalbyte.Paranoia {
             const string key = "blockExternals";
             var blockExternals = !arguments.ContainsKey(key) || bool.Parse(arguments[key]);
 
-            text = HtmlSupport.PrepareHtmlForInspection(text);
+            //text = HtmlSupport.PrepareHtmlForInspection(text);
             text = HtmlSupport.ModifyEmbeddedParts(text, id);
 
             if (blockExternals) {
@@ -204,7 +221,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static string GenerateEditorHtml(IDictionary<string, string> variables) {
-            var uri = new Uri("/Resources/composition.template.html", UriKind.Relative);
+            var uri = new Uri("/Resources/composition.html", UriKind.Relative);
             var info = Application.GetResourceStream(uri);
             if (info == null) {
                 var error = string.Format(Resources.ResourceNotFoundException, uri, typeof(App).Assembly.FullName);
