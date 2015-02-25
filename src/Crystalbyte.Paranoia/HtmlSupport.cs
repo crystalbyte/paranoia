@@ -90,7 +90,7 @@ namespace Crystalbyte.Paranoia {
             }
 
             // Find first existing style tag.
-            var style = document.DocumentNode.SelectSingleNode("//head/style"); 
+            var style = document.DocumentNode.SelectSingleNode("//head/style");
 
             // In order to minimize visual issues a wellformed document must be present.
             // The document should contain exactly one head and one body.
@@ -199,22 +199,19 @@ namespace Crystalbyte.Paranoia {
                 throw new Exception(error);
             }
 
+
+            var variables = new Dictionary<string, object> {
+                {"vertical-scrollbar-width", SystemParameters.VerticalScrollBarWidth},
+                {"horizontal-scrollbar-height", SystemParameters.HorizontalScrollBarHeight},
+            };
+
             string less;
-            const string pattern = "%.+?%";
+            const string pattern = "{{.+?}}";
             using (var reader = new StreamReader(info.Stream)) {
                 var text = reader.ReadToEnd();
                 less = Regex.Replace(text, pattern, m => {
-                    var key = m.Value.Trim('%');
-                    var dictionary =
-                        Application.Current.Resources.MergedDictionaries.FirstOrDefault(
-                            x => x.Contains(key)) ?? Application.Current.Resources;
-
-                    var resource = dictionary[key];
-                    if (resource is SolidColorBrush) {
-                        return string.Format("#{0}", (resource as SolidColorBrush).Color.ToString().Substring(3));
-                    }
-
-                    return resource != null ? resource.ToString() : "fuchsia";
+                    var key = m.Value.Trim('{', '}');
+                    return string.Format("{0}px", variables[key]);
                 });
             }
 

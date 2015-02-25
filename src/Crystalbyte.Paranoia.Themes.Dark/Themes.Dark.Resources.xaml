@@ -4,9 +4,8 @@
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
     <Color x:Key="ControlBorderColorKey">#47474C</Color>
-    <Color x:Key="ControlBackgroundColorKey">#333338</Color>
-    <Color x:Key="ItemUnfocusedBackgroundColorKey">#22000000</Color>
-    <Color x:Key="ItemMouseOverBackgroundColorKey">#33000000</Color>
+    <Color x:Key="ControlBackgroundColorKey">#33333A</Color>
+    <Color x:Key="ItemUnfocusedBackgroundColorKey">#22FFFFFF</Color>
 
     <!--  App  -->
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}">26</system:Double>
@@ -17,11 +16,11 @@
 
     <!--  Application Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#5299EA" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}" Color="White" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSuccessBrushKey}" Color="ForestGreen" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppFailureBrushKey}" Color="Red" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppWarningBrushKey}" Color="Orange" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}" Color="White" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}">Gray</SolidColorBrush>
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.AppFontFamilyKey}">Segoe UI</FontFamily>
 
@@ -33,10 +32,15 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="#2E2E33" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}" Color="#11FFFFFF" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}" Color="White" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowBrushKey}" Color="Black" />
+
+    <!--  Input Scope  -->
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.InputFontFamilyKey}">Calibri</FontFamily>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.InputFontSizeKey}">13</system:Double>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.InputForegroundBrushKey}" Color="WhiteSmoke" />
+
+    <!--  Splitter Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}" Color="#47474C" />
 
     <!--  Button Scope  -->
@@ -77,7 +81,6 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemBorderBrushKey}" Color="#2E2E33" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBackgroundBrushKey}" Color="{StaticResource ItemUnfocusedBackgroundColorKey}" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBorderBrushKey}" Color="{StaticResource ControlBorderColorKey}" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundBrushKey}" Color="{StaticResource ItemMouseOverBackgroundColorKey}" />
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundOpacityBrushKey}">.2</system:Double>
 
     <!--  PasswordBox Scope  -->
@@ -121,16 +124,22 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBackgroundBrushKey}" Color="#2E2E33" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBorderBrushKey}" Color="#2E2E33" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBackgroundBrushKey}" Color="{StaticResource ItemUnfocusedBackgroundColorKey}" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBorderBrushKey}" Color="{StaticResource ControlBackgroundColorKey}" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}" Color="{StaticResource ItemMouseOverBackgroundColorKey}" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBorderBrushKey}" Color="{StaticResource ControlBorderColorKey}" />
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundOpacityKey}">.2</system:Double>
 
     <!--  Composition Scope  -->
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.CompositionEditorBackgroundBrushKey}" Color="#26262A" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.CompositionEditorBackgroundBrushKey}" Color="#28282D" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.CompositionEditorBorderBrushKey}" Color="{StaticResource ControlBorderColorKey}" />
 
     <!--  Popup Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.PopupBackgroundBrushKey}" Color="White" />
+
+    <!--  ScrollBar Scope  -->
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarBackgroundBrushKey}" Color="#3E3E42" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarBorderBrushKey}" Color="#3E3E42" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarThumbBackgroundBrushKey}" Color="#686868" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarThumbMouseOverBackgroundBrushKey}" Color="#9E9E9E" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarThumbPressedBackgroundBrushKey}" Color="#EFEBEF" />
 
 
 </ResourceDictionary>

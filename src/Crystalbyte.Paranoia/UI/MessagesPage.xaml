@@ -79,6 +79,7 @@
                           KeyboardNavigation.TabNavigation="Once"
                           Padding="2,0"
                           ScrollViewer.CanContentScroll="False"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                           SelectedItemChanged="OnTreeViewSelectedItemChanged"
                           VirtualizingPanel.IsVirtualizing="False"
                           VirtualizingPanel.ScrollUnit="Pixel">
@@ -496,6 +497,7 @@
                           MouseMove="OnMouseMoveMessagesListView"
                           Padding="2,0"
                           PreviewMouseLeftButtonDown="OnPreviewMouseLeftButtonDownMessagesListView"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                           SelectionChanged="OnMessageSelectionChanged"
                           SnapsToDevicePixels="True"
                           TabIndex="4"

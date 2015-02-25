@@ -4,6 +4,7 @@
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI;assembly=Crystalbyte.Paranoia.Controls">
     <Style TargetType="ui:SuggestionBox">
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SuggestionBoxBackgroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputForegroundBrushKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SuggestionBoxBorderBrushKey}}" />
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontFamilyKey}}" />
         <Setter Property="AccentBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />

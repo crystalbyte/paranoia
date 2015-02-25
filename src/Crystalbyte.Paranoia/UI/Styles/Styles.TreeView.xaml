@@ -213,7 +213,7 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBackgroundBrushKey}}" />
                             <Setter TargetName="HoverArea" Property="Opacity" Value=".5" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBorderBrushKey}}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

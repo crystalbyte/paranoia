@@ -55,7 +55,14 @@
                         </TextBlock>
                         <ListView x:Name="AccentListView"
                                   Margin="3"
+                                  Background="Transparent"
                                   SelectionChanged="OnAccentSelectionChanged">
+                            <ListView.ItemContainerStyle>
+                                <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
                             <ListView.ItemTemplate>
                                 <DataTemplate DataType="Color">
                                     <Rectangle Width="32"

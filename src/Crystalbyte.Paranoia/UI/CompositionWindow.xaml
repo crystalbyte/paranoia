@@ -14,7 +14,7 @@
                                       ElementName=TitleBlock,
                                       Mode=OneWay}"
                       AccentBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}"
                       BorderThickness="1"
                       KeyboardNavigation.ControlTabNavigation="Contained"
                       KeyboardNavigation.DirectionalNavigation="None"
@@ -151,6 +151,7 @@
                 </StackPanel>
             </Grid>
         </DataTemplate>
+        
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="Enter"

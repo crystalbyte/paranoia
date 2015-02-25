@@ -124,5 +124,14 @@
         // WatermarkTextBox Scope
         public static string WatermarkTextBoxBackgroundBrushKey = "WatermarkTextBoxBackgroundBrushKey";
         public static string WatermarkTextBoxBorderBrushKey = "WatermarkTextBoxBorderBrushKey";
+
+        // ScrollBar Scope
+        public static string ScrollBarBackgroundBrushKey = "ScrollBarBackgroundBrushKey";
+        public static string ScrollBarBorderBrushKey = "ScrollBarBorderBrushKey";
+        public static string ScrollBarThumbBackgroundBrushKey = "ScrollBarThumbBackgroundBrushKey";
+        public static string ScrollBarThumbMouseOverBackgroundBrushKey = "ScrollBarThumbMouseOverBackgroundBrushKey";
+        public static string ScrollBarThumbPressedBackgroundBrushKey = "ScrollBarThumbPressedBackgroundBrushKey";
+        
+        
     }
 }
