@@ -27,13 +27,13 @@
                                   Margin="12,0"
                                   Command="ui:FlyoutCommands.Accept"
                                   Content="{x:Static properties:Resources.Accept}"
-                                  ImageSource="/Assets/ok.png"
-                                  Style="{StaticResource FlyoutMetroButtonStyle}" />
+                                  ImageSource="/Assets/ok.png" />
+
             <controls:MetroButton Margin="12,0"
                                   Command="ui:FlyoutCommands.Cancel"
                                   Content="{x:Static properties:Resources.Cancel}"
-                                  ImageSource="/Assets/cancel.png"
-                                  Style="{StaticResource FlyoutMetroButtonStyle}" />
+                                  ImageSource="/Assets/cancel.png" />
+
         </StackPanel>
         <TabControl>
             <TabItem Header="{x:Static properties:Resources.General}" HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">
@@ -56,7 +56,7 @@
                                Text="{x:Static properties:Resources.GeneralSettingsDescription}" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
-                               Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                               Style="{StaticResource LabelTextBlockStyle}">
                         <Run Text="{x:Static properties:Resources.AccountName}" />
                         <Run>:</Run>
                     </TextBlock>
@@ -65,13 +65,12 @@
                              Grid.Column="1"
                              Width="360"
                              HorizontalAlignment="Left"
-                             Style="{StaticResource FlyoutTextBoxStyle}"
                              Text="{Binding Name,
                                             Mode=TwoWay,
                                             UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
-                               Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                               Style="{StaticResource LabelTextBlockStyle}">
                         <Run Text="{x:Static properties:Resources.MailAddress}" />
                         <Run>:</Run>
                     </TextBlock>
@@ -79,7 +78,6 @@
                              Grid.Column="1"
                              Width="360"
                              HorizontalAlignment="Left"
-                             Style="{StaticResource FlyoutTextBoxStyle}"
                              Text="{Binding Address,
                                             Mode=TwoWay,
                                             UpdateSourceTrigger=PropertyChanged}" />
@@ -142,45 +140,42 @@
                                 <TextBlock Grid.Row="0"
                                            Grid.Column="0"
                                            Grid.ColumnSpan="2"
-                                           Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                                           Style="{StaticResource LabelTextBlockStyle}">
                                     <Run Text="{x:Static properties:Resources.Username}" />
                                     <Run>:</Run>
                                 </TextBlock>
                                 <TextBox Grid.Row="0"
                                          Grid.Column="1"
                                          MinWidth="200"
-                                         Style="{StaticResource FlyoutTextBoxStyle}"
                                          Text="{Binding ImapUsername,
                                                         Mode=TwoWay,
                                                         UpdateSourceTrigger=PropertyChanged}" />
 
                                 <TextBlock Grid.Row="0"
                                            Grid.Column="2"
-                                           Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                                           Style="{StaticResource LabelTextBlockStyle}">
                                     <Run Text="{x:Static properties:Resources.ImapHost}" />
                                     <Run>:</Run>
                                 </TextBlock>
                                 <TextBox Grid.Row="0"
                                          Grid.Column="3"
                                          Grid.ColumnSpan="3"
-                                         Style="{StaticResource FlyoutTextBoxStyle}"
                                          Text="{Binding ImapHost,
                                                         Mode=TwoWay,
                                                         UpdateSourceTrigger=PropertyChanged}" />
                                 <TextBlock Grid.Row="1"
                                            Grid.Column="0"
-                                           Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                                           Style="{StaticResource LabelTextBlockStyle}">
                                     <Run Text="{x:Static properties:Resources.Password}" />
                                     <Run>:</Run>
                                 </TextBlock>
                                 <PasswordBox x:Name="ImapPasswordBox"
                                              Grid.Row="1"
                                              Grid.Column="1"
-                                             MinWidth="200"
-                                             Style="{StaticResource FlyoutPasswordBoxStyle}" />
+                                             MinWidth="200" />
                                 <TextBlock Grid.Row="1"
                                            Grid.Column="2"
-                                           Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                                           Style="{StaticResource LabelTextBlockStyle}">
                                     <Run Text="{x:Static properties:Resources.EncryptionProtocol}" />
                                     <Run>:</Run>
                                 </TextBlock>
@@ -207,14 +202,13 @@
                                 </ComboBox>
                                 <TextBlock Grid.Row="1"
                                            Grid.Column="4"
-                                           Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                                           Style="{StaticResource LabelTextBlockStyle}">
                                     <Run Text="{x:Static properties:Resources.Port}" />
                                     <Run>:</Run>
                                 </TextBlock>
                                 <TextBox Grid.Row="1"
                                          Grid.Column="5"
                                          Width="55"
-                                         Style="{StaticResource FlyoutTextBoxStyle}"
                                          Text="{Binding ImapPort,
                                                         Mode=TwoWay,
                                                         UpdateSourceTrigger=PropertyChanged}" />
@@ -268,7 +262,7 @@
                                                Grid.Column="0"
                                                IsEnabled="{Binding IsChecked,
                                                                    ElementName=UseSmtpCredentialsRadioButton}"
-                                               Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                                               Style="{StaticResource LabelTextBlockStyle}">
                                         <Run Text="{x:Static properties:Resources.Username}" />
                                         <Run>:</Run>
                                     </TextBlock>
@@ -277,7 +271,6 @@
                                              MinWidth="200"
                                              IsEnabled="{Binding IsChecked,
                                                                  ElementName=UseSmtpCredentialsRadioButton}"
-                                             Style="{StaticResource FlyoutTextBoxStyle}"
                                              Text="{Binding SmtpUsername,
                                                             Mode=TwoWay,
                                                             UpdateSourceTrigger=PropertyChanged}" />
@@ -285,7 +278,7 @@
                                                Grid.Column="0"
                                                IsEnabled="{Binding IsChecked,
                                                                    ElementName=UseSmtpCredentialsRadioButton}"
-                                               Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                                               Style="{StaticResource LabelTextBlockStyle}">
                                         <Run Text="{x:Static properties:Resources.Password}" />
                                         <Run>:</Run>
                                     </TextBlock>
@@ -311,20 +304,19 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="1"
                                                Grid.Column="0"
-                                               Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                                               Style="{StaticResource LabelTextBlockStyle}">
                                         <Run Text="{x:Static properties:Resources.ImapHost}" />
                                         <Run>:</Run>
                                     </TextBlock>
                                     <TextBox Grid.Row="1"
                                              Grid.Column="1"
                                              Grid.ColumnSpan="3"
-                                             Style="{StaticResource FlyoutTextBoxStyle}"
                                              Text="{Binding SmtpHost,
                                                             Mode=TwoWay,
                                                             UpdateSourceTrigger=PropertyChanged}" />
                                     <TextBlock Grid.Row="2"
                                                Grid.Column="0"
-                                               Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                                               Style="{StaticResource LabelTextBlockStyle}">
                                         <Run Text="{x:Static properties:Resources.EncryptionProtocol}" />
                                         <Run>:</Run>
                                     </TextBlock>
@@ -351,14 +343,13 @@
                                     </ComboBox>
                                     <TextBlock Grid.Row="2"
                                                Grid.Column="2"
-                                               Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                                               Style="{StaticResource LabelTextBlockStyle}">
                                         <Run Text="{x:Static properties:Resources.Port}" />
                                         <Run>:</Run>
                                     </TextBlock>
                                     <TextBox Grid.Row="2"
                                              Grid.Column="3"
                                              Width="50"
-                                             Style="{StaticResource FlyoutTextBoxStyle}"
                                              Text="{Binding SmtpPort,
                                                             Mode=TwoWay}" />
 
@@ -390,7 +381,7 @@
                             <TextBlock Grid.Row="0"
                                        Grid.Column="0"
                                        IsEnabled="{Binding HasMailboxes}"
-                                       Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                                       Style="{StaticResource LabelTextBlockStyle}">
                                 <Run Text="{x:Static properties:Resources.TrashMailbox}" />
                                 <Run Text=":" />
                             </TextBlock>
@@ -400,7 +391,6 @@
                                      Margin="3,3,0,3"
                                      IsEnabled="{Binding HasMailboxes}"
                                      IsReadOnly="True"
-                                     Style="{StaticResource FlyoutTextBoxStyle}"
                                      Text="{Binding TrashMailboxName,
                                                     Mode=OneWay,
                                                     Converter={StaticResource NullOrEmptyFormatter}}"
@@ -415,7 +405,7 @@
                             <TextBlock Grid.Row="1"
                                        Grid.Column="0"
                                        IsEnabled="{Binding HasMailboxes}"
-                                       Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                                       Style="{StaticResource LabelTextBlockStyle}">
                                 <Run Text="{x:Static properties:Resources.DraftMailbox}" />
                                 <Run Text=":" />
                             </TextBlock>
@@ -425,7 +415,6 @@
                                      Margin="3,3,0,3"
                                      IsEnabled="{Binding HasMailboxes}"
                                      IsReadOnly="True"
-                                     Style="{StaticResource FlyoutTextBoxStyle}"
                                      Text="{Binding DraftMailboxName,
                                                     Mode=OneWay,
                                                     Converter={StaticResource NullOrEmptyFormatter}}"
@@ -440,7 +429,7 @@
                             <TextBlock Grid.Row="2"
                                        Grid.Column="0"
                                        IsEnabled="{Binding HasMailboxes}"
-                                       Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                                       Style="{StaticResource LabelTextBlockStyle}">
                                 <Run Text="{x:Static properties:Resources.JunkMailbox}" />
                                 <Run Text=":" />
                             </TextBlock>
@@ -450,7 +439,6 @@
                                      Margin="3,3,0,3"
                                      IsEnabled="{Binding HasMailboxes}"
                                      IsReadOnly="True"
-                                     Style="{StaticResource FlyoutTextBoxStyle}"
                                      Text="{Binding JunkMailboxName,
                                                     Mode=OneWay,
                                                     Converter={StaticResource NullOrEmptyFormatter}}"
@@ -477,7 +465,7 @@
                                 <TextBlock Foreground="{StaticResource FlyoutForegroundBrushKey}" Text="{x:Static properties:Resources.MailboxSettingsCopy}" />
                             </RadioButton>
                             <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                                <TextBlock IsEnabled="{Binding IsChecked, ElementName=StoreCopyRadioButton}" Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                                <TextBlock IsEnabled="{Binding IsChecked, ElementName=StoreCopyRadioButton}" Style="{StaticResource LabelTextBlockStyle}">
                                     <Run Text="{x:Static properties:Resources.SentMailbox}" />
                                     <Run Text=":" />
                                 </TextBlock>
@@ -485,7 +473,6 @@
                                          Margin="3,3,0,3"
                                          IsEnabled="{Binding StoreCopiesOfSentMessages}"
                                          IsReadOnly="True"
-                                         Style="{StaticResource FlyoutTextBoxStyle}"
                                          Text="{Binding SentMailboxName,
                                                         Mode=OneWay,
                                                         Converter={StaticResource NullOrEmptyFormatter}}"
@@ -531,15 +518,15 @@
                                                           HorizontalAlignment="Right"
                                                           Command="ui:MailboxCommands.SelectRole"
                                                           CommandParameter="{x:Static paranoia:MailboxRoles.Sent}"
-                                                          ImageSource="/Assets/ok.png"
-                                                          Style="{StaticResource FlyoutMetroButtonStyle}" />
+                                                          ImageSource="/Assets/ok.png" />
+
                                     <controls:MetroButton Grid.Column="1"
                                                           Margin="12,6,6,6"
                                                           HorizontalAlignment="Left"
                                                           Command="ApplicationCommands.Close"
                                                           CommandParameter="{x:Static paranoia:MailboxRoles.Sent}"
-                                                          ImageSource="/Assets/cancel.png"
-                                                          Style="{StaticResource FlyoutMetroButtonStyle}" />
+                                                          ImageSource="/Assets/cancel.png" />
+
                                 </Grid>
                                 <TreeView Background="Transparent"
                                           BorderThickness="0"
@@ -581,15 +568,15 @@
                                                           HorizontalAlignment="Right"
                                                           Command="ui:MailboxCommands.SelectRole"
                                                           CommandParameter="{x:Static paranoia:MailboxRoles.Trash}"
-                                                          ImageSource="/Assets/ok.png"
-                                                          Style="{StaticResource FlyoutMetroButtonStyle}" />
+                                                          ImageSource="/Assets/ok.png" />
+
                                     <controls:MetroButton Grid.Column="1"
                                                           Margin="12,6,6,6"
                                                           HorizontalAlignment="Left"
                                                           Command="ApplicationCommands.Close"
                                                           CommandParameter="{x:Static paranoia:MailboxRoles.Trash}"
-                                                          ImageSource="/Assets/cancel.png"
-                                                          Style="{StaticResource FlyoutMetroButtonStyle}" />
+                                                          ImageSource="/Assets/cancel.png" />
+
                                 </Grid>
                                 <TreeView Background="Transparent"
                                           BorderThickness="0"
@@ -631,15 +618,15 @@
                                                           HorizontalAlignment="Right"
                                                           Command="ui:MailboxCommands.SelectRole"
                                                           CommandParameter="{x:Static paranoia:MailboxRoles.Junk}"
-                                                          ImageSource="/Assets/ok.png"
-                                                          Style="{StaticResource FlyoutMetroButtonStyle}" />
+                                                          ImageSource="/Assets/ok.png" />
+
                                     <controls:MetroButton Grid.Column="1"
                                                           Margin="12,6,6,6"
                                                           HorizontalAlignment="Left"
                                                           Command="ApplicationCommands.Close"
                                                           CommandParameter="{x:Static paranoia:MailboxRoles.Junk}"
-                                                          ImageSource="/Assets/cancel.png"
-                                                          Style="{StaticResource FlyoutMetroButtonStyle}" />
+                                                          ImageSource="/Assets/cancel.png" />
+
                                 </Grid>
                                 <TreeView Background="Transparent"
                                           BorderThickness="0"
@@ -681,15 +668,15 @@
                                                           HorizontalAlignment="Right"
                                                           Command="ui:MailboxCommands.SelectRole"
                                                           CommandParameter="{x:Static paranoia:MailboxRoles.Draft}"
-                                                          ImageSource="/Assets/ok.png"
-                                                          Style="{StaticResource FlyoutMetroButtonStyle}" />
+                                                          ImageSource="/Assets/ok.png" />
+
                                     <controls:MetroButton Grid.Column="1"
                                                           Margin="12,6,6,6"
                                                           HorizontalAlignment="Left"
                                                           Command="ApplicationCommands.Close"
                                                           CommandParameter="{x:Static paranoia:MailboxRoles.Draft}"
-                                                          ImageSource="/Assets/cancel.png"
-                                                          Style="{StaticResource FlyoutMetroButtonStyle}" />
+                                                          ImageSource="/Assets/cancel.png" />
+
                                 </Grid>
                                 <TreeView Background="Transparent"
                                           BorderThickness="0"
@@ -716,7 +703,7 @@
                                Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                Text="{x:Static properties:Resources.SignatureDescription}" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                        <TextBlock Style="{StaticResource LabelTextBlockStyle}">
                             <Run Text="{x:Static properties:Resources.Signature}" />
                             <Run Text=":" />
                         </TextBlock>
@@ -724,7 +711,6 @@
                             <TextBox Width="341"
                                      Margin="3,3,0,3"
                                      IsReadOnly="True"
-                                     Style="{StaticResource FlyoutTextBoxStyle}"
                                      Text="{Binding SignaturePath,
                                                     Mode=OneWay,
                                                     Converter={StaticResource NullOrEmptyFormatter}}"

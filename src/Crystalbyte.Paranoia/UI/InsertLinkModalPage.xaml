@@ -34,13 +34,13 @@
                    Text="{x:Static properties:Resources.InsertLinkDescription}" />
         <TextBlock Grid.Row="1"
                    Grid.Column="1"
-                   Style="{StaticResource FlyoutTextBlockLabelStyle}"
+                   Style="{StaticResource LabelTextBlockStyle}"
                    Text="{x:Static properties:Resources.Name}" />
         <TextBox x:Name="NameTextBox"
                  Grid.Row="1"
                  Grid.Column="1"
                  Margin="0,4,0,2"
-                 Style="{StaticResource FlyoutTextBoxStyle}"
+                 
                  Text="{Binding Name,
                                 Mode=TwoWay,
                                 UpdateSourceTrigger=PropertyChanged}" />
@@ -53,13 +53,13 @@
                                   Margin="12,0"
                                   Command="ui:FlyoutCommands.Accept"
                                   Content="{x:Static properties:Resources.Accept}"
-                                  ImageSource="/Assets/ok.png"
-                                  Style="{StaticResource FlyoutMetroButtonStyle}" />
+                                  ImageSource="/Assets/ok.png" />
+                                  
             <controls:MetroButton Margin="12,0"
                                   Command="ui:FlyoutCommands.Cancel"
                                   Content="{x:Static properties:Resources.Cancel}"
-                                  ImageSource="/Assets/cancel.png"
-                                  Style="{StaticResource FlyoutMetroButtonStyle}" />
+                                  ImageSource="/Assets/cancel.png" />
+                                  
         </StackPanel>
     </Grid>
 </Page>

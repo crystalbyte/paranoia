@@ -14,34 +14,39 @@
       d:DesignHeight="600"
       d:DesignWidth="1024"
       mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/UI/Flyout.Resources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
     <DockPanel LastChildFill="True">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
             <controls:MetroButton Margin="12,0"
                                   Command="ui:FlyoutCommands.Cancel"
                                   Content="{x:Static properties:Resources.Close}"
-                                  ImageSource="/Assets/cancel.png"
-                                  Style="{StaticResource FlyoutMetroButtonStyle}" />
+                                  ImageSource="/Assets/cancel.png" />
+
 
         </StackPanel>
         <TabControl>
             <TabItem Header="{x:Static properties:Resources.Appearence}" HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                        <TextBlock Style="{StaticResource LabelTextBlockStyle}">
                             <Run Text="{x:Static properties:Resources.Theme}" />
                             <Run Text=":" />
                         </TextBlock>
                         <ComboBox x:Name="ThemeComboBox"
                                   Width="140"
                                   ItemsSource="{Binding Themes}"
-                                  SelectionChanged="OnThemeSelectionChanged"
-                                  Style="{StaticResource FlyoutComboBoxStyle}">
+                                  SelectionChanged="OnThemeSelectionChanged">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate DataType="themes:Theme">
                                     <Border>
                                         <TextBlock Margin="3,0,0,0"
                                                    VerticalAlignment="Center"
-                                                   Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                                    Text="{Binding Name}" />
                                     </Border>
                                 </DataTemplate>
@@ -49,7 +54,7 @@
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Style="{StaticResource FlyoutTextBlockLabelStyle}">
+                        <TextBlock Style="{StaticResource LabelTextBlockStyle}">
                             <Run Text="{x:Static properties:Resources.Accent}" />
                             <Run Text=":" />
                         </TextBlock>

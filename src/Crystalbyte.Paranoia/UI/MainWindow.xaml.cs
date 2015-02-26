@@ -257,5 +257,14 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         #endregion
+
+        private void OnCompose(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                App.Context.Compose();
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
     }
 }

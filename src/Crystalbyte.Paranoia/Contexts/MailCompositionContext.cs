@@ -177,7 +177,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void InsertAttachments() {
-                 try {
+            try {
                 var dialog = new OpenFileDialog {
                     Multiselect = true,
                     Filter = string.Format("{0} (*.*)|*.*", Properties.Resources.AllFiles)

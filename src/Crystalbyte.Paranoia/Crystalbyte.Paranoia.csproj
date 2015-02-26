@@ -383,6 +383,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\Flyout.Resources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\InsertLinkModalPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -494,10 +498,6 @@
     <Page Include="UI\Styles\Styles.ComboBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Styles\Styles.Flyout.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Styles\Styles.Image.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -716,7 +716,6 @@
     <Resource Include="Assets\open.png" />
     <Resource Include="Assets\logo.window.png" />
     <Resource Include="Assets\save.png" />
-    <Resource Include="Resources\plain-text.html" />
     <Resource Include="Resources\logo.ico" />
     <Resource Include="Assets\reply.png" />
     <Resource Include="Assets\forward.png" />
@@ -750,6 +749,9 @@
     <Resource Include="Assets\align.justify.png" />
     <Resource Include="Assets\align.left.png" />
     <Resource Include="Assets\align.right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\inspection.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -5,11 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows;
 using CefSharp;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
-using Crystalbyte.Paranoia.Properties;
 using NLog;
 
 namespace Crystalbyte.Paranoia {
@@ -44,8 +42,10 @@ namespace Crystalbyte.Paranoia {
                 if (Regex.IsMatch(uri.AbsolutePath, "new")) {
                     Task.Run(() => {
                         try {
+                            Logger.Debug("Begin new message.");
                             ComposeBlankCompositionResponse(response);
                             requestCompletedCallback();
+                            Logger.Debug("End new message.");
                         } catch (Exception ex) {
                             Logger.Error(ex);
                         }
@@ -164,7 +164,7 @@ namespace Crystalbyte.Paranoia {
             if (!variables.Keys.Contains("quote"))
                 variables.Add("quote", string.Empty);
 
-            var html = GenerateEditorHtml(variables);
+            var html = HtmlSupport.GetEditorTemplate(variables);
             var bytes = Encoding.UTF8.GetBytes(html);
             ComposeHtmlResponse(response, bytes);
         }
@@ -198,7 +198,7 @@ namespace Crystalbyte.Paranoia {
             const string key = "blockExternals";
             var blockExternals = !arguments.ContainsKey(key) || bool.Parse(arguments[key]);
 
-            //text = HtmlSupport.PrepareHtmlForInspection(text);
+            text = HtmlSupport.PrepareHtmlForInspection(text);
             text = HtmlSupport.ModifyEmbeddedParts(text, id);
 
             if (blockExternals) {
@@ -212,35 +212,11 @@ namespace Crystalbyte.Paranoia {
         private static void ComposeBlankCompositionResponse(ISchemeHandlerResponse response) {
             var variables = new Dictionary<string, string> {
                 {"quote", string.Empty},
-                {"header", string.Empty},
             };
 
-            var html = GenerateEditorHtml(variables);
+            var html = HtmlSupport.GetEditorTemplate(variables);
             var bytes = Encoding.UTF8.GetBytes(html);
             ComposeHtmlResponse(response, bytes);
-        }
-
-        private static string GenerateEditorHtml(IDictionary<string, string> variables) {
-            var uri = new Uri("/Resources/composition.html", UriKind.Relative);
-            var info = Application.GetResourceStream(uri);
-            if (info == null) {
-                var error = string.Format(Resources.ResourceNotFoundException, uri, typeof(App).Assembly.FullName);
-                throw new ResourceNotFoundException(error);
-            }
-
-            string html;
-            const string pattern = "{{.+?}}";
-            using (var reader = new StreamReader(info.Stream)) {
-                var text = reader.ReadToEnd();
-                html = Regex.Replace(text, pattern, m => {
-                    var key = m.Value.Trim('{', '}').ToLower();
-                    return variables.ContainsKey(key)
-                        ? variables[key]
-                        : string.Empty;
-                }, RegexOptions.IgnoreCase);
-            }
-
-            return html;
         }
 
         private static byte[] GetMessageBytes(Int64 id) {

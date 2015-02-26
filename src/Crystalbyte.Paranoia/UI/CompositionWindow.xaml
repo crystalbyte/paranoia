@@ -14,7 +14,7 @@
                                       ElementName=TitleBlock,
                                       Mode=OneWay}"
                       AccentBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}"
+                      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
                       BorderThickness="1"
                       KeyboardNavigation.ControlTabNavigation="Contained"
                       KeyboardNavigation.DirectionalNavigation="None"
@@ -151,7 +151,7 @@
                 </StackPanel>
             </Grid>
         </DataTemplate>
-        
+
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="Enter"
@@ -254,7 +254,6 @@
                                VerticalAlignment="Center"
                                DataContext="{Binding Content,
                                                      ElementName=PopupFrame}"
-                               Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                Padding="0,0,0,2"
                                Style="{DynamicResource TitleTextStyle}"
                                Text="{Binding Title}"

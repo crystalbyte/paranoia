@@ -65,32 +65,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="FlyoutButtonBrowseStyle"
-           BasedOn="{StaticResource {x:Type Button}}"
-           TargetType="Button">
-        <Setter Property="Margin" Value="0,3" />
-        <Setter Property="Background" Value="{StaticResource FlyoutButtonBackgroundBrushKey}" />
-        <Setter Property="BorderBrush" Value="{StaticResource FlyoutButtonBorderBrushKey}" />
-        <Setter Property="BorderThickness" Value="0,1,1,1" />
-        <Setter Property="Content" Value="..." />
-        <Setter Property="ContentTemplate">
-            <Setter.Value>
-                <ItemContainerTemplate>
-                    <TextBlock x:Name="ContentText"
-                               Margin="7,4.2,7,4.2"
-                               VerticalAlignment="Center"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
-                               Foreground="{StaticResource FlyoutForegroundBrushKey}"
-                               Text="{TemplateBinding Content}" />
-                    <ItemContainerTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="ContentText" Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-                        </Trigger>
-                    </ItemContainerTemplate.Triggers>
-                </ItemContainerTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+  
 
     <Style x:Key="WindowButtonStyle" TargetType="Button">
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />

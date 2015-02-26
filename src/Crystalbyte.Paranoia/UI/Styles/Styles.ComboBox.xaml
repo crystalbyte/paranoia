@@ -29,7 +29,7 @@
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
                   Data="M 0 0 L 4 4 L 8 0 Z"
-                  Fill="{TemplateBinding Foreground}" />
+                  Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
@@ -194,14 +194,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <Style x:Key="FlyoutComboBoxStyle"
-           BasedOn="{StaticResource {x:Type ComboBox}}"
-           TargetType="ComboBox">
-        <Setter Property="Background" Value="{StaticResource FlyoutComboBoxBackgroundBrushKey}" />
-        <Setter Property="BorderBrush" Value="{StaticResource FlyoutComboBoxBorderBrushKey}" />
-        <Setter Property="Foreground" Value="{StaticResource FlyoutForegroundBrushKey}" />
     </Style>
 
 </ResourceDictionary>

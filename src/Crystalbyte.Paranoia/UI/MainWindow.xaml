@@ -133,6 +133,9 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </controls:MetroWindow.Resources>
+    <controls:MetroWindow.CommandBindings>
+        <CommandBinding Command="ui:MessageCommands.Compose" Executed="OnCompose"></CommandBinding>
+    </controls:MetroWindow.CommandBindings>
     <controls:MetroWindow.InputBindings>
         <KeyBinding Key="Print" Command="ApplicationCommands.Print" />
         <KeyBinding Key="Escape" Command="ui:FlyoutCommands.Cancel" />
@@ -302,6 +305,14 @@
                     Grid.Column="1"
                     Background="{StaticResource FlyoutBackgroundBrushKey}"
                     Padding="24">
+                <Border.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <ResourceDictionary Source="/UI/Flyout.Resources.xaml" />
+                        </ResourceDictionary.MergedDictionaries>
+                    </ResourceDictionary>
+                </Border.Resources>
+
                 <Border.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform />
@@ -323,8 +334,7 @@
                                               Margin="0,0,12,0"
                                               Command="ui:FlyoutCommands.Back"
                                               Focusable="False"
-                                              ImageSource="/Assets/back.png"
-                                              Style="{StaticResource FlyoutMetroButtonStyle}">
+                                              ImageSource="/Assets/back.png">
                             <Button.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform />
@@ -339,7 +349,7 @@
                                    VerticalAlignment="Center"
                                    DataContext="{Binding Content,
                                                          ElementName=FlyoutFrame}"
-                                   Foreground="{DynamicResource FlyoutForegroundBrushKey}"
+                                   Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                    Padding="0,0,0,2"
                                    Style="{DynamicResource TitleTextStyle}"
                                    Text="{Binding Title}"

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Media;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using dotless.Core;
@@ -23,9 +21,7 @@ namespace Crystalbyte.Paranoia {
             var html = reader.FindFirstHtmlVersion();
             if (html == null) {
                 var plain = reader.FindFirstPlainTextVersion();
-                text = plain != null
-                    ? FormatPlainText(reader.Headers.Subject, plain.GetBodyAsText())
-                    : string.Empty;
+                text = string.Format("<pre>{0}</pre>", plain.GetBodyAsText());
 
             } else {
                 text = html.GetBodyAsText();
@@ -40,7 +36,7 @@ namespace Crystalbyte.Paranoia {
         /// <param name="variables">The dictionary containing template variables.</param>
         /// <returns>Returns the generated html source.</returns>
         public static string GetEditorTemplate(IDictionary<string, string> variables) {
-            var uri = new Uri("/Resources/composition.template.html", UriKind.Relative);
+            var uri = new Uri("/Resources/composition.html", UriKind.Relative);
             var info = Application.GetResourceStream(uri);
             if (info == null) {
                 var error = string.Format(Resources.ResourceNotFoundException, uri, typeof(App).Assembly.FullName);
@@ -69,127 +65,158 @@ namespace Crystalbyte.Paranoia {
         /// <param name="text">Source text to be normalized.</param>
         /// <returns>Normalized HTML document.</returns>
         public static string PrepareHtmlForInspection(string text) {
-            var document = new HtmlDocument { OptionFixNestedTags = true };
-            document.LoadHtml(text);
+            var quote = new HtmlDocument { OptionFixNestedTags = true };
+            quote.LoadHtml(text);
 
             // Drop all script tags.
-            var scripts = document.DocumentNode.SelectNodes("//script");
+            var scripts = quote.DocumentNode.SelectNodes("//script");
             if (scripts != null) {
                 scripts.ForEach(x => x.Remove());
             }
 
-            HtmlDocument partialDocument = null;
-            var html = document.DocumentNode.SelectSingleNode("//html");
-            if (html == null) {
-                partialDocument = document;
-
-                // If no html tag has been found, we start from scratch.
-                document = new HtmlDocument();
-                html = document.CreateElement("html");
-                document.DocumentNode.AppendChild(html);
+            // Drop all meta tags.
+            var metas = quote.DocumentNode.SelectNodes("//meta");
+            if (metas != null) {
+                metas.ForEach(x => x.Remove());
             }
 
-            // Find first existing style tag.
-            var style = document.DocumentNode.SelectSingleNode("//head/style");
-
-            // In order to minimize visual issues a wellformed document must be present.
-            // The document should contain exactly one head and one body.
-            // The base style sheet must be placed inside the head as the fist style element.
-            var body = document.DocumentNode.SelectSingleNode("//body");
-            var head = document.DocumentNode.SelectSingleNode("//head");
-            if (head == null) {
-                if (partialDocument != null) {
-                    head = partialDocument.DocumentNode.SelectSingleNode("//head");
-                    if (head == null) {
-                        head = document.CreateElement("head");
-                    } else {
-                        // Remove from partial doc, since the constructed document already has one.
-                        head.Remove();
-                    }
-                } else {
-                    head = document.CreateElement("head");
-                }
-
-                if (body != null) {
-                    html.InsertBefore(head, body);
-                } else {
-                    html.AppendChild(head);
-                }
+            const string name = "/Resources/inspection.html";
+            var info = Application.GetResourceStream(new Uri(name, UriKind.Relative));
+            if (info == null) {
+                var m = string.Format(Resources.ResourceNotFoundException, name, typeof(Application).Assembly.FullName);
+                throw new ResourceNotFoundException(m);
             }
 
-            if (body == null) {
-                if (partialDocument != null) {
-                    body = partialDocument.DocumentNode.SelectSingleNode("//body");
-                    if (body == null) {
-                        body = document.CreateElement("body");
-                    } else {
-                        // Remove from partial doc, since the constructed document already has one.
-                        body.Remove();
-                    }
-
-                } else {
-                    body = document.CreateElement("body");
-                }
-                html.AppendChild(body);
+            string template;
+            using (var reader = new StreamReader(info.Stream)) {
+                template = reader.ReadToEnd();
             }
 
-            if (partialDocument != null) {
-                body.AppendChildren(partialDocument.DocumentNode.ChildNodes);
+            var document = new HtmlDocument { OptionFixNestedTags = true };
+            document.LoadHtml(template);
+
+            var host = document.DocumentNode.SelectSingleNode("//div[@id='content-host']");
+            if (host == null) {
+                throw new Exception(Resources.ContentHostMissingException);
             }
 
-            const string charset = "charset";
-            const string httpEquiv = "http-equiv";
-            const string contentType = "content-type";
 
-            // Check for any existing charset settings.
-            var nodes = document.DocumentNode.SelectNodes("//head/meta");
-            var metaCharsetNode = nodes == null
-                ? null
-                : nodes.FirstOrDefault(x => {
-                    // Check if any attributes are present.
-                    if (!x.HasAttributes) {
-                        return false;
-                    }
-
-                    // Check if the <meta charset="..."> element is present.
-                    var attribute =
-                        x.Attributes.AttributesWithName(charset)
-                            .FirstOrDefault();
-                    if (attribute != null) {
-                        return true;
-                    }
-
-                    // Check if the <meta http-equiv="content-type" ... > element is present.
-                    attribute =
-                        x.Attributes.AttributesWithName(httpEquiv)
-                            .FirstOrDefault();
-                    if (attribute != null &&
-                        attribute.Value.ContainsIgnoreCase(contentType)) {
-
-                        attribute = x.Attributes.AttributesWithName("content").FirstOrDefault();
-                        return attribute != null;
-                    }
-                    return false;
-                });
-
-            // Drop previous charset tags, since all bytes have been converted to UTF-8.
-            if (metaCharsetNode != null) {
-                metaCharsetNode.Remove();
-            }
-
-            // Add CSS base style.
-            var css = GetCssResource("/Resources/inspection.less");
-            var node = document.CreateTextNode(css);
-            var baseStyle = document.CreateElement("style");
-            baseStyle.AppendChild(node);
-            head.InsertBefore(baseStyle, style);
-
-            // Add UTF-8 charset meta tag.
-            var meta = document.CreateElement("meta");
-            meta.Attributes.Add(charset, "utf-8");
-            head.AppendChild(meta);
+            host.InnerHtml = quote.DocumentNode.WriteTo();
             return document.DocumentNode.WriteTo();
         }
+
+        //HtmlDocument partialDocument = null;
+        //var html = document.DocumentNode.SelectSingleNode("//html");
+        //if (html == null) {
+        //    partialDocument = document;
+
+        //    // If no html tag has been found, we start from scratch.
+        //    document = new HtmlDocument();
+        //    html = document.CreateElement("html");
+        //    document.DocumentNode.AppendChild(html);
+        //}
+
+        //// Find first existing style tag.
+        //var style = document.DocumentNode.SelectSingleNode("//head/style");
+
+        //// In order to minimize visual issues a wellformed document must be present.
+        //// The document should contain exactly one head and one body.
+        //// The base style sheet must be placed inside the head as the fist style element.
+        //var body = document.DocumentNode.SelectSingleNode("//body");
+        //var head = document.DocumentNode.SelectSingleNode("//head");
+        //if (head == null) {
+        //    if (partialDocument != null) {
+        //        head = partialDocument.DocumentNode.SelectSingleNode("//head");
+        //        if (head == null) {
+        //            head = document.CreateElement("head");
+        //        } else {
+        //            // Remove from partial doc, since the constructed document already has one.
+        //            head.Remove();
+        //        }
+        //    } else {
+        //        head = document.CreateElement("head");
+        //    }
+
+        //    if (body != null) {
+        //        html.InsertBefore(head, body);
+        //    } else {
+        //        html.AppendChild(head);
+        //    }
+        //}
+
+        //if (body == null) {
+        //    if (partialDocument != null) {
+        //        body = partialDocument.DocumentNode.SelectSingleNode("//body");
+        //        if (body == null) {
+        //            body = document.CreateElement("body");
+        //        } else {
+        //            // Remove from partial doc, since the constructed document already has one.
+        //            body.Remove();
+        //        }
+
+        //    } else {
+        //        body = document.CreateElement("body");
+        //    }
+        //    html.AppendChild(body);
+        //}
+
+        //if (partialDocument != null) {
+        //    body.AppendChildren(partialDocument.DocumentNode.ChildNodes);
+        //}
+
+        //    const string charset = "charset";
+        //    const string httpEquiv = "http-equiv";
+        //    const string contentType = "content-type";
+
+        //    // Check for any existing charset settings.
+        //    var nodes = document.DocumentNode.SelectNodes("//head/meta");
+        //    var metaCharsetNode = nodes == null
+        //        ? null
+        //        : nodes.FirstOrDefault(x => {
+        //            // Check if any attributes are present.
+        //            if (!x.HasAttributes) {
+        //                return false;
+        //            }
+
+        //            // Check if the <meta charset="..."> element is present.
+        //            var attribute =
+        //                x.Attributes.AttributesWithName(charset)
+        //                    .FirstOrDefault();
+        //            if (attribute != null) {
+        //                return true;
+        //            }
+
+        //            // Check if the <meta http-equiv="content-type" ... > element is present.
+        //            attribute =
+        //                x.Attributes.AttributesWithName(httpEquiv)
+        //                    .FirstOrDefault();
+        //            if (attribute != null &&
+        //                attribute.Value.ContainsIgnoreCase(contentType)) {
+
+        //                attribute = x.Attributes.AttributesWithName("content").FirstOrDefault();
+        //                return attribute != null;
+        //            }
+        //            return false;
+        //        });
+
+        //    // Drop previous charset tags, since all bytes have been converted to UTF-8.
+        //    if (metaCharsetNode != null) {
+        //        metaCharsetNode.Remove();
+        //    }
+
+        //    // Add CSS base style.
+        //    var css = GetCssResource("/Resources/inspection.less");
+        //    var node = document.CreateTextNode(css);
+        //    var baseStyle = document.CreateElement("style");
+        //    baseStyle.AppendChild(node);
+        //    head.InsertBefore(baseStyle, style);
+
+        //    // Add UTF-8 charset meta tag.
+        //    var meta = document.CreateElement("meta");
+        //    meta.Attributes.Add(charset, "utf-8");
+        //    head.AppendChild(meta);
+        //    return document.DocumentNode.WriteTo();
+        //}
 
         public static string GetCssResource(string path) {
             var uri = new Uri(path, UriKind.Relative);
@@ -199,10 +226,9 @@ namespace Crystalbyte.Paranoia {
                 throw new Exception(error);
             }
 
-
-            var variables = new Dictionary<string, object> {
-                {"vertical-scrollbar-width", SystemParameters.VerticalScrollBarWidth},
-                {"horizontal-scrollbar-height", SystemParameters.HorizontalScrollBarHeight},
+            var variables = new Dictionary<string, string> {
+                {"vertical-scrollbar-width", string.Format("{0}px",SystemParameters.VerticalScrollBarWidth)},
+                {"horizontal-scrollbar-height", string.Format("{0}px",SystemParameters.HorizontalScrollBarHeight)},
             };
 
             string less;
@@ -211,33 +237,12 @@ namespace Crystalbyte.Paranoia {
                 var text = reader.ReadToEnd();
                 less = Regex.Replace(text, pattern, m => {
                     var key = m.Value.Trim('{', '}');
-                    return string.Format("{0}px", variables[key]);
+                    return variables[key];
                 });
             }
 
             return Less.Parse(less);
         }
-
-        public static string FormatPlainText(string subject, string plain) {
-            const string url = "/Resources/plain-text.html";
-            var info = Application.GetResourceStream(new Uri(url, UriKind.RelativeOrAbsolute));
-            if (info == null) {
-                var message = string.Format(Resources.ResourceNotFoundException, url, typeof(App).Assembly.FullName);
-                throw new NullReferenceException(message);
-            }
-
-            var wrapper = info.Stream.ToUtf8String();
-            var values = new Dictionary<string, string> {
-                {"content", plain},
-                {"subject", subject},
-            };
-
-            return Regex.Replace(wrapper, "%.+?%", m => {
-                var key = m.Value.Trim('%');
-                return values[key];
-            });
-        }
-
         public static string ModifyEmbeddedParts(string html, FileSystemInfo info) {
             const string pattern = "<img.+?src=\"(?<CID>cid:.+?)\".*?>";
             return Regex.Replace(html, pattern, m => {

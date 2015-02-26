@@ -706,4 +706,7 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="AllFiles" xml:space="preserve">
     <value>All Files</value>
   </data>
+  <data name="ContentHostMissingException" xml:space="preserve">
+    <value>Content host node missing from template.</value>
+  </data>
 </root>

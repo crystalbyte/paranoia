@@ -367,6 +367,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Content host node missing from template..
+        /// </summary>
+        public static string ContentHostMissingException {
+            get {
+                return ResourceManager.GetString("ContentHostMissingException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Continue.
         /// </summary>
         public static string Continue {

@@ -90,13 +90,6 @@
         </Setter>
     </Style>
 
-    <Style x:Key="FlyoutRadioButtonStyle"
-           BasedOn="{StaticResource {x:Type RadioButton}}"
-           TargetType="RadioButton">
-        <Setter Property="Background" Value="{StaticResource FlyoutRadioButtonBackgroundBrushKey}" />
-        <Setter Property="BorderBrush" Value="{StaticResource FlyoutRadioButtonBorderBrushKey}" />
-    </Style>
-
     <Style x:Key="RadioButtonTextStyle"
            BasedOn="{StaticResource {x:Type RadioButton}}"
            TargetType="RadioButton">

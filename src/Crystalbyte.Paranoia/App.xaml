@@ -13,7 +13,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.Resources.xaml" />
-                <ResourceDictionary Source="/UI/Styles/Styles.Flyout.xaml" />
                 <ResourceDictionary Source="/UI/Styles/Styles.Button.xaml" />
                 <ResourceDictionary Source="/UI/Styles/Styles.CheckBox.xaml" />
                 <ResourceDictionary Source="/UI/Styles/Styles.ComboBox.xaml" />
@@ -61,6 +60,13 @@
             <converters:BooleanToBrushConverter x:Key="SubscribedAndSelectableForegroundConverter"
                                                 BrushForFalse="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
                                                 BrushForTrue="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+
+            <!--  Flyout Scope  -->
+            <system:Double x:Key="FlyoutOverlayOpacityKey">.5</system:Double>
+            <SolidColorBrush x:Key="FlyoutBackgroundBrushKey" Color="#353539" />
+            <SolidColorBrush x:Key="FlyoutForegroundBrushKey" Color="WhiteSmoke" />
+            <SolidColorBrush x:Key="FlyoutOverlayBrushKey" Color="Black" />
+
 
             <!--  Window Subtitle  -->
             <FontFamily x:Key="SubtitleFontFamilyKey">Segoe UI</FontFamily>
