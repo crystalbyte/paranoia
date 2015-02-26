@@ -738,6 +738,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to On {0}, {1} wrote:.
+        /// </summary>
+        public static string HtmlResponseHeader {
+            get {
+                return ResourceManager.GetString("HtmlResponseHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The server does not support the IDLE extension..
         /// </summary>
         public static string IdleCommandNotSupported {

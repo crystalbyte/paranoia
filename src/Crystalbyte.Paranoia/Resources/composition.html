@@ -5,51 +5,59 @@
     <meta charset="utf-8" />
     <link href="resource:///composition.less" type="text/css" rel="stylesheet">
 </head>
-    <body>
-        <div id="editor-container"></div>
-        <div id="editor-content" style="visibility: collapse;">
-            {{message}}
-            {{separator}}
+<body>
+    <div id="editor-container"></div>
+    <div id="appendix" style="padding: 14px;">
+        <div id="signature-container"></div>
+        {{separator}}
+        <div id="quote-container">
             {{quote}}
         </div>
-        <script type="text/javascript" src="resource:///jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="resource:///lodash-3.2.0.min.js"></script>
-        <script type="text/javascript" src="resource:///quill.js"></script>
-        <!-- ReSharper disable UseOfImplicitGlobalInFunctionScope -->
-        <script type="text/javascript">
-            
-            $(window).resize(function () {
-                var editor = $("#editor-container");
-                editor.css("width", "100%");
-                editor.css("height", "100%");
-            });
+    </div>
+    <script type="text/javascript" src="resource:///jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="resource:///lodash-3.2.0.min.js"></script>
+    <script type="text/javascript" src="resource:///quill.js"></script>
+    <!-- ReSharper disable UseOfImplicitGlobalInFunctionScope -->
+    <script type="text/javascript">
+        
+        var signature = function (s) {
+            document.write(s);
+            var html = $('<div />').text(s).html();
+            document.write(html);
+            $('#signature-container').html(html);
+        }
 
-            var quill = new Quill('#editor-container', {
-                'styles': {
-                    '.ql-editor': {
-                        'font-family': "'Trebuchet MS', sans-serif",
-                        'font-size': '16px',
-                    }
+        $(window).resize(function () {
+            var editor = $('#editor-container');
+            editor.css('width', '100%');
+        });
+
+        var quill = new Quill('#editor-container', {
+            'styles': {
+                '.ql-editor': {
+                    'font-family': "'Trebuchet MS', sans-serif",
+                    'font-size': '16px',
+                    'line-height': '1.6',
+                    'min-height': '120px',
                 }
-            });
+            }
+        });
 
-            quill.on("text-change", function (delta, source) {
-                // Extern is defined outside this document ...        
-                var json = JSON.stringify(delta);
-                extern.notifyTextChanged(source, json);
-            });
+        quill.on('text-change', function (delta, source) {
+            // Extern is defined outside this document ...
+            var json = JSON.stringify(delta);
+            extern.notifyTextChanged(source, json);
+        });
 
-            quill.on("selection-change", function (range) {
-                // Extern is defined outside this document ...        
-                var json = JSON.stringify(range);
-                extern.notifySelectionChanged(json);
-            });
+        quill.on('selection-change', function (range) {
+            // Extern is defined outside this document ...
+            var json = JSON.stringify(range);
+            extern.notifySelectionChanged(json);
+        });
 
-            var content = ('#editor-content');
-            content.css("visibility", "visible");
-            quill.setHTML(content);
+        extern.notifyContentReady();
 
-        </script>
-        <!-- ReSharper restore UseOfImplicitGlobalInFunctionScope -->
-    </body>
+    </script>
+    <!-- ReSharper restore UseOfImplicitGlobalInFunctionScope -->
+</body>
 </html>

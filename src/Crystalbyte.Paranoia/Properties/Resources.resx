@@ -709,4 +709,7 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="ContentHostMissingException" xml:space="preserve">
     <value>Content host node missing from template.</value>
   </data>
+  <data name="HtmlResponseHeader" xml:space="preserve">
+    <value>On {0}, {1} wrote:</value>
+  </data>
 </root>

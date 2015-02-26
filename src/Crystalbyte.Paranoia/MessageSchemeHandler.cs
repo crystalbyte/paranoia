@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using CefSharp;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
+using Crystalbyte.Paranoia.Properties;
 using NLog;
 
 namespace Crystalbyte.Paranoia {
@@ -142,10 +143,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static void ComposeQuotedCompositionResponse(IRequest request, ISchemeHandlerResponse response) {
-            var variables = new Dictionary<string, string> {
-                {"message", string.Empty},
-                {"separator", "<hr style=\"margin:20px 0;\" />"}
-            };
+
+            var variables = new Dictionary<string, string>();
 
             long messageId;
             var uri = new Uri(request.Url);
@@ -154,9 +153,12 @@ namespace Crystalbyte.Paranoia {
                 var message = GetMessageBytes(messageId);
                 var reader = new MailMessageReader(message);
 
+                var header = string.Format(Resources.HtmlResponseHeader, reader.Headers.DateSent, reader.Headers.From.DisplayName);
+                const string rule = "<hr style='border-right: medium none; border-top: #CCCCCC 1px solid; border-left: medium none; border-bottom: medium none; height: 1px'>";
+                variables.Add("separator", string.Format("{0}{1}{2}{3}{4}","<div style=\"margin:20px 0; font-family: Trebuchet MS;\">", header, "<br/>", rule, "</div>"));
+
                 var text = HtmlSupport.FindBestSupportedBody(reader);
                 text = HtmlSupport.ModifyEmbeddedParts(text, messageId);
-                text = HtmlSupport.InsertQuoteSeparator(text);
                 variables.Add("quote", text);
             }
 

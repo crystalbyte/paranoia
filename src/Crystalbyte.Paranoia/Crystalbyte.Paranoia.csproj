@@ -737,9 +737,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\jquery-2.1.1.min.js" />
-    <Resource Include="Resources\quill.base.css" />
     <Resource Include="Resources\quill.js" />
-    <Resource Include="Resources\quill.snow.css" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\lodash-3.2.0.min.js" />

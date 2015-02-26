@@ -140,9 +140,5 @@ namespace Crystalbyte.Paranoia {
                 return m.Value.Replace(cid, asset);
             }, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
-
-        internal static string InsertQuoteSeparator(string text) {
-            return string.Format("<hr style=\"margin:20px 0px;\"/>{0}{1}", Environment.NewLine, text);
-        }
     }
 }

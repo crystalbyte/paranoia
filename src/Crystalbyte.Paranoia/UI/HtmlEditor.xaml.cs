@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -61,10 +63,18 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Events
 
-        public event EventHandler ContentChanged;
+        public event EventHandler BrowserInitialized;
 
-        protected virtual void OnContentChanged() {
-            var handler = ContentChanged;
+        protected void OnBrowserInitialized() {
+            var handler = BrowserInitialized;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
+
+        public event EventHandler ContentReady;
+
+        internal void OnContentReady() {
+            var handler = ContentReady;
             if (handler != null)
                 handler(this, EventArgs.Empty);
         }
@@ -271,6 +281,12 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Methods
 
+        public void InsertSignature(string signature) {
+            var normalized = WebUtility.HtmlEncode(signature);
+            var script = string.Format("(function() {{ signature({0}); }})();", normalized);
+            _browser.ExecuteScriptAsync(script);
+        }
+
         private void OnToggleStrikethrough(object sender, ExecutedRoutedEventArgs e) {
             ToggleStrikethrough();
         }
@@ -429,8 +445,8 @@ namespace Crystalbyte.Paranoia.UI {
                 UniversalAccessFromFileUrlsAllowed = true,
                 FileAccessFromFileUrlsAllowed = true,
                 PluginsDisabled = true,
-                JavaScriptOpenWindowsDisabled = false,
-                JavaScriptCloseWindowsDisabled = false,
+                JavaScriptOpenWindowsDisabled = true,
+                JavaScriptCloseWindowsDisabled = true,
                 JavascriptDisabled = false,
                 TextAreaResizeDisabled = true
             };
@@ -441,8 +457,16 @@ namespace Crystalbyte.Paranoia.UI {
             _browser.Load(Source);
         }
 
+        public void FocusEditor() {
+            _browser.Focus();
+        }
+
         private void OnIsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e) {
-            Logger.Info("IsBrowserInitialized => True");
+            try {
+                OnBrowserInitialized();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         #endregion
@@ -505,7 +529,7 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         public async Task InvalidateCommandsAsync() {
-            var context = (HtmlEditorCommandContext) _editorBorder.DataContext;
+            var context = (HtmlEditorCommandContext)_editorBorder.DataContext;
             await context.InvalidateAsync();
         }
 

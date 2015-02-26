@@ -46,6 +46,7 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoreDown));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
+            HtmlEditor.ContentReady += async (sender, e) => await ChangeSignatureAsync();
         }
 
         #endregion
@@ -167,12 +168,21 @@ namespace Crystalbyte.Paranoia.UI {
                 }
             });
 
+            HtmlEditor.ContentReady += OnContentReady;
+            HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
+
             var context = (MailCompositionContext)DataContext;
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
-            HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
 
             await Task.Run(async () => await @from.CheckSecurityStateAsync());
             RecipientsBox.Preset(new[] { from });
+        }
+
+        private void OnContentReady(object sender, EventArgs e) {
+            Application.Current.Dispatcher.Invoke(() => {
+                HtmlEditor.BrowserInitialized -= OnContentReady;
+                HtmlEditor.FocusEditor();
+            });
         }
 
         internal async Task PrepareAsReplyAllAsync(IReadOnlyDictionary<string, string> arguments) {
@@ -215,14 +225,15 @@ namespace Crystalbyte.Paranoia.UI {
                 }
             }
 
+            HtmlEditor.ContentReady += OnContentReady;
+            HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
+
             var context = (MailCompositionContext)DataContext;
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
-            HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
 
             await Task.Run(() => from.CheckSecurityStateAsync());
 
             RecipientsBox.Preset(new[] { from });
-
             CarbonCopyBox.Preset(carbonCopies);
             BlindCarbonCopyBox.Preset(blindCarbonCopies);
         }
@@ -242,9 +253,11 @@ namespace Crystalbyte.Paranoia.UI {
                 }
             });
 
+            HtmlEditor.Source = string.Format("message:///forward?id={0}", id);
+
             var context = (MailCompositionContext)DataContext;
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForForwarding, reader.Headers.Subject);
-            HtmlEditor.Source = string.Format("message:///forward?id={0}", id);
+
             Loaded += OnLoadedAsNew;
         }
 
@@ -272,16 +285,12 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async Task ChangeSignatureAsync() {
-            //if (!HtmlEditor.IsDocumentReady) {
-            //    return;
-            //}
 
-            return;
             var context = (MailCompositionContext)DataContext;
             var path = context.SelectedAccount.SignaturePath;
 
             string signature;
-            if (string.IsNullOrEmpty(path) || !File.Exists(path)) {
+            if (!File.Exists(path)) {
                 signature = string.Empty;
                 var warning = string.Format(Paranoia.Properties.Resources.MissingSignatureTemplate, path);
                 Logger.Warn(warning);
@@ -289,15 +298,7 @@ namespace Crystalbyte.Paranoia.UI {
                 signature = await Task.Run(() => File.ReadAllText(path, Encoding.UTF8));
             }
 
-            //var composition = HtmlEditor.Composition;
-            //var document = new HtmlDocument();
-            //document.LoadHtml(composition);
-
-            //var node = document.DocumentNode.SelectSingleNode("//div[@id='signature']");
-            //node.RemoveAllChildren();
-            //node.InnerHtml = signature;
-
-            //HtmlEditor.Composition = document.DocumentNode.WriteTo();
+            HtmlEditor.InsertSignature(signature);
         }
 
         private async void OnAccountSelectionChanged(object sender, SelectionChangedEventArgs e) {

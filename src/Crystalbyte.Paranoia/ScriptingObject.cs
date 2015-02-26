@@ -11,6 +11,10 @@ namespace Crystalbyte.Paranoia {
             _editor = editor;
         }
 
+        public void NotifyContentReady() {
+            Application.Current.Dispatcher.Invoke(() => _editor.OnContentReady());
+        }
+
         public void NotifySelectionChanged(string json) {
             if (string.IsNullOrEmpty(json) || string.Compare("null", json, StringComparison.OrdinalIgnoreCase) == 0) {
                 return;
