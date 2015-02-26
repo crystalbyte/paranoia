@@ -105,119 +105,6 @@ namespace Crystalbyte.Paranoia {
             return document.DocumentNode.WriteTo();
         }
 
-        //HtmlDocument partialDocument = null;
-        //var html = document.DocumentNode.SelectSingleNode("//html");
-        //if (html == null) {
-        //    partialDocument = document;
-
-        //    // If no html tag has been found, we start from scratch.
-        //    document = new HtmlDocument();
-        //    html = document.CreateElement("html");
-        //    document.DocumentNode.AppendChild(html);
-        //}
-
-        //// Find first existing style tag.
-        //var style = document.DocumentNode.SelectSingleNode("//head/style");
-
-        //// In order to minimize visual issues a wellformed document must be present.
-        //// The document should contain exactly one head and one body.
-        //// The base style sheet must be placed inside the head as the fist style element.
-        //var body = document.DocumentNode.SelectSingleNode("//body");
-        //var head = document.DocumentNode.SelectSingleNode("//head");
-        //if (head == null) {
-        //    if (partialDocument != null) {
-        //        head = partialDocument.DocumentNode.SelectSingleNode("//head");
-        //        if (head == null) {
-        //            head = document.CreateElement("head");
-        //        } else {
-        //            // Remove from partial doc, since the constructed document already has one.
-        //            head.Remove();
-        //        }
-        //    } else {
-        //        head = document.CreateElement("head");
-        //    }
-
-        //    if (body != null) {
-        //        html.InsertBefore(head, body);
-        //    } else {
-        //        html.AppendChild(head);
-        //    }
-        //}
-
-        //if (body == null) {
-        //    if (partialDocument != null) {
-        //        body = partialDocument.DocumentNode.SelectSingleNode("//body");
-        //        if (body == null) {
-        //            body = document.CreateElement("body");
-        //        } else {
-        //            // Remove from partial doc, since the constructed document already has one.
-        //            body.Remove();
-        //        }
-
-        //    } else {
-        //        body = document.CreateElement("body");
-        //    }
-        //    html.AppendChild(body);
-        //}
-
-        //if (partialDocument != null) {
-        //    body.AppendChildren(partialDocument.DocumentNode.ChildNodes);
-        //}
-
-        //    const string charset = "charset";
-        //    const string httpEquiv = "http-equiv";
-        //    const string contentType = "content-type";
-
-        //    // Check for any existing charset settings.
-        //    var nodes = document.DocumentNode.SelectNodes("//head/meta");
-        //    var metaCharsetNode = nodes == null
-        //        ? null
-        //        : nodes.FirstOrDefault(x => {
-        //            // Check if any attributes are present.
-        //            if (!x.HasAttributes) {
-        //                return false;
-        //            }
-
-        //            // Check if the <meta charset="..."> element is present.
-        //            var attribute =
-        //                x.Attributes.AttributesWithName(charset)
-        //                    .FirstOrDefault();
-        //            if (attribute != null) {
-        //                return true;
-        //            }
-
-        //            // Check if the <meta http-equiv="content-type" ... > element is present.
-        //            attribute =
-        //                x.Attributes.AttributesWithName(httpEquiv)
-        //                    .FirstOrDefault();
-        //            if (attribute != null &&
-        //                attribute.Value.ContainsIgnoreCase(contentType)) {
-
-        //                attribute = x.Attributes.AttributesWithName("content").FirstOrDefault();
-        //                return attribute != null;
-        //            }
-        //            return false;
-        //        });
-
-        //    // Drop previous charset tags, since all bytes have been converted to UTF-8.
-        //    if (metaCharsetNode != null) {
-        //        metaCharsetNode.Remove();
-        //    }
-
-        //    // Add CSS base style.
-        //    var css = GetCssResource("/Resources/inspection.less");
-        //    var node = document.CreateTextNode(css);
-        //    var baseStyle = document.CreateElement("style");
-        //    baseStyle.AppendChild(node);
-        //    head.InsertBefore(baseStyle, style);
-
-        //    // Add UTF-8 charset meta tag.
-        //    var meta = document.CreateElement("meta");
-        //    meta.Attributes.Add(charset, "utf-8");
-        //    head.AppendChild(meta);
-        //    return document.DocumentNode.WriteTo();
-        //}
-
         public static string GetCssResource(string path) {
             var uri = new Uri(path, UriKind.Relative);
             var info = Application.GetResourceStream(uri);
@@ -226,19 +113,9 @@ namespace Crystalbyte.Paranoia {
                 throw new Exception(error);
             }
 
-            var variables = new Dictionary<string, string> {
-                {"vertical-scrollbar-width", string.Format("{0}px",SystemParameters.VerticalScrollBarWidth)},
-                {"horizontal-scrollbar-height", string.Format("{0}px",SystemParameters.HorizontalScrollBarHeight)},
-            };
-
             string less;
-            const string pattern = "{{.+?}}";
             using (var reader = new StreamReader(info.Stream)) {
-                var text = reader.ReadToEnd();
-                less = Regex.Replace(text, pattern, m => {
-                    var key = m.Value.Trim('{', '}');
-                    return variables[key];
-                });
+                less = reader.ReadToEnd();
             }
 
             return Less.Parse(less);
@@ -266,11 +143,6 @@ namespace Crystalbyte.Paranoia {
 
         internal static string InsertQuoteSeparator(string text) {
             return string.Format("<hr style=\"margin:20px 0px;\"/>{0}{1}", Environment.NewLine, text);
-        }
-
-        internal static string SuppressGlobalStyles(string text) {
-            // TODO: replace any "body {}" styles by renaming.
-            return text;
         }
     }
 }

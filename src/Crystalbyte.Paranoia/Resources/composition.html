@@ -6,9 +6,10 @@
     <link href="resource:///composition.less" type="text/css" rel="stylesheet">
 </head>
     <body>
-        
         <div id="editor-container"></div>
         <div id="editor-content" style="visibility: collapse;">
+            {{message}}
+            {{separator}}
             {{quote}}
         </div>
         <script type="text/javascript" src="resource:///jquery-2.1.1.min.js"></script>
@@ -43,6 +44,10 @@
                 var json = JSON.stringify(range);
                 extern.notifySelectionChanged(json);
             });
+
+            var content = ('#editor-content');
+            content.css("visibility", "visible");
+            quill.setHTML(content);
 
         </script>
         <!-- ReSharper restore UseOfImplicitGlobalInFunctionScope -->

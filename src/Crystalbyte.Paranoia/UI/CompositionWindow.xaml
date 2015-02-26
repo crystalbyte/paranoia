@@ -492,8 +492,6 @@
                     <ui:HtmlEditor x:Name="HtmlEditor"
                                    AllowDrop="True"
                                    Drop="OnHtmlSurfaceDrop"
-                                   Source="{Binding Source,
-                                                    Mode=TwoWay}"
                                    UseLayoutRounding="True" />
                 </Grid>
             </Grid>

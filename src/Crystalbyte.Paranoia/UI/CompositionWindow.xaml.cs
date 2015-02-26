@@ -136,8 +136,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         internal void PrepareAsNew() {
-            var context = (MailCompositionContext)DataContext;
-            context.Source = "message:///new";
+            HtmlEditor.Source = "message:///new";
             Loaded += OnLoadedAsNew;
         }
 
@@ -170,7 +169,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             var context = (MailCompositionContext)DataContext;
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
-            context.Source = string.Format("message:///reply?id={0}", id);
+            HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
 
             await Task.Run(async () => await @from.CheckSecurityStateAsync());
             RecipientsBox.Preset(new[] { from });
@@ -218,7 +217,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             var context = (MailCompositionContext)DataContext;
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
-            context.Source = string.Format("message:///reply?id={0}", id);
+            HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
 
             await Task.Run(() => from.CheckSecurityStateAsync());
 
@@ -245,7 +244,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             var context = (MailCompositionContext)DataContext;
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForForwarding, reader.Headers.Subject);
-            context.Source = string.Format("message:///forward?id={0}", id);
+            HtmlEditor.Source = string.Format("message:///forward?id={0}", id);
             Loaded += OnLoadedAsNew;
         }
 

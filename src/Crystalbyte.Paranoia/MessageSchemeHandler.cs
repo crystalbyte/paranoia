@@ -143,7 +143,8 @@ namespace Crystalbyte.Paranoia {
 
         private static void ComposeQuotedCompositionResponse(IRequest request, ISchemeHandlerResponse response) {
             var variables = new Dictionary<string, string> {
-                {"header", string.Empty},
+                {"message", string.Empty},
+                {"separator", "<hr style=\"margin:20px 0;\" />"}
             };
 
             long messageId;
@@ -154,8 +155,6 @@ namespace Crystalbyte.Paranoia {
                 var reader = new MailMessageReader(message);
 
                 var text = HtmlSupport.FindBestSupportedBody(reader);
-                text = HtmlSupport.SuppressGlobalStyles(text);
-                text = HtmlSupport.PrepareHtmlForInspection(text);
                 text = HtmlSupport.ModifyEmbeddedParts(text, messageId);
                 text = HtmlSupport.InsertQuoteSeparator(text);
                 variables.Add("quote", text);

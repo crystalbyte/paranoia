@@ -9,7 +9,6 @@ using System.Net.Mail;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.UI.Commands;
 using Microsoft.Win32;
@@ -23,7 +22,6 @@ namespace Crystalbyte.Paranoia {
 
         #region Private Fields
 
-        private string _source;
         private string _subject;
         private readonly IEnumerable<MailAccountContext> _accounts;
         private readonly ObservableCollection<string> _recipients;
@@ -117,30 +115,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public string Source {
-            get { return _source; }
-            set {
-                if (_source == value) {
-                    return;
-                }
-                _source = value;
-                RaisePropertyChanged(() => Source);
-            }
-        }
-
         #endregion
-
-        public async Task ResetAsync() {
-            _recipients.Clear();
-            Subject = string.Empty;
-
-            var info = Application.GetResourceStream(new Uri("Resources/composition.template.html", UriKind.Relative));
-            if (info != null) {
-                using (var reader = new StreamReader(info.Stream)) {
-                    Source = await reader.ReadToEndAsync();
-                }
-            }
-        }
 
         internal async Task SendAsync() {
             OnFinished();
