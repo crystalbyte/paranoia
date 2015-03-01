@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Web.Script.Serialization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -282,8 +280,7 @@ namespace Crystalbyte.Paranoia.UI {
         #region Methods
 
         public void InsertSignature(string signature) {
-            var normalized = WebUtility.HtmlEncode(signature);
-            var script = string.Format("(function() {{ signature({0}); }})();", normalized);
+            var script = string.Format("(function() {{ signature('{0}'); }})();", signature);
             _browser.ExecuteScriptAsync(script);
         }
 

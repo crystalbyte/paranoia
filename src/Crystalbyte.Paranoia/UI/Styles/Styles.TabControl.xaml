@@ -18,7 +18,7 @@
                     <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=TabItem}}" Value="True" />
                     <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=TabItem}}" Value="False" />
                 </MultiDataTrigger.Conditions>
-                <Setter TargetName="HeaderText" Property="Foreground" Value="{StaticResource FlyoutForegroundBrushKey}" />
+                <Setter TargetName="HeaderText" Property="Foreground" Value="{DynamicResource FlyoutForegroundBrushKey}" />
             </MultiDataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>

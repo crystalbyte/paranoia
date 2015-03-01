@@ -16,10 +16,15 @@
       d:DesignWidth="1024"
       mc:Ignorable="d">
     <Page.Resources>
-        <x:Array x:Key="SecurityProtocols" Type="mail:SecurityProtocol">
-            <x:Static Member="mail:SecurityProtocol.Implicit" />
-            <x:Static Member="mail:SecurityProtocol.Explicit" />
-        </x:Array>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/UI/Flyout.Resources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <x:Array x:Key="SecurityProtocols" Type="mail:SecurityProtocol">
+                <x:Static Member="mail:SecurityProtocol.Implicit" />
+                <x:Static Member="mail:SecurityProtocol.Explicit" />
+            </x:Array>
+        </ResourceDictionary>
     </Page.Resources>
     <DockPanel LastChildFill="True">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
@@ -52,7 +57,6 @@
                                Grid.Column="0"
                                Grid.ColumnSpan="2"
                                Margin="0,0,0,12"
-                               Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                Text="{x:Static properties:Resources.GeneralSettingsDescription}" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
@@ -89,8 +93,7 @@
                               Checked="OnIsDefaultComboBoxChecked"
                               IsEnabled="{Binding IsChecked,
                                                   RelativeSource={RelativeSource Self},
-                                                  Converter={StaticResource BooleanInverter}}"
-                              Style="{DynamicResource FlyoutCheckBoxStyle}">
+                                                  Converter={StaticResource BooleanInverter}}">
                         <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                             <TextBlock Text="{x:Static properties:Resources.IsDefaultAccount}" Visibility="{Binding IsChecked, ElementName=IsDefaultComboBox, Converter={StaticResource BooleanToVisibilityConverter}}" />
                             <TextBlock Text="{x:Static properties:Resources.IsNotDefaultAccount}" Visibility="{Binding IsChecked, ElementName=IsDefaultComboBox, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}" />
@@ -111,7 +114,6 @@
                         <TextBlock Grid.Row="0"
                                    Grid.Column="0"
                                    Margin="0,0,0,12"
-                                   Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                    Text="{x:Static properties:Resources.ServerSettingsDescription}"
                                    TextTrimming="None"
                                    TextWrapping="Wrap" />
@@ -187,7 +189,6 @@
                                           SelectedValue="{Binding ImapSecurity,
                                                                   Mode=TwoWay}"
                                           SelectionChanged="OnImapSecurityProtocolSelectionChanged"
-                                          Style="{StaticResource FlyoutComboBoxStyle}"
                                           Text="{Binding ImapSecurity,
                                                          Mode=OneWay}">
                                     <ComboBox.ItemTemplate>
@@ -195,7 +196,6 @@
                                             <TextBlock Margin="3,0"
                                                        VerticalAlignment="Center"
                                                        FontWeight="Normal"
-                                                       Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                                        Text="{Binding Converter={StaticResource SecurityProtocolFormatter}}" />
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
@@ -242,20 +242,14 @@
                                         <RadioButton x:Name="UseImapCredentialsRadioButton"
                                                      Margin="0,18,0,0"
                                                      Checked="OnUseImapCredentialsChecked"
-                                                     GroupName="Mirror"
-                                                     Style="{StaticResource FlyoutRadioButtonStyle}">
-                                            <TextBlock FontWeight="Normal"
-                                                       Foreground="{StaticResource FlyoutForegroundBrushKey}"
-                                                       Text="{x:Static properties:Resources.UseImapCredentials}" />
+                                                     GroupName="Mirror">
+                                            <TextBlock FontWeight="Normal" Text="{x:Static properties:Resources.UseImapCredentials}" />
                                         </RadioButton>
                                         <RadioButton x:Name="UseSmtpCredentialsRadioButton"
                                                      Margin="0,6,0,12"
                                                      Checked="OnUseSmtpCredentialsChecked"
-                                                     GroupName="Mirror"
-                                                     Style="{StaticResource FlyoutRadioButtonStyle}">
-                                            <TextBlock FontWeight="Normal"
-                                                       Foreground="{StaticResource FlyoutForegroundBrushKey}"
-                                                       Text="{x:Static properties:Resources.SmtpRequiresOwnCredentials}" />
+                                                     GroupName="Mirror">
+                                            <TextBlock FontWeight="Normal" Text="{x:Static properties:Resources.SmtpRequiresOwnCredentials}" />
                                         </RadioButton>
                                     </StackPanel>
                                     <TextBlock Grid.Row="1"
@@ -287,8 +281,7 @@
                                                  Grid.Column="1"
                                                  MinWidth="200"
                                                  IsEnabled="{Binding IsChecked,
-                                                                     ElementName=UseSmtpCredentialsRadioButton}"
-                                                 Style="{StaticResource FlyoutPasswordBoxStyle}" />
+                                                                     ElementName=UseSmtpCredentialsRadioButton}" />
                                 </Grid>
                                 <Grid>
                                     <Grid.RowDefinitions>
@@ -328,7 +321,6 @@
                                                                       Mode=TwoWay,
                                                                       UpdateSourceTrigger=PropertyChanged}"
                                               SelectionChanged="OnImapSecurityProtocolSelectionChanged"
-                                              Style="{StaticResource FlyoutComboBoxStyle}"
                                               Text="{Binding SmtpSecurity,
                                                              Mode=OneWay}">
                                         <ComboBox.ItemTemplate>
@@ -336,7 +328,6 @@
                                                 <TextBlock Margin="3,0"
                                                            VerticalAlignment="Center"
                                                            FontWeight="Normal"
-                                                           Foreground="{StaticResource FlyoutForegroundBrushKey}"
                                                            Text="{Binding Converter={StaticResource SecurityProtocolFormatter}}" />
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>
@@ -363,9 +354,7 @@
             </TabItem>
             <TabItem Header="{x:Static properties:Resources.Mailboxes}" HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">
                 <StackPanel>
-                    <TextBlock Margin="0,0,0,12"
-                               Foreground="{StaticResource FlyoutForegroundBrushKey}"
-                               Text="{x:Static properties:Resources.MailboxSettingsDescription}" />
+                    <TextBlock Margin="0,0,0,12" Text="{x:Static properties:Resources.MailboxSettingsDescription}" />
                     <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
                         <Grid HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
@@ -400,8 +389,7 @@
                                     Grid.Column="2"
                                     Command="ui:MailboxCommands.Browse"
                                     CommandParameter="{x:Static paranoia:MailboxRoles.Trash}"
-                                    IsEnabled="{Binding HasMailboxes}"
-                                    Style="{StaticResource FlyoutButtonBrowseStyle}" />
+                                    IsEnabled="{Binding HasMailboxes}" />
                             <TextBlock Grid.Row="1"
                                        Grid.Column="0"
                                        IsEnabled="{Binding HasMailboxes}"
@@ -424,8 +412,7 @@
                                     Grid.Column="2"
                                     Command="ui:MailboxCommands.Browse"
                                     CommandParameter="{x:Static paranoia:MailboxRoles.Draft}"
-                                    IsEnabled="{Binding HasMailboxes}"
-                                    Style="{StaticResource FlyoutButtonBrowseStyle}" />
+                                    IsEnabled="{Binding HasMailboxes}" />
                             <TextBlock Grid.Row="2"
                                        Grid.Column="0"
                                        IsEnabled="{Binding HasMailboxes}"
@@ -448,21 +435,18 @@
                                     Grid.Column="2"
                                     Command="ui:MailboxCommands.Browse"
                                     CommandParameter="{x:Static paranoia:MailboxRoles.Junk}"
-                                    IsEnabled="{Binding HasMailboxes}"
-                                    Style="{StaticResource FlyoutButtonBrowseStyle}" />
+                                    IsEnabled="{Binding HasMailboxes}" />
                         </Grid>
                         <StackPanel Margin="24,0" IsEnabled="{Binding HasMailboxes}">
                             <RadioButton x:Name="DontStoreCopyRadioButton"
                                          Checked="OnDontStoreCopyRadioButtonChecked"
-                                         GroupName="sent"
-                                         Style="{StaticResource FlyoutRadioButtonStyle}">
-                                <TextBlock Foreground="{StaticResource FlyoutForegroundBrushKey}" Text="{x:Static properties:Resources.MailboxSettingsNoCopy}" />
+                                         GroupName="sent">
+                                <TextBlock Text="{x:Static properties:Resources.MailboxSettingsNoCopy}" />
                             </RadioButton>
                             <RadioButton x:Name="StoreCopyRadioButton"
                                          Checked="OnStoreCopyRadioButtonChecked"
-                                         GroupName="sent"
-                                         Style="{StaticResource FlyoutRadioButtonStyle}">
-                                <TextBlock Foreground="{StaticResource FlyoutForegroundBrushKey}" Text="{x:Static properties:Resources.MailboxSettingsCopy}" />
+                                         GroupName="sent">
+                                <TextBlock Text="{x:Static properties:Resources.MailboxSettingsCopy}" />
                             </RadioButton>
                             <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
                                 <TextBlock IsEnabled="{Binding IsChecked, ElementName=StoreCopyRadioButton}" Style="{StaticResource LabelTextBlockStyle}">
@@ -482,17 +466,14 @@
                                         CommandParameter="{x:Static paranoia:MailboxRoles.Sent}"
                                         IsEnabled="{Binding IsChecked,
                                                             ElementName=StoreCopyRadioButton,
-                                                            Mode=OneWay}"
-                                        Style="{StaticResource FlyoutButtonBrowseStyle}" />
+                                                            Mode=OneWay}" />
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
                     <Border Height="36" Margin="0,0,0,12">
                         <StackPanel VerticalAlignment="Center" Visibility="{Binding IsSyncingMailboxes, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <controls:MetroProgressBar Height="4" IsIndeterminate="True" />
-                            <TextBlock Margin="0,6,0,0"
-                                       Foreground="{StaticResource FlyoutForegroundBrushKey}"
-                                       Text="{x:Static properties:Resources.FetchingMailboxes}" />
+                            <TextBlock Margin="0,6,0,0" Text="{x:Static properties:Resources.FetchingMailboxes}" />
                         </StackPanel>
                     </Border>
                     <Popup x:Name="SentMailboxSelectionPopup"
@@ -699,9 +680,7 @@
             </TabItem>
             <TabItem Header="{x:Static properties:Resources.Signature}" HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">
                 <StackPanel>
-                    <TextBlock Margin="0,0,0,12"
-                               Foreground="{StaticResource FlyoutForegroundBrushKey}"
-                               Text="{x:Static properties:Resources.SignatureDescription}" />
+                    <TextBlock Margin="0,0,0,12" Text="{x:Static properties:Resources.SignatureDescription}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource LabelTextBlockStyle}">
                             <Run Text="{x:Static properties:Resources.Signature}" />
@@ -715,9 +694,7 @@
                                                     Mode=OneWay,
                                                     Converter={StaticResource NullOrEmptyFormatter}}"
                                      TextWrapping="NoWrap" />
-                            <Button x:Name="SignatureFileBrowseButton"
-                                    Command="ui:SignatureCommands.SelectFile"
-                                    Style="{StaticResource FlyoutButtonBrowseStyle}" />
+                            <Button x:Name="SignatureFileBrowseButton" Command="ui:SignatureCommands.SelectFile" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>

@@ -298,7 +298,9 @@ namespace Crystalbyte.Paranoia.UI {
                 signature = await Task.Run(() => File.ReadAllText(path, Encoding.UTF8));
             }
 
-            HtmlEditor.InsertSignature(signature);
+            var bytes = Encoding.UTF8.GetBytes(signature);
+            var encoded = Convert.ToBase64String(bytes);
+            HtmlEditor.InsertSignature(encoded);
         }
 
         private async void OnAccountSelectionChanged(object sender, SelectionChangedEventArgs e) {

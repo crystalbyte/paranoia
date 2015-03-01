@@ -151,7 +151,6 @@
                 </StackPanel>
             </Grid>
         </DataTemplate>
-
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="Enter"

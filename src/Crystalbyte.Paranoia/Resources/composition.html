@@ -19,12 +19,13 @@
     <script type="text/javascript" src="resource:///quill.js"></script>
     <!-- ReSharper disable UseOfImplicitGlobalInFunctionScope -->
     <script type="text/javascript">
-        
+
+        function b64_to_utf8(str) {
+            return decodeURIComponent(escape(window.atob(str)));
+        }
+
         var signature = function (s) {
-            document.write(s);
-            var html = $('<div />').text(s).html();
-            document.write(html);
-            $('#signature-container').html(html);
+            $('#signature-container').html(b64_to_utf8(s));
         }
 
         $(window).resize(function () {
@@ -38,7 +39,7 @@
                     'font-family': "'Trebuchet MS', sans-serif",
                     'font-size': '16px',
                     'line-height': '1.6',
-                    'min-height': '120px',
+                    'min-height': '80px',
                 }
             }
         });
@@ -60,4 +61,5 @@
     </script>
     <!-- ReSharper restore UseOfImplicitGlobalInFunctionScope -->
 </body>
+
 </html>
