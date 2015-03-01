@@ -180,9 +180,30 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public bool IsAnswered {
+            get { return _message.HasFlag(MailMessageFlags.Answered); }
+            set {
+                if (_message.HasFlag(MailMessageFlags.Seen) == value) {
+                    return;
+                }
+
+                if (value) {
+                    _message.WriteFlag(MailMessageFlags.Answered);
+                } else {
+                    _message.DropFlag(MailMessageFlags.Answered);
+                }
+
+                RaisePropertyChanged(() => IsAnswered);
+                OnAnsweredStatusChanged();
+            }
+        }
+
         #endregion
 
         private async void OnSeenStatusChanged() {
+            await SaveFlagsToDatabaseAsync();
+        }
+        private async void OnAnsweredStatusChanged() {
             await SaveFlagsToDatabaseAsync();
         }
 

@@ -8,5 +8,6 @@ namespace Crystalbyte.Paranoia.Mail {
     public static class MailMessageFlags {
         public static readonly string Seen = @"\seen";
         public static readonly string Flagged = @"\flagged";
+        public static readonly string Answered = @"\Answered";
     }
 }

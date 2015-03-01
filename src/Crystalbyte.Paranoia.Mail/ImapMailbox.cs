@@ -108,6 +108,24 @@ namespace Crystalbyte.Paranoia.Mail {
             await ReadBasicResponseAsync(id);
         }
 
+        public async Task MarkAsNotAnsweredAsync(IEnumerable<long> uids) {
+            //muuuuuuuuuuu
+            var uidString = uids.ToCommaSeparatedValues();
+            var command = string.Format(@"UID STORE {0} +FLAGS.SILENT (\Answered)", uidString);
+            var id = await _connection.WriteCommandAsync(command);
+            await ReadBasicResponseAsync(id);
+        }
+
+        public async Task MarkAsAnsweredAsync(IEnumerable<long> uids) {
+            //muuuuuuuuuuu
+            var uidString = uids.ToCommaSeparatedValues();
+            var command = string.Format(@"UID STORE {0} -FLAGS.SILENT (\Answered)", uidString);
+            var id = await _connection.WriteCommandAsync(command);
+            await ReadBasicResponseAsync(id);
+        }
+
+
+
         public async Task MoveMailsAsync(ICollection<long> uids, string destination) {
             var uidString = uids.ToCommaSeparatedValues();
             if (string.IsNullOrWhiteSpace(destination)) {
@@ -233,27 +251,33 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         public bool IsIdle {
-            get; private set;
+            get;
+            private set;
         }
 
         public int UidNext {
-            get; internal set;
+            get;
+            internal set;
         }
 
         public int Recent {
-            get; internal set;
+            get;
+            internal set;
         }
 
         public int Exists {
-            get; internal set;
+            get;
+            internal set;
         }
 
         public long UidValidity {
-            get; internal set;
+            get;
+            internal set;
         }
 
         public MailboxPermissions Permissions {
-            get; internal set;
+            get;
+            internal set;
         }
 
         public IEnumerable<string> PermanentFlags {
