@@ -220,6 +220,7 @@
     <Compile Include="Contexts\InsertLinkContext.cs" />
     <Compile Include="EmlSchemeHandler.cs" />
     <Compile Include="FileSchemeHandler.cs" />
+    <Compile Include="MailMessageExtension.cs" />
     <Compile Include="TextRange.cs" />
     <Compile Include="ScriptingException.cs" />
     <Compile Include="UI\Converters\ColorToBrushConverter.cs" />

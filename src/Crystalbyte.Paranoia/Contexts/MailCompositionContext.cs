@@ -152,9 +152,9 @@ namespace Crystalbyte.Paranoia {
                         message.Attachments.Add(new Attachment(a.FullName));
                     }
 
-                    // TODO: Embedded images need to be redone after CefSharp change.
-                    // message = HandleEmbeddedImages(message, content);
-
+                    // IO heavy operation, needs to run in background thread.
+                    await Task.Run(() => message.PackageEmbeddedContent());
+                    
                     messages.Add(message);
                 }
 
