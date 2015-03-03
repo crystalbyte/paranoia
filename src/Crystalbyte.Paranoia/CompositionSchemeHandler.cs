@@ -35,15 +35,15 @@ namespace Crystalbyte.Paranoia {
             var id = long.Parse(uri.LocalPath.Split('/')[1]);
 
             using (var database = new DatabaseContext()) {
-                var smtp = database.SmtpRequests.Find(id);
+                var smtp = database.Compositions.Find(id);
                 if (smtp == null) {
                     throw new MessageNotFoundException(id);
                 }
 
-                var bytes = Encoding.UTF8.GetBytes(smtp.Mime);
+                
                 response.MimeType = "text/html";
-                response.ContentLength = bytes.Length;
-                response.ResponseStream = new MemoryStream(bytes);
+                response.ContentLength = smtp.Mime.Length;
+                response.ResponseStream = new MemoryStream(smtp.Mime);
             }
         }
     }

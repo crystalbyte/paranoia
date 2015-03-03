@@ -7,8 +7,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 #endregion
 
 namespace Crystalbyte.Paranoia.Data {
-    [Table("smtp_request")]
-    public class SmtpRequestModel {
+    [Table("composition")]
+    public class CompositionModel {
         [Key]
         [Column("id")]
         public Int64 Id { get; set; }
@@ -18,7 +18,7 @@ namespace Crystalbyte.Paranoia.Data {
         public Int64 AccountId { get; set; }
 
         [Column("mime")]
-        public string Mime { get; set; }
+        public byte[] Mime { get; set; }
 
         [Column("subject")]
         public string Subject { get; set; }
@@ -29,8 +29,8 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("to_address")]
         public string ToAddress { get; set; }
 
-        [Column("composition_date")]
-        public DateTime CompositionDate { get; set; }
+        [Column("date")]
+        public DateTime Date { get; set; }
 
         public MailAccountModel Account { get; set; }
     }

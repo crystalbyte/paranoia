@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Net.NetworkInformation;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Serialization;
@@ -799,14 +800,14 @@ namespace Crystalbyte.Paranoia {
                     var account = await database.MailAccounts.FindAsync(_account.Id);
 
                     foreach (var message in messages) {
-                        var request = new SmtpRequestModel {
-                            CompositionDate = DateTime.Now,
+                        var request = new CompositionModel {
+                            Date = DateTime.Now,
                             ToName = message.To.First().DisplayName,
                             ToAddress = message.To.First().Address,
                             Subject = message.Subject
                         };
                         var mime = await message.ToMimeAsync();
-                        request.Mime = mime;
+                        request.Mime = Encoding.UTF8.GetBytes(mime);
 
                         account.SmtpRequests.Add(request);
                     }

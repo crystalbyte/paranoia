@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -99,7 +100,7 @@ namespace Crystalbyte.Paranoia {
         internal async Task CountSmtpRequestsAsync() {
             int count;
             using (var context = new DatabaseContext()) {
-                count = await context.SmtpRequests
+                count = await context.Compositions
                    .Where(x => x.AccountId == _account.Id)
                    .CountAsync();
             }
@@ -149,7 +150,7 @@ namespace Crystalbyte.Paranoia {
             try {
                 IsLoadingRequests = true;
                 using (var database = new DatabaseContext()) {
-                    var requests = await database.SmtpRequests
+                    var requests = await database.Compositions
                         .Where(x => x.AccountId == _account.Id)
                         .ToArrayAsync();
 
@@ -195,9 +196,9 @@ namespace Crystalbyte.Paranoia {
             get { return _smtpRequests; }
         }
 
-        private Task<SmtpRequestModel[]> GetPendingSmtpRequestsAsync() {
+        private Task<CompositionModel[]> GetPendingSmtpRequestsAsync() {
             using (var database = new DatabaseContext()) {
-                return database.SmtpRequests
+                return database.Compositions
                     .Where(x => x.AccountId == _account.Id)
                     .ToArrayAsync();
             }
@@ -225,7 +226,8 @@ namespace Crystalbyte.Paranoia {
                                 : _account.SmtpPassword;
 
                             using (var session = await auth.LoginAsync(username, password)) {
-                                await session.SendAsync(request.Mime);
+                                var mime = Encoding.UTF8.GetString(request.Mime);
+                                await session.SendAsync(mime);
                             }
                         }
                     }
@@ -245,10 +247,10 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private static Task DeleteRequestFromDatabaseAsync(SmtpRequestModel request) {
+        private static Task DeleteRequestFromDatabaseAsync(CompositionModel request) {
             using (var database = new DatabaseContext()) {
-                database.SmtpRequests.Attach(request);
-                database.SmtpRequests.Remove(request);
+                database.Compositions.Attach(request);
+                database.Compositions.Remove(request);
                 return database.SaveChangesAsync();
             }
         }

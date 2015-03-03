@@ -7,9 +7,9 @@ using Crystalbyte.Paranoia.Data;
 
 namespace Crystalbyte.Paranoia {
     public sealed class SmtpRequestContext : SelectionObject {
-        private readonly SmtpRequestModel _model;
+        private readonly CompositionModel _model;
 
-        public SmtpRequestContext(SmtpRequestModel model) {
+        public SmtpRequestContext(CompositionModel model) {
             _model = model;
         }
 
@@ -22,7 +22,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public DateTime CompositionDate {
-            get { return _model.CompositionDate; }
+            get { return _model.Date; }
         }
 
         public string Subject {

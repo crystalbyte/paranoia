@@ -13,11 +13,11 @@ namespace Crystalbyte.Paranoia.Data {
     [Table("mail_account")]
     public class MailAccountModel {
         private ICollection<MailboxModel> _mailboxes;
-        private ICollection<SmtpRequestModel> _smtpRequests;
+        private ICollection<CompositionModel> _smtpRequests;
 
         public MailAccountModel() {
             _mailboxes = new Collection<MailboxModel>();
-            _smtpRequests = new Collection<SmtpRequestModel>();
+            _smtpRequests = new Collection<CompositionModel>();
         }
 
         [Key]
@@ -95,7 +95,7 @@ namespace Crystalbyte.Paranoia.Data {
             set { _mailboxes = value; }
         }
 
-        public virtual ICollection<SmtpRequestModel> SmtpRequests {
+        public virtual ICollection<CompositionModel> SmtpRequests {
             get { return _smtpRequests; }
             set { _smtpRequests = value; }
         }

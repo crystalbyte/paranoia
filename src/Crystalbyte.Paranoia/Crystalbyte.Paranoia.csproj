@@ -308,7 +308,7 @@
     <Compile Include="Contexts\AppContext.cs" />
     <Compile Include="Contexts\MailMessageContext.cs" />
     <Compile Include="Contexts\MailAccountContext.cs" />
-    <Compile Include="Data\SmtpRequestModel.cs" />
+    <Compile Include="Data\CompositionModel.cs" />
     <Compile Include="ImapEnvelopeExtensions.cs" />
     <Compile Include="IMessageSource.cs" />
     <Compile Include="ParanoiaHeaderKeys.cs" />
