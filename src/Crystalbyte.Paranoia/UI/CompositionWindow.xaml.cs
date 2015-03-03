@@ -20,7 +20,7 @@ namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     /// Interaction logic for CompositionWindow.xaml
     /// </summary>
-    public partial class CompositionWindow : IAccentAware {
+    public partial class CompositionWindow : IAccentAware, IDocumentProvider {
 
         #region Private Fields
 
@@ -33,9 +33,8 @@ namespace Crystalbyte.Paranoia.UI {
         public CompositionWindow() {
             InitializeComponent();
 
-            var context = new MailCompositionContext();
-            context.DocumentTextRequested += OnDocumentTextRequested;
-            context.Finished += OnFinished;
+            var context = new MailCompositionContext(this);
+            context.CompositionFinalizing += OnCompositionFinalizing;
 
             DataContext = context;
             CommandBindings.Add(new CommandBinding(EditingCommands.InsertAttachment, OnAttachment));
@@ -62,12 +61,8 @@ namespace Crystalbyte.Paranoia.UI {
             PopupFrame.Content = null;
         }
 
-        private void OnFinished(object sender, EventArgs e) {
+        private void OnCompositionFinalizing(object sender, EventArgs e) {
             Window.Close();
-        }
-
-        private async void OnDocumentTextRequested(object sender, DocumentTextRequestedEventArgs e) {
-            e.Document = await HtmlEditor.GetHtmlAsync();
         }
 
         private void OnAccountComboboxDataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
@@ -132,8 +127,8 @@ namespace Crystalbyte.Paranoia.UI {
                     : x as string);
 
             var context = (MailCompositionContext)DataContext;
-            context.Recipients.Clear();
-            context.Recipients.AddRange(addresses);
+            context.Addresses.Clear();
+            context.Addresses.AddRange(addresses);
         }
 
         internal void PrepareAsNew() {
@@ -333,6 +328,10 @@ namespace Crystalbyte.Paranoia.UI {
             foreach (var item in listView.SelectedItems.OfType<FileAttachmentContext>().ToArray()) {
                 composition.Attachments.Remove(item);
             }
+        }
+
+        public Task<string> GetDocumentAsync() {
+            return HtmlEditor.GetHtmlAsync();
         }
     }
 }

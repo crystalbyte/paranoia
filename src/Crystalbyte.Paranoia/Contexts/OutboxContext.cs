@@ -51,7 +51,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnSendMessages(object obj) {
-            await ProcessOutgoingMessagesAsync();
+            await SendCompositionsAsync();
         }
 
         public ICommand SendMessagesCommand {
@@ -203,7 +203,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task ProcessOutgoingMessagesAsync() {
+        internal async Task SendCompositionsAsync() {
             var requests = await GetPendingSmtpRequestsAsync();
             if (!requests.Any() || _sendingMessages) {
                 return;

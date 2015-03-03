@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
@@ -10,6 +11,7 @@ using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
 using Microsoft.Win32;
 using NLog;
@@ -23,10 +25,11 @@ namespace Crystalbyte.Paranoia {
         #region Private Fields
 
         private string _subject;
+        private readonly IDocumentProvider _provider;
         private readonly IEnumerable<MailAccountContext> _accounts;
-        private readonly ObservableCollection<string> _recipients;
+        private readonly ObservableCollection<string> _addresses;
         private readonly ObservableCollection<FileAttachmentContext> _attachments;
-        private readonly ICommand _sendCommand;
+        private readonly RelayCommand _finalizeCommand;
         private readonly ICommand _insertAttachmentCommand;
         private MailAccountContext _selectedAccount;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -35,53 +38,53 @@ namespace Crystalbyte.Paranoia {
 
         #region Construction
 
-        public MailCompositionContext() {
+        public MailCompositionContext(IDocumentProvider provider) {
+            _provider = provider;
             _accounts = App.Context.Accounts;
             _selectedAccount = _accounts.FirstOrDefault();
-            _recipients = new ObservableCollection<string>();
-            _sendCommand = new SendCommand(this);
+            _addresses = new ObservableCollection<string>();
+            _addresses.CollectionChanged += OnAddressesCollectionChanged;
+            _finalizeCommand = new RelayCommand(OnCanFinalize, OnFinalize);
             _insertAttachmentCommand = new RelayCommand(OnInsertAttachment);
             _attachments = new ObservableCollection<FileAttachmentContext>();
         }
 
-        private void OnInsertAttachment(object obj) {
-            InsertAttachments();
+        private void OnAddressesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+            _finalizeCommand.OnCanExecuteChanged();
         }
 
         #endregion
 
         #region Event Declarations
 
-        public event EventHandler Finished;
+        public event EventHandler CompositionFinalizing;
 
-        private void OnFinished() {
-            var handler = Finished;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
+        private void OnCompositionFinalizing() {
+            var handler = CompositionFinalizing;
+            if (handler != null) handler(this, EventArgs.Empty);
         }
 
-        public event EventHandler<DocumentTextRequestedEventArgs> DocumentTextRequested;
+        public event EventHandler CompositionFinalized;
 
-        private void OnDocumentTextRequested(DocumentTextRequestedEventArgs e) {
-            var handler = DocumentTextRequested;
-            if (handler != null)
-                handler(this, e);
+        private void OnCompositionFinalized() {
+            var handler = CompositionFinalized;
+            if (handler != null) handler(this, EventArgs.Empty);
         }
 
         #endregion
 
         #region Properties
 
-        public ICommand SendCommand {
-            get { return _sendCommand; }
+        public ICommand FinalizeCommand {
+            get { return _finalizeCommand; }
         }
 
         public ICommand AddAttachmentCommand {
             get { return _insertAttachmentCommand; }
         }
 
-        public ICollection<string> Recipients {
-            get { return _recipients; }
+        public ICollection<string> Addresses {
+            get { return _addresses; }
         }
 
         public ICollection<FileAttachmentContext> Attachments {
@@ -112,43 +115,75 @@ namespace Crystalbyte.Paranoia {
 
                 _subject = value;
                 RaisePropertyChanged(() => Subject);
+                OnSubjectChanged();
             }
+        }
+
+        private void OnSubjectChanged() {
+            _finalizeCommand.OnCanExecuteChanged();
         }
 
         #endregion
 
-        internal async Task SendAsync() {
-            OnFinished();
-            //OnSmtpRequestCommitted();
-            await PushToOutboxAsync();
+        internal async Task FinalizeAsync() {
+            OnCompositionFinalizing();
+            await SaveToOutboxAsync();
+            OnCompositionFinalized();
         }
 
-        public async Task PushToOutboxAsync() {
+        public async Task SaveToOutboxAsync() {
             try {
                 var account = SelectedAccount;
-                var messages = CreateSmtpMessages(account);
-                await account.SaveSmtpRequestsAsync(messages);
+                var document = await _provider.GetDocumentAsync();
+
+                var messages = new List<MailMessage>();
+                foreach (var address in Addresses) {
+                    var message = new MailMessage {
+                        IsBodyHtml = true,
+                        Subject = Subject,
+                        BodyEncoding = Encoding.UTF8,
+                        BodyTransferEncoding = TransferEncoding.Base64,
+                        From = new MailAddress(account.Address, account.Name),
+                        Body = document,
+                    };
+
+                    message.To.Add(new MailAddress(address));
+                    foreach (var a in Attachments) {
+                        message.Attachments.Add(new Attachment(a.FullName));
+                    }
+
+                    // TODO: Embedded images need to be redone after CefSharp change.
+                    // message = HandleEmbeddedImages(message, content);
+
+                    messages.Add(message);
+                }
+
+                await account.SaveCompositionsAsync(messages);
                 await App.Context.NotifyOutboxNotEmpty();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
 
-        private MailMessage CreateMailMessage(MailAccountContext account, string address, string content) {
-            var message = new MailMessage {
-                From = new MailAddress(account.Address, account.Name)
-            };
+        private async void OnFinalize(object obj) {
+            try {
+                await FinalizeAsync();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
 
-            message.To.Add(new MailAddress(address));
-            message.IsBodyHtml = true;
-            message.Subject = Subject;
-            message.BodyEncoding = Encoding.UTF8;
-            message.BodyTransferEncoding = TransferEncoding.Base64;
-            message = HandleEmbeddedImages(message, content);
+        }
 
-            _attachments.ForEach(x => message.Attachments.Add(new Attachment(x.FullName)));
+        private bool OnCanFinalize(object obj) {
+            return Addresses.Any();
+        }
 
-            return message;
+        private void OnInsertAttachment(object obj) {
+            try {
+                InsertAttachments();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         internal void InsertAttachments() {
@@ -216,12 +251,6 @@ namespace Crystalbyte.Paranoia {
             return message;
         }
 
-        private IEnumerable<MailMessage> CreateSmtpMessages(MailAccountContext account) {
-            var e = new DocumentTextRequestedEventArgs();
-            OnDocumentTextRequested(e);
-            return (from recipient in Recipients
-                    where !string.IsNullOrEmpty(recipient)
-                    select CreateMailMessage(account, recipient, e.Document)).ToList();
-        }
+
     }
 }

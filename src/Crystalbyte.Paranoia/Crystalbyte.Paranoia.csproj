@@ -224,6 +224,7 @@
     <Compile Include="ScriptingException.cs" />
     <Compile Include="UI\Converters\ColorToBrushConverter.cs" />
     <Compile Include="FormatChangedEventArgs.cs" />
+    <Compile Include="UI\IDocumentProvider.cs" />
     <Compile Include="UI\InsertLinkModalPage.xaml.cs">
       <DependentUpon>InsertLinkModalPage.xaml</DependentUpon>
     </Compile>
@@ -301,7 +302,6 @@
     <Compile Include="Contexts\TestingContext.cs" />
     <Compile Include="Data\PublicKeyModel.cs" />
     <Compile Include="DeferredObservableCollection.cs" />
-    <Compile Include="DocumentTextRequestedEventArgs.cs" />
     <Compile Include="Contexts\MailboxContext.cs" />
     <Compile Include="Contexts\MailCompositionContext.cs" />
     <Compile Include="Contexts\MailContactContext.cs" />
@@ -331,7 +331,6 @@
     <Compile Include="UI\Converters\NullOrEmptyFormatter.cs" />
     <Compile Include="UI\Converters\QuantityToVisibilityConverter.cs" />
     <Compile Include="UI\Commands\RelayCommand.cs" />
-    <Compile Include="UI\Commands\SendCommand.cs" />
     <Compile Include="UI\Converters\SecurityToColorConverter.cs" />
     <Compile Include="UI\DeferredActions.cs" />
     <Compile Include="UI\IAnimationAware.cs" />

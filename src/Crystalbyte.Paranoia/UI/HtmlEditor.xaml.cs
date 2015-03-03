@@ -239,7 +239,7 @@ namespace Crystalbyte.Paranoia.UI {
                 throw new ScriptingException(response.Message);
             }
 
-            return response.Result as string;
+            return (string) response.Result;
         }
 
         public async Task<string> GetContentsAsync() {

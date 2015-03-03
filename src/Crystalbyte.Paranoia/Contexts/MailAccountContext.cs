@@ -316,7 +316,7 @@ namespace Crystalbyte.Paranoia {
                 try {
                     Debug.WriteLine("Syncing mailboxes for account '{0}'.", Name);
                     App.Context.StatusText = Resources.SyncMailboxesStatus;
-                    
+
                     var remoteMailboxes = await ListMailboxesAsync();
                     var subscribed = await ListSubscribedMailboxesAsync();
 
@@ -793,25 +793,27 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task SaveSmtpRequestsAsync(IEnumerable<MailMessage> messages) {
-            using (var database = new DatabaseContext()) {
-                var account = await database.MailAccounts.FindAsync(_account.Id);
+        internal async Task SaveCompositionsAsync(IEnumerable<MailMessage> messages) {
+            await Task.Run(async () => {
+                using (var database = new DatabaseContext()) {
+                    var account = await database.MailAccounts.FindAsync(_account.Id);
 
-                foreach (var message in messages) {
-                    var request = new SmtpRequestModel {
-                        CompositionDate = DateTime.Now,
-                        ToName = message.To.First().DisplayName,
-                        ToAddress = message.To.First().Address,
-                        Subject = message.Subject
-                    };
-                    var mime = await message.ToMimeAsync();
-                    request.Mime = mime;
+                    foreach (var message in messages) {
+                        var request = new SmtpRequestModel {
+                            CompositionDate = DateTime.Now,
+                            ToName = message.To.First().DisplayName,
+                            ToAddress = message.To.First().Address,
+                            Subject = message.Subject
+                        };
+                        var mime = await message.ToMimeAsync();
+                        request.Mime = mime;
 
-                    account.SmtpRequests.Add(request);
+                        account.SmtpRequests.Add(request);
+                    }
+
+                    await database.SaveChangesAsync();
                 }
-
-                await database.SaveChangesAsync();
-            }
+            });
         }
 
         internal async Task InsertAsync() {

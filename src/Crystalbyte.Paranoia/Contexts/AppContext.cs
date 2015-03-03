@@ -912,7 +912,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private Task ProcessOutgoingMessagesAsync() {
-            var tasks = Accounts.Select(x => x.Outbox.ProcessOutgoingMessagesAsync());
+            var tasks = Accounts.Select(x => x.Outbox.SendCompositionsAsync());
             return Task.WhenAll(tasks);
         }
 
