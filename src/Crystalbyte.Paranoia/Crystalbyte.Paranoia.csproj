@@ -220,6 +220,7 @@
     <Compile Include="Contexts\InsertLinkContext.cs" />
     <Compile Include="EmlSchemeHandler.cs" />
     <Compile Include="FileSchemeHandler.cs" />
+    <Compile Include="IInspectable.cs" />
     <Compile Include="MailMessageExtension.cs" />
     <Compile Include="TextRange.cs" />
     <Compile Include="ScriptingException.cs" />
@@ -270,8 +271,7 @@
     </Compile>
     <Compile Include="Contexts\AttachmentContext.cs" />
     <Compile Include="Contexts\CreateMailboxContext.cs" />
-    <Compile Include="Contexts\FileInspectionContext.cs" />
-    <Compile Include="Contexts\InspectionContext.cs" />
+    <Compile Include="Contexts\FileMessageContext.cs" />
     <Compile Include="IMailboxCreator.cs" />
     <Compile Include="DescriptionAttribute.cs" />
     <Compile Include="UI\Converters\SortPropertyFormatter.cs" />
@@ -282,7 +282,6 @@
     </Compile>
     <Compile Include="MailboxRoles.cs" />
     <Compile Include="MediaTypes.cs" />
-    <Compile Include="Contexts\MessageInspectionContext.cs" />
     <Compile Include="MessageDecryptionFailed.cs" />
     <Compile Include="MessageNotFoundException.cs" />
     <Compile Include="ResourceNotFoundException.cs" />

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -64,53 +63,89 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        private void OnForward(object sender, ExecutedRoutedEventArgs e) {
+        private async void OnForward(object sender, ExecutedRoutedEventArgs e) {
             try {
-                var context = (InspectionContext)DataContext;
-                context.Forward();
+                var file = DataContext as FileMessageContext;
+                if (file != null) {
+                    await App.Context.ForwardAsync(file);
+                    return;
+                }
+
+                var message = DataContext as MailMessageContext;
+                if (message == null)
+                    return;
+
+                await App.Context.ForwardAsync(message);
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
 
-        private void OnReply(object sender, ExecutedRoutedEventArgs e) {
+        private async void OnReply(object sender, ExecutedRoutedEventArgs e) {
             try {
-                var context = (InspectionContext)DataContext;
-                context.ReplyAsync();
+                var file = DataContext as FileMessageContext;
+                if (file != null) {
+                    await App.Context.ReplyAsync(file);
+                    return;
+                }
+
+                var message = DataContext as MailMessageContext;
+                if (message == null)
+                    return;
+
+                await App.Context.ReplyAsync(message);
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
 
-        private void OnReplyAll(object sender, ExecutedRoutedEventArgs e) {
+        private async void OnReplyAll(object sender, ExecutedRoutedEventArgs e) {
             try {
-                var context = (InspectionContext)DataContext;
-                context.ReplyAll();
+                var file = DataContext as FileMessageContext;
+                if (file != null) {
+                    await App.Context.ReplyToAllAsync(file);
+                    return;
+                }
+
+                var message = DataContext as MailMessageContext;
+                if (message == null) 
+                    return;
+
+                await App.Context.ReplyToAllAsync(message);
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
 
         public async Task InitWithMessageAsync(MailMessageContext message) {
-            var context = new MessageInspectionContext(message);
             try {
-                DataContext = context;
-                HtmlViewer.Source = string.Format(message.IsSourceTrusted
-                    ? "message:///{0}?blockExternals=false"
-                    : "message:///{0}", message.Id);
+                DataContext = message;
+                message.DownloadCompleted += OnMessageDownloadCompleted;
 
-                await context.InitAsync();
+                await message.LoadAsync(); 
+                ViewMessage(message);
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
 
-        public async Task InitWithFileAsync(FileSystemInfo file) {
-            var context = new FileInspectionContext(file);
+        private void ViewMessage(MailMessageContext message) {
+            HtmlViewer.Source = string.Format(message.IsSourceTrusted
+                    ? "message:///{0}?blockExternals=false"
+                    : "message:///{0}", message.Id);
+        }
+
+        private void OnMessageDownloadCompleted(object sender, EventArgs e) {
+            ViewMessage((MailMessageContext) DataContext);
+        }
+
+        public async Task InitWithFileAsync(FileMessageContext file) {
             try {
-                DataContext = context;
-                HtmlViewer.Source = string.Format("file:///local?path={0}", Uri.EscapeDataString(file.FullName));
-                await context.InitAsync();
+                DataContext = file;
+                HtmlViewer.Source = string.Format("file:///local?path={0}", 
+                    Uri.EscapeDataString(file.FullName));
+
+                await file.CompleteAsync();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }

@@ -20,7 +20,7 @@
                       ShowActivated="True"
                       UseLayoutRounding="True"
                       WindowStartupLocation="CenterOwner"
-                      d:DataContext="{d:DesignInstance paranoia:MessageInspectionContext}"
+                      d:DataContext="{d:DesignInstance paranoia:IInspectable}"
                       mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -122,7 +122,7 @@
                 <TextBlock VerticalAlignment="Center"
                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
-                           Text="{Binding Date,
+                           Text="{Binding EntryDate,
                                           Converter={StaticResource DateFormatter}}" />
             </StackPanel>
             <Grid Margin="6,0">
@@ -200,12 +200,13 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <TextBlock Margin="0,0,6,-7"
+            <TextBlock Margin="0,0,6,-4"
                        HorizontalAlignment="Right"
                        FontFamily="Verdana"
                        FontSize="34"
                        FontStyle="Italic"
                        FontWeight="Thin"
+                       Opacity=".2"
                        Text="To" />
         </Grid>
         <Grid Grid.Row="3"
@@ -238,13 +239,13 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <TextBlock Margin="0,0,6,-7"
+            <TextBlock Margin="0,0,6,-4"
                        HorizontalAlignment="Right"
                        FontFamily="Verdana"
                        FontSize="34"
                        FontStyle="Italic"
                        FontWeight="Thin"
-                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+                       Opacity=".1"
                        Text="CC" />
         </Grid>
         <ListView Grid.Row="4"
@@ -277,7 +278,7 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <ui:BlockNoticeControl Grid.Row="5" DataContext="{Binding Message}" />
+        <ui:BlockNoticeControl Grid.Row="5" />
         <Grid Grid.Row="6">
             <ui:HtmlViewer x:Name="HtmlViewer"
                            Margin="0"

@@ -33,7 +33,7 @@
         public static string WindowHeaderMouseOverBackgroundBrushKey = "WindowHeaderMouseOverBackgroundBrushKey";
         public static string WindowHeaderPressedForegroundBrushKey = "WindowHeaderPressedForegroundBrushKey";
         public static string WindowShadowBrushKey = "WindowShadowBrushKey";
-        public static string SplitterForegroundBrushKey = "SplitterForegroundBrushKey";
+        public static string SplitterForegroundBrushKey = "SplitterForegroundBjhrushKey";
 
         // Composition Scope
         public static string CompositionEditorBackgroundBrushKey = "CompositionEditorBackgroundBrushKey";

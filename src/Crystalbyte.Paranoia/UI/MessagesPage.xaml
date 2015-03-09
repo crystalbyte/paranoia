@@ -1012,6 +1012,7 @@
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}" />
                         <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="BorderThickness" Value="1,1,1,1" />
                         <Setter Property="SnapsToDevicePixels" Value="True" />
                     </Style>
                 </ListView.ItemContainerStyle>
@@ -1048,7 +1049,7 @@
                         <Run FontSize="48"
                              FontWeight="Thin"
                              Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                             Text="{Binding ProgressChanged}" /><Run Text=" " /><Run FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
+                             Text="{Binding Progress}" /><Run Text=" " /><Run FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                              FontWeight="Thin"
                              Text="%" />
                     </TextBlock>

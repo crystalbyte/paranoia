@@ -67,6 +67,9 @@
             <SolidColorBrush x:Key="FlyoutForegroundBrushKey" Color="WhiteSmoke" />
             <SolidColorBrush x:Key="FlyoutOverlayBrushKey" Color="Black" />
 
+            <!--  Local Scope  -->
+            <system:Double x:Key="ThumbnailWidth">100</system:Double>
+            <system:Double x:Key="ThumbnailHeight">100</system:Double>
 
             <!--  Window Subtitle  -->
             <FontFamily x:Key="SubtitleFontFamilyKey">Segoe UI</FontFamily>
@@ -97,26 +100,13 @@
                             </MenuItem>
                         </ContextMenu>
                     </Border.ContextMenu>
-                    <Grid Width="120" Height="80">
+                    <Grid Width="{StaticResource ThumbnailWidth}" Height="{StaticResource ThumbnailHeight}">
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Image Grid.Row="0"
-                               Margin="3,3,3,0"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               RenderOptions.BitmapScalingMode="HighQuality"
-                               Source="{Binding Name,
-                                                Converter={StaticResource IconFinder},
-                                                IsAsync=True}"
-                               Stretch="Uniform"
-                               Visibility="{Binding IsImage,
-                                                    Converter={StaticResource BooleanToVisibilityConverter},
-                                                    ConverterParameter=!}" />
-
-                        <Image Grid.Row="0"
-                               Margin="3,3,3,0"
+                               Margin="4"
                                HorizontalAlignment="Stretch"
                                VerticalAlignment="Stretch"
                                RenderOptions.BitmapScalingMode="HighQuality"
@@ -125,7 +115,11 @@
                                Stretch="Uniform"
                                UseLayoutRounding="True"
                                Visibility="{Binding IsImage,
-                                                    Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                    Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Image.Effect>
+                                <DropShadowEffect />
+                            </Image.Effect>
+                        </Image>
 
                         <TextBlock Grid.Row="1"
                                    Margin="3"
@@ -134,6 +128,7 @@
                                    TextAlignment="Center"
                                    TextTrimming="CharacterEllipsis"
                                    TextWrapping="NoWrap" />
+
                     </Grid>
                 </Border>
             </DataTemplate>
@@ -153,34 +148,26 @@
                             </MenuItem>
                         </ContextMenu>
                     </Border.ContextMenu>
-                    <Grid Width="120" Height="80">
+                    <Grid Width="{StaticResource ThumbnailWidth}" Height="{StaticResource ThumbnailHeight}">
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
+
                         <Image Grid.Row="0"
-                               Margin="3,3,3,0"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               RenderOptions.BitmapScalingMode="HighQuality"
-                               Source="{Binding FullName,
-                                                Converter={StaticResource IconFinder},
-                                                IsAsync=True}"
-                               Stretch="Uniform"
-                               Visibility="{Binding IsImage,
-                                                    Converter={StaticResource BooleanToVisibilityConverter},
-                                                    ConverterParameter=!}" />
-                        <Image Grid.Row="0"
-                               Margin="3,3,3,0"
+                               Grid.RowSpan="2"
                                HorizontalAlignment="Stretch"
                                VerticalAlignment="Stretch"
                                RenderOptions.BitmapScalingMode="HighQuality"
                                Source="{Binding Bytes,
                                                 IsAsync=True}"
-                               Stretch="Uniform"
+                               Stretch="UniformToFill"
                                UseLayoutRounding="True"
                                Visibility="{Binding IsImage,
                                                     Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <Rectangle Grid.Row="1"
+                                   Fill="Black"
+                                   Opacity=".2" />
                         <TextBlock Grid.Row="1"
                                    Margin="3"
                                    FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"

@@ -58,7 +58,6 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _createAccountCommand;
         private readonly ICommand _deleteContactsCommand;
         private readonly ICommand _deleteMessagesCommand;
-        private readonly ObservableCollection<AttachmentContext> _attachments;
         private readonly DeferredObservableCollection<MailMessageContext> _messages;
         private readonly ObservableCollection<MailAccountContext> _accounts;
         private readonly ObservableCollection<MailContactContext> _contacts;
@@ -74,8 +73,6 @@ namespace Crystalbyte.Paranoia {
 
             _messages = new DeferredObservableCollection<MailMessageContext>();
             _messages.CollectionChanged += OnMessagesCollectionChanged;
-
-            _attachments = new ObservableCollection<AttachmentContext>();
 
             _navigationOptions = new ObservableCollection<NavigationContext> {
                 new NavigationContext { Title = Resources.MessagesTitle, TargetUri = typeof(MessagesPage).ToPageUri(), IsSelected = true},
@@ -422,10 +419,6 @@ namespace Crystalbyte.Paranoia {
             get { return _contacts; }
         }
 
-        public ICollection<AttachmentContext> Attachments {
-            get { return _attachments; }
-        }
-
         internal void ConfigureAccount(MailAccountContext account) {
             if (account == null) {
                 throw new ArgumentNullException("account");
@@ -711,7 +704,7 @@ namespace Crystalbyte.Paranoia {
             await MarkSelectionAsSeenAsync();
             await Task.Run(async () => {
                 if (!await message.GetIsMimeLoadedAsync()) {
-                    await message.DownloadMessageAsync();
+                    await message.DownloadAsync();
                 }
                 await message.UpdateTrustLevelAsync();
             });
@@ -758,41 +751,39 @@ namespace Crystalbyte.Paranoia {
 
         private void ClearPreviewArea() {
             Application.Current.AssertUIThread();
-
-            _attachments.Clear();
             Source = null;
         }
 
-        private async Task DisplayAttachmentAsync(MailMessageContext message) {
-            Application.Current.AssertUIThread();
+        //private async Task DisplayAttachmentAsync(MailMessageContext message) {
+        //    Application.Current.AssertUIThread();
 
-            var attachmentContexts = new List<AttachmentContext>();
-            await Task.Run(async () => {
-                using (var context = new DatabaseContext()) {
-                    var mimeMessage = await context.MimeMessages.FirstOrDefaultAsync(x => x.MessageId == message.Id);
-                    if (mimeMessage == null)
-                        return;
+        //    var attachmentContexts = new List<AttachmentContext>();
+        //    await Task.Run(async () => {
+        //        using (var context = new DatabaseContext()) {
+        //            var mimeMessage = await context.MimeMessages.FirstOrDefaultAsync(x => x.MessageId == message.Id);
+        //            if (mimeMessage == null)
+        //                return;
 
-                    var reader = new MailMessageReader(mimeMessage.Data);
-                    var attachments = reader.FindAllAttachments();
+        //            var reader = new MailMessageReader(mimeMessage.Data);
+        //            var attachments = reader.FindAllAttachments();
 
-                    attachments.Where(x => x.ContentId == null)
-                        .ForEach(y => attachmentContexts.Add(new AttachmentContext(y)));
-                }
-            });
+        //            attachments.Where(x => x.ContentId == null)
+        //                .ForEach(y => attachmentContexts.Add(new AttachmentContext(y)));
+        //        }
+        //    });
 
-            Attachments.Clear();
-            Attachments.AddRange(attachmentContexts);
-        }
+        //    Attachments.Clear();
+        //    Attachments.AddRange(attachmentContexts);
+        //}
 
         private async Task ViewMessageAsync(MailMessageContext message) {
             Source = string.Format("message:///{0}", message.Id);
-            await DisplayAttachmentAsync(message);
+            await message.LoadAsync();
         }
 
         private async Task ViewUnblockedMessageAsync(MailMessageContext message) {
             Source = string.Format("message:///{0}?blockExternals=false", message.Id);
-            await DisplayAttachmentAsync(message);
+            await message.LoadAsync();
         }
 
         public async Task RunAsync() {
@@ -972,7 +963,7 @@ namespace Crystalbyte.Paranoia {
             window.Show();
         }
 
-        internal async Task ReplyAsync(FileSystemInfo file) {
+        internal async Task ReplyAsync(FileMessageContext file) {
             var path = Uri.EscapeDataString(file.FullName);
             var owner = Application.Current.MainWindow;
             var window = new CompositionWindow();
@@ -1009,7 +1000,7 @@ namespace Crystalbyte.Paranoia {
             window.Show();
         }
 
-        internal async Task ForwardAsync(FileSystemInfo file) {
+        internal async Task ForwardAsync(FileMessageContext file) {
             var path = Uri.EscapeDataString(file.FullName);
             var owner = Application.Current.MainWindow;
             var window = new CompositionWindow();
@@ -1045,8 +1036,8 @@ namespace Crystalbyte.Paranoia {
             window.Show();
         }
 
-        internal async Task ReplyToAllAsync(FileSystemInfo file) {
-            var path = Uri.EscapeDataString(file.FullName);
+        internal async Task ReplyToAllAsync(FileMessageContext message) {
+            var path = Uri.EscapeDataString(message.FullName);
 
             var owner = Application.Current.MainWindow;
             var window = new CompositionWindow();
@@ -1085,7 +1076,7 @@ namespace Crystalbyte.Paranoia {
                 inspector.WindowState = WindowState.Maximized;
             }
 
-            await inspector.InitWithFileAsync(file);
+            await inspector.InitWithFileAsync(new FileMessageContext(file));
             inspector.Show();
         }
         internal async Task InspectMessageAsync(MailMessageContext message) {

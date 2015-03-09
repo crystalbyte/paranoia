@@ -19,20 +19,24 @@ using System.Collections.ObjectModel;
 
 namespace Crystalbyte.Paranoia {
     [DebuggerDisplay("Subject = {Subject}, Address = {FromAddress}")]
-    public class MailMessageContext : SelectionObject {
+    public class MailMessageContext : SelectionObject, IInspectable {
 
         #region Private Fields
 
         private int _load;
         private long _bytesReceived;
-        private int _progressChanged;
-        private readonly MailMessageModel _message;
-        private readonly ICommand _elevateTrustLevelCommand;
-        private readonly MailboxContext _mailbox;
-
-        private readonly ObservableCollection<AttachmentContext> _attachments;
+        private double _progress;
         private bool _isSourceTrusted;
         private bool _hasExternals;
+        private MailContactContext _from;
+
+        private readonly MailboxContext _mailbox;
+        private readonly MailMessageModel _message;
+        private readonly ObservableCollection<MailContactContext> _to;
+        private readonly ObservableCollection<MailContactContext> _cc;
+        private readonly ObservableCollection<AttachmentContext> _attachments;
+        private readonly ICommand _elevateTrustLevelCommand;
+        private bool _isLoaded;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -43,19 +47,22 @@ namespace Crystalbyte.Paranoia {
         internal MailMessageContext(MailboxContext mailbox, MailMessageModel message) {
             _mailbox = mailbox;
             _message = message;
+            _cc = new ObservableCollection<MailContactContext>();
+            _to = new ObservableCollection<MailContactContext>();
             _attachments = new ObservableCollection<AttachmentContext>();
             _elevateTrustLevelCommand = new RelayCommand(OnElevateTrustCommand);
         }
 
-        private async void OnElevateTrustCommand(object obj) {
-            try {
-                await Task.Run(async () => {
-                    await TrustSourceAsync();
-                });
-                await App.Context.RefreshMessageSelectionAsync(this);
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
+        #endregion
+
+        #region Events
+
+        public event EventHandler DownloadCompleted;
+
+        protected virtual void OnDownloadCompleted() {
+            var handler = DownloadCompleted;
+            if (handler != null) 
+                handler(this, EventArgs.Empty);
         }
 
         #endregion
@@ -78,6 +85,17 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public bool IsLoaded {
+            get { return _isLoaded; }
+            set {
+                if (_isLoaded == value) 
+                    return;
+
+                _isLoaded = value;
+                RaisePropertyChanged(() => IsLoaded);
+            }
+        }
+
         public bool IsSourceTrusted {
             get { return _isSourceTrusted; }
             set {
@@ -90,12 +108,24 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool IsRecycled {
-            get { return _message == null; }
+        public IEnumerable<MailContactContext> Cc {
+            get { return _cc; }
         }
 
-        public ICollection<AttachmentContext> Attachments {
+        public IEnumerable<MailContactContext> To {
+            get { return _to; }
+        }
+
+        public IEnumerable<MailContactContext> SecondaryTo {
+            get { return _to.Skip(1); }
+        }
+
+        public IEnumerable<AttachmentContext> Attachments {
             get { return _attachments; }
+        }
+
+        public bool HasMultipleRecipients {
+            get { return _to.Count > 1; }
         }
 
         public bool HasAttachments {
@@ -120,6 +150,10 @@ namespace Crystalbyte.Paranoia {
 
         public DateTime EntryDate {
             get { return _message.EntryDate; }
+        }
+
+        public bool HasCarbonCopies {
+            get { return _cc.Count > 0; }
         }
 
         public string FromName {
@@ -239,6 +273,21 @@ namespace Crystalbyte.Paranoia {
             get { return _load == 0; }
         }
 
+        public MailContactContext From {
+            get { return _from; }
+            set {
+                if (_from == value) 
+                    return;
+
+                _from = value;
+                RaisePropertyChanged(() => From);
+            }
+        }
+
+        public MailContactContext PrimaryTo {
+            get { return _to.FirstOrDefault(); }
+        }
+
         private void IncrementLoad() {
             _load++;
             RaisePropertyChanged(() => IsLoading);
@@ -298,21 +347,25 @@ namespace Crystalbyte.Paranoia {
                 percentage = 100;
             }
 
-            ProgressChanged = Convert.ToInt32(percentage);
+            Progress = Convert.ToInt32(percentage);
         }
 
-        public int ProgressChanged {
-            get { return _progressChanged; }
+        public double Progress {
+            get { return _progress; }
             set {
-                if (Math.Abs(_progressChanged - value) < double.Epsilon) {
+                if (Math.Abs(_progress - value) < double.Epsilon) {
                     return;
                 }
-                _progressChanged = value;
-                RaisePropertyChanged(() => ProgressChanged);
+                _progress = value;
+                RaisePropertyChanged(() => Progress);
             }
         }
 
-        internal async Task<byte[]> DownloadMessageAsync() {
+        /// <summary>
+        /// Downloads the message mime structure from the server.
+        /// </summary>
+        /// <returns>The mime structure as a byte array.</returns>
+        internal async Task<byte[]> DownloadAsync() {
             Application.Current.AssertBackgroundThread();
 
             try {
@@ -327,11 +380,56 @@ namespace Crystalbyte.Paranoia {
 
                     message.MimeMessages.Add(mimeMessage);
                     var reader = new MailMessageReader(mime);
+
                     message.HasAttachments = reader.FindAllAttachments().Count > 0;
-                    _message.HasAttachments = message.HasAttachments;
+
+                    var from = await context.MailContacts
+                        .FirstOrDefaultAsync(x => x.Address == reader.Headers.From.Address);
+                    if (from == null) {
+                        from = new MailContactModel {
+                            Name = reader.Headers.From.DisplayName,
+                            Address = reader.Headers.From.Address
+                        };
+
+                        context.MailContacts.Add(from);
+                    }
+
+                    foreach (var value in reader.Headers.To) {
+                        var v = value;
+                        var contact = await context.MailContacts
+                            .FirstOrDefaultAsync(x => x.Address == v.Address);
+                        if (contact == null) {
+                            contact = new MailContactModel {
+                                Name = v.DisplayName,
+                                Address = v.Address
+                            };
+
+                            context.MailContacts.Add(contact);
+                        }
+                        _to.Add(new MailContactContext(contact));
+                    }
+
+                    foreach (var value in reader.Headers.Cc) {
+                        var v = value;
+                        var contact = await context.MailContacts
+                            .FirstOrDefaultAsync(x => x.Address == v.Address);
+                        if (contact == null) {
+                            contact = new MailContactModel {
+                                Name = v.DisplayName,
+                                Address = v.Address
+                            };
+
+                            context.MailContacts.Add(contact);
+                        }
+                        _cc.Add(new MailContactContext(contact));
+                    }
 
                     await context.SaveChangesAsync();
                 }
+
+                await Application.Current.Dispatcher
+                    .InvokeAsync(OnDownloadCompleted);
+
                 return mime;
 
             } finally {
@@ -396,6 +494,64 @@ namespace Crystalbyte.Paranoia {
 
             RaisePropertyChanged(() => HasAttachments);
             RaisePropertyChanged(() => IsSourceTrusted);
+        }
+
+        private async void OnElevateTrustCommand(object obj) {
+            try {
+                await Task.Run(async () => {
+                    await TrustSourceAsync();
+                });
+                await App.Context.RefreshMessageSelectionAsync(this);
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        /// <summary>
+        /// Loads all message details from the database.
+        /// </summary>
+        /// <returns>An awaitable.</returns>
+        public async Task LoadAsync() {
+            try {
+                using (var context = new DatabaseContext()) {
+                    var mime = await context.MimeMessages.FirstOrDefaultAsync(x => x.MessageId == _message.Id);
+                    var reader = new MailMessageReader(mime.Data);
+
+                    var from = await context.MailContacts
+                            .FirstOrDefaultAsync(x => x.Address == reader.Headers.From.Address);
+                    From = new MailContactContext(from);
+
+                    foreach (var value in reader.Headers.To) {
+                        var v = value;
+                        var contact = await context.MailContacts
+                            .FirstOrDefaultAsync(x => x.Address == v.Address);
+
+                        _to.Add(new MailContactContext(contact));
+                    }
+
+                    foreach (var value in reader.Headers.Cc) {
+                        var v = value;
+                        var contact = await context.MailContacts
+                            .FirstOrDefaultAsync(x => x.Address == v.Address);
+
+                        _cc.Add(new MailContactContext(contact));
+                    }
+
+                    foreach (var attachment in reader.FindAllAttachments()) {
+                        _attachments.Add(new AttachmentContext(attachment));
+                    }
+
+                    RaisePropertyChanged(() => PrimaryTo);
+                    RaisePropertyChanged(() => SecondaryTo);
+                    RaisePropertyChanged(() => HasCarbonCopies);
+                    RaisePropertyChanged(() => HasMultipleRecipients);
+
+                    IsLoaded = true;
+                }
+            } catch (Exception ex) {
+                Logger.Error(ex);
+                throw;
+            }
         }
     }
 }
