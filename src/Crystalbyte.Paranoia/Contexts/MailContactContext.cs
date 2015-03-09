@@ -18,6 +18,10 @@ namespace Crystalbyte.Paranoia {
         private bool _hasKeys;
 
         internal MailContactContext(MailContactModel contact) {
+            if (contact == null) {
+                throw new ArgumentNullException("contact");
+            }
+
             _contact = contact;
         }
 

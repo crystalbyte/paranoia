@@ -13,7 +13,7 @@ namespace Crystalbyte.Paranoia {
             get { return _file.FullName; }
         }
 
-        internal Task CompleteAsync() {
+        internal Task LoadAsync() {
             throw new System.NotImplementedException();
         }
     }

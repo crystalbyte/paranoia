@@ -779,7 +779,7 @@
                           KeyboardNavigation.DirectionalNavigation="Contained"
                           KeyboardNavigation.TabNavigation="None"
                           Padding="0"
-                          SelectionChanged="OnSmtpRequestSelectionChanged"
+                          SelectionChanged="OnCompositionSelectionChanged"
                           TabIndex="4"
                           VirtualizingPanel.IsVirtualizing="True"
                           VirtualizingPanel.VirtualizationMode="Recycling">
@@ -814,7 +814,7 @@
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
-                        <DataTemplate DataType="paranoia:SmtpRequestContext">
+                        <DataTemplate DataType="paranoia:CompositionContext">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="24" />
@@ -992,6 +992,7 @@
             <ListView Grid.Row="1"
                       Margin="0"
                       BorderThickness="0,0,0,1"
+                      DataContext="{Binding SelectedMessage}"
                       ItemTemplate="{StaticResource ThumbnailTemplate}"
                       ItemsSource="{Binding Attachments}"
                       Padding="2"
@@ -1010,10 +1011,9 @@
                 </ListView.Style>
                 <ListView.ItemContainerStyle>
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
-                        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}" />
-                        <Setter Property="BorderBrush" Value="Transparent" />
-                        <Setter Property="BorderThickness" Value="1,1,1,1" />
-                        <Setter Property="SnapsToDevicePixels" Value="True" />
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderThickness" Value="Transparent" />
+                        <Setter Property="UseLayoutRounding" Value="False" />
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemsPanel>

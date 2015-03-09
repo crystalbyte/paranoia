@@ -223,7 +223,7 @@ namespace Crystalbyte.Paranoia.UI {
             CommandManager.InvalidateRequerySuggested();
         }
 
-        private void OnSmtpRequestSelectionChanged(object sender, SelectionChangedEventArgs e) {
+        private void OnCompositionSelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (!IsLoaded) {
                 return;
             }
@@ -233,10 +233,10 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            outbox.OnSmtpRequestSelectionChanged();
+            outbox.OnCompositionSelectionChanged();
 
             CommandManager.InvalidateRequerySuggested();
-            var request = outbox.SelectedSmtpRequest;
+            var request = outbox.SelectedComposition;
             if (request == null) {
                 return;
             }
@@ -288,13 +288,13 @@ namespace Crystalbyte.Paranoia.UI {
             attachment.Open();
         }
 
-        private static async void OnInspect(object sender, ExecutedRoutedEventArgs e) {
+        private static void OnInspect(object sender, ExecutedRoutedEventArgs e) {
             var message = e.Parameter as MailMessageContext;
             if (message == null) {
                 return;
             }
 
-            await App.Context.InspectMessageAsync(message);
+            App.Context.InspectMessage(message);
         }
 
         private void OnMessageMouseDoubleClick(object sender, MouseButtonEventArgs e) {
@@ -308,11 +308,9 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            // Need to invoke to let event handler finish, before opening a window.
+            // Need to invoke to let the event handler finish before opening a window.
             // http://stackoverflow.com/questions/14055794/wpf-treeview-restores-its-focus-after-double-click
-            Dispatcher.InvokeAsync(async () => {
-                await App.Context.InspectMessageAsync(message);
-            });
+            Dispatcher.InvokeAsync(() => App.Context.InspectMessage(message));
         }
 
         private void OnSortPropertyButtonClicked(object sender, RoutedEventArgs e) {

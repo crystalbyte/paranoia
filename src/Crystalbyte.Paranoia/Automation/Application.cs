@@ -32,7 +32,7 @@ namespace Crystalbyte.Paranoia.Automation {
 
         public void OpenFile(string path) {
             WinApp.Current.Dispatcher.Invoke(
-                () => App.Context.InspectMessageAsync(new FileInfo(path)));
+                () => App.Context.InspectMessage(new FileInfo(path)));
         }
 
         #endregion

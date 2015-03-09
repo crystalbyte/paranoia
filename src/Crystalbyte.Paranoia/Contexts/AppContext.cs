@@ -401,7 +401,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static async Task RequestOutboxContentAsync(OutboxContext outbox) {
-            await outbox.LoadSmtpRequestsAsync();
+            await outbox.LoadCompositionsAsync();
         }
 
         #endregion
@@ -692,30 +692,42 @@ namespace Crystalbyte.Paranoia {
             }
 
             try {
-                await RefreshMessageSelectionAsync(message);
+                await ViewMessageAsync(message);
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
 
-        internal async Task RefreshMessageSelectionAsync(MailMessageContext message) {
+        internal async Task ViewMessageAsync(MailMessageContext message) {
             Application.Current.AssertUIThread();
 
-            await MarkSelectionAsSeenAsync();
+            var mark = MarkAsSeenAsync(message);
             await Task.Run(async () => {
-                if (!await message.GetIsMimeLoadedAsync()) {
-                    await message.DownloadAsync();
+                try {
+                    if (!await message.GetIsMimeLoadedAsync()) {
+                        await message.DownloadAsync();
+                    }
+                } catch (Exception ex) {
+                    Logger.Error(ex);
                 }
-                await message.UpdateTrustLevelAsync();
             });
 
-            message.InvalidateBindings();
-
-            if (message.IsSourceTrusted) {
-                await ViewUnblockedMessageAsync(message);
-            } else {
-                await ViewMessageAsync(message);
+            if (!message.IsLoaded) {
+                await message.InitDetailsAsync();    
             }
+
+            Source = string.Format(message.IsSourceTrusted
+                ? "message:///{0}?blockExternals=false"
+                : "message:///{0}", message.Id);
+
+            await mark;
+        }
+
+        internal Task MarkAsSeenAsync(MailMessageContext message) {
+            return Task.Run(async () => {
+                var mailbox = message.Mailbox;
+                await mailbox.MarkAsSeenAsync(new[] { message });
+            });
         }
 
         internal Task MarkSelectionAsSeenAsync() {
@@ -752,38 +764,6 @@ namespace Crystalbyte.Paranoia {
         private void ClearPreviewArea() {
             Application.Current.AssertUIThread();
             Source = null;
-        }
-
-        //private async Task DisplayAttachmentAsync(MailMessageContext message) {
-        //    Application.Current.AssertUIThread();
-
-        //    var attachmentContexts = new List<AttachmentContext>();
-        //    await Task.Run(async () => {
-        //        using (var context = new DatabaseContext()) {
-        //            var mimeMessage = await context.MimeMessages.FirstOrDefaultAsync(x => x.MessageId == message.Id);
-        //            if (mimeMessage == null)
-        //                return;
-
-        //            var reader = new MailMessageReader(mimeMessage.Data);
-        //            var attachments = reader.FindAllAttachments();
-
-        //            attachments.Where(x => x.ContentId == null)
-        //                .ForEach(y => attachmentContexts.Add(new AttachmentContext(y)));
-        //        }
-        //    });
-
-        //    Attachments.Clear();
-        //    Attachments.AddRange(attachmentContexts);
-        //}
-
-        private async Task ViewMessageAsync(MailMessageContext message) {
-            Source = string.Format("message:///{0}", message.Id);
-            await message.LoadAsync();
-        }
-
-        private async Task ViewUnblockedMessageAsync(MailMessageContext message) {
-            Source = string.Format("message:///{0}?blockExternals=false", message.Id);
-            await message.LoadAsync();
         }
 
         public async Task RunAsync() {
@@ -917,7 +897,7 @@ namespace Crystalbyte.Paranoia {
         public bool IsMessageOrSmtpRequestSelected {
             get {
                 return SelectedMessage != null
-                    || (SelectedOutbox != null && SelectedOutbox.SelectedSmtpRequest != null);
+                    || (SelectedOutbox != null && SelectedOutbox.SelectedComposition != null);
             }
         }
 
@@ -977,7 +957,7 @@ namespace Crystalbyte.Paranoia {
             }
 
             window.Show();
-            
+
         }
 
         internal Task ForwardAsync() {
@@ -1067,7 +1047,7 @@ namespace Crystalbyte.Paranoia {
             window.Show();
         }
 
-        internal async Task InspectMessageAsync(FileInfo file) {
+        internal void InspectMessage(FileInfo file) {
             var owner = Application.Current.MainWindow;
             var inspector = new InspectionWindow();
             inspector.MimicOwnership(owner);
@@ -1076,10 +1056,11 @@ namespace Crystalbyte.Paranoia {
                 inspector.WindowState = WindowState.Maximized;
             }
 
-            await inspector.InitWithFileAsync(new FileMessageContext(file));
+            inspector.InitWithFile(new FileMessageContext(file));
             inspector.Show();
         }
-        internal async Task InspectMessageAsync(MailMessageContext message) {
+
+        internal void InspectMessage(MailMessageContext message) {
             var owner = Application.Current.MainWindow;
             var inspector = new InspectionWindow();
             inspector.MimicOwnership(owner);
@@ -1088,7 +1069,7 @@ namespace Crystalbyte.Paranoia {
                 inspector.WindowState = WindowState.Maximized;
             }
 
-            await inspector.InitWithMessageAsync(message);
+            inspector.InitWithMessage(message);
             inspector.Show();
         }
 

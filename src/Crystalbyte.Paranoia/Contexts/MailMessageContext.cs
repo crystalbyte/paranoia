@@ -29,9 +29,9 @@ namespace Crystalbyte.Paranoia {
         private bool _isSourceTrusted;
         private bool _hasExternals;
         private MailContactContext _from;
+        private MailMessageModel _message;
 
         private readonly MailboxContext _mailbox;
-        private readonly MailMessageModel _message;
         private readonly ObservableCollection<MailContactContext> _to;
         private readonly ObservableCollection<MailContactContext> _cc;
         private readonly ObservableCollection<AttachmentContext> _attachments;
@@ -61,7 +61,7 @@ namespace Crystalbyte.Paranoia {
 
         protected virtual void OnDownloadCompleted() {
             var handler = DownloadCompleted;
-            if (handler != null) 
+            if (handler != null)
                 handler(this, EventArgs.Empty);
         }
 
@@ -88,7 +88,7 @@ namespace Crystalbyte.Paranoia {
         public bool IsLoaded {
             get { return _isLoaded; }
             set {
-                if (_isLoaded == value) 
+                if (_isLoaded == value)
                     return;
 
                 _isLoaded = value;
@@ -276,7 +276,7 @@ namespace Crystalbyte.Paranoia {
         public MailContactContext From {
             get { return _from; }
             set {
-                if (_from == value) 
+                if (_from == value)
                     return;
 
                 _from = value;
@@ -319,6 +319,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task<byte[]> FetchMimeAsync() {
+            Application.Current.AssertBackgroundThread();
+
             var mailbox = await GetMailboxAsync();
             var account = await GetAccountAsync(mailbox);
 
@@ -425,6 +427,8 @@ namespace Crystalbyte.Paranoia {
                     }
 
                     await context.SaveChangesAsync();
+
+                    _message = message;
                 }
 
                 await Application.Current.Dispatcher
@@ -463,95 +467,92 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task UpdateTrustLevelAsync() {
-            using (var database = new DatabaseContext()) {
-                var mime = await database.MimeMessages.FirstAsync(x => x.MessageId == Id);
-                var reader = new MailMessageReader(mime.Data);
-
-                var part = reader.FindFirstHtmlVersion();
-                if (part == null) {
-                    return;
-                }
-
-                var text = part.GetBodyAsText();
-                const string pattern = "(href|src)\\s*=\\s*(\"|&quot;).+?(\"|&quot;)";
-                HasExternals = Regex.IsMatch(text, pattern,
-                    RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
-                if (!HasExternals) {
-                    return;
-                }
-
-                var contact = await database.MailContacts
-                    .FirstOrDefaultAsync(x => x.Address == FromAddress);
-
-                IsSourceTrusted = contact != null && contact.IsTrusted;
-            }
-        }
-
-        internal void InvalidateBindings() {
-            Application.Current.AssertUIThread();
-
-            RaisePropertyChanged(() => HasAttachments);
-            RaisePropertyChanged(() => IsSourceTrusted);
-        }
-
         private async void OnElevateTrustCommand(object obj) {
-            try {
-                await Task.Run(async () => {
-                    await TrustSourceAsync();
-                });
-                await App.Context.RefreshMessageSelectionAsync(this);
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
+            await Task.Run(async () => {
+                await TrustSourceAsync();
+            });
+            await App.Context.ViewMessageAsync(this);
         }
 
         /// <summary>
         /// Loads all message details from the database.
         /// </summary>
         /// <returns>An awaitable.</returns>
-        public async Task LoadAsync() {
-            try {
+        public async Task InitDetailsAsync() {
+            Application.Current.AssertUIThread();
+
+            Logger.Info("BEGIN InitDetailsAsync");
+
+            if (IsLoaded) {
+                Logger.Warn("Method InitDetailsAsync() called while already loaded ...");                
+            }
+
+            await Task.Run(async () => {
                 using (var context = new DatabaseContext()) {
                     var mime = await context.MimeMessages.FirstOrDefaultAsync(x => x.MessageId == _message.Id);
                     var reader = new MailMessageReader(mime.Data);
 
                     var from = await context.MailContacts
                             .FirstOrDefaultAsync(x => x.Address == reader.Headers.From.Address);
-                    From = new MailContactContext(from);
+                    await Application.Current.Dispatcher.InvokeAsync(() => {
+                        From = new MailContactContext(from);
+                        IsSourceTrusted = from.IsTrusted;
+                    });
 
+                    var part = reader.FindFirstHtmlVersion();
+                    if (part == null) {
+                        return;
+                    }
+
+                    var text = part.GetBodyAsText();
+                    const string pattern = "(href|src)\\s*=\\s*(\"|&quot;)http.+?(\"|&quot;)";
+                    var externals = Regex.IsMatch(text, pattern,
+                        RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                    await Application.Current.Dispatcher.InvokeAsync(() => {
+                        HasExternals = externals;
+                    });
+
+                    var to = new List<MailContactContext>();
                     foreach (var value in reader.Headers.To) {
                         var v = value;
                         var contact = await context.MailContacts
                             .FirstOrDefaultAsync(x => x.Address == v.Address);
 
-                        _to.Add(new MailContactContext(contact));
+                        to.Add(new MailContactContext(contact));
                     }
 
+                    await Application.Current.Dispatcher.InvokeAsync(() => _to.AddRange(to));
+
+                    var cc = new List<MailContactContext>();
                     foreach (var value in reader.Headers.Cc) {
                         var v = value;
                         var contact = await context.MailContacts
                             .FirstOrDefaultAsync(x => x.Address == v.Address);
 
-                        _cc.Add(new MailContactContext(contact));
+                        cc.Add(new MailContactContext(contact));
                     }
 
-                    foreach (var attachment in reader.FindAllAttachments()) {
-                        _attachments.Add(new AttachmentContext(attachment));
-                    }
+                    await Application.Current.Dispatcher.InvokeAsync(() => cc.AddRange(to));
 
-                    RaisePropertyChanged(() => PrimaryTo);
-                    RaisePropertyChanged(() => SecondaryTo);
-                    RaisePropertyChanged(() => HasCarbonCopies);
-                    RaisePropertyChanged(() => HasMultipleRecipients);
+                    var attachments = reader.FindAllAttachments()
+                        .Select(attachment => new AttachmentContext(attachment)).ToList();
 
-                    IsLoaded = true;
+                    await Application.Current.Dispatcher.InvokeAsync(() => _attachments.AddRange(attachments));
+
+                    await Application.Current.Dispatcher.InvokeAsync(() => {
+                        RaisePropertyChanged(() => PrimaryTo);
+                        RaisePropertyChanged(() => SecondaryTo);
+                        RaisePropertyChanged(() => HasAttachments);
+                        RaisePropertyChanged(() => HasCarbonCopies);
+                        RaisePropertyChanged(() => HasMultipleRecipients);
+
+                        IsLoaded = true;
+                    });
                 }
-            } catch (Exception ex) {
-                Logger.Error(ex);
-                throw;
-            }
+
+                Logger.Info("END InitDetailsAsync");
+            });
+
         }
     }
 }

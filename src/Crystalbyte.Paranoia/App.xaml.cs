@@ -228,9 +228,9 @@ namespace Crystalbyte.Paranoia {
 
                 // Can't access the main window here directly since it is not yet created.
                 DeferredActions.Push(() => {
-                    Current.MainWindow.Loaded += async (sender, e) => {
+                    Current.MainWindow.Loaded += (sender, e) => {
                         Current.MainWindow.WindowState = WindowState.Minimized;
-                        await Context.InspectMessageAsync(info);
+                        Context.InspectMessage(info);
                     };
                 });
             } catch (Exception ex) {

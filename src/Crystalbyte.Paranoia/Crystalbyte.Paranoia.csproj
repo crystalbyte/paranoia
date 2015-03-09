@@ -298,7 +298,7 @@
     <Compile Include="Contexts\NotificationWindowContext.cs" />
     <Compile Include="Contexts\OutboxContext.cs" />
     <Compile Include="Contexts\QueryContext.cs" />
-    <Compile Include="Contexts\SmtpRequestContext.cs" />
+    <Compile Include="Contexts\CompositionContext.cs" />
     <Compile Include="Contexts\TestingContext.cs" />
     <Compile Include="Data\PublicKeyModel.cs" />
     <Compile Include="DeferredObservableCollection.cs" />

@@ -69,7 +69,7 @@
 
             <!--  Local Scope  -->
             <system:Double x:Key="ThumbnailWidth">100</system:Double>
-            <system:Double x:Key="ThumbnailHeight">100</system:Double>
+            <system:Double x:Key="ThumbnailHeight">90</system:Double>
 
             <!--  Window Subtitle  -->
             <FontFamily x:Key="SubtitleFontFamilyKey">Segoe UI</FontFamily>
@@ -106,7 +106,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Image Grid.Row="0"
-                               Margin="4"
+                               Margin="6"
                                HorizontalAlignment="Stretch"
                                VerticalAlignment="Stretch"
                                RenderOptions.BitmapScalingMode="HighQuality"
@@ -117,18 +117,34 @@
                                Visibility="{Binding IsImage,
                                                     Converter={StaticResource BooleanToVisibilityConverter}}">
                             <Image.Effect>
-                                <DropShadowEffect />
+                                <DropShadowEffect Opacity=".5" />
                             </Image.Effect>
                         </Image>
-
+                        <Image Grid.Row="0"
+                               Margin="6"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch"
+                               RenderOptions.EdgeMode="Aliased"
+                               Source="{Binding Name,
+                                                Converter={StaticResource IconFinder},
+                                                IsAsync=True}"
+                               Stretch="Uniform"
+                               UseLayoutRounding="True"
+                               Visibility="{Binding IsImage,
+                                                    Converter={StaticResource BooleanToVisibilityConverter},
+                                                    ConverterParameter=!}">
+                            <Image.Effect>
+                                <DropShadowEffect Opacity=".5" />
+                            </Image.Effect>
+                        </Image>
                         <TextBlock Grid.Row="1"
                                    Margin="3"
                                    FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
+                                   RenderOptions.ClearTypeHint="Enabled"
                                    Text="{Binding Name}"
                                    TextAlignment="Center"
                                    TextTrimming="CharacterEllipsis"
                                    TextWrapping="NoWrap" />
-
                     </Grid>
                 </Border>
             </DataTemplate>
@@ -153,24 +169,42 @@
                             <RowDefinition />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-
                         <Image Grid.Row="0"
-                               Grid.RowSpan="2"
+                               Margin="6"
                                HorizontalAlignment="Stretch"
                                VerticalAlignment="Stretch"
                                RenderOptions.BitmapScalingMode="HighQuality"
                                Source="{Binding Bytes,
                                                 IsAsync=True}"
-                               Stretch="UniformToFill"
+                               Stretch="Uniform"
                                UseLayoutRounding="True"
                                Visibility="{Binding IsImage,
-                                                    Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        <Rectangle Grid.Row="1"
-                                   Fill="Black"
-                                   Opacity=".2" />
+                                                    Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Image.Effect>
+                                <DropShadowEffect Opacity=".5" />
+                            </Image.Effect>
+                        </Image>
+                        <Image Grid.Row="0"
+                               Margin="6"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch"
+                               RenderOptions.EdgeMode="Aliased"
+                               Source="{Binding Name,
+                                                Converter={StaticResource IconFinder},
+                                                IsAsync=True}"
+                               Stretch="Uniform"
+                               UseLayoutRounding="True"
+                               Visibility="{Binding IsImage,
+                                                    Converter={StaticResource BooleanToVisibilityConverter},
+                                                    ConverterParameter=!}">
+                            <Image.Effect>
+                                <DropShadowEffect Opacity=".5" />
+                            </Image.Effect>
+                        </Image>
                         <TextBlock Grid.Row="1"
                                    Margin="3"
                                    FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
+                                   RenderOptions.ClearTypeHint="Enabled"
                                    Text="{Binding Name}"
                                    TextAlignment="Center"
                                    TextTrimming="CharacterEllipsis"

@@ -6,10 +6,10 @@ using Crystalbyte.Paranoia.Data;
 #endregion
 
 namespace Crystalbyte.Paranoia {
-    public sealed class SmtpRequestContext : SelectionObject {
+    public sealed class CompositionContext : SelectionObject {
         private readonly CompositionModel _model;
 
-        public SmtpRequestContext(CompositionModel model) {
+        public CompositionContext(CompositionModel model) {
             _model = model;
         }
 
@@ -21,7 +21,7 @@ namespace Crystalbyte.Paranoia {
             get { return string.IsNullOrEmpty(ToName) ? ToAddress : ToName; }
         }
 
-        public DateTime CompositionDate {
+        public DateTime Date {
             get { return _model.Date; }
         }
 

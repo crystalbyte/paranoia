@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -117,12 +116,10 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        public async Task InitWithMessageAsync(MailMessageContext message) {
+        public void InitWithMessage(MailMessageContext message) {
             try {
                 DataContext = message;
                 message.DownloadCompleted += OnMessageDownloadCompleted;
-
-                await message.LoadAsync(); 
                 ViewMessage(message);
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -139,13 +136,11 @@ namespace Crystalbyte.Paranoia.UI {
             ViewMessage((MailMessageContext) DataContext);
         }
 
-        public async Task InitWithFileAsync(FileMessageContext file) {
+        public void InitWithFile(FileMessageContext file) {
             try {
                 DataContext = file;
                 HtmlViewer.Source = string.Format("file:///local?path={0}", 
                     Uri.EscapeDataString(file.FullName));
-
-                await file.CompleteAsync();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }

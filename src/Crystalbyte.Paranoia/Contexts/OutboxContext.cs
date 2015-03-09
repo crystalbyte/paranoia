@@ -23,11 +23,11 @@ using System.Collections.Specialized;
 namespace Crystalbyte.Paranoia {
     public sealed class OutboxContext : HierarchyContext {
         private bool _sendingMessages;
-        private bool _isLoadingRequests;
+        private bool _isLoadingCompositions;
         private readonly MailAccountContext _account;
-        private readonly ObservableCollection<SmtpRequestContext> _smtpRequests;
+        private readonly ObservableCollection<CompositionContext> _compositions;
         private string _queryString;
-        private int _smtpRequestCount;
+        private int _compositionCount;
         private readonly ICommand _sendMessagesCommand;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -35,8 +35,8 @@ namespace Crystalbyte.Paranoia {
 
         public OutboxContext(MailAccountContext account) {
             _account = account;
-            _smtpRequests = new ObservableCollection<SmtpRequestContext>();
-            _smtpRequests.CollectionChanged += OnSmtpRequestsCollectionChanged;
+            _compositions = new ObservableCollection<CompositionContext>();
+            _compositions.CollectionChanged += OnSmtpRequestsCollectionChanged;
 
             _sendMessagesCommand = new RelayCommand(OnSendMessages);
 
@@ -61,8 +61,8 @@ namespace Crystalbyte.Paranoia {
 
         private void OnSmtpRequestsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             RaisePropertyChanged(() => SmtpRequestCount);
-            RaisePropertyChanged(() => SelectedSmtpRequest);
-            RaisePropertyChanged(() => SelectedSmtpRequests);
+            RaisePropertyChanged(() => SelectedComposition);
+            RaisePropertyChanged(() => SelectedCompositions);
             App.Context.NotifySmtpRequestChanged();
         }
 
@@ -74,12 +74,12 @@ namespace Crystalbyte.Paranoia {
                 handler(this, e);
         }
 
-        public IEnumerable<SmtpRequestContext> SelectedSmtpRequests {
-            get { return _smtpRequests.Where(x => x.IsSelected).ToArray(); }
+        public IEnumerable<CompositionContext> SelectedCompositions {
+            get { return _compositions.Where(x => x.IsSelected).ToArray(); }
         }
 
-        public SmtpRequestContext SelectedSmtpRequest {
-            get { return _smtpRequests.FirstOrDefault(x => x.IsSelected); }
+        public CompositionContext SelectedComposition {
+            get { return _compositions.FirstOrDefault(x => x.IsSelected); }
         }
 
         private void OnQueryReceived(string obj) {
@@ -87,12 +87,12 @@ namespace Crystalbyte.Paranoia {
         }
 
         public int SmtpRequestCount {
-            get { return _smtpRequestCount; }
+            get { return _compositionCount; }
             set {
-                if (_smtpRequestCount == value) {
+                if (_compositionCount == value) {
                     return;
                 }
-                _smtpRequestCount = value;
+                _compositionCount = value;
                 RaisePropertyChanged(() => SmtpRequestCount);
             }
         }
@@ -113,17 +113,17 @@ namespace Crystalbyte.Paranoia {
         public event EventHandler SmtpRequestSelectionChanged;
 
 
-        internal void OnSmtpRequestSelectionChanged() {
+        internal void OnCompositionSelectionChanged() {
             var handler = SmtpRequestSelectionChanged;
             if (handler != null)
                 handler(this, EventArgs.Empty);
 
-            RaisePropertyChanged(() => SelectedSmtpRequest);
-            RaisePropertyChanged(() => SelectedSmtpRequests);
+            RaisePropertyChanged(() => SelectedComposition);
+            RaisePropertyChanged(() => SelectedCompositions);
 
             App.Context.NotifySmtpRequestChanged();
 
-            var request = SelectedSmtpRequest;
+            var request = SelectedComposition;
             if (request != null) {
                 ViewSmtpRequest(request);
             }
@@ -146,7 +146,7 @@ namespace Crystalbyte.Paranoia {
             get { return Resources.Outbox; }
         }
 
-        internal async Task LoadSmtpRequestsAsync() {
+        internal async Task LoadCompositionsAsync() {
             try {
                 IsLoadingRequests = true;
                 using (var database = new DatabaseContext()) {
@@ -154,8 +154,8 @@ namespace Crystalbyte.Paranoia {
                         .Where(x => x.AccountId == _account.Id)
                         .ToArrayAsync();
 
-                    _smtpRequests.Clear();
-                    _smtpRequests.AddRange(requests.Select(x => new SmtpRequestContext(x)));
+                    _compositions.Clear();
+                    _compositions.AddRange(requests.Select(x => new CompositionContext(x)));
 
                     await CountSmtpRequestsAsync();
                 }
@@ -166,37 +166,37 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private static void ViewSmtpRequest(SmtpRequestContext request) {
+        private static void ViewSmtpRequest(CompositionContext request) {
             App.Context.Source = string.Format("asset://paranoia/smtp-request/{0}", request.Id);
         }
 
         public bool IsLoadingRequests {
-            get { return _isLoadingRequests; }
+            get { return _isLoadingCompositions; }
             set {
-                if (_isLoadingRequests == value) {
+                if (_isLoadingCompositions == value) {
                     return;
                 }
-                _isLoadingRequests = value;
+                _isLoadingCompositions = value;
                 RaisePropertyChanged(() => IsLoadingRequests);
             }
         }
 
         public void ClearSmtpRequests() {
-            _smtpRequests.Clear();
+            _compositions.Clear();
         }
 
         protected override void OnSelectionChanged() {
             base.OnSelectionChanged();
 
-            RaisePropertyChanged(() => SelectedSmtpRequest);
-            RaisePropertyChanged(() => SelectedSmtpRequests);
+            RaisePropertyChanged(() => SelectedComposition);
+            RaisePropertyChanged(() => SelectedCompositions);
         }
 
-        public IEnumerable<SmtpRequestContext> SmtpRequests {
-            get { return _smtpRequests; }
+        public IEnumerable<CompositionContext> SmtpRequests {
+            get { return _compositions; }
         }
 
-        private Task<CompositionModel[]> GetPendingSmtpRequestsAsync() {
+        private Task<CompositionModel[]> GetPendingCompositionsAsync() {
             using (var database = new DatabaseContext()) {
                 return database.Compositions
                     .Where(x => x.AccountId == _account.Id)
@@ -205,7 +205,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task SendCompositionsAsync() {
-            var requests = await GetPendingSmtpRequestsAsync();
+            var requests = await GetPendingCompositionsAsync();
             if (!requests.Any() || _sendingMessages) {
                 return;
             }
@@ -232,9 +232,9 @@ namespace Crystalbyte.Paranoia {
                         }
                     }
 
-                    var context = _smtpRequests.FirstOrDefault(x => x.Id == request.Id);
+                    var context = _compositions.FirstOrDefault(x => x.Id == request.Id);
                     if (context != null) {
-                        _smtpRequests.Remove(context);
+                        _compositions.Remove(context);
                     }
 
                     await DeleteRequestFromDatabaseAsync(request);
