@@ -1,20 +1,32 @@
-﻿* {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: 0;
-}
+﻿@scrollbar-background-color: #F0F0F0;
+@scrollbar-border-color: #F0F0F0;
+@scrollbar-thumb-background-color: #CDCDCD;
+@scrollbar-thumb-background-color-hover: #A6A6A6;
+@scrollbar-thumb-background-color-active: #606060;
+@scrollbar-height: 21px;
+@scrollbar-width: 21px;
 
-body {
+html {
     color: #222222;
     background-color: white;
-    padding: 24px;
     font-family: Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     font-size: 13pt;
     line-height: 1.6;
 }
 
+body {
+    padding: 12px;
+}
+
+img {
+    max-width: 100%;
+}
+
 pre {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    display: inline;
     font-family: Vera Sans Mono, Consolas, Lucida Console, monospace;
     white-space: pre-wrap;
 }
@@ -23,4 +35,65 @@ ul, ol {
     margin-left: 36px;
     margin-top: 3px;
     margin-bottom: 3px;
+}
+
+::-webkit-resizer {
+    width: @scrollbar-width;
+    height: @scrollbar-height;
+}
+
+::-webkit-scrollbar-button {
+    width: @scrollbar-width;
+    height: @scrollbar-height;
+}
+
+::-webkit-scrollbar-button:start:vertical {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url('resource:///scrollbar.arrow.up.jpg');
+}
+
+::-webkit-scrollbar-button:end:vertical {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url('resource:///scrollbar.arrow.down.jpg');
+}
+
+::-webkit-scrollbar-button:start:horizontal {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url('resource:///scrollbar.arrow.left.jpg');
+}
+
+::-webkit-scrollbar-button:end:horizontal {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url('resource:///scrollbar.arrow.right.jpg');
+}
+
+::-webkit-scrollbar {
+    width: @scrollbar-width;
+    background-color: @scrollbar-background-color;
+    border-color: @scrollbar-border-color;
+}
+
+::-webkit-scrollbar:horizontal {
+    height: @scrollbar-height;
+}
+
+::-webkit-scrollbar-track {
+    background-color: @scrollbar-background-color;
+    border-color: @scrollbar-border-color;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: @scrollbar-thumb-background-color;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: @scrollbar-thumb-background-color-hover;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background-color: @scrollbar-thumb-background-color-active;
 }

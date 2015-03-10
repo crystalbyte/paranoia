@@ -53,14 +53,6 @@
         </Grid>
     </ControlTemplate>
 
-
-    <!--  <SolidColorBrush x:Key="ScrollBar.Static.Background" Color="#F0F0F0" />  -->
-    <!--  <SolidColorBrush x:Key="ScrollBar.Static.Border" Color="#F0F0F0" />  -->
-    <!--
-        <SolidColorBrush x:Key="ScrollBar.Pressed.Glyph" Color="#FFFFFF" />
-        <SolidColorBrush x:Key="ScrollBar.MouseOver.Glyph" Color="#000000" />
-        <SolidColorBrush x:Key="ScrollBar.Disabled.Glyph" Color="#BFBFBF" />
-    -->
     <SolidColorBrush x:Key="ScrollBar.Static.Glyph" Color="#606060" />
     <Style x:Key="FocusVisual">
         <Setter Property="Control.Template">
@@ -75,12 +67,14 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <SolidColorBrush x:Key="ScrollBar.MouseOver.Background" Color="#DADADA" />
-    <SolidColorBrush x:Key="ScrollBar.MouseOver.Border" Color="#DADADA" />
-    <SolidColorBrush x:Key="ScrollBar.Pressed.Background" Color="#606060" />
-    <SolidColorBrush x:Key="ScrollBar.Pressed.Border" Color="#606060" />
-    <SolidColorBrush x:Key="ScrollBar.Disabled.Background" Color="#F0F0F0" />
-    <SolidColorBrush x:Key="ScrollBar.Disabled.Border" Color="#F0F0F0" />
+    <!--
+        <SolidColorBrush x:Key="ScrollBar.MouseOver.Background" Color="#DADADA" />
+        <SolidColorBrush x:Key="ScrollBar.MouseOver.Border" Color="#DADADA" />
+        <SolidColorBrush x:Key="ScrollBar.Pressed.Background" Color="#606060" />
+        <SolidColorBrush x:Key="ScrollBar.Pressed.Border" Color="#606060" />
+        <SolidColorBrush x:Key="ScrollBar.Disabled.Background" Color="#F0F0F0" />
+        <SolidColorBrush x:Key="ScrollBar.Disabled.Border" Color="#F0F0F0" />
+    -->
     <Style x:Key="ScrollBarButton" TargetType="{x:Type RepeatButton}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
         <Setter Property="BorderThickness" Value="1" />

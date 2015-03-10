@@ -105,7 +105,7 @@ namespace Crystalbyte.Paranoia.UI {
             _browser.RequestHandler = new HtmlRequestHandler(this);
             _browser.BrowserSettings = new BrowserSettings {
                 DefaultEncoding = Encoding.UTF8.WebName,
-                ApplicationCacheDisabled = false,
+                ApplicationCacheDisabled = true,
                 JavaDisabled = true,
                 WebSecurityDisabled = true,
                 WebGlDisabled = true,

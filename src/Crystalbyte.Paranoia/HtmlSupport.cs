@@ -21,7 +21,7 @@ namespace Crystalbyte.Paranoia {
             var html = reader.FindFirstHtmlVersion();
             if (html == null) {
                 var plain = reader.FindFirstPlainTextVersion();
-                text = string.Format("<pre>{0}</pre>", plain.GetBodyAsText());
+                text = string.Format("<pre>{0}</pre>", plain.GetBodyAsText().Trim());
 
             } else {
                 text = html.GetBodyAsText();

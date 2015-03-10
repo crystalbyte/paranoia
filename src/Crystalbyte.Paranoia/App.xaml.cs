@@ -251,6 +251,7 @@ namespace Crystalbyte.Paranoia {
         private static void InitChromium() {
             var settings = new CefSettings {
                 Locale = CultureInfo.CurrentUICulture.Name,
+                CachePath = null,
                 RemoteDebuggingPort = 1337,
                 LogFile = "./cef.log"
             };

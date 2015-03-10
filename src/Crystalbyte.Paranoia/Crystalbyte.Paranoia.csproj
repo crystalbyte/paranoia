@@ -750,6 +750,14 @@
   <ItemGroup>
     <Resource Include="Resources\inspection.html" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\scrollbar.arrow.down.jpg" />
+    <Resource Include="Resources\scrollbar.arrow.up.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\scrollbar.arrow.left.jpg" />
+    <Resource Include="Resources\scrollbar.arrow.right.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

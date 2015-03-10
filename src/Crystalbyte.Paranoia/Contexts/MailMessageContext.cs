@@ -482,7 +482,7 @@ namespace Crystalbyte.Paranoia {
                 contact.IsTrusted = true;
                 await database.SaveChangesAsync();
 
-                Application.Current.Dispatcher
+                await Application.Current.Dispatcher
                     .InvokeAsync(() => { IsSourceTrusted = true; });
             }
         }

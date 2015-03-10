@@ -1,10 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Resources;
 using CefSharp;
+using Crystalbyte.Paranoia.UI;
 using dotless.Core;
 using NLog;
 
@@ -54,6 +57,13 @@ namespace Crystalbyte.Paranoia {
             if (name.EndsWith("less")) {
                 using (var reader = new StreamReader(info.Stream)) {
                     var less = reader.ReadToEnd();
+
+                    less = Regex.Replace(less, "::[A-Za-z0-9]+::", m => {
+                        var key = m.Value.Trim(':');
+                        var brush = Application.Current.Resources[key] as SolidColorBrush;
+                        return brush != null ? brush.Color.ToHex(false) : "Fuchsia";
+                    });
+
                     var css = Less.Parse(less);
 
                     var bytes = Encoding.UTF8.GetBytes(css);

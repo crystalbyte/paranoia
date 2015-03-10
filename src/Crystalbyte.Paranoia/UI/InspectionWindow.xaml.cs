@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -44,7 +43,7 @@ namespace Crystalbyte.Paranoia.UI {
             base.OnClosed(e);
 
             var message = DataContext as MailMessageContext;
-            if (message == null) 
+            if (message == null)
                 return;
 
             // Remove handler to cut the reference from the message to this window.
@@ -120,7 +119,7 @@ namespace Crystalbyte.Paranoia.UI {
                 }
 
                 var message = DataContext as MailMessageContext;
-                if (message == null) 
+                if (message == null)
                     return;
 
                 await App.Context.ReplyToAllAsync(message);
@@ -151,15 +150,11 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnMessageInitialized(object sender, EventArgs e) {
-            var message = (MailMessageContext) sender;
+            var message = (MailMessageContext)sender;
             message.Initialized -= OnMessageInitialized;
 
             message.TrustChanged += OnMessageTrustChanged;
             ViewMessage(message);
-        }
-
-        private void OnTrustChanged(object sender, EventArgs e) {
-            ViewMessage((MailMessageContext)DataContext);
         }
 
         private void ViewMessage(MailMessageContext message) {
@@ -168,14 +163,10 @@ namespace Crystalbyte.Paranoia.UI {
                     : "message:///{0}", message.Id);
         }
 
-        private void OnDownloadCompleted(object sender, EventArgs e) {
-            ViewMessage((MailMessageContext) DataContext);
-        }
-
         public void InitWithFile(FileMessageContext file) {
             try {
                 DataContext = file;
-                HtmlViewer.Source = string.Format("file:///local?path={0}", 
+                HtmlViewer.Source = string.Format("file:///local?path={0}",
                     Uri.EscapeDataString(file.FullName));
             } catch (Exception ex) {
                 Logger.Error(ex);
