@@ -395,7 +395,7 @@ namespace Crystalbyte.Paranoia {
 
                     await Application.Current.Dispatcher.InvokeAsync(() => {
                         var inbox = _mailboxes.FirstOrDefault(x => x.IsInbox);
-                        if (inbox != null) {
+                        if (inbox != null && !IsExpanded) {
                             inbox.IsSelected = true;
                         }
                     });

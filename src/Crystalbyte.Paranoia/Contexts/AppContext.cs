@@ -221,8 +221,7 @@ namespace Crystalbyte.Paranoia {
             _messages.DeferNotifications = false;
             _messages.NotifyCollectionChanged();
 
-            await Task.Run(() => Application.Current.Dispatcher.Invoke(
-                () => OnItemSelectionRequested(new ItemSelectionRequestedEventArgs(SelectionPosition.First))));
+            OnItemSelectionRequested(new ItemSelectionRequestedEventArgs(SelectionPosition.First));
         }
 
         #endregion

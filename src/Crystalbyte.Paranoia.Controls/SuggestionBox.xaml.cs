@@ -31,9 +31,9 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Private Fields
 
-        private bool _suppressRecognition;
         private Popup _popup;
         private ListView _itemsHost;
+        private bool _suppressRecognition;
         private readonly List<ITokenMatcher> _tokenMatchers;
         private readonly ObservableCollection<object> _selectedValues;
 

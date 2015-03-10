@@ -179,15 +179,15 @@
               Visibility="{Binding IsInitialized,
                                    ConverterParameter=!,
                                    Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ProgressBar Width="400"
-                         Height="2"
-                         Margin="0,0,0,18"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center"
-                         Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                         Maximum="100"
-                         Minimum="0"
-                         Value="{Binding Progress}" />
+            <controls:MetroProgressBar Width="400"
+                                       Height="2"
+                                       Margin="0,0,0,18"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Background="Transparent"
+                                       Maximum="100"
+                                       Minimum="0"
+                                       Value="{Binding Progress}" />
         </Grid>
         <Border Grid.Row="2"
                 Grid.ColumnSpan="2"
