@@ -241,17 +241,17 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
-                ClearMessagesAndSmtpRequests();
+                Clear();
                 await RefreshViewForSelectedOutbox();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
 
-        private void ClearMessagesAndSmtpRequests() {
+        private void Clear() {
             _messages.Clear();
             _accounts.ForEach(x => x.Outbox.ClearSmtpRequests());
-            Source = "about:blank";
+            Source = null;
         }
 
         public event EventHandler MailboxSelectionChanged;
@@ -266,7 +266,7 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
-                ClearMessagesAndSmtpRequests();
+                Clear();
                 await RefreshViewForSelectedMailboxAsync();
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -685,7 +685,6 @@ namespace Crystalbyte.Paranoia {
         private async void OnMessageSelectionReceived(EventPattern<object> obj) {
             Application.Current.AssertUIThread();
 
-            ClearPreviewArea();
             var message = SelectedMessages.FirstOrDefault();
             if (message == null) {
                 return;
@@ -712,7 +711,7 @@ namespace Crystalbyte.Paranoia {
                 }
             });
 
-            if (!message.IsLoaded) {
+            if (!message.IsInitialized) {
                 await message.InitDetailsAsync();    
             }
 
@@ -759,11 +758,6 @@ namespace Crystalbyte.Paranoia {
         internal void ClosePopup() {
             OnModalNavigationRequested(new NavigationRequestedEventArgs(null));
             IsPopupVisible = false;
-        }
-
-        private void ClearPreviewArea() {
-            Application.Current.AssertUIThread();
-            Source = null;
         }
 
         public async Task RunAsync() {
@@ -818,11 +812,6 @@ namespace Crystalbyte.Paranoia {
             OnFlyoutClosing();
             OnFlyoutCloseRequested();
             OnFlyoutClosed();
-        }
-
-        internal void ClearViews() {
-            _messages.Clear();
-            ClearPreviewArea();
         }
 
         private async void OnOutboxTimerTick(object sender, EventArgs e) {

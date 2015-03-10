@@ -470,21 +470,18 @@
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                 </ListView>
-                <Border Grid.Row="3"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="4"
-                        BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
-                        BorderThickness="0,1,0,0">
-                    <controls:WatermarkTextBox Margin="0"
-                                               BorderThickness="0"
-                                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
-                                               Padding="6"
-                                               Text="{Binding Subject,
-                                                              UpdateSourceTrigger=PropertyChanged,
-                                                              Mode=TwoWay}"
-                                               Watermark="{x:Static properties:Resources.Subject}"
-                                               WatermarkTemplate="{StaticResource LargeWatermarkTemplate}" />
-                </Border>
+                <controls:WatermarkTextBox Grid.Row="3"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="4"
+                                           Margin="0"
+                                           BorderThickness="0,1,0,1"
+                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                                           Padding="6"
+                                           Text="{Binding Subject,
+                                                          UpdateSourceTrigger=PropertyChanged,
+                                                          Mode=TwoWay}"
+                                           Watermark="{x:Static properties:Resources.Subject}"
+                                           WatermarkTemplate="{StaticResource LargeWatermarkTemplate}" />
                 <Grid Grid.Row="4"
                       Grid.Column="0"
                       Grid.ColumnSpan="4">

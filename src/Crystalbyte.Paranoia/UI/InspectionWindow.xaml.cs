@@ -34,8 +34,21 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(MessageCommands.ReplyAll, OnReplyAll));
             CommandBindings.Add(new CommandBinding(MessageCommands.Forward, OnForward));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint));
+        }
 
-            Deactivated += (sender, e) => Debug.WriteLine("deactivated");
+        #endregion
+
+        #region Class Overrides
+
+        protected override void OnClosed(EventArgs e) {
+            base.OnClosed(e);
+
+            var message = DataContext as MailMessageContext;
+            if (message == null) 
+                return;
+
+            // Remove handler to cut the reference from the message to this window.
+            message.TrustChanged -= OnMessageTrustChanged;
         }
 
         #endregion
@@ -119,11 +132,34 @@ namespace Crystalbyte.Paranoia.UI {
         public void InitWithMessage(MailMessageContext message) {
             try {
                 DataContext = message;
-                message.DownloadCompleted += OnMessageDownloadCompleted;
-                ViewMessage(message);
+                if (message.IsInitialized) {
+                    message.TrustChanged += OnMessageTrustChanged;
+                    ViewMessage(message);
+                    return;
+                }
+
+                message.Initialized += OnMessageInitialized;
+
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
+        }
+
+        private void OnMessageTrustChanged(object sender, EventArgs e) {
+            var message = (MailMessageContext)sender;
+            ViewMessage(message);
+        }
+
+        private void OnMessageInitialized(object sender, EventArgs e) {
+            var message = (MailMessageContext) sender;
+            message.Initialized -= OnMessageInitialized;
+
+            message.TrustChanged += OnMessageTrustChanged;
+            ViewMessage(message);
+        }
+
+        private void OnTrustChanged(object sender, EventArgs e) {
+            ViewMessage((MailMessageContext)DataContext);
         }
 
         private void ViewMessage(MailMessageContext message) {
@@ -132,7 +168,7 @@ namespace Crystalbyte.Paranoia.UI {
                     : "message:///{0}", message.Id);
         }
 
-        private void OnMessageDownloadCompleted(object sender, EventArgs e) {
+        private void OnDownloadCompleted(object sender, EventArgs e) {
             ViewMessage((MailMessageContext) DataContext);
         }
 

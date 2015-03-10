@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 
 namespace Crystalbyte.Paranoia {
-    public interface IInspectable {
+    
+    public interface IMailMessage {
 
         string Subject { get; }
 
@@ -27,5 +28,7 @@ namespace Crystalbyte.Paranoia {
         bool HasMultipleRecipients { get; }
 
         bool HasCarbonCopies { get; }
+
+        bool IsInitialized { get; }
     }
 }

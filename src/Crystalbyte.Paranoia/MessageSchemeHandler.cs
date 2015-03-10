@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using CefSharp;
 using Crystalbyte.Paranoia.Data;
@@ -25,6 +26,9 @@ namespace Crystalbyte.Paranoia {
         public bool ProcessRequestAsync(IRequest request, ISchemeHandlerResponse response,
             OnRequestCompletedHandler requestCompletedCallback) {
             try {
+
+                Logger.Debug(string.Format("Invoked ProcessRequestAsync on thread {0}.", Thread.CurrentThread.ManagedThreadId));
+
                 var uri = new Uri(request.Url);
 
                 if (Regex.IsMatch(uri.AbsolutePath, "[0-9]+")) {
@@ -43,11 +47,9 @@ namespace Crystalbyte.Paranoia {
                 if (Regex.IsMatch(uri.AbsolutePath, "new")) {
                     Task.Run(() => {
                         try {
-                            Logger.Debug("Begin new message.");
                             ComposeBlankCompositionResponse(response);
                             requestCompletedCallback();
-                            Logger.Debug("End new message.");
-                        } catch (Exception ex) {
+                            Logger.Debug("End new message.");} catch (Exception ex) {
                             Logger.Error(ex);
                         }
                     });

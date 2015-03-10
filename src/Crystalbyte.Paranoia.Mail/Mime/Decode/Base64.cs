@@ -19,6 +19,7 @@ namespace Crystalbyte.Paranoia.Mail.Mime.Decode {
         /// <param name="base64Encoded"> The string to decode </param>
         /// <returns> A byte array that the base64 string described </returns>
         public static byte[] Decode(string base64Encoded) {
+
             // According to http://www.tribridge.com/blog/crm/blogs/brandon-kelly/2011-04-29/Solving-OutOfMemoryException-errors-when-attempting-to-attach-large-Base64-encoded-content-into-CRM-annotations.aspx
             // System.Convert.ToBase64String may leak a lot of memory
             // An OpenPop user reported that OutOfMemoryExceptions were thrown, and supplied the following
@@ -51,8 +52,7 @@ namespace Crystalbyte.Paranoia.Mail.Mime.Decode {
 
                     return memoryStream.ToArray();
                 }
-            }
-            catch (FormatException e) {
+            } catch (FormatException e) {
                 DefaultLogger.Log.LogError("Base64: (FormatException) " + e.Message + "\r\nOn string: " + base64Encoded);
                 throw;
             }

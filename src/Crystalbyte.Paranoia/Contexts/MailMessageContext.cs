@@ -19,7 +19,7 @@ using System.Collections.ObjectModel;
 
 namespace Crystalbyte.Paranoia {
     [DebuggerDisplay("Subject = {Subject}, Address = {FromAddress}")]
-    public class MailMessageContext : SelectionObject, IInspectable {
+    public class MailMessageContext : SelectionObject, IMailMessage {
 
         #region Private Fields
 
@@ -36,7 +36,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ObservableCollection<MailContactContext> _cc;
         private readonly ObservableCollection<AttachmentContext> _attachments;
         private readonly ICommand _elevateTrustLevelCommand;
-        private bool _isLoaded;
+        private bool _isInitialized;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -56,6 +56,22 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         #region Events
+
+        public event EventHandler Initialized;
+
+        protected virtual void OnInitialized() {
+            var handler = Initialized;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
+
+        public event EventHandler TrustChanged;
+
+        protected virtual void OnTrustChanged() {
+            var handler = TrustChanged;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
 
         public event EventHandler DownloadCompleted;
 
@@ -85,14 +101,14 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool IsLoaded {
-            get { return _isLoaded; }
+        public bool IsInitialized {
+            get { return _isInitialized; }
             set {
-                if (_isLoaded == value)
+                if (_isInitialized == value)
                     return;
 
-                _isLoaded = value;
-                RaisePropertyChanged(() => IsLoaded);
+                _isInitialized = value;
+                RaisePropertyChanged(() => IsInitialized);
             }
         }
 
@@ -105,6 +121,7 @@ namespace Crystalbyte.Paranoia {
                 _isSourceTrusted = value;
                 RaisePropertyChanged(() => IsSourceTrusted);
                 RaisePropertyChanged(() => HasExternalsAndSourceIsNotTrusted);
+                OnTrustChanged();
             }
         }
 
@@ -464,6 +481,9 @@ namespace Crystalbyte.Paranoia {
 
                 contact.IsTrusted = true;
                 await database.SaveChangesAsync();
+
+                Application.Current.Dispatcher
+                    .InvokeAsync(() => { IsSourceTrusted = true; });
             }
         }
 
@@ -483,8 +503,8 @@ namespace Crystalbyte.Paranoia {
 
             Logger.Info("BEGIN InitDetailsAsync");
 
-            if (IsLoaded) {
-                Logger.Warn("Method InitDetailsAsync() called while already loaded ...");                
+            if (IsInitialized) {
+                Logger.Warn("Method InitDetailsAsync() called while already loaded ...");
             }
 
             await Task.Run(async () => {
@@ -546,7 +566,8 @@ namespace Crystalbyte.Paranoia {
                         RaisePropertyChanged(() => HasCarbonCopies);
                         RaisePropertyChanged(() => HasMultipleRecipients);
 
-                        IsLoaded = true;
+                        IsInitialized = true;
+                        OnInitialized();
                     });
                 }
 

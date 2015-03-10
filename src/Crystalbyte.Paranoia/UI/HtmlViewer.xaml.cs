@@ -105,7 +105,7 @@ namespace Crystalbyte.Paranoia.UI {
             _browser.RequestHandler = new HtmlRequestHandler(this);
             _browser.BrowserSettings = new BrowserSettings {
                 DefaultEncoding = Encoding.UTF8.WebName,
-                ApplicationCacheDisabled = true,
+                ApplicationCacheDisabled = false,
                 JavaDisabled = true,
                 WebSecurityDisabled = true,
                 WebGlDisabled = true,
@@ -119,30 +119,10 @@ namespace Crystalbyte.Paranoia.UI {
 
             _browser.Load(Source);
         }
-
+        
         #endregion
 
         #region Dependency Property
-
-        public double Progress {
-            get { return (double)GetValue(ProgressProperty); }
-            set { SetValue(ProgressProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for Progress.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ProgressProperty =
-            DependencyProperty.Register("Progress", typeof(double), typeof(HtmlViewer), new PropertyMetadata(0.0d));
-
-
-        public bool IsDownloading {
-            get { return (bool)GetValue(IsDownloadingProperty); }
-            set { SetValue(IsDownloadingProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for IsDownloading.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsDownloadingProperty =
-            DependencyProperty.Register("IsDownloading", typeof(bool), typeof(HtmlViewer), new PropertyMetadata(false));
-
 
         public string Source {
             get { return (string)GetValue(SourceProperty); }

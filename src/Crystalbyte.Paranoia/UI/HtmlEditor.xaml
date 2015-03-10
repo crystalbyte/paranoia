@@ -107,12 +107,11 @@
                             <Border x:Name="PART_EditorMenuBorder"
                                     Background="{DynamicResource {x:Static themes:ThemeResourceKeys.CompositionEditorBackgroundBrushKey}}"
                                     BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.CompositionEditorBorderBrushKey}}"
-                                    BorderThickness="0,1"
+                                    BorderThickness="0,0,0,1"
                                     DataContext="{x:Null}"
                                     DockPanel.Dock="Top"
-                                    UseLayoutRounding="True"
-                                    d:DataContext="{d:DesignInstance paranoia:HtmlEditorCommandContext}">
-                                <WrapPanel Margin="3">
+                                    UseLayoutRounding="True">
+                                <WrapPanel Margin="3" d:DataContext="{d:DesignInstance paranoia:HtmlEditorCommandContext}">
                                     <Button Command="{Binding UndoCommand}"
                                             Style="{DynamicResource EditorButtonStyle}"
                                             ToolTip="{x:Static properties:Resources.Undo}">

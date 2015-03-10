@@ -20,7 +20,7 @@
                       ShowActivated="True"
                       UseLayoutRounding="True"
                       WindowStartupLocation="CenterOwner"
-                      d:DataContext="{d:DesignInstance paranoia:IInspectable}"
+                      d:DataContext="{d:DesignInstance paranoia:IMailMessage}"
                       mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -172,82 +172,111 @@
                 </StackPanel>
             </Grid>
         </DockPanel>
-        <Grid Grid.Row="2"
+        <Grid Grid.Row="1"
+              Grid.RowSpan="6"
+              Panel.ZIndex="500"
               Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-              Visibility="{Binding HasMultipleRecipients,
+              Visibility="{Binding IsInitialized,
+                                   ConverterParameter=!,
                                    Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ItemsControl Margin="6" ItemsSource="{Binding SecondaryTo}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="paranoia:MailContactContext">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Width="32"
-                                   Margin="0,0,3,0"
-                                   VerticalAlignment="Center"
-                                   RenderOptions.BitmapScalingMode="Fant"
-                                   Source="{Binding Address,
-                                                    ConverterParameter=48,
-                                                    Converter={StaticResource GravatarImageConverter}}" />
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}" Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
-                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
-                            </StackPanel>
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <TextBlock Margin="0,0,6,-4"
-                       HorizontalAlignment="Right"
-                       FontFamily="Verdana"
-                       FontSize="34"
-                       FontStyle="Italic"
-                       FontWeight="Thin"
-                       Opacity=".2"
-                       Text="To" />
+            <ProgressBar Width="400"
+                         Height="2"
+                         Margin="0,0,0,18"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                         Maximum="100"
+                         Minimum="0"
+                         Value="{Binding Progress}" />
         </Grid>
-        <Grid Grid.Row="3"
-              Grid.RowSpan="2"
-              Grid.ColumnSpan="2"
-              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-              Visibility="{Binding HasCarbonCopies,
-                                   Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ItemsControl Margin="6" ItemsSource="{Binding Cc}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="paranoia:MailContactContext">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Width="32"
-                                   Margin="0,0,6,0"
-                                   VerticalAlignment="Center"
-                                   RenderOptions.BitmapScalingMode="Fant"
-                                   Source="{Binding Address,
-                                                    ConverterParameter=48,
-                                                    Converter={StaticResource GravatarImageConverter}}" />
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
-                                <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
+        <Border Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                BorderThickness="0,1,0,0"
+                Visibility="{Binding HasMultipleRecipients,
+                                     Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid>
+                <ItemsControl Margin="6" ItemsSource="{Binding SecondaryTo}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="paranoia:MailContactContext">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="26"
+                                       Margin="0,0,6,0"
+                                       VerticalAlignment="Center"
+                                       RenderOptions.BitmapScalingMode="Fant"
+                                       Source="{Binding Address,
+                                                        ConverterParameter=32,
+                                                        Converter={StaticResource GravatarImageConverter}}" />
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
+                                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
+                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+                                               Text="{Binding Address,
+                                                              Converter={StaticResource NullOrEmptyFormatter}}" />
+                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <TextBlock Margin="0,0,6,-4"
-                       HorizontalAlignment="Right"
-                       FontFamily="Verdana"
-                       FontSize="34"
-                       FontStyle="Italic"
-                       FontWeight="Thin"
-                       Opacity=".1"
-                       Text="CC" />
-        </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <TextBlock Margin="0,0,6,0"
+                           HorizontalAlignment="Right"
+                           FontFamily="Verdana"
+                           FontSize="30"
+                           FontStyle="Italic"
+                           FontWeight="Thin"
+                           Opacity=".2"
+                           Text="To" />
+            </Grid>
+        </Border>
+        <Border Grid.Row="3"
+                Grid.RowSpan="2"
+                Grid.ColumnSpan="2"
+                Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                BorderThickness="0,1,0,0"
+                Visibility="{Binding HasCarbonCopies,
+                                     Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid>
+                <ItemsControl Margin="6" ItemsSource="{Binding Cc}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="paranoia:MailContactContext">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="26"
+                                       Margin="0,0,6,0"
+                                       VerticalAlignment="Center"
+                                       RenderOptions.BitmapScalingMode="Fant"
+                                       Source="{Binding Address,
+                                                        ConverterParameter=32,
+                                                        Converter={StaticResource GravatarImageConverter}}" />
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
+                                    <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <TextBlock Margin="0,0,6,0"
+                           HorizontalAlignment="Right"
+                           FontFamily="Verdana"
+                           FontSize="30"
+                           FontStyle="Italic"
+                           FontWeight="Thin"
+                           Opacity=".1"
+                           Text="CC" />
+            </Grid>
+        </Border>
         <ListView Grid.Row="4"
                   BorderThickness="0,1,0,0"
                   ItemTemplate="{StaticResource ThumbnailTemplate}"

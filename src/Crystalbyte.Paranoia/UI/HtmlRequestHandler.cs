@@ -26,7 +26,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         public bool OnBeforeBrowse(IWebBrowser browser, IRequest request, bool isRedirect) {
             try {
-                Logger.Info(string.Format(Resources.NavigationInfoTemplate, request.Url));
+                Logger.Debug(string.Format(Resources.NavigationInfoTemplate, request.Url));
 
                 var uri = new Uri(request.Url);
                 var isExternal = string.Compare(uri.Scheme, "http", StringComparison.OrdinalIgnoreCase) == 0
@@ -62,7 +62,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         public bool OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IResponse response) {
             try {
-                Logger.Info(string.Format(Resources.ResourceRequestTemplate, request.Url));
+                Logger.Debug(string.Format(Resources.ResourceRequestTemplate, request.Url));
                 return false;
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -80,7 +80,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public void OnRenderProcessTerminated(IWebBrowser browser, CefTerminationStatus status) {
-            Logger.Info(Resources.RenderProcessTerminatedTemplate, status);
+            Logger.Debug(Resources.RenderProcessTerminatedTemplate, status);
         }
 
         #endregion

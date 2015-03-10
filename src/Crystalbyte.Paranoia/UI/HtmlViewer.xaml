@@ -28,12 +28,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
-                            <cef:ChromiumWebBrowser x:Name="PART_WebBrowser"
-                                                    Background="Transparent"
-                                                    Visibility="{Binding IsDownloading,
-                                                                         RelativeSource={RelativeSource TemplatedParent},
-                                                                         Converter={StaticResource BooleanToVisibilityConverter},
-                                                                         ConverterParameter=!}">
+                            <cef:ChromiumWebBrowser x:Name="PART_WebBrowser" Background="Transparent">
                                 <FrameworkElement.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Command="ApplicationCommands.Copy">
@@ -61,19 +56,6 @@
                                     </ContextMenu>
                                 </FrameworkElement.ContextMenu>
                             </cef:ChromiumWebBrowser>
-                            <Grid Visibility="{Binding IsDownloading, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <TextBlock Margin="24,12"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Bottom">
-                                    <Run FontSize="48"
-                                         FontWeight="Thin"
-                                         Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                                         Text="{Binding Progress,
-                                                        RelativeSource={RelativeSource TemplatedParent}}" /><Run Text=" " /><Run FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
-                                         FontWeight="Thin"
-                                         Text="%" />
-                                </TextBlock>
-                            </Grid>
                         </Grid>
                     </Border>
                 </ControlTemplate>

@@ -76,7 +76,7 @@
     <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <ErrorReport>prompt</ErrorReport>
@@ -220,7 +220,7 @@
     <Compile Include="Contexts\InsertLinkContext.cs" />
     <Compile Include="EmlSchemeHandler.cs" />
     <Compile Include="FileSchemeHandler.cs" />
-    <Compile Include="IInspectable.cs" />
+    <Compile Include="IMailMessage.cs" />
     <Compile Include="MailMessageExtension.cs" />
     <Compile Include="TextRange.cs" />
     <Compile Include="ScriptingException.cs" />
