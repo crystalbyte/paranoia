@@ -712,4 +712,10 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="HtmlResponseHeader" xml:space="preserve">
     <value>On {0}, {1} wrote:</value>
   </data>
+  <data name="QueryingMozillaDatabase" xml:space="preserve">
+    <value>Querying the mozilla configuration database ...</value>
+  </data>
+  <data name="QueryingMxRecords" xml:space="preserve">
+    <value>Querying mx records ...</value>
+  </data>
 </root>

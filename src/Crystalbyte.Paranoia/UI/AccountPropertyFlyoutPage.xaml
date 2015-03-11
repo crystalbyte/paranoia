@@ -389,7 +389,8 @@
                                     Grid.Column="2"
                                     Command="ui:MailboxCommands.Browse"
                                     CommandParameter="{x:Static paranoia:MailboxRoles.Trash}"
-                                    IsEnabled="{Binding HasMailboxes}" />
+                                    IsEnabled="{Binding HasMailboxes}"
+                                    Style="{StaticResource FlyoutButtonBrowseStyle}" />
                             <TextBlock Grid.Row="1"
                                        Grid.Column="0"
                                        IsEnabled="{Binding HasMailboxes}"
@@ -412,7 +413,8 @@
                                     Grid.Column="2"
                                     Command="ui:MailboxCommands.Browse"
                                     CommandParameter="{x:Static paranoia:MailboxRoles.Draft}"
-                                    IsEnabled="{Binding HasMailboxes}" />
+                                    IsEnabled="{Binding HasMailboxes}"
+                                    Style="{StaticResource FlyoutButtonBrowseStyle}" />
                             <TextBlock Grid.Row="2"
                                        Grid.Column="0"
                                        IsEnabled="{Binding HasMailboxes}"
@@ -435,7 +437,8 @@
                                     Grid.Column="2"
                                     Command="ui:MailboxCommands.Browse"
                                     CommandParameter="{x:Static paranoia:MailboxRoles.Junk}"
-                                    IsEnabled="{Binding HasMailboxes}" />
+                                    IsEnabled="{Binding HasMailboxes}"
+                                    Style="{StaticResource FlyoutButtonBrowseStyle}" />
                         </Grid>
                         <StackPanel Margin="24,0" IsEnabled="{Binding HasMailboxes}">
                             <RadioButton x:Name="DontStoreCopyRadioButton"
@@ -466,7 +469,8 @@
                                         CommandParameter="{x:Static paranoia:MailboxRoles.Sent}"
                                         IsEnabled="{Binding IsChecked,
                                                             ElementName=StoreCopyRadioButton,
-                                                            Mode=OneWay}" />
+                                                            Mode=OneWay}"
+                                        Style="{StaticResource FlyoutButtonBrowseStyle}" />
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
@@ -694,7 +698,9 @@
                                                     Mode=OneWay,
                                                     Converter={StaticResource NullOrEmptyFormatter}}"
                                      TextWrapping="NoWrap" />
-                            <Button x:Name="SignatureFileBrowseButton" Command="ui:SignatureCommands.SelectFile" />
+                            <Button x:Name="SignatureFileBrowseButton"
+                                    Command="ui:SignatureCommands.SelectFile"
+                                    Style="{StaticResource FlyoutButtonBrowseStyle}" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>

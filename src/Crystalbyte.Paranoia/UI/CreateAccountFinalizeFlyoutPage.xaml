@@ -122,14 +122,12 @@
                         <StackPanel Margin="24,0" IsEnabled="{Binding HasMailboxes}">
                             <RadioButton x:Name="DontStoreCopyRadioButton"
                                          Checked="OnDontStoreCopyRadioButtonChecked"
-                                         GroupName="sent"
-                                         Style="{StaticResource FlyoutRadioButtonStyle}">
+                                         GroupName="sent">
                                 <TextBlock Text="{x:Static properties:Resources.MailboxSettingsNoCopy}" />
                             </RadioButton>
                             <RadioButton x:Name="StoreCopyRadioButton"
                                          Checked="OnStoreCopyRadioButtonChecked"
-                                         GroupName="sent"
-                                         Style="{StaticResource FlyoutRadioButtonStyle}">
+                                         GroupName="sent">
                                 <TextBlock Text="{x:Static properties:Resources.MailboxSettingsCopy}" />
                             </RadioButton>
                             <StackPanel Margin="0,3,0,0" Orientation="Horizontal">

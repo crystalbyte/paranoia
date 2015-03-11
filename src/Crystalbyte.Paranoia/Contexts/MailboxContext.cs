@@ -903,7 +903,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task IdleAsync() {
+        internal async void IdleAsync() {
             Application.Current.AssertUIThread();
 
             IsIdling = true;

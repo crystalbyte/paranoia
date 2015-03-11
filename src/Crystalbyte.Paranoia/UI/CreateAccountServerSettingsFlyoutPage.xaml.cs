@@ -49,6 +49,11 @@ namespace Crystalbyte.Paranoia.UI {
             service.Navigate(uri);
         }
 
+        private void OnSmtpSecurityProtocolSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            var account = (MailAccountContext)DataContext;
+            account.SmtpPort = (short)(account.SmtpSecurity == SecurityProtocol.Implicit ? 587 : 25);
+        }
+
         private void OnImapSecurityProtocolSelectionChanged(object sender, SelectionChangedEventArgs e) {
             var account = (MailAccountContext)DataContext;
             account.ImapPort = (short)(account.ImapSecurity == SecurityProtocol.Implicit ? 993 : 143);

@@ -1226,6 +1226,24 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Querying the mozilla configuration database ....
+        /// </summary>
+        public static string QueryingMozillaDatabase {
+            get {
+                return ResourceManager.GetString("QueryingMozillaDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Querying mx records ....
+        /// </summary>
+        public static string QueryingMxRecords {
+            get {
+                return ResourceManager.GetString("QueryingMxRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ready.
         /// </summary>
         public static string ReadyStatus {

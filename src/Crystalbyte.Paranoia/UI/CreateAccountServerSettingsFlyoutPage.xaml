@@ -333,7 +333,7 @@
                                               SelectedValue="{Binding SmtpSecurity,
                                                                       Mode=TwoWay,
                                                                       UpdateSourceTrigger=PropertyChanged}"
-                                              SelectionChanged="OnImapSecurityProtocolSelectionChanged"
+                                              SelectionChanged="OnSmtpSecurityProtocolSelectionChanged"
                                               Text="{Binding SmtpSecurity,
                                                              Mode=OneWay}">
                                         <ComboBox.ItemTemplate>

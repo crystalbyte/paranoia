@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -13,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Serialization;
+using ARSoft.Tools.Net.Dns;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
@@ -240,7 +242,7 @@ namespace Crystalbyte.Paranoia {
 
                 var inbox = GetInbox();
                 if (inbox != null && !inbox.IsIdling) {
-                    await inbox.IdleAsync();
+                    inbox.IdleAsync();
                 }
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -414,14 +416,29 @@ namespace Crystalbyte.Paranoia {
         internal async Task SaveAsync() {
             Application.Current.AssertBackgroundThread();
 
-            using (var database = new DatabaseContext()) {
-                if (_account.Id == 0) {
-                    database.MailAccounts.Add(_account);
-                } else {
-                    database.MailAccounts.Attach(_account);
-                    database.Entry(_account).State = EntityState.Modified;
+            try {
+                using (var database = new DatabaseContext()) {
+                    if (_account.Id == 0) {
+                        database.MailAccounts.Add(_account);
+                    } else {
+                        database.MailAccounts.Attach(_account);
+                        database.Entry(_account).State = EntityState.Modified;
+                    }
+
+                    // Handle Optimistic Concurrency.
+                    // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
+                    while (true) {
+                        try {
+                            await database.SaveChangesAsync();
+                            break;
+                        } catch (DbUpdateConcurrencyException ex) {
+                            ex.Entries.ForEach(x => x.Reload());
+                            Logger.Info(ex);
+                        }
+                    }
                 }
-                await database.SaveChangesAsync();
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
         }
 
@@ -737,47 +754,58 @@ namespace Crystalbyte.Paranoia {
             IsTesting = false;
         }
 
-        private async Task TestSmtpSettingsAsync() {
+        private Task TestSmtpSettingsAsync() {
             Testing = new TestingContext {
                 Message = Resources.TestingSmtpStatus
             };
 
-            try {
-                using (var connection = new SmtpConnection { Security = SmtpSecurity }) {
-                    using (var auth = await connection.ConnectAsync(SmtpHost, SmtpPort)) {
-                        var username = UseImapCredentialsForSmtp ? ImapUsername : SmtpUsername;
-                        var password = UseImapCredentialsForSmtp ? ImapPassword : SmtpPassword;
-                        await auth.LoginAsync(username, password);
-                    }
-                }
-            } catch (Exception ex) {
-                Testing = new TestingContext {
-                    IsFaulted = true,
-                    Message = ex.Message,
-                };
 
-                Logger.Error(ex);
-            }
+            return Task.Run(async () => {
+                try {
+                    using (var connection = new SmtpConnection { Security = SmtpSecurity }) {
+                        using (var auth = await connection.ConnectAsync(SmtpHost, SmtpPort)) {
+                            var username = UseImapCredentialsForSmtp ? ImapUsername : SmtpUsername;
+                            var password = UseImapCredentialsForSmtp ? ImapPassword : SmtpPassword;
+                            await auth.LoginAsync(username, password);
+                        }
+                    }
+                } catch (Exception ex) {
+                    Logger.Error(ex);
+
+                    Application.Current.Dispatcher.Invoke(() => {
+                        Testing = new TestingContext {
+                            IsFaulted = true,
+                            Message = ex.Message,
+                        };
+                    });
+                }
+            });
         }
 
-        private async Task TestImapSettingsAsync() {
+        private Task TestImapSettingsAsync() {
             Testing = new TestingContext {
                 Message = Resources.TestingImapStatus
             };
 
-            try {
-                using (var connection = new ImapConnection { Security = ImapSecurity }) {
-                    using (var auth = await connection.ConnectAsync(ImapHost, ImapPort)) {
-                        await auth.LoginAsync(ImapUsername, ImapPassword);
+            return Task.Run(async () => {
+                try {
+                    using (var connection = new ImapConnection { Security = ImapSecurity }) {
+                        using (var auth = await connection.ConnectAsync(ImapHost, ImapPort)) {
+                            await auth.LoginAsync(ImapUsername, ImapPassword);
+                        }
                     }
+                } catch (Exception ex) {
+                    Logger.Error(ex);
+
+                    Application.Current.Dispatcher.Invoke(() => {
+                        Testing = new TestingContext {
+                            IsFaulted = true,
+                            Message = ex.Message,
+                        };
+                    });
                 }
-            } catch (Exception ex) {
-                Testing = new TestingContext {
-                    IsFaulted = true,
-                    Message = ex.Message
-                };
-                Logger.Error(ex);
-            }
+            });
+
         }
 
         private void TestConnectivity() {
@@ -812,7 +840,17 @@ namespace Crystalbyte.Paranoia {
                         account.SmtpRequests.Add(request);
                     }
 
-                    await database.SaveChangesAsync();
+                    // Handle Optimistic Concurrency.
+                    // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
+                    while (true) {
+                        try {
+                            await database.SaveChangesAsync();
+                            break;
+                        } catch (DbUpdateConcurrencyException ex) {
+                            ex.Entries.ForEach(x => x.Reload());
+                            Logger.Info(ex);
+                        }
+                    }
                 }
             });
         }
@@ -829,26 +867,88 @@ namespace Crystalbyte.Paranoia {
         }
 
         public async Task DetectSettingsAsync() {
+
             var domain = Address.Split('@').Last();
             var url = string.Format("https://live.mozillamessaging.com/autoconfig/v1.1/{0}", domain);
-            using (var client = new WebClient()) {
+
+            Logger.Info(Resources.QueryingMozillaDatabase);
+            var config = await Task.Run(async () => {
                 try {
-                    IsDetectingSettings = true;
-                    var stream = await client.OpenReadTaskAsync(new Uri(url, UriKind.Absolute));
-                    var serializer = new XmlSerializer(typeof(clientConfig));
-                    var config = serializer.Deserialize(stream) as clientConfig;
-                    Configure(config);
+                    using (var client = new WebClient()) {
+                        IsDetectingSettings = true;
+                        var stream = await client.OpenReadTaskAsync(new Uri(url, UriKind.Absolute));
+                        var serializer = new XmlSerializer(typeof(clientConfig));
+                        return serializer.Deserialize(stream) as clientConfig;
+                    }
                 } catch (WebException ex) {
                     Logger.Error(ex);
-                    MakeEducatedGuess();
-                } finally {
-                    IsDetectingSettings = false;
+                    return null;
                 }
+            });
+
+            if (config != null) {
+                Configure(config);
+                IsDetectingSettings = false;
+                return;
+            }
+
+            Logger.Info(Resources.QueryingMxRecords);
+            var response = await Task.Run(() => {
+                try {
+                    return DnsClient.Default.Resolve(domain, RecordType.Mx);
+                } catch (Exception ex) {
+                    Logger.Error(ex);
+                    return null;
+                }
+            });
+
+            if (response != null && response.AnswerRecords.Count > 0) {
+                ApplyMxRecords(response);
+            }
+
+            MakeEducatedGuessForMissingFields();
+            IsDetectingSettings = false;
+        }
+
+        private void ApplyMxRecords(DnsMessage response) {
+            foreach (var record in response.AnswerRecords) {
+                var mx = record.ToString().Split(' ').ElementAtOrDefault(5);
+                if (string.IsNullOrEmpty(mx)) {
+                    continue;
+                }
+
+                if (mx.Contains("imap")) {
+                    ImapHost = mx;
+                    continue;
+                }
+
+                if (mx.Contains("smtp")) {
+                    SmtpHost = mx;
+                    continue;
+                }
+
+                ImapHost = mx;
+                SmtpHost = mx;
+                break;
             }
         }
 
-        private void MakeEducatedGuess() {
-            // TODO: Yeah, guess bitch ...
+        private void MakeEducatedGuessForMissingFields() {
+            if (string.IsNullOrEmpty(ImapUsername)) {
+                ImapUsername = Address ?? string.Empty;
+            }
+
+            if (string.IsNullOrEmpty(SmtpUsername)) {
+                SmtpUsername = Address ?? string.Empty;
+            }
+
+            if (ImapSecurity == SecurityProtocol.None) {
+                ImapSecurity = SecurityProtocol.Implicit;
+            }
+
+            if (SmtpSecurity == SecurityProtocol.None) {
+                SmtpSecurity = SecurityProtocol.Implicit;
+            }
         }
 
         private void Configure(clientConfig config) {
@@ -898,7 +998,17 @@ namespace Crystalbyte.Paranoia {
                     database.MailAccounts.Attach(_account);
                     database.MailAccounts.Remove(_account);
 
-                    await database.SaveChangesAsync();
+                    // Handle Optimistic Concurrency.
+                    // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
+                    while (true) {
+                        try {
+                            await database.SaveChangesAsync();
+                            break;
+                        } catch (DbUpdateConcurrencyException ex) {
+                            ex.Entries.ForEach(x => x.Reload());
+                            Logger.Info(ex);
+                        }
+                    }
                 }
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -937,7 +1047,18 @@ namespace Crystalbyte.Paranoia {
                             throw;
                         }
                     }
-                    await database.SaveChangesAsync();
+
+                    // Handle Optimistic Concurrency.
+                    // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
+                    while (true) {
+                        try {
+                            await database.SaveChangesAsync();
+                            break;
+                        } catch (DbUpdateConcurrencyException ex) {
+                            ex.Entries.ForEach(x => x.Reload());
+                            Logger.Info(ex);
+                        }
+                    }
                 }
 
                 App.Context.NotifyMessagesRemoved(messages);
@@ -1019,7 +1140,17 @@ namespace Crystalbyte.Paranoia {
                         context.MailAccounts.Attach(acc);
                         context.MailAccounts.Remove(acc);
 
-                        await context.SaveChangesAsync();
+                        // Handle Optimistic Concurrency.
+                        // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
+                        while (true) {
+                            try {
+                                await context.SaveChangesAsync();
+                                break;
+                            } catch (DbUpdateConcurrencyException ex) {
+                                ex.Entries.ForEach(x => x.Reload());
+                                Logger.Info(ex);
+                            }
+                        }
 
                         transaction.Commit();
                         return true;

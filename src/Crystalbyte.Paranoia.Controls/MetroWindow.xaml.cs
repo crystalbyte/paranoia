@@ -114,18 +114,24 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Event Handlers
 
+        private void OnDeactivated(object sender, EventArgs e) {
+            BorderBrush = (Brush)Application.Current.Resources[SystemColors.InactiveBorderBrush];
+        }
+
+        private void OnActivated(object sender, EventArgs e) {
+            BorderBrush = AccentBrush;
+        }
+
         protected void OnHelp(object sender, ExecutedRoutedEventArgs e) {
             MessageBox.Show("Not yet implemented.");
         }
 
         protected void OnMinimize(object sender, ExecutedRoutedEventArgs e) {
-            WindowState = WindowState.Minimized;
-            e.Handled = true;
+            e.Handled = Minimize();
         }
 
         protected void OnMaximize(object sender, RoutedEventArgs e) {
-            WindowState = WindowState.Maximized;
-            e.Handled = true;
+            e.Handled = Maximize();
         }
 
         protected void OnClose(object sender, RoutedEventArgs e) {
@@ -134,8 +140,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         protected void OnRestoreDown(object sender, RoutedEventArgs e) {
-            WindowState = WindowState.Normal;
-            e.Handled = true;
+            e.Handled = Restore();
         }
 
         private void OnSourceInitialized(object sender, EventArgs e) {
@@ -174,12 +179,19 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Methods
 
-        private void OnDeactivated(object sender, EventArgs e) {
-            BorderBrush = (Brush)Application.Current.Resources[SystemColors.InactiveBorderBrush];
+        private bool Minimize() {
+            WindowState = WindowState.Minimized;
+            return true;
         }
 
-        private void OnActivated(object sender, EventArgs e) {
-            BorderBrush = AccentBrush;
+        private bool Maximize() {
+            WindowState = WindowState.Maximized;
+            return true;
+        }
+
+        private bool Restore() {
+            WindowState = WindowState.Normal;
+            return true;
         }
 
         private void UpdateWindowStates() {
@@ -199,6 +211,10 @@ namespace Crystalbyte.Paranoia.UI {
         private const int MONITOR_DEFAULTTONEAREST = 0x00000002;
         private const int WM_WINDOWPOSCHANGING = 0x0046;
         private const int WM_GETMINMAXINFO = 0x0024;
+        private const int WM_SYSCOMMAND = 0x0112;
+        private const int SC_MINIMIZE = 0xF020;
+        private const int SC_MAXIMIZE= 0xF030;
+        private const int SC_RESTORE = 0xF120;
         private const int SWP_NOMOVE = 0x0002;
 
         private IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
@@ -210,7 +226,22 @@ namespace Crystalbyte.Paranoia.UI {
                 case WM_WINDOWPOSCHANGING:
                     handled = WmPositionChanging(lParam);
                     break;
+                case WM_SYSCOMMAND:
+                    if (wParam.ToInt32() == SC_MINIMIZE) {
+                        handled = Minimize();
+                        break;
+                    }
 
+                    if (wParam.ToInt32() == SC_MAXIMIZE) {
+                        handled = Maximize();
+                        break;
+                    }
+
+                    if (wParam.ToInt32() == SC_RESTORE) {
+                        handled = Restore();
+                    }
+
+                    break;
             }
 
             return IntPtr.Zero;
