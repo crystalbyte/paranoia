@@ -721,4 +721,10 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="IsFishyNotice" xml:space="preserve">
     <value>This message looks fishy, is this a spam message ?</value>
   </data>
+  <data name="Nay" xml:space="preserve">
+    <value>Nay</value>
+  </data>
+  <data name="Yea" xml:space="preserve">
+    <value>Yea</value>
+  </data>
 </root>

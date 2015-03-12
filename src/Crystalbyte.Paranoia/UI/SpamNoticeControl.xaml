@@ -12,7 +12,7 @@
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
-    <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+    <Border Background="DarkGoldenrod"
             SnapsToDevicePixels="True"
             UseLayoutRounding="True"
             Visibility="{Binding IsFishy,
@@ -22,13 +22,25 @@
         <DockPanel LastChildFill="True">
             <Button Margin="8,6"
                     VerticalAlignment="Center"
-                    Command="{Binding ElevateTrustLevelCommand,
+                    Command="{Binding ClassifyContactCommand,
                                       FallbackValue={x:Static ui:AppCommands.NoOperation},
                                       TargetNullValue={x:Static ui:AppCommands.NoOperation}}"
+                    CommandParameter="{x:Static paranoia:ContactClassification.Genuine}"
                     DockPanel.Dock="Right">
                 <TextBlock Margin="12,3"
                            RenderOptions.ClearTypeHint="Enabled"
-                           Text="{x:Static properties:Resources.Unblock}" />
+                           Text="{x:Static properties:Resources.Nay}" />
+            </Button>
+            <Button Margin="0,6"
+                    VerticalAlignment="Center"
+                    Command="{Binding ClassifyContactCommand,
+                                      FallbackValue={x:Static ui:AppCommands.NoOperation},
+                                      TargetNullValue={x:Static ui:AppCommands.NoOperation}}"
+                    CommandParameter="{x:Static paranoia:ContactClassification.Spam}"
+                    DockPanel.Dock="Right">
+                <TextBlock Margin="12,3"
+                           RenderOptions.ClearTypeHint="Enabled"
+                           Text="{x:Static properties:Resources.Yea}" />
             </Button>
             <TextBlock Margin="6,0"
                        VerticalAlignment="Center"

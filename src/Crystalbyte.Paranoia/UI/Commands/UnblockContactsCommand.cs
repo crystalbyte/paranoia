@@ -19,7 +19,8 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public bool CanExecute(object parameter) {
-            return _app.SelectedContact != null && _app.SelectedContacts.Any(x => x.IsIgnored);
+            //return _app.SelectedContact != null && _app.SelectedContacts.Any(x => x.IsIgnored);
+            return true;
         }
 
         public async void Execute(object parameter) {

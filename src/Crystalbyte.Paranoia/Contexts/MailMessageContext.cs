@@ -2,6 +2,7 @@
 
 using System;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -26,7 +27,7 @@ namespace Crystalbyte.Paranoia {
         private int _load;
         private long _bytesReceived;
         private double _progress;
-        private bool _isSourceTrusted;
+        private bool _isExternalContentAllowed;
         private bool _hasExternals;
         private MailContactContext _from;
         private MailMessageModel _message;
@@ -36,6 +37,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ObservableCollection<MailContactContext> _cc;
         private readonly ObservableCollection<AttachmentContext> _attachments;
         private readonly ICommand _allowExternalContentCommand;
+        private readonly ICommand _classifyContactCommand;
         private bool _isInitialized;
         private bool _isFishy;
 
@@ -52,6 +54,7 @@ namespace Crystalbyte.Paranoia {
             _to = new ObservableCollection<MailContactContext>();
             _attachments = new ObservableCollection<AttachmentContext>();
             _allowExternalContentCommand = new RelayCommand(OnAllowExternal);
+            _classifyContactCommand = new RelayCommand(OnClassifyContact);
         }
 
         #endregion
@@ -66,10 +69,10 @@ namespace Crystalbyte.Paranoia {
                 handler(this, EventArgs.Empty);
         }
 
-        public event EventHandler TrustChanged;
+        public event EventHandler AllowExternalContentChanged;
 
-        protected virtual void OnTrustChanged() {
-            var handler = TrustChanged;
+        protected virtual void OnAllowExternalContentChanged() {
+            var handler = AllowExternalContentChanged;
             if (handler != null)
                 handler(this, EventArgs.Empty);
         }
@@ -99,7 +102,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public bool HasExternalsAndSourceIsNotTrusted {
-            get { return HasExternals && !IsSourceTrusted; }
+            get { return HasExternals && !IsExternalContentAllowed; }
         }
 
         public bool HasExternals {
@@ -125,16 +128,16 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool IsSourceTrusted {
-            get { return _isSourceTrusted; }
+        public bool IsExternalContentAllowed {
+            get { return _isExternalContentAllowed; }
             set {
-                if (_isSourceTrusted == value) {
+                if (_isExternalContentAllowed == value) {
                     return;
                 }
-                _isSourceTrusted = value;
-                RaisePropertyChanged(() => IsSourceTrusted);
+                _isExternalContentAllowed = value;
+                RaisePropertyChanged(() => IsExternalContentAllowed);
                 RaisePropertyChanged(() => HasExternalsAndSourceIsNotTrusted);
-                OnTrustChanged();
+                OnAllowExternalContentChanged();
             }
         }
 
@@ -196,6 +199,10 @@ namespace Crystalbyte.Paranoia {
 
         public ICommand AllowExternalContentCommand {
             get { return _allowExternalContentCommand; }
+        }
+
+        public ICommand ClassifyContactCommand {
+            get { return _classifyContactCommand; }
         }
 
         public MailboxContext Mailbox {
@@ -275,16 +282,48 @@ namespace Crystalbyte.Paranoia {
             await SaveFlagsToDatabaseAsync();
         }
 
-        private async Task SaveFlagsToDatabaseAsync() {
-            try {
-                using (var database = new DatabaseContext()) {
-                    var message = await database.MailMessages.FindAsync(_message.Id);
-                    message.Flags = _message.Flags;
-                    await database.SaveChangesAsync();
-                }
-            } catch (Exception ex) {
-                Logger.Error(ex);
+        private async void OnClassifyContact(object obj) {
+            var cc = (ContactClassification)obj;
+
+            if (cc == ContactClassification.Genuine
+                || cc == ContactClassification.Spam) {
+                IsFishy = false;
             }
+
+            await ChangeClassificationAsync(cc);
+        }
+
+        private async Task ChangeClassificationAsync(ContactClassification classification) {
+            _from.Classification = classification;
+            await _from.SaveAsync();
+        }
+
+        private Task SaveFlagsToDatabaseAsync() {
+            var flags = _message.Flags;
+            return Task.Run(() => {
+                try {
+                    using (var context = new DatabaseContext()) {
+                        var m = context.MailMessages.Find(_message.Id);
+                        m.Flags = flags;
+
+                        // Handle Optimistic Concurrency.
+                        // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
+                        while (true) {
+                            try {
+                                context.SaveChanges();
+                                break;
+                            } catch (DbUpdateConcurrencyException ex) {
+                                ex.Entries.ForEach(x => x.Reload());
+                                Logger.Info(ex);
+                            }
+                        }
+
+                        _message = m;
+                    }
+                } catch (Exception ex) {
+                    Logger.Error(ex);
+                }
+            });
         }
 
         public bool IsNotSeen {
@@ -496,7 +535,7 @@ namespace Crystalbyte.Paranoia {
                 await database.SaveChangesAsync();
 
                 await Application.Current.Dispatcher
-                    .InvokeAsync(() => { IsSourceTrusted = true; });
+                    .InvokeAsync(() => { IsExternalContentAllowed = true; });
             }
         }
 
@@ -529,7 +568,7 @@ namespace Crystalbyte.Paranoia {
                             .FirstOrDefaultAsync(x => x.Address == reader.Headers.From.Address);
                     await Application.Current.Dispatcher.InvokeAsync(() => {
                         From = new MailContactContext(from);
-                        IsSourceTrusted = from.IsExternalContentAllowed;
+                        IsExternalContentAllowed = from.IsExternalContentAllowed;
                     });
 
                     var part = reader.FindFirstHtmlVersion();
@@ -544,6 +583,14 @@ namespace Crystalbyte.Paranoia {
                     await Application.Current.Dispatcher.InvokeAsync(() => {
                         HasExternals = externals;
                     });
+
+                    if (from.Classification == ContactClassification.Default) {
+                        var analyzer = new SimpleSpamDetector(text);
+                        var isfishy = await analyzer.GetIsSpamAsync();
+                        await Application.Current.Dispatcher.InvokeAsync(() => {
+                            IsFishy = isfishy;
+                        });
+                    }
 
                     var to = new List<MailContactContext>();
                     foreach (var value in reader.Headers.To) {

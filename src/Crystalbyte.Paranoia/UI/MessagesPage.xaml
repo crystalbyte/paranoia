@@ -905,6 +905,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Border Grid.Row="0"
@@ -1023,7 +1024,8 @@
                 </ListView.ItemsPanel>
             </ListView>
             <ui:BlockNoticeControl Grid.Row="2" DataContext="{Binding SelectedMessage}" />
-            <Grid Grid.Row="3"
+            <ui:SpamNoticeControl Grid.Row="3" DataContext="{Binding SelectedMessage}" />
+            <Grid Grid.Row="4"
                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}"
                   Visibility="{Binding IsMessageOrSmtpRequestSelected,
                                        Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -1055,6 +1057,7 @@
                     </TextBlock>
                 </Grid>
             </Grid>
+
         </Grid>
     </Grid>
 </Page>

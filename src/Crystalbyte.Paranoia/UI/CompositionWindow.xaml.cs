@@ -300,6 +300,9 @@ namespace Crystalbyte.Paranoia.UI {
 
         private async void OnAccountSelectionChanged(object sender, SelectionChangedEventArgs e) {
             try {
+                if (!HtmlEditor.IsLoaded) {
+                    return;
+                }
                 await ChangeSignatureAsync();
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -330,8 +333,10 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        public Task<string> GetDocumentAsync() {
-            return HtmlEditor.GetHtmlAsync();
+        public async Task<string> GetDocumentAsync() {
+            var content = await HtmlEditor.GetHtmlAsync();
+            var appendix = await HtmlEditor.GetAppendixAsync();
+            return string.Format("<div>{0}{1}</div>", content, appendix);
         }
     }
 }

@@ -217,6 +217,17 @@ namespace Crystalbyte.Paranoia.UI {
             return (int)response.Result;
         }
 
+        public async Task<string> GetAppendixAsync() {
+            const string script = "(function() { return getAppendix(); })();";
+            var response = await _browser.EvaluateScriptAsync(script);
+
+            if (!response.Success) {
+                throw new ScriptingException(response.Message);
+            }
+
+            return (string)response.Result;
+        }
+
         public async Task<TextRange> GetSelectionAsync() {
             const string script = "(function() { var s = quill.getSelection(); return JSON.stringify(s); })();";
             var response = await _browser.EvaluateScriptAsync(script);
@@ -280,7 +291,9 @@ namespace Crystalbyte.Paranoia.UI {
         #region Methods
 
         public void InsertSignature(string signature) {
-            var script = string.Format("(function() {{ signature('{0}'); }})();", signature);
+            var script = string.Format("(function() {{ signature('{0}'); }})();", 
+                string.IsNullOrEmpty(signature) ? "" : signature);
+
             _browser.ExecuteScriptAsync(script);
         }
 

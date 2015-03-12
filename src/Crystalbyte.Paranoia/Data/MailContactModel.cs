@@ -32,8 +32,8 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("is_external_content_allowed")]
         public bool IsExternalContentAllowed { get; set; }
 
-        [Column("is_spam_source")]
-        public bool IsSpamSource { get; set; }
+        [Column("classification")]
+        public ContactClassification Classification { get; set; }
 
         public virtual ICollection<PublicKeyModel> Keys {
             get { return _keys; }

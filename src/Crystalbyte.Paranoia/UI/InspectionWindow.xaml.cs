@@ -47,7 +47,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
 
             // Remove handler to cut the reference from the message to this window.
-            message.TrustChanged -= OnMessageTrustChanged;
+            message.AllowExternalContentChanged -= OnMessageTrustChanged;
         }
 
         #endregion
@@ -132,7 +132,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 DataContext = message;
                 if (message.IsInitialized) {
-                    message.TrustChanged += OnMessageTrustChanged;
+                    message.AllowExternalContentChanged += OnMessageTrustChanged;
                     ViewMessage(message);
                     return;
                 }
@@ -153,12 +153,12 @@ namespace Crystalbyte.Paranoia.UI {
             var message = (MailMessageContext)sender;
             message.Initialized -= OnMessageInitialized;
 
-            message.TrustChanged += OnMessageTrustChanged;
+            message.AllowExternalContentChanged += OnMessageTrustChanged;
             ViewMessage(message);
         }
 
         private void ViewMessage(MailMessageContext message) {
-            HtmlViewer.Source = string.Format(message.IsSourceTrusted
+            HtmlViewer.Source = string.Format(message.IsExternalContentAllowed
                     ? "message:///{0}?blockExternals=false"
                     : "message:///{0}", message.Id);
         }

@@ -2,20 +2,29 @@
 
 using System;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Crystalbyte.Paranoia.Data;
+using NLog;
 
 #endregion
 
 namespace Crystalbyte.Paranoia {
     public sealed class MailContactContext : SelectionObject {
-        private readonly MailContactModel _contact;
+
+        #region Private Fields
+
+        private bool _hasKeys;
         private bool _isVerified;
         private int _notSeenCount;
         private int _messageCount;
-        private bool _hasKeys;
+        private MailContactModel _contact;
+        
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
 
         internal MailContactContext(MailContactModel contact) {
             if (contact == null) {
@@ -38,18 +47,6 @@ namespace Crystalbyte.Paranoia {
             get { return _contact.Id; }
         }
 
-        public bool IsIgnored {
-            get { return _contact.IsSpamSource; }
-            set {
-                if (_contact.IsSpamSource == value) {
-                    return;
-                }
-
-                _contact.IsSpamSource = value;
-                RaisePropertyChanged(() => IsIgnored);
-            }
-        }
-
         public bool IsExternalContentAllowed {
             get { return _contact.IsExternalContentAllowed; }
             set {
@@ -59,6 +56,18 @@ namespace Crystalbyte.Paranoia {
 
                 _contact.IsExternalContentAllowed = value;
                 RaisePropertyChanged(() => IsExternalContentAllowed);
+            }
+        }
+
+        public ContactClassification Classification {
+            get { return _contact.Classification; }
+            set {
+                if (_contact.Classification == value) {
+                    return;
+                }
+
+                _contact.Classification = value;
+                RaisePropertyChanged(() => Classification);
             }
         }
 
@@ -166,6 +175,33 @@ namespace Crystalbyte.Paranoia {
 
             await Application.Current.Dispatcher.InvokeAsync(() => {
                 HasKeys = hasKeys;
+            });
+        }
+
+        public Task SaveAsync() {
+            return Task.Run(() => {
+                try {
+                    using (var context = new DatabaseContext()) {
+                        var c = context.MailContacts.Find(Id);
+                        c.Classification = _contact.Classification;
+
+                        // Handle Optimistic Concurrency.
+                        // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
+                        while (true) {
+                            try {
+                                context.SaveChanges();
+                                break;
+                            } catch (DbUpdateConcurrencyException ex) {
+                                ex.Entries.ForEach(x => x.Reload());
+                                Logger.Info(ex);
+                            }
+                        }
+
+                        _contact = c;
+                    }
+                } catch (Exception ex) {
+                    Logger.Error(ex);
+                }
             });
         }
     }

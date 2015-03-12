@@ -714,7 +714,7 @@ namespace Crystalbyte.Paranoia {
                 await message.InitDetailsAsync();    
             }
 
-            Source = string.Format(message.IsSourceTrusted
+            Source = string.Format(message.IsExternalContentAllowed
                 ? "message:///{0}?blockExternals=false"
                 : "message:///{0}", message.Id);
 
@@ -1121,8 +1121,8 @@ namespace Crystalbyte.Paranoia {
                 foreach (var contact in contacts) {
                     try {
                         var c = await database.MailContacts.FindAsync(contact.Id);
-                        c.IsSpamSource = block;
-                        contact.IsIgnored = block;
+                        //c.Classification = ContactClassification.Spam;
+                        //contact.IsIgnored = block;
                     } catch (Exception ex) {
                         Logger.Error(ex);
                     }

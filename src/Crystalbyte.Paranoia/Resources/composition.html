@@ -28,6 +28,10 @@
             $('#signature-container').html(b64_to_utf8(s));
         }
 
+        var getAppendix = function () {
+            return $('#appendix').prop('innerHTML');
+        }
+
         $(window).resize(function () {
             var editor = $('#editor-container');
             editor.css('width', '100%');

@@ -1091,6 +1091,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nay.
+        /// </summary>
+        public static string Nay {
+            get {
+                return ResourceManager.GetString("Nay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New.
         /// </summary>
         public static string New {
@@ -1844,6 +1853,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string Wednesday {
             get {
                 return ResourceManager.GetString("Wednesday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yea.
+        /// </summary>
+        public static string Yea {
+            get {
+                return ResourceManager.GetString("Yea", resourceCulture);
             }
         }
         

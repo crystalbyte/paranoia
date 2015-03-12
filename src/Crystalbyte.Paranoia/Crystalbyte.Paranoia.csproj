@@ -225,6 +225,7 @@
     <Compile Include="FileSchemeHandler.cs" />
     <Compile Include="IMailMessage.cs" />
     <Compile Include="MailMessageExtension.cs" />
+    <Compile Include="ContactClassification.cs" />
     <Compile Include="SimpleSpamDetector.cs" />
     <Compile Include="TextRange.cs" />
     <Compile Include="ScriptingException.cs" />
