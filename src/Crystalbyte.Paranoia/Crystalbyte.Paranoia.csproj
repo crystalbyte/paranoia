@@ -225,8 +225,12 @@
     <Compile Include="FileSchemeHandler.cs" />
     <Compile Include="IMailMessage.cs" />
     <Compile Include="MailMessageExtension.cs" />
+    <Compile Include="SimpleSpamDetector.cs" />
     <Compile Include="TextRange.cs" />
     <Compile Include="ScriptingException.cs" />
+    <Compile Include="UI\SpamNoticeControl.xaml.cs">
+      <DependentUpon>SpamNoticeControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Converters\ColorToBrushConverter.cs" />
     <Compile Include="FormatChangedEventArgs.cs" />
     <Compile Include="UI\IDocumentProvider.cs" />
@@ -370,6 +374,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\AppSettingsFlyoutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\SpamNoticeControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

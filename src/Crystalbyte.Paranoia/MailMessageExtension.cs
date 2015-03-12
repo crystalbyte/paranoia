@@ -21,8 +21,8 @@ namespace Crystalbyte.Paranoia {
                 var uri = new Uri(path, UriKind.Absolute);
                 var info = new FileInfo(uri.LocalPath.Trim('/'));
 
-                var bytes = File.ReadAllBytes(info.FullName);
                 var name = info.Name;
+                var bytes = File.ReadAllBytes(info.FullName);
                 var domain = message.From.Address.Split('@').Last();
                 var cid = string.Format("{0}.{1}@{2}", time, random, domain);
 

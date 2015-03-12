@@ -805,7 +805,6 @@ namespace Crystalbyte.Paranoia {
                     });
                 }
             });
-
         }
 
         private void TestConnectivity() {
@@ -837,7 +836,7 @@ namespace Crystalbyte.Paranoia {
                         var mime = await message.ToMimeAsync();
                         request.Mime = Encoding.UTF8.GetBytes(mime);
 
-                        account.SmtpRequests.Add(request);
+                        account.Compositions.Add(request);
                     }
 
                     // Handle Optimistic Concurrency.

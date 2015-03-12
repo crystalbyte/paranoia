@@ -35,8 +35,9 @@ namespace Crystalbyte.Paranoia {
         private readonly ObservableCollection<MailContactContext> _to;
         private readonly ObservableCollection<MailContactContext> _cc;
         private readonly ObservableCollection<AttachmentContext> _attachments;
-        private readonly ICommand _elevateTrustLevelCommand;
+        private readonly ICommand _allowExternalContentCommand;
         private bool _isInitialized;
+        private bool _isFishy;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -50,7 +51,7 @@ namespace Crystalbyte.Paranoia {
             _cc = new ObservableCollection<MailContactContext>();
             _to = new ObservableCollection<MailContactContext>();
             _attachments = new ObservableCollection<AttachmentContext>();
-            _elevateTrustLevelCommand = new RelayCommand(OnElevateTrustCommand);
+            _allowExternalContentCommand = new RelayCommand(OnAllowExternal);
         }
 
         #endregion
@@ -84,6 +85,18 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         #region Properties
+
+        public bool IsFishy {
+            get { return _isFishy; }
+            set {
+                if (_isFishy == value) {
+                    return;
+                }
+
+                _isFishy = value;
+                RaisePropertyChanged(() => IsFishy);
+            }
+        }
 
         public bool HasExternalsAndSourceIsNotTrusted {
             get { return HasExternals && !IsSourceTrusted; }
@@ -181,8 +194,8 @@ namespace Crystalbyte.Paranoia {
             get { return _message.FromAddress; }
         }
 
-        public ICommand ElevateTrustLevelCommand {
-            get { return _elevateTrustLevelCommand; }
+        public ICommand AllowExternalContentCommand {
+            get { return _allowExternalContentCommand; }
         }
 
         public MailboxContext Mailbox {
@@ -474,12 +487,12 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task TrustSourceAsync() {
+        internal async Task AllowExternalContentAsync() {
             using (var database = new DatabaseContext()) {
                 var contact = await database.MailContacts
                     .FirstAsync(x => x.Address == FromAddress);
 
-                contact.IsTrusted = true;
+                contact.IsExternalContentAllowed = true;
                 await database.SaveChangesAsync();
 
                 await Application.Current.Dispatcher
@@ -487,9 +500,9 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async void OnElevateTrustCommand(object obj) {
+        private async void OnAllowExternal(object obj) {
             await Task.Run(async () => {
-                await TrustSourceAsync();
+                await AllowExternalContentAsync();
             });
             await App.Context.ViewMessageAsync(this);
         }
@@ -516,7 +529,7 @@ namespace Crystalbyte.Paranoia {
                             .FirstOrDefaultAsync(x => x.Address == reader.Headers.From.Address);
                     await Application.Current.Dispatcher.InvokeAsync(() => {
                         From = new MailContactContext(from);
-                        IsSourceTrusted = from.IsTrusted;
+                        IsSourceTrusted = from.IsExternalContentAllowed;
                     });
 
                     var part = reader.FindFirstHtmlVersion();

@@ -25,7 +25,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         #region Implementation of ICommand
 
         public bool CanExecute(object parameter) {
-            return _app.SelectedContact != null && _app.SelectedContacts.Any(x => !x.IsBlocked);
+            return _app.SelectedContact != null && _app.SelectedContacts.Any(x => !x.IsIgnored);
         }
 
         public async void Execute(object parameter) {

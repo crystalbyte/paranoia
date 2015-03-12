@@ -101,6 +101,7 @@
 
     <!--  Tooltip Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TooltipBackgroundBrushKey}" Color="White" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TooltipBorderBrushKey}" Color="{x:Static SystemColors.ControlDarkColor}" />
 
     <!--  TextBox Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TextBoxBackgroundBrushKey}" Color="{StaticResource ControlBackgroundColorKey}" />

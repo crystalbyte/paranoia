@@ -1121,8 +1121,8 @@ namespace Crystalbyte.Paranoia {
                 foreach (var contact in contacts) {
                     try {
                         var c = await database.MailContacts.FindAsync(contact.Id);
-                        c.IsBlocked = block;
-                        contact.IsBlocked = block;
+                        c.IsSpamSource = block;
+                        contact.IsIgnored = block;
                     } catch (Exception ex) {
                         Logger.Error(ex);
                     }

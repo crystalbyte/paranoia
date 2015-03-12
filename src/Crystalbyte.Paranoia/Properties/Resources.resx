@@ -718,4 +718,7 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="QueryingMxRecords" xml:space="preserve">
     <value>Querying mx records ...</value>
   </data>
+  <data name="IsFishyNotice" xml:space="preserve">
+    <value>This message looks fishy, is this a spam message ?</value>
+  </data>
 </root>

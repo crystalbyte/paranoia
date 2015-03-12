@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using CefSharp;
 using Crystalbyte.Paranoia.Data;
@@ -39,7 +38,6 @@ namespace Crystalbyte.Paranoia {
                 if (smtp == null) {
                     throw new MessageNotFoundException(id);
                 }
-
                 
                 response.MimeType = "text/html";
                 response.ContentLength = smtp.Mime.Length;

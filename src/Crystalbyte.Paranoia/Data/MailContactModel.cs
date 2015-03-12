@@ -29,11 +29,11 @@ namespace Crystalbyte.Paranoia.Data {
         [Collate(CollatingSequence.NoCase)]
         public string Address { get; set; }
 
-        [Column("is_trusted")]
-        public bool IsTrusted { get; set; }
+        [Column("is_external_content_allowed")]
+        public bool IsExternalContentAllowed { get; set; }
 
-        [Column("is_blocked")]
-        public bool IsBlocked { get; set; }
+        [Column("is_spam_source")]
+        public bool IsSpamSource { get; set; }
 
         public virtual ICollection<PublicKeyModel> Keys {
             get { return _keys; }

@@ -38,27 +38,27 @@ namespace Crystalbyte.Paranoia {
             get { return _contact.Id; }
         }
 
-        public bool IsBlocked {
-            get { return _contact.IsBlocked; }
+        public bool IsIgnored {
+            get { return _contact.IsSpamSource; }
             set {
-                if (_contact.IsBlocked == value) {
+                if (_contact.IsSpamSource == value) {
                     return;
                 }
 
-                _contact.IsBlocked = value;
-                RaisePropertyChanged(() => IsBlocked);
+                _contact.IsSpamSource = value;
+                RaisePropertyChanged(() => IsIgnored);
             }
         }
 
-        public bool IsTrusted {
-            get { return _contact.IsTrusted; }
+        public bool IsExternalContentAllowed {
+            get { return _contact.IsExternalContentAllowed; }
             set {
-                if (_contact.IsTrusted == value) {
+                if (_contact.IsExternalContentAllowed == value) {
                     return;
                 }
 
-                _contact.IsTrusted = value;
-                RaisePropertyChanged(() => IsTrusted);
+                _contact.IsExternalContentAllowed = value;
+                RaisePropertyChanged(() => IsExternalContentAllowed);
             }
         }
 

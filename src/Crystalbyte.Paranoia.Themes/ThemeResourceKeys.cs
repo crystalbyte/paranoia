@@ -108,6 +108,7 @@
 
         // Tooltip Scope 
         public static string TooltipBackgroundBrushKey = "TooltipBackgroundBrushKey";
+        public static string TooltipBorderBrushKey = "TooltipBorderBrushKey";
 
         // TreeView Scope
         public static string TreeViewBackgroundBrushKey = "TreeViewBackgroundBrushKey";

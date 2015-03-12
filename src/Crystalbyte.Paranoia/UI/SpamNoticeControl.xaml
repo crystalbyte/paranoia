@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Crystalbyte.Paranoia.UI.BlockNoticeControl"
+﻿<UserControl x:Class="Crystalbyte.Paranoia.UI.SpamNoticeControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -15,14 +15,14 @@
     <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
             SnapsToDevicePixels="True"
             UseLayoutRounding="True"
-            Visibility="{Binding HasExternalsAndSourceIsNotTrusted,
+            Visibility="{Binding IsFishy,
                                  FallbackValue={x:Static Visibility.Collapsed},
                                  TargetNullValue={x:Static Visibility.Collapsed},
                                  Converter={StaticResource BooleanToVisibilityConverter}}">
         <DockPanel LastChildFill="True">
             <Button Margin="8,6"
                     VerticalAlignment="Center"
-                    Command="{Binding AllowExternalContentCommand,
+                    Command="{Binding ElevateTrustLevelCommand,
                                       FallbackValue={x:Static ui:AppCommands.NoOperation},
                                       TargetNullValue={x:Static ui:AppCommands.NoOperation}}"
                     DockPanel.Dock="Right">
@@ -34,7 +34,7 @@
                        VerticalAlignment="Center"
                        Foreground="WhiteSmoke"
                        RenderOptions.ClearTypeHint="Enabled"
-                       Text="{x:Static properties:Resources.BlockedContentDescription}"
+                       Text="{x:Static properties:Resources.IsFishyNotice}"
                        TextTrimming="CharacterEllipsis"
                        TextWrapping="NoWrap" />
         </DockPanel>

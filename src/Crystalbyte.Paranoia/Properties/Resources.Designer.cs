@@ -819,6 +819,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This message looks fishy, is this a spam message ?.
+        /// </summary>
+        public static string IsFishyNotice {
+            get {
+                return ResourceManager.GetString("IsFishyNotice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Set as default..
         /// </summary>
         public static string IsNotDefaultAccount {
