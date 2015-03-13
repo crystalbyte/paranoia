@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
@@ -38,6 +39,8 @@ namespace Crystalbyte.Paranoia {
         private int _fetchedEnvelopeCount;
         private bool _isSyncedInitially;
         private bool _showAllMessages;
+        private bool _showOnlyWithAttachments;
+        private bool _showOnlyFavorites;
         private bool _isSelectedSubtly;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -421,6 +424,28 @@ namespace Crystalbyte.Paranoia {
                 }
                 _showAllMessages = value;
                 RaisePropertyChanged(() => ShowAllMessages);
+            }
+        }
+
+        public bool ShowOnlyWithAttachments {
+            get { return _showOnlyWithAttachments; }
+            set {
+                if (_showOnlyWithAttachments == value) {
+                    return;
+                }
+                _showOnlyWithAttachments = value;
+                RaisePropertyChanged(() => ShowOnlyWithAttachments);
+            }
+        }
+
+        public bool ShowOnlyFavorites {
+            get { return _showOnlyFavorites; }
+            set {
+                if (_showOnlyFavorites == value) {
+                    return;
+                }
+                _showOnlyFavorites = value;
+                RaisePropertyChanged(() => ShowOnlyFavorites);
             }
         }
 
@@ -917,7 +942,7 @@ namespace Crystalbyte.Paranoia {
                         using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                             using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                                 if (!connection.CanIdle) {
-                                    Logger.Info(Properties.Resources.IdleCommandNotSupported);
+                                    Logger.Info(Resources.IdleCommandNotSupported);
                                     return;
                                 }
                                 var mailbox = await session.SelectAsync(Name);
@@ -1074,6 +1099,22 @@ namespace Crystalbyte.Paranoia {
             MailMessageModel[] messages;
 
             using (var context = new DatabaseContext()) {
+                if (ShowOnlyFavorites) {
+                    messages = await context.MailMessages
+                        .Where(x => x.Flags.Contains(MailMessageFlags.Flagged))
+                        .Where(x => x.MailboxId == _mailbox.Id)
+                        .ToArrayAsync();
+                    goto next;
+                }
+
+                if (ShowOnlyWithAttachments) {
+                    messages = await context.MailMessages
+                        .Where(x => x.HasAttachments)
+                        .Where(x => x.MailboxId == _mailbox.Id)
+                        .ToArrayAsync();
+                    goto next;
+                }
+
                 if (ShowAllMessages) {
                     messages = await context.MailMessages
                         .Where(x => x.MailboxId == _mailbox.Id)
@@ -1086,6 +1127,7 @@ namespace Crystalbyte.Paranoia {
                 }
             }
 
+        next:
             return messages.Select(x => new MailMessageContext(this, x)).ToArray();
         }
 

@@ -90,6 +90,54 @@
         </Setter>
     </Style>
 
+    <Style x:Key="RadioButtonFavoriteStyle"
+           BasedOn="{StaticResource {x:Type RadioButton}}"
+           TargetType="RadioButton">
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Rectangle Fill="{TemplateBinding Foreground}">
+                        <Rectangle.OpacityMask>
+                            <ImageBrush ImageSource="/Assets/star.full.png" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="RadioButtonAttachmentsStyle"
+           BasedOn="{StaticResource {x:Type RadioButton}}"
+           TargetType="RadioButton">
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Rectangle Fill="{TemplateBinding Foreground}">
+                        <Rectangle.OpacityMask>
+                            <ImageBrush ImageSource="/Assets/attachment.png" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <Style x:Key="RadioButtonTextStyle"
            BasedOn="{StaticResource {x:Type RadioButton}}"
            TargetType="RadioButton">

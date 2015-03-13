@@ -443,6 +443,20 @@
                                  GroupName="Filter"
                                  IsTabStop="False"
                                  Style="{DynamicResource RadioButtonTextStyle}" />
+                    <RadioButton Margin="5,3,3,0"
+                                 DockPanel.Dock="Left"
+                                 GroupName="Filter"
+                                 IsChecked="{Binding ShowOnlyFavorites,
+                                                     Mode=TwoWay}"
+                                 IsTabStop="False"
+                                 Style="{DynamicResource RadioButtonFavoriteStyle}" />
+                    <RadioButton Margin="4,3,3,0"
+                                 DockPanel.Dock="Left"
+                                 GroupName="Filter"
+                                 IsChecked="{Binding ShowOnlyWithAttachments,
+                                                     Mode=TwoWay}"
+                                 IsTabStop="False"
+                                 Style="{DynamicResource RadioButtonAttachmentsStyle}" />
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                         <Button Click="OnSortPropertyButtonClicked"
                                 Content="{Binding SortProperty,

@@ -36,6 +36,8 @@ namespace Crystalbyte.Paranoia {
 
         private float _zoom;
         private bool _showAllMessages;
+        private bool _showOnlyFavorites;
+        private bool _showOnlyWithAttachments;
         private string _queryString;
         private string _source;
         private string _statusText;
@@ -530,6 +532,30 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public bool ShowOnlyWithAttachments {
+            get { return _showOnlyWithAttachments; }
+            set {
+                if (_showOnlyWithAttachments == value) {
+                    return;
+                }
+                _showOnlyWithAttachments = value;
+                RaisePropertyChanged(() => ShowOnlyWithAttachments);
+                OnMessageFilterChanged();
+            }
+        }
+
+        public bool ShowOnlyFavorites {
+            get { return _showOnlyFavorites; }
+            set {
+                if (_showOnlyFavorites == value) {
+                    return;
+                }
+                _showOnlyFavorites = value;
+                RaisePropertyChanged(() => ShowOnlyFavorites);
+                OnMessageFilterChanged();
+            }
+        }
+
         private async void OnMessageFilterChanged() {
             try {
                 var mailbox = SelectedMailbox;
@@ -537,7 +563,12 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
-                mailbox.ShowAllMessages = ShowAllMessages;
+                await Application.Current.Dispatcher.InvokeAsync(() => {
+                    mailbox.ShowAllMessages = ShowAllMessages;
+                    mailbox.ShowOnlyFavorites = ShowOnlyFavorites;
+                    mailbox.ShowOnlyWithAttachments = ShowOnlyWithAttachments;
+                });
+
                 await RequestMessagesAsync(mailbox);
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -711,7 +742,7 @@ namespace Crystalbyte.Paranoia {
             });
 
             if (!message.IsInitialized) {
-                await message.InitDetailsAsync();    
+                await message.InitDetailsAsync();
             }
 
             Source = string.Format(message.IsExternalContentAllowed

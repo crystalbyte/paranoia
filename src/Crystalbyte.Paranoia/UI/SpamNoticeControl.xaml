@@ -12,7 +12,7 @@
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
-    <Border Background="DarkGoldenrod"
+    <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
             SnapsToDevicePixels="True"
             UseLayoutRounding="True"
             Visibility="{Binding IsFishy,
