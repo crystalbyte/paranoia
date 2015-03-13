@@ -21,6 +21,9 @@
         <KeyBinding Key="N"
                     Command="ui:MessageCommands.Compose"
                     Modifiers="Control" />
+        <KeyBinding Key="Q"
+                    Command="ui:MessageCommands.QuickSearch"
+                    Modifiers="Control" />
     </Page.InputBindings>
     <Page.Resources>
         <CollectionViewSource x:Key="MessagesSource" Source="{Binding Messages}">
@@ -410,7 +413,8 @@
                         BorderThickness="0,1"
                         RenderOptions.EdgeMode="Aliased"
                         UseLayoutRounding="True">
-                    <controls:WatermarkTextBox Margin="0"
+                    <controls:WatermarkTextBox x:Name="QuickSearchBox"
+                                               Margin="0"
                                                BorderThickness="0"
                                                FontSize="14"
                                                IsTabStop="False"
@@ -1057,7 +1061,6 @@
                     </TextBlock>
                 </Grid>
             </Grid>
-
         </Grid>
     </Grid>
 </Page>

@@ -19,12 +19,6 @@ namespace Crystalbyte.Paranoia.UI {
     /// </summary>
     public partial class AppSettingsFlyoutPage : INavigationAware {
 
-        #region Private Fields
-
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        #endregion
-
         #region Construction
 
         public AppSettingsFlyoutPage() {
@@ -32,6 +26,7 @@ namespace Crystalbyte.Paranoia.UI {
             DataContext = App.Context;
 
             CommandBindings.Add(new CommandBinding(FlyoutCommands.Cancel, OnCancel));
+            Loaded += (sender, e) => Focus();
         }
 
         private static void OnCancel(object sender, ExecutedRoutedEventArgs e) {

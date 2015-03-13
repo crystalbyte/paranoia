@@ -6,10 +6,12 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
+using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
 using NLog;
 
@@ -909,6 +911,7 @@ namespace Crystalbyte.Paranoia {
             IsIdling = true;
 
             await Task.Run(async () => {
+                Thread.CurrentThread.Name = string.Format("IDLE Thread ({0})", Name);
                 try {
                     using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                         using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
@@ -937,6 +940,8 @@ namespace Crystalbyte.Paranoia {
 
         private async void OnChangeNotificationReceived(object sender, EventArgs e) {
             Application.Current.AssertBackgroundThread();
+
+            Logger.Info(Resources.IdleChangeNotification);
 
             await Application.Current.Dispatcher.InvokeAsync(async () => {
                 try {

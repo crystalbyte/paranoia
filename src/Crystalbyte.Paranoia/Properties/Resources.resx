@@ -727,4 +727,7 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="Yea" xml:space="preserve">
     <value>Yea</value>
   </data>
+  <data name="IdleChangeNotification" xml:space="preserve">
+    <value>Received change notification from server.</value>
+  </data>
 </root>

@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using NLog;
 using Crystalbyte.Paranoia.Data;
 
 namespace Crystalbyte.Paranoia.UI {
@@ -17,7 +16,6 @@ namespace Crystalbyte.Paranoia.UI {
     public partial class MessagesPage {
 
         private readonly CollectionViewSource _messageViewSource;
-        private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
 
         public MessagesPage() {
             InitializeComponent();
@@ -29,13 +27,10 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(MessageCommands.ReplyAll, OnReplyAll));
             CommandBindings.Add(new CommandBinding(MessageCommands.Forward, OnForward));
             CommandBindings.Add(new CommandBinding(MessageCommands.Inspect, OnInspect, OnCanInspect));
+            CommandBindings.Add(new CommandBinding(MessageCommands.QuickSearch, OnQuickSearch));
             CommandBindings.Add(new CommandBinding(MailboxCommands.Create, OnCreateMailbox, OnCanCreateMailbox));
             CommandBindings.Add(new CommandBinding(MailboxCommands.Delete, OnDeleteMailbox, OnCanDeleteMailbox));
             CommandBindings.Add(new CommandBinding(MailboxCommands.Sync, OnSyncMailbox, OnCanSyncMailbox));
-
-            var context = App.Context;
-            context.SortOrderChanged += OnSortOrderChanged;
-            context.ItemSelectionRequested += OnItemSelectionRequested;
 
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
@@ -43,6 +38,10 @@ namespace Crystalbyte.Paranoia.UI {
                 (sender, e) => CommandManager.InvalidateRequerySuggested();
 
             _messageViewSource = (CollectionViewSource)Resources["MessagesSource"];
+
+            var context = App.Context;
+            context.SortOrderChanged += OnSortOrderChanged;
+            context.ItemSelectionRequested += OnItemSelectionRequested;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
@@ -50,83 +49,63 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnItemSelectionRequested(object sender, ItemSelectionRequestedEventArgs e) {
-            try {
-                var source = _messageViewSource.View.Cast<object>().ToList();
-                if (e.Position == SelectionPosition.First) {
-                    MessagesListView.SelectedIndex = 0;
-                } else {
-                    var index = e.PivotElements.GroupBy(source.IndexOf).Max(x => x.Key) + 1;
-                    var item = MessagesListView.ItemContainerGenerator.ContainerFromIndex(index) as ListViewItem;
-                    if (item != null) {
-                        item.IsSelected = true;
-                    }
+            if (_messageViewSource.View == null) {
+                return;
+            }
+
+            var source = _messageViewSource.View.Cast<object>().ToList();
+            if (e.Position == SelectionPosition.First) {
+                MessagesListView.SelectedIndex = 0;
+            } else {
+                var index = e.PivotElements.GroupBy(source.IndexOf).Max(x => x.Key) + 1;
+                var item = MessagesListView.ItemContainerGenerator.ContainerFromIndex(index) as ListViewItem;
+                if (item != null) {
+                    item.IsSelected = true;
                 }
-            } catch (Exception ex) {
-                Logger.Error(ex);
             }
         }
 
         private static void OnCanSyncMailbox(object sender, CanExecuteRoutedEventArgs e) {
-            try {
-                e.CanExecute = NetworkInterface.GetIsNetworkAvailable();
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
+            e.CanExecute = NetworkInterface.GetIsNetworkAvailable();
         }
 
         private static async void OnSyncMailbox(object sender, ExecutedRoutedEventArgs e) {
-            try {
-                if (e.Parameter == null) {
-                    return;
-                }
-
-                var mailbox = (MailboxContext)e.Parameter;
-                if (!mailbox.IsSyncingMessages) {
-                    await mailbox.SyncMessagesAsync();
-                }
-
-                if (!mailbox.IsSyncingMailboxes) {
-                    await mailbox.SyncMailboxesAsync();
-                }
-            } catch (Exception ex) {
-                Logger.Error(ex);
+            if (e.Parameter == null) {
+                return;
             }
+
+            var mailbox = (MailboxContext)e.Parameter;
+            if (!mailbox.IsSyncingMessages) {
+                await mailbox.SyncMessagesAsync();
+            }
+
+            if (!mailbox.IsSyncingMailboxes) {
+                await mailbox.SyncMailboxesAsync();
+            }
+        }
+
+        private void OnQuickSearch(object sender, ExecutedRoutedEventArgs e) {
+            QuickSearchBox.Focus();
         }
 
         private static void OnCanDeleteMailbox(object sender, CanExecuteRoutedEventArgs e) {
-            try {
-                var mailbox = (MailboxContext)e.Parameter;
-                e.CanExecute = mailbox != null && mailbox.IsSelectable;
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
+            var mailbox = (MailboxContext)e.Parameter;
+            e.CanExecute = mailbox != null && mailbox.IsSelectable;
         }
 
         private static async void OnDeleteMailbox(object sender, ExecutedRoutedEventArgs e) {
-            try {
-                var mailbox = (MailboxContext)e.Parameter;
-                await mailbox.DeleteAsync();
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
+            var mailbox = (MailboxContext)e.Parameter;
+            await mailbox.DeleteAsync();
         }
 
         private static void OnCreateMailbox(object sender, ExecutedRoutedEventArgs e) {
-            try {
-                var parent = (IMailboxCreator)e.Parameter;
-                App.Context.CreateMailbox(parent);
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
+            var parent = (IMailboxCreator)e.Parameter;
+            App.Context.CreateMailbox(parent);
         }
 
         private static void OnCanCreateMailbox(object sender, CanExecuteRoutedEventArgs e) {
-            try {
-                var parent = (IMailboxCreator)e.Parameter;
-                e.CanExecute = parent.CanHaveChildren;
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
+            var parent = (IMailboxCreator)e.Parameter;
+            e.CanExecute = parent.CanHaveChildren;
         }
 
         public SortProperty SortProperty {
@@ -143,35 +122,19 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private static void OnForward(object sender, ExecutedRoutedEventArgs e) {
-            try {
-                App.Context.ForwardAsync();
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
+            App.Context.ForwardAsync();
         }
 
         private static void OnReply(object sender, ExecutedRoutedEventArgs e) {
-            try {
-                App.Context.ReplyAsync();
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
+            App.Context.ReplyAsync();
         }
 
         private static void OnReplyAll(object sender, ExecutedRoutedEventArgs e) {
-            try {
-                App.Context.ReplyToAllAsync();
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
+            App.Context.ReplyToAllAsync();
         }
 
         private static void OnCompose(object sender, ExecutedRoutedEventArgs e) {
-            try {
-                App.Context.Compose();
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
+            App.Context.Compose();
         }
 
         private async void OnPrint(object sender, ExecutedRoutedEventArgs e) {
@@ -183,12 +146,8 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e) {
-            try {
-                App.Context.SortOrderChanged -= OnSortOrderChanged;
-                DataContext = null;
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
+            App.Context.SortOrderChanged -= OnSortOrderChanged;
+            DataContext = null;
         }
 
         private void OnSortOrderChanged(object sender, EventArgs e) {

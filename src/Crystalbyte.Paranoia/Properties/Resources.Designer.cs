@@ -747,6 +747,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Received change notification from server..
+        /// </summary>
+        public static string IdleChangeNotification {
+            get {
+                return ResourceManager.GetString("IdleChangeNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The server does not support the IDLE extension..
         /// </summary>
         public static string IdleCommandNotSupported {
