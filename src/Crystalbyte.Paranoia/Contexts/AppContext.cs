@@ -23,6 +23,8 @@ using Crystalbyte.Paranoia.Themes;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
+using Crystalbyte.Paranoia.Cryptography;
+using System.Diagnostics;
 
 #endregion
 
@@ -244,7 +246,8 @@ namespace Crystalbyte.Paranoia {
 
                 Clear();
                 await RefreshViewForSelectedOutbox();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -269,7 +272,8 @@ namespace Crystalbyte.Paranoia {
 
                 Clear();
                 await RefreshViewForSelectedMailboxAsync();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -396,7 +400,8 @@ namespace Crystalbyte.Paranoia {
 
             if (String.IsNullOrWhiteSpace(query)) {
                 await RequestMessagesAsync(SelectedMailbox);
-            } else {
+            }
+            else {
                 await RequestMessagesAsync(new QueryContext(query));
             }
         }
@@ -570,7 +575,8 @@ namespace Crystalbyte.Paranoia {
                 });
 
                 await RequestMessagesAsync(mailbox);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -703,7 +709,8 @@ namespace Crystalbyte.Paranoia {
         private async void OnQueryReceived(string text) {
             try {
                 await RefreshViewChangedQueryString(text);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -722,7 +729,8 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 await ViewMessageAsync(message);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -736,7 +744,8 @@ namespace Crystalbyte.Paranoia {
                     if (!await message.GetIsMimeLoadedAsync()) {
                         await message.DownloadAsync();
                     }
-                } catch (Exception ex) {
+                }
+                catch (Exception ex) {
                     Logger.Error(ex);
                 }
             });
@@ -790,8 +799,37 @@ namespace Crystalbyte.Paranoia {
             IsPopupVisible = false;
         }
 
+        private Task<bool> CheckKeyPairAsync() {
+            return Task.Run(() => {
+                using (var context = new DatabaseContext()) {
+                    return context.KeyPairs.Any();
+                }
+            });
+        }
+
+        private Task GenerateKeyPairAsync() {
+            return Task.Run(() => {
+
+                var crypto = new PublicKeyCrypto();
+                var pair = new KeyPairModel {
+                    PublicKey = crypto.PublicKey,
+                    PrivateKey = crypto.PrivateKey,
+                    Date = DateTime.Now
+                };
+
+                using (var context = new DatabaseContext()) {
+                    context.KeyPairs.Add(pair);
+                    context.SaveChanges();
+                }
+            });
+        }
+
         public async Task RunAsync() {
             Application.Current.AssertUIThread();
+
+            if (!await CheckKeyPairAsync()) {
+                await GenerateKeyPairAsync();
+            }
 
             await Task.Run(async () => {
                 await LoadContactsAsync();
@@ -851,7 +889,8 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 await ProcessOutgoingMessagesAsync();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -875,7 +914,8 @@ namespace Crystalbyte.Paranoia {
                         await mailboxGroup.Key.DeleteMessagesAsync(groupedMessages, trash.Name);
                     }
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -896,7 +936,8 @@ namespace Crystalbyte.Paranoia {
                         await mailboxGroup.Key.RestoreMessagesAsync(groupedMessages);
                     }
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -1154,7 +1195,8 @@ namespace Crystalbyte.Paranoia {
                         var c = await database.MailContacts.FindAsync(contact.Id);
                         //c.Classification = ContactClassification.Spam;
                         //contact.IsIgnored = block;
-                    } catch (Exception ex) {
+                    }
+                    catch (Exception ex) {
                         Logger.Error(ex);
                     }
                 }

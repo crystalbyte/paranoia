@@ -84,7 +84,6 @@ namespace Crystalbyte.Paranoia {
                 Shutdown(1);
             }
 
-
             //System.Windows.Automation.Automation.AddAutomationFocusChangedEventHandler(OnFocusChanged);
 #endif
             var success = TryCallingLiveProcess();
@@ -135,6 +134,8 @@ namespace Crystalbyte.Paranoia {
                 Settings.Default.AcceptUntrustedCertificates = true;
             }
 #endif
+
+
         }
 
 #if DEBUG

@@ -18,7 +18,7 @@ namespace Crystalbyte.Paranoia.Data {
         public Int64 ContactId { get; set; }
 
         [Column("data")]
-        public string Data { get; set; }
+        public byte[] Data { get; set; }
 
         public MailContactModel Contact { get; set; }
     }

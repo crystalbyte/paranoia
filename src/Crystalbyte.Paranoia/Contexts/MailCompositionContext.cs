@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Net.Mime;
+using Crystalbyte.Paranoia.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -16,6 +17,9 @@ using Crystalbyte.Paranoia.UI.Commands;
 using Microsoft.Win32;
 using NLog;
 using System.Text.RegularExpressions;
+using Crystalbyte.Paranoia.Data;
+using Crystalbyte.Paranoia.Cryptography;
+using System.Windows;
 
 #endregion
 
@@ -134,18 +138,43 @@ namespace Crystalbyte.Paranoia {
         public async Task SaveToOutboxAsync() {
             try {
                 var account = SelectedAccount;
-                var document = await _provider.GetDocumentAsync();
+                var document = _provider.GetDocumentAsync();
+
+                KeyPairModel current = null;
+
+                var contacts = await Task.Run(() => {
+                    using (var context = new DatabaseContext()) {
+
+                        current = context.KeyPairs.OrderByDescending(x => x.Date).First();
+
+                        return Addresses
+                               .Select(x => context.MailContacts
+                                   .Include("Keys")
+                                   .FirstOrDefault(y => y.Address == x))
+                               .Where(w => w != null)
+                               .ToDictionary(z => z.Address);
+                    }
+                });
 
                 var messages = new List<MailMessage>();
                 foreach (var address in Addresses) {
+
+                    PublicKeyModel key = null;
+                    if (contacts.ContainsKey(address)) {
+                        var contact = contacts[address];
+                        key = contact.Keys.FirstOrDefault();
+                    }
+
                     var message = new MailMessage {
                         IsBodyHtml = true,
                         Subject = Subject,
                         BodyEncoding = Encoding.UTF8,
                         BodyTransferEncoding = TransferEncoding.Base64,
                         From = new MailAddress(account.Address, account.Name),
-                        Body = document,
+                        Body = await document
                     };
+
+                    message.Headers.Add(MessageHeaders.Signet, Convert.ToBase64String(current.PrivateKey));
 
                     message.To.Add(new MailAddress(address));
                     foreach (var a in Attachments) {
@@ -154,21 +183,64 @@ namespace Crystalbyte.Paranoia {
 
                     // IO heavy operation, needs to run in background thread.
                     await Task.Run(() => message.PackageEmbeddedContent());
-                    
-                    messages.Add(message);
+
+                    if (key == null) {
+                        messages.Add(message);
+                    }
+                    else {
+                        var nonce = PublicKeyCrypto.GenerateNonce();
+                        var payload = await EncryptMessageAsync(message, current, key, nonce);
+                        message = GenerateDeliveryMessage(account, current.PrivateKey, address, nonce);
+                        message.AlternateViews.Add(new AlternateView(new MemoryStream(payload), new ContentType(MediaTypes.EncryptedMime)));
+                        messages.Add(message);
+                    }
                 }
 
                 await account.SaveCompositionsAsync(messages);
                 await App.Context.NotifyOutboxNotEmpty();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
+        }
+
+        private static MailMessage GenerateDeliveryMessage(MailAccountContext account, byte[] pKey, string address, byte[] nonce) {
+            var message = new MailMessage {
+                Subject = "BAZINGA !!",
+                BodyEncoding = Encoding.UTF8,
+                BodyTransferEncoding = TransferEncoding.Base64,
+                From = new MailAddress(account.Address, account.Name),
+            };
+
+            message.To.Add(address);
+
+            const string path = "/Resources/message.facade.html";
+            var info = Application.GetResourceStream(new Uri(path, UriKind.Relative));
+            if (info == null) {
+                throw new ResourceNotFoundException(path);
+            }
+
+            var html = AlternateView.CreateAlternateViewFromString(info.Stream.ToUtf8String());
+            html.ContentType = new ContentType("text/html");
+            message.AlternateViews.Add(html);
+
+            var signet = string.Format("pkey={0}; nonce={1};", Convert.ToBase64String(pKey), Convert.ToBase64String(nonce));
+            message.Headers.Add(MessageHeaders.Signet, signet);
+            return message;
+        }
+
+        private async Task<byte[]> EncryptMessageAsync(MailMessage message, KeyPairModel pair, PublicKeyModel pKey, byte[] nonce) {
+            var mime = await message.ToMimeAsync();
+            var bytes = Encoding.UTF8.GetBytes(mime);
+            var crypto = new PublicKeyCrypto(pair.PublicKey, pair.PrivateKey);
+            return crypto.EncryptWithPublicKey(bytes, pKey.Data, nonce);
         }
 
         private async void OnFinalize(object obj) {
             try {
                 await FinalizeAsync();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
 
@@ -181,7 +253,8 @@ namespace Crystalbyte.Paranoia {
         private void OnInsertAttachment(object obj) {
             try {
                 InsertAttachments();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -203,7 +276,8 @@ namespace Crystalbyte.Paranoia {
                     .Select(name => new FileInfo(name))
                     .Where(x => x.Exists)
                     .Select(x => new FileAttachmentContext(x.FullName)));
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -234,7 +308,8 @@ namespace Crystalbyte.Paranoia {
                     //var stream = new MemoryStream(bytes);
                     //attachment = new Attachment(stream, name) { ContentId = (name + "@" + Guid.NewGuid()).Replace(" ", "") };
 
-                } else {
+                }
+                else {
                     var uri = new Uri(result, UriKind.RelativeOrAbsolute);
                     if (!uri.IsFile || !File.Exists(result))
                         continue;

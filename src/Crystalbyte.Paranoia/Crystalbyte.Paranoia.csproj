@@ -226,6 +226,9 @@
     <Compile Include="IMailMessage.cs" />
     <Compile Include="MailMessageExtension.cs" />
     <Compile Include="ContactClassification.cs" />
+    <Compile Include="MessagHeaders.cs" />
+    <Compile Include="MissingContactException.cs" />
+    <Compile Include="MissingKeyException.cs" />
     <Compile Include="SimpleSpamDetector.cs" />
     <Compile Include="TextRange.cs" />
     <Compile Include="ScriptingException.cs" />
@@ -620,6 +623,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="..\key.debug.snk">
       <Link>key.debug.snk</Link>
@@ -769,6 +773,9 @@
   <ItemGroup>
     <Resource Include="Resources\scrollbar.arrow.left.jpg" />
     <Resource Include="Resources\scrollbar.arrow.right.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\message.facade.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

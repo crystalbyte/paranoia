@@ -25,8 +25,6 @@ namespace Crystalbyte.Paranoia.Cryptography.Tests {
             Sodium.InitNativeLibrary();
             var pkc1 = new PublicKeyCrypto();
 
-            pkc1.Init();
-
             Assert.IsFalse(String.IsNullOrEmpty(Encoding.UTF8.GetString(pkc1.PublicKey)));
             Assert.IsFalse(String.IsNullOrEmpty(Encoding.UTF8.GetString(pkc1.PrivateKey)));
         }
@@ -37,9 +35,6 @@ namespace Crystalbyte.Paranoia.Cryptography.Tests {
             Sodium.InitNativeLibrary();
             var pkc1 = new PublicKeyCrypto();
             var pkc2 = new PublicKeyCrypto();
-
-            pkc1.Init();
-            pkc2.Init();
 
             var message = "test";
             var nonce = PublicKeyCrypto.GenerateNonce();

@@ -26,31 +26,46 @@ namespace Crystalbyte.Paranoia.Cryptography {
         private static readonly uint umacBytesSize = uzeroByteSize - uboxZeroByteSize;
         private static readonly int macBytesSize = zeroByteSize - boxZeroByteSize;
 
+        public PublicKeyCrypto() {
+            Alloc();
+            var err = SafeNativeMethods.CryptoBoxKeypair(_publicKeyPtr, _privateKeyPtr);
+            if (err == -1) {
+                throw new Exception();
+            }
+        }
+
+        public PublicKeyCrypto(byte[] publicKey, byte[] privateKey) {
+            Alloc();
+            WriteKey(publicKey, _publicKeyPtr);
+            WriteKey(privateKey, _privateKeyPtr);
+        }
+
         /// <summary>
         /// Gets the size of the nonce byte array.
         /// </summary>
-        public static int NonceSize { 
-            get { return Convert.ToInt32(nonceSize / Marshal.SizeOf<Byte>()); } }
-
-        public async Task InitFromFileAsync(string publicKeyPath, string privateKeyPath, string password = "") {
-
-            string publicKey = string.Empty;
-            string privateKey = string.Empty;
-
-            await Task.Factory.StartNew(() => {
-                publicKey = File.ReadAllText(publicKeyPath);
-                privateKey = File.ReadAllText(privateKeyPath);
-            });
-
-            Alloc();
-
-            var decodedPublicKey = Convert.FromBase64String(publicKey);
-            WriteKey(decodedPublicKey, _publicKeyPtr);
-
-
-            var decodedPrivateKey = Convert.FromBase64String(privateKey);
-            WriteKey(decodedPrivateKey, _privateKeyPtr);
+        public static int NonceSize {
+            get { return Convert.ToInt32(nonceSize / Marshal.SizeOf<Byte>()); }
         }
+        
+        //public async Task InitFromFileAsync(string publicKeyPath, string privateKeyPath, string password = "") {
+
+        //    string publicKey = string.Empty;
+        //    string privateKey = string.Empty;
+
+        //    await Task.Factory.StartNew(() => {
+        //        publicKey = File.ReadAllText(publicKeyPath);
+        //        privateKey = File.ReadAllText(privateKeyPath);
+        //    });
+
+        //    Alloc();
+
+        //    var decodedPublicKey = Convert.FromBase64String(publicKey);
+        //    WriteKey(decodedPublicKey, _publicKeyPtr);
+
+
+        //    var decodedPrivateKey = Convert.FromBase64String(privateKey);
+        //    WriteKey(decodedPrivateKey, _privateKeyPtr);
+        //}
 
         private void WriteKey(byte[] key, IntPtr ptr) {
             Marshal.Copy(key, 0, ptr, keySize);
@@ -64,7 +79,7 @@ namespace Crystalbyte.Paranoia.Cryptography {
             }
         }
 
-        internal byte[] PrivateKey {
+        public byte[] PrivateKey {
             get {
                 var bytes = new byte[keySize];
                 Marshal.Copy(_privateKeyPtr, bytes, 0, keySize);
@@ -72,7 +87,7 @@ namespace Crystalbyte.Paranoia.Cryptography {
             }
         }
 
-        public async Task SavePublicKeyAsync(string path) {
+        public async Task SavePublicKey(string path) {
             using (var fs = File.OpenWrite(path)) {
                 var base64 = Convert.ToBase64String(PublicKey);
                 var bytes = Encoding.UTF8.GetBytes(base64);
@@ -91,14 +106,6 @@ namespace Crystalbyte.Paranoia.Cryptography {
         private void Alloc() {
             _publicKeyPtr = Marshal.AllocHGlobal(keySize);
             _privateKeyPtr = Marshal.AllocHGlobal(keySize);
-        }
-
-        public void Init() {
-            Alloc();
-            var err = SafeNativeMethods.CryptoBoxKeypair(_publicKeyPtr, _privateKeyPtr);
-            if (err == -1) {
-                throw new Exception();
-            }
         }
 
         public static byte[] GenerateNonce() {

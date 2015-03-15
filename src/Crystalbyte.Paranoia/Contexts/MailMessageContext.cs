@@ -15,6 +15,8 @@ using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Crystalbyte.Paranoia.Mail.Mime.Header;
+using Crystalbyte.Paranoia.Cryptography;
 
 #endregion
 
@@ -222,7 +224,8 @@ namespace Crystalbyte.Paranoia {
 
                 if (value) {
                     _message.WriteFlag(MailMessageFlags.Flagged);
-                } else {
+                }
+                else {
                     _message.DropFlag(MailMessageFlags.Flagged);
                 }
 
@@ -241,7 +244,8 @@ namespace Crystalbyte.Paranoia {
 
                 if (value) {
                     _message.WriteFlag(MailMessageFlags.Seen);
-                } else {
+                }
+                else {
                     _message.DropFlag(MailMessageFlags.Seen);
                 }
 
@@ -260,7 +264,8 @@ namespace Crystalbyte.Paranoia {
 
                 if (value) {
                     _message.WriteFlag(MailMessageFlags.Answered);
-                } else {
+                }
+                else {
                     _message.DropFlag(MailMessageFlags.Answered);
                 }
 
@@ -312,7 +317,8 @@ namespace Crystalbyte.Paranoia {
                             try {
                                 context.SaveChanges();
                                 break;
-                            } catch (DbUpdateConcurrencyException ex) {
+                            }
+                            catch (DbUpdateConcurrencyException ex) {
                                 ex.Entries.ForEach(x => x.Reload());
                                 Logger.Info(ex);
                             }
@@ -320,7 +326,8 @@ namespace Crystalbyte.Paranoia {
 
                         _message = m;
                     }
-                } catch (Exception ex) {
+                }
+                catch (Exception ex) {
                     Logger.Error(ex);
                 }
             });
@@ -443,70 +450,164 @@ namespace Crystalbyte.Paranoia {
                 IncrementLoad();
 
                 var mime = await FetchMimeAsync();
-                using (var context = new DatabaseContext()) {
-                    var message = await context.MailMessages.FindAsync(_message.Id);
-                    var mimeMessage = new MimeMessageModel {
-                        Data = mime
-                    };
+                var reader = new MailMessageReader(mime);
 
-                    message.MimeMessages.Add(mimeMessage);
-                    var reader = new MailMessageReader(mime);
+                var address = reader.Headers.From.Address;
+                var parts = reader.FindAllMessagePartsWithMediaType(MediaTypes.EncryptedMime);
 
-                    message.HasAttachments = reader.FindAllAttachments().Count > 0;
 
-                    var from = await context.MailContacts
-                        .FirstOrDefaultAsync(x => x.Address == reader.Headers.From.Address);
-                    if (from == null) {
-                        from = new MailContactModel {
-                            Name = reader.Headers.From.DisplayName,
-                            Address = reader.Headers.From.Address
-                        };
+                byte[] nonce = null;
+                byte[] pKey = null;
 
-                        context.MailContacts.Add(from);
+
+                var xHeaders = reader.Headers.UnknownHeaders;
+                for (int i = 0; i < xHeaders.Count; i++) {
+                    var key = xHeaders.GetKey(i);
+                    if (key.EqualsIgnoreCase(MessageHeaders.Signet)) {
+                        var signet = xHeaders.GetValues(i).First();
+                        var split = signet.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+                        var p = split[0].Substring(split[0].IndexOf('=') + 1).Trim(';');
+                        pKey = Convert.FromBase64String(p);
+
+                        var n = split[1].Substring(split[1].IndexOf('=') + 1).Trim(';');
+                        nonce = Convert.FromBase64String(n);
                     }
-
-                    foreach (var value in reader.Headers.To) {
-                        var v = value;
-                        var contact = await context.MailContacts
-                            .FirstOrDefaultAsync(x => x.Address == v.Address);
-                        if (contact == null) {
-                            contact = new MailContactModel {
-                                Name = v.DisplayName,
-                                Address = v.Address
-                            };
-
-                            context.MailContacts.Add(contact);
-                        }
-                        _to.Add(new MailContactContext(contact));
-                    }
-
-                    foreach (var value in reader.Headers.Cc) {
-                        var v = value;
-                        var contact = await context.MailContacts
-                            .FirstOrDefaultAsync(x => x.Address == v.Address);
-                        if (contact == null) {
-                            contact = new MailContactModel {
-                                Name = v.DisplayName,
-                                Address = v.Address
-                            };
-
-                            context.MailContacts.Add(contact);
-                        }
-                        _cc.Add(new MailContactContext(contact));
-                    }
-
-                    await context.SaveChangesAsync();
-
-                    _message = message;
                 }
+
+                if (parts != null && parts.Count > 0) {
+                    var part = parts.First();
+
+                    mime = await Task.Run(() => {
+                        try {
+                            using (var context = new DatabaseContext()) {
+                                var current = context.KeyPairs.OrderByDescending(x => x.Date).First();
+                                var contact = context.MailContacts
+                                    .Include(x => x.Keys)
+                                    .FirstOrDefault(x => x.Address == address);
+
+                                if (contact == null) {
+                                    throw new MissingContactException(address);
+                                }
+
+                                if (contact.Keys.Count == 0) {
+                                    throw new MissingKeyException(address);
+                                }
+
+                                var crypto = new PublicKeyCrypto(current.PublicKey, current.PrivateKey);
+                                return crypto.DecryptWithPrivateKey(part.Body, pKey, nonce);
+                            }
+                        }
+                        catch (Exception ex) {
+                            Logger.Error(ex);
+                            throw;
+                        }
+                    });
+                }
+
+                await SaveMimeAsync(mime);
 
                 await Application.Current.Dispatcher
                     .InvokeAsync(OnDownloadCompleted);
 
                 return mime;
 
-            } finally {
+            }
+            finally {
                 DecrementLoad();
+            }
+        }
+
+        private async Task SaveMimeAsync(byte[] mime) {
+            using (var context = new DatabaseContext()) {
+                var message = await context.MailMessages.FindAsync(_message.Id);
+                var mimeMessage = new MimeMessageModel {
+                    Data = mime
+                };
+
+                message.MimeMessages.Add(mimeMessage);
+                var reader = new MailMessageReader(mime);
+
+                message.HasAttachments = reader.FindAllAttachments().Count > 0;
+
+                var from = await context.MailContacts
+                    .FirstOrDefaultAsync(x => x.Address == reader.Headers.From.Address);
+                if (from == null) {
+                    from = new MailContactModel {
+                        Name = reader.Headers.From.DisplayName,
+                        Address = reader.Headers.From.Address
+                    };
+
+                    context.MailContacts.Add(from);
+                }
+
+                var xHeaders = reader.Headers.UnknownHeaders;
+                for (var i = 0; i < xHeaders.Keys.Count; i++) {
+                    var key = xHeaders.GetKey(i);
+                    if (!key.ContainsIgnoreCase(MessageHeaders.Signet))
+                        continue;
+
+                    var value = xHeaders.GetValues(i).FirstOrDefault();
+                    if (value == null) {
+                        continue;
+                    }
+
+                    // Drop the current key
+                    var k = from.Keys.FirstOrDefault();
+                    if (k == null) {
+                        from.Keys.Add(new PublicKeyModel {
+                            Data = Convert.FromBase64String(value)
+                        });
+                    }
+                    else {
+                        k.Data = Convert.FromBase64String(value);
+                    }
+                }
+
+                foreach (var value in reader.Headers.To) {
+                    var v = value;
+                    var contact = await context.MailContacts
+                        .FirstOrDefaultAsync(x => x.Address == v.Address);
+                    if (contact == null) {
+                        contact = new MailContactModel {
+                            Name = v.DisplayName,
+                            Address = v.Address
+                        };
+
+                        context.MailContacts.Add(contact);
+                    }
+                    _to.Add(new MailContactContext(contact));
+                }
+
+                foreach (var value in reader.Headers.Cc) {
+                    var v = value;
+                    var contact = await context.MailContacts
+                        .FirstOrDefaultAsync(x => x.Address == v.Address);
+                    if (contact == null) {
+                        contact = new MailContactModel {
+                            Name = v.DisplayName,
+                            Address = v.Address
+                        };
+
+                        context.MailContacts.Add(contact);
+                    }
+                    _cc.Add(new MailContactContext(contact));
+                }
+
+                // Handle Optimistic Concurrency.
+                // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
+                while (true) {
+                    try {
+                        context.SaveChanges();
+                        break;
+                    }
+                    catch (DbUpdateConcurrencyException ex) {
+                        ex.Entries.ForEach(x => x.Reload());
+                        Logger.Info(ex);
+                    }
+                }
+
+                _message = message;
             }
         }
 

@@ -30,7 +30,6 @@ namespace Crystalbyte.Paranoia.Mail {
                         new[] { mailWriter, true, true });
 
                 return Encoding.UTF8.GetString(stream.ToArray());
-                
             });
         }
     }
