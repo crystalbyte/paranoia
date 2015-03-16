@@ -24,7 +24,6 @@ using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
 using Crystalbyte.Paranoia.Cryptography;
-using System.Diagnostics;
 
 #endregion
 
@@ -246,8 +245,7 @@ namespace Crystalbyte.Paranoia {
 
                 Clear();
                 await RefreshViewForSelectedOutbox();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -272,8 +270,7 @@ namespace Crystalbyte.Paranoia {
 
                 Clear();
                 await RefreshViewForSelectedMailboxAsync();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -400,8 +397,7 @@ namespace Crystalbyte.Paranoia {
 
             if (String.IsNullOrWhiteSpace(query)) {
                 await RequestMessagesAsync(SelectedMailbox);
-            }
-            else {
+            } else {
                 await RequestMessagesAsync(new QueryContext(query));
             }
         }
@@ -575,8 +571,7 @@ namespace Crystalbyte.Paranoia {
                 });
 
                 await RequestMessagesAsync(mailbox);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -709,8 +704,7 @@ namespace Crystalbyte.Paranoia {
         private async void OnQueryReceived(string text) {
             try {
                 await RefreshViewChangedQueryString(text);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -729,8 +723,7 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 await ViewMessageAsync(message);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -738,27 +731,33 @@ namespace Crystalbyte.Paranoia {
         internal async Task ViewMessageAsync(MailMessageContext message) {
             Application.Current.AssertUIThread();
 
-            var mark = MarkAsSeenAsync(message);
-            await Task.Run(async () => {
-                try {
+            try {
+                var mark = MarkAsSeenAsync(message);
+                await Task.Run(async () => {
                     if (!await message.GetIsMimeLoadedAsync()) {
-                        await message.DownloadAsync();
+                        await message.FetchAndDecryptAsync();
                     }
-                }
-                catch (Exception ex) {
-                    Logger.Error(ex);
-                }
-            });
+                });
 
-            if (!message.IsInitialized) {
-                await message.InitDetailsAsync();
+                if (!message.IsInitialized) {
+                    await message.InitDetailsAsync();
+                }
+
+                Source = string.Format(message.IsExternalContentAllowed
+                    ? "message:///{0}?blockExternals=false"
+                    : "message:///{0}", message.Id);
+
+                await mark;
+            } catch (MissingKeyException ex) {
+                // TODO: Notify user key is missing.
+                Logger.Error(ex);
+            } catch (SignetMissingOrCorruptException ex) {
+                // TODO: Notify user signet is missing or corrupt.
+                Logger.Error(ex);
+            } catch (MissingContactException ex) {
+                // TODO: Notify user the contact is not listed in the database.
+                Logger.Error(ex);
             }
-
-            Source = string.Format(message.IsExternalContentAllowed
-                ? "message:///{0}?blockExternals=false"
-                : "message:///{0}", message.Id);
-
-            await mark;
         }
 
         internal Task MarkAsSeenAsync(MailMessageContext message) {
@@ -799,7 +798,7 @@ namespace Crystalbyte.Paranoia {
             IsPopupVisible = false;
         }
 
-        private Task<bool> CheckKeyPairAsync() {
+        private static Task<bool> CheckKeyPairAsync() {
             return Task.Run(() => {
                 using (var context = new DatabaseContext()) {
                     return context.KeyPairs.Any();
@@ -807,7 +806,7 @@ namespace Crystalbyte.Paranoia {
             });
         }
 
-        private Task GenerateKeyPairAsync() {
+        private static Task GenerateKeyPairAsync() {
             return Task.Run(() => {
 
                 var crypto = new PublicKeyCrypto();
@@ -889,8 +888,7 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 await ProcessOutgoingMessagesAsync();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -914,8 +912,7 @@ namespace Crystalbyte.Paranoia {
                         await mailboxGroup.Key.DeleteMessagesAsync(groupedMessages, trash.Name);
                     }
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -936,8 +933,7 @@ namespace Crystalbyte.Paranoia {
                         await mailboxGroup.Key.RestoreMessagesAsync(groupedMessages);
                     }
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -1195,8 +1191,7 @@ namespace Crystalbyte.Paranoia {
                         var c = await database.MailContacts.FindAsync(contact.Id);
                         //c.Classification = ContactClassification.Spam;
                         //contact.IsIgnored = block;
-                    }
-                    catch (Exception ex) {
+                    } catch (Exception ex) {
                         Logger.Error(ex);
                     }
                 }

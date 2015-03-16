@@ -60,6 +60,18 @@ namespace Crystalbyte.Paranoia {
             return new string(buffer);
         }
 
+        internal static Dictionary<string, string> ToKeyValuePairs(this string s) {
+            var dic = new Dictionary<string, string>();
+            var split = s.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var ss in split) {
+                var i = ss.IndexOf('=');
+                var key = ss.Substring(0, i).Trim();
+                var value = ss.Substring(i + 1).Trim();
+                dic.Add(key, value);
+            }
+            return dic;
+        }
+
         internal static Dictionary<String, String> ToPageArguments(this string s) {
             const string pattern = "[A-Za-z0-9%\\.-]+=[A-Za-z0-9%\\.-]+";
             var matches = Regex.Matches(s, pattern, RegexOptions.IgnoreCase);

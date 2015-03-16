@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Library.cs" />
+    <Compile Include="MessageDecryptionFailedException.cs" />
     <Compile Include="NativeResource.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

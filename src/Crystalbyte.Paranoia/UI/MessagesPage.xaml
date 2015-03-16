@@ -1041,8 +1041,8 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>
-            <ui:BlockNoticeControl Grid.Row="2" DataContext="{Binding SelectedMessage}" />
-            <ui:SpamNoticeControl Grid.Row="3" DataContext="{Binding SelectedMessage}" />
+            <ui:SpamNoticeControl Grid.Row="2" DataContext="{Binding SelectedMessage}" />
+            <ui:BlockNoticeControl Grid.Row="3" DataContext="{Binding SelectedMessage}" />
             <Grid Grid.Row="4"
                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}"
                   Visibility="{Binding IsMessageOrSmtpRequestSelected,

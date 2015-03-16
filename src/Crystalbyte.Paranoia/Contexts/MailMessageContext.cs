@@ -15,7 +15,6 @@ using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Crystalbyte.Paranoia.Mail.Mime.Header;
 using Crystalbyte.Paranoia.Cryptography;
 
 #endregion
@@ -224,8 +223,7 @@ namespace Crystalbyte.Paranoia {
 
                 if (value) {
                     _message.WriteFlag(MailMessageFlags.Flagged);
-                }
-                else {
+                } else {
                     _message.DropFlag(MailMessageFlags.Flagged);
                 }
 
@@ -244,8 +242,7 @@ namespace Crystalbyte.Paranoia {
 
                 if (value) {
                     _message.WriteFlag(MailMessageFlags.Seen);
-                }
-                else {
+                } else {
                     _message.DropFlag(MailMessageFlags.Seen);
                 }
 
@@ -264,8 +261,7 @@ namespace Crystalbyte.Paranoia {
 
                 if (value) {
                     _message.WriteFlag(MailMessageFlags.Answered);
-                }
-                else {
+                } else {
                     _message.DropFlag(MailMessageFlags.Answered);
                 }
 
@@ -317,8 +313,7 @@ namespace Crystalbyte.Paranoia {
                             try {
                                 context.SaveChanges();
                                 break;
-                            }
-                            catch (DbUpdateConcurrencyException ex) {
+                            } catch (DbUpdateConcurrencyException ex) {
                                 ex.Entries.ForEach(x => x.Reload());
                                 Logger.Info(ex);
                             }
@@ -326,8 +321,7 @@ namespace Crystalbyte.Paranoia {
 
                         _message = m;
                     }
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     Logger.Error(ex);
                 }
             });
@@ -443,7 +437,7 @@ namespace Crystalbyte.Paranoia {
         /// Downloads the message mime structure from the server.
         /// </summary>
         /// <returns>The mime structure as a byte array.</returns>
-        internal async Task<byte[]> DownloadAsync() {
+        internal async Task<byte[]> FetchAndDecryptAsync() {
             Application.Current.AssertBackgroundThread();
 
             try {
@@ -454,66 +448,61 @@ namespace Crystalbyte.Paranoia {
 
                 var address = reader.Headers.From.Address;
                 var parts = reader.FindAllMessagePartsWithMediaType(MediaTypes.EncryptedMime);
-
-
-                byte[] nonce = null;
-                byte[] pKey = null;
-
-
                 var xHeaders = reader.Headers.UnknownHeaders;
-                for (int i = 0; i < xHeaders.Count; i++) {
+
+                byte[] pKey = null;
+                byte[] nonce = null;
+                var n = (xHeaders.GetValues(MessageHeaders.Nonce) ?? new[] { string.Empty }).FirstOrDefault();
+                if (!string.IsNullOrEmpty(n)) {
+                    nonce = Convert.FromBase64String(n);
+                }
+
+                for (var i = 0; i < xHeaders.Count; i++) {
                     var key = xHeaders.GetKey(i);
-                    if (key.EqualsIgnoreCase(MessageHeaders.Signet)) {
-                        var signet = xHeaders.GetValues(i).First();
-                        var split = signet.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (!key.EqualsIgnoreCase(MessageHeaders.Signet))
+                        continue;
 
-                        var p = split[0].Substring(split[0].IndexOf('=') + 1).Trim(';');
-                        pKey = Convert.FromBase64String(p);
-
-                        var n = split[1].Substring(split[1].IndexOf('=') + 1).Trim(';');
-                        nonce = Convert.FromBase64String(n);
+                    var values = xHeaders.GetValues(i);
+                    if (values == null) {
+                        throw new SignetMissingOrCorruptException(address);
                     }
+
+                    var signet = values.First();
+                    var split = signet.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    var p = split[0].Substring(split[0].IndexOf('=') + 1).Trim(';');
+                    pKey = Convert.FromBase64String(p);
                 }
 
                 if (parts != null && parts.Count > 0) {
                     var part = parts.First();
 
                     mime = await Task.Run(() => {
-                        try {
-                            using (var context = new DatabaseContext()) {
-                                var current = context.KeyPairs.OrderByDescending(x => x.Date).First();
-                                var contact = context.MailContacts
-                                    .Include(x => x.Keys)
-                                    .FirstOrDefault(x => x.Address == address);
+                        using (var context = new DatabaseContext()) {
+                            var current = context.KeyPairs.OrderByDescending(x => x.Date).First();
+                            var contact = context.MailContacts
+                                .Include(x => x.Keys)
+                                .FirstOrDefault(x => x.Address == address);
 
-                                if (contact == null) {
-                                    throw new MissingContactException(address);
-                                }
-
-                                if (contact.Keys.Count == 0) {
-                                    throw new MissingKeyException(address);
-                                }
-
-                                var crypto = new PublicKeyCrypto(current.PublicKey, current.PrivateKey);
-                                return crypto.DecryptWithPrivateKey(part.Body, pKey, nonce);
+                            if (contact == null) {
+                                throw new MissingContactException(address);
                             }
-                        }
-                        catch (Exception ex) {
-                            Logger.Error(ex);
-                            throw;
+
+                            if (contact.Keys.Count == 0) {
+                                throw new MissingKeyException(address);
+                            }
+
+                            var crypto = new PublicKeyCrypto(current.PublicKey, current.PrivateKey);
+                            return crypto.DecryptWithPrivateKey(part.Body, pKey, nonce);
                         }
                     });
                 }
 
                 await SaveMimeAsync(mime);
 
-                await Application.Current.Dispatcher
-                    .InvokeAsync(OnDownloadCompleted);
-
                 return mime;
 
-            }
-            finally {
+            } finally {
                 DecrementLoad();
             }
         }
@@ -542,25 +531,22 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 var xHeaders = reader.Headers.UnknownHeaders;
-                for (var i = 0; i < xHeaders.Keys.Count; i++) {
-                    var key = xHeaders.GetKey(i);
-                    if (!key.ContainsIgnoreCase(MessageHeaders.Signet))
-                        continue;
-
-                    var value = xHeaders.GetValues(i).FirstOrDefault();
-                    if (value == null) {
-                        continue;
-                    }
-
-                    // Drop the current key
-                    var k = from.Keys.FirstOrDefault();
-                    if (k == null) {
-                        from.Keys.Add(new PublicKeyModel {
-                            Data = Convert.FromBase64String(value)
-                        });
-                    }
-                    else {
-                        k.Data = Convert.FromBase64String(value);
+                var values = xHeaders.GetValues(MessageHeaders.Signet);
+                if (values != null) {
+                    var value = values.FirstOrDefault();
+                    if (value != null) {
+                        var dic = value.ToKeyValuePairs();
+                        try {
+                            var pKey = Convert.FromBase64String(dic["pkey"]);
+                            var k = from.Keys.FirstOrDefault(x => x.Data == pKey);
+                            if (k == null) {
+                                from.Keys.Add(new PublicKeyModel {
+                                    Data = pKey
+                                });
+                            }
+                        } catch (Exception ex) {
+                            Logger.Error(ex);
+                        }
                     }
                 }
 
@@ -600,8 +586,7 @@ namespace Crystalbyte.Paranoia {
                     try {
                         context.SaveChanges();
                         break;
-                    }
-                    catch (DbUpdateConcurrencyException ex) {
+                    } catch (DbUpdateConcurrencyException ex) {
                         ex.Entries.ForEach(x => x.Reload());
                         Logger.Info(ex);
                     }

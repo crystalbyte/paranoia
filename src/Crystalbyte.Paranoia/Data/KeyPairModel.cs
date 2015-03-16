@@ -14,8 +14,9 @@ namespace Crystalbyte.Paranoia.Data {
 
         [Column("private_key")]
         public byte[] PrivateKey { get; set; }
-
+        
         [Column("date")]
+        [Default(DatabaseFunction.CurrentTimestamp)]
         public DateTime Date { get; set; }
     }
 }

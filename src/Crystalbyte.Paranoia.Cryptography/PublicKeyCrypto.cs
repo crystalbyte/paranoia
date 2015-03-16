@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,20 +9,14 @@ namespace Crystalbyte.Paranoia.Cryptography {
         private IntPtr _publicKeyPtr;
         private IntPtr _privateKeyPtr;
 
-        private static readonly uint ukeySize = Convert.ToUInt32(Marshal.SizeOf<Byte>() * 32);
-        private static readonly int keySize = Marshal.SizeOf<Byte>() * 32;
+        private static readonly int KeySize = Marshal.SizeOf<Byte>() * 32;
+        private static readonly uint UnonceSize = Convert.ToUInt32(Marshal.SizeOf<Byte>() * 24);
 
-        private static readonly uint unonceSize = Convert.ToUInt32(Marshal.SizeOf<Byte>() * 24);
-        private static readonly int nonceSize = Marshal.SizeOf<Byte>() * 24;
-
-        private static readonly uint uboxZeroByteSize = Convert.ToUInt32(Marshal.SizeOf<Byte>() * 16);
-        private static readonly int boxZeroByteSize = Marshal.SizeOf<Byte>() * 16;
-
-        private static readonly uint uzeroByteSize = Convert.ToUInt32(Marshal.SizeOf<Byte>() * 32);
-        private static readonly int zeroByteSize = Marshal.SizeOf<Byte>() * 32;
-
-        private static readonly uint umacBytesSize = uzeroByteSize - uboxZeroByteSize;
-        private static readonly int macBytesSize = zeroByteSize - boxZeroByteSize;
+        // ReSharper disable once InconsistentNaming
+        private static readonly int _nonceSize = Marshal.SizeOf<Byte>() * 24;
+        private static readonly int BoxZeroByteSize = Marshal.SizeOf<Byte>() * 16;
+        private static readonly int ZeroByteSize = Marshal.SizeOf<Byte>() * 32;
+        private static readonly int MacBytesSize = ZeroByteSize - BoxZeroByteSize;
 
         public PublicKeyCrypto() {
             Alloc();
@@ -44,9 +36,9 @@ namespace Crystalbyte.Paranoia.Cryptography {
         /// Gets the size of the nonce byte array.
         /// </summary>
         public static int NonceSize {
-            get { return Convert.ToInt32(nonceSize / Marshal.SizeOf<Byte>()); }
+            get { return Convert.ToInt32(_nonceSize / Marshal.SizeOf<Byte>()); }
         }
-        
+
         //public async Task InitFromFileAsync(string publicKeyPath, string privateKeyPath, string password = "") {
 
         //    string publicKey = string.Empty;
@@ -68,21 +60,21 @@ namespace Crystalbyte.Paranoia.Cryptography {
         //}
 
         private void WriteKey(byte[] key, IntPtr ptr) {
-            Marshal.Copy(key, 0, ptr, keySize);
+            Marshal.Copy(key, 0, ptr, KeySize);
         }
 
         public byte[] PublicKey {
             get {
-                var bytes = new byte[keySize];
-                Marshal.Copy(_publicKeyPtr, bytes, 0, keySize);
+                var bytes = new byte[KeySize];
+                Marshal.Copy(_publicKeyPtr, bytes, 0, KeySize);
                 return bytes;
             }
         }
 
         public byte[] PrivateKey {
             get {
-                var bytes = new byte[keySize];
-                Marshal.Copy(_privateKeyPtr, bytes, 0, keySize);
+                var bytes = new byte[KeySize];
+                Marshal.Copy(_privateKeyPtr, bytes, 0, KeySize);
                 return bytes;
             }
         }
@@ -104,16 +96,16 @@ namespace Crystalbyte.Paranoia.Cryptography {
         }
 
         private void Alloc() {
-            _publicKeyPtr = Marshal.AllocHGlobal(keySize);
-            _privateKeyPtr = Marshal.AllocHGlobal(keySize);
+            _publicKeyPtr = Marshal.AllocHGlobal(KeySize);
+            _privateKeyPtr = Marshal.AllocHGlobal(KeySize);
         }
 
         public static byte[] GenerateNonce() {
-            var noncePtr = Marshal.AllocHGlobal(nonceSize);
-            SafeNativeMethods.SodiumMemZero(noncePtr, unonceSize);
-            SafeNativeMethods.RandomBytesBuf(noncePtr, unonceSize);
-            var nonceArray = new byte[nonceSize];
-            Marshal.Copy(noncePtr, nonceArray, 0, nonceSize);
+            var noncePtr = Marshal.AllocHGlobal(_nonceSize);
+            SafeNativeMethods.SodiumMemZero(noncePtr, UnonceSize);
+            SafeNativeMethods.RandomBytesBuf(noncePtr, UnonceSize);
+            var nonceArray = new byte[_nonceSize];
+            Marshal.Copy(noncePtr, nonceArray, 0, _nonceSize);
             Marshal.FreeHGlobal(noncePtr);
             return nonceArray;
         }
@@ -125,8 +117,8 @@ namespace Crystalbyte.Paranoia.Cryptography {
             Marshal.Copy(pkey, 0, publicKeyPtr, pkey.Length);
             Marshal.Copy(nonce, 0, noncePtr, nonce.Length);
 
-            var cipherTextPtr = Marshal.AllocHGlobal(message.Length + macBytesSize);
-            var chiperText = new byte[message.Length + macBytesSize];
+            var cipherTextPtr = Marshal.AllocHGlobal(message.Length + MacBytesSize);
+            var chiperText = new byte[message.Length + MacBytesSize];
 
             //SafeNativeMethods.SodiumMemZero(cipherTextPtr, Convert.ToUInt32(messageSize + macBytesSize));
 
@@ -141,7 +133,7 @@ namespace Crystalbyte.Paranoia.Cryptography {
                 throw new Exception();
             }
 
-            Marshal.Copy(cipherTextPtr, chiperText, 0, message.Length + macBytesSize);
+            Marshal.Copy(cipherTextPtr, chiperText, 0, message.Length + MacBytesSize);
 
             Marshal.FreeHGlobal(noncePtr);
             Marshal.FreeHGlobal(cipherTextPtr);
@@ -158,8 +150,8 @@ namespace Crystalbyte.Paranoia.Cryptography {
             Marshal.Copy(pkey, 0, publicKeyPtr, pkey.Length);
             Marshal.Copy(nonce, 0, noncePtr, nonce.Length);
 
-            var messagePtr = Marshal.AllocHGlobal(cipherText.Length - macBytesSize);
-            var message = new byte[cipherText.Length - macBytesSize];
+            var messagePtr = Marshal.AllocHGlobal(cipherText.Length - MacBytesSize);
+            var message = new byte[cipherText.Length - MacBytesSize];
 
             var cipherTextPtr = Marshal.AllocHGlobal(cipherText.Length);
             Marshal.Copy(cipherText, 0, cipherTextPtr, cipherText.Length);
@@ -170,8 +162,7 @@ namespace Crystalbyte.Paranoia.Cryptography {
                 noncePtr, publicKeyPtr, _privateKeyPtr);
 
             if (err != 0) {
-                //TODO: NSA SPIED ON YOU!
-                throw new Exception();
+                throw new MessageDecryptionFailedException();
             }
 
             Marshal.Copy(messagePtr, message, 0, message.Length);

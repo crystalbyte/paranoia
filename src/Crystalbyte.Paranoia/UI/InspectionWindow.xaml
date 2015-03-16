@@ -308,8 +308,10 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <ui:BlockNoticeControl Grid.Row="5" />
-        <ui:SpamNoticeControl Grid.Row="6" />
+        <ui:SpamNoticeControl Grid.Row="5"
+                              BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                              BorderThickness="0,1,0,0" />
+        <ui:BlockNoticeControl Grid.Row="6" />
         <Grid Grid.Row="7">
             <ui:HtmlViewer x:Name="HtmlViewer"
                            Margin="0"

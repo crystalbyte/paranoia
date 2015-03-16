@@ -18,7 +18,12 @@ namespace Crystalbyte.Paranoia.Data {
         public Int64 ContactId { get; set; }
 
         [Column("data")]
+        [Collate(CollatingSequence.Binary)]
         public byte[] Data { get; set; }
+
+        [Column("date")]
+        [Default(DatabaseFunction.CurrentTimestamp)]
+        public DateTime Date { get; set; }
 
         public MailContactModel Contact { get; set; }
     }

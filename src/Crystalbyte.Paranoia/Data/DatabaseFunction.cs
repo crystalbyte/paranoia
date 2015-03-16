@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crystalbyte.Paranoia {
-    internal static class MessageHeaders {
-        public static string Signet = "X-Signet";
+namespace Crystalbyte.Paranoia.Data {
+    public enum DatabaseFunction {
+        CurrentTimestamp
     }
 }

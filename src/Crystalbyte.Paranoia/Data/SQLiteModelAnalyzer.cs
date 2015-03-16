@@ -61,6 +61,7 @@ namespace Crystalbyte.Paranoia.Data {
             CollatingSequence sequence;
             var isPrimaryKey = info.GetCustomAttribute<KeyAttribute>() != null;
             var hasCollate = TryReadCollateAttribute(info, out sequence);
+            var hasTimestamp = TryReadTimestampAttribute(info);
 
             using (var writer = new StringWriter()) {
                 writer.Write(name);
@@ -81,6 +82,11 @@ namespace Crystalbyte.Paranoia.Data {
                             throw new ArgumentOutOfRangeException();
                     }
                 }
+
+                if (hasTimestamp) {
+                    writer.Write(" DEFAULT CURRENT_TIMESTAMP");
+                }
+
                 if (!isPrimaryKey)
                     return writer.ToString();
 
@@ -88,6 +94,11 @@ namespace Crystalbyte.Paranoia.Data {
                 writer.Write("PRIMARY KEY");
                 return writer.ToString();
             }
+        }
+
+        private static bool TryReadTimestampAttribute(MemberInfo info) {
+            var attribute = info.GetCustomAttribute<DefaultAttribute>();
+            return attribute != null && attribute.Function == DatabaseFunction.CurrentTimestamp;
         }
 
         private static bool TryReadCollateAttribute(MemberInfo info, out CollatingSequence sequence) {

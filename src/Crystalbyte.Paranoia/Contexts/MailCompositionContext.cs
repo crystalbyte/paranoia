@@ -144,9 +144,7 @@ namespace Crystalbyte.Paranoia {
 
                 var contacts = await Task.Run(() => {
                     using (var context = new DatabaseContext()) {
-
                         current = context.KeyPairs.OrderByDescending(x => x.Date).First();
-
                         return Addresses
                                .Select(x => context.MailContacts
                                    .Include("Keys")
@@ -174,7 +172,8 @@ namespace Crystalbyte.Paranoia {
                         Body = await document
                     };
 
-                    message.Headers.Add(MessageHeaders.Signet, Convert.ToBase64String(current.PrivateKey));
+                    var signet = string.Format("pkey={0};", Convert.ToBase64String(current.PublicKey));
+                    message.Headers.Add(MessageHeaders.Signet, signet);
 
                     message.To.Add(new MailAddress(address));
                     foreach (var a in Attachments) {
@@ -182,15 +181,15 @@ namespace Crystalbyte.Paranoia {
                     }
 
                     // IO heavy operation, needs to run in background thread.
-                    await Task.Run(() => message.PackageEmbeddedContent());
+                    var m = message;
+                    await Task.Run(() => m.PackageEmbeddedContent());
 
                     if (key == null) {
                         messages.Add(message);
-                    }
-                    else {
+                    } else {
                         var nonce = PublicKeyCrypto.GenerateNonce();
                         var payload = await EncryptMessageAsync(message, current, key, nonce);
-                        message = GenerateDeliveryMessage(account, current.PrivateKey, address, nonce);
+                        message = GenerateDeliveryMessage(account, current.PublicKey, address, nonce);
                         message.AlternateViews.Add(new AlternateView(new MemoryStream(payload), new ContentType(MediaTypes.EncryptedMime)));
                         messages.Add(message);
                     }
@@ -223,13 +222,14 @@ namespace Crystalbyte.Paranoia {
             var html = AlternateView.CreateAlternateViewFromString(info.Stream.ToUtf8String());
             html.ContentType = new ContentType("text/html");
             message.AlternateViews.Add(html);
-
-            var signet = string.Format("pkey={0}; nonce={1};", Convert.ToBase64String(pKey), Convert.ToBase64String(nonce));
+            
+            var signet = string.Format("pkey={0};", Convert.ToBase64String(pKey));
             message.Headers.Add(MessageHeaders.Signet, signet);
+            message.Headers.Add(MessageHeaders.Nonce, Convert.ToBase64String(nonce));
             return message;
         }
 
-        private async Task<byte[]> EncryptMessageAsync(MailMessage message, KeyPairModel pair, PublicKeyModel pKey, byte[] nonce) {
+        private static async Task<byte[]> EncryptMessageAsync(MailMessage message, KeyPairModel pair, PublicKeyModel pKey, byte[] nonce) {
             var mime = await message.ToMimeAsync();
             var bytes = Encoding.UTF8.GetBytes(mime);
             var crypto = new PublicKeyCrypto(pair.PublicKey, pair.PrivateKey);
