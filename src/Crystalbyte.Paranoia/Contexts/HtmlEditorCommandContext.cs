@@ -1,4 +1,30 @@
-﻿using System;
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -10,9 +36,10 @@ using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
 
+#endregion
+
 namespace Crystalbyte.Paranoia {
     public sealed class HtmlEditorCommandContext : NotificationObject {
-
         #region Private Fields
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -52,17 +79,13 @@ namespace Crystalbyte.Paranoia {
             await _editor.InsertImageAsync();
         }
 
-        private void OnLink(object obj) {
-
-        }
+        private void OnLink(object obj) {}
 
         private bool OnCanLink(object obj) {
             return true;
         }
 
-        private void OnBullet(object obj) {
-
-        }
+        private void OnBullet(object obj) {}
 
         private bool OnCanBullet(object obj) {
             return true;
@@ -72,14 +95,13 @@ namespace Crystalbyte.Paranoia {
             return true;
         }
 
-        private void OnList(object obj) {
-
-        }
+        private void OnList(object obj) {}
 
         private void OnRedo(object obj) {
             try {
                 _editor.Redo();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -91,7 +113,8 @@ namespace Crystalbyte.Paranoia {
         private void OnUndo(object obj) {
             try {
                 _editor.Undo();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -113,7 +136,10 @@ namespace Crystalbyte.Paranoia {
 
         public IEnumerable<Color> BackgroundColors {
             get {
-                var colors = Settings.Default.BackgroundFontColors.OfType<string>().Concat(new[] { "Transparent" }).OrderByDescending(x => x);
+                var colors =
+                    Settings.Default.BackgroundFontColors.OfType<string>()
+                        .Concat(new[] {"Transparent"})
+                        .OrderByDescending(x => x);
                 return colors.Select(ColorConverter.ConvertFromString).Where(color => color != null).Cast<Color>();
             }
         }
@@ -127,7 +153,7 @@ namespace Crystalbyte.Paranoia {
 
         public IEnumerable<int> FontSizes {
             // "10px", "13px", "16px", "18px", "24px", "32px", "48px"
-            get { return new[] { 10, 13, 16, 24, 48 }; }
+            get { return new[] {10, 13, 16, 24, 48}; }
         }
 
         public bool IsBold {
@@ -281,27 +307,19 @@ namespace Crystalbyte.Paranoia {
         public RelayCommand ImageCommand { get; private set; }
 
         public bool IsEditorBold {
-            get {
-                return Attributes.ContainsKey("bold") && (bool)Attributes["bold"];
-            }
+            get { return Attributes.ContainsKey("bold") && (bool) Attributes["bold"]; }
         }
 
         public bool IsEditorItalic {
-            get {
-                return Attributes.ContainsKey("italic") && (bool)Attributes["italic"];
-            }
+            get { return Attributes.ContainsKey("italic") && (bool) Attributes["italic"]; }
         }
 
         public bool IsEditorStrikethrough {
-            get {
-                return Attributes.ContainsKey("strike") && (bool)Attributes["strike"];
-            }
+            get { return Attributes.ContainsKey("strike") && (bool) Attributes["strike"]; }
         }
 
         public bool IsEditorUnderline {
-            get {
-                return Attributes.ContainsKey("underline") && (bool)Attributes["underline"];
-            }
+            get { return Attributes.ContainsKey("underline") && (bool) Attributes["underline"]; }
         }
 
         public async Task InvalidateAsync() {
@@ -310,35 +328,35 @@ namespace Crystalbyte.Paranoia {
             UndoCommand.OnCanExecuteChanged();
             RedoCommand.OnCanExecuteChanged();
 
-            _isBold = Attributes.ContainsKey("bold") && (bool)Attributes["bold"];
+            _isBold = Attributes.ContainsKey("bold") && (bool) Attributes["bold"];
             RaisePropertyChanged(() => IsBold);
 
-            _isItalic = Attributes.ContainsKey("italic") && (bool)Attributes["italic"];
+            _isItalic = Attributes.ContainsKey("italic") && (bool) Attributes["italic"];
             RaisePropertyChanged(() => IsItalic);
 
-            _isStrikethrough = Attributes.ContainsKey("strike") && (bool)Attributes["strike"];
+            _isStrikethrough = Attributes.ContainsKey("strike") && (bool) Attributes["strike"];
             RaisePropertyChanged(() => IsStrikethrough);
 
-            _isUnderlined = Attributes.ContainsKey("underline") && (bool)Attributes["underline"];
+            _isUnderlined = Attributes.ContainsKey("underline") && (bool) Attributes["underline"];
             RaisePropertyChanged(() => IsUnderlined);
 
             var info = CultureInfo.InvariantCulture.TextInfo;
-            
+
             if (Attributes.ContainsKey("font")) {
                 var name = Attributes["font"] as string;
                 if (!string.IsNullOrEmpty(name)) {
-                    
                     _fontFamily = new FontFamily(info.ToTitleCase(name.Trim('\'')));
                 }
-            } else {
+            }
+            else {
                 _fontFamily = new FontFamily(info.ToTitleCase(Settings.Default.DefaultWebFont));
             }
             RaisePropertyChanged(() => FontFamily);
 
             if (Attributes.ContainsKey("size")) {
                 var pixels = Attributes["size"] as string;
-                _fontSize = string.IsNullOrEmpty(pixels) 
-                    ? Settings.Default.DefaultWebFontSize 
+                _fontSize = string.IsNullOrEmpty(pixels)
+                    ? Settings.Default.DefaultWebFontSize
                     : int.Parse(pixels.Replace("px", string.Empty));
             }
             else {
@@ -348,17 +366,19 @@ namespace Crystalbyte.Paranoia {
 
 
             if (Attributes.ContainsKey("color")) {
-                var value = (string)Attributes["color"];
+                var value = (string) Attributes["color"];
                 _textColor = value.ToColor();
-            } else {
+            }
+            else {
                 _textColor = Colors.Black;
             }
             RaisePropertyChanged(() => TextColor);
 
             if (Attributes.ContainsKey("background")) {
-                var value = (string)Attributes["background"];
+                var value = (string) Attributes["background"];
                 _backgroundColor = value.ToColor();
-            } else {
+            }
+            else {
                 _backgroundColor = Colors.Transparent;
             }
             RaisePropertyChanged(() => BackgroundColor);
@@ -394,7 +414,7 @@ namespace Crystalbyte.Paranoia {
             }
 
             Attributes = (operations["attributes"] as IDictionary<string, object>)
-                ?? new Dictionary<string, object>();
+                         ?? new Dictionary<string, object>();
         }
     }
 }

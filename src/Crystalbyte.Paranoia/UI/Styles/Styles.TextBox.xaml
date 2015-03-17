@@ -43,13 +43,16 @@
         <Setter Property="MinHeight" Value="20" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontSizeKey}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxBorderBrushKey}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxBackgroundBrushKey}}" />
+        <Setter Property="BorderBrush"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxBorderBrushKey}}" />
+        <Setter Property="Background"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TextBoxBackgroundBrushKey}}" />
         <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
         <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontFamilyKey}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputForegroundBrushKey}}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputForegroundBrushKey}}" />
         <Setter Property="Padding" Value="4" />
         <Setter Property="Margin" Value="3" />
         <Setter Property="BorderThickness" Value="1" />
@@ -70,11 +73,14 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            <Setter Property="BorderBrush"
+                                    Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="Border" Property="BorderBrush"
+                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -82,7 +88,8 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="Validation.HasError" Value="True">
-                <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
+                <Setter Property="ToolTip"
+                        Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
             </Trigger>
         </Style.Triggers>
     </Style>

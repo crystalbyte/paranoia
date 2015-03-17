@@ -1,4 +1,28 @@
-﻿#region Using directives
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
 
 using System.Runtime.CompilerServices;
 
@@ -20,10 +44,12 @@ using System.Windows;
 [assembly: AssemblyTitle("Paranoia")]
 [assembly: AssemblyDescription("Paranoia is a secure e-mail application.")]
 #if DEBUG
+
 [assembly: AssemblyConfiguration("Debug")]
 #else
 [assembly: AssemblyConfiguration("Release")]
 #endif
+
 [assembly: AssemblyCompany("Crystalbyte")]
 [assembly: AssemblyProduct("Crystalbyte Paranoia")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
@@ -68,4 +94,8 @@ using System.Windows;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 // Public Key: 00240000048000009400000006020000002400005253413100040000010001003bf228fa0ea21f753fe1b4aba4135796086fd6bfb7d05aad8c9c6d5725eeccafca100ece803c2a80547db48ba286e9d7886f1f73920d9ab011e2c9aff1376b4b1bbd81d55fa601e8c70bf130756c120bec9a47e8bfa6e5f2ed3006f671fc15399cf136d1c6d9a0aa5a0feb360e9f21d4cbe2727dca51c3186ccda6ca398f01d6
-[assembly: InternalsVisibleTo("Crystalbyte.Paranoia.Tests, PublicKey=00240000048000009400000006020000002400005253413100040000010001003bf228fa0ea21f753fe1b4aba4135796086fd6bfb7d05aad8c9c6d5725eeccafca100ece803c2a80547db48ba286e9d7886f1f73920d9ab011e2c9aff1376b4b1bbd81d55fa601e8c70bf130756c120bec9a47e8bfa6e5f2ed3006f671fc15399cf136d1c6d9a0aa5a0feb360e9f21d4cbe2727dca51c3186ccda6ca398f01d6")]
+
+[assembly:
+    InternalsVisibleTo(
+        "Crystalbyte.Paranoia.Tests, PublicKey=00240000048000009400000006020000002400005253413100040000010001003bf228fa0ea21f753fe1b4aba4135796086fd6bfb7d05aad8c9c6d5725eeccafca100ece803c2a80547db48ba286e9d7886f1f73920d9ab011e2c9aff1376b4b1bbd81d55fa601e8c70bf130756c120bec9a47e8bfa6e5f2ed3006f671fc15399cf136d1c6d9a0aa5a0feb360e9f21d4cbe2727dca51c3186ccda6ca398f01d6"
+        )]

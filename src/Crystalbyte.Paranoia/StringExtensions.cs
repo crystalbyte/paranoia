@@ -1,10 +1,33 @@
-﻿#region Using directives
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows.Ink;
 using System.Windows.Media;
 using Crystalbyte.Paranoia.Mail;
 
@@ -50,7 +73,8 @@ namespace Crystalbyte.Paranoia {
 
                 if (shifted > maxChar) {
                     shifted -= maxChar;
-                } else if (shifted < minChar) {
+                }
+                else if (shifted < minChar) {
                     shifted += maxChar;
                 }
 
@@ -62,7 +86,7 @@ namespace Crystalbyte.Paranoia {
 
         internal static Dictionary<string, string> ToKeyValuePairs(this string s) {
             var dic = new Dictionary<string, string>();
-            var split = s.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            var split = s.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
             foreach (var ss in split) {
                 var i = ss.IndexOf('=');
                 var key = ss.Substring(0, i).Trim();
@@ -77,7 +101,7 @@ namespace Crystalbyte.Paranoia {
             var matches = Regex.Matches(s, pattern, RegexOptions.IgnoreCase);
 
             var pairs = (from Match match in matches
-                         select match.Value.Split('='));
+                select match.Value.Split('='));
 
             var dictionary = new Dictionary<string, string>();
             foreach (var pair in pairs) {
@@ -100,7 +124,8 @@ namespace Crystalbyte.Paranoia {
         // from C:\Windows\System32\inetsrv\config\applicationHost.config
         // some added, including .7z and .dat
         private static readonly IDictionary<string, string> Mappings
-            = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase) {
+            = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
+            {
                 {".323", "text/h323"},
                 {".3g2", "video/3gpp2"},
                 {".3gp", "video/3gpp"},
@@ -661,7 +686,7 @@ namespace Crystalbyte.Paranoia {
                 {".xwd", "image/x-xwindowdump"},
                 {".z", "application/x-compress"},
                 {".zip", "application/x-zip-compressed"},
-        };
+            };
 
         #endregion
 

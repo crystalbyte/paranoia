@@ -6,8 +6,10 @@
 
     <Style TargetType="Button">
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBorderBrushKey}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}}" />
+        <Setter Property="BorderBrush"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBorderBrushKey}}" />
+        <Setter Property="Background"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}}" />
         <Setter Property="Margin" Value="3" />
         <Setter Property="MinWidth" Value="16" />
         <Setter Property="MinHeight" Value="16" />
@@ -19,7 +21,8 @@
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
@@ -45,13 +48,17 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsPressed" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="HoverArea" Property="Fill"
+                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="OuterBorder" Property="BorderBrush"
+                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </MultiTrigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="HoverArea" Property="Fill"
+                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                             <Setter TargetName="HoverArea" Property="Opacity" Value=".5" />
-                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="OuterBorder" Property="BorderBrush"
+                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -65,7 +72,6 @@
         </Style.Triggers>
     </Style>
 
-  
 
     <Style x:Key="WindowButtonStyle" TargetType="Button">
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
@@ -86,7 +92,8 @@
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <Rectangle x:Name="HoverArea" Fill="Transparent" />
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -95,10 +102,12 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsPressed" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}}" />
+                            <Setter TargetName="HoverArea" Property="Fill"
+                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}}" />
                         </MultiTrigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="HoverArea" Property="Fill"
+                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -127,8 +136,10 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                     <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
-                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}}" />
+                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=Button}}"
+                                     Value="True">
+                            <Setter TargetName="Icon" Property="Fill"
+                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}}" />
                         </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>
@@ -157,8 +168,10 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                     <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
-                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}}" />
+                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=Button}}"
+                                     Value="True">
+                            <Setter TargetName="Icon" Property="Fill"
+                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}}" />
                         </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>
@@ -187,8 +200,10 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                     <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
-                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}}" />
+                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=Button}}"
+                                     Value="True">
+                            <Setter TargetName="Icon" Property="Fill"
+                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}}" />
                         </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>
@@ -217,8 +232,10 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                     <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
-                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}}" />
+                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=Button}}"
+                                     Value="True">
+                            <Setter TargetName="Icon" Property="Fill"
+                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}}" />
                         </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>
@@ -247,8 +264,10 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                     <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
-                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}}" />
+                        <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=Button}}"
+                                     Value="True">
+                            <Setter TargetName="Icon" Property="Fill"
+                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}}" />
                         </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>
@@ -261,7 +280,8 @@
            TargetType="Button">
         <Setter Property="MinWidth" Value="50" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
@@ -308,7 +328,8 @@
     <Style x:Key="SortingPropertyButtonStyle"
            BasedOn="{StaticResource {x:Type Button}}"
            TargetType="Button">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" />
         <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" />
         <Setter Property="Content" Value="{x:Static properties:Resources.Descending}" />
         <Setter Property="Template">
@@ -326,7 +347,8 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
             </Trigger>
         </Style.Triggers>
     </Style>

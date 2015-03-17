@@ -31,7 +31,8 @@
 
         </StackPanel>
         <TabControl>
-            <TabItem Header="{x:Static properties:Resources.Appearence}" HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">
+            <TabItem Header="{x:Static properties:Resources.Appearence}"
+                     HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource LabelTextBlockStyle}">

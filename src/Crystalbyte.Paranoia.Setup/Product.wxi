@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <Include>
   <!-- Package Information-->
   <?define ProductName="$(var.Crystalbyte.Paranoia.TargetName)" ?>
@@ -8,34 +9,34 @@
   <?define ProductTitle="$(var.ProductName)" ?>
   <?define UpgradeCode="1B51CCBB-19F6-4ADF-96C8-D67DE76BE0E3" ?>
   <?define ProductCode="06D396DF-6C09-408E-BB27-C8F03E5CFB2C" ?>
-  
+
   <!-- Application Information -->
   <?define MajorVersion="1"?>
   <?define MinorVersion="0"?>
   <?define Revision="0"?>
   <?define Build="0"?>
   <?define ProductVersion="$(var.MajorVersion).$(var.MinorVersion).$(var.Revision).$(var.Build)" ?>
-  
+
   <!-- File Type Properties-->
   <?define EmlExtension=eml?>
-  
+
   <!-- Always use versioned identifiers 
        http://msdn.microsoft.com/en-us/library/windows/desktop/cc144152(v=vs.85).aspx#versioned_progids -->
-  
+
   <!-- Keys for the application registry -->
   <?define ProgId=$(var.Manufacturer).$(var.ProductName).$(var.MajorVersion)?>
   <?define EmlProgId=$(var.ProductName).File.$(var.EmlExtension).$(var.MajorVersion).$(var.MinorVersion)?>
   <?define MailtoProgId=$(var.ProductName).Url.mailto.$(var.MajorVersion).$(var.MinorVersion)?>
-  
+
   <!-- Keys for the COM Server. -->
   <!-- Paranoia.Application-->
   <?define CoAppVerIndProgId=$(var.ProductName).Application?>
-  
+
   <!-- Paranoia.Application.1 -->
   <?define CoAppProgId=$(var.CoAppVerIndProgId).$(var.MajorVersion)?>
   <?define CoAppClassId=AA1CC4EE-2EB6-4521-940B-5B4C56C46CB0?>
   <?define CoAppClassName=Crystalbyte.Paranoia.Automation.Application?>
-  
+
   <?define CoAppInterfaceId=D01DE446-E6AD-4BDA-B768-4AB4579FE909?>
-  
+
 </Include>

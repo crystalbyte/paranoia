@@ -1,8 +1,33 @@
-﻿#region Using directives
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
 
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Data.Entity;
 using System.Linq;
 using System.Reactive.Linq;
@@ -16,7 +41,6 @@ using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
-using System.Collections.Specialized;
 
 #endregion
 
@@ -43,12 +67,12 @@ namespace Crystalbyte.Paranoia {
             Observable.FromEventPattern<QueryStringEventArgs>(
                 action => QueryStringChanged += action,
                 action => QueryStringChanged -= action)
-                    .Select(x => x.EventArgs)
-                    .Where(x => (x.Text.Length > 1 || string.IsNullOrEmpty(x.Text)))
-                    .Throttle(TimeSpan.FromMilliseconds(200))
-                    .Select(x => x.Text)
-                    .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
-                    .Subscribe(OnQueryReceived);
+                .Select(x => x.EventArgs)
+                .Where(x => (x.Text.Length > 1 || string.IsNullOrEmpty(x.Text)))
+                .Throttle(TimeSpan.FromMilliseconds(200))
+                .Select(x => x.Text)
+                .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
+                .Subscribe(OnQueryReceived);
         }
 
         private async void OnSendMessages(object obj) {
@@ -101,13 +125,11 @@ namespace Crystalbyte.Paranoia {
             int count;
             using (var context = new DatabaseContext()) {
                 count = await context.Compositions
-                   .Where(x => x.AccountId == _account.Id)
-                   .CountAsync();
+                    .Where(x => x.AccountId == _account.Id)
+                    .CountAsync();
             }
 
-            await Application.Current.Dispatcher.InvokeAsync(() => {
-                SmtpRequestCount = count;
-            });
+            await Application.Current.Dispatcher.InvokeAsync(() => { SmtpRequestCount = count; });
         }
 
         public event EventHandler SmtpRequestSelectionChanged;
@@ -159,9 +181,11 @@ namespace Crystalbyte.Paranoia {
 
                     await CountSmtpRequestsAsync();
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
-            } finally {
+            }
+            finally {
                 IsLoadingRequests = false;
             }
         }
@@ -214,9 +238,8 @@ namespace Crystalbyte.Paranoia {
 
             foreach (var request in requests) {
                 try {
-                    using (var connection = new SmtpConnection { Security = _account.SmtpSecurity }) {
+                    using (var connection = new SmtpConnection {Security = _account.SmtpSecurity}) {
                         using (var auth = await connection.ConnectAsync(_account.SmtpHost, _account.SmtpPort)) {
-
                             var username = _account.UseImapCredentialsForSmtp
                                 ? _account.ImapUsername
                                 : _account.SmtpUsername;
@@ -239,9 +262,11 @@ namespace Crystalbyte.Paranoia {
 
                     await DeleteRequestFromDatabaseAsync(request);
                     await CountSmtpRequestsAsync();
-                } catch (Exception ex) {
+                }
+                catch (Exception ex) {
                     Logger.Error(ex);
-                } finally {
+                }
+                finally {
                     _sendingMessages = false;
                 }
             }

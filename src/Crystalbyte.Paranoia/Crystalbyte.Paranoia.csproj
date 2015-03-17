@@ -737,7 +737,6 @@
     <Resource Include="Assets\unseen.png" />
     <Resource Include="Assets\back.png" />
     <Resource Include="Resources\composition.html" />
-    <Resource Include="Resources\cover.html" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\send.png" />

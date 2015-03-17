@@ -1,5 +1,32 @@
-﻿using System;
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
+
+using System;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Windows;
@@ -9,12 +36,13 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Crystalbyte.Paranoia.Data;
 
+#endregion
+
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
-    /// Interaction logic for MessagesPage.xaml
+    ///     Interaction logic for MessagesPage.xaml
     /// </summary>
     public partial class MessagesPage {
-
         private readonly CollectionViewSource _messageViewSource;
 
         public MessagesPage() {
@@ -37,7 +65,7 @@ namespace Crystalbyte.Paranoia.UI {
             NetworkChange.NetworkAvailabilityChanged +=
                 (sender, e) => CommandManager.InvalidateRequerySuggested();
 
-            _messageViewSource = (CollectionViewSource)Resources["MessagesSource"];
+            _messageViewSource = (CollectionViewSource) Resources["MessagesSource"];
 
             var context = App.Context;
             context.SortOrderChanged += OnSortOrderChanged;
@@ -56,7 +84,8 @@ namespace Crystalbyte.Paranoia.UI {
             var source = _messageViewSource.View.Cast<object>().ToList();
             if (e.Position == SelectionPosition.First) {
                 MessagesListView.SelectedIndex = 0;
-            } else {
+            }
+            else {
                 var index = e.PivotElements.GroupBy(source.IndexOf).Max(x => x.Key) + 1;
                 var item = MessagesListView.ItemContainerGenerator.ContainerFromIndex(index) as ListViewItem;
                 if (item != null) {
@@ -74,7 +103,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var mailbox = (MailboxContext)e.Parameter;
+            var mailbox = (MailboxContext) e.Parameter;
             if (!mailbox.IsSyncingMessages) {
                 await mailbox.SyncMessagesAsync();
             }
@@ -89,33 +118,34 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private static void OnCanDeleteMailbox(object sender, CanExecuteRoutedEventArgs e) {
-            var mailbox = (MailboxContext)e.Parameter;
+            var mailbox = (MailboxContext) e.Parameter;
             e.CanExecute = mailbox != null && mailbox.IsSelectable;
         }
 
         private static async void OnDeleteMailbox(object sender, ExecutedRoutedEventArgs e) {
-            var mailbox = (MailboxContext)e.Parameter;
+            var mailbox = (MailboxContext) e.Parameter;
             await mailbox.DeleteAsync();
         }
 
         private static void OnCreateMailbox(object sender, ExecutedRoutedEventArgs e) {
-            var parent = (IMailboxCreator)e.Parameter;
+            var parent = (IMailboxCreator) e.Parameter;
             App.Context.CreateMailbox(parent);
         }
 
         private static void OnCanCreateMailbox(object sender, CanExecuteRoutedEventArgs e) {
-            var parent = (IMailboxCreator)e.Parameter;
+            var parent = (IMailboxCreator) e.Parameter;
             e.CanExecute = parent.CanHaveChildren;
         }
 
         public SortProperty SortProperty {
-            get { return (SortProperty)GetValue(SortPropertyProperty); }
+            get { return (SortProperty) GetValue(SortPropertyProperty); }
             set { SetValue(SortPropertyProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for SortProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SortPropertyProperty =
-            DependencyProperty.Register("SortProperty", typeof(SortProperty), typeof(MessagesPage), new PropertyMetadata(SortProperty.Date));
+            DependencyProperty.Register("SortProperty", typeof (SortProperty), typeof (MessagesPage),
+                new PropertyMetadata(SortProperty.Date));
 
         private static void OnCanInspect(object sender, CanExecuteRoutedEventArgs e) {
             e.CanExecute = App.Context.SelectedMessage != null;
@@ -161,7 +191,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var tree = (TreeView)sender;
+            var tree = (TreeView) sender;
             var value = tree.SelectedValue;
 
             App.Context.SelectedOutbox = value as OutboxContext;
@@ -200,7 +230,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var container = (Control)SmtpRequestsListView.ItemContainerGenerator.ContainerFromItem(request);
+            var container = (Control) SmtpRequestsListView.ItemContainerGenerator.ContainerFromItem(request);
             if (container != null) {
                 container.Focus();
             }
@@ -228,7 +258,7 @@ namespace Crystalbyte.Paranoia.UI {
             if (message == null)
                 return;
 
-            var container = (Control)MessagesListView
+            var container = (Control) MessagesListView
                 .ItemContainerGenerator.ContainerFromItem(message);
             if (container != null) {
                 container.Focus();
@@ -239,8 +269,8 @@ namespace Crystalbyte.Paranoia.UI {
             if (!IsLoaded) {
                 return;
             }
-            var view = (ListView)sender;
-            var attachment = (AttachmentContext)view.SelectedValue;
+            var view = (ListView) sender;
+            var attachment = (AttachmentContext) view.SelectedValue;
             if (attachment == null) {
                 return;
             }
@@ -277,16 +307,15 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnSortPropertyMenuItemClicked(object sender, RoutedEventArgs e) {
-            var item = (MenuItem)sender;
-            var app = (AppContext)DataContext;
+            var item = (MenuItem) sender;
+            var app = (AppContext) DataContext;
             var direction = app.IsSortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending;
-            Sort((SortProperty)item.DataContext, direction);
+            Sort((SortProperty) item.DataContext, direction);
         }
 
         private void Sort(SortProperty property, ListSortDirection direction) {
-
             SortProperty = property;
-            var source = (CollectionViewSource)Resources["MessagesSource"];
+            var source = (CollectionViewSource) Resources["MessagesSource"];
             source.SortDescriptions.Clear();
 
             string name;
@@ -305,7 +334,6 @@ namespace Crystalbyte.Paranoia.UI {
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("property");
-
             }
             source.SortDescriptions.Add(new SortDescription(name, direction));
         }
@@ -316,7 +344,7 @@ namespace Crystalbyte.Paranoia.UI {
         private DependencyObject _activeDragSource;
 
         private void OnPreviewMouseLeftButtonDownMessagesListView(object sender, MouseButtonEventArgs e) {
-            var list = (ListView)sender;
+            var list = (ListView) sender;
 
             _mousePosition = e.GetPosition(list);
             VisualTreeHelper.HitTest(list, OnHitTestFilter, OnHitTestResult,
@@ -342,7 +370,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnMouseMoveMessagesListView(object sender, MouseEventArgs e) {
-            var list = (ListView)sender;
+            var list = (ListView) sender;
             if (_activeDragSource == null)
                 return;
 
@@ -360,20 +388,21 @@ namespace Crystalbyte.Paranoia.UI {
             var virtualFileObject = new VirtualFileDataObject();
 
             virtualFileObject.SetData((from MailMessageContext item in MessagesListView.SelectedItems
-                                       select new VirtualFileDataObject.FileDescriptor {
-                                           Name = GetValidFileName(item.Subject) + ".eml",
-                                           Length = item.Size,
-                                           ChangeTimeUtc = DateTime.UtcNow,
-                                           StreamContents = stream => {
-                                               var bytes = LoadMessageBytes(item.Id);
-                                               stream.Write(bytes, 0, bytes.Length);
-                                           }
-                                       }).ToArray());
+                select new VirtualFileDataObject.FileDescriptor
+                {
+                    Name = GetValidFileName(item.Subject) + ".eml",
+                    Length = item.Size,
+                    ChangeTimeUtc = DateTime.UtcNow,
+                    StreamContents = stream => {
+                                         var bytes = LoadMessageBytes(item.Id);
+                                         stream.Write(bytes, 0, bytes.Length);
+                                     }
+                }).ToArray());
             VirtualFileDataObject.DoDragDrop(sender as DependencyObject, virtualFileObject, DragDropEffects.Copy);
         }
 
         private static string GetValidFileName(string name) {
-            return System.IO.Path.GetInvalidFileNameChars().Aggregate(name, (current, c) => current.Replace(c, '_'));
+            return Path.GetInvalidFileNameChars().Aggregate(name, (current, c) => current.Replace(c, '_'));
         }
 
         private static byte[] LoadMessageBytes(Int64 id) {

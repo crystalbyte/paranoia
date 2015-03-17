@@ -1,6 +1,32 @@
-﻿#region Using directives
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
@@ -9,20 +35,17 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Crystalbyte.Paranoia.Cryptography;
 
 #endregion
 
 namespace Crystalbyte.Paranoia {
     [DebuggerDisplay("Subject = {Subject}, Address = {FromAddress}")]
     public class MailMessageContext : SelectionObject, IMailMessage {
-
         #region Private Fields
 
         private int _load;
@@ -275,6 +298,7 @@ namespace Crystalbyte.Paranoia {
         private async void OnSeenStatusChanged() {
             await SaveFlagsToDatabaseAsync();
         }
+
         private async void OnAnsweredStatusChanged() {
             await SaveFlagsToDatabaseAsync();
         }
@@ -434,7 +458,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         /// <summary>
-        /// Downloads the message mime structure from the server.
+        ///     Downloads the message mime structure from the server.
         /// </summary>
         /// <returns>The mime structure as a byte array.</returns>
         internal async Task<byte[]> FetchAndDecryptAsync() {
@@ -501,7 +525,6 @@ namespace Crystalbyte.Paranoia {
                 await SaveMimeAsync(mime);
 
                 return mime;
-
             } finally {
                 DecrementLoad();
             }
@@ -626,14 +649,12 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnAllowExternal(object obj) {
-            await Task.Run(async () => {
-                await AllowExternalContentAsync();
-            });
+            await Task.Run(async () => { await AllowExternalContentAsync(); });
             await App.Context.ViewMessageAsync(this);
         }
 
         /// <summary>
-        /// Loads all message details from the database.
+        ///     Loads all message details from the database.
         /// </summary>
         /// <returns>An awaitable.</returns>
         public async Task InitDetailsAsync() {
@@ -647,14 +668,21 @@ namespace Crystalbyte.Paranoia {
 
             await Task.Run(async () => {
                 using (var context = new DatabaseContext()) {
-                    var mime = await context.MimeMessages.FirstOrDefaultAsync(x => x.MessageId == _message.Id);
+                    var mime =
+                        await
+                            context.MimeMessages.FirstOrDefaultAsync(
+                                x => x.MessageId == _message.Id);
                     var reader = new MailMessageReader(mime.Data);
 
                     var from = await context.MailContacts
-                            .FirstOrDefaultAsync(x => x.Address == reader.Headers.From.Address);
+                        .FirstOrDefaultAsync(x => x.Address == reader.Headers.From.Address);
                     await Application.Current.Dispatcher.InvokeAsync(() => {
-                        From = new MailContactContext(from);
-                        IsExternalContentAllowed = from.IsExternalContentAllowed;
+                        From =
+                            new MailContactContext
+                                (from);
+                        IsExternalContentAllowed =
+                            from
+                                .IsExternalContentAllowed;
                     });
 
                     var part = reader.FindFirstHtmlVersion();
@@ -666,16 +694,15 @@ namespace Crystalbyte.Paranoia {
                     const string pattern = "(href|src)\\s*=\\s*(\"|&quot;)http.+?(\"|&quot;)";
                     var externals = Regex.IsMatch(text, pattern,
                         RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                    await Application.Current.Dispatcher.InvokeAsync(() => {
-                        HasExternals = externals;
-                    });
+                    await
+                        Application.Current.Dispatcher.InvokeAsync(
+                            () => { HasExternals = externals; });
 
                     if (from.Classification == ContactClassification.Default) {
                         var analyzer = new SimpleSpamDetector(text);
                         var isfishy = await analyzer.GetIsSpamAsync();
-                        await Application.Current.Dispatcher.InvokeAsync(() => {
-                            IsFishy = isfishy;
-                        });
+                        await
+                            Application.Current.Dispatcher.InvokeAsync(() => { IsFishy = isfishy; });
                     }
 
                     var to = new List<MailContactContext>();
@@ -703,14 +730,22 @@ namespace Crystalbyte.Paranoia {
                     var attachments = reader.FindAllAttachments()
                         .Select(attachment => new AttachmentContext(attachment)).ToList();
 
-                    await Application.Current.Dispatcher.InvokeAsync(() => _attachments.AddRange(attachments));
+                    await
+                        Application.Current.Dispatcher.InvokeAsync(
+                            () => _attachments.AddRange(attachments));
 
                     await Application.Current.Dispatcher.InvokeAsync(() => {
-                        RaisePropertyChanged(() => PrimaryTo);
-                        RaisePropertyChanged(() => SecondaryTo);
-                        RaisePropertyChanged(() => HasAttachments);
-                        RaisePropertyChanged(() => HasCarbonCopies);
-                        RaisePropertyChanged(() => HasMultipleRecipients);
+                        RaisePropertyChanged(
+                            () => PrimaryTo);
+                        RaisePropertyChanged(
+                            () => SecondaryTo);
+                        RaisePropertyChanged(
+                            () => HasAttachments);
+                        RaisePropertyChanged(
+                            () => HasCarbonCopies);
+                        RaisePropertyChanged(
+                            () =>
+                                HasMultipleRecipients);
 
                         IsInitialized = true;
                         OnInitialized();
@@ -719,7 +754,6 @@ namespace Crystalbyte.Paranoia {
 
                 Logger.Info("END InitDetailsAsync");
             });
-
         }
     }
 }

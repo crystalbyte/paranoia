@@ -3,7 +3,8 @@
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
     <Style TargetType="GridSplitter">
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}" />
+        <Setter Property="Background"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}" />
         <Setter Property="UseLayoutRounding" Value="True" />
     </Style>
 

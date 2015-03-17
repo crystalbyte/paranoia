@@ -1,21 +1,49 @@
-﻿using System;
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia.Cryptography
+// 
+// Crystalbyte.Paranoia.Cryptography is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
+
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.Cryptography {
     public class PublicKeyCrypto : NativeResource {
         private IntPtr _publicKeyPtr;
         private IntPtr _privateKeyPtr;
 
-        private static readonly int KeySize = Marshal.SizeOf<Byte>() * 32;
-        private static readonly uint UnonceSize = Convert.ToUInt32(Marshal.SizeOf<Byte>() * 24);
+        private static readonly int KeySize = Marshal.SizeOf<Byte>()*32;
+        private static readonly uint UnonceSize = Convert.ToUInt32(Marshal.SizeOf<Byte>()*24);
 
         // ReSharper disable once InconsistentNaming
-        private static readonly int _nonceSize = Marshal.SizeOf<Byte>() * 24;
-        private static readonly int BoxZeroByteSize = Marshal.SizeOf<Byte>() * 16;
-        private static readonly int ZeroByteSize = Marshal.SizeOf<Byte>() * 32;
+        private static readonly int _nonceSize = Marshal.SizeOf<Byte>()*24;
+        private static readonly int BoxZeroByteSize = Marshal.SizeOf<Byte>()*16;
+        private static readonly int ZeroByteSize = Marshal.SizeOf<Byte>()*32;
         private static readonly int MacBytesSize = ZeroByteSize - BoxZeroByteSize;
 
         public PublicKeyCrypto() {
@@ -33,10 +61,10 @@ namespace Crystalbyte.Paranoia.Cryptography {
         }
 
         /// <summary>
-        /// Gets the size of the nonce byte array.
+        ///     Gets the size of the nonce byte array.
         /// </summary>
         public static int NonceSize {
-            get { return Convert.ToInt32(_nonceSize / Marshal.SizeOf<Byte>()); }
+            get { return Convert.ToInt32(_nonceSize/Marshal.SizeOf<Byte>()); }
         }
 
         //public async Task InitFromFileAsync(string publicKeyPath, string privateKeyPath, string password = "") {
@@ -199,7 +227,8 @@ namespace Crystalbyte.Paranoia.Cryptography {
             [DllImport(Library.Sodium, EntryPoint = "crypto_box_easy", CallingConvention = CallingConvention.Cdecl)]
             public static extern int CryptoBoxEasy(IntPtr c, IntPtr m, long mlen, IntPtr n, IntPtr pk, IntPtr sk);
 
-            [DllImport(Library.Sodium, EntryPoint = "crypto_box_open_easy", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(Library.Sodium, EntryPoint = "crypto_box_open_easy", CallingConvention = CallingConvention.Cdecl)
+            ]
             public static extern int CryptoBoxOpenEasy(IntPtr m, IntPtr c, long clen, IntPtr n, IntPtr pk, IntPtr sk);
         }
     }

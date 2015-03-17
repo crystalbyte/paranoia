@@ -8,12 +8,15 @@
 
     <Style TargetType="controls:MetroButton">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.MetroButtonForegroundBrushKey}}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.MetroButtonForegroundBrushKey}}" />
         <Setter Property="AccentBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-        <Setter Property="ImageBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.MetroButtonIconBrushKey}}" />
+        <Setter Property="ImageBrush"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.MetroButtonIconBrushKey}}" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.MetroButtonBorderBrushKey}}" />
+        <Setter Property="BorderBrush"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.MetroButtonBorderBrushKey}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:MetroButton">
@@ -42,7 +45,8 @@
                                            Fill="{TemplateBinding ImageBrush}"
                                            UseLayoutRounding="True">
                                     <Rectangle.OpacityMask>
-                                        <ImageBrush ImageSource="{Binding ImageSource, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <ImageBrush
+                                            ImageSource="{Binding ImageSource, RelativeSource={RelativeSource TemplatedParent}}" />
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                             </Grid>
@@ -64,22 +68,26 @@
                             <Setter TargetName="Icon" Property="Opacity" Value=".2" />
                             <Setter TargetName="Ellipse" Property="Opacity" Value=".2" />
                             <Setter TargetName="ButtonText" Property="Opacity" Value=".2" />
-                            <Setter TargetName="ButtonText" Property="Foreground" Value="{x:Static SystemColors.GrayTextBrush}" />
+                            <Setter TargetName="ButtonText" Property="Foreground"
+                                    Value="{x:Static SystemColors.GrayTextBrush}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsPressed" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Ellipse" Property="Stroke" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="Ellipse" Property="Stroke"
+                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsPressed" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Ellipse" Property="Stroke" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-                            <Setter TargetName="Ellipse" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="Ellipse" Property="Stroke"
+                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="Ellipse" Property="Fill"
+                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                             <Setter TargetName="Icon" Property="Fill" Value="WhiteSmoke" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
@@ -88,4 +96,4 @@
         </Setter>
     </Style>
 
-</ResourceDictionary> 
+</ResourceDictionary>

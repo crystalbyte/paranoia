@@ -17,7 +17,8 @@
         <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Margin" Value="6,4" />
-        <Setter Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}" />
+        <Setter Property="Fill"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}" />
         <Setter Property="Width" Value="1" />
     </Style>
 
@@ -31,9 +32,12 @@
 
     <Style x:Key="EditorColorPickerStyle" TargetType="controls:ColorPicker">
         <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.CompositionEditorBackgroundBrushKey}}" />
-        <Setter Property="PopupBackground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxBackgroundBrushKey}}" />
-        <Setter Property="PopupBorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxBorderBrushKey}}" />
+        <Setter Property="Background"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.CompositionEditorBackgroundBrushKey}}" />
+        <Setter Property="PopupBackground"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxBackgroundBrushKey}}" />
+        <Setter Property="PopupBorderBrush"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ComboBoxBorderBrushKey}}" />
         <Setter Property="Height" Value="26" />
         <Setter Property="Width" Value="26" />
         <Setter Property="Padding" Value="0" />
@@ -45,7 +49,8 @@
         <Setter Property="FontFamily" Value="Georgia" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
         <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0" />
@@ -98,12 +103,15 @@
                                 <MenuItem Command="Paste" />
                                 <Separator />
                                 <MenuItem Command="Print" />
-                                <MenuItem Command="ui:HtmlCommands.ViewSource" Header="{x:Static properties:Resources.Source}" />
+                                <MenuItem Command="ui:HtmlCommands.ViewSource"
+                                          Header="{x:Static properties:Resources.Source}" />
                                 <Separator />
                                 <MenuItem Command="SelectAll" />
                             </ContextMenu>
                         </FrameworkElement.ContextMenu>
-                        <DockPanel Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}" LastChildFill="True">
+                        <DockPanel
+                            Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                            LastChildFill="True">
                             <Border x:Name="PART_EditorMenuBorder"
                                     Background="{DynamicResource {x:Static themes:ThemeResourceKeys.CompositionEditorBackgroundBrushKey}}"
                                     BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.CompositionEditorBorderBrushKey}}"
@@ -111,7 +119,8 @@
                                     DataContext="{x:Null}"
                                     DockPanel.Dock="Top"
                                     UseLayoutRounding="True">
-                                <WrapPanel Margin="3" d:DataContext="{d:DesignInstance paranoia:HtmlEditorCommandContext}">
+                                <WrapPanel Margin="3"
+                                           d:DataContext="{d:DesignInstance paranoia:HtmlEditorCommandContext}">
                                     <Button Command="{Binding UndoCommand}"
                                             Style="{DynamicResource EditorButtonStyle}"
                                             ToolTip="{x:Static properties:Resources.Undo}">
@@ -173,26 +182,30 @@
                                         </ComboBox.ItemTemplate>
                                     </ComboBox>
                                     <Rectangle Style="{StaticResource EditorSplitterRectangleStyle}" />
-                                    <ToggleButton IsChecked="{Binding IsBold}" Style="{DynamicResource EditorToggleButtonStyle}">
+                                    <ToggleButton IsChecked="{Binding IsBold}"
+                                                  Style="{DynamicResource EditorToggleButtonStyle}">
                                         <TextBlock FontWeight="Bold"
                                                    Style="{StaticResource GlyphTextBlockStyle}"
                                                    Text="{x:Static properties:Resources.BoldGlyph}"
                                                    ToolTip="{x:Static properties:Resources.Bold}" />
                                     </ToggleButton>
-                                    <ToggleButton IsChecked="{Binding IsItalic}" Style="{DynamicResource EditorToggleButtonStyle}">
+                                    <ToggleButton IsChecked="{Binding IsItalic}"
+                                                  Style="{DynamicResource EditorToggleButtonStyle}">
                                         <TextBlock Margin="-2,0,0,0"
                                                    FontStyle="Italic"
                                                    Style="{StaticResource GlyphTextBlockStyle}"
                                                    Text="I"
                                                    ToolTip="{x:Static properties:Resources.Italic}" />
                                     </ToggleButton>
-                                    <ToggleButton IsChecked="{Binding IsUnderlined}" Style="{DynamicResource EditorToggleButtonStyle}">
+                                    <ToggleButton IsChecked="{Binding IsUnderlined}"
+                                                  Style="{DynamicResource EditorToggleButtonStyle}">
                                         <TextBlock Style="{StaticResource GlyphTextBlockStyle}"
                                                    Text="U"
                                                    TextDecorations="Underline"
                                                    ToolTip="{x:Static properties:Resources.Underline}" />
                                     </ToggleButton>
-                                    <ToggleButton IsChecked="{Binding IsStrikethrough}" Style="{DynamicResource EditorToggleButtonStyle}">
+                                    <ToggleButton IsChecked="{Binding IsStrikethrough}"
+                                                  Style="{DynamicResource EditorToggleButtonStyle}">
                                         <TextBlock Margin="-1,0,0,0"
                                                    Style="{StaticResource GlyphTextBlockStyle}"
                                                    Text="T"
@@ -211,13 +224,14 @@
                                                           ToolTip="{x:Static properties:Resources.TextColor}">
                                         <controls:ColorPicker.ContentTemplate>
                                             <DataTemplate>
-                                                <Border BorderBrush="{Binding SelectedColor,
+                                                <Border
+                                                    BorderBrush="{Binding SelectedColor,
                                                                               Converter={StaticResource ColorToBrushConverter},
                                                                               RelativeSource={RelativeSource FindAncestor,
                                                                                                              AncestorType=controls:ColorPicker}}"
-                                                        BorderThickness="0,0,0,2"
-                                                        RenderOptions.ClearTypeHint="Enabled"
-                                                        UseLayoutRounding="True">
+                                                    BorderThickness="0,0,0,2"
+                                                    RenderOptions.ClearTypeHint="Enabled"
+                                                    UseLayoutRounding="True">
                                                     <TextBlock FontSize="13.4"
                                                                Padding="4"
                                                                Style="{StaticResource GlyphTextBlockStyle}"
@@ -237,12 +251,13 @@
                                                           ToolTip="{x:Static properties:Resources.HighlightingColor}">
                                         <controls:ColorPicker.ContentTemplate>
                                             <DataTemplate>
-                                                <Border Background="{Binding SelectedColor,
+                                                <Border
+                                                    Background="{Binding SelectedColor,
                                                                              Converter={StaticResource ColorToBrushConverter},
                                                                              RelativeSource={RelativeSource FindAncestor,
                                                                                                             AncestorType=controls:ColorPicker}}"
-                                                        BorderThickness="0"
-                                                        RenderOptions.ClearTypeHint="Enabled">
+                                                    BorderThickness="0"
+                                                    RenderOptions.ClearTypeHint="Enabled">
                                                     <TextBlock Padding="4"
                                                                Style="{StaticResource GlyphTextBlockStyle}"
                                                                Text="{Binding}" />

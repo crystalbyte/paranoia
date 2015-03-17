@@ -1,10 +1,34 @@
-﻿#region Using directives
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
 
 using System;
-using System.Data.Entity;
 using System.Composition;
 using System.Composition.Hosting;
 using System.Configuration;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -25,6 +49,7 @@ using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.Themes;
 using Crystalbyte.Paranoia.UI;
 using NLog;
+using Application = Crystalbyte.Paranoia.Automation.Application;
 using WinApp = System.Windows.Application;
 
 #endregion
@@ -34,7 +59,6 @@ namespace Crystalbyte.Paranoia {
     ///     Interaction logic for App.xaml
     /// </summary>
     public partial class App {
-
         #region Private Fields
 
         private readonly ComServer _server;
@@ -69,7 +93,7 @@ namespace Crystalbyte.Paranoia {
         }
 
 #if DEBUG
-        protected async override void OnStartup(StartupEventArgs e) {
+        protected override async void OnStartup(StartupEventArgs e) {
 #else
         protected override void OnStartup(StartupEventArgs e) {
 #endif
@@ -77,7 +101,8 @@ namespace Crystalbyte.Paranoia {
 
 #if DEBUG
             var commands = Environment.CommandLine;
-            var message = string.Format("Arguments: {0}{1}{1}Pid: {2}{1}{1}Continue?", commands, Environment.NewLine, Process.GetCurrentProcess().Id);
+            var message = string.Format("Arguments: {0}{1}{1}Pid: {2}{1}{1}Continue?", commands, Environment.NewLine,
+                Process.GetCurrentProcess().Id);
             var result = MessageBox.Show(message, "Command Line Arguments", MessageBoxButton.YesNo);
             if (result.HasFlag(MessageBoxResult.No)) {
                 ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -102,7 +127,7 @@ namespace Crystalbyte.Paranoia {
             InitSodium();
             InitChromium();
             InitThemes();
-            
+
             StartComServer();
             ProcessCommandLine();
 #if DEBUG
@@ -111,7 +136,8 @@ namespace Crystalbyte.Paranoia {
                 if (accounts.Length != 0)
                     return;
 
-                var account = new MailAccountModel {
+                var account = new MailAccountModel
+                {
                     Name = "Paranoia Test Account",
                     Address = "paranoia.app@gmail.com",
                     ImapUsername = "paranoia.app@gmail.com",
@@ -134,8 +160,6 @@ namespace Crystalbyte.Paranoia {
                 Settings.Default.AcceptUntrustedCertificates = true;
             }
 #endif
-
-
         }
 
 #if DEBUG
@@ -156,7 +180,8 @@ namespace Crystalbyte.Paranoia {
 
             bool isNew;
             var allowEveryoneRule = new MutexAccessRule(
-                new SecurityIdentifier(WellKnownSidType.WorldSid, null), MutexRights.FullControl, AccessControlType.Allow);
+                new SecurityIdentifier(WellKnownSidType.WorldSid, null), MutexRights.FullControl,
+                AccessControlType.Allow);
             var securitySettings = new MutexSecurity();
             securitySettings.AddAccessRule(allowEveryoneRule);
 
@@ -178,17 +203,20 @@ namespace Crystalbyte.Paranoia {
                         RelayCommandLine();
 
                         success = true;
-                    } catch (Exception ex) {
+                    }
+                    catch (Exception ex) {
                         Logger.Error(ex);
                         success = false;
                     }
-
-                } catch (TimeoutException ex) {
+                }
+                catch (TimeoutException ex) {
                     Logger.Error(ex);
-                } catch (AbandonedMutexException ex) {
+                }
+                catch (AbandonedMutexException ex) {
                     Logger.Error(ex);
                     hasHandle = true;
-                } finally {
+                }
+                finally {
                     if (hasHandle)
                         mutex.ReleaseMutex();
                 }
@@ -208,10 +236,11 @@ namespace Crystalbyte.Paranoia {
                 if (!info.Exists)
                     return;
 
-                var type = Type.GetTypeFromProgID(Automation.Application.ProgId);
+                var type = Type.GetTypeFromProgID(Application.ProgId);
                 dynamic application = Activator.CreateInstance(type);
                 application.OpenFile(arguments[1]);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -229,12 +258,14 @@ namespace Crystalbyte.Paranoia {
 
                 // Can't access the main window here directly since it is not yet created.
                 DeferredActions.Push(() => {
-                    Current.MainWindow.Loaded += (sender, e) => {
-                        Current.MainWindow.WindowState = WindowState.Minimized;
-                        Context.InspectMessage(info);
-                    };
-                });
-            } catch (Exception ex) {
+                                         Current.MainWindow.Loaded += (sender, e) => {
+                                                                          Current.MainWindow.WindowState =
+                                                                              WindowState.Minimized;
+                                                                          Context.InspectMessage(info);
+                                                                      };
+                                     });
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -244,44 +275,51 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 StopComServer();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
 
         private static void InitChromium() {
-            var settings = new CefSettings {
+            var settings = new CefSettings
+            {
                 Locale = CultureInfo.CurrentUICulture.Name,
                 CachePath = null,
                 RemoteDebuggingPort = 1337,
                 LogFile = "./cef.log"
             };
 
-            settings.RegisterScheme(new CefCustomScheme {
+            settings.RegisterScheme(new CefCustomScheme
+            {
                 SchemeName = "eml",
                 IsStandard = false,
                 SchemeHandlerFactory = new SchemeHandlerFactory<EmlSchemeHandler>()
             });
 
-            settings.RegisterScheme(new CefCustomScheme {
+            settings.RegisterScheme(new CefCustomScheme
+            {
                 SchemeName = "file",
                 IsStandard = false,
                 SchemeHandlerFactory = new SchemeHandlerFactory<FileSchemeHandler>()
             });
 
-            settings.RegisterScheme(new CefCustomScheme {
+            settings.RegisterScheme(new CefCustomScheme
+            {
                 SchemeName = "message",
                 IsStandard = false,
                 SchemeHandlerFactory = new SchemeHandlerFactory<MessageSchemeHandler>()
             });
 
-            settings.RegisterScheme(new CefCustomScheme {
+            settings.RegisterScheme(new CefCustomScheme
+            {
                 SchemeName = "resource",
                 IsStandard = false,
                 SchemeHandlerFactory = new SchemeHandlerFactory<ResourceSchemeHandler>()
             });
 
-            settings.RegisterScheme(new CefCustomScheme {
+            settings.RegisterScheme(new CefCustomScheme
+            {
                 SchemeName = "composition",
                 IsStandard = false,
                 SchemeHandlerFactory = new SchemeHandlerFactory<CompositionSchemeHandler>()
@@ -303,14 +341,14 @@ namespace Crystalbyte.Paranoia {
 
             var theme =
                 Context.Themes.FirstOrDefault(x => string.Compare(name, x.GetName(),
-                        StringComparison.InvariantCultureIgnoreCase) == 0) ??
+                    StringComparison.InvariantCultureIgnoreCase) == 0) ??
                 Context.Themes.First(x => x is LightTheme);
 
             ApplyTheme(theme);
 
             var color = ColorConverter.ConvertFromString(Settings.Default.Accent);
             if (color != null) {
-                ApplyAccent((Color)color);
+                ApplyAccent((Color) color);
             }
         }
 
@@ -334,9 +372,9 @@ namespace Crystalbyte.Paranoia {
 
         private void Compose() {
             var config = new ContainerConfiguration()
-                .WithAssembly(typeof(App).Assembly)
-                .WithAssembly(typeof(DarkTheme).Assembly)
-                .WithAssembly(typeof(LightTheme).Assembly);
+                .WithAssembly(typeof (App).Assembly)
+                .WithAssembly(typeof (DarkTheme).Assembly)
+                .WithAssembly(typeof (LightTheme).Assembly);
 
             Composition = config.CreateContainer();
             Composition.SatisfyImports(this);

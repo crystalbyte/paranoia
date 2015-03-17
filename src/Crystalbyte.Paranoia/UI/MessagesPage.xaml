@@ -70,7 +70,10 @@
                                VerticalAlignment="Center"
                                DockPanel.Dock="Left"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}"
-                               Style="{DynamicResource TitleTextStyle}"><Run Text="{x:Static properties:Resources.AccountsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Text="{Binding Accounts, Converter={StaticResource CollectionCounter}, FallbackValue=0, Mode=OneWay, StringFormat=\{0\}}" />
+                               Style="{DynamicResource TitleTextStyle}">
+                        <Run Text="{x:Static properties:Resources.AccountsTitle}" /><Run Text=" " />
+                        <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                             Text="{Binding Accounts, Converter={StaticResource CollectionCounter}, FallbackValue=0, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
                 </DockPanel>
                 <TreeView x:Name="AccountsTreeView"
@@ -137,18 +140,24 @@
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding IsSelected}" Value="True" />
-                                        <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource AncestorType=TreeView}}" Value="True" />
+                                        <Condition
+                                            Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource AncestorType=TreeView}}"
+                                            Value="True" />
                                     </MultiDataTrigger.Conditions>
-                                    <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
-                                    <Setter TargetName="NotSeenCountText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+                                    <Setter TargetName="NameText" Property="Foreground"
+                                            Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+                                    <Setter TargetName="NotSeenCountText" Property="Foreground"
+                                            Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
                                 </MultiDataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
-                        <HierarchicalDataTemplate DataType="{x:Type paranoia:MailAccountContext}" ItemsSource="{Binding Children, Mode=OneWay}">
+                        <HierarchicalDataTemplate DataType="{x:Type paranoia:MailAccountContext}"
+                                                  ItemsSource="{Binding Children, Mode=OneWay}">
                             <Grid x:Name="LayoutRoot">
                                 <Grid.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Command="{Binding ShowUnsubscribedMailboxesCommand}" Header="{x:Static properties:Resources.ShowUnsubscribedMailboxes}">
+                                        <MenuItem Command="{Binding ShowUnsubscribedMailboxesCommand}"
+                                                  Header="{x:Static properties:Resources.ShowUnsubscribedMailboxes}">
                                             <MenuItem.Icon>
                                                 <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
                                                     <Rectangle.OpacityMask>
@@ -161,7 +170,9 @@
                                                   Header="{x:Static properties:Resources.Delete}"
                                                   InputGestureText="{x:Static properties:Resources.DeleteGesture}">
                                             <MenuItem.Icon>
-                                                <Rectangle Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}" Style="{StaticResource MonoChromeIconRectangleStyle}">
+                                                <Rectangle
+                                                    Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}"
+                                                    Style="{StaticResource MonoChromeIconRectangleStyle}">
                                                     <Rectangle.OpacityMask>
                                                         <ImageBrush ImageSource="/Assets/delete.png" />
                                                     </Rectangle.OpacityMask>
@@ -223,9 +234,11 @@
                                     <Setter TargetName="LayoutRoot" Property="ContextMenu">
                                         <Setter.Value>
                                             <ContextMenu>
-                                                <MenuItem Command="{Binding HideUnsubscribedMailboxesCommand}" Header="{x:Static properties:Resources.HideUnsubscribedMailboxes}">
+                                                <MenuItem Command="{Binding HideUnsubscribedMailboxesCommand}"
+                                                          Header="{x:Static properties:Resources.HideUnsubscribedMailboxes}">
                                                     <MenuItem.Icon>
-                                                        <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
+                                                        <Rectangle
+                                                            Style="{StaticResource MonoChromeIconRectangleStyle}">
                                                             <Rectangle.OpacityMask>
                                                                 <ImageBrush ImageSource="/Assets/ok.png" />
                                                             </Rectangle.OpacityMask>
@@ -238,7 +251,8 @@
                                 </DataTrigger>
                             </HierarchicalDataTemplate.Triggers>
                         </HierarchicalDataTemplate>
-                        <HierarchicalDataTemplate DataType="{x:Type paranoia:MailboxContext}" ItemsSource="{Binding Children}">
+                        <HierarchicalDataTemplate DataType="{x:Type paranoia:MailboxContext}"
+                                                  ItemsSource="{Binding Children}">
                             <Grid>
                                 <Grid.ContextMenu>
                                     <ContextMenu>
@@ -259,7 +273,9 @@
                                                   Header="{x:Static properties:Resources.Delete}"
                                                   InputGestureText="{x:Static properties:Resources.Delete}">
                                             <MenuItem.Icon>
-                                                <Rectangle Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}" Style="{StaticResource MonoChromeIconRectangleStyle}">
+                                                <Rectangle
+                                                    Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}"
+                                                    Style="{StaticResource MonoChromeIconRectangleStyle}">
                                                     <Rectangle.OpacityMask>
                                                         <ImageBrush ImageSource="/Assets/delete.png" />
                                                     </Rectangle.OpacityMask>
@@ -285,7 +301,8 @@
                                            VerticalAlignment="Stretch"
                                            Fill="Transparent" />
                                 <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
-                                    <Border DockPanel.Dock="Left" Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Border DockPanel.Dock="Left"
+                                            Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <CheckBox VerticalAlignment="Center"
                                                   IsChecked="{Binding IsSubscribed,
                                                                       Mode=TwoWay}"
@@ -301,7 +318,8 @@
                                         <Image.Opacity>
                                             <Binding Path="IsSubscribedAndSelectable">
                                                 <Binding.Converter>
-                                                    <converters:BooleanToOpacityConverter OpacityForFalse=".5" OpacityForTrue="1" />
+                                                    <converters:BooleanToOpacityConverter OpacityForFalse=".5"
+                                                                                          OpacityForTrue="1" />
                                                 </Binding.Converter>
                                             </Binding>
                                         </Image.Opacity>
@@ -340,19 +358,25 @@
                             </Grid>
                             <HierarchicalDataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSubscribedAndSelectable}" Value="False">
-                                    <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                    <Setter TargetName="NameText" Property="Foreground"
+                                            Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                                 </DataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding IsSelected}" Value="True" />
-                                        <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}" Value="False" />
+                                        <Condition
+                                            Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}"
+                                            Value="False" />
                                     </MultiDataTrigger.Conditions>
-                                    <Setter TargetName="NotSeenCountText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                                    <Setter TargetName="NotSeenCountText" Property="Foreground"
+                                            Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding IsSelected}" Value="True" />
-                                        <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}" Value="True" />
+                                        <Condition
+                                            Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}"
+                                            Value="True" />
                                     </MultiDataTrigger.Conditions>
                                     <!--  <Setter TargetName="NameText" Property="Foreground" Value="WhiteSmoke" />  -->
                                     <!--  <Setter TargetName="EnvelopeProgressBar" Property="Foreground" Value="WhiteSmoke" />  -->
@@ -366,7 +390,8 @@
                             <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
                             <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                             <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                            <Setter Property="Visibility" Value="{Binding IsListed, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
+                            <Setter Property="Visibility"
+                                    Value="{Binding IsListed, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
                             <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                         </Style>
                     </TreeView.ItemContainerStyle>
@@ -404,7 +429,9 @@
                                VerticalAlignment="Center"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}"
                                Style="{DynamicResource TitleTextStyle}">
-                        <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Text="{Binding Messages, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
+                        <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " />
+                        <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                             Text="{Binding Messages, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
                 </DockPanel>
 
@@ -474,7 +501,8 @@
                                     </ContextMenu.ItemContainerStyle>
                                     <ContextMenu.ItemTemplate>
                                         <DataTemplate DataType="{x:Type paranoia:SortProperty}">
-                                            <TextBlock Text="{Binding Converter={StaticResource SortPropertyFormatter}}" />
+                                            <TextBlock
+                                                Text="{Binding Converter={StaticResource SortPropertyFormatter}}" />
                                         </DataTemplate>
                                     </ContextMenu.ItemTemplate>
                                     <ContextMenu.ItemsSource>
@@ -571,7 +599,9 @@
                                       Header="{x:Static properties:Resources.Delete}"
                                       InputGestureText="{x:Static properties:Resources.DeleteGesture}">
                                 <MenuItem.Icon>
-                                    <Rectangle Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}" Style="{DynamicResource MonoChromeIconRectangleStyle}">
+                                    <Rectangle
+                                        Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}"
+                                        Style="{DynamicResource MonoChromeIconRectangleStyle}">
                                         <Rectangle.OpacityMask>
                                             <ImageBrush ImageSource="/Assets/delete.png" />
                                         </Rectangle.OpacityMask>
@@ -580,7 +610,8 @@
                             </MenuItem>
                             <Separator />
                             <MenuItem Header="{x:Static properties:Resources.Flag}">
-                                <MenuItem Command="{Binding MarkAsSeenCommand}" Header="{x:Static properties:Resources.MarkAsSeen}">
+                                <MenuItem Command="{Binding MarkAsSeenCommand}"
+                                          Header="{x:Static properties:Resources.MarkAsSeen}">
                                     <MenuItem.Icon>
                                         <Rectangle Style="{DynamicResource MonoChromeIconRectangleStyle}">
                                             <Rectangle.OpacityMask>
@@ -589,7 +620,8 @@
                                         </Rectangle>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                <MenuItem Command="{Binding MarkAsNotSeenCommand}" Header="{x:Static properties:Resources.MarkAsNotSeen}">
+                                <MenuItem Command="{Binding MarkAsNotSeenCommand}"
+                                          Header="{x:Static properties:Resources.MarkAsNotSeen}">
                                     <MenuItem.Icon>
                                         <Rectangle Style="{DynamicResource MonoChromeIconRectangleStyle}">
                                             <Rectangle.OpacityMask>
@@ -599,7 +631,8 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <Separator />
-                                <MenuItem Command="{Binding MarkAsFlaggedCommand}" Header="{x:Static properties:Resources.MarkAsFlagged}">
+                                <MenuItem Command="{Binding MarkAsFlaggedCommand}"
+                                          Header="{x:Static properties:Resources.MarkAsFlagged}">
                                     <MenuItem.Icon>
                                         <Rectangle Style="{DynamicResource MonoChromeIconRectangleStyle}">
                                             <Rectangle.OpacityMask>
@@ -608,7 +641,8 @@
                                         </Rectangle>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                <MenuItem Command="{Binding MarkAsNotFlaggedCommand}" Header="{x:Static properties:Resources.MarkAsNotFlagged}">
+                                <MenuItem Command="{Binding MarkAsNotFlaggedCommand}"
+                                          Header="{x:Static properties:Resources.MarkAsNotFlagged}">
                                     <MenuItem.Icon>
                                         <Rectangle Style="{DynamicResource MonoChromeIconRectangleStyle}">
                                             <Rectangle.OpacityMask>
@@ -722,7 +756,8 @@
                             </Grid>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSeen}" Value="True">
-                                    <Setter TargetName="SubjectText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" />
+                                    <Setter TargetName="SubjectText" Property="Foreground"
+                                            Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -772,7 +807,9 @@
                                DataContext="{Binding SelectedOutbox}"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}"
                                Style="{DynamicResource TitleTextStyle}">
-                        <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Text="{Binding SmtpRequests, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
+                        <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " />
+                        <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                             Text="{Binding SmtpRequests, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
                 </DockPanel>
                 <TextBox Grid.Row="1"
@@ -885,7 +922,8 @@
                             </Grid>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="SubjectText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+                                    <Setter TargetName="SubjectText" Property="Foreground"
+                                            Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -1047,7 +1085,8 @@
                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}"
                   Visibility="{Binding IsMessageOrSmtpRequestSelected,
                                        Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid DataContext="{Binding SelectedMessage}"
+                      Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <ui:HtmlViewer x:Name="MessageViewer"
                                    BorderThickness="0"
                                    DataContext="{Binding DataContext,
@@ -1062,14 +1101,17 @@
                                                   Mode=TwoWay}"
                                    d:IsHidden="True" />
                 </Grid>
-                <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                <Grid DataContext="{Binding SelectedMessage}"
+                      Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <TextBlock Margin="24,12"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Bottom">
                         <Run FontSize="48"
                              FontWeight="Thin"
                              Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                             Text="{Binding Progress}" /><Run Text=" " /><Run FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
+                             Text="{Binding Progress}" />
+                        <Run Text=" " />
+                        <Run FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                              FontWeight="Thin"
                              Text="%" />
                     </TextBlock>

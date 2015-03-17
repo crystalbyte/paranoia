@@ -1,4 +1,30 @@
-﻿using System;
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
+
+using System;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -11,10 +37,11 @@ using System.Windows.Media.Imaging;
 using NLog;
 using Point = System.Drawing.Point;
 
+#endregion
+
 namespace Crystalbyte.Paranoia.UI.Converters {
     public sealed class IconFinder : IValueConverter {
-
-        private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static readonly string DefaultIcon = null;
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
@@ -68,8 +95,9 @@ namespace Crystalbyte.Paranoia.UI.Converters {
             if (!info.Exists) {
                 fileName = string.Format("{0}", info.Extension);
             }
-            
-            var res = NativeMethods.SHGetFileInfo(fileName, FILE_ATTRIBUTE_NORMAL, ref shinfo, Marshal.SizeOf(shinfo), flags);
+
+            var res = NativeMethods.SHGetFileInfo(fileName, FILE_ATTRIBUTE_NORMAL, ref shinfo, Marshal.SizeOf(shinfo),
+                flags);
 
             if (res == 0)
                 throw (new FileNotFoundException());
@@ -218,13 +246,11 @@ namespace Crystalbyte.Paranoia.UI.Converters {
 
             // Path to the file
 
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
-            public string szDisplayName;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)] public string szDisplayName;
 
             // File type
 
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
-            public string szTypeName;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)] public string szTypeName;
         };
 
 #pragma warning disable 0649
@@ -292,7 +318,6 @@ namespace Crystalbyte.Paranoia.UI.Converters {
         // ReSharper restore InconsistentNaming
 
         private static class NativeMethods {
-
             [DllImport("user32")]
             public static extern IntPtr SendMessage(IntPtr handle, int msg, IntPtr wParam, IntPtr lParam);
 
@@ -304,7 +329,8 @@ namespace Crystalbyte.Paranoia.UI.Converters {
 
             // The signature of SHGetFileInfo (located in Shell32.dll)
             [DllImport("Shell32.dll")]
-            public static extern int SHGetFileInfo(string pszPath, int dwFileAttributes, ref SHFILEINFO psfi, int cbFileInfo,
+            public static extern int SHGetFileInfo(string pszPath, int dwFileAttributes, ref SHFILEINFO psfi,
+                int cbFileInfo,
                 uint uFlags);
 
             [DllImport("user32")]

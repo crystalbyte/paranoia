@@ -5,7 +5,8 @@
     <Style TargetType="TextBlock">
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
         <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" />
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
@@ -17,9 +18,11 @@
     <Style x:Key="TitleTextStyle"
            BasedOn="{StaticResource {x:Type TextBlock}}"
            TargetType="TextBlock">
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}" />
+        <Setter Property="FontSize"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}" />
         <Setter Property="FontWeight" Value="Thin" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
     </Style>
 
     <Style x:Key="LabelTextBlockStyle"
@@ -44,7 +47,8 @@
            TargetType="TextBlock">
         <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" />
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
     </Style>
 
 </ResourceDictionary>

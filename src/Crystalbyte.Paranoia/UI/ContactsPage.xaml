@@ -82,7 +82,10 @@
                                DockPanel.Dock="Top"
                                FontSize="{DynamicResource AppExtraLargeFontSizeKey}"
                                Style="{DynamicResource TitleTextStyle}">
-                        <Run Text="{x:Static properties:Resources.ContactsTitle}" /><Run Text=" " /><Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{Binding Contacts, Converter={StaticResource CollectionCounter}, Mode=OneWay}" />
+                        <Run Text="{x:Static properties:Resources.ContactsTitle}" /><Run Text=" " />
+                        <Run
+                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+                            Text="{Binding Contacts, Converter={StaticResource CollectionCounter}, Mode=OneWay}" />
                     </TextBlock>
                 </DockPanel>
                 <TextBox Margin="6"
@@ -137,12 +140,14 @@
                                                TextTrimming="CharacterEllipsis"
                                                TextWrapping="NoWrap" />
                                 </StackPanel>
-                                <Grid Margin="12,0" Visibility="{Binding IsBlocked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <Grid Margin="12,0"
+                                      Visibility="{Binding IsBlocked, Converter={StaticResource BooleanToVisibilityConverter}}">
                                     <Rectangle Width="18"
                                                Height="18"
                                                Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}" />
                                 </Grid>
-                                <Grid Margin="12,0" Visibility="{Binding HasKeys, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <Grid Margin="12,0"
+                                      Visibility="{Binding HasKeys, Converter={StaticResource BooleanToVisibilityConverter}}">
                                     <Rectangle Width="18"
                                                Height="18"
                                                Fill="{Binding Security,
@@ -155,7 +160,8 @@
                             </StackPanel>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+                                    <Setter TargetName="AddressBlock" Property="Foreground"
+                                            Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>

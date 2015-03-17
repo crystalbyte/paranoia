@@ -1,4 +1,28 @@
-﻿#region Using directives
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia.Mail
+// 
+// Crystalbyte.Paranoia.Mail is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
 
 using System;
 using System.Diagnostics;
@@ -13,17 +37,17 @@ namespace Crystalbyte.Paranoia.Mail {
         public static string Encode(string text, string transferEncoding, string charset, bool useBockText = true) {
             switch (transferEncoding) {
                 case ContentTransferEncodings.QuotedPrintable: {
-                        var bytes = Encoding.UTF8.GetBytes(text);
-                        return QpConverter.ToQuotedPrintableString(bytes);
-                    }
+                    var bytes = Encoding.UTF8.GetBytes(text);
+                    return QpConverter.ToQuotedPrintableString(bytes);
+                }
                 case ContentTransferEncodings.None: {
-                        return text;
-                    }
+                    return text;
+                }
                 default: {
-                        var bytes = Encoding.UTF8.GetBytes(text);
-                        var encodedText = Convert.ToBase64String(bytes);
-                        return useBockText ? encodedText.ToBlockText(76) : encodedText;
-                    }
+                    var bytes = Encoding.UTF8.GetBytes(text);
+                    var encodedText = Convert.ToBase64String(bytes);
+                    return useBockText ? encodedText.ToBlockText(76) : encodedText;
+                }
             }
         }
 
@@ -44,23 +68,24 @@ namespace Crystalbyte.Paranoia.Mail {
             try {
                 // if this goes haywire
                 targetEncoding = Encoding.GetEncoding(charset);
-            } catch (ArgumentException) {
+            }
+            catch (ArgumentException) {
                 // try this one
                 targetEncoding = Encoding.UTF8;
             }
 
             switch (transferEncoding.ToLower()) {
                 case ContentTransferEncodings.QuotedPrintable: {
-                        return QpConverter.FromQuotedPrintable(literals, targetEncoding);
-                    }
+                    return QpConverter.FromQuotedPrintable(literals, targetEncoding);
+                }
                 case ContentTransferEncodings.Base64: {
-                        var bytes = Convert.FromBase64String(literals);
-                        return targetEncoding.GetString(bytes);
-                    }
+                    var bytes = Convert.FromBase64String(literals);
+                    return targetEncoding.GetString(bytes);
+                }
                 default: {
-                        // no encoding
-                        return literals;
-                    }
+                    // no encoding
+                    return literals;
+                }
             }
         }
 
@@ -87,13 +112,13 @@ namespace Crystalbyte.Paranoia.Mail {
 
             switch (encoding) {
                 case "Q": {
-                        decodedText = Decode(message, ContentTransferEncodings.QuotedPrintable, charset);
-                        break;
-                    }
+                    decodedText = Decode(message, ContentTransferEncodings.QuotedPrintable, charset);
+                    break;
+                }
                 default: {
-                        decodedText = Decode(message, ContentTransferEncodings.Base64, charset);
-                        break;
-                    }
+                    decodedText = Decode(message, ContentTransferEncodings.Base64, charset);
+                    break;
+                }
             }
 
             return decodedText;

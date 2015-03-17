@@ -72,31 +72,36 @@
                                             <SplineDoubleKeyFrame KeySpline="0.4,0,0.6,1" KeyTime="0:0:3.667" />
                                         </DoubleAnimationUsingKeyFrames>
 
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="B1" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="B1"
+                                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="-50" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:3" Value="100" />
                                         </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="B2" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="B2"
+                                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="-50" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.667" Value="0" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:2.167" Value="0" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:3.167" Value="100" />
                                         </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="B3" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="B3"
+                                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="-50" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:2.333" Value="0" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:3.333" Value="100" />
                                         </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="B4" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="B4"
+                                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="-50" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:2.5" Value="0" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:3.5" Value="100" />
                                         </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="B5" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="B5"
+                                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="-50" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:1.167" Value="0" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:2.667" Value="0" />
@@ -111,33 +116,38 @@
                                                          Storyboard.TargetName="DeterminateRoot"
                                                          Storyboard.TargetProperty="Opacity"
                                                          To="0" />
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="E1" Storyboard.TargetProperty="Opacity">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="E1"
+                                                                       Storyboard.TargetProperty="Opacity">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="1" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:3" Value="1" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:3" Value="0" />
                                         </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="E2" Storyboard.TargetProperty="Opacity">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="E2"
+                                                                       Storyboard.TargetProperty="Opacity">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.167" Value="0" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.167" Value="1" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:3.167" Value="1" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:3.167" Value="0" />
                                         </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="E3" Storyboard.TargetProperty="Opacity">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="E3"
+                                                                       Storyboard.TargetProperty="Opacity">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.333" Value="0" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.333" Value="1" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:3.333" Value="1" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:3.333" Value="0" />
                                         </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="E4" Storyboard.TargetProperty="Opacity">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="E4"
+                                                                       Storyboard.TargetProperty="Opacity">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:3.5" Value="1" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:3.5" Value="0" />
                                         </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="E5" Storyboard.TargetProperty="Opacity">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="E5"
+                                                                       Storyboard.TargetProperty="Opacity">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.667" Value="0" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.667" Value="1" />
@@ -181,7 +191,8 @@
                                     </Ellipse.RenderTransform>
                                 </Ellipse>
                             </Border>
-                            <Rectangle Grid.Column="1" Width="{Binding EllipseOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                            <Rectangle Grid.Column="1"
+                                       Width="{Binding EllipseOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                             <Border x:Name="B4"
                                     Grid.Column="2"
                                     RenderTransformOrigin="0.5,0.5">
@@ -200,7 +211,8 @@
                                     </Ellipse.RenderTransform>
                                 </Ellipse>
                             </Border>
-                            <Rectangle Grid.Column="3" Width="{Binding EllipseOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                            <Rectangle Grid.Column="3"
+                                       Width="{Binding EllipseOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                             <Border x:Name="B3"
                                     Grid.Column="4"
                                     RenderTransformOrigin="0.5,0.5">
@@ -219,7 +231,8 @@
                                     </Ellipse.RenderTransform>
                                 </Ellipse>
                             </Border>
-                            <Rectangle Grid.Column="5" Width="{Binding EllipseOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                            <Rectangle Grid.Column="5"
+                                       Width="{Binding EllipseOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                             <Border x:Name="B2"
                                     Grid.Column="6"
                                     RenderTransformOrigin="0.5,0.5">
@@ -238,7 +251,8 @@
                                     </Ellipse.RenderTransform>
                                 </Ellipse>
                             </Border>
-                            <Rectangle Grid.Column="7" Width="{Binding EllipseOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                            <Rectangle Grid.Column="7"
+                                       Width="{Binding EllipseOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                             <Border x:Name="B1"
                                     Grid.Column="8"
                                     RenderTransformOrigin="0.5,0.5">

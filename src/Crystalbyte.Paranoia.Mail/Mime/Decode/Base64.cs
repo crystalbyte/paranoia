@@ -1,4 +1,28 @@
-﻿#region Using directives
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia.Mail
+// 
+// Crystalbyte.Paranoia.Mail is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
 
 using System;
 using System.IO;
@@ -19,7 +43,6 @@ namespace Crystalbyte.Paranoia.Mail.Mime.Decode {
         /// <param name="base64Encoded"> The string to decode </param>
         /// <returns> A byte array that the base64 string described </returns>
         public static byte[] Decode(string base64Encoded) {
-
             // According to http://www.tribridge.com/blog/crm/blogs/brandon-kelly/2011-04-29/Solving-OutOfMemoryException-errors-when-attempting-to-attach-large-Base64-encoded-content-into-CRM-annotations.aspx
             // System.Convert.ToBase64String may leak a lot of memory
             // An OpenPop user reported that OutOfMemoryExceptions were thrown, and supplied the following
@@ -52,7 +75,8 @@ namespace Crystalbyte.Paranoia.Mail.Mime.Decode {
 
                     return memoryStream.ToArray();
                 }
-            } catch (FormatException e) {
+            }
+            catch (FormatException e) {
                 DefaultLogger.Log.LogError("Base64: (FormatException) " + e.Message + "\r\nOn string: " + base64Encoded);
                 throw;
             }

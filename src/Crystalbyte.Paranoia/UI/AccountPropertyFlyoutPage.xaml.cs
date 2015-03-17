@@ -1,4 +1,28 @@
-﻿#region Using directives
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
 
 using System;
 using System.Data.Entity;
@@ -21,11 +45,10 @@ namespace Crystalbyte.Paranoia.UI {
     ///     Interaction logic for AccountPropertyFlyoutPage.xaml
     /// </summary>
     public partial class AccountPropertyFlyoutPage : INavigationAware, ICancelationAware {
-
         #region Private Fields
 
         private RevisionTracker<MailAccountContext> _tracker;
-        private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -45,7 +68,7 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         private void SetMailboxRoleByParam(MailboxContext mailbox, string param) {
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             switch (param) {
                 case MailboxRoles.Sent:
                     account.SentMailboxName = mailbox.Name;
@@ -83,7 +106,7 @@ namespace Crystalbyte.Paranoia.UI {
             var popup = GetPopupByParameter(param);
             popup.IsOpen = false;
 
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             var mailbox = account.Mailboxes.FirstOrDefault(x => x.IsSelectedSubtly);
             if (mailbox != null) {
                 SetMailboxRoleByParam(mailbox, param);
@@ -97,7 +120,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var context = (MailAccountContext)DataContext;
+            var context = (MailAccountContext) DataContext;
             context.SignaturePath = dialog.FileNames.First();
         }
 
@@ -107,7 +130,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             var mailbox = account.Mailboxes.FirstOrDefault(x => x.IsSelectedSubtly);
             e.CanExecute = mailbox != null && mailbox.IsSelectable;
         }
@@ -122,7 +145,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void ShowMailboxSelection(string param) {
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             account.Mailboxes.ForEach(x => x.IsSelectedSubtly = false);
 
             var mailbox = GetMailboxByParameter(param);
@@ -150,7 +173,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private MailboxContext GetMailboxByParameter(string param) {
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             switch (param) {
                 case MailboxRoles.Sent:
                     return account.GetSentMailbox();
@@ -180,32 +203,32 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnImapSecurityProtocolSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var account = (MailAccountContext)DataContext;
-            account.ImapPort = (short)(account.ImapSecurity == SecurityProtocol.Implicit ? 993 : 143);
+            var account = (MailAccountContext) DataContext;
+            account.ImapPort = (short) (account.ImapSecurity == SecurityProtocol.Implicit ? 993 : 143);
         }
 
         private void OnImapPasswordChanged(object sender, RoutedEventArgs e) {
-            var box = (PasswordBox)sender;
-            var account = (MailAccountContext)DataContext;
+            var box = (PasswordBox) sender;
+            var account = (MailAccountContext) DataContext;
             account.ImapPassword = box.Password;
         }
 
         private void OnSmtpPasswordChanged(object sender, RoutedEventArgs e) {
-            var box = (PasswordBox)sender;
-            var account = (MailAccountContext)DataContext;
+            var box = (PasswordBox) sender;
+            var account = (MailAccountContext) DataContext;
             account.SmtpPassword = box.Password;
         }
 
         private void OnUseImapCredentialsChecked(object sender, RoutedEventArgs e) {
-            var account = (MailAccountContext)DataContext;
-            var button = ((RadioButton)sender);
+            var account = (MailAccountContext) DataContext;
+            var button = ((RadioButton) sender);
             if (button.IsChecked != null) {
                 account.UseImapCredentialsForSmtp = button.IsChecked.Value;
             }
         }
 
         private void OnStoreCopyRadioButtonChecked(object sender, RoutedEventArgs e) {
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             account.StoreCopiesOfSentMessages = true;
         }
 
@@ -215,13 +238,13 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             account.StoreCopiesOfSentMessages = false;
         }
 
         private void OnUseSmtpCredentialsChecked(object sender, RoutedEventArgs e) {
-            var account = (MailAccountContext)DataContext;
-            var button = ((RadioButton)sender);
+            var account = (MailAccountContext) DataContext;
+            var button = ((RadioButton) sender);
             if (button.IsChecked != null) {
                 account.UseImapCredentialsForSmtp = !button.IsChecked.Value;
             }
@@ -232,18 +255,20 @@ namespace Crystalbyte.Paranoia.UI {
 
             try {
                 ContinueButton.IsEnabled = false;
-                var account = (MailAccountContext)DataContext;
+                var account = (MailAccountContext) DataContext;
                 await Task.Run(async () => await account.SaveAsync());
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
-            } finally {
+            }
+            finally {
                 ContinueButton.IsEnabled = true;
                 App.Context.CloseFlyout();
             }
         }
 
         private void OnFlyoutClosed(object sender, EventArgs e) {
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             account.Testing = null;
 
             App.Context.FlyoutClosed -= OnFlyoutClosed;
@@ -259,13 +284,16 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async Task InitializeUnbindablesAsync() {
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
 
             var defaultId = Task.Run(() => {
-                using (var context = new DatabaseContext()) {
-                    return context.MailAccounts.OrderByDescending(x => x.IsDefaultTime).Select(x => x.Id).FirstOrDefaultAsync();
-                }
-            });
+                                         using (var context = new DatabaseContext()) {
+                                             return
+                                                 context.MailAccounts.OrderByDescending(x => x.IsDefaultTime)
+                                                     .Select(x => x.Id)
+                                                     .FirstOrDefaultAsync();
+                                         }
+                                     });
 
             SmtpPasswordBox.Password = account.SmtpPassword;
             SmtpPasswordBox.PasswordChanged += OnSmtpPasswordChanged;
@@ -286,27 +314,27 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void StartTracking() {
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             _tracker = new RevisionTracker<MailAccountContext>(account);
             _tracker.WithProperty(x => x.Name)
-                    .WithProperty(x => x.Address)
-                    .WithProperty(x => x.ImapHost)
-                    .WithProperty(x => x.ImapPort)
-                    .WithProperty(x => x.ImapUsername)
-                    .WithProperty(x => x.ImapPassword)
-                    .WithProperty(x => x.ImapSecurity)
-                    .WithProperty(x => x.UseImapCredentialsForSmtp)
-                    .WithProperty(x => x.SmtpHost)
-                    .WithProperty(x => x.SmtpPort)
-                    .WithProperty(x => x.SmtpUsername)
-                    .WithProperty(x => x.SmtpPassword)
-                    .WithProperty(x => x.SmtpSecurity)
-                    .WithProperty(x => x.TrashMailboxName)
-                    .WithProperty(x => x.JunkMailboxName)
-                    .WithProperty(x => x.SentMailboxName)
-                    .WithProperty(x => x.DraftMailboxName)
-                    .WithProperty(x => x.SignaturePath)
-                    .WithProperty(x => x.StoreCopiesOfSentMessages);
+                .WithProperty(x => x.Address)
+                .WithProperty(x => x.ImapHost)
+                .WithProperty(x => x.ImapPort)
+                .WithProperty(x => x.ImapUsername)
+                .WithProperty(x => x.ImapPassword)
+                .WithProperty(x => x.ImapSecurity)
+                .WithProperty(x => x.UseImapCredentialsForSmtp)
+                .WithProperty(x => x.SmtpHost)
+                .WithProperty(x => x.SmtpPort)
+                .WithProperty(x => x.SmtpUsername)
+                .WithProperty(x => x.SmtpPassword)
+                .WithProperty(x => x.SmtpSecurity)
+                .WithProperty(x => x.TrashMailboxName)
+                .WithProperty(x => x.JunkMailboxName)
+                .WithProperty(x => x.SentMailboxName)
+                .WithProperty(x => x.DraftMailboxName)
+                .WithProperty(x => x.SignaturePath)
+                .WithProperty(x => x.StoreCopiesOfSentMessages);
             _tracker.Start();
         }
 
@@ -333,7 +361,7 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         private void OnIsDefaultComboBoxChecked(object sender, RoutedEventArgs e) {
-            var context = (MailAccountContext)DataContext;
+            var context = (MailAccountContext) DataContext;
             context.IsDefaultTime = DateTime.Now;
         }
     }

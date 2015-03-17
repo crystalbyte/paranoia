@@ -1,4 +1,28 @@
-﻿#region Using directives
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
 
 using System;
 using System.Linq;
@@ -9,7 +33,6 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.Themes;
-using NLog;
 
 #endregion
 
@@ -18,7 +41,6 @@ namespace Crystalbyte.Paranoia.UI {
     ///     Interaction logic for AppSettingsFlyoutPage.xaml
     /// </summary>
     public partial class AppSettingsFlyoutPage : INavigationAware {
-
         #region Construction
 
         public AppSettingsFlyoutPage() {
@@ -51,20 +73,20 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnThemeSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var view = (ComboBox)sender;
-            var theme = (Theme)view.SelectedValue;
+            var view = (ComboBox) sender;
+            var theme = (Theme) view.SelectedValue;
             if (string.Compare(Settings.Default.Theme,
                 theme.Name, StringComparison.InvariantCultureIgnoreCase) != 0) {
-                ((App)Application.Current).ApplyTheme(theme);
+                ((App) Application.Current).ApplyTheme(theme);
             }
         }
 
         private void OnAccentSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var view = (ListView)sender;
-            var color = (Color)view.SelectedItem;
+            var view = (ListView) sender;
+            var color = (Color) view.SelectedItem;
             if (string.Compare(Settings.Default.Accent,
                 color.ToHex(false), StringComparison.InvariantCultureIgnoreCase) != 0) {
-                ((App)Application.Current).ApplyAccent(color);
+                ((App) Application.Current).ApplyAccent(color);
             }
         }
     }

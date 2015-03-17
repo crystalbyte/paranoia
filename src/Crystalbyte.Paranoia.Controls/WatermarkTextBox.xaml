@@ -69,11 +69,13 @@
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{x:Static SystemColors.InactiveBorderBrush}" />
+                            <Setter TargetName="OuterBorder" Property="BorderBrush"
+                                    Value="{x:Static SystemColors.InactiveBorderBrush}" />
                             <Setter Property="Foreground" Value="{x:Static SystemColors.InactiveBorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="OuterBorder" Property="BorderBrush"
+                                    Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -81,7 +83,8 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="Validation.HasError" Value="True">
-                <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
+                <Setter Property="ToolTip"
+                        Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
             </Trigger>
         </Style.Triggers>
     </Style>

@@ -22,7 +22,8 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter TargetName="Grip" Property="Stroke" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                <Setter TargetName="Grip" Property="Stroke"
+                        Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -42,8 +43,10 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter TargetName="Grip" Property="Fill" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-                <Setter TargetName="Grip" Property="Stroke" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                <Setter TargetName="Grip" Property="Fill"
+                        Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                <Setter TargetName="Grip" Property="Stroke"
+                        Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -64,7 +67,8 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter TargetName="Grip" Property="Stroke" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                <Setter TargetName="Grip" Property="Stroke"
+                        Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -153,7 +157,8 @@
                 <Setter TargetName="PART_SelectionRange" Property="Visibility" Value="Visible" />
             </Trigger>
             <Trigger Property="IsKeyboardFocused" Value="true">
-                <Setter TargetName="Thumb" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                <Setter TargetName="Thumb" Property="Foreground"
+                        Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -169,7 +174,8 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter TargetName="Grip" Property="Stroke" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                <Setter TargetName="Grip" Property="Stroke"
+                        Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -185,7 +191,8 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter TargetName="Grip" Property="Stroke" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                <Setter TargetName="Grip" Property="Stroke"
+                        Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -201,7 +208,8 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter TargetName="Grip" Property="Stroke" Value="{StaticResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                <Setter TargetName="Grip" Property="Stroke"
+                        Value="{StaticResource {x:Static SystemColors.GrayTextBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -286,7 +294,8 @@
                 <Setter TargetName="PART_SelectionRange" Property="Visibility" Value="Visible" />
             </Trigger>
             <Trigger Property="IsKeyboardFocused" Value="true">
-                <Setter TargetName="Thumb" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                <Setter TargetName="Thumb" Property="Foreground"
+                        Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

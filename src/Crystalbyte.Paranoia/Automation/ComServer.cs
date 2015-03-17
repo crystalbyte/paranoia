@@ -1,11 +1,38 @@
-﻿using System;
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
+
+using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using NLog;
 
+#endregion
+
 namespace Crystalbyte.Paranoia.Automation {
     internal sealed class ComServer : IComServer {
-
         #region Private Fields
 
         private int _objects;
@@ -34,7 +61,8 @@ namespace Crystalbyte.Paranoia.Automation {
                 var classId = new Guid(Application.ClassId);
                 const uint flags = RegclsMultipleUse | RegclsSuspended;
 
-                var hResult = NativeMethods.CoRegisterClassObject(classId, _factory, ClsctxLocalServer, flags, out _comRegistryToken);
+                var hResult = NativeMethods.CoRegisterClassObject(classId, _factory, ClsctxLocalServer, flags,
+                    out _comRegistryToken);
                 if (hResult != 0) {
                     throw new COMException("CoRegisterClassObject failed.", hResult);
                 }
@@ -47,7 +75,8 @@ namespace Crystalbyte.Paranoia.Automation {
                 if (_comRegistryToken != 0) {
                     NativeMethods.CoRevokeClassObject(_comRegistryToken);
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -55,7 +84,8 @@ namespace Crystalbyte.Paranoia.Automation {
         public void Stop() {
             try {
                 NativeMethods.CoRevokeClassObject(_comRegistryToken);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -92,7 +122,6 @@ namespace Crystalbyte.Paranoia.Automation {
         private const uint RegclsSuspended = 0x4;
 
         private static class NativeMethods {
-
             [DllImport("ole32.dll")]
             public static extern uint CoRevokeClassObject(uint dwRegister);
 
@@ -103,7 +132,7 @@ namespace Crystalbyte.Paranoia.Automation {
             [DllImport("ole32.dll")]
             public static extern int CoRegisterClassObject(
                 [MarshalAs(UnmanagedType.LPStruct)] Guid rclsid,
-                [MarshalAs(UnmanagedType.Interface)] IClassFactory pUnk, 
+                [MarshalAs(UnmanagedType.Interface)] IClassFactory pUnk,
                 uint dwClsContext, uint flags, out uint lpdwRegister);
         }
 

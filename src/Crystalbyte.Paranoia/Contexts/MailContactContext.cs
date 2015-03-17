@@ -1,4 +1,28 @@
-﻿#region Using directives
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
 
 using System;
 using System.Data.Entity;
@@ -13,7 +37,6 @@ using NLog;
 
 namespace Crystalbyte.Paranoia {
     public sealed class MailContactContext : SelectionObject {
-
         #region Private Fields
 
         private bool _hasKeys;
@@ -21,7 +44,7 @@ namespace Crystalbyte.Paranoia {
         private int _notSeenCount;
         private int _messageCount;
         private MailContactModel _contact;
-        
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
@@ -108,7 +131,7 @@ namespace Crystalbyte.Paranoia {
         public char Group {
             get {
                 var isEmpty = string.IsNullOrWhiteSpace(Name)
-                    || string.Compare(Name, "nil", StringComparison.InvariantCultureIgnoreCase) == 0;
+                              || string.Compare(Name, "nil", StringComparison.InvariantCultureIgnoreCase) == 0;
                 return isEmpty ? '#' : char.ToUpper(Name.First());
             }
         }
@@ -173,36 +196,36 @@ namespace Crystalbyte.Paranoia {
                     .CountAsync()) > 0;
             }
 
-            await Application.Current.Dispatcher.InvokeAsync(() => {
-                HasKeys = hasKeys;
-            });
+            await Application.Current.Dispatcher.InvokeAsync(() => { HasKeys = hasKeys; });
         }
 
         public Task SaveAsync() {
             return Task.Run(() => {
-                try {
-                    using (var context = new DatabaseContext()) {
-                        var c = context.MailContacts.Find(Id);
-                        c.Classification = _contact.Classification;
+                                try {
+                                    using (var context = new DatabaseContext()) {
+                                        var c = context.MailContacts.Find(Id);
+                                        c.Classification = _contact.Classification;
 
-                        // Handle Optimistic Concurrency.
-                        // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
-                        while (true) {
-                            try {
-                                context.SaveChanges();
-                                break;
-                            } catch (DbUpdateConcurrencyException ex) {
-                                ex.Entries.ForEach(x => x.Reload());
-                                Logger.Info(ex);
-                            }
-                        }
+                                        // Handle Optimistic Concurrency.
+                                        // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
+                                        while (true) {
+                                            try {
+                                                context.SaveChanges();
+                                                break;
+                                            }
+                                            catch (DbUpdateConcurrencyException ex) {
+                                                ex.Entries.ForEach(x => x.Reload());
+                                                Logger.Info(ex);
+                                            }
+                                        }
 
-                        _contact = c;
-                    }
-                } catch (Exception ex) {
-                    Logger.Error(ex);
-                }
-            });
+                                        _contact = c;
+                                    }
+                                }
+                                catch (Exception ex) {
+                                    Logger.Error(ex);
+                                }
+                            });
         }
     }
 }

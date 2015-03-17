@@ -1,4 +1,30 @@
-﻿using System;
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
+
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -6,12 +32,13 @@ using System.Windows.Media;
 using Crystalbyte.Paranoia.Themes;
 using NLog;
 
+#endregion
+
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
-    /// Interaction logic for InspectionWindow.xaml
+    ///     Interaction logic for InspectionWindow.xaml
     /// </summary>
     public partial class InspectionWindow : IAccentAware {
-
         #region Private Fields
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -58,8 +85,8 @@ namespace Crystalbyte.Paranoia.UI {
             if (!IsLoaded) {
                 return;
             }
-            var view = (ListView)sender;
-            var attachment = (AttachmentContext)view.SelectedValue;
+            var view = (ListView) sender;
+            var attachment = (AttachmentContext) view.SelectedValue;
             if (attachment == null) {
                 return;
             }
@@ -69,7 +96,8 @@ namespace Crystalbyte.Paranoia.UI {
         private async void OnPrint(object sender, ExecutedRoutedEventArgs e) {
             try {
                 await HtmlViewer.PrintAsync();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -87,7 +115,8 @@ namespace Crystalbyte.Paranoia.UI {
                     return;
 
                 await App.Context.ForwardAsync(message);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -105,7 +134,8 @@ namespace Crystalbyte.Paranoia.UI {
                     return;
 
                 await App.Context.ReplyAsync(message);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -123,7 +153,8 @@ namespace Crystalbyte.Paranoia.UI {
                     return;
 
                 await App.Context.ReplyToAllAsync(message);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -138,19 +169,19 @@ namespace Crystalbyte.Paranoia.UI {
                 }
 
                 message.Initialized += OnMessageInitialized;
-
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
 
         private void OnMessageTrustChanged(object sender, EventArgs e) {
-            var message = (MailMessageContext)sender;
+            var message = (MailMessageContext) sender;
             ViewMessage(message);
         }
 
         private void OnMessageInitialized(object sender, EventArgs e) {
-            var message = (MailMessageContext)sender;
+            var message = (MailMessageContext) sender;
             message.Initialized -= OnMessageInitialized;
 
             message.AllowExternalContentChanged += OnMessageTrustChanged;
@@ -159,8 +190,8 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void ViewMessage(MailMessageContext message) {
             HtmlViewer.Source = string.Format(message.IsExternalContentAllowed
-                    ? "message:///{0}?blockExternals=false"
-                    : "message:///{0}", message.Id);
+                ? "message:///{0}?blockExternals=false"
+                : "message:///{0}", message.Id);
         }
 
         public void InitWithFile(FileMessageContext file) {
@@ -168,7 +199,8 @@ namespace Crystalbyte.Paranoia.UI {
                 DataContext = file;
                 HtmlViewer.Source = string.Format("file:///local?path={0}",
                     Uri.EscapeDataString(file.FullName));
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }

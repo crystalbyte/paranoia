@@ -41,7 +41,8 @@
 
         </StackPanel>
         <TabControl>
-            <TabItem Header="{x:Static properties:Resources.General}" HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">
+            <TabItem Header="{x:Static properties:Resources.General}"
+                     HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">
                 <Grid VerticalAlignment="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -95,13 +96,16 @@
                                                   RelativeSource={RelativeSource Self},
                                                   Converter={StaticResource BooleanInverter}}">
                         <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                            <TextBlock Text="{x:Static properties:Resources.IsDefaultAccount}" Visibility="{Binding IsChecked, ElementName=IsDefaultComboBox, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                            <TextBlock Text="{x:Static properties:Resources.IsNotDefaultAccount}" Visibility="{Binding IsChecked, ElementName=IsDefaultComboBox, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}" />
+                            <TextBlock Text="{x:Static properties:Resources.IsDefaultAccount}"
+                                       Visibility="{Binding IsChecked, ElementName=IsDefaultComboBox, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <TextBlock Text="{x:Static properties:Resources.IsNotDefaultAccount}"
+                                       Visibility="{Binding IsChecked, ElementName=IsDefaultComboBox, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}" />
                         </StackPanel>
                     </CheckBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="{x:Static properties:Resources.Server}" HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">
+            <TabItem Header="{x:Static properties:Resources.Server}"
+                     HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">
                 <StackPanel>
                     <Grid Margin="0,0,0,12" HorizontalAlignment="Left">
                         <Grid.RowDefinitions>
@@ -243,13 +247,15 @@
                                                      Margin="0,18,0,0"
                                                      Checked="OnUseImapCredentialsChecked"
                                                      GroupName="Mirror">
-                                            <TextBlock FontWeight="Normal" Text="{x:Static properties:Resources.UseImapCredentials}" />
+                                            <TextBlock FontWeight="Normal"
+                                                       Text="{x:Static properties:Resources.UseImapCredentials}" />
                                         </RadioButton>
                                         <RadioButton x:Name="UseSmtpCredentialsRadioButton"
                                                      Margin="0,6,0,12"
                                                      Checked="OnUseSmtpCredentialsChecked"
                                                      GroupName="Mirror">
-                                            <TextBlock FontWeight="Normal" Text="{x:Static properties:Resources.SmtpRequiresOwnCredentials}" />
+                                            <TextBlock FontWeight="Normal"
+                                                       Text="{x:Static properties:Resources.SmtpRequiresOwnCredentials}" />
                                         </RadioButton>
                                     </StackPanel>
                                     <TextBlock Grid.Row="1"
@@ -345,14 +351,14 @@
                                                             Mode=TwoWay}" />
 
 
-
                                 </Grid>
                             </StackPanel>
                         </GroupBox>
                     </Grid>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="{x:Static properties:Resources.Mailboxes}" HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">
+            <TabItem Header="{x:Static properties:Resources.Mailboxes}"
+                     HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">
                 <StackPanel>
                     <TextBlock Margin="0,0,0,12" Text="{x:Static properties:Resources.MailboxSettingsDescription}" />
                     <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
@@ -452,7 +458,8 @@
                                 <TextBlock Text="{x:Static properties:Resources.MailboxSettingsCopy}" />
                             </RadioButton>
                             <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                                <TextBlock IsEnabled="{Binding IsChecked, ElementName=StoreCopyRadioButton}" Style="{StaticResource LabelTextBlockStyle}">
+                                <TextBlock IsEnabled="{Binding IsChecked, ElementName=StoreCopyRadioButton}"
+                                           Style="{StaticResource LabelTextBlockStyle}">
                                     <Run Text="{x:Static properties:Resources.SentMailbox}" />
                                     <Run Text=":" />
                                 </TextBlock>
@@ -475,7 +482,8 @@
                         </StackPanel>
                     </StackPanel>
                     <Border Height="36" Margin="0,0,0,12">
-                        <StackPanel VerticalAlignment="Center" Visibility="{Binding IsSyncingMailboxes, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel VerticalAlignment="Center"
+                                    Visibility="{Binding IsSyncingMailboxes, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <controls:MetroProgressBar Height="4" IsIndeterminate="True" />
                             <TextBlock Margin="0,6,0,0" Text="{x:Static properties:Resources.FetchingMailboxes}" />
                         </StackPanel>
@@ -489,9 +497,10 @@
                            PopupAnimation="Slide"
                            StaysOpen="False"
                            VerticalOffset="-20">
-                        <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                                BorderThickness="1">
+                        <Border
+                            Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                            BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                            BorderThickness="1">
                             <DockPanel LastChildFill="True">
                                 <Grid DockPanel.Dock="Bottom">
                                     <Grid.ColumnDefinitions>
@@ -519,10 +528,13 @@
                                           ItemsSource="{Binding MailboxRoots}"
                                           SelectedItemChanged="OnAnyTreeViewSelectedItemChanged">
                                     <TreeView.ItemContainerStyle>
-                                        <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
+                                        <Style BasedOn="{StaticResource {x:Type TreeViewItem}}"
+                                               TargetType="TreeViewItem">
                                             <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                            <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                            <Setter Property="IsSelected" Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
+                                            <Setter Property="Visibility"
+                                                    Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                            <Setter Property="IsSelected"
+                                                    Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
                                             <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                                         </Style>
                                     </TreeView.ItemContainerStyle>
@@ -539,9 +551,10 @@
                            PopupAnimation="Slide"
                            StaysOpen="False"
                            VerticalOffset="-20">
-                        <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                                BorderThickness="1">
+                        <Border
+                            Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                            BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                            BorderThickness="1">
                             <DockPanel LastChildFill="True">
                                 <Grid DockPanel.Dock="Bottom">
                                     <Grid.ColumnDefinitions>
@@ -569,10 +582,13 @@
                                           ItemsSource="{Binding MailboxRoots}"
                                           SelectedItemChanged="OnAnyTreeViewSelectedItemChanged">
                                     <TreeView.ItemContainerStyle>
-                                        <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
+                                        <Style BasedOn="{StaticResource {x:Type TreeViewItem}}"
+                                               TargetType="TreeViewItem">
                                             <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                            <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                            <Setter Property="IsSelected" Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
+                                            <Setter Property="Visibility"
+                                                    Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                            <Setter Property="IsSelected"
+                                                    Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
                                             <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                                         </Style>
                                     </TreeView.ItemContainerStyle>
@@ -589,9 +605,10 @@
                            PopupAnimation="Slide"
                            StaysOpen="False"
                            VerticalOffset="-20">
-                        <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                                BorderThickness="1">
+                        <Border
+                            Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                            BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                            BorderThickness="1">
                             <DockPanel LastChildFill="True">
                                 <Grid DockPanel.Dock="Bottom">
                                     <Grid.ColumnDefinitions>
@@ -619,10 +636,13 @@
                                           ItemsSource="{Binding MailboxRoots}"
                                           SelectedItemChanged="OnAnyTreeViewSelectedItemChanged">
                                     <TreeView.ItemContainerStyle>
-                                        <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
+                                        <Style BasedOn="{StaticResource {x:Type TreeViewItem}}"
+                                               TargetType="TreeViewItem">
                                             <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                            <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                            <Setter Property="IsSelected" Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
+                                            <Setter Property="Visibility"
+                                                    Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                            <Setter Property="IsSelected"
+                                                    Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
                                             <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                                         </Style>
                                     </TreeView.ItemContainerStyle>
@@ -639,9 +659,10 @@
                            PopupAnimation="Slide"
                            StaysOpen="False"
                            VerticalOffset="-20">
-                        <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                                BorderThickness="1">
+                        <Border
+                            Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                            BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                            BorderThickness="1">
                             <DockPanel LastChildFill="True">
                                 <Grid DockPanel.Dock="Bottom">
                                     <Grid.ColumnDefinitions>
@@ -669,10 +690,13 @@
                                           ItemsSource="{Binding MailboxRoots}"
                                           SelectedItemChanged="OnAnyTreeViewSelectedItemChanged">
                                     <TreeView.ItemContainerStyle>
-                                        <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
+                                        <Style BasedOn="{StaticResource {x:Type TreeViewItem}}"
+                                               TargetType="TreeViewItem">
                                             <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                            <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                            <Setter Property="IsSelected" Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
+                                            <Setter Property="Visibility"
+                                                    Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                            <Setter Property="IsSelected"
+                                                    Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
                                             <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                                         </Style>
                                     </TreeView.ItemContainerStyle>
@@ -682,7 +706,8 @@
                     </Popup>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="{x:Static properties:Resources.Signature}" HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">
+            <TabItem Header="{x:Static properties:Resources.Signature}"
+                     HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">
                 <StackPanel>
                     <TextBlock Margin="0,0,0,12" Text="{x:Static properties:Resources.SignatureDescription}" />
                     <StackPanel Orientation="Horizontal">

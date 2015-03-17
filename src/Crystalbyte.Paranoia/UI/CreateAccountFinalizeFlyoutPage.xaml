@@ -32,7 +32,8 @@
             </StackPanel>
             <ScrollViewer>
                 <StackPanel>
-                    <TextBlock Style="{DynamicResource SubtitleTextBlockStyle}" Text="{x:Static properties:Resources.MailboxSettingsTitle}" />
+                    <TextBlock Style="{DynamicResource SubtitleTextBlockStyle}"
+                               Text="{x:Static properties:Resources.MailboxSettingsTitle}" />
                     <TextBlock Margin="0,0,0,12" Text="{x:Static properties:Resources.MailboxSettingsDescription}" />
                     <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
                         <Grid HorizontalAlignment="Left">
@@ -131,7 +132,8 @@
                                 <TextBlock Text="{x:Static properties:Resources.MailboxSettingsCopy}" />
                             </RadioButton>
                             <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                                <TextBlock IsEnabled="{Binding IsChecked, ElementName=StoreCopyRadioButton}" Style="{StaticResource LabelTextBlockStyle}">
+                                <TextBlock IsEnabled="{Binding IsChecked, ElementName=StoreCopyRadioButton}"
+                                           Style="{StaticResource LabelTextBlockStyle}">
                                     <Run Text="{x:Static properties:Resources.SentMailbox}" />
                                     <Run Text=":" />
                                 </TextBlock>
@@ -154,7 +156,8 @@
                         </StackPanel>
                     </StackPanel>
                     <Border Height="36" Margin="0,0,0,12">
-                        <StackPanel VerticalAlignment="Center" Visibility="{Binding IsSyncingMailboxes, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel VerticalAlignment="Center"
+                                    Visibility="{Binding IsSyncingMailboxes, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <controls:MetroProgressBar Height="4" IsIndeterminate="True" />
                             <TextBlock Margin="0,6,0,0" Text="{x:Static properties:Resources.FetchingMailboxes}" />
                         </StackPanel>
@@ -243,7 +246,8 @@
                         <TreeView.ItemContainerStyle>
                             <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
                                 <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <Setter Property="Visibility"
+                                        Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                 <Setter Property="IsSelected" Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
                                 <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                             </Style>
@@ -293,7 +297,8 @@
                         <TreeView.ItemContainerStyle>
                             <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
                                 <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <Setter Property="Visibility"
+                                        Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                 <Setter Property="IsSelected" Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
                                 <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                             </Style>
@@ -343,7 +348,8 @@
                         <TreeView.ItemContainerStyle>
                             <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
                                 <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <Setter Property="Visibility"
+                                        Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                 <Setter Property="IsSelected" Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
                                 <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                             </Style>
@@ -394,7 +400,8 @@
                         <TreeView.ItemContainerStyle>
                             <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="TreeViewItem">
                                 <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                <Setter Property="Visibility" Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <Setter Property="Visibility"
+                                        Value="{Binding IsSubscribed, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                 <Setter Property="IsSelected" Value="{Binding IsSelectedSubtly, Mode=TwoWay}" />
                                 <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                             </Style>

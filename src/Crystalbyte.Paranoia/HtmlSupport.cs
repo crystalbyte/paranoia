@@ -1,4 +1,30 @@
-﻿using System;
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -7,13 +33,15 @@ using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using CsQuery;
 using dotless.Core;
+
+#endregion
+
 //using HtmlAgilityPack;
 
 namespace Crystalbyte.Paranoia {
     internal static class HtmlSupport {
-
         /// <summary>
-        /// Finds the best suitable body. Html is favored before plain text.
+        ///     Finds the best suitable body. Html is favored before plain text.
         /// </summary>
         /// <param name="reader">The reader containing the relevant message.</param>
         /// <returns>Returns the found body text.</returns>
@@ -23,8 +51,8 @@ namespace Crystalbyte.Paranoia {
             if (html == null) {
                 var plain = reader.FindFirstPlainTextVersion();
                 text = string.Format("<pre>{0}</pre>", plain.GetBodyAsText().Trim());
-
-            } else {
+            }
+            else {
                 text = html.GetBodyAsText();
             }
 
@@ -32,7 +60,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         /// <summary>
-        /// Loads the template for the html editor.
+        ///     Loads the template for the html editor.
         /// </summary>
         /// <param name="variables">The dictionary containing template variables.</param>
         /// <returns>Returns the generated html source.</returns>
@@ -40,7 +68,7 @@ namespace Crystalbyte.Paranoia {
             var uri = new Uri("/Resources/composition.html", UriKind.Relative);
             var info = Application.GetResourceStream(uri);
             if (info == null) {
-                var error = string.Format(Resources.ResourceNotFoundException, uri, typeof(App).Assembly.FullName);
+                var error = string.Format(Resources.ResourceNotFoundException, uri, typeof (App).Assembly.FullName);
                 throw new ResourceNotFoundException(error);
             }
 
@@ -49,19 +77,19 @@ namespace Crystalbyte.Paranoia {
             using (var reader = new StreamReader(info.Stream)) {
                 var text = reader.ReadToEnd();
                 html = Regex.Replace(text, pattern, m => {
-                    var key = m.Value.Trim('{', '}').ToLower();
-                    return variables.ContainsKey(key)
-                        ? variables[key]
-                        : string.Empty;
-                }, RegexOptions.IgnoreCase);
+                                                        var key = m.Value.Trim('{', '}').ToLower();
+                                                        return variables.ContainsKey(key)
+                                                            ? variables[key]
+                                                            : string.Empty;
+                                                    }, RegexOptions.IgnoreCase);
             }
 
             return html;
         }
 
         /// <summary>
-        /// This method will attempt to repair any malformed html and adjust the charset to UTF8.
-        /// In addition all script tags will be stripped.
+        ///     This method will attempt to repair any malformed html and adjust the charset to UTF8.
+        ///     In addition all script tags will be stripped.
         /// </summary>
         /// <param name="text">Source text to be normalized.</param>
         /// <returns>Normalized HTML document.</returns>
@@ -83,7 +111,7 @@ namespace Crystalbyte.Paranoia {
             const string name = "/Resources/inspection.html";
             var info = Application.GetResourceStream(new Uri(name, UriKind.Relative));
             if (info == null) {
-                var m = string.Format(Resources.ResourceNotFoundException, name, typeof(Application).Assembly.FullName);
+                var m = string.Format(Resources.ResourceNotFoundException, name, typeof (Application).Assembly.FullName);
                 throw new ResourceNotFoundException(m);
             }
 
@@ -106,7 +134,7 @@ namespace Crystalbyte.Paranoia {
             var uri = new Uri(path, UriKind.Relative);
             var info = Application.GetResourceStream(uri);
             if (info == null) {
-                var error = string.Format(Resources.ResourceNotFoundException, uri, typeof(App).Assembly.FullName);
+                var error = string.Format(Resources.ResourceNotFoundException, uri, typeof (App).Assembly.FullName);
                 throw new Exception(error);
             }
 
@@ -117,25 +145,28 @@ namespace Crystalbyte.Paranoia {
 
             return Less.Parse(less);
         }
+
         public static string ModifyEmbeddedParts(string html, FileSystemInfo info) {
             const string pattern = "<img.+?src=\"(?<CID>cid:.+?)\".*?>";
             return Regex.Replace(html, pattern, m => {
-                var cid = m.Groups["CID"].Value;
-                var asset = string.Format("message:///part?cid={0}&path={1}",
-                    Uri.EscapeDataString(cid.Split(':')[1]),
-                    Uri.EscapeDataString(info.FullName));
-                return m.Value.Replace(cid, asset);
-            }, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                                                    var cid = m.Groups["CID"].Value;
+                                                    var asset = string.Format("message:///part?cid={0}&path={1}",
+                                                        Uri.EscapeDataString(cid.Split(':')[1]),
+                                                        Uri.EscapeDataString(info.FullName));
+                                                    return m.Value.Replace(cid, asset);
+                                                },
+                RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
 
         public static string ModifyEmbeddedParts(string html, long id) {
             const string pattern = "<img.+?src=\"(?<CID>cid:.+?)\".*?>";
             return Regex.Replace(html, pattern, m => {
-                var cid = m.Groups["CID"].Value;
-                var asset = string.Format("message:///part?cid={0}&messageId={1}",
-                    Uri.EscapeDataString(cid.Split(':')[1]), id);
-                return m.Value.Replace(cid, asset);
-            }, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                                                    var cid = m.Groups["CID"].Value;
+                                                    var asset = string.Format("message:///part?cid={0}&messageId={1}",
+                                                        Uri.EscapeDataString(cid.Split(':')[1]), id);
+                                                    return m.Value.Replace(cid, asset);
+                                                },
+                RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
     }
 }

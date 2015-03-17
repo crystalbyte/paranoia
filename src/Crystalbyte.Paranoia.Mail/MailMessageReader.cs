@@ -1,4 +1,28 @@
-#region Using directives
+#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia.Mail
+// 
+// Crystalbyte.Paranoia.Mail is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
 
 using System;
 using System.Collections.Generic;
@@ -28,7 +52,6 @@ namespace Crystalbyte.Paranoia.Mail {
     ///     Examples are available on the <a href="http://hpop.sourceforge.net/">project homepage</a>.
     /// </example>
     public class MailMessageReader {
-
         #region Public properties
 
         /// <summary>
@@ -60,7 +83,7 @@ namespace Crystalbyte.Paranoia.Mail {
         /// </summary>
         /// <param name="rawMessageContent"> The byte array which is the message contents to parse </param>
         public MailMessageReader(byte[] rawMessageContent)
-            : this(rawMessageContent, true) { }
+            : this(rawMessageContent, true) {}
 
         /// <summary>
         ///     Constructs a message from a byte array.<br />
@@ -141,7 +164,8 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         /// <summary>
-        ///     Finds the first <see cref="MessagePart" /> in the <see cref="MailMessageReader" /> hierarchy with the given MediaType.
+        ///     Finds the first <see cref="MessagePart" /> in the <see cref="MailMessageReader" /> hierarchy with the given
+        ///     MediaType.
         ///     <br />
         ///     <br />
         ///     The search in the hierarchy is a depth-first traversal.
@@ -158,7 +182,8 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         /// <summary>
-        ///     Finds all the <see cref="MessagePart" />s in the <see cref="MailMessageReader" /> hierarchy with the given MediaType.
+        ///     Finds all the <see cref="MessagePart" />s in the <see cref="MailMessageReader" /> hierarchy with the given
+        ///     MediaType.
         /// </summary>
         /// <param name="mediaType"> The MediaType to search for. Case is ignored. </param>
         /// <returns>
@@ -184,7 +209,10 @@ namespace Crystalbyte.Paranoia.Mail {
         ///     <br />
         ///     Can be loaded at a later time using the <see cref="Load(FileInfo)" /> method.
         /// </summary>
-        /// <param name="file"> The File location to save the <see cref="MailMessageReader" /> to. Existent files will be overwritten. </param>
+        /// <param name="file">
+        ///     The File location to save the <see cref="MailMessageReader" /> to. Existent files will be
+        ///     overwritten.
+        /// </param>
         /// <exception cref="ArgumentNullException">
         ///     If
         ///     <paramref name="file" />
@@ -263,7 +291,9 @@ namespace Crystalbyte.Paranoia.Mail {
         /// <summary>
         ///     Loads a <see cref="MailMessageReader" /> from a <see cref="Stream" /> containing a raw email.
         /// </summary>
-        /// <param name="messageStream"> The <see cref="Stream" /> from which to load the raw <see cref="MailMessageReader" /> </param>
+        /// <param name="messageStream">
+        ///     The <see cref="Stream" /> from which to load the raw <see cref="MailMessageReader" />
+        /// </param>
         /// <exception cref="ArgumentNullException">
         ///     If
         ///     <paramref name="messageStream" />
@@ -275,7 +305,9 @@ namespace Crystalbyte.Paranoia.Mail {
         ///     <see cref="Stream.Read" />
         ///     might be thrown as well
         /// </exception>
-        /// <returns> A <see cref="MailMessageReader" /> with the content loaded from the <paramref name="messageStream" /> </returns>
+        /// <returns>
+        ///     A <see cref="MailMessageReader" /> with the content loaded from the <paramref name="messageStream" />
+        /// </returns>
         public static MailMessageReader Load(Stream messageStream) {
             if (messageStream == null)
                 throw new ArgumentNullException("messageStream");

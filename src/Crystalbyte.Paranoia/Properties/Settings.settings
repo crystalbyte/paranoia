@@ -1,13 +1,17 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Crystalbyte.Paranoia.Properties" GeneratedClassName="Settings">
+
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)"
+              GeneratedClassNamespace="Crystalbyte.Paranoia.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="GmailDomains" Type="System.Collections.Specialized.StringCollection" Scope="Application">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;gmail.com&lt;/string&gt;
-  &lt;string&gt;googlemail.com&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
+      <Value Profile="(Default)">
+        &lt;?xml version="1.0" encoding="utf-16"?&gt;
+        &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+        &lt;string&gt;gmail.com&lt;/string&gt;
+        &lt;string&gt;googlemail.com&lt;/string&gt;
+        &lt;/ArrayOfString&gt;
+      </Value>
     </Setting>
     <Setting Name="AcceptUntrustedCertificates" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -28,55 +32,61 @@
       <Value Profile="(Default)">#5299EA</Value>
     </Setting>
     <Setting Name="TextFontColors" Type="System.Collections.Specialized.StringCollection" Scope="Application">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;#FF0000&lt;/string&gt;
-  &lt;string&gt;#00FFFF&lt;/string&gt;
-  &lt;string&gt;#0000FF&lt;/string&gt;
-  &lt;string&gt;#0000A0&lt;/string&gt;
-  &lt;string&gt;#ADD8E6&lt;/string&gt;
-  &lt;string&gt;#800080&lt;/string&gt;
-  &lt;string&gt;#FFFF00&lt;/string&gt;
-  &lt;string&gt;#00FF00&lt;/string&gt;
-  &lt;string&gt;#FF00FF&lt;/string&gt;
-  &lt;string&gt;#C0C0C0&lt;/string&gt;
-  &lt;string&gt;#808080&lt;/string&gt;
-  &lt;string&gt;#000000&lt;/string&gt;
-  &lt;string&gt;#FFA500&lt;/string&gt;
-  &lt;string&gt;#A52A2A&lt;/string&gt;
-  &lt;string&gt;#800000&lt;/string&gt;
-  &lt;string&gt;#008000&lt;/string&gt;
-  &lt;string&gt;#808000&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
+      <Value Profile="(Default)">
+        &lt;?xml version="1.0" encoding="utf-16"?&gt;
+        &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+        &lt;string&gt;#FF0000&lt;/string&gt;
+        &lt;string&gt;#00FFFF&lt;/string&gt;
+        &lt;string&gt;#0000FF&lt;/string&gt;
+        &lt;string&gt;#0000A0&lt;/string&gt;
+        &lt;string&gt;#ADD8E6&lt;/string&gt;
+        &lt;string&gt;#800080&lt;/string&gt;
+        &lt;string&gt;#FFFF00&lt;/string&gt;
+        &lt;string&gt;#00FF00&lt;/string&gt;
+        &lt;string&gt;#FF00FF&lt;/string&gt;
+        &lt;string&gt;#C0C0C0&lt;/string&gt;
+        &lt;string&gt;#808080&lt;/string&gt;
+        &lt;string&gt;#000000&lt;/string&gt;
+        &lt;string&gt;#FFA500&lt;/string&gt;
+        &lt;string&gt;#A52A2A&lt;/string&gt;
+        &lt;string&gt;#800000&lt;/string&gt;
+        &lt;string&gt;#008000&lt;/string&gt;
+        &lt;string&gt;#808000&lt;/string&gt;
+        &lt;/ArrayOfString&gt;
+      </Value>
     </Setting>
     <Setting Name="BackgroundFontColors" Type="System.Collections.Specialized.StringCollection" Scope="Application">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;#FF0000&lt;/string&gt;
-  &lt;string&gt;#00FFFF&lt;/string&gt;
-  &lt;string&gt;#0000FF&lt;/string&gt;
-  &lt;string&gt;#0000A0&lt;/string&gt;
-  &lt;string&gt;#ADD8E6&lt;/string&gt;
-  &lt;string&gt;#800080&lt;/string&gt;
-  &lt;string&gt;#FFFF00&lt;/string&gt;
-  &lt;string&gt;#00FF00&lt;/string&gt;
-  &lt;string&gt;#FF00FF&lt;/string&gt;
-  &lt;string&gt;#C0C0C0&lt;/string&gt;
-  &lt;string&gt;#808080&lt;/string&gt;
-  &lt;string&gt;#FFFFFF&lt;/string&gt;
-  &lt;string&gt;#FFA500&lt;/string&gt;
-  &lt;string&gt;#A52A2A&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
+      <Value Profile="(Default)">
+        &lt;?xml version="1.0" encoding="utf-16"?&gt;
+        &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+        &lt;string&gt;#FF0000&lt;/string&gt;
+        &lt;string&gt;#00FFFF&lt;/string&gt;
+        &lt;string&gt;#0000FF&lt;/string&gt;
+        &lt;string&gt;#0000A0&lt;/string&gt;
+        &lt;string&gt;#ADD8E6&lt;/string&gt;
+        &lt;string&gt;#800080&lt;/string&gt;
+        &lt;string&gt;#FFFF00&lt;/string&gt;
+        &lt;string&gt;#00FF00&lt;/string&gt;
+        &lt;string&gt;#FF00FF&lt;/string&gt;
+        &lt;string&gt;#C0C0C0&lt;/string&gt;
+        &lt;string&gt;#808080&lt;/string&gt;
+        &lt;string&gt;#FFFFFF&lt;/string&gt;
+        &lt;string&gt;#FFA500&lt;/string&gt;
+        &lt;string&gt;#A52A2A&lt;/string&gt;
+        &lt;/ArrayOfString&gt;
+      </Value>
     </Setting>
     <Setting Name="WebFonts" Type="System.Collections.Specialized.StringCollection" Scope="Application">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;Arial&lt;/string&gt;
-  &lt;string&gt;Georgia&lt;/string&gt;
-  &lt;string&gt;Times New Roman&lt;/string&gt;
-  &lt;string&gt;Trebuchet MS&lt;/string&gt;
-  &lt;string&gt;Verdana&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
+      <Value Profile="(Default)">
+        &lt;?xml version="1.0" encoding="utf-16"?&gt;
+        &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+        &lt;string&gt;Arial&lt;/string&gt;
+        &lt;string&gt;Georgia&lt;/string&gt;
+        &lt;string&gt;Times New Roman&lt;/string&gt;
+        &lt;string&gt;Trebuchet MS&lt;/string&gt;
+        &lt;string&gt;Verdana&lt;/string&gt;
+        &lt;/ArrayOfString&gt;
+      </Value>
     </Setting>
     <Setting Name="DefaultWebFont" Type="System.String" Scope="User">
       <Value Profile="(Default)">Trebuchet MS</Value>
@@ -85,10 +95,12 @@
       <Value Profile="(Default)">16</Value>
     </Setting>
     <Setting Name="WhoisRegistrars" Type="System.Collections.Specialized.StringCollection" Scope="Application">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;DENIC eG|whois.denic.de|-T dn {0}|de&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
+      <Value Profile="(Default)">
+        &lt;?xml version="1.0" encoding="utf-16"?&gt;
+        &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+        &lt;string&gt;DENIC eG|whois.denic.de|-T dn {0}|de&lt;/string&gt;
+        &lt;/ArrayOfString&gt;
+      </Value>
     </Setting>
   </Settings>
 </SettingsFile>

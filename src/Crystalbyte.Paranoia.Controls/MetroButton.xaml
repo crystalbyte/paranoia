@@ -39,7 +39,8 @@
                                            Fill="{TemplateBinding ImageBrush}"
                                            UseLayoutRounding="True">
                                     <Rectangle.OpacityMask>
-                                        <ImageBrush ImageSource="{Binding ImageSource, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <ImageBrush
+                                            ImageSource="{Binding ImageSource, RelativeSource={RelativeSource TemplatedParent}}" />
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                             </Grid>
@@ -61,22 +62,26 @@
                             <Setter TargetName="Icon" Property="Opacity" Value=".2" />
                             <Setter TargetName="Ellipse" Property="Opacity" Value=".2" />
                             <Setter TargetName="ButtonText" Property="Opacity" Value=".2" />
-                            <Setter TargetName="ButtonText" Property="Foreground" Value="{x:Static SystemColors.GrayTextBrush}" />
+                            <Setter TargetName="ButtonText" Property="Foreground"
+                                    Value="{x:Static SystemColors.GrayTextBrush}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsPressed" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Ellipse" Property="Stroke" Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
-                            <Setter TargetName="ButtonText" Property="Foreground" Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="Ellipse" Property="Stroke"
+                                    Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="ButtonText" Property="Foreground"
+                                    Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsPressed" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Ellipse" Property="Fill" Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="Ellipse" Property="Fill"
+                                    Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

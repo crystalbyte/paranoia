@@ -1,4 +1,30 @@
-﻿using System;
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,9 +38,10 @@ using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using NLog;
 
+#endregion
+
 namespace Crystalbyte.Paranoia {
     internal sealed class MessageSchemeHandler : ISchemeHandler {
-
         #region Private Fields
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -26,78 +53,85 @@ namespace Crystalbyte.Paranoia {
         public bool ProcessRequestAsync(IRequest request, ISchemeHandlerResponse response,
             OnRequestCompletedHandler requestCompletedCallback) {
             try {
-
-                Logger.Debug(string.Format("Invoked ProcessRequestAsync on thread {0}.", Thread.CurrentThread.ManagedThreadId));
+                Logger.Debug(string.Format("Invoked ProcessRequestAsync on thread {0}.",
+                    Thread.CurrentThread.ManagedThreadId));
 
                 var uri = new Uri(request.Url);
 
                 if (Regex.IsMatch(uri.AbsolutePath, "[0-9]+")) {
                     Task.Run(() => {
-                        try {
-                            ComposeInspectionResponse(request, response);
-                            requestCompletedCallback();
-                        } catch (Exception ex) {
-                            Logger.Error(ex);
-                        }
-                    });
+                                 try {
+                                     ComposeInspectionResponse(request, response);
+                                     requestCompletedCallback();
+                                 }
+                                 catch (Exception ex) {
+                                     Logger.Error(ex);
+                                 }
+                             });
 
                     return true;
                 }
 
                 if (Regex.IsMatch(uri.AbsolutePath, "new")) {
                     Task.Run(() => {
-                        try {
-                            ComposeBlankCompositionResponse(response);
-                            requestCompletedCallback();
-                            Logger.Debug("End new message.");} catch (Exception ex) {
-                            Logger.Error(ex);
-                        }
-                    });
+                                 try {
+                                     ComposeBlankCompositionResponse(response);
+                                     requestCompletedCallback();
+                                     Logger.Debug("End new message.");
+                                 }
+                                 catch (Exception ex) {
+                                     Logger.Error(ex);
+                                 }
+                             });
 
                     return true;
                 }
 
                 if (Regex.IsMatch(uri.AbsolutePath, "reply")) {
                     Task.Run(() => {
-                        try {
-                            ComposeQuotedCompositionResponse(request, response);
-                            requestCompletedCallback();
-                        } catch (Exception ex) {
-                            Logger.Error(ex);
-                        }
-                    });
+                                 try {
+                                     ComposeQuotedCompositionResponse(request, response);
+                                     requestCompletedCallback();
+                                 }
+                                 catch (Exception ex) {
+                                     Logger.Error(ex);
+                                 }
+                             });
 
                     return true;
                 }
 
                 if (Regex.IsMatch(uri.AbsolutePath, "forward")) {
                     Task.Run(() => {
-                        try {
-                            ComposeQuotedCompositionResponse(request, response);
-                            requestCompletedCallback();
-                        } catch (Exception ex) {
-                            Logger.Error(ex);
-                        }
-                    });
+                                 try {
+                                     ComposeQuotedCompositionResponse(request, response);
+                                     requestCompletedCallback();
+                                 }
+                                 catch (Exception ex) {
+                                     Logger.Error(ex);
+                                 }
+                             });
 
                     return true;
                 }
 
                 if (Regex.IsMatch(uri.AbsolutePath, "part")) {
                     Task.Run(() => {
-                        try {
-                            ComposeCidImageResponse(request, response);
-                            requestCompletedCallback();
-                        } catch (Exception ex) {
-                            Logger.Error(ex);
-                        }
-                    });
+                                 try {
+                                     ComposeCidImageResponse(request, response);
+                                     requestCompletedCallback();
+                                 }
+                                 catch (Exception ex) {
+                                     Logger.Error(ex);
+                                 }
+                             });
 
                     return true;
                 }
 
                 return false;
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
                 return false;
             }
@@ -145,7 +179,6 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static void ComposeQuotedCompositionResponse(IRequest request, ISchemeHandlerResponse response) {
-
             var variables = new Dictionary<string, string>();
 
             long messageId;
@@ -155,9 +188,13 @@ namespace Crystalbyte.Paranoia {
                 var message = GetMessageBytes(messageId);
                 var reader = new MailMessageReader(message);
 
-                var header = string.Format(Resources.HtmlResponseHeader, reader.Headers.DateSent, reader.Headers.From.DisplayName);
-                const string rule = "<hr style='border-right: medium none; border-top: #CCCCCC 1px solid; border-left: medium none; border-bottom: medium none; height: 1px'>";
-                variables.Add("separator", string.Format("{0}{1}{2}{3}{4}","<div style=\"margin:20px 0; font-family: Trebuchet MS;\">", header, "<br/>", rule, "</div>"));
+                var header = string.Format(Resources.HtmlResponseHeader, reader.Headers.DateSent,
+                    reader.Headers.From.DisplayName);
+                const string rule =
+                    "<hr style='border-right: medium none; border-top: #CCCCCC 1px solid; border-left: medium none; border-bottom: medium none; height: 1px'>";
+                variables.Add("separator",
+                    string.Format("{0}{1}{2}{3}{4}", "<div style=\"margin:20px 0; font-family: Trebuchet MS;\">", header,
+                        "<br/>", rule, "</div>"));
 
                 var text = HtmlSupport.FindBestSupportedBody(reader);
                 text = HtmlSupport.ModifyEmbeddedParts(text, messageId);
@@ -175,9 +212,9 @@ namespace Crystalbyte.Paranoia {
         private static string RemoveExternalSources(string content) {
             const string pattern = "src=(\"|')(?<URL>http(s){0,1}://.+?)(\"|')";
             content = Regex.Replace(content, pattern, m => {
-                var resource = m.Groups["URL"].Value;
-                return m.Value.Replace(resource, "");
-            },
+                                                          var resource = m.Groups["URL"].Value;
+                                                          return m.Value.Replace(resource, "");
+                                                      },
                 RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
             return content;
@@ -213,7 +250,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static void ComposeBlankCompositionResponse(ISchemeHandlerResponse response) {
-            var variables = new Dictionary<string, string> {
+            var variables = new Dictionary<string, string>
+            {
                 {"quote", string.Empty},
             };
 

@@ -1,4 +1,28 @@
-﻿#region Using directives
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
 
 using System;
 using System.Diagnostics;
@@ -17,7 +41,6 @@ namespace Crystalbyte.Paranoia.UI {
     ///     Interaction logic for CreateAccountFinalizeFlyoutPage.xaml
     /// </summary>
     public partial class CreateAccountFinalizeFlyoutPage : INavigationAware {
-
         public CreateAccountFinalizeFlyoutPage() {
             InitializeComponent();
 
@@ -36,7 +59,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var context = (MailAccountContext)DataContext;
+            var context = (MailAccountContext) DataContext;
             context.SignaturePath = dialog.FileNames.First();
         }
 
@@ -46,7 +69,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             var mailbox = account.Mailboxes.FirstOrDefault(x => x.IsSelectedSubtly);
             e.CanExecute = mailbox != null && mailbox.IsSelectable;
         }
@@ -85,7 +108,7 @@ namespace Crystalbyte.Paranoia.UI {
             var popup = GetPopupByParameter(param);
             popup.IsOpen = false;
 
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             var mailbox = account.Mailboxes.FirstOrDefault(x => x.IsSelectedSubtly);
             if (mailbox != null) {
                 SetMailboxRoleByParam(mailbox, param);
@@ -93,7 +116,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void SetMailboxRoleByParam(MailboxContext mailbox, string param) {
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             switch (param) {
                 case MailboxRoles.Sent:
                     account.SentMailboxName = mailbox.Name;
@@ -122,7 +145,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void ShowMailboxSelection(string param) {
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             account.Mailboxes.ForEach(x => x.IsSelectedSubtly = false);
 
             var mailbox = GetMailboxByParameter(param);
@@ -135,7 +158,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private MailboxContext GetMailboxByParameter(string param) {
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             switch (param) {
                 case MailboxRoles.Sent:
                     return account.GetSentMailbox();
@@ -151,7 +174,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnFlyoutClosed(object sender, EventArgs e) {
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             account.Testing = null;
 
             App.Context.FlyoutClosed -= OnFlyoutClosed;
@@ -164,17 +187,17 @@ namespace Crystalbyte.Paranoia.UI {
         private async void OnContinue(object sender, ExecutedRoutedEventArgs e) {
             try {
                 ContinueButton.IsEnabled = false;
-                var account = (MailAccountContext)DataContext;
+                var account = (MailAccountContext) DataContext;
                 await Task.Run(() => account.SaveAsync());
-            } finally {
+            }
+            finally {
                 ContinueButton.IsEnabled = true;
                 App.Context.CloseFlyout();
             }
-
         }
 
         private void OnStoreCopyRadioButtonChecked(object sender, RoutedEventArgs e) {
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             account.StoreCopiesOfSentMessages = true;
         }
 
@@ -184,7 +207,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             account.StoreCopiesOfSentMessages = false;
         }
 
@@ -196,7 +219,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         public async void OnNavigated(NavigationEventArgs e) {
             DataContext = NavigationArguments.Pop();
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
 
             StoreCopyRadioButton.IsChecked = account.StoreCopiesOfSentMessages;
             DontStoreCopyRadioButton.IsChecked = !account.StoreCopiesOfSentMessages;
@@ -205,14 +228,15 @@ namespace Crystalbyte.Paranoia.UI {
 
             try {
                 await account.SyncMailboxesAsync();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 // TODO: Display error to the user.
                 Debug.WriteLine(ex);
             }
         }
 
         public void OnNavigating(NavigatingCancelEventArgs e) {
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             switch (e.NavigationMode) {
                 case NavigationMode.Back:
                     NavigationArguments.Push(account);

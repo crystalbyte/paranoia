@@ -1,4 +1,28 @@
-﻿#region Using directives
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
 
 using System;
 using System.ComponentModel;
@@ -19,7 +43,6 @@ namespace Crystalbyte.Paranoia.UI {
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : IAccentAware {
-
         #region Private Fields
 
         private Storyboard _slideInOverlayStoryboard;
@@ -27,7 +50,7 @@ namespace Crystalbyte.Paranoia.UI {
         private Storyboard _slideOutMainFrameStoryboard;
         private Storyboard _slideInMainFrameStoryboard;
 
-        private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -64,7 +87,7 @@ namespace Crystalbyte.Paranoia.UI {
                 page.OnCanceled();
             }
 
-            var context = (AppContext)DataContext;
+            var context = (AppContext) DataContext;
             context.CloseFlyout();
         }
 
@@ -76,7 +99,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             // BUG: The back command is currently broken in WPF 4.5 :/
             // https://connect.microsoft.com/VisualStudio/feedback/details/763996/wpf-page-navigation-looses-data-bindings
-            var context = (AppContext)DataContext;
+            var context = (AppContext) DataContext;
             context.CloseFlyout();
         }
 
@@ -105,7 +128,10 @@ namespace Crystalbyte.Paranoia.UI {
             HookUpNavigationRequests();
 
             if (DesignerProperties.GetIsInDesignMode(this)) {
-                MainFrame.Source = new Uri("http://www.fantasystronghold.de/news/wp-content/uploads/2014/02/MyLittlePony_splash_2048x1536_EN.jpg", UriKind.Absolute);
+                MainFrame.Source =
+                    new Uri(
+                        "http://www.fantasystronghold.de/news/wp-content/uploads/2014/02/MyLittlePony_splash_2048x1536_EN.jpg",
+                        UriKind.Absolute);
             }
         }
 
@@ -114,23 +140,24 @@ namespace Crystalbyte.Paranoia.UI {
                 var action = DeferredActions.Pop();
                 try {
                     action();
-                } catch (Exception ex) {
+                }
+                catch (Exception ex) {
                     Logger.Error(ex);
                 }
             }
         }
 
         private void InitStoryboards() {
-            _slideInOverlayStoryboard = (Storyboard)Resources["FlyoutSlideInStoryboard"];
+            _slideInOverlayStoryboard = (Storyboard) Resources["FlyoutSlideInStoryboard"];
             _slideInOverlayStoryboard.Completed += OnSlideInOverlayCompleted;
 
-            _slideOutOverlayStoryboard = (Storyboard)Resources["FlyoutSlideOutStoryboard"];
+            _slideOutOverlayStoryboard = (Storyboard) Resources["FlyoutSlideOutStoryboard"];
             _slideOutOverlayStoryboard.Completed += OnSlideOutOverlayCompleted;
 
-            _slideOutMainFrameStoryboard = (Storyboard)Resources["MainFrameSlideOutStoryboard"];
+            _slideOutMainFrameStoryboard = (Storyboard) Resources["MainFrameSlideOutStoryboard"];
             _slideOutMainFrameStoryboard.Completed += OnSlideOutMainFrameCompleted;
 
-            _slideInMainFrameStoryboard = (Storyboard)Resources["MainFrameSlideInStoryboard"];
+            _slideInMainFrameStoryboard = (Storyboard) Resources["MainFrameSlideInStoryboard"];
             _slideInMainFrameStoryboard.Completed += OnSlideInMainFrameCompleted;
         }
 
@@ -199,19 +226,19 @@ namespace Crystalbyte.Paranoia.UI {
         #region Dependency Properties
 
         public bool IsFlyoutVisible {
-            get { return (bool)GetValue(IsFlyoutVisibleProperty); }
+            get { return (bool) GetValue(IsFlyoutVisibleProperty); }
             set { SetValue(IsFlyoutVisibleProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for IsOverlayVisible.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsFlyoutVisibleProperty =
-            DependencyProperty.Register("IsFlyoutVisible", typeof(bool), typeof(MainWindow),
+            DependencyProperty.Register("IsFlyoutVisible", typeof (bool), typeof (MainWindow),
                 new PropertyMetadata(false, OnIsOverlayChanged));
 
         #endregion
 
         private static void OnIsOverlayChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var window = (MainWindow)d;
+            var window = (MainWindow) d;
             window.OnFlyoutVisibilityChanged();
         }
 
@@ -221,6 +248,7 @@ namespace Crystalbyte.Paranoia.UI {
                 page.OnNavigated(e);
             }
         }
+
         private void OnFlyoutFrameNavigating(object sender, NavigatingCancelEventArgs e) {
             var page = FlyoutFrame.Content as INavigationAware;
             if (page != null) {
@@ -233,7 +261,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var view = (ListView)sender;
+            var view = (ListView) sender;
             var selection = view.SelectedValue as NavigationContext;
             if (selection == null) {
                 return;

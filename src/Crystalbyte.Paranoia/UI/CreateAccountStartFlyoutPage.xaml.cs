@@ -1,4 +1,28 @@
-﻿#region Using directives
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
 
 using System;
 using System.Threading.Tasks;
@@ -22,8 +46,8 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnPasswordChanged(object sender, RoutedEventArgs e) {
-            var box = (PasswordBox)sender;
-            var context = (MailAccountContext)DataContext;
+            var box = (PasswordBox) sender;
+            var context = (MailAccountContext) DataContext;
             context.ImapPassword = box.Password;
             context.SmtpPassword = box.Password;
         }
@@ -33,7 +57,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void CheckForContinuation() {
-            var context = (MailAccountContext)DataContext;
+            var context = (MailAccountContext) DataContext;
 
             ContinueButton.IsEnabled =
                 (AutoMagicButton.IsChecked != null && !AutoMagicButton.IsChecked.Value)
@@ -46,18 +70,18 @@ namespace Crystalbyte.Paranoia.UI {
                 throw new NullReferenceException("NavigationService");
             }
 
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             if (account.IsAutoDetectPreferred) {
                 ContinueButton.IsEnabled = false;
                 await DetectSettingsAsync();
             }
 
-            var uri = typeof(CreateAccountServerSettingsFlyoutPage).ToPageUri();
+            var uri = typeof (CreateAccountServerSettingsFlyoutPage).ToPageUri();
             service.Navigate(uri);
         }
 
         private async Task DetectSettingsAsync() {
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             await account.DetectSettingsAsync();
         }
 
@@ -84,7 +108,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public void OnNavigating(NavigatingCancelEventArgs e) {
-            var account = (MailAccountContext)DataContext;
+            var account = (MailAccountContext) DataContext;
             switch (e.NavigationMode) {
                 case NavigationMode.New:
                     PasswordBox.PasswordChanged -= OnPasswordChanged;

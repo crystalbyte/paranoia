@@ -1,6 +1,29 @@
-﻿namespace Crystalbyte.Paranoia.Themes {
-    public static class ThemeResourceKeys {
+﻿#region Copyright Notice & Copying Permission
 
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia.Themes
+// 
+// Crystalbyte.Paranoia.Themes is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+namespace Crystalbyte.Paranoia.Themes {
+    public static class ThemeResourceKeys {
         // Application Scope
         public static string AppFontFamilyKey = "AppFontFamilyKey";
         public static string AppAccentBrushKey = "AppAccentBrushKey";
@@ -65,12 +88,14 @@
         public static string ListViewItemUnfocusedBackgroundBrushKey = "ListViewItemUnfocusedBackgroundBrushKey";
         public static string ListViewItemUnfocusedBorderBrushKey = "ListViewItemUnfocusedBorderBrushKey";
         public static string ListViewItemMouseOverBackgroundBrushKey = "ListViewItemMouseOverBackgroundBrushKey";
-        public static string ListViewItemMouseOverBackgroundOpacityBrushKey = "ListViewItemMouseOverBackgroundOpacityBrushKey";
+
+        public static string ListViewItemMouseOverBackgroundOpacityBrushKey =
+            "ListViewItemMouseOverBackgroundOpacityBrushKey";
 
         // Menu Scope
         public static string MenuIconForegroundBrushKey = "MenuIconForegroundBrushKey";
         public static string MenuBackgroundBrushKey = "MenuBackgroundBrushKey";
-        public static string MenuBorderBrushKey= "MenuBorderBrushKey";
+        public static string MenuBorderBrushKey = "MenuBorderBrushKey";
         public static string MenuGlyphForegroundBrushKey = "MenuGlyphForegroundBrushKey";
         public static string MenuSeparatorForegroundBrushKey = "MenuSeparatorForegroundBrushKey";
         public static string MenuMouseOverBackgroundBrushKey = "MenuMouseOverBackgroundBrushKey";
@@ -132,7 +157,5 @@
         public static string ScrollBarThumbBackgroundBrushKey = "ScrollBarThumbBackgroundBrushKey";
         public static string ScrollBarThumbMouseOverBackgroundBrushKey = "ScrollBarThumbMouseOverBackgroundBrushKey";
         public static string ScrollBarThumbPressedBackgroundBrushKey = "ScrollBarThumbPressedBackgroundBrushKey";
-        
-        
     }
 }

@@ -4,7 +4,6 @@
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
 
-
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}" Color="WhiteSmoke" />
 
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}" Color="#2F2F32" />
@@ -31,12 +30,15 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarBackgroundBrushKey}" Color="#3E3E42" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarBorderBrushKey}" Color="#3E3E42" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarThumbBackgroundBrushKey}" Color="#686868" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarThumbMouseOverBackgroundBrushKey}" Color="#9E9E9E" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarThumbPressedBackgroundBrushKey}" Color="#EFEBEF" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarThumbMouseOverBackgroundBrushKey}"
+                     Color="#9E9E9E" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarThumbPressedBackgroundBrushKey}"
+                     Color="#EFEBEF" />
 
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemBackgroundBrushKey}" Color="#2E2E33" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemBorderBrushKey}" Color="#2E2E33" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBackgroundBrushKey}" Color="#22FFFFFF" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBackgroundBrushKey}"
+                     Color="#22FFFFFF" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBorderBrushKey}" Color="#22FFFFFF" />
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundOpacityBrushKey}">.2</system:Double>
 
@@ -56,7 +58,8 @@
                                Text="{TemplateBinding Content}" />
                     <ItemContainerTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="ContentText" Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            <Setter TargetName="ContentText" Property="Foreground"
+                                    Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
                     </ItemContainerTemplate.Triggers>
                 </ItemContainerTemplate>

@@ -1,4 +1,30 @@
-﻿using System;
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
+
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
@@ -9,20 +35,19 @@ using System.Windows.Input;
 using System.Windows.Media;
 using CefSharp;
 using CefSharp.Wpf;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using NLog;
-using Control = System.Windows.Controls.Control;
-using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
-using WebBrowser = System.Windows.Controls.WebBrowser;
+
+#endregion
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
-    /// Interaction logic for HtmlEditor.xaml
+    ///     Interaction logic for HtmlEditor.xaml
     /// </summary>
-    [TemplatePart(Name = WebBrowserTemplatePart, Type = typeof(ChromiumWebBrowser))]
-    [TemplatePart(Name = EditorMenuBorderTemplatePart, Type = typeof(Border))]
+    [TemplatePart(Name = WebBrowserTemplatePart, Type = typeof (ChromiumWebBrowser))]
+    [TemplatePart(Name = EditorMenuBorderTemplatePart, Type = typeof (Border))]
     public class HtmlEditor : Control, IRequestAware {
-
         #region Xaml Support
 
         private const string WebBrowserTemplatePart = "PART_WebBrowser";
@@ -41,8 +66,8 @@ namespace Crystalbyte.Paranoia.UI {
         #region Construction
 
         static HtmlEditor() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(HtmlEditor),
-                new FrameworkPropertyMetadata(typeof(HtmlEditor)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (HtmlEditor),
+                new FrameworkPropertyMetadata(typeof (HtmlEditor)));
         }
 
         public HtmlEditor() {
@@ -82,10 +107,9 @@ namespace Crystalbyte.Paranoia.UI {
         #region Quill Interop
 
         /// <summary>
-        /// Wrapper methods for the Quill editor, see http://quilljs.com/docs/api/.
-        /// Check formats: http://quilljs.com/docs/formats/
+        ///     Wrapper methods for the Quill editor, see http://quilljs.com/docs/api/.
+        ///     Check formats: http://quilljs.com/docs/formats/
         /// </summary>
-
         public void Undo() {
             const string script = "(function() { quill.modules['undo-manager'].undo(); })();";
             _browser.ExecuteScriptAsync(script);
@@ -138,7 +162,8 @@ namespace Crystalbyte.Paranoia.UI {
             var range = await GetSelectionAsync();
             if (range.IsPosition) {
                 PrepareFormat(format, value);
-            } else {
+            }
+            else {
                 FormatText(range.Start, range.End, format, value);
             }
         }
@@ -181,10 +206,12 @@ namespace Crystalbyte.Paranoia.UI {
         private void FormatText(int start, int end, string name, object value) {
             if (value is string) {
                 value = string.Format("'{0}'", value.ToString().ToLower());
-            } else {
+            }
+            else {
                 value = value.ToString().ToLower();
             }
-            var script = string.Format("(function() {{ quill.formatText({0}, {1}, '{2}', {3}); }})();", start, end, name, value);
+            var script = string.Format("(function() {{ quill.formatText({0}, {1}, '{2}', {3}); }})();", start, end, name,
+                value);
             _browser.ExecuteScriptAsync(script);
             _browser.Focus();
         }
@@ -192,7 +219,8 @@ namespace Crystalbyte.Paranoia.UI {
         private void PrepareFormat(string format, object value) {
             if (value is string) {
                 value = string.Format("'{0}'", value.ToString().ToLower());
-            } else {
+            }
+            else {
                 value = value.ToString().ToLower();
             }
             var script = string.Format("(function() {{ quill.prepareFormat('{0}', {1}); }})();", format, value);
@@ -214,7 +242,7 @@ namespace Crystalbyte.Paranoia.UI {
                 throw new ScriptingException(response.Message);
             }
 
-            return (int)response.Result;
+            return (int) response.Result;
         }
 
         public async Task<string> GetAppendixAsync() {
@@ -225,7 +253,7 @@ namespace Crystalbyte.Paranoia.UI {
                 throw new ScriptingException(response.Message);
             }
 
-            return (string)response.Result;
+            return (string) response.Result;
         }
 
         public async Task<TextRange> GetSelectionAsync() {
@@ -291,7 +319,7 @@ namespace Crystalbyte.Paranoia.UI {
         #region Methods
 
         public void InsertSignature(string signature) {
-            var script = string.Format("(function() {{ signature('{0}'); }})();", 
+            var script = string.Format("(function() {{ signature('{0}'); }})();",
                 string.IsNullOrEmpty(signature) ? "" : signature);
 
             _browser.ExecuteScriptAsync(script);
@@ -320,16 +348,17 @@ namespace Crystalbyte.Paranoia.UI {
 
         public async Task InsertImageAsync() {
             try {
-                var dialog = new OpenFileDialog {
+                var dialog = new OpenFileDialog
+                {
                     DefaultExt = ".png",
                     Filter = string.Format("{0}|*.jpeg;*.png;*.jpg;*.gif|" +
                                            "{1}|*.png|" +
                                            "{2}|*.jpeg;*.jpg|" +
                                            "{3}|*.gif",
-                                           Paranoia.Properties.Resources.AllImages,
-                                           Paranoia.Properties.Resources.PngFiles,
-                                           Paranoia.Properties.Resources.JpgFiles,
-                                           Paranoia.Properties.Resources.GifFiles)
+                        Paranoia.Properties.Resources.AllImages,
+                        Paranoia.Properties.Resources.PngFiles,
+                        Paranoia.Properties.Resources.JpgFiles,
+                        Paranoia.Properties.Resources.GifFiles)
                 };
 
                 // Display OpenFileDialog by calling ShowDialog method 
@@ -345,7 +374,8 @@ namespace Crystalbyte.Paranoia.UI {
 
                 var url = string.Format("file:///{0}", WebUtility.UrlEncode(dialog.FileName));
                 InsertEmbed(Selection.Value.Start, "image", url);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -369,7 +399,8 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnViewSource(object sender, ExecutedRoutedEventArgs e) {
             try {
                 _browser.ViewSource();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -377,7 +408,8 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnPaste(object sender, ExecutedRoutedEventArgs e) {
             try {
                 _browser.Paste();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -385,7 +417,8 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnCut(object sender, ExecutedRoutedEventArgs e) {
             try {
                 _browser.Cut();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -397,15 +430,17 @@ namespace Crystalbyte.Paranoia.UI {
         internal async Task PrintAsync() {
             var browser = new WebBrowser();
             browser.Navigated += (x, y) => {
-                try {
-                    dynamic document = browser.Document;
-                    document.execCommand("print", true, null);
-                } catch (Exception ex) {
-                    Logger.Error(ex);
-                } finally {
-                    browser.Dispose();
-                }
-            };
+                                     try {
+                                         dynamic document = browser.Document;
+                                         document.execCommand("print", true, null);
+                                     }
+                                     catch (Exception ex) {
+                                         Logger.Error(ex);
+                                     }
+                                     finally {
+                                         browser.Dispose();
+                                     }
+                                 };
             var html = await _browser.GetSourceAsync();
             browser.NavigateToString(html);
         }
@@ -413,7 +448,8 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnCopy(object sender, ExecutedRoutedEventArgs e) {
             try {
                 _browser.Copy();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -421,7 +457,8 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnSelectAll(object sender, ExecutedRoutedEventArgs e) {
             try {
                 _browser.SelectAll();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -429,7 +466,8 @@ namespace Crystalbyte.Paranoia.UI {
         private async void OnPrint(object sender, ExecutedRoutedEventArgs e) {
             try {
                 await PrintAsync();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -441,12 +479,13 @@ namespace Crystalbyte.Paranoia.UI {
         public override void OnApplyTemplate() {
             base.OnApplyTemplate();
 
-            _editorBorder = (Border)Template.FindName(EditorMenuBorderTemplatePart, this);
+            _editorBorder = (Border) Template.FindName(EditorMenuBorderTemplatePart, this);
             _editorBorder.DataContext = new HtmlEditorCommandContext(this);
 
-            _browser = (ChromiumWebBrowser)Template.FindName(WebBrowserTemplatePart, this);
+            _browser = (ChromiumWebBrowser) Template.FindName(WebBrowserTemplatePart, this);
             _browser.RequestHandler = new HtmlRequestHandler(this);
-            _browser.BrowserSettings = new BrowserSettings {
+            _browser.BrowserSettings = new BrowserSettings
+            {
                 DefaultEncoding = Encoding.UTF8.WebName,
                 ApplicationCacheDisabled = true,
                 JavaDisabled = true,
@@ -474,7 +513,8 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnIsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e) {
             try {
                 OnBrowserInitialized();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -484,36 +524,39 @@ namespace Crystalbyte.Paranoia.UI {
         #region Dependency Property
 
         public string Content {
-            get { return (string)GetValue(ContentProperty); }
+            get { return (string) GetValue(ContentProperty); }
             set { SetValue(ContentProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Content.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ContentProperty =
-            DependencyProperty.Register("Content", typeof(string), typeof(HtmlEditor), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("Content", typeof (string), typeof (HtmlEditor),
+                new PropertyMetadata(string.Empty));
 
         public TextRange? Selection {
-            get { return (TextRange?)GetValue(SelectionProperty); }
+            get { return (TextRange?) GetValue(SelectionProperty); }
             set { SetValue(SelectionProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Selection.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectionProperty =
-            DependencyProperty.Register("Selection", typeof(TextRange?), typeof(HtmlEditor), new PropertyMetadata(null));
+            DependencyProperty.Register("Selection", typeof (TextRange?), typeof (HtmlEditor),
+                new PropertyMetadata(null));
 
         public string Source {
-            get { return (string)GetValue(SourceProperty); }
+            get { return (string) GetValue(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Source.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.Register("Source", typeof(string), typeof(HtmlEditor), new PropertyMetadata(OnSourcePropertyChanged));
+            DependencyProperty.Register("Source", typeof (string), typeof (HtmlEditor),
+                new PropertyMetadata(OnSourcePropertyChanged));
 
         private static void OnSourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var viewer = (HtmlEditor)d;
+            var viewer = (HtmlEditor) d;
 
-            var url = (string)e.NewValue;
+            var url = (string) e.NewValue;
             if (string.IsNullOrEmpty(url)) {
                 url = "about:blank";
             }
@@ -522,29 +565,30 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public double Zoom {
-            get { return (double)GetValue(ZoomProperty); }
+            get { return (double) GetValue(ZoomProperty); }
             set { SetValue(ZoomProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Zoom.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ZoomProperty =
-            DependencyProperty.Register("Zoom", typeof(double), typeof(HtmlEditor), new PropertyMetadata(0.0d, OnZoomChanged));
+            DependencyProperty.Register("Zoom", typeof (double), typeof (HtmlEditor),
+                new PropertyMetadata(0.0d, OnZoomChanged));
 
         private static void OnZoomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var viewer = (HtmlEditor)d;
-            var change = (double)e.NewValue / 100.0d;
+            var viewer = (HtmlEditor) d;
+            var change = (double) e.NewValue/100.0d;
             viewer.ChangeZoom(change);
         }
 
         #endregion
 
         public async Task InvalidateCommandsAsync() {
-            var context = (HtmlEditorCommandContext)_editorBorder.DataContext;
+            var context = (HtmlEditorCommandContext) _editorBorder.DataContext;
             await context.InvalidateAsync();
         }
 
         public void ToggleStrikethrough() {
-            var context = (HtmlEditorCommandContext)_editorBorder.DataContext;
+            var context = (HtmlEditorCommandContext) _editorBorder.DataContext;
             context.IsStrikethrough = !context.IsStrikethrough;
         }
     }

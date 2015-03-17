@@ -1,4 +1,28 @@
-#region Using directives
+#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia.Mail
+// 
+// Crystalbyte.Paranoia.Mail is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
 
 using System;
 using System.Collections.Generic;
@@ -34,7 +58,9 @@ namespace Crystalbyte.Paranoia.Mail {
             RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
         private const string EnvelopePattern = "\\(\\(.+?\\)\\)|NIL|\"\"|<.+?>|\".+?\"";
-        private static readonly Regex EnvelopeRegex = new Regex(EnvelopePattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        private static readonly Regex EnvelopeRegex = new Regex(EnvelopePattern,
+            RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private const string DatePattern = @"(\d{1}|\d{2})-\w{3}-\d{4} \d{2}:\d{2}:\d{2} (\+|\-)\d{4}";
         private static readonly Regex DateRegex = new Regex(DatePattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -49,29 +75,17 @@ namespace Crystalbyte.Paranoia.Mail {
             _headers = new List<KeyValuePair<string, string>>();
         }
 
-        public long Uid {
-            get; internal set;
-        }
+        public long Uid { get; internal set; }
 
-        public DateTime? InternalDate {
-            get; internal set;
-        }
+        public DateTime? InternalDate { get; internal set; }
 
-        public string Subject {
-            get; internal set;
-        }
+        public string Subject { get; internal set; }
 
-        public long Size {
-            get; internal set;
-        }
+        public long Size { get; internal set; }
 
-        public string MessageId {
-            get; internal set;
-        }
+        public string MessageId { get; internal set; }
 
-        public string InReplyTo {
-            get; internal set;
-        }
+        public string InReplyTo { get; internal set; }
 
         public IList<KeyValuePair<string, string>> Headers {
             get { return _headers; }
@@ -147,7 +161,7 @@ namespace Crystalbyte.Paranoia.Mail {
             }
 
             String[] t = {"ENVELOPE"};
-            var temp = text.Split(t,StringSplitOptions.None);
+            var temp = text.Split(t, StringSplitOptions.None);
             matches = EnvelopeRegex.Matches(temp[1]);
             envelope.Subject = TransferEncoder.Decode(matches[1].Value)
                 .TrimQuotes()
@@ -170,18 +184,20 @@ namespace Crystalbyte.Paranoia.Mail {
             var entries = Regex.Matches(trimmed, "\\\"\\\"|\\\".+?\\\"|NIL");
             var contacts = entries
                 .OfType<Match>()
-                .Select(x => x.Value.Trim(new[] { '"', '\\' }))
+                .Select(x => x.Value.Trim(new[] {'"', '\\'}))
                 .Bundle(4).ToArray()
                 .ToArray();
 
             return from contact in contacts
-                   select contact.ToArray()
-                       into items
-                       let name = TransferEncoder.Decode(items[0])
-                       let host = items[3]
-                       let address = string.Format("{0}@{1}", items[2], items[3])
-                       where !string.IsNullOrEmpty(items[3]) || Regex.IsMatch(host, HostRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled)
-                       select new MailAddress(address, name);
+                select contact.ToArray()
+                into items
+                let name = TransferEncoder.Decode(items[0])
+                let host = items[3]
+                let address = string.Format("{0}@{1}", items[2], items[3])
+                where
+                    !string.IsNullOrEmpty(items[3]) ||
+                    Regex.IsMatch(host, HostRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled)
+                select new MailAddress(address, name);
         }
 
         private void AddContactsToCc(IEnumerable<MailAddress> contacts) {

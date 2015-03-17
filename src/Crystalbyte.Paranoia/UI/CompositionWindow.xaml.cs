@@ -1,4 +1,30 @@
-﻿using System;
+﻿#region Copyright Notice & Copying Permission
+
+// Copyright 2014 - 2015
+// 
+// Alexander Wieser <alexander.wieser@crystalbyte.de>
+// Sebastian Thobe
+// Marvin Schluch
+// 
+// This file is part of Crystalbyte.Paranoia
+// 
+// Crystalbyte.Paranoia is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License.
+// 
+// Foobar is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region Using Directives
+
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
@@ -16,12 +42,13 @@ using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.Themes;
 using NLog;
 
+#endregion
+
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
-    /// Interaction logic for CompositionWindow.xaml
+    ///     Interaction logic for CompositionWindow.xaml
     /// </summary>
     public partial class CompositionWindow : IAccentAware, IDocumentProvider {
-
         #region Private Fields
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -66,33 +93,31 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnAccountComboboxDataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
-            var context = (MailCompositionContext)DataContext;
+            var context = (MailCompositionContext) DataContext;
             AccountComboBox.SelectedValue = context.Accounts.OrderByDescending(x => x.IsDefaultTime).FirstOrDefault();
         }
 
         private async void OnRecipientsBoxItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
-            var control = (SuggestionBox)sender;
+            var control = (SuggestionBox) sender;
             var contacts = await QueryContactsAsync(e.Text);
-            await Application.Current.Dispatcher.InvokeAsync(() => {
-                control.ItemsSource = contacts;
-            });
+            await Application.Current.Dispatcher.InvokeAsync(() => { control.ItemsSource = contacts; });
         }
 
         private void OnLink(object sender, ExecutedRoutedEventArgs e) {
             ModalOverlay.Visibility = Visibility.Visible;
 
             NavigationArguments.Push(HtmlEditor);
-            var uri = typeof(InsertLinkModalPage).ToPageUri();
+            var uri = typeof (InsertLinkModalPage).ToPageUri();
             PopupFrame.Navigate(uri);
         }
 
         private void OnAttachment(object sender, ExecutedRoutedEventArgs e) {
-            var context = (MailCompositionContext)DataContext;
+            var context = (MailCompositionContext) DataContext;
             context.InsertAttachments();
         }
 
         public void StartSendingAnimation() {
-            var storyboard = (Storyboard)Resources["FlyOutStoryboard"];
+            var storyboard = (Storyboard) Resources["FlyOutStoryboard"];
             storyboard.Begin();
         }
 
@@ -102,31 +127,31 @@ namespace Crystalbyte.Paranoia.UI {
 
         public Task<MailContactContext[]> QueryContactsAsync(string text) {
             return Task.Run(async () => {
-                using (var database = new DatabaseContext()) {
-                    var candidates = await database.MailContacts
-                        .Where(x => x.Address.StartsWith(text)
-                                    || x.Name.StartsWith(text))
-                        .Take(20)
-                        .ToArrayAsync();
+                                      using (var database = new DatabaseContext()) {
+                                          var candidates = await database.MailContacts
+                                              .Where(x => x.Address.StartsWith(text)
+                                                          || x.Name.StartsWith(text))
+                                              .Take(20)
+                                              .ToArrayAsync();
 
-                    var contexts = candidates.Select(x => new MailContactContext(x)).ToArray();
-                    foreach (var context in contexts) {
-                        await context.CheckSecurityStateAsync();
-                    }
+                                          var contexts = candidates.Select(x => new MailContactContext(x)).ToArray();
+                                          foreach (var context in contexts) {
+                                              await context.CheckSecurityStateAsync();
+                                          }
 
-                    return contexts;
-                }
-            });
+                                          return contexts;
+                                      }
+                                  });
         }
 
         private void OnRecipientsBoxSelectionChanged(object sender, EventArgs e) {
             var addresses = RecipientsBox
                 .SelectedValues
                 .Select(x => x is MailContactContext
-                    ? ((MailContactContext)x).Address
+                    ? ((MailContactContext) x).Address
                     : x as string);
 
-            var context = (MailCompositionContext)DataContext;
+            var context = (MailCompositionContext) DataContext;
             context.Addresses.Clear();
             context.Addresses.AddRange(addresses);
         }
@@ -138,9 +163,9 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnLoadedAsNew(object sender, RoutedEventArgs e) {
             Application.Current.Dispatcher.Invoke(() => {
-                RecipientsBox.Focus();
-                Loaded -= OnLoadedAsNew;
-            });
+                                                      RecipientsBox.Focus();
+                                                      Loaded -= OnLoadedAsNew;
+                                                  });
         }
 
         internal async Task PrepareAsReplyAsync(IReadOnlyDictionary<string, string> arguments) {
@@ -149,35 +174,35 @@ namespace Crystalbyte.Paranoia.UI {
             var id = Int64.Parse(arguments["id"]);
 
             await Task.Run(async () => {
-                using (var database = new DatabaseContext()) {
-                    var mime = await database.MimeMessages
-                        .Where(x => x.MessageId == id)
-                        .ToArrayAsync();
+                                     using (var database = new DatabaseContext()) {
+                                         var mime = await database.MimeMessages
+                                             .Where(x => x.MessageId == id)
+                                             .ToArrayAsync();
 
-                    if (!mime.Any())
-                        throw new InvalidOperationException();
+                                         if (!mime.Any())
+                                             throw new InvalidOperationException();
 
-                    message = new MailMessageReader(mime[0].Data);
-                    from = new MailContactContext(await database.MailContacts
-                        .FirstAsync(x => x.Address == message.Headers.From.Address));
-                }
-            });
+                                         message = new MailMessageReader(mime[0].Data);
+                                         from = new MailContactContext(await database.MailContacts
+                                             .FirstAsync(x => x.Address == message.Headers.From.Address));
+                                     }
+                                 });
 
             HtmlEditor.ContentReady += OnContentReady;
             HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
 
-            var context = (MailCompositionContext)DataContext;
+            var context = (MailCompositionContext) DataContext;
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
 
             await Task.Run(async () => await @from.CheckSecurityStateAsync());
-            RecipientsBox.Preset(new[] { from });
+            RecipientsBox.Preset(new[] {from});
         }
 
         private void OnContentReady(object sender, EventArgs e) {
             Application.Current.Dispatcher.Invoke(() => {
-                HtmlEditor.BrowserInitialized -= OnContentReady;
-                HtmlEditor.FocusEditor();
-            });
+                                                      HtmlEditor.BrowserInitialized -= OnContentReady;
+                                                      HtmlEditor.FocusEditor();
+                                                  });
         }
 
         internal async Task PrepareAsReplyAllAsync(IReadOnlyDictionary<string, string> arguments) {
@@ -223,12 +248,12 @@ namespace Crystalbyte.Paranoia.UI {
             HtmlEditor.ContentReady += OnContentReady;
             HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
 
-            var context = (MailCompositionContext)DataContext;
+            var context = (MailCompositionContext) DataContext;
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
 
             await Task.Run(() => from.CheckSecurityStateAsync());
 
-            RecipientsBox.Preset(new[] { from });
+            RecipientsBox.Preset(new[] {from});
             CarbonCopyBox.Preset(carbonCopies);
             BlindCarbonCopyBox.Preset(blindCarbonCopies);
         }
@@ -236,28 +261,29 @@ namespace Crystalbyte.Paranoia.UI {
         internal async Task PrepareAsForwardAsync(IReadOnlyDictionary<string, string> arguments) {
             var id = Int64.Parse(arguments["id"]);
             var reader = await Task.Run(async () => {
-                using (var database = new DatabaseContext()) {
-                    var mime = await database.MimeMessages
-                        .Where(x => x.MessageId == id)
-                        .ToArrayAsync();
+                                                  using (var database = new DatabaseContext()) {
+                                                      var mime = await database.MimeMessages
+                                                          .Where(x => x.MessageId == id)
+                                                          .ToArrayAsync();
 
-                    if (!mime.Any())
-                        throw new InvalidOperationException(Paranoia.Properties.Resources.MessageNotFoundException);
+                                                      if (!mime.Any())
+                                                          throw new InvalidOperationException(
+                                                              Paranoia.Properties.Resources.MessageNotFoundException);
 
-                    return new MailMessageReader(mime[0].Data);
-                }
-            });
+                                                      return new MailMessageReader(mime[0].Data);
+                                                  }
+                                              });
 
             HtmlEditor.Source = string.Format("message:///forward?id={0}", id);
 
-            var context = (MailCompositionContext)DataContext;
+            var context = (MailCompositionContext) DataContext;
             context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForForwarding, reader.Headers.Subject);
 
             Loaded += OnLoadedAsNew;
         }
 
         private void OnHtmlSurfaceDrop(object sender, DragEventArgs e) {
-            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
             var context = DataContext as MailCompositionContext;
             if (files == null | context == null)
                 return;
@@ -280,8 +306,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async Task ChangeSignatureAsync() {
-
-            var context = (MailCompositionContext)DataContext;
+            var context = (MailCompositionContext) DataContext;
             var path = context.SelectedAccount.SignaturePath;
 
             string signature;
@@ -289,7 +314,8 @@ namespace Crystalbyte.Paranoia.UI {
                 signature = string.Empty;
                 var warning = string.Format(Paranoia.Properties.Resources.MissingSignatureTemplate, path);
                 Logger.Warn(warning);
-            } else {
+            }
+            else {
                 signature = await Task.Run(() => File.ReadAllText(path, Encoding.UTF8));
             }
 
@@ -304,7 +330,8 @@ namespace Crystalbyte.Paranoia.UI {
                     return;
                 }
                 await ChangeSignatureAsync();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -320,14 +347,14 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         private void OnAttachmentMouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            var item = (ListViewItem)sender;
-            var attachment = (FileAttachmentContext)item.DataContext;
+            var item = (ListViewItem) sender;
+            var attachment = (FileAttachmentContext) item.DataContext;
             attachment.Open();
         }
 
         private void OnAttachmentsDelete(object sender, ExecutedRoutedEventArgs e) {
-            var composition = (MailCompositionContext)DataContext;
-            var listView = (ListView)sender;
+            var composition = (MailCompositionContext) DataContext;
+            var listView = (ListView) sender;
             foreach (var item in listView.SelectedItems.OfType<FileAttachmentContext>().ToArray()) {
                 composition.Attachments.Remove(item);
             }

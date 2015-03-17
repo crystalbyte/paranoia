@@ -20,7 +20,8 @@
     </Style>
 
     <Style TargetType="ui:HtmlViewer">
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}" />
+        <Setter Property="Background"
+                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:HtmlViewer">
@@ -50,7 +51,8 @@
                                                 </Rectangle>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Command="ui:HtmlCommands.ViewSource" Header="{x:Static properties:Resources.Source}" />
+                                        <MenuItem Command="ui:HtmlCommands.ViewSource"
+                                                  Header="{x:Static properties:Resources.Source}" />
                                         <Separator />
                                         <MenuItem Command="ApplicationCommands.SelectAll" />
                                     </ContextMenu>

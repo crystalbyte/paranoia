@@ -56,8 +56,12 @@
                                           ConverterParameter=...}"
                            WindowChrome.IsHitTestVisibleInChrome="False" />
                 <TextBlock Margin="1,-1,0,0" VerticalAlignment="Center">
-                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text=" - " />
-                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
+                    <Run
+                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+                        Text=" - " />
+                    <Run
+                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+                        Text="{x:Static properties:Resources.ApplicationLongName}" />
                 </TextBlock>
             </StackPanel>
         </Grid>
@@ -143,8 +147,12 @@
                                             ConverterParameter=48,
                                             Converter={StaticResource GravatarImageConverter}}" />
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}" Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
-                        <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
+                        <TextBlock
+                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                            Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
+                        <TextBlock
+                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+                            Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
                     </StackPanel>
                 </StackPanel>
                 <Rectangle Grid.Column="1"
@@ -167,8 +175,12 @@
                                             ConverterParameter=48,
                                             Converter={StaticResource GravatarImageConverter}}" />
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}" Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
-                        <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
+                        <TextBlock
+                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                            Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
+                        <TextBlock
+                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+                            Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -215,10 +227,13 @@
                                                         ConverterParameter=32,
                                                         Converter={StaticResource GravatarImageConverter}}" />
                                 <StackPanel VerticalAlignment="Center">
-                                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
-                                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
-                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
-                                               Text="{Binding Address,
+                                    <TextBlock
+                                        FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
+                                        Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
+                                    <TextBlock
+                                        FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
+                                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+                                        Text="{Binding Address,
                                                               Converter={StaticResource NullOrEmptyFormatter}}" />
                                 </StackPanel>
                             </StackPanel>
@@ -261,8 +276,11 @@
                                                         ConverterParameter=32,
                                                         Converter={StaticResource GravatarImageConverter}}" />
                                 <StackPanel VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
-                                    <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
+                                    <TextBlock
+                                        Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
+                                    <TextBlock
+                                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+                                        Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>
@@ -288,7 +306,8 @@
                   ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <ListView.ItemContainerStyle>
                 <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
-                    <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewBackgroundBrushKey}}" />
+                    <Setter Property="Background"
+                            Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewBackgroundBrushKey}}" />
                     <Setter Property="BorderBrush" Value="Transparent" />
                 </Style>
             </ListView.ItemContainerStyle>

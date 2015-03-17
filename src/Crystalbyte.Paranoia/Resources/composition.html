@@ -1,69 +1,67 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
-    <title>Composition</title>
-    <meta charset="utf-8" />
-    <link href="resource:///composition.less" type="text/css" rel="stylesheet">
-</head>
-<body>
-    <div id="editor-container"></div>
-    <div id="appendix" style="padding: 14px;">
-        <div id="signature-container"></div>
-        {{separator}}
-        <div id="quote-container">
-            {{quote}}
+    <head>
+        <title>Composition</title>
+        <meta charset="utf-8" />
+        <link href="resource:///composition.less" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="editor-container"></div>
+        <div id="appendix" style="padding: 14px;">
+            <div id="signature-container"></div>
+            {{separator}}
+            <div id="quote-container">
+                {{quote}}
+            </div>
         </div>
-    </div>
-    <script type="text/javascript" src="resource:///jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="resource:///lodash-3.2.0.min.js"></script>
-    <script type="text/javascript" src="resource:///quill.js"></script>
-    <!-- ReSharper disable UseOfImplicitGlobalInFunctionScope -->
-    <script type="text/javascript">
+        <script type="text/javascript" src="resource:///jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="resource:///lodash-3.2.0.min.js"></script>
+        <script type="text/javascript" src="resource:///quill.js"></script>
+        <!-- ReSharper disable UseOfImplicitGlobalInFunctionScope -->
+        <script type="text/javascript">
 
-        function b64_to_utf8(str) {
-            return decodeURIComponent(escape(window.atob(str)));
-        }
-
-        var signature = function (s) {
-            $('#signature-container').html(b64_to_utf8(s));
-        }
-
-        var getAppendix = function () {
-            return $('#appendix').prop('innerHTML');
-        }
-
-        $(window).resize(function () {
-            var editor = $('#editor-container');
-            editor.css('width', '100%');
-        });
-
-        var quill = new Quill('#editor-container', {
-            'styles': {
-                '.ql-editor': {
-                    'font-family': "'Trebuchet MS', sans-serif",
-                    'font-size': '16px',
-                    'line-height': '1.6',
-                    'min-height': '80px',
-                }
+            function b64_to_utf8(str) {
+                return decodeURIComponent(escape(window.atob(str)));
             }
-        });
 
-        quill.on('text-change', function (delta, source) {
-            // Extern is defined outside this document ...
-            var json = JSON.stringify(delta);
-            extern.notifyTextChanged(source, json);
-        });
+            var signature = function(s) {
+                $('#signature-container').html(b64_to_utf8(s));
+            };
+            var getAppendix = function() {
+                return $('#appendix').prop('innerHTML');
+            };
+            $(window).resize(function() {
+                var editor = $('#editor-container');
+                editor.css('width', '100%');
+            });
 
-        quill.on('selection-change', function (range) {
-            // Extern is defined outside this document ...
-            var json = JSON.stringify(range);
-            extern.notifySelectionChanged(json);
-        });
+            var quill = new Quill('#editor-container', {
+                'styles': {
+                    '.ql-editor': {
+                        'font-family': "'Trebuchet MS', sans-serif",
+                        'font-size': '16px',
+                        'line-height': '1.6',
+                        'min-height': '80px',
+                    }
+                }
+            });
 
-        extern.notifyContentReady();
+            quill.on('text-change', function(delta, source) {
+                // Extern is defined outside this document ...
+                var json = JSON.stringify(delta);
+                extern.notifyTextChanged(source, json);
+            });
 
-    </script>
-    <!-- ReSharper restore UseOfImplicitGlobalInFunctionScope -->
-</body>
+            quill.on('selection-change', function(range) {
+                // Extern is defined outside this document ...
+                var json = JSON.stringify(range);
+                extern.notifySelectionChanged(json);
+            });
+
+            extern.notifyContentReady();
+
+        </script>
+        <!-- ReSharper restore UseOfImplicitGlobalInFunctionScope -->
+    </body>
 
 </html>
