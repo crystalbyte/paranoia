@@ -5,8 +5,9 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
+using CsQuery;
 using dotless.Core;
-using HtmlAgilityPack;
+//using HtmlAgilityPack;
 
 namespace Crystalbyte.Paranoia {
     internal static class HtmlSupport {
@@ -65,17 +66,16 @@ namespace Crystalbyte.Paranoia {
         /// <param name="text">Source text to be normalized.</param>
         /// <returns>Normalized HTML document.</returns>
         public static string PrepareHtmlForInspection(string text) {
-            var quote = new HtmlDocument { OptionFixNestedTags = true };
-            quote.LoadHtml(text);
+            var quote = new CQ(text);
 
             // Drop all script tags.
-            var scripts = quote.DocumentNode.SelectNodes("//script");
+            var scripts = quote["script"];
             if (scripts != null) {
                 scripts.ForEach(x => x.Remove());
             }
 
             // Drop all meta tags.
-            var metas = quote.DocumentNode.SelectNodes("//meta");
+            var metas = quote["meta"];
             if (metas != null) {
                 metas.ForEach(x => x.Remove());
             }
@@ -92,17 +92,14 @@ namespace Crystalbyte.Paranoia {
                 template = reader.ReadToEnd();
             }
 
-            var document = new HtmlDocument { OptionFixNestedTags = true };
-            document.LoadHtml(template);
-
-            var host = document.DocumentNode.SelectSingleNode("//div[@id='content-host']");
+            var harness = new CQ(template);
+            var host = harness["div#content-host"];
             if (host == null) {
                 throw new Exception(Resources.ContentHostMissingException);
             }
 
-
-            host.InnerHtml = quote.DocumentNode.WriteTo();
-            return document.DocumentNode.WriteTo();
+            host.Html(quote.Render());
+            return host.Render();
         }
 
         public static string GetCssResource(string path) {
