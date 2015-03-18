@@ -15,3 +15,6 @@ The goal of Paranoia is to hide the encryption process from the user while sacri
 While a user is made aware when encryption is being used, he or she does not have to deal with any idiosyncrasies that come with it.
 Usual necessities, such as key generation, key exchange, key renewal, keychain management, decryption and encryption are fully automated and do not require any user interaction.
 
+## License
+
+The source code is currently licensed under the [GPLv3](http://www.gnu.org/licenses/gpl.html).
