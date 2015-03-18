@@ -60,6 +60,7 @@ namespace Crystalbyte.Paranoia {
         private readonly RelayCommand _finalizeCommand;
         private readonly ICommand _insertAttachmentCommand;
         private MailAccountContext _selectedAccount;
+        private bool _isFinalizing;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
@@ -102,6 +103,22 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         #region Properties
+
+        public bool IsFinalizing {
+            get { return _isFinalizing; }
+            set {
+                if (_isFinalizing == value) {
+                    return;
+                }
+                _isFinalizing = value;
+                RaisePropertyChanged(() => IsFinalizing);
+                OnFinalizingChanged();
+            }
+        }
+
+        private void OnFinalizingChanged() {
+            _finalizeCommand.OnCanExecuteChanged();
+        }
 
         public ICommand FinalizeCommand {
             get { return _finalizeCommand; }
@@ -154,8 +171,12 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         internal async Task FinalizeAsync() {
+            IsFinalizing = true;
+
             OnCompositionFinalizing();
             await SaveToOutboxAsync();
+
+            IsFinalizing = false;
             OnCompositionFinalized();
         }
 
@@ -275,7 +296,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private bool OnCanFinalize(object obj) {
-            return Addresses.Any();
+            return Addresses.Any() && !IsFinalizing;
         }
 
         private void OnInsertAttachment(object obj) {

@@ -61,7 +61,7 @@ namespace Crystalbyte.Paranoia.UI {
             InitializeComponent();
 
             var context = new MailCompositionContext(this);
-            context.CompositionFinalizing += OnCompositionFinalizing;
+            context.CompositionFinalized += OnCompositionFinalized;
 
             DataContext = context;
             CommandBindings.Add(new CommandBinding(EditingCommands.InsertAttachment, OnAttachment));
@@ -88,7 +88,7 @@ namespace Crystalbyte.Paranoia.UI {
             PopupFrame.Content = null;
         }
 
-        private void OnCompositionFinalizing(object sender, EventArgs e) {
+        private void OnCompositionFinalized(object sender, EventArgs e) {
             Window.Close();
         }
 
