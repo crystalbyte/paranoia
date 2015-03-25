@@ -72,7 +72,7 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoreDown));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
-            HtmlEditor.ContentReady += async (sender, e) => await ChangeSignatureAsync();
+            HtmlEditor.ContentReady += async (sender, e) => await SignAsync();
         }
 
         #endregion
@@ -305,7 +305,7 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        private async Task ChangeSignatureAsync() {
+        private async Task SignAsync() {
             var context = (MailCompositionContext) DataContext;
             var path = context.SelectedAccount.SignaturePath;
 
@@ -329,7 +329,11 @@ namespace Crystalbyte.Paranoia.UI {
                 if (!HtmlEditor.IsLoaded) {
                     return;
                 }
-                await ChangeSignatureAsync();
+
+                var context = (MailCompositionContext)DataContext;
+                if (context.SelectedAccount != null) {
+                    await SignAsync();    
+                }
             }
             catch (Exception ex) {
                 Logger.Error(ex);

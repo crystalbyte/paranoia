@@ -32,6 +32,7 @@ using NLog;
 
 namespace Crystalbyte.Paranoia {
     public sealed class CreateMailboxContext : NotificationObject {
+
         #region Private Fields
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();

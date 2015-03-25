@@ -470,7 +470,8 @@ namespace Crystalbyte.Paranoia {
                 var mime = await FetchMimeAsync();
                 var reader = new MailMessageReader(mime);
 
-                var address = reader.Headers.From.Address;
+                var address = FromAddress;
+
                 var parts = reader.FindAllMessagePartsWithMediaType(MediaTypes.EncryptedMime);
                 var xHeaders = reader.Headers.UnknownHeaders;
 
@@ -542,12 +543,14 @@ namespace Crystalbyte.Paranoia {
 
                 message.HasAttachments = reader.FindAllAttachments().Count > 0;
 
+                var name = FromName;
+                var address = FromAddress;
                 var from = await context.MailContacts
-                    .FirstOrDefaultAsync(x => x.Address == reader.Headers.From.Address);
+                    .FirstOrDefaultAsync(x => x.Address == address);
                 if (from == null) {
                     from = new MailContactModel {
-                        Name = reader.Headers.From.DisplayName,
-                        Address = reader.Headers.From.Address
+                        Name = name,
+                        Address = address
                     };
 
                     context.MailContacts.Add(from);
@@ -666,6 +669,7 @@ namespace Crystalbyte.Paranoia {
                 Logger.Warn("Method InitDetailsAsync() called while already loaded ...");
             }
 
+            var address = FromAddress;
             await Task.Run(async () => {
                 using (var context = new DatabaseContext()) {
                     var mime =
@@ -675,14 +679,10 @@ namespace Crystalbyte.Paranoia {
                     var reader = new MailMessageReader(mime.Data);
 
                     var from = await context.MailContacts
-                        .FirstOrDefaultAsync(x => x.Address == reader.Headers.From.Address);
+                        .FirstOrDefaultAsync(x => x.Address == address);
                     await Application.Current.Dispatcher.InvokeAsync(() => {
-                        From =
-                            new MailContactContext
-                                (from);
-                        IsExternalContentAllowed =
-                            from
-                                .IsExternalContentAllowed;
+                        From = new MailContactContext(from);
+                        IsExternalContentAllowed = from.IsExternalContentAllowed;
                     });
 
                     var part = reader.FindFirstHtmlVersion();

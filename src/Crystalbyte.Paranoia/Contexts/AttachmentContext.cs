@@ -49,8 +49,7 @@ namespace Crystalbyte.Paranoia {
 
         private async void OnSave(object obj) {
             var extension = _name.Split('.').LastOrDefault() ?? string.Empty;
-            var dialog = new SaveFileDialog
-            {
+            var dialog = new SaveFileDialog {
                 FileName = _name,
                 DefaultExt = extension,
                 Filter = string.Format("{0} (*.*)|*.*", Resources.AllFiles)
@@ -62,13 +61,12 @@ namespace Crystalbyte.Paranoia {
             }
 
             await Task.Run(() => {
-                               try {
-                                   File.WriteAllBytes(dialog.FileName, Bytes);
-                               }
-                               catch (Exception ex) {
-                                   Logger.Error(ex);
-                               }
-                           });
+                try {
+                    File.WriteAllBytes(dialog.FileName, Bytes);
+                } catch (Exception ex) {
+                    Logger.Error(ex);
+                }
+            });
         }
 
         public AttachmentContext(MessagePart part) {

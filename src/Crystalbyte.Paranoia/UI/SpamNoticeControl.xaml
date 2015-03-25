@@ -44,7 +44,6 @@
             </Button>
             <TextBlock Margin="6,0"
                        VerticalAlignment="Center"
-                       Foreground="WhiteSmoke"
                        RenderOptions.ClearTypeHint="Enabled"
                        Text="{x:Static properties:Resources.IsFishyNotice}"
                        TextTrimming="CharacterEllipsis"

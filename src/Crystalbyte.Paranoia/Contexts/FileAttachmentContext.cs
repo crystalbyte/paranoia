@@ -36,6 +36,7 @@ using NLog;
 
 namespace Crystalbyte.Paranoia {
     public sealed class FileAttachmentContext {
+
         #region Private Fields
 
         private readonly FileInfo _info;
@@ -61,13 +62,11 @@ namespace Crystalbyte.Paranoia {
 
         internal void Open() {
             try {
-                var process = new Process
-                {
+                var process = new Process {
                     StartInfo = new ProcessStartInfo(_info.FullName)
                 };
                 process.Start();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }

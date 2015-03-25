@@ -78,7 +78,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task DeleteAsync() {
-            using (var connection = new ImapConnection {Security = _account.ImapSecurity}) {
+            using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                 using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                     using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                         await session.DeleteMailboxAsync(Name);
@@ -116,8 +116,7 @@ namespace Crystalbyte.Paranoia {
 
                         await context.SaveChangesAsync();
                         transaction.Commit();
-                    }
-                    catch (Exception) {
+                    } catch (Exception) {
                         transaction.Rollback();
                     }
                 }
@@ -178,7 +177,7 @@ namespace Crystalbyte.Paranoia {
             get {
                 return string.IsNullOrEmpty(Name)
                     ? string.Empty
-                    : Name.Split(new[] {Delimiter},
+                    : Name.Split(new[] { Delimiter },
                         StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
             }
         }
@@ -209,8 +208,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 _isSyncedInitially = true;
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -225,37 +223,35 @@ namespace Crystalbyte.Paranoia {
             IsSyncingMailboxes = true;
 
             await Task.Run(async () => {
-                                     try {
-                                         var pattern = string.Format("{0}{1}%", Name, Delimiter);
-                                         var children = await _account.ListMailboxesAsync(pattern);
-                                         var subscribed = await _account.ListSubscribedMailboxesAsync(pattern);
+                try {
+                    var pattern = string.Format("{0}{1}%", Name, Delimiter);
+                    var children = await _account.ListMailboxesAsync(pattern);
+                    var subscribed = await _account.ListSubscribedMailboxesAsync(pattern);
 
-                                         using (var database = new DatabaseContext()) {
-                                             foreach (var child in children) {
-                                                 var c = child;
-                                                 var mailbox = await database.Mailboxes
-                                                     .FirstOrDefaultAsync(x => x.Name == c.Fullname);
-                                                 if (mailbox != null) {
-                                                     continue;
-                                                 }
+                    using (var database = new DatabaseContext()) {
+                        foreach (var child in children) {
+                            var c = child;
+                            var mailbox = await database.Mailboxes
+                                .FirstOrDefaultAsync(x => x.Name == c.Fullname);
+                            if (mailbox != null) {
+                                continue;
+                            }
 
-                                                 var context = new MailboxContext(_account, new MailboxModel
-                                                 {
-                                                     AccountId = _account.Id
-                                                 });
+                            var context = new MailboxContext(_account, new MailboxModel {
+                                AccountId = _account.Id
+                            });
 
-                                                 await context.InsertAsync();
-                                                 await context.BindMailboxAsync(child, subscribed);
+                            await context.InsertAsync();
+                            await context.BindMailboxAsync(child, subscribed);
 
-                                                 await Application.Current.Dispatcher
-                                                     .InvokeAsync(() => _account.NotifyMailboxAdded(context));
-                                             }
-                                         }
-                                     }
-                                     catch (Exception ex) {
-                                         Logger.Error(ex);
-                                     }
-                                 });
+                            await Application.Current.Dispatcher
+                                .InvokeAsync(() => _account.NotifyMailboxAdded(context));
+                        }
+                    }
+                } catch (Exception ex) {
+                    Logger.Error(ex);
+                }
+            });
 
             IsSyncingMailboxes = false;
         }
@@ -306,8 +302,7 @@ namespace Crystalbyte.Paranoia {
                     database.Mailboxes.Add(_mailbox);
                     await database.SaveChangesAsync();
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -319,8 +314,7 @@ namespace Crystalbyte.Paranoia {
                     database.Entry(_mailbox).State = EntityState.Modified;
                     await database.SaveChangesAsync();
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -333,58 +327,55 @@ namespace Crystalbyte.Paranoia {
             var uids = messages.Select(x => x.Uid).ToArray();
 
             return Task.Run(async () => {
-                                      using (var connection = new ImapConnection {Security = _account.ImapSecurity}) {
-                                          using (
-                                              var auth =
-                                                  await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
-                                              using (
-                                                  var session =
-                                                      await
-                                                          auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
-                                                  var mailbox = await session.SelectAsync(Name);
-                                                  if (IsTrash) {
-                                                      await mailbox.DeleteMailsAsync(uids);
-                                                  }
-                                                  else {
-                                                      await mailbox.MoveMailsAsync(uids, trashFolder);
-                                                  }
-                                              }
-                                          }
-                                      }
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+                    using (
+                        var auth =
+                            await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+                        using (
+                            var session =
+                                await
+                                    auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+                            var mailbox = await session.SelectAsync(Name);
+                            if (IsTrash) {
+                                await mailbox.DeleteMailsAsync(uids);
+                            } else {
+                                await mailbox.MoveMailsAsync(uids, trashFolder);
+                            }
+                        }
+                    }
+                }
 
-                                      using (var context = new DatabaseContext()) {
-                                          await context.Database.Connection.OpenAsync();
-                                          foreach (var message in messages) {
-                                              var id = message.Id;
-                                              using (var transaction = context.Database.BeginTransaction()) {
-                                                  try {
-                                                      var mime = await context.MimeMessages
-                                                          .FirstOrDefaultAsync(x => x.MessageId == id);
+                using (var context = new DatabaseContext()) {
+                    await context.Database.Connection.OpenAsync();
+                    foreach (var message in messages) {
+                        var id = message.Id;
+                        using (var transaction = context.Database.BeginTransaction()) {
+                            try {
+                                var mime = await context.MimeMessages
+                                    .FirstOrDefaultAsync(x => x.MessageId == id);
 
-                                                      if (mime != null) {
-                                                          context.MimeMessages.Remove(mime);
-                                                          await context.SaveChangesAsync();
-                                                      }
+                                if (mime != null) {
+                                    context.MimeMessages.Remove(mime);
+                                    await context.SaveChangesAsync();
+                                }
 
-                                                      var model = new MailMessageModel
-                                                      {
-                                                          Id = message.Id,
-                                                          MailboxId = Id
-                                                      };
+                                var model = new MailMessageModel {
+                                    Id = message.Id,
+                                    MailboxId = Id
+                                };
 
-                                                      context.MailMessages.Attach(model);
-                                                      context.MailMessages.Remove(model);
+                                context.MailMessages.Attach(model);
+                                context.MailMessages.Remove(model);
 
-                                                      await context.SaveChangesAsync();
-                                                      transaction.Commit();
-                                                  }
-                                                  catch (Exception) {
-                                                      transaction.Rollback();
-                                                  }
-                                              }
-                                          }
-                                      }
-                                  });
+                                await context.SaveChangesAsync();
+                                transaction.Commit();
+                            } catch (Exception) {
+                                transaction.Rollback();
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         public bool IsSubscribedAndSelectable {
@@ -404,8 +395,7 @@ namespace Crystalbyte.Paranoia {
 
                 if (value) {
                     Task.Run(() => SubscribeAsync());
-                }
-                else {
+                } else {
                     Task.Run(() => UnsubscribeAsync());
                 }
             }
@@ -513,7 +503,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public async Task CreateMailboxAsync(string mailbox) {
-            using (var connection = new ImapConnection {Security = _account.ImapSecurity}) {
+            using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                 using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                     using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                         var name = string.Format("{0}{1}{2}", Name, Delimiter, mailbox);
@@ -538,7 +528,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task SubscribeAsync() {
-            using (var connection = new ImapConnection {Security = _account.ImapSecurity}) {
+            using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                 using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                     using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                         await session.SubscribeAsync(Name);
@@ -554,7 +544,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task UnsubscribeAsync() {
-            using (var connection = new ImapConnection {Security = _account.ImapSecurity}) {
+            using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                 using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                     using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                         await session.UnsubscribeAsync(Name);
@@ -586,56 +576,54 @@ namespace Crystalbyte.Paranoia {
                 IsSyncingMessages = true;
 
                 var results = await Task.Run(async () => {
-                                                       var name = _mailbox.Name;
-                                                       var maxUid = await GetMaxUidAsync();
-                                                       var account = await GetAccountAsync();
+                    var name = _mailbox.Name;
+                    var maxUid = await GetMaxUidAsync();
+                    var account = await GetAccountAsync();
 
-                                                       long[] seenUids;
-                                                       long[] unseenUids;
-                                                       List<MailMessageModel> messages;
+                    long[] seenUids;
+                    long[] unseenUids;
+                    List<MailMessageModel> messages;
 
-                                                       using (var connection = new ImapConnection
-                                                       {
-                                                           Security = account.ImapSecurity
-                                                       }) {
-                                                           using (
-                                                               var auth =
-                                                                   await
-                                                                       connection.ConnectAsync(account.ImapHost,
-                                                                           account.ImapPort)) {
-                                                               using (
-                                                                   var session =
-                                                                       await
-                                                                           auth.LoginAsync(account.ImapUsername,
-                                                                               account.ImapPassword)) {
-                                                                   var mailbox = await session.SelectAsync(name);
+                    using (var connection = new ImapConnection {
+                        Security = account.ImapSecurity
+                    }) {
+                        using (
+                            var auth =
+                                await
+                                    connection.ConnectAsync(account.ImapHost,
+                                        account.ImapPort)) {
+                            using (
+                                var session =
+                                    await
+                                        auth.LoginAsync(account.ImapUsername,
+                                            account.ImapPassword)) {
+                                var mailbox = await session.SelectAsync(name);
 
-                                                                   messages =
-                                                                       (await FetchRecentEnvelopesAsync(mailbox, maxUid))
-                                                                           .ToList();
-                                                                   seenUids =
-                                                                       (await mailbox.SearchAsync("1:* SEEN")).ToArray();
-                                                                   unseenUids =
-                                                                       (await mailbox.SearchAsync("1:* NOT SEEN"))
-                                                                           .ToArray();
-                                                               }
-                                                           }
-                                                       }
+                                messages =
+                                    (await FetchRecentEnvelopesAsync(mailbox, maxUid))
+                                        .ToList();
+                                seenUids =
+                                    (await mailbox.SearchAsync("1:* SEEN")).ToArray();
+                                unseenUids =
+                                    (await mailbox.SearchAsync("1:* NOT SEEN"))
+                                        .ToArray();
+                            }
+                        }
+                    }
 
-                                                       if (messages.Count > 0) {
-                                                           await SaveContactsAsync(messages);
-                                                           await SaveMessagesAsync(messages);
-                                                       }
+                    if (messages.Count > 0) {
+                        await SaveContactsAsync(messages);
+                        await SaveMessagesAsync(messages);
+                    }
 
-                                                       return new SyncResults
-                                                       {
-                                                           Messages =
-                                                               messages.Select(x => new MailMessageContext(this, x))
-                                                                   .ToArray(),
-                                                           UidsForSeen = new HashSet<long>(seenUids),
-                                                           UidsForUnseen = new HashSet<long>(unseenUids)
-                                                       };
-                                                   });
+                    return new SyncResults {
+                        Messages =
+                            messages.Select(x => new MailMessageContext(this, x))
+                                .ToArray(),
+                        UidsForSeen = new HashSet<long>(seenUids),
+                        UidsForUnseen = new HashSet<long>(unseenUids)
+                    };
+                });
 
                 if (results.Messages.Length > 0 && App.Context.SelectedMailbox == this) {
                     App.Context.NotifyMessagesAdded(results.Messages);
@@ -646,8 +634,7 @@ namespace Crystalbyte.Paranoia {
                 await CountNotSeenAsync();
 
                 return results.Messages;
-            }
-            finally {
+            } finally {
                 FetchedEnvelopeCount = 0;
                 IsSyncingMessages = false;
             }
@@ -656,33 +643,31 @@ namespace Crystalbyte.Paranoia {
         private async Task DetectAndChangeSeenStatesAsync(SyncResults results) {
             try {
                 var models = await Task.Run(async () => {
-                                                      using (var context = new DatabaseContext()) {
-                                                          var messages =
-                                                              await
-                                                                  context.MailMessages.Where(x => x.MailboxId == Id)
-                                                                      .ToArrayAsync();
-                                                          foreach (var message in messages) {
-                                                              var isSeen = results.UidsForSeen.Contains(message.Uid);
-                                                              if (message.HasFlag(MailMessageFlags.Seen) == isSeen) {
-                                                                  continue;
-                                                              }
+                    using (var context = new DatabaseContext()) {
+                        var messages =
+                            await
+                                context.MailMessages.Where(x => x.MailboxId == Id)
+                                    .ToArrayAsync();
+                        foreach (var message in messages) {
+                            var isSeen = results.UidsForSeen.Contains(message.Uid);
+                            if (message.HasFlag(MailMessageFlags.Seen) == isSeen) {
+                                continue;
+                            }
 
-                                                              if (isSeen) {
-                                                                  message.WriteFlag(MailMessageFlags.Seen);
-                                                              }
-                                                              else {
-                                                                  message.DropFlag(MailMessageFlags.Seen);
-                                                              }
-                                                          }
-                                                          await context.SaveChangesAsync();
-                                                          return messages;
-                                                      }
-                                                  });
+                            if (isSeen) {
+                                message.WriteFlag(MailMessageFlags.Seen);
+                            } else {
+                                message.DropFlag(MailMessageFlags.Seen);
+                            }
+                        }
+                        await context.SaveChangesAsync();
+                        return messages;
+                    }
+                });
 
                 var dictionary = models.ToDictionary(model => model.Id);
                 App.Context.NotifySeenStatesChanged(dictionary);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -694,43 +679,42 @@ namespace Crystalbyte.Paranoia {
             }
 
             var deletedIds = await Task.Run(async () => {
-                                                      using (var context = new DatabaseContext()) {
-                                                          var messages =
-                                                              await
-                                                                  context.MailMessages.Where(x => x.MailboxId == Id)
-                                                                      .ToArrayAsync();
-                                                          var deletedMessages =
-                                                              messages.Where(x => !uids.Contains(x.Uid)).ToArray();
+                using (var context = new DatabaseContext()) {
+                    var messages =
+                        await
+                            context.MailMessages.Where(x => x.MailboxId == Id)
+                                .ToArrayAsync();
+                    var deletedMessages =
+                        messages.Where(x => !uids.Contains(x.Uid)).ToArray();
 
-                                                          await context.Database.Connection.OpenAsync();
-                                                          using (
-                                                              var transaction =
-                                                                  context.Database.Connection.BeginTransaction()) {
-                                                              try {
-                                                                  foreach (var deletedMessage in deletedMessages) {
-                                                                      var message = deletedMessage;
-                                                                      var mime =
-                                                                          await
-                                                                              context.MimeMessages.FirstOrDefaultAsync(
-                                                                                  x => x.MessageId == message.Id);
-                                                                      if (mime != null) {
-                                                                          context.MimeMessages.Remove(mime);
-                                                                      }
+                    await context.Database.Connection.OpenAsync();
+                    using (
+                        var transaction =
+                            context.Database.Connection.BeginTransaction()) {
+                        try {
+                            foreach (var deletedMessage in deletedMessages) {
+                                var message = deletedMessage;
+                                var mime =
+                                    await
+                                        context.MimeMessages.FirstOrDefaultAsync(
+                                            x => x.MessageId == message.Id);
+                                if (mime != null) {
+                                    context.MimeMessages.Remove(mime);
+                                }
 
-                                                                      context.MailMessages.Remove(deletedMessage);
-                                                                  }
+                                context.MailMessages.Remove(deletedMessage);
+                            }
 
-                                                                  await context.SaveChangesAsync();
-                                                                  transaction.Commit();
-                                                              }
-                                                              catch (Exception) {
-                                                                  transaction.Rollback();
-                                                              }
-                                                          }
+                            await context.SaveChangesAsync();
+                            transaction.Commit();
+                        } catch (Exception) {
+                            transaction.Rollback();
+                        }
+                    }
 
-                                                          return deletedMessages.Select(x => x.Id).ToArray();
-                                                      }
-                                                  });
+                    return deletedMessages.Select(x => x.Id).ToArray();
+                }
+            });
 
             if (deletedIds.Length > 0 && App.Context.SelectedMailbox == this) {
                 App.Context.NotifyMessagesRemoved(deletedIds);
@@ -784,8 +768,7 @@ namespace Crystalbyte.Paranoia {
                 try {
                     var message = envelope.ToMailMessage();
                     messages.Add(message);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     Logger.Error(ex);
                 }
             }
@@ -814,8 +797,7 @@ namespace Crystalbyte.Paranoia {
 
 
                     var contexts = new List<MailContactContext>();
-                    foreach (var model in diff.Select(group => new MailContactModel
-                    {
+                    foreach (var model in diff.Select(group => new MailContactModel {
                         Address = group.First().FromAddress,
                         Name = group.First().FromName
                     })) {
@@ -832,8 +814,7 @@ namespace Crystalbyte.Paranoia {
                     await Application.Current.Dispatcher
                         .InvokeAsync(() => App.Context.NotifyContactsAdded(contexts));
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -845,7 +826,7 @@ namespace Crystalbyte.Paranoia {
                 messages.ForEach(x => x.IsSeen = false);
                 var uids = messages.Select(x => x.Uid).ToArray();
 
-                using (var connection = new ImapConnection {Security = _account.ImapSecurity}) {
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                     connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                     using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                         using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
@@ -856,8 +837,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 await CountNotSeenAsync();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 messages.ForEach(x => x.IsSeen = true);
                 Logger.Error(ex);
             }
@@ -870,7 +850,7 @@ namespace Crystalbyte.Paranoia {
                 messages.ForEach(x => x.IsSeen = true);
                 var uids = messages.Select(x => x.Uid).ToArray();
 
-                using (var connection = new ImapConnection {Security = _account.ImapSecurity}) {
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                     using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                         using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                             var folder = await session.SelectAsync(Name);
@@ -880,8 +860,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 await CountNotSeenAsync();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 messages.ForEach(x => x.IsSeen = false);
                 Logger.Error(ex);
             }
@@ -894,7 +873,7 @@ namespace Crystalbyte.Paranoia {
                 messages.ForEach(x => x.IsSeen = false);
                 var uids = messages.Select(x => x.Uid).ToArray();
 
-                using (var connection = new ImapConnection {Security = _account.ImapSecurity}) {
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                     connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                     using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                         using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
@@ -905,8 +884,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 await CountNotSeenAsync();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 messages.ForEach(x => x.IsSeen = true);
                 Logger.Error(ex);
             }
@@ -919,7 +897,7 @@ namespace Crystalbyte.Paranoia {
                 messages.ForEach(x => x.IsSeen = false);
                 var uids = messages.Select(x => x.Uid).ToArray();
 
-                using (var connection = new ImapConnection {Security = _account.ImapSecurity}) {
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                     connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
                     using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                         using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
@@ -930,8 +908,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 await CountNotSeenAsync();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 messages.ForEach(x => x.IsSeen = true);
                 Logger.Error(ex);
             }
@@ -977,8 +954,7 @@ namespace Crystalbyte.Paranoia {
 
                     await context.SaveChangesAsync();
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -1011,40 +987,31 @@ namespace Crystalbyte.Paranoia {
             IsIdling = true;
 
             await Task.Run(async () => {
-                                     Thread.CurrentThread.Name = string.Format("IDLE Thread ({0})", Name);
-                                     try {
-                                         using (var connection = new ImapConnection {Security = _account.ImapSecurity}) {
-                                             using (
-                                                 var auth =
-                                                     await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)
-                                                 ) {
-                                                 using (
-                                                     var session =
-                                                         await
-                                                             auth.LoginAsync(_account.ImapUsername,
-                                                                 _account.ImapPassword)) {
-                                                     if (!connection.CanIdle) {
-                                                         Logger.Info(Resources.IdleCommandNotSupported);
-                                                         return;
-                                                     }
-                                                     var mailbox = await session.SelectAsync(Name);
-                                                     try {
-                                                         mailbox.ChangeNotificationReceived +=
-                                                             OnChangeNotificationReceived;
-                                                         await mailbox.IdleAsync();
-                                                     }
-                                                     finally {
-                                                         mailbox.ChangeNotificationReceived -=
-                                                             OnChangeNotificationReceived;
-                                                     }
-                                                 }
-                                             }
-                                         }
-                                     }
-                                     catch (Exception ex) {
-                                         Logger.Error(ex);
-                                     }
-                                 });
+                Thread.CurrentThread.Name = string.Format("IDLE Thread ({0})", Name);
+                try {
+                    using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+                        using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+                            using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+                                if (!connection.CanIdle) {
+                                    Logger.Info(Resources.IdleCommandNotSupported);
+                                    return;
+                                }
+                                var mailbox = await session.SelectAsync(Name);
+                                try {
+                                    mailbox.ChangeNotificationReceived +=
+                                        OnChangeNotificationReceived;
+                                    await mailbox.IdleAsync();
+                                } finally {
+                                    mailbox.ChangeNotificationReceived -=
+                                        OnChangeNotificationReceived;
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception ex) {
+                    Logger.Error(ex);
+                }
+            });
 
             IsIdling = false;
         }
@@ -1055,27 +1022,25 @@ namespace Crystalbyte.Paranoia {
             Logger.Info(Resources.IdleChangeNotification);
 
             await Application.Current.Dispatcher.InvokeAsync(async () => {
-                                                                       try {
-                                                                           if (IsSyncingMessages) {
-                                                                               return;
-                                                                           }
+                try {
+                    if (IsSyncingMessages) {
+                        return;
+                    }
 
-                                                                           var messages = await SyncMessagesAsync();
-                                                                           if (messages.Count <= 0)
-                                                                               return;
+                    var messages = await SyncMessagesAsync();
+                    if (messages.Count <= 0)
+                        return;
 
-                                                                           var notification =
-                                                                               new NotificationWindow(messages)
-                                                                               {
-                                                                                   ShowActivated = false
-                                                                               };
+                    var notification =
+                        new NotificationWindow(messages) {
+                            ShowActivated = false
+                        };
 
-                                                                           notification.Show();
-                                                                       }
-                                                                       catch (Exception ex) {
-                                                                           Logger.Error(ex);
-                                                                       }
-                                                                   });
+                    notification.Show();
+                } catch (Exception ex) {
+                    Logger.Error(ex);
+                }
+            });
         }
 
         public bool HasChildren {
@@ -1104,7 +1069,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 var inbox = messages.First().Mailbox.Account.GetInbox();
-                using (var connection = new ImapConnection {Security = _account.ImapSecurity}) {
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                     using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                         using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                             var mailbox = await session.SelectAsync(Name);
@@ -1118,8 +1083,7 @@ namespace Crystalbyte.Paranoia {
                 await DeleteMessagesAsync(messages, _account.GetTrashMailbox().Name);
 
                 App.Context.NotifyMessagesRemoved(messages);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -1131,7 +1095,7 @@ namespace Crystalbyte.Paranoia {
                 messages.ForEach(x => x.IsFlagged = true);
                 var uids = messages.Select(x => x.Uid).ToArray();
 
-                using (var connection = new ImapConnection {Security = _account.ImapSecurity}) {
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                     using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                         using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                             var folder = await session.SelectAsync(Name);
@@ -1141,8 +1105,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 await CountNotSeenAsync();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 messages.ForEach(x => x.IsFlagged = false);
                 Logger.Error(ex);
             }
@@ -1155,7 +1118,7 @@ namespace Crystalbyte.Paranoia {
                 messages.ForEach(x => x.IsFlagged = false);
                 var uids = messages.Select(x => x.Uid).ToArray();
 
-                using (var connection = new ImapConnection {Security = _account.ImapSecurity}) {
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
                     using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
                         using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
                             var folder = await session.SelectAsync(Name);
@@ -1165,8 +1128,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 await CountNotSeenAsync();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 messages.ForEach(x => x.IsFlagged = true);
                 Logger.Error(ex);
             }
@@ -1210,8 +1172,7 @@ namespace Crystalbyte.Paranoia {
                     messages = await context.MailMessages
                         .Where(x => x.MailboxId == _mailbox.Id)
                         .ToArrayAsync();
-                }
-                else {
+                } else {
                     messages = await context.MailMessages
                         .Where(x => !x.Flags.Contains(MailMessageFlags.Seen))
                         .Where(x => x.MailboxId == _mailbox.Id)
@@ -1219,7 +1180,7 @@ namespace Crystalbyte.Paranoia {
                 }
             }
 
-            next:
+        next:
             return messages.Select(x => new MailMessageContext(this, x)).ToArray();
         }
 

@@ -188,16 +188,16 @@ namespace Crystalbyte.Paranoia {
                 KeyPairModel current = null;
 
                 var contacts = await Task.Run(() => {
-                                                  using (var context = new DatabaseContext()) {
-                                                      current = context.KeyPairs.OrderByDescending(x => x.Date).First();
-                                                      return Addresses
-                                                          .Select(x => context.MailContacts
-                                                              .Include("Keys")
-                                                              .FirstOrDefault(y => y.Address == x))
-                                                          .Where(w => w != null)
-                                                          .ToDictionary(z => z.Address);
-                                                  }
-                                              });
+                    using (var context = new DatabaseContext()) {
+                        current = context.KeyPairs.OrderByDescending(x => x.Date).First();
+                        return Addresses
+                            .Select(x => context.MailContacts
+                                .Include("Keys")
+                                .FirstOrDefault(y => y.Address == x))
+                            .Where(w => w != null)
+                            .ToDictionary(z => z.Address);
+                    }
+                });
 
                 var messages = new List<MailMessage>();
                 foreach (var address in Addresses) {
@@ -207,8 +207,7 @@ namespace Crystalbyte.Paranoia {
                         key = contact.Keys.FirstOrDefault();
                     }
 
-                    var message = new MailMessage
-                    {
+                    var message = new MailMessage {
                         IsBodyHtml = true,
                         Subject = Subject,
                         BodyEncoding = Encoding.UTF8,
@@ -231,8 +230,7 @@ namespace Crystalbyte.Paranoia {
 
                     if (key == null) {
                         messages.Add(message);
-                    }
-                    else {
+                    } else {
                         var nonce = PublicKeyCrypto.GenerateNonce();
                         var payload = await EncryptMessageAsync(message, current, key, nonce);
                         message = GenerateDeliveryMessage(account, current.PublicKey, address, nonce);
@@ -244,16 +242,14 @@ namespace Crystalbyte.Paranoia {
 
                 await account.SaveCompositionsAsync(messages);
                 await App.Context.NotifyOutboxNotEmpty();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
 
         private static MailMessage GenerateDeliveryMessage(MailAccountContext account, byte[] pKey, string address,
             byte[] nonce) {
-            var message = new MailMessage
-            {
+            var message = new MailMessage {
                 Subject = "BAZINGA !!",
                 BodyEncoding = Encoding.UTF8,
                 BodyTransferEncoding = TransferEncoding.Base64,
@@ -289,8 +285,7 @@ namespace Crystalbyte.Paranoia {
         private async void OnFinalize(object obj) {
             try {
                 await FinalizeAsync();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -302,16 +297,14 @@ namespace Crystalbyte.Paranoia {
         private void OnInsertAttachment(object obj) {
             try {
                 InsertAttachments();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
 
         internal void InsertAttachments() {
             try {
-                var dialog = new OpenFileDialog
-                {
+                var dialog = new OpenFileDialog {
                     Multiselect = true,
                     Filter = string.Format("{0} (*.*)|*.*", Resources.AllFiles)
                 };
@@ -326,8 +319,7 @@ namespace Crystalbyte.Paranoia {
                     .Select(name => new FileInfo(name))
                     .Where(x => x.Exists)
                     .Select(x => new FileAttachmentContext(x.FullName)));
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -341,7 +333,7 @@ namespace Crystalbyte.Paranoia {
             foreach (Match x in matches) {
                 var match = Regex.Match(x.Value, "src=\"(.*?)\"");
                 var result = match.Value.Replace("src=", string.Empty)
-                    .Trim(new[] {'"'})
+                    .Trim(new[] { '"' })
                     .Replace("asset://tempImage/", string.Empty);
 
                 Attachment attachment;
@@ -359,14 +351,13 @@ namespace Crystalbyte.Paranoia {
                     //name = "image.jpg";
                     //var stream = new MemoryStream(bytes);
                     //attachment = new Attachment(stream, name) { ContentId = (name + "@" + Guid.NewGuid()).Replace(" ", "") };
-                }
-                else {
+                } else {
                     var uri = new Uri(result, UriKind.RelativeOrAbsolute);
                     if (!uri.IsFile || !File.Exists(result))
                         continue;
 
                     name = new FileInfo(result).Name;
-                    attachment = new Attachment(result) {ContentId = (name + "@" + Guid.NewGuid()).Replace(" ", "")};
+                    attachment = new Attachment(result) { ContentId = (name + "@" + Guid.NewGuid()).Replace(" ", "") };
                 }
 
                 //message.Attachments.Add(attachment);

@@ -3,15 +3,15 @@
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes">
 
     <Style TargetType="TreeView">
-        <Setter Property="Background"
-                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewBackgroundBrushKey}}" />
-        <Setter Property="BorderBrush"
-                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewBorderBrushKey}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewBackgroundBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewBorderBrushKey}}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Margin" Value="0" />
+        <Setter Property="SnapsToDevicePixels" Value="False" />
+        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-        <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
         <Setter Property="ScrollViewer.PanningMode" Value="Both" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -23,7 +23,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            SnapsToDevicePixels="True"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                             UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
                         <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
@@ -31,8 +31,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="Border" Property="BorderBrush"
-                                    Value="{DynamicResource SystemColors.GrayTextBrushKey}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource SystemColors.GrayTextBrushKey}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -72,12 +71,10 @@
                             <VisualStateGroup x:Name="CheckStates">
                                 <VisualState x:Name="Checked">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Collapsed"
-                                                                       Storyboard.TargetProperty="(UIElement.Visibility)">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Collapsed" Storyboard.TargetProperty="(UIElement.Visibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Expanded"
-                                                                       Storyboard.TargetProperty="(UIElement.Visibility)">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Expanded" Storyboard.TargetProperty="(UIElement.Visibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
@@ -108,10 +105,8 @@
     </Style>
 
     <Style TargetType="TreeViewItem">
-        <Setter Property="Background"
-                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemBackgroundBrushKey}}" />
-        <Setter Property="BorderBrush"
-                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemBorderBrushKey}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemBackgroundBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemBorderBrushKey}}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
@@ -119,8 +114,7 @@
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Foreground"
-                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
         <Setter Property="FocusVisualStyle" Value="{DynamicResource TreeViewItemFocusVisual}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -135,8 +129,7 @@
                             <VisualStateGroup x:Name="ExpansionStates">
                                 <VisualState x:Name="Expanded">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ItemsHost"
-                                                                       Storyboard.TargetProperty="(UIElement.Visibility)">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ItemsHost" Storyboard.TargetProperty="(UIElement.Visibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
@@ -178,9 +171,7 @@
                                 <Rectangle x:Name="HoverArea"
                                            Grid.Column="0"
                                            Grid.ColumnSpan="2"
-                                           Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundOpacityKey}}"
-                                           SnapsToDevicePixels="True"
-                                           UseLayoutRounding="True" />
+                                           Opacity="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundOpacityKey}}" />
                                 <Border Grid.Row="0" Grid.Column="1">
                                     <ContentPresenter x:Name="PART_Header"
                                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -203,32 +194,26 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsSelected" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverArea" Property="Fill"
-                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                             <Setter TargetName="HoverArea" Property="Opacity" Value=".1" />
-                            <Setter Property="BorderBrush"
-                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="IsKeyboardFocused" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverArea" Property="Fill"
-                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-                            <Setter Property="BorderBrush"
-                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="IsKeyboardFocused" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverArea" Property="Fill"
-                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBackgroundBrushKey}}" />
+                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBackgroundBrushKey}}" />
                             <Setter TargetName="HoverArea" Property="Opacity" Value=".5" />
-                            <Setter Property="BorderBrush"
-                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBorderBrushKey}}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBorderBrushKey}}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -249,6 +234,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-
 </ResourceDictionary>

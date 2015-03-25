@@ -51,7 +51,7 @@ namespace Crystalbyte.Paranoia.Mail {
             Capabilities = new HashSet<string>();
             Certificates = new X509Certificate2Collection();
 
-            _tcpClient = new TcpClient {ReceiveTimeout = 5000, SendTimeout = 2000};
+            _tcpClient = new TcpClient { ReceiveTimeout = 5000, SendTimeout = 2000 };
         }
 
         public X509Certificate2Collection Certificates { get; private set; }
@@ -127,10 +127,9 @@ namespace Crystalbyte.Paranoia.Mail {
 
             var stream = _tcpClient.GetStream();
 
-            // We require an 8bit (not 7bit as ASCII) encoding to retain byte integrity.
-            _reader = new StreamReader(stream, Encoding.UTF8, false);
-            //_reader = new StreamReader(stream, Encoding.GetEncoding(CodePages.Latin1), false);
-            _writer = new StreamWriter(stream) {AutoFlush = true};
+            // We require an 8bit encoding to retain byte integrity.
+            _reader = new StreamReader(stream, Encoding.ASCII, false);
+            _writer = new StreamWriter(stream) { AutoFlush = true };
 
             // Use implicit encryption (SSL).
             if (Security == SecurityProtocol.Implicit) {
@@ -209,7 +208,7 @@ namespace Crystalbyte.Paranoia.Mail {
                 _secureStream.AuthenticateAsClientAsync(host, Certificates, SslProtocols.Ssl3 | SslProtocols.Tls, true);
 
             _reader = new StreamReader(_secureStream, Encoding.UTF8, false);
-            _writer = new StreamWriter(_secureStream) {AutoFlush = true};
+            _writer = new StreamWriter(_secureStream) { AutoFlush = true };
 
             OnEncryptionProtocolNegotiated(_secureStream.SslProtocol, _secureStream.CipherStrength);
         }
