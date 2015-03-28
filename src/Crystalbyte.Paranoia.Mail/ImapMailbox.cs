@@ -209,7 +209,10 @@ namespace Crystalbyte.Paranoia.Mail {
             }
 
             while (true) {
-                await _connection.ReadAsync();
+                var line = await _connection.ReadAsync();
+                if (string.IsNullOrEmpty(line.Text)) {
+                    break;
+                }
                 OnChangeNotificationReceived();
             }
         }

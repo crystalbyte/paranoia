@@ -115,7 +115,8 @@ namespace Crystalbyte.Paranoia.Mail.Mime.Header {
         ///     This header describes the Content encoding during transfer.<br />
         ///     <br />
         ///     If no Content-Transfer-Encoding header was present in the message, it is set
-        ///     to the default of <see cref="Crystalbyte.Paranoia.Messaging.Mime.Header.ContentTransferEncodingnce to the RFC.
+        ///     to the default of <see cref="Crystalbyte.Paranoia.Mail.Mime.Header.ContentTransferEncoding"></see> to the RFC.
+        /// 
         /// 
         /// </summary>
         /// <remarks>

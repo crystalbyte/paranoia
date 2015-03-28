@@ -42,6 +42,7 @@ namespace Crystalbyte.Paranoia.UI {
     /// </summary>
     [TemplatePart(Name = WebBrowserTemplatePart, Type = typeof (ChromiumWebBrowser))]
     public class HtmlViewer : Control, IRequestAware {
+
         #region Xaml Support
 
         private const string WebBrowserTemplatePart = "PART_WebBrowser";

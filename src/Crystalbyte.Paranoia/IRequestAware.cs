@@ -23,5 +23,7 @@
 #endregion
 
 namespace Crystalbyte.Paranoia {
-    public interface IRequestAware {}
+    public interface IRequestAware {
+        // Empty for now ...
+    }
 }
