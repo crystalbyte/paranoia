@@ -22,6 +22,8 @@
 
 #endregion
 
+using Crystalbyte.Paranoia.UI.Converters;
+
 #region Using Directives
 
 using System;
@@ -106,6 +108,12 @@ namespace Crystalbyte.Paranoia {
             var metas = quote["meta"];
             if (metas != null) {
                 metas.ForEach(x => x.Remove());
+            }
+
+            // Drop all 'target' attributes in hyperlinks, these pop unwanted windows.
+            var targets = quote["a[target]"];
+            if (targets != null) {
+                targets.ForEach(x => x.RemoveAttribute("target"));    
             }
 
             const string name = "/Resources/inspection.html";

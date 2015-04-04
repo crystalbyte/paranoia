@@ -56,6 +56,7 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(MessageCommands.Forward, OnForward));
             CommandBindings.Add(new CommandBinding(MessageCommands.Inspect, OnInspect, OnCanInspect));
             CommandBindings.Add(new CommandBinding(MessageCommands.QuickSearch, OnQuickSearch));
+            CommandBindings.Add(new CommandBinding(MessageCommands.CancelSearch, OnCancelSearch));
             CommandBindings.Add(new CommandBinding(MailboxCommands.Create, OnCreateMailbox, OnCanCreateMailbox));
             CommandBindings.Add(new CommandBinding(MailboxCommands.Delete, OnDeleteMailbox, OnCanDeleteMailbox));
             CommandBindings.Add(new CommandBinding(MailboxCommands.Sync, OnSyncMailbox, OnCanSyncMailbox));
@@ -65,11 +66,19 @@ namespace Crystalbyte.Paranoia.UI {
             NetworkChange.NetworkAvailabilityChanged +=
                 (sender, e) => CommandManager.InvalidateRequerySuggested();
 
-            _messageViewSource = (CollectionViewSource) Resources["MessagesSource"];
+            _messageViewSource = (CollectionViewSource)Resources["MessagesSource"];
 
             var context = App.Context;
             context.SortOrderChanged += OnSortOrderChanged;
             context.ItemSelectionRequested += OnItemSelectionRequested;
+        }
+
+        private void OnCancelSearch(object sender, ExecutedRoutedEventArgs e) {
+            var textBox = (WatermarkTextBox)e.OriginalSource;
+            textBox.Text = string.Empty;
+
+            var request = new TraversalRequest(FocusNavigationDirection.Previous);
+            MoveFocus(request);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
@@ -84,8 +93,7 @@ namespace Crystalbyte.Paranoia.UI {
             var source = _messageViewSource.View.Cast<object>().ToList();
             if (e.Position == SelectionPosition.First) {
                 MessagesListView.SelectedIndex = 0;
-            }
-            else {
+            } else {
                 var index = e.PivotElements.GroupBy(source.IndexOf).Max(x => x.Key) + 1;
                 var item = MessagesListView.ItemContainerGenerator.ContainerFromIndex(index) as ListViewItem;
                 if (item != null) {
@@ -103,7 +111,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var mailbox = (MailboxContext) e.Parameter;
+            var mailbox = (MailboxContext)e.Parameter;
             if (!mailbox.IsSyncingMessages) {
                 await mailbox.SyncMessagesAsync();
             }
@@ -118,33 +126,33 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private static void OnCanDeleteMailbox(object sender, CanExecuteRoutedEventArgs e) {
-            var mailbox = (MailboxContext) e.Parameter;
+            var mailbox = (MailboxContext)e.Parameter;
             e.CanExecute = mailbox != null && mailbox.IsSelectable;
         }
 
         private static async void OnDeleteMailbox(object sender, ExecutedRoutedEventArgs e) {
-            var mailbox = (MailboxContext) e.Parameter;
+            var mailbox = (MailboxContext)e.Parameter;
             await mailbox.DeleteAsync();
         }
 
         private static void OnCreateMailbox(object sender, ExecutedRoutedEventArgs e) {
-            var parent = (IMailboxCreator) e.Parameter;
+            var parent = (IMailboxCreator)e.Parameter;
             App.Context.CreateMailbox(parent);
         }
 
         private static void OnCanCreateMailbox(object sender, CanExecuteRoutedEventArgs e) {
-            var parent = (IMailboxCreator) e.Parameter;
+            var parent = (IMailboxCreator)e.Parameter;
             e.CanExecute = parent.CanHaveChildren;
         }
 
         public SortProperty SortProperty {
-            get { return (SortProperty) GetValue(SortPropertyProperty); }
+            get { return (SortProperty)GetValue(SortPropertyProperty); }
             set { SetValue(SortPropertyProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for SortProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SortPropertyProperty =
-            DependencyProperty.Register("SortProperty", typeof (SortProperty), typeof (MessagesPage),
+            DependencyProperty.Register("SortProperty", typeof(SortProperty), typeof(MessagesPage),
                 new PropertyMetadata(SortProperty.Date));
 
         private static void OnCanInspect(object sender, CanExecuteRoutedEventArgs e) {
@@ -191,7 +199,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var tree = (TreeView) sender;
+            var tree = (TreeView)sender;
             var value = tree.SelectedValue;
 
             App.Context.SelectedOutbox = value as OutboxContext;
@@ -230,7 +238,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var container = (Control) SmtpRequestsListView.ItemContainerGenerator.ContainerFromItem(request);
+            var container = (Control)SmtpRequestsListView.ItemContainerGenerator.ContainerFromItem(request);
             if (container != null) {
                 container.Focus();
             }
@@ -258,7 +266,7 @@ namespace Crystalbyte.Paranoia.UI {
             if (message == null)
                 return;
 
-            var container = (Control) MessagesListView
+            var container = (Control)MessagesListView
                 .ItemContainerGenerator.ContainerFromItem(message);
             if (container != null) {
                 container.Focus();
@@ -269,8 +277,8 @@ namespace Crystalbyte.Paranoia.UI {
             if (!IsLoaded) {
                 return;
             }
-            var view = (ListView) sender;
-            var attachment = (AttachmentContext) view.SelectedValue;
+            var view = (ListView)sender;
+            var attachment = (AttachmentContext)view.SelectedValue;
             if (attachment == null) {
                 return;
             }
@@ -307,15 +315,15 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnSortPropertyMenuItemClicked(object sender, RoutedEventArgs e) {
-            var item = (MenuItem) sender;
-            var app = (AppContext) DataContext;
+            var item = (MenuItem)sender;
+            var app = (AppContext)DataContext;
             var direction = app.IsSortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending;
-            Sort((SortProperty) item.DataContext, direction);
+            Sort((SortProperty)item.DataContext, direction);
         }
 
         private void Sort(SortProperty property, ListSortDirection direction) {
             SortProperty = property;
-            var source = (CollectionViewSource) Resources["MessagesSource"];
+            var source = (CollectionViewSource)Resources["MessagesSource"];
             source.SortDescriptions.Clear();
 
             string name;
@@ -344,7 +352,7 @@ namespace Crystalbyte.Paranoia.UI {
         private DependencyObject _activeDragSource;
 
         private void OnPreviewMouseLeftButtonDownMessagesListView(object sender, MouseButtonEventArgs e) {
-            var list = (ListView) sender;
+            var list = (ListView)sender;
 
             _mousePosition = e.GetPosition(list);
             VisualTreeHelper.HitTest(list, OnHitTestFilter, OnHitTestResult,
@@ -370,7 +378,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnMouseMoveMessagesListView(object sender, MouseEventArgs e) {
-            var list = (ListView) sender;
+            var list = (ListView)sender;
             if (_activeDragSource == null)
                 return;
 
@@ -388,16 +396,15 @@ namespace Crystalbyte.Paranoia.UI {
             var virtualFileObject = new VirtualFileDataObject();
 
             virtualFileObject.SetData((from MailMessageContext item in MessagesListView.SelectedItems
-                select new VirtualFileDataObject.FileDescriptor
-                {
-                    Name = GetValidFileName(item.Subject) + ".eml",
-                    Length = item.Size,
-                    ChangeTimeUtc = DateTime.UtcNow,
-                    StreamContents = stream => {
-                                         var bytes = LoadMessageBytes(item.Id);
-                                         stream.Write(bytes, 0, bytes.Length);
-                                     }
-                }).ToArray());
+                                       select new VirtualFileDataObject.FileDescriptor {
+                                           Name = GetValidFileName(item.Subject) + ".eml",
+                                           Length = item.Size,
+                                           ChangeTimeUtc = DateTime.UtcNow,
+                                           StreamContents = stream => {
+                                               var bytes = LoadMessageBytes(item.Id);
+                                               stream.Write(bytes, 0, bytes.Length);
+                                           }
+                                       }).ToArray());
             VirtualFileDataObject.DoDragDrop(sender as DependencyObject, virtualFileObject, DragDropEffects.Copy);
         }
 

@@ -14,7 +14,7 @@
       Title="Messages"
       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
       d:DataContext="{d:DesignInstance paranoia:AppContext}"
-      d:DesignHeight="553.714"  
+      d:DesignHeight="553.714"
       d:DesignWidth="1072.625"
       mc:Ignorable="d">
     <Page.InputBindings>
@@ -426,7 +426,11 @@
                                                Text="{Binding QueryString,
                                                               Mode=TwoWay,
                                                               UpdateSourceTrigger=PropertyChanged}"
-                                               Watermark="{x:Static properties:Resources.SearchBoxWatermark}" />
+                                               Watermark="{x:Static properties:Resources.SearchBoxWatermark}">
+                        <controls:WatermarkTextBox.InputBindings>
+                            <KeyBinding Key="Escape" Command="ui:MessageCommands.CancelSearch" />
+                        </controls:WatermarkTextBox.InputBindings>
+                    </controls:WatermarkTextBox>
                 </Border>
                 <DockPanel Grid.Row="2"
                            Margin="12,0,12,0"
