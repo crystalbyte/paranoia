@@ -7,49 +7,48 @@
              xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
              xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
              xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
+             Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+             BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+             BorderThickness="0"
              IsTabStop="False"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             Visibility="{Binding IsFishy,
+                                  FallbackValue={x:Static Visibility.Collapsed},
+                                  TargetNullValue={x:Static Visibility.Collapsed},
+                                  Converter={StaticResource BooleanToVisibilityConverter}}"
              d:DataContext="{d:DesignInstance paranoia:MailMessageContext}"
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
-    <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-            BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
-            BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"
-            SnapsToDevicePixels="True"
-            UseLayoutRounding="True"
-            Visibility="{Binding IsFishy,
-                                 FallbackValue={x:Static Visibility.Collapsed},
-                                 TargetNullValue={x:Static Visibility.Collapsed},
-                                 Converter={StaticResource BooleanToVisibilityConverter}}">
-        <DockPanel LastChildFill="True">
-            <Button Margin="8,6"
-                    VerticalAlignment="Center"
-                    Command="{Binding ClassifyContactCommand,
-                                      FallbackValue={x:Static ui:AppCommands.NoOperation},
-                                      TargetNullValue={x:Static ui:AppCommands.NoOperation}}"
-                    CommandParameter="{x:Static paranoia:ContactClassification.Genuine}"
-                    DockPanel.Dock="Right">
-                <TextBlock Margin="12,3"
-                           RenderOptions.ClearTypeHint="Enabled"
-                           Text="{x:Static properties:Resources.Nay}" />
-            </Button>
-            <Button Margin="0,6"
-                    VerticalAlignment="Center"
-                    Command="{Binding ClassifyContactCommand,
-                                      FallbackValue={x:Static ui:AppCommands.NoOperation},
-                                      TargetNullValue={x:Static ui:AppCommands.NoOperation}}"
-                    CommandParameter="{x:Static paranoia:ContactClassification.Spam}"
-                    DockPanel.Dock="Right">
-                <TextBlock Margin="12,3"
-                           RenderOptions.ClearTypeHint="Enabled"
-                           Text="{x:Static properties:Resources.Yea}" />
-            </Button>
-            <TextBlock Margin="6,0"
-                       VerticalAlignment="Center"
+    <DockPanel LastChildFill="True">
+        <Button Margin="8,6"
+                VerticalAlignment="Center"
+                Command="{Binding ClassifyContactCommand,
+                                  FallbackValue={x:Static ui:AppCommands.NoOperation},
+                                  TargetNullValue={x:Static ui:AppCommands.NoOperation}}"
+                CommandParameter="{x:Static paranoia:ContactClassification.Genuine}"
+                DockPanel.Dock="Right">
+            <TextBlock Margin="12,3"
                        RenderOptions.ClearTypeHint="Enabled"
-                       Text="{x:Static properties:Resources.IsFishyNotice}"
-                       TextTrimming="CharacterEllipsis"
-                       TextWrapping="NoWrap" />
-        </DockPanel>
-    </Border>
+                       Text="{x:Static properties:Resources.Nay}" />
+        </Button>
+        <Button Margin="0,6"
+                VerticalAlignment="Center"
+                Command="{Binding ClassifyContactCommand,
+                                  FallbackValue={x:Static ui:AppCommands.NoOperation},
+                                  TargetNullValue={x:Static ui:AppCommands.NoOperation}}"
+                CommandParameter="{x:Static paranoia:ContactClassification.Spam}"
+                DockPanel.Dock="Right">
+            <TextBlock Margin="12,3"
+                       RenderOptions.ClearTypeHint="Enabled"
+                       Text="{x:Static properties:Resources.Yea}" />
+        </Button>
+        <TextBlock Margin="6,0"
+                   VerticalAlignment="Center"
+                   RenderOptions.ClearTypeHint="Enabled"
+                   Text="{x:Static properties:Resources.IsFishyNotice}"
+                   TextTrimming="CharacterEllipsis"
+                   TextWrapping="NoWrap" />
+    </DockPanel>
 </UserControl>

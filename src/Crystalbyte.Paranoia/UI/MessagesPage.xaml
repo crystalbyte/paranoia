@@ -14,7 +14,7 @@
       Title="Messages"
       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
       d:DataContext="{d:DesignInstance paranoia:AppContext}"
-      d:DesignHeight="553.714"
+      d:DesignHeight="553.714"  
       d:DesignWidth="1072.625"
       mc:Ignorable="d">
     <Page.InputBindings>

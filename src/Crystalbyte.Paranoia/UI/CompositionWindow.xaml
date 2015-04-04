@@ -52,10 +52,9 @@
                                         ConverterParameter=48}"
                        Stretch="Uniform" />
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                    <TextBlock
-                        FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
-                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
-                        Text="{Binding Name}" />
+                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
+                               Text="{Binding Name}" />
                     <TextBlock x:Name="AddressBlock"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
@@ -64,8 +63,7 @@
             </Grid>
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                    <Setter TargetName="AddressBlock" Property="Foreground"
-                            Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+                    <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
                 </DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
@@ -186,15 +184,9 @@
                            VerticalAlignment="Center"
                            WindowChrome.IsHitTestVisibleInChrome="False"
                            d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}">
-                    <Run
-                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
-                        Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
-                    <Run
-                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
-                        Text=" - " />
-                    <Run
-                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
-                        Text="{x:Static properties:Resources.ApplicationLongName}" />
+                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}" Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
+                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text=" - " />
+                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
                 </TextBlock>
             </StackPanel>
         </Grid>
@@ -351,11 +343,8 @@
                                            TextWrapping="NoWrap" />
                             </Grid>
                             <DataTemplate.Triggers>
-                                <DataTrigger
-                                    Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ComboBoxItem}}"
-                                    Value="True">
-                                    <Setter TargetName="AddressBlock" Property="Foreground"
-                                            Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ComboBoxItem}}" Value="True">
+                                    <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -445,7 +434,7 @@
                 <ListView Grid.Row="2"
                           Grid.Column="0"
                           Grid.ColumnSpan="4"
-                          BorderThickness="0,1,0,0"
+                          BorderThickness="0,0,0,1"
                           IsTabStop="False"
                           ItemTemplate="{StaticResource FileThumbnailTemplate}"
                           ItemsSource="{Binding Attachments}"
@@ -471,8 +460,7 @@
                     <ListView.ItemContainerStyle>
                         <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                             <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClick" />
-                            <Setter Property="Background"
-                                    Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewBackgroundBrushKey}}" />
+                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewBackgroundBrushKey}}" />
                             <Setter Property="BorderBrush" Value="Transparent" />
                         </Style>
                     </ListView.ItemContainerStyle>
