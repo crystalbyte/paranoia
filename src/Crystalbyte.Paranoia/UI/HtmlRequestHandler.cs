@@ -51,7 +51,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Implementation of IRequestHandler
 
-        public bool OnBeforeBrowse(IWebBrowser browser, IRequest request, bool isRedirect) {
+        public bool OnBeforeBrowse(IWebBrowser browser, IRequest request, bool isRedirect, bool isMainFrame) {
             try {
                 Logger.Debug(string.Format(Resources.NavigationInfoTemplate, request.Url));
 
@@ -88,7 +88,7 @@ namespace Crystalbyte.Paranoia.UI {
             Logger.Error(pluginPath);
         }
 
-        public bool OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IResponse response) {
+        public bool OnBeforeResourceLoad(IWebBrowser browser, IRequest request, bool isMainFrame) {
             try {
                 Logger.Debug(string.Format(Resources.ResourceRequestTemplate, request.Url));
                 return false;
@@ -105,8 +105,8 @@ namespace Crystalbyte.Paranoia.UI {
             return false;
         }
 
-        public bool OnBeforePluginLoad(IWebBrowser browser, string url, string policyUrl, IWebPluginInfo info) {
-            return false;
+        public bool OnBeforePluginLoad(IWebBrowser browser, string url, string policyUrl, WebPluginInfo info) {
+            return true;
         }
 
         public void OnRenderProcessTerminated(IWebBrowser browser, CefTerminationStatus status) {
