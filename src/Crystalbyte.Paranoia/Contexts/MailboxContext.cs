@@ -1181,7 +1181,7 @@ namespace Crystalbyte.Paranoia {
             }
 
         next:
-            return messages.Select(x => new MailMessageContext(this, x)).ToArray();
+            return messages.Select(x => new MailMessageContext(this, x));
         }
 
         #endregion

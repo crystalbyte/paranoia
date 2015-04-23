@@ -292,7 +292,7 @@
     </Compile>
     <Compile Include="MailboxRoles.cs" />
     <Compile Include="MediaTypes.cs" />
-    <Compile Include="MessageDecryptionFailed.cs" />
+    <Compile Include="MessageDecryptionFailedException.cs" />
     <Compile Include="MessageNotFoundException.cs" />
     <Compile Include="ResourceNotFoundException.cs" />
     <Compile Include="UI\BlockNoticeControl.xaml.cs">

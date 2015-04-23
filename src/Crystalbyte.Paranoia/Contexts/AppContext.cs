@@ -559,7 +559,9 @@ namespace Crystalbyte.Paranoia {
                 }
                 _showAllMessages = value;
                 RaisePropertyChanged(() => ShowAllMessages);
-                OnMessageFilterChanged();
+                if (value) {
+                    OnMessageFilterChanged();
+                }
             }
         }
 
@@ -571,7 +573,9 @@ namespace Crystalbyte.Paranoia {
                 }
                 _showOnlyWithAttachments = value;
                 RaisePropertyChanged(() => ShowOnlyWithAttachments);
-                OnMessageFilterChanged();
+                if (value) {
+                    OnMessageFilterChanged();    
+                }
             }
         }
 
@@ -583,7 +587,9 @@ namespace Crystalbyte.Paranoia {
                 }
                 _showOnlyFavorites = value;
                 RaisePropertyChanged(() => ShowOnlyFavorites);
-                OnMessageFilterChanged();
+                if (value) {
+                    OnMessageFilterChanged();
+                }
             }
         }
 
