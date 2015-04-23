@@ -45,13 +45,12 @@ namespace Crystalbyte.Paranoia {
             OnRequestCompletedHandler requestCompletedCallback) {
             try {
                 Task.Run(() => {
-                             ComposeCompositionResponse(request, response);
-                             requestCompletedCallback();
-                         });
+                    ComposeCompositionResponse(request, response);
+                    requestCompletedCallback();
+                });
 
                 return true;
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
                 return false;
             }

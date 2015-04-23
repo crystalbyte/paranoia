@@ -702,7 +702,9 @@ namespace Crystalbyte.Paranoia {
                         var analyzer = new SimpleSpamDetector(text);
                         var isfishy = await analyzer.GetIsSpamAsync();
                         await
-                            Application.Current.Dispatcher.InvokeAsync(() => { IsFishy = isfishy; });
+                            Application.Current.Dispatcher.InvokeAsync(() => {
+                                IsFishy = isfishy;
+                            });
                     }
 
                     var to = new List<MailContactContext>();

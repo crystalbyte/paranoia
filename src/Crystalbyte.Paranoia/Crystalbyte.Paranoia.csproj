@@ -469,7 +469,6 @@
     <Compile Include="UI\Converters\GravatarImageConverter.cs" />
     <Compile Include="UI\Converters\MailboxLocalizer.cs" />
     <Compile Include="UI\Converters\NullToVisibilityConverter.cs" />
-    <Compile Include="UI\SafeWebFontProvider.cs" />
     <Compile Include="UI\ItemsControlExtensions.cs" />
     <Compile Include="UI\TypeExtensions.cs" />
     <Compile Include="UI\RichTextBoxExtensions.cs" />
@@ -771,6 +770,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\message.facade.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\warning.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -29,9 +29,9 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}">White</SolidColorBrush>
 
     <!--  Window Scope  -->
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}" Color="#EDEDEF" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}" Color="#F9F9FB" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}" Color="#222" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="#F8F8F9" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}" Color="#11000000" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowBrushKey}" Color="Black" />
@@ -74,8 +74,8 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewBorderBrushKey}" Color="{StaticResource ControlBorderColorKey}" />
 
     <!--  ListViewItem Scope  -->
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemBackgroundBrushKey}" Color="#FFF8F8F9" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemBorderBrushKey}" Color="#FFF8F8F9" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemBackgroundBrushKey}" Color="White" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemBorderBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBackgroundBrushKey}" Color="#DEDEDE" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBorderBrushKey}" Color="#DEDEDE" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundBrushKey}" Color="{StaticResource ItemMouseOverBackgroundColorKey}" />
@@ -120,8 +120,8 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewBorderBrushKey}" Color="Transparent" />
 
     <!--  TreeViewItem Scope  -->
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBackgroundBrushKey}" Color="#FFF8F8F9" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBorderBrushKey}" Color="Transparent" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBackgroundBrushKey}" Color="White" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBorderBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBackgroundBrushKey}" Color="#DEDEDE" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBorderBrushKey}" Color="#DEDEDE" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}" Color="{StaticResource ItemMouseOverBackgroundColorKey}" />
