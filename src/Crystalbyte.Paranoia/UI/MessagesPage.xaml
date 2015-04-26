@@ -924,9 +924,7 @@
                       Width="1"
                       HorizontalAlignment="Stretch"
                       IsTabStop="False" />
-        <Grid Grid.Row="0"
-              Grid.Column="4"
-              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}">
+        <Grid Grid.Row="0" Grid.Column="4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -967,7 +965,7 @@
                                TextWrapping="NoWrap" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
-                               Margin="12,0,6,0"
+                               Margin="12,-3,6,0"
                                DataContext="{Binding SelectedMessage}"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                FontWeight="Normal"

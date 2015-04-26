@@ -60,78 +60,72 @@ namespace Crystalbyte.Paranoia {
 
                 if (Regex.IsMatch(uri.AbsolutePath, "[0-9]+")) {
                     Task.Run(() => {
-                                 try {
-                                     ComposeInspectionResponse(request, response);
-                                     requestCompletedCallback();
-                                 }
-                                 catch (Exception ex) {
-                                     Logger.Error(ex);
-                                 }
-                             });
+                        try {
+                            ComposeInspectionResponse(request, response);
+                            requestCompletedCallback();
+                        } catch (Exception ex) {
+                            Logger.Error(ex);
+                        }
+                    });
 
                     return true;
                 }
 
                 if (Regex.IsMatch(uri.AbsolutePath, "new")) {
                     Task.Run(() => {
-                                 try {
-                                     ComposeBlankCompositionResponse(response);
-                                     requestCompletedCallback();
-                                     Logger.Debug("End new message.");
-                                 }
-                                 catch (Exception ex) {
-                                     Logger.Error(ex);
-                                 }
-                             });
+                        try {
+                            ComposeBlankCompositionResponse(response);
+                            requestCompletedCallback();
+                            Logger.Debug("End new message.");
+                        } catch (Exception ex) {
+                            Logger.Error(ex);
+                        }
+                    });
 
                     return true;
                 }
 
                 if (Regex.IsMatch(uri.AbsolutePath, "reply")) {
                     Task.Run(() => {
-                                 try {
-                                     ComposeQuotedCompositionResponse(request, response);
-                                     requestCompletedCallback();
-                                 }
-                                 catch (Exception ex) {
-                                     Logger.Error(ex);
-                                 }
-                             });
+                        try {
+                            ComposeQuotedCompositionResponse(request, response);
+                            requestCompletedCallback();
+                        } catch (Exception ex) {
+                            Logger.Error(ex);
+                        }
+                    });
 
                     return true;
                 }
 
                 if (Regex.IsMatch(uri.AbsolutePath, "forward")) {
                     Task.Run(() => {
-                                 try {
-                                     ComposeQuotedCompositionResponse(request, response);
-                                     requestCompletedCallback();
-                                 }
-                                 catch (Exception ex) {
-                                     Logger.Error(ex);
-                                 }
-                             });
+                        try {
+                            ComposeQuotedCompositionResponse(request, response);
+                            requestCompletedCallback();
+                        } catch (Exception ex) {
+                            Logger.Error(ex);
+                        }
+                    });
 
                     return true;
                 }
 
                 if (Regex.IsMatch(uri.AbsolutePath, "part")) {
                     Task.Run(() => {
-                                 try {
-                                     ComposeCidImageResponse(request, response);
-                                     requestCompletedCallback();
-                                 }
-                                 catch (Exception ex) {
-                                     Logger.Error(ex);
-                                 }
-                             });
+                        try {
+                            ComposeCidImageResponse(request, response);
+                            requestCompletedCallback();
+                        } catch (Exception ex) {
+                            Logger.Error(ex);
+                        }
+                    });
 
                     return true;
                 }
 
                 return false;
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
                 return false;
             }
@@ -212,9 +206,9 @@ namespace Crystalbyte.Paranoia {
         private static string RemoveExternalSources(string content) {
             const string pattern = "src=(\"|')(?<URL>http(s){0,1}://.+?)(\"|')";
             content = Regex.Replace(content, pattern, m => {
-                                                          var resource = m.Groups["URL"].Value;
-                                                          return m.Value.Replace(resource, "");
-                                                      },
+                var resource = m.Groups["URL"].Value;
+                return m.Value.Replace(resource, "");
+            },
                 RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
             return content;

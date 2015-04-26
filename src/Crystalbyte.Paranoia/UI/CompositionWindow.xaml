@@ -166,30 +166,33 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0"
-              Margin="0,0,0,4"
-              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}">
-            <StackPanel Height="36"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal"
-                        d:DataContext="{d:DesignInstance Page}">
-                <Image Width="20"
-                       Margin="10,0"
-                       DockPanel.Dock="Left"
-                       RenderOptions.BitmapScalingMode="HighQuality"
-                       Source="/Assets/logo.window.png" />
-                <TextBlock x:Name="TitleBlock"
-                           Margin="0"
-                           VerticalAlignment="Center"
-                           WindowChrome.IsHitTestVisibleInChrome="False"
-                           d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}">
-                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}" Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
-                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text=" - " />
-                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
-                </TextBlock>
-            </StackPanel>
-        </Grid>
+        <Border Grid.Row="0"
+                Margin="0,0,0,4"
+                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                BorderThickness="0,0,0,1">
+            <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}">
+                <StackPanel Height="36"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            d:DataContext="{d:DesignInstance Page}">
+                    <Image Width="20"
+                           Margin="10,0"
+                           DockPanel.Dock="Left"
+                           RenderOptions.BitmapScalingMode="HighQuality"
+                           Source="/Assets/logo.window.png" />
+                    <TextBlock x:Name="TitleBlock"
+                               Margin="0"
+                               VerticalAlignment="Center"
+                               WindowChrome.IsHitTestVisibleInChrome="False"
+                               d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}">
+                        <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}" Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
+                        <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text=" - " />
+                        <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+        </Border>
         <Grid Grid.Row="0"
               HorizontalAlignment="Right"
               VerticalAlignment="Top"

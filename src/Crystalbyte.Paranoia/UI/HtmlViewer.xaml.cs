@@ -40,7 +40,7 @@ namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     ///     Interaction logic for HtmlViewer.xaml
     /// </summary>
-    [TemplatePart(Name = WebBrowserTemplatePart, Type = typeof (ChromiumWebBrowser))]
+    [TemplatePart(Name = WebBrowserTemplatePart, Type = typeof(ChromiumWebBrowser))]
     public class HtmlViewer : Control, IRequestAware {
 
         #region Xaml Support
@@ -59,8 +59,8 @@ namespace Crystalbyte.Paranoia.UI {
         #region Construction
 
         static HtmlViewer() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (HtmlViewer),
-                new FrameworkPropertyMetadata(typeof (HtmlViewer)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(HtmlViewer),
+                new FrameworkPropertyMetadata(typeof(HtmlViewer)));
         }
 
         public HtmlViewer() {
@@ -73,8 +73,7 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnViewSource(object sender, ExecutedRoutedEventArgs e) {
             try {
                 _browser.ViewSource();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -86,17 +85,15 @@ namespace Crystalbyte.Paranoia.UI {
         internal async Task PrintAsync() {
             var browser = new WebBrowser();
             browser.Navigated += (x, y) => {
-                                     try {
-                                         dynamic document = browser.Document;
-                                         document.execCommand("print", true, null);
-                                     }
-                                     catch (Exception ex) {
-                                         Logger.Error(ex);
-                                     }
-                                     finally {
-                                         browser.Dispose();
-                                     }
-                                 };
+                try {
+                    dynamic document = browser.Document;
+                    document.execCommand("print", true, null);
+                } catch (Exception ex) {
+                    Logger.Error(ex);
+                } finally {
+                    browser.Dispose();
+                }
+            };
             var html = await _browser.GetSourceAsync();
             browser.NavigateToString(html);
         }
@@ -104,8 +101,7 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnSelectAll(object sender, ExecutedRoutedEventArgs e) {
             try {
                 _browser.SelectAll();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -113,8 +109,7 @@ namespace Crystalbyte.Paranoia.UI {
         private async void OnPrint(object sender, ExecutedRoutedEventArgs e) {
             try {
                 await PrintAsync();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -122,8 +117,7 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnCopy(object sender, ExecutedRoutedEventArgs e) {
             try {
                 _browser.Copy();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -135,10 +129,9 @@ namespace Crystalbyte.Paranoia.UI {
         public override void OnApplyTemplate() {
             base.OnApplyTemplate();
 
-            _browser = (ChromiumWebBrowser) Template.FindName(WebBrowserTemplatePart, this);
+            _browser = (ChromiumWebBrowser)Template.FindName(WebBrowserTemplatePart, this);
             _browser.RequestHandler = new HtmlRequestHandler(this);
-            _browser.BrowserSettings = new BrowserSettings
-            {
+            _browser.BrowserSettings = new BrowserSettings {
                 DefaultEncoding = Encoding.UTF8.WebName,
                 ApplicationCacheDisabled = true,
                 JavaDisabled = true,
@@ -152,7 +145,17 @@ namespace Crystalbyte.Paranoia.UI {
                 JavascriptDisabled = true
             };
 
-            _browser.Load(Source);
+            _browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
+        }
+
+        private void OnIsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e) {
+            try {
+                if (!string.IsNullOrEmpty(Source)) {
+                    Navigate(new Uri(Source));
+                }
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         #endregion
@@ -160,19 +163,19 @@ namespace Crystalbyte.Paranoia.UI {
         #region Dependency Property
 
         public string Source {
-            get { return (string) GetValue(SourceProperty); }
+            get { return (string)GetValue(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Source.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.Register("Source", typeof (string), typeof (HtmlViewer),
+            DependencyProperty.Register("Source", typeof(string), typeof(HtmlViewer),
                 new PropertyMetadata(OnSourcePropertyChanged));
 
         private static void OnSourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var viewer = (HtmlViewer) d;
+            var viewer = (HtmlViewer)d;
 
-            var url = (string) e.NewValue;
+            var url = (string)e.NewValue;
             if (string.IsNullOrEmpty(url)) {
                 url = "about:blank";
             }
@@ -181,18 +184,18 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public double Zoom {
-            get { return (double) GetValue(ZoomProperty); }
+            get { return (double)GetValue(ZoomProperty); }
             set { SetValue(ZoomProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Zoom.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ZoomProperty =
-            DependencyProperty.Register("Zoom", typeof (double), typeof (HtmlViewer),
+            DependencyProperty.Register("Zoom", typeof(double), typeof(HtmlViewer),
                 new PropertyMetadata(0.0d, OnZoomChanged));
 
         private static void OnZoomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var viewer = (HtmlViewer) d;
-            var change = (double) e.NewValue/100.0d;
+            var viewer = (HtmlViewer)d;
+            var change = (double)e.NewValue / 100.0d;
             viewer.ChangeZoom(change);
         }
 
