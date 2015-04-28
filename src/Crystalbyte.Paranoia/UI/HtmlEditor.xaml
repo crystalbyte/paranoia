@@ -285,7 +285,9 @@
                                     </Button>
                                 </WrapPanel>
                             </Border>
-                            <cef:ChromiumWebBrowser x:Name="PART_WebBrowser" />
+                            <cef:ChromiumWebBrowser x:Name="PART_WebBrowser"
+                                                    Focusable="True"
+                                                    IsTabStop="True" />
                         </DockPanel>
                     </Border>
                 </ControlTemplate>

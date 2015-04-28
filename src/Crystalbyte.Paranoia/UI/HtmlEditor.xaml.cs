@@ -471,24 +471,21 @@ namespace Crystalbyte.Paranoia.UI {
             _editorBorder = (Border)Template.FindName(EditorMenuBorderTemplatePart, this);
             _editorBorder.DataContext = new HtmlEditorCommandContext(this);
 
-            _browser = new ChromiumWebBrowser {
-                Focusable = true,
-                IsTabStop= true,
-                RequestHandler = new HtmlRequestHandler(this),
-                BrowserSettings = new BrowserSettings {
-                    DefaultEncoding = Encoding.UTF8.WebName,
-                    ApplicationCacheDisabled = true,
-                    JavaDisabled = true,
-                    WebSecurityDisabled = true,
-                    WebGlDisabled = true,
-                    UniversalAccessFromFileUrlsAllowed = true,
-                    FileAccessFromFileUrlsAllowed = true,
-                    PluginsDisabled = true,
-                    JavaScriptOpenWindowsDisabled = true,
-                    JavaScriptCloseWindowsDisabled = true,
-                    JavascriptDisabled = false,
-                    TextAreaResizeDisabled = true
-                }
+            _browser = (ChromiumWebBrowser)Template.FindName(WebBrowserTemplatePart, this);
+            _browser.RequestHandler = new HtmlRequestHandler(this);
+            _browser.BrowserSettings = new BrowserSettings {
+                DefaultEncoding = Encoding.UTF8.WebName,
+                ApplicationCacheDisabled = true,
+                JavaDisabled = true,
+                WebSecurityDisabled = true,
+                WebGlDisabled = true,
+                UniversalAccessFromFileUrlsAllowed = true,
+                FileAccessFromFileUrlsAllowed = true,
+                PluginsDisabled = true,
+                JavaScriptOpenWindowsDisabled = true,
+                JavaScriptCloseWindowsDisabled = true,
+                JavascriptDisabled = false,
+                TextAreaResizeDisabled = true
             };
 
             _browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
