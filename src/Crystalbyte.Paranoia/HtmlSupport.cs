@@ -22,8 +22,6 @@
 
 #endregion
 
-using Crystalbyte.Paranoia.UI.Converters;
-
 #region Using Directives
 
 using System;
@@ -53,8 +51,7 @@ namespace Crystalbyte.Paranoia {
             if (html == null) {
                 var plain = reader.FindFirstPlainTextVersion();
                 text = string.Format("<pre>{0}</pre>", plain.GetBodyAsText().Trim());
-            }
-            else {
+            } else {
                 text = html.GetBodyAsText();
             }
 
@@ -70,7 +67,7 @@ namespace Crystalbyte.Paranoia {
             var uri = new Uri("/Resources/composition.html", UriKind.Relative);
             var info = Application.GetResourceStream(uri);
             if (info == null) {
-                var error = string.Format(Resources.ResourceNotFoundException, uri, typeof (App).Assembly.FullName);
+                var error = string.Format(Resources.ResourceNotFoundException, uri, typeof(App).Assembly.FullName);
                 throw new ResourceNotFoundException(error);
             }
 
@@ -79,11 +76,11 @@ namespace Crystalbyte.Paranoia {
             using (var reader = new StreamReader(info.Stream)) {
                 var text = reader.ReadToEnd();
                 html = Regex.Replace(text, pattern, m => {
-                                                        var key = m.Value.Trim('{', '}').ToLower();
-                                                        return variables.ContainsKey(key)
-                                                            ? variables[key]
-                                                            : string.Empty;
-                                                    }, RegexOptions.IgnoreCase);
+                    var key = m.Value.Trim('{', '}').ToLower();
+                    return variables.ContainsKey(key)
+                        ? variables[key]
+                        : string.Empty;
+                }, RegexOptions.IgnoreCase);
             }
 
             return html;
@@ -113,13 +110,13 @@ namespace Crystalbyte.Paranoia {
             // Drop all 'target' attributes in hyperlinks, these pop unwanted windows.
             var targets = quote["a[target]"];
             if (targets != null) {
-                targets.ForEach(x => x.RemoveAttribute("target"));    
+                targets.ForEach(x => x.RemoveAttribute("target"));
             }
 
             const string name = "/Resources/inspection.html";
             var info = Application.GetResourceStream(new Uri(name, UriKind.Relative));
             if (info == null) {
-                var m = string.Format(Resources.ResourceNotFoundException, name, typeof (Application).Assembly.FullName);
+                var m = string.Format(Resources.ResourceNotFoundException, name, typeof(Application).Assembly.FullName);
                 throw new ResourceNotFoundException(m);
             }
 
@@ -142,7 +139,7 @@ namespace Crystalbyte.Paranoia {
             var uri = new Uri(path, UriKind.Relative);
             var info = Application.GetResourceStream(uri);
             if (info == null) {
-                var error = string.Format(Resources.ResourceNotFoundException, uri, typeof (App).Assembly.FullName);
+                var error = string.Format(Resources.ResourceNotFoundException, uri, typeof(App).Assembly.FullName);
                 throw new Exception(error);
             }
 
@@ -157,23 +154,23 @@ namespace Crystalbyte.Paranoia {
         public static string ModifyEmbeddedParts(string html, FileSystemInfo info) {
             const string pattern = "<img.+?src=\"(?<CID>cid:.+?)\".*?>";
             return Regex.Replace(html, pattern, m => {
-                                                    var cid = m.Groups["CID"].Value;
-                                                    var asset = string.Format("message:///part?cid={0}&path={1}",
-                                                        Uri.EscapeDataString(cid.Split(':')[1]),
-                                                        Uri.EscapeDataString(info.FullName));
-                                                    return m.Value.Replace(cid, asset);
-                                                },
+                var cid = m.Groups["CID"].Value;
+                var asset = string.Format("message:///part?cid={0}&path={1}",
+                    Uri.EscapeDataString(cid.Split(':')[1]),
+                    Uri.EscapeDataString(info.FullName));
+                return m.Value.Replace(cid, asset);
+            },
                 RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
 
         public static string ModifyEmbeddedParts(string html, long id) {
             const string pattern = "<img.+?src=\"(?<CID>cid:.+?)\".*?>";
             return Regex.Replace(html, pattern, m => {
-                                                    var cid = m.Groups["CID"].Value;
-                                                    var asset = string.Format("message:///part?cid={0}&messageId={1}",
-                                                        Uri.EscapeDataString(cid.Split(':')[1]), id);
-                                                    return m.Value.Replace(cid, asset);
-                                                },
+                var cid = m.Groups["CID"].Value;
+                var asset = string.Format("message:///part?cid={0}&messageId={1}",
+                    Uri.EscapeDataString(cid.Split(':')[1]), id);
+                return m.Value.Replace(cid, asset);
+            },
                 RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
     }

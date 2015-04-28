@@ -574,7 +574,7 @@ namespace Crystalbyte.Paranoia {
                 _showOnlyWithAttachments = value;
                 RaisePropertyChanged(() => ShowOnlyWithAttachments);
                 if (value) {
-                    OnMessageFilterChanged();    
+                    OnMessageFilterChanged();
                 }
             }
         }
@@ -797,7 +797,11 @@ namespace Crystalbyte.Paranoia {
             } catch (MissingContactException ex) {
                 // TODO: Notify user the contact is not listed in the database.
                 Logger.Error(ex);
+            } catch (Exception ex) {
+                // TODO: General exception handling.
+                Logger.Error(ex);
             }
+
         }
 
         internal Task MarkAsSeenAsync(MailMessageContext message) {
@@ -1026,8 +1030,7 @@ namespace Crystalbyte.Paranoia {
             var id = message.Id.ToString(CultureInfo.InvariantCulture);
             var owner = Application.Current.MainWindow;
             var window = new CompositionWindow();
-            await window.PrepareAsReplyAsync(new Dictionary<string, string>
-            {
+            await window.PrepareAsReplyAsync(new Dictionary<string, string> {
                 {"id", id}
             });
             window.MimicOwnership(owner);
@@ -1043,10 +1046,10 @@ namespace Crystalbyte.Paranoia {
             var path = Uri.EscapeDataString(file.FullName);
             var owner = Application.Current.MainWindow;
             var window = new CompositionWindow();
-            await window.PrepareAsReplyAsync(new Dictionary<string, string>
-            {
+            await window.PrepareAsReplyAsync(new Dictionary<string, string> {
                 {"path", path}
             });
+
             window.MimicOwnership(owner);
 
             if (owner.WindowState == WindowState.Maximized) {
