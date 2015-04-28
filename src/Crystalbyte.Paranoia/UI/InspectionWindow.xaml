@@ -139,14 +139,14 @@
                     <StackPanel Grid.Column="0"
                                 DataContext="{Binding From}"
                                 Orientation="Horizontal">
-                        <Image Width="40"
+                        <Image Width="32"
                                Margin="0,0,6,0"
                                VerticalAlignment="Center"
                                RenderOptions.BitmapScalingMode="Fant"
                                Source="{Binding Address,
                                                 ConverterParameter=48,
                                                 Converter={StaticResource GravatarImageConverter}}" />
-                        <StackPanel VerticalAlignment="Center">
+                        <StackPanel Margin="0,-4,0,0" VerticalAlignment="Center">
                             <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}" Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
                             <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
                         </StackPanel>
@@ -163,14 +163,14 @@
                     <StackPanel Grid.Column="2"
                                 DataContext="{Binding PrimaryTo}"
                                 Orientation="Horizontal">
-                        <Image Width="40"
+                        <Image Width="32"
                                Margin="0,0,6,0"
                                VerticalAlignment="Center"
                                RenderOptions.BitmapScalingMode="Fant"
                                Source="{Binding Address,
                                                 ConverterParameter=48,
                                                 Converter={StaticResource GravatarImageConverter}}" />
-                        <StackPanel VerticalAlignment="Center">
+                        <StackPanel Margin="0,-4,0,0" VerticalAlignment="Center">
                             <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}" Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
                             <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
                         </StackPanel>
