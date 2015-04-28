@@ -34,6 +34,7 @@ namespace Crystalbyte.Paranoia.Data {
     [Table("public_key")]
     public class PublicKeyModel {
         [Key]
+        [Index]
         [Column("id")]
         public Int64 Id { get; set; }
 

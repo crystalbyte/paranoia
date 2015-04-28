@@ -41,6 +41,7 @@ namespace Crystalbyte.Paranoia.Data {
         }
 
         [Key]
+        [Index]
         [Column("id")]
         public Int64 Id { get; set; }
 

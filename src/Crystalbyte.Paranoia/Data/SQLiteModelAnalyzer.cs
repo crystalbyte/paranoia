@@ -42,6 +42,33 @@ namespace Crystalbyte.Paranoia.Data {
             _type = type;
         }
 
+        public bool TryGetIndexCreateScript(out string script) {
+            var tableName = _type.GetCustomAttribute<TableAttribute>().Name;
+            var properties = _type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            var indexProperties = properties.Where(x => x.GetCustomAttribute<ForeignKeyAttribute>() != null).ToArray();
+
+            if (indexProperties.Length == 0) {
+                script = string.Empty;
+                return false;
+            }
+
+            using (var writer = new StringWriter()) {
+                writer.Write("CREATE INDEX {0}_index ON {0}(", tableName);
+                writer.Write(string.Join(", ", indexProperties.Select(x => {
+                    var attribute =
+                        x.GetCustomAttribute<ColumnAttribute>();
+                    return attribute != null
+                        ? attribute.Name
+                        : x.Name;
+                })));
+                writer.Write(");");
+                script = writer.ToString();
+            }
+
+            return true;
+        }
+
         public string GetTableCreateScript() {
             var tableName = _type.GetCustomAttribute<TableAttribute>().Name;
             var properties = _type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
@@ -69,6 +96,7 @@ namespace Crystalbyte.Paranoia.Data {
                 }
 
                 writer.Write(");");
+
                 return writer.ToString();
             }
         }

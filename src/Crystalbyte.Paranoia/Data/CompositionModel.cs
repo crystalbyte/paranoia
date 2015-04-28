@@ -34,6 +34,7 @@ namespace Crystalbyte.Paranoia.Data {
     [Table("composition")]
     public class CompositionModel {
         [Key]
+        [Index]
         [Column("id")]
         public Int64 Id { get; set; }
 

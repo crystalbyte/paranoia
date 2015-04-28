@@ -34,6 +34,7 @@ namespace Crystalbyte.Paranoia.Data {
     [Table("key_pair")]
     public sealed class KeyPairModel {
         [Key]
+        [Index]
         [Column("id")]
         public Int64 Id { get; set; }
 

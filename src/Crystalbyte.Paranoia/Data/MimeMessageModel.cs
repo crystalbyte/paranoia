@@ -34,6 +34,7 @@ namespace Crystalbyte.Paranoia.Data {
     [Table("mime_message")]
     public class MimeMessageModel {
         [Key]
+        [Index]
         [Column("id")]
         public Int64 Id { get; set; }
 

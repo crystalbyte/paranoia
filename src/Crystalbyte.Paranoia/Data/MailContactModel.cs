@@ -42,6 +42,7 @@ namespace Crystalbyte.Paranoia.Data {
         }
 
         [Key]
+        [Index]
         [Column("id")]
         public Int64 Id { get; set; }
 
@@ -49,6 +50,7 @@ namespace Crystalbyte.Paranoia.Data {
         [Collate(CollatingSequence.NoCase)]
         public string Name { get; set; }
 
+        [Index]
         [Column("address")]
         [Collate(CollatingSequence.NoCase)]
         public string Address { get; set; }

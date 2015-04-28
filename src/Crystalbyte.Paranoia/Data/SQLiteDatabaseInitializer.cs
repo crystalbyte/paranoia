@@ -60,10 +60,17 @@ namespace Crystalbyte.Paranoia.Data {
                 .ToArray();
 
             EnforceForeignKeys(context);
-            foreach (var script in models
-                .Select(model => new SQLiteModelAnalyzer(model))
-                .Select(analyzer => analyzer.GetTableCreateScript())) {
-                context.Database.ExecuteSqlCommand(script);
+
+            var analyzers = models.Select(model => new SQLiteModelAnalyzer(model));
+            foreach (var analyzer in analyzers) {
+                var tableScript = analyzer.GetTableCreateScript();
+                context.Database.ExecuteSqlCommand(tableScript);
+
+                string indexScript;
+                var hasIndices = analyzer.TryGetIndexCreateScript(out indexScript);
+                if (hasIndices) {
+                    context.Database.ExecuteSqlCommand(indexScript);
+                }
             }
         }
 
