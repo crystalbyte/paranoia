@@ -217,7 +217,7 @@ namespace Crystalbyte.Paranoia {
         internal async Task LoadContactsAsync() {
             Application.Current.AssertBackgroundThread();
 
-            IEnumerable<MailContactModel> contacts;
+            IEnumerable<MailContact> contacts;
             using (var database = new DatabaseContext()) {
                 contacts = await database.MailContacts.ToArrayAsync();
             }
@@ -853,7 +853,7 @@ namespace Crystalbyte.Paranoia {
         private static Task GenerateKeyPairAsync() {
             return Task.Run(() => {
                 var crypto = new PublicKeyCrypto();
-                var pair = new KeyPairModel {
+                var pair = new KeyPair {
                     PublicKey = crypto.PublicKey,
                     PrivateKey = crypto.PrivateKey,
                     Date = DateTime.Now
@@ -888,7 +888,7 @@ namespace Crystalbyte.Paranoia {
         private async Task LoadAccountsAsync() {
             Application.Current.AssertBackgroundThread();
 
-            IEnumerable<MailAccountModel> accounts;
+            IEnumerable<MailAccount> accounts;
             using (var context = new DatabaseContext()) {
                 accounts = await context.MailAccounts.ToArrayAsync();
             }
@@ -911,7 +911,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnCreateAccount(object obj) {
-            var account = new MailAccountContext(new MailAccountModel());
+            var account = new MailAccountContext(new MailAccount());
             NavigationArguments.Push(account);
 
             var uri = typeof(CreateAccountStartFlyoutPage).ToPageUri();
@@ -1205,7 +1205,7 @@ namespace Crystalbyte.Paranoia {
 
         internal async Task DeleteSelectedContactsAsync() {
             using (var database = new DatabaseContext()) {
-                var contacts = _contacts.Select(x => new MailContactModel {
+                var contacts = _contacts.Select(x => new MailContact {
                     Id = x.Id
                 }).ToArray();
 
@@ -1280,7 +1280,7 @@ namespace Crystalbyte.Paranoia {
             });
         }
 
-        public void NotifySeenStatesChanged(IDictionary<long, MailMessageModel> messages) {
+        internal void NotifySeenStatesChanged(IDictionary<long, MailMessage> messages) {
             foreach (
                 var message in
                     from message in _messages let hasKey = messages.ContainsKey(message.Id) where hasKey select message) {

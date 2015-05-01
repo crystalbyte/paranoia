@@ -43,13 +43,13 @@ namespace Crystalbyte.Paranoia {
         private bool _isVerified;
         private int _notSeenCount;
         private int _messageCount;
-        private MailContactModel _contact;
+        private MailContact _contact;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
-        internal MailContactContext(MailContactModel contact) {
+        internal MailContactContext(MailContact contact) {
             if (contact == null) {
                 throw new ArgumentNullException("contact");
             }

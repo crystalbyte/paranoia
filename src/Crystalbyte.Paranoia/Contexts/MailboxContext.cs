@@ -53,7 +53,7 @@ namespace Crystalbyte.Paranoia {
         private bool _isDownloadingMessage;
         private bool _isLoadingMessages;
         private bool _isListingMailboxes;
-        private readonly MailboxModel _mailbox;
+        private readonly Mailbox _mailbox;
         private readonly MailAccountContext _account;
         private bool _isLoadingMailboxes;
         private bool _isSyncingMailboxes;
@@ -71,7 +71,7 @@ namespace Crystalbyte.Paranoia {
 
         #region Construction
 
-        internal MailboxContext(MailAccountContext account, MailboxModel mailbox) {
+        internal MailboxContext(MailAccountContext account, Mailbox mailbox) {
             _account = account;
             _mailbox = mailbox;
             _showAllMessages = true;
@@ -237,7 +237,7 @@ namespace Crystalbyte.Paranoia {
                                 continue;
                             }
 
-                            var context = new MailboxContext(_account, new MailboxModel {
+                            var context = new MailboxContext(_account, new Mailbox {
                                 AccountId = _account.Id
                             });
 
@@ -359,7 +359,7 @@ namespace Crystalbyte.Paranoia {
                                     await context.SaveChangesAsync();
                                 }
 
-                                var model = new MailMessageModel {
+                                var model = new MailMessage {
                                     Id = message.Id,
                                     MailboxId = Id
                                 };
@@ -559,7 +559,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private Task<MailAccountModel> GetAccountAsync() {
+        private Task<MailAccount> GetAccountAsync() {
             using (var context = new DatabaseContext()) {
                 return context.MailAccounts.FindAsync(_mailbox.AccountId);
             }
@@ -582,7 +582,7 @@ namespace Crystalbyte.Paranoia {
 
                     long[] seenUids;
                     long[] unseenUids;
-                    List<MailMessageModel> messages;
+                    List<MailMessage> messages;
 
                     using (var connection = new ImapConnection {
                         Security = account.ImapSecurity
@@ -743,12 +743,12 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task<IEnumerable<MailMessageModel>> FetchRecentEnvelopesAsync(ImapMailbox mailbox, long uid) {
+        private async Task<IEnumerable<MailMessage>> FetchRecentEnvelopesAsync(ImapMailbox mailbox, long uid) {
             var criteria = string.Format("{0}:*", uid);
             var uids = await mailbox.SearchAsync(criteria);
 
             if (!uids.Any()) {
-                return new MailMessageModel[0];
+                return new MailMessage[0];
             }
 
             FetchedEnvelopeCount = 0;
@@ -763,7 +763,7 @@ namespace Crystalbyte.Paranoia {
                 envelopes.Remove(duplicate);
             }
 
-            var messages = new List<MailMessageModel>();
+            var messages = new List<MailMessage>();
             foreach (var envelope in envelopes) {
                 try {
                     var message = envelope.ToMailMessage();
@@ -779,7 +779,7 @@ namespace Crystalbyte.Paranoia {
             FetchedEnvelopeCount++;
         }
 
-        private static async Task SaveContactsAsync(IEnumerable<MailMessageModel> messages) {
+        private static async Task SaveContactsAsync(IEnumerable<MailMessage> messages) {
             try {
                 Application.Current.AssertBackgroundThread();
 
@@ -797,7 +797,7 @@ namespace Crystalbyte.Paranoia {
 
 
                     var contexts = new List<MailContactContext>();
-                    foreach (var model in diff.Select(group => new MailContactModel {
+                    foreach (var model in diff.Select(group => new MailContact {
                         Address = group.First().FromAddress,
                         Name = group.First().FromName
                     })) {
@@ -923,7 +923,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task SaveMessagesAsync(IEnumerable<MailMessageModel> messages) {
+        private async Task SaveMessagesAsync(IEnumerable<MailMessage> messages) {
             using (var context = new DatabaseContext()) {
                 var mailbox = await context.Mailboxes.FindAsync(_mailbox.Id);
                 mailbox.Messages.AddRange(messages);
@@ -1149,7 +1149,7 @@ namespace Crystalbyte.Paranoia {
         public async Task<IEnumerable<MailMessageContext>> GetMessagesAsync() {
             Application.Current.AssertBackgroundThread();
 
-            MailMessageModel[] messages;
+            MailMessage[] messages;
 
             using (var context = new DatabaseContext()) {
                 if (ShowOnlyFavorites) {

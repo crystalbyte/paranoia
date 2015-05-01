@@ -55,8 +55,8 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task<MailContactModel> SaveContactToDatabaseAsync() {
-            var contact = new MailContactModel {
+        private async Task<MailContact> SaveContactToDatabaseAsync() {
+            var contact = new MailContact {
                 Name = Name,
                 Address = Address
             };

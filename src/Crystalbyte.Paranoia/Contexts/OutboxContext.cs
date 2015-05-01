@@ -220,7 +220,7 @@ namespace Crystalbyte.Paranoia {
             get { return _compositions; }
         }
 
-        private Task<CompositionModel[]> GetPendingCompositionsAsync() {
+        private Task<MailComposition[]> GetPendingCompositionsAsync() {
             using (var database = new DatabaseContext()) {
                 return database.Compositions
                     .Where(x => x.AccountId == _account.Id)
@@ -272,7 +272,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private static Task DeleteRequestFromDatabaseAsync(CompositionModel request) {
+        private static Task DeleteRequestFromDatabaseAsync(MailComposition request) {
             using (var database = new DatabaseContext()) {
                 database.Compositions.Attach(request);
                 database.Compositions.Remove(request);

@@ -217,8 +217,10 @@
     <Compile Include="Contexts\FileAttachmentContext.cs" />
     <Compile Include="Contexts\HtmlEditorCommandContext.cs" />
     <Compile Include="Contexts\InsertLinkContext.cs" />
-    <Compile Include="Data\DefaultAttribute.cs" />
-    <Compile Include="Data\DatabaseFunction.cs" />
+    <Compile Include="Data\SQLite\DefaultAttribute.cs" />
+    <Compile Include="Data\SQLite\DatabaseFunction.cs" />
+    <Compile Include="Data\SQLite\ModuleType.cs" />
+    <Compile Include="Data\SQLite\VirtualAttribute.cs" />
     <Compile Include="EmlSchemeHandler.cs" />
     <Compile Include="FileSchemeHandler.cs" />
     <Compile Include="IMailMessage.cs" />
@@ -261,8 +263,8 @@
       <DependentUpon>HtmlViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\ItemSelectionRequestedEventArgs.cs" />
-    <Compile Include="Data\KeyPairModel.cs" />
-    <Compile Include="Data\MailMessageModelExtensions.cs" />
+    <Compile Include="Data\KeyPair.cs" />
+    <Compile Include="Data\MailMessageExtensions.cs" />
     <Compile Include="IAccentAware.cs" />
     <Compile Include="SortProperty.cs" />
     <Compile Include="UI\AppSettingsFlyoutPage.xaml.cs">
@@ -310,7 +312,7 @@
     <Compile Include="Contexts\QueryContext.cs" />
     <Compile Include="Contexts\CompositionContext.cs" />
     <Compile Include="Contexts\TestingContext.cs" />
-    <Compile Include="Data\PublicKeyModel.cs" />
+    <Compile Include="Data\PublicKey.cs" />
     <Compile Include="DeferredObservableCollection.cs" />
     <Compile Include="Contexts\MailboxContext.cs" />
     <Compile Include="Contexts\MailCompositionContext.cs" />
@@ -318,7 +320,7 @@
     <Compile Include="Contexts\AppContext.cs" />
     <Compile Include="Contexts\MailMessageContext.cs" />
     <Compile Include="Contexts\MailAccountContext.cs" />
-    <Compile Include="Data\CompositionModel.cs" />
+    <Compile Include="Data\MailComposition.cs" />
     <Compile Include="ImapEnvelopeExtensions.cs" />
     <Compile Include="IMessageSource.cs" />
     <Compile Include="ParanoiaHeaderKeys.cs" />
@@ -427,18 +429,18 @@
     <Compile Include="UI\NavigationRequestedEventArgs.cs" />
     <Compile Include="Contexts\QueryStringEventArgs.cs" />
     <Compile Include="Contexts\SelectionObject.cs" />
-    <Compile Include="Data\CollatingSequence.cs" />
-    <Compile Include="Data\MailboxModel.cs" />
-    <Compile Include="Data\MailMessageModel.cs" />
-    <Compile Include="Data\MimeMessageModel.cs" />
-    <Compile Include="Data\CollateAttribute.cs" />
-    <Compile Include="Data\TypeExtensions.cs" />
-    <Compile Include="Data\SQLiteConnectionStringReader.cs" />
-    <Compile Include="Data\MailContactModel.cs" />
-    <Compile Include="Data\SQLiteDatabaseInitializer.cs" />
-    <Compile Include="Data\SQLiteModelAnalyzer.cs" />
+    <Compile Include="Data\SQLite\CollatingSequence.cs" />
+    <Compile Include="Data\Mailbox.cs" />
+    <Compile Include="Data\MailMessage.cs" />
+    <Compile Include="Data\MimeMessage.cs" />
+    <Compile Include="Data\SQLite\CollateAttribute.cs" />
+    <Compile Include="Data\SQLite\TypeExtensions.cs" />
+    <Compile Include="Data\SQLite\ConnectionStringReader.cs" />
+    <Compile Include="Data\MailContact.cs" />
+    <Compile Include="Data\SQLite\DatabaseInitializer.cs" />
+    <Compile Include="Data\SQLite\ModelAnalyzer.cs" />
     <Compile Include="Data\DatabaseContext.cs" />
-    <Compile Include="Data\MailAccountModel.cs" />
+    <Compile Include="Data\MailAccount.cs" />
     <Compile Include="Gravatar.cs" />
     <Compile Include="MailboxType.cs" />
     <Compile Include="Contexts\NotificationObject.cs" />

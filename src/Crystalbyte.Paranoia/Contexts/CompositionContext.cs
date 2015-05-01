@@ -31,10 +31,10 @@ using Crystalbyte.Paranoia.Data;
 
 namespace Crystalbyte.Paranoia {
     public sealed class CompositionContext : SelectionObject {
-        private readonly CompositionModel _model;
+        private readonly MailComposition _composition;
 
-        public CompositionContext(CompositionModel model) {
-            _model = model;
+        internal CompositionContext(MailComposition composition) {
+            _composition = composition;
         }
 
         public bool IsSubjectNilOrEmpty {
@@ -46,23 +46,23 @@ namespace Crystalbyte.Paranoia {
         }
 
         public DateTime Date {
-            get { return _model.Date; }
+            get { return _composition.Date; }
         }
 
         public string Subject {
-            get { return _model.Subject; }
+            get { return _composition.Subject; }
         }
 
         public string ToName {
-            get { return _model.ToName; }
+            get { return _composition.ToName; }
         }
 
         public string ToAddress {
-            get { return _model.ToAddress; }
+            get { return _composition.ToAddress; }
         }
 
         public Int64 Id {
-            get { return _model.Id; }
+            get { return _composition.Id; }
         }
     }
 }

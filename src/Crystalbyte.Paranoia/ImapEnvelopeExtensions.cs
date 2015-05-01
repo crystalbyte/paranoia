@@ -32,9 +32,9 @@ using Crystalbyte.Paranoia.Mail;
 #endregion
 
 namespace Crystalbyte.Paranoia {
-    public static class ImapEnvelopeExtensions {
-        public static MailMessageModel ToMailMessage(this ImapEnvelope envelope) {
-            return new MailMessageModel
+    internal static class ImapEnvelopeExtensions {
+        public static MailMessage ToMailMessage(this ImapEnvelope envelope) {
+            return new MailMessage
             {
                 EntryDate = envelope.InternalDate.HasValue
                     ? envelope.InternalDate.Value

@@ -32,7 +32,6 @@ using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Net.Mail;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +44,7 @@ using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
+using MailMessage = System.Net.Mail.MailMessage;
 
 #endregion
 
@@ -61,7 +61,7 @@ namespace Crystalbyte.Paranoia {
         private TestingContext _testing;
 
         private readonly AppContext _appContext;
-        private readonly MailAccountModel _account;
+        private readonly MailAccount _account;
         private readonly ICommand _listMailboxesCommand;
         private readonly ICommand _testSettingsCommand;
         private readonly ICommand _deleteAccountCommand;
@@ -77,7 +77,7 @@ namespace Crystalbyte.Paranoia {
 
         #region Construction
 
-        internal MailAccountContext(MailAccountModel account) {
+        internal MailAccountContext(MailAccount account) {
             _account = account;
             _appContext = App.Context;
             _outbox = new OutboxContext(this);
@@ -362,7 +362,7 @@ namespace Crystalbyte.Paranoia {
                     foreach (var mailbox in remoteMailboxes.Where(x => mailboxes.All(y =>
                         string.Compare(x.Fullname, y.Name,
                             StringComparison.InvariantCultureIgnoreCase) != 0))) {
-                        var context = new MailboxContext(this, new MailboxModel {
+                        var context = new MailboxContext(this, new Mailbox {
                             AccountId = _account.Id
                         });
 
@@ -473,7 +473,7 @@ namespace Crystalbyte.Paranoia {
         internal async Task LoadMailboxesAsync() {
             Application.Current.AssertBackgroundThread();
 
-            MailboxModel[] models;
+            Mailbox[] models;
             using (var context = new DatabaseContext()) {
                 models = await context.Mailboxes
                     .Where(x => x.AccountId == _account.Id)
@@ -855,7 +855,7 @@ namespace Crystalbyte.Paranoia {
                     var account = await database.MailAccounts.FindAsync(_account.Id);
 
                     foreach (var message in messages) {
-                        var request = new CompositionModel {
+                        var request = new MailComposition {
                             Date = DateTime.Now,
                             ToName = message.To.First().DisplayName,
                             ToAddress = message.To.First().Address,
@@ -1063,7 +1063,7 @@ namespace Crystalbyte.Paranoia {
                 using (var database = new DatabaseContext()) {
                     foreach (var message in messages) {
                         try {
-                            var model = new MailMessageModel {
+                            var model = new Data.MailMessage {
                                 Id = message.Id,
                                 MailboxId = Id
                             };
@@ -1163,7 +1163,7 @@ namespace Crystalbyte.Paranoia {
 
                         context.Mailboxes.RemoveRange(mailboxes);
 
-                        var acc = new MailAccountModel { Id = Id };
+                        var acc = new MailAccount { Id = Id };
                         context.MailAccounts.Attach(acc);
                         context.MailAccounts.Remove(acc);
 

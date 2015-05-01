@@ -54,7 +54,7 @@ namespace Crystalbyte.Paranoia {
         private bool _isExternalContentAllowed;
         private bool _hasExternals;
         private MailContactContext _from;
-        private MailMessageModel _message;
+        private MailMessage _message;
 
         private readonly MailboxContext _mailbox;
         private readonly ObservableCollection<MailContactContext> _to;
@@ -71,7 +71,7 @@ namespace Crystalbyte.Paranoia {
 
         #region Construction
 
-        internal MailMessageContext(MailboxContext mailbox, MailMessageModel message) {
+        internal MailMessageContext(MailboxContext mailbox, MailMessage message) {
             _mailbox = mailbox;
             _message = message;
             _cc = new ObservableCollection<MailContactContext>();
@@ -406,7 +406,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private static Task<MailAccountModel> GetAccountAsync(MailboxModel mailbox) {
+        private static Task<MailAccount> GetAccountAsync(Mailbox mailbox) {
             using (var context = new DatabaseContext()) {
                 return context.MailAccounts.FindAsync(mailbox.AccountId);
             }
@@ -534,7 +534,7 @@ namespace Crystalbyte.Paranoia {
         private async Task SaveMimeAsync(byte[] mime) {
             using (var context = new DatabaseContext()) {
                 var message = await context.MailMessages.FindAsync(_message.Id);
-                var mimeMessage = new MimeMessageModel {
+                var mimeMessage = new MimeMessage {
                     Data = mime
                 };
 
@@ -548,7 +548,7 @@ namespace Crystalbyte.Paranoia {
                 var from = await context.MailContacts
                     .FirstOrDefaultAsync(x => x.Address == address);
                 if (from == null) {
-                    from = new MailContactModel {
+                    from = new MailContact {
                         Name = name,
                         Address = address
                     };
@@ -566,7 +566,7 @@ namespace Crystalbyte.Paranoia {
                             var pKey = Convert.FromBase64String(dic["pkey"]);
                             var k = from.Keys.FirstOrDefault(x => x.Data == pKey);
                             if (k == null) {
-                                from.Keys.Add(new PublicKeyModel {
+                                from.Keys.Add(new PublicKey {
                                     Data = pKey
                                 });
                             }
@@ -581,7 +581,7 @@ namespace Crystalbyte.Paranoia {
                     var contact = await context.MailContacts
                         .FirstOrDefaultAsync(x => x.Address == v.Address);
                     if (contact == null) {
-                        contact = new MailContactModel {
+                        contact = new MailContact {
                             Name = v.DisplayName,
                             Address = v.Address
                         };
@@ -596,7 +596,7 @@ namespace Crystalbyte.Paranoia {
                     var contact = await context.MailContacts
                         .FirstOrDefaultAsync(x => x.Address == v.Address);
                     if (contact == null) {
-                        contact = new MailContactModel {
+                        contact = new MailContact {
                             Name = v.DisplayName,
                             Address = v.Address
                         };
@@ -630,7 +630,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private Task<MailboxModel> GetMailboxAsync() {
+        private Task<Mailbox> GetMailboxAsync() {
             Application.Current.AssertBackgroundThread();
 
             using (var context = new DatabaseContext()) {

@@ -45,6 +45,7 @@ using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
 using Microsoft.Win32;
 using NLog;
+using MailMessage = System.Net.Mail.MailMessage;
 
 #endregion
 
@@ -185,7 +186,7 @@ namespace Crystalbyte.Paranoia {
                 var account = SelectedAccount;
                 var document = _provider.GetDocumentAsync();
 
-                KeyPairModel current = null;
+                KeyPair current = null;
 
                 var contacts = await Task.Run(() => {
                     using (var context = new DatabaseContext()) {
@@ -201,7 +202,7 @@ namespace Crystalbyte.Paranoia {
 
                 var messages = new List<MailMessage>();
                 foreach (var address in Addresses) {
-                    PublicKeyModel key = null;
+                    PublicKey key = null;
                     if (contacts.ContainsKey(address)) {
                         var contact = contacts[address];
                         key = contact.Keys.FirstOrDefault();
@@ -274,8 +275,8 @@ namespace Crystalbyte.Paranoia {
             return message;
         }
 
-        private static async Task<byte[]> EncryptMessageAsync(MailMessage message, KeyPairModel pair,
-            PublicKeyModel pKey, byte[] nonce) {
+        private static async Task<byte[]> EncryptMessageAsync(MailMessage message, KeyPair pair,
+            PublicKey pKey, byte[] nonce) {
             var mime = await message.ToMimeAsync();
             var bytes = Encoding.UTF8.GetBytes(mime);
             var crypto = new PublicKeyCrypto(pair.PublicKey, pair.PrivateKey);

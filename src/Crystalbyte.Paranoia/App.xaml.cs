@@ -136,7 +136,7 @@ namespace Crystalbyte.Paranoia {
                 if (accounts.Length != 0)
                     return;
 
-                var account = new MailAccountModel
+                var account = new MailAccount
                 {
                     Name = "Paranoia Test Account",
                     Address = "paranoia.app@gmail.com",
