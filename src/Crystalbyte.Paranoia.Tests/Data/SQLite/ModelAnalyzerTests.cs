@@ -27,17 +27,17 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Crystalbyte.Paranoia.Data;
+using Crystalbyte.Paranoia.Data.SQLite;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.Tests.Data {
+namespace Crystalbyte.Paranoia.Tests.Data.SQLite {
     [TestClass]
-    public sealed class SqLiteModelAnalyzerTests {
+    public sealed class ModelAnalyzerTests {
         [TestMethod]
         public void GetTableCreateScriptTest() {
-            var analyzer = new SQLiteModelAnalyzer(typeof (Person));
+            var analyzer = new ModelAnalyzer(typeof (Person));
             var actual = analyzer.GetTableCreateScript();
             const string expected =
                 "CREATE TABLE Person(Id INTEGER PRIMARY KEY, Name TEXT, Age INTEGER, Residence TEXT, CategoryId INTEGER, FOREIGN KEY(CategoryId) REFERENCES Category(Id));";

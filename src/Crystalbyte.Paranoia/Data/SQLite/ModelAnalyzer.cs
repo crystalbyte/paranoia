@@ -88,7 +88,7 @@ namespace Crystalbyte.Paranoia.Data.SQLite {
 
             var isVirtual = !string.IsNullOrEmpty(moduleName);
             using (var writer = new StringWriter()) {
-                writer.Write(isVirtual ? "CREATE TABLE {0}" : "CREATE VIRTUAL TABLE {0}", tableName);
+                writer.Write(!isVirtual ? "CREATE TABLE {0}" : "CREATE VIRTUAL TABLE {0}", tableName);
                 if (isVirtual) {
                     writer.Write(" USING {0}", moduleName);
                 }

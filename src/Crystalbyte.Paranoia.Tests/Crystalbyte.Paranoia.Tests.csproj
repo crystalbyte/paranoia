@@ -61,7 +61,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Data\EncodingTests.cs" />
-    <Compile Include="Data\SQLiteModelAnalyzerTests.cs" />
+    <Compile Include="Data\SQLite\ModelAnalyzerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
