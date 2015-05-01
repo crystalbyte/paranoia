@@ -25,38 +25,29 @@
 #region Using Directives
 
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.RegularExpressions;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.Data {
-    [Table("composition")]
-    public class CompositionModel {
-        [Key]
-        [Index]
-        [Column("id")]
-        public Int64 Id { get; set; }
+namespace Crystalbyte.Paranoia.Data.SQLite {
+    internal sealed class ConnectionStringReader {
+        private readonly string _connectionString;
 
-        [Column("account_id")]
-        [ForeignKey("Account")]
-        public Int64 AccountId { get; set; }
+        public ConnectionStringReader(string connectionString) {
+            _connectionString = connectionString;
+        }
 
-        [Column("mime")]
-        public byte[] Mime { get; set; }
+        public string DataSource {
+            get {
+                var match = Regex.Match(_connectionString, "Data Source=.+?;", RegexOptions.IgnoreCase);
+                if (!match.Success) {
+                    return string.Empty;
+                }
 
-        [Column("subject")]
-        public string Subject { get; set; }
-
-        [Column("to_name")]
-        public string ToName { get; set; }
-
-        [Column("to_address")]
-        public string ToAddress { get; set; }
-
-        [Column("date")]
-        public DateTime Date { get; set; }
-
-        public MailAccountModel Account { get; set; }
+                var value = match.Value.Split('=')[1].TrimEnd(';');
+                var directory = (string) AppDomain.CurrentDomain.GetData("DataDirectory");
+                return Regex.Replace(value, @"\|DataDirectory\|", x => directory);
+            }
+        }
     }
 }

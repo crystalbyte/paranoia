@@ -25,20 +25,38 @@
 #region Using Directives
 
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.Data {
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-    internal sealed class CollateAttribute : Attribute {
-        private readonly CollatingSequence _sequence;
+    [Table("mail_composition")]
+    internal class MailComposition {
+        [Key]
+        [Index]
+        [Column("id")]
+        public Int64 Id { get; set; }
 
-        public CollateAttribute(CollatingSequence sequence) {
-            _sequence = sequence;
-        }
+        [Column("account_id")]
+        [ForeignKey("Account")]
+        public Int64 AccountId { get; set; }
 
-        public CollatingSequence Sequence {
-            get { return _sequence; }
-        }
+        [Column("mime")]
+        public byte[] Mime { get; set; }
+
+        [Column("subject")]
+        public string Subject { get; set; }
+
+        [Column("to_name")]
+        public string ToName { get; set; }
+
+        [Column("to_address")]
+        public string ToAddress { get; set; }
+
+        [Column("date")]
+        public DateTime Date { get; set; }
+
+        public MailAccount Account { get; set; }
     }
 }

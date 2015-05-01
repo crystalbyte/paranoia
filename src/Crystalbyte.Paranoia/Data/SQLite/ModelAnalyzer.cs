@@ -34,20 +34,19 @@ using Crystalbyte.Paranoia.Properties;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.Data {
-    internal sealed class SQLiteModelAnalyzer {
+namespace Crystalbyte.Paranoia.Data.SQLite {
+    internal sealed class ModelAnalyzer {
         private readonly Type _type;
 
-        public SQLiteModelAnalyzer(Type type) {
+        public ModelAnalyzer(Type type) {
             _type = type;
         }
 
         public bool TryGetIndexCreateScript(out string script) {
             var tableName = _type.GetCustomAttribute<TableAttribute>().Name;
+
             var properties = _type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-
             var indexProperties = properties.Where(x => x.GetCustomAttribute<ForeignKeyAttribute>() != null).ToArray();
-
             if (indexProperties.Length == 0) {
                 script = string.Empty;
                 return false;
@@ -81,9 +80,19 @@ namespace Crystalbyte.Paranoia.Data {
 
             var foreignKeyProperty = properties.FirstOrDefault(x => x.GetCustomAttribute<ForeignKeyAttribute>() != null);
 
+            string moduleName = null;
+            var vAttribute = _type.GetCustomAttribute<VirtualAttribute>();
+            if (vAttribute != null) {
+                moduleName = vAttribute.GetModuleName();
+            }
+
+            var isVirtual = !string.IsNullOrEmpty(moduleName);
             using (var writer = new StringWriter()) {
-                writer.Write("CREATE TABLE ");
-                writer.Write(tableName);
+                writer.Write(isVirtual ? "CREATE TABLE {0}" : "CREATE VIRTUAL TABLE {0}", tableName);
+                if (isVirtual) {
+                    writer.Write(" USING {0}", moduleName);
+                }
+
                 writer.Write("(");
                 writer.Write(string.Join(", ", properties
                     .Where(x => !x.PropertyType.IsGenericType)

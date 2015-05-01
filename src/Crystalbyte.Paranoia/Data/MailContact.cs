@@ -25,26 +25,46 @@
 #region Using Directives
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Crystalbyte.Paranoia.Data.SQLite;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.Data {
-    [Table("mime_message")]
-    public class MimeMessageModel {
+    [Table("mail_contact")]
+    internal class MailContact {
+        private ICollection<PublicKey> _keys;
+
+        public MailContact() {
+            _keys = new Collection<PublicKey>();
+        }
+
         [Key]
         [Index]
         [Column("id")]
         public Int64 Id { get; set; }
 
-        [Column("message_id")]
-        [ForeignKey("Message")]
-        public Int64 MessageId { get; set; }
+        [Column("name")]
+        [Collate(CollatingSequence.NoCase)]
+        public string Name { get; set; }
 
-        [Column("data")]
-        public byte[] Data { get; set; }
+        [Index]
+        [Column("address")]
+        [Collate(CollatingSequence.NoCase)]
+        public string Address { get; set; }
 
-        public MailMessageModel Message { get; set; }
+        [Column("is_external_content_allowed")]
+        public bool IsExternalContentAllowed { get; set; }
+
+        [Column("classification")]
+        public ContactClassification Classification { get; set; }
+
+        public virtual ICollection<PublicKey> Keys {
+            get { return _keys; }
+            set { _keys = value; }
+        }
     }
 }

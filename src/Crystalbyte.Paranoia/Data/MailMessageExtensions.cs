@@ -25,16 +25,28 @@
 #region Using Directives
 
 using System;
+using System.Linq;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.Data {
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-    public sealed class DefaultAttribute : Attribute {
-        public DefaultAttribute(DatabaseFunction function) {
-            Function = function;
+    internal static class MailMessageExtensions {
+        public static void DropFlag(this MailMessage message, string flag) {
+            var flags = message.Flags.Split(';').ToList();
+            flags.RemoveAll(x => x.Equals(flag, StringComparison.InvariantCultureIgnoreCase));
+
+            message.Flags = string.Join(";", flags);
         }
 
-        public DatabaseFunction Function { get; set; }
+        public static void WriteFlag(this MailMessage message, string flag) {
+            var flags = message.Flags.Split(';').ToList();
+            flags.Add(flag);
+
+            message.Flags = string.Join(";", flags);
+        }
+
+        public static bool HasFlag(this MailMessage message, string flag) {
+            return message.Flags.ContainsIgnoreCase(flag);
+        }
     }
 }

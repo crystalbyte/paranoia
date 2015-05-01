@@ -22,10 +22,31 @@
 
 #endregion
 
+#region Using Directives
+
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Crystalbyte.Paranoia.Data.SQLite;
+
+#endregion
+
 namespace Crystalbyte.Paranoia.Data {
-    internal enum CollatingSequence {
-        Binary,
-        NoCase,
-        RTrim
+    [Table("key_pair")]
+    internal sealed class KeyPair {
+        [Key]
+        [Index]
+        [Column("id")]
+        public Int64 Id { get; set; }
+
+        [Column("public_key")]
+        public byte[] PublicKey { get; set; }
+
+        [Column("private_key")]
+        public byte[] PrivateKey { get; set; }
+
+        [Column("date")]
+        [Default(DatabaseFunction.CurrentTimestamp)]
+        public DateTime Date { get; set; }
     }
 }

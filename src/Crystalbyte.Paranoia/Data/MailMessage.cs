@@ -29,16 +29,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Crystalbyte.Paranoia.Data.SQLite;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.Data {
+    
     [Table("mail_message")]
-    public class MailMessageModel {
-        private ICollection<MimeMessageModel> _mimeMessages;
+    [Virtual(ModuleType.Fts3)]
+    internal class MailMessage {
+        private ICollection<MimeMessage> _mimeMessages;
 
-        public MailMessageModel() {
-            _mimeMessages = new Collection<MimeMessageModel>();
+        public MailMessage() {
+            _mimeMessages = new Collection<MimeMessage>();
         }
 
         [Key]
@@ -85,9 +88,9 @@ namespace Crystalbyte.Paranoia.Data {
         [ForeignKey("Mailbox")]
         public Int64 MailboxId { get; set; }
 
-        public MailboxModel Mailbox { get; set; }
+        public Mailbox Mailbox { get; set; }
 
-        public virtual ICollection<MimeMessageModel> MimeMessages {
+        public virtual ICollection<MimeMessage> MimeMessages {
             get { return _mimeMessages; }
             set { _mimeMessages = value; }
         }

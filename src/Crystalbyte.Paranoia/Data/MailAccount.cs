@@ -35,13 +35,13 @@ using Crystalbyte.Paranoia.Mail;
 
 namespace Crystalbyte.Paranoia.Data {
     [Table("mail_account")]
-    public class MailAccountModel {
-        private ICollection<MailboxModel> _mailboxes;
-        private ICollection<CompositionModel> _compositions;
+    internal class MailAccount {
+        private ICollection<Mailbox> _mailboxes;
+        private ICollection<MailComposition> _compositions;
 
-        public MailAccountModel() {
-            _mailboxes = new Collection<MailboxModel>();
-            _compositions = new Collection<CompositionModel>();
+        public MailAccount() {
+            _mailboxes = new Collection<Mailbox>();
+            _compositions = new Collection<MailComposition>();
         }
 
         [Key]
@@ -115,12 +115,12 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("set_as_default_time")]
         public DateTime SetAsDefaultTime { get; set; }
 
-        public virtual ICollection<MailboxModel> Mailboxes {
+        public virtual ICollection<Mailbox> Mailboxes {
             get { return _mailboxes; }
             set { _mailboxes = value; }
         }
 
-        public virtual ICollection<CompositionModel> Compositions {
+        public virtual ICollection<MailComposition> Compositions {
             get { return _compositions; }
             set { _compositions = value; }
         }

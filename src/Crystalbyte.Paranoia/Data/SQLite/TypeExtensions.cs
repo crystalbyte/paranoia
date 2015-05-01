@@ -30,7 +30,7 @@ using Crystalbyte.Paranoia.Properties;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.Data {
+namespace Crystalbyte.Paranoia.Data.SQLite {
     internal static class TypeExtensions {
         public static string ToSQLiteType(this Type type) {
             const string text = "TEXT";

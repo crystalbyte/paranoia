@@ -25,27 +25,50 @@
 #region Using Directives
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.Data {
-    [Table("key_pair")]
-    public sealed class KeyPairModel {
+    [Table("mailbox")]
+    internal class Mailbox {
+        private ICollection<MailMessage> _messages;
+
+        public Mailbox() {
+            _messages = new List<MailMessage>();
+        }
+
         [Key]
         [Index]
         [Column("id")]
         public Int64 Id { get; set; }
 
-        [Column("public_key")]
-        public byte[] PublicKey { get; set; }
+        [Column("name")]
+        public string Name { get; set; }
 
-        [Column("private_key")]
-        public byte[] PrivateKey { get; set; }
+        [Column("delimiter")]
+        public string Delimiter { get; set; }
 
-        [Column("date")]
-        [Default(DatabaseFunction.CurrentTimestamp)]
-        public DateTime Date { get; set; }
+        [Column("flags")]
+        public string Flags { get; set; }
+
+        [Column("not_seen_count")]
+        public int NotSeenCount { get; set; }
+
+        [Column("is_subscribed")]
+        public bool IsSubscribed { get; set; }
+
+        [Column("account_id")]
+        [ForeignKey("Account")]
+        public Int64 AccountId { get; set; }
+
+        public virtual MailAccount Account { get; set; }
+
+        public virtual ICollection<MailMessage> Messages {
+            get { return _messages; }
+            set { _messages = value; }
+        }
     }
 }

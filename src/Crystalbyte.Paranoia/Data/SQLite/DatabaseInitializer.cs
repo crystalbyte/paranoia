@@ -33,11 +33,11 @@ using Crystalbyte.Paranoia.Properties;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.Data {
-    internal sealed class SQLiteDatabaseInitializer<T> : IDatabaseInitializer<T> where T : DbContext {
+namespace Crystalbyte.Paranoia.Data.SQLite {
+    internal sealed class DatabaseInitializer<T> : IDatabaseInitializer<T> where T : DbContext {
         public void InitializeDatabase(T context) {
             var c = context.Database.Connection.ConnectionString;
-            var reader = new SQLiteConnectionStringReader(c);
+            var reader = new ConnectionStringReader(c);
             var path = reader.DataSource;
             if (File.Exists(path)) {
                 return;
@@ -61,7 +61,7 @@ namespace Crystalbyte.Paranoia.Data {
 
             EnforceForeignKeys(context);
 
-            var analyzers = models.Select(model => new SQLiteModelAnalyzer(model));
+            var analyzers = models.Select(model => new ModelAnalyzer(model));
             foreach (var analyzer in analyzers) {
                 var tableScript = analyzer.GetTableCreateScript();
                 context.Database.ExecuteSqlCommand(tableScript);

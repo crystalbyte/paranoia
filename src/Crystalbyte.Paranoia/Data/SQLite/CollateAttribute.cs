@@ -25,29 +25,20 @@
 #region Using Directives
 
 using System;
-using System.Text.RegularExpressions;
 
 #endregion
 
-namespace Crystalbyte.Paranoia.Data {
-    internal sealed class SQLiteConnectionStringReader {
-        private readonly string _connectionString;
+namespace Crystalbyte.Paranoia.Data.SQLite {
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+    internal sealed class CollateAttribute : Attribute {
+        private readonly CollatingSequence _sequence;
 
-        public SQLiteConnectionStringReader(string connectionString) {
-            _connectionString = connectionString;
+        public CollateAttribute(CollatingSequence sequence) {
+            _sequence = sequence;
         }
 
-        public string DataSource {
-            get {
-                var match = Regex.Match(_connectionString, "Data Source=.+?;", RegexOptions.IgnoreCase);
-                if (!match.Success) {
-                    return string.Empty;
-                }
-
-                var value = match.Value.Split('=')[1].TrimEnd(';');
-                var directory = (string) AppDomain.CurrentDomain.GetData("DataDirectory");
-                return Regex.Replace(value, @"\|DataDirectory\|", x => directory);
-            }
+        public CollatingSequence Sequence {
+            get { return _sequence; }
         }
     }
 }
