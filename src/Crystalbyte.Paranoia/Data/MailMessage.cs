@@ -36,12 +36,13 @@ using Crystalbyte.Paranoia.Data.SQLite;
 namespace Crystalbyte.Paranoia.Data {
     
     [Table("mail_message")]
-    [Virtual(ModuleType.Fts3)]
     internal class MailMessage {
         private ICollection<MimeMessage> _mimeMessages;
+        private ICollection<MailContent> _mailContents;
 
         public MailMessage() {
             _mimeMessages = new Collection<MimeMessage>();
+            _mailContents = new Collection<MailContent>();
         }
 
         [Key]
@@ -93,6 +94,11 @@ namespace Crystalbyte.Paranoia.Data {
         public virtual ICollection<MimeMessage> MimeMessages {
             get { return _mimeMessages; }
             set { _mimeMessages = value; }
+        }
+
+        public virtual ICollection<MailContent> MailContents {
+            get { return _mailContents; }
+            set { _mailContents = value; }
         }
     }
 }

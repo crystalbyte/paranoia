@@ -70,17 +70,18 @@ namespace Crystalbyte.Paranoia {
         public async Task<IEnumerable<MailMessageContext>> GetMessagesAsync() {
             Application.Current.AssertBackgroundThread();
 
-            var mailbox = App.Context.SelectedMailbox;
-            using (var database = new DatabaseContext()) {
-                var messages = await database.MailMessages
-                    .Where(x => x.MailboxId == mailbox.Id)
-                    .Where(x => x.Subject.Contains(_query)
-                                || x.FromAddress.Contains(_query)
-                                || x.FromName.Contains(_query))
-                    .ToArrayAsync();
+            return new MailMessageContext[0];
+            //var mailbox = App.Context.SelectedMailbox;
+            //using (var database = new DatabaseContext()) {
+            //    var messages = await database.MailMessages
+            //        .Where(x => x.MailboxId == mailbox.Id)
+            //        .Where(x => x.Subject.Contains(_query)
+            //                    || x.FromAddress.Contains(_query)
+            //                    || x.FromName.Contains(_query))
+            //        .ToArrayAsync();
 
-                return messages.Select(x => new MailMessageContext(mailbox, x));
-            }
+            //    return messages.Select(x => new MailMessageContext(mailbox, x));
+            //}
         }
 
         #endregion

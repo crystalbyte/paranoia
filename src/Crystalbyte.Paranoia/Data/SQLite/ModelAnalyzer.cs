@@ -46,7 +46,7 @@ namespace Crystalbyte.Paranoia.Data.SQLite {
             var tableName = _type.GetCustomAttribute<TableAttribute>().Name;
 
             var properties = _type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            var indexProperties = properties.Where(x => x.GetCustomAttribute<ForeignKeyAttribute>() != null).ToArray();
+            var indexProperties = properties.Where(x => x.GetCustomAttribute<IndexAttribute>() != null).ToArray();
             if (indexProperties.Length == 0) {
                 script = string.Empty;
                 return false;
