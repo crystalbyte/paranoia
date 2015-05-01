@@ -35,6 +35,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
@@ -296,15 +297,15 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         private async void OnSeenStatusChanged() {
-            await SaveFlagsToDatabaseAsync();
+            await SaveFlagsAsync();
         }
 
         private async void OnAnsweredStatusChanged() {
-            await SaveFlagsToDatabaseAsync();
+            await SaveFlagsAsync();
         }
 
         private async void OnFlaggedStatusChanged() {
-            await SaveFlagsToDatabaseAsync();
+            await SaveFlagsAsync();
         }
 
         private async void OnClassifyContact(object obj) {
@@ -323,7 +324,7 @@ namespace Crystalbyte.Paranoia {
             await _from.SaveAsync();
         }
 
-        private Task SaveFlagsToDatabaseAsync() {
+        private Task SaveFlagsAsync() {
             var flags = _message.Flags;
             return Task.Run(() => {
                 try {
@@ -502,28 +503,26 @@ namespace Crystalbyte.Paranoia {
                 if (parts != null && parts.Count > 0) {
                     var part = parts.First();
 
-                    mime = await Task.Run(() => {
-                        using (var context = new DatabaseContext()) {
-                            var current = context.KeyPairs.OrderByDescending(x => x.Date).First();
-                            var contact = context.MailContacts
-                                .Include(x => x.Keys)
-                                .FirstOrDefault(x => x.Address == address);
+                    using (var context = new DatabaseContext()) {
+                        var current = context.KeyPairs.OrderByDescending(x => x.Date).First();
+                        var contact = context.MailContacts
+                            .Include(x => x.Keys)
+                            .FirstOrDefault(x => x.Address == address);
 
-                            if (contact == null) {
-                                throw new MissingContactException(address);
-                            }
-
-                            if (contact.Keys.Count == 0) {
-                                throw new MissingKeyException(address);
-                            }
-
-                            var crypto = new PublicKeyCrypto(current.PublicKey, current.PrivateKey);
-                            return crypto.DecryptWithPrivateKey(part.Body, pKey, nonce);
+                        if (contact == null) {
+                            throw new MissingContactException(address);
                         }
-                    });
+
+                        if (contact.Keys.Count == 0) {
+                            throw new MissingKeyException(address);
+                        }
+
+                        var crypto = new PublicKeyCrypto(current.PublicKey, current.PrivateKey);
+                        mime = crypto.DecryptWithPrivateKey(part.Body, pKey, nonce);
+                    }
                 }
 
-                await SaveMimeAsync(mime);
+                await SaveContentAsync(mime);
 
                 return mime;
             } finally {
@@ -531,17 +530,30 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task SaveMimeAsync(byte[] mime) {
+        private async Task SaveContentAsync(byte[] mime) {
             using (var context = new DatabaseContext()) {
-                var message = await context.MailMessages.FindAsync(_message.Id);
-                var mimeMessage = new MimeMessage {
-                    Data = mime
-                };
-
-                message.MimeMessages.Add(mimeMessage);
                 var reader = new MailMessageReader(mime);
 
+                var message = await context.MailMessages.FindAsync(_message.Id);
                 message.HasAttachments = reader.FindAllAttachments().Count > 0;
+
+                var content = new MailContent {
+                    Mime = mime,
+                    MessageId = _message.Id,
+                    Subject = reader.Headers.Subject
+                };
+
+                var part = reader.FindFirstPlainTextVersion();
+                if (part != null) {
+                    content.Text = part.GetBodyAsText();
+                } else {
+                    part = reader.FindFirstHtmlVersion();
+                    if (part != null) {
+                        content.Text = part.GetBodyAsText().ExtractPureText();
+                    }
+                }
+
+                context.MailContent.Add(content);
 
                 var name = FromName;
                 var address = FromAddress;
@@ -626,7 +638,7 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertBackgroundThread();
 
             using (var database = new DatabaseContext()) {
-                return database.MimeMessages.Where(x => x.MessageId == Id).AnyAsync();
+                return database.MailContent.Where(x => x.MessageId == Id).AnyAsync();
             }
         }
 
@@ -672,11 +684,8 @@ namespace Crystalbyte.Paranoia {
             var address = FromAddress;
             await Task.Run(async () => {
                 using (var context = new DatabaseContext()) {
-                    var mime =
-                        await
-                            context.MimeMessages.FirstOrDefaultAsync(
-                                x => x.MessageId == _message.Id);
-                    var reader = new MailMessageReader(mime.Data);
+                    var content = await context.MailContent.FirstOrDefaultAsync(x => x.MessageId == _message.Id);
+                    var reader = new MailMessageReader(content.Mime);
 
                     var from = await context.MailContacts
                         .FirstOrDefaultAsync(x => x.Address == address);

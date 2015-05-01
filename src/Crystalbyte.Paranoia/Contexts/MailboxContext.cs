@@ -101,12 +101,12 @@ namespace Crystalbyte.Paranoia {
 
                         foreach (var message in messageModels) {
                             var m = message;
-                            var mimeModels = await context.MimeMessages
+                            var mimeModels = await context.MailContent
                                 .Where(x => x.MessageId == m.Id)
                                 .ToArrayAsync();
 
                             foreach (var mime in mimeModels) {
-                                context.MimeMessages.Remove(mime);
+                                context.MailContent.Remove(mime);
                             }
                         }
 
@@ -351,11 +351,11 @@ namespace Crystalbyte.Paranoia {
                         var id = message.Id;
                         using (var transaction = context.Database.BeginTransaction()) {
                             try {
-                                var mime = await context.MimeMessages
+                                var mime = await context.MailContent
                                     .FirstOrDefaultAsync(x => x.MessageId == id);
 
                                 if (mime != null) {
-                                    context.MimeMessages.Remove(mime);
+                                    context.MailContent.Remove(mime);
                                     await context.SaveChangesAsync();
                                 }
 
@@ -589,24 +589,15 @@ namespace Crystalbyte.Paranoia {
                     }) {
                         using (
                             var auth =
-                                await
-                                    connection.ConnectAsync(account.ImapHost,
-                                        account.ImapPort)) {
+                                await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
                             using (
                                 var session =
-                                    await
-                                        auth.LoginAsync(account.ImapUsername,
-                                            account.ImapPassword)) {
+                                    await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
                                 var mailbox = await session.SelectAsync(name);
 
-                                messages =
-                                    (await FetchRecentEnvelopesAsync(mailbox, maxUid))
-                                        .ToList();
-                                seenUids =
-                                    (await mailbox.SearchAsync("1:* SEEN")).ToArray();
-                                unseenUids =
-                                    (await mailbox.SearchAsync("1:* NOT SEEN"))
-                                        .ToArray();
+                                messages = (await FetchRecentEnvelopesAsync(mailbox, maxUid)).ToList();
+                                seenUids = (await mailbox.SearchAsync("1:* SEEN")).ToArray();
+                                unseenUids = (await mailbox.SearchAsync("1:* NOT SEEN")).ToArray();
                             }
                         }
                     }
@@ -696,10 +687,10 @@ namespace Crystalbyte.Paranoia {
                                 var message = deletedMessage;
                                 var mime =
                                     await
-                                        context.MimeMessages.FirstOrDefaultAsync(
+                                        context.MailContent.FirstOrDefaultAsync(
                                             x => x.MessageId == message.Id);
                                 if (mime != null) {
-                                    context.MimeMessages.Remove(mime);
+                                    context.MailContent.Remove(mime);
                                 }
 
                                 context.MailMessages.Remove(deletedMessage);

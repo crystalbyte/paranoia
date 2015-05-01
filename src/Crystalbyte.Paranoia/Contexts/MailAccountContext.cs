@@ -1146,7 +1146,7 @@ namespace Crystalbyte.Paranoia {
 
                             foreach (var message in messages) {
                                 var lMessage = message;
-                                var mimeMessages = await context.MimeMessages
+                                var mimeMessages = await context.MailContent
                                     .Where(x => x.MessageId == lMessage.Id)
                                     .ToArrayAsync();
 
@@ -1154,7 +1154,7 @@ namespace Crystalbyte.Paranoia {
                                     continue;
 
                                 foreach (var mimeMessage in mimeMessages) {
-                                    context.MimeMessages.Remove(mimeMessage);
+                                    context.MailContent.Remove(mimeMessage);
                                 }
                             }
 

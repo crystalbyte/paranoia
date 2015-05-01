@@ -30,11 +30,18 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
 using Crystalbyte.Paranoia.Mail;
+using CsQuery;
 
 #endregion
 
 namespace Crystalbyte.Paranoia {
-    public static class StringExtensions {
+    internal static class StringExtensions {
+
+        public static string ExtractPureText(this string html) {
+            var document = new CQ(html);
+            return document.Text();
+        }
+
         public static Color ToColor(this string text) {
             var matches = Regex.Matches(text, @"\d+");
             var r = byte.Parse(matches[0].Value);

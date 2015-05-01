@@ -41,7 +41,6 @@ namespace Crystalbyte.Paranoia.Data {
         public DbSet<MailContent> MailContent { get; set; }
         public DbSet<MailContact> MailContacts { get; set; }
         public DbSet<MailMessage> MailMessages { get; set; }
-        public DbSet<MimeMessage> MimeMessages { get; set; }
         public DbSet<MailComposition> Compositions { get; set; }
         public DbSet<PublicKey> PublicKeys { get; set; }
     }

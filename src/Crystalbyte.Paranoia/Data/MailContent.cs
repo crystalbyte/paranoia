@@ -18,10 +18,10 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("text")]
         public string Text { get; set; }
 
-        [ForeignKey("Message")]
-        [Column("mail_message_id")]
-        public Int64 MailMessageId { get; set; }
+        [Column("mime")]
+        public byte[] Mime { get; set; }
 
-        public MailMessage Message { get; set; }
+        [Column("message_id")]
+        public Int64 MessageId { get; set; }
     }
 }

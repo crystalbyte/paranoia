@@ -175,14 +175,14 @@ namespace Crystalbyte.Paranoia.UI {
 
             await Task.Run(async () => {
                                      using (var database = new DatabaseContext()) {
-                                         var mime = await database.MimeMessages
+                                         var content = await database.MailContent
                                              .Where(x => x.MessageId == id)
                                              .ToArrayAsync();
 
-                                         if (!mime.Any())
+                                         if (!content.Any())
                                              throw new InvalidOperationException();
 
-                                         message = new MailMessageReader(mime[0].Data);
+                                         message = new MailMessageReader(content[0].Mime);
                                          from = new MailContactContext(await database.MailContacts
                                              .FirstAsync(x => x.Address == message.Headers.From.Address));
                                      }
@@ -213,14 +213,14 @@ namespace Crystalbyte.Paranoia.UI {
             var id = Int64.Parse(arguments["id"]);
 
             using (var database = new DatabaseContext()) {
-                var mime = await database.MimeMessages
+                var content = await database.MailContent
                     .Where(x => x.MessageId == id)
                     .ToArrayAsync();
 
-                if (!mime.Any())
+                if (!content.Any())
                     throw new InvalidOperationException(Paranoia.Properties.Resources.MessageNotFoundException);
 
-                message = new MailMessageReader(mime[0].Data);
+                message = new MailMessageReader(content[0].Mime);
                 from = new MailContactContext(await database.MailContacts
                     .FirstAsync(x => x.Address == message.Headers.From.Address));
 
@@ -262,7 +262,7 @@ namespace Crystalbyte.Paranoia.UI {
             var id = Int64.Parse(arguments["id"]);
             var reader = await Task.Run(async () => {
                                                   using (var database = new DatabaseContext()) {
-                                                      var mime = await database.MimeMessages
+                                                      var mime = await database.MailContent
                                                           .Where(x => x.MessageId == id)
                                                           .ToArrayAsync();
 
@@ -270,7 +270,7 @@ namespace Crystalbyte.Paranoia.UI {
                                                           throw new InvalidOperationException(
                                                               Paranoia.Properties.Resources.MessageNotFoundException);
 
-                                                      return new MailMessageReader(mime[0].Data);
+                                                      return new MailMessageReader(mime[0].Mime);
                                                   }
                                               });
 

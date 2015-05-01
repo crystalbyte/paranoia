@@ -414,11 +414,11 @@ namespace Crystalbyte.Paranoia.UI {
 
         private static byte[] LoadMessageBytes(Int64 id) {
             using (var database = new DatabaseContext()) {
-                var message = database.MimeMessages
+                var message = database.MailContent
                     .FirstOrDefault(x => x.MessageId == id);
 
                 if (message != null)
-                    return message.Data;
+                    return message.Mime;
 
                 var text = string.Format(Paranoia.Properties.Resources.MissingMimeTemplate, id);
                 throw new InvalidOperationException(text);

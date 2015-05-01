@@ -433,7 +433,6 @@
     <Compile Include="Data\SQLite\CollatingSequence.cs" />
     <Compile Include="Data\Mailbox.cs" />
     <Compile Include="Data\MailMessage.cs" />
-    <Compile Include="Data\MimeMessage.cs" />
     <Compile Include="Data\SQLite\CollateAttribute.cs" />
     <Compile Include="Data\SQLite\TypeExtensions.cs" />
     <Compile Include="Data\SQLite\ConnectionStringReader.cs" />

@@ -157,12 +157,12 @@ namespace Crystalbyte.Paranoia {
 
         private static byte[] GetAttachmentBytes(string cid, long messageId) {
             using (var database = new DatabaseContext()) {
-                var message = database.MimeMessages.FirstOrDefault(x => x.MessageId == messageId);
+                var message = database.MailContent.FirstOrDefault(x => x.MessageId == messageId);
 
                 if (message == null)
                     return null;
 
-                var reader = new MailMessageReader(message.Data);
+                var reader = new MailMessageReader(message.Mime);
                 var attachments = reader.FindAllAttachments();
                 var attachment = attachments.FirstOrDefault(x => x.ContentId == Uri.UnescapeDataString(cid));
                 if (attachment != null)
@@ -256,11 +256,11 @@ namespace Crystalbyte.Paranoia {
 
         private static byte[] GetMessageBytes(Int64 id) {
             using (var database = new DatabaseContext()) {
-                var messages = database.MimeMessages
+                var messages = database.MailContent
                     .Where(x => x.MessageId == id)
                     .ToArray();
 
-                return messages.Length > 0 ? messages[0].Data : new byte[0];
+                return messages.Length > 0 ? messages[0].Mime : new byte[0];
             }
         }
 
