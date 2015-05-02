@@ -26,16 +26,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SQLite;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Data.SQLite;
-using NLog;
 
 #endregion
 
@@ -45,7 +42,6 @@ namespace Crystalbyte.Paranoia {
 
         private readonly string _query;
         private readonly IDictionary<Int64, MailboxContext> _mailboxes;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -60,6 +56,8 @@ namespace Crystalbyte.Paranoia {
 
         #region Implementation of IMessageSource
         public void BeginQuery() {
+            Application.Current.AssertUIThread();
+
             // Compose a new list of all possible mailboxes available. 
             // We will need them to map messages back into their own mailbox later.
             foreach (var mailbox in App.Context.Accounts.SelectMany(x => x.Mailboxes)) {
@@ -81,13 +79,16 @@ namespace Crystalbyte.Paranoia {
                     return new MailMessageContext[0];
                 }
 
+                // Strip out duplicates.
+                var ids = result.Select(x => x.message_id).Distinct().ToArray();
+
                 // We need to read all messages found by the full text search.
                 // EF should not be used, the fastest way seems to be to query the database manually using ADO.
                 // http://stackoverflow.com/questions/8107439/entity-framework-4-1-most-efficient-way-to-get-multiple-entities-by-primary-key
-                var parameters = result.Select(x => string.Format("@p{0}", x.message_id));
+                var parameters = ids.Select(x => string.Format("@p{0}", x));
                 using (var command = context.Database.Connection.CreateCommand()) {
                     command.CommandText = string.Format("SELECT * FROM mail_message WHERE id IN ({0});", string.Join(", ", parameters));
-                    command.Parameters.AddRange(result.Select(x => new SQLiteParameter(string.Format("@p{0}", x.message_id), x.message_id)).ToArray());
+                    command.Parameters.AddRange(ids.Select(x => new SQLiteParameter(string.Format("@p{0}", x), x)).ToArray());
                     command.CommandType = CommandType.Text;
 
                     var reader = command.ExecuteReader(CommandBehavior.Default);
@@ -98,6 +99,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public void FinishQuery() {
+            Application.Current.AssertUIThread();
             _mailboxes.Clear();
         }
 

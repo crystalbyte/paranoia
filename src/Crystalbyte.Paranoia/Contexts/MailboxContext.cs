@@ -27,6 +27,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SQLite;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -34,6 +35,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Crystalbyte.Paranoia.Data;
+using Crystalbyte.Paranoia.Data.SQLite;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI;
@@ -602,9 +604,50 @@ namespace Crystalbyte.Paranoia {
                         }
                     }
 
+                    
                     if (messages.Count > 0) {
-                        await SaveContactsAsync(messages);
-                        await SaveMessagesAsync(messages);
+                        using (var context = new DatabaseContext()) {
+                            context.Connect();
+                            var transaction = context.Database.Connection.BeginTransaction();
+
+                            try {
+                                SaveContacts(context, messages);
+
+                                var mailbox = await context.Mailboxes.FindAsync(_mailbox.Id);
+                                mailbox.Messages.AddRange(messages);
+                                context.SaveChanges();
+
+                                using (var command = context.Database.Connection.CreateCommand()) {
+                                    command.CommandText = "INSERT INTO mail_content(text, message_id) VALUES(@text, @message_id);";
+
+                                    foreach (var message in messages) {
+                                        var id = message.Id;
+                                        var subject = message.Subject;
+                                        var fromName = message.FromName;
+                                        var fromAddress = message.FromAddress;
+                                        
+                                        command.Parameters.Clear();
+                                        command.Parameters.AddRange(new[] { new SQLiteParameter("@text", subject), new SQLiteParameter("@message_id", id) });
+                                        command.ExecuteNonQuery();
+
+                                        command.Parameters.Clear();
+                                        command.Parameters.AddRange(new[] { new SQLiteParameter("@text", fromAddress), new SQLiteParameter("@message_id", id) });
+                                        command.ExecuteNonQuery();
+
+                                        command.Parameters.Clear();
+                                        command.Parameters.AddRange(new[] { new SQLiteParameter("@text", fromName), new SQLiteParameter("@message_id", id) });
+                                        command.ExecuteNonQuery();
+                                    }
+                                }
+
+                                transaction.Commit();
+                            }
+                            catch (Exception ex) {
+                                Logger.Error(ex);
+                                transaction.Rollback();
+                                throw;
+                            }
+                        }
                     }
 
                     return new SyncResults {
@@ -770,41 +813,34 @@ namespace Crystalbyte.Paranoia {
             FetchedEnvelopeCount++;
         }
 
-        private static async Task SaveContactsAsync(IEnumerable<MailMessage> messages) {
+        private static void SaveContacts(DatabaseContext context, IEnumerable<MailMessage> messages) {
             try {
                 Application.Current.AssertBackgroundThread();
 
                 var groups = messages.GroupBy(x => x.FromAddress).ToArray();
 
-                using (var database = new DatabaseContext()) {
-                    var contacts = await database.MailContacts
+                var contacts = context.MailContacts
                         .GroupBy(x => x.Address)
-                        .ToArrayAsync();
-
-                    var diff = groups.Where(x => contacts
-                        .All(y => string.Compare(x.Key, y.Key,
-                            StringComparison.InvariantCultureIgnoreCase) != 0))
                         .ToArray();
 
+                var diff = groups
+                    .Where(x => contacts
+                    .All(y => string.Compare(x.Key, y.Key,
+                        StringComparison.InvariantCultureIgnoreCase) != 0))
+                    .ToArray();
 
-                    var contexts = new List<MailContactContext>();
-                    foreach (var model in diff.Select(group => new MailContact {
-                        Address = group.First().FromAddress,
-                        Name = group.First().FromName
-                    })) {
-                        database.MailContacts.Add(model);
-                        contexts.Add(new MailContactContext(model));
-                    }
-
-                    if (diff.Length < 1) {
-                        return;
-                    }
-
-                    await database.SaveChangesAsync();
-
-                    await Application.Current.Dispatcher
-                        .InvokeAsync(() => App.Context.NotifyContactsAdded(contexts));
+                foreach (var model in diff.Select(group => new MailContact {
+                    Address = group.First().FromAddress,
+                    Name = group.First().FromName
+                })) {
+                    context.MailContacts.Add(model);
                 }
+
+                if (diff.Length < 1) {
+                    return;
+                }
+
+                context.SaveChanges();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -911,14 +947,6 @@ namespace Crystalbyte.Paranoia {
                     .Where(x => x.MailboxId == _mailbox.Id)
                     .Where(x => !x.Flags.Contains(MailMessageFlags.Seen))
                     .CountAsync();
-            }
-        }
-
-        private async Task SaveMessagesAsync(IEnumerable<MailMessage> messages) {
-            using (var context = new DatabaseContext()) {
-                var mailbox = await context.Mailboxes.FindAsync(_mailbox.Id);
-                mailbox.Messages.AddRange(messages);
-                await context.SaveChangesAsync();
             }
         }
 

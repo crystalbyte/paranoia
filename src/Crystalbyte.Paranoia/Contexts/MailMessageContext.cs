@@ -628,7 +628,6 @@ namespace Crystalbyte.Paranoia {
                         }
 
                         var id = new SQLiteParameter("@message_id", _message.Id);
-                        var subject = new SQLiteParameter("@subject", reader.Headers.Subject);
                         var text = new SQLiteParameter("@text");
                         var part = reader.FindFirstPlainTextVersion();
                         if (part != null) {
@@ -639,18 +638,19 @@ namespace Crystalbyte.Paranoia {
                                 var document = new CQ(part.GetBodyAsText());
                                 document.Remove("style");
                                 document.Remove("script");
-                                text.Value = document.Text();
+                                text.Value = document.Text().Trim();
                             }
                         }
 
-                        const string command = "INSERT INTO mail_content(subject, text, message_id) VALUES(@subject, @text, @message_id);";
-                        context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, command, subject, text, id);
+                        const string command = "INSERT INTO mail_content(text, message_id) VALUES(@text, @message_id);";
+                        context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, command, text, id);
                         transaction.Commit();
 
                         _message = message;
                     } catch (Exception ex) {
                         transaction.Rollback();
                         Logger.Error(ex);
+                        throw;
                     }
                 }
             }
@@ -725,17 +725,13 @@ namespace Crystalbyte.Paranoia {
                     const string pattern = "(href|src)\\s*=\\s*(\"|&quot;)http.+?(\"|&quot;)";
                     var externals = Regex.IsMatch(text, pattern,
                         RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                    await
-                        Application.Current.Dispatcher.InvokeAsync(
-                            () => { HasExternals = externals; });
+                    await Application.Current.Dispatcher.InvokeAsync(() => { HasExternals = externals; });
 
                     if (from.Classification == ContactClassification.Default) {
                         var analyzer = new SimpleSpamDetector(text);
                         var isfishy = await analyzer.GetIsSpamAsync();
-                        await
-                            Application.Current.Dispatcher.InvokeAsync(() => {
-                                IsFishy = isfishy;
-                            });
+                        await Application.Current.Dispatcher.InvokeAsync(
+                            () => { IsFishy = isfishy; });
                     }
 
                     var to = new List<MailContactContext>();
@@ -763,8 +759,7 @@ namespace Crystalbyte.Paranoia {
                     var attachments = reader.FindAllAttachments()
                         .Select(attachment => new AttachmentContext(attachment)).ToList();
 
-                    await
-                        Application.Current.Dispatcher.InvokeAsync(
+                    await Application.Current.Dispatcher.InvokeAsync(
                             () => _attachments.AddRange(attachments));
 
                     await Application.Current.Dispatcher.InvokeAsync(() => {
