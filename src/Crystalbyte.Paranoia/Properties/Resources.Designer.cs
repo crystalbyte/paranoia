@@ -331,6 +331,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The column with the name &apos;{0}&apos; has not been in type &apos;{1}&apos;..
+        /// </summary>
+        public static string ColumnNotFoundTemplate {
+            get {
+                return ResourceManager.GetString("ColumnNotFoundTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Message.
         /// </summary>
         public static string ComposeMessage {

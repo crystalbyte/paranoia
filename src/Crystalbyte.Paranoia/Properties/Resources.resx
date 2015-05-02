@@ -730,4 +730,7 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="IdleChangeNotification" xml:space="preserve">
     <value>Received change notification from server.</value>
   </data>
+  <data name="ColumnNotFoundTemplate" xml:space="preserve">
+    <value>The column with the name '{0}' has not been in type '{1}'.</value>
+  </data>
 </root>

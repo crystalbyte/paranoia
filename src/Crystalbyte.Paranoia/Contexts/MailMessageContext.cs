@@ -637,6 +637,8 @@ namespace Crystalbyte.Paranoia {
                             part = reader.FindFirstHtmlVersion();
                             if (part != null) {
                                 var document = new CQ(part.GetBodyAsText());
+                                document.Remove("style");
+                                document.Remove("script");
                                 text.Value = document.Text();
                             }
                         }
