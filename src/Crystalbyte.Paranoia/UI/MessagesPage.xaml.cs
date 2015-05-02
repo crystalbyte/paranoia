@@ -414,7 +414,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private static byte[] LoadMessageBytes(Int64 id) {
             using (var database = new DatabaseContext()) {
-                var message = database.MailContent
+                var message = database.MailData
                     .FirstOrDefault(x => x.MessageId == id);
 
                 if (message != null)

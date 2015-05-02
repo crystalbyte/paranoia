@@ -38,6 +38,12 @@ namespace Crystalbyte.Paranoia.Data {
     [Table("mail_message")]
     internal class MailMessage {
 
+        private ICollection<MailData> _data;
+
+        public MailMessage() {
+            _data = new Collection<MailData>();
+        }
+
         [Key]
         [Index]
         [Column("id")]
@@ -83,5 +89,10 @@ namespace Crystalbyte.Paranoia.Data {
         public Int64 MailboxId { get; set; }
 
         public Mailbox Mailbox { get; set; }
+
+        public virtual ICollection<MailData> Data {
+            get { return _data; }
+            set { _data = value; }
+        }
     }
 }

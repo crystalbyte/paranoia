@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Crystalbyte.Paranoia.Data.SQLite {
+    internal static class DbContextExtensions {
+        public static void EnableForeignKeys(this DbContext context) {
+            context.Database.ExecuteSqlCommand("PRAGMA foreign_keys = ON;");
+        }
+
+        public static void Connect(this DbContext context) {
+            context.Database.Connection.Open();
+        }
+    }
+}

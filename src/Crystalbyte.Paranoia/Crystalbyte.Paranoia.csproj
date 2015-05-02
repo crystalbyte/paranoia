@@ -217,7 +217,8 @@
     <Compile Include="Contexts\FileAttachmentContext.cs" />
     <Compile Include="Contexts\HtmlEditorCommandContext.cs" />
     <Compile Include="Contexts\InsertLinkContext.cs" />
-    <Compile Include="Data\MailContent.cs" />
+    <Compile Include="Data\MailData.cs" />
+    <Compile Include="Data\SQLite\DbContextExtensions.cs" />
     <Compile Include="Data\SQLite\DefaultAttribute.cs" />
     <Compile Include="Data\SQLite\DatabaseFunction.cs" />
     <Compile Include="Data\SQLite\ModuleType.cs" />

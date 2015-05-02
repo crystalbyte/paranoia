@@ -101,12 +101,12 @@ namespace Crystalbyte.Paranoia {
 
                         foreach (var message in messageModels) {
                             var m = message;
-                            var mimeModels = await context.MailContent
+                            var mimeModels = await context.MailData
                                 .Where(x => x.MessageId == m.Id)
                                 .ToArrayAsync();
 
                             foreach (var mime in mimeModels) {
-                                context.MailContent.Remove(mime);
+                                context.MailData.Remove(mime);
                             }
                         }
 
@@ -351,11 +351,11 @@ namespace Crystalbyte.Paranoia {
                         var id = message.Id;
                         using (var transaction = context.Database.BeginTransaction()) {
                             try {
-                                var mime = await context.MailContent
+                                var mime = await context.MailData
                                     .FirstOrDefaultAsync(x => x.MessageId == id);
 
                                 if (mime != null) {
-                                    context.MailContent.Remove(mime);
+                                    context.MailData.Remove(mime);
                                     await context.SaveChangesAsync();
                                 }
 
@@ -687,10 +687,10 @@ namespace Crystalbyte.Paranoia {
                                 var message = deletedMessage;
                                 var mime =
                                     await
-                                        context.MailContent.FirstOrDefaultAsync(
+                                        context.MailData.FirstOrDefaultAsync(
                                             x => x.MessageId == message.Id);
                                 if (mime != null) {
-                                    context.MailContent.Remove(mime);
+                                    context.MailData.Remove(mime);
                                 }
 
                                 context.MailMessages.Remove(deletedMessage);

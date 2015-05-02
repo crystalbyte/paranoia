@@ -175,7 +175,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             await Task.Run(async () => {
                                      using (var database = new DatabaseContext()) {
-                                         var content = await database.MailContent
+                                         var content = await database.MailData
                                              .Where(x => x.MessageId == id)
                                              .ToArrayAsync();
 
@@ -213,7 +213,7 @@ namespace Crystalbyte.Paranoia.UI {
             var id = Int64.Parse(arguments["id"]);
 
             using (var database = new DatabaseContext()) {
-                var content = await database.MailContent
+                var content = await database.MailData
                     .Where(x => x.MessageId == id)
                     .ToArrayAsync();
 
@@ -262,7 +262,7 @@ namespace Crystalbyte.Paranoia.UI {
             var id = Int64.Parse(arguments["id"]);
             var reader = await Task.Run(async () => {
                                                   using (var database = new DatabaseContext()) {
-                                                      var mime = await database.MailContent
+                                                      var mime = await database.MailData
                                                           .Where(x => x.MessageId == id)
                                                           .ToArrayAsync();
 

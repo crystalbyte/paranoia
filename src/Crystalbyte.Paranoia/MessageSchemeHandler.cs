@@ -157,7 +157,7 @@ namespace Crystalbyte.Paranoia {
 
         private static byte[] GetAttachmentBytes(string cid, long messageId) {
             using (var database = new DatabaseContext()) {
-                var message = database.MailContent.FirstOrDefault(x => x.MessageId == messageId);
+                var message = database.MailData.FirstOrDefault(x => x.MessageId == messageId);
 
                 if (message == null)
                     return null;
@@ -256,7 +256,7 @@ namespace Crystalbyte.Paranoia {
 
         private static byte[] GetMessageBytes(Int64 id) {
             using (var database = new DatabaseContext()) {
-                var messages = database.MailContent
+                var messages = database.MailData
                     .Where(x => x.MessageId == id)
                     .ToArray();
 

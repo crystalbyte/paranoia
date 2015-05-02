@@ -38,8 +38,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
+using Crystalbyte.Paranoia.Data.SQLite;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.UI.Commands;
+using CsQuery.ExtensionMethods;
 using NLog;
 
 #endregion
@@ -531,106 +533,120 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task SaveContentAsync(byte[] mime) {
+            Application.Current.AssertBackgroundThread();
+
             using (var context = new DatabaseContext()) {
-                var reader = new MailMessageReader(mime);
+                context.Connect();
+                context.EnableForeignKeys();
 
-                var message = await context.MailMessages.FindAsync(_message.Id);
-                message.HasAttachments = reader.FindAllAttachments().Count > 0;
-
-                var content = new MailContent {
-                    Mime = mime,
-                    MessageId = _message.Id,
-                    Subject = reader.Headers.Subject
-                };
-
-                var part = reader.FindFirstPlainTextVersion();
-                if (part != null) {
-                    content.Text = part.GetBodyAsText();
-                } else {
-                    part = reader.FindFirstHtmlVersion();
-                    if (part != null) {
-                        content.Text = part.GetBodyAsText().ExtractPureText();
-                    }
-                }
-
-                context.MailContent.Add(content);
-
-                var name = FromName;
-                var address = FromAddress;
-                var from = await context.MailContacts
-                    .FirstOrDefaultAsync(x => x.Address == address);
-                if (from == null) {
-                    from = new MailContact {
-                        Name = name,
-                        Address = address
-                    };
-
-                    context.MailContacts.Add(from);
-                }
-
-                var xHeaders = reader.Headers.UnknownHeaders;
-                var values = xHeaders.GetValues(MessageHeaders.Signet);
-                if (values != null) {
-                    var value = values.FirstOrDefault();
-                    if (value != null) {
-                        var dic = value.ToKeyValuePairs();
-                        try {
-                            var pKey = Convert.FromBase64String(dic["pkey"]);
-                            var k = from.Keys.FirstOrDefault(x => x.Data == pKey);
-                            if (k == null) {
-                                from.Keys.Add(new PublicKey {
-                                    Data = pKey
-                                });
-                            }
-                        } catch (Exception ex) {
-                            Logger.Error(ex);
-                        }
-                    }
-                }
-
-                foreach (var value in reader.Headers.To) {
-                    var v = value;
-                    var contact = await context.MailContacts
-                        .FirstOrDefaultAsync(x => x.Address == v.Address);
-                    if (contact == null) {
-                        contact = new MailContact {
-                            Name = v.DisplayName,
-                            Address = v.Address
-                        };
-
-                        context.MailContacts.Add(contact);
-                    }
-                    _to.Add(new MailContactContext(contact));
-                }
-
-                foreach (var value in reader.Headers.Cc) {
-                    var v = value;
-                    var contact = await context.MailContacts
-                        .FirstOrDefaultAsync(x => x.Address == v.Address);
-                    if (contact == null) {
-                        contact = new MailContact {
-                            Name = v.DisplayName,
-                            Address = v.Address
-                        };
-
-                        context.MailContacts.Add(contact);
-                    }
-                    _cc.Add(new MailContactContext(contact));
-                }
-
-                // Handle Optimistic Concurrency.
-                // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
-                while (true) {
+                using (var transaction = context.Database.Connection.BeginTransaction()) {
                     try {
-                        context.SaveChanges();
-                        break;
-                    } catch (DbUpdateConcurrencyException ex) {
-                        ex.Entries.ForEach(x => x.Reload());
-                        Logger.Info(ex);
+                        var reader = new MailMessageReader(mime);
+
+                        var message = await context.MailMessages.FindAsync(_message.Id);
+                        message.HasAttachments = reader.FindAllAttachments().Count > 0;
+
+                        var data = new MailData {
+                            Mime = mime
+                        };
+
+                        message.Data.Add(data);
+
+                        var name = FromName;
+                        var address = FromAddress;
+                        var from = await context.MailContacts
+                            .FirstOrDefaultAsync(x => x.Address == address);
+                        if (from == null) {
+                            from = new MailContact {
+                                Name = name,
+                                Address = address
+                            };
+
+                            context.MailContacts.Add(from);
+                        }
+
+                        var xHeaders = reader.Headers.UnknownHeaders;
+                        var values = xHeaders.GetValues(MessageHeaders.Signet);
+                        if (values != null) {
+                            var value = values.FirstOrDefault();
+                            if (value != null) {
+                                var dic = value.ToKeyValuePairs();
+                                try {
+                                    var pKey = Convert.FromBase64String(dic["pkey"]);
+                                    var k = from.Keys.FirstOrDefault(x => x.Data == pKey);
+                                    if (k == null) {
+                                        from.Keys.Add(new PublicKey {
+                                            Data = pKey
+                                        });
+                                    }
+                                } catch (Exception ex) {
+                                    Logger.Error(ex);
+                                }
+                            }
+                        }
+
+                        foreach (var value in reader.Headers.To) {
+                            var v = value;
+                            var contact = await context.MailContacts
+                                .FirstOrDefaultAsync(x => x.Address == v.Address);
+                            if (contact == null) {
+                                contact = new MailContact {
+                                    Name = v.DisplayName,
+                                    Address = v.Address
+                                };
+
+                                context.MailContacts.Add(contact);
+                            }
+                            _to.Add(new MailContactContext(contact));
+                        }
+
+                        foreach (var value in reader.Headers.Cc) {
+                            var v = value;
+                            var contact = await context.MailContacts
+                                .FirstOrDefaultAsync(x => x.Address == v.Address);
+                            if (contact == null) {
+                                contact = new MailContact {
+                                    Name = v.DisplayName,
+                                    Address = v.Address
+                                };
+
+                                context.MailContacts.Add(contact);
+                            }
+                            _cc.Add(new MailContactContext(contact));
+                        }
+
+                        // Handle Optimistic Concurrency.
+                        // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
+                        while (true) {
+                            try {
+                                context.SaveChanges();
+                                break;
+                            } catch (DbUpdateConcurrencyException ex) {
+                                ex.Entries.ForEach(x => x.Reload());
+                                Logger.Info(ex);
+                            }
+                        }
+
+                        //var part = reader.FindFirstPlainTextVersion();
+                        //if (part != null) {
+                        //    content.Text = part.GetBodyAsText();
+                        //} else {
+                        //    part = reader.FindFirstHtmlVersion();
+                        //    if (part != null) {
+                        //        content.Text = part.GetBodyAsText().ExtractPureText();
+                        //    }
+                        //}
+
+                        //context.Database.ExecuteSqlCommand(TransactionalBehavior.EnsureTransaction, "INSERT")
+
+                        transaction.Commit();
+
+                        _message = message;
+                    } catch (Exception ex) {
+                        transaction.Rollback();
+                        Logger.Error(ex);
                     }
                 }
-
-                _message = message;
             }
         }
 
@@ -638,7 +654,7 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertBackgroundThread();
 
             using (var database = new DatabaseContext()) {
-                return database.MailContent.Where(x => x.MessageId == Id).AnyAsync();
+                return database.MailData.Where(x => x.MessageId == Id).AnyAsync();
             }
         }
 
@@ -684,7 +700,7 @@ namespace Crystalbyte.Paranoia {
             var address = FromAddress;
             await Task.Run(async () => {
                 using (var context = new DatabaseContext()) {
-                    var content = await context.MailContent.FirstOrDefaultAsync(x => x.MessageId == _message.Id);
+                    var content = await context.MailData.FirstOrDefaultAsync(x => x.MessageId == _message.Id);
                     var reader = new MailMessageReader(content.Mime);
 
                     var from = await context.MailContacts
