@@ -240,12 +240,12 @@ namespace Crystalbyte.Paranoia {
 
             _messages.Clear();
 
-            source.IsLoadingMessages = true;
+            source.BeginQuery();
             var messages = await Task.Run(() => source.GetMessagesAsync());
-            source.IsLoadingMessages = false;
+            source.FinishQuery();
 
             // User might have switched to a different mailbox by now.
-            if (SelectedMailbox != source && !(source is QueryContext)) {
+            if (SelectedMailbox != source && !(source is MessageQuery)) {
                 return;
             }
 
@@ -425,10 +425,10 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            if (String.IsNullOrWhiteSpace(query)) {
+            if (string.IsNullOrWhiteSpace(query)) {
                 await RequestMessagesAsync(SelectedMailbox);
             } else {
-                await RequestMessagesAsync(new QueryContext(query));
+                await RequestMessagesAsync(new MessageQuery(query));
             }
         }
 

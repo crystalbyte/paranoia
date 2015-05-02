@@ -59,7 +59,7 @@ namespace Crystalbyte.Paranoia.Data.SQLite {
                 .Select(x => x.PropertyType.GetGenericArguments().First())
                 .ToArray();
 
-            EnforceForeignKeys(context);
+            context.EnableForeignKeys();
 
             var analyzers = models.Select(model => new ModelAnalyzer(model));
             foreach (var analyzer in analyzers) {
@@ -72,11 +72,6 @@ namespace Crystalbyte.Paranoia.Data.SQLite {
                     context.Database.ExecuteSqlCommand(indexScript);
                 }
             }
-        }
-
-        private static void EnforceForeignKeys(T context) {
-            const string command = "PRAGMA foreign_keys = \"1\";";
-            context.Database.ExecuteSqlCommand(command);
         }
 
         private static void CreateDatabase(string path) {

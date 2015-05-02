@@ -217,6 +217,7 @@
     <Compile Include="Contexts\FileAttachmentContext.cs" />
     <Compile Include="Contexts\HtmlEditorCommandContext.cs" />
     <Compile Include="Contexts\InsertLinkContext.cs" />
+    <Compile Include="Data\MailContent.cs" />
     <Compile Include="Data\MailData.cs" />
     <Compile Include="Data\SQLite\DbContextExtensions.cs" />
     <Compile Include="Data\SQLite\DefaultAttribute.cs" />
@@ -311,7 +312,7 @@
     <Compile Include="Contexts\NavigationContext.cs" />
     <Compile Include="Contexts\NotificationWindowContext.cs" />
     <Compile Include="Contexts\OutboxContext.cs" />
-    <Compile Include="Contexts\QueryContext.cs" />
+    <Compile Include="MessageQuery.cs" />
     <Compile Include="Contexts\CompositionContext.cs" />
     <Compile Include="Contexts\TestingContext.cs" />
     <Compile Include="Data\PublicKey.cs" />

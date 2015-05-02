@@ -1137,6 +1137,16 @@ namespace Crystalbyte.Paranoia {
 
         #region Implementation of IMessageSource
 
+        public void BeginQuery() {
+            Application.Current.AssertUIThread();
+            IsLoadingMessages = true;
+        }
+
+        public void FinishQuery() {
+            Application.Current.AssertUIThread();
+            IsLoadingMessages = false;
+        }
+
         public async Task<IEnumerable<MailMessageContext>> GetMessagesAsync() {
             Application.Current.AssertBackgroundThread();
 

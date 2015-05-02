@@ -14,6 +14,8 @@ namespace Crystalbyte.Paranoia.Data.SQLite {
             switch (Module) {
                 case ModuleType.Fts3:
                     return "fts3";
+                case ModuleType.Fts4:
+                    return "fts4";
                 default:
                     throw new IndexOutOfRangeException("Module");
             }

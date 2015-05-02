@@ -37,11 +37,6 @@ using CsQuery;
 namespace Crystalbyte.Paranoia {
     internal static class StringExtensions {
 
-        public static string ExtractPureText(this string html) {
-            var document = new CQ(html);
-            return document.Text();
-        }
-
         public static Color ToColor(this string text) {
             var matches = Regex.Matches(text, @"\d+");
             var r = byte.Parse(matches[0].Value);

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Crystalbyte.Paranoia.Data.SQLite;
 
 namespace Crystalbyte.Paranoia.Data {
     [Table("mail_data")]

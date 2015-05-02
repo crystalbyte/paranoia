@@ -27,6 +27,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -75,7 +76,7 @@ namespace Crystalbyte.Paranoia.Data.SQLite {
             var keyExists = properties.Any(x => x.GetCustomAttribute<KeyAttribute>() != null);
             if (!keyExists) {
                 var message = string.Format(Resources.MissingKeyTemplate, _type.Name);
-                throw new Exception(message);
+                throw new SQLiteException(message);
             }
 
             var foreignKeyProperty = properties.FirstOrDefault(x => x.GetCustomAttribute<ForeignKeyAttribute>() != null);
@@ -161,7 +162,6 @@ namespace Crystalbyte.Paranoia.Data.SQLite {
             var attribute = info.GetCustomAttribute<DefaultAttribute>();
             return attribute != null && attribute.Function == DatabaseFunction.CurrentTimestamp;
         }
-
         private static bool TryReadCollateAttribute(MemberInfo info, out CollatingSequence sequence) {
             sequence = CollatingSequence.Binary;
             var attribute = info.GetCustomAttribute<CollateAttribute>();

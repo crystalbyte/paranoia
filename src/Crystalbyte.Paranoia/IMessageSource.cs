@@ -31,7 +31,9 @@ using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia {
     internal interface IMessageSource {
-        bool IsLoadingMessages { get; set; }
+
+        void BeginQuery();
         Task<IEnumerable<MailMessageContext>> GetMessagesAsync();
+        void FinishQuery();
     }
 }

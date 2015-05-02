@@ -29,19 +29,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.SQLite;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Data.SQLite;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.UI.Commands;
-using CsQuery.ExtensionMethods;
+using CsQuery;
 using NLog;
 
 #endregion
@@ -627,18 +627,22 @@ namespace Crystalbyte.Paranoia {
                             }
                         }
 
-                        //var part = reader.FindFirstPlainTextVersion();
-                        //if (part != null) {
-                        //    content.Text = part.GetBodyAsText();
-                        //} else {
-                        //    part = reader.FindFirstHtmlVersion();
-                        //    if (part != null) {
-                        //        content.Text = part.GetBodyAsText().ExtractPureText();
-                        //    }
-                        //}
+                        var id = new SQLiteParameter("@message_id", _message.Id);
+                        var subject = new SQLiteParameter("@subject", reader.Headers.Subject);
+                        var text = new SQLiteParameter("@text");
+                        var part = reader.FindFirstPlainTextVersion();
+                        if (part != null) {
+                            text.Value = part.GetBodyAsText();
+                        } else {
+                            part = reader.FindFirstHtmlVersion();
+                            if (part != null) {
+                                var document = new CQ(part.GetBodyAsText());
+                                text.Value = document.Text();
+                            }
+                        }
 
-                        //context.Database.ExecuteSqlCommand(TransactionalBehavior.EnsureTransaction, "INSERT")
-
+                        const string command = "INSERT INTO mail_content(subject, text, message_id) VALUES(@subject, @text, @message_id);";
+                        context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, command, subject, text, id);
                         transaction.Commit();
 
                         _message = message;
@@ -762,17 +766,11 @@ namespace Crystalbyte.Paranoia {
                             () => _attachments.AddRange(attachments));
 
                     await Application.Current.Dispatcher.InvokeAsync(() => {
-                        RaisePropertyChanged(
-                            () => PrimaryTo);
-                        RaisePropertyChanged(
-                            () => SecondaryTo);
-                        RaisePropertyChanged(
-                            () => HasAttachments);
-                        RaisePropertyChanged(
-                            () => HasCarbonCopies);
-                        RaisePropertyChanged(
-                            () =>
-                                HasMultipleRecipients);
+                        RaisePropertyChanged(() => PrimaryTo);
+                        RaisePropertyChanged(() => SecondaryTo);
+                        RaisePropertyChanged(() => HasAttachments);
+                        RaisePropertyChanged(() => HasCarbonCopies);
+                        RaisePropertyChanged(() => HasMultipleRecipients);
 
                         IsInitialized = true;
                         OnInitialized();
