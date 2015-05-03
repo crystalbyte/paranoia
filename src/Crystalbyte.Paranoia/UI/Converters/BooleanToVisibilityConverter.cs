@@ -38,10 +38,19 @@ namespace Crystalbyte.Paranoia.UI.Converters {
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             var p = parameter as string;
-            if (p != null && p == "!") {
-                return (bool) value ? Visibility.Collapsed : Visibility.Visible;
+            var hidden = p != null && p.Contains("h");
+            if (p != null && p.Contains("!")) {
+                return (bool) value 
+                    ? hidden 
+                        ? Visibility.Hidden
+                        : Visibility.Collapsed
+                    : Visibility.Visible;
             }
-            return (bool) value ? Visibility.Visible : Visibility.Collapsed;
+            return (bool) value 
+                ? Visibility.Visible 
+                : hidden 
+                    ? Visibility.Hidden
+                    : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

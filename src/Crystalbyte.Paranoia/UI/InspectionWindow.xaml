@@ -50,7 +50,7 @@
                     <TextBlock VerticalAlignment="Center"
                                Background="Transparent"
                                FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                Text="{Binding Subject,
                                               Mode=OneWay,

@@ -66,7 +66,7 @@
                                           DockPanel.Dock="Right"
                                           ImageSource="/Assets/add.png"
                                           IsTabStop="False" />
-                    <TextBlock Margin="12,0,0,0"
+                    <TextBlock Margin="12,0,12,0"
                                VerticalAlignment="Center"
                                DockPanel.Dock="Left"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}"
@@ -635,7 +635,7 @@
                     <ListView.ItemContainerStyle>
                         <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
                             <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Mvsp}" />
-                            <Setter Property="Padding" Value="6,1" />
+                            <Setter Property="Padding" Value="3,0" />
                             <EventSetter Event="MouseDoubleClick" Handler="OnMessageMouseDoubleClick" />
                         </Style>
                     </ListView.ItemContainerStyle>
@@ -643,20 +643,31 @@
                         <DataTemplate DataType="paranoia:MailMessageContext">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="22" />
-                                    <RowDefinition Height="20" />
+                                    <RowDefinition Height="18" />
+                                    <RowDefinition Height="18" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
+                                <Rectangle Grid.Row="0"
+                                           Grid.RowSpan="2"
+                                           Grid.Column="0"
+                                           Width="3"
+                                           Height="32"
+                                           VerticalAlignment="Center"
+                                           Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                                           Visibility="{Binding IsNotSeen,
+                                                                Converter={StaticResource BooleanToVisibilityConverter},
+                                                                ConverterParameter=h}" />
                                 <Image Grid.Row="0"
                                        Grid.RowSpan="2"
-                                       Grid.Column="0"
-                                       Width="36"
-                                       Height="36"
-                                       Margin="6,0,12,0"
+                                       Grid.Column="1"
+                                       Width="32"
+                                       Height="32"
+                                       Margin="0,0,6,0"
                                        VerticalAlignment="Center"
                                        Source="{Binding FromAddress,
                                                         ConverterParameter=48,
@@ -665,7 +676,7 @@
 
                                 <TextBlock x:Name="FromText"
                                            Grid.Row="0"
-                                           Grid.Column="1"
+                                           Grid.Column="2"
                                            Margin="0,0,12,0"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
@@ -676,7 +687,7 @@
                                            TextWrapping="NoWrap" />
 
                                 <StackPanel Grid.Row="0"
-                                            Grid.Column="2"
+                                            Grid.Column="3"
                                             Margin="0,1,3,0"
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
@@ -704,7 +715,7 @@
                                 </StackPanel>
                                 <TextBlock x:Name="SubjectText"
                                            Grid.Row="1"
-                                           Grid.Column="1"
+                                           Grid.Column="2"
                                            Margin="0,0,6,0"
                                            VerticalAlignment="Center"
                                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
@@ -717,7 +728,7 @@
                                            TextWrapping="NoWrap" />
                                 <TextBlock x:Name="DateText"
                                            Grid.Row="1"
-                                           Grid.Column="2"
+                                           Grid.Column="3"
                                            Margin="0,0,6,0"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
@@ -774,7 +785,7 @@
                                               DataContext="{Binding SelectedOutbox}"
                                               ImageSource="/Assets/upload.png" />
                     </StackPanel>
-                    <TextBlock Margin="12,0"
+                    <TextBlock Margin="12,0,12,0"
                                VerticalAlignment="Center"
                                DataContext="{Binding SelectedOutbox}"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}"
@@ -935,7 +946,6 @@
             <Border Grid.Row="0"
                     BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
                     BorderThickness="0,0,0,1"
-                    Padding="0,0,0,6"
                     UseLayoutRounding="True"
                     Visibility="{Binding IsMessageOrSmtpRequestSelected,
                                          Converter={StaticResource BooleanToVisibilityConverter},
@@ -943,41 +953,36 @@
                                          TargetNullValue={x:Static Visibility.Collapsed}}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0"
                                Grid.Column="0"
-                               Grid.ColumnSpan="2"
-                               Margin="12,6,6,3"
+                               Margin="6"
                                DataContext="{Binding SelectedMessage}"
-                               FontSize="22"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}}"
                                Style="{DynamicResource TitleTextStyle}"
                                Text="{Binding Subject,
                                               Converter={StaticResource NullOrEmptyFormatter},
                                               Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"
                                TextWrapping="NoWrap" />
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="0"
-                               Margin="12,-3,6,0"
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="1"
+                               Margin="6"
+                               VerticalAlignment="Center"
                                DataContext="{Binding SelectedMessage}"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                                FontWeight="Normal"
-                               Style="{DynamicResource SubtitleTextBlockStyle}"
-                               Text="{Binding FromName}"
-                               TextTrimming="CharacterEllipsis"
-                               TextWrapping="NoWrap" />
-                    <StackPanel Grid.Row="1"
-                                Grid.RowSpan="2"
-                                Grid.Column="1"
-                                Margin="6,0"
-                                HorizontalAlignment="Right"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+                               Text="{Binding EntryDate}" />
+                    <StackPanel Grid.Row="0"
+                                Grid.Column="2"
+                                Margin="6"
                                 VerticalAlignment="Center"
                                 Orientation="Horizontal"
                                 Visibility="{Binding SelectedMessage,
@@ -1004,14 +1009,6 @@
                                               IsTabStop="False"
                                               ToolTip="{x:Static properties:Resources.Print}" />
                     </StackPanel>
-                    <TextBlock Grid.Row="2"
-                               Grid.Column="0"
-                               Margin="12,0"
-                               DataContext="{Binding SelectedMessage}"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
-                               FontWeight="Normal"
-                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
-                               Text="{Binding EntryDate}" />
                 </Grid>
             </Border>
             <ListView Grid.Row="1"

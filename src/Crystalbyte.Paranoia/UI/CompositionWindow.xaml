@@ -184,6 +184,7 @@
                     <TextBlock x:Name="TitleBlock"
                                Margin="0"
                                VerticalAlignment="Center"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                WindowChrome.IsHitTestVisibleInChrome="False"
                                d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}">
                         <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}" Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />

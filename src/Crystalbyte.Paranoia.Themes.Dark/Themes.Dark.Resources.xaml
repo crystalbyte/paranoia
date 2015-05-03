@@ -8,9 +8,9 @@
     <Color x:Key="ItemUnfocusedBackgroundColorKey">#22FFFFFF</Color>
 
     <!--  App  -->
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}">26</system:Double>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}">22</system:Double>
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}">16</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}">24</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}">20.5</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}">14</system:Double>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}">12</system:Double>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}">10</system:Double>
 
