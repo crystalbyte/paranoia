@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Crypto
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(solution)", "(solution)", "{8690125E-AC10-4513-9A4F-75CD92CC29F0}"
 	ProjectSection(SolutionItems) = preProject
-		CefSharp.Native.props = CefSharp.Native.props
-		CefSharp.props = CefSharp.props
 		Crystalbyte.Paranoia.vsmdi = Crystalbyte.Paranoia.vsmdi
 		key.debug.snk = key.debug.snk
 	EndProjectSection
