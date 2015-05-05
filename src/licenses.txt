@@ -1,6 +1,0 @@
-Awesomium - Free License (http://wiki.awesomium.com/licensing/licensing-overview.html)
-dotLess - Apache 2.0 (https://github.com/dotless/dotless/blob/master/license.txt)
-HtmlAgilityPack - Microsoft Public License (Ms-PL) (http://htmlagilitypack.codeplex.com/license)
-Ionic Zip - Microsoft Public License (Ms-PL) (http://dotnetzip.codeplex.com/license)
-Newtonsoft.Json	- MIT License (https://raw.githubusercontent.com/JamesNK/Newtonsoft.Json/master/LICENSE.md)
-NLog - BSD License (https://github.com/NLog/NLog/blob/master/LICENSE.txt)
