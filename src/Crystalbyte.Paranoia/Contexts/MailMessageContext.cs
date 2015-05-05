@@ -409,17 +409,15 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private static Task<MailAccount> GetAccountAsync(Mailbox mailbox) {
-            using (var context = new DatabaseContext()) {
-                return context.MailAccounts.FindAsync(mailbox.AccountId);
-            }
-        }
-
         private async Task<byte[]> FetchMimeAsync() {
             Application.Current.AssertBackgroundThread();
 
-            var mailbox = await GetMailboxAsync();
-            var account = await GetAccountAsync(mailbox);
+            MailAccount account;
+            Mailbox mailbox;
+            using (var context = new DatabaseContext()) {
+                mailbox = context.Mailboxes.Find(_message.MailboxId);
+                account = context.MailAccounts.Find(mailbox.AccountId);
+            }
 
             using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
                 connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
@@ -656,19 +654,11 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal Task<bool> GetIsMimeLoadedAsync() {
+        internal bool GetIsMimeStored() {
             Application.Current.AssertBackgroundThread();
 
             using (var database = new DatabaseContext()) {
-                return database.MailData.Where(x => x.MessageId == Id).AnyAsync();
-            }
-        }
-
-        private Task<Mailbox> GetMailboxAsync() {
-            Application.Current.AssertBackgroundThread();
-
-            using (var context = new DatabaseContext()) {
-                return context.Mailboxes.FindAsync(_message.MailboxId);
+                return database.MailData.Any(x => x.MessageId == Id);
             }
         }
 

@@ -439,31 +439,17 @@
                     <RadioButton Margin="3,3,6,3"
                                  Content="{x:Static properties:Resources.All}"
                                  DockPanel.Dock="Left"
-                                 GroupName="Filter"
-                                 IsChecked="{Binding ShowAllMessages,
-                                                     Mode=TwoWay}"
+                                 GroupName="MessageFilter"
                                  IsTabStop="False"
                                  Style="{DynamicResource RadioButtonTextStyle}" />
                     <RadioButton Margin="3"
                                  Content="{x:Static properties:Resources.Unseen}"
                                  DockPanel.Dock="Left"
-                                 GroupName="Filter"
+                                 GroupName="MessageFilter"
+                                 IsChecked="{Binding ShowOnlyUnseen,
+                                                     Mode=TwoWay}"
                                  IsTabStop="False"
                                  Style="{DynamicResource RadioButtonTextStyle}" />
-                    <RadioButton Margin="5,3,3,0"
-                                 DockPanel.Dock="Left"
-                                 GroupName="Filter"
-                                 IsChecked="{Binding ShowOnlyFavorites,
-                                                     Mode=TwoWay}"
-                                 IsTabStop="False"
-                                 Style="{DynamicResource RadioButtonFavoriteStyle}" />
-                    <RadioButton Margin="4,3,3,0"
-                                 DockPanel.Dock="Left"
-                                 GroupName="Filter"
-                                 IsChecked="{Binding ShowOnlyWithAttachments,
-                                                     Mode=TwoWay}"
-                                 IsTabStop="False"
-                                 Style="{DynamicResource RadioButtonAttachmentsStyle}" />
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                         <Button Click="OnSortPropertyButtonClicked"
                                 Content="{Binding SortProperty,
@@ -1052,7 +1038,7 @@
                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}"
                   Visibility="{Binding IsMessageOrSmtpRequestSelected,
                                        Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsNotLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
                     <ui:HtmlViewer x:Name="MessageViewer"
                                    BorderThickness="0"
                                    DataContext="{Binding DataContext,

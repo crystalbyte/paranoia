@@ -49,8 +49,6 @@ namespace Crystalbyte.Paranoia {
 
         double Progress { get; }
 
-        bool IsLoading { get; }
-
         bool HasMultipleRecipients { get; }
 
         bool HasCarbonCopies { get; }

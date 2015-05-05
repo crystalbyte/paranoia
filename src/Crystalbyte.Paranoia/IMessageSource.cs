@@ -30,8 +30,7 @@ using System.Threading.Tasks;
 #endregion
 
 namespace Crystalbyte.Paranoia {
-    internal interface IMessageSource {
-
+    public interface IMessageSource {
         void BeginQuery();
         Task<IEnumerable<MailMessageContext>> GetMessagesAsync();
         void FinishQuery();

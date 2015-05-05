@@ -27,6 +27,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Globalization;
@@ -62,7 +63,8 @@ namespace Crystalbyte.Paranoia {
         private int _totalEnvelopeCount;
         private int _fetchedEnvelopeCount;
         private bool _isSyncedInitially;
-        private bool _showAllMessages;
+        private bool _showOnlyUnseen;
+        private bool _showSeenAndUnseen;
         private bool _showOnlyWithAttachments;
         private bool _showOnlyFavorites;
         private bool _isSelectedSubtly;
@@ -76,7 +78,7 @@ namespace Crystalbyte.Paranoia {
         internal MailboxContext(MailAccountContext account, Mailbox mailbox) {
             _account = account;
             _mailbox = mailbox;
-            _showAllMessages = true;
+            _showSeenAndUnseen = true;
         }
 
         internal async Task DeleteAsync() {
@@ -348,18 +350,22 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 using (var context = new DatabaseContext()) {
-                    await context.Database.Connection.OpenAsync();
+                    context.Connect();
+
                     foreach (var message in messages) {
                         var id = message.Id;
                         using (var transaction = context.Database.BeginTransaction()) {
                             try {
-                                var mime = await context.MailData
-                                    .FirstOrDefaultAsync(x => x.MessageId == id);
+                                var mime = context.MailData
+                                    .Where(x => x.MessageId == id)
+                                    .ToArray();
+                                context.MailData.RemoveRange(mime);
 
-                                if (mime != null) {
-                                    context.MailData.Remove(mime);
-                                    await context.SaveChangesAsync();
-                                }
+                                // The content table is a virtual table and cannot be altered using EF.
+                                context.Database.ExecuteSqlCommand(
+                                    TransactionalBehavior.DoNotEnsureTransaction,
+                                    "DELETE FROM mail_content WHERE message_id = @id;", 
+                                    new SQLiteParameter("@id", id));
 
                                 var model = new MailMessage {
                                     Id = message.Id,
@@ -369,7 +375,18 @@ namespace Crystalbyte.Paranoia {
                                 context.MailMessages.Attach(model);
                                 context.MailMessages.Remove(model);
 
-                                await context.SaveChangesAsync();
+                                // Handle Optimistic Concurrency.
+                                // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
+                                while (true) {
+                                    try {
+                                        context.SaveChanges();
+                                        break;
+                                    } catch (DbUpdateConcurrencyException ex) {
+                                        ex.Entries.ForEach(x => x.Reload());
+                                        Logger.Info(ex);
+                                    }
+                                }
+
                                 transaction.Commit();
                             } catch (Exception) {
                                 transaction.Rollback();
@@ -442,39 +459,6 @@ namespace Crystalbyte.Paranoia {
                 }
                 _notSeenCount = value;
                 RaisePropertyChanged(() => NotSeenCount);
-            }
-        }
-
-        public bool ShowAllMessages {
-            get { return _showAllMessages; }
-            set {
-                if (_showAllMessages == value) {
-                    return;
-                }
-                _showAllMessages = value;
-                RaisePropertyChanged(() => ShowAllMessages);
-            }
-        }
-
-        public bool ShowOnlyWithAttachments {
-            get { return _showOnlyWithAttachments; }
-            set {
-                if (_showOnlyWithAttachments == value) {
-                    return;
-                }
-                _showOnlyWithAttachments = value;
-                RaisePropertyChanged(() => ShowOnlyWithAttachments);
-            }
-        }
-
-        public bool ShowOnlyFavorites {
-            get { return _showOnlyFavorites; }
-            set {
-                if (_showOnlyFavorites == value) {
-                    return;
-                }
-                _showOnlyFavorites = value;
-                RaisePropertyChanged(() => ShowOnlyFavorites);
             }
         }
 
@@ -604,7 +588,7 @@ namespace Crystalbyte.Paranoia {
                         }
                     }
 
-                    
+
                     if (messages.Count > 0) {
                         using (var context = new DatabaseContext()) {
                             context.Connect();
@@ -625,7 +609,7 @@ namespace Crystalbyte.Paranoia {
                                         var subject = message.Subject;
                                         var fromName = message.FromName;
                                         var fromAddress = message.FromAddress;
-                                        
+
                                         command.Parameters.Clear();
                                         command.Parameters.AddRange(new[] { new SQLiteParameter("@text", subject), new SQLiteParameter("@message_id", id) });
                                         command.ExecuteNonQuery();
@@ -641,8 +625,7 @@ namespace Crystalbyte.Paranoia {
                                 }
 
                                 transaction.Commit();
-                            }
-                            catch (Exception ex) {
+                            } catch (Exception ex) {
                                 Logger.Error(ex);
                                 transaction.Rollback();
                                 throw;
@@ -1181,23 +1164,7 @@ namespace Crystalbyte.Paranoia {
             MailMessage[] messages;
 
             using (var context = new DatabaseContext()) {
-                if (ShowOnlyFavorites) {
-                    messages = await context.MailMessages
-                        .Where(x => x.Flags.Contains(MailMessageFlags.Flagged))
-                        .Where(x => x.MailboxId == _mailbox.Id)
-                        .ToArrayAsync();
-                    goto next;
-                }
-
-                if (ShowOnlyWithAttachments) {
-                    messages = await context.MailMessages
-                        .Where(x => x.HasAttachments)
-                        .Where(x => x.MailboxId == _mailbox.Id)
-                        .ToArrayAsync();
-                    goto next;
-                }
-
-                if (ShowAllMessages) {
+                if (!App.Context.ShowOnlyUnseen) {
                     messages = await context.MailMessages
                         .Where(x => x.MailboxId == _mailbox.Id)
                         .ToArrayAsync();

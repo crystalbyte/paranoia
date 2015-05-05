@@ -60,9 +60,7 @@ namespace Crystalbyte.Paranoia {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private float _zoom;
-        private bool _showAllMessages;
-        private bool _showOnlyFavorites;
-        private bool _showOnlyWithAttachments;
+        private bool _showOnlyUnseen;
         private string _queryString;
         private string _source;
         private string _statusText;
@@ -89,6 +87,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ObservableCollection<MailAccountContext> _accounts;
         private readonly ObservableCollection<MailContactContext> _contacts;
         private readonly ObservableCollection<NavigationContext> _navigationOptions;
+        private IMessageSource _messageSource;
 
         #endregion
 
@@ -160,7 +159,7 @@ namespace Crystalbyte.Paranoia {
             _contacts.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Contacts);
 
             _zoom = 0.0f;
-            _showAllMessages = true;
+            _showOnlyUnseen = false;
         }
 
         private async void OnNetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e) {
@@ -233,10 +232,14 @@ namespace Crystalbyte.Paranoia {
         /// <summary>
         ///     Queries the message source.
         /// </summary>
-        /// <param name="source">The message source to query.</param>
         /// <returns>Returns a task object.</returns>
-        private async Task RequestMessagesAsync(IMessageSource source) {
+        private async Task QueryMessageSource() {
             Application.Current.AssertUIThread();
+
+            var source = MessageSource;
+            if (source == null) {
+                return;
+            }
 
             _messages.Clear();
 
@@ -244,8 +247,8 @@ namespace Crystalbyte.Paranoia {
             var messages = await Task.Run(() => source.GetMessagesAsync());
             source.FinishQuery();
 
-            // User might have switched to a different mailbox by now.
-            if (SelectedMailbox != source && !(source is MessageQuery)) {
+            // User might have switched to a different source by now.
+            if (MessageSource != source) {
                 return;
             }
 
@@ -288,7 +291,7 @@ namespace Crystalbyte.Paranoia {
 
         public event EventHandler MailboxSelectionChanged;
 
-        private async void OnMailboxSelectionChanged() {
+        private void OnMailboxSelectionChanged() {
             try {
                 var handler = MailboxSelectionChanged;
                 if (handler != null)
@@ -299,7 +302,8 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 Clear();
-                await RefreshViewForSelectedMailboxAsync();
+
+                MessageSource = SelectedMailbox;
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -309,15 +313,6 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertUIThread();
 
             await RequestOutboxContentAsync(SelectedOutbox);
-        }
-
-        private async Task RefreshViewForSelectedMailboxAsync() {
-            Application.Current.AssertUIThread();
-
-            await RequestMessagesAsync(SelectedMailbox);
-            if (!SelectedMailbox.IsSyncingMessages) {
-                await SelectedMailbox.SyncMessagesAsync();
-            }
         }
 
         internal event EventHandler FlyoutClosing;
@@ -416,20 +411,6 @@ namespace Crystalbyte.Paranoia {
             var handler = ContactQueryStringChanged;
             if (handler != null)
                 handler(this, e);
-        }
-
-        private async Task RefreshViewChangedQueryString(string query) {
-            Application.Current.AssertUIThread();
-
-            if (SelectedMailbox == null) {
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(query)) {
-                await RequestMessagesAsync(SelectedMailbox);
-            } else {
-                await RequestMessagesAsync(new MessageQuery(query));
-            }
         }
 
         private static async Task RequestOutboxContentAsync(OutboxContext outbox) {
@@ -551,63 +532,23 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool ShowAllMessages {
-            get { return _showAllMessages; }
+        public bool ShowOnlyUnseen {
+            get { return _showOnlyUnseen; }
             set {
-                if (_showAllMessages == value) {
+                if (_showOnlyUnseen == value) {
                     return;
                 }
-                _showAllMessages = value;
-                RaisePropertyChanged(() => ShowAllMessages);
-                if (value) {
-                    OnMessageFilterChanged();
-                }
-            }
-        }
-
-        public bool ShowOnlyWithAttachments {
-            get { return _showOnlyWithAttachments; }
-            set {
-                if (_showOnlyWithAttachments == value) {
-                    return;
-                }
-                _showOnlyWithAttachments = value;
-                RaisePropertyChanged(() => ShowOnlyWithAttachments);
-                if (value) {
-                    OnMessageFilterChanged();
-                }
-            }
-        }
-
-        public bool ShowOnlyFavorites {
-            get { return _showOnlyFavorites; }
-            set {
-                if (_showOnlyFavorites == value) {
-                    return;
-                }
-                _showOnlyFavorites = value;
-                RaisePropertyChanged(() => ShowOnlyFavorites);
-                if (value) {
-                    OnMessageFilterChanged();
-                }
+                _showOnlyUnseen = value;
+                RaisePropertyChanged(() => ShowOnlyUnseen);
+                OnMessageFilterChanged();
             }
         }
 
         private async void OnMessageFilterChanged() {
             try {
-                var mailbox = SelectedMailbox;
-                if (mailbox == null) {
-                    return;
+                if (MessageSource != null) {
+                    await QueryMessageSource();
                 }
-
-                await Application.Current.Dispatcher.InvokeAsync(() => {
-                    mailbox.ShowAllMessages = ShowAllMessages;
-                    mailbox.ShowOnlyFavorites = ShowOnlyFavorites;
-                    mailbox.ShowOnlyWithAttachments =
-                        ShowOnlyWithAttachments;
-                });
-
-                await RequestMessagesAsync(mailbox);
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -622,6 +563,18 @@ namespace Crystalbyte.Paranoia {
                 _queryString = value;
                 RaisePropertyChanged(() => QueryString);
                 OnQueryStringChanged(new QueryStringEventArgs(value));
+            }
+        }
+
+        public IMessageSource MessageSource {
+            get { return _messageSource; }
+            set {
+                if (_messageSource == value) {
+                    return;
+                }
+                _messageSource = value;
+                RaisePropertyChanged(() => MessageSource);
+                OnMessageSourceChanged();
             }
         }
 
@@ -738,9 +691,13 @@ namespace Crystalbyte.Paranoia {
 
         #endregion
 
-        private async void OnQueryReceived(string text) {
+        private void OnQueryReceived(string text) {
             try {
-                await RefreshViewChangedQueryString(text);
+               if (string.IsNullOrEmpty(text)) {
+                    MessageSource = SelectedMailbox;
+                } else {
+                    MessageSource = new MessageQuery(text);
+                }
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -771,7 +728,7 @@ namespace Crystalbyte.Paranoia {
             try {
                 var mark = MarkAsSeenAsync(message);
                 await Task.Run(async () => {
-                    if (!await message.GetIsMimeLoadedAsync()) {
+                    if (!message.GetIsMimeStored()) {
                         await message.FetchAndDecryptAsync();
                     }
                 });
@@ -908,6 +865,16 @@ namespace Crystalbyte.Paranoia {
             var uri = typeof(CreateMailboxModalPage).ToPageUri();
             OnModalNavigationRequested(new NavigationRequestedEventArgs(uri));
             IsPopupVisible = true;
+        }
+
+        private async void OnMessageSourceChanged() {
+            try {
+                if (MessageSource != null) {
+                    await QueryMessageSource();
+                }
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private void OnCreateAccount(object obj) {
