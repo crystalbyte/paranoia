@@ -948,7 +948,8 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0"
                                Grid.Column="0"
-                               Margin="6"
+                               Margin="12,0,6,3"
+                               VerticalAlignment="Center"
                                DataContext="{Binding SelectedMessage}"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}}"
                                Style="{DynamicResource TitleTextStyle}"

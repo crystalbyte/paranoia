@@ -329,27 +329,11 @@ namespace Crystalbyte.Paranoia {
         private Task SaveFlagsAsync() {
             var flags = _message.Flags;
             return Task.Run(() => {
-                try {
-                    using (var context = new DatabaseContext()) {
-                        var m = context.MailMessages.Find(_message.Id);
-                        m.Flags = flags;
-
-                        // Handle Optimistic Concurrency.
-                        // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
-                        while (true) {
-                            try {
-                                context.SaveChanges();
-                                break;
-                            } catch (DbUpdateConcurrencyException ex) {
-                                ex.Entries.ForEach(x => x.Reload());
-                                Logger.Info(ex);
-                            }
-                        }
-
-                        _message = m;
-                    }
-                } catch (Exception ex) {
-                    Logger.Error(ex);
+                using (var context = new DatabaseContext()) {
+                    var message = new MailMessage { Id = _message.Id };
+                    context.MailMessages.Attach(message);
+                    message.Flags = flags;
+                    context.SaveChanges(OptimisticConcurrencyStrategy.ClientWins);
                 }
             });
         }
@@ -522,7 +506,7 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-                await SaveContentAsync(mime);
+                SaveContent(mime);
 
                 return mime;
             } finally {
@@ -530,7 +514,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task SaveContentAsync(byte[] mime) {
+        private void SaveContent(byte[] mime) {
             Application.Current.AssertBackgroundThread();
 
             using (var context = new DatabaseContext()) {
@@ -539,21 +523,22 @@ namespace Crystalbyte.Paranoia {
 
                 using (var transaction = context.Database.Connection.BeginTransaction()) {
                     try {
-                        var reader = new MailMessageReader(mime);
+                        _message = context.MailMessages.Find(_message.Id);
 
-                        var message = await context.MailMessages.FindAsync(_message.Id);
-                        message.HasAttachments = reader.FindAllAttachments().Count > 0;
+                        var reader = new MailMessageReader(mime);
+                        _message.HasAttachments = reader.FindAllAttachments().Count > 0;
 
                         var data = new MailData {
                             Mime = mime
                         };
 
-                        message.Data.Add(data);
+                        _message.Data.Add(data);
 
                         var name = FromName;
                         var address = FromAddress;
-                        var from = await context.MailContacts
-                            .FirstOrDefaultAsync(x => x.Address == address);
+                        var from = context.MailContacts
+                            .FirstOrDefault(x => x.Address == address);
+
                         if (from == null) {
                             from = new MailContact {
                                 Name = name,
@@ -585,8 +570,9 @@ namespace Crystalbyte.Paranoia {
 
                         foreach (var value in reader.Headers.To) {
                             var v = value;
-                            var contact = await context.MailContacts
-                                .FirstOrDefaultAsync(x => x.Address == v.Address);
+                            var contact = context.MailContacts
+                                .FirstOrDefault(x => x.Address == v.Address);
+
                             if (contact == null) {
                                 contact = new MailContact {
                                     Name = v.DisplayName,
@@ -600,8 +586,9 @@ namespace Crystalbyte.Paranoia {
 
                         foreach (var value in reader.Headers.Cc) {
                             var v = value;
-                            var contact = await context.MailContacts
-                                .FirstOrDefaultAsync(x => x.Address == v.Address);
+                            var contact = context.MailContacts
+                                .FirstOrDefault(x => x.Address == v.Address);
+
                             if (contact == null) {
                                 contact = new MailContact {
                                     Name = v.DisplayName,
@@ -613,17 +600,7 @@ namespace Crystalbyte.Paranoia {
                             _cc.Add(new MailContactContext(contact));
                         }
 
-                        // Handle Optimistic Concurrency.
-                        // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
-                        while (true) {
-                            try {
-                                context.SaveChanges();
-                                break;
-                            } catch (DbUpdateConcurrencyException ex) {
-                                ex.Entries.ForEach(x => x.Reload());
-                                Logger.Info(ex);
-                            }
-                        }
+                        context.SaveChanges(OptimisticConcurrencyStrategy.ClientWins);
 
                         var id = new SQLiteParameter("@message_id", _message.Id);
                         var text = new SQLiteParameter("@text");
@@ -644,7 +621,6 @@ namespace Crystalbyte.Paranoia {
                         context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, command, text, id);
                         transaction.Commit();
 
-                        _message = message;
                     } catch (Exception ex) {
                         transaction.Rollback();
                         Logger.Error(ex);

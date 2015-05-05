@@ -220,6 +220,7 @@
     <Compile Include="Data\DbDataReaderExtension.cs" />
     <Compile Include="Data\MailContent.cs" />
     <Compile Include="Data\MailData.cs" />
+    <Compile Include="Data\SQLite\OptimisticConcurrencyStrategy.cs" />
     <Compile Include="Data\SQLite\DbContextExtensions.cs" />
     <Compile Include="Data\SQLite\DefaultAttribute.cs" />
     <Compile Include="Data\SQLite\DatabaseFunction.cs" />
