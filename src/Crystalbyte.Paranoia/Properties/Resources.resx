@@ -281,9 +281,6 @@ Please select a corresponding IMAP folder to synchronize.</value>
   <data name="Sunday" xml:space="preserve">
     <value>Sunday</value>
   </data>
-  <data name="SyncMailboxesStatus" xml:space="preserve">
-    <value>Synchronizing mailboxes ....</value>
-  </data>
   <data name="TestingConnectivityStatus" xml:space="preserve">
     <value>Testing connectivity ...</value>
   </data>

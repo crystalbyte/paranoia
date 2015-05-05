@@ -340,9 +340,6 @@ namespace Crystalbyte.Paranoia {
 
             await Task.Run(async () => {
                 try {
-                    Debug.WriteLine("Syncing mailboxes for account '{0}'.", Name);
-                    App.Context.StatusText = Resources.SyncMailboxesStatus;
-
                     var remoteMailboxes = await ListMailboxesAsync();
                     var subscribed = await ListSubscribedMailboxesAsync();
 
@@ -435,8 +432,6 @@ namespace Crystalbyte.Paranoia {
                     Logger.Error(ex);
                 }
             });
-
-            App.Context.ResetStatusText();
 
             IsSyncingMailboxes = false;
         }

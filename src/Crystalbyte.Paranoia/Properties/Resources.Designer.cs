@@ -1686,15 +1686,6 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Synchronizing mailboxes .....
-        /// </summary>
-        public static string SyncMailboxesStatus {
-            get {
-                return ResourceManager.GetString("SyncMailboxesStatus", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Testing connectivity ....
         /// </summary>
         public static string TestingConnectivityStatus {

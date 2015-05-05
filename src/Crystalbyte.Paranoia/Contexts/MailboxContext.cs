@@ -63,10 +63,6 @@ namespace Crystalbyte.Paranoia {
         private int _totalEnvelopeCount;
         private int _fetchedEnvelopeCount;
         private bool _isSyncedInitially;
-        private bool _showOnlyUnseen;
-        private bool _showSeenAndUnseen;
-        private bool _showOnlyWithAttachments;
-        private bool _showOnlyFavorites;
         private bool _isSelectedSubtly;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -78,7 +74,6 @@ namespace Crystalbyte.Paranoia {
         internal MailboxContext(MailAccountContext account, Mailbox mailbox) {
             _account = account;
             _mailbox = mailbox;
-            _showSeenAndUnseen = true;
         }
 
         internal async Task DeleteAsync() {
@@ -1176,7 +1171,6 @@ namespace Crystalbyte.Paranoia {
                 }
             }
 
-        next:
             return messages.Select(x => new MailMessageContext(this, x));
         }
 

@@ -63,7 +63,6 @@ namespace Crystalbyte.Paranoia {
         private bool _showOnlyUnseen;
         private string _queryString;
         private string _source;
-        private string _statusText;
         private bool _isPopupVisible;
         private bool _isSortAscending;
         private string _queryContactString;
@@ -507,18 +506,6 @@ namespace Crystalbyte.Paranoia {
 
         public bool IsMessageSelected {
             get { return SelectedMessage != null; }
-        }
-
-        public string StatusText {
-            get { return _statusText; }
-            set {
-                if (_statusText == value) {
-                    return;
-                }
-
-                _statusText = value;
-                RaisePropertyChanged(() => StatusText);
-            }
         }
 
         public bool IsAnimating {
@@ -969,10 +956,6 @@ namespace Crystalbyte.Paranoia {
 
         internal void NotifySmtpRequestChanged() {
             RaisePropertyChanged(() => IsMessageOrSmtpRequestSelected);
-        }
-
-        public void ResetStatusText() {
-            StatusText = Resources.ReadyStatus;
         }
 
         internal void NotifyContactsAdded(ICollection<MailContactContext> contacts) {
