@@ -47,8 +47,6 @@ namespace Crystalbyte.Paranoia.UI {
 
         private Storyboard _slideInOverlayStoryboard;
         private Storyboard _slideOutOverlayStoryboard;
-        private Storyboard _slideOutMainFrameStoryboard;
-        private Storyboard _slideInMainFrameStoryboard;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -153,22 +151,6 @@ namespace Crystalbyte.Paranoia.UI {
 
             _slideOutOverlayStoryboard = (Storyboard) Resources["FlyoutSlideOutStoryboard"];
             _slideOutOverlayStoryboard.Completed += OnSlideOutOverlayCompleted;
-
-            _slideOutMainFrameStoryboard = (Storyboard) Resources["MainFrameSlideOutStoryboard"];
-            _slideOutMainFrameStoryboard.Completed += OnSlideOutMainFrameCompleted;
-
-            _slideInMainFrameStoryboard = (Storyboard) Resources["MainFrameSlideInStoryboard"];
-            _slideInMainFrameStoryboard.Completed += OnSlideInMainFrameCompleted;
-        }
-
-        private static void OnSlideInMainFrameCompleted(object sender, EventArgs e) {
-            App.Context.IsAnimating = false;
-        }
-
-        private void OnSlideOutMainFrameCompleted(object sender, EventArgs e) {
-            var selection = App.Context.NavigationOptions.First(x => x.IsSelected);
-            MainFrame.Navigate(selection.TargetUri);
-            _slideInMainFrameStoryboard.Begin();
         }
 
         private void OnSlideInOverlayCompleted(object sender, EventArgs e) {
@@ -261,14 +243,8 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var view = (ListView) sender;
-            var selection = view.SelectedValue as NavigationContext;
-            if (selection == null) {
-                return;
-            }
-
-            App.Context.IsAnimating = true;
-            _slideOutMainFrameStoryboard.Begin();
+            var selection = App.Context.NavigationOptions.First(x => x.IsSelected);
+            MainFrame.Navigate(selection.TargetUri);
         }
 
         private void OnPopupFrameNavigated(object sender, NavigationEventArgs e) {
