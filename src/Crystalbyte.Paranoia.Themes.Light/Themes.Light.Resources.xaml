@@ -24,12 +24,14 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}" Color="#121212" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}">Gray</SolidColorBrush>
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.AppFontFamilyKey}">Segoe UI</FontFamily>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}">White</SolidColorBrush>
 
     <!--  Html Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}">White</SolidColorBrush>
 
     <!--  Window Scope  -->
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}" Color="#F9F9FB" />
+    <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}" Color="#F9F9FB" />  -->
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}" Color="#EEEEF2" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}" Color="#222" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}" Color="#11000000" />

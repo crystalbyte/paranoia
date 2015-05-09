@@ -23,6 +23,7 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}">Gray</SolidColorBrush>
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.AppFontFamilyKey}">Segoe UI</FontFamily>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}">#2E2E30</SolidColorBrush>
 
     <!--  Html Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}">#39393B</SolidColorBrush>

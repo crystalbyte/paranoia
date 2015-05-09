@@ -31,8 +31,7 @@
 
         </StackPanel>
         <TabControl>
-            <TabItem Header="{x:Static properties:Resources.Appearence}"
-                     HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">
+            <TabItem Header="{x:Static properties:Resources.Appearence}" HeaderTemplate="{StaticResource FlyoutTabControlHeaderTemplate}">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource LabelTextBlockStyle}">
@@ -77,7 +76,7 @@
                                                RenderOptions.EdgeMode="Aliased"
                                                UseLayoutRounding="True">
                                         <Rectangle.Fill>
-                                            <SolidColorBrush Color="{Binding}" />
+                                            <SolidColorBrush Color="{Binding TargetNullValue={x:Static Colors.Black}, FallbackValue={x:Static Colors.Black}}" />
                                         </Rectangle.Fill>
                                     </Rectangle>
                                 </DataTemplate>

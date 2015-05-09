@@ -42,6 +42,8 @@ namespace Crystalbyte.Paranoia.Themes {
 
         public static string HtmlBackgroundBrushKey = "HtmlBackgroundBrushKey";
 
+        public static string NavigationOptionBackgroundBrushKey = "NavigationOptionBackgroundBrushKey";
+
         public static string InputFontFamilyKey = "InputFontFamilyKey";
         public static string InputForegroundBrushKey = "InputForegroundBrushKey";
         public static string InputFontSizeKey = "InputFontSizeKey";

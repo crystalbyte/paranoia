@@ -64,22 +64,6 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="StatusBar"
-                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)"
-                                           Timeline.DesiredFrameRate="30">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="24">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <QuadraticEase EasingMode="EaseOut" />
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="StatusBar"
-                                           Storyboard.TargetProperty="(UIElement.Opacity)"
-                                           Timeline.DesiredFrameRate="30">
-                <EasingDoubleKeyFrame KeyTime="0" Value="1" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
-            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <!--  ReSharper disable once Xaml.RedundantResource  -->
         <Storyboard x:Key="FlyoutSlideOutStoryboard">
@@ -125,22 +109,6 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="StatusBar"
-                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)"
-                                           Timeline.DesiredFrameRate="30">
-                <EasingDoubleKeyFrame KeyTime="0" Value="24" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <QuadraticEase EasingMode="EaseOut" />
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="StatusBar"
-                                           Storyboard.TargetProperty="(UIElement.Opacity)"
-                                           Timeline.DesiredFrameRate="30">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
-            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </controls:MetroWindow.Resources>
     <controls:MetroWindow.CommandBindings>
@@ -155,7 +123,7 @@
         <Grid.RowDefinitions>
             <RowDefinition x:Name="HeaderRow"
                            Height="Auto"
-                           MinHeight="36" />
+                           MinHeight="42" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -172,29 +140,34 @@
                         Margin="0"
                         VerticalAlignment="Stretch"
                         Command="ui:AppCommands.Settings"
+                        DockPanel.Dock="Left"
                         Padding="0"
                         Style="{StaticResource WindowButtonStyle}">
                     <StackPanel Orientation="Horizontal">
                         <Image Width="20"
-                               Margin="12,0"
+                               Margin="16,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                DockPanel.Dock="Left"
                                RenderOptions.BitmapScalingMode="HighQuality"
                                Source="/Assets/logo.window.png" />
-                        <TextBlock Margin="0,0,24,0"
+                        <TextBlock Margin="0,0,12,0"
                                    VerticalAlignment="Center"
-                                   FontSize="20"
+                                   DockPanel.Dock="Left"
+                                   FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}"
+                                   FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                    Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
-                                   Style="{DynamicResource TitleTextStyle}"
                                    Text="{Binding Title,
                                                   RelativeSource={RelativeSource FindAncestor,
-                                                                                 AncestorType=ui:MainWindow}}" />
+                                                                                 AncestorType=ui:MainWindow}}"
+                                   Visibility="Collapsed" />
                     </StackPanel>
                 </Button>
                 <Border DockPanel.Dock="Left">
-                    <ListView HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch"
+                    <ListView Margin="4,0"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Bottom"
+                              Background="Transparent"
                               BorderThickness="0"
                               ItemsSource="{Binding NavigationOptions}"
                               KeyboardNavigation.ControlTabNavigation="None"
@@ -205,18 +178,31 @@
                                 <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                 <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                                 <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}" />
+                                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}" />
                                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
                                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                                 <Setter Property="VerticalContentAlignment" Value="Center" />
+                                <Setter Property="Padding" Value="0" />
                                 <Setter Property="SnapsToDevicePixels" Value="True" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListViewItem">
-                                            <Grid Background="{TemplateBinding Background}">
+                                            <Border x:Name="Border"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="1,1,1,0">
                                                 <ContentPresenter Margin="{TemplateBinding Padding}"
                                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                            </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}}" />
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="False">
+                                                    <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -230,11 +216,10 @@
                         <ListView.ItemTemplate>
                             <DataTemplate DataType="paranoia:NavigationContext">
                                 <TextBlock x:Name="Text"
-                                           Margin="6,0"
+                                           Margin="12,3"
                                            VerticalAlignment="Center"
-                                           FontSize="20"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
-                                           Style="{DynamicResource TitleTextStyle}"
+                                           FontSize="17.5"
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
                                            Text="{Binding Title}" />
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsSelected}" Value="True">
@@ -245,7 +230,7 @@
                                             <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="True" />
                                             <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="False" />
                                         </MultiDataTrigger.Conditions>
-                                        <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                                        <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
                                     </MultiDataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
@@ -444,15 +429,6 @@
                Grid.Row="1"
                NavigationUIVisibility="Hidden"
                RenderTransformOrigin="0.5,0.5"
-               Source="/UI/MessagesPage.xaml">
-            <Frame.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform />
-                    <SkewTransform />
-                    <RotateTransform />
-                    <TranslateTransform />
-                </TransformGroup>
-            </Frame.RenderTransform>
-        </Frame>
+               Source="/UI/MessagesPage.xaml" />
     </Grid>
 </controls:MetroWindow>
