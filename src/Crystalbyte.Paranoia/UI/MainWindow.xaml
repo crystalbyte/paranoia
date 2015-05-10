@@ -132,7 +132,7 @@
                 BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
                 BorderThickness="0,0,0,1"
                 UseLayoutRounding="True">
-            <DockPanel Panel.ZIndex="1000"
+            <DockPanel Panel.ZIndex="1100"
                        LastChildFill="False"
                        SnapsToDevicePixels="True">
                 <Button Width="Auto"
@@ -172,6 +172,7 @@
                               ItemsSource="{Binding NavigationOptions}"
                               KeyboardNavigation.ControlTabNavigation="None"
                               KeyboardNavigation.DirectionalNavigation="Contained"
+                              Padding="0"
                               SelectionChanged="OnMainMenuSelectionChanged">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
@@ -223,7 +224,7 @@
                                            Text="{Binding Title}" />
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                        <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                                        <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
                                     </DataTrigger>
                                     <MultiDataTrigger>
                                         <MultiDataTrigger.Conditions>
@@ -305,7 +306,6 @@
                         </ResourceDictionary.MergedDictionaries>
                     </ResourceDictionary>
                 </Border.Resources>
-
                 <Border.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform />
