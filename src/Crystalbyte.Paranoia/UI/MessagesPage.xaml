@@ -1004,7 +1004,6 @@
                       DataContext="{Binding SelectedMessage}"
                       ItemTemplate="{StaticResource ThumbnailTemplate}"
                       ItemsSource="{Binding Attachments}"
-                      Padding="2"
                       ScrollViewer.CanContentScroll="False"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled">
@@ -1022,7 +1021,6 @@
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                         <Setter Property="Background" Value="Transparent" />
                         <Setter Property="BorderBrush" Value="Transparent" />
-                        <Setter Property="UseLayoutRounding" Value="False" />
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemsPanel>

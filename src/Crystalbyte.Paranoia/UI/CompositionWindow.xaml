@@ -442,7 +442,6 @@
                           IsTabStop="False"
                           ItemTemplate="{StaticResource FileThumbnailTemplate}"
                           ItemsSource="{Binding Attachments}"
-                          Padding="1.6"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
                           UseLayoutRounding="True">
