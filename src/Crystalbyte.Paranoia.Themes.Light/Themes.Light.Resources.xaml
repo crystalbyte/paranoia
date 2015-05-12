@@ -40,8 +40,11 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.InputForegroundBrushKey}" Color="#222" />
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.InputFontFamilyKey}">Calibri</FontFamily>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.InputFontSizeKey}">13</system:Double>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}" Color="#DDDDDD" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SpamNoticeBackgroundBrushKey}" Color="#F8F8F9" />
+
+    <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}" Color="#DDDDDD" />  -->
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}" Color="Transparent" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.HorizontalSplitterForegroundBrushKey}" Color="#DDDDDD" />
 
     <!--  Button Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}" Color="{StaticResource ControlBackgroundColorKey}" />

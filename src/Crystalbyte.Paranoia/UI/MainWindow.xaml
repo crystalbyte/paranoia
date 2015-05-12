@@ -129,7 +129,7 @@
         </Grid.RowDefinitions>
         <Border Grid.Row="0"
                 Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}"
-                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
                 BorderThickness="0,0,0,1"
                 UseLayoutRounding="True">
             <DockPanel Panel.ZIndex="1100"

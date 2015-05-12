@@ -35,7 +35,7 @@
         </Grid.RowDefinitions>
         <Border Grid.Row="0"
                 Grid.ColumnSpan="2"
-                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
                 BorderThickness="0,0,0,1">
             <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}">
                 <StackPanel Height="36"
@@ -97,7 +97,7 @@
             <Button Grid.Column="4" Style="{DynamicResource CloseButtonStyle}" />
         </Grid>
         <Border Grid.Row="1"
-                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
                 BorderThickness="0,0,0,1">
             <DockPanel Margin="0,6,3,6" LastChildFill="True">
                 <StackPanel HorizontalAlignment="Right"
@@ -198,7 +198,7 @@
         <Border Grid.Row="2"
                 Grid.ColumnSpan="2"
                 Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
                 BorderThickness="0,0,0,1"
                 Visibility="{Binding HasMultipleRecipients,
                                      Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -245,7 +245,7 @@
                 Grid.RowSpan="2"
                 Grid.ColumnSpan="2"
                 Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
                 BorderThickness="0,0,0,1"
                 Visibility="{Binding HasCarbonCopies,
                                      Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -315,7 +315,7 @@
         </ListView>
         <ui:BlockNoticeControl Grid.Row="5" />
         <ui:SpamNoticeControl Grid.Row="6"
-                              BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                              BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
                               BorderThickness="0,0,0,1" />
 
         <Grid Grid.Row="7">

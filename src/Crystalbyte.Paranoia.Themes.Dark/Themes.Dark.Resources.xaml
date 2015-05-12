@@ -43,7 +43,9 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.InputForegroundBrushKey}" Color="WhiteSmoke" />
 
     <!--  Splitter Scope  -->
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}" Color="#47474C" />
+    <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}" Color="#47474C" />  -->
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}" Color="Transparent" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.HorizontalSplitterForegroundBrushKey}" Color="#47474C" />
 
     <!--  Button Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}" Color="{StaticResource ControlBackgroundColorKey}" />

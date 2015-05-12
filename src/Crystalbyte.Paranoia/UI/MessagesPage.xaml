@@ -41,11 +41,10 @@
             <ColumnDefinition Width=".46*" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
-            <!--  <Rectangle Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Opacity=".03" />  -->
             <DockPanel LastChildFill="True">
                 <Border Margin="4,0"
                         HorizontalAlignment="Stretch"
-                        BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                        BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.HorizontalSplitterForegroundBrushKey}}"
                         BorderThickness="0,0,0,1"
                         DockPanel.Dock="Top"
                         SnapsToDevicePixels="True"
@@ -377,8 +376,8 @@
         </Grid>
         <GridSplitter Grid.Row="0"
                       Grid.Column="1"
-                      Width="1"
-                      HorizontalAlignment="Stretch"
+                      Width="8"
+                      HorizontalAlignment="Center"
                       IsTabStop="False" />
         <DockPanel Grid.Row="0"
                    Grid.Column="2"
@@ -409,15 +408,13 @@
                         <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Text="{Binding Messages, Converter={StaticResource CollectionCounter}, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
                 </DockPanel>
-
                 <Border Grid.Row="1"
-                        BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                        BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
                         BorderThickness="0,1"
                         RenderOptions.EdgeMode="Aliased"
                         UseLayoutRounding="True">
                     <controls:WatermarkTextBox x:Name="QuickSearchBox"
-                                               Margin="0"
-                                               BorderThickness="0"
+                                               Margin="2,0,0,0"
                                                FontSize="14"
                                                IsTabStop="False"
                                                Padding="5"
@@ -484,7 +481,7 @@
                         <Rectangle Width="1"
                                    Margin="4,10"
                                    VerticalAlignment="Stretch"
-                                   Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                                   Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
                                    RenderOptions.EdgeMode="Aliased"
                                    SnapsToDevicePixels="True"
                                    UseLayoutRounding="True" />
@@ -781,7 +778,7 @@
                     </TextBlock>
                 </DockPanel>
                 <TextBox Grid.Row="1"
-                         Margin="6"
+                         Margin="2,0,0,0"
                          Text="{Binding QueryString,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged}" />
@@ -918,8 +915,8 @@
         </DockPanel>
         <GridSplitter Grid.Row="0"
                       Grid.Column="3"
-                      Width="1"
-                      HorizontalAlignment="Stretch"
+                      Width="8"
+                      HorizontalAlignment="Center"
                       IsTabStop="False" />
         <Grid Grid.Row="0" Grid.Column="4">
             <Grid.RowDefinitions>
@@ -930,7 +927,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Border Grid.Row="0"
-                    BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                    BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
                     BorderThickness="0,0,0,1"
                     UseLayoutRounding="True"
                     Visibility="{Binding IsMessageOrSmtpRequestSelected,
@@ -1033,40 +1030,44 @@
             <ui:SpamNoticeControl Grid.Row="3"
                                   BorderThickness="0,0,0,1"
                                   DataContext="{Binding SelectedMessage}" />
-            <Grid Grid.Row="4"
-                  Background="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}"
-                  Visibility="{Binding IsMessageOrSmtpRequestSelected,
-                                       Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
-                    <ui:HtmlViewer x:Name="MessageViewer"
-                                   BorderThickness="0"
-                                   DataContext="{Binding DataContext,
-                                                         RelativeSource={RelativeSource FindAncestor,
-                                                                                        AncestorType=Page}}"
-                                   KeyboardNavigation.DirectionalNavigation="None"
-                                   KeyboardNavigation.TabNavigation="Once"
-                                   SnapsToDevicePixels="True"
-                                   Source="{Binding Source,
-                                                    Mode=OneWay}"
-                                   Zoom="{Binding Zoom,
-                                                  Mode=TwoWay}"
-                                   d:IsHidden="True" />
+            <Border Grid.Row="4"
+                    BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                    BorderThickness="0,2,0,0"
+                    RenderOptions.EdgeMode="Aliased"
+                    Visibility="{Binding IsMessageOrSmtpRequestSelected,
+                                         Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}" RenderOptions.EdgeMode="Unspecified">
+                    <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
+                        <ui:HtmlViewer x:Name="MessageViewer"
+                                       BorderThickness="0"
+                                       DataContext="{Binding DataContext,
+                                                             RelativeSource={RelativeSource FindAncestor,
+                                                                                            AncestorType=Page}}"
+                                       KeyboardNavigation.DirectionalNavigation="None"
+                                       KeyboardNavigation.TabNavigation="Once"
+                                       SnapsToDevicePixels="True"
+                                       Source="{Binding Source,
+                                                        Mode=OneWay}"
+                                       Zoom="{Binding Zoom,
+                                                      Mode=TwoWay}"
+                                       d:IsHidden="True" />
+                    </Grid>
+                    <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                        <TextBlock Margin="24,12"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Bottom">
+                            <Run FontSize="48"
+                                 FontWeight="Thin"
+                                 Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                                 Text="{Binding Progress}" />
+                            <Run Text=" " />
+                            <Run FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
+                                 FontWeight="Thin"
+                                 Text="%" />
+                        </TextBlock>
+                    </Grid>
                 </Grid>
-                <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <TextBlock Margin="24,12"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Bottom">
-                        <Run FontSize="48"
-                             FontWeight="Thin"
-                             Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                             Text="{Binding Progress}" />
-                        <Run Text=" " />
-                        <Run FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
-                             FontWeight="Thin"
-                             Text="%" />
-                    </TextBlock>
-                </Grid>
-            </Grid>
+            </Border>
         </Grid>
     </Grid>
 </Page>
