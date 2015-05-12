@@ -179,7 +179,7 @@
                                 <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                 <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                                 <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}" />
-                                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}" />
+                                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
                                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                                 <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -191,7 +191,7 @@
                                             <Border x:Name="Border"
                                                     Background="{TemplateBinding Background}"
                                                     BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="1,1,1,0">
+                                                    BorderThickness="0,0,0,2">
                                                 <ContentPresenter Margin="{TemplateBinding Padding}"
                                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
