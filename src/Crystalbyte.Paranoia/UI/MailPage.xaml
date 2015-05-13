@@ -1,4 +1,4 @@
-﻿<Page x:Class="Crystalbyte.Paranoia.UI.MessagesPage"
+﻿<Page x:Class="Crystalbyte.Paranoia.UI.MailPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"

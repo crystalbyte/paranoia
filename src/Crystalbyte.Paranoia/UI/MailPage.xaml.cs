@@ -40,12 +40,12 @@ using Crystalbyte.Paranoia.Data;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
-    ///     Interaction logic for MessagesPage.xaml
+    ///     Interaction logic for MailPage.xaml
     /// </summary>
-    public partial class MessagesPage {
+    public partial class MailPage {
         private readonly CollectionViewSource _messageViewSource;
 
-        public MessagesPage() {
+        public MailPage() {
             InitializeComponent();
             DataContext = App.Context;
 
@@ -152,7 +152,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         // Using a DependencyProperty as the backing store for SortProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SortPropertyProperty =
-            DependencyProperty.Register("SortProperty", typeof(SortProperty), typeof(MessagesPage),
+            DependencyProperty.Register("SortProperty", typeof(SortProperty), typeof(MailPage),
                 new PropertyMetadata(SortProperty.Date));
 
         private static void OnCanInspect(object sender, CanExecuteRoutedEventArgs e) {
