@@ -29,8 +29,22 @@ using System;
 #endregion
 
 namespace Crystalbyte.Paranoia {
-    public sealed class NavigationContext : SelectionObject {
+    public class NavigationContext : SelectionObject {
+        private int _counter;
+
         public string Title { get; set; }
         public Uri TargetUri { get; set; }
+
+        public int Counter {
+            get { return _counter; }
+            set {
+                if (_counter == value) {
+                    return;
+                }
+
+                _counter = value;
+                RaisePropertyChanged(() => Counter);
+            }
+        }
     }
 }

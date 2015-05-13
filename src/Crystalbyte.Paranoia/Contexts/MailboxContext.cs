@@ -306,91 +306,19 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task UpdateAsync() {
-            try {
-                using (var database = new DatabaseContext()) {
-                    database.Mailboxes.Attach(_mailbox);
-                    database.Entry(_mailbox).State = EntityState.Modified;
-                    await database.SaveChangesAsync();
-                }
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
+        //internal async Task UpdateAsync() {
+        //    try {
+        //        using (var database = new DatabaseContext()) {
+        //            database.Mailboxes.Attach(_mailbox);
+        //            database.Entry(_mailbox).State = EntityState.Modified;
+        //            await database.SaveChangesAsync();
+        //        }
+        //    } catch (Exception ex) {
+        //        Logger.Error(ex);
+        //    }
+        //}
 
-        internal Task DeleteMessagesAsync(MailMessageContext[] messages, string trashFolder) {
-            Application.Current.AssertUIThread();
 
-            App.Context.NotifyMessagesRemoved(messages);
-
-            var uids = messages.Select(x => x.Uid).ToArray();
-
-            return Task.Run(async () => {
-                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
-                    using (
-                        var auth =
-                            await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
-                        using (
-                            var session =
-                                await
-                                    auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
-                            var mailbox = await session.SelectAsync(Name);
-                            if (IsTrash) {
-                                await mailbox.DeleteMailsAsync(uids);
-                            } else {
-                                await mailbox.MoveMailsAsync(uids, trashFolder);
-                            }
-                        }
-                    }
-                }
-
-                using (var context = new DatabaseContext()) {
-                    context.Connect();
-
-                    foreach (var message in messages) {
-                        var id = message.Id;
-                        using (var transaction = context.Database.BeginTransaction()) {
-                            try {
-                                var mime = context.MailData
-                                    .Where(x => x.MessageId == id)
-                                    .ToArray();
-                                context.MailData.RemoveRange(mime);
-
-                                // The content table is a virtual table and cannot be altered using EF.
-                                context.Database.ExecuteSqlCommand(
-                                    TransactionalBehavior.DoNotEnsureTransaction,
-                                    "DELETE FROM mail_content WHERE message_id = @id;", 
-                                    new SQLiteParameter("@id", id));
-
-                                var model = new MailMessage {
-                                    Id = message.Id,
-                                    MailboxId = Id
-                                };
-
-                                context.MailMessages.Attach(model);
-                                context.MailMessages.Remove(model);
-
-                                // Handle Optimistic Concurrency.
-                                // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
-                                while (true) {
-                                    try {
-                                        context.SaveChanges();
-                                        break;
-                                    } catch (DbUpdateConcurrencyException ex) {
-                                        ex.Entries.ForEach(x => x.Reload());
-                                        Logger.Info(ex);
-                                    }
-                                }
-
-                                transaction.Commit();
-                            } catch (Exception) {
-                                transaction.Rollback();
-                            }
-                        }
-                    }
-                }
-            });
-        }
 
         public bool IsSubscribedAndSelectable {
             get { return IsSubscribed && IsSelectable; }
@@ -1077,9 +1005,7 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-                await DeleteMessagesAsync(messages, _account.GetTrashMailbox().Name);
-
-                App.Context.NotifyMessagesRemoved(messages);
+                await App.Context.DeleteMessagesAsync(messages);
             } catch (Exception ex) {
                 Logger.Error(ex);
             }

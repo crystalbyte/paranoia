@@ -328,12 +328,12 @@ namespace Crystalbyte.Paranoia {
 
         private Task SaveFlagsAsync() {
             var flags = _message.Flags;
-            return Task.Run(() => {
+            return Task.Run(async () => {
                 using (var context = new DatabaseContext()) {
                     var message = new MailMessage { Id = _message.Id };
                     context.MailMessages.Attach(message);
                     message.Flags = flags;
-                    context.SaveChanges(OptimisticConcurrencyStrategy.ClientWins);
+                    await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
                 }
             });
         }
@@ -506,7 +506,7 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-                SaveContent(mime);
+                await StoreContentAsync(mime);
 
                 return mime;
             } finally {
@@ -514,11 +514,10 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void SaveContent(byte[] mime) {
+        private async Task StoreContentAsync(byte[] mime) {
             Application.Current.AssertBackgroundThread();
 
             using (var context = new DatabaseContext()) {
-                context.Connect();
                 context.EnableForeignKeys();
 
                 using (var transaction = context.Database.Connection.BeginTransaction()) {
@@ -600,7 +599,7 @@ namespace Crystalbyte.Paranoia {
                             _cc.Add(new MailContactContext(contact));
                         }
 
-                        context.SaveChanges(OptimisticConcurrencyStrategy.ClientWins);
+                        await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
 
                         var id = new SQLiteParameter("@message_id", _message.Id);
                         var text = new SQLiteParameter("@text");

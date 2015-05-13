@@ -30,6 +30,8 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Composition;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.SQLite;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -42,6 +44,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
+using Crystalbyte.Paranoia.Data.SQLite;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.Themes;
@@ -99,15 +102,17 @@ namespace Crystalbyte.Paranoia {
             _messages = new DeferredObservableCollection<MailMessageContext>();
             _messages.CollectionChanged += OnMessagesCollectionChanged;
 
-            _navigationOptions = new ObservableCollection<NavigationContext>
-            {
-                new NavigationContext
-                {
+            _navigationOptions = new ObservableCollection<NavigationContext> {
+                new MailNavigationContext {
                     Title = Resources.MessagesTitle,
                     TargetUri = typeof (MessagesPage).ToPageUri(),
                     IsSelected = true
                 },
-                new NavigationContext {Title = Resources.ContactsTitle, TargetUri = typeof (ContactsPage).ToPageUri()}
+                new NavigationContext {
+                    Title = Resources.ContactsTitle, 
+                    TargetUri = typeof (ContactsPage).ToPageUri(), 
+                    Counter = 0
+                }
             };
 
             _restoreMessagesCommand = new RestoreMessagesCommand(this);
@@ -161,6 +166,13 @@ namespace Crystalbyte.Paranoia {
             _showOnlyUnseen = false;
         }
 
+        internal async void CountUnseenAsync() {
+            var context = _navigationOptions.OfType<MailNavigationContext>().FirstOrDefault();
+            if (context != null) {
+                await context.RefreshAsync();
+            }
+        }
+
         private async void OnNetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e) {
             if (!e.IsAvailable)
                 return;
@@ -170,6 +182,87 @@ namespace Crystalbyte.Paranoia {
                     await account.TakeOnlineAsync();
                 }
             });
+        }
+
+        internal async Task DeleteMessagesAsync(MailMessageContext[] messages) {
+            Application.Current.AssertUIThread();
+
+            NotifyMessagesRemoved(messages);
+
+            // Spool up a thread for each account.
+            var tasks = messages
+                .GroupBy(x => x.Mailbox.Account)
+                .Select(x => Task.Run(async () => {
+                    var account = x.Key;
+                    var mailboxGroups = x.GroupBy(y => y.Mailbox);
+                    try {
+                        using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
+                            using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
+                                using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
+                                    foreach (var mailboxGroup in mailboxGroups) {
+                                        var trashFolder = mailboxGroup.Key.Account.TrashMailboxName;
+                                        var name = mailboxGroup.Key.Name;
+                                        var uids = mailboxGroup.Select(z => z.Uid).ToArray();
+
+                                        try {
+                                            var storage = DropStoredMessagesAsync(mailboxGroup);
+
+                                            var mailbox = await session.SelectAsync(name);
+                                            if (mailboxGroup.Key.IsTrash) {
+                                                await mailbox.DeleteMailsAsync(uids);
+                                            } else {
+                                                await mailbox.MoveMailsAsync(uids, trashFolder);
+                                            }
+
+                                            await storage;
+                                        } catch (Exception ex) {
+                                            Logger.Error(ex);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } catch (Exception ex) {
+                        Logger.Error(ex);
+                    }
+                })).ToArray();
+
+            await Task.WhenAll(tasks);
+        }
+
+        private static async Task DropStoredMessagesAsync(IGrouping<MailboxContext, MailMessageContext> mailboxGroup) {
+            using (var context = new DatabaseContext()) {
+                context.EnableForeignKeys();
+
+                foreach (var message in mailboxGroup) {
+                    var id = message.Id;
+                    using (var transaction = context.Database.BeginTransaction()) {
+                        try {
+
+                            var model = new MailMessage {
+                                Id = message.Id,
+                                MailboxId = mailboxGroup.Key.Id
+                            };
+
+                            context.MailMessages.Attach(model);
+                            context.MailMessages.Remove(model);
+
+                            // The content table is a virtual table and cannot be altered using EF.
+                            context.Database.ExecuteSqlCommand(
+                                TransactionalBehavior.DoNotEnsureTransaction,
+                                "DELETE FROM mail_content WHERE message_id = @id;",
+                                new SQLiteParameter("@id", id));
+
+                            await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
+
+                            transaction.Commit();
+                        } catch (Exception ex) {
+                            transaction.Rollback();
+                            Logger.Error(ex);
+                        }
+                    }
+                }
+            }
         }
 
         private async void OnContactQueryReceived(string query) {
@@ -680,7 +773,7 @@ namespace Crystalbyte.Paranoia {
 
         private void OnQueryReceived(string text) {
             try {
-               if (string.IsNullOrEmpty(text)) {
+                if (string.IsNullOrEmpty(text)) {
                     MessageSource = SelectedMailbox;
                 } else {
                     MessageSource = new MessageQuery(text);
@@ -885,30 +978,6 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 await ProcessOutgoingMessagesAsync();
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
-
-        internal async Task DeleteSelectedMessagesAsync() {
-            Application.Current.AssertUIThread();
-
-            var messages = SelectedMessages.ToArray();
-
-            try {
-                var accountGroups = messages.GroupBy(x => x.Mailbox.Account).ToArray();
-                foreach (var accountGroup in accountGroups) {
-                    var trash = accountGroup.Key.GetTrashMailbox();
-                    if (trash == null) {
-                        throw new InvalidOperationException(Resources.MissingTrashFolderException);
-                    }
-
-                    var mailboxGroups = accountGroup.GroupBy(x => x.Mailbox).ToArray();
-                    foreach (var mailboxGroup in mailboxGroups) {
-                        var groupedMessages = mailboxGroup.ToArray();
-                        await mailboxGroup.Key.DeleteMessagesAsync(groupedMessages, trash.Name);
-                    }
-                }
             } catch (Exception ex) {
                 Logger.Error(ex);
             }

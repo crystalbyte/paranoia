@@ -8,12 +8,9 @@
 
     <Style TargetType="ui:WatermarkTextBox">
         <Setter Property="AccentBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-        <Setter Property="BorderBrush"
-                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WatermarkTextBoxBorderBrushKey}}" />
-        <Setter Property="Background"
-                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WatermarkTextBoxBackgroundBrushKey}}" />
-        <Setter Property="Foreground"
-                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputForegroundBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WatermarkTextBoxBorderBrushKey}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WatermarkTextBoxBackgroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputForegroundBrushKey}}" />
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontFamilyKey}}" />
         <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontSizeKey}}" />
         <Setter Property="Padding" Value="4" />

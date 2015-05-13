@@ -217,6 +217,7 @@
     <Compile Include="Contexts\FileAttachmentContext.cs" />
     <Compile Include="Contexts\HtmlEditorCommandContext.cs" />
     <Compile Include="Contexts\InsertLinkContext.cs" />
+    <Compile Include="Contexts\MailNavigationContext.cs" />
     <Compile Include="Data\DbDataReaderExtension.cs" />
     <Compile Include="Data\MailContent.cs" />
     <Compile Include="Data\MailData.cs" />
