@@ -104,7 +104,7 @@ namespace Crystalbyte.Paranoia {
             _navigationOptions = new ObservableCollection<NavigationContext> {
                 new MailNavigationContext {
                     Title = Resources.MessagesTitle,
-                    TargetUri = typeof (MessagesPage).ToPageUri(),
+                    TargetUri = typeof (MailPage).ToPageUri(),
                     IsSelected = true
                 },
                 new NavigationContext {
@@ -231,6 +231,7 @@ namespace Crystalbyte.Paranoia {
 
         private static async Task DropStoredMessagesAsync(IGrouping<MailboxContext, MailMessageContext> mailboxGroup) {
             using (var context = new DatabaseContext()) {
+                context.Connect();
                 context.EnableForeignKeys();
 
                 foreach (var message in mailboxGroup) {
@@ -246,6 +247,7 @@ namespace Crystalbyte.Paranoia {
                             context.MailMessages.Attach(model);
                             context.MailMessages.Remove(model);
 
+                            // TODO: Extract column names from expression attributes.
                             // The content table is a virtual table and cannot be altered using EF.
                             context.Database.ExecuteSqlCommand(
                                 TransactionalBehavior.DoNotEnsureTransaction,

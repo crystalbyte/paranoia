@@ -369,8 +369,8 @@
     <Compile Include="UI\CreateMailboxModalPage.xaml.cs">
       <DependentUpon>CreateMailboxModalPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\MessagesPage.xaml.cs">
-      <DependentUpon>MessagesPage.xaml</DependentUpon>
+    <Compile Include="UI\MailPage.xaml.cs">
+      <DependentUpon>MailPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\INavigationAware.cs" />
     <Compile Include="UI\RoutedCommands\SignatureCommands.cs" />
@@ -502,7 +502,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\MessagesPage.xaml">
+    <Page Include="UI\MailPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
