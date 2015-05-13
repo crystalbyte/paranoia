@@ -55,9 +55,9 @@ namespace Crystalbyte.Paranoia.UI.Commands {
             return true;
         }
 
-        public async void Execute(object parameter) {
+        public void Execute(object parameter) {
             try {
-                await _app.BlockSelectedUsersAsync();
+                throw new NotImplementedException();
             }
             catch (Exception ex) {
                 Logger.Error(ex);

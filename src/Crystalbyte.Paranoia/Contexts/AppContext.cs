@@ -30,7 +30,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Composition;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Data.SQLite;
 using System.Globalization;
 using System.IO;
@@ -1242,32 +1241,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task BlockSelectedUsersAsync() {
-            await SetBlockForSelectedUsersAsync(true);
-        }
-
-        internal async Task UnblockSelectedUsersAsync() {
-            await SetBlockForSelectedUsersAsync(false);
-        }
-
-        internal async Task SetBlockForSelectedUsersAsync(bool block) {
-            var contacts = SelectedContacts.ToArray();
-
-            using (var database = new DatabaseContext()) {
-                foreach (var contact in contacts) {
-                    try {
-                        var c = await database.MailContacts.FindAsync(contact.Id);
-                        //c.Classification = ContactClassification.Spam;
-                        //contact.IsIgnored = block;
-                    } catch (Exception ex) {
-                        Logger.Error(ex);
-                    }
-                }
-
-                await database.SaveChangesAsync();
-            }
-        }
-
         internal void NotifyAccountDeleted(MailAccountContext account) {
             _accounts.Remove(account);
             RaisePropertyChanged(() => Accounts);
@@ -1300,9 +1273,10 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal void NotifySeenStatesChanged(IDictionary<long, MailMessage> messages) {
-            foreach (
-                var message in
-                    from message in _messages let hasKey = messages.ContainsKey(message.Id) where hasKey select message) {
+            foreach (var message in
+                from message in _messages
+                let hasKey = messages.ContainsKey(message.Id)
+                where hasKey select message) {
                 message.IsSeen = messages[message.Id].HasFlag(MailMessageFlags.Seen);
             }
         }

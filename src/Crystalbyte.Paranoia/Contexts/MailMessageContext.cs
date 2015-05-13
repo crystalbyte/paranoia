@@ -518,6 +518,7 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertBackgroundThread();
 
             using (var context = new DatabaseContext()) {
+                context.Connect();
                 context.EnableForeignKeys();
 
                 using (var transaction = context.Database.Connection.BeginTransaction()) {
