@@ -34,11 +34,13 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Threading;
 using System.Windows;
 using System.Windows.Automation;
+using System.Windows.Input;
 using System.Windows.Media;
 using CefSharp;
 using Crystalbyte.Paranoia.Automation;
@@ -130,6 +132,7 @@ namespace Crystalbyte.Paranoia {
 
             StartComServer();
             ProcessCommandLine();
+
 #if DEBUG
             using (var database = new DatabaseContext()) {
                 var accounts = await database.MailAccounts.ToArrayAsync();

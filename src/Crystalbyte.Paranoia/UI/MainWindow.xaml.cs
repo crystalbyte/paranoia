@@ -25,7 +25,6 @@
 #region Using Directives
 
 using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -57,7 +56,6 @@ namespace Crystalbyte.Paranoia.UI {
         public MainWindow() {
             InitializeComponent();
             DataContext = App.Context;
-            Loaded += OnLoaded;
 
             CommandBindings.Add(new CommandBinding(AppCommands.Settings, OnSettings));
             CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
@@ -69,36 +67,44 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
         }
 
-        private static async void OnLoaded(object sender, RoutedEventArgs e) {
-            await App.Context.RunAsync();
-        }
-
         private void OnSettings(object sender, ExecutedRoutedEventArgs e) {
-            var url = typeof (AppSettingsFlyoutPage).ToPageUri();
-            FlyoutFrame.Navigate(url);
-            ShowFlyout();
+            try {
+                var url = typeof(AppSettingsFlyoutPage).ToPageUri();
+                FlyoutFrame.Navigate(url);
+                ShowFlyout();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private void OnFlyoutClose(object sender, ExecutedRoutedEventArgs e) {
-            var page = FlyoutFrame.Content as ICancelationAware;
-            if (page != null) {
-                page.OnCanceled();
-            }
+            try {
+                var page = FlyoutFrame.Content as ICancelationAware;
+                if (page != null) {
+                    page.OnCanceled();
+                }
 
-            var context = (AppContext) DataContext;
-            context.CloseFlyout();
+                var context = (AppContext)DataContext;
+                context.CloseFlyout();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private void OnFlyoutBack(object sender, ExecutedRoutedEventArgs e) {
-            var page = FlyoutFrame.Content as ICancelationAware;
-            if (page != null) {
-                page.OnCanceled();
-            }
+            try {
+                var page = FlyoutFrame.Content as ICancelationAware;
+                if (page != null) {
+                    page.OnCanceled();
+                }
 
-            // BUG: The back command is currently broken in WPF 4.5 :/
-            // https://connect.microsoft.com/VisualStudio/feedback/details/763996/wpf-page-navigation-looses-data-bindings
-            var context = (AppContext) DataContext;
-            context.CloseFlyout();
+                // BUG: The back command is currently broken in WPF 4.5 :/
+                // https://connect.microsoft.com/VisualStudio/feedback/details/763996/wpf-page-navigation-looses-data-bindings
+                var context = (AppContext)DataContext;
+                context.CloseFlyout();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         #endregion
@@ -118,18 +124,17 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Class Overrides
 
-        protected override void OnInitialized(EventArgs e) {
+        protected async override void OnInitialized(EventArgs e) {
             base.OnInitialized(e);
 
-            InvokeDeferredActions();
-            InitStoryboards();
-            HookUpNavigationRequests();
+            try {
+                InvokeDeferredActions();
+                InitStoryboards();
+                HookUpNavigationRequests();
 
-            if (DesignerProperties.GetIsInDesignMode(this)) {
-                MainFrame.Source =
-                    new Uri(
-                        "http://www.fantasystronghold.de/news/wp-content/uploads/2014/02/MyLittlePony_splash_2048x1536_EN.jpg",
-                        UriKind.Absolute);
+                await App.Context.RunAsync();
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
         }
 
@@ -138,30 +143,37 @@ namespace Crystalbyte.Paranoia.UI {
                 var action = DeferredActions.Pop();
                 try {
                     action();
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     Logger.Error(ex);
                 }
             }
         }
 
         private void InitStoryboards() {
-            _slideInOverlayStoryboard = (Storyboard) Resources["FlyoutSlideInStoryboard"];
+            _slideInOverlayStoryboard = (Storyboard)Resources["FlyoutSlideInStoryboard"];
             _slideInOverlayStoryboard.Completed += OnSlideInOverlayCompleted;
 
-            _slideOutOverlayStoryboard = (Storyboard) Resources["FlyoutSlideOutStoryboard"];
+            _slideOutOverlayStoryboard = (Storyboard)Resources["FlyoutSlideOutStoryboard"];
             _slideOutOverlayStoryboard.Completed += OnSlideOutOverlayCompleted;
         }
 
         private void OnSlideInOverlayCompleted(object sender, EventArgs e) {
-            var page = FlyoutFrame.Content as IAnimationAware;
-            if (page != null) {
-                page.OnAnimationFinished();
+            try {
+                var page = FlyoutFrame.Content as IAnimationAware;
+                if (page != null) {
+                    page.OnAnimationFinished();
+                }
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
         }
 
         private void OnSlideOutOverlayCompleted(object sender, EventArgs e) {
-            FlyoutOverlay.Visibility = Visibility.Collapsed;
+            try {
+                FlyoutOverlay.Visibility = Visibility.Collapsed;
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private void HookUpNavigationRequests() {
@@ -172,19 +184,31 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnFlyoutCloseRequested(object sender, EventArgs e) {
-            if (!IsFlyoutVisible) {
-                return;
+            try {
+                if (!IsFlyoutVisible) {
+                    return;
+                }
+                CloseFlyout();
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
-            CloseFlyout();
         }
 
         private void OnPopupNavigationRequested(object sender, NavigationRequestedEventArgs e) {
-            PopupFrame.Navigate(e.Target);
+            try {
+                PopupFrame.Navigate(e.Target);
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private void OnFlyoutNavigationRequested(object sender, NavigationRequestedEventArgs e) {
-            FlyoutFrame.Navigate(e.Target);
-            ShowFlyout();
+            try {
+                FlyoutFrame.Navigate(e.Target);
+                ShowFlyout();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private void ShowFlyout() {
@@ -200,6 +224,7 @@ namespace Crystalbyte.Paranoia.UI {
             while (FlyoutFrame.CanGoBack) {
                 FlyoutFrame.NavigationService.RemoveBackEntry();
             }
+
             _slideOutOverlayStoryboard.Begin();
         }
 
@@ -208,56 +233,80 @@ namespace Crystalbyte.Paranoia.UI {
         #region Dependency Properties
 
         public bool IsFlyoutVisible {
-            get { return (bool) GetValue(IsFlyoutVisibleProperty); }
+            get { return (bool)GetValue(IsFlyoutVisibleProperty); }
             set { SetValue(IsFlyoutVisibleProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for IsOverlayVisible.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsFlyoutVisibleProperty =
-            DependencyProperty.Register("IsFlyoutVisible", typeof (bool), typeof (MainWindow),
+            DependencyProperty.Register("IsFlyoutVisible", typeof(bool), typeof(MainWindow),
                 new PropertyMetadata(false, OnIsOverlayChanged));
 
         #endregion
 
         private static void OnIsOverlayChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var window = (MainWindow) d;
-            window.OnFlyoutVisibilityChanged();
+            try {
+                var window = (MainWindow)d;
+                window.OnFlyoutVisibilityChanged();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private void OnFlyoutFrameNavigated(object sender, NavigationEventArgs e) {
-            var page = FlyoutFrame.Content as INavigationAware;
-            if (page != null) {
-                page.OnNavigated(e);
+            try {
+                var page = FlyoutFrame.Content as INavigationAware;
+                if (page != null) {
+                    page.OnNavigated(e);
+                }
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
         }
 
         private void OnFlyoutFrameNavigating(object sender, NavigatingCancelEventArgs e) {
-            var page = FlyoutFrame.Content as INavigationAware;
-            if (page != null) {
-                page.OnNavigating(e);
+            try {
+                var page = FlyoutFrame.Content as INavigationAware;
+                if (page != null) {
+                    page.OnNavigating(e);
+                }
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
         }
 
         private void OnMainMenuSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (!IsLoaded) {
-                return;
-            }
+            try {
+                if (!IsLoaded) {
+                    return;
+                }
 
-            var selection = App.Context.NavigationOptions.First(x => x.IsSelected);
-            MainFrame.Navigate(selection.TargetUri);
+                var selection = App.Context.NavigationOptions.First(x => x.IsSelected);
+                MainFrame.Navigate(selection.TargetUri);
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private void OnPopupFrameNavigated(object sender, NavigationEventArgs e) {
-            var page = PopupFrame.Content as INavigationAware;
-            if (page != null) {
-                page.OnNavigated(e);
+            try {
+                var page = PopupFrame.Content as INavigationAware;
+                if (page != null) {
+                    page.OnNavigated(e);
+                }
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
         }
 
         #region Implementation of OnAccentChanged
 
         public void OnAccentChanged() {
-            BorderBrush = Application.Current.Resources[ThemeResourceKeys.AppAccentBrushKey] as Brush;
+            try {
+                BorderBrush = Application.Current.Resources[ThemeResourceKeys.AppAccentBrushKey] as Brush;
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         #endregion
@@ -265,8 +314,7 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnCompose(object sender, ExecutedRoutedEventArgs e) {
             try {
                 App.Context.Compose();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }

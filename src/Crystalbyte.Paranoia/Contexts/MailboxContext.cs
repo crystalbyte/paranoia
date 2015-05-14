@@ -847,13 +847,15 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal Task CountNotSeenAsync() {
-            return Task.Run(async () => {
+        internal async Task CountNotSeenAsync() {
+            Application.Current.AssertUIThread();
+
+            NotSeenCount = await Task.Run(() => {
                 using (var context = new DatabaseContext()) {
-                    NotSeenCount = await context.MailMessages
-                        .Where(x => x.MailboxId == _mailbox.Id)
-                        .Where(x => x.Flags.All(y => y.Value != MailMessageFlags.Seen))
-                        .CountAsync();
+                    return context.MailMessages
+                       .Where(x => x.MailboxId == _mailbox.Id)
+                       .Where(x => x.Flags.All(y => y.Value != MailMessageFlags.Seen))
+                       .CountAsync();
                 }
             });
         }

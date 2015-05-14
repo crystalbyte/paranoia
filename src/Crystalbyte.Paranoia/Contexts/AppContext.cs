@@ -292,7 +292,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private static async Task FlagStoredMessagesAsSeenAsync(IEnumerable<long> ids) {
+        private static async Task FlagStoredMessagesAsSeenAsync(IEnumerable<Int64> ids) {
             Application.Current.AssertBackgroundThread();
 
             using (var context = new DatabaseContext()) {
@@ -421,6 +421,7 @@ namespace Crystalbyte.Paranoia {
         internal async Task FilterContactsAsync(string query) {
             Application.Current.AssertUIThread();
 
+            throw new NotImplementedException();
             _contacts.Clear();
 
             if (String.IsNullOrWhiteSpace(query)) {
@@ -442,15 +443,16 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task LoadContactsAsync() {
-            Application.Current.AssertBackgroundThread();
+            Application.Current.AssertUIThread();
 
-            IEnumerable<MailContact> contacts;
-            using (var database = new DatabaseContext()) {
-                contacts = await database.MailContacts.ToArrayAsync();
-            }
+            var contacts = await Task.Run(() => {
+                using (var database = new DatabaseContext()) {
+                    return database.MailContacts.ToArrayAsync();
+                }
+            });
 
-            await Application.Current.Dispatcher.InvokeAsync(() =>
-                _contacts.AddRange(contacts.Select(x => new MailContactContext(x))));
+            var contexts = contacts.Select(x => new MailContactContext(x));
+            _contacts.AddRange(contexts);
         }
 
         /// <summary>
@@ -541,6 +543,14 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertUIThread();
 
             await RequestOutboxContentAsync(SelectedOutbox);
+        }
+
+        internal event EventHandler Initialized;
+
+        private void OnInitialized() {
+            var handler = Initialized;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
         }
 
         internal event EventHandler FlyoutClosing;
@@ -1042,13 +1052,16 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertUIThread();
 
             try {
+                var context = NavigationOptions.OfType<MailNavigationContext>().First();
+                var refresh = context.RefreshAsync();
+                var loadContacts = LoadContactsAsync();
+
                 if (!await CheckKeyPairAsync()) {
                     await GenerateKeyPairAsync();
                 }
 
                 await LoadAccountsAsync();
-
-                var contacts = LoadContactsAsync();
+                
                 var primary = Accounts.OrderByDescending(x => x.IsDefaultTime).FirstOrDefault();
                 if (primary != null) {
                     primary.IsExpanded = true;
@@ -1059,18 +1072,12 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-                foreach (var account in Accounts) {
-                    await account.TakeOnlineAsync();
-                }
-
-                var context = NavigationOptions.OfType<MailNavigationContext>().FirstOrDefault();
-                if (context != null) {
-                    await context.RefreshAsync();
-                }
-
-                await contacts;
+                var online = Accounts.Select(x => x.TakeOnlineAsync()).ToArray();
+                await Task.WhenAll(online.Concat(new[] { loadContacts, refresh }));
 
                 _outboxTimer.Start();
+
+                OnInitialized();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }

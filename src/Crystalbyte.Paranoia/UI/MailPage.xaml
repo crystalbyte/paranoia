@@ -1036,7 +1036,7 @@
                     RenderOptions.EdgeMode="Aliased"
                     Visibility="{Binding IsMessageOrSmtpRequestSelected,
                                          Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}" RenderOptions.EdgeMode="Unspecified">
+                <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}">
                     <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
                         <ui:HtmlViewer x:Name="MessageViewer"
                                        BorderThickness="0"
@@ -1045,6 +1045,7 @@
                                                                                             AncestorType=Page}}"
                                        KeyboardNavigation.DirectionalNavigation="None"
                                        KeyboardNavigation.TabNavigation="Once"
+                                       RenderOptions.EdgeMode="Unspecified"
                                        SnapsToDevicePixels="True"
                                        Source="{Binding Source,
                                                         Mode=OneWay}"

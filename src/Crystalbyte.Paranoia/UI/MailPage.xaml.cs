@@ -35,6 +35,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using Crystalbyte.Paranoia.Data;
+using NLog;
 
 #endregion
 
@@ -43,11 +44,21 @@ namespace Crystalbyte.Paranoia.UI {
     ///     Interaction logic for MailPage.xaml
     /// </summary>
     public partial class MailPage {
+
+        #region Private Fields
+
         private readonly CollectionViewSource _messageViewSource;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
 
         public MailPage() {
             InitializeComponent();
-            DataContext = App.Context;
+
+            var context = App.Context;
+            context.SortOrderChanged += OnSortOrderChanged;
+            context.ItemSelectionRequested += OnItemSelectionRequested;
+            DataContext = context;
 
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint, OnCanPrint));
             CommandBindings.Add(new CommandBinding(MessageCommands.Compose, OnCompose));
@@ -63,26 +74,28 @@ namespace Crystalbyte.Paranoia.UI {
 
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
-            NetworkChange.NetworkAvailabilityChanged +=
-                (sender, e) => CommandManager.InvalidateRequerySuggested();
 
             _messageViewSource = (CollectionViewSource)Resources["MessagesSource"];
-
-            var context = App.Context;
-            context.SortOrderChanged += OnSortOrderChanged;
-            context.ItemSelectionRequested += OnItemSelectionRequested;
         }
 
         private void OnCancelSearch(object sender, ExecutedRoutedEventArgs e) {
-            var textBox = (WatermarkTextBox)e.OriginalSource;
-            textBox.Text = string.Empty;
+            try {
+                var textBox = (WatermarkTextBox)e.OriginalSource;
+                textBox.Text = string.Empty;
 
-            var request = new TraversalRequest(FocusNavigationDirection.Previous);
-            MoveFocus(request);
+                var request = new TraversalRequest(FocusNavigationDirection.Previous);
+                MoveFocus(request);
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
-            AccountsTreeView.Focus();
+            try {
+                AccountsTreeView.Focus();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private void OnItemSelectionRequested(object sender, ItemSelectionRequestedEventArgs e) {
@@ -90,15 +103,19 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var source = _messageViewSource.View.Cast<object>().ToList();
-            if (e.Position == SelectionPosition.First) {
-                MessagesListView.SelectedIndex = 0;
-            } else {
-                var index = e.PivotElements.GroupBy(source.IndexOf).Max(x => x.Key) + 1;
-                var item = MessagesListView.ItemContainerGenerator.ContainerFromIndex(index) as ListViewItem;
-                if (item != null) {
-                    item.IsSelected = true;
+            try {
+                var source = _messageViewSource.View.Cast<object>().ToList();
+                if (e.Position == SelectionPosition.First) {
+                    MessagesListView.SelectedIndex = 0;
+                } else {
+                    var index = e.PivotElements.GroupBy(source.IndexOf).Max(x => x.Key) + 1;
+                    var item = MessagesListView.ItemContainerGenerator.ContainerFromIndex(index) as ListViewItem;
+                    if (item != null) {
+                        item.IsSelected = true;
+                    }
                 }
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
         }
 
