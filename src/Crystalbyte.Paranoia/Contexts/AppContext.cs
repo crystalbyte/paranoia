@@ -173,14 +173,139 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnNetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e) {
-            if (!e.IsAvailable)
-                return;
+            try {
+                if (!e.IsAvailable)
+                    return;
 
-            await Application.Current.Dispatcher.InvokeAsync(async () => {
-                foreach (var account in Accounts) {
-                    await account.TakeOnlineAsync();
+                await Application.Current.Dispatcher.InvokeAsync(async () => {
+                    foreach (var account in Accounts) {
+                        await account.TakeOnlineAsync();
+                    }
+                });
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private static async Task InvokeGroupedActionAsync(IEnumerable<MailMessageContext> messages,
+            Action<ImapSession, IGrouping<MailboxContext, MailMessageContext>> action) {
+            Application.Current.AssertUIThread();
+
+            if (messages == null) {
+                throw new ArgumentNullException("messages");
+            }
+
+            if (action == null) {
+                throw new ArgumentNullException("action");
+            }
+
+            var tasks = messages
+                .GroupBy(x => x.Mailbox.Account)
+                .Select(x => Task.Run(async () => {
+                    var account = x.Key;
+                    var mailboxGroups = x.GroupBy(y => y.Mailbox);
+                    try {
+                        using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
+                            using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
+                                using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
+                                    foreach (var mailboxGroup in mailboxGroups) {
+                                        action(session, mailboxGroup);
+                                    }
+                                }
+                            }
+                        }
+                    } catch (Exception ex) {
+                        Logger.Error(ex);
+                    }
+                })).ToArray();
+
+            await Task.WhenAll(tasks);
+        }
+
+        internal async Task FlagMessagesAsync(MailMessageContext[] messages) {
+            Application.Current.AssertUIThread();
+
+            messages.ForEach(x => x.IsFlagged = true);
+
+            try {
+                await InvokeGroupedActionAsync(messages,
+                    async (session, group) => {
+                        var name = group.Key.Name;
+                        var uids = group.Select(z => z.Uid).ToArray();
+
+                        try {
+                            var storage = FlagStoredMessagesAsync(uids);
+                            var mailbox = await session.SelectAsync(name);
+                            await mailbox.MarkAsFlaggedAsync(uids);
+
+                            await storage;
+                        } catch (Exception ex) {
+                            Logger.Error(ex);
+                        }
+                    });
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private static Task FlagStoredMessagesAsync(IEnumerable<Int64> uids) {
+            return Task.Run(async () => {
+                using (var context = new DatabaseContext()) {
+                    context.Connect();
+                    context.EnableForeignKeys();
+
+                    var entities = uids.Select(x => new MailMessage { Id = x });
+                    foreach (var entity in entities) {
+                        context.MailMessages.Attach(entity);
+                        entity.Flags.Add(new MessageFlag { Value = MailMessageFlags.Seen });
+                    }
+
+                    await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
                 }
             });
+        }
+
+        internal async Task FlagMessagesAsSeenAsync(MailMessageContext[] messages) {
+            Application.Current.AssertUIThread();
+
+            messages.ForEach(x => x.IsSeen = true);
+
+            try {
+                await InvokeGroupedActionAsync(messages,
+                    async (session, group) => {
+                        var name = group.Key.Name;
+                        var uids = group.Select(z => z.Uid).ToArray();
+                        var ids = group.Select(z => z.Id).ToArray();
+
+                        try {
+                            var storage = FlagStoredMessagesAsSeenAsync(ids);
+                            var mailbox = await session.SelectAsync(name);
+                            await mailbox.MarkAsSeenAsync(uids);
+
+                            await storage;
+                        } catch (Exception ex) {
+                            Logger.Error(ex);
+                        }
+                    });
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
+        }
+
+        private static async Task FlagStoredMessagesAsSeenAsync(IEnumerable<long> ids) {
+            Application.Current.AssertBackgroundThread();
+
+            using (var context = new DatabaseContext()) {
+                context.Connect();
+                context.EnableForeignKeys();
+
+                foreach (var id in ids) {
+                    var entity = await context.MailMessages.FindAsync(id);
+                    entity.Flags.Add(new MessageFlag { Value = MailMessageFlags.Seen });
+                }
+
+                await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
+            }
         }
 
         internal async Task DeleteMessagesAsync(MailMessageContext[] messages) {
@@ -230,6 +355,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static async Task DropStoredMessagesAsync(IGrouping<MailboxContext, MailMessageContext> mailboxGroup) {
+            Application.Current.AssertBackgroundThread();
+
             using (var context = new DatabaseContext()) {
                 context.Connect();
                 context.EnableForeignKeys();
@@ -267,13 +394,21 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnContactQueryReceived(string query) {
-            await FilterContactsAsync(query);
+            try {
+                await FilterContactsAsync(query);
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private void OnMessagesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
-            RaisePropertyChanged(() => Messages);
-            RaisePropertyChanged(() => MessageCount);
-            RaisePropertyChanged(() => IsMessageOrSmtpRequestSelected);
+            try {
+                RaisePropertyChanged(() => Messages);
+                RaisePropertyChanged(() => MessageCount);
+                RaisePropertyChanged(() => IsMessageOrSmtpRequestSelected);
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         public object Alphabet {
@@ -316,10 +451,6 @@ namespace Crystalbyte.Paranoia {
 
             await Application.Current.Dispatcher.InvokeAsync(() =>
                 _contacts.AddRange(contacts.Select(x => new MailContactContext(x))));
-
-            foreach (var contact in _contacts) {
-                await contact.CheckSecurityStateAsync();
-            }
         }
 
         /// <summary>
@@ -334,23 +465,27 @@ namespace Crystalbyte.Paranoia {
                 return;
             }
 
-            _messages.Clear();
+            try {
+                _messages.Clear();
 
-            source.BeginQuery();
-            var messages = await Task.Run(() => source.GetMessagesAsync());
-            source.FinishQuery();
+                source.BeginQuery();
+                var messages = await Task.Run(() => source.GetMessagesAsync());
+                source.FinishQuery();
 
-            // User might have switched to a different source by now.
-            if (MessageSource != source) {
-                return;
+                // User might have switched to a different source by now.
+                if (MessageSource != source) {
+                    return;
+                }
+
+                _messages.DeferNotifications = true;
+                _messages.AddRange(messages);
+                _messages.DeferNotifications = false;
+                _messages.NotifyCollectionChanged();
+
+                OnItemSelectionRequested(new ItemSelectionRequestedEventArgs(SelectionPosition.First));
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
-
-            _messages.DeferNotifications = true;
-            _messages.AddRange(messages);
-            _messages.DeferNotifications = false;
-            _messages.NotifyCollectionChanged();
-
-            OnItemSelectionRequested(new ItemSelectionRequestedEventArgs(SelectionPosition.First));
         }
 
         #endregion
@@ -785,19 +920,27 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnAccountsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
-            RaisePropertyChanged(() => Accounts);
+            try {
+                RaisePropertyChanged(() => Accounts);
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         private async void OnMessageSelectionReceived(EventPattern<object> obj) {
             Application.Current.AssertUIThread();
 
-            var message = SelectedMessages.FirstOrDefault();
-            if (message == null) {
-                return;
-            }
-
             try {
-                await ViewMessageAsync(message);
+                var message = SelectedMessages.FirstOrDefault();
+                if (message == null) {
+                    return;
+                }
+
+                try {
+                    await ViewMessageAsync(message);
+                } catch (Exception ex) {
+                    Logger.Error(ex);
+                }
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -807,9 +950,9 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertUIThread();
 
             try {
-                var mark = MarkAsSeenAsync(message);
                 await Task.Run(async () => {
-                    if (!message.GetIsMimeStored()) {
+                    var hasMime = await message.GetIsMimeStoredAsync();
+                    if (!hasMime) {
                         await message.FetchAndDecryptAsync();
                     }
                 });
@@ -822,7 +965,6 @@ namespace Crystalbyte.Paranoia {
                     ? "message:///{0}?blockExternals=false"
                     : "message:///{0}", message.Id);
 
-                await mark;
             } catch (MessageDecryptionFailedException ex) {
                 // TODO: Notify user key is missing.
                 Logger.Error(ex);
@@ -839,14 +981,6 @@ namespace Crystalbyte.Paranoia {
                 // TODO: General exception handling.
                 Logger.Error(ex);
             }
-
-        }
-
-        internal Task MarkAsSeenAsync(MailMessageContext message) {
-            return Task.Run(async () => {
-                var mailbox = message.Mailbox;
-                await mailbox.MarkAsSeenAsync(new[] { message });
-            });
         }
 
         internal Task MarkSelectionAsSeenAsync() {
@@ -907,36 +1041,53 @@ namespace Crystalbyte.Paranoia {
         public async Task RunAsync() {
             Application.Current.AssertUIThread();
 
-            if (!await CheckKeyPairAsync()) {
-                await GenerateKeyPairAsync();
+            try {
+                if (!await CheckKeyPairAsync()) {
+                    await GenerateKeyPairAsync();
+                }
+
+                await Task.Run(async () => {
+                    await LoadContactsAsync();
+                    await LoadAccountsAsync();
+
+                    var primary = Accounts.OrderByDescending(x => x.IsDefaultTime).FirstOrDefault();
+                    if (primary != null) {
+                        var inbox = primary.GetInbox();
+                        if (inbox != null) {
+                            inbox.IsExpanded = true;
+                            inbox.IsSelected = true;
+                        }
+                    }
+                });
+
+                foreach (var account in Accounts) {
+                    await account.TakeOnlineAsync();
+                }
+
+                _outboxTimer.Start();
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
-
-            await Task.Run(async () => {
-                await LoadContactsAsync();
-                await LoadAccountsAsync();
-            });
-
-            foreach (var account in Accounts) {
-                await account.TakeOnlineAsync();
-            }
-
-            _outboxTimer.Start();
         }
 
         private async Task LoadAccountsAsync() {
             Application.Current.AssertBackgroundThread();
 
-            IEnumerable<MailAccount> accounts;
-            using (var context = new DatabaseContext()) {
-                accounts = await context.MailAccounts.ToArrayAsync();
-            }
+            try {
+                IEnumerable<MailAccount> accounts;
+                using (var context = new DatabaseContext()) {
+                    accounts = await context.MailAccounts.ToArrayAsync();
+                }
 
-            await Application.Current.Dispatcher.InvokeAsync(() =>
-                _accounts.AddRange(accounts.Select(x => new MailAccountContext(x))));
+                await Application.Current.Dispatcher.InvokeAsync(() =>
+                    _accounts.AddRange(accounts.Select(x => new MailAccountContext(x))));
 
-            foreach (var account in Accounts) {
-                await account.LoadMailboxesAsync();
-                await account.Outbox.CountSmtpRequestsAsync();
+                foreach (var account in Accounts) {
+                    await account.LoadMailboxesAsync();
+                    await account.Outbox.CountSmtpRequestsAsync();
+                }
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
         }
 
@@ -959,11 +1110,15 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnCreateAccount(object obj) {
-            var account = new MailAccountContext(new MailAccount());
-            NavigationArguments.Push(account);
+            try {
+                var account = new MailAccountContext(new MailAccount());
+                NavigationArguments.Push(account);
 
-            var uri = typeof(CreateAccountStartFlyoutPage).ToPageUri();
-            OnFlyoutNavigationRequested(new NavigationRequestedEventArgs(uri));
+                var uri = typeof(CreateAccountStartFlyoutPage).ToPageUri();
+                OnFlyoutNavigationRequested(new NavigationRequestedEventArgs(uri));
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         internal void CloseFlyout() {
@@ -1215,12 +1370,9 @@ namespace Crystalbyte.Paranoia {
 
         internal void NotifyMessagesRemoved(IEnumerable<MailMessageContext> messages) {
             var collection = messages as MailMessageContext[] ?? messages.ToArray();
-            OnItemSelectionRequested(new ItemSelectionRequestedEventArgs(SelectionPosition.Next, collection));
             collection.ForEach(x => _messages.Remove(x));
-        }
 
-        internal void NotifyMessageRemoved(MailMessageContext message) {
-            _messages.Remove(message);
+            OnItemSelectionRequested(new ItemSelectionRequestedEventArgs(SelectionPosition.Next, collection));
         }
 
         internal async Task DeleteSelectedContactsAsync() {
@@ -1248,19 +1400,6 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => Accounts);
         }
 
-        internal Task MarkSelectionAsFlaggedAsync() {
-            var messages = SelectedMessages.ToArray();
-
-            return Task.Run(() => {
-                var tasks = messages
-                    .Where(x => x.IsSeen)
-                    .GroupBy(x => x.Mailbox)
-                    .Select(x => x.Key.MarkAsFlaggedAsync(x.ToArray()));
-
-                Task.WhenAll(tasks);
-            });
-        }
-
         public Task MarkSelectionAsNotFlaggedAsync() {
             var messages = SelectedMessages.ToArray();
 
@@ -1279,7 +1418,7 @@ namespace Crystalbyte.Paranoia {
                 from message in _messages
                 let hasKey = messages.ContainsKey(message.Id)
                 where hasKey select message) {
-                message.IsSeen = messages[message.Id].HasFlag(MailMessageFlags.Seen);
+                message.IsSeen = messages[message.Id].Flags.Any(x => x.Value == MailMessageFlags.Seen);
             }
         }
     }

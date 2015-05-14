@@ -27,6 +27,7 @@
 using System;
 using System.Linq;
 using System.Windows.Input;
+using NLog;
 
 #endregion
 
@@ -34,27 +35,33 @@ namespace Crystalbyte.Paranoia.UI.Commands {
     public sealed class MarkAsFlaggedCommand : ICommand {
         #region Private Fields
 
-        private readonly AppContext _context;
+        private readonly AppContext _app;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
         #region Construction
 
-        public MarkAsFlaggedCommand(AppContext context) {
-            _context = context;
-            _context.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
+        public MarkAsFlaggedCommand(AppContext app) {
+            _app = app;
+            _app.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
         }
 
         #endregion
 
         public bool CanExecute(object parameter) {
-            return _context.SelectedMessage != null
-                   && _context.SelectedMessages.Any(x => !x.IsFlagged);
+            return _app.SelectedMessage != null
+                   && _app.SelectedMessages.Any(x => !x.IsFlagged);
         }
 
         public async void Execute(object parameter) {
-            await _context.MarkSelectionAsFlaggedAsync();
-            OnCanExecuteChanged();
+            try {
+                var selection = _app.SelectedMessages.ToArray();
+                await _app.FlagMessagesAsync(selection);
+                OnCanExecuteChanged();
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            }
         }
 
         public event EventHandler CanExecuteChanged;

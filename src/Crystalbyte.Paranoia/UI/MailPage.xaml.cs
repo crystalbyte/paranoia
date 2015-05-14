@@ -29,6 +29,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -260,7 +261,12 @@ namespace Crystalbyte.Paranoia.UI {
             var app = App.Context;
             app.OnMessageSelectionChanged();
 
-            CommandManager.InvalidateRequerySuggested();
+            if (e.AddedItems.Count == 1) {
+                var last = e.RemovedItems.OfType<MailMessageContext>().FirstOrDefault();
+                if (last != null) {
+                    // read messages
+                }
+            }
 
             var message = app.SelectedMessage;
             if (message == null)

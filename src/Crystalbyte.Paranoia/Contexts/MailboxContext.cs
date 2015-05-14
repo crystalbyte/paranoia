@@ -27,7 +27,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Globalization;
@@ -204,6 +203,10 @@ namespace Crystalbyte.Paranoia {
 
                 if (!IsSyncingMailboxes) {
                     await SyncMailboxesAsync();
+                }
+
+                if (!IsSyncingMessages) {
+                    await SyncMessagesAsync();
                 }
 
                 _isSyncedInitially = true;
@@ -570,7 +573,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 await DetectAndDropDeletedMessagesAsync(results);
-                await DetectAndChangeSeenStatesAsync(results);
+                await StoreMessageFlagsAsync(results);
                 await CountNotSeenAsync();
 
                 return results.Messages;
@@ -580,24 +583,21 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task DetectAndChangeSeenStatesAsync(SyncResults results) {
+        private async Task StoreMessageFlagsAsync(SyncResults results) {
             try {
                 var models = await Task.Run(async () => {
                     using (var context = new DatabaseContext()) {
-                        var messages =
-                            await
-                                context.MailMessages.Where(x => x.MailboxId == Id)
-                                    .ToArrayAsync();
+                        var messages = await context.MailMessages.Where(x => x.MailboxId == Id).ToArrayAsync();
                         foreach (var message in messages) {
                             var isSeen = results.UidsForSeen.Contains(message.Uid);
-                            if (message.HasFlag(MailMessageFlags.Seen) == isSeen) {
+                            if (message.Flags.Any(x => x.Value == MailMessageFlags.Seen) == isSeen) {
                                 continue;
                             }
 
                             if (isSeen) {
-                                message.WriteFlag(MailMessageFlags.Seen);
+                                message.Flags.Add(new MessageFlag { Value = MailMessageFlags.Seen });
                             } else {
-                                message.DropFlag(MailMessageFlags.Seen);
+                                message.Flags.RemoveAll(x => x.Value == MailMessageFlags.Seen);
                             }
                         }
                         await context.SaveChangesAsync();
@@ -851,7 +851,7 @@ namespace Crystalbyte.Paranoia {
             using (var context = new DatabaseContext()) {
                 NotSeenCount = await context.MailMessages
                     .Where(x => x.MailboxId == _mailbox.Id)
-                    .Where(x => !x.Flags.Contains(MailMessageFlags.Seen))
+                    .Where(x => x.Flags.All(y => y.Value != MailMessageFlags.Seen))
                     .CountAsync();
             }
         }
@@ -1011,28 +1011,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task MarkAsFlaggedAsync(MailMessageContext[] messages) {
-            Application.Current.AssertBackgroundThread();
 
-            try {
-                messages.ForEach(x => x.IsFlagged = true);
-                var uids = messages.Select(x => x.Uid).ToArray();
-
-                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
-                    using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
-                        using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
-                            var folder = await session.SelectAsync(Name);
-                            await folder.MarkAsFlaggedAsync(uids);
-                        }
-                    }
-                }
-
-                await CountNotSeenAsync();
-            } catch (Exception ex) {
-                messages.ForEach(x => x.IsFlagged = false);
-                Logger.Error(ex);
-            }
-        }
 
         internal async Task MarkAsNotFlaggedAsync(MailMessageContext[] messages) {
             Application.Current.AssertBackgroundThread();
@@ -1091,7 +1070,7 @@ namespace Crystalbyte.Paranoia {
                         .ToArrayAsync();
                 } else {
                     messages = await context.MailMessages
-                        .Where(x => !x.Flags.Contains(MailMessageFlags.Seen))
+                        .Where(x => x.Flags.All(y => y.Value != MailMessageFlags.Seen))
                         .Where(x => x.MailboxId == _mailbox.Id)
                         .ToArrayAsync();
                 }

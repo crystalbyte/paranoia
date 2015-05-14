@@ -28,7 +28,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Linq;
@@ -241,76 +240,50 @@ namespace Crystalbyte.Paranoia {
         }
 
         public bool IsFlagged {
-            get { return _message.HasFlag(MailMessageFlags.Flagged); }
+            get {
+                return _message.Flags
+                    .Any(x => x.Value.EqualsIgnoreCase(MailMessageFlags.Flagged));
+            }
             set {
-                if (_message.HasFlag(MailMessageFlags.Flagged) == value) {
-                    return;
-                }
-
                 if (value) {
-                    _message.WriteFlag(MailMessageFlags.Flagged);
+                    _message.Flags.Add(new MessageFlag { Value = MailMessageFlags.Flagged });
                 } else {
-                    _message.DropFlag(MailMessageFlags.Flagged);
+                    _message.Flags.RemoveAll(x => x.Value.EqualsIgnoreCase(MailMessageFlags.Flagged));
                 }
-
-                RaisePropertyChanged(() => IsFlagged);
-                RaisePropertyChanged(() => IsNotFlagged);
-                OnFlaggedStatusChanged();
             }
         }
 
         public bool IsSeen {
-            get { return _message.HasFlag(MailMessageFlags.Seen); }
+            get {
+                return _message.Flags
+                    .Any(x => x.Value.EqualsIgnoreCase(MailMessageFlags.Seen));
+            }
             set {
-                if (_message.HasFlag(MailMessageFlags.Seen) == value) {
-                    return;
-                }
-
                 if (value) {
-                    _message.WriteFlag(MailMessageFlags.Seen);
+                    _message.Flags.Add(new MessageFlag { Value = MailMessageFlags.Seen });
                 } else {
-                    _message.DropFlag(MailMessageFlags.Seen);
+                    _message.Flags.RemoveAll(x => x.Value.EqualsIgnoreCase(MailMessageFlags.Seen));
                 }
-
-                RaisePropertyChanged(() => IsSeen);
-                RaisePropertyChanged(() => IsNotSeen);
-                OnSeenStatusChanged();
             }
         }
 
         public bool IsAnswered {
-            get { return _message.HasFlag(MailMessageFlags.Answered); }
+            get {
+                return _message.Flags
+                    .Any(x => x.Value.EqualsIgnoreCase(MailMessageFlags.Answered));
+            }
             set {
-                if (_message.HasFlag(MailMessageFlags.Seen) == value) {
-                    return;
-                }
-
                 if (value) {
-                    _message.WriteFlag(MailMessageFlags.Answered);
+                    _message.Flags.Add(new MessageFlag { Value = MailMessageFlags.Answered });
                 } else {
-                    _message.DropFlag(MailMessageFlags.Answered);
+                    _message.Flags.RemoveAll(x => x.Value.EqualsIgnoreCase(MailMessageFlags.Answered));
                 }
-
-                RaisePropertyChanged(() => IsAnswered);
-                OnAnsweredStatusChanged();
             }
         }
 
         #endregion
 
-        private async void OnSeenStatusChanged() {
-            await SaveFlagsAsync();
-        }
-
-        private async void OnAnsweredStatusChanged() {
-            await SaveFlagsAsync();
-        }
-
-        private async void OnFlaggedStatusChanged() {
-            await SaveFlagsAsync();
-        }
-
-        private async void OnClassifyContact(object obj) {
+        private void OnClassifyContact(object obj) {
             var cc = (ContactClassification)obj;
 
             if (cc == ContactClassification.Genuine
@@ -318,24 +291,7 @@ namespace Crystalbyte.Paranoia {
                 IsFishy = false;
             }
 
-            await ChangeClassificationAsync(cc);
-        }
-
-        private async Task ChangeClassificationAsync(ContactClassification classification) {
-            _from.Classification = classification;
-            await _from.SaveAsync();
-        }
-
-        private Task SaveFlagsAsync() {
-            var flags = _message.Flags;
-            return Task.Run(async () => {
-                using (var context = new DatabaseContext()) {
-                    var message = new MailMessage { Id = _message.Id };
-                    context.MailMessages.Attach(message);
-                    message.Flags = flags;
-                    await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
-                }
-            });
+            throw new NotImplementedException();
         }
 
         public bool IsNotSeen {
@@ -396,8 +352,8 @@ namespace Crystalbyte.Paranoia {
         private async Task<byte[]> FetchMimeAsync() {
             Application.Current.AssertBackgroundThread();
 
-            MailAccount account;
             Mailbox mailbox;
+            MailAccount account;
             using (var context = new DatabaseContext()) {
                 mailbox = context.Mailboxes.Find(_message.MailboxId);
                 account = context.MailAccounts.Find(mailbox.AccountId);
@@ -420,15 +376,19 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnByteCountChanged(object sender, ProgressChangedEventArgs e) {
-            BytesReceived = e.ByteCount;
-            var percentage = (Convert.ToDouble(e.ByteCount) / Convert.ToDouble(Size)) * 100;
+            try {
+                BytesReceived = e.ByteCount;
+                var percentage = (Convert.ToDouble(e.ByteCount) / Convert.ToDouble(Size)) * 100;
 
-            // Total bytes and the actual size may differ due to encoding and compression.
-            if (percentage > 100) {
-                percentage = 100;
+                // Total bytes and the actual size may differ due to encoding and compression.
+                if (percentage > 100) {
+                    percentage = 100;
+                }
+
+                Progress = Convert.ToInt32(percentage);
+            } catch (Exception ex) {
+                Logger.Error(ex);
             }
-
-            Progress = Convert.ToInt32(percentage);
         }
 
         public double Progress {
@@ -456,7 +416,6 @@ namespace Crystalbyte.Paranoia {
                 var reader = new MailMessageReader(mime);
 
                 var address = FromAddress;
-
                 var parts = reader.FindAllMessagePartsWithMediaType(MediaTypes.EncryptedMime);
                 var xHeaders = reader.Headers.UnknownHeaders;
 
@@ -602,8 +561,8 @@ namespace Crystalbyte.Paranoia {
 
                         await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
 
-                        var id = new SQLiteParameter("@message_id", _message.Id);
                         var text = new SQLiteParameter("@text");
+                        var id = new SQLiteParameter("@message_id", _message.Id);
                         var part = reader.FindFirstPlainTextVersion();
                         if (part != null) {
                             text.Value = part.GetBodyAsText();
@@ -617,6 +576,7 @@ namespace Crystalbyte.Paranoia {
                             }
                         }
 
+                        // TODO: Try and generate SQL statement from entity attributes.
                         const string command = "INSERT INTO mail_content(text, message_id) VALUES(@text, @message_id);";
                         context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, command, text, id);
                         transaction.Commit();
@@ -630,12 +590,12 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal bool GetIsMimeStored() {
-            Application.Current.AssertBackgroundThread();
-
-            using (var database = new DatabaseContext()) {
-                return database.MailData.Any(x => x.MessageId == Id);
-            }
+        internal Task<bool> GetIsMimeStoredAsync() {
+            return Task.Run(() => {
+                using (var database = new DatabaseContext()) {
+                    return database.MailData.AnyAsync(x => x.MessageId == Id);
+                }
+            });
         }
 
         internal async Task AllowExternalContentAsync() {

@@ -221,6 +221,7 @@
     <Compile Include="Data\DbDataReaderExtension.cs" />
     <Compile Include="Data\MailContent.cs" />
     <Compile Include="Data\MailData.cs" />
+    <Compile Include="Data\MessageFlag.cs" />
     <Compile Include="Data\SQLite\OptimisticConcurrencyStrategy.cs" />
     <Compile Include="Data\SQLite\DbContextExtensions.cs" />
     <Compile Include="Data\SQLite\DefaultAttribute.cs" />
@@ -270,7 +271,6 @@
     </Compile>
     <Compile Include="UI\ItemSelectionRequestedEventArgs.cs" />
     <Compile Include="Data\KeyPair.cs" />
-    <Compile Include="Data\MailMessageExtensions.cs" />
     <Compile Include="IAccentAware.cs" />
     <Compile Include="SortProperty.cs" />
     <Compile Include="UI\AppSettingsFlyoutPage.xaml.cs">

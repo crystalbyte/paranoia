@@ -29,10 +29,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -338,7 +338,9 @@ namespace Crystalbyte.Paranoia {
 
             var mailboxes = _mailboxes.ToArray();
 
-            await Task.Run(async () => {
+            var contexts = await Task.Run(async () => {
+                var result = new List<MailboxContext>();
+
                 try {
                     var remoteMailboxes = await ListMailboxesAsync();
                     var subscribed = await ListSubscribedMailboxesAsync();
@@ -359,6 +361,7 @@ namespace Crystalbyte.Paranoia {
                     foreach (var mailbox in remoteMailboxes.Where(x => mailboxes.All(y =>
                         string.Compare(x.Fullname, y.Name,
                             StringComparison.InvariantCultureIgnoreCase) != 0))) {
+
                         var context = new MailboxContext(this, new Mailbox {
                             AccountId = _account.Id
                         });
@@ -410,28 +413,23 @@ namespace Crystalbyte.Paranoia {
 
                     done:
                         await context.BindMailboxAsync(mailbox, subscribed);
-                        await
-                            Application.Current.Dispatcher.InvokeAsync(
-                                () => _mailboxes.Add(context));
+                        result.Add(context);
                     }
 
                     await SaveAsync();
-
-                    await Application.Current.Dispatcher.InvokeAsync(() => {
-                        var inbox =
-                            _mailboxes
-                                .FirstOrDefault(
-                                    x => x.IsInbox);
-                        if (inbox != null &&
-                            !IsExpanded) {
-                            inbox.IsSelected =
-                                true;
-                        }
-                    });
                 } catch (Exception ex) {
                     Logger.Error(ex);
                 }
+
+                return result;
             });
+
+            _mailboxes.AddRange(contexts);
+
+            var inbox = mailboxes.FirstOrDefault(x => x.IsInbox);
+            if (inbox != null && !IsExpanded) {
+                inbox.IsSelected = true;
+            }
 
             IsSyncingMailboxes = false;
         }

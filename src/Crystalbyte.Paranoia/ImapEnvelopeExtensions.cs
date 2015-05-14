@@ -34,13 +34,11 @@ using Crystalbyte.Paranoia.Mail;
 namespace Crystalbyte.Paranoia {
     internal static class ImapEnvelopeExtensions {
         public static MailMessage ToMailMessage(this ImapEnvelope envelope) {
-            return new MailMessage
-            {
+            var message = new MailMessage {
                 EntryDate = envelope.InternalDate.HasValue
                     ? envelope.InternalDate.Value
                     : DateTime.Now,
                 Subject = envelope.Subject,
-                Flags = string.Join(";", envelope.Flags),
                 Size = envelope.Size,
                 Uid = envelope.Uid,
                 MessageId = envelope.MessageId,
@@ -51,6 +49,9 @@ namespace Crystalbyte.Paranoia {
                     ? envelope.From.First().DisplayName
                     : string.Empty
             };
+
+            message.Flags.AddRange(envelope.Flags.Select(x => new MessageFlag { Value = x }));
+            return message;
         }
     }
 }

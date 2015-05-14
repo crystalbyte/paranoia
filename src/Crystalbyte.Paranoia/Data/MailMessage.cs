@@ -38,10 +38,12 @@ namespace Crystalbyte.Paranoia.Data {
     [Table("mail_message")]
     internal class MailMessage {
 
-        private ICollection<MailData> _data;
+        private List<MailData> _data;
+        private List<MessageFlag> _flags;
 
         public MailMessage() {
-            _data = new Collection<MailData>();
+            _data = new List<MailData>();
+            _flags = new List<MessageFlag>();
         }
 
         [Key]
@@ -54,10 +56,6 @@ namespace Crystalbyte.Paranoia.Data {
 
         [Column("size")]
         public Int64 Size { get; set; }
-
-        [Column("flags")]
-        [Collate(CollatingSequence.NoCase)]
-        public string Flags { get; set; }
 
         [Column("subject")]
         [Collate(CollatingSequence.NoCase)]
@@ -90,9 +88,14 @@ namespace Crystalbyte.Paranoia.Data {
 
         public Mailbox Mailbox { get; set; }
 
-        public virtual ICollection<MailData> Data {
+        public virtual List<MailData> Data {
             get { return _data; }
             set { _data = value; }
+        }
+
+        public virtual List<MessageFlag> Flags {
+            get { return _flags; }
+            set { _flags = value; }
         }
     }
 }
