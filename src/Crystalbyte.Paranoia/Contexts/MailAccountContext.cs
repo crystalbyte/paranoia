@@ -32,7 +32,6 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -40,6 +39,7 @@ using System.Windows.Input;
 using System.Xml.Serialization;
 using ARSoft.Tools.Net.Dns;
 using Crystalbyte.Paranoia.Data;
+using Crystalbyte.Paranoia.Data.SQLite;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
@@ -334,104 +334,114 @@ namespace Crystalbyte.Paranoia {
                 throw new InvalidOperationException();
             }
 
-            IsSyncingMailboxes = true;
+            try {
+                IsSyncingMailboxes = true;
+                var mailboxes = _mailboxes.ToArray();
+                var contexts = await Task.Run(async () => {
+                    var result = new List<MailboxContext>();
 
-            var mailboxes = _mailboxes.ToArray();
+                    try {
+                        var remoteMailboxes = await ListMailboxesAsync();
+                        var subscribed = await ListSubscribedMailboxesAsync();
 
-            var contexts = await Task.Run(async () => {
-                var result = new List<MailboxContext>();
-
-                try {
-                    var remoteMailboxes = await ListMailboxesAsync();
-                    var subscribed = await ListSubscribedMailboxesAsync();
-
-                    if (IsGmail) {
-                        // Fetch gmail folders and assign automagically.
-                        var gmail =
-                            remoteMailboxes.FirstOrDefault(x =>
-                                x.Name.ContainsIgnoreCase("gmail") ||
-                                x.Name.ContainsIgnoreCase("google mail"));
-                        if (gmail != null) {
-                            var pattern = string.Format("{0}{1}%", gmail.Name, gmail.Delimiter);
-                            var localizedMailboxes = await ListMailboxesAsync(pattern);
-                            remoteMailboxes.AddRange(localizedMailboxes);
+                        if (IsGmail) {
+                            // Fetch gmail folders and assign automagically.
+                            var gmail =
+                                remoteMailboxes.FirstOrDefault(x =>
+                                    x.Name.ContainsIgnoreCase("gmail") ||
+                                    x.Name.ContainsIgnoreCase("google mail"));
+                            if (gmail != null) {
+                                var pattern = string.Format("{0}{1}%", gmail.Name,
+                                    gmail.Delimiter);
+                                var localizedMailboxes =
+                                    await ListMailboxesAsync(pattern);
+                                remoteMailboxes.AddRange(localizedMailboxes);
+                            }
                         }
+
+                        foreach (
+                            var mailbox in
+                                remoteMailboxes.Where(x => mailboxes.All(y =>
+                                    string.Compare(x.Fullname, y.Name,
+                                        StringComparison.InvariantCultureIgnoreCase) !=
+                                    0))) {
+
+                            var context = new MailboxContext(this, new Mailbox {
+                                AccountId = _account.Id
+                            });
+
+                            await context.InsertAsync();
+
+                            if (mailbox.IsGmailAll) {
+                                context.IsSubscribed = true;
+                                goto done;
+                            }
+
+                            if (mailbox.IsGmailImportant) {
+                                context.IsSubscribed = true;
+                                goto done;
+                            }
+
+                            if (mailboxes.All(x => !x.IsJunk)) {
+                                if (mailbox.IsGmailJunk ||
+                                    mailbox.Name.ContainsIgnoreCase("junk")) {
+                                    JunkMailboxName = mailbox.Fullname;
+                                    context.IsSubscribed = true;
+                                    goto done;
+                                }
+                            }
+
+                            if (mailboxes.All(x => !x.IsDraft)) {
+                                if (mailbox.IsGmailDraft ||
+                                    mailbox.Name.ContainsIgnoreCase("draft")) {
+                                    DraftMailboxName = mailbox.Fullname;
+                                    context.IsSubscribed = true;
+                                    goto done;
+                                }
+                            }
+
+                            if (mailboxes.All(x => !x.IsSent)) {
+                                if (mailbox.IsGmailSent ||
+                                    mailbox.Name.ContainsIgnoreCase("sent")) {
+                                    SentMailboxName = mailbox.Fullname;
+                                    context.IsSubscribed = true;
+                                    goto done;
+                                }
+                            }
+
+                            if (mailboxes.All(x => !x.IsTrash)) {
+                                if (mailbox.IsGmailTrash ||
+                                    mailbox.Name.ContainsIgnoreCase("trash")) {
+                                    TrashMailboxName = mailbox.Fullname;
+                                    context.IsSubscribed = true;
+                                }
+                            }
+
+                        done:
+                            await context.BindMailboxAsync(mailbox, subscribed);
+                            result.Add(context);
+                        }
+
+                        await SaveAsync();
+                    } catch (Exception ex) {
+                        Logger.Error(ex);
                     }
 
-                    foreach (var mailbox in remoteMailboxes.Where(x => mailboxes.All(y =>
-                        string.Compare(x.Fullname, y.Name,
-                            StringComparison.InvariantCultureIgnoreCase) != 0))) {
+                    return result;
+                });
 
-                        var context = new MailboxContext(this, new Mailbox {
-                            AccountId = _account.Id
-                        });
+                _mailboxes.AddRange(contexts);
 
-                        await context.InsertAsync();
-
-                        if (mailbox.IsGmailAll) {
-                            context.IsSubscribed = true;
-                            goto done;
-                        }
-
-                        if (mailbox.IsGmailImportant) {
-                            context.IsSubscribed = true;
-                            goto done;
-                        }
-
-                        if (mailboxes.All(x => !x.IsJunk)) {
-                            if (mailbox.IsGmailJunk || mailbox.Name.ContainsIgnoreCase("junk")) {
-                                JunkMailboxName = mailbox.Fullname;
-                                context.IsSubscribed = true;
-                                goto done;
-                            }
-                        }
-
-                        if (mailboxes.All(x => !x.IsDraft)) {
-                            if (mailbox.IsGmailDraft ||
-                                mailbox.Name.ContainsIgnoreCase("draft")) {
-                                DraftMailboxName = mailbox.Fullname;
-                                context.IsSubscribed = true;
-                                goto done;
-                            }
-                        }
-
-                        if (mailboxes.All(x => !x.IsSent)) {
-                            if (mailbox.IsGmailSent || mailbox.Name.ContainsIgnoreCase("sent")) {
-                                SentMailboxName = mailbox.Fullname;
-                                context.IsSubscribed = true;
-                                goto done;
-                            }
-                        }
-
-                        if (mailboxes.All(x => !x.IsTrash)) {
-                            if (mailbox.IsGmailTrash ||
-                                mailbox.Name.ContainsIgnoreCase("trash")) {
-                                TrashMailboxName = mailbox.Fullname;
-                                context.IsSubscribed = true;
-                            }
-                        }
-
-                    done:
-                        await context.BindMailboxAsync(mailbox, subscribed);
-                        result.Add(context);
-                    }
-
-                    await SaveAsync();
-                } catch (Exception ex) {
-                    Logger.Error(ex);
+                var inbox = mailboxes.FirstOrDefault(x => x.IsInbox);
+                if (inbox != null && !IsExpanded) {
+                    inbox.IsSelected = true;
                 }
 
-                return result;
-            });
-
-            _mailboxes.AddRange(contexts);
-
-            var inbox = mailboxes.FirstOrDefault(x => x.IsInbox);
-            if (inbox != null && !IsExpanded) {
-                inbox.IsSelected = true;
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            } finally {
+                IsSyncingMailboxes = false;
             }
-
-            IsSyncingMailboxes = false;
         }
 
         internal async Task SaveAsync() {
@@ -775,14 +785,13 @@ namespace Crystalbyte.Paranoia {
             IsTesting = false;
         }
 
-        private Task TestSmtpSettingsAsync() {
+        private async Task TestSmtpSettingsAsync() {
             Testing = new TestingContext {
                 Message = Resources.TestingSmtpStatus
             };
 
-
-            return Task.Run(async () => {
-                try {
+            try {
+                await Task.Run(async () => {
                     using (var connection = new SmtpConnection { Security = SmtpSecurity }) {
                         using (var auth = await connection.ConnectAsync(SmtpHost, SmtpPort)) {
                             var username = UseImapCredentialsForSmtp ? ImapUsername : SmtpUsername;
@@ -790,42 +799,38 @@ namespace Crystalbyte.Paranoia {
                             await auth.LoginAsync(username, password);
                         }
                     }
-                } catch (Exception ex) {
-                    Logger.Error(ex);
+                });
+            } catch (Exception ex) {
+                Logger.Error(ex);
 
-                    Application.Current.Dispatcher.Invoke(() => {
-                        Testing = new TestingContext {
-                            IsFaulted = true,
-                            Message = ex.Message,
-                        };
-                    });
-                }
-            });
+                Testing = new TestingContext {
+                    IsFaulted = true,
+                    Message = ex.Message,
+                };
+            }
         }
 
-        private Task TestImapSettingsAsync() {
+        private async Task TestImapSettingsAsync() {
             Testing = new TestingContext {
                 Message = Resources.TestingImapStatus
             };
 
-            return Task.Run(async () => {
-                try {
+            try {
+                await Task.Run(async () => {
                     using (var connection = new ImapConnection { Security = ImapSecurity }) {
                         using (var auth = await connection.ConnectAsync(ImapHost, ImapPort)) {
                             await auth.LoginAsync(ImapUsername, ImapPassword);
                         }
                     }
-                } catch (Exception ex) {
-                    Logger.Error(ex);
+                });
+            } catch (Exception ex) {
+                Logger.Error(ex);
 
-                    Application.Current.Dispatcher.Invoke(() => {
-                        Testing = new TestingContext {
-                            IsFaulted = true,
-                            Message = ex.Message,
-                        };
-                    });
-                }
-            });
+                Testing = new TestingContext {
+                    IsFaulted = true,
+                    Message = ex.Message,
+                };
+            }
         }
 
         private void TestConnectivity() {
@@ -844,8 +849,8 @@ namespace Crystalbyte.Paranoia {
 
         internal async Task SaveCompositionsAsync(IEnumerable<MailMessage> messages) {
             await Task.Run(async () => {
-                using (var database = new DatabaseContext()) {
-                    var account = await database.MailAccounts.FindAsync(_account.Id);
+                using (var context = new DatabaseContext()) {
+                    var account = await context.MailAccounts.FindAsync(_account.Id);
 
                     foreach (var message in messages) {
                         var request = new MailComposition {
@@ -860,30 +865,9 @@ namespace Crystalbyte.Paranoia {
                         account.Compositions.Add(request);
                     }
 
-                    // Handle Optimistic Concurrency.
-                    // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
-                    while (true) {
-                        try {
-                            await database.SaveChangesAsync();
-                            break;
-                        } catch (DbUpdateConcurrencyException ex) {
-                            ex.Entries.ForEach(x => x.Reload());
-                            Logger.Info(ex);
-                        }
-                    }
+                    await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
                 }
             });
-        }
-
-        internal async Task InsertAsync() {
-            try {
-                using (var database = new DatabaseContext()) {
-                    database.MailAccounts.Add(_account);
-                    await database.SaveChangesAsync();
-                }
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
         }
 
         public async Task DetectSettingsAsync() {

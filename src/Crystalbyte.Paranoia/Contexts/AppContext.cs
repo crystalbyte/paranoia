@@ -37,6 +37,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -1049,19 +1050,25 @@ namespace Crystalbyte.Paranoia {
                 await Task.Run(async () => {
                     await LoadContactsAsync();
                     await LoadAccountsAsync();
-
-                    var primary = Accounts.OrderByDescending(x => x.IsDefaultTime).FirstOrDefault();
-                    if (primary != null) {
-                        var inbox = primary.GetInbox();
-                        if (inbox != null) {
-                            inbox.IsExpanded = true;
-                            inbox.IsSelected = true;
-                        }
-                    }
                 });
+
+                var primary = Accounts.OrderByDescending(x => x.IsDefaultTime).FirstOrDefault();
+                if (primary != null) {
+                    primary.IsExpanded = true;
+
+                    var inbox = primary.GetInbox();
+                    if (inbox != null) {
+                        inbox.IsSelected = true;
+                    }
+                }
 
                 foreach (var account in Accounts) {
                     await account.TakeOnlineAsync();
+                }
+
+                var context = NavigationOptions.OfType<MailNavigationContext>().FirstOrDefault();
+                if (context != null) {
+                    await context.RefreshAsync();
                 }
 
                 _outboxTimer.Start();

@@ -216,12 +216,22 @@
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
                             <DataTemplate DataType="paranoia:NavigationContext">
-                                <TextBlock x:Name="Text"
-                                           Margin="12,3"
-                                           VerticalAlignment="Center"
-                                           FontSize="17.5"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
-                                           Text="{Binding Title}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="Text"
+                                               Margin="12,3"
+                                               VerticalAlignment="Center"
+                                               FontSize="17.5"
+                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+                                               Text="{Binding Title}" />
+                                    <TextBlock x:Name="CounterBlock"
+                                               Margin="0,3,12,3"
+                                               VerticalAlignment="Center"
+                                               FontSize="17.5"
+                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                                               Text="{Binding Counter}"
+                                               Visibility="{Binding Counter,
+                                                                    Converter={StaticResource QuantityToVisibilityConverter}}" />
+                                </StackPanel>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                         <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
