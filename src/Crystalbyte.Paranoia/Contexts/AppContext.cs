@@ -37,7 +37,6 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -1047,11 +1046,9 @@ namespace Crystalbyte.Paranoia {
                     await GenerateKeyPairAsync();
                 }
 
-                await Task.Run(async () => {
-                    await LoadContactsAsync();
-                    await LoadAccountsAsync();
-                });
+                await LoadAccountsAsync();
 
+                var contacts = LoadContactsAsync();
                 var primary = Accounts.OrderByDescending(x => x.IsDefaultTime).FirstOrDefault();
                 if (primary != null) {
                     primary.IsExpanded = true;
@@ -1071,6 +1068,8 @@ namespace Crystalbyte.Paranoia {
                     await context.RefreshAsync();
                 }
 
+                await contacts;
+
                 _outboxTimer.Start();
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -1078,21 +1077,24 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async Task LoadAccountsAsync() {
-            Application.Current.AssertBackgroundThread();
+            Application.Current.AssertUIThread();
 
             try {
-                IEnumerable<MailAccount> accounts;
-                using (var context = new DatabaseContext()) {
-                    accounts = await context.MailAccounts.ToArrayAsync();
-                }
+                var accounts = await Task.Run(() => {
+                    using (var context = new DatabaseContext()) {
+                        return context.MailAccounts.ToArrayAsync();
+                    }
+                });
 
-                await Application.Current.Dispatcher.InvokeAsync(() =>
-                    _accounts.AddRange(accounts.Select(x => new MailAccountContext(x))));
+                var contexts = accounts.Select(x => new MailAccountContext(x)).ToArray();
+                var queries = contexts.SelectMany(x => new[] {
+                    x.LoadMailboxesAsync(), 
+                    x.Outbox.CountSmtpRequestsAsync()
+                });
 
-                foreach (var account in Accounts) {
-                    await account.LoadMailboxesAsync();
-                    await account.Outbox.CountSmtpRequestsAsync();
-                }
+                _accounts.AddRange(contexts);
+
+                await Task.WhenAll(queries);
             } catch (Exception ex) {
                 Logger.Error(ex);
             }

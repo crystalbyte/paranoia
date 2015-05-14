@@ -474,27 +474,22 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task LoadMailboxesAsync() {
-            Application.Current.AssertBackgroundThread();
+            Application.Current.AssertUIThread();
 
-            Mailbox[] models;
-            using (var context = new DatabaseContext()) {
-                models = await context.Mailboxes
-                    .Where(x => x.AccountId == _account.Id)
-                    .ToArrayAsync();
-            }
-
-            var mailboxes = new List<MailboxContext>(models.Select(x => new MailboxContext(this, x)));
-            foreach (var mailbox in mailboxes) {
-                await mailbox.CountNotSeenAsync();
-            }
-
-            await Application.Current.Dispatcher.InvokeAsync(() => {
-                _mailboxes.AddRange(mailboxes);
-                var inbox = _mailboxes.FirstOrDefault(x => x.IsInbox);
-                if (inbox != null) {
-                    inbox.IsSelected = true;
+            var mailboxes = await Task.Run(async () => {
+                using (var context = new DatabaseContext()) {
+                    return await context.Mailboxes
+                        .Where(x => x.AccountId == _account.Id)
+                        .ToArrayAsync();
                 }
             });
+
+            var contexts = mailboxes.Select(x => new MailboxContext(this, x)).ToArray();
+            var queries = contexts.Select(x => x.CountNotSeenAsync());
+
+            _mailboxes.AddRange(contexts);
+
+            await Task.WhenAll(queries);
         }
 
         public string Address {
