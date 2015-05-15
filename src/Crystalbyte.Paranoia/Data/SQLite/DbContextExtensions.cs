@@ -1,16 +1,15 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace Crystalbyte.Paranoia.Data.SQLite {
     internal static class DbContextExtensions {
-        public static void EnableForeignKeys(this DbContext context) {
-            context.Database.ExecuteSqlCommand("PRAGMA foreign_keys = ON;");
+        public static Task EnableForeignKeysAsync(this DbContext context) {
+            return context.Database.ExecuteSqlCommandAsync("PRAGMA foreign_keys = ON;");
         }
 
-        public static void Connect(this DbContext context) {
-            context.Database.Connection.Open();
+        public static Task ConnectAsync(this DbContext context) {
+            return context.Database.Connection.OpenAsync();
         }
 
         public static async Task SaveChangesAsync(this DbContext context, OptimisticConcurrencyStrategy strategy = OptimisticConcurrencyStrategy.ClientWins) {

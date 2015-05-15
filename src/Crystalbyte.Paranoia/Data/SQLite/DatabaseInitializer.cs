@@ -59,7 +59,7 @@ namespace Crystalbyte.Paranoia.Data.SQLite {
                 .Select(x => x.PropertyType.GetGenericArguments().First())
                 .ToArray();
 
-            context.EnableForeignKeys();
+            context.EnableForeignKeysAsync();
 
             var analyzers = models.Select(model => new ModelAnalyzer(model));
             foreach (var analyzer in analyzers) {

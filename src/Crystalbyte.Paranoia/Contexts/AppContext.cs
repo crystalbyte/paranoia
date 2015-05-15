@@ -251,8 +251,8 @@ namespace Crystalbyte.Paranoia {
         private static Task FlagStoredMessagesAsync(IEnumerable<Int64> uids) {
             return Task.Run(async () => {
                 using (var context = new DatabaseContext()) {
-                    context.Connect();
-                    context.EnableForeignKeys();
+                    await context.ConnectAsync();
+                    await context.EnableForeignKeysAsync();
 
                     var entities = uids.Select(x => new MailMessage { Id = x });
                     foreach (var entity in entities) {
@@ -296,8 +296,8 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertBackgroundThread();
 
             using (var context = new DatabaseContext()) {
-                context.Connect();
-                context.EnableForeignKeys();
+                await context.ConnectAsync();
+                await context.EnableForeignKeysAsync();
 
                 foreach (var id in ids) {
                     var entity = await context.MailMessages.FindAsync(id);
@@ -358,8 +358,8 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertBackgroundThread();
 
             using (var context = new DatabaseContext()) {
-                context.Connect();
-                context.EnableForeignKeys();
+                await context.ConnectAsync();
+                await context.EnableForeignKeysAsync();
 
                 foreach (var message in mailboxGroup) {
                     var id = message.Id;

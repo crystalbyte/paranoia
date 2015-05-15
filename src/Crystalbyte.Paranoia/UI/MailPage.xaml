@@ -1033,7 +1033,6 @@
             <Border Grid.Row="4"
                     BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                     BorderThickness="0,2,0,0"
-                    RenderOptions.EdgeMode="Aliased"
                     Visibility="{Binding IsMessageOrSmtpRequestSelected,
                                          Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}">
@@ -1045,7 +1044,6 @@
                                                                                             AncestorType=Page}}"
                                        KeyboardNavigation.DirectionalNavigation="None"
                                        KeyboardNavigation.TabNavigation="Once"
-                                       RenderOptions.EdgeMode="Aliased"
                                        SnapsToDevicePixels="True"
                                        Source="{Binding Source,
                                                         Mode=OneWay}"

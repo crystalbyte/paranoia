@@ -480,25 +480,21 @@ namespace Crystalbyte.Paranoia {
 
                 var results = await Task.Run(async () => {
                     var name = _mailbox.Name;
-                    var maxUid = await GetMaxUidAsync();
-                    var account = await GetAccountAsync();
+                    var getMaxUid = GetMaxUidAsync();
 
                     long[] seenUids;
                     long[] unseenUids;
                     List<MailMessage> messages;
 
+                    var getAccounts = await GetAccountAsync();
                     using (var connection = new ImapConnection {
-                        Security = account.ImapSecurity
+                        Security = getAccounts.ImapSecurity
                     }) {
-                        using (
-                            var auth =
-                                await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
-                            using (
-                                var session =
-                                    await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
+                        using (var auth = await connection.ConnectAsync(getAccounts.ImapHost, getAccounts.ImapPort)) {
+                            using (var session = await auth.LoginAsync(getAccounts.ImapUsername, getAccounts.ImapPassword)) {
                                 var mailbox = await session.SelectAsync(name);
 
-                                messages = (await FetchRecentEnvelopesAsync(mailbox, maxUid)).ToList();
+                                messages = (await FetchRecentEnvelopesAsync(mailbox, await getMaxUid)).ToList();
                                 seenUids = (await mailbox.SearchAsync("1:* SEEN")).ToArray();
                                 unseenUids = (await mailbox.SearchAsync("1:* NOT SEEN")).ToArray();
                             }
@@ -508,7 +504,7 @@ namespace Crystalbyte.Paranoia {
 
                     if (messages.Count > 0) {
                         using (var context = new DatabaseContext()) {
-                            context.Connect();
+                            await context.ConnectAsync();
                             var transaction = context.Database.Connection.BeginTransaction();
 
                             try {
@@ -516,7 +512,7 @@ namespace Crystalbyte.Paranoia {
 
                                 var mailbox = await context.Mailboxes.FindAsync(_mailbox.Id);
                                 mailbox.Messages.AddRange(messages);
-                                context.SaveChanges();
+                                await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
 
                                 using (var command = context.Database.Connection.CreateCommand()) {
                                     command.CommandText = "INSERT INTO mail_content(text, message_id) VALUES(@text, @message_id);";
@@ -551,9 +547,9 @@ namespace Crystalbyte.Paranoia {
                     }
 
                     return new SyncResults {
-                        Messages =
-                            messages.Select(x => new MailMessageContext(this, x))
-                                .ToArray(),
+                        Messages = messages
+                            .Select(x => new MailMessageContext(this, x))
+                            .ToArray(),
                         UidsForSeen = new HashSet<long>(seenUids),
                         UidsForUnseen = new HashSet<long>(unseenUids)
                     };
@@ -611,24 +607,21 @@ namespace Crystalbyte.Paranoia {
 
             var deletedIds = await Task.Run(async () => {
                 using (var context = new DatabaseContext()) {
-                    var messages =
-                        await
-                            context.MailMessages.Where(x => x.MailboxId == Id)
-                                .ToArrayAsync();
-                    var deletedMessages =
-                        messages.Where(x => !uids.Contains(x.Uid)).ToArray();
+                    var messages = await context.MailMessages
+                        .Where(x => x.MailboxId == Id)
+                        .ToArrayAsync();
+
+                    var deletedMessages = messages
+                        .Where(x => !uids.Contains(x.Uid))
+                        .ToArray();
 
                     await context.Database.Connection.OpenAsync();
-                    using (
-                        var transaction =
-                            context.Database.Connection.BeginTransaction()) {
+                    using (var transaction = context.Database.Connection.BeginTransaction()) {
                         try {
                             foreach (var deletedMessage in deletedMessages) {
                                 var message = deletedMessage;
-                                var mime =
-                                    await
-                                        context.MailData.FirstOrDefaultAsync(
-                                            x => x.MessageId == message.Id);
+                                var mime = await context.MailData
+                                    .FirstOrDefaultAsync(x => x.MessageId == message.Id);
                                 if (mime != null) {
                                     context.MailData.Remove(mime);
                                 }
