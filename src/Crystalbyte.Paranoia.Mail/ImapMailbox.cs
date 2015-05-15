@@ -441,6 +441,12 @@ namespace Crystalbyte.Paranoia.Mail {
             return await ReadMessageBodyResponseAsync(id);
         }
 
+        public async Task<byte[]> PeekMessageBodyAsync(long uid) {
+            var command = string.Format("UID FETCH {0} BODY.PEEK[]", uid);
+            var id = await _connection.WriteCommandAsync(command);
+            return await ReadMessageBodyResponseAsync(id);
+        }
+
         private Task<byte[]> ReadMessageBodyResponseAsync(string id) {
             return Task.Run(() => {
                                 var byteCount = 0;

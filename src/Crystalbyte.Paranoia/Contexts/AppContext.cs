@@ -133,7 +133,7 @@ namespace Crystalbyte.Paranoia {
                 action => MessageSelectionChanged -= action)
                 .Throttle(TimeSpan.FromMilliseconds(100))
                 .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
-                .Subscribe(OnMessageSelectionReceived);
+                .Subscribe(OnMessageSelectionCommitted);
 
             Observable.FromEventPattern<QueryStringEventArgs>(
                 action => QueryStringChanged += action,
@@ -188,7 +188,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static async Task InvokeGroupedActionAsync(IEnumerable<MailMessageContext> messages,
-            Action<ImapSession, IGrouping<MailboxContext, MailMessageContext>> action) {
+            Func<ImapSession, IGrouping<MailboxContext, MailMessageContext>, Task> action) {
             Application.Current.AssertUIThread();
 
             if (messages == null) {
@@ -209,7 +209,7 @@ namespace Crystalbyte.Paranoia {
                             using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
                                 using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
                                     foreach (var mailboxGroup in mailboxGroups) {
-                                        action(session, mailboxGroup);
+                                        await action(session, mailboxGroup);
                                     }
                                 }
                             }
@@ -937,7 +937,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async void OnMessageSelectionReceived(EventPattern<object> obj) {
+        private async void OnMessageSelectionCommitted(EventPattern<object> obj) {
             Application.Current.AssertUIThread();
 
             try {

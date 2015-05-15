@@ -235,17 +235,19 @@ namespace Crystalbyte.Paranoia {
                             var c = child;
                             var mailbox = await database.Mailboxes
                                 .FirstOrDefaultAsync(x => x.Name == c.Fullname);
+
                             if (mailbox != null) {
                                 continue;
                             }
 
-                            var context = new MailboxContext(_account, new Mailbox {
+                            var model = new Mailbox {
                                 AccountId = _account.Id
-                            });
+                            };
 
-                            await context.InsertAsync();
+                            database.Mailboxes.Add(model);
+
+                            var context = new MailboxContext(_account, model);
                             await context.BindMailboxAsync(child, subscribed);
-
                             await Application.Current.Dispatcher
                                 .InvokeAsync(() => _account.NotifyMailboxAdded(context));
                         }
@@ -296,17 +298,6 @@ namespace Crystalbyte.Paranoia {
 
         internal string Delimiter {
             get { return _mailbox.Delimiter; }
-        }
-
-        internal async Task InsertAsync() {
-            try {
-                using (var database = new DatabaseContext()) {
-                    database.Mailboxes.Add(_mailbox);
-                    await database.SaveChangesAsync();
-                }
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
         }
 
         //internal async Task UpdateAsync() {
@@ -1070,10 +1061,12 @@ namespace Crystalbyte.Paranoia {
             using (var context = new DatabaseContext()) {
                 if (!App.Context.ShowOnlyUnseen) {
                     messages = await context.MailMessages
+                        .Include(x => x.Flags)
                         .Where(x => x.MailboxId == _mailbox.Id)
                         .ToArrayAsync();
                 } else {
                     messages = await context.MailMessages
+                        .Include(x => x.Flags)
                         .Where(x => x.Flags.All(y => y.Value != MailMessageFlags.Seen))
                         .Where(x => x.MailboxId == _mailbox.Id)
                         .ToArrayAsync();

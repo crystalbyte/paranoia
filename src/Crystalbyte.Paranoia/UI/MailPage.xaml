@@ -1045,7 +1045,7 @@
                                                                                             AncestorType=Page}}"
                                        KeyboardNavigation.DirectionalNavigation="None"
                                        KeyboardNavigation.TabNavigation="Once"
-                                       RenderOptions.EdgeMode="Unspecified"
+                                       RenderOptions.EdgeMode="Aliased"
                                        SnapsToDevicePixels="True"
                                        Source="{Binding Source,
                                                         Mode=OneWay}"

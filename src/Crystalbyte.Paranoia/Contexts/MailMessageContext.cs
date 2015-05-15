@@ -245,11 +245,17 @@ namespace Crystalbyte.Paranoia {
                     .Any(x => x.Value.EqualsIgnoreCase(MailMessageFlags.Flagged));
             }
             set {
+                if (IsFlagged == value) {
+                    return;
+                }
+
                 if (value) {
                     _message.Flags.Add(new MessageFlag { Value = MailMessageFlags.Flagged });
                 } else {
                     _message.Flags.RemoveAll(x => x.Value.EqualsIgnoreCase(MailMessageFlags.Flagged));
                 }
+
+                RaisePropertyChanged(() => IsFlagged);
             }
         }
 
@@ -259,11 +265,17 @@ namespace Crystalbyte.Paranoia {
                     .Any(x => x.Value.EqualsIgnoreCase(MailMessageFlags.Seen));
             }
             set {
+                if (IsSeen == value) {
+                    return;
+                }
+
                 if (value) {
                     _message.Flags.Add(new MessageFlag { Value = MailMessageFlags.Seen });
                 } else {
                     _message.Flags.RemoveAll(x => x.Value.EqualsIgnoreCase(MailMessageFlags.Seen));
                 }
+
+                RaisePropertyChanged(() => IsSeen);
             }
         }
 
@@ -273,11 +285,17 @@ namespace Crystalbyte.Paranoia {
                     .Any(x => x.Value.EqualsIgnoreCase(MailMessageFlags.Answered));
             }
             set {
+                if (IsAnswered == value) {
+                    return;
+                }
+
                 if (value) {
                     _message.Flags.Add(new MessageFlag { Value = MailMessageFlags.Answered });
                 } else {
                     _message.Flags.RemoveAll(x => x.Value.EqualsIgnoreCase(MailMessageFlags.Answered));
                 }
+
+                RaisePropertyChanged(() => IsAnswered);
             }
         }
 
@@ -366,7 +384,7 @@ namespace Crystalbyte.Paranoia {
                         var folder = await session.SelectAsync(mailbox.Name);
 
                         folder.ByteCountChanged += OnByteCountChanged;
-                        var mime = await folder.FetchMessageBodyAsync(Uid);
+                        var mime = await folder.PeekMessageBodyAsync(Uid);
                         folder.ByteCountChanged -= OnByteCountChanged;
 
                         return mime;

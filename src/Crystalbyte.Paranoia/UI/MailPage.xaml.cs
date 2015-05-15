@@ -29,6 +29,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -261,7 +262,7 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        private void OnMessageSelectionChanged(object sender, SelectionChangedEventArgs e) {
+        private async void OnMessageSelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (!IsLoaded) {
                 return;
             }
@@ -277,10 +278,11 @@ namespace Crystalbyte.Paranoia.UI {
             var app = App.Context;
             app.OnMessageSelectionChanged();
 
+            Task flagMessages = null;
             if (e.AddedItems.Count == 1) {
                 var last = e.RemovedItems.OfType<MailMessageContext>().FirstOrDefault();
                 if (last != null) {
-                    // read messages
+                    flagMessages = app.FlagMessagesAsSeenAsync(new[] { last });
                 }
             }
 
@@ -292,6 +294,10 @@ namespace Crystalbyte.Paranoia.UI {
                 .ItemContainerGenerator.ContainerFromItem(message);
             if (container != null) {
                 container.Focus();
+            }
+
+            if (flagMessages != null) {
+                await flagMessages;    
             }
         }
 

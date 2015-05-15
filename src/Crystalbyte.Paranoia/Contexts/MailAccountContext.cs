@@ -359,19 +359,21 @@ namespace Crystalbyte.Paranoia {
                             }
                         }
 
-                        foreach (
-                            var mailbox in
-                                remoteMailboxes.Where(x => mailboxes.All(y =>
+                        foreach (var mailbox in remoteMailboxes.Where(x => mailboxes.All(y =>
                                     string.Compare(x.Fullname, y.Name,
-                                        StringComparison.InvariantCultureIgnoreCase) !=
-                                    0))) {
+                                        StringComparison.InvariantCultureIgnoreCase) != 0))) {
 
-                            var context = new MailboxContext(this, new Mailbox {
+                            var model = new Mailbox {
                                 AccountId = _account.Id
-                            });
+                            };
 
-                            await context.InsertAsync();
+                            using (var database = new DatabaseContext()) {
+                                database.Mailboxes.Add(model);
+                                await database.SaveChangesAsync(
+                                    OptimisticConcurrencyStrategy.ClientWins);
+                            }
 
+                            var context = new MailboxContext(this, model);
                             if (mailbox.IsGmailAll) {
                                 context.IsSubscribed = true;
                                 goto done;
