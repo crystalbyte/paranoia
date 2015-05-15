@@ -766,17 +766,7 @@ namespace Crystalbyte.Paranoia {
                 }
                 _showOnlyUnseen = value;
                 RaisePropertyChanged(() => ShowOnlyUnseen);
-                OnMessageFilterChanged();
-            }
-        }
-
-        private async void OnMessageFilterChanged() {
-            try {
-                if (MessageSource != null) {
-                    await QueryMessageSource();
-                }
-            } catch (Exception ex) {
-                Logger.Error(ex);
+                OnMessageSourceChanged();
             }
         }
 

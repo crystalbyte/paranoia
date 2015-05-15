@@ -1030,11 +1030,7 @@
             <ui:SpamNoticeControl Grid.Row="3"
                                   BorderThickness="0,0,0,1"
                                   DataContext="{Binding SelectedMessage}" />
-            <Border Grid.Row="4"
-                    BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                    BorderThickness="0,2,0,0"
-                    Visibility="{Binding IsMessageOrSmtpRequestSelected,
-                                         Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Border Grid.Row="4" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}">
                     <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
                         <ui:HtmlViewer x:Name="MessageViewer"

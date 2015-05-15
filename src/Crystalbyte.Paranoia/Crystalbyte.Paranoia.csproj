@@ -433,7 +433,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="UI\NavigationRequestedEventArgs.cs" />
-    <Compile Include="Contexts\QueryStringEventArgs.cs" />
+    <Compile Include="QueryStringEventArgs.cs" />
     <Compile Include="Contexts\SelectionObject.cs" />
     <Compile Include="Data\SQLite\CollatingSequence.cs" />
     <Compile Include="Data\Mailbox.cs" />
