@@ -12,6 +12,7 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("id")]
         public Int64 Id { get; set; }
 
+        [Index]
         [Column("message_id")]
         [ForeignKey("Message")]
         public Int64 MessageId { get; set; }

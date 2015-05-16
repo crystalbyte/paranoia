@@ -231,6 +231,7 @@
     <Compile Include="EmlSchemeHandler.cs" />
     <Compile Include="FileSchemeHandler.cs" />
     <Compile Include="IMailMessage.cs" />
+    <Compile Include="LoggerExtensions.cs" />
     <Compile Include="MailMessageExtension.cs" />
     <Compile Include="ContactClassification.cs" />
     <Compile Include="MessageHeaders.cs" />

@@ -188,7 +188,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 ContinueButton.IsEnabled = false;
                 var account = (MailAccountContext) DataContext;
-                await Task.Run(() => account.SaveAsync());
+                throw new NotImplementedException("save account");
             }
             finally {
                 ContinueButton.IsEnabled = true;

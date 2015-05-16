@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -257,7 +258,7 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 if (_mailboxes.Count == 0) {
-                    await Task.Run(() => LoadMailboxesAsync());
+                    await LoadMailboxesAsync();
                 }
 
                 if (!IsSyncingMailboxes) {
@@ -328,6 +329,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task SyncMailboxesAsync() {
+            Logger.Enter();
+
             Application.Current.AssertUIThread();
 
             if (IsSyncingMailboxes) {
@@ -336,142 +339,82 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 IsSyncingMailboxes = true;
-                var mailboxes = _mailboxes.ToArray();
-                var contexts = await Task.Run(async () => {
-                    var result = new List<MailboxContext>();
 
-                    try {
-                        var remoteMailboxes = await ListMailboxesAsync();
-                        var subscribed = await ListSubscribedMailboxesAsync();
-
-                        if (IsGmail) {
-                            // Fetch gmail folders and assign automagically.
-                            var gmail =
-                                remoteMailboxes.FirstOrDefault(x =>
-                                    x.Name.ContainsIgnoreCase("gmail") ||
-                                    x.Name.ContainsIgnoreCase("google mail"));
-                            if (gmail != null) {
-                                var pattern = string.Format("{0}{1}%", gmail.Name,
-                                    gmail.Delimiter);
-                                var localizedMailboxes =
-                                    await ListMailboxesAsync(pattern);
-                                remoteMailboxes.AddRange(localizedMailboxes);
-                            }
-                        }
-
-                        foreach (var mailbox in remoteMailboxes.Where(x => mailboxes.All(y =>
-                                    string.Compare(x.Fullname, y.Name,
-                                        StringComparison.InvariantCultureIgnoreCase) != 0))) {
-
-                            var model = new Mailbox {
-                                AccountId = _account.Id
-                            };
-
-                            using (var database = new DatabaseContext()) {
-                                database.Mailboxes.Add(model);
-                                await database.SaveChangesAsync(
-                                    OptimisticConcurrencyStrategy.ClientWins);
-                            }
-
-                            var context = new MailboxContext(this, model);
-                            if (mailbox.IsGmailAll) {
-                                context.IsSubscribed = true;
-                                goto done;
-                            }
-
-                            if (mailbox.IsGmailImportant) {
-                                context.IsSubscribed = true;
-                                goto done;
-                            }
-
-                            if (mailboxes.All(x => !x.IsJunk)) {
-                                if (mailbox.IsGmailJunk ||
-                                    mailbox.Name.ContainsIgnoreCase("junk")) {
-                                    JunkMailboxName = mailbox.Fullname;
-                                    context.IsSubscribed = true;
-                                    goto done;
-                                }
-                            }
-
-                            if (mailboxes.All(x => !x.IsDraft)) {
-                                if (mailbox.IsGmailDraft ||
-                                    mailbox.Name.ContainsIgnoreCase("draft")) {
-                                    DraftMailboxName = mailbox.Fullname;
-                                    context.IsSubscribed = true;
-                                    goto done;
-                                }
-                            }
-
-                            if (mailboxes.All(x => !x.IsSent)) {
-                                if (mailbox.IsGmailSent ||
-                                    mailbox.Name.ContainsIgnoreCase("sent")) {
-                                    SentMailboxName = mailbox.Fullname;
-                                    context.IsSubscribed = true;
-                                    goto done;
-                                }
-                            }
-
-                            if (mailboxes.All(x => !x.IsTrash)) {
-                                if (mailbox.IsGmailTrash ||
-                                    mailbox.Name.ContainsIgnoreCase("trash")) {
-                                    TrashMailboxName = mailbox.Fullname;
-                                    context.IsSubscribed = true;
-                                }
-                            }
-
-                        done:
-                            await context.BindMailboxAsync(mailbox, subscribed);
-                            result.Add(context);
-                        }
-
-                        await SaveAsync();
-                    } catch (Exception ex) {
-                        Logger.Error(ex);
+                var id = _account.Id;
+                var localMailboxesTask = Task.Run(() => {
+                    using (var context = new DatabaseContext()) {
+                        return context.Mailboxes
+                            .Where(x => x.AccountId == id)
+                            .ToArrayAsync();
                     }
-
-                    return result;
                 });
 
+                var syncResult = await Task.Run(async () => {
+                    var listMailboxes = await ListMailboxesAsync();
+                    var subscribedMailboxesTask = ListSubscribedMailboxesAsync();
+
+                    // Fetch gmail folders and assign automagically.
+                    var gmail = listMailboxes.FirstOrDefault(x =>
+                            x.Name.ContainsIgnoreCase("gmail") ||
+                            x.Name.ContainsIgnoreCase("google mail"));
+
+                    if (gmail != null) {
+                        var pattern = string.Format("{0}{1}%", gmail.Name,
+                            gmail.Delimiter);
+                        var localizedMailboxes = await ListMailboxesAsync(pattern);
+                        listMailboxes.AddRange(localizedMailboxes);
+                    }
+                    var localMailboxes = await localMailboxesTask;
+                    var addedMailboxes = listMailboxes.Where(x => localMailboxes
+                        .All(y => string.Compare(x.Fullname, y.Name, StringComparison.InvariantCultureIgnoreCase) != 0))
+                        .ToArray();
+
+                    var removedMailboxes = localMailboxes.Where(x => listMailboxes
+                        .All(y => string.Compare(x.Name, y.Name, StringComparison.InvariantCultureIgnoreCase) != 0))
+                        .ToArray();
+
+                    return new {
+                        AddedMailboxes = addedMailboxes.ToDictionary(x => x.Name),
+                        RemovedMailboxes = removedMailboxes.ToDictionary(x => x.Name),
+                        SubscribedMailboxes = (await subscribedMailboxesTask).ToDictionary(x => x.Name)
+                    };
+                });
+
+                // Insert added mailboxes.
+                var models = await Task.Run(async () => {
+                    var resultSet = new List<Mailbox>();
+                    using (var context = new DatabaseContext()) {
+                        // Prepare models for insertion.
+                        foreach (var model in syncResult.AddedMailboxes.Select(x => x.Value).Select(info => new Mailbox {
+                            AccountId = id,
+                            IsSubscribed = info.IsGmailAll
+                                           || info.IsGmailDraft
+                                           || info.IsGmailImportant
+                                           || info.IsGmailJunk
+                                           || info.IsGmailSent
+                                           || info.IsGmailTrash
+                                           || info.IsInbox
+                                           || syncResult.SubscribedMailboxes.ContainsKey(info.Name),
+                            Name = info.Fullname,
+                            Delimiter = info.Delimiter.ToString(CultureInfo.InvariantCulture),
+                            Flags = info.Flags.Aggregate((c, n) => c + ';' + n)
+                        })) {
+                            context.Mailboxes.Add(model);
+                            resultSet.Add(model);
+                        }
+
+                        await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
+                        return resultSet;
+                    }
+                });
+
+                var contexts = models.Select(x => new MailboxContext(this, x));
                 _mailboxes.AddRange(contexts);
-
-                var inbox = mailboxes.FirstOrDefault(x => x.IsInbox);
-                if (inbox != null && !IsExpanded) {
-                    inbox.IsSelected = true;
-                }
-
             } catch (Exception ex) {
                 Logger.Error(ex);
             } finally {
                 IsSyncingMailboxes = false;
-            }
-        }
-
-        internal async Task SaveAsync() {
-            Application.Current.AssertBackgroundThread();
-
-            try {
-                using (var database = new DatabaseContext()) {
-                    if (_account.Id == 0) {
-                        database.MailAccounts.Add(_account);
-                    } else {
-                        database.MailAccounts.Attach(_account);
-                        database.Entry(_account).State = EntityState.Modified;
-                    }
-
-                    // Handle Optimistic Concurrency.
-                    // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
-                    while (true) {
-                        try {
-                            await database.SaveChangesAsync();
-                            break;
-                        } catch (DbUpdateConcurrencyException ex) {
-                            ex.Entries.ForEach(x => x.Reload());
-                            Logger.Info(ex);
-                        }
-                    }
-                }
-            } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.Exit();
             }
         }
 
@@ -1097,8 +1040,8 @@ namespace Crystalbyte.Paranoia {
                                                   || x.Name.EqualsIgnoreCase(DraftMailboxName));
         }
 
-        internal void NotifyMailboxAdded(MailboxContext child) {
-            _mailboxes.Add(child);
+        internal void NotifyMailboxesAdded(IEnumerable<MailboxContext> contexts) {
+            _mailboxes.AddRange(contexts);
         }
 
         internal async Task<bool> TryDeleteAccountAsync() {

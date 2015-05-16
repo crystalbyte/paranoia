@@ -93,7 +93,6 @@ namespace Crystalbyte.Paranoia.Themes {
         public static string ListViewItemUnfocusedBackgroundBrushKey = "ListViewItemUnfocusedBackgroundBrushKey";
         public static string ListViewItemUnfocusedBorderBrushKey = "ListViewItemUnfocusedBorderBrushKey";
         public static string ListViewItemMouseOverBackgroundBrushKey = "ListViewItemMouseOverBackgroundBrushKey";
-
         public static string ListViewItemMouseOverBackgroundOpacityBrushKey =
             "ListViewItemMouseOverBackgroundOpacityBrushKey";
 

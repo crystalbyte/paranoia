@@ -116,7 +116,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public char Group {
+        public char Letter {
             get {
                 var isEmpty = string.IsNullOrWhiteSpace(Name)
                               || string.Compare(Name, "nil", StringComparison.InvariantCultureIgnoreCase) == 0;
