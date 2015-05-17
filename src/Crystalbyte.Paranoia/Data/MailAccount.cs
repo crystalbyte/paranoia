@@ -112,6 +112,9 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("junk_mailbox_name")]
         public string JunkMailboxName { get; set; }
 
+        [Column("is_partial_load_enabled")]
+        public bool IsPartialLoadEnabled { get; set; }
+
         [Column("set_as_default_time")]
         public DateTime SetAsDefaultTime { get; set; }
 

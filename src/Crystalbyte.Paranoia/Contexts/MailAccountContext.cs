@@ -74,6 +74,8 @@ namespace Crystalbyte.Paranoia {
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        private readonly object _saveMutex;
+
         #endregion
 
         #region Construction
@@ -89,6 +91,7 @@ namespace Crystalbyte.Paranoia {
             _showUnsubscribedMailboxesCommand = new RelayCommand(OnShowUnsubscribedMailboxes);
             _hideUnsubscribedMailboxesCommand = new RelayCommand(OnHideUnsubscribedMailboxes);
             _isAutoDetectPreferred = true;
+            _saveMutex = new object();
 
             _mailboxes = new ObservableCollection<MailboxContext>();
             _mailboxes.CollectionChanged += (sender, e) => {
@@ -105,21 +108,8 @@ namespace Crystalbyte.Paranoia {
                     MessageBoxResult.No) {
                     return;
                 }
-                App.Context.NotifyAccountDeleted(this);
-                await DeleteAccountAsync();
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
 
-        private async Task DeleteAccountAsync() {
-            Application.Current.AssertUIThread();
-
-            try {
-                var success = await Task.Run(() => TryDeleteAccountAsync());
-                if (!success) {
-                    await App.Context.PublishAccountAsync(this);
-                }
+                await DeleteAsync();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -177,6 +167,17 @@ namespace Crystalbyte.Paranoia {
                 }
                 _account.SignaturePath = value;
                 RaisePropertyChanged(() => SignaturePath);
+            }
+        }
+
+        public bool IsPartialLoadEnabled {
+            get { return _account.IsPartialLoadEnabled; }
+            set {
+                if (_account.IsPartialLoadEnabled == value) {
+                    return;
+                }
+                _account.IsPartialLoadEnabled = value;
+                RaisePropertyChanged(() => IsPartialLoadEnabled);
             }
         }
 
@@ -930,33 +931,31 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task DeleteAsync() {
+            Logger.Enter();
+
+            Application.Current.AssertUIThread();
+
             try {
-                foreach (var mailbox in Mailboxes) {
-                    await mailbox.DeleteLocalAsync();
-                }
+                var id = _account.Id;
+                await Task.Run(async () => {
+                    using (var context = new DatabaseContext()) {
+                        await context.EnableForeignKeysAsync();
 
-                using (var database = new DatabaseContext()) {
-                    var contactModels = await database.MailContacts
-                        .ToArrayAsync();
+                        var model = new MailAccount { Id = id };
+                        context.MailAccounts.Attach(model);
+                        context.MailAccounts.Remove(model);
 
-                    database.MailContacts.RemoveRange(contactModels);
-                    database.MailAccounts.Attach(_account);
-                    database.MailAccounts.Remove(_account);
-
-                    // Handle Optimistic Concurrency.
-                    // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
-                    while (true) {
-                        try {
-                            await database.SaveChangesAsync();
-                            break;
-                        } catch (DbUpdateConcurrencyException ex) {
-                            ex.Entries.ForEach(x => x.Reload());
-                            Logger.Info(ex);
-                        }
+                        await context.SaveChangesAsync(
+                            OptimisticConcurrencyStrategy.DatabaseWins);
                     }
-                }
+                });
+
+
+                App.Context.RemoveAccount(this);
             } catch (Exception ex) {
                 Logger.Error(ex);
+            } finally {
+                Logger.Exit();
             }
         }
 
@@ -1040,8 +1039,18 @@ namespace Crystalbyte.Paranoia {
                                                   || x.Name.EqualsIgnoreCase(DraftMailboxName));
         }
 
-        internal void NotifyMailboxesAdded(IEnumerable<MailboxContext> contexts) {
-            _mailboxes.AddRange(contexts);
+        internal void AddMailboxes(IEnumerable<MailboxContext> contexts) {
+            Application.Current.AssertUIThread();
+            foreach (var context in contexts) {
+                _mailboxes.Add(context);
+            }
+        }
+
+        internal void RemoveMailboxes(IEnumerable<MailboxContext> contexts) {
+            Application.Current.AssertUIThread();
+            foreach (var context in contexts) {
+                _mailboxes.Remove(context);
+            }
         }
 
         internal async Task<bool> TryDeleteAccountAsync() {
@@ -1108,9 +1117,32 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal void NotifyMailboxRemoved(MailboxContext mailbox) {
-            Application.Current.AssertUIThread();
-            _mailboxes.Remove(mailbox);
+        /// <summary>
+        /// Saves the underlying account model to the data store.
+        /// </summary>
+        /// <returns>Returns the task state object.</returns>
+        public Task SaveAsync() {
+            return Task.Run(() => {
+                lock (_saveMutex) {
+                    using (var context = new DatabaseContext()) {
+                        context.MailAccounts.Attach(_account);
+                        context.Entry(_account).State = EntityState.Modified;
+
+                        // Handle Optimistic Concurrency.
+                        // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
+                        while (true) {
+                            try {
+                                // Do not use await/async inside a lock.
+                                context.SaveChanges();
+                                break;
+                            } catch (DbUpdateConcurrencyException ex) {
+                                Logger.Warn(ex);
+                                ex.Entries.ForEach(x => x.OriginalValues.SetValues(x.GetDatabaseValues()));
+                            }
+                        }
+                    }
+                }
+            });
         }
     }
 }

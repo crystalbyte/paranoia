@@ -37,6 +37,8 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -459,7 +461,7 @@ namespace Crystalbyte.Paranoia {
         ///     Queries the message source.
         /// </summary>
         /// <returns>Returns a task object.</returns>
-        private async Task QueryMessageSource() {
+        internal async Task QueryMessageSource() {
             Application.Current.AssertUIThread();
 
             var source = MessageSource;
@@ -506,17 +508,13 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
-                Clear();
+                _messages.Clear();
+
+                Source = null;
                 await RefreshViewForSelectedOutbox();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
-        }
-
-        private void Clear() {
-            _messages.Clear();
-            _accounts.ForEach(x => x.Outbox.ClearSmtpRequests());
-            Source = null;
         }
 
         public event EventHandler MailboxSelectionChanged;
@@ -531,8 +529,9 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
-                Clear();
+                _messages.Clear();
 
+                Source = null;
                 MessageSource = SelectedMailbox;
             } catch (Exception ex) {
                 Logger.Error(ex);
@@ -1425,6 +1424,24 @@ namespace Crystalbyte.Paranoia {
                 let hasKey = messages.ContainsKey(message.Id)
                 where hasKey select message) {
                 message.IsSeen = messages[message.Id].Flags.Any(x => x.Value == MailMessageFlags.Seen);
+            }
+        }
+
+        public void RemoveAccount(MailAccountContext context) {
+            _accounts.Remove(context);
+
+            var messages = _messages.Where(x => x.Mailbox.Account.Id == context.Id).ToDictionary(x => x.Id);
+            foreach (var message in messages) {
+                _messages.DeferNotifications = true;
+                _messages.Remove(message.Value);
+                _messages.DeferNotifications = false;
+                _messages.NotifyCollectionChanged();
+            }
+
+            const string pattern = "message:///(?<ID>[0-9]+)";
+            var match = Regex.Match(Source, pattern, RegexOptions.IgnoreCase);
+            if (match.Success && messages.ContainsKey(Int64.Parse(match.Groups["ID"].Value))) {
+                Source = null;
             }
         }
     }

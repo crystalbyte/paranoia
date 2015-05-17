@@ -75,52 +75,6 @@ namespace Crystalbyte.Paranoia {
             _mailbox = mailbox;
         }
 
-        internal async Task DeleteAsync() {
-            using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
-                using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
-                    using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
-                        await session.DeleteMailboxAsync(Name);
-                    }
-                }
-            }
-
-            await DeleteLocalAsync();
-            _account.NotifyMailboxRemoved(this);
-        }
-
-        internal async Task DeleteLocalAsync() {
-            using (var context = new DatabaseContext()) {
-                await context.Database.Connection.OpenAsync();
-                using (var transaction = context.Database.Connection.BeginTransaction()) {
-                    try {
-                        var messageModels = await context.MailMessages
-                            .Where(x => x.MailboxId == Id)
-                            .ToArrayAsync();
-
-                        foreach (var message in messageModels) {
-                            var m = message;
-                            var mimeModels = await context.MailData
-                                .Where(x => x.MessageId == m.Id)
-                                .ToArrayAsync();
-
-                            foreach (var mime in mimeModels) {
-                                context.MailData.Remove(mime);
-                            }
-                        }
-
-                        context.MailMessages.RemoveRange(messageModels);
-                        context.Mailboxes.Attach(_mailbox);
-                        context.Mailboxes.Remove(_mailbox);
-
-                        await context.SaveChangesAsync();
-                        transaction.Commit();
-                    } catch (Exception) {
-                        transaction.Rollback();
-                    }
-                }
-            }
-        }
-
         #endregion
 
         public MailAccountContext Account {
@@ -196,6 +150,7 @@ namespace Crystalbyte.Paranoia {
             base.OnSelectionChanged();
 
             Application.Current.AssertUIThread();
+
             try {
                 // Only sync if never synced before.
                 if (_isSyncedInitially)
@@ -264,15 +219,14 @@ namespace Crystalbyte.Paranoia {
                 });
 
                 var contexts = addedMailboxes.Select(x => new MailboxContext(Account, x));
-                Account.NotifyMailboxesAdded(contexts);
-                
+                Account.AddMailboxes(contexts);
+
             } catch (Exception ex) {
                 Logger.Error(ex);
             } finally {
+                IsSyncingMailboxes = false;
                 Logger.Exit();
             }
-
-            IsSyncingMailboxes = false;
         }
 
         public bool IsLoadingChildren {
@@ -406,21 +360,89 @@ namespace Crystalbyte.Paranoia {
             get { return !_mailbox.Flags.ContainsIgnoreCase(MailboxFlags.NoSelect); }
         }
 
-        public async Task CreateMailboxAsync(string mailbox) {
-            using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
-                using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
-                    using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
-                        var name = string.Format("{0}{1}{2}", Name, Delimiter, mailbox);
-                        await session.CreateMailboxAsync(name);
+        internal async Task DeleteAsync() {
+            Logger.Enter();
+
+            Application.Current.AssertUIThread();
+
+            try {
+                var deleteFromServer = Task.Run(async () => {
+                    using (
+                        var connection = new ImapConnection {
+                            Security = _account.ImapSecurity
+                        }) {
+                        using (var auth = await connection.ConnectAsync(
+                            _account.ImapHost, _account.ImapPort)) {
+                            using (var session = await auth.LoginAsync(
+                                _account.ImapUsername, _account.ImapPassword)) {
+                                await session.DeleteMailboxAsync(Name);
+                            }
+                        }
                     }
-                }
+                });
+
+                var deleteFromStore = Task.Run(async () => {
+                    using (var context = new DatabaseContext()) {
+                        await context.EnableForeignKeysAsync();
+
+                        var model = new Mailbox { Id = _mailbox.Id };
+                        context.Mailboxes.Remove(model);
+
+                        await context.SaveChangesAsync(
+                            OptimisticConcurrencyStrategy.ClientWins);
+                    }
+                });
+
+                await Task.WhenAll(new[] { deleteFromServer, deleteFromStore });
+                _account.RemoveMailboxes(new[] { this });
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            } finally {
+                Logger.Exit();
             }
+        }
 
-            // Reset to allow new mailboxes to be discovered.
-            _isSyncedInitially = false;
-            await Task.Run(() => SyncMailboxesAsync());
+        public async Task CreateMailboxAsync(string mailbox) {
+            Logger.Enter();
 
-            IsExpanded = true;
+            Application.Current.AssertUIThread();
+
+            try {
+                var createOnServer = Task.Run(async () => {
+                    using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+                        using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+                            using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+                                var name = string.Format("{0}{1}{2}", Name, Delimiter, mailbox);
+                                await session.CreateMailboxAsync(name);
+                            }
+                        }
+                    }
+                });
+
+                var createInStore = Task.Run(async () => {
+                    using (var context = new DatabaseContext()) {
+                        var model = new Mailbox {
+                            AccountId = Account.Id,
+                            Delimiter = Delimiter,
+                            Name = string.Format("{0}{1}{2}", Name, Delimiter, mailbox),
+                            Flags = string.Empty
+                        };
+
+                        context.Mailboxes.Add(model);
+                        await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
+                        return model;
+                    }
+                });
+                
+                Account.AddMailboxes(new[] { new MailboxContext(Account, await createInStore) });
+
+                await createOnServer;
+                IsExpanded = true;
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            } finally {
+                Logger.Exit();
+            }
         }
 
         public bool CanHaveChildren {
@@ -866,7 +888,6 @@ namespace Crystalbyte.Paranoia {
                     }
                 });
             } catch (Exception ex) {
-
                 Logger.Error(ex);
             } finally {
                 Logger.Exit();

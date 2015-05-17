@@ -33,6 +33,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using Microsoft.Win32;
+using NLog;
 
 #endregion
 
@@ -41,6 +42,15 @@ namespace Crystalbyte.Paranoia.UI {
     ///     Interaction logic for CreateAccountFinalizeFlyoutPage.xaml
     /// </summary>
     public partial class CreateAccountFinalizeFlyoutPage : INavigationAware {
+
+        #region Private Fields
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
+
+        #region Construction
+
         public CreateAccountFinalizeFlyoutPage() {
             InitializeComponent();
 
@@ -51,6 +61,8 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnCloseMailboxSelection));
             CommandBindings.Add(new CommandBinding(SignatureCommands.SelectFile, OnSelectFile));
         }
+
+        #endregion
 
         private void OnSelectFile(object sender, ExecutedRoutedEventArgs e) {
             var dialog = new OpenFileDialog();
@@ -187,12 +199,16 @@ namespace Crystalbyte.Paranoia.UI {
         private async void OnContinue(object sender, ExecutedRoutedEventArgs e) {
             try {
                 ContinueButton.IsEnabled = false;
+                App.Context.CloseFlyout();
+
                 var account = (MailAccountContext) DataContext;
-                throw new NotImplementedException("save account");
+                await account.SaveAsync();
+            }
+            catch (Exception ex) {
+                Logger.Error(ex);
             }
             finally {
                 ContinueButton.IsEnabled = true;
-                App.Context.CloseFlyout();
             }
         }
 

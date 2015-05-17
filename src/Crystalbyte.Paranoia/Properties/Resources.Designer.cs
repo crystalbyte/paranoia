@@ -567,6 +567,33 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Always download and decrypt the entire message..
+        /// </summary>
+        public static string DownloadAll {
+            get {
+                return ResourceManager.GetString("DownloadAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can set the download behavior for incoming mails..
+        /// </summary>
+        public static string DownloadBehaviorDescription {
+            get {
+                return ResourceManager.GetString("DownloadBehaviorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only download message envelopes initially. The remainder will be loaded once a  message is being inspected..
+        /// </summary>
+        public static string DownloadEnvelope {
+            get {
+                return ResourceManager.GetString("DownloadEnvelope", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Draft.
         /// </summary>
         public static string DraftMailbox {

@@ -730,4 +730,13 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="ColumnNotFoundTemplate" xml:space="preserve">
     <value>The column with the name '{0}' has not been in type '{1}'.</value>
   </data>
+  <data name="DownloadAll" xml:space="preserve">
+    <value>Always download and decrypt the entire message.</value>
+  </data>
+  <data name="DownloadBehaviorDescription" xml:space="preserve">
+    <value>You can set the download behavior for incoming mails.</value>
+  </data>
+  <data name="DownloadEnvelope" xml:space="preserve">
+    <value>Only download message envelopes initially. The remainder will be loaded once a  message is being inspected.</value>
+  </data>
 </root>
