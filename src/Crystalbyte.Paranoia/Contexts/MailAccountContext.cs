@@ -939,6 +939,7 @@ namespace Crystalbyte.Paranoia {
                 var id = _account.Id;
                 await Task.Run(async () => {
                     using (var context = new DatabaseContext()) {
+                        await context.ConnectAsync();
                         await context.EnableForeignKeysAsync();
 
                         var model = new MailAccount { Id = id };
