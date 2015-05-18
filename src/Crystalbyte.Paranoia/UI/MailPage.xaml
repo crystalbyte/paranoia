@@ -919,7 +919,9 @@
                       Width="8"
                       HorizontalAlignment="Center"
                       IsTabStop="False" />
-        <Grid Grid.Row="0" Grid.Column="4">
+        <Grid Grid.Row="0"
+              Grid.Column="4"
+              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -1031,39 +1033,37 @@
             <ui:SpamNoticeControl Grid.Row="3"
                                   BorderThickness="0,0,0,1"
                                   DataContext="{Binding SelectedMessage}" />
-            <Border Grid.Row="4" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.HtmlBackgroundBrushKey}}">
-                    <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
-                        <ui:HtmlViewer x:Name="MessageViewer"
-                                       BorderThickness="0"
-                                       DataContext="{Binding DataContext,
-                                                             RelativeSource={RelativeSource FindAncestor,
-                                                                                            AncestorType=Page}}"
-                                       KeyboardNavigation.DirectionalNavigation="None"
-                                       KeyboardNavigation.TabNavigation="Once"
-                                       SnapsToDevicePixels="True"
-                                       Source="{Binding Source,
-                                                        Mode=OneWay}"
-                                       Zoom="{Binding Zoom,
-                                                      Mode=TwoWay}"
-                                       d:IsHidden="True" />
-                    </Grid>
-                    <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                        <TextBlock Margin="24,12"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Bottom">
-                            <Run FontSize="48"
-                                 FontWeight="Thin"
-                                 Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                                 Text="{Binding Progress}" />
-                            <Run Text=" " />
-                            <Run FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
-                                 FontWeight="Thin"
-                                 Text="%" />
-                        </TextBlock>
-                    </Grid>
+            <Grid Grid.Row="4" Visibility="{Binding IsMessageOrSmtpRequestSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
+                    <ui:HtmlViewer x:Name="MessageViewer"
+                                   BorderThickness="0"
+                                   DataContext="{Binding DataContext,
+                                                         RelativeSource={RelativeSource FindAncestor,
+                                                                                        AncestorType=Page}}"
+                                   KeyboardNavigation.DirectionalNavigation="None"
+                                   KeyboardNavigation.TabNavigation="Once"
+                                   SnapsToDevicePixels="True"
+                                   Source="{Binding Source,
+                                                    Mode=OneWay}"
+                                   Zoom="{Binding Zoom,
+                                                  Mode=TwoWay}"
+                                   d:IsHidden="True" />
                 </Grid>
-            </Border>
+                <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                    <TextBlock Margin="24,12"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Bottom">
+                        <Run FontSize="48"
+                             FontWeight="Thin"
+                             Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                             Text="{Binding Progress}" />
+                        <Run Text=" " />
+                        <Run FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
+                             FontWeight="Thin"
+                             Text="%" />
+                    </TextBlock>
+                </Grid>
+            </Grid>
         </Grid>
     </Grid>
 </Page>
