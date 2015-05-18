@@ -256,15 +256,13 @@
                                                      Margin="0,18,0,0"
                                                      Checked="OnUseImapCredentialsChecked"
                                                      GroupName="Mirror">
-                                            <TextBlock FontWeight="Normal"
-                                                       Text="{x:Static properties:Resources.UseImapCredentials}" />
+                                            <TextBlock FontWeight="Normal" Text="{x:Static properties:Resources.UseImapCredentials}" />
                                         </RadioButton>
                                         <RadioButton x:Name="UseSmtpCredentialsRadioButton"
                                                      Margin="0,6,0,12"
                                                      Checked="OnUseSmtpCredentialsChecked"
                                                      GroupName="Mirror">
-                                            <TextBlock FontWeight="Normal"
-                                                       Text="{x:Static properties:Resources.SmtpRequiresOwnCredentials}" />
+                                            <TextBlock FontWeight="Normal" Text="{x:Static properties:Resources.SmtpRequiresOwnCredentials}" />
                                         </RadioButton>
                                     </StackPanel>
                                     <TextBlock Grid.Row="1"

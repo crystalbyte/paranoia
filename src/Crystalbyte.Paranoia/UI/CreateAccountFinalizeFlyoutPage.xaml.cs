@@ -71,7 +71,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var context = (MailAccountContext) DataContext;
+            var context = (MailAccountContext)DataContext;
             context.SignaturePath = dialog.FileNames.First();
         }
 
@@ -81,7 +81,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var account = (MailAccountContext) DataContext;
+            var account = (MailAccountContext)DataContext;
             var mailbox = account.Mailboxes.FirstOrDefault(x => x.IsSelectedSubtly);
             e.CanExecute = mailbox != null && mailbox.IsSelectable;
         }
@@ -120,7 +120,7 @@ namespace Crystalbyte.Paranoia.UI {
             var popup = GetPopupByParameter(param);
             popup.IsOpen = false;
 
-            var account = (MailAccountContext) DataContext;
+            var account = (MailAccountContext)DataContext;
             var mailbox = account.Mailboxes.FirstOrDefault(x => x.IsSelectedSubtly);
             if (mailbox != null) {
                 SetMailboxRoleByParam(mailbox, param);
@@ -128,7 +128,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void SetMailboxRoleByParam(MailboxContext mailbox, string param) {
-            var account = (MailAccountContext) DataContext;
+            var account = (MailAccountContext)DataContext;
             switch (param) {
                 case MailboxRoles.Sent:
                     account.SentMailboxName = mailbox.Name;
@@ -157,7 +157,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void ShowMailboxSelection(string param) {
-            var account = (MailAccountContext) DataContext;
+            var account = (MailAccountContext)DataContext;
             account.Mailboxes.ForEach(x => x.IsSelectedSubtly = false);
 
             var mailbox = GetMailboxByParameter(param);
@@ -170,7 +170,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private MailboxContext GetMailboxByParameter(string param) {
-            var account = (MailAccountContext) DataContext;
+            var account = (MailAccountContext)DataContext;
             switch (param) {
                 case MailboxRoles.Sent:
                     return account.GetSentMailbox();
@@ -186,14 +186,18 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnFlyoutClosed(object sender, EventArgs e) {
-            var account = (MailAccountContext) DataContext;
+            var account = (MailAccountContext)DataContext;
             account.Testing = null;
 
             App.Context.FlyoutClosed -= OnFlyoutClosed;
         }
 
         private static void OnClose(object sender, ExecutedRoutedEventArgs e) {
-            App.Context.CloseFlyout();
+            try {
+                App.Context.CloseFlyout();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         private async void OnContinue(object sender, ExecutedRoutedEventArgs e) {
@@ -201,19 +205,18 @@ namespace Crystalbyte.Paranoia.UI {
                 ContinueButton.IsEnabled = false;
                 App.Context.CloseFlyout();
 
-                var account = (MailAccountContext) DataContext;
+                var account = (MailAccountContext)DataContext;
                 await account.SaveAsync();
-            }
-            catch (Exception ex) {
+
+            } catch (Exception ex) {
                 Logger.Error(ex);
-            }
-            finally {
+            } finally {
                 ContinueButton.IsEnabled = true;
             }
         }
 
         private void OnStoreCopyRadioButtonChecked(object sender, RoutedEventArgs e) {
-            var account = (MailAccountContext) DataContext;
+            var account = (MailAccountContext)DataContext;
             account.StoreCopiesOfSentMessages = true;
         }
 
@@ -223,7 +226,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var account = (MailAccountContext) DataContext;
+            var account = (MailAccountContext)DataContext;
             account.StoreCopiesOfSentMessages = false;
         }
 
@@ -235,7 +238,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         public async void OnNavigated(NavigationEventArgs e) {
             DataContext = NavigationArguments.Pop();
-            var account = (MailAccountContext) DataContext;
+            var account = (MailAccountContext)DataContext;
 
             StoreCopyRadioButton.IsChecked = account.StoreCopiesOfSentMessages;
             DontStoreCopyRadioButton.IsChecked = !account.StoreCopiesOfSentMessages;
@@ -244,15 +247,14 @@ namespace Crystalbyte.Paranoia.UI {
 
             try {
                 await account.SyncMailboxesAsync();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 // TODO: Display error to the user.
                 Debug.WriteLine(ex);
             }
         }
 
         public void OnNavigating(NavigatingCancelEventArgs e) {
-            var account = (MailAccountContext) DataContext;
+            var account = (MailAccountContext)DataContext;
             switch (e.NavigationMode) {
                 case NavigationMode.Back:
                     NavigationArguments.Push(account);

@@ -61,50 +61,51 @@ namespace Crystalbyte.Paranoia.UI {
             }
 
             try {
-                var account = (MailAccountContext) DataContext;
-                throw new NotImplementedException("save account");
-            }
-            catch (Exception ex) {
+                var account = (MailAccountContext)DataContext;
+                await account.SaveAsync();
+
+                App.Context.NotifyAccountCreated(account);
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
 
-            var uri = typeof (CreateAccountFinalizeFlyoutPage).ToPageUri();
+            var uri = typeof(CreateAccountFinalizeFlyoutPage).ToPageUri();
             service.Navigate(uri);
         }
 
         private void OnSmtpSecurityProtocolSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var account = (MailAccountContext) DataContext;
-            account.SmtpPort = (short) (account.SmtpSecurity == SecurityProtocol.Implicit ? 587 : 25);
+            var account = (MailAccountContext)DataContext;
+            account.SmtpPort = (short)(account.SmtpSecurity == SecurityProtocol.Implicit ? 587 : 25);
         }
 
         private void OnImapSecurityProtocolSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var account = (MailAccountContext) DataContext;
-            account.ImapPort = (short) (account.ImapSecurity == SecurityProtocol.Implicit ? 993 : 143);
+            var account = (MailAccountContext)DataContext;
+            account.ImapPort = (short)(account.ImapSecurity == SecurityProtocol.Implicit ? 993 : 143);
         }
 
         private void OnImapPasswordChanged(object sender, RoutedEventArgs e) {
-            var box = (PasswordBox) sender;
-            var account = (MailAccountContext) DataContext;
+            var box = (PasswordBox)sender;
+            var account = (MailAccountContext)DataContext;
             account.ImapPassword = box.Password;
         }
 
         private void OnSmtpPasswordChanged(object sender, RoutedEventArgs e) {
-            var box = (PasswordBox) sender;
-            var account = (MailAccountContext) DataContext;
+            var box = (PasswordBox)sender;
+            var account = (MailAccountContext)DataContext;
             account.SmtpPassword = box.Password;
         }
 
         private void OnUseImapCredentialsChecked(object sender, RoutedEventArgs e) {
-            var account = (MailAccountContext) DataContext;
-            var button = ((RadioButton) sender);
+            var account = (MailAccountContext)DataContext;
+            var button = ((RadioButton)sender);
             if (button.IsChecked != null) {
                 account.UseImapCredentialsForSmtp = button.IsChecked.Value;
             }
         }
 
         private void OnUseSmtpCredentialsChecked(object sender, RoutedEventArgs e) {
-            var account = (MailAccountContext) DataContext;
-            var button = ((RadioButton) sender);
+            var account = (MailAccountContext)DataContext;
+            var button = ((RadioButton)sender);
             if (button.IsChecked != null) {
                 account.UseImapCredentialsForSmtp = !button.IsChecked.Value;
             }
@@ -116,24 +117,23 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnFlyoutClosed(object sender, EventArgs e) {
-            var account = (MailAccountContext) DataContext;
+            var account = (MailAccountContext)DataContext;
             account.Testing = null;
 
             App.Context.FlyoutClosed -= OnFlyoutClosed;
         }
 
         private void SetFocus() {
-            var account = (MailAccountContext) DataContext;
+            var account = (MailAccountContext)DataContext;
             if (!string.IsNullOrEmpty(account.ImapHost)) {
                 ImapPasswordBox.Focus();
-            }
-            else {
+            } else {
                 NameTextBox.Focus();
             }
         }
 
         private void HookUpChangeEvents() {
-            var account = (MailAccountContext) DataContext;
+            var account = (MailAccountContext)DataContext;
 
             SmtpPasswordBox.Password = account.SmtpPassword;
             SmtpPasswordBox.PasswordChanged += OnSmtpPasswordChanged;
@@ -158,7 +158,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public void OnNavigating(NavigatingCancelEventArgs e) {
-            var account = (MailAccountContext) DataContext;
+            var account = (MailAccountContext)DataContext;
             switch (e.NavigationMode) {
                 case NavigationMode.New:
                 case NavigationMode.Back:

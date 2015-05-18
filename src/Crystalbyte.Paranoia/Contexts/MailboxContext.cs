@@ -37,7 +37,6 @@ using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Data.SQLite;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
-using Crystalbyte.Paranoia.UI;
 using NLog;
 
 #endregion
@@ -608,6 +607,7 @@ namespace Crystalbyte.Paranoia {
                                     envelopes.Remove(duplicate);
                                 }
 
+
                                 return envelopes.Select(x => x.ToMailMessage()).ToArray();
                             }
                         }
@@ -855,24 +855,20 @@ namespace Crystalbyte.Paranoia {
         }
 
         private Task<Int64> GetMaxUidAsync() {
-            return Task.Run(() => {
-                using (var context = new DatabaseContext()) {
-                    return context.MailMessages
-                        .Where(x => x.MailboxId == _mailbox.Id)
-                        .Select(x => x.Uid)
-                        .DefaultIfEmpty(1)
-                        .MaxAsync(x => x);
-                }
-            });
-        }
+            Logger.Enter();
 
-        internal async Task<MailMessageContext[]> QueryAsync(string text) {
-            using (var context = new DatabaseContext()) {
-                var messages = await context.MailMessages
-                    .Where(x => x.Subject.Contains(text) && x.MailboxId == Id)
-                    .ToArrayAsync();
-
-                return messages.Select(x => new MailMessageContext(this, x)).ToArray();
+            try {
+                return Task.Run(() => {
+                    using (var context = new DatabaseContext()) {
+                        return context.MailMessages
+                            .Where(x => x.MailboxId == _mailbox.Id)
+                            .Select(x => x.Uid)
+                            .DefaultIfEmpty(1)
+                            .MaxAsync(x => x);
+                    }
+                });
+            } finally {
+                Logger.Enter();
             }
         }
 
@@ -893,12 +889,17 @@ namespace Crystalbyte.Paranoia {
 
             IsIdling = true;
 
-            await Task.Run(async () => {
-                Thread.CurrentThread.Name = string.Format("IDLE Thread ({0})", Name);
-                try {
+            try {
+                await Task.Run(async () => {
+                    Thread.CurrentThread.Name = string.Format("IDLE Thread ({0})", Name);
                     using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
-                        using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
-                            using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+                        using (
+                            var auth =
+                                await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)
+                            ) {
+                            using (
+                                var session = await auth.LoginAsync(_account.ImapUsername,
+                                            _account.ImapPassword)) {
                                 if (!connection.CanIdle) {
                                     Logger.Info(Resources.IdleCommandNotSupported);
                                     return;
@@ -915,12 +916,13 @@ namespace Crystalbyte.Paranoia {
                             }
                         }
                     }
-                } catch (Exception ex) {
-                    Logger.Error(ex);
-                }
-            });
 
-            IsIdling = false;
+                });
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            } finally {
+                IsIdling = false;
+            }
         }
 
         private async void OnChangeNotificationReceived(object sender, EventArgs e) {

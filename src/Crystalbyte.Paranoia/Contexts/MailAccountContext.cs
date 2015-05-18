@@ -682,7 +682,9 @@ namespace Crystalbyte.Paranoia {
 
         public IEnumerable<MailboxContext> MailboxRoots {
             get {
-                return _mailboxes.Where(x => !string.IsNullOrEmpty(x.Name) && !x.Name.Contains(x.Delimiter)).ToArray();
+                return _mailboxes
+                    .Where(x => !string.IsNullOrEmpty(x.Name) && !x.Name.Contains(x.Delimiter))
+                    .ToArray();
             }
         }
 
@@ -815,11 +817,12 @@ namespace Crystalbyte.Paranoia {
             var domain = Address.Split('@').Last();
             var url = string.Format("https://live.mozillamessaging.com/autoconfig/v1.1/{0}", domain);
 
+            IsDetectingSettings = true;
+
             Logger.Info(Resources.QueryingMozillaDatabase);
             var config = await Task.Run(async () => {
                 try {
                     using (var client = new WebClient()) {
-                        IsDetectingSettings = true;
                         var stream =
                             await
                                 client.OpenReadTaskAsync(new Uri(url, UriKind.Absolute));
@@ -951,7 +954,7 @@ namespace Crystalbyte.Paranoia {
                     }
                 });
 
-                App.Context.RemoveAccount(this);
+                App.Context.NotifyAccountRemoved(this);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             } finally {
@@ -1094,17 +1097,8 @@ namespace Crystalbyte.Paranoia {
                         context.MailAccounts.Attach(acc);
                         context.MailAccounts.Remove(acc);
 
-                        // Handle Optimistic Concurrency.
-                        // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
-                        while (true) {
-                            try {
-                                await context.SaveChangesAsync();
-                                break;
-                            } catch (DbUpdateConcurrencyException ex) {
-                                ex.Entries.ForEach(x => x.Reload());
-                                Logger.Info(ex);
-                            }
-                        }
+                        await context.SaveChangesAsync(
+                            OptimisticConcurrencyStrategy.ClientWins);
 
                         transaction.Commit();
                         return true;
@@ -1126,8 +1120,13 @@ namespace Crystalbyte.Paranoia {
             return Task.Run(() => {
                 lock (_saveMutex) {
                     using (var context = new DatabaseContext()) {
-                        context.MailAccounts.Attach(_account);
-                        context.Entry(_account).State = EntityState.Modified;
+
+                        if (_account.Id == 0) {
+                            context.MailAccounts.Add(_account);
+                        } else {
+                            context.MailAccounts.Attach(_account);
+                            context.Entry(_account).State = EntityState.Modified;
+                        }
 
                         // Handle Optimistic Concurrency.
                         // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396

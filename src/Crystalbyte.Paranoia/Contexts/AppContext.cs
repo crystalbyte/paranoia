@@ -1427,7 +1427,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public void RemoveAccount(MailAccountContext context) {
+        public void NotifyAccountRemoved(MailAccountContext context) {
             _accounts.Remove(context);
 
             var messages = _messages.Where(x => x.Mailbox.Account.Id == context.Id).ToDictionary(x => x.Id);
@@ -1458,6 +1458,10 @@ namespace Crystalbyte.Paranoia {
             _messages.AddRange(eligible);
             _messages.DeferNotifications = false;
             _messages.NotifyCollectionChanged();
+        }
+
+        public void NotifyAccountCreated(MailAccountContext account) {
+            _accounts.Add(account);
         }
     }
 }

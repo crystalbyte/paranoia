@@ -39,14 +39,6 @@ namespace Crystalbyte.Paranoia.UI.Converters {
             var i = System.Convert.ToInt32(value);
             var p = parameter as string;
 
-            if (!string.IsNullOrEmpty(p)) {
-                var match = Regex.Match(p, ">(?<DIGIT>[0-9]+)");
-                if (match.Success) {
-                    var digit = System.Convert.ToInt32(match.Groups["DIGIT"].Value);
-                    return digit > i ? Visibility.Visible : Visibility.Collapsed;
-                }
-            }
-
             if (!string.IsNullOrEmpty(p) && p == "!") {
                 return i > 0 ? Visibility.Collapsed : Visibility.Visible;
             }

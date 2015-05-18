@@ -313,7 +313,7 @@
                                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                                                Text="{Binding LocalName}" />
-                                    <Border Margin="12,0"
+                                    <Border Margin="0,0,12,0"
                                             DockPanel.Dock="Right"
                                             Visibility="{Binding NotSeenCount,
                                                                  Converter={StaticResource QuantityToVisibilityConverter}}">
@@ -333,10 +333,8 @@
                                                                Maximum="100"
                                                                Minimum="0"
                                                                UseLayoutRounding="True"
-                                                               Visibility="{Binding Value,
-                                                                                    Converter={StaticResource QuantityToVisibilityConverter},
-                                                                                    ConverterParameter=&gt;1,
-                                                                                    RelativeSource={RelativeSource Self}}"
+                                                               Visibility="{Binding IsSyncingMessages,
+                                                                                    Converter={StaticResource BooleanToVisibilityConverter}}"
                                                                Value="{Binding Progress}" />
                                 </DockPanel>
                             </Grid>
@@ -350,15 +348,6 @@
                                         <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}" Value="False" />
                                     </MultiDataTrigger.Conditions>
                                     <Setter TargetName="NotSeenCountText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-                                </MultiDataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsSelected}" Value="True" />
-                                        <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}" Value="True" />
-                                    </MultiDataTrigger.Conditions>
-                                    <!--  <Setter TargetName="NameText" Property="Foreground" Value="WhiteSmoke" />  -->
-                                    <!--  <Setter TargetName="EnvelopeProgressBar" Property="Foreground" Value="WhiteSmoke" />  -->
-                                    <!--  <Setter TargetName="NotSeenCountText" Property="Foreground" Value="WhiteSmoke" />  -->
                                 </MultiDataTrigger>
                             </HierarchicalDataTemplate.Triggers>
                         </HierarchicalDataTemplate>
@@ -921,7 +910,11 @@
                       IsTabStop="False" />
         <Grid Grid.Row="0"
               Grid.Column="4"
-              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}">
+              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}"
+              Visibility="{Binding IsMessageOrSmtpRequestSelected,
+                                   Converter={StaticResource BooleanToVisibilityConverter},
+                                   FallbackValue={x:Static Visibility.Collapsed},
+                                   TargetNullValue={x:Static Visibility.Collapsed}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -931,16 +924,8 @@
             </Grid.RowDefinitions>
             <Border Grid.Row="0"
                     BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
-                    BorderThickness="0,0,0,1"
-                    UseLayoutRounding="True"
-                    Visibility="{Binding IsMessageOrSmtpRequestSelected,
-                                         Converter={StaticResource BooleanToVisibilityConverter},
-                                         FallbackValue={x:Static Visibility.Collapsed},
-                                         TargetNullValue={x:Static Visibility.Collapsed}}">
+                    BorderThickness="0,0,0,1">
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
