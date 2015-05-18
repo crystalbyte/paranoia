@@ -951,10 +951,9 @@ namespace Crystalbyte.Paranoia {
                     }
                 });
 
-
                 App.Context.RemoveAccount(this);
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             } finally {
                 Logger.Exit();
             }
@@ -1006,7 +1005,8 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-                App.Context.NotifyMessagesRemoved(messages);
+                // Requery message source for some items may have changed.
+                await App.Context.QueryMessageSource();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -1040,14 +1040,14 @@ namespace Crystalbyte.Paranoia {
                                                   || x.Name.EqualsIgnoreCase(DraftMailboxName));
         }
 
-        internal void AddMailboxes(IEnumerable<MailboxContext> contexts) {
+        internal void NotifyMailboxesAdded(IEnumerable<MailboxContext> contexts) {
             Application.Current.AssertUIThread();
             foreach (var context in contexts) {
                 _mailboxes.Add(context);
             }
         }
 
-        internal void RemoveMailboxes(IEnumerable<MailboxContext> contexts) {
+        internal void NotifyMailboxesRemoved(IEnumerable<MailboxContext> contexts) {
             Application.Current.AssertUIThread();
             foreach (var context in contexts) {
                 _mailboxes.Remove(context);

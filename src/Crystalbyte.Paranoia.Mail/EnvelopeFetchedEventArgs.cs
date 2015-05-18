@@ -31,9 +31,15 @@ using System;
 namespace Crystalbyte.Paranoia.Mail {
     public sealed class EnvelopeFetchedEventArgs : EventArgs {
         private readonly ImapEnvelope _envelope;
+        private readonly float _progress;
 
-        public EnvelopeFetchedEventArgs(ImapEnvelope envelope) {
+        public EnvelopeFetchedEventArgs(ImapEnvelope envelope, Single progress) {
             _envelope = envelope;
+            _progress = progress;
+        }
+
+        public Single Progress {
+            get { return _progress; }
         }
 
         public ImapEnvelope Envelope {

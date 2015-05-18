@@ -73,13 +73,12 @@ namespace Crystalbyte.Paranoia.Mail {
 
         public event EventHandler<EnvelopeFetchedEventArgs> EnvelopeFetched;
 
-        private void OnSyncProgressChanged(ImapEnvelope envelope) {
+        private void OnEnvelopeProgressChanged(ImapEnvelope envelope, Single percentage) {
             var handler = EnvelopeFetched;
             if (handler != null) {
-                handler(this, new EnvelopeFetchedEventArgs(envelope));
+                handler(this, new EnvelopeFetchedEventArgs(envelope, percentage));
             }
         }
-
 
         /// <summary>
         ///     The SEARCH command searches the mailbox for messages that match
@@ -385,21 +384,26 @@ namespace Crystalbyte.Paranoia.Mail {
         public async Task<List<ImapEnvelope>> FetchEnvelopesAsync(ICollection<long> uids) {
             var envelopes = new List<ImapEnvelope>();
 
-            var badges = uids.Bundle(500);
+            const int bundleSize = 500;
+            var offset = 0;
+            var badges = uids.Bundle(bundleSize);
             foreach (var command in badges.Select(badge => string.Format("UID FETCH {0} ALL", badge
                 .Select(x => x.ToString(CultureInfo.InvariantCulture))
                 .Aggregate((c, n) => c + ',' + n)))) {
+
                 var id = await _connection.WriteCommandAsync(command);
-                envelopes.AddRange(await ReadFetchEnvelopesResponseAsync(id));
+                envelopes.AddRange(await ReadFetchEnvelopesResponseAsync(id, offset, uids.Count));
+                offset += bundleSize;
             }
 
             return envelopes;
         }
 
-        private async Task<IEnumerable<ImapEnvelope>> ReadFetchEnvelopesResponseAsync(string commandId) {
+        private async Task<IEnumerable<ImapEnvelope>> ReadFetchEnvelopesResponseAsync(string commandId, long offset, long max) {
             var lines = new List<ImapResponseLine> { await _connection.ReadAsync() };
             var envelopes = new List<ImapEnvelope>();
 
+            var current = offset;
             while (true) {
                 var line = await _connection.ReadAsync();
                 if (line.IsUntagged || line.TerminatesCommand(commandId)) {
@@ -415,7 +419,8 @@ namespace Crystalbyte.Paranoia.Mail {
                         } catch (Exception ex) {
                             Debug.WriteLine(ex);
                         } finally {
-                            OnSyncProgressChanged(envelope);
+                            var percentage = Convert.ToSingle(++current) / max;
+                            OnEnvelopeProgressChanged(envelope, percentage);
                         }
                     }
                     lines.Clear();

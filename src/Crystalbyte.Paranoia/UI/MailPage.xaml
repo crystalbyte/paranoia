@@ -324,19 +324,20 @@
                                                    Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                                                    Text="{Binding NotSeenCount}" />
                                     </Border>
-                                    <controls:MetroProgressBar x:Name="EnvelopeProgressBar"
+                                    <controls:MetroProgressBar x:Name="ProgressBar"
                                                                Height="2"
                                                                Margin="12,0"
                                                                HorizontalAlignment="Stretch"
                                                                VerticalAlignment="Center"
                                                                Background="Transparent"
-                                                               Maximum="{Binding TotalEnvelopeCount}"
+                                                               Maximum="100"
                                                                Minimum="0"
                                                                UseLayoutRounding="True"
                                                                Visibility="{Binding Value,
                                                                                     Converter={StaticResource QuantityToVisibilityConverter},
+                                                                                    ConverterParameter=&gt;1,
                                                                                     RelativeSource={RelativeSource Self}}"
-                                                               Value="{Binding FetchedEnvelopeCount}" />
+                                                               Value="{Binding Progress}" />
                                 </DockPanel>
                             </Grid>
                             <HierarchicalDataTemplate.Triggers>

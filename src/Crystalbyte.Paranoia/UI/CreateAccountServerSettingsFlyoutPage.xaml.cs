@@ -63,7 +63,6 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 var account = (MailAccountContext) DataContext;
                 throw new NotImplementedException("save account");
-                await App.Context.PublishAccountAsync(account);
             }
             catch (Exception ex) {
                 Logger.Error(ex);

@@ -393,7 +393,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void OnByteCountChanged(object sender, ProgressChangedEventArgs e) {
+        private void OnByteCountChanged(object sender, Mail.ProgressChangedEventArgs e) {
             try {
                 BytesReceived = e.ByteCount;
                 var percentage = (Convert.ToDouble(e.ByteCount) / Convert.ToDouble(Size)) * 100;
@@ -431,57 +431,9 @@ namespace Crystalbyte.Paranoia {
                 IncrementLoad();
 
                 var mime = await FetchMimeAsync();
-                var reader = new MailMessageReader(mime);
 
-                var address = FromAddress;
-                var parts = reader.FindAllMessagePartsWithMediaType(MediaTypes.EncryptedMime);
-                var xHeaders = reader.Headers.UnknownHeaders;
-
-                byte[] pKey = null;
-                byte[] nonce = null;
-                var n = (xHeaders.GetValues(MessageHeaders.Nonce) ?? new[] { string.Empty }).FirstOrDefault();
-                if (!string.IsNullOrEmpty(n)) {
-                    nonce = Convert.FromBase64String(n);
-                }
-
-                for (var i = 0; i < xHeaders.Count; i++) {
-                    var key = xHeaders.GetKey(i);
-                    if (!key.EqualsIgnoreCase(MessageHeaders.Signet))
-                        continue;
-
-                    var values = xHeaders.GetValues(i);
-                    if (values == null) {
-                        throw new SignetMissingOrCorruptException(address);
-                    }
-
-                    var signet = values.First();
-                    var split = signet.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    var p = split[0].Substring(split[0].IndexOf('=') + 1).Trim(';');
-                    pKey = Convert.FromBase64String(p);
-                }
-
-                if (parts != null && parts.Count > 0) {
-                    var part = parts.First();
-
-                    using (var context = new DatabaseContext()) {
-                        var current = context.KeyPairs.OrderByDescending(x => x.Date).First();
-                        var contact = context.MailContacts
-                            .Include(x => x.Keys)
-                            .FirstOrDefault(x => x.Address == address);
-
-                        if (contact == null) {
-                            throw new MissingContactException(address);
-                        }
-
-                        if (contact.Keys.Count == 0) {
-                            throw new MissingKeyException(address);
-                        }
-
-                        var crypto = new PublicKeyCrypto(current.PublicKey, current.PrivateKey);
-                        mime = crypto.DecryptWithPrivateKey(part.Body, pKey, nonce);
-                    }
-                }
+                var encryption = new EllipticCurveMimeEncryption();
+                mime = encryption.Decrypt(mime);
 
                 await StoreContentAsync(mime);
 

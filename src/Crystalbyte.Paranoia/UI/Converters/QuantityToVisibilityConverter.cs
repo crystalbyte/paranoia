@@ -26,21 +26,31 @@
 
 using System;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Data;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.UI.Converters {
-    [ValueConversion(typeof (int), typeof (Visibility))]
+    [ValueConversion(typeof(int), typeof(Visibility))]
     public sealed class QuantityToVisibilityConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            value = System.Convert.ToInt32(value);
+            var i = System.Convert.ToInt32(value);
             var p = parameter as string;
-            if (!string.IsNullOrEmpty(p) && p == "!") {
-                return ((int) value) > 0 ? Visibility.Collapsed : Visibility.Visible;
+
+            if (!string.IsNullOrEmpty(p)) {
+                var match = Regex.Match(p, ">(?<DIGIT>[0-9]+)");
+                if (match.Success) {
+                    var digit = System.Convert.ToInt32(match.Groups["DIGIT"].Value);
+                    return digit > i ? Visibility.Visible : Visibility.Collapsed;
+                }
             }
-            return ((int) value) > 0 ? Visibility.Visible : Visibility.Collapsed;
+
+            if (!string.IsNullOrEmpty(p) && p == "!") {
+                return i > 0 ? Visibility.Collapsed : Visibility.Visible;
+            }
+            return i > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

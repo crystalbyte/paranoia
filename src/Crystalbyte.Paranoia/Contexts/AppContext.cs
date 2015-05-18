@@ -37,7 +37,6 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -354,6 +353,18 @@ namespace Crystalbyte.Paranoia {
                 })).ToArray();
 
             await Task.WhenAll(tasks);
+        }
+
+        private void NotifyMessagesRemoved(IEnumerable<MailMessageContext> messages) {
+            Application.Current.AssertUIThread();
+
+            _messages.DeferNotifications = true;
+            foreach (var message in messages) {
+                _messages.Remove(message);
+            }
+
+            _messages.DeferNotifications = false;
+            _messages.NotifyCollectionChanged();
         }
 
         private static async Task DropStoredMessagesAsync(IGrouping<MailboxContext, MailMessageContext> mailboxGroup) {
@@ -733,9 +744,10 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task PublishAccountAsync(MailAccountContext account) {
+        internal void PublishAccount(MailAccountContext account) {
+            Application.Current.AssertUIThread();
+
             _accounts.Add(account);
-            await account.TakeOnlineAsync();
         }
 
         public IEnumerable<MailAccountContext> Accounts {
@@ -1050,7 +1062,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 await LoadAccountsAsync();
-                
+
                 var primary = Accounts.OrderByDescending(x => x.IsDefaultTime).FirstOrDefault();
                 if (primary != null) {
                     primary.IsExpanded = true;
@@ -1188,13 +1200,13 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => IsMessageOrSmtpRequestSelected);
         }
 
-        internal void NotifyContactsAdded(ICollection<MailContactContext> contacts) {
+        internal void DisplayContacts(ICollection<MailContactContext> contacts) {
             Application.Current.AssertUIThread();
 
             _contacts.AddRange(contacts);
         }
 
-        internal void NotifyMessagesAdded(ICollection<MailMessageContext> messages) {
+        internal void DisplayMessages(ICollection<MailMessageContext> messages) {
             foreach (var message in messages.Where(message => message.Mailbox.IsSelected)) {
                 _messages.Add(message);
             }
@@ -1365,21 +1377,6 @@ namespace Crystalbyte.Paranoia {
             message.IsSelected = true;
         }
 
-        internal void NotifyMessagesRemoved(IEnumerable<long> ids) {
-            foreach (
-                var message in
-                    ids.Select(id => _messages.FirstOrDefault(x => x.Id == id)).Where(message => message != null)) {
-                _messages.Remove(message);
-            }
-        }
-
-        internal void NotifyMessagesRemoved(IEnumerable<MailMessageContext> messages) {
-            var collection = messages as MailMessageContext[] ?? messages.ToArray();
-            collection.ForEach(x => _messages.Remove(x));
-
-            OnItemSelectionRequested(new ItemSelectionRequestedEventArgs(SelectionPosition.Next, collection));
-        }
-
         internal async Task DeleteSelectedContactsAsync() {
             using (var database = new DatabaseContext()) {
                 var contacts = _contacts.Select(x => new MailContact {
@@ -1400,9 +1397,12 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal void NotifyAccountDeleted(MailAccountContext account) {
-            _accounts.Remove(account);
-            RaisePropertyChanged(() => Accounts);
+        internal void NotifyAccountsDeleted(IEnumerable<MailAccountContext> accounts) {
+            Application.Current.AssertUIThread();
+
+            foreach (var account in accounts) {
+                _accounts.Remove(account);
+            }
         }
 
         public Task MarkSelectionAsNotFlaggedAsync() {
@@ -1443,6 +1443,21 @@ namespace Crystalbyte.Paranoia {
             if (match.Success && messages.ContainsKey(Int64.Parse(match.Groups["ID"].Value))) {
                 Source = null;
             }
+        }
+
+        internal void NotifyMessagesReceived(IEnumerable<MailMessageContext> messages) {
+            // Don't mess with the current query.
+            if (MessageSource is MessageQuery) {
+                return;
+            }
+
+            var mailbox = SelectedMailbox;
+            var eligible = messages.Where(x => x.Mailbox.Name == mailbox.Name).ToArray();
+
+            _messages.DeferNotifications = true;
+            _messages.AddRange(eligible);
+            _messages.DeferNotifications = false;
+            _messages.NotifyCollectionChanged();
         }
     }
 }

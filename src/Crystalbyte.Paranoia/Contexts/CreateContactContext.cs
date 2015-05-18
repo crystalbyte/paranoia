@@ -47,7 +47,7 @@ namespace Crystalbyte.Paranoia {
         private async void OnCreateContact(object obj) {
             try {
                 var contact = await SaveContactToDatabaseAsync();
-                App.Context.NotifyContactsAdded(new[] { new MailContactContext(contact) });
+                App.Context.DisplayContacts(new[] { new MailContactContext(contact) });
             } catch (Exception ex) {
                 Logger.Error(ex);
             } finally {
