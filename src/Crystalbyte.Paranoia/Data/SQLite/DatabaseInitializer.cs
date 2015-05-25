@@ -53,13 +53,11 @@ namespace Crystalbyte.Paranoia.Data.SQLite {
         }
 
         private static void CreateSchema(T context) {
-            var models = typeof (T).GetProperties()
+            var models = typeof(T).GetProperties()
                 .Where(x => x.PropertyType.IsGenericType)
-                .Where(x => x.PropertyType.GetGenericTypeDefinition() == typeof (DbSet<>))
+                .Where(x => x.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>))
                 .Select(x => x.PropertyType.GetGenericArguments().First())
                 .ToArray();
-
-            context.EnableForeignKeysAsync();
 
             var analyzers = models.Select(model => new ModelAnalyzer(model));
             foreach (var analyzer in analyzers) {

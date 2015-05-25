@@ -173,39 +173,49 @@ namespace Crystalbyte.Paranoia.Data.SQLite {
             return true;
         }
 
-        private static string CreateForeignKeyDefinition(MemberInfo info) {
-            var foreignKey = info.GetCustomAttribute<ForeignKeyAttribute>();
-            var masterTypeName = foreignKey.Name;
+        private static string CreateForeignKeyDefinition(PropertyInfo info) {
+            var foreignKeyAttribute = info.GetCustomAttribute<ForeignKeyAttribute>();
+            var foreignKeyPropertyName = foreignKeyAttribute.Name;
 
             var declaringType = info.DeclaringType;
             if (declaringType == null) {
                 throw new NullReferenceException(Resources.DeclaringTypeNull);
             }
 
-            var masterProperty = declaringType.GetProperty(masterTypeName);
-            var masterType = masterProperty.PropertyType;
-            var masterKey =
-                masterType.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            var foreignKeyProperty = declaringType.GetProperty(foreignKeyPropertyName);
+
+            var masterType = info.PropertyType;
+            if (masterType == null) {
+                throw new NullReferenceException(Resources.PropertyTypeNull);
+            }
+
+            var masterKeyProperty = masterType.GetProperties(BindingFlags.Instance | BindingFlags.Public)
                     .First(x => x.GetCustomAttribute<KeyAttribute>() != null);
 
             var masterTable = masterType.GetCustomAttribute<TableAttribute>();
             var masterTableName = masterTable == null ? masterType.Name : masterTable.Name;
 
-            string name;
-            var hasColumnAttribute = TryReadColumnAttribute(info, out name);
+            string foreignKeyName;
+            var hasColumnAttribute = TryReadColumnAttribute(foreignKeyProperty, out foreignKeyName);
             if (!hasColumnAttribute) {
-                name = info.Name;
+                foreignKeyName = foreignKeyProperty.Name;
+            }
+
+            string masterKeyName;
+            hasColumnAttribute = TryReadColumnAttribute(masterKeyProperty, out masterKeyName);
+            if (!hasColumnAttribute) {
+                masterKeyName = masterKeyProperty.Name;
             }
 
             using (var writer = new StringWriter()) {
                 writer.Write("FOREIGN KEY");
                 writer.Write("(");
-                writer.Write(name);
+                writer.Write(foreignKeyName);
                 writer.Write(") ");
                 writer.Write("REFERENCES ");
                 writer.Write(masterTableName);
                 writer.Write("(");
-                writer.Write(masterKey.Name);
+                writer.Write(masterKeyName);
                 writer.Write(")");
                 return writer.ToString();
             }
