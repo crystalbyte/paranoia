@@ -25,10 +25,6 @@ namespace Crystalbyte.Paranoia.Data.SQLite {
             return context.Database.Connection.OpenAsync();
         }
 
-        public static void Close(this DbContext context) {
-            context.Database.Connection.Close();
-        }
-
         public static async Task SaveChangesAsync(this DbContext context, OptimisticConcurrencyStrategy strategy = OptimisticConcurrencyStrategy.ClientWins) {
             // Handle Optimistic Concurrency.
             // https://msdn.microsoft.com/en-us/data/jj592904.aspx?f=255&MSPPError=-2147217396
