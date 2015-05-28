@@ -25,12 +25,15 @@
 #region Using Directives
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Documents;
 using Crystalbyte.Paranoia.Properties;
 
 #endregion
@@ -43,27 +46,30 @@ namespace Crystalbyte.Paranoia.Data.SQLite {
             _type = type;
         }
 
-        public bool TryGetIndexCreateScript(out string script) {
+        public bool TryGetIndexCreateScripts(out List<string> scripts) {
             var tableName = _type.GetCustomAttribute<TableAttribute>().Name;
 
             var properties = _type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             var indexProperties = properties.Where(x => x.GetCustomAttribute<IndexAttribute>() != null).ToArray();
             if (indexProperties.Length == 0) {
-                script = string.Empty;
+                scripts = null;
                 return false;
             }
 
-            using (var writer = new StringWriter()) {
-                writer.Write("CREATE INDEX {0}_index ON {0}(", tableName);
-                writer.Write(string.Join(", ", indexProperties.Select(x => {
-                    var attribute =
-                        x.GetCustomAttribute<ColumnAttribute>();
-                    return attribute != null
-                        ? attribute.Name
-                        : x.Name;
-                })));
-                writer.Write(");");
-                script = writer.ToString();
+            scripts = new List<string>();
+
+            foreach (var index in indexProperties.Select(x => {
+                var attribute = x.GetCustomAttribute<ColumnAttribute>();
+                return attribute != null
+                    ? attribute.Name
+                    : x.Name;
+            })) {
+                using (var writer = new StringWriter()) {
+                    writer.Write("CREATE INDEX {0}_{1}_index ON {0}(", tableName, index);
+                    writer.Write(index);
+                    writer.Write(");");
+                    scripts.Add(writer.ToString());
+                }
             }
 
             return true;
@@ -162,6 +168,7 @@ namespace Crystalbyte.Paranoia.Data.SQLite {
             var attribute = info.GetCustomAttribute<DefaultAttribute>();
             return attribute != null && attribute.Function == DatabaseFunction.CurrentTimestamp;
         }
+
         private static bool TryReadCollateAttribute(MemberInfo info, out CollatingSequence sequence) {
             sequence = CollatingSequence.Binary;
             var attribute = info.GetCustomAttribute<CollateAttribute>();

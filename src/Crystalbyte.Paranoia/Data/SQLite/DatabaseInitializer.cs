@@ -25,9 +25,12 @@
 #region Using Directives
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Windows;
 using Crystalbyte.Paranoia.Properties;
 
@@ -64,10 +67,13 @@ namespace Crystalbyte.Paranoia.Data.SQLite {
                 var tableScript = analyzer.GetTableCreateScript();
                 context.Database.ExecuteSqlCommand(tableScript);
 
-                string indexScript;
-                var hasIndices = analyzer.TryGetIndexCreateScript(out indexScript);
-                if (hasIndices) {
-                    context.Database.ExecuteSqlCommand(indexScript);
+                List<string> indexScripts;
+                var hasIndices = analyzer.TryGetIndexCreateScripts(out indexScripts);
+                if (!hasIndices) 
+                    continue;
+
+                foreach (var script in indexScripts) {
+                    context.Database.ExecuteSqlCommand(script);
                 }
             }
         }
