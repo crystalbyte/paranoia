@@ -223,7 +223,7 @@ namespace Crystalbyte.Paranoia.Data.SQLite {
                 writer.Write(masterTableName);
                 writer.Write("(");
                 writer.Write(masterKeyName);
-                writer.Write(")");
+                writer.Write(") ON DELETE CASCADE");
                 return writer.ToString();
             }
         }
