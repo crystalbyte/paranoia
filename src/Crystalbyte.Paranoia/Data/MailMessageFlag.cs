@@ -4,17 +4,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Crystalbyte.Paranoia.Data.SQLite;
 
 namespace Crystalbyte.Paranoia.Data {
-    [Table("mail_content")]
-    [Virtual(ModuleType.Fts4)]
-    internal class MailContent {
+    [Table("mail_message_flag")]
+    internal class MailMessageFlag {
+
         [Key]
         [Column("id")]
         public Int64 Id { get; set; }
 
-        [Column("text")]
-        public string Text { get; set; }
-
+        [Index]
         [Column("message_id")]
         public Int64 MessageId { get; set; }
+
+        [Index]
+        [Column("value")]
+        [Collate(CollatingSequence.NoCase)]
+        public string Value { get; set; }
+
+        [ForeignKey("MessageId")]
+        public MailMessage Message { get; set; }
     }
 }

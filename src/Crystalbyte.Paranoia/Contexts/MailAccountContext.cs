@@ -33,7 +33,6 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -45,12 +44,12 @@ using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
-using MailMessage = System.Net.Mail.MailMessage;
 
 #endregion
 
 namespace Crystalbyte.Paranoia {
     public sealed class MailAccountContext : HierarchyContext {
+
         #region Private Fields
 
         private bool _isTesting;
@@ -69,7 +68,6 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _configAccountCommand;
         private readonly ICommand _showUnsubscribedMailboxesCommand;
         private readonly ICommand _hideUnsubscribedMailboxesCommand;
-        private readonly OutboxContext _outbox;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -83,7 +81,6 @@ namespace Crystalbyte.Paranoia {
         internal MailAccountContext(MailAccount account) {
             _account = account;
             _appContext = App.Context;
-            _outbox = new OutboxContext(this);
             _listMailboxesCommand = new RelayCommand(OnListMailboxes);
             _testSettingsCommand = new RelayCommand(OnTestSettings);
             _configAccountCommand = new RelayCommand(OnConfigAccount);
@@ -121,7 +118,11 @@ namespace Crystalbyte.Paranoia {
 
 
         private static void OnConfigAccount(object obj) {
-            App.Context.ConfigureAccount(obj as MailAccountContext);
+            try {
+                App.Context.ConfigureAccount((MailAccountContext)obj);
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         private void OnHideUnsubscribedMailboxes(object obj) {
@@ -167,17 +168,6 @@ namespace Crystalbyte.Paranoia {
                 }
                 _account.SignaturePath = value;
                 RaisePropertyChanged(() => SignaturePath);
-            }
-        }
-
-        public bool IsPartialLoadEnabled {
-            get { return _account.IsPartialLoadEnabled; }
-            set {
-                if (_account.IsPartialLoadEnabled == value) {
-                    return;
-                }
-                _account.IsPartialLoadEnabled = value;
-                RaisePropertyChanged(() => IsPartialLoadEnabled);
             }
         }
 
@@ -386,20 +376,25 @@ namespace Crystalbyte.Paranoia {
                     var resultSet = new List<Mailbox>();
                     using (var context = new DatabaseContext()) {
                         // Prepare models for insertion.
-                        foreach (var model in syncResult.AddedMailboxes.Select(x => x.Value).Select(info => new Mailbox {
-                            AccountId = id,
-                            IsSubscribed = info.IsGmailAll
-                                           || info.IsGmailDraft
-                                           || info.IsGmailImportant
-                                           || info.IsGmailJunk
-                                           || info.IsGmailSent
-                                           || info.IsGmailTrash
-                                           || info.IsInbox
-                                           || syncResult.SubscribedMailboxes.ContainsKey(info.Name),
-                            Name = info.Fullname,
-                            Delimiter = info.Delimiter.ToString(CultureInfo.InvariantCulture),
-                            Flags = info.Flags.Aggregate((c, n) => c + ';' + n)
-                        })) {
+                        foreach (var info in syncResult.AddedMailboxes.Select(x => x.Value)) {
+                            var model = new Mailbox {
+                                AccountId = id,
+                                IsSubscribed = info.IsGmailAll
+                                               || info.IsGmailDraft
+                                               || info.IsGmailImportant
+                                               || info.IsGmailJunk
+                                               || info.IsGmailSent
+                                               || info.IsGmailTrash
+                                               || info.IsInbox
+                                               || syncResult.SubscribedMailboxes.ContainsKey(info.Name),
+                                Name = info.Fullname,
+                                Delimiter = info.Delimiter.ToString(CultureInfo.InvariantCulture),
+                            };
+
+                            model.Flags.AddRange(info.Flags.Select(x => new MailboxFlag {
+                                Value = x
+                            }));
+
                             context.Mailboxes.Add(model);
                             resultSet.Add(model);
                         }
@@ -412,7 +407,7 @@ namespace Crystalbyte.Paranoia {
                 var contexts = models.Select(x => new MailboxContext(this, x));
                 _mailboxes.AddRange(contexts);
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             } finally {
                 IsSyncingMailboxes = false;
                 Logger.Exit();
@@ -420,22 +415,31 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task LoadMailboxesAsync() {
+            Logger.Enter();
+
             Application.Current.AssertUIThread();
 
-            var mailboxes = await Task.Run(async () => {
-                using (var context = new DatabaseContext()) {
-                    return await context.Mailboxes
-                        .Where(x => x.AccountId == _account.Id)
-                        .ToArrayAsync();
-                }
-            });
+            try {
+                var mailboxes = await Task.Run(async () => {
+                    using (var context = new DatabaseContext()) {
+                        return await context.Mailboxes
+                            .Where(x => x.AccountId == _account.Id)
+                            .Include(x => x.Flags)
+                            .ToArrayAsync();
+                    }
+                });
 
-            var contexts = mailboxes.Select(x => new MailboxContext(this, x)).ToArray();
-            var queries = contexts.Select(x => x.CountNotSeenAsync());
+                var contexts = mailboxes.Select(x => new MailboxContext(this, x)).ToArray();
+                var queries = contexts.Select(x => x.CountNotSeenAsync());
 
-            _mailboxes.AddRange(contexts);
+                _mailboxes.AddRange(contexts);
 
-            await Task.WhenAll(queries);
+                await Task.WhenAll(queries);
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            } finally {
+                Logger.Exit();
+            }
         }
 
         public string Address {
@@ -472,11 +476,6 @@ namespace Crystalbyte.Paranoia {
                     .Any(x => _account.ImapHost
                         .EndsWith(x, StringComparison.InvariantCultureIgnoreCase));
             }
-        }
-
-
-        public OutboxContext Outbox {
-            get { return _outbox; }
         }
 
         public bool IsManagingMailboxes {
@@ -693,7 +692,6 @@ namespace Crystalbyte.Paranoia {
                 return _mailboxes
                     .Where(x => !string.IsNullOrEmpty(x.Name) && !x.Name.Contains(x.Delimiter))
                     .Cast<object>()
-                    .Concat(new[] { Outbox })
                     .ToArray();
             }
         }
@@ -791,31 +789,35 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task SaveCompositionsAsync(IEnumerable<MailMessage> messages) {
-            await Task.Run(async () => {
-                using (var context = new DatabaseContext()) {
-                    var account = await context.MailAccounts.FindAsync(_account.Id);
 
-                    foreach (var message in messages) {
-                        var request = new MailComposition {
-                            Date = DateTime.Now,
-                            ToName = message.To.First().DisplayName,
-                            ToAddress = message.To.First().Address,
-                            Subject = message.Subject
-                        };
-                        var mime = await message.ToMimeAsync();
-                        request.Mime = Encoding.UTF8.GetBytes(mime);
+            throw new NotImplementedException();
 
-                        account.Compositions.Add(request);
-                    }
+            //await Task.Run(async () => {
+            //    using (var context = new DatabaseContext()) {
+            //        var account = await context.MailAccounts.FindAsync(_account.Id);
 
-                    await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
-                }
-            });
+            //        foreach (var message in messages) {
+            //            var request = new MailComposition {
+            //                Date = DateTime.Now,
+            //                ToName = message.To.First().DisplayName,
+            //                ToAddress = message.To.First().Address,
+            //                Subject = message.Subject
+            //            };
+            //            var mime = await message.ToMimeAsync();
+            //            request.Mime = Encoding.UTF8.GetBytes(mime);
+
+            //            account.Compositions.Add(request);
+            //        }
+
+            //        await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
+            //    }
+            //});
         }
 
         public async Task DetectSettingsAsync() {
             var domain = Address.Split('@').Last();
-            var url = string.Format("https://live.mozillamessaging.com/autoconfig/v1.1/{0}", domain);
+            var url = string.Format("https://liv" +
+                                    "e.mozillamessaging.com/autoconfig/v1.1/{0}", domain);
 
             IsDetectingSettings = true;
 
@@ -942,7 +944,7 @@ namespace Crystalbyte.Paranoia {
                 var id = _account.Id;
                 await Task.Run(async () => {
                     using (var context = new DatabaseContext()) {
-                        await context.ConnectAsync();
+                        await context.OpenAsync();
                         await context.EnableForeignKeysAsync();
 
                         var model = new MailAccount { Id = id };
@@ -982,7 +984,7 @@ namespace Crystalbyte.Paranoia {
                 using (var database = new DatabaseContext()) {
                     foreach (var message in messages) {
                         try {
-                            var model = new Data.MailMessage {
+                            var model = new MailMessage {
                                 Id = message.Id,
                                 MailboxId = Id
                             };
@@ -1045,6 +1047,7 @@ namespace Crystalbyte.Paranoia {
 
         internal void NotifyMailboxesAdded(IEnumerable<MailboxContext> contexts) {
             Application.Current.AssertUIThread();
+
             foreach (var context in contexts) {
                 _mailboxes.Add(context);
             }
@@ -1052,63 +1055,9 @@ namespace Crystalbyte.Paranoia {
 
         internal void NotifyMailboxesRemoved(IEnumerable<MailboxContext> contexts) {
             Application.Current.AssertUIThread();
+
             foreach (var context in contexts) {
                 _mailboxes.Remove(context);
-            }
-        }
-
-        internal async Task<bool> TryDeleteAccountAsync() {
-            Application.Current.AssertBackgroundThread();
-
-            using (var context = new DatabaseContext()) {
-                await context.Database.Connection.OpenAsync();
-                using (var transaction = context.Database.Connection.BeginTransaction()) {
-                    try {
-                        var mailboxes = await context.Mailboxes
-                            .Where(x => x.AccountId == Id)
-                            .ToArrayAsync();
-
-                        foreach (var mailbox in mailboxes) {
-                            var lMailbox = mailbox;
-                            var messages = await context.MailMessages
-                                .Where(x => x.MailboxId == lMailbox.Id)
-                                .ToArrayAsync();
-
-                            foreach (var message in messages) {
-                                var lMessage = message;
-                                var mimeMessages = await context.MailData
-                                    .Where(x => x.MessageId == lMessage.Id)
-                                    .ToArrayAsync();
-
-                                if (mimeMessages == null)
-                                    continue;
-
-                                foreach (var mimeMessage in mimeMessages) {
-                                    context.MailData.Remove(mimeMessage);
-                                }
-                            }
-
-                            context.MailMessages.RemoveRange(messages);
-                        }
-
-                        context.Mailboxes.RemoveRange(mailboxes);
-
-                        var acc = new MailAccount { Id = Id };
-                        context.MailAccounts.Attach(acc);
-                        context.MailAccounts.Remove(acc);
-
-                        await context.SaveChangesAsync(
-                            OptimisticConcurrencyStrategy.ClientWins);
-
-                        transaction.Commit();
-                        return true;
-                    } catch (Exception ex) {
-                        Logger.Error(ex);
-
-                        transaction.Rollback();
-                        return false;
-                    }
-                }
             }
         }
 

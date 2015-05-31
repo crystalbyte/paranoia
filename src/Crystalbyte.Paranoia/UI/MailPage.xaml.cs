@@ -26,6 +26,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -220,7 +221,6 @@ namespace Crystalbyte.Paranoia.UI {
             var tree = (TreeView)sender;
             var value = tree.SelectedValue;
 
-            App.Context.SelectedOutbox = value as OutboxContext;
             App.Context.SelectedMailbox = value as MailboxContext;
 
             RequeryRoutedCommands();
@@ -236,30 +236,6 @@ namespace Crystalbyte.Paranoia.UI {
 
         private static void RequeryRoutedCommands() {
             CommandManager.InvalidateRequerySuggested();
-        }
-
-        private void OnCompositionSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (!IsLoaded) {
-                return;
-            }
-
-            var outbox = App.Context.SelectedOutbox;
-            if (outbox == null) {
-                return;
-            }
-
-            outbox.OnCompositionSelectionChanged();
-
-            CommandManager.InvalidateRequerySuggested();
-            var request = outbox.SelectedComposition;
-            if (request == null) {
-                return;
-            }
-
-            var container = (Control)SmtpRequestsListView.ItemContainerGenerator.ContainerFromItem(request);
-            if (container != null) {
-                container.Focus();
-            }
         }
 
         private async void OnMessageSelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -297,7 +273,7 @@ namespace Crystalbyte.Paranoia.UI {
             }
 
             if (flagMessages != null) {
-                await flagMessages;    
+                await flagMessages;
             }
         }
 
@@ -306,7 +282,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
             var view = (ListView)sender;
-            var attachment = (AttachmentContext)view.SelectedValue;
+            var attachment = (MailAttachmentContext)view.SelectedValue;
             if (attachment == null) {
                 return;
             }
@@ -366,7 +342,7 @@ namespace Crystalbyte.Paranoia.UI {
                     name = PropertySupport.ExtractPropertyName((MailMessageContext m) => m.Subject);
                     break;
                 case SortProperty.Date:
-                    name = PropertySupport.ExtractPropertyName((MailMessageContext m) => m.EntryDate);
+                    name = PropertySupport.ExtractPropertyName((MailMessageContext m) => m.Date);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("property");
@@ -428,8 +404,8 @@ namespace Crystalbyte.Paranoia.UI {
                                            Name = GetValidFileName(item.Subject) + ".eml",
                                            Length = item.Size,
                                            ChangeTimeUtc = DateTime.UtcNow,
-                                           StreamContents = stream => {
-                                               var bytes = LoadMessageBytes(item.Id);
+                                           StreamContents = async stream => {
+                                               var bytes = await LoadMessageBytesAsync(item.Id);
                                                stream.Write(bytes, 0, bytes.Length);
                                            }
                                        }).ToArray());
@@ -440,16 +416,27 @@ namespace Crystalbyte.Paranoia.UI {
             return Path.GetInvalidFileNameChars().Aggregate(name, (current, c) => current.Replace(c, '_'));
         }
 
-        private static byte[] LoadMessageBytes(Int64 id) {
-            using (var database = new DatabaseContext()) {
-                var message = database.MailData
-                    .FirstOrDefault(x => x.MessageId == id);
+        private static async Task<byte[]> LoadMessageBytesAsync(Int64 id) {
+            Logger.Enter();
 
-                if (message != null)
-                    return message.Mime;
+            Application.Current.AssertBackgroundThread();
 
-                var text = string.Format(Paranoia.Properties.Resources.MissingMimeTemplate, id);
-                throw new InvalidOperationException(text);
+            try {
+                using (var database = new DatabaseContext()) {
+                    var mime = await database.MailMessages
+                        .Where(x => x.Id == id)
+                        .Select(x => x.Mime)
+                        .FirstOrDefaultAsync();
+
+                    if (mime != null)
+                        return mime;
+
+                    var text = string.Format(Paranoia.Properties.Resources.MissingMimeTemplate, id);
+                    throw new InvalidOperationException(text);
+                }
+
+            } finally {
+                Logger.Exit();
             }
         }
 

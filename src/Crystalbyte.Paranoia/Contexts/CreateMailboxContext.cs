@@ -35,9 +35,10 @@ namespace Crystalbyte.Paranoia {
 
         #region Private Fields
 
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly IMailboxCreator _creator;
         private string _name;
+        private readonly IMailboxCreator _creator;
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 

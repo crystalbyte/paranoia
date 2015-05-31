@@ -22,13 +22,52 @@
 
 #endregion
 
+using System;
+using System.Windows;
+using System.Windows.Input;
+using NLog;
+
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     ///     Interaction logic for BlockNoticeControl.xaml
     /// </summary>
     public partial class BlockNoticeControl {
+
+        #region Private Fields
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
+
+        #region Construction
+
         public BlockNoticeControl() {
             InitializeComponent();
+        }
+
+        #endregion
+
+        #region Dependency Properties
+
+        public IBlockable Blockable {
+            get { return (IBlockable)GetValue(BlockableProperty); }
+            set { SetValue(BlockableProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Blockable.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty BlockableProperty =
+            DependencyProperty.Register("Blockable", typeof(IBlockable), typeof(BlockNoticeControl), new PropertyMetadata(null));
+
+        #endregion
+
+        private async void OnUnblockExternalContent(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                if (Blockable != null) {
+                    await Blockable.UnblockAsync();
+                }
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
     }
 }

@@ -26,6 +26,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -112,9 +113,9 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 if (Regex.IsMatch(uri.AbsolutePath, "part")) {
-                    Task.Run(() => {
+                    Task.Run(async () => {
                         try {
-                            ComposeCidImageResponse(request, response);
+                            await ComposeCidImageResponseAsync(request, response);
                             requestCompletedCallback();
                         } catch (Exception ex) {
                             Logger.Error(ex);
@@ -133,7 +134,7 @@ namespace Crystalbyte.Paranoia {
 
         #endregion
 
-        private static void ComposeCidImageResponse(IRequest request, ISchemeHandlerResponse response) {
+        private static async Task ComposeCidImageResponseAsync(IRequest request, ISchemeHandlerResponse response) {
             var arguments = request.Url.ToPageArguments();
 
             long messageId;
@@ -143,7 +144,7 @@ namespace Crystalbyte.Paranoia {
             if (!arguments.ContainsKey("cid"))
                 return;
 
-            var attachment = GetAttachmentBytes(arguments["cid"], messageId);
+            var attachment = await GetAttachmentBytesAsync(arguments["cid"], messageId);
             if (attachment != null) {
                 ComposeResourceResponse(response, attachment, "image");
             }
@@ -155,14 +156,17 @@ namespace Crystalbyte.Paranoia {
             response.ResponseStream = new MemoryStream(bytes);
         }
 
-        private static byte[] GetAttachmentBytes(string cid, long messageId) {
+        private static async Task<byte[]> GetAttachmentBytesAsync(string cid, Int64 messageId) {
             using (var database = new DatabaseContext()) {
-                var message = database.MailData.FirstOrDefault(x => x.MessageId == messageId);
+                var mime = await database.MailMessages
+                    .Where(x => x.Id == messageId)
+                    .Select(x => x.Mime)
+                    .FirstOrDefaultAsync();
 
-                if (message == null)
+                if (mime == null)
                     return null;
 
-                var reader = new MailMessageReader(message.Mime);
+                var reader = new MailMessageReader(mime);
                 var attachments = reader.FindAllAttachments();
                 var attachment = attachments.FirstOrDefault(x => x.ContentId == Uri.UnescapeDataString(cid));
                 if (attachment != null)
@@ -175,32 +179,34 @@ namespace Crystalbyte.Paranoia {
         private static void ComposeQuotedCompositionResponse(IRequest request, ISchemeHandlerResponse response) {
             var variables = new Dictionary<string, string>();
 
-            long messageId;
-            var uri = new Uri(request.Url);
-            var arguments = uri.OriginalString.ToPageArguments();
-            if (arguments.ContainsKey("id") && long.TryParse(arguments["id"], out messageId)) {
-                var message = GetMessageBytes(messageId);
-                var reader = new MailMessageReader(message);
+            throw new NotImplementedException();
 
-                var header = string.Format(Resources.HtmlResponseHeader, reader.Headers.DateSent,
-                    reader.Headers.From.DisplayName);
-                const string rule =
-                    "<hr style='border-right: medium none; border-top: #CCCCCC 1px solid; border-left: medium none; border-bottom: medium none; height: 1px'>";
-                variables.Add("separator",
-                    string.Format("{0}{1}{2}{3}{4}", "<div style=\"margin:20px 0; font-family: Trebuchet MS;\">", header,
-                        "<br/>", rule, "</div>"));
+            //long messageId;
+            //var uri = new Uri(request.Url);
+            //var arguments = uri.OriginalString.ToPageArguments();
+            //if (arguments.ContainsKey("id") && long.TryParse(arguments["id"], out messageId)) {
+            //    var message = GetMessageBytesAsync(messageId);
+            //    var reader = new MailMessageReader(message);
 
-                var text = HtmlSupport.FindBestSupportedBody(reader);
-                text = HtmlSupport.ModifyEmbeddedParts(text, messageId);
-                variables.Add("quote", text);
-            }
+            //    var header = string.Format(Resources.HtmlResponseHeader, reader.Headers.DateSent,
+            //        reader.Headers.From.DisplayName);
+            //    const string rule =
+            //        "<hr style='border-right: medium none; border-top: #CCCCCC 1px solid; border-left: medium none; border-bottom: medium none; height: 1px'>";
+            //    variables.Add("separator",
+            //        string.Format("{0}{1}{2}{3}{4}", "<div style=\"margin:20px 0; font-family: Trebuchet MS;\">", header,
+            //            "<br/>", rule, "</div>"));
 
-            if (!variables.Keys.Contains("quote"))
-                variables.Add("quote", string.Empty);
+            //    var text = HtmlSupport.FindBestSupportedBody(reader);
+            //    text = HtmlSupport.ModifyEmbeddedParts(text, messageId);
+            //    variables.Add("quote", text);
+            //}
 
-            var html = HtmlSupport.GetEditorTemplate(variables);
-            var bytes = Encoding.UTF8.GetBytes(html);
-            ComposeHtmlResponse(response, bytes);
+            //if (!variables.Keys.Contains("quote"))
+            //    variables.Add("quote", string.Empty);
+
+            //var html = HtmlSupport.GetEditorTemplate(variables);
+            //var bytes = Encoding.UTF8.GetBytes(html);
+            //ComposeHtmlResponse(response, bytes);
         }
 
         private static string RemoveExternalSources(string content) {
@@ -218,29 +224,31 @@ namespace Crystalbyte.Paranoia {
             var uri = new Uri(request.Url);
             var id = long.Parse(uri.Segments[1]);
 
-            var arguments = uri.PathAndQuery.ToPageArguments();
+            throw new NotImplementedException();
 
-            var mime = GetMessageBytes(id);
-            var reader = new MailMessageReader(mime);
-            var text = HtmlSupport.FindBestSupportedBody(reader);
+            //var arguments = uri.PathAndQuery.ToPageArguments();
 
-            if (string.IsNullOrWhiteSpace(text)) {
-                ComposeHtmlResponse(response, null);
-                return;
-            }
+            //var mime = GetMessageBytesAsync(id);
+            //var reader = new MailMessageReader(mime);
+            //var text = HtmlSupport.FindBestSupportedBody(reader);
 
-            const string key = "blockExternals";
-            var blockExternals = !arguments.ContainsKey(key) || bool.Parse(arguments[key]);
+            //if (string.IsNullOrWhiteSpace(text)) {
+            //    ComposeHtmlResponse(response, null);
+            //    return;
+            //}
 
-            text = HtmlSupport.PrepareHtmlForInspection(text);
-            text = HtmlSupport.ModifyEmbeddedParts(text, id);
+            //const string key = "blockExternals";
+            //var blockExternals = !arguments.ContainsKey(key) || bool.Parse(arguments[key]);
 
-            if (blockExternals) {
-                text = RemoveExternalSources(text);
-            }
+            //text = HtmlSupport.PrepareHtmlForInspection(text);
+            //text = HtmlSupport.ModifyEmbeddedParts(text, id);
 
-            var bytes = Encoding.UTF8.GetBytes(text);
-            ComposeHtmlResponse(response, bytes);
+            //if (blockExternals) {
+            //    text = RemoveExternalSources(text);
+            //}
+
+            //var bytes = Encoding.UTF8.GetBytes(text);
+            //ComposeHtmlResponse(response, bytes);
         }
 
         private static void ComposeBlankCompositionResponse(ISchemeHandlerResponse response) {
@@ -254,13 +262,14 @@ namespace Crystalbyte.Paranoia {
             ComposeHtmlResponse(response, bytes);
         }
 
-        private static byte[] GetMessageBytes(Int64 id) {
+        private static async Task<byte[]> GetMessageBytesAsync(Int64 id) {
             using (var database = new DatabaseContext()) {
-                var messages = database.MailData
-                    .Where(x => x.MessageId == id)
-                    .ToArray();
+                var mime = await database.MailMessages
+                    .Where(x => x.Id == id)
+                    .Select(x => x.Mime)
+                    .FirstOrDefaultAsync();
 
-                return messages.Length > 0 ? messages[0].Mime : new byte[0];
+                return mime ?? new byte[0];
             }
         }
 

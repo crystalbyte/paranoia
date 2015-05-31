@@ -25,21 +25,30 @@
 #region Using Directives
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Windows.Documents;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.Data {
     [Table("mail_composition")]
     internal class MailComposition {
+
+        private List<MailMessageContact> _contacts;
+
+        public MailComposition() {
+            _contacts = new 
+        }
+
         [Key]
         [Index]
         [Column("id")]
         public Int64 Id { get; set; }
 
+        [Index]
         [Column("account_id")]
-        [ForeignKey("Account")]
         public Int64 AccountId { get; set; }
 
         [Column("mime")]
@@ -48,15 +57,10 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("subject")]
         public string Subject { get; set; }
 
-        [Column("to_name")]
-        public string ToName { get; set; }
-
-        [Column("to_address")]
-        public string ToAddress { get; set; }
-
         [Column("date")]
         public DateTime Date { get; set; }
 
+        [ForeignKey("AccountId")]
         public MailAccount Account { get; set; }
     }
 }

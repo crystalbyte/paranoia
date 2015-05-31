@@ -31,41 +31,33 @@ using System.Data.Entity;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
-using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Data.SQLite;
 using Crystalbyte.Paranoia.Mail;
-using Crystalbyte.Paranoia.UI.Commands;
-using CsQuery;
 using NLog;
 
 #endregion
 
 namespace Crystalbyte.Paranoia {
-    [DebuggerDisplay("Subject = {Subject}, Address = {FromAddress}")]
-    public class MailMessageContext : SelectionObject, IMailMessage {
+    [DebuggerDisplay("Id = {Id}, Subject = {Subject}")]
+    public class MailMessageContext : SelectionObject, IMailMessage, IAuthenticatable, IBlockable {
+
         #region Private Fields
 
-        private int _load;
-        private long _bytesReceived;
         private double _progress;
-        private bool _isExternalContentAllowed;
         private bool _hasExternals;
-        private MailContactContext _from;
-        private MailMessage _message;
+        private bool _isDownloading;
+        private bool _isExternalContentAllowed;
+        private Authenticity _authenticity;
 
+        private readonly MailMessage _message;
         private readonly MailboxContext _mailbox;
-        private readonly ObservableCollection<MailContactContext> _to;
-        private readonly ObservableCollection<MailContactContext> _cc;
-        private readonly ObservableCollection<AttachmentContext> _attachments;
-        private readonly ICommand _allowExternalContentCommand;
-        private readonly ICommand _classifyContactCommand;
-        private bool _isInitialized;
-        private bool _isFishy;
+        private readonly MailAddressContext _from;
+        private readonly Collection<MailAddressContext> _to;
+        private readonly Collection<MailAddressContext> _cc;
+        private readonly ObservableCollection<MailAttachmentContext> _attachments;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -75,30 +67,38 @@ namespace Crystalbyte.Paranoia {
 
         internal MailMessageContext(MailboxContext mailbox, MailMessage message) {
             _mailbox = mailbox;
+            _attachments = new ObservableCollection<MailAttachmentContext>();
+
             _message = message;
-            _cc = new ObservableCollection<MailContactContext>();
-            _to = new ObservableCollection<MailContactContext>();
-            _attachments = new ObservableCollection<AttachmentContext>();
-            _allowExternalContentCommand = new RelayCommand(OnAllowExternal);
-            _classifyContactCommand = new RelayCommand(OnClassifyContact);
+
+            var from = message.Addresses.FirstOrDefault(x => x.Role == AddressRole.From);
+            if (from != null) {
+                _from = new MailAddressContext(from);
+            }
+
+            var cc = message.Addresses.Where(x => x.Role == AddressRole.Cc);
+            _cc = new Collection<MailAddressContext>(cc.Select(x => new MailAddressContext(x)).ToArray());
+
+            var to = message.Addresses.Where(x => x.Role == AddressRole.To);
+            _to = new Collection<MailAddressContext>(to.Select(x => new MailAddressContext(x)).ToArray());
         }
 
         #endregion
 
         #region Events
 
-        public event EventHandler Initialized;
+        public event EventHandler IsExternalContentAllowedChanged;
 
-        protected virtual void OnInitialized() {
-            var handler = Initialized;
+        protected virtual void OnIsExternalContentAllowedChanged() {
+            var handler = IsExternalContentAllowedChanged;
             if (handler != null)
                 handler(this, EventArgs.Empty);
         }
 
-        public event EventHandler AllowExternalContentChanged;
+        public event EventHandler AuthenticityChanged;
 
-        protected virtual void OnAllowExternalContentChanged() {
-            var handler = AllowExternalContentChanged;
+        protected virtual void OnAuthenticityChanged() {
+            var handler = AuthenticityChanged;
             if (handler != null)
                 handler(this, EventArgs.Empty);
         }
@@ -113,23 +113,35 @@ namespace Crystalbyte.Paranoia {
 
         #endregion
 
+        #region ReadOnly Properties
+
+        public Int64 Size {
+            get { return _message.Id; }
+        }
+
+        public string Subject {
+            get { return _message.Subject; }
+        }
+
+        public DateTime Date {
+            get { return _message.Date; }
+        }
+
+        public long Id {
+            get { return _message.Id; }
+        }
+
+        public bool HasAttachments {
+            get { return _message.Attachments.Count > 0; }
+        }
+
+        public long Uid {
+            get { return _message.Uid; }
+        }
+
+        #endregion
+
         #region Properties
-
-        public bool IsFishy {
-            get { return _isFishy; }
-            set {
-                if (_isFishy == value) {
-                    return;
-                }
-
-                _isFishy = value;
-                RaisePropertyChanged(() => IsFishy);
-            }
-        }
-
-        public bool HasExternalsAndSourceIsNotTrusted {
-            get { return HasExternals && !IsExternalContentAllowed; }
-        }
 
         public bool HasExternals {
             get { return _hasExternals; }
@@ -139,47 +151,18 @@ namespace Crystalbyte.Paranoia {
                 }
                 _hasExternals = value;
                 RaisePropertyChanged(() => HasExternals);
-                RaisePropertyChanged(() => HasExternalsAndSourceIsNotTrusted);
             }
         }
 
-        public bool IsInitialized {
-            get { return _isInitialized; }
-            set {
-                if (_isInitialized == value)
-                    return;
-
-                _isInitialized = value;
-                RaisePropertyChanged(() => IsInitialized);
-            }
-        }
-
-        public bool IsExternalContentAllowed {
-            get { return _isExternalContentAllowed; }
-            set {
-                if (_isExternalContentAllowed == value) {
-                    return;
-                }
-                _isExternalContentAllowed = value;
-                RaisePropertyChanged(() => IsExternalContentAllowed);
-                RaisePropertyChanged(() => HasExternalsAndSourceIsNotTrusted);
-                OnAllowExternalContentChanged();
-            }
-        }
-
-        public IEnumerable<MailContactContext> Cc {
+        public IReadOnlyCollection<MailAddressContext> Cc {
             get { return _cc; }
         }
 
-        public IEnumerable<MailContactContext> To {
+        public IReadOnlyCollection<MailAddressContext> To {
             get { return _to; }
         }
 
-        public IEnumerable<MailContactContext> SecondaryTo {
-            get { return _to.Skip(1); }
-        }
-
-        public IEnumerable<AttachmentContext> Attachments {
+        public IReadOnlyCollection<MailAttachmentContext> Attachments {
             get { return _attachments; }
         }
 
@@ -187,48 +170,8 @@ namespace Crystalbyte.Paranoia {
             get { return _to.Count > 1; }
         }
 
-        public bool HasAttachments {
-            get { return _message.HasAttachments; }
-        }
-
-        public long Id {
-            get { return _message.Id; }
-        }
-
-        public long Uid {
-            get { return _message.Uid; }
-        }
-
-        public long Size {
-            get { return _message.Size; }
-        }
-
-        public string Subject {
-            get { return _message.Subject; }
-        }
-
-        public DateTime EntryDate {
-            get { return _message.EntryDate; }
-        }
-
         public bool HasCarbonCopies {
             get { return _cc.Count > 0; }
-        }
-
-        public string FromName {
-            get { return _message.FromName; }
-        }
-
-        public string FromAddress {
-            get { return _message.FromAddress; }
-        }
-
-        public ICommand AllowExternalContentCommand {
-            get { return _allowExternalContentCommand; }
-        }
-
-        public ICommand ClassifyContactCommand {
-            get { return _classifyContactCommand; }
         }
 
         public MailboxContext Mailbox {
@@ -250,12 +193,24 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 if (value) {
-                    _message.Flags.Add(new MessageFlag { Value = MailMessageFlags.Flagged });
+                    _message.Flags.Add(new MailMessageFlag { Value = MailMessageFlags.Flagged });
                 } else {
                     _message.Flags.RemoveAll(x => x.Value.EqualsIgnoreCase(MailMessageFlags.Flagged));
                 }
 
                 RaisePropertyChanged(() => IsFlagged);
+            }
+        }
+
+        public bool IsDownloading {
+            get { return _isDownloading; }
+            set {
+                if (_isDownloading == value) {
+                    return;
+                }
+
+                _isDownloading = value;
+                RaisePropertyChanged(() => IsDownloading);
             }
         }
 
@@ -270,7 +225,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 if (value) {
-                    _message.Flags.Add(new MessageFlag { Value = MailMessageFlags.Seen });
+                    _message.Flags.Add(new MailMessageFlag { Value = MailMessageFlags.Seen });
                 } else {
                     _message.Flags.RemoveAll(x => x.Value.EqualsIgnoreCase(MailMessageFlags.Seen));
                 }
@@ -290,7 +245,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 if (value) {
-                    _message.Flags.Add(new MessageFlag { Value = MailMessageFlags.Answered });
+                    _message.Flags.Add(new MailMessageFlag { Value = MailMessageFlags.Answered });
                 } else {
                     _message.Flags.RemoveAll(x => x.Value.EqualsIgnoreCase(MailMessageFlags.Answered));
                 }
@@ -299,71 +254,48 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        #endregion
-
-        private void OnClassifyContact(object obj) {
-            var cc = (ContactClassification)obj;
-
-            if (cc == ContactClassification.Genuine
-                || cc == ContactClassification.Spam) {
-                IsFishy = false;
-            }
-
-            throw new NotImplementedException();
-        }
-
-        public bool IsNotSeen {
+        public bool IsUnseen {
             get { return !IsSeen; }
         }
 
-        public bool IsNotFlagged {
+        public bool IsUnflagged {
             get { return !IsFlagged; }
         }
 
-        public bool IsLoading {
-            get { return _load > 0; }
-        }
-
-        public bool IsNotLoading {
-            get { return _load == 0; }
-        }
-
-        public MailContactContext From {
+        public MailAddressContext From {
             get { return _from; }
-            set {
-                if (_from == value)
-                    return;
-
-                _from = value;
-                RaisePropertyChanged(() => From);
-            }
         }
 
-        public MailContactContext PrimaryTo {
-            get { return _to.FirstOrDefault(); }
-        }
+        #endregion
 
-        private void IncrementLoad() {
-            _load++;
-            RaisePropertyChanged(() => IsLoading);
-            RaisePropertyChanged(() => IsNotLoading);
-        }
+        #region Methods
 
-        private void DecrementLoad() {
-            _load--;
-            RaisePropertyChanged(() => IsLoading);
-            RaisePropertyChanged(() => IsNotLoading);
-        }
+        private async Task SetAuthenticityAsync(Authenticity authenticity) {
+            Logger.Enter();
 
-        public long BytesReceived {
-            get { return _bytesReceived; }
-            set {
-                if (_bytesReceived == value) {
-                    return;
-                }
-                _bytesReceived = value;
-                RaisePropertyChanged(() => BytesReceived);
-                RaisePropertyChanged(() => Size);
+            Application.Current.AssertUIThread();
+
+            var state = Authenticity;
+            try {
+                Authenticity = authenticity;
+
+                await Task.Run(async () => {
+                    using (var context = new DatabaseContext()) {
+                        var contact = await context.MailContacts.FirstOrDefaultAsync(x => x.Address == From.Address);
+                        if (contact == null) {
+                            throw new MissingContactException();
+                        }
+
+                        contact.Authenticity = authenticity;
+                        await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
+                    }
+                });
+
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+                Authenticity = state;
+            } finally {
+                Logger.Exit();
             }
         }
 
@@ -395,7 +327,6 @@ namespace Crystalbyte.Paranoia {
 
         private void OnByteCountChanged(object sender, Mail.ProgressChangedEventArgs e) {
             try {
-                BytesReceived = e.ByteCount;
                 var percentage = (Convert.ToDouble(e.ByteCount) / Convert.ToDouble(Size)) * 100;
 
                 // Total bytes and the actual size may differ due to encoding and compression.
@@ -421,257 +352,230 @@ namespace Crystalbyte.Paranoia {
         }
 
         /// <summary>
+        /// Loads detailed information for the message.
+        /// This method is invoked after a message is being selected to limit database calls.
+        /// </summary>
+        /// <returns>The state task.</returns>
+        public async Task DetailAsync() {
+            Logger.Enter();
+
+            Application.Current.AssertUIThread();
+
+            try {
+                var getIsExternalContentAllowed = GetIsExternalContentAllowedAsync();
+                var getAuthenticity = GetAuthenticityAsync();
+
+                IsExternalContentAllowed = await getIsExternalContentAllowed;
+                Authenticity = await getAuthenticity;
+
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            } finally {
+                Logger.Exit();
+            }
+        }
+
+        /// <summary>
         ///     Downloads the message mime structure from the server.
         /// </summary>
         /// <returns>The mime structure as a byte array.</returns>
         internal async Task<byte[]> FetchAndDecryptAsync() {
+            Logger.Enter();
+
             Application.Current.AssertBackgroundThread();
 
             try {
-                IncrementLoad();
+                IsDownloading = true;
 
                 var mime = await FetchMimeAsync();
-
                 var encryption = new EllipticCurveMimeEncryption();
                 mime = encryption.Decrypt(mime);
-
                 await StoreContentAsync(mime);
 
                 return mime;
             } finally {
-                DecrementLoad();
+                Logger.Exit();
+                IsDownloading = false;
             }
         }
 
         private async Task StoreContentAsync(byte[] mime) {
+            Logger.Enter();
+
             Application.Current.AssertBackgroundThread();
 
-            using (var context = new DatabaseContext()) {
-                await context.ConnectAsync();
-                await context.EnableForeignKeysAsync();
+            try {
+                using (var context = new DatabaseContext()) {
+                    await context.OpenAsync();
+                    await context.EnableForeignKeysAsync();
 
-                using (var transaction = context.Database.Connection.BeginTransaction()) {
-                    try {
-                        _message = context.MailMessages.Find(_message.Id);
+                    var address = From.Address;
+                    var from = await context.MailContacts.FirstAsync(x => x.Address == address);
 
-                        var reader = new MailMessageReader(mime);
-                        _message.HasAttachments = reader.FindAllAttachments().Count > 0;
-
-                        var data = new MailData {
-                            Mime = mime
-                        };
-
-                        _message.Data.Add(data);
-
-                        var name = FromName;
-                        var address = FromAddress;
-                        var from = context.MailContacts
-                            .FirstOrDefault(x => x.Address == address);
-
-                        if (from == null) {
-                            from = new MailContact {
-                                Name = name,
-                                Address = address
+                    using (var transaction = context.Database.Connection.BeginTransaction()) {
+                        try {
+                            var reader = new MailMessageReader(mime);
+                            var message = new MailMessage {
+                                Id = _message.Id,
+                                Mime = mime
                             };
 
-                            context.MailContacts.Add(from);
-                        }
-
-                        var xHeaders = reader.Headers.UnknownHeaders;
-                        var values = xHeaders.GetValues(MessageHeaders.Signet);
-                        if (values != null) {
-                            var value = values.FirstOrDefault();
-                            if (value != null) {
-                                var dic = value.ToKeyValuePairs();
-                                try {
-                                    var pKey = Convert.FromBase64String(dic["pkey"]);
-                                    var k = from.Keys.FirstOrDefault(x => x.Data == pKey);
-                                    if (k == null) {
-                                        from.Keys.Add(new PublicKey {
-                                            Data = pKey
-                                        });
+                            var xHeaders = reader.Headers.UnknownHeaders;
+                            var values = xHeaders.GetValues(MessageHeaders.Signet);
+                            if (values != null) {
+                                var value = values.FirstOrDefault();
+                                if (value != null) {
+                                    var dic = value.ToKeyValuePairs();
+                                    try {
+                                        var pKey = Convert.FromBase64String(dic["pkey"]);
+                                        var k = from.Keys.FirstOrDefault(x => x.Bytes == pKey);
+                                        if (k == null) {
+                                            from.Keys.Add(new PublicKey {
+                                                Bytes = pKey
+                                            });
+                                        }
+                                    } catch (Exception ex) {
+                                        Logger.Error(ex);
                                     }
-                                } catch (Exception ex) {
-                                    Logger.Error(ex);
                                 }
                             }
-                        }
 
-                        foreach (var value in reader.Headers.To) {
-                            var v = value;
-                            var contact = context.MailContacts
-                                .FirstOrDefault(x => x.Address == v.Address);
-
-                            if (contact == null) {
-                                contact = new MailContact {
-                                    Name = v.DisplayName,
-                                    Address = v.Address
-                                };
-
-                                context.MailContacts.Add(contact);
-                            }
-                            _to.Add(new MailContactContext(contact));
-                        }
-
-                        foreach (var value in reader.Headers.Cc) {
-                            var v = value;
-                            var contact = context.MailContacts
-                                .FirstOrDefault(x => x.Address == v.Address);
-
-                            if (contact == null) {
-                                contact = new MailContact {
-                                    Name = v.DisplayName,
-                                    Address = v.Address
-                                };
-
-                                context.MailContacts.Add(contact);
-                            }
-                            _cc.Add(new MailContactContext(contact));
-                        }
-
-                        await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
-
-                        var text = new SQLiteParameter("@text");
-                        var id = new SQLiteParameter("@message_id", _message.Id);
-                        var part = reader.FindFirstPlainTextVersion();
-                        if (part != null) {
-                            text.Value = part.GetBodyAsText();
-                        } else {
-                            part = reader.FindFirstHtmlVersion();
+                            var textParam = new SQLiteParameter("@text");
+                            var idParam = new SQLiteParameter("@message_id", message.Id);
+                            var part = reader.FindFirstPlainTextVersion();
                             if (part != null) {
-                                var document = new CQ(part.GetBodyAsText());
-                                document.Remove("style");
-                                document.Remove("script");
-                                text.Value = document.Text().Trim();
+                                textParam.Value = part.GetBodyAsText();
+                            } else {
+                                part = reader.FindFirstHtmlVersion();
+                                if (part != null) {
+                                    var document = new CsQuery.CQ(part.GetBodyAsText());
+                                    document.Remove("style");
+                                    document.Remove("script");
+                                    textParam.Value = document.Text().Trim();
+                                }
                             }
+
+                            // TODO: Try and generate SQL statement from entity attributes for type safety.
+                            const string command = "INSERT INTO mail_content(text, message_id) VALUES(@text, @message_id);";
+                            context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, command, textParam, idParam);
+
+                            await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
+                            transaction.Commit();
+                        } catch (Exception ex) {
+                            transaction.Rollback();
+                            Logger.Error(ex);
+                            throw;
                         }
-
-                        // TODO: Try and generate SQL statement from entity attributes.
-                        const string command = "INSERT INTO mail_content(text, message_id) VALUES(@text, @message_id);";
-                        context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, command, text, id);
-                        transaction.Commit();
-
-                    } catch (Exception ex) {
-                        transaction.Rollback();
-                        Logger.Error(ex);
-                        throw;
                     }
                 }
+            } finally {
+                Logger.Exit();
             }
         }
 
         internal Task<bool> GetIsMimeStoredAsync() {
-            return Task.Run(() => {
-                using (var database = new DatabaseContext()) {
-                    return database.MailData.AnyAsync(x => x.MessageId == Id);
-                }
-            });
-        }
+            Logger.Enter();
 
-        internal async Task AllowExternalContentAsync() {
-            using (var database = new DatabaseContext()) {
-                var contact = await database.MailContacts
-                    .FirstAsync(x => x.Address == FromAddress);
-
-                contact.IsExternalContentAllowed = true;
-                await database.SaveChangesAsync();
-
-                await Application.Current.Dispatcher
-                    .InvokeAsync(() => { IsExternalContentAllowed = true; });
+            try {
+                var id = _message.Id;
+                return Task.Run(() => {
+                    using (var database = new DatabaseContext()) {
+                        return database.MailMessages.Where(x => x.Id == id).Select(x => x.Mime != null).FirstAsync();
+                    }
+                });
+            } finally {
+                Logger.Exit();
             }
         }
 
-        private async void OnAllowExternal(object obj) {
-            await Task.Run(async () => { await AllowExternalContentAsync(); });
-            await App.Context.ViewMessageAsync(this);
-        }
+        private Task<Authenticity> GetAuthenticityAsync() {
+            Logger.Enter();
 
-        /// <summary>
-        ///     Loads all message details from the database.
-        /// </summary>
-        /// <returns>An awaitable.</returns>
-        public async Task InitDetailsAsync() {
             Application.Current.AssertUIThread();
 
-            Logger.Info("BEGIN InitDetailsAsync");
-
-            if (IsInitialized) {
-                Logger.Warn("Method InitDetailsAsync() called while already loaded ...");
+            try {
+                var address = From.Address;
+                return Task.Run(() => {
+                    using (var context = new DatabaseContext()) {
+                        return
+                            context.MailContacts
+                                .Where(x => x.Address == address)
+                                .Select(x => x.Authenticity)
+                                .FirstOrDefaultAsync();
+                    }
+                });
+            } finally {
+                Logger.Exit();
             }
-
-            var address = FromAddress;
-            await Task.Run(async () => {
-                using (var context = new DatabaseContext()) {
-                    var content = await context.MailData.FirstOrDefaultAsync(x => x.MessageId == _message.Id);
-                    var reader = new MailMessageReader(content.Mime);
-
-                    var from = await context.MailContacts
-                        .FirstOrDefaultAsync(x => x.Address == address);
-                    await Application.Current.Dispatcher.InvokeAsync(() => {
-                        From = new MailContactContext(from);
-                        IsExternalContentAllowed = from.IsExternalContentAllowed;
-                    });
-
-                    var part = reader.FindFirstHtmlVersion();
-                    if (part == null) {
-                        return;
-                    }
-
-                    var text = part.GetBodyAsText();
-                    const string pattern = "(href|src)\\s*=\\s*(\"|&quot;)http.+?(\"|&quot;)";
-                    var externals = Regex.IsMatch(text, pattern,
-                        RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                    await Application.Current.Dispatcher.InvokeAsync(() => { HasExternals = externals; });
-
-                    if (from.Classification == ContactClassification.Default) {
-                        var analyzer = new SimpleSpamDetector(text);
-                        var isfishy = await analyzer.GetIsSpamAsync();
-                        await Application.Current.Dispatcher.InvokeAsync(
-                            () => { IsFishy = isfishy; });
-                    }
-
-                    var to = new List<MailContactContext>();
-                    foreach (var value in reader.Headers.To) {
-                        var v = value;
-                        var contact = await context.MailContacts
-                            .FirstOrDefaultAsync(x => x.Address == v.Address);
-
-                        to.Add(new MailContactContext(contact));
-                    }
-
-                    await Application.Current.Dispatcher.InvokeAsync(() => _to.AddRange(to));
-
-                    var cc = new List<MailContactContext>();
-                    foreach (var value in reader.Headers.Cc) {
-                        var v = value;
-                        var contact = await context.MailContacts
-                            .FirstOrDefaultAsync(x => x.Address == v.Address);
-
-                        cc.Add(new MailContactContext(contact));
-                    }
-
-                    await Application.Current.Dispatcher.InvokeAsync(() => cc.AddRange(to));
-
-                    var attachments = reader.FindAllAttachments()
-                        .Select(attachment => new AttachmentContext(attachment)).ToList();
-
-                    await Application.Current.Dispatcher.InvokeAsync(
-                            () => _attachments.AddRange(attachments));
-
-                    await Application.Current.Dispatcher.InvokeAsync(() => {
-                        RaisePropertyChanged(() => PrimaryTo);
-                        RaisePropertyChanged(() => SecondaryTo);
-                        RaisePropertyChanged(() => HasAttachments);
-                        RaisePropertyChanged(() => HasCarbonCopies);
-                        RaisePropertyChanged(() => HasMultipleRecipients);
-
-                        IsInitialized = true;
-                        OnInitialized();
-                    });
-                }
-
-                Logger.Info("END InitDetailsAsync");
-            });
         }
+
+        private Task<bool> GetIsExternalContentAllowedAsync() {
+            Logger.Enter();
+
+            Application.Current.AssertBackgroundThread();
+
+            try {
+                var id = _message.Id;
+                return Task.Run(() => {
+                    using (var context = new DatabaseContext()) {
+                        return context.MailContacts
+                            .Where(x => x.Id == id)
+                            .Select(x => x.IsExternalContentAllowed)
+                            .FirstAsync();
+                    }
+                });
+            } finally {
+                Logger.Exit();
+            }
+        }
+
+        #endregion
+
+        #region Implementation of IBlockable
+
+        public bool IsExternalContentAllowed {
+            get { return _isExternalContentAllowed; }
+            set {
+                if (_isExternalContentAllowed == value) {
+                    return;
+                }
+                _isExternalContentAllowed = value;
+                RaisePropertyChanged(() => IsExternalContentAllowed);
+            }
+        }
+
+        public Task BlockAsync() {
+            throw new NotImplementedException();
+        }
+
+        public Task UnblockAsync() {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Implementation of IAuthenticatable
+
+        public Authenticity Authenticity {
+            get { return _authenticity; }
+            set {
+                if (_authenticity == value) {
+                    return;
+                }
+                _authenticity = value;
+                RaisePropertyChanged(() => Authenticity);
+                OnAuthenticityChanged();
+            }
+        }
+
+        public Task ConfirmAsync() {
+            return SetAuthenticityAsync(Authenticity.Confirmed);
+        }
+
+        public Task RejectAsync() {
+            return SetAuthenticityAsync(Authenticity.Rejected);
+        }
+
+        #endregion
     }
 }

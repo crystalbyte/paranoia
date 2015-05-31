@@ -214,7 +214,8 @@ namespace Crystalbyte.Paranoia.UI {
         private void ShowFlyout() {
             IsFlyoutVisible = true;
             FlyoutOverlay.Visibility = Visibility.Visible;
-            _slideInOverlayStoryboard.Begin();
+
+            _slideInOverlayStoryboard.Begin(FlyoutOverlay, true);
         }
 
         private void CloseFlyout() {
@@ -225,7 +226,7 @@ namespace Crystalbyte.Paranoia.UI {
                 FlyoutFrame.NavigationService.RemoveBackEntry();
             }
 
-            _slideOutOverlayStoryboard.Begin();
+            _slideOutOverlayStoryboard.Begin(FlyoutOverlay, true);
         }
 
         #endregion

@@ -39,13 +39,13 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public string FromAddress {
-            get { return _message.FromAddress; }
-        }
+        //public string FromAddress {
+        //    get { return _message.FromAddress; }
+        //}
 
-        public string FromName {
-            get { return _message.FromName; }
-        }
+        //public string FromName {
+        //    get { return _message.FromName; }
+        //}
 
         public string Subject {
             get { return _message.Subject; }

@@ -43,9 +43,17 @@ namespace Crystalbyte.Paranoia.Mail {
             get { return Fullname.Split(Delimiter).Last(); }
         }
 
-        public string Fullname { get; internal set; }
-        public char Delimiter { get; internal set; }
-        public IEnumerable<string> Flags { get; set; }
+        public string Fullname {
+            get; internal set;
+        }
+
+        public char Delimiter {
+            get; internal set;
+        }
+
+        public IEnumerable<string> Flags {
+            get; set;
+        }
 
         public bool HasNoChildren {
             get { return Flags.Any(x => x.ContainsIgnoreCase(@"\hasnochildren")); }

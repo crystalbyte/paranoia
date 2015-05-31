@@ -25,43 +25,30 @@
 #region Using Directives
 
 using System;
-using System.Linq;
+using System.Windows;
 using System.Windows.Input;
-using NLog;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.UI.Commands {
-    public sealed class MarkAsFlaggedCommand : ICommand {
-        #region Private Fields
-
+    public sealed class ForwardMessageCommand : ICommand {
         private readonly AppContext _app;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        #endregion
-
-        #region Construction
-
-        public MarkAsFlaggedCommand(AppContext app) {
+        public ForwardMessageCommand(AppContext app) {
             _app = app;
-            _app.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
+            _app.MessageSelectionChanged += OnMessageSelectionChanged;
         }
 
-        #endregion
+        private void OnMessageSelectionChanged(object sender, EventArgs e) {
+            OnCanExecuteChanged();
+        }
 
         public bool CanExecute(object parameter) {
-            return _app.SelectedMessage != null
-                   && _app.SelectedMessages.Any(x => !x.IsFlagged);
+            return _app.SelectedMessage != null;
         }
 
-        public async void Execute(object parameter) {
-            try {
-                var selection = _app.SelectedMessages.ToArray();
-                await _app.FlagMessagesAsync(selection);
-                OnCanExecuteChanged();
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
+        public void Execute(object parameter) {
+            MessageBox.Show("Not yet implemented.");
         }
 
         public event EventHandler CanExecuteChanged;

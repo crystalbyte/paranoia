@@ -22,10 +22,6 @@
 
 #endregion
 
-namespace Crystalbyte.Paranoia {
-    public enum ContactClassification {
-        Default = 0,
-        Genuine,
-        Spam
-    }
+namespace Crystalbyte.Paranoia.UI.Commands {
+    internal class MoveMessagesCommand {}
 }

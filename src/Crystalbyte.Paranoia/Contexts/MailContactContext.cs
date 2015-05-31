@@ -32,12 +32,11 @@ using Crystalbyte.Paranoia.Data;
 
 namespace Crystalbyte.Paranoia {
     public sealed class MailContactContext : SelectionObject {
+
         #region Private Fields
 
         private bool _hasKeys;
         private bool _isVerified;
-        private int _notSeenCount;
-        private int _messageCount;
         private readonly MailContact _contact;
 
         #endregion
@@ -48,10 +47,6 @@ namespace Crystalbyte.Paranoia {
             }
 
             _contact = contact;
-        }
-
-        public bool HasUnseenMessages {
-            get { return NotSeenCount > 0; }
         }
 
         public long Id {
@@ -70,15 +65,15 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public ContactClassification Classification {
-            get { return _contact.Classification; }
+        public Authenticity Authenticity {
+            get { return _contact.Authenticity; }
             set {
-                if (_contact.Classification == value) {
+                if (_contact.Authenticity == value) {
                     return;
                 }
 
-                _contact.Classification = value;
-                RaisePropertyChanged(() => Classification);
+                _contact.Authenticity = value;
+                RaisePropertyChanged(() => Authenticity);
             }
         }
 
@@ -92,31 +87,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public int NotSeenCount {
-            get { return _notSeenCount; }
-            set {
-                if (_notSeenCount == value) {
-                    return;
-                }
-
-                _notSeenCount = value;
-                RaisePropertyChanged(() => NotSeenCount);
-                RaisePropertyChanged(() => HasUnseenMessages);
-            }
-        }
-
-        public int MessageCount {
-            get { return _messageCount; }
-            set {
-                if (_messageCount == value) {
-                    return;
-                }
-                _messageCount = value;
-                RaisePropertyChanged(() => MessageCount);
-            }
-        }
-
-        public char Letter {
+        public char Initial {
             get {
                 var isEmpty = string.IsNullOrWhiteSpace(Name)
                               || string.Compare(Name, "nil", StringComparison.InvariantCultureIgnoreCase) == 0;

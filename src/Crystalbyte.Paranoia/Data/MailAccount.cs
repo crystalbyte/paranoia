@@ -26,7 +26,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Crystalbyte.Paranoia.Mail;
@@ -36,16 +35,13 @@ using Crystalbyte.Paranoia.Mail;
 namespace Crystalbyte.Paranoia.Data {
     [Table("mail_account")]
     internal class MailAccount {
-        private ICollection<Mailbox> _mailboxes;
-        private ICollection<MailComposition> _compositions;
+        private List<Mailbox> _mailboxes;
 
         public MailAccount() {
-            _mailboxes = new Collection<Mailbox>();
-            _compositions = new Collection<MailComposition>();
+            _mailboxes = new List<Mailbox>();
         }
 
         [Key]
-        [Index]
         [Column("id")]
         public Int64 Id { get; set; }
 
@@ -112,20 +108,9 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("junk_mailbox_name")]
         public string JunkMailboxName { get; set; }
 
-        [Column("is_partial_load_enabled")]
-        public bool IsPartialLoadEnabled { get; set; }
-
-        [Column("set_as_default_time")]
-        public DateTime SetAsDefaultTime { get; set; }
-
-        public virtual ICollection<Mailbox> Mailboxes {
+        public virtual List<Mailbox> Mailboxes {
             get { return _mailboxes; }
             set { _mailboxes = value; }
-        }
-
-        public virtual ICollection<MailComposition> Compositions {
-            get { return _compositions; }
-            set { _compositions = value; }
         }
     }
 }

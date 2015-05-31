@@ -217,11 +217,15 @@
     <Compile Include="Contexts\FileAttachmentContext.cs" />
     <Compile Include="Contexts\HtmlEditorCommandContext.cs" />
     <Compile Include="Contexts\InsertLinkContext.cs" />
+    <Compile Include="Contexts\MailAddressContext.cs" />
     <Compile Include="Contexts\MailNavigationContext.cs" />
+    <Compile Include="Data\AddressRole.cs" />
     <Compile Include="Data\DbDataReaderExtension.cs" />
-    <Compile Include="Data\MailContent.cs" />
-    <Compile Include="Data\MailData.cs" />
-    <Compile Include="Data\MessageFlag.cs" />
+    <Compile Include="Data\MailAttachment.cs" />
+    <Compile Include="Data\MailboxFlag.cs" />
+    <Compile Include="Data\MailMessageContent.cs" />
+    <Compile Include="Data\MailAddress.cs" />
+    <Compile Include="Data\MailMessageFlag.cs" />
     <Compile Include="Data\SQLite\OptimisticConcurrencyStrategy.cs" />
     <Compile Include="Data\SQLite\DbContextExtensions.cs" />
     <Compile Include="Data\SQLite\DefaultAttribute.cs" />
@@ -231,11 +235,13 @@
     <Compile Include="EllipticCurveEncryption.cs" />
     <Compile Include="EmlSchemeHandler.cs" />
     <Compile Include="FileSchemeHandler.cs" />
+    <Compile Include="IAuthenticatable.cs" />
+    <Compile Include="IBlockable.cs" />
     <Compile Include="IDecryptor.cs" />
     <Compile Include="IMailMessage.cs" />
     <Compile Include="LoggerExtensions.cs" />
     <Compile Include="MailMessageExtension.cs" />
-    <Compile Include="ContactClassification.cs" />
+    <Compile Include="Data\Authenticity.cs" />
     <Compile Include="MailMessageReaderExtension.cs" />
     <Compile Include="MessageHeaders.cs" />
     <Compile Include="MissingContactException.cs" />
@@ -245,6 +251,8 @@
     <Compile Include="SimpleSpamDetector.cs" />
     <Compile Include="TextRange.cs" />
     <Compile Include="ScriptingException.cs" />
+    <Compile Include="UI\Converters\CollectionIndexer.cs" />
+    <Compile Include="UI\Converters\ConverterSequence.cs" />
     <Compile Include="UI\SpamNoticeControl.xaml.cs">
       <DependentUpon>SpamNoticeControl.xaml</DependentUpon>
     </Compile>
@@ -292,7 +300,7 @@
     <Compile Include="UI\CompositionWindow.xaml.cs">
       <DependentUpon>CompositionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Contexts\AttachmentContext.cs" />
+    <Compile Include="Contexts\MailAttachmentContext.cs" />
     <Compile Include="Contexts\CreateMailboxContext.cs" />
     <Compile Include="Contexts\FileMessageContext.cs" />
     <Compile Include="IMailboxCreator.cs" />
@@ -311,27 +319,20 @@
     <Compile Include="UI\BlockNoticeControl.xaml.cs">
       <DependentUpon>BlockNoticeControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Commands\MarkAsFlaggedCommand.cs" />
-    <Compile Include="UI\Commands\MarkAsNotFlaggedCommand.cs" />
-    <Compile Include="UI\Commands\UnblockContactsCommand.cs" />
-    <Compile Include="UI\Commands\BlockContactsCommand.cs" />
+    <Compile Include="UI\Commands\FlagMessagesCommand.cs" />
+    <Compile Include="UI\Commands\UnflagMessagesCommand.cs" />
     <Compile Include="Contexts\CreateContactContext.cs" />
     <Compile Include="Contexts\HierarchyContext.cs" />
     <Compile Include="Contexts\NavigationContext.cs" />
-    <Compile Include="Contexts\NotificationWindowContext.cs" />
-    <Compile Include="Contexts\OutboxContext.cs" />
     <Compile Include="MessageQuery.cs" />
-    <Compile Include="Contexts\CompositionContext.cs" />
     <Compile Include="Contexts\TestingContext.cs" />
     <Compile Include="Data\PublicKey.cs" />
     <Compile Include="DeferredObservableCollection.cs" />
     <Compile Include="Contexts\MailboxContext.cs" />
-    <Compile Include="Contexts\MailCompositionContext.cs" />
     <Compile Include="Contexts\MailContactContext.cs" />
     <Compile Include="Contexts\AppContext.cs" />
     <Compile Include="Contexts\MailMessageContext.cs" />
     <Compile Include="Contexts\MailAccountContext.cs" />
-    <Compile Include="Data\MailComposition.cs" />
     <Compile Include="ImapEnvelopeExtensions.cs" />
     <Compile Include="IMessageSource.cs" />
     <Compile Include="ParanoiaHeaderKeys.cs" />
@@ -342,13 +343,12 @@
     <Compile Include="RevisionTracker.cs" />
     <Compile Include="SecurityMeasure.cs" />
     <Compile Include="UI\Commands\DeleteContactsCommand.cs" />
-    <Compile Include="UI\Commands\MarkAsNotSeenCommand.cs" />
-    <Compile Include="UI\Commands\MarkAsSeenCommand.cs" />
-    <Compile Include="UI\Commands\OpenAttachmentCommand.cs" />
+    <Compile Include="UI\Commands\MarkMessagesAsUnseenCommand.cs" />
+    <Compile Include="UI\Commands\MarkMessagesAsSeenCommand.cs" />
     <Compile Include="UI\Commands\RestoreMessagesCommand.cs" />
     <Compile Include="UI\Converters\BooleanToVisibilityMultiConverter.cs" />
     <Compile Include="UI\Converters\IconFinder.cs" />
-    <Compile Include="UI\Converters\MailContactFormatter.cs" />
+    <Compile Include="UI\Converters\MailAddressFormatter.cs" />
     <Compile Include="UI\Converters\PercentageFormatter.cs" />
     <Compile Include="UI\Converters\SecurityProtocolFormatter.cs" />
     <Compile Include="UI\Converters\NullOrEmptyFormatter.cs" />
@@ -473,8 +473,8 @@
     </Compile>
     <Compile Include="UI\Commands\DeleteMessagesCommand.cs" />
     <Compile Include="UI\Commands\FocusSearchBoxCommand.cs" />
-    <Compile Include="UI\Commands\ForwardCommand.cs" />
-    <Compile Include="UI\Commands\MoveCommand.cs" />
+    <Compile Include="UI\Commands\ForwardMessageCommand.cs" />
+    <Compile Include="UI\Commands\MoveMessagesCommand.cs" />
     <Compile Include="UI\Converters\BooleanToBrushConverter.cs" />
     <Compile Include="UI\Converters\BooleanToOpacityConverter.cs" />
     <Compile Include="UI\Converters\BooleanToStringConverter.cs" />
@@ -638,6 +638,7 @@
     <None Include="..\key.debug.snk">
       <Link>key.debug.snk</Link>
     </None>
+    <Resource Include="Assets\contact_default.jpg" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

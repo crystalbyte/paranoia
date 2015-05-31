@@ -39,6 +39,8 @@ namespace Crystalbyte.Paranoia.UI {
     ///     Interaction logic for InspectionWindow.xaml
     /// </summary>
     public partial class InspectionWindow : IAccentAware {
+        private readonly IMailMessage _message;
+
         #region Private Fields
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -47,7 +49,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Construction
 
-        public InspectionWindow() {
+        public InspectionWindow(IMailMessage message) {
             InitializeComponent();
 
             CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
@@ -60,6 +62,8 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(MessageCommands.ReplyAll, OnReplyAll));
             CommandBindings.Add(new CommandBinding(MessageCommands.Forward, OnForward));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint));
+
+            _message = message;
         }
 
         #endregion
@@ -74,7 +78,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
 
             // Remove handler to cut the reference from the message to this window.
-            message.AllowExternalContentChanged -= OnMessageTrustChanged;
+            //message.AllowExternalContentChanged -= OnMessageTrustChanged;
         }
 
         #endregion
@@ -86,7 +90,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
             var view = (ListView) sender;
-            var attachment = (AttachmentContext) view.SelectedValue;
+            var attachment = (MailAttachmentContext) view.SelectedValue;
             if (attachment == null) {
                 return;
             }
@@ -162,13 +166,7 @@ namespace Crystalbyte.Paranoia.UI {
         public void InitWithMessage(MailMessageContext message) {
             try {
                 DataContext = message;
-                if (message.IsInitialized) {
-                    message.AllowExternalContentChanged += OnMessageTrustChanged;
-                    ViewMessage(message);
-                    return;
-                }
-
-                message.Initialized += OnMessageInitialized;
+                ViewMessage(message);
             }
             catch (Exception ex) {
                 Logger.Error(ex);
@@ -180,18 +178,11 @@ namespace Crystalbyte.Paranoia.UI {
             ViewMessage(message);
         }
 
-        private void OnMessageInitialized(object sender, EventArgs e) {
-            var message = (MailMessageContext) sender;
-            message.Initialized -= OnMessageInitialized;
-
-            message.AllowExternalContentChanged += OnMessageTrustChanged;
-            ViewMessage(message);
-        }
-
         private void ViewMessage(MailMessageContext message) {
-            HtmlViewer.Source = string.Format(message.IsExternalContentAllowed
-                ? "message:///{0}?blockExternals=false"
-                : "message:///{0}", message.Id);
+            throw new NotImplementedException();
+            //HtmlViewer.Source = string.Format(message.IsExternalContentAllowed
+            //    ? "message:///{0}?blockExternals=false"
+            //    : "message:///{0}", message.Id);
         }
 
         public void InitWithFile(FileMessageContext file) {

@@ -31,21 +31,29 @@ using System.Windows.Input;
 #endregion
 
 namespace Crystalbyte.Paranoia.UI.Commands {
-    public sealed class MarkAsSeenCommand : ICommand {
+    public sealed class UnflagMessagesCommand : ICommand {
+        #region Private Fields
+
         private readonly AppContext _context;
 
-        public MarkAsSeenCommand(AppContext context) {
+        #endregion
+
+        #region Construction
+
+        public UnflagMessagesCommand(AppContext context) {
             _context = context;
             _context.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
         }
 
+        #endregion
+
         public bool CanExecute(object parameter) {
-            return _context.SelectedMessages != null
-                   && _context.SelectedMessages.Any(x => x.IsNotSeen);
+            return _context.SelectedMessage != null
+                   && _context.SelectedMessages.Any(x => x.IsFlagged);
         }
 
         public async void Execute(object parameter) {
-            await _context.MarkSelectionAsSeenAsync();
+            await _context.MarkSelectionAsNotFlaggedAsync();
             OnCanExecuteChanged();
         }
 
@@ -53,8 +61,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         private void OnCanExecuteChanged() {
             var handler = CanExecuteChanged;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
+            if (handler != null) handler(this, EventArgs.Empty);
         }
     }
 }

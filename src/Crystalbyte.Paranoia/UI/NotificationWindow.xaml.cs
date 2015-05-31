@@ -46,7 +46,9 @@ namespace Crystalbyte.Paranoia.UI {
             _messages = messages;
 
             InitializeComponent();
-            DataContext = new NotificationWindowContext(messages);
+
+            throw new NotImplementedException();
+            //DataContext = new NotificationWindowContext(messages);
             Loaded += OnLoaded;
         }
 

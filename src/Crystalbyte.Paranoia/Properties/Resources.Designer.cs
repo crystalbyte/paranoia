@@ -1289,6 +1289,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PropertyType must not be null..
+        /// </summary>
+        public static string PropertyTypeNull {
+            get {
+                return ResourceManager.GetString("PropertyTypeNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Querying the mozilla configuration database ....
         /// </summary>
         public static string QueryingMozillaDatabase {
@@ -1303,6 +1312,15 @@ namespace Crystalbyte.Paranoia.Properties {
         public static string QueryingMxRecords {
             get {
                 return ResourceManager.GetString("QueryingMxRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Querying the database took {0} seconds..
+        /// </summary>
+        public static string QueryPerformanceTemplate {
+            get {
+                return ResourceManager.GetString("QueryPerformanceTemplate", resourceCulture);
             }
         }
         

@@ -1,4 +1,4 @@
-#region Copyright Notice & Copying Permission
+﻿#region Copyright Notice & Copying Permission
 
 // Copyright 2014 - 2015
 // 
@@ -25,41 +25,41 @@
 #region Using Directives
 
 using System;
+using System.Linq;
 using System.Windows.Input;
 using NLog;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.UI.Commands {
-    public sealed class BlockContactsCommand : ICommand {
+    public sealed class FlagMessagesCommand : ICommand {
         #region Private Fields
 
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly AppContext _app;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
         #region Construction
 
-        public BlockContactsCommand(AppContext app) {
+        public FlagMessagesCommand(AppContext app) {
             _app = app;
-            _app.ContactSelectionChanged += (sender, e) => OnCanExecuteChanged();
+            _app.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
         }
 
         #endregion
 
-        #region Implementation of ICommand
-
         public bool CanExecute(object parameter) {
-            //return _app.SelectedContact != null && _app.SelectedContacts.Any(x => !x.IsIgnored);
-            return true;
+            return _app.SelectedMessage != null
+                   && _app.SelectedMessages.Any(x => !x.IsFlagged);
         }
 
-        public void Execute(object parameter) {
+        public async void Execute(object parameter) {
             try {
-                throw new NotImplementedException();
-            }
-            catch (Exception ex) {
+                var selection = _app.SelectedMessages.ToArray();
+                await _app.FlagMessagesAsync(selection);
+                OnCanExecuteChanged();
+            } catch (Exception ex) {
                 Logger.Error(ex);
             }
         }
@@ -71,7 +71,5 @@ namespace Crystalbyte.Paranoia.UI.Commands {
             if (handler != null)
                 handler(this, EventArgs.Empty);
         }
-
-        #endregion
     }
 }

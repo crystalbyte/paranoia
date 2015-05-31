@@ -46,10 +46,11 @@
             <converters:GravatarImageConverter x:Key="GravatarImageConverter" />
             <converters:MailboxLocalizer x:Key="MailboxLocalizer" />
             <converters:NullOrEmptyFormatter x:Key="NullOrEmptyFormatter" />
-            <converters:MailContactFormatter x:Key="MailContactFormatter" />
+            <converters:MailAddressFormatter x:Key="MailAddressFormatter" />
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <converters:CollectionCounter x:Key="CollectionCounter" />
             <converters:DateFormatter x:Key="DateFormatter" />
+            <converters:CollectionIndexer x:Key="CollectionIndexer" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:QuantityToVisibilityConverter x:Key="QuantityToVisibilityConverter" />
             <converters:PercentageFormatter x:Key="PercentageFormatter" />
@@ -76,8 +77,8 @@
             <system:Double x:Key="SubtitleFontSizeKey">16</system:Double>
             <FontWeight x:Key="SubtitleFontWeightKey">Thin</FontWeight>
 
-            <DataTemplate x:Key="ThumbnailTemplate" DataType="paranoia:AttachmentContext">
-                <Border ToolTip="{Binding Name}">
+            <DataTemplate x:Key="ThumbnailTemplate" DataType="paranoia:MailAttachmentContext">
+                <Border ToolTip="{Binding Filename}">
                     <Border.ContextMenu>
                         <ContextMenu>
                             <MenuItem Command="{Binding OpenCommand}" Header="{x:Static properties:Resources.OpenFile}">

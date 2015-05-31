@@ -60,18 +60,20 @@ namespace Crystalbyte.Paranoia.UI {
         public CompositionWindow() {
             InitializeComponent();
 
-            var context = new MailCompositionContext(this);
-            context.CompositionFinalized += OnCompositionFinalized;
+            throw new NotImplementedException();
 
-            DataContext = context;
-            CommandBindings.Add(new CommandBinding(EditingCommands.InsertAttachment, OnAttachment));
-            CommandBindings.Add(new CommandBinding(EditingCommands.InsertLink, OnLink));
-            CommandBindings.Add(new CommandBinding(FlyoutCommands.Cancel, OnCancel));
-            CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
-            CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));
-            CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoreDown));
-            CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
-            CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
+            //var context = new MailCompositionContext(this);
+            //context.CompositionFinalized += OnCompositionFinalized;
+
+            //DataContext = context;
+            //CommandBindings.Add(new CommandBinding(EditingCommands.InsertAttachment, OnAttachment));
+            //CommandBindings.Add(new CommandBinding(EditingCommands.InsertLink, OnLink));
+            //CommandBindings.Add(new CommandBinding(FlyoutCommands.Cancel, OnCancel));
+            //CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
+            //CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));
+            //CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoreDown));
+            //CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
+            //CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
             HtmlEditor.ContentReady += async (sender, e) => await SignAsync();
         }
 
@@ -93,8 +95,9 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnAccountComboboxDataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
-            var context = (MailCompositionContext)DataContext;
-            AccountComboBox.SelectedValue = context.Accounts.OrderByDescending(x => x.IsDefaultTime).FirstOrDefault();
+            throw new NotImplementedException();
+            //var context = (MailCompositionContext)DataContext;
+            //AccountComboBox.SelectedValue = context.Accounts.OrderByDescending(x => x.IsDefaultTime).FirstOrDefault();
         }
 
         private async void OnRecipientsBoxItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
@@ -112,8 +115,9 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnAttachment(object sender, ExecutedRoutedEventArgs e) {
-            var context = (MailCompositionContext)DataContext;
-            context.InsertAttachments();
+            throw new NotImplementedException();
+            //var context = (MailCompositionContext)DataContext;
+            //context.InsertAttachments();
         }
 
         public void StartSendingAnimation() {
@@ -146,9 +150,11 @@ namespace Crystalbyte.Paranoia.UI {
                     ? ((MailContactContext)x).Address
                     : x as string);
 
-            var context = (MailCompositionContext)DataContext;
-            context.Addresses.Clear();
-            context.Addresses.AddRange(addresses);
+            throw new NotImplementedException();
+
+            //var context = (MailCompositionContext)DataContext;
+            //context.Addresses.Clear();
+            //context.Addresses.AddRange(addresses);
         }
 
         internal void PrepareAsNew() {
@@ -168,28 +174,30 @@ namespace Crystalbyte.Paranoia.UI {
             MailMessageReader message = null;
             var id = Int64.Parse(arguments["id"]);
 
-            await Task.Run(async () => {
-                using (var database = new DatabaseContext()) {
-                    var content = await database.MailData
-                        .Where(x => x.MessageId == id)
-                        .ToArrayAsync();
+            throw new NotImplementedException();
 
-                    if (!content.Any())
-                        throw new InvalidOperationException();
+            //await Task.Run(async () => {
+            //    using (var database = new DatabaseContext()) {
+            //        var content = await database.MailData
+            //            .Where(x => x.MessageId == id)
+            //            .ToArrayAsync();
 
-                    message = new MailMessageReader(content[0].Mime);
-                    from = new MailContactContext(await database.MailContacts
-                        .FirstAsync(x => x.Address == message.Headers.From.Address));
-                }
-            });
+            //        if (!content.Any())
+            //            throw new InvalidOperationException();
 
-            HtmlEditor.ContentReady += OnContentReady;
-            HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
+            //        message = new MailMessageReader(content[0].Mime);
+            //        from = new MailContactContext(await database.MailContacts
+            //            .FirstAsync(x => x.MailAddress == message.Headers.From.Address));
+            //    }
+            //});
 
-            var context = (MailCompositionContext)DataContext;
-            context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
+            //HtmlEditor.ContentReady += OnContentReady;
+            //HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
 
-            RecipientsBox.Preset(new[] { from });
+            //var context = (MailCompositionContext)DataContext;
+            //context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
+
+            //RecipientsBox.Preset(new[] { from });
         }
 
         private void OnContentReady(object sender, EventArgs e) {
@@ -206,79 +214,84 @@ namespace Crystalbyte.Paranoia.UI {
             MailMessageReader message;
             var id = Int64.Parse(arguments["id"]);
 
-            using (var database = new DatabaseContext()) {
-                var content = await database.MailData
-                    .Where(x => x.MessageId == id)
-                    .ToArrayAsync();
+            throw new NotImplementedException();
 
-                if (!content.Any())
-                    throw new InvalidOperationException(Paranoia.Properties.Resources.MessageNotFoundException);
+            //using (var database = new DatabaseContext()) {
+            //    var content = await database.MailData
+            //        .Where(x => x.MessageId == id)
+            //        .ToArrayAsync();
 
-                message = new MailMessageReader(content[0].Mime);
-                from = new MailContactContext(await database.MailContacts
-                    .FirstAsync(x => x.Address == message.Headers.From.Address));
+            //    if (!content.Any())
+            //        throw new InvalidOperationException(Paranoia.Properties.Resources.MessageNotFoundException);
 
-                foreach (var cc in message.Headers.Cc.Where(y =>
-                    !App.Context.Accounts.Any(x => x.Address.EqualsIgnoreCase(y.Address)))) {
-                    var lcc = cc;
-                    var contact = new MailContactContext(await database.MailContacts
-                        .FirstAsync(x => x.Address == lcc.Address));
+            //    message = new MailMessageReader(content[0].Mime);
+            //    from = new MailContactContext(await database.MailContacts
+            //        .FirstAsync(x => x.MailAddress == message.Headers.From.Address));
 
-                    carbonCopies.Add(contact);
-                }
+            //    foreach (var cc in message.Headers.Cc.Where(y =>
+            //        !App.Context.Accounts.Any(x => x.Address.EqualsIgnoreCase(y.Address)))) {
+            //        var lcc = cc;
+            //        var contact = new MailContactContext(await database.MailContacts
+            //            .FirstAsync(x => x.MailAddress == lcc.Address));
 
-                foreach (var bcc in message.Headers.Bcc.Where(y =>
-                    !App.Context.Accounts.Any(x => x.Address.EqualsIgnoreCase(y.Address)))) {
-                    var lbcc = bcc;
-                    var contact = new MailContactContext(await database.MailContacts
-                        .FirstAsync(x => x.Address == lbcc.Address));
+            //        carbonCopies.Add(contact);
+            //    }
 
-                    blindCarbonCopies.Add(contact);
-                }
-            }
+            //    foreach (var bcc in message.Headers.Bcc.Where(y =>
+            //        !App.Context.Accounts.Any(x => x.Address.EqualsIgnoreCase(y.Address)))) {
+            //        var lbcc = bcc;
+            //        var contact = new MailContactContext(await database.MailContacts
+            //            .FirstAsync(x => x.MailAddress == lbcc.Address));
 
-            HtmlEditor.ContentReady += OnContentReady;
-            HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
+            //        blindCarbonCopies.Add(contact);
+            //    }
+            //}
 
-            var context = (MailCompositionContext)DataContext;
-            context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
+            //HtmlEditor.ContentReady += OnContentReady;
+            //HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
 
-            RecipientsBox.Preset(new[] { from });
-            CarbonCopyBox.Preset(carbonCopies);
-            BlindCarbonCopyBox.Preset(blindCarbonCopies);
+            //var context = (MailCompositionContext)DataContext;
+            //context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
+
+            //RecipientsBox.Preset(new[] { from });
+            //CarbonCopyBox.Preset(carbonCopies);
+            //BlindCarbonCopyBox.Preset(blindCarbonCopies);
         }
 
         internal async Task PrepareAsForwardAsync(IReadOnlyDictionary<string, string> arguments) {
-            var id = Int64.Parse(arguments["id"]);
-            var reader = await Task.Run(async () => {
-                using (var database = new DatabaseContext()) {
-                    var mime = await database.MailData
-                        .Where(x => x.MessageId == id)
-                        .ToArrayAsync();
 
-                    if (!mime.Any())
-                        throw new InvalidOperationException(
-                            Paranoia.Properties.Resources.MessageNotFoundException);
+            throw new NotImplementedException();
+            //var id = Int64.Parse(arguments["id"]);
+            //var reader = await Task.Run(async () => {
+            //    using (var database = new DatabaseContext()) {
+            //        var mime = await database.MailData
+            //            .Where(x => x.MessageId == id)
+            //            .ToArrayAsync();
 
-                    return new MailMessageReader(mime[0].Mime);
-                }
-            });
+            //        if (!mime.Any())
+            //            throw new InvalidOperationException(
+            //                Paranoia.Properties.Resources.MessageNotFoundException);
 
-            HtmlEditor.Source = string.Format("message:///forward?id={0}", id);
+            //        return new MailMessageReader(mime[0].Mime);
+            //    }
+            //});
 
-            var context = (MailCompositionContext)DataContext;
-            context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForForwarding, reader.Headers.Subject);
+            //HtmlEditor.Source = string.Format("message:///forward?id={0}", id);
 
-            Loaded += OnLoadedAsNew;
+            //var context = (MailCompositionContext)DataContext;
+            //context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForForwarding, reader.Headers.Subject);
+
+            //Loaded += OnLoadedAsNew;
         }
 
         private void OnHtmlSurfaceDrop(object sender, DragEventArgs e) {
-            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            var context = DataContext as MailCompositionContext;
-            if (files == null | context == null)
-                return;
+            throw new NotImplementedException();
+            //var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            //var context = DataContext as MailCompositionContext;
+            //if (files == null | context == null)
+            //    return;
 
-            files.ToList().ForEach(x => context.Attachments.Add(new FileAttachmentContext(x)));
+            //files.ToList().ForEach(x => context.Attachments.Add(new FileAttachmentContext(x)));
         }
 
         public static Window GetParentWindow(DependencyObject child) {
@@ -296,21 +309,22 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async Task SignAsync() {
-            var context = (MailCompositionContext)DataContext;
-            var path = context.SelectedAccount.SignaturePath;
+            throw new NotImplementedException();
+            //var context = (MailCompositionContext)DataContext;
+            //var path = context.SelectedAccount.SignaturePath;
 
-            string signature;
-            if (!File.Exists(path)) {
-                signature = string.Empty;
-                var warning = string.Format(Paranoia.Properties.Resources.MissingSignatureTemplate, path);
-                Logger.Warn(warning);
-            } else {
-                signature = await Task.Run(() => File.ReadAllText(path, Encoding.UTF8));
-            }
+            //string signature;
+            //if (!File.Exists(path)) {
+            //    signature = string.Empty;
+            //    var warning = string.Format(Paranoia.Properties.Resources.MissingSignatureTemplate, path);
+            //    Logger.Warn(warning);
+            //} else {
+            //    signature = await Task.Run(() => File.ReadAllText(path, Encoding.UTF8));
+            //}
 
-            var bytes = Encoding.UTF8.GetBytes(signature);
-            var encoded = Convert.ToBase64String(bytes);
-            HtmlEditor.InsertSignature(encoded);
+            //var bytes = Encoding.UTF8.GetBytes(signature);
+            //var encoded = Convert.ToBase64String(bytes);
+            //HtmlEditor.InsertSignature(encoded);
         }
 
         private async void OnAccountSelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -319,10 +333,12 @@ namespace Crystalbyte.Paranoia.UI {
                     return;
                 }
 
-                var context = (MailCompositionContext)DataContext;
-                if (context.SelectedAccount != null) {
-                    await SignAsync();
-                }
+                throw new NotImplementedException();
+
+                //var context = (MailCompositionContext)DataContext;
+                //if (context.SelectedAccount != null) {
+                //    await SignAsync();
+                //}
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -345,11 +361,14 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnAttachmentsDelete(object sender, ExecutedRoutedEventArgs e) {
-            var composition = (MailCompositionContext)DataContext;
-            var listView = (ListView)sender;
-            foreach (var item in listView.SelectedItems.OfType<FileAttachmentContext>().ToArray()) {
-                composition.Attachments.Remove(item);
-            }
+
+            throw new NotImplementedException();
+
+            //var composition = (MailCompositionContext)DataContext;
+            //var listView = (ListView)sender;
+            //foreach (var item in listView.SelectedItems.OfType<FileAttachmentContext>().ToArray()) {
+            //    composition.Attachments.Remove(item);
+            //}
         }
 
         public async Task<string> GetDocumentAsync() {

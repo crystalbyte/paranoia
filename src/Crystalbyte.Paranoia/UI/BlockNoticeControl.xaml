@@ -3,26 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
              xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
              xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
              xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
              IsTabStop="False"
-             d:DataContext="{d:DesignInstance paranoia:MailMessageContext}"
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
+    <UserControl.CommandBindings>
+        <CommandBinding Command="ui:MessageCommands.UnblockExternalContent" Executed="OnUnblockExternalContent" />
+    </UserControl.CommandBindings>
     <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+            DataContext="{Binding Blockable,
+                                  RelativeSource={RelativeSource FindAncestor,
+                                                                 AncestorType=ui:BlockNoticeControl}}"
             SnapsToDevicePixels="True"
             UseLayoutRounding="True"
-            Visibility="{Binding HasExternalsAndSourceIsNotTrusted,
-                                 FallbackValue={x:Static Visibility.Collapsed},
-                                 TargetNullValue={x:Static Visibility.Collapsed},
+            Visibility="{Binding IsExternalContentAllowed,
+                                 FallbackValue={x:Static Visibility.Visible},
+                                 TargetNullValue={x:Static Visibility.Visible},
                                  Converter={StaticResource BooleanToVisibilityConverter}}">
         <DockPanel LastChildFill="True">
             <Button Margin="8,6"
                     VerticalAlignment="Center"
-                    Command="{Binding AllowExternalContentCommand,
+                    Command="{Binding IsExternalContentAllowed,
                                       FallbackValue={x:Static ui:AppCommands.NoOperation},
                                       TargetNullValue={x:Static ui:AppCommands.NoOperation}}"
                     DockPanel.Dock="Right">

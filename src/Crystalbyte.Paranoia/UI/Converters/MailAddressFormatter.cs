@@ -27,26 +27,27 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using Crystalbyte.Paranoia.Data;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.UI.Converters {
-    [ValueConversion(typeof (string), typeof (string))]
-    public sealed class MailContactFormatter : IValueConverter {
+    [ValueConversion(typeof (MailAddress), typeof (string))]
+    public sealed class MailAddressFormatter : IValueConverter {
         private static readonly NullOrEmptyFormatter NullOrEmptyFormatter = new NullOrEmptyFormatter();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            var s = value as MailMessageContext;
-            if (s == null) {
+            var from = value as MailAddressContext;
+            if (from == null) {
                 return NullOrEmptyFormatter.Convert(null, targetType, parameter, culture);
             }
 
-            if (s.FromName.Equals("NIL") || string.IsNullOrEmpty(s.FromName)) {
-                return NullOrEmptyFormatter.Convert(s.FromAddress, targetType, parameter, culture);
+            
+            if (from.Name.Equals("NIL") || string.IsNullOrEmpty(from.Name)) {
+                return NullOrEmptyFormatter.Convert(from.Address, targetType, parameter, culture);
             }
-            return NullOrEmptyFormatter.Convert(s.FromName, targetType, parameter, culture);
+            return NullOrEmptyFormatter.Convert(from.Name, targetType, parameter, culture);
         }
-
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
             return Binding.DoNothing;

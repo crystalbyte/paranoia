@@ -23,17 +23,6 @@ namespace Crystalbyte.Paranoia.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
-            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
-            "tring>gmail.com</string>\r\n  <string>googlemail.com</string>\r\n</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection GmailDomains {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["GmailDomains"]));
-            }
-        }
-        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
@@ -106,6 +95,41 @@ namespace Crystalbyte.Paranoia.Properties {
             }
         }
         
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Trebuchet MS")]
+        public string DefaultWebFont {
+            get {
+                return ((string)(this["DefaultWebFont"]));
+            }
+            set {
+                this["DefaultWebFont"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("16")]
+        public int DefaultWebFontSize {
+            get {
+                return ((int)(this["DefaultWebFontSize"]));
+            }
+            set {
+                this["DefaultWebFontSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>gmail.com</string>\r\n  <string>googlemail.com</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection GmailDomains {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["GmailDomains"]));
+            }
+        }
+        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
@@ -175,30 +199,6 @@ namespace Crystalbyte.Paranoia.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Trebuchet MS")]
-        public string DefaultWebFont {
-            get {
-                return ((string)(this["DefaultWebFont"]));
-            }
-            set {
-                this["DefaultWebFont"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("16")]
-        public int DefaultWebFontSize {
-            get {
-                return ((int)(this["DefaultWebFontSize"]));
-            }
-            set {
-                this["DefaultWebFontSize"] = value;
-            }
-        }
-        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
@@ -207,6 +207,18 @@ namespace Crystalbyte.Paranoia.Properties {
         public global::System.Collections.Specialized.StringCollection WhoisRegistrars {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["WhoisRegistrars"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20480")]
+        public int StorageQuota {
+            get {
+                return ((int)(this["StorageQuota"]));
+            }
+            set {
+                this["StorageQuota"] = value;
             }
         }
     }

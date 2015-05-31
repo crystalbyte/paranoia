@@ -35,21 +35,22 @@ namespace Crystalbyte.Paranoia.Data {
     [Table("public_key")]
     internal class PublicKey {
         [Key]
-        [Index]
         [Column("id")]
         public Int64 Id { get; set; }
 
+        [Index]
         [Column("contact_id")]
-        [ForeignKey("Contact")]
         public Int64 ContactId { get; set; }
 
-        [Column("data")]
+        [Column("bytes")]
         [Collate(CollatingSequence.Binary)]
-        public byte[] Data { get; set; }
+        public byte[] Bytes { get; set; }
 
         [Column("date")]
         [Default(DatabaseFunction.CurrentTimestamp)]
         public DateTime Date { get; set; }
+
+        [ForeignKey("ContactId")]
 
         public MailContact Contact { get; set; }
     }

@@ -25,6 +25,7 @@
 #region Using Directives
 
 using System;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
@@ -35,22 +36,32 @@ namespace Crystalbyte.Paranoia {
     internal static class ImapEnvelopeExtensions {
         public static MailMessage ToMailMessage(this ImapEnvelope envelope) {
             var message = new MailMessage {
-                EntryDate = envelope.InternalDate.HasValue
+                Date = envelope.InternalDate.HasValue
                     ? envelope.InternalDate.Value
                     : DateTime.Now,
                 Subject = envelope.Subject,
                 Size = envelope.Size,
                 Uid = envelope.Uid,
                 MessageId = envelope.MessageId,
-                FromAddress = envelope.From.Any()
-                    ? envelope.From.First().Address
-                    : string.Empty,
-                FromName = envelope.From.Any()
-                    ? envelope.From.First().DisplayName
-                    : string.Empty
             };
 
-            message.Flags.AddRange(envelope.Flags.Select(x => new MessageFlag { Value = x }));
+            message.Flags.AddRange(envelope.Flags.Select(x => new MailMessageFlag { Value = x }));
+
+            var contacts = envelope.Cc.Select(x => new MailAddress {
+                Address = x.Address,
+                Name = x.DisplayName,
+                Role = AddressRole.Cc
+            }).Concat(envelope.To.Select(x => new MailAddress {
+                Address = x.Address,
+                Name = x.DisplayName,
+                Role = AddressRole.To
+            }).Concat(envelope.From.Select(x => new MailAddress {
+                Address = x.Address,
+                Name = x.DisplayName,
+                Role = AddressRole.From
+            })));
+
+            message.Addresses.AddRange(contacts);
             return message;
         }
     }

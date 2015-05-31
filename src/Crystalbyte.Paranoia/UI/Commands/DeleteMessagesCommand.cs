@@ -33,6 +33,7 @@ using NLog;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
     public sealed class DeleteMessagesCommand : ICommand {
+
         #region Private Fields
 
         private readonly AppContext _app;

@@ -54,6 +54,7 @@ namespace Crystalbyte.Paranoia {
         #region Private Fields
 
         private string _subject;
+        private bool _isFinalizing;
         private readonly IDocumentProvider _provider;
         private readonly IEnumerable<MailAccountContext> _accounts;
         private readonly ObservableCollection<string> _addresses;
@@ -61,7 +62,7 @@ namespace Crystalbyte.Paranoia {
         private readonly RelayCommand _finalizeCommand;
         private readonly ICommand _insertAttachmentCommand;
         private MailAccountContext _selectedAccount;
-        private bool _isFinalizing;
+        
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
@@ -194,9 +195,9 @@ namespace Crystalbyte.Paranoia {
                         return Addresses
                             .Select(x => context.MailContacts
                                 .Include("Keys")
-                                .FirstOrDefault(y => y.Address == x))
+                                .FirstOrDefault(y => y.MailAddress == x))
                             .Where(w => w != null)
-                            .ToDictionary(z => z.Address);
+                            .ToDictionary(z => z.MailAddress);
                     }
                 });
 
@@ -280,7 +281,7 @@ namespace Crystalbyte.Paranoia {
             var mime = await message.ToMimeAsync();
             var bytes = Encoding.UTF8.GetBytes(mime);
             var crypto = new PublicKeyCrypto(pair.PublicKey, pair.PrivateKey);
-            return crypto.EncryptWithPublicKey(bytes, pKey.Data, nonce);
+            return crypto.EncryptWithPublicKey(bytes, pKey.Bytes, nonce);
         }
 
         private async void OnFinalize(object obj) {

@@ -69,7 +69,7 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertBackgroundThread();
 
             using (var context = new DatabaseContext()) {
-                await context.ConnectAsync();
+                await context.OpenAsync();
 
                 const string match = "SELECT * FROM mail_content WHERE mail_content MATCH @query;";
                 var query = new SQLiteParameter("@query", _query);

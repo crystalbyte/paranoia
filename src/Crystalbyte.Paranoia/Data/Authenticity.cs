@@ -22,6 +22,10 @@
 
 #endregion
 
-namespace Crystalbyte.Paranoia.UI.Commands {
-    internal class MoveCommand {}
+namespace Crystalbyte.Paranoia.Data {
+    public enum Authenticity {
+        Unspecified = 0,
+        Confirmed,
+        Rejected
+    }
 }

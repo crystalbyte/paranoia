@@ -2,6 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:data="clr-namespace:Crystalbyte.Paranoia.Data"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
              xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
@@ -13,21 +14,18 @@
              IsTabStop="False"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True"
-             Visibility="{Binding IsFishy,
-                                  FallbackValue={x:Static Visibility.Collapsed},
-                                  TargetNullValue={x:Static Visibility.Collapsed},
-                                  Converter={StaticResource BooleanToVisibilityConverter}}"
              d:DataContext="{d:DesignInstance paranoia:MailMessageContext}"
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
+    <UserControl.CommandBindings>
+        <CommandBinding Command="ui:MessageCommands.ChangeAuthenticity" Executed="OnChangeAuthenticity" />
+    </UserControl.CommandBindings>
     <DockPanel LastChildFill="True">
         <Button Margin="8,6"
                 VerticalAlignment="Center"
-                Command="{Binding ClassifyContactCommand,
-                                  FallbackValue={x:Static ui:AppCommands.NoOperation},
-                                  TargetNullValue={x:Static ui:AppCommands.NoOperation}}"
-                CommandParameter="{x:Static paranoia:ContactClassification.Genuine}"
+                Command="{x:Static ui:MessageCommands.ChangeAuthenticity}"
+                CommandParameter="{x:Static data:Authenticity.Rejected}"
                 DockPanel.Dock="Right">
             <TextBlock Margin="12,3"
                        RenderOptions.ClearTypeHint="Enabled"
@@ -35,10 +33,8 @@
         </Button>
         <Button Margin="0,6"
                 VerticalAlignment="Center"
-                Command="{Binding ClassifyContactCommand,
-                                  FallbackValue={x:Static ui:AppCommands.NoOperation},
-                                  TargetNullValue={x:Static ui:AppCommands.NoOperation}}"
-                CommandParameter="{x:Static paranoia:ContactClassification.Spam}"
+                Command="{x:Static ui:MessageCommands.ChangeAuthenticity}"
+                CommandParameter="{x:Static data:Authenticity.Confirmed}"
                 DockPanel.Dock="Right">
             <TextBlock Margin="12,3"
                        RenderOptions.ClearTypeHint="Enabled"

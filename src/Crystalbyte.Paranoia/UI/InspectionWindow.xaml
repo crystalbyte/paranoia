@@ -20,7 +20,7 @@
                       ShowActivated="True"
                       UseLayoutRounding="True"
                       WindowStartupLocation="CenterOwner"
-                      d:DataContext="{d:DesignInstance paranoia:IMailMessage}"
+                      d:DataContext="{d:DesignInstance paranoia:MailMessageContext}"
                       mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -127,7 +127,7 @@
                     <TextBlock VerticalAlignment="Center"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
-                               Text="{Binding EntryDate,
+                               Text="{Binding Date,
                                               Converter={StaticResource DateFormatter}}" />
                 </StackPanel>
                 <Grid Margin="6,0">
@@ -161,7 +161,7 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                     <StackPanel Grid.Column="2"
-                                DataContext="{Binding PrimaryTo}"
+                                DataContext="{Binding From}"
                                 Orientation="Horizontal">
                         <Image Width="32"
                                Margin="0,0,6,0"
@@ -182,7 +182,7 @@
               Grid.RowSpan="7"
               Panel.ZIndex="500"
               Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-              Visibility="{Binding IsInitialized,
+              Visibility="{Binding IsDownloading,
                                    ConverterParameter=!,
                                    Converter={StaticResource BooleanToVisibilityConverter}}">
             <controls:MetroProgressBar Width="400"
@@ -203,7 +203,7 @@
                 Visibility="{Binding HasMultipleRecipients,
                                      Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid>
-                <ItemsControl Margin="6" ItemsSource="{Binding SecondaryTo}">
+                <ItemsControl Margin="6" ItemsSource="{Binding To}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal" />

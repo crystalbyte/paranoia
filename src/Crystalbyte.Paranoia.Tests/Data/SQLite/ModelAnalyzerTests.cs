@@ -84,10 +84,10 @@ namespace Crystalbyte.Paranoia.Tests.Data.SQLite {
 
             [Column("residence")]
             public string Residence { get; set; }
-
-            [ForeignKey("Category")]
+            
             public int CategoryId { get; set; }
 
+            [ForeignKey("CategoryId")]
             public Category Category { get; set; }
         }
     }

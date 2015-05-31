@@ -1,27 +1,24 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Crystalbyte.Paranoia.Data.SQLite;
 
 namespace Crystalbyte.Paranoia.Data {
-    [Table("message_flag")]
-    internal class MessageFlag {
+    [Table("mailbox_flag")]
+    internal class MailboxFlag {
 
         [Key]
-        [Index]
         [Column("id")]
         public Int64 Id { get; set; }
 
         [Index]
-        [Column("message_id")]
-        [ForeignKey("Message")]
-        public Int64 MessageId { get; set; }
+        [Column("mailbox_id")]
+        public Int64 MailboxId { get; set; }
 
         [Index]
         [Column("value")]
-        [Collate(CollatingSequence.NoCase)]
         public string Value { get; set; }
 
-        public MailMessage Message { get; set; }
+        [ForeignKey("MailboxId")]
+        public Mailbox Mailbox { get; set; }
     }
 }

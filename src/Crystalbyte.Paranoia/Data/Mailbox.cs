@@ -34,14 +34,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Crystalbyte.Paranoia.Data {
     [Table("mailbox")]
     internal class Mailbox {
-        private ICollection<MailMessage> _messages;
+        private List<MailMessage> _messages;
+        private List<MailboxFlag> _flags;
 
         public Mailbox() {
             _messages = new List<MailMessage>();
+            _flags = new List<MailboxFlag>();
         }
 
         [Key]
-        [Index]
         [Column("id")]
         public Int64 Id { get; set; }
 
@@ -51,24 +52,27 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("delimiter")]
         public string Delimiter { get; set; }
 
-        [Column("flags")]
-        public string Flags { get; set; }
-
-        [Column("not_seen_count")]
-        public int NotSeenCount { get; set; }
-
         [Column("is_subscribed")]
         public bool IsSubscribed { get; set; }
 
+        [Column("is_local")]
+        public bool IsLocal { get; set; }
+
+        [Index]
         [Column("account_id")]
-        [ForeignKey("Account")]
         public Int64 AccountId { get; set; }
 
-        public virtual MailAccount Account { get; set; }
+        [ForeignKey("AccountId")]
+        public MailAccount Account { get; set; }
 
-        public virtual ICollection<MailMessage> Messages {
+        public virtual List<MailMessage> Messages {
             get { return _messages; }
             set { _messages = value; }
+        }
+
+        public virtual List<MailboxFlag> Flags {
+            get { return _flags; }
+            set { _flags = value; }
         }
     }
 }

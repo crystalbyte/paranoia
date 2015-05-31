@@ -26,6 +26,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 #endregion
 
@@ -33,26 +34,16 @@ namespace Crystalbyte.Paranoia {
     public interface IMailMessage {
         string Subject { get; }
 
-        MailContactContext From { get; }
+        MailAddressContext From { get; }
 
-        MailContactContext PrimaryTo { get; }
+        IReadOnlyCollection<MailAddressContext> To { get; }
 
-        IEnumerable<MailContactContext> To { get; }
+        IReadOnlyCollection<MailAddressContext> Cc { get; }
 
-        IEnumerable<MailContactContext> SecondaryTo { get; }
+        IReadOnlyCollection<MailAttachmentContext> Attachments { get; }
 
-        IEnumerable<MailContactContext> Cc { get; }
+        DateTime Date { get; }
 
-        IEnumerable<AttachmentContext> Attachments { get; }
-
-        DateTime EntryDate { get; }
-
-        double Progress { get; }
-
-        bool HasMultipleRecipients { get; }
-
-        bool HasCarbonCopies { get; }
-
-        bool IsInitialized { get; }
+        bool IsDownloading { get; }
     }
 }

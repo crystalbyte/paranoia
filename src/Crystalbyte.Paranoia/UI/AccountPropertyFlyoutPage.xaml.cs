@@ -293,8 +293,8 @@ namespace Crystalbyte.Paranoia.UI {
                 }
             });
 
-            DownloadAllRadioButton.IsChecked = !account.IsPartialLoadEnabled;
-            DownloadEnvelopeRadioButton.IsChecked = account.IsPartialLoadEnabled;
+            //DownloadAllRadioButton.IsChecked = !account.IsPartialLoadEnabled;
+            //DownloadEnvelopeRadioButton.IsChecked = account.IsPartialLoadEnabled;
 
             SmtpPasswordBox.Password = account.SmtpPassword;
             SmtpPasswordBox.PasswordChanged += OnSmtpPasswordChanged;
@@ -370,7 +370,8 @@ namespace Crystalbyte.Paranoia.UI {
             var account = (MailAccountContext)DataContext;
             var button = ((RadioButton)sender);
             if (button.IsChecked != null) {
-                account.IsPartialLoadEnabled = !button.IsChecked.Value;
+                throw new NotImplementedException();
+                //account.IsPartialLoadEnabled = !button.IsChecked.Value;
             }
         }
 
@@ -378,7 +379,8 @@ namespace Crystalbyte.Paranoia.UI {
             var account = (MailAccountContext)DataContext;
             var button = ((RadioButton)sender);
             if (button.IsChecked != null) {
-                account.IsPartialLoadEnabled = button.IsChecked.Value;
+                throw new NotImplementedException();
+                //account.IsPartialLoadEnabled = button.IsChecked.Value;
             }
         }
     }

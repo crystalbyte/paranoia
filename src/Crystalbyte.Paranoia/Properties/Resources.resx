@@ -739,4 +739,10 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="DownloadEnvelope" xml:space="preserve">
     <value>Only download message envelopes initially. The remainder will be loaded once a  message is being inspected.</value>
   </data>
+  <data name="QueryPerformanceTemplate" xml:space="preserve">
+    <value>Querying the database took {0} seconds.</value>
+  </data>
+  <data name="PropertyTypeNull" xml:space="preserve">
+    <value>PropertyType must not be null.</value>
+  </data>
 </root>

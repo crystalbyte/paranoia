@@ -40,8 +40,6 @@ namespace Crystalbyte.Paranoia.Themes {
         public static string AppLargeFontSizeKey = "AppLargeFontSizeKey";
         public static string AppExtraLargeFontSizeKey = "AppExtraLargeFontSizeKey";
 
-        public static string HtmlBackgroundBrushKey = "HtmlBackgroundBrushKey";
-
         public static string NavigationOptionBackgroundBrushKey = "NavigationOptionBackgroundBrushKey";
 
         public static string InputFontFamilyKey = "InputFontFamilyKey";

@@ -26,7 +26,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Crystalbyte.Paranoia.Data.SQLite;
@@ -34,16 +33,16 @@ using Crystalbyte.Paranoia.Data.SQLite;
 #endregion
 
 namespace Crystalbyte.Paranoia.Data {
-    [Table("mail_contact")]
+
+    [Table("contact")]
     internal class MailContact {
-        private ICollection<PublicKey> _keys;
+        private List<PublicKey> _keys;
 
         public MailContact() {
-            _keys = new Collection<PublicKey>();
+            _keys = new List<PublicKey>();
         }
 
         [Key]
-        [Index]
         [Column("id")]
         public Int64 Id { get; set; }
 
@@ -59,10 +58,10 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("is_external_content_allowed")]
         public bool IsExternalContentAllowed { get; set; }
 
-        [Column("classification")]
-        public ContactClassification Classification { get; set; }
+        [Column("authenticity")]
+        public Authenticity Authenticity { get; set; }
 
-        public virtual ICollection<PublicKey> Keys {
+        public virtual List<PublicKey> Keys {
             get { return _keys; }
             set { _keys = value; }
         }

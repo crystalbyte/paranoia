@@ -26,7 +26,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Crystalbyte.Paranoia.Data.SQLite;
@@ -38,64 +37,60 @@ namespace Crystalbyte.Paranoia.Data {
     [Table("mail_message")]
     internal class MailMessage {
 
-        private List<MailData> _data;
-        private List<MessageFlag> _flags;
+        private List<MailMessageFlag> _flags;
+        private List<MailAddress> _addresses;
+        private List<MailAttachment> _attachments;
 
         public MailMessage() {
-            _data = new List<MailData>();
-            _flags = new List<MessageFlag>();
+            _flags = new List<MailMessageFlag>();
+            _addresses = new List<MailAddress>();
+            _attachments = new List<MailAttachment>();
         }
 
         [Key]
-        [Index]
         [Column("id")]
         public Int64 Id { get; set; }
 
+        [Index]
         [Column("uid")]
         public Int64 Uid { get; set; }
 
         [Column("size")]
         public Int64 Size { get; set; }
 
+        [Column("mime")]
+        public byte[] Mime { get; set; }
+
         [Column("subject")]
         [Collate(CollatingSequence.NoCase)]
         public string Subject { get; set; }
-
-        [Index]
-        [Column("has_attachments")]
-        public bool HasAttachments { get; set; }
-
-        [Column("entry_date")]
-        public DateTime EntryDate { get; set; }
-
-        [Column("thread_id")]
-        public string ThreadId { get; set; }
+        
+        [Column("date")]
+        public DateTime Date { get; set; }
 
         [Column("message_id")]
         public string MessageId { get; set; }
 
-        [Column("from_name")]
-        [Collate(CollatingSequence.NoCase)]
-        public string FromName { get; set; }
-
-        [Column("from_address")]
-        [Collate(CollatingSequence.NoCase)]
-        public string FromAddress { get; set; }
-
+        [Index]
         [Column("mailbox_id")]
-        [ForeignKey("Mailbox")]
         public Int64 MailboxId { get; set; }
 
+        [ForeignKey("MailboxId")]
         public Mailbox Mailbox { get; set; }
 
-        public virtual List<MailData> Data {
-            get { return _data; }
-            set { _data = value; }
-        }
-
-        public virtual List<MessageFlag> Flags {
+        public virtual List<MailMessageFlag> Flags {
             get { return _flags; }
             set { _flags = value; }
+        }
+
+        public virtual List<MailAddress> Addresses {
+            get { return _addresses; }
+            set { _addresses = value; }
+        }
+
+        public virtual List<MailAttachment> Attachments {
+            get { return _attachments; }
+            set { _attachments = value; }
         }
     }
 }

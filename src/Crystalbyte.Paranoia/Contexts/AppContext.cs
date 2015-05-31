@@ -60,43 +60,42 @@ namespace Crystalbyte.Paranoia {
 
         #region Private Fields
 
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        private float _zoom;
-        private bool _showOnlyUnseen;
-        private string _queryString;
         private string _source;
-        private bool _isPopupVisible;
-        private bool _isSortAscending;
+        private string _queryString;
         private string _queryContactString;
+
         private bool _isAnimating;
+        private bool _isPopupVisible;
+        private bool _showOnlyUnseen;
+        private bool _isSortAscending;
+
+        private IMessageSource _messageSource;
+
         private MailboxContext _selectedMailbox;
-        private OutboxContext _selectedOutbox;
+        private MailContactContext _activeContact;
 
         private readonly DispatcherTimer _outboxTimer;
-        private readonly ICommand _resetZoomCommand;
-        private readonly ICommand _restoreMessagesCommand;
-        private readonly ICommand _markAsSeenCommand;
-        private readonly ICommand _markAsNotSeenCommand;
-        private readonly ICommand _markAsFlaggedCommand;
-        private readonly ICommand _markAsNotFlaggedCommand;
-        private readonly ICommand _blockContactsCommand;
-        private readonly ICommand _unblockContactsCommand;
+        private readonly ICommand _flagMessagesCommand;
         private readonly ICommand _createAccountCommand;
+        private readonly ICommand _unflagMessagesCommand;
         private readonly ICommand _deleteContactsCommand;
         private readonly ICommand _deleteMessagesCommand;
+        private readonly ICommand _restoreMessagesCommand;
+        private readonly ICommand _markMessagesAsSeenCommand;
+        private readonly ICommand _markMessagesAsUnseenCommand;
         private readonly DeferredObservableCollection<MailMessageContext> _messages;
+        private readonly DeferredObservableCollection<MailContactContext> _contacts;
         private readonly ObservableCollection<MailAccountContext> _accounts;
-        private readonly ObservableCollection<MailContactContext> _contacts;
         private readonly ObservableCollection<NavigationContext> _navigationOptions;
-        private IMessageSource _messageSource;
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
         #region Construction
 
         public AppContext() {
-            _accounts = new ObservableCollection<MailAccountContext>();
+            _accounts = new DeferredObservableCollection<MailAccountContext>();
             _accounts.CollectionChanged += OnAccountsCollectionChanged;
 
             _messages = new DeferredObservableCollection<MailMessageContext>();
@@ -116,60 +115,56 @@ namespace Crystalbyte.Paranoia {
             };
 
             _restoreMessagesCommand = new RestoreMessagesCommand(this);
-            _markAsSeenCommand = new MarkAsSeenCommand(this);
-            _blockContactsCommand = new BlockContactsCommand(this);
+            _markMessagesAsSeenCommand = new MarkMessagesAsSeenCommand(this);
             _deleteMessagesCommand = new DeleteMessagesCommand(this);
-            _markAsNotSeenCommand = new MarkAsNotSeenCommand(this);
+            _markMessagesAsUnseenCommand = new MarkMessagesAsUnseenCommand(this);
             _deleteContactsCommand = new DeleteContactsCommand(this);
             _createAccountCommand = new RelayCommand(OnCreateAccount);
-            _resetZoomCommand = new RelayCommand(p => Zoom = 0.0f);
-            _unblockContactsCommand = new UnblockContactsCommand(this);
-            _markAsFlaggedCommand = new MarkAsFlaggedCommand(this);
-            _markAsNotFlaggedCommand = new MarkAsNotFlaggedCommand(this);
+            _flagMessagesCommand = new FlagMessagesCommand(this);
+            _unflagMessagesCommand = new UnflagMessagesCommand(this);
 
             NetworkChange.NetworkAvailabilityChanged += OnNetworkAvailabilityChanged;
 
             Observable.FromEventPattern(
                 action => MessageSelectionChanged += action,
                 action => MessageSelectionChanged -= action)
-                .Throttle(TimeSpan.FromMilliseconds(100))
-                .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
-                .Subscribe(OnMessageSelectionCommitted);
+                    .Throttle(TimeSpan.FromMilliseconds(10))
+                    .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
+                    .Subscribe(OnMessageSelectionCommitted);
 
             Observable.FromEventPattern<QueryStringEventArgs>(
                 action => QueryStringChanged += action,
                 action => QueryStringChanged -= action)
-                .Select(x => x.EventArgs)
-                .Where(x => (x.Text.Length > 1 || String.IsNullOrEmpty(x.Text)))
-                .Throttle(TimeSpan.FromMilliseconds(200))
-                .Select(x => x.Text)
-                .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
-                .Subscribe(OnQueryReceived);
+                    .Select(x => x.EventArgs)
+                    .Where(x => (x.Text.Length > 1 || String.IsNullOrEmpty(x.Text)))
+                    .Throttle(TimeSpan.FromMilliseconds(200))
+                    .Select(x => x.Text)
+                    .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
+                    .Subscribe(OnQueryReceived);
 
             Observable.FromEventPattern<QueryStringEventArgs>(
                 action => ContactQueryStringChanged += action,
                 action => ContactQueryStringChanged -= action)
-                .Select(x => x.EventArgs)
-                .Where(x => (x.Text.Length > 1 || String.IsNullOrEmpty(x.Text)))
-                .Throttle(TimeSpan.FromMilliseconds(200))
-                .Select(x => x.Text)
-                .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
-                .Subscribe(OnContactQueryReceived);
+                    .Select(x => x.EventArgs)
+                    .Where(x => (x.Text.Length > 1 || String.IsNullOrEmpty(x.Text)))
+                    .Throttle(TimeSpan.FromMilliseconds(200))
+                    .Select(x => x.Text)
+                    .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
+                    .Subscribe(OnContactQueryReceived);
 
             _outboxTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(30) };
             _outboxTimer.Tick += OnOutboxTimerTick;
 
-            _contacts = new ObservableCollection<MailContactContext>();
+            _contacts = new DeferredObservableCollection<MailContactContext>();
             _contacts.CollectionChanged += (sender, e) => RaisePropertyChanged(() => Contacts);
 
-            _zoom = 0.0f;
             _showOnlyUnseen = false;
         }
 
         internal async void CountUnseenAsync() {
             var context = _navigationOptions.OfType<MailNavigationContext>().FirstOrDefault();
             if (context != null) {
-                await context.RefreshAsync();
+                await context.CountGlobalUnseenAsync();
             }
         }
 
@@ -224,6 +219,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task FlagMessagesAsync(MailMessageContext[] messages) {
+            Logger.Enter();
+
             Application.Current.AssertUIThread();
 
             messages.ForEach(x => x.IsFlagged = true);
@@ -241,32 +238,41 @@ namespace Crystalbyte.Paranoia {
 
                             await storage;
                         } catch (Exception ex) {
-                            Logger.Error(ex);
+                            Logger.ErrorException(ex.Message, ex);
                         }
                     });
             } catch (Exception ex) {
                 Logger.Error(ex);
+            } finally {
+                Logger.Exit();
             }
         }
 
-        private static Task FlagStoredMessagesAsync(IEnumerable<Int64> uids) {
-            return Task.Run(async () => {
-                using (var context = new DatabaseContext()) {
-                    await context.ConnectAsync();
-                    await context.EnableForeignKeysAsync();
+        private static async Task FlagStoredMessagesAsync(IEnumerable<Int64> uids) {
+            Logger.Enter();
 
+            Application.Current.AssertBackgroundThread();
+
+            try {
+                using (var context = new DatabaseContext()) {
                     var entities = uids.Select(x => new MailMessage { Id = x });
                     foreach (var entity in entities) {
                         context.MailMessages.Attach(entity);
-                        entity.Flags.Add(new MessageFlag { Value = MailMessageFlags.Seen });
+                        entity.Flags.Add(new MailMessageFlag { Value = MailMessageFlags.Seen });
                     }
 
                     await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
                 }
-            });
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            } finally {
+                Logger.Exit();
+            }
         }
 
         internal async Task FlagMessagesAsSeenAsync(MailMessageContext[] messages) {
+            Logger.Enter();
+
             Application.Current.AssertUIThread();
 
             messages.ForEach(x => x.IsSeen = true);
@@ -275,8 +281,8 @@ namespace Crystalbyte.Paranoia {
                 await InvokeGroupedActionAsync(messages,
                     async (session, group) => {
                         var name = group.Key.Name;
-                        var uids = group.Select(z => z.Uid).ToArray();
                         var ids = group.Select(z => z.Id).ToArray();
+                        var uids = group.Select(z => z.Uid).ToArray();
 
                         try {
                             var storage = FlagStoredMessagesAsSeenAsync(ids);
@@ -290,69 +296,85 @@ namespace Crystalbyte.Paranoia {
                     });
             } catch (Exception ex) {
                 Logger.Error(ex);
+            } finally {
+                Logger.Exit();
             }
         }
 
         private static async Task FlagStoredMessagesAsSeenAsync(IEnumerable<Int64> ids) {
+            Logger.Enter();
+
             Application.Current.AssertBackgroundThread();
 
-            using (var context = new DatabaseContext()) {
-                await context.ConnectAsync();
-                await context.EnableForeignKeysAsync();
+            try {
+                using (var context = new DatabaseContext()) {
+                    await context.OpenAsync();
+                    await context.EnableForeignKeysAsync();
 
-                foreach (var id in ids) {
-                    var entity = await context.MailMessages.FindAsync(id);
-                    entity.Flags.Add(new MessageFlag { Value = MailMessageFlags.Seen });
+                    foreach (var id in ids) {
+                        var entity = await context.MailMessages.FindAsync(id);
+                        entity.Flags.Add(new MailMessageFlag { Value = MailMessageFlags.Seen });
+                    }
+
+                    await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
                 }
-
-                await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
+            } finally {
+                Logger.Exit();
             }
         }
 
         internal async Task DeleteMessagesAsync(MailMessageContext[] messages) {
+            Logger.Enter();
+
             Application.Current.AssertUIThread();
 
             NotifyMessagesRemoved(messages);
 
-            // Spool up a thread for each account.
-            var tasks = messages
-                .GroupBy(x => x.Mailbox.Account)
-                .Select(x => Task.Run(async () => {
-                    var account = x.Key;
-                    var mailboxGroups = x.GroupBy(y => y.Mailbox);
-                    try {
-                        using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
-                            using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
-                                using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
-                                    foreach (var mailboxGroup in mailboxGroups) {
-                                        var trashFolder = mailboxGroup.Key.Account.TrashMailboxName;
-                                        var name = mailboxGroup.Key.Name;
-                                        var uids = mailboxGroup.Select(z => z.Uid).ToArray();
+            try {
+                // Spool up a thread for each account.
+                var tasks = messages
+                    .GroupBy(x => x.Mailbox.Account)
+                    .Select(x => Task.Run(async () => {
+                        var account = x.Key;
+                        var mailboxGroups = x.GroupBy(y => y.Mailbox);
+                        try {
+                            using (var connection = new ImapConnection { Security = account.ImapSecurity }) {
+                                using (var auth = await connection.ConnectAsync(account.ImapHost, account.ImapPort)) {
+                                    using (var session = await auth.LoginAsync(account.ImapUsername, account.ImapPassword)) {
+                                        foreach (var mailboxGroup in mailboxGroups) {
+                                            var trashFolder = mailboxGroup.Key.Account.TrashMailboxName;
+                                            var name = mailboxGroup.Key.Name;
+                                            var uids = mailboxGroup.Select(z => z.Uid).ToArray();
 
-                                        try {
-                                            var storage = DropStoredMessagesAsync(mailboxGroup);
+                                            try {
+                                                var storage = DropStoredMessagesAsync(mailboxGroup);
 
-                                            var mailbox = await session.SelectAsync(name);
-                                            if (mailboxGroup.Key.IsTrash) {
-                                                await mailbox.DeleteMailsAsync(uids);
-                                            } else {
-                                                await mailbox.MoveMailsAsync(uids, trashFolder);
+                                                var mailbox = await session.SelectAsync(name);
+                                                if (mailboxGroup.Key.IsTrash) {
+                                                    await mailbox.DeleteMailsAsync(uids);
+                                                } else {
+                                                    await mailbox.MoveMailsAsync(uids, trashFolder);
+                                                }
+
+                                                await storage;
+                                            } catch (Exception ex) {
+                                                Logger.Error(ex);
                                             }
-
-                                            await storage;
-                                        } catch (Exception ex) {
-                                            Logger.Error(ex);
                                         }
                                     }
                                 }
                             }
+                        } catch (Exception ex) {
+                            Logger.Error(ex);
                         }
-                    } catch (Exception ex) {
-                        Logger.Error(ex);
-                    }
-                })).ToArray();
+                    })).ToArray();
 
-            await Task.WhenAll(tasks);
+                await Task.WhenAll(tasks);
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            } finally {
+                Logger.Exit();
+            }
         }
 
         private void NotifyMessagesRemoved(IEnumerable<MailMessageContext> messages) {
@@ -368,41 +390,46 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static async Task DropStoredMessagesAsync(IGrouping<MailboxContext, MailMessageContext> mailboxGroup) {
+            Logger.Enter();
+
             Application.Current.AssertBackgroundThread();
 
-            using (var context = new DatabaseContext()) {
-                await context.ConnectAsync();
-                await context.EnableForeignKeysAsync();
+            try {
+                using (var context = new DatabaseContext()) {
+                    await context.OpenAsync();
+                    await context.EnableForeignKeysAsync();
 
-                foreach (var message in mailboxGroup) {
-                    var id = message.Id;
-                    using (var transaction = context.Database.BeginTransaction()) {
-                        try {
+                    foreach (var message in mailboxGroup) {
+                        var id = message.Id;
+                        using (var transaction = context.Database.BeginTransaction()) {
+                            try {
+                                var model = new MailMessage {
+                                    Id = message.Id,
+                                    MailboxId = mailboxGroup.Key.Id
+                                };
 
-                            var model = new MailMessage {
-                                Id = message.Id,
-                                MailboxId = mailboxGroup.Key.Id
-                            };
+                                context.MailMessages.Attach(model);
+                                context.MailMessages.Remove(model);
 
-                            context.MailMessages.Attach(model);
-                            context.MailMessages.Remove(model);
+                                // TODO: Extract column names from expression attributes.
+                                // The content table is a virtual table and cannot be altered using EF.
+                                context.Database.ExecuteSqlCommand(
+                                    TransactionalBehavior.DoNotEnsureTransaction,
+                                    "DELETE FROM mail_content WHERE message_id = @id;",
+                                    new SQLiteParameter("@id", id));
 
-                            // TODO: Extract column names from expression attributes.
-                            // The content table is a virtual table and cannot be altered using EF.
-                            context.Database.ExecuteSqlCommand(
-                                TransactionalBehavior.DoNotEnsureTransaction,
-                                "DELETE FROM mail_content WHERE message_id = @id;",
-                                new SQLiteParameter("@id", id));
+                                await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
 
-                            await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
-
-                            transaction.Commit();
-                        } catch (Exception ex) {
-                            transaction.Rollback();
-                            Logger.Error(ex);
+                                transaction.Commit();
+                            } catch (Exception ex) {
+                                transaction.Rollback();
+                                Logger.Error(ex);
+                            }
                         }
                     }
                 }
+            } finally {
+                Logger.Exit();
             }
         }
 
@@ -418,7 +445,6 @@ namespace Crystalbyte.Paranoia {
             try {
                 RaisePropertyChanged(() => Messages);
                 RaisePropertyChanged(() => MessageCount);
-                RaisePropertyChanged(() => IsMessageOrSmtpRequestSelected);
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -456,16 +482,24 @@ namespace Crystalbyte.Paranoia {
         }
 
         internal async Task LoadContactsAsync() {
+            Logger.Enter();
+
             Application.Current.AssertUIThread();
 
-            var contacts = await Task.Run(() => {
-                using (var database = new DatabaseContext()) {
-                    return database.MailContacts.ToArrayAsync();
-                }
-            });
+            try {
+                var contacts = await Task.Run(() => {
+                    using (var database = new DatabaseContext()) {
+                        return database.MailContacts.ToArrayAsync();
+                    }
+                });
 
-            var contexts = contacts.Select(x => new MailContactContext(x));
-            _contacts.AddRange(contexts);
+                var contexts = contacts.Select(x => new MailContactContext(x));
+                _contacts.AddRange(contexts);
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            } finally {
+                Logger.Exit();
+            }
         }
 
         /// <summary>
@@ -473,6 +507,8 @@ namespace Crystalbyte.Paranoia {
         /// </summary>
         /// <returns>Returns a task object.</returns>
         internal async Task QueryMessageSource() {
+            Logger.Enter();
+
             Application.Current.AssertUIThread();
 
             var source = MessageSource;
@@ -499,34 +535,15 @@ namespace Crystalbyte.Paranoia {
 
                 OnItemSelectionRequested(new ItemSelectionRequestedEventArgs(SelectionPosition.First));
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
+            } finally {
+                Logger.Exit();
             }
         }
 
         #endregion
 
         #region Public Events
-
-        public event EventHandler OutboxSelectionChanged;
-
-        private async void OnOutboxSelectionChanged() {
-            try {
-                var handler = OutboxSelectionChanged;
-                if (handler != null)
-                    handler(this, EventArgs.Empty);
-
-                if (SelectedOutbox == null) {
-                    return;
-                }
-
-                _messages.Clear();
-
-                Source = null;
-                await RefreshViewForSelectedOutbox();
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
 
         public event EventHandler MailboxSelectionChanged;
 
@@ -547,12 +564,6 @@ namespace Crystalbyte.Paranoia {
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
-        }
-
-        private async Task RefreshViewForSelectedOutbox() {
-            Application.Current.AssertUIThread();
-
-            await RequestOutboxContentAsync(SelectedOutbox);
         }
 
         internal event EventHandler Initialized;
@@ -630,7 +641,6 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => SelectedMessage);
             RaisePropertyChanged(() => SelectedMessages);
             RaisePropertyChanged(() => IsMessageSelected);
-            RaisePropertyChanged(() => IsMessageOrSmtpRequestSelected);
         }
 
         internal event EventHandler ContactSelectionChanged;
@@ -661,13 +671,9 @@ namespace Crystalbyte.Paranoia {
                 handler(this, e);
         }
 
-        private static async Task RequestOutboxContentAsync(OutboxContext outbox) {
-            await outbox.LoadCompositionsAsync();
-        }
-
         #endregion
 
-        #region Property Declarations
+        #region Properties
 
         [ImportMany]
         public IEnumerable<Theme> Themes { get; set; }
@@ -678,6 +684,18 @@ namespace Crystalbyte.Paranoia {
 
         public IEnumerable<MailContactContext> Contacts {
             get { return _contacts; }
+        }
+
+        public MailContactContext ActiveContact {
+            get { return _activeContact; }
+            set {
+                if (_activeContact == value) {
+                    return;
+                }
+
+                _activeContact = value;
+                RaisePropertyChanged(() => ActiveContact);
+            }
         }
 
         internal void ConfigureAccount(MailAccountContext account) {
@@ -701,10 +719,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool IsOutboxSelected {
-            get { return SelectedOutbox != null; }
-        }
-
         public MailboxContext SelectedMailbox {
             get { return _selectedMailbox; }
             set {
@@ -714,22 +728,7 @@ namespace Crystalbyte.Paranoia {
 
                 _selectedMailbox = value;
                 RaisePropertyChanged(() => SelectedMailbox);
-                RaisePropertyChanged(() => IsOutboxSelected);
                 OnMailboxSelectionChanged();
-            }
-        }
-
-        public OutboxContext SelectedOutbox {
-            get { return _selectedOutbox; }
-            set {
-                if (_selectedOutbox == value) {
-                    return;
-                }
-
-                _selectedOutbox = value;
-                RaisePropertyChanged(() => SelectedOutbox);
-                RaisePropertyChanged(() => IsOutboxSelected);
-                OnOutboxSelectionChanged();
             }
         }
 
@@ -837,29 +836,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public float Zoom {
-            get { return _zoom; }
-            set {
-                if (Math.Abs(_zoom - value) < Single.Epsilon) {
-                    return;
-                }
-                _zoom = value;
-                RaisePropertyChanged(() => Zoom);
-            }
-        }
-
-        public ICommand ResetZoomCommand {
-            get { return _resetZoomCommand; }
-        }
-
-        public ICommand BlockContactsCommand {
-            get { return _blockContactsCommand; }
-        }
-
-        public ICommand UnblockContactsCommand {
-            get { return _unblockContactsCommand; }
-        }
-
         public ICommand RestoreMessagesCommand {
             get { return _restoreMessagesCommand; }
         }
@@ -872,20 +848,20 @@ namespace Crystalbyte.Paranoia {
             get { return _deleteMessagesCommand; }
         }
 
-        public ICommand MarkAsSeenCommand {
-            get { return _markAsSeenCommand; }
+        public ICommand MarkMessagesAsSeenCommand {
+            get { return _markMessagesAsSeenCommand; }
         }
 
-        public ICommand MarkAsNotSeenCommand {
-            get { return _markAsNotSeenCommand; }
+        public ICommand MarkMessagesAsUnseenCommand {
+            get { return _markMessagesAsUnseenCommand; }
         }
 
-        public ICommand MarkAsNotFlaggedCommand {
-            get { return _markAsNotFlaggedCommand; }
+        public ICommand UnflagMessagesCommand {
+            get { return _unflagMessagesCommand; }
         }
 
-        public ICommand MarkAsFlaggedCommand {
-            get { return _markAsFlaggedCommand; }
+        public ICommand FlagMessagesCommand {
+            get { return _flagMessagesCommand; }
         }
 
         public ICommand CreateAccountCommand {
@@ -939,6 +915,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnMessageSelectionCommitted(EventPattern<object> obj) {
+            Logger.Enter();
+
             Application.Current.AssertUIThread();
 
             try {
@@ -947,35 +925,37 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
-                try {
-                    await ViewMessageAsync(message);
-                } catch (Exception ex) {
-                    Logger.Error(ex);
-                }
+                await ViewMessageAsync(message);
             } catch (Exception ex) {
                 Logger.Error(ex);
+            } finally {
+                Logger.Exit();
             }
         }
 
         internal async Task ViewMessageAsync(MailMessageContext message) {
+            Logger.Enter();
+
             Application.Current.AssertUIThread();
 
             try {
+                var hasMime = await message.GetIsMimeStoredAsync();
                 await Task.Run(async () => {
-                    var hasMime = await message.GetIsMimeStoredAsync();
                     if (!hasMime) {
                         await message.FetchAndDecryptAsync();
                     }
+
+                    hasMime = true;
                 });
 
-                if (!message.IsInitialized) {
-                    await message.InitDetailsAsync();
+                await message.DetailAsync();
+
+                // We need to check after all awaits whether the selected message is still the same.
+                if (SelectedMessage != null && SelectedMessage.Id == message.Id) {
+                    Source = string.Format(message.IsExternalContentAllowed
+                        ? "message:///{0}?blockExternals=false"
+                        : "message:///{0}", message.Id);
                 }
-
-                Source = string.Format(message.IsExternalContentAllowed
-                    ? "message:///{0}?blockExternals=false"
-                    : "message:///{0}", message.Id);
-
             } catch (MessageDecryptionFailedException ex) {
                 // TODO: Notify user key is missing.
                 Logger.Error(ex);
@@ -991,6 +971,8 @@ namespace Crystalbyte.Paranoia {
             } catch (Exception ex) {
                 // TODO: General exception handling.
                 Logger.Error(ex);
+            } finally {
+                Logger.Exit();
             }
         }
 
@@ -999,7 +981,7 @@ namespace Crystalbyte.Paranoia {
 
             return Task.Run(() => {
                 var tasks = messages
-                    .Where(x => x.IsNotSeen)
+                    .Where(x => x.IsUnseen)
                     .GroupBy(x => x.Mailbox)
                     .Select(x => x.Key.MarkAsSeenAsync(x.ToArray()));
 
@@ -1054,8 +1036,7 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 var context = NavigationOptions.OfType<MailNavigationContext>().First();
-                var refresh = context.RefreshAsync();
-                var loadContacts = LoadContactsAsync();
+                var refresh = context.CountGlobalUnseenAsync();
 
                 if (!await CheckKeyPairAsync()) {
                     await GenerateKeyPairAsync();
@@ -1074,7 +1055,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 var online = Accounts.Select(x => x.TakeOnlineAsync()).ToArray();
-                await Task.WhenAll(online.Concat(new[] { loadContacts, refresh }));
+                await Task.WhenAll(online.Concat(new[] { refresh }));
 
                 _outboxTimer.Start();
 
@@ -1096,8 +1077,7 @@ namespace Crystalbyte.Paranoia {
 
                 var contexts = accounts.Select(x => new MailAccountContext(x)).ToArray();
                 var queries = contexts.SelectMany(x => new[] {
-                    x.LoadMailboxesAsync(), 
-                    x.Outbox.CountSmtpRequestsAsync()
+                    x.LoadMailboxesAsync()
                 });
 
                 _accounts.AddRange(contexts);
@@ -1178,29 +1158,14 @@ namespace Crystalbyte.Paranoia {
         }
 
         private Task ProcessOutgoingMessagesAsync() {
-            var tasks = Accounts.Select(x => x.Outbox.SendCompositionsAsync());
-            return Task.WhenAll(tasks);
+            throw new NotImplementedException();
         }
 
         internal async Task NotifyOutboxNotEmpty() {
-            foreach (var account in Accounts) {
-                await account.Outbox.CountSmtpRequestsAsync();
-            }
             await ProcessOutgoingMessagesAsync();
         }
 
-        public bool IsMessageOrSmtpRequestSelected {
-            get {
-                return SelectedMessage != null
-                       || (SelectedOutbox != null && SelectedOutbox.SelectedComposition != null);
-            }
-        }
-
-        internal void NotifySmtpRequestChanged() {
-            RaisePropertyChanged(() => IsMessageOrSmtpRequestSelected);
-        }
-
-        internal void DisplayContacts(ICollection<MailContactContext> contacts) {
+        internal void NotifyContactsCreated(ICollection<MailContactContext> contacts) {
             Application.Current.AssertUIThread();
 
             _contacts.AddRange(contacts);
@@ -1344,20 +1309,19 @@ namespace Crystalbyte.Paranoia {
 
         internal void InspectMessage(FileInfo file) {
             var owner = Application.Current.MainWindow;
-            var inspector = new InspectionWindow();
+            var inspector = new InspectionWindow(new FileMessageContext(file));
             inspector.MimicOwnership(owner);
 
             if (owner.WindowState == WindowState.Maximized) {
                 inspector.WindowState = WindowState.Maximized;
             }
 
-            inspector.InitWithFile(new FileMessageContext(file));
             inspector.Show();
         }
 
         internal void InspectMessage(MailMessageContext message) {
             var owner = Application.Current.MainWindow;
-            var inspector = new InspectionWindow();
+            var inspector = new InspectionWindow(message);
             inspector.MimicOwnership(owner);
 
             if (owner.WindowState == WindowState.Maximized) {
