@@ -41,7 +41,6 @@ namespace Crystalbyte.Paranoia.UI.Converters {
             if (from == null) {
                 return NullOrEmptyFormatter.Convert(null, targetType, parameter, culture);
             }
-
             
             if (from.Name.Equals("NIL") || string.IsNullOrEmpty(from.Name)) {
                 return NullOrEmptyFormatter.Convert(from.Address, targetType, parameter, culture);

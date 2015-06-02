@@ -947,9 +947,8 @@ namespace Crystalbyte.Paranoia {
                         await context.OpenAsync();
                         await context.EnableForeignKeysAsync();
 
-                        var model = new MailAccount { Id = id };
-                        context.MailAccounts.Attach(model);
-                        context.MailAccounts.Remove(model);
+                        var account = await context.MailAccounts.FindAsync(id);
+                        context.MailAccounts.Remove(account);
 
                         await context.SaveChangesAsync(
                             OptimisticConcurrencyStrategy.DatabaseWins);

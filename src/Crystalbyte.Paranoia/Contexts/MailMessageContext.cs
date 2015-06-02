@@ -27,10 +27,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using Crystalbyte.Paranoia.Data;
@@ -420,6 +422,9 @@ namespace Crystalbyte.Paranoia {
                                 Mime = mime
                             };
 
+                            context.MailMessages.Attach(message);
+                            context.Entry(message).Property(x => x.Mime).IsModified = true;
+
                             var xHeaders = reader.Headers.UnknownHeaders;
                             var values = xHeaders.GetValues(MessageHeaders.Signet);
                             if (values != null) {
@@ -455,8 +460,12 @@ namespace Crystalbyte.Paranoia {
                                 }
                             }
 
-                            // TODO: Try and generate SQL statement from entity attributes for type safety.
-                            const string command = "INSERT INTO mail_content(text, message_id) VALUES(@text, @message_id);";
+                            var tableAttribute = typeof(MailMessageContent).GetCustomAttribute<TableAttribute>();
+                            var tableName = tableAttribute != null
+                                ? tableAttribute.Name
+                                : typeof(MailMessageContent).Name;
+
+                            var command = string.Format("INSERT INTO {0}(text, message_id) VALUES(@text, @message_id);", tableName);
                             context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, command, textParam, idParam);
 
                             await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);

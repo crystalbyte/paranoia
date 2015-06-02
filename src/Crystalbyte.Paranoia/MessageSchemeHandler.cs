@@ -36,7 +36,6 @@ using System.Threading.Tasks;
 using CefSharp;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
-using Crystalbyte.Paranoia.Properties;
 using NLog;
 
 #endregion
@@ -60,9 +59,9 @@ namespace Crystalbyte.Paranoia {
                 var uri = new Uri(request.Url);
 
                 if (Regex.IsMatch(uri.AbsolutePath, "[0-9]+")) {
-                    Task.Run(() => {
+                    Task.Run(async () => {
                         try {
-                            ComposeInspectionResponse(request, response);
+                            await CreateMessageResponseAsync(request, response);
                             requestCompletedCallback();
                         } catch (Exception ex) {
                             Logger.Error(ex);
@@ -77,7 +76,6 @@ namespace Crystalbyte.Paranoia {
                         try {
                             ComposeBlankCompositionResponse(response);
                             requestCompletedCallback();
-                            Logger.Debug("End new message.");
                         } catch (Exception ex) {
                             Logger.Error(ex);
                         }
@@ -220,35 +218,33 @@ namespace Crystalbyte.Paranoia {
             return content;
         }
 
-        private static void ComposeInspectionResponse(IRequest request, ISchemeHandlerResponse response) {
+        private async static Task CreateMessageResponseAsync(IRequest request, ISchemeHandlerResponse response) {
             var uri = new Uri(request.Url);
             var id = long.Parse(uri.Segments[1]);
 
-            throw new NotImplementedException();
+            var arguments = uri.PathAndQuery.ToPageArguments();
 
-            //var arguments = uri.PathAndQuery.ToPageArguments();
+            var mime = await GetMessageBytesAsync(id);
+            var reader = new MailMessageReader(mime);
+            var text = HtmlSupport.FindBestSupportedBody(reader);
 
-            //var mime = GetMessageBytesAsync(id);
-            //var reader = new MailMessageReader(mime);
-            //var text = HtmlSupport.FindBestSupportedBody(reader);
+            if (string.IsNullOrWhiteSpace(text)) {
+                CreateHtmlResponse(response, null);
+                return;
+            }
 
-            //if (string.IsNullOrWhiteSpace(text)) {
-            //    ComposeHtmlResponse(response, null);
-            //    return;
-            //}
+            const string key = "blockExternals";
+            var blockExternals = !arguments.ContainsKey(key) || bool.Parse(arguments[key]);
 
-            //const string key = "blockExternals";
-            //var blockExternals = !arguments.ContainsKey(key) || bool.Parse(arguments[key]);
+            text = HtmlSupport.PrepareHtmlForInspection(text);
+            text = HtmlSupport.ModifyEmbeddedParts(text, id);
 
-            //text = HtmlSupport.PrepareHtmlForInspection(text);
-            //text = HtmlSupport.ModifyEmbeddedParts(text, id);
+            if (blockExternals) {
+                text = RemoveExternalSources(text);
+            }
 
-            //if (blockExternals) {
-            //    text = RemoveExternalSources(text);
-            //}
-
-            //var bytes = Encoding.UTF8.GetBytes(text);
-            //ComposeHtmlResponse(response, bytes);
+            var bytes = Encoding.UTF8.GetBytes(text);
+            CreateHtmlResponse(response, bytes);
         }
 
         private static void ComposeBlankCompositionResponse(ISchemeHandlerResponse response) {
@@ -259,7 +255,7 @@ namespace Crystalbyte.Paranoia {
 
             var html = HtmlSupport.GetEditorTemplate(variables);
             var bytes = Encoding.UTF8.GetBytes(html);
-            ComposeHtmlResponse(response, bytes);
+            CreateHtmlResponse(response, bytes);
         }
 
         private static async Task<byte[]> GetMessageBytesAsync(Int64 id) {
@@ -273,7 +269,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private static void ComposeHtmlResponse(ISchemeHandlerResponse response, byte[] bytes) {
+        private static void CreateHtmlResponse(ISchemeHandlerResponse response, byte[] bytes) {
             response.MimeType = "text/html";
             response.ContentLength = bytes.Length;
             response.ResponseStream = new MemoryStream(bytes);
