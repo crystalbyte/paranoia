@@ -38,7 +38,7 @@ namespace Crystalbyte.Paranoia.Data {
                     }
 
                     var value = reader.GetValue(ordinal);
-                    info.SetValue(container, Convert.ChangeType(value, info.PropertyType));
+                    info.SetValue(container, value == DBNull.Value ? null : Convert.ChangeType(value, info.PropertyType));
                 }
                 values.Add(container);
             }

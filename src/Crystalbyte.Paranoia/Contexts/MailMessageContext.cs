@@ -518,17 +518,26 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private Task<bool> GetIsExternalContentAllowedAsync() {
+        private async Task<bool> GetIsExternalContentAllowedAsync() {
             Logger.Enter();
 
-            Application.Current.AssertBackgroundThread();
+            Application.Current.AssertUIThread();
 
             try {
-                var id = _message.Id;
-                return Task.Run(() => {
+                var addresses = _message.Addresses
+                    .Where(x => x.Role == AddressRole.From)
+                    .ToArray();
+
+                if (addresses.Length == 0) {
+                    return false;
+                }
+
+                var first = addresses.First().Address;
+
+                return await Task.Run(() => {
                     using (var context = new DatabaseContext()) {
                         return context.MailContacts
-                            .Where(x => x.Id == id)
+                            .Where(x => x.Address == first)
                             .Select(x => x.IsExternalContentAllowed)
                             .FirstAsync();
                     }

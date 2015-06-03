@@ -411,6 +411,7 @@ namespace Crystalbyte.Paranoia {
                                 context.MailMessages.Attach(model);
                                 context.MailMessages.Remove(model);
 
+                                throw new NotImplementedException("change table name");
                                 // TODO: Extract column names from expression attributes.
                                 // The content table is a virtual table and cannot be altered using EF.
                                 context.Database.ExecuteSqlCommand(
@@ -1416,6 +1417,10 @@ namespace Crystalbyte.Paranoia {
             }
 
             var mailbox = SelectedMailbox;
+            if (mailbox == null) {
+                return;
+            }
+
             var eligible = messages.Where(x => x.Mailbox.Name == mailbox.Name).ToArray();
 
             _messages.DeferNotifications = true;

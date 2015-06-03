@@ -26,13 +26,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.SQLite;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using ARSoft.Tools.Net.Dns;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Data.SQLite;
 using Crystalbyte.Paranoia.Mail;
@@ -204,7 +209,7 @@ namespace Crystalbyte.Paranoia {
                                     lc.Delimiter.ToString(
                                         CultureInfo.InvariantCulture)
                             };
-                            
+
                             model.Flags.AddRange(child.Flags.Select(x => new MailboxFlag { Value = x }));
                             context.Mailboxes.Add(model);
 
@@ -510,11 +515,14 @@ namespace Crystalbyte.Paranoia {
                     await DropDeletedMessagesAsync(uids);
                 }
 
-                await StoreMessagesAsync(messages, seenUids);
-                await CountNotSeenAsync();
+                var countNotSeen = CountNotSeenAsync();
+                if (messages.Length > 0) {
+                    await StoreMessagesAsync(messages, seenUids);
+                    var contexts = messages.Select(x => new MailMessageContext(this, x)).ToArray();
+                    App.Context.NotifyMessagesReceived(contexts);
+                }
 
-                var contexts = messages.Select(x => new MailMessageContext(this, x)).ToArray();
-                App.Context.NotifyMessagesReceived(contexts);
+                await countNotSeen;
 
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
@@ -533,11 +541,41 @@ namespace Crystalbyte.Paranoia {
             try {
                 return Task.Run(async () => {
                     using (var context = new DatabaseContext()) {
-                        context.MailMessages.AddRange(messages);
+                        await context.OpenAsync();
 
-                        await StoreContactsAsync(context, messages);
-                        await context.SaveChangesAsync(
-                            OptimisticConcurrencyStrategy.ClientWins);
+                        using (var transaction = context.Database.Connection.BeginTransaction()) {
+                            try {
+                                context.MailMessages.AddRange(messages);
+
+                                await context.SaveChangesAsync(
+                                    OptimisticConcurrencyStrategy.ClientWins);
+
+                                using (var command = context.Database.Connection.CreateCommand()) {
+                                    foreach (var message in messages) {
+                                        var subjectParam = new SQLiteParameter("@text", message.Subject);
+                                        var messageIdParam = new SQLiteParameter("@message_id", message.Id);
+
+                                        var tableAttribute = typeof(MailMessageContent).GetCustomAttribute<TableAttribute>();
+                                        var tableName = tableAttribute != null
+                                            ? tableAttribute.Name
+                                            : typeof(MailMessageContent).Name;
+
+                                        command.CommandText = string.Format("INSERT INTO {0}(text, message_id) VALUES(@text, @message_id);", tableName);
+                                        command.Parameters.AddRange(new[] { subjectParam, messageIdParam });
+                                        await command.ExecuteNonQueryAsync();
+                                    }
+                                }
+
+                                await StoreContactsAsync(context, messages);
+                                await context.SaveChangesAsync(
+                                    OptimisticConcurrencyStrategy.ClientWins);
+
+                                transaction.Commit();
+                            } catch (Exception ex) {
+                                Logger.ErrorException(ex.Message, ex);
+                                transaction.Rollback();
+                            }
+                        }
                     }
 
                     await StoreMessageFlagsAsync(seenUids);

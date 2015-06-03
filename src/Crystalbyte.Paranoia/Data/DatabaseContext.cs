@@ -25,10 +25,7 @@
 #region Using Directives
 
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
-using System.Diagnostics;
-using System.Net.Mail;
 using Crystalbyte.Paranoia.Data.SQLite;
 using NLog;
 
@@ -46,7 +43,6 @@ namespace Crystalbyte.Paranoia.Data {
         #region Construction
 
         public DatabaseContext() {
-            Logger.Enter();
             Database.SetInitializer(new DatabaseInitializer<DatabaseContext>());
             TimeCreated = Environment.TickCount & Int32.MaxValue;
         }
@@ -84,12 +80,11 @@ namespace Crystalbyte.Paranoia.Data {
 
             var delta = t2 - TimeCreated;
             const int treshold = 200;
-            if (delta > treshold) {
-                var message = string.Format("Context lifetime exceeded {0} milliseconds ({1}s).", treshold, delta / 1000.0f);
-                Logger.Error(message);
-            }
+            if (delta <= treshold) 
+                return;
 
-            Logger.Exit();
+            var message = string.Format("Context lifetime exceeded {0} milliseconds ({1}s).", treshold, delta / 1000.0f);
+            Logger.Error(message);
         }
 
         #endregion

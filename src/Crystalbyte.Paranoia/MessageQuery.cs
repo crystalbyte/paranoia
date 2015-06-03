@@ -26,9 +26,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SQLite;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using Crystalbyte.Paranoia.Data;
@@ -38,6 +41,7 @@ using Crystalbyte.Paranoia.Data.SQLite;
 
 namespace Crystalbyte.Paranoia {
     public sealed class MessageQuery : IMessageSource {
+
         #region Private Fields
 
         private readonly string _query;
@@ -64,15 +68,19 @@ namespace Crystalbyte.Paranoia {
                 _mailboxes.Add(mailbox.Id, mailbox);
             }
         }
-        
+
         public async Task<IEnumerable<MailMessageContext>> GetMessagesAsync() {
             Application.Current.AssertBackgroundThread();
+
+            var contentTableAttribute = typeof(MailMessageContent).GetCustomAttribute<TableAttribute>();
+            var contentTableName = contentTableAttribute == null ? typeof(MailMessageContent).Name : contentTableAttribute.Name;
 
             using (var context = new DatabaseContext()) {
                 await context.OpenAsync();
 
-                const string match = "SELECT * FROM mail_content WHERE mail_content MATCH @query;";
-                var query = new SQLiteParameter("@query", _query);
+                const string param = "@query";
+                var match = string.Format("SELECT * FROM {0} WHERE {0} MATCH {1};", contentTableName, param);
+                var query = new SQLiteParameter(param, _query);
                 var result = await context.Database.SqlQuery<QueryResult>(match, query).ToArrayAsync();
 
                 if (result.Length == 0) {
@@ -82,19 +90,20 @@ namespace Crystalbyte.Paranoia {
                 // Strip out duplicates.
                 var ids = result.Select(x => x.message_id).Distinct().ToArray();
 
-                // We need to read all messages found by the full text search.
-                // EF should not be used, the fastest way seems to be to query the database manually using ADO.
-                // http://stackoverflow.com/questions/8107439/entity-framework-4-1-most-efficient-way-to-get-multiple-entities-by-primary-key
-                var parameters = ids.Select(x => string.Format("@p{0}", x));
-                using (var command = context.Database.Connection.CreateCommand()) {
-                    command.CommandText = string.Format("SELECT * FROM mail_message WHERE id IN ({0});", string.Join(", ", parameters));
-                    command.Parameters.AddRange(ids.Select(x => new SQLiteParameter(string.Format("@p{0}", x), x)).ToArray());
-                    command.CommandType = CommandType.Text;
+                //var messageTableAttribute = typeof(MailMessage).GetCustomAttribute<TableAttribute>();
+                //var messageTableName = messageTableAttribute == null
+                //    ? typeof(MailMessage).Name
+                //    : messageTableAttribute.Name;
 
-                    var reader = command.ExecuteReader(CommandBehavior.Default);
-                    var messages = reader.Read<MailMessage>();
-                    return messages.Select(x => new MailMessageContext(_mailboxes[x.MailboxId], x)).ToArray();
-                }
+                var messages = await context.MailMessages
+                    .Include(x => x.Attachments)
+                    .Include(x => x.Addresses)
+                    .Include(x => x.Flags)
+                    .Where(x => ids.Contains(x.Id))
+                    .AsNoTracking()
+                    .ToArrayAsync();
+
+                return messages.Select(x => new MailMessageContext(_mailboxes[x.MailboxId], x)).ToArray();
             }
         }
 
@@ -104,11 +113,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         #endregion
-
-        // The class is instantiated by the entity provider and requires 
-        // unconventional property names for the internal mapper to make correct assignments.
-
-        // ReSharper disable once ClassNeverInstantiated.Local
+// ReSharper disable once ClassNeverInstantiated.Local
         private class QueryResult {
             // ReSharper disable UnusedMember.Local
             // ReSharper disable InconsistentNaming
