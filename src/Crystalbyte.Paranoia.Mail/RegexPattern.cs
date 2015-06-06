@@ -24,30 +24,30 @@
 
 namespace Crystalbyte.Paranoia.Mail {
     internal static class RegexPatterns {
-        public const string SequenceIdPattern = @"^[aA]\d+ (NO|OK|BAD)";
-        public const string ReadWritePattern = @"\[READ-WRITE\]";
-        public const string ReadOnlyPattern = @"\[READ-ONLY\]";
-        public const string ExamineAndFetchFlagsPattern = @"FLAGS \(.*?\)";
-        public const string ExamineSingleFlagOrKeywordPattern = @"([a-zA-Z]+)|(\*)";
-        public const string ExamineExistsPattern = @"\d+ EXISTS";
-        public const string ExamineRecentPattern = @"\d+ RECENT";
-        public const string ExaminePermanentFlagsPattern = @"PERMANENTFLAGS \(.*\)";
-        public const string ExamineUidNextPattern = @"UIDNEXT \d+";
-        public const string ExamineUnseenPattern = @"UNSEEN \(.*\)";
-        public const string ExamineUidValidityPattern = @"UIDVALIDITY \d+";
-        public const string NonBase64CharactersPattern = @"[\u007F-\uFFFF\u0000-\u001F]+|&";
-        public const string Rfc2060ModifiedBase64Pattern = "&.*?-";
-        public const string BodyStructureResponsePattern = "BODYSTRUCTURE";
-        public const string InternalDateResponsePattern = "INTERNALDATE \\\".+\\\"";
-        public const string QuotedItemsOrNilPattern = "\".*?\"|NIL";
-        public const string QuotedItemsPattern = "\".*?\"";
-        public const string EnvelopeResponsePattern = "\\(\\(.+?\\)\\)|NIL|\"\"|<.+?>|\".+?\"";
-        public const string ParenthesizedItemPattern = @"\(.+?\)";
-        public const string CurlyParanthesizedSizePattern = "\\{\\d+\\}";
-        public const string BoundaryEnvelope = @"^[\r\n\s]*-+[^\r\n]+|\s*-+[^\r\n]+--(\r\n)*$";
-        public const string SingleFlagPattern = @"\\\w+";
-        public const string EmailBracketPattern = "<.+>";
-        public const string BodyPartCommandPattern = @"BODY[((\d+\.)+)(TEXT|HEADER|\.)]";
+        public static readonly string SequenceIdPattern = @"^[aA]\d+ (NO|OK|BAD)";
+        public static readonly string ReadWritePattern = @"\[READ-WRITE\]";
+        public static readonly string ReadOnlyPattern = @"\[READ-ONLY\]";
+        public static readonly string ExamineAndFetchFlagsPattern = @"FLAGS \(.*?\)";
+        public static readonly string ExamineSingleFlagOrKeywordPattern = @"([a-zA-Z]+)|(\*)";
+        public static readonly string ExamineExistsPattern = @"\d+ EXISTS";
+        public static readonly string ExamineRecentPattern = @"\d+ RECENT";
+        public static readonly string ExaminePermanentFlagsPattern = @"PERMANENTFLAGS \(.*\)";
+        public static readonly string ExamineUidNextPattern = @"UIDNEXT \d+";
+        public static readonly string ExamineUnseenPattern = @"UNSEEN \(.*\)";
+        public static readonly string ExamineUidValidityPattern = @"UIDVALIDITY \d+";
+        public static readonly string NonBase64CharactersPattern = @"[\u007F-\uFFFF\u0000-\u001F]+|&";
+        public static readonly string Rfc2060ModifiedBase64Pattern = "&.*?-";
+        public static readonly string BodyStructureResponsePattern = "BODYSTRUCTURE";
+        public static readonly string InternalDateResponsePattern = "INTERNALDATE \\\".+\\\"";
+        public static readonly string QuotedItemsOrNilPattern = "\".*?\"|NIL";
+        public static readonly string QuotedItemsPattern = "\".*?\"";
+        public static readonly string EnvelopeResponsePattern = "\\(\\(.+?\\)\\)|NIL|\"\"|<.+?>|\".+?\"";
+        public static readonly string ParenthesizedItemPattern = @"\(.+?\)";
+        public static readonly string CurlyParanthesizedSizePattern = "\\{\\d+\\}";
+        public static readonly string BoundaryEnvelope = @"^[\r\n\s]*-+[^\r\n]+|\s*-+[^\r\n]+--(\r\n)*$";
+        public static readonly string SingleFlagPattern = @"\\\w+";
+        public static readonly string EmailBracketPattern = "<.+>";
+        public static readonly string BodyPartCommandPattern = @"BODY[((\d+\.)+)(TEXT|HEADER|\.)]";
         public static readonly string HeaderNamePattern = @"^.[^\s(\cA-\cZ)]*:";
         public static readonly string HeaderContinuationPattern = @"^\s";
         public static readonly string HeaderInlineCommentPattern = @"\(.+\)";
@@ -58,5 +58,7 @@ namespace Crystalbyte.Paranoia.Mail {
         public static readonly string QuotedPrintableTrailingWhitespacePattern = @"[\t ]+$";
         public static readonly string QuotedPrintableCroppedEncodedItemPattern = "(=|=[A-F0-9])$";
         public static readonly string QuotedPrintableEncodedItemPattern = "(=[A-F0-9\r\n]{2})+";
+        public static readonly string EmailAddressPattern = @"[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+(?:[A-Zaa-z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b";
+        
     }
 }

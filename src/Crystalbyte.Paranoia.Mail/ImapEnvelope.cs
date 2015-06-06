@@ -48,8 +48,7 @@ namespace Crystalbyte.Paranoia.Mail {
         private readonly List<MailAddress> _bcc;
         private readonly List<KeyValuePair<string, string>> _headers;
 
-        private static readonly string HostRegex =
-            @"^(?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|-){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|-){0,61}[0-9A-Za-z])?)*\.?$";
+        private const string HostRegex = @"^(?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|-){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|-){0,61}[0-9A-Za-z])?)*\.?$";
 
         private const string FetchMetaPattern =
             "(RFC822.SIZE [0-9]+)|((INTERNALDATE \".+?\"))|(FLAGS \\(.*?\\))|UID \\d+";
@@ -160,7 +159,7 @@ namespace Crystalbyte.Paranoia.Mail {
                 }
             }
 
-            String[] t = {"ENVELOPE"};
+            String[] t = { "ENVELOPE" };
             var temp = text.Split(t, StringSplitOptions.None);
             matches = EnvelopeRegex.Matches(temp[1]);
             envelope.Subject = TransferEncoder.Decode(matches[1].Value)
@@ -184,20 +183,20 @@ namespace Crystalbyte.Paranoia.Mail {
             var entries = Regex.Matches(trimmed, "\\\"\\\"|\\\".+?\\\"|NIL");
             var contacts = entries
                 .OfType<Match>()
-                .Select(x => x.Value.Trim(new[] {'"', '\\'}))
+                .Select(x => x.Value.Trim(new[] { '"', '\\' }))
                 .Bundle(4).ToArray()
                 .ToArray();
 
-            return from contact in contacts
-                select contact.ToArray()
-                into items
-                let name = TransferEncoder.Decode(items[0])
-                let host = items[3]
-                let address = string.Format("{0}@{1}", items[2], items[3])
-                where
-                    !string.IsNullOrEmpty(items[3]) ||
-                    Regex.IsMatch(host, HostRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled)
-                select new MailAddress(address, name);
+            return from contact in contacts 
+                   select contact.ToArray() 
+                   into items 
+                   let name = TransferEncoder.Decode(items[0]) 
+                   let host = items[3] 
+                   let address = string.Format("{0}@{1}", items[2], items[3]) 
+                   let isValid = Regex.Match(address, RegexPatterns.EmailAddressPattern).Success 
+                   where isValid 
+                   where !string.IsNullOrEmpty(items[3]) && Regex.IsMatch(host, HostRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled) 
+                   select new MailAddress(address, name);
         }
 
         private void AddContactsToCc(IEnumerable<MailAddress> contacts) {
