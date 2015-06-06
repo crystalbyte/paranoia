@@ -241,6 +241,7 @@
     <Compile Include="IBlockable.cs" />
     <Compile Include="IDecryptor.cs" />
     <Compile Include="IMailMessage.cs" />
+    <Compile Include="LocalMailboxes.cs" />
     <Compile Include="LoggerExtensions.cs" />
     <Compile Include="MailMessageExtension.cs" />
     <Compile Include="Data\Authenticity.cs" />
@@ -345,8 +346,8 @@
     <Compile Include="RevisionTracker.cs" />
     <Compile Include="SecurityMeasure.cs" />
     <Compile Include="UI\Commands\DeleteContactsCommand.cs" />
-    <Compile Include="UI\Commands\MarkMessagesAsUnseenCommand.cs" />
-    <Compile Include="UI\Commands\MarkMessagesAsSeenCommand.cs" />
+    <Compile Include="UI\Commands\FlagMessagesAsUnseenCommand.cs" />
+    <Compile Include="UI\Commands\FlagMessagesAsSeenCommand.cs" />
     <Compile Include="UI\Commands\RestoreMessagesCommand.cs" />
     <Compile Include="UI\Converters\BooleanToVisibilityMultiConverter.cs" />
     <Compile Include="UI\Converters\IconFinder.cs" />

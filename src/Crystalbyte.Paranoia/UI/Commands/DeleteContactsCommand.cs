@@ -32,11 +32,11 @@ using NLog;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
     public sealed class DeleteContactsCommand : ICommand {
+
         #region Private Fields
 
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
         private readonly AppContext _app;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 

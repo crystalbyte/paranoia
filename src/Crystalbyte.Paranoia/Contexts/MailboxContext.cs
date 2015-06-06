@@ -54,7 +54,7 @@ namespace Crystalbyte.Paranoia {
 
         private bool _isEditing;
         private bool _isIdling;
-        private int _notSeenCount;
+        private int? _notSeenCount;
         private bool _isSyncingMessages;
         private bool _isDownloadingMessage;
         private bool _isLoadingMessages;
@@ -76,6 +76,8 @@ namespace Crystalbyte.Paranoia {
         internal MailboxContext(MailAccountContext account, Mailbox mailbox) {
             _account = account;
             _mailbox = mailbox;
+
+            IsExpandedChanged += OnIsExpandedChanged;
         }
 
         #endregion
@@ -321,7 +323,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public int NotSeenCount {
+        public int? NotSeenCount {
             get { return _notSeenCount; }
             set {
                 if (_notSeenCount == value) {
@@ -529,6 +531,20 @@ namespace Crystalbyte.Paranoia {
             } finally {
                 IsSyncingMessages = false;
                 Logger.Exit();
+            }
+        }
+
+        private async void OnIsExpandedChanged(object sender, EventArgs e) {
+            try {
+                if (!IsExpanded) {
+                    return;
+                }
+
+                var tasks = Children.Where(x => !x.NotSeenCount.HasValue).Select(x => x.CountNotSeenAsync());
+                await Task.WhenAll(tasks);
+
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -886,17 +902,12 @@ namespace Crystalbyte.Paranoia {
             try {
                 var t1 = Environment.TickCount & Int32.MaxValue;
 
-                NotSeenCount = await Task.Run(async () => {
+                NotSeenCount = await Task.Run(() => {
                     using (var context = new DatabaseContext()) {
-                        var all = context.MailMessages
-                            .Where(x => x.MailboxId == _mailbox.Id)
+                        return context.MailMessages
+                            .Where(x => x.MailboxId == _mailbox.Id
+                                && x.Flags.All(y => y.Value != MailMessageFlags.Seen))
                             .CountAsync();
-
-                        var seen = context.MailMessageFlags
-                            .Where(x => x.Value == MailMessageFlags.Seen)
-                            .CountAsync();
-
-                        return (await all) - (await seen);
                     }
                 });
 

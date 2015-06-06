@@ -36,6 +36,7 @@ namespace Crystalbyte.Paranoia.Automation {
     ///     CodeProject: http://www.codeproject.com/Articles/12579/Building-COM-Servers-in-NET
     /// </summary>
     public sealed class ApplicationClassFactory : IClassFactory {
+
         #region Private Fields
 
         private readonly IComServer _server;

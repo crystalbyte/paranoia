@@ -27,17 +27,30 @@
 using System;
 using System.Linq;
 using System.Windows.Input;
+using NLog;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.UI.Commands {
-    public sealed class MarkMessagesAsSeenCommand : ICommand {
-        private readonly AppContext _context;
+    public sealed class FlagMessagesAsSeenCommand : ICommand {
 
-        public MarkMessagesAsSeenCommand(AppContext context) {
+        #region Private Fields
+
+        private readonly AppContext _context;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
+
+        #region Construction
+
+        public FlagMessagesAsSeenCommand(AppContext context) {
             _context = context;
             _context.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
         }
+
+        #endregion
+
+        #region Implementation of ICommand
 
         public bool CanExecute(object parameter) {
             return _context.SelectedMessages != null
@@ -45,8 +58,13 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public async void Execute(object parameter) {
-            await _context.MarkSelectionAsSeenAsync();
-            OnCanExecuteChanged();
+            try {
+                var messages = _context.SelectedMessages.ToArray();
+                await _context.FlagMessagesAsSeenAsync(messages);
+                OnCanExecuteChanged();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         public event EventHandler CanExecuteChanged;
@@ -56,5 +74,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
             if (handler != null)
                 handler(this, EventArgs.Empty);
         }
+
+        #endregion
     }
 }

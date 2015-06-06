@@ -409,10 +409,12 @@ namespace Crystalbyte.Paranoia {
             try {
                 using (var context = new DatabaseContext()) {
                     await context.OpenAsync();
-                    await context.EnableForeignKeysAsync();
 
-                    var address = From.Address;
-                    var from = await context.MailContacts.FirstAsync(x => x.Address == address);
+                    MailContact contact = null;
+                    if (From != null) {
+                        var address = From.Address;
+                        contact = await context.MailContacts.FirstAsync(x => x.Address == address);
+                    }
 
                     using (var transaction = context.Database.Connection.BeginTransaction()) {
                         try {
@@ -425,25 +427,29 @@ namespace Crystalbyte.Paranoia {
                             context.MailMessages.Attach(message);
                             context.Entry(message).Property(x => x.Mime).IsModified = true;
 
-                            var xHeaders = reader.Headers.UnknownHeaders;
-                            var values = xHeaders.GetValues(MessageHeaders.Signet);
-                            if (values != null) {
-                                var value = values.FirstOrDefault();
-                                if (value != null) {
-                                    var dic = value.ToKeyValuePairs();
-                                    try {
-                                        var pKey = Convert.FromBase64String(dic["pkey"]);
-                                        var k = from.Keys.FirstOrDefault(x => x.Bytes == pKey);
-                                        if (k == null) {
-                                            from.Keys.Add(new PublicKey {
-                                                Bytes = pKey
-                                            });
+                            // May be an incomplete draft.
+                            if (contact != null) {
+                                var xHeaders = reader.Headers.UnknownHeaders;
+                                var values = xHeaders.GetValues(MessageHeaders.Signet);
+                                if (values != null) {
+                                    var value = values.FirstOrDefault();
+                                    if (value != null) {
+                                        var dic = value.ToKeyValuePairs();
+                                        try {
+                                            var pKey = Convert.FromBase64String(dic["pkey"]);
+                                            var k = contact.Keys.FirstOrDefault(x => x.Bytes == pKey);
+                                            if (k == null) {
+                                                contact.Keys.Add(new PublicKey {
+                                                    Bytes = pKey
+                                                });
+                                            }
+                                        } catch (Exception ex) {
+                                            Logger.Error(ex);
                                         }
-                                    } catch (Exception ex) {
-                                        Logger.Error(ex);
                                     }
-                                }
+                                }    
                             }
+                            
 
                             var textParam = new SQLiteParameter("@text");
                             var idParam = new SQLiteParameter("@message_id", message.Id);

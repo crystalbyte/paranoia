@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using ARSoft.Tools.Net.Dns;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
@@ -21,15 +22,11 @@ namespace Crystalbyte.Paranoia {
         public async Task CountGlobalUnseenAsync() {
             var start = Environment.TickCount & Int32.MaxValue;
 
-            Counter = await Task.Run(async () => {
+            Counter = await Task.Run(() => {
                 using (var context = new DatabaseContext()) {
-                    var all = context.MailMessages.CountAsync();
-
-                    var seen = context.MailMessageFlags
-                        .Where(x => x.Value == MailMessageFlags.Seen)
+                    return context.MailMessages
+                        .Where(x => x.Flags.All(y => y.Value != MailMessageFlags.Seen))
                         .CountAsync();
-
-                    return (await all) - (await seen);
                 }
             });
 

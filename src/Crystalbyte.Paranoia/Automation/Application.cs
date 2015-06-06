@@ -35,6 +35,7 @@ namespace Crystalbyte.Paranoia.Automation {
     [ProgId(ProgId), Guid(ClassId)]
     [ClassInterface(ClassInterfaceType.None)]
     public sealed class Application : ComObject, IApplication {
+
         #region COM Registration
 
         internal const string ProgId = "Paranoia.Application.1";
@@ -46,7 +47,7 @@ namespace Crystalbyte.Paranoia.Automation {
         #region Construction
 
         public Application() {
-            // COM demands parameterless constructor.    
+            // COM demands a parameterless constructor.    
         }
 
         public Application(IComServer server)

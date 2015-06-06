@@ -27,12 +27,16 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Reflection;
+using System.Runtime.Remoting.Contexts;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -43,6 +47,7 @@ using Crystalbyte.Paranoia.Data.SQLite;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
+using CsQuery.ExtensionMethods.Internal;
 using NLog;
 
 #endregion
@@ -96,6 +101,8 @@ namespace Crystalbyte.Paranoia {
                 RaisePropertyChanged(() => Children);
                 RaisePropertyChanged(() => MailboxRoots);
             };
+
+            IsExpandedChanged += OnIsExpandedChanged;
         }
 
         private async void OnDeleteAccount(object obj) {
@@ -109,6 +116,24 @@ namespace Crystalbyte.Paranoia {
                 await DeleteAsync();
             } catch (Exception ex) {
                 Logger.Error(ex);
+            }
+        }
+
+        private async void OnIsExpandedChanged(object sender, EventArgs e) {
+            try {
+                if (!IsExpanded) {
+                    return;
+                }
+
+                var tasks = Children
+                    .OfType<MailboxContext>()
+                    .Where(x => !x.NotSeenCount.HasValue)
+                    .Select(x => x.CountNotSeenAsync());
+
+                await Task.WhenAll(tasks);
+
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -430,11 +455,7 @@ namespace Crystalbyte.Paranoia {
                 });
 
                 var contexts = mailboxes.Select(x => new MailboxContext(this, x)).ToArray();
-                var queries = contexts.Select(x => x.CountNotSeenAsync());
-
                 _mailboxes.AddRange(contexts);
-
-                await Task.WhenAll(queries);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             } finally {
@@ -941,17 +962,58 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertUIThread();
 
             try {
-                var id = _account.Id;
                 await Task.Run(async () => {
                     using (var context = new DatabaseContext()) {
                         await context.OpenAsync();
                         await context.EnableForeignKeysAsync();
 
-                        var account = await context.MailAccounts.FindAsync(id);
-                        context.MailAccounts.Remove(account);
+                        var account = await context.Set<MailAccount>()
+                            .SingleOrDefaultAsync(x => x.Id == Id);
 
-                        await context.SaveChangesAsync(
-                            OptimisticConcurrencyStrategy.DatabaseWins);
+                        var mailboxes = await context.Set<Mailbox>()
+                            .Include(x => x.Flags)
+                            .Where(x => x.AccountId == Id)
+                            .ToDictionaryAsync(x => x.Id);
+
+                        var mailboxIds = mailboxes.Select(x => x.Key).ToArray();
+                        var messages = await context.Set<MailMessage>()
+                            .Include(x => x.Flags)
+                            .Include(x => x.Addresses)
+                            .Include(x => x.Attachments)
+                            .Where(x => mailboxIds.Contains(x.MailboxId))
+                            .ToDictionaryAsync(x => x);
+
+                        var tableAttribute = typeof(MailMessageContent).GetCustomAttribute<TableAttribute>();
+                        var tableName = tableAttribute == null ? typeof(MailMessageContent).Name : tableAttribute.Name;
+
+                        var keyProperty = typeof(MailMessageContent).GetProperties()
+                            .Single(x => x.GetCustomAttribute<KeyAttribute>() != null);
+
+                        var keyColumnAttribute = keyProperty.GetCustomAttribute<ColumnAttribute>();
+                        var keyColumnName = keyColumnAttribute == null ? keyProperty.Name : keyColumnAttribute.Name;
+
+                        // We need to drop the full text index manually, for it is not associated through foreign keys.
+                        var ids = account.Mailboxes.SelectMany(x => x.Messages.Select(y => y.Id));
+                        var joinedIds = string.Join(",", ids);
+
+                        using (var transaction = context.Database.BeginTransaction()) {
+                            try {
+                                var command = string.Format("DELETE FROM {0} WHERE {1} IN ({2});", tableName, keyColumnName, joinedIds);
+                                await context.Database.ExecuteSqlCommandAsync(command);
+
+                                context.Set<MailMessage>().RemoveRange(messages.Values);
+                                context.Set<Mailbox>().RemoveRange(mailboxes.Values);
+                                context.Set<MailAccount>().Remove(account);
+
+                                await context.SaveChangesAsync(
+                                    OptimisticConcurrencyStrategy.DatabaseWins);
+
+                                transaction.Commit();
+                            } catch (Exception ex) {
+                                transaction.Rollback();
+                                Logger.ErrorException(ex.Message, ex);
+                            }
+                        }
                     }
                 });
 

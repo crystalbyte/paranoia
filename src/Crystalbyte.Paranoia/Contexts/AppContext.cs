@@ -51,6 +51,7 @@ using Crystalbyte.Paranoia.Themes;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
+using NLog.Targets;
 
 #endregion
 
@@ -115,9 +116,9 @@ namespace Crystalbyte.Paranoia {
             };
 
             _restoreMessagesCommand = new RestoreMessagesCommand(this);
-            _markMessagesAsSeenCommand = new MarkMessagesAsSeenCommand(this);
+            _markMessagesAsSeenCommand = new FlagMessagesAsSeenCommand(this);
             _deleteMessagesCommand = new DeleteMessagesCommand(this);
-            _markMessagesAsUnseenCommand = new MarkMessagesAsUnseenCommand(this);
+            _markMessagesAsUnseenCommand = new FlagMessagesAsUnseenCommand(this);
             _deleteContactsCommand = new DeleteContactsCommand(this);
             _createAccountCommand = new RelayCommand(OnCreateAccount);
             _flagMessagesCommand = new FlagMessagesCommand(this);
@@ -270,15 +271,56 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public async Task FlagMessagesAsUnseenAsync(MailMessageContext[] messages) {
+            Logger.Enter();
+
+            Application.Current.AssertUIThread();
+
+            var candidates = messages.Where(x => x.IsSeen).ToArray();
+            if (candidates.Length == 0) {
+                return;
+            }
+
+            candidates.ForEach(x => x.IsSeen = false);
+
+            try {
+                await InvokeGroupedActionAsync(candidates,
+                    async (session, group) => {
+                        var name = group.Key.Name;
+                        var ids = group.Select(z => z.Id).ToArray();
+                        var uids = group.Select(z => z.Uid).ToArray();
+
+                        try {
+                            var storage = FlagStoredMessagesAsSeenAsync(ids);
+                            var mailbox = await session.SelectAsync(name);
+                            await mailbox.MarkAsSeenAsync(uids);
+
+                            await storage;
+                        } catch (Exception ex) {
+                            Logger.Error(ex);
+                        }
+                    });
+            } catch (Exception ex) {
+                Logger.Error(ex);
+            } finally {
+                Logger.Exit();
+            }
+        }
+
         internal async Task FlagMessagesAsSeenAsync(MailMessageContext[] messages) {
             Logger.Enter();
 
             Application.Current.AssertUIThread();
 
-            messages.ForEach(x => x.IsSeen = true);
+            var candidates = messages.Where(x => x.IsSeen).ToArray();
+            if (candidates.Length == 0) {
+                return;
+            }
+
+            candidates.ForEach(x => x.IsSeen = true);
 
             try {
-                await InvokeGroupedActionAsync(messages,
+                await InvokeGroupedActionAsync(candidates,
                     async (session, group) => {
                         var name = group.Key.Name;
                         var ids = group.Select(z => z.Id).ToArray();
@@ -977,31 +1019,31 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal Task MarkSelectionAsSeenAsync() {
-            var messages = SelectedMessages.ToArray();
+        //internal Task MarkSelectionAsSeenAsync() {
+        //    var messages = SelectedMessages.ToArray();
 
-            return Task.Run(() => {
-                var tasks = messages
-                    .Where(x => x.IsUnseen)
-                    .GroupBy(x => x.Mailbox)
-                    .Select(x => x.Key.MarkAsSeenAsync(x.ToArray()));
+        //    return Task.Run(() => {
+        //        var tasks = messages
+        //            .Where(x => x.IsUnseen)
+        //            .GroupBy(x => x.Mailbox)
+        //            .Select(x => x.Key.MarkAsSeenAsync(x.ToArray()));
 
-                Task.WhenAll(tasks);
-            });
-        }
+        //        Task.WhenAll(tasks);
+        //    });
+        //}
 
-        internal Task MarkSelectionAsNotSeenAsync() {
-            var messages = SelectedMessages.ToArray();
+        //internal Task MarkSelectionAsNotSeenAsync() {
+        //    var messages = SelectedMessages.ToArray();
 
-            return Task.Run(() => {
-                var tasks = messages
-                    .Where(x => x.IsSeen)
-                    .GroupBy(x => x.Mailbox)
-                    .Select(x => x.Key.MarkAsNotSeenAsync(x.ToArray()));
+        //    return Task.Run(() => {
+        //        var tasks = messages
+        //            .Where(x => x.IsSeen)
+        //            .GroupBy(x => x.Mailbox)
+        //            .Select(x => x.Key.MarkAsNotSeenAsync(x.ToArray()));
 
-                Task.WhenAll(tasks);
-            });
-        }
+        //        Task.WhenAll(tasks);
+        //    });
+        //}
 
         internal void ClosePopup() {
             OnModalNavigationRequested(new NavigationRequestedEventArgs(null));
@@ -1131,7 +1173,7 @@ namespace Crystalbyte.Paranoia {
             }
 
             try {
-                await ProcessOutgoingMessagesAsync();
+                
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -1158,12 +1200,8 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private Task ProcessOutgoingMessagesAsync() {
-            throw new NotImplementedException();
-        }
-
-        internal async Task NotifyOutboxNotEmpty() {
-            await ProcessOutgoingMessagesAsync();
+        internal void NotifyOutboxNotEmpty() {
+            
         }
 
         internal void NotifyContactsCreated(ICollection<MailContactContext> contacts) {
@@ -1401,6 +1439,10 @@ namespace Crystalbyte.Paranoia {
                 _messages.Remove(message.Value);
                 _messages.DeferNotifications = false;
                 _messages.NotifyCollectionChanged();
+            }
+
+            if (Source == null) {
+                return;
             }
 
             const string pattern = "message:///(?<ID>[0-9]+)";

@@ -22,9 +22,19 @@
 
 #endregion
 
+using System;
+
 namespace Crystalbyte.Paranoia {
     public abstract class HierarchyContext : SelectionObject {
         private bool _isExpanded;
+
+        public event EventHandler IsExpandedChanged;
+
+        protected virtual void OnIsExpandedChanged() {
+            var handler = IsExpandedChanged;
+            if (handler != null) 
+                handler(this, EventArgs.Empty);
+        }
 
         public virtual bool IsListed {
             get { return true; }
@@ -39,6 +49,7 @@ namespace Crystalbyte.Paranoia {
 
                 _isExpanded = value;
                 RaisePropertyChanged(() => IsExpanded);
+                OnIsExpandedChanged();
             }
         }
     }
