@@ -64,7 +64,7 @@ namespace Crystalbyte.Paranoia {
                             await CreateMessageResponseAsync(request, response);
                             requestCompletedCallback();
                         } catch (Exception ex) {
-                            Logger.Error(ex);
+                            Logger.ErrorException(ex.Message, ex);
                         }
                     });
 
@@ -77,7 +77,7 @@ namespace Crystalbyte.Paranoia {
                             ComposeBlankCompositionResponse(response);
                             requestCompletedCallback();
                         } catch (Exception ex) {
-                            Logger.Error(ex);
+                            Logger.ErrorException(ex.Message, ex);
                         }
                     });
 
@@ -90,7 +90,7 @@ namespace Crystalbyte.Paranoia {
                             ComposeQuotedCompositionResponse(request, response);
                             requestCompletedCallback();
                         } catch (Exception ex) {
-                            Logger.Error(ex);
+                            Logger.ErrorException(ex.Message, ex);
                         }
                     });
 
@@ -103,7 +103,7 @@ namespace Crystalbyte.Paranoia {
                             ComposeQuotedCompositionResponse(request, response);
                             requestCompletedCallback();
                         } catch (Exception ex) {
-                            Logger.Error(ex);
+                            Logger.ErrorException(ex.Message, ex);
                         }
                     });
 
@@ -116,7 +116,7 @@ namespace Crystalbyte.Paranoia {
                             await ComposeCidImageResponseAsync(request, response);
                             requestCompletedCallback();
                         } catch (Exception ex) {
-                            Logger.Error(ex);
+                            Logger.ErrorException(ex.Message, ex);
                         }
                     });
 
@@ -125,7 +125,7 @@ namespace Crystalbyte.Paranoia {
 
                 return false;
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
                 return false;
             }
         }

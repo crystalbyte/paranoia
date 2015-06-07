@@ -68,7 +68,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
                 var selection = _app.SelectedMessages.ToArray();
                 await _app.DeleteMessagesAsync(selection);
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 

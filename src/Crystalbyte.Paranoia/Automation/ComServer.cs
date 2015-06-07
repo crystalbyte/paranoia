@@ -77,7 +77,7 @@ namespace Crystalbyte.Paranoia.Automation {
                 }
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -86,7 +86,7 @@ namespace Crystalbyte.Paranoia.Automation {
                 NativeMethods.CoRevokeClassObject(_comRegistryToken);
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 

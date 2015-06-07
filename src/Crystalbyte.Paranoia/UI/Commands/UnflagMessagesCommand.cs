@@ -53,7 +53,8 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public async void Execute(object parameter) {
-            await _context.MarkSelectionAsNotFlaggedAsync();
+            var messages = _context.SelectedMessages.ToArray();
+            await _context.UnflagMessagesAsync(messages);
             OnCanExecuteChanged();
         }
 

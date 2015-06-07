@@ -74,7 +74,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 _browser.ViewSource();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -89,7 +89,7 @@ namespace Crystalbyte.Paranoia.UI {
                     dynamic document = browser.Document;
                     document.execCommand("print", true, null);
                 } catch (Exception ex) {
-                    Logger.Error(ex);
+                    Logger.ErrorException(ex.Message, ex);
                 } finally {
                     browser.Dispose();
                 }
@@ -102,7 +102,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 _browser.SelectAll();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -110,7 +110,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 await PrintAsync();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -118,7 +118,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 _browser.Copy();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -154,7 +154,7 @@ namespace Crystalbyte.Paranoia.UI {
                     Navigate(new Uri(Source));
                 }
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 

@@ -73,7 +73,7 @@ namespace Crystalbyte.Paranoia.UI {
                 FlyoutFrame.Navigate(url);
                 ShowFlyout();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -87,7 +87,7 @@ namespace Crystalbyte.Paranoia.UI {
                 var context = (AppContext)DataContext;
                 context.CloseFlyout();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -103,7 +103,7 @@ namespace Crystalbyte.Paranoia.UI {
                 var context = (AppContext)DataContext;
                 context.CloseFlyout();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -134,7 +134,7 @@ namespace Crystalbyte.Paranoia.UI {
 
                 await App.Context.RunAsync();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -144,7 +144,7 @@ namespace Crystalbyte.Paranoia.UI {
                 try {
                     action();
                 } catch (Exception ex) {
-                    Logger.Error(ex);
+                    Logger.ErrorException(ex.Message, ex);
                 }
             }
         }
@@ -164,7 +164,7 @@ namespace Crystalbyte.Paranoia.UI {
                     page.OnAnimationFinished();
                 }
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -172,7 +172,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 FlyoutOverlay.Visibility = Visibility.Collapsed;
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -190,7 +190,7 @@ namespace Crystalbyte.Paranoia.UI {
                 }
                 CloseFlyout();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -198,7 +198,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 PopupFrame.Navigate(e.Target);
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -207,7 +207,7 @@ namespace Crystalbyte.Paranoia.UI {
                 FlyoutFrame.Navigate(e.Target);
                 ShowFlyout();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -250,7 +250,7 @@ namespace Crystalbyte.Paranoia.UI {
                 var window = (MainWindow)d;
                 window.OnFlyoutVisibilityChanged();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -261,7 +261,7 @@ namespace Crystalbyte.Paranoia.UI {
                     page.OnNavigated(e);
                 }
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -272,7 +272,7 @@ namespace Crystalbyte.Paranoia.UI {
                     page.OnNavigating(e);
                 }
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -285,7 +285,7 @@ namespace Crystalbyte.Paranoia.UI {
                 var selection = App.Context.NavigationOptions.First(x => x.IsSelected);
                 MainFrame.Navigate(selection.TargetUri);
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -296,7 +296,7 @@ namespace Crystalbyte.Paranoia.UI {
                     page.OnNavigated(e);
                 }
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -306,7 +306,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 BorderBrush = Application.Current.Resources[ThemeResourceKeys.AppAccentBrushKey] as Brush;
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -316,7 +316,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 App.Context.Compose();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
     }

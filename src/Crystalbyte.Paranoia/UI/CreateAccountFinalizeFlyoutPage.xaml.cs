@@ -209,7 +209,7 @@ namespace Crystalbyte.Paranoia.UI {
                 await account.SaveAsync();
 
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             } finally {
                 ContinueButton.IsEnabled = true;
             }

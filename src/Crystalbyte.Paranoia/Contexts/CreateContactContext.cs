@@ -49,7 +49,7 @@ namespace Crystalbyte.Paranoia {
                 var contact = await StoreContactAsync();
                 App.Context.NotifyContactsCreated(new[] { new MailContactContext(contact) });
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             } finally {
                 App.Context.ClosePopup();
             }

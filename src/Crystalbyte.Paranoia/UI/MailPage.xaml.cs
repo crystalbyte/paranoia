@@ -88,7 +88,7 @@ namespace Crystalbyte.Paranoia.UI {
                 var request = new TraversalRequest(FocusNavigationDirection.Previous);
                 MoveFocus(request);
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -96,7 +96,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 AccountsTreeView.Focus();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -117,7 +117,7 @@ namespace Crystalbyte.Paranoia.UI {
                     }
                 }
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 

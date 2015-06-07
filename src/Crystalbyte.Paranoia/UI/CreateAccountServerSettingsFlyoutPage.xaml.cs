@@ -66,7 +66,7 @@ namespace Crystalbyte.Paranoia.UI {
 
                 App.Context.NotifyAccountCreated(account);
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
 
             var uri = typeof(CreateAccountFinalizeFlyoutPage).ToPageUri();

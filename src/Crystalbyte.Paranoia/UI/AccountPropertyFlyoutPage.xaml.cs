@@ -194,7 +194,7 @@ namespace Crystalbyte.Paranoia.UI {
                 RevertChanges();
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -211,7 +211,7 @@ namespace Crystalbyte.Paranoia.UI {
                 var account = (MailAccountContext)DataContext;
                 await account.SaveAsync();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             } finally {
                 ContinueButton.IsEnabled = true;
             }

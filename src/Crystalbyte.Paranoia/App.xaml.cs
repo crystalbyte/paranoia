@@ -206,15 +206,15 @@ namespace Crystalbyte.Paranoia {
                         success = true;
                     }
                     catch (Exception ex) {
-                        Logger.Error(ex);
+                        Logger.ErrorException(ex.Message, ex);
                         success = false;
                     }
                 }
                 catch (TimeoutException ex) {
-                    Logger.Error(ex);
+                    Logger.ErrorException(ex.Message, ex);
                 }
                 catch (AbandonedMutexException ex) {
-                    Logger.Error(ex);
+                    Logger.ErrorException(ex.Message, ex);
                     hasHandle = true;
                 }
                 finally {
@@ -242,7 +242,7 @@ namespace Crystalbyte.Paranoia {
                 application.OpenFile(arguments[1]);
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -267,7 +267,7 @@ namespace Crystalbyte.Paranoia {
                                      });
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -278,7 +278,7 @@ namespace Crystalbyte.Paranoia {
                 StopComServer();
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 

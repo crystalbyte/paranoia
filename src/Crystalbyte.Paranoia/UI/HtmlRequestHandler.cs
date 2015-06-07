@@ -65,7 +65,7 @@ namespace Crystalbyte.Paranoia.UI {
                 }
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
 
             return false;
@@ -78,7 +78,7 @@ namespace Crystalbyte.Paranoia.UI {
                 Logger.Error(message);
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
 
             return false;
@@ -94,7 +94,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return false;
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
                 return false;
             }
         }

@@ -171,7 +171,7 @@ namespace Crystalbyte.Paranoia {
 
                 _isSyncedInitially = true;
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -228,7 +228,7 @@ namespace Crystalbyte.Paranoia {
                 Account.NotifyMailboxesAdded(contexts);
 
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             } finally {
                 IsSyncingMailboxes = false;
                 Logger.Exit();
@@ -400,7 +400,7 @@ namespace Crystalbyte.Paranoia {
                 await Task.WhenAll(new[] { deleteFromServer, deleteFromStore });
                 _account.NotifyMailboxesRemoved(new[] { this });
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             } finally {
                 Logger.Exit();
             }
@@ -517,15 +517,15 @@ namespace Crystalbyte.Paranoia {
                     await DropDeletedMessagesAsync(uids);
                 }
 
-                var countNotSeen = CountNotSeenAsync();
                 if (messages.Length > 0) {
                     await StoreMessagesAsync(messages, seenUids);
+                    var countNotSeen = CountNotSeenAsync();
+
                     var contexts = messages.Select(x => new MailMessageContext(this, x)).ToArray();
                     App.Context.NotifyMessagesReceived(contexts);
+
+                    await countNotSeen;
                 }
-
-                await countNotSeen;
-
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             } finally {
@@ -819,7 +819,7 @@ namespace Crystalbyte.Paranoia {
                 await CountNotSeenAsync();
             } catch (Exception ex) {
                 messages.ForEach(x => x.IsSeen = true);
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -842,7 +842,7 @@ namespace Crystalbyte.Paranoia {
                 await CountNotSeenAsync();
             } catch (Exception ex) {
                 messages.ForEach(x => x.IsSeen = false);
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -866,7 +866,7 @@ namespace Crystalbyte.Paranoia {
                 await CountNotSeenAsync();
             } catch (Exception ex) {
                 messages.ForEach(x => x.IsSeen = true);
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -890,7 +890,7 @@ namespace Crystalbyte.Paranoia {
                 await CountNotSeenAsync();
             } catch (Exception ex) {
                 messages.ForEach(x => x.IsSeen = true);
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -915,7 +915,7 @@ namespace Crystalbyte.Paranoia {
                 Logger.Debug("Counted {0} messages in mailbox {1} in {2} seconds.", NotSeenCount, Name, (t2 - t1) / 1000.0f);
 
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             } finally {
                 Logger.Exit();
             }
@@ -993,7 +993,7 @@ namespace Crystalbyte.Paranoia {
 
                 });
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             } finally {
                 IsIdling = false;
             }
@@ -1012,7 +1012,7 @@ namespace Crystalbyte.Paranoia {
 
                     await SyncMessagesAsync();
                 } catch (Exception ex) {
-                    Logger.Error(ex);
+                    Logger.ErrorException(ex.Message, ex);
                 }
             });
         }
@@ -1060,7 +1060,7 @@ namespace Crystalbyte.Paranoia {
 
                 await App.Context.DeleteMessagesAsync(messages);
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             } finally {
                 Logger.Exit();
             }
@@ -1087,7 +1087,7 @@ namespace Crystalbyte.Paranoia {
                 await CountNotSeenAsync();
             } catch (Exception ex) {
                 messages.ForEach(x => x.IsFlagged = true);
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             } finally {
                 Logger.Exit();
             }

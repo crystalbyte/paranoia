@@ -338,7 +338,7 @@ namespace Crystalbyte.Paranoia {
 
                 Progress = Convert.ToInt32(percentage);
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -444,7 +444,7 @@ namespace Crystalbyte.Paranoia {
                                                 });
                                             }
                                         } catch (Exception ex) {
-                                            Logger.Error(ex);
+                                            Logger.ErrorException(ex.Message, ex);
                                         }
                                     }
                                 }    
@@ -478,7 +478,7 @@ namespace Crystalbyte.Paranoia {
                             transaction.Commit();
                         } catch (Exception ex) {
                             transaction.Rollback();
-                            Logger.Error(ex);
+                            Logger.ErrorException(ex.Message, ex);
                             throw;
                         }
                     }

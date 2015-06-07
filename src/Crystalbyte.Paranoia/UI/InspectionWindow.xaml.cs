@@ -102,7 +102,7 @@ namespace Crystalbyte.Paranoia.UI {
                 await HtmlViewer.PrintAsync();
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -121,7 +121,7 @@ namespace Crystalbyte.Paranoia.UI {
                 await App.Context.ForwardAsync(message);
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -140,7 +140,7 @@ namespace Crystalbyte.Paranoia.UI {
                 await App.Context.ReplyAsync(message);
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -159,7 +159,7 @@ namespace Crystalbyte.Paranoia.UI {
                 await App.Context.ReplyToAllAsync(message);
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -169,7 +169,7 @@ namespace Crystalbyte.Paranoia.UI {
                 ViewMessage(message);
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -191,7 +191,7 @@ namespace Crystalbyte.Paranoia.UI {
                     Uri.EscapeDataString(file.FullName));
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 

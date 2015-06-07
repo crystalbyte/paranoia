@@ -59,7 +59,7 @@ namespace Crystalbyte.Paranoia.UI.Converters {
                 return FindLargeFromPath(name, true, false);
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
 
             return DefaultIcon;

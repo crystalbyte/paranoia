@@ -60,7 +60,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
                 await _app.FlagMessagesAsync(selection);
                 OnCanExecuteChanged();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 

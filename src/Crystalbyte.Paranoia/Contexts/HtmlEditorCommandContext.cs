@@ -102,7 +102,7 @@ namespace Crystalbyte.Paranoia {
                 _editor.Redo();
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -115,7 +115,7 @@ namespace Crystalbyte.Paranoia {
                 _editor.Undo();
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 

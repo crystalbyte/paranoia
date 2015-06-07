@@ -70,7 +70,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
                 await _app.RestoreSelectedMessagesAsync();
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
     }

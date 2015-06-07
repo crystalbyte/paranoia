@@ -373,7 +373,7 @@ namespace Crystalbyte.Paranoia.UI {
                 var url = string.Format("file:///{0}", WebUtility.UrlEncode(dialog.FileName));
                 InsertEmbed(Selection.Value.Start, "image", url);
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -397,7 +397,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 _browser.ViewSource();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -405,7 +405,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 _browser.Paste();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -413,7 +413,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 _browser.Cut();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -428,7 +428,7 @@ namespace Crystalbyte.Paranoia.UI {
                     dynamic document = browser.Document;
                     document.execCommand("print", true, null);
                 } catch (Exception ex) {
-                    Logger.Error(ex);
+                    Logger.ErrorException(ex.Message, ex);
                 } finally {
                     browser.Dispose();
                 }
@@ -441,7 +441,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 _browser.Copy();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -449,7 +449,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 _browser.SelectAll();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -457,7 +457,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 await PrintAsync();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -504,7 +504,7 @@ namespace Crystalbyte.Paranoia.UI {
                     Navigate(new Uri(Source, UriKind.RelativeOrAbsolute));
                 }
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 

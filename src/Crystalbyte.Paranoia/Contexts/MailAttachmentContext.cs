@@ -117,7 +117,7 @@ namespace Crystalbyte.Paranoia {
                         var bytes = GetBytes();
                         File.WriteAllBytes(dialog.FileName, bytes);
                     } catch (Exception ex) {
-                        Logger.Error(ex);
+                        Logger.ErrorException(ex.Message, ex);
                     }
                 });
 

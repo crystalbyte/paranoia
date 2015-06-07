@@ -340,7 +340,7 @@ namespace Crystalbyte.Paranoia.UI {
                 //    await SignAsync();
                 //}
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 

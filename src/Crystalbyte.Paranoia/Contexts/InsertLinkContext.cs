@@ -76,7 +76,7 @@ namespace Crystalbyte.Paranoia {
                 await _editor.SetLinkAsync(Name);
             }
             catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 

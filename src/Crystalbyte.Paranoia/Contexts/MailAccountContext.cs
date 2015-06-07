@@ -36,7 +36,6 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection;
-using System.Runtime.Remoting.Contexts;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -47,7 +46,6 @@ using Crystalbyte.Paranoia.Data.SQLite;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
-using CsQuery.ExtensionMethods.Internal;
 using NLog;
 
 #endregion
@@ -115,7 +113,7 @@ namespace Crystalbyte.Paranoia {
 
                 await DeleteAsync();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -286,7 +284,7 @@ namespace Crystalbyte.Paranoia {
                     inbox.IdleAsync();
                 }
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -763,7 +761,7 @@ namespace Crystalbyte.Paranoia {
                     }
                 });
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
 
                 Testing = new TestingContext {
                     IsFaulted = true,
@@ -786,7 +784,7 @@ namespace Crystalbyte.Paranoia {
                     }
                 });
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
 
                 Testing = new TestingContext {
                     IsFaulted = true,
@@ -853,7 +851,7 @@ namespace Crystalbyte.Paranoia {
                         return serializer.Deserialize(stream) as clientConfig;
                     }
                 } catch (WebException ex) {
-                    Logger.Error(ex);
+                    Logger.ErrorException(ex.Message, ex);
                     return null;
                 }
             });
@@ -869,7 +867,7 @@ namespace Crystalbyte.Paranoia {
                 try {
                     return DnsClient.Default.Resolve(domain, RecordType.Mx);
                 } catch (Exception ex) {
-                    Logger.Error(ex);
+                    Logger.ErrorException(ex.Message, ex);
                     return null;
                 }
             });
@@ -1053,7 +1051,7 @@ namespace Crystalbyte.Paranoia {
                             database.MailMessages.Attach(model);
                             database.MailMessages.Remove(model);
                         } catch (Exception ex) {
-                            Logger.Error(ex);
+                            Logger.ErrorException(ex.Message, ex);
                             throw;
                         }
                     }
@@ -1074,7 +1072,7 @@ namespace Crystalbyte.Paranoia {
                 // Requery message source for some items may have changed.
                 await App.Context.QueryMessageSource();
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
