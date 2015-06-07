@@ -506,15 +506,13 @@ namespace Crystalbyte.Paranoia {
                 var getUnseenUids = SearchAsync(name, "1:* NOT SEEN");
                 var fetchEnvelopes = FetchEnvelopesAsync(name, await getMaxUid);
 
-                // From this point on all messages and contacts should be written to the store.
                 var messages = (await fetchEnvelopes).ToArray();
-
                 var unseenUids = await getUnseenUids;
                 var seenUids = await getSeenUids;
 
                 var uids = new HashSet<long>(unseenUids.Concat(seenUids).Distinct());
                 if (uids.Count != 0) {
-                    await DropDeletedMessagesAsync(uids);
+                    await DeleteStoredButObsoleteMessagesAsync(uids);
                 }
 
                 if (messages.Length > 0) {
@@ -558,10 +556,14 @@ namespace Crystalbyte.Paranoia {
                 return Task.Run(async () => {
                     using (var context = new DatabaseContext()) {
                         await context.OpenAsync();
+                        await context.EnableForeignKeysAsync();
 
                         using (var transaction = context.Database.Connection.BeginTransaction()) {
                             try {
-                                context.MailMessages.AddRange(messages);
+
+                                var mailbox = new Mailbox { Id = Id };
+                                context.Set<Mailbox>().Attach(mailbox);
+                                mailbox.Messages.AddRange(messages);
 
                                 await context.SaveChangesAsync(
                                     OptimisticConcurrencyStrategy.ClientWins);
@@ -728,7 +730,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task<bool> DropDeletedMessagesAsync(ICollection<long> uids) {
+        private async Task<bool> DeleteStoredButObsoleteMessagesAsync(ICollection<long> uids) {
             Logger.Enter();
 
             Application.Current.AssertUIThread();
@@ -741,22 +743,23 @@ namespace Crystalbyte.Paranoia {
                         await context.OpenAsync();
                         await context.EnableForeignKeysAsync();
 
-                        var messages = await context.MailMessages
+                        var messages = await context.Set<MailMessage>()
                             .Where(x => x.MailboxId == Id)
-                            .Select(x => new { x.Id, x.Uid })
+                            .Include(x => x.Addresses)
+                            .Include(x => x.Attachments)
+                            .Include(x => x.Flags)
                             .AsNoTracking()
                             .ToArrayAsync();
 
                         var deletedMessages = messages
                             .Where(x => !uids.Contains(x.Uid))
-                            .Select(x => x.Id)
                             .ToArray();
 
-                        const string table = "mail_message";
-                        var uidCollection = string.Join(", ", uids);
-                        var command = string.Format("DELETE FROM {0} WHERE id IN ({1});", table, uidCollection);
-                        await context.Database.ExecuteSqlCommandAsync(TransactionalBehavior.EnsureTransaction, command);
+                        if (deletedMessages.Length == 0) {
+                            return new MailMessage[0];
+                        }
 
+                        context.Set<MailMessage>().RemoveRange(deletedMessages);
                         return deletedMessages;
                     }
                 });
@@ -799,52 +802,52 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task MarkAsNotSeenAsync(MailMessageContext[] messages) {
-            Application.Current.AssertBackgroundThread();
+        //internal async Task MarkAsNotSeenAsync(MailMessageContext[] messages) {
+        //    Application.Current.AssertBackgroundThread();
 
-            try {
-                messages.ForEach(x => x.IsSeen = false);
-                var uids = messages.Select(x => x.Uid).ToArray();
+        //    try {
+        //        messages.ForEach(x => x.IsSeen = false);
+        //        var uids = messages.Select(x => x.Uid).ToArray();
 
-                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
-                    connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
-                    using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
-                        using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
-                            var folder = await session.SelectAsync(Name);
-                            await folder.MarkAsNotSeenAsync(uids);
-                        }
-                    }
-                }
+        //        using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+        //            connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
+        //            using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+        //                using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+        //                    var folder = await session.SelectAsync(Name);
+        //                    await folder.MarkAsNotSeenAsync(uids);
+        //                }
+        //            }
+        //        }
 
-                await CountNotSeenAsync();
-            } catch (Exception ex) {
-                messages.ForEach(x => x.IsSeen = true);
-                Logger.ErrorException(ex.Message, ex);
-            }
-        }
+        //        await CountNotSeenAsync();
+        //    } catch (Exception ex) {
+        //        messages.ForEach(x => x.IsSeen = true);
+        //        Logger.ErrorException(ex.Message, ex);
+        //    }
+        //}
 
-        internal async Task MarkAsSeenAsync(MailMessageContext[] messages) {
-            Application.Current.AssertBackgroundThread();
+        //internal async Task MarkAsSeenAsync(MailMessageContext[] messages) {
+        //    Application.Current.AssertBackgroundThread();
 
-            try {
-                messages.ForEach(x => x.IsSeen = true);
-                var uids = messages.Select(x => x.Uid).ToArray();
+        //    try {
+        //        messages.ForEach(x => x.IsSeen = true);
+        //        var uids = messages.Select(x => x.Uid).ToArray();
 
-                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
-                    using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
-                        using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
-                            var folder = await session.SelectAsync(Name);
-                            await folder.MarkAsSeenAsync(uids);
-                        }
-                    }
-                }
+        //        using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+        //            using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+        //                using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+        //                    var folder = await session.SelectAsync(Name);
+        //                    await folder.MarkAsSeenAsync(uids);
+        //                }
+        //            }
+        //        }
 
-                await CountNotSeenAsync();
-            } catch (Exception ex) {
-                messages.ForEach(x => x.IsSeen = false);
-                Logger.ErrorException(ex.Message, ex);
-            }
-        }
+        //        await CountNotSeenAsync();
+        //    } catch (Exception ex) {
+        //        messages.ForEach(x => x.IsSeen = false);
+        //        Logger.ErrorException(ex.Message, ex);
+        //    }
+        //}
 
         internal async Task MarkAsAnsweredAsync(MailMessageContext[] messages) {
             Application.Current.AssertBackgroundThread();
