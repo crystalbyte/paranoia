@@ -447,9 +447,9 @@ namespace Crystalbyte.Paranoia {
                                             Logger.ErrorException(ex.Message, ex);
                                         }
                                     }
-                                }    
+                                }
                             }
-                            
+
 
                             var textParam = new SQLiteParameter("@text");
                             var idParam = new SQLiteParameter("@message_id", message.Id);
@@ -503,14 +503,18 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private Task<Authenticity> GetAuthenticityAsync() {
+        private async Task<Authenticity> GetAuthenticityAsync() {
             Logger.Enter();
 
             Application.Current.AssertUIThread();
 
             try {
+                if (From == null) {
+                    return Authenticity.Confirmed;
+                }
+
                 var address = From.Address;
-                return Task.Run(() => {
+                var auth = await Task.Run(() => {
                     using (var context = new DatabaseContext()) {
                         return
                             context.MailContacts
@@ -519,6 +523,8 @@ namespace Crystalbyte.Paranoia {
                                 .FirstOrDefaultAsync();
                     }
                 });
+
+                return auth;
             } finally {
                 Logger.Exit();
             }

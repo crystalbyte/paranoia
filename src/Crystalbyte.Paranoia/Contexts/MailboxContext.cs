@@ -769,7 +769,6 @@ namespace Crystalbyte.Paranoia {
                 Logger.Debug("Deleted {0} messages from mailbox {1} in {2} seconds.",
                     ids.Length, Name, (t2 - t1) / 1000.0f);
 
-
                 return ids.Length > 0;
             } finally {
                 Logger.Exit();
