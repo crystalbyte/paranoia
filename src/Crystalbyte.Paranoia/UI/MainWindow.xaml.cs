@@ -42,6 +42,7 @@ namespace Crystalbyte.Paranoia.UI {
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : IAccentAware {
+
         #region Private Fields
 
         private Storyboard _slideInOverlayStoryboard;

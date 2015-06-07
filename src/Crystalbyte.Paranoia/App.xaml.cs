@@ -85,8 +85,8 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         private static void RunFirstStartProcedure() {
-            // Contest for eml file extension.
-            // TODO: http://msdn.microsoft.com/en-us/library/windows/desktop/cc144160(v=vs.85).aspx#first_run_and_defaults
+            // TODO: Contest for eml file extension.
+            // http://msdn.microsoft.com/en-us/library/windows/desktop/cc144160(v=vs.85).aspx#first_run_and_defaults
 
             Settings.Default.IsFirstStart = false;
             Settings.Default.Save();

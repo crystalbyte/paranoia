@@ -331,6 +331,9 @@ namespace Crystalbyte.Paranoia {
                             Logger.ErrorException(ex.Message, ex);
                         }
                     });
+
+                var countUnseenTasks = messages.GroupBy(x => x.Mailbox).Select(x => x.Key.CountNotSeenAsync());
+                await Task.WhenAll(countUnseenTasks);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             } finally {
@@ -361,12 +364,14 @@ namespace Crystalbyte.Paranoia {
                             var storage = SaveFlagsToStoreAsync(ids, MailMessageFlags.Seen);
                             var mailbox = await session.SelectAsync(name);
                             await mailbox.MarkAsSeenAsync(uids);
-
                             await storage;
                         } catch (Exception ex) {
                             Logger.ErrorException(ex.Message, ex);
                         }
                     });
+
+                var countUnseenTasks = messages.GroupBy(x => x.Mailbox).Select(x => x.Key.CountNotSeenAsync());
+                await Task.WhenAll(countUnseenTasks);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             } finally {
@@ -386,7 +391,7 @@ namespace Crystalbyte.Paranoia {
                     });
 
                     foreach (var flag in flags) {
-                        context.Set<MailMessageFlag>().Attach(flag);
+                        context.Set<MailMessageFlag>().Add(flag);
                         flag.Value = value;
                     }
 
@@ -394,23 +399,6 @@ namespace Crystalbyte.Paranoia {
                 }
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
-            } finally {
-                Logger.Exit();
-            }
-        }
-
-        private static async Task FlagStoredMessagesAsUnseenAsync(IEnumerable<Int64> ids) {
-            Logger.Enter();
-
-            Application.Current.AssertBackgroundThread();
-
-            try {
-                using (var context = new DatabaseContext()) {
-                    var flags = context.Set<MailMessageFlag>()
-                            .Where(x => ids.Contains(x.MessageId) && x.Value == MailMessageFlags.Seen);
-                    context.Set<MailMessageFlag>().RemoveRange(flags);
-                    await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
-                }
             } finally {
                 Logger.Exit();
             }

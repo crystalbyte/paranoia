@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Linq;
 using System.Threading.Tasks;
 using NLog;
 
@@ -42,7 +43,14 @@ namespace Crystalbyte.Paranoia.Data.SQLite {
                     if (strategy == OptimisticConcurrencyStrategy.DatabaseWins) {
                         ex.Entries.ForEach(x => x.Reload());
                     } else {
-                        ex.Entries.ForEach(x => x.OriginalValues.SetValues(x.GetDatabaseValues()));
+                        foreach (var entry in ex.Entries) {
+                            var values = entry.GetDatabaseValues();
+                            if (values == null) {
+                                Logger.Debug("The entry has been deleted.");
+                                return;
+                            }
+                            entry.OriginalValues.SetValues(values);
+                        }
                     }
                 }
             }
