@@ -218,7 +218,7 @@ namespace Crystalbyte.Paranoia {
             await Task.WhenAll(tasks);
         }
 
-        internal async Task UnflagMessagesAsync(MailMessageContext[] messages) {
+        internal async Task MarkMessagesAsFlaggedAsync(MailMessageContext[] messages) {
             Logger.Enter();
 
             Application.Current.AssertUIThread();
@@ -230,64 +230,10 @@ namespace Crystalbyte.Paranoia {
                     async (session, group) => {
                         var name = group.Key.Name;
                         var uids = group.Select(z => z.Uid).ToArray();
+                        var ids = group.Select(z => z.Id).ToArray();
 
                         try {
-                            var storage = UnflagStoredMessagesAsync(uids);
-                            var mailbox = await session.SelectAsync(name);
-                            await mailbox.MarkAsNotFlaggedAsync(uids);
-
-                            await storage;
-                        } catch (Exception ex) {
-                            Logger.ErrorException(ex.Message, ex);
-                        }
-                    });
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
-            } finally {
-                Logger.Exit();
-            }
-        }
-
-        private static async Task UnflagStoredMessagesAsync(IEnumerable<long> uids) {
-            Logger.Enter();
-
-            Application.Current.AssertBackgroundThread();
-
-            try {
-                using (var context = new DatabaseContext()) {
-                    var messages = uids.Select(x => new MailMessage { Id = x });
-                    foreach (var flag in messages.Select(message => new MailMessageFlag {
-                        MessageId = message.Id,
-                        Value = MailMessageFlags.Seen,
-                    })) {
-                        context.Set<MailMessageFlag>().Attach(flag);
-                        context.Set<MailMessageFlag>().Remove(flag);
-                    }
-
-                    await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
-                }
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
-            } finally {
-                Logger.Exit();
-            }
-        }
-
-        internal async Task FlagMessagesAsync(MailMessageContext[] messages) {
-            Logger.Enter();
-
-            Application.Current.AssertUIThread();
-
-            messages.ForEach(x => x.IsFlagged = true);
-
-            try {
-                await InvokeGroupedActionAsync(messages,
-                    async (session, group) => {
-                        var name = group.Key.Name;
-                        var uids = group.Select(z => z.Uid).ToArray();
-
-                        try {
-                            var storage = FlagStoredMessagesAsync(uids);
+                            var storage = SaveFlagsToStoreAsync(ids, MailMessageFlags.Flagged);
                             var mailbox = await session.SelectAsync(name);
                             await mailbox.MarkAsFlaggedAsync(uids);
 
@@ -303,18 +249,49 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private static async Task FlagStoredMessagesAsync(IEnumerable<Int64> uids) {
+        internal async Task MarkMessagesAsUnflaggedAsync(MailMessageContext[] messages) {
+            Logger.Enter();
+
+            Application.Current.AssertUIThread();
+
+            messages.ForEach(x => x.IsFlagged = false);
+
+            try {
+                await InvokeGroupedActionAsync(messages,
+                    async (session, group) => {
+                        var name = group.Key.Name;
+                        var uids = group.Select(z => z.Uid).ToArray();
+                        var ids = group.Select(z => z.Id).ToArray();
+
+                        try {
+                            var storage = DeleteFlagsFromStoreAsync(ids, MailMessageFlags.Flagged);
+                            var mailbox = await session.SelectAsync(name);
+                            await mailbox.MarkAsNotFlaggedAsync(uids);
+
+                            await storage;
+                        } catch (Exception ex) {
+                            Logger.ErrorException(ex.Message, ex);
+                        }
+                    });
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            } finally {
+                Logger.Exit();
+            }
+        }
+
+        private static async Task DeleteFlagsFromStoreAsync(IEnumerable<Int64> ids, string value) {
             Logger.Enter();
 
             Application.Current.AssertBackgroundThread();
 
             try {
                 using (var context = new DatabaseContext()) {
-                    var entities = uids.Select(x => new MailMessage { Id = x });
-                    foreach (var entity in entities) {
-                        context.MailMessages.Attach(entity);
-                        entity.Flags.Add(new MailMessageFlag { Value = MailMessageFlags.Seen });
-                    }
+                    var flags = await context.Set<MailMessageFlag>()
+                        .Where(x => ids.Contains(x.MessageId) && x.Value == value)
+                        .ToArrayAsync();
+
+                    context.Set<MailMessageFlag>().RemoveRange(flags);
 
                     await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
                 }
@@ -325,7 +302,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public async Task FlagMessagesAsUnseenAsync(MailMessageContext[] messages) {
+        internal async Task MarkMessagesAsUnseenAsync(MailMessageContext[] messages) {
             Logger.Enter();
 
             Application.Current.AssertUIThread();
@@ -345,7 +322,7 @@ namespace Crystalbyte.Paranoia {
                         var uids = group.Select(z => z.Uid).ToArray();
 
                         try {
-                            var storage = FlagStoredMessagesAsSeenAsync(ids);
+                            var storage = DeleteFlagsFromStoreAsync(ids, MailMessageFlags.Seen);
                             var mailbox = await session.SelectAsync(name);
                             await mailbox.MarkAsSeenAsync(uids);
 
@@ -361,7 +338,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task FlagMessagesAsSeenAsync(MailMessageContext[] messages) {
+        internal async Task MarkMessagesAsSeenAsync(MailMessageContext[] messages) {
             Logger.Enter();
 
             Application.Current.AssertUIThread();
@@ -381,7 +358,7 @@ namespace Crystalbyte.Paranoia {
                         var uids = group.Select(z => z.Uid).ToArray();
 
                         try {
-                            var storage = FlagStoredMessagesAsSeenAsync(ids);
+                            var storage = SaveFlagsToStoreAsync(ids, MailMessageFlags.Seen);
                             var mailbox = await session.SelectAsync(name);
                             await mailbox.MarkAsSeenAsync(uids);
 
@@ -397,21 +374,41 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private static async Task FlagStoredMessagesAsSeenAsync(IEnumerable<Int64> ids) {
+        private static async Task SaveFlagsToStoreAsync(IEnumerable<Int64> ids, string value) {
             Logger.Enter();
 
             Application.Current.AssertBackgroundThread();
 
             try {
                 using (var context = new DatabaseContext()) {
-                    await context.OpenAsync();
-                    await context.EnableForeignKeysAsync();
+                    var flags = ids.Select(x => new MailMessageFlag {
+                        MessageId = x
+                    });
 
-                    foreach (var id in ids) {
-                        var entity = await context.MailMessages.FindAsync(id);
-                        entity.Flags.Add(new MailMessageFlag { Value = MailMessageFlags.Seen });
+                    foreach (var flag in flags) {
+                        context.Set<MailMessageFlag>().Attach(flag);
+                        flag.Value = value;
                     }
 
+                    await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
+                }
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            } finally {
+                Logger.Exit();
+            }
+        }
+
+        private static async Task FlagStoredMessagesAsUnseenAsync(IEnumerable<Int64> ids) {
+            Logger.Enter();
+
+            Application.Current.AssertBackgroundThread();
+
+            try {
+                using (var context = new DatabaseContext()) {
+                    var flags = context.Set<MailMessageFlag>()
+                            .Where(x => ids.Contains(x.MessageId) && x.Value == MailMessageFlags.Seen);
+                    context.Set<MailMessageFlag>().RemoveRange(flags);
                     await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
                 }
             } finally {

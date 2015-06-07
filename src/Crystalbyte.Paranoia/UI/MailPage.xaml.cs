@@ -258,7 +258,7 @@ namespace Crystalbyte.Paranoia.UI {
             if (e.AddedItems.Count == 1) {
                 var last = e.RemovedItems.OfType<MailMessageContext>().FirstOrDefault();
                 if (last != null) {
-                    flagMessages = app.FlagMessagesAsSeenAsync(new[] { last });
+                    flagMessages = app.MarkMessagesAsSeenAsync(new[] { last });
                 }
             }
 

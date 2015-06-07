@@ -1068,33 +1068,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal async Task MarkAsNotFlaggedAsync(MailMessageContext[] messages) {
-            Logger.Enter();
-
-            Application.Current.AssertBackgroundThread();
-
-            try {
-                messages.ForEach(x => x.IsFlagged = false);
-                var uids = messages.Select(x => x.Uid).ToArray();
-
-                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
-                    using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
-                        using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
-                            var folder = await session.SelectAsync(Name);
-                            await folder.MarkAsNotFlaggedAsync(uids);
-                        }
-                    }
-                }
-
-                await CountNotSeenAsync();
-            } catch (Exception ex) {
-                messages.ForEach(x => x.IsFlagged = true);
-                Logger.ErrorException(ex.Message, ex);
-            } finally {
-                Logger.Exit();
-            }
-        }
-
         #region Implementation of IMessageSource
 
         public void BeginQuery() {
@@ -1115,7 +1088,10 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 using (var context = new DatabaseContext()) {
-                    var getMessages = context.MailMessages
+                    await context.OpenAsync();
+                    await context.EnableForeignKeysAsync();
+
+                    var getMessages = context.Set<MailMessage>()
                         .Where(x => x.MailboxId == _mailbox.Id)
                         .Include(x => x.Flags)
                         .Include(x => x.Addresses)
