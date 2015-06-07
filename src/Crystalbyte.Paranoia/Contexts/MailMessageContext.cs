@@ -89,14 +89,6 @@ namespace Crystalbyte.Paranoia {
 
         #region Events
 
-        public event EventHandler IsExternalContentAllowedChanged;
-
-        protected virtual void OnIsExternalContentAllowedChanged() {
-            var handler = IsExternalContentAllowedChanged;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
-        }
-
         public event EventHandler DownloadCompleted;
 
         protected virtual void OnDownloadCompleted() {
@@ -555,6 +547,14 @@ namespace Crystalbyte.Paranoia {
 
         #region Implementation of IBlockable
 
+        public event EventHandler IsExternalContentAllowedChanged;
+
+        protected virtual void OnIsExternalContentAllowedChanged() {
+            var handler = IsExternalContentAllowedChanged;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
+
         public bool IsExternalContentAllowed {
             get { return _isExternalContentAllowed; }
             set {
@@ -563,15 +563,48 @@ namespace Crystalbyte.Paranoia {
                 }
                 _isExternalContentAllowed = value;
                 RaisePropertyChanged(() => IsExternalContentAllowed);
+                OnIsExternalContentAllowedChanged();
             }
         }
 
         public Task BlockAsync() {
-            throw new NotImplementedException();
+            Application.Current.AssertUIThread();
+
+            IsExternalContentAllowed = false;
+            return SetContentBlockAsync(false);
+        }
+
+        private async Task SetContentBlockAsync(bool isContentAllowed) {
+            Logger.Enter();
+
+            try {
+                var addresses = _message.Addresses
+                    .Where(x => x.Role == AddressRole.From)
+                    .ToArray();
+
+                if (addresses.Length == 0) {
+                    throw new InvalidOperationException("Content rules can't be applied on messages which do not have a sender.");
+                }
+
+                var address = addresses.First().Address;
+
+                await Task.Run(async () => {
+                    using (var context = new DatabaseContext()) {
+                        var contact = await context.Set<MailContact>().FirstAsync(x => x.Address == address);
+                        contact.IsExternalContentAllowed = isContentAllowed;
+                        await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
+                    }
+                });
+            } finally {
+                Logger.Exit();
+            }
         }
 
         public Task UnblockAsync() {
-            throw new NotImplementedException();
+            Application.Current.AssertUIThread();
+
+            IsExternalContentAllowed = true;
+            return SetContentBlockAsync(true);
         }
 
         #endregion

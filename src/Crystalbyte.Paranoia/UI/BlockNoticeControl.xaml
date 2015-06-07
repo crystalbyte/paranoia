@@ -14,21 +14,12 @@
         <CommandBinding Command="ui:MessageCommands.UnblockExternalContent" Executed="OnUnblockExternalContent" />
     </UserControl.CommandBindings>
     <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-            DataContext="{Binding Blockable,
-                                  RelativeSource={RelativeSource FindAncestor,
-                                                                 AncestorType=ui:BlockNoticeControl}}"
             SnapsToDevicePixels="True"
-            UseLayoutRounding="True"
-            Visibility="{Binding IsExternalContentAllowed,
-                                 FallbackValue={x:Static Visibility.Visible},
-                                 TargetNullValue={x:Static Visibility.Visible},
-                                 Converter={StaticResource BooleanToVisibilityConverter}}">
+            UseLayoutRounding="True">
         <DockPanel LastChildFill="True">
             <Button Margin="8,6"
                     VerticalAlignment="Center"
-                    Command="{Binding IsExternalContentAllowed,
-                                      FallbackValue={x:Static ui:AppCommands.NoOperation},
-                                      TargetNullValue={x:Static ui:AppCommands.NoOperation}}"
+                    Command="ui:MessageCommands.UnblockExternalContent"
                     DockPanel.Dock="Right">
                 <TextBlock Margin="12,3"
                            RenderOptions.ClearTypeHint="Enabled"

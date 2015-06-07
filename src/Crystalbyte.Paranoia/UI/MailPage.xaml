@@ -789,9 +789,14 @@
                     </StackPanel>
                 </Grid>
             </Border>
-            <ui:SpamNoticeControl Grid.Row="1"
-                                  Authenticatable="{Binding SelectedMessage}"
-                                  BorderThickness="0,0,0,1" />
+            <Border Grid.Row="1"
+                    DataContext="{Binding SelectedMessage}"
+                    Visibility="{Binding IsDownloading,
+                                         Converter={StaticResource BooleanToVisibilityConverter},
+                                         ConverterParameter=!}">
+                <ui:SpamNoticeControl Authenticatable="{Binding}" BorderThickness="0,0,0,1" />
+            </Border>
+
             <ListView Grid.Row="2"
                       Margin="0"
                       BorderThickness="0,0,0,1"
@@ -823,7 +828,13 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>
-            <ui:BlockNoticeControl Grid.Row="3" Blockable="{Binding SelectedMessage}" />
+            <Border Grid.Row="3"
+                    DataContext="{Binding SelectedMessage}"
+                    Visibility="{Binding IsDownloading,
+                                         Converter={StaticResource BooleanToVisibilityConverter},
+                                         ConverterParameter=!}">
+                <ui:BlockNoticeControl Blockable="{Binding}" />
+            </Border>
             <Grid Grid.Row="4" Visibility="{Binding IsMessageSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsDownloading, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
                     <ui:HtmlViewer x:Name="MessageViewer"

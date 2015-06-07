@@ -1013,6 +1013,10 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        internal Task RefreshMessageViewAsync() {
+            return ViewMessageAsync(SelectedMessage);
+        }
+
         internal async Task ViewMessageAsync(MailMessageContext message) {
             Logger.Enter();
 

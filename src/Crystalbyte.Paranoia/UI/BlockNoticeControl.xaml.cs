@@ -24,6 +24,7 @@
 
 using System;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
 using NLog;
 
@@ -56,18 +57,68 @@ namespace Crystalbyte.Paranoia.UI {
 
         // Using a DependencyProperty as the backing store for Blockable.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty BlockableProperty =
-            DependencyProperty.Register("Blockable", typeof(IBlockable), typeof(BlockNoticeControl), new PropertyMetadata(null));
+            DependencyProperty.Register("Blockable", typeof(IBlockable), typeof(BlockNoticeControl), new PropertyMetadata(OnBlockableChanged));
+
+        private static void OnBlockableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            try {
+                var control = (BlockNoticeControl)d;
+
+                var oldAuth = e.OldValue as IBlockable;
+                if (oldAuth != null) {
+                    control.Detach();
+                }
+
+                var newAuth = e.NewValue as IBlockable;
+                if (newAuth != null) {
+                    control.Attach();
+                }
+
+                control.Refresh();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
 
         #endregion
 
+        #region Methods
+
+        private void Attach() {
+            Blockable.IsExternalContentAllowedChanged += OnIsExternalContentAllowedChanged;
+        }
+
+        private void OnIsExternalContentAllowedChanged(object sender, EventArgs e) {
+            try {
+                Refresh();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
+        private void Detach() {
+            Blockable.IsExternalContentAllowedChanged -= OnIsExternalContentAllowedChanged;
+        }
+
+        private void Refresh() {
+            Visibility = Blockable.IsExternalContentAllowed
+                    ? Visibility.Collapsed
+                    : Visibility.Visible;
+        }
+
         private async void OnUnblockExternalContent(object sender, ExecutedRoutedEventArgs e) {
             try {
-                if (Blockable != null) {
-                    await Blockable.UnblockAsync();
+                if (Blockable == null) 
+                    return;
+
+                await Blockable.UnblockAsync();
+                if (App.Context.SelectedMessage == Blockable) {
+                    await App.Context.RefreshMessageViewAsync();
                 }
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
         }
+
+        #endregion
     }
 }
