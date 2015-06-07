@@ -748,7 +748,6 @@ namespace Crystalbyte.Paranoia {
                             .Include(x => x.Addresses)
                             .Include(x => x.Attachments)
                             .Include(x => x.Flags)
-                            .AsNoTracking()
                             .ToArrayAsync();
 
                         var deletedMessages = messages

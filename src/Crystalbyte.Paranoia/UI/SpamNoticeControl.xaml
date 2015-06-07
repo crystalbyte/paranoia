@@ -4,7 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:data="clr-namespace:Crystalbyte.Paranoia.Data"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
              xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
              xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
              xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
@@ -14,7 +13,6 @@
              IsTabStop="False"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True"
-             d:DataContext="{d:DesignInstance paranoia:MailMessageContext}"
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
@@ -25,7 +23,7 @@
         <Button Margin="8,6"
                 VerticalAlignment="Center"
                 Command="{x:Static ui:MessageCommands.ChangeAuthenticity}"
-                CommandParameter="{x:Static data:Authenticity.Rejected}"
+                CommandParameter="{x:Static data:Authenticity.Confirmed}"
                 DockPanel.Dock="Right">
             <TextBlock Margin="12,3"
                        RenderOptions.ClearTypeHint="Enabled"
@@ -34,7 +32,7 @@
         <Button Margin="0,6"
                 VerticalAlignment="Center"
                 Command="{x:Static ui:MessageCommands.ChangeAuthenticity}"
-                CommandParameter="{x:Static data:Authenticity.Confirmed}"
+                CommandParameter="{x:Static data:Authenticity.Rejected}"
                 DockPanel.Dock="Right">
             <TextBlock Margin="12,3"
                        RenderOptions.ClearTypeHint="Enabled"

@@ -97,14 +97,6 @@ namespace Crystalbyte.Paranoia {
                 handler(this, EventArgs.Empty);
         }
 
-        public event EventHandler AuthenticityChanged;
-
-        protected virtual void OnAuthenticityChanged() {
-            var handler = AuthenticityChanged;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
-        }
-
         public event EventHandler DownloadCompleted;
 
         protected virtual void OnDownloadCompleted() {
@@ -585,6 +577,14 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         #region Implementation of IAuthenticatable
+
+        public event EventHandler AuthenticityChanged;
+
+        protected virtual void OnAuthenticityChanged() {
+            var handler = AuthenticityChanged;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
 
         public Authenticity Authenticity {
             get { return _authenticity; }

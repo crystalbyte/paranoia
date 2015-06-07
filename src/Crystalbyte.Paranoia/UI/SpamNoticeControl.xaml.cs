@@ -57,7 +57,49 @@ namespace Crystalbyte.Paranoia.UI {
 
         // Using a DependencyProperty as the backing store for Authenticatable.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AuthenticatableProperty =
-            DependencyProperty.Register("Authenticatable", typeof(IAuthenticatable), typeof(SpamNoticeControl), new PropertyMetadata(null));
+            DependencyProperty.Register("Authenticatable", typeof(IAuthenticatable), typeof(SpamNoticeControl), new PropertyMetadata(OnAuthenticatableChanged));
+
+        private static void OnAuthenticatableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            try {
+                var control = (SpamNoticeControl)d;
+
+                var oldAuth = e.OldValue as IAuthenticatable;
+                if (oldAuth != null) {
+                    control.Detach();
+                }
+
+                var newAuth = e.NewValue as IAuthenticatable;
+                if (newAuth != null) {
+                    control.Attach();
+                }
+
+                control.Refresh();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
+        private void Detach() {
+            Authenticatable.AuthenticityChanged -= OnAuthenticityChanged;
+        }
+
+        private void Attach() {
+            Authenticatable.AuthenticityChanged += OnAuthenticityChanged;
+        }
+
+        private void Refresh() {
+            Visibility = Authenticatable.Authenticity == Authenticity.Unspecified
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+        }
+
+        private void OnAuthenticityChanged(object sender, EventArgs e) {
+            try {
+                Refresh();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
 
         #endregion
 
@@ -70,6 +112,8 @@ namespace Crystalbyte.Paranoia.UI {
                 } else {
                     await Authenticatable.RejectAsync();
                 }
+
+                Refresh();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
