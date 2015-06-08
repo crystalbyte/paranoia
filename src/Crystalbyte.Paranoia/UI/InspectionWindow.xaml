@@ -117,6 +117,15 @@
                             Orientation="Horizontal">
                     <controls:MetroButton Margin="3,0"
                                           Command="ui:MessageCommands.Reply"
+                                          ImageSource="/Assets/to.png"
+                                          ToolTip="{x:Static properties:Resources.Reply}" />
+                    <controls:MetroButton Margin="3,0"
+                                          Command="ui:MessageCommands.Reply"
+                                          ImageSource="/Assets/cc.png"
+                                          ToolTip="{x:Static properties:Resources.Reply}" />
+                    <Separator />
+                    <controls:MetroButton Margin="3,0"
+                                          Command="ui:MessageCommands.Reply"
                                           ImageSource="/Assets/reply.png"
                                           ToolTip="{x:Static properties:Resources.Reply}" />
                     <controls:MetroButton Margin="3,0"
@@ -148,30 +157,6 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0"
-                                DataContext="{Binding From}"
-                                Orientation="Horizontal">
-                        <Image Width="32"
-                               Margin="0,0,6,0"
-                               VerticalAlignment="Center"
-                               RenderOptions.BitmapScalingMode="Fant"
-                               Source="{Binding Address,
-                                                ConverterParameter=48,
-                                                Converter={StaticResource GravatarImageConverter}}" />
-                        <StackPanel Margin="0,-4,0,0" VerticalAlignment="Center">
-                            <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}" Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
-                            <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
-                        </StackPanel>
-                    </StackPanel>
-                    <Rectangle Grid.Column="1"
-                               Width="18"
-                               Height="18"
-                               Margin="12,0"
-                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}">
-                        <Rectangle.OpacityMask>
-                            <ImageBrush ImageSource="/Assets/arrow.right.png" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                    <StackPanel Grid.Column="2"
                                 DataContext="{Binding From}"
                                 Orientation="Horizontal">
                         <Image Width="32"

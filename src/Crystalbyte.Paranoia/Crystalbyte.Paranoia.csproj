@@ -793,6 +793,10 @@
   <ItemGroup>
     <Resource Include="Assets\warning.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\cc.png" />
+    <Resource Include="Assets\to.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
