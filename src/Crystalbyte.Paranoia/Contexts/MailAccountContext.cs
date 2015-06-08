@@ -286,7 +286,7 @@ namespace Crystalbyte.Paranoia {
 
                 var inbox = GetInbox();
                 if (inbox != null && !inbox.IsIdling) {
-                    inbox.IdleAsync();
+                    await inbox.IdleAsync();
                 }
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);

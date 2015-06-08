@@ -793,11 +793,10 @@
                     DataContext="{Binding SelectedMessage}"
                     Visibility="{Binding IsDetailed,
                                          Converter={StaticResource BooleanToVisibilityConverter}}">
-                <ui:SpamNoticeControl Authenticatable="{Binding}" BorderThickness="0,0,0,1" />
+                <ui:SpamNoticeControl Authenticatable="{Binding}" />
             </Border>
             <ListView Grid.Row="2"
                       Margin="0"
-                      BorderThickness="0,0,0,1"
                       DataContext="{Binding SelectedMessage}"
                       ItemTemplate="{StaticResource ThumbnailTemplate}"
                       ItemsSource="{Binding Attachments}"

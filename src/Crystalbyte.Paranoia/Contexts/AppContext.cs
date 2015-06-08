@@ -1024,13 +1024,9 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 var hasMime = await message.GetIsMimeStoredAsync();
-                await Task.Run(async () => {
-                    if (!hasMime) {
-                        await message.FetchAndDecryptAsync();
-                    }
-
-                    hasMime = true;
-                });
+                if (!hasMime) {
+                    await message.FetchAndDecryptAsync();
+                }
 
                 await message.DetailAsync();
 
@@ -1373,8 +1369,7 @@ namespace Crystalbyte.Paranoia {
             if (owner.WindowState == WindowState.Maximized) {
                 inspector.WindowState = WindowState.Maximized;
             }
-
-            inspector.InitWithMessage(message);
+            
             inspector.Show();
         }
 

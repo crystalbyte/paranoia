@@ -45,5 +45,7 @@ namespace Crystalbyte.Paranoia {
         DateTime Date { get; }
 
         bool IsDownloading { get; }
+
+        double Progress { get; set; }
     }
 }

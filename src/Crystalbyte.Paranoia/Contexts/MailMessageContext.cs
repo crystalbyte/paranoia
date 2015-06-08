@@ -382,17 +382,21 @@ namespace Crystalbyte.Paranoia {
         internal async Task<byte[]> FetchAndDecryptAsync() {
             Logger.Enter();
 
-            Application.Current.AssertBackgroundThread();
+            Application.Current.AssertUIThread();
 
             try {
                 IsDownloading = true;
 
-                var mime = await FetchMimeAsync();
-                var encryption = new EllipticCurveMimeEncryption();
-                mime = encryption.Decrypt(mime);
-                await StoreContentAsync(mime);
+                var content = await Task.Run(async () => {
+                    var mime = await FetchMimeAsync();
+                    var encryption = new EllipticCurveMimeEncryption();
+                    mime = encryption.Decrypt(mime);
+                    await StoreContentAsync(mime);
+                    return mime;
+                });
 
-                return mime;
+                OnDownloadCompleted();
+                return content;
             } finally {
                 Logger.Exit();
                 IsDownloading = false;

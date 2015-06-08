@@ -22,6 +22,17 @@
                       WindowStartupLocation="CenterOwner"
                       d:DataContext="{d:DesignInstance paranoia:MailMessageContext}"
                       mc:Ignorable="d">
+    <controls:MetroWindow.CommandBindings>
+        <CommandBinding Command="ui:WindowCommands.Maximize" Executed="OnMaximize" />
+        <CommandBinding Command="ui:WindowCommands.Minimize" Executed="OnMinimize" />
+        <CommandBinding Command="ui:WindowCommands.RestoreDown" Executed="OnRestoreDown" />
+        <CommandBinding Command="ui:MessageCommands.Reply" Executed="OnReply" />
+        <CommandBinding Command="ui:MessageCommands.ReplyAll" Executed="OnReplyAll" />
+        <CommandBinding Command="ui:MessageCommands.Forward" Executed="OnForward" />
+        <CommandBinding Command="ApplicationCommands.Close" Executed="OnClose" />
+        <CommandBinding Command="ApplicationCommands.Help" Executed="OnHelp" />
+        <CommandBinding Command="ApplicationCommands.Print" Executed="OnPrint" />
+    </controls:MetroWindow.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -183,7 +194,6 @@
               Panel.ZIndex="500"
               Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
               Visibility="{Binding IsDownloading,
-                                   ConverterParameter=!,
                                    Converter={StaticResource BooleanToVisibilityConverter}}">
             <controls:MetroProgressBar Width="400"
                                        Height="2"
@@ -195,97 +205,7 @@
                                        Minimum="0"
                                        Value="{Binding Progress}" />
         </Grid>
-        <Border Grid.Row="2"
-                Grid.ColumnSpan="2"
-                Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
-                BorderThickness="0,0,0,1"
-                Visibility="{Binding HasMultipleRecipients,
-                                     Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Grid>
-                <ItemsControl Margin="6" ItemsSource="{Binding To}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="paranoia:MailContactContext">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="26"
-                                       Margin="0,0,6,0"
-                                       VerticalAlignment="Center"
-                                       RenderOptions.BitmapScalingMode="Fant"
-                                       Source="{Binding Address,
-                                                        ConverterParameter=32,
-                                                        Converter={StaticResource GravatarImageConverter}}" />
-                                <StackPanel VerticalAlignment="Center">
-                                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
-                                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
-                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
-                                               Text="{Binding Address,
-                                                              Converter={StaticResource NullOrEmptyFormatter}}" />
-                                </StackPanel>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <TextBlock Margin="0,0,6,0"
-                           HorizontalAlignment="Right"
-                           FontFamily="Verdana"
-                           FontSize="32"
-                           FontStyle="Italic"
-                           FontWeight="Thin"
-                           Opacity=".2"
-                           Text="To" />
-            </Grid>
-        </Border>
-
-        <Border Grid.Row="3"
-                Grid.RowSpan="2"
-                Grid.ColumnSpan="2"
-                Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
-                BorderThickness="0,0,0,1"
-                Visibility="{Binding HasCarbonCopies,
-                                     Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Grid>
-                <ItemsControl Margin="6" ItemsSource="{Binding Cc}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="paranoia:MailContactContext">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="26"
-                                       Margin="0,0,6,0"
-                                       VerticalAlignment="Center"
-                                       RenderOptions.BitmapScalingMode="Fant"
-                                       Source="{Binding Address,
-                                                        ConverterParameter=32,
-                                                        Converter={StaticResource GravatarImageConverter}}" />
-                                <StackPanel VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
-                                    <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
-                                </StackPanel>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <TextBlock Margin="0,0,6,0"
-                           HorizontalAlignment="Right"
-                           FontFamily="Verdana"
-                           FontSize="32"
-                           FontStyle="Italic"
-                           FontWeight="Thin"
-                           Opacity=".1"
-                           Text="CC" />
-            </Grid>
-        </Border>
         <ListView Grid.Row="4"
-                  BorderThickness="0,0,0,1"
                   ItemTemplate="{StaticResource ThumbnailTemplate}"
                   ItemsSource="{Binding Attachments}"
                   ScrollViewer.CanContentScroll="False"
@@ -313,11 +233,10 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <ui:BlockNoticeControl Grid.Row="5" />
+        <ui:BlockNoticeControl Grid.Row="5" Blockable="{Binding}" />
         <ui:SpamNoticeControl Grid.Row="6"
-                              BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
-                              BorderThickness="0,0,0,1" />
-
+                              Authenticatable="{Binding}"
+                              BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}" />
         <Grid Grid.Row="7">
             <ui:HtmlViewer x:Name="HtmlViewer" Margin="0" />
         </Grid>

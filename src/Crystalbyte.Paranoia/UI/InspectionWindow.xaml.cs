@@ -39,7 +39,6 @@ namespace Crystalbyte.Paranoia.UI {
     ///     Interaction logic for InspectionWindow.xaml
     /// </summary>
     public partial class InspectionWindow : IAccentAware {
-        private readonly IMailMessage _message;
 
         #region Private Fields
 
@@ -49,21 +48,20 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Construction
 
-        public InspectionWindow(IMailMessage message) {
+        public InspectionWindow(MailMessageContext message) {
             InitializeComponent();
+            DataContext = message;
+            message.IsExternalContentAllowedChanged += OnIsExternalContentAllowedChanged;
+            message.DownloadCompleted += OnDownloadCompleted;
 
-            CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
-            CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));
-            CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoreDown));
-            CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
-            CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
+            ViewMessage(message);
+        }
 
-            CommandBindings.Add(new CommandBinding(MessageCommands.Reply, OnReply));
-            CommandBindings.Add(new CommandBinding(MessageCommands.ReplyAll, OnReplyAll));
-            CommandBindings.Add(new CommandBinding(MessageCommands.Forward, OnForward));
-            CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint));
-
-            _message = message;
+        public InspectionWindow(FileMessageContext file) {
+            InitializeComponent();
+            DataContext = file;
+            HtmlViewer.Source = string.Format("file:///local?path={0}",
+                    Uri.EscapeDataString(file.FullName));
         }
 
         #endregion
@@ -78,6 +76,7 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
 
             // Remove handler to cut the reference from the message to this window.
+            message.DownloadCompleted -= OnDownloadCompleted;
             message.IsExternalContentAllowedChanged -= OnIsExternalContentAllowedChanged;
         }
 
@@ -85,23 +84,38 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Methods
 
+        private void OnDownloadCompleted(object sender, EventArgs e) {
+            try {
+                var message = DataContext as MailMessageContext;
+                if (message != null) {
+                    ViewMessage(message);
+                }
+            }
+            catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
         private void OnAttachmentMouseDoubleClicked(object sender, MouseButtonEventArgs e) {
-            if (!IsLoaded) {
-                return;
+            try {
+                if (!IsLoaded) {
+                    return;
+                }
+                var view = (ListView)sender;
+                var attachment = (MailAttachmentContext)view.SelectedValue;
+                if (attachment == null) {
+                    return;
+                }
+                attachment.Open();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
             }
-            var view = (ListView) sender;
-            var attachment = (MailAttachmentContext) view.SelectedValue;
-            if (attachment == null) {
-                return;
-            }
-            attachment.Open();
         }
 
         private async void OnPrint(object sender, ExecutedRoutedEventArgs e) {
             try {
                 await HtmlViewer.PrintAsync();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
         }
@@ -119,8 +133,7 @@ namespace Crystalbyte.Paranoia.UI {
                     return;
 
                 await App.Context.ForwardAsync(message);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
         }
@@ -138,8 +151,7 @@ namespace Crystalbyte.Paranoia.UI {
                     return;
 
                 await App.Context.ReplyAsync(message);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
         }
@@ -157,40 +169,22 @@ namespace Crystalbyte.Paranoia.UI {
                     return;
 
                 await App.Context.ReplyToAllAsync(message);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
-        }
-
-        public void InitWithMessage(MailMessageContext message) {
-            try {
-                DataContext = message;
-                ViewMessage(message);
-            }
-            catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
-            }
-        }
-
-        private void OnIsExternalContentAllowedChanged(object sender, EventArgs e) {
-            var message = (MailMessageContext) sender;
-            ViewMessage(message);
         }
 
         private void ViewMessage(MailMessageContext message) {
             HtmlViewer.Source = string.Format(message.IsExternalContentAllowed
-                ? "message:///{0}?blockExternals=false"
-                : "message:///{0}", message.Id);
+               ? "message:///{0}?blockExternals=false"
+               : "message:///{0}", message.Id);
         }
 
-        public void InitWithFile(FileMessageContext file) {
+        private void OnIsExternalContentAllowedChanged(object sender, EventArgs e) {
             try {
-                DataContext = file;
-                HtmlViewer.Source = string.Format("file:///local?path={0}",
-                    Uri.EscapeDataString(file.FullName));
-            }
-            catch (Exception ex) {
+                var message = (MailMessageContext)sender;
+                ViewMessage(message);
+            } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
         }
