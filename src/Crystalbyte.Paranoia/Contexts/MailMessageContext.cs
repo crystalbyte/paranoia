@@ -60,6 +60,7 @@ namespace Crystalbyte.Paranoia {
         private readonly Collection<MailAddressContext> _to;
         private readonly Collection<MailAddressContext> _cc;
         private readonly ObservableCollection<MailAttachmentContext> _attachments;
+        private bool _isDetailed;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -128,6 +129,17 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         #region Properties
+
+        public bool IsDetailed {
+            get { return _isDetailed; }
+            set {
+                if (_isDetailed == value) {
+                    return;
+                }
+                _isDetailed = value;
+                RaisePropertyChanged(() => IsDetailed);
+            }
+        }
 
         public bool HasExternals {
             get { return _hasExternals; }
@@ -353,6 +365,8 @@ namespace Crystalbyte.Paranoia {
 
                 IsExternalContentAllowed = await getIsExternalContentAllowed;
                 Authenticity = await getAuthenticity;
+
+                IsDetailed = true;
 
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);

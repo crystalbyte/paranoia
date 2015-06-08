@@ -65,37 +65,39 @@ namespace Crystalbyte.Paranoia.UI {
 
                 var oldAuth = e.OldValue as IAuthenticatable;
                 if (oldAuth != null) {
-                    control.Detach();
+                    control.Detach(oldAuth);
                 }
 
                 var newAuth = e.NewValue as IAuthenticatable;
-                if (newAuth != null) {
-                    control.Attach();
-                }
+                if (newAuth == null) 
+                    return;
 
-                control.Refresh();
+                control.Attach(newAuth);
+                control.Refresh(newAuth);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
         }
 
-        private void Detach() {
-            Authenticatable.AuthenticityChanged -= OnAuthenticityChanged;
+        private void Detach(IAuthenticatable auth) {
+            auth.AuthenticityChanged -= OnAuthenticityChanged;
         }
 
-        private void Attach() {
-            Authenticatable.AuthenticityChanged += OnAuthenticityChanged;
+        private void Attach(IAuthenticatable auth) {
+            auth.AuthenticityChanged += OnAuthenticityChanged;
         }
 
-        private void Refresh() {
-            Visibility = Authenticatable.Authenticity == Authenticity.Unspecified
+        private void Refresh(IAuthenticatable auth) {
+            Visibility = auth.Authenticity == Authenticity.Unspecified
                     ? Visibility.Visible
                     : Visibility.Collapsed;
         }
 
         private void OnAuthenticityChanged(object sender, EventArgs e) {
             try {
-                Refresh();
+                if (Authenticatable != null) {
+                    Refresh(Authenticatable);
+                }
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -113,7 +115,7 @@ namespace Crystalbyte.Paranoia.UI {
                     await Authenticatable.RejectAsync();
                 }
 
-                Refresh();
+                Refresh(Authenticatable);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }

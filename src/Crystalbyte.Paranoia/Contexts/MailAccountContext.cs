@@ -130,6 +130,11 @@ namespace Crystalbyte.Paranoia {
 
                 await Task.WhenAll(tasks);
 
+                var inbox = GetInbox();
+                if (inbox != null) {
+                    inbox.IsSelected = true;
+                }
+
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }

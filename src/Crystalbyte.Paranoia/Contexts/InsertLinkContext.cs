@@ -33,10 +33,10 @@ using NLog;
 
 namespace Crystalbyte.Paranoia {
     public sealed class InsertLinkContext : NotificationObject {
-        private readonly HtmlEditor _editor;
 
         #region Private Fields
 
+        private readonly HtmlEditor _editor;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private string _name;
 

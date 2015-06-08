@@ -67,9 +67,7 @@ namespace Crystalbyte.Paranoia {
             Logger.Enter();
 
             try {
-
                 var name = _attachment.Filename;
-
                 var tempPath = Path.GetTempPath();
                 var a = 1;
 

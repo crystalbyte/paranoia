@@ -24,7 +24,6 @@
 
 using System;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Input;
 using NLog;
 
@@ -65,15 +64,15 @@ namespace Crystalbyte.Paranoia.UI {
 
                 var oldAuth = e.OldValue as IBlockable;
                 if (oldAuth != null) {
-                    control.Detach();
+                    control.Detach(oldAuth);
                 }
 
                 var newAuth = e.NewValue as IBlockable;
-                if (newAuth != null) {
-                    control.Attach();
-                }
+                if (newAuth == null) 
+                    return;
 
-                control.Refresh();
+                control.Attach(newAuth);
+                control.Refresh(newAuth);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -83,24 +82,26 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Methods
 
-        private void Attach() {
-            Blockable.IsExternalContentAllowedChanged += OnIsExternalContentAllowedChanged;
+        private void Attach(IBlockable blockable) {
+            blockable.IsExternalContentAllowedChanged += OnIsExternalContentAllowedChanged;
+        }
+
+        private void Detach(IBlockable blockable) {
+            blockable.IsExternalContentAllowedChanged -= OnIsExternalContentAllowedChanged;
         }
 
         private void OnIsExternalContentAllowedChanged(object sender, EventArgs e) {
             try {
-                Refresh();
+                if (Blockable != null) {
+                    Refresh(Blockable);    
+                }
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
         }
 
-        private void Detach() {
-            Blockable.IsExternalContentAllowedChanged -= OnIsExternalContentAllowedChanged;
-        }
-
-        private void Refresh() {
-            Visibility = Blockable.IsExternalContentAllowed
+        private void Refresh(IBlockable blockable) {
+            Visibility = blockable.IsExternalContentAllowed
                     ? Visibility.Collapsed
                     : Visibility.Visible;
         }

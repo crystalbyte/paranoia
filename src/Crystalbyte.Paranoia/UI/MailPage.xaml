@@ -791,12 +791,10 @@
             </Border>
             <Border Grid.Row="1"
                     DataContext="{Binding SelectedMessage}"
-                    Visibility="{Binding IsDownloading,
-                                         Converter={StaticResource BooleanToVisibilityConverter},
-                                         ConverterParameter=!}">
+                    Visibility="{Binding IsDetailed,
+                                         Converter={StaticResource BooleanToVisibilityConverter}}">
                 <ui:SpamNoticeControl Authenticatable="{Binding}" BorderThickness="0,0,0,1" />
             </Border>
-
             <ListView Grid.Row="2"
                       Margin="0"
                       BorderThickness="0,0,0,1"
@@ -830,9 +828,8 @@
             </ListView>
             <Border Grid.Row="3"
                     DataContext="{Binding SelectedMessage}"
-                    Visibility="{Binding IsDownloading,
-                                         Converter={StaticResource BooleanToVisibilityConverter},
-                                         ConverterParameter=!}">
+                    Visibility="{Binding IsDetailed,
+                                         Converter={StaticResource BooleanToVisibilityConverter}}">
                 <ui:BlockNoticeControl Blockable="{Binding}" />
             </Border>
             <Grid Grid.Row="4" Visibility="{Binding IsMessageSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
