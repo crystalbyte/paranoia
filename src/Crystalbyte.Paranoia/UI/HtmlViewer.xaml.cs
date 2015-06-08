@@ -83,8 +83,9 @@ namespace Crystalbyte.Paranoia.UI {
         #region Methods
 
         internal async Task PrintAsync() {
+            throw new NotImplementedException("Printing does not work.");
             var browser = new WebBrowser();
-            browser.Navigated += (x, y) => {
+            browser.LoadCompleted += (x, y) => {
                 try {
                     dynamic document = browser.Document;
                     document.execCommand("print", true, null);
