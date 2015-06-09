@@ -53,15 +53,15 @@ namespace Crystalbyte.Paranoia.UI {
             DataContext = message;
             message.IsExternalContentAllowedChanged += OnIsExternalContentAllowedChanged;
             message.DownloadCompleted += OnDownloadCompleted;
-
-            ViewMessage(message);
+            Loaded += (sender, e) => ViewMessage(message);
         }
 
         public InspectionWindow(FileMessageContext file) {
             InitializeComponent();
             DataContext = file;
-            HtmlViewer.Source = string.Format("file:///local?path={0}",
-                    Uri.EscapeDataString(file.FullName));
+            Loaded += (sender, e) => {
+                HtmlViewer.Source = string.Format("file:///local?path={0}", Uri.EscapeDataString(file.FullName));
+            };
         }
 
         #endregion
@@ -90,8 +90,7 @@ namespace Crystalbyte.Paranoia.UI {
                 if (message != null) {
                     ViewMessage(message);
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
         }
