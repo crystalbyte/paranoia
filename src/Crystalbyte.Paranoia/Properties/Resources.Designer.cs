@@ -403,6 +403,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy Address.
+        /// </summary>
+        public static string CopyAddress {
+            get {
+                return ResourceManager.GetString("CopyAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Account.
         /// </summary>
         public static string CreateAccountTitle {

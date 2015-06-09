@@ -254,8 +254,12 @@
     <Compile Include="SimpleSpamDetector.cs" />
     <Compile Include="TextRange.cs" />
     <Compile Include="ScriptingException.cs" />
+    <Compile Include="UI\ContactsPresenter.xaml.cs">
+      <DependentUpon>ContactsPresenter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Converters\CollectionIndexer.cs" />
     <Compile Include="UI\Converters\ConverterSequence.cs" />
+    <Compile Include="UI\RoutedCommands\InspectionCommands.cs" />
     <Compile Include="UI\SpamNoticeControl.xaml.cs">
       <DependentUpon>SpamNoticeControl.xaml</DependentUpon>
     </Compile>
@@ -395,6 +399,10 @@
     <Page Include="UI\AppSettingsFlyoutPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\ContactsPresenter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\SpamNoticeControl.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -796,6 +804,9 @@
   <ItemGroup>
     <Resource Include="Assets\cc.png" />
     <Resource Include="Assets\to.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\address.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

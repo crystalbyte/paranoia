@@ -173,6 +173,22 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
+        private void OnShowToAddresses(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                ToPopup.IsOpen = true;
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
+        private void OnShowCcAddresses(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                CcPopup.IsOpen = true;
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
         private void ViewMessage(MailMessageContext message) {
             HtmlViewer.Source = string.Format(message.IsExternalContentAllowed
                ? "message:///{0}?blockExternals=false"

@@ -745,4 +745,7 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="PropertyTypeNull" xml:space="preserve">
     <value>PropertyType must not be null.</value>
   </data>
+  <data name="CopyAddress" xml:space="preserve">
+    <value>Copy Address</value>
+  </data>
 </root>

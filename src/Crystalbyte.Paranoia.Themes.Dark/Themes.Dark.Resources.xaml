@@ -138,7 +138,7 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.CompositionEditorBorderBrushKey}" Color="{StaticResource ControlBorderColorKey}" />
 
     <!--  Popup Scope  -->
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.PopupBackgroundBrushKey}" Color="White" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.PopupBackgroundBrushKey}" Color="#2E2E30" />
 
     <!--  ScrollBar Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarBackgroundBrushKey}" Color="#3E3E42" />

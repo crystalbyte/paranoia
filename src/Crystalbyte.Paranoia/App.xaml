@@ -77,6 +77,15 @@
             <system:Double x:Key="SubtitleFontSizeKey">16</system:Double>
             <FontWeight x:Key="SubtitleFontWeightKey">Thin</FontWeight>
 
+            <Style x:Key="MetroButtonSeparatorStyle" TargetType="Rectangle">
+                <Setter Property="Margin" Value="6,0" />
+                <Setter Property="Width" Value="1" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
+                <Setter Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.HorizontalSplitterForegroundBrushKey}}" />
+                <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />
+                <Setter Property="StrokeThickness" Value="0" />
+            </Style>
+
             <DataTemplate x:Key="ThumbnailTemplate" DataType="paranoia:MailAttachmentContext">
                 <Border ToolTip="{Binding Filename}">
                     <Border.ContextMenu>
@@ -126,7 +135,7 @@
                                HorizontalAlignment="Stretch"
                                VerticalAlignment="Stretch"
                                RenderOptions.EdgeMode="Aliased"
-                               Source="{Binding Name,
+                               Source="{Binding Filename,
                                                 Converter={StaticResource IconFinder},
                                                 IsAsync=True}"
                                Stretch="Uniform"
@@ -142,7 +151,7 @@
                                    Margin="3"
                                    FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
                                    RenderOptions.ClearTypeHint="Enabled"
-                                   Text="{Binding Name}"
+                                   Text="{Binding Filename}"
                                    TextAlignment="Center"
                                    TextTrimming="CharacterEllipsis"
                                    TextWrapping="NoWrap" />
