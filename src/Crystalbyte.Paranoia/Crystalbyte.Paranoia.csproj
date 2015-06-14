@@ -220,6 +220,7 @@
     <Compile Include="Contexts\HtmlEditorCommandContext.cs" />
     <Compile Include="Contexts\InsertLinkContext.cs" />
     <Compile Include="Contexts\MailAddressContext.cs" />
+    <Compile Include="Contexts\MailCompositionContext.cs" />
     <Compile Include="Contexts\MailNavigationContext.cs" />
     <Compile Include="Data\AddressRole.cs" />
     <Compile Include="Data\DbDataReaderExtension.cs" />
@@ -807,6 +808,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\address.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\add.list.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

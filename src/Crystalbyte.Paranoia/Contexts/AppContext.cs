@@ -332,7 +332,7 @@ namespace Crystalbyte.Paranoia {
                         }
                     });
 
-                var countUnseenTasks = messages.GroupBy(x => x.Mailbox).Select(x => x.Key.CountNotSeenAsync());
+                var countUnseenTasks = messages.GroupBy(x => x.Mailbox).Select(x => x.Key.CountMessagesAsync());
                 await Task.WhenAll(countUnseenTasks);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
@@ -370,7 +370,7 @@ namespace Crystalbyte.Paranoia {
                         }
                     });
 
-                var countUnseenTasks = messages.GroupBy(x => x.Mailbox).Select(x => x.Key.CountNotSeenAsync());
+                var countUnseenTasks = messages.GroupBy(x => x.Mailbox).Select(x => x.Key.CountMessagesAsync());
                 await Task.WhenAll(countUnseenTasks);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
@@ -477,10 +477,12 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 using (var context = new DatabaseContext()) {
-                    foreach (var message in mailboxGroup) {
-                        using (var transaction = context.Database.BeginTransaction()) {
-                            await context.EnableForeignKeysAsync();
+                    await context.OpenAsync();
+                    await context.EnableForeignKeysAsync();
+                    throw new NotImplementedException();
 
+                    using (var transaction = context.Database.BeginTransaction()) {
+                        foreach (var message in mailboxGroup) {
                             try {
                                 var model = new MailMessage {
                                     Id = message.Id,
@@ -490,20 +492,19 @@ namespace Crystalbyte.Paranoia {
                                 context.MailMessages.Attach(model);
                                 context.MailMessages.Remove(model);
 
-                                throw new NotImplementedException("change table name");
                                 // TODO: Extract column names from expression attributes.
                                 // The content table is a virtual table and cannot be altered using EF.
-                                context.Database.ExecuteSqlCommand(
+                                await context.Database.ExecuteSqlCommandAsync(
                                     TransactionalBehavior.DoNotEnsureTransaction,
-                                    "DELETE FROM mail_content WHERE message_id = @id;",
-                                    new SQLiteParameter("@id", message.Id));
+                                    "DELETE FROM mail_message_content WHERE message_id = @id;",
+                                    new SQLiteParameter("@id", message.Id)).ConfigureAwait(false);
 
                                 await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
 
                                 transaction.Commit();
                             } catch (Exception ex) {
-                                transaction.Rollback();
                                 Logger.ErrorException(ex.Message, ex);
+                                transaction.Rollback();
                             }
                         }
                     }
@@ -586,7 +587,7 @@ namespace Crystalbyte.Paranoia {
         ///     Queries the message source.
         /// </summary>
         /// <returns>Returns a task object.</returns>
-        internal async Task QueryMessageSource() {
+        internal async Task QueryMessageSourceAsync() {
             Logger.Enter();
 
             Application.Current.AssertUIThread();
@@ -1153,7 +1154,7 @@ namespace Crystalbyte.Paranoia {
         private async void OnMessageSourceChanged() {
             try {
                 if (MessageSource != null) {
-                    await QueryMessageSource();
+                    await QueryMessageSourceAsync();
                 }
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
@@ -1369,7 +1370,7 @@ namespace Crystalbyte.Paranoia {
             if (owner.WindowState == WindowState.Maximized) {
                 inspector.WindowState = WindowState.Maximized;
             }
-            
+
             inspector.Show();
         }
 
@@ -1423,12 +1424,12 @@ namespace Crystalbyte.Paranoia {
             _accounts.Remove(context);
 
             var messages = _messages.Where(x => x.Mailbox.Account.Id == context.Id).ToDictionary(x => x.Id);
+            _messages.DeferNotifications = true;
             foreach (var message in messages) {
-                _messages.DeferNotifications = true;
                 _messages.Remove(message.Value);
-                _messages.DeferNotifications = false;
-                _messages.NotifyCollectionChanged();
             }
+            _messages.DeferNotifications = false;
+            _messages.NotifyCollectionChanged();
 
             if (Source == null) {
                 return;

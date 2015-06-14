@@ -22,6 +22,16 @@
                       WindowStartupLocation="CenterOwner"
                       d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}"
                       mc:Ignorable="d">
+    <controls:MetroWindow.CommandBindings>
+        <CommandBinding Command="ui:EditingCommands.InsertLink" Executed="OnLink" />
+        <CommandBinding Command="ui:EditingCommands.InsertAttachment" Executed="OnAttachment" />
+        <CommandBinding Command="ui:FlyoutCommands.Cancel" Executed="OnCancel" />
+        <CommandBinding Command="ui:WindowCommands.Maximize" Executed="OnMaximize" />
+        <CommandBinding Command="ui:WindowCommands.Minimize" Executed="OnMinimize" />
+        <CommandBinding Command="ui:WindowCommands.RestoreDown" Executed="OnRestoreDown" />
+        <CommandBinding Command="ApplicationCommands.Close" Executed="OnClose" />
+        <CommandBinding Command="ApplicationCommands.Help" Executed="OnHelp" />
+    </controls:MetroWindow.CommandBindings>
     <Window.Resources>
         <DataTemplate x:Key="LargeWatermarkTemplate">
             <TextBlock Margin="3,0,0,0"

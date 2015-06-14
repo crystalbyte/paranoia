@@ -36,10 +36,12 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Data.SQLite;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
+using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
 
 #endregion
@@ -53,6 +55,7 @@ namespace Crystalbyte.Paranoia {
         private bool _isEditing;
         private bool _isIdling;
         private int? _notSeenCount;
+        private int? _count;
         private bool _isSyncingMessages;
         private bool _isDownloadingMessage;
         private bool _isLoadingMessages;
@@ -64,6 +67,8 @@ namespace Crystalbyte.Paranoia {
         private int _progress;
         private bool _isSyncedInitially;
         private bool _isSelectedSubtly;
+        private bool _isQuickViewDisabled;
+
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -76,9 +81,12 @@ namespace Crystalbyte.Paranoia {
             _mailbox = mailbox;
 
             IsExpandedChanged += OnIsExpandedChanged;
+            OverrideQuickViewCommand = new RelayCommand(OnOverrideQuickView);
         }
 
         #endregion
+
+        public ICommand OverrideQuickViewCommand { get; private set; }
 
         public MailAccountContext Account {
             get { return _account; }
@@ -233,14 +241,14 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool IsLoadingChildren {
+        public bool IsLoadingMailboxes {
             get { return _isLoadingMailboxes; }
             set {
                 if (_isLoadingMailboxes == value) {
                     return;
                 }
                 _isLoadingMailboxes = value;
-                RaisePropertyChanged(() => IsLoadingChildren);
+                RaisePropertyChanged(() => IsLoadingMailboxes);
             }
         }
 
@@ -329,6 +337,18 @@ namespace Crystalbyte.Paranoia {
                 }
                 _notSeenCount = value;
                 RaisePropertyChanged(() => NotSeenCount);
+            }
+        }
+
+        public int? Count {
+            get { return _count; }
+            set {
+                if (_count == value) {
+                    return;
+                }
+
+                _count = value;
+                RaisePropertyChanged(() => Count);
             }
         }
 
@@ -489,6 +509,16 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        private async void OnOverrideQuickView(object obj) {
+            try {
+                IsQuickViewDisabled = true;
+                await App.Context.QueryMessageSourceAsync();
+                IsQuickViewDisabled = false;
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
         internal async Task SyncMessagesAsync() {
             Logger.Enter();
 
@@ -515,11 +545,12 @@ namespace Crystalbyte.Paranoia {
 
                 if (messages.Length > 0) {
                     await StoreMessagesAsync(messages, seenUids);
-                    var countNotSeen = CountNotSeenAsync();
-
-                    var contexts = messages.Select(x => new MailMessageContext(this, x)).ToArray();
+                    var countNotSeen = CountMessagesAsync();
+                    var contexts =
+                        messages.Select(
+                            x => new MailMessageContext(this, x))
+                            .ToArray();
                     App.Context.NotifyMessagesReceived(contexts);
-
                     await countNotSeen;
                 }
             } catch (Exception ex) {
@@ -536,7 +567,7 @@ namespace Crystalbyte.Paranoia {
                     return;
                 }
 
-                var tasks = Children.Where(x => !x.NotSeenCount.HasValue).Select(x => x.CountNotSeenAsync());
+                var tasks = Children.Where(x => !x.NotSeenCount.HasValue).Select(x => x.CountMessagesAsync());
                 await Task.WhenAll(tasks);
 
             } catch (Exception ex) {
@@ -544,14 +575,14 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private Task StoreMessagesAsync(ICollection<MailMessage> messages, ICollection<long> seenUids) {
+        private async Task StoreMessagesAsync(ICollection<MailMessage> messages, ICollection<long> seenUids) {
             Logger.Enter();
 
             // Set the foreign key manually.
             messages.ForEach(x => x.MailboxId = _mailbox.Id);
 
             try {
-                return Task.Run(async () => {
+                await Task.Run(async () => {
                     using (var context = new DatabaseContext()) {
                         await context.OpenAsync();
                         await context.EnableForeignKeysAsync();
@@ -578,7 +609,7 @@ namespace Crystalbyte.Paranoia {
 
                                         command.CommandText = string.Format("INSERT INTO {0}(text, message_id) VALUES(@text, @message_id);", tableName);
                                         command.Parameters.AddRange(new[] { subjectParam, messageIdParam });
-                                        await command.ExecuteNonQueryAsync();
+                                        await command.ExecuteNonQueryAsync().ConfigureAwait(false);
                                     }
                                 }
 
@@ -631,8 +662,6 @@ namespace Crystalbyte.Paranoia {
                 Logger.Debug("Inserted {0} contacts in {1} seconds.", newContacts.Length, (t2 - t1) / 1000.0f);
 
                 await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
             } finally {
                 Logger.Exit();
             }
@@ -798,53 +827,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        //internal async Task MarkAsNotSeenAsync(MailMessageContext[] messages) {
-        //    Application.Current.AssertBackgroundThread();
-
-        //    try {
-        //        messages.ForEach(x => x.IsSeen = false);
-        //        var uids = messages.Select(x => x.Uid).ToArray();
-
-        //        using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
-        //            connection.RemoteCertificateValidationFailed += (sender, e) => e.IsCanceled = false;
-        //            using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
-        //                using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
-        //                    var folder = await session.SelectAsync(Name);
-        //                    await folder.MarkAsNotSeenAsync(uids);
-        //                }
-        //            }
-        //        }
-
-        //        await CountNotSeenAsync();
-        //    } catch (Exception ex) {
-        //        messages.ForEach(x => x.IsSeen = true);
-        //        Logger.ErrorException(ex.Message, ex);
-        //    }
-        //}
-
-        //internal async Task MarkAsSeenAsync(MailMessageContext[] messages) {
-        //    Application.Current.AssertBackgroundThread();
-
-        //    try {
-        //        messages.ForEach(x => x.IsSeen = true);
-        //        var uids = messages.Select(x => x.Uid).ToArray();
-
-        //        using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
-        //            using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
-        //                using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
-        //                    var folder = await session.SelectAsync(Name);
-        //                    await folder.MarkAsSeenAsync(uids);
-        //                }
-        //            }
-        //        }
-
-        //        await CountNotSeenAsync();
-        //    } catch (Exception ex) {
-        //        messages.ForEach(x => x.IsSeen = false);
-        //        Logger.ErrorException(ex.Message, ex);
-        //    }
-        //}
-
         internal async Task MarkAsAnsweredAsync(MailMessageContext[] messages) {
             Application.Current.AssertBackgroundThread();
 
@@ -862,7 +844,7 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-                await CountNotSeenAsync();
+                await CountMessagesAsync();
             } catch (Exception ex) {
                 messages.ForEach(x => x.IsSeen = true);
                 Logger.ErrorException(ex.Message, ex);
@@ -886,14 +868,14 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-                await CountNotSeenAsync();
+                await CountMessagesAsync();
             } catch (Exception ex) {
                 messages.ForEach(x => x.IsSeen = true);
                 Logger.ErrorException(ex.Message, ex);
             }
         }
 
-        internal async Task CountNotSeenAsync() {
+        internal async Task CountMessagesAsync() {
             Logger.Enter();
 
             Application.Current.AssertUIThread();
@@ -901,14 +883,22 @@ namespace Crystalbyte.Paranoia {
             try {
                 var t1 = Environment.TickCount & Int32.MaxValue;
 
-                NotSeenCount = await Task.Run(() => {
+                var counts = await Task.Run(async () => {
                     using (var context = new DatabaseContext()) {
-                        return context.MailMessages
+                        var unseen = context.MailMessages
                             .Where(x => x.MailboxId == _mailbox.Id
                                 && x.Flags.All(y => y.Value != MailMessageFlags.Seen))
                             .CountAsync();
+                        var total = context.MailMessages
+                            .Where(x => x.MailboxId == _mailbox.Id)
+                            .CountAsync();
+
+                        return new { Unseen = await unseen, Total = await total };
                     }
                 });
+
+                NotSeenCount = counts.Unseen;
+                Count = counts.Total;
 
                 var t2 = Environment.TickCount & Int32.MaxValue;
                 Logger.Debug("Counted {0} messages in mailbox {1} in {2} seconds.", NotSeenCount, Name, (t2 - t1) / 1000.0f);
@@ -1001,19 +991,22 @@ namespace Crystalbyte.Paranoia {
         private async void OnChangeNotificationReceived(object sender, EventArgs e) {
             Application.Current.AssertBackgroundThread();
 
-            Logger.Info(Resources.IdleChangeNotification);
+            try {
+                Logger.Info(Resources.IdleChangeNotification);
+                await Application.Current.Dispatcher.InvokeAsync(async () => {
+                    try {
+                        if (IsSyncingMessages) {
+                            return;
+                        }
 
-            await Application.Current.Dispatcher.InvokeAsync(async () => {
-                try {
-                    if (IsSyncingMessages) {
-                        return;
+                        await SyncMessagesAsync();
+                    } catch (Exception ex) {
+                        Logger.ErrorException(ex.Message, ex);
                     }
-
-                    await SyncMessagesAsync();
-                } catch (Exception ex) {
-                    Logger.ErrorException(ex.Message, ex);
-                }
-            });
+                });
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         public bool HasChildren {
@@ -1028,6 +1021,22 @@ namespace Crystalbyte.Paranoia {
                 }
                 _isLoadingMessages = value;
                 RaisePropertyChanged(() => IsLoadingMessages);
+                RaisePropertyChanged(() => IsQuickViewOverrideAvailable);
+            }
+        }
+
+        public bool IsQuickViewDisabledByAccount {
+            get { return _account.IsQuickViewDisabled; }
+        }
+
+        public bool IsQuickViewDisabled {
+            get { return _isQuickViewDisabled; }
+            set {
+                if (_isQuickViewDisabled == value) {
+                    return;
+                }
+                _isQuickViewDisabled = value;
+                RaisePropertyChanged(() => IsQuickViewDisabled);
             }
         }
 
@@ -1065,6 +1074,15 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public bool IsQuickViewOverrideAvailable {
+            get {
+                return Count > Settings.Default.QuickViewTreshold
+                                         && !IsQuickViewDisabledByAccount
+                                         && !IsQuickViewDisabled
+                                         && !IsLoadingMessages;
+            }
+        }
+
         #region Implementation of IMessageSource
 
         public void BeginQuery() {
@@ -1090,9 +1108,14 @@ namespace Crystalbyte.Paranoia {
 
                     var getMessages = context.Set<MailMessage>()
                         .Where(x => x.MailboxId == _mailbox.Id)
+                        .OrderByDescending(x => x.Date)
                         .Include(x => x.Flags)
                         .Include(x => x.Addresses)
                         .Include(x => x.Attachments);
+
+                    if (!IsQuickViewDisabledByAccount && !IsQuickViewDisabled) {
+                        getMessages = getMessages.Take(Settings.Default.QuickViewTreshold);
+                    }
 
                     messages = await getMessages
                         .AsNoTracking()

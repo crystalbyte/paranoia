@@ -108,6 +108,9 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("junk_mailbox_name")]
         public string JunkMailboxName { get; set; }
 
+        [Column("is_quick_view_disabled")]
+        public bool IsQuickViewDisabled { get; set; }
+
         public virtual List<Mailbox> Mailboxes {
             get { return _mailboxes; }
             set { _mailboxes = value; }

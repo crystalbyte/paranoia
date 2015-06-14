@@ -76,6 +76,7 @@ namespace Crystalbyte.Paranoia {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly object _saveMutex;
+        private bool _isQuickViewDisabled;
 
         #endregion
 
@@ -126,7 +127,7 @@ namespace Crystalbyte.Paranoia {
                 var tasks = Children
                     .OfType<MailboxContext>()
                     .Where(x => !x.NotSeenCount.HasValue)
-                    .Select(x => x.CountNotSeenAsync());
+                    .Select(x => x.CountMessagesAsync());
 
                 await Task.WhenAll(tasks);
 
@@ -196,6 +197,17 @@ namespace Crystalbyte.Paranoia {
                 }
                 _account.SignaturePath = value;
                 RaisePropertyChanged(() => SignaturePath);
+            }
+        }
+
+        public bool IsQuickViewDisabled {
+            get { return _isQuickViewDisabled; }
+            set {
+                if (_isQuickViewDisabled == value) {
+                    return;
+                }
+                _isQuickViewDisabled = value;
+                RaisePropertyChanged(() => IsQuickViewDisabled);
             }
         }
 
@@ -964,6 +976,8 @@ namespace Crystalbyte.Paranoia {
 
             Application.Current.AssertUIThread();
 
+            App.Context.NotifyAccountRemoved(this);
+
             try {
                 await Task.Run(async () => {
                     using (var context = new DatabaseContext()) {
@@ -1020,9 +1034,10 @@ namespace Crystalbyte.Paranoia {
                     }
                 });
 
-                App.Context.NotifyAccountRemoved(this);
+                
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
+                App.Context.NotifyAccountCreated(this);
             } finally {
                 Logger.Exit();
             }
@@ -1075,7 +1090,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 // Requery message source for some items may have changed.
-                await App.Context.QueryMessageSource();
+                await App.Context.QueryMessageSourceAsync();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -1131,6 +1146,8 @@ namespace Crystalbyte.Paranoia {
         /// <returns>Returns the task state object.</returns>
         public Task SaveAsync() {
             return Task.Run(() => {
+
+                // We need to lock this call for the entity must not be attached multiple times.
                 lock (_saveMutex) {
                     using (var context = new DatabaseContext()) {
 

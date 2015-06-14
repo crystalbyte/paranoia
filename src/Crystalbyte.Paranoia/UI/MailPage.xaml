@@ -17,6 +17,29 @@
       d:DesignHeight="553.714"
       d:DesignWidth="1072.625"
       mc:Ignorable="d">
+    <Page.CommandBindings>
+        <CommandBinding CanExecute="OnCanPrint"
+                        Command="ApplicationCommands.Print"
+                        Executed="OnPrint" />
+        <CommandBinding Command="ui:MessageCommands.Compose" Executed="OnCompose" />
+        <CommandBinding Command="ui:MessageCommands.Reply" Executed="OnReply" />
+        <CommandBinding Command="ui:MessageCommands.ReplyAll" Executed="OnReplyAll" />
+        <CommandBinding Command="ui:MessageCommands.Forward" Executed="OnForward" />
+        <CommandBinding CanExecute="OnCanInspect"
+                        Command="ui:MessageCommands.Inspect"
+                        Executed="OnInspect" />
+        <CommandBinding Command="ui:MessageCommands.QuickSearch" Executed="OnQuickSearch" />
+        <CommandBinding Command="ui:MessageCommands.CancelSearch" Executed="OnCancelSearch" />
+        <CommandBinding CanExecute="OnCanCreateMailbox"
+                        Command="ui:MailboxCommands.Create"
+                        Executed="OnCreateMailbox" />
+        <CommandBinding CanExecute="OnCanDeleteMailbox"
+                        Command="ui:MailboxCommands.Delete"
+                        Executed="OnDeleteMailbox" />
+        <CommandBinding CanExecute="OnCanSyncMailbox"
+                        Command="ui:MailboxCommands.Sync"
+                        Executed="OnSyncMailbox" />
+    </Page.CommandBindings>
     <Page.InputBindings>
         <KeyBinding Key="N"
                     Command="ui:MessageCommands.Compose"
@@ -336,7 +359,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <DockPanel LastChildFill="True">
+                <DockPanel LastChildFill="False">
                     <controls:MetroButton Margin="6"
                                           VerticalAlignment="Center"
                                           Command="ui:MailboxCommands.Sync"
@@ -344,14 +367,33 @@
                                           DockPanel.Dock="Right"
                                           ImageSource="/Assets/refresh.png"
                                           IsTabStop="False" />
-                    <TextBlock Margin="12,0,6,3"
-                               HorizontalAlignment="Left"
+                    <controls:MetroButton Margin="0"
+                                          VerticalAlignment="Center"
+                                          BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                                          Command="{Binding OverrideQuickViewCommand}"
+                                          DataContext="{Binding SelectedMailbox}"
+                                          DockPanel.Dock="Right"
+                                          ImageSource="/Assets/add.list.png"
+                                          IsTabStop="False"
+                                          Visibility="{Binding IsQuickViewOverrideAvailable,
+                                                               Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <TextBlock Margin="12,0,0,3"
                                VerticalAlignment="Center"
+                               DockPanel.Dock="Left"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}"
                                Style="{DynamicResource TitleTextStyle}">
                         <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " />
                         <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Text="{Binding MessageCount, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
+                    <TextBlock Margin="0,0,0,3"
+                               VerticalAlignment="Center"
+                               DataContext="{Binding SelectedMailbox}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                               Style="{DynamicResource TitleTextStyle}"
+                               Text="+"
+                               Visibility="{Binding IsQuickViewOverrideAvailable,
+                                                    Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </DockPanel>
                 <Border Grid.Row="1"
                         BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"

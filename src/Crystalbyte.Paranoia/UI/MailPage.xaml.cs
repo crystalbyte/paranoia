@@ -38,6 +38,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Crystalbyte.Paranoia.Data;
 using NLog;
+using NLog.Fluent;
 
 #endregion
 
@@ -57,25 +58,12 @@ namespace Crystalbyte.Paranoia.UI {
         public MailPage() {
             InitializeComponent();
 
-            var context = App.Context;
-            context.SortOrderChanged += OnSortOrderChanged;
-            context.ItemSelectionRequested += OnItemSelectionRequested;
-            DataContext = context;
-
-            CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint, OnCanPrint));
-            CommandBindings.Add(new CommandBinding(MessageCommands.Compose, OnCompose));
-            CommandBindings.Add(new CommandBinding(MessageCommands.Reply, OnReply));
-            CommandBindings.Add(new CommandBinding(MessageCommands.ReplyAll, OnReplyAll));
-            CommandBindings.Add(new CommandBinding(MessageCommands.Forward, OnForward));
-            CommandBindings.Add(new CommandBinding(MessageCommands.Inspect, OnInspect, OnCanInspect));
-            CommandBindings.Add(new CommandBinding(MessageCommands.QuickSearch, OnQuickSearch));
-            CommandBindings.Add(new CommandBinding(MessageCommands.CancelSearch, OnCancelSearch));
-            CommandBindings.Add(new CommandBinding(MailboxCommands.Create, OnCreateMailbox, OnCanCreateMailbox));
-            CommandBindings.Add(new CommandBinding(MailboxCommands.Delete, OnDeleteMailbox, OnCanDeleteMailbox));
-            CommandBindings.Add(new CommandBinding(MailboxCommands.Sync, OnSyncMailbox, OnCanSyncMailbox));
-
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
+
+            DataContext = App.Context;
+            App.Context.SortOrderChanged += OnSortOrderChanged;
+            App.Context.ItemSelectionRequested += OnItemSelectionRequested;
 
             _messageViewSource = (CollectionViewSource)Resources["MessagesSource"];
         }
@@ -121,47 +109,75 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        private static void OnCanSyncMailbox(object sender, CanExecuteRoutedEventArgs e) {
-            e.CanExecute = NetworkInterface.GetIsNetworkAvailable();
+        private void OnCanSyncMailbox(object sender, CanExecuteRoutedEventArgs e) {
+            try {
+                e.CanExecute = NetworkInterface.GetIsNetworkAvailable();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
-        private static async void OnSyncMailbox(object sender, ExecutedRoutedEventArgs e) {
-            if (e.Parameter == null) {
-                return;
-            }
+        private async void OnSyncMailbox(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                if (e.Parameter == null) {
+                    return;
+                }
 
-            var mailbox = (MailboxContext)e.Parameter;
-            if (!mailbox.IsSyncingMessages) {
-                await mailbox.SyncMessagesAsync();
-            }
+                var mailbox = (MailboxContext)e.Parameter;
+                if (!mailbox.IsSyncingMessages) {
+                    await mailbox.SyncMessagesAsync();
+                }
 
-            if (!mailbox.IsSyncingMailboxes) {
-                await mailbox.SyncMailboxesAsync();
+                if (!mailbox.IsSyncingMailboxes) {
+                    await mailbox.SyncMailboxesAsync();
+                }
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
         private void OnQuickSearch(object sender, ExecutedRoutedEventArgs e) {
-            QuickSearchBox.Focus();
+            try {
+                QuickSearchBox.Focus();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
-        private static void OnCanDeleteMailbox(object sender, CanExecuteRoutedEventArgs e) {
-            var mailbox = (MailboxContext)e.Parameter;
-            e.CanExecute = mailbox != null && mailbox.IsSelectable;
+        private void OnCanDeleteMailbox(object sender, CanExecuteRoutedEventArgs e) {
+            try {
+                var mailbox = (MailboxContext)e.Parameter;
+                e.CanExecute = mailbox != null && mailbox.IsSelectable;
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
-        private static async void OnDeleteMailbox(object sender, ExecutedRoutedEventArgs e) {
-            var mailbox = (MailboxContext)e.Parameter;
-            await mailbox.DeleteAsync();
+        private async void OnDeleteMailbox(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                var mailbox = (MailboxContext)e.Parameter;
+                await mailbox.DeleteAsync();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
-        private static void OnCreateMailbox(object sender, ExecutedRoutedEventArgs e) {
-            var parent = (IMailboxCreator)e.Parameter;
-            App.Context.CreateMailbox(parent);
+        private void OnCreateMailbox(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                var parent = (IMailboxCreator)e.Parameter;
+                App.Context.CreateMailbox(parent);
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
-        private static void OnCanCreateMailbox(object sender, CanExecuteRoutedEventArgs e) {
-            var parent = (IMailboxCreator)e.Parameter;
-            e.CanExecute = parent.CanHaveChildren;
+        private void OnCanCreateMailbox(object sender, CanExecuteRoutedEventArgs e) {
+            try {
+                var parent = (IMailboxCreator)e.Parameter;
+                e.CanExecute = parent.CanHaveChildren;
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         public SortProperty SortProperty {
@@ -174,63 +190,103 @@ namespace Crystalbyte.Paranoia.UI {
             DependencyProperty.Register("SortProperty", typeof(SortProperty), typeof(MailPage),
                 new PropertyMetadata(SortProperty.Date));
 
-        private static void OnCanInspect(object sender, CanExecuteRoutedEventArgs e) {
-            e.CanExecute = App.Context.SelectedMessage != null;
+        private void OnCanInspect(object sender, CanExecuteRoutedEventArgs e) {
+            try {
+                e.CanExecute = App.Context.SelectedMessage != null;
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
-        private static void OnForward(object sender, ExecutedRoutedEventArgs e) {
-            App.Context.ForwardAsync();
+        private void OnForward(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                App.Context.ForwardAsync();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
-        private static void OnReply(object sender, ExecutedRoutedEventArgs e) {
-            App.Context.ReplyAsync();
+        private void OnReply(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                App.Context.ReplyAsync();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
-        private static void OnReplyAll(object sender, ExecutedRoutedEventArgs e) {
-            App.Context.ReplyToAllAsync();
+        private void OnReplyAll(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                App.Context.ReplyToAllAsync();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
-        private static void OnCompose(object sender, ExecutedRoutedEventArgs e) {
-            App.Context.Compose();
+        private void OnCompose(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                App.Context.Compose();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         private async void OnPrint(object sender, ExecutedRoutedEventArgs e) {
-            await MessageViewer.PrintAsync();
+            try {
+                await MessageViewer.PrintAsync();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         private void OnCanPrint(object sender, CanExecuteRoutedEventArgs e) {
-            e.CanExecute = MessagesListView.SelectedValue != null;
+            try {
+                e.CanExecute = MessagesListView.SelectedValue != null;
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e) {
-            App.Context.SortOrderChanged -= OnSortOrderChanged;
-            DataContext = null;
+            try {
+                App.Context.SortOrderChanged -= OnSortOrderChanged;
+                DataContext = null;
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         private void OnSortOrderChanged(object sender, EventArgs e) {
-            var app = App.Context;
-            var direction = app.IsSortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending;
-            Sort(SortProperty, direction);
+            try {
+                var app = App.Context;
+                var direction = app.IsSortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending;
+                Sort(SortProperty, direction);
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         private async void OnTreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
-            if (!IsLoaded) {
-                return;
-            }
+            try {
+                if (!IsLoaded) {
+                    return;
+                }
 
-            var tree = (TreeView)sender;
-            var value = tree.SelectedValue;
+                var tree = (TreeView)sender;
+                var value = tree.SelectedValue;
 
-            App.Context.SelectedMailbox = value as MailboxContext;
+                App.Context.SelectedMailbox = value as MailboxContext;
 
-            RequeryRoutedCommands();
+                RequeryRoutedCommands();
 
-            var account = value as MailAccountContext;
-            if (account == null)
-                return;
+                var account = value as MailAccountContext;
+                if (account == null)
+                    return;
 
-            if (NetworkInterface.GetIsNetworkAvailable()) {
-                await account.TakeOnlineAsync();
+                if (NetworkInterface.GetIsNetworkAvailable()) {
+                    await account.TakeOnlineAsync();
+                }
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -239,90 +295,114 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async void OnMessageSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (!IsLoaded) {
-                return;
-            }
-
-            foreach (var item in e.AddedItems.OfType<SelectionObject>()) {
-                item.IsSelected = true;
-            }
-
-            foreach (var item in e.RemovedItems.OfType<SelectionObject>()) {
-                item.IsSelected = false;
-            }
-
-            var app = App.Context;
-            app.OnMessageSelectionChanged();
-
-            Task flagMessages = null;
-            if (e.AddedItems.Count == 1) {
-                var last = e.RemovedItems.OfType<MailMessageContext>().FirstOrDefault();
-                if (last != null) {
-                    flagMessages = app.MarkMessagesAsSeenAsync(new[] { last });
+            try {
+                if (!IsLoaded) {
+                    return;
                 }
-            }
 
-            var message = app.SelectedMessage;
-            if (message == null)
-                return;
+                foreach (var item in e.AddedItems.OfType<SelectionObject>()) {
+                    item.IsSelected = true;
+                }
 
-            var container = (Control)MessagesListView
-                .ItemContainerGenerator.ContainerFromItem(message);
-            if (container != null) {
-                container.Focus();
-            }
+                foreach (var item in e.RemovedItems.OfType<SelectionObject>()) {
+                    item.IsSelected = false;
+                }
 
-            if (flagMessages != null) {
-                await flagMessages;
+                var app = App.Context;
+                app.OnMessageSelectionChanged();
+
+                Task flagMessages = null;
+                if (e.AddedItems.Count == 1) {
+                    var last = e.RemovedItems.OfType<MailMessageContext>().FirstOrDefault();
+                    if (last != null) {
+                        flagMessages = app.MarkMessagesAsSeenAsync(new[] { last });
+                    }
+                }
+
+                var message = app.SelectedMessage;
+                if (message == null)
+                    return;
+
+                var container = (Control)MessagesListView
+                    .ItemContainerGenerator.ContainerFromItem(message);
+                if (container != null) {
+                    container.Focus();
+                }
+
+                if (flagMessages != null) {
+                    await flagMessages;
+                }
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
         private void OnAttachmentMouseDoubleClicked(object sender, MouseButtonEventArgs e) {
-            if (!IsLoaded) {
-                return;
+            try {
+                if (!IsLoaded) {
+                    return;
+                }
+                var view = (ListView)sender;
+                var attachment = (MailAttachmentContext)view.SelectedValue;
+                if (attachment == null) {
+                    return;
+                }
+                attachment.Open();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
             }
-            var view = (ListView)sender;
-            var attachment = (MailAttachmentContext)view.SelectedValue;
-            if (attachment == null) {
-                return;
-            }
-            attachment.Open();
         }
 
-        private static void OnInspect(object sender, ExecutedRoutedEventArgs e) {
-            var message = e.Parameter as MailMessageContext;
-            if (message == null) {
-                return;
-            }
+        private void OnInspect(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                var message = e.Parameter as MailMessageContext;
+                if (message == null) {
+                    return;
+                }
 
-            App.Context.InspectMessage(message);
+                App.Context.InspectMessage(message);
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         private void OnMessageMouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            var item = sender as ListViewItem;
-            if (item == null) {
-                return;
-            }
+            try {
+                var item = sender as ListViewItem;
+                if (item == null) {
+                    return;
+                }
 
-            var message = item.DataContext as MailMessageContext;
-            if (message == null) {
-                return;
-            }
+                var message = item.DataContext as MailMessageContext;
+                if (message == null) {
+                    return;
+                }
 
-            // Need to invoke to let the event handler finish before opening a window.
-            // http://stackoverflow.com/questions/14055794/wpf-treeview-restores-its-focus-after-double-click
-            Dispatcher.InvokeAsync(() => App.Context.InspectMessage(message));
+                // Need to invoke to let the event handler finish before opening a window.
+                // http://stackoverflow.com/questions/14055794/wpf-treeview-restores-its-focus-after-double-click
+                Dispatcher.InvokeAsync(() => App.Context.InspectMessage(message));
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         private void OnSortPropertyButtonClicked(object sender, RoutedEventArgs e) {
-            SortPropertyMenu.IsOpen = true;
+            try {
+                SortPropertyMenu.IsOpen = true;
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         private void OnSortPropertyMenuItemClicked(object sender, RoutedEventArgs e) {
-            var item = (MenuItem)sender;
-            var app = (AppContext)DataContext;
-            var direction = app.IsSortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending;
-            Sort((SortProperty)item.DataContext, direction);
+            try {
+                var item = (MenuItem)sender;
+                var app = (AppContext)DataContext;
+                var direction = app.IsSortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending;
+                Sort((SortProperty)item.DataContext, direction);
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         private void Sort(SortProperty property, ListSortDirection direction) {

@@ -49,6 +49,7 @@ namespace Crystalbyte.Paranoia.UI {
     ///     Interaction logic for CompositionWindow.xaml
     /// </summary>
     public partial class CompositionWindow : IAccentAware, IDocumentProvider {
+
         #region Private Fields
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -60,20 +61,10 @@ namespace Crystalbyte.Paranoia.UI {
         public CompositionWindow() {
             InitializeComponent();
 
-            throw new NotImplementedException();
+            var context = new MailCompositionContext(this);
+            context.CompositionFinalized += OnCompositionFinalized;
 
-            //var context = new MailCompositionContext(this);
-            //context.CompositionFinalized += OnCompositionFinalized;
-
-            //DataContext = context;
-            //CommandBindings.Add(new CommandBinding(EditingCommands.InsertAttachment, OnAttachment));
-            //CommandBindings.Add(new CommandBinding(EditingCommands.InsertLink, OnLink));
-            //CommandBindings.Add(new CommandBinding(FlyoutCommands.Cancel, OnCancel));
-            //CommandBindings.Add(new CommandBinding(WindowCommands.Maximize, OnMaximize));
-            //CommandBindings.Add(new CommandBinding(WindowCommands.Minimize, OnMinimize));
-            //CommandBindings.Add(new CommandBinding(WindowCommands.RestoreDown, OnRestoreDown));
-            //CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
-            //CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
+            DataContext = context;
             HtmlEditor.ContentReady += async (sender, e) => await SignAsync();
         }
 
@@ -81,43 +72,65 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Methods
 
-        private void OnCancel(object sender, ExecutedRoutedEventArgs e) {
-            CloseOverlay();
-        }
-
         internal void CloseOverlay() {
             ModalOverlay.Visibility = Visibility.Collapsed;
             PopupFrame.Content = null;
         }
 
+        private void OnCancel(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                CloseOverlay();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
         private void OnCompositionFinalized(object sender, EventArgs e) {
-            Window.Close();
+            try {
+                Window.Close();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         private void OnAccountComboboxDataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
-            throw new NotImplementedException();
-            //var context = (MailCompositionContext)DataContext;
-            //AccountComboBox.SelectedValue = context.Accounts.OrderByDescending(x => x.IsDefaultTime).FirstOrDefault();
+            try {
+                var context = (MailCompositionContext)DataContext;
+                AccountComboBox.SelectedValue = context.Accounts.OrderByDescending(x => x.IsDefaultTime).FirstOrDefault();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         private async void OnRecipientsBoxItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
-            var control = (SuggestionBox)sender;
-            var contacts = await QueryContactsAsync(e.Text);
-            await Application.Current.Dispatcher.InvokeAsync(() => { control.ItemsSource = contacts; });
+            try {
+                var control = (SuggestionBox)sender;
+                var contacts = await QueryContactsAsync(e.Text);
+                await Application.Current.Dispatcher.InvokeAsync(() => { control.ItemsSource = contacts; });
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         private void OnLink(object sender, ExecutedRoutedEventArgs e) {
-            ModalOverlay.Visibility = Visibility.Visible;
+            try {
+                ModalOverlay.Visibility = Visibility.Visible;
 
-            NavigationArguments.Push(HtmlEditor);
-            var uri = typeof(InsertLinkModalPage).ToPageUri();
-            PopupFrame.Navigate(uri);
+                NavigationArguments.Push(HtmlEditor);
+                var uri = typeof(InsertLinkModalPage).ToPageUri();
+                PopupFrame.Navigate(uri);
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         private void OnAttachment(object sender, ExecutedRoutedEventArgs e) {
-            throw new NotImplementedException();
-            //var context = (MailCompositionContext)DataContext;
-            //context.InsertAttachments();
+            try {
+                var context = (MailCompositionContext)DataContext;
+                context.InsertAttachments();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         public void StartSendingAnimation() {
@@ -126,7 +139,11 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnCloseButtonClick(object sender, RoutedEventArgs e) {
-            Close();
+            try {
+                Close();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         public Task<MailContactContext[]> QueryContactsAsync(string text) {
@@ -144,17 +161,19 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void OnRecipientsBoxSelectionChanged(object sender, EventArgs e) {
-            var addresses = RecipientsBox
-                .SelectedValues
-                .Select(x => x is MailContactContext
-                    ? ((MailContactContext)x).Address
-                    : x as string);
+            try {
+                var addresses = RecipientsBox
+                    .SelectedValues
+                    .Select(x => x is MailContactContext
+                        ? ((MailContactContext)x).Address
+                        : x as string);
 
-            throw new NotImplementedException();
-
-            //var context = (MailCompositionContext)DataContext;
-            //context.Addresses.Clear();
-            //context.Addresses.AddRange(addresses);
+                var context = (MailCompositionContext)DataContext;
+                context.Addresses.Clear();
+                context.Addresses.AddRange(addresses);
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         internal void PrepareAsNew() {
@@ -162,11 +181,15 @@ namespace Crystalbyte.Paranoia.UI {
             Loaded += OnLoadedAsNew;
         }
 
-        private void OnLoadedAsNew(object sender, RoutedEventArgs e) {
-            Application.Current.Dispatcher.Invoke(() => {
-                RecipientsBox.Focus();
-                Loaded -= OnLoadedAsNew;
-            });
+        private async void OnLoadedAsNew(object sender, RoutedEventArgs e) {
+            try {
+                await Application.Current.Dispatcher.InvokeAsync(() => {
+                    RecipientsBox.Focus();
+                    Loaded -= OnLoadedAsNew;
+                });
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         internal async Task PrepareAsReplyAsync(IReadOnlyDictionary<string, string> arguments) {
@@ -200,8 +223,8 @@ namespace Crystalbyte.Paranoia.UI {
             //RecipientsBox.Preset(new[] { from });
         }
 
-        private void OnContentReady(object sender, EventArgs e) {
-            Application.Current.Dispatcher.Invoke(() => {
+        private async void OnContentReady(object sender, EventArgs e) {
+            await Application.Current.Dispatcher.InvokeAsync(() => {
                 HtmlEditor.BrowserInitialized -= OnContentReady;
                 HtmlEditor.FocusEditor();
             });
@@ -309,7 +332,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async Task SignAsync() {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
             //var context = (MailCompositionContext)DataContext;
             //var path = context.SelectedAccount.SignaturePath;
 
@@ -333,12 +356,10 @@ namespace Crystalbyte.Paranoia.UI {
                     return;
                 }
 
-                throw new NotImplementedException();
-
-                //var context = (MailCompositionContext)DataContext;
-                //if (context.SelectedAccount != null) {
-                //    await SignAsync();
-                //}
+                var context = (MailCompositionContext)DataContext;
+                if (context.SelectedAccount != null) {
+                    await SignAsync();
+                }
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
