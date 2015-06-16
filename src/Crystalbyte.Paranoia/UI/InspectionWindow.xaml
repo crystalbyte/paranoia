@@ -130,7 +130,7 @@
                     <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.PopupBackgroundBrushKey}}"
                             BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                             BorderThickness="1">
-                        <ui:ContactsPresenter MinWidth="200"
+                        <ui:ContactsPresenter MinWidth="250"
                                               MinHeight="300"
                                               MaxWidth="350"
                                               Addresses="{Binding To}" />

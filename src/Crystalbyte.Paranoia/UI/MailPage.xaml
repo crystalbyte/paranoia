@@ -367,16 +367,6 @@
                                           DockPanel.Dock="Right"
                                           ImageSource="/Assets/refresh.png"
                                           IsTabStop="False" />
-                    <controls:MetroButton Margin="0"
-                                          VerticalAlignment="Center"
-                                          BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                                          Command="{Binding OverrideQuickViewCommand}"
-                                          DataContext="{Binding SelectedMailbox}"
-                                          DockPanel.Dock="Right"
-                                          ImageSource="/Assets/add.list.png"
-                                          IsTabStop="False"
-                                          Visibility="{Binding IsQuickViewOverrideAvailable,
-                                                               Converter={StaticResource BooleanToVisibilityConverter}}" />
                     <TextBlock Margin="12,0,0,3"
                                VerticalAlignment="Center"
                                DockPanel.Dock="Left"
@@ -385,15 +375,6 @@
                         <Run Text="{x:Static properties:Resources.MessagesTitle}" /><Run Text=" " />
                         <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" Text="{Binding MessageCount, Mode=OneWay, StringFormat=\{0\}}" />
                     </TextBlock>
-                    <TextBlock Margin="0,0,0,3"
-                               VerticalAlignment="Center"
-                               DataContext="{Binding SelectedMailbox}"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppExtraLargeFontSizeKey}}"
-                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                               Style="{DynamicResource TitleTextStyle}"
-                               Text="+"
-                               Visibility="{Binding IsQuickViewOverrideAvailable,
-                                                    Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </DockPanel>
                 <Border Grid.Row="1"
                         BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"

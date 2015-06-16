@@ -67,7 +67,6 @@ namespace Crystalbyte.Paranoia {
         private int _progress;
         private bool _isSyncedInitially;
         private bool _isSelectedSubtly;
-        private bool _isQuickViewDisabled;
 
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -81,12 +80,9 @@ namespace Crystalbyte.Paranoia {
             _mailbox = mailbox;
 
             IsExpandedChanged += OnIsExpandedChanged;
-            OverrideQuickViewCommand = new RelayCommand(OnOverrideQuickView);
         }
 
         #endregion
-
-        public ICommand OverrideQuickViewCommand { get; private set; }
 
         public MailAccountContext Account {
             get { return _account; }
@@ -506,16 +502,6 @@ namespace Crystalbyte.Paranoia {
                 var mailbox = await database.Mailboxes.FindAsync(_mailbox.Id);
                 mailbox.IsSubscribed = false;
                 await database.SaveChangesAsync();
-            }
-        }
-
-        private async void OnOverrideQuickView(object obj) {
-            try {
-                IsQuickViewDisabled = true;
-                await App.Context.QueryMessageSourceAsync();
-                IsQuickViewDisabled = false;
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -1021,25 +1007,9 @@ namespace Crystalbyte.Paranoia {
                 }
                 _isLoadingMessages = value;
                 RaisePropertyChanged(() => IsLoadingMessages);
-                RaisePropertyChanged(() => IsQuickViewOverrideAvailable);
             }
         }
-
-        public bool IsQuickViewDisabledByAccount {
-            get { return _account.IsQuickViewDisabled; }
-        }
-
-        public bool IsQuickViewDisabled {
-            get { return _isQuickViewDisabled; }
-            set {
-                if (_isQuickViewDisabled == value) {
-                    return;
-                }
-                _isQuickViewDisabled = value;
-                RaisePropertyChanged(() => IsQuickViewDisabled);
-            }
-        }
-
+    
         /// <summary>
         ///     Moves messages from the trash mailbox back to the inbox.
         /// </summary>
@@ -1074,15 +1044,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public bool IsQuickViewOverrideAvailable {
-            get {
-                return Count > Settings.Default.QuickViewTreshold
-                                         && !IsQuickViewDisabledByAccount
-                                         && !IsQuickViewDisabled
-                                         && !IsLoadingMessages;
-            }
-        }
-
         #region Implementation of IMessageSource
 
         public void BeginQuery() {
@@ -1106,23 +1067,78 @@ namespace Crystalbyte.Paranoia {
                     await context.OpenAsync();
                     await context.EnableForeignKeysAsync();
 
+                    // We do not use EF's .Include() method for it translates into sub selects which are painfully slow.
+                    // Instead we fetch the messages and sub tables manually using INNER JOINS in parallel.
                     var getMessages = context.Set<MailMessage>()
+                        .AsNoTracking()
                         .Where(x => x.MailboxId == _mailbox.Id)
-                        .OrderByDescending(x => x.Date)
-                        .Include(x => x.Flags)
-                        .Include(x => x.Addresses)
-                        .Include(x => x.Attachments);
+                        .Select(x => new {
+                            x.Id,
+                            x.Uid,
+                            x.MailboxId,
+                            x.Date,
+                            x.Subject,
+                            x.Size
+                        });
 
-                    if (!IsQuickViewDisabledByAccount && !IsQuickViewDisabled) {
-                        getMessages = getMessages.Take(Settings.Default.QuickViewTreshold);
+                    var getFlags = context.Set<MailMessageFlag>()
+                        .AsNoTracking()
+                        .Where(x => x.Message.MailboxId == _mailbox.Id)
+                        .Select(x => new { x.MessageId, Flag = x });
+
+                    var getAttachments = context.Set<MailAttachment>()
+                        .AsNoTracking()
+                        .Where(x => x.Message.MailboxId == _mailbox.Id)
+                        .Select(x => new { x.MessageId, Attachment = x });
+
+                    var getAddresses = context.Set<MailAddress>()
+                        .AsNoTracking()
+                        .Where(x => x.Message.MailboxId == _mailbox.Id)
+                        .Select(x => new { x.MessageId, Address = x });
+
+                    var addresses = (await getAddresses.ToArrayAsync())
+                        .AsParallel()
+                        .GroupBy(x => x.MessageId)
+                        .ToDictionary(x => x.Key);
+
+                    var flags = (await getFlags.ToArrayAsync())
+                        .AsParallel()
+                        .GroupBy(x => x.MessageId)
+                        .ToDictionary(x => x.Key);
+
+                    var attachments = (await getAttachments.ToArrayAsync())
+                        .AsParallel()
+                        .GroupBy(x => x.MessageId)
+                        .ToDictionary(x => x.Key);
+
+                    var set = (await getMessages.ToArrayAsync());
+                    messages = set.Select(x => new MailMessage {
+                        Id = x.Id,
+                        Uid = x.Uid,
+                        MailboxId = x.MailboxId,
+                        Date = x.Date,
+                        Subject = x.Subject,
+                        Size = x.Size,
+                    }).ToArray();
+
+                    foreach (var message in messages) {
+                        if (flags.ContainsKey(message.Id)) {
+                            message.Flags.AddRange(flags[message.Id].Select(x => x.Flag));
+                        }
+
+                        if (attachments.ContainsKey(message.Id)) {
+                            message.Attachments.AddRange(attachments[message.Id].Select(x => x.Attachment));
+                        }
+
+                        if (addresses.ContainsKey(message.Id)) {
+                            message.Addresses.AddRange(addresses[message.Id].Select(x => x.Address));
+                        }
                     }
 
-                    messages = await getMessages
-                        .AsNoTracking()
-                        .ToArrayAsync();
-
                     if (App.Context.ShowOnlyUnseen) {
-                        messages = messages.Where(x => x.Flags.All(y => y.Value != MailMessageFlags.Seen)).ToArray();
+                        return messages
+                            .Where(x => x.Flags.All(y => y.Value != MailMessageFlags.Seen))
+                            .Select(x => new MailMessageContext(this, x));
                     }
 
                     return messages.Select(x => new MailMessageContext(this, x));

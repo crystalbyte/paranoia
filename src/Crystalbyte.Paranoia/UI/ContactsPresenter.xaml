@@ -31,8 +31,17 @@
                                 VerticalAlignment="Center"
                                 DockPanel.Dock="Left"
                                 Orientation="Vertical">
-                        <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}" Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
-                        <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
+                        <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                                   Text="{Binding Name,
+                                                  ConverterParameter=...,
+                                                  Converter={StaticResource NullOrEmptyFormatter}}"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap" />
+                        <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+                                   Text="{Binding Address,
+                                                  Converter={StaticResource NullOrEmptyFormatter}}"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap" />
                     </StackPanel>
                     <controls:MetroButton Command="ui:MessageCommands.Reply"
                                           ImageSource="/Assets/reply.png"

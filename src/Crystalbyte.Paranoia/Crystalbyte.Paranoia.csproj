@@ -809,9 +809,6 @@
   <ItemGroup>
     <Resource Include="Assets\address.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\add.list.png" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

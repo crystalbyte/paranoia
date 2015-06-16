@@ -93,8 +93,5 @@
     <Setting Name="StorageQuota" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">20480</Value>
     </Setting>
-    <Setting Name="QuickViewTreshold" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">2500</Value>
-    </Setting>
   </Settings>
 </SettingsFile>
